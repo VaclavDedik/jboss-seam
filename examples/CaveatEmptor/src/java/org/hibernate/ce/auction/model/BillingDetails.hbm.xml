@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM
+			"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<!--
+
+The mapping for the class hierarchy of billing strategies.
+
+A single BillingDetails object is a single bank account or
+credit card (or anything else that is a subclass). We expect
+these concrete classes (the superclass is abstract) to be very
+different, so we normalize the schema and use the
+"table-per-subclass" mapping strategy. This won't be a problem
+with polymorphic queries, as we only refer to billing information
+with the interface of the superclass (e.g. in the association from
+User).
+
+The CreditCard subclass is special, it has a typesafe enumeration
+object that represents the type of card (Amex, Visa, Mastercard, etc.)
+while the database has a SMALLINT column representing the card type.
+The mapping is done with a custom Hibernate UserType. The card type
+information is immutable and won't be updated.
+
+@author Christian Bauer <christian@hibernate.org>
+
+-->
+<hibernate-mapping package="org.hibernate.ce.auction.model" >
+
+<class name="BillingDetails"
+	   table="BILLING_DETAILS"
+	   lazy="true">
+
+	<!-- Common id property. -->
+	<id name="id"
+		type="long"
+		column="BILLING_DETAILS_ID"
+		unsaved-value="null"
+		access="field">
+		<generator class="native"/>
+	</id>
+
+	<!-- A versioned entity. -->
+	<version name="version"
+			 column="VERSION"
+			 access="org.hibernate.property.DirectPropertyAccessor"/>
+
+	<!-- Simple property. -->
+	<property   name="ownerName"
+				column="OWNER_NAME"
+				type="string"
+				not-null="true"/>
+
+	<!-- We can't change the creation time, so map it with update="false". -->
+	<property   name="created"
+				column="CREATED"
+				type="java.util.Date"
+				update="false"
+				not-null="true"
+				access="field"/>
+
+	<!-- Bidirectional, required as BillingDetails is USER_ID NOT NULL. This is also
+	     a read-only property that will never be updated. -->
+	<many-to-one name="user"
+				 class="User"
+				 column="USER_ID"
+				 update="false"
+				 outer-join="false"
+				 access="field"
+				 foreign-key="FK1_USER_ID"/>
+
+	<!-- CreditCard subclass mapping to its own table, normalized.
+		 CreditCard is immutable, we map all properties with update="false" -->
+	<joined-subclass name="CreditCard"
+					 table="CREDIT_CARD"
+					 lazy="true">
+
+		<key column="CREDIT_CARD_ID" foreign-key="FK1_CREDIT_CARD_ID"/>
+
+		<property name="type"
+				  type="creditcard_type"
+				  column="CC_TYPE"
+				  update="false"
+				  not-null="true"
+				  access="field"/>
+
+		<property name="number"
+				  type="string"
+				  column="CC_NUMBER"
+				  length="16"
+				  not-null="true"
+				  access="field"/>
+
+		<property name="expMonth"
+				  type="string"
+				  column="EXP_MONTH"
+				  length="2"
+				  not-null="true"
+				  update="false"
+				  access="field"/>
+
+		<property name="expYear"
+				  type="string"
+				  column="EXP_YEAR"
+				  length="4"
+				  not-null="true"
+				  update="false"
+				  access="field"/>
+
+	</joined-subclass>
+
+	<!-- BankAccount subclass mapping to its own table, normalized. -->
+	<joined-subclass name="BankAccount"
+					 table="BANK_ACCOUNT"
+					 lazy="true">
+
+		<key column="BANK_ACCOUNT_ID" foreign-key="FK1_BANK_ACCOUNT_ID"/>
+
+		<property name="number"
+				  type="string"
+				  column="ACCOUNT_NUMBER"
+				  length="16"
+				  not-null="true"/>
+
+		<property name="bankName"
+				  type="string"
+				  column="BANK_NAME"
+				  length="255"
+				  not-null="true"/>
+
+		<property name="bankSwift"
+				  type="string"
+				  column="BANK_SWIFT"
+				  length="15"
+				  not-null="true"/>
+
+	</joined-subclass>
+
+</class>
+
+</hibernate-mapping>

@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM
+			"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<!--
+
+Mapping file for the Item class of CaveatEmptor.
+
+An Item is the central entity of an auction. One interesting
+aspect of this mapping is the <bag> used for the collection
+of Bids. The Item Java class uses a List for this collection,
+and Hibernate will order the collection on load by the
+creation date of the bids.
+
+Again, notice the 4000 character limit of Oracle VARCHAR
+columns for the text description.
+
+@author Christian Bauer <christian@hibernate.org>
+
+-->
+<hibernate-mapping package="org.hibernate.ce.auction.model">
+
+<class name="Item"
+	   table="ITEM" lazy="true">
+
+	<!-- Common id property. -->
+	<id name="id"
+		type="long"
+		column="ITEM_ID"
+		unsaved-value="null"
+		access="field">
+		<generator class="native"/>
+	</id>
+
+	<!-- A versioned entity. -->
+	<version name="version"
+			 column="VERSION"
+			 access="org.hibernate.property.DirectPropertyAccessor"/>
+
+	<!-- Name of the item is immutable. -->
+	<property   name="name"
+				type="string"
+				length="255"
+				not-null="true"
+				update="false"
+				access="field">
+	    <column name="NAME"/>
+    </property>
+
+	<!-- Limit item description to 4000 characters, Oracle. -->
+	<property   name="description"
+				type="java.lang.String"
+				column="DESCRIPTION"
+				length="4000"
+				not-null="true"/>
+
+	<!-- UserTpe for prices, length is precision of decimal field for DDL. -->
+	<property   name="initialPrice"
+				type="monetary_amount_usd"
+				access="field">
+        <column name="INITIAL_PRICE" length="2"/>
+        <column name="INITIAL_PRICE_CURRENCY"/>
+	</property>
+
+	<!-- UserTpe for prices, length is precision of decimal field for DDL. -->
+	<property   name="reservePrice"
+				type="monetary_amount_usd"
+				access="field">
+		<column name="RESERVE_PRICE" length="2"/>
+		<column name="RESERVE_PRICE_CURRENCY"/>
+	</property>
+
+	<!-- We can't change the startDate. -->
+	<property   name="startDate"
+				column="START_DATE"
+				type="timestamp"
+				update="false"
+				not-null="true"
+				access="field"/>
+
+	<!-- We can't change the endDate. -->
+	<property   name="endDate"
+				column="END_DATE"
+				type="timestamp"
+				update="false"
+				not-null="true"
+				access="field"/>
+
+	<!-- Simple property mapped with a custom usertype.-->
+	<property   name="state"
+				column="STATE"
+				type="item_state"
+				access="field"
+				not-null="true"/>
+
+	<!-- Simple property. -->
+	<property   name="approvalDatetime"
+				column="APPROVAL_DATETIME"
+				type="java.util.Date"
+				not-null="false"/>
+
+	<!-- We can't change the creation time, so map it with update="false". -->
+	<property   name="created"
+				column="CREATED"
+				type="timestamp"
+				update="false"
+				not-null="true"
+				access="field"/>
+
+	<!-- Who approved this auction. -->
+	<many-to-one name="approvedBy"
+				 class="User"
+				 cascade="none"
+				 column="APPROVED_BY_USER_ID"
+				 not-null="false"
+				 outer-join="false"
+				 foreign-key="FK1_APPROVED_BY_USER_ID"/>
+
+	<!-- We can't change the seller. -->
+	<many-to-one name="seller"
+				 class="User"
+				 cascade="none"
+				 column="SELLER_ID"
+				 update="false"
+				 not-null="true"
+				 outer-join="false"
+				 access="field"
+				 foreign-key="FK2_SELLER_ID"/>
+
+	<!-- Mark the successful bid. -->
+	<many-to-one name="successfulBid"
+				 class="Bid"
+				 cascade="none"
+				 column="SUCCESSFUL_BID_ID"
+				 not-null="false"
+				 outer-join="false"
+				 foreign-key="FK3_SUCCESSFUL_BID_ID"/>
+
+	<!-- We use a one-to-many association to express the relationship
+	     to a set of categories. There is an intermediate entity class,
+	     CategorizedItem, which in fact makes this a many-to-many
+	     association between Item and Category.
+	-->
+	<set    name="categorizedItems"
+			cascade="all-delete-orphan"
+			inverse="true"
+			lazy="true"
+			access="field">
+        <key foreign-key="FK2_CATEGORIZED_ITEM_ID">
+            <column name="ITEM_ID" not-null="true" length="16"/>
+        </key>
+        <one-to-many class="CategorizedItem"/>
+	</set>
+
+	<!-- Use a standard parent/child relationship for bids. -->
+	<bag    name="bids"
+			cascade="all"
+			inverse="true"
+			order-by="CREATED desc"
+			lazy="true"
+			access="field">
+		<key>
+            <column name="ITEM_ID" not-null="true"/>
+        </key>
+		<one-to-many class="Bid"/>
+	</bag>
+
+	<!-- Map images (they are just filenames) to their own table, and allow
+	     duplicates with an <idbag> and a surrogate primary key column for
+	     the collection table. The "native" generator is not implemented for
+	     this mapping technique! -->
+	<idbag  name="images"
+	        table="ITEM_IMAGES">
+	    <collection-id column="ITEM_IMAGE_ID" type="int">
+	        <!-- For PostgreSQL, Oracle, HSQLDB, etc. -->
+            <generator class="sequence"/>
+            <!-- For MS SQL, DB2, etc.
+            <generator class="identity"/>
+            -->
+	    </collection-id>
+        <key column="ITEM_ID"/>
+        <element column="FILENAME" type="string"/>
+	</idbag>
+
+</class>
+
+</hibernate-mapping>

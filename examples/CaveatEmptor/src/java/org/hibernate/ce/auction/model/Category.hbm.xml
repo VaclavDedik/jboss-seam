@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM
+			"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+
+Mapping file for the Category class of CaveatEmptor.
+
+Categories are versioned and we make some use of the
+DirectSetAccessor for immutable properties and properties
+that are covered with convenience methods that protect
+entity relationships (setChildren() vs. addChildren()).
+
+Interesting is the bidirectional one-to-many association
+that references parent and child categories. This is a
+real parent/child association, with full cascading
+enabled.
+
+There can never be two categories with the same name at
+the same "level", that is, they can't have the same parent
+category. This is protected with a unique constraint.
+
+@author Christian Bauer <christian@hibernate.org>
+
+-->
+<hibernate-mapping package="org.hibernate.ce.auction.model">
+
+<class name="Category"
+	   table="CATEGORY"
+	   lazy="true">
+
+	<!-- Common id property. -->
+	<id name="id"
+		type="long"
+		column="CATEGORY_ID"
+		unsaved-value="null"
+		access="field">
+		<generator class="native"/>
+	</id>
+
+	<!-- A versioned entity. -->
+	<version name="version"
+			 column="VERSION"
+			 access="org.hibernate.property.DirectPropertyAccessor"/>
+
+	<!-- Name is limited to 255 characters.-->
+	<property   name="name"
+				type="string">
+		<column name="NAME"
+				not-null="true"
+				length="255"
+				unique-key="UNIQUE_NAME_AT_LEVEL"/>
+	</property>
+
+	<!-- We can't change the creation time, so map it with update="false". -->
+	<property   name="created"
+				column="CREATED"
+				type="java.util.Date"
+				update="false"
+				not-null="true"
+				access="field"/>
+
+	<!-- Parent can be null for root categories. -->
+	<many-to-one name="parentCategory"
+				 cascade="none"
+				 outer-join="false"
+				 foreign-key="FK1_PARENT_CATEGORY_ID">
+		<column name="PARENT_CATEGORY_ID"
+				not-null="false"
+				unique-key="UNIQUE_NAME_AT_LEVEL"/>
+	</many-to-one>
+
+	<!-- We use a Set for this bidirectional one-to-many. Batch fetching is
+		 particulary interesting for  this association: We expect that the
+		 application will need much more childCategories if it accesses
+		 one. Batch fetching can significantly improve fetching of the
+		 whole category graph.
+	-->
+	<set    name="childCategories"
+			cascade="all-delete-orphan"
+			inverse="true"
+			lazy="true"
+			batch-size="10"
+			access="field">
+		<key column="PARENT_CATEGORY_ID"/>
+		<one-to-many class="Category"/>
+	</set>
+
+	<!-- We use a one-to-many association to express the relationship
+	     to a set of items. There is an intermediate entity class,
+	     CategorizedItem, which in fact makes this a many-to-many
+	     association between Category and Item.
+	-->
+	<set    name="categorizedItems"
+			cascade="all-delete-orphan"
+			inverse="true"
+			outer-join="false"
+			access="field">
+		<key foreign-key="FK1_CATEGORIZED_ITEM_ID">
+			<column name="CATEGORY_ID" not-null="true" length="16"/>
+		</key>
+		<one-to-many class="CategorizedItem"/>
+	</set>
+
+	<!--
+		This is an alternative mapping for the many-to-many association
+		to Item. We use an intermediate class, CategorizedItem, that
+		represents the link (However, it is a value type in this case,
+		the packaged CategorizedItem class will not work!)
+
+		You can use this mapping style if your association table has
+		additional columns. In our case, we have the USERNAME and
+		DATE_ADDED column. These are also properties of the
+		CategorizedItem class. The many-to-many association we created
+		here is only accessible from the Category side. Items can't
+		access CategorizedItem, it is mapped as a non-shared component
+		of Category.
+
+		In addition to a composite element mapping, we also use an idbag.
+		This means we'd like to have a surrogate primary key for the link
+		table. Unfortunately, Hibernate doesn't support the "native" ID
+		generator for collection identifiers at the time of writing.
+		Replace "increment" with a database specific id generator,
+		otherwise your application will not cluster-safe!
+
+		If we would use a set or standard bag, the primary key of the
+		association table would be all columns. Keep in mind that all
+		columns of the link table would have to be not null. The idbag
+		allows us to have nullable columns. If you use this mapping, you
+		will have to change the type of the property in Category from Set
+		to List.
+
+		You can also make the username property a real many-to-one
+		association to User.
+	
+	<idbag name="items"
+		 table="CATEGORY_ITEM">
+		<collection-id column="CATEGORY_ITEM_ID" type="long">
+			<generator class="increment"/>
+		</collection-id>
+		<key>
+			<column name="CATEGORY_ID" not-null="true"/>
+		</key>
+		<composite-element class="CategorizedItem">
+			<parent name="category"/>
+
+			<many-to-one name="item"
+						 column="ITEM_ID"
+						 not-null="true"
+						 class="Item"
+						 access="field"/>
+
+			<property   name="username"
+						column="USERNAME"
+						access="field"/>
+			OR
+			<many-to-one name="user"
+						 column="USER_ID"
+						 not-null="true"
+						 class="User"
+						 access="field"/>
+
+			<property   name="dateAdded"
+						column="DATE_ADDED"
+						access="field"/>
+		</composite-element>
+	 </idbag>
+	-->
+
+</class>
+
+</hibernate-mapping>

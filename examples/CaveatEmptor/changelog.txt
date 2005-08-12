@@ -1,0 +1,8 @@
+CaveatEmptor Changelog
+===========================
+
+Changes in version 0.9.0 (xx.xx.2004)
+------------------------------------
+
+* initial port to Hibernate3 for HiA Second Edition
+

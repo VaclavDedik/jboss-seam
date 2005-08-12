@@ -1,0 +1,87 @@
+<!DOCTYPE hibernate-configuration PUBLIC 
+	"-//Hibernate/Hibernate Configuration DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+
+		<!-- Don't forget to copy your JDBC driver to the lib/ directory! -->
+
+		<!-- Settings for a local HSQL (testing) database. -->
+		<property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+		<property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+		<property name="connection.url">jdbc:hsqldb:caveatemptor</property>
+		<property name="connection.username">sa</property>
+		<property name="connection.password"></property>
+
+		<!-- Settings for a local PostgreSQL database.
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="query.substitutions">yes 'Y', no 'N'</property>
+		<property name="connection.driver_class">org.hibernate.ce.auction.persistence.pgsql.NativeAdapter</property>
+		<property name="connection.url">jdbc:postgresql://localhost/test</property>
+		<property name="connection.username">test</property>
+		<property name="connection.password"></property>
+        -->
+
+		<!-- Settings for a remote MySQL database.
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
+		<property name="connection.url">jdbc:mysql://192.168.0.6/test</property>
+		<property name="connection.username">test</property>
+		<property name="connection.password"></property>
+		-->
+
+		<!-- Settings for a remote Oracle9/10g database.
+		<property name="dialect">org.hibernate.dialect.Oracle9Dialect</property>
+		<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="connection.url">jdbc:oracle:thin:@192.168.0.4:1521:orac</property>
+		<property name="connection.username">test</property>
+		<property name="connection.password">test</property>
+		-->
+
+		<!-- Use the C3P0 connection pool.
+		<property name="c3p0.min_size">3</property>
+		<property name="c3p0.max_size">5</property>
+		<property name="c3p0.timeout">1800</property>
+		-->
+
+		<!-- Use the Hibernate built-in pool for tests. -->
+		<property name="connection.pool_size">1</property>
+
+		<!-- Use EHCache but not the query cache. -->
+		<property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+		<property name="cache.use_query_cache">false</property>
+		<property name="cache.use_minimal_puts">false</property>
+
+		<!-- Print SQL to stdout. -->
+		<property name="show_sql">true</property>
+
+        <property name="hbm2ddl.auto">create-drop</property>
+
+		<!-- CaveatEmptor mapping files.
+        <mapping resource="org/hibernate/ce/auction/persistence/NamedQueries.hbm.xml"/>
+        <mapping resource="org/hibernate/ce/auction/persistence/UserTypes.hbm.xml"/>
+        <mapping resource="org/hibernate/ce/auction/persistence/audit/AuditLogRecord.hbm.xml"/>
+		<mapping resource="org/hibernate/ce/auction/model/User.hbm.xml"/>
+		<mapping resource="org/hibernate/ce/auction/model/Item.hbm.xml"/>
+		<mapping resource="org/hibernate/ce/auction/model/Category.hbm.xml"/>
+		<mapping resource="org/hibernate/ce/auction/model/CategorizedItem.hbm.xml"/>
+		<mapping resource="org/hibernate/ce/auction/model/Bid.hbm.xml"/>
+		<mapping resource="org/hibernate/ce/auction/model/BillingDetails.hbm.xml"/>
+		<mapping resource="org/hibernate/ce/auction/model/Comment.hbm.xml"/>
+        -->
+
+        <!-- CaveatEmptor annotated EJB3 entity beans. -->
+        <mapping package="org.hibernate.ce.auction.persistence"/>
+        <mapping class="org.hibernate.ce.auction.persistence.audit.AuditLogRecord"/>
+        <mapping class="org.hibernate.ce.auction.model.User"/>
+        <mapping class="org.hibernate.ce.auction.model.Item"/>
+        <mapping class="org.hibernate.ce.auction.model.Category"/>
+        <mapping class="org.hibernate.ce.auction.model.CategorizedItem"/>
+        <mapping class="org.hibernate.ce.auction.model.Bid"/>
+        <mapping class="org.hibernate.ce.auction.model.BillingDetails"/>
+        <mapping class="org.hibernate.ce.auction.model.Comment"/>
+
+	</session-factory>
+
+</hibernate-configuration>

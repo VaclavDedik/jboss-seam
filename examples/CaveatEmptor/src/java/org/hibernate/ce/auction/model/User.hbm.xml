@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM
+			"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<!--
+
+Mapping file for the User class of CaveatEmptor.
+
+A User is a versioned entity, with some special properties.
+One is the username, it is immutable and unique. The
+defaultBillingDetails property points to one of the
+BillingDetails in the collection of all BillingDetails.
+
+We never load any BillingDetails when a User is retrieved.
+
+@author Christian Bauer <christian@hibernate.org>
+
+-->
+<hibernate-mapping package="org.hibernate.ce.auction.model">
+
+<class name="User"
+	   table="USERS"
+	   lazy="true">
+
+	<id name="id"
+		type="long"
+		column="USER_ID"
+		unsaved-value="null"
+		access="field">
+		<generator class="native"/>
+	</id>
+
+	<!-- A versioned entity. -->
+	<version name="version"
+			 column="VERSION"
+			 access="org.hibernate.property.DirectPropertyAccessor"/>
+
+	<property   name="firstname"
+				type="string"
+				column="FIRSTNAME"
+				length="255"
+				not-null="true"/>
+
+	<property   name="lastname"
+				type="string"
+				column="LASTNAME"
+				length="255"
+				not-null="true"/>
+
+	<!-- We don't change the username, so map it with update="false".
+		 This is an immutable property, it is also unique. -->
+	<property   name="username"
+				type="string"
+				column="USERNAME"
+				length="16"
+				not-null="true"
+				unique="true"
+				update="false"
+				access="field">
+	</property>
+
+	<!-- Password is a keyword in some databases, so we quote it. -->
+	<property   name="password"
+				type="string"
+				column="`PASSWORD`"
+				length="12"
+				not-null="true"/>
+
+	<property   name="email"
+				type="string"
+				column="EMAIL"
+				length="255"
+				not-null="true"/>
+
+	<property   name="ranking"
+				type="int"
+				column="RANKING"
+				not-null="true"/>
+
+	<property   name="admin"
+				type="boolean"
+				column="IS_ADMIN"
+				not-null="true"/>
+
+	<!-- We can't change the creation time, so map it with update="false". -->
+	<property   name="created"
+				column="CREATED"
+				type="java.util.Date"
+				update="false"
+				not-null="true"
+				access="field"/>
+
+	<!-- The default billing strategy, may be null if no BillingDetails exist. -->
+	<many-to-one name="defaultBillingDetails"
+				 class="BillingDetails"
+				 column="DEFAULT_BILLING_DETAILS_ID"
+				 not-null="false"
+				 outer-join="false"
+				 foreign-key="FK1_DEFAULT_BILLING_DETAILS_ID"/>
+
+	<!-- Mapping for the component class Address. -->
+	<component name="address" class="Address">
+
+		<property   name="street"
+					type="string"
+					column="STREET"
+					length="255"/>
+
+		<property   name="zipcode"
+					type="string"
+					column="ZIPCODE"
+					length="16"/>
+
+		<property   name="city"
+					type="string"
+					column="CITY"
+					length="255"/>
+	</component>
+
+	<!-- Mapping for Item association. -->
+	<set    name="items"
+			cascade="none"
+			lazy="true"
+			inverse="true"
+			access="field">
+		<key>
+			<column name="SELLER_ID" not-null="true"/>
+		</key>
+		<one-to-many class="Item"/>
+	</set>
+
+	<!-- Mapping for BillingDetails association. -->
+	<set    name="billingDetails"
+			cascade="all-delete-orphan"
+			lazy="true"
+			inverse="true"
+			access="field">
+		<key>
+			<column name="USER_ID" not-null="true"/>
+		</key>
+		<one-to-many class="BillingDetails"/>
+	</set>
+
+</class>
+
+</hibernate-mapping>

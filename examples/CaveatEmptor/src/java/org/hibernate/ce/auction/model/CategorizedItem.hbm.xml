@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM
+			"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.hibernate.ce.auction.model">
+
+<!--
+
+Mapping file for the CategorizedItem class of CaveatEmptor.
+
+This is really a very special mapping. The CategorizedItem class
+represents an association table. The ER model for this is really
+a many-to-many association, but instead of two entities and two
+collections, we mapped this as two one-to-many associations between
+three entities. One of the motivation for this are the additional
+attributes on the association table (not only two FKs): username
+and creation date.
+
+This class is the entity in the middle, between Category and Item.
+You can see that it has references to both. The trick is the usage
+of update="false" insert="false" on the <many-to-one> mapping
+elements. The foreign/primary key columns of the association table
+is therefore managed by the <key-property> mappings in the composite
+key.
+
+Note that the composite key is encapsulated in an inner class, which
+simplifies the implementation of equals/hashCode. We recommend to
+always use a separate composite key class.
+
+@author Christian Bauer <christian@hibernate.org>
+
+-->
+
+<class name="CategorizedItem"
+	   table="CATEGORIZED_ITEM"
+	   lazy="true">
+
+	<composite-id name="id" class="CategorizedItem$Id"
+	              access="field"
+	              unsaved-value="any">
+
+        <key-property name="categoryId"
+                      access="field"
+                      column="CATEGORY_ID"
+                      length="16"/>
+
+        <key-property name="itemId"
+                      access="field"
+                      column="ITEM_ID"
+                      length="16"/>
+	</composite-id>
+
+	<property   name="dateAdded"
+				column="DATE_ADDED"
+				type="java.util.Date"
+				update="false"
+				not-null="true"
+				access="field"/>
+
+    <property   name="username"
+                column="USERNAME"
+                type="string"
+                update="false"
+                not-null="true"
+                access="field"/>
+
+    <many-to-one    name="category"
+                    insert="false"
+                    update="false"
+                    not-null="true"
+                    access="field"
+                    column="CATEGORY_ID"/>
+
+    <many-to-one    name="item"
+                    insert="false"
+                    update="false"
+                    not-null="true"
+                    access="field"
+                    column="ITEM_ID"/>
+
+</class>
+
+</hibernate-mapping>

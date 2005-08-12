@@ -1,0 +1,14 @@
+<application>
+	<display-name>SEAM</display-name>
+
+	<module>
+		<web>
+			<web-uri>jboss-seam-bpm.war</web-uri>
+			<context-root>/seam-bpm</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>jboss-seam-bpm.ejb3</ejb>
+	</module>
+	
+</application>

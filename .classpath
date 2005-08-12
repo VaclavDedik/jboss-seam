@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/all/deploy/ejb3.deployer/jboss-ejb3x.jar"/>
+	<classpathentry sourcepath="/jboss-ejb3" kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/all/deploy/ejb3.deployer/jboss-ejb3.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/all/deploy/jboss-aop-jdk50.deployer/jboss-aop-jdk50.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/lib/jboss-common.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/lib/jboss-mbeans.jar"/>
+	<classpathentry sourcepath="/jboss-head/system/src/main" kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/lib/jboss-system.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/lib/jboss-jmx.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/lib/jboss-container.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/lib/jboss-management.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/lib/jboss.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/lib/jboss-j2ee.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/lib/jbossas-remoting.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/lib/jboss-j2se.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/thirdparty/javassist/lib/javassist.jar"/>
+	<classpathentry sourcepath="/jboss-head/thirdparty/hibernate/lib/hibernate-entitymanager.jar" kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/ejb3.deployer/ejb3-persistence.jar"/>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/commons-codec-1.2.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/commons-collections.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/commons-digester-1.6.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/jstl.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/myfaces.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/myfaces-impl.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/myfaces-jsf-api.jar"/>
+	<classpathentry kind="lib" path="/jboss-head/build/output/jboss-5.0.0alpha/server/default/lib/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-3.0.jar"/>
+	<classpathentry kind="src" path="src/test"/>
+	<classpathentry sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.1.0/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="JUNIT_HOME/junit.jar"/>
+	<classpathentry kind="src" path="examples/bpm/src"/>
+	<classpathentry kind="output" path="output/classes"/>
+</classpath>
