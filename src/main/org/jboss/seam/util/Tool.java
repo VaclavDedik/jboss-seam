@@ -13,10 +13,10 @@ package org.jboss.seam.util;
  */
 public class Tool
 {
-   public static String filename2FQN(String filename)
+   public static String filenameToClassname(String filename)
    {
-      String result = filename.substring(0, filename.lastIndexOf(".class"));
-      return result.replace('/', '.').replace('\\', '.');
+      return filename.substring(0, filename.lastIndexOf(".class"))
+            .replace('/', '.').replace('\\', '.');
    }
    
    public static boolean isEmptyOrNull(String string)
