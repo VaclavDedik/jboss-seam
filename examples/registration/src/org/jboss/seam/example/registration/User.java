@@ -12,7 +12,7 @@ import org.jboss.seam.annotations.ScopeType;
 
 @Entity
 @Name("user")
-@Scope(ScopeType.EVENT)
+@Scope(ScopeType.CONVERSATION)
 public class User implements Serializable
 {
 

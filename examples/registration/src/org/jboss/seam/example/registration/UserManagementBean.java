@@ -1,12 +1,18 @@
 package org.jboss.seam.example.registration;
+
+import java.io.Serializable;
+
 import javax.ejb.Interceptor;
-import javax.ejb.Remote;
-import javax.ejb.Stateful;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.annotation.ejb.RemoteBinding;
+import org.jboss.annotation.ejb.LocalBinding;
+import org.jboss.seam.Contexts;
 import org.jboss.seam.SeamInterceptor;
+import org.jboss.seam.annotations.BeginConversation;
+import org.jboss.seam.annotations.EndConversation;
 import org.jboss.seam.annotations.Inject;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -23,27 +29,53 @@ import org.jboss.seam.annotations.ScopeType;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @version $Revision$
  */
-@Stateful
-@Remote(UserManagement.class)
-@RemoteBinding(jndiBinding = "userManagement")
+@Stateless
+@Local(UserManagement.class)
+@LocalBinding(jndiBinding = "userManagement")
 @Interceptor(SeamInterceptor.class)
 @Name("userManagement")
-@Scope(ScopeType.SESSION)
-public class UserManagementBean implements UserManagement, java.io.Serializable
+@Scope(ScopeType.STATELESS)
+public class UserManagementBean implements UserManagement, Serializable
 {
-   /** The serialVersionUID */
-   private static final long serialVersionUID = 1L;
    
    @PersistenceContext
    private EntityManager manager;
    
-   @Inject
+   @Inject(create=false)
    private User user;
+   
+   private String username = "";
    
    public String register()
    {
       manager.persist(user);
-      return "register";
+      return "success";
+   }
+   
+   @BeginConversation
+   public String retrieve() {
+      user = (User) manager.createQuery("from User where username = :username")
+            .setParameter("username", username)
+            .getSingleResult();
+      Contexts.getConversationContext().set("user", user);
+      return "success";
+   }
+   
+   @EndConversation
+   public String setPassword()
+   {
+      manager.merge(user);
+      return "success";
+   }
+   
+   public String getUsername()
+   {
+      return username;
+   }
+   
+   public void setUsername(String userName)
+   {
+      this.username = userName;
    }
 }
 

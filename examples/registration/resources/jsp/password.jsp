@@ -2,10 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
  <head>
-  <title>Users</title>
+  <title>Set User Password</title>
  </head>
- <body> 
-  <h2>Registered:</h2>
+ <body>
   <f:view>
    <h:form>
      <table border="0">
@@ -14,14 +13,12 @@
          <td><h:outputText value="#{user.username}"/></td>
        </tr>
        <tr>
-         <td>Password</td>
-         <td><h:outputText value="#{user.password}"/></td>
-       </tr>
        <tr>
-         <td>Age</td>
-         <td><h:outputText converter="javax.faces.Integer" value="#{user.age}"/></td>
+         <td>Password</td>
+         <td><h:inputText value="#{user.password}"/></td>
        </tr>
      </table>
+     <h:commandButton type="submit" value="Change" action="#{userManagement.setPassword}"/>
    </h:form>
   </f:view>
  </body>

@@ -2,26 +2,30 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
  <head>
-  <title>Register New User</title>
+  <title>Display User</title>
  </head>
- <body>
+ <body> 
+  <h2>Registered:</h2>
   <f:view>
    <h:form>
      <table border="0">
        <tr>
          <td>Username</td>
-         <td><h:inputText value="#{user.username}"/></td>
+         <td><h:outputText value="#{user.username}"/></td>
        </tr>
        <tr>
          <td>Password</td>
-         <td><h:inputText value="#{user.password}"/></td>
+         <td><h:outputText value="#{user.password}"/></td>
        </tr>
        <tr>
          <td>Age</td>
-         <td><h:inputText converter="javax.faces.Integer" value="#{user.age}"/></td>
+         <td><h:outputText value="#{user.age}"/></td>
+       </tr>
+       <tr>
+         <td>Age</td>
+         <td><h:outputText converter="javax.faces.Integer" value="#{user.age}"/></td>
        </tr>
      </table>
-     <h:commandButton type="submit" value="Register" action="#{userManagement.register}"/>
    </h:form>
   </f:view>
  </body>

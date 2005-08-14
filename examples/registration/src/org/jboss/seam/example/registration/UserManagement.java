@@ -12,10 +12,14 @@ package org.jboss.seam.example.registration;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @version $Revision$
  */
-
 public interface UserManagement
 {
-   String register();
+   public String register();
+   public String retrieve();
+   public String setPassword();
+
+   public String getUsername();
+   public void setUsername(String userName);
 }
 
 
