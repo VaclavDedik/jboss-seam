@@ -7,8 +7,8 @@ package org.jboss.seam;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A conversation context is a context that last longer than a request but shorter than an
- * application
+ * A conversation context is a logical context that last longer than 
+ * a request but shorter than a login session
  * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>

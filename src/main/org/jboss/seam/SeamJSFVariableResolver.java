@@ -13,7 +13,6 @@ import javax.faces.el.VariableResolver;
 import org.jboss.logging.Logger;
 
 /**
- * 
  * Variable resolving: first the method tries to return an object
  * stored in the hierarchical context. If the object does not exist,
  * it is instanciated, stored in the correct context then returned.

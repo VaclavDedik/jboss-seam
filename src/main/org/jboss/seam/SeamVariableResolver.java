@@ -22,7 +22,6 @@ import org.jboss.seam.deployment.SeamDeployer;
 import org.jboss.seam.deployment.SeamModule;
 
 /**
- * 
  * Variable resolving: first the method tries to return an object
  * stored in the hierarchical context. If the object does not exist,
  * it is instanciated, stored in the correct context then returned.

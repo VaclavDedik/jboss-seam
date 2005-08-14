@@ -24,7 +24,7 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
 /**
- * Interceptor for injection
+ * Interceptor for injection and conversation scope management
  * 
  * @author Gavin King
  * @version $Revision$

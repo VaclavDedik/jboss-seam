@@ -7,6 +7,8 @@
 package org.jboss.seam.annotations;
 
 /**
+ * The available scopes (contexts).
+ * 
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */

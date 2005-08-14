@@ -8,9 +8,6 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-@Target(METHOD)
-@Retention(RUNTIME)
-@Documented
 /**
  * Marks a method as conditionally ending a conversation. 
  * If result is specified, the conversation ends only when 
@@ -21,6 +18,9 @@ import java.lang.annotation.Target;
  * 
  * @author Gavin King
  */
+@Target(METHOD)
+@Retention(RUNTIME)
+@Documented
 public @interface EndConversationIf {
 	String[] result() default {};
 	Class[] exception() default {};

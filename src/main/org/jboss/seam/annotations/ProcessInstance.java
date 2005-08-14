@@ -18,9 +18,9 @@ import java.lang.annotation.Target;
  * @version $Revision$
  */
 @Target({FIELD, METHOD})
-@Retention(RUNTIME)public @interface ProcessInstance
+@Retention(RUNTIME)
+public @interface ProcessInstance
 {
-   
    String value();
 }
 
