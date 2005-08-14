@@ -11,9 +11,9 @@ import javax.ejb.Interceptor;
 import org.jboss.seam.SeamInterceptor;
 import org.jboss.seam.annotations.Inject;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.ProcessInstance;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.ScopeType;
+import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
@@ -24,7 +24,7 @@ import org.jboss.seam.annotations.ScopeType;
 @Scope(ScopeType.APPLICATION)
 public class Mock
 {
-   @ProcessInstance("MyProcessDefinition")
+   @Inject("MyProcessDefinition")
    private ProcessInstance processInstance;
    
    @Inject("test")

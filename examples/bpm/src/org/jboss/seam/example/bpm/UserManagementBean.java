@@ -41,7 +41,7 @@ public class UserManagementBean implements UserManagement, java.io.Serializable
    @Inject("user")
    private User user;
    
-   @org.jboss.seam.annotations.ProcessInstance("MyProcessDefinition")
+   @Inject("MyProcessDefinition")
    private ProcessInstance processInstance;
    
    public String register()
