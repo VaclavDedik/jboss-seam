@@ -62,7 +62,7 @@ public class SeamVariableResolver
       {
          result = Contexts.getConversationContext().get(name);
       }
-      if (result == null && Contexts.isLoginContextActive())
+      if (result == null && Contexts.isSessionContextActive())
       {
          result = Contexts.getSessionContext().get(name);
       }

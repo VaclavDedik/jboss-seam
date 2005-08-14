@@ -82,7 +82,7 @@ public class Contexts {
 		return eventContext.get() != null;
 	}
 
-	public static boolean isLoginContextActive() {
+	public static boolean isSessionContextActive() {
 		return sessionContext.get() != null;
 	}
 
