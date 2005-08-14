@@ -19,10 +19,6 @@
        </tr>
        <tr>
          <td>Age</td>
-         <td><h:outputText value="#{user.age}"/></td>
-       </tr>
-       <tr>
-         <td>Age</td>
          <td><h:outputText converter="javax.faces.Integer" value="#{user.age}"/></td>
        </tr>
      </table>

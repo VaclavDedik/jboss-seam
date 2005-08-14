@@ -30,7 +30,6 @@ import org.jboss.seam.annotations.ScopeType;
  * @version $Revision$
  */
 @Stateless
-@Local(UserManagement.class)
 @LocalBinding(jndiBinding = "userManagement")
 @Interceptor(SeamInterceptor.class)
 @Name("userManagement")
