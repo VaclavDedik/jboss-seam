@@ -17,7 +17,7 @@ public class Tool
    public static String filename2FQN(String filename)
    {
       String result = filename.substring(0, filename.lastIndexOf(".class"));
-      return result.replaceAll(File.separator, ".");
+      return result.replace(File.separator.charAt(0), '.');
    }
    
    public static boolean isEmptyOrNull(String string)
