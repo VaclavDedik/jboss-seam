@@ -28,7 +28,7 @@ import org.jboss.seam.annotations.ScopeType;
 @RemoteBinding(jndiBinding = "userManagement")
 @Interceptor(SeamInterceptor.class)
 @Name("userManagement")
-@Scope(ScopeType.APPLICATION)
+@Scope(ScopeType.SESSION)
 public class UserManagementBean implements UserManagement, java.io.Serializable
 {
    /** The serialVersionUID */
@@ -37,7 +37,7 @@ public class UserManagementBean implements UserManagement, java.io.Serializable
    @PersistenceContext
    private EntityManager manager;
    
-   @Inject("user")
+   @Inject
    private User user;
    
    public String register()
