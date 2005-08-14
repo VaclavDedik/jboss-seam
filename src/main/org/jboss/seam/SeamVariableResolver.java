@@ -74,6 +74,10 @@ public class SeamVariableResolver
       {
          result = Contexts.getApplicationContext().get(name);
       }
+      if (result == null)
+      {
+         result = Contexts.getStatelessContext().get(name);
+      }
 
       if (result == null && create)
       {
@@ -82,7 +86,7 @@ public class SeamVariableResolver
       return result;
    }
 
-   public Object createVariable(String name)
+   private Object createVariable(String name)
    {
       Object result = null;
       SeamComponent seamComponent = findSeamComponent(name);
@@ -90,59 +94,74 @@ public class SeamVariableResolver
       {
          if (seamComponent.isStateless())
          {
-            result = Contexts.getStatelessContext().get(name);
+            result = instantiateSession(name, result);
          }
          else
          {
             if (seamComponent.isStateful())
             {
-               InitialContext ctx;
-               try
-               {
-                  ctx = new InitialContext();
-                  result = ctx.lookup(name);
-               }
-               catch (NamingException e)
-               {
-                  log.error("Error", e);
-               }
+               result = instantiateSession(name, result);
             }
             else if (seamComponent.isEntity())
             {
-               try
-               {
-                  result = seamComponent.getBean().newInstance();
-               }
-               catch (InstantiationException e)
-               {
-                  log.error("Error", e);
-               }
-               catch (IllegalAccessException e)
-               {
-                  log.error("Error", e);
-               }
+               result = instantiateEntity(result, seamComponent);
             }
-            if (seamComponent.getScope() == ScopeType.APPLICATION)
-            {
-               Contexts.getApplicationContext().set(name, result);
-            }
-            else if (seamComponent.getScope() == ScopeType.EVENT)
-            {
-               Contexts.getEventContext().set(name, result);
-            }
-            else if (seamComponent.getScope() == ScopeType.CONVERSATION)
-            {
-               Contexts.getConversationContext().set(name, result);
-            }
-            else if (seamComponent.getScope() == ScopeType.SESSION)
-            {
-               Contexts.getSessionContext().set(name, result);
-            }
+            bindToContext( name, result, seamComponent );
          }
       }
 
       log.info(name + "=" + result);
       return result;
+   }
+
+   private Object instantiateSession(String name, Object result)
+   {
+      try
+      {
+         return new InitialContext().lookup(name);
+      }
+      catch (NamingException e)
+      {
+         log.error("Error", e);
+         throw new InstantiationException("Could not find component in JNDI", e);
+      }
+   }
+
+   private Object instantiateEntity(Object result, SeamComponent seamComponent)
+   {
+      try
+      {
+         return seamComponent.getBean().newInstance();
+      }
+      catch (java.lang.InstantiationException e)
+      {
+         log.error("Error", e);
+         throw new InstantiationException("Could not instantiate component", e);
+      }
+      catch (IllegalAccessException e)
+      {
+         log.error("Error", e);
+         throw new InstantiationException("Could not instantiate component", e);
+      }
+   }
+
+   private void bindToContext(String name, Object result, SeamComponent seamComponent) {
+      if (seamComponent.getScope() == ScopeType.APPLICATION)
+      {
+         Contexts.getApplicationContext().set(name, result);
+      }
+      else if (seamComponent.getScope() == ScopeType.EVENT)
+      {
+         Contexts.getEventContext().set(name, result);
+      }
+      else if (seamComponent.getScope() == ScopeType.CONVERSATION)
+      {
+         Contexts.getConversationContext().set(name, result);
+	  }
+      else if (seamComponent.getScope() == ScopeType.SESSION)
+      {
+         Contexts.getSessionContext().set(name, result);
+      }
    }
 
    private SeamComponent findSeamComponent(String name)

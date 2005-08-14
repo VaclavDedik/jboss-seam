@@ -132,7 +132,7 @@ public class SeamInterceptor {
 			name = method.getName().substring(3);
 		}
 		
-		Object value = new SeamVariableResolver().resolveVariable(name, false);
+		Object value = new SeamVariableResolver().resolveVariable(name, inject.create());
 		
 		try {
 			log.info("injecting: " + name);
@@ -169,7 +169,7 @@ public class SeamInterceptor {
 			name = field.getName();
 		}
 		
-		Object value = new SeamVariableResolver().resolveVariable(name, false);
+		Object value = new SeamVariableResolver().resolveVariable(name, inject.create());
 		
 		try {
 			log.info("injecting: " + name);
