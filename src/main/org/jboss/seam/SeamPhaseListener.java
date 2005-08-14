@@ -15,7 +15,14 @@ public class SeamPhaseListener implements PhaseListener {
 	
 	private static Logger log = Logger.getLogger( SeamPhaseListener.class );
 
-	public void afterPhase(PhaseEvent event) {}
+	public void afterPhase(PhaseEvent event) {
+		if ( event.getPhaseId()==PhaseId.RESTORE_VIEW ) {
+			log.debug("After restore view");
+			Contexts.setConversationId( 
+					(String) getAttributes(event).get(CONVERSATION_ID) 
+				);
+		}
+	}
 
 	public void beforePhase(PhaseEvent event) {
 		if ( event.getPhaseId()==PhaseId.RENDER_RESPONSE ) {
@@ -23,12 +30,6 @@ public class SeamPhaseListener implements PhaseListener {
 			getAttributes( event ).put( 
 					CONVERSATION_ID, 
 					Contexts.getConversationContextId() 
-				);
-		}
-		else if ( event.getPhaseId()==PhaseId.RESTORE_VIEW ) {
-			log.debug("Before restore view");
-			Contexts.setConversationId( 
-					(String) getAttributes(event).get(CONVERSATION_ID) 
 				);
 		}
 	}
