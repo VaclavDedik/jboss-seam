@@ -4,6 +4,7 @@
  */
 package org.jboss.seam;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
@@ -54,16 +55,16 @@ public class Contexts {
 	}
 
 	static void beginWebRequest(HttpServletRequest request) {
-		log.debug( "Begin Web Request" );
+		log.debug( "Begin web request" );
 		eventContext.set( new WebRequestContext( request ) );
 		sessionContext.set( new WebSessionContext( request.getSession() ) );
-		applicationContext
-			.set( new WebApplicationContext( request.getSession().getServletContext() ) );
-		setConversationId( request.getParameter( "org.jboss.seam.ConversationId" ) );
+		ServletContext servletContext = request.getSession().getServletContext();
+		applicationContext.set( new WebApplicationContext( servletContext ) );
+		//setConversationId( request.getParameter( "org.jboss.seam.ConversationId" ) );
 	}
 
 	static void endWebRequest() {
-		log.debug( "End Web Request" );
+		log.debug( "End web request" );
 		eventContext.set( null );
 		sessionContext.set( null );
 		applicationContext.set( null );
