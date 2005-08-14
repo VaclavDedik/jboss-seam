@@ -67,13 +67,13 @@ public class SeamVariableResolver
       {
          result = Contexts.getSessionContext().get(name);
       }
-      if (result == null && Contexts.isApplicationContextActive())
-      {
-         result = Contexts.getApplicationContext().get(name);
-      }
       if (result == null && Contexts.isBusinessProcessContextActive())
       {
          result = Contexts.getBusinessProcessContext().get(name);
+      }
+      if (result == null && Contexts.isApplicationContextActive())
+      {
+         result = Contexts.getApplicationContext().get(name);
       }
 
       if (result == null && create)

@@ -6,15 +6,11 @@
  */
 package org.jboss.seam;
 
-import java.net.URL;
-import java.util.Map;
-
 import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.VariableResolver;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.deployment.SeamModule;
 
 /**
  * 

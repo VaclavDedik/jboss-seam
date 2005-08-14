@@ -13,5 +13,8 @@ package org.jboss.seam;
 public interface Context {
 	public Object get(String name);
 	public void set(String name, Object value);
+	public void clear(String name);
 	public boolean isSet(String name);
+	public String[] getNames();
+	public void destroy();
 }

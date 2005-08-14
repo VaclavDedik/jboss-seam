@@ -1,9 +1,7 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+ *  * JBoss, Home of Professional Open Source  *  * Distributable under LGPL license.  * See terms
+ * of license at gnu.org.  
+ */
 package org.jboss.seam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,13 +15,13 @@ import org.jboss.logging.Logger;
  */
 public class Contexts {
 
-    private static Logger log = Logger.getLogger(Contexts.class);
-   
+	private static Logger log = Logger.getLogger( Contexts.class );
+
 	private static ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
 	private static ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
 	private static ThreadLocal<String> conversationId = new ThreadLocal<String>();
 	private static ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
-	
+
 	public static Context getEventContext() {
 		return eventContext.get();
 	}
@@ -31,63 +29,78 @@ public class Contexts {
 	public static Context getSessionContext() {
 		return sessionContext.get();
 	}
-	
+
 	public static Context getApplicationContext() {
 		return applicationContext.get();
 	}
-	
+
 	public static Context getStatelessContext() {
 		return new StatelessContext();
 	}
-	
+
 	public static Context getConversationContext() {
-		if (conversationId==null) {
-			throw new IllegalStateException("no active conversation");
+		if ( conversationId == null ) {
+			throw new IllegalStateException( "no active conversation" );
 		}
-		return new ConversationContext( getSessionContext(), conversationId.get() );
+		return new ConversationContext( getSessionContext(), getConversationContextId() );
 	}
-    
-    public static Context getBusinessProcessContext() {
-       return null;
-    }
-	
-	public static void beginWebRequest(HttpServletRequest request) {
-        log.debug("Begin Web Request");
-        eventContext.set( new WebRequestContext(request) );
-        sessionContext.set( new WebSessionContext( request.getSession() ) );
-        applicationContext.set( new WebApplicationContext( request.getSession().getServletContext() ) );
+
+	public static String getConversationContextId() {
+		return conversationId.get();
 	}
-	
+
+	public static Context getBusinessProcessContext() {
+		return null;
+	}
+
+	static void beginWebRequest(HttpServletRequest request) {
+		log.debug( "Begin Web Request" );
+		eventContext.set( new WebRequestContext( request ) );
+		sessionContext.set( new WebSessionContext( request.getSession() ) );
+		applicationContext
+			.set( new WebApplicationContext( request.getSession().getServletContext() ) );
+		setConversationId( request.getParameter( "org.jboss.seam.ConversationId" ) );
+	}
+
 	static void endWebRequest() {
-        log.debug("End Web Request");
-		eventContext.set(null);
-		sessionContext.set(null);
-		applicationContext.set(null);
+		log.debug( "End Web Request" );
+		eventContext.set( null );
+		sessionContext.set( null );
+		applicationContext.set( null );
+		setConversationId( null );
 	}
-	
+
 	static void setConversationId(String conversationId) {
-		Contexts.conversationId.set(conversationId);
+		Contexts.conversationId.set( conversationId );
 	}
-	
-	static boolean isConversationContextActive() {
-		return conversationId.get() != null;
+
+	public static boolean isConversationContextActive() {
+		return getConversationContextId() != null;
 	}
-	
-	static boolean isEventContextActive() {
+
+	public static boolean isEventContextActive() {
 		return eventContext.get() != null;
 	}
 
-	static boolean isLoginContextActive() {
+	public static boolean isLoginContextActive() {
 		return sessionContext.get() != null;
 	}
 
-	static boolean isApplicationContextActive() {
+	public static boolean isApplicationContextActive() {
 		return applicationContext.get() != null;
 	}
 
-   public static boolean isBusinessProcessContextActive()
-   {
-      return false;
-   }
+	public static boolean isBusinessProcessContextActive() {
+		return false;
+	}
+
+	static void destroyCurrentConversationContext() {
+		getConversationContext().destroy();
+		setConversationId(null);
+	}
+
+	static void initCurrentConversationContext() {
+		setConversationId( ConversationContext.generateConversationId() );
+	}
 
 }

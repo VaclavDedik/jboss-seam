@@ -46,6 +46,22 @@ public class BusinessProcessContext implements Context
       this.processInstance = processInstance;
    }
 
+   public void clear(String name) 
+   {
+	  throw new UnsupportedOperationException();
+   }
+
+   public void destroy() 
+   {
+	  throw new UnsupportedOperationException();
+   }
+
+   public String[] getNames() 
+   {
+	   return (String[]) processInstance.getContextInstance().getVariables()
+	         .keySet().toArray( new String[]{} );
+   }
+
 }
 
 

@@ -8,11 +8,15 @@ package org.jboss.seam;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.annotations.BeginConversation;
+import org.jboss.seam.annotations.EndConversation;
+import org.jboss.seam.annotations.EndConversationIf;
 import org.jboss.seam.annotations.Inject;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
@@ -34,14 +38,84 @@ public class SeamInterceptor {
 		Object bean = invocation.getBean();
 		
 		log.info( "injecting dependencies to: " + bean.getClass().getName() );
-		
 		injectFields( bean );
-		
 		injectMethods( bean );
 		
-		return invocation.proceed();
+		final Method method = invocation.getMethod();
+		boolean begun = beginConversation( method );
+		
+		Object result;
+		try {
+			result = invocation.proceed();
+		}
+		catch (Exception exception) {
+			if (begun) abortBeginConversation();
+			endConversation( method, exception );
+			throw exception;
+		}
+		
+		endConversation( method, result );
+		
+		return result;
 	}
-    
+
+	/**
+	 * If we tried to begin a conversation, but an exception
+	 * occurred, don't begin after all
+	 */
+	private void abortBeginConversation() {
+		Contexts.destroyCurrentConversationContext();
+	}
+
+	/**
+	 * If the method is annotated @BeginConversation, assign a new
+	 * conversationId
+	 */
+	private boolean beginConversation(Method method) {
+		if ( method.isAnnotationPresent(BeginConversation.class) ) {
+			if ( !Contexts.isConversationContextActive() ) {
+				Contexts.initCurrentConversationContext();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * If the method is annotated @EndConversation and an exception occurred,
+	 * end the conversation and clean up
+	 */
+	private void endConversation(Method method, Exception exception) {
+		if ( method.isAnnotationPresent(EndConversationIf.class) ) {
+			if ( Contexts.isConversationContextActive() ) {
+				Class[] results = method.getAnnotation(EndConversationIf.class).exception();
+				if ( Arrays.asList(results).contains( exception.getClass() ) ) {
+					Contexts.destroyCurrentConversationContext();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * If the method is annotated @EndConversation end the conversation and 
+	 * clean up
+	 */
+	private void endConversation(Method method, Object result) {
+		if ( method.isAnnotationPresent(EndConversation.class) ) {
+			if ( Contexts.isConversationContextActive() ) {
+				Contexts.destroyCurrentConversationContext();
+			}
+		}
+		if ( method.isAnnotationPresent(EndConversationIf.class) ) {
+			if ( Contexts.isConversationContextActive() ) {
+				String[] results = method.getAnnotation(EndConversationIf.class).result();
+				if ( Arrays.asList(results).contains(result) ) {
+					Contexts.destroyCurrentConversationContext();
+				}
+			}
+		}
+	}
+
 	private void injectMethods(Object bean) {
 		Method[] methods = bean.getClass().getDeclaredMethods();
 		for ( Method method: methods ) {

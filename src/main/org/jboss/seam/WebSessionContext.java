@@ -6,6 +6,9 @@
  */
 package org.jboss.seam;
 
+import java.util.ArrayList;
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpSession;
 
 /**
@@ -31,6 +34,23 @@ public class WebSessionContext implements Context {
 
 	public boolean isSet(String name) {
 		return get(name)!=null;
+	}
+
+	public void clear(String name) {
+		session.removeAttribute(name);
+	}
+
+	public void destroy() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String[] getNames() {
+		Enumeration names = session.getAttributeNames();
+		ArrayList<String> results = new ArrayList<String>();
+		while ( names.hasMoreElements() ) {
+			results.add( (String) names.nextElement() );
+		}
+		return results.toArray(new String[]{});
 	}
 
 }

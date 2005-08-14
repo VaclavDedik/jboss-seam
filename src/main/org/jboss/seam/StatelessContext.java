@@ -51,4 +51,23 @@ public class StatelessContext implements Context {
 		return get(name)!=null;
 	}
 
+	public void clear(String name) {
+		log.info("unbinding: " + name);
+		try {
+			new InitialContext().unbind(name);
+		}
+		catch (NamingException ne) {
+			log.debug("could not unbind: " + name, ne);
+			throw new IllegalArgumentException("could not unbind: " + name, ne);
+		}
+	}
+
+	public void destroy() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String[] getNames() {
+		throw new UnsupportedOperationException();
+	}
+
 }

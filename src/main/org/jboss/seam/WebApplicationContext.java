@@ -6,6 +6,9 @@
  */
 package org.jboss.seam;
 
+import java.util.ArrayList;
+import java.util.Enumeration;
+
 import javax.servlet.ServletContext;
 
 /**
@@ -33,4 +36,20 @@ public class WebApplicationContext implements Context {
 		return get(name)!=null;
 	}
 
+	public void clear(String name) {
+		context.removeAttribute(name);
+	}
+
+	public void destroy() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String[] getNames() {
+		Enumeration names = context.getAttributeNames();
+		ArrayList<String> results = new ArrayList<String>();
+		while ( names.hasMoreElements() ) {
+			results.add( (String) names.nextElement() );
+		}
+		return results.toArray(new String[]{});
+	}
 }
