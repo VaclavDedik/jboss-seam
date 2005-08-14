@@ -6,7 +6,6 @@
  */
 package org.jboss.seam.util;
 
-import java.io.File;
 
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
@@ -17,7 +16,7 @@ public class Tool
    public static String filename2FQN(String filename)
    {
       String result = filename.substring(0, filename.lastIndexOf(".class"));
-      return result.replace(File.separator.charAt(0), '.');
+      return result.replace('/', '.').replace('\\', '.');
    }
    
    public static boolean isEmptyOrNull(String string)
