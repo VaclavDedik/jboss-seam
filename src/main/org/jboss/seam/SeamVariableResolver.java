@@ -56,31 +56,38 @@ public class SeamVariableResolver
 
       if (Contexts.isEventContextActive())
       {
+         log.info("looking in event context");
          result = Contexts.getEventContext().get(name);
       }
       if (result == null && Contexts.isConversationContextActive())
       {
+         log.info("looking in conversation context");
          result = Contexts.getConversationContext().get(name);
       }
       if (result == null && Contexts.isSessionContextActive())
       {
+         log.info("looking in session context");
          result = Contexts.getSessionContext().get(name);
       }
       if (result == null && Contexts.isBusinessProcessContextActive())
       {
+         log.info("looking in process context");
          result = Contexts.getBusinessProcessContext().get(name);
       }
       if (result == null && Contexts.isApplicationContextActive())
       {
+         log.info("looking in application context");
          result = Contexts.getApplicationContext().get(name);
       }
       if (result == null)
       {
+         log.info("looking in stateless context");
          result = Contexts.getStatelessContext().get(name);
       }
 
       if (result == null && create)
       {
+         log.info("instantiating");
          result = createVariable(name);
       }
       return result;
@@ -146,21 +153,41 @@ public class SeamVariableResolver
    }
 
    private void bindToContext(String name, Object result, SeamComponent seamComponent) {
-      if (seamComponent.getScope() == ScopeType.APPLICATION)
-      {
-         Contexts.getApplicationContext().set(name, result);
-      }
-      else if (seamComponent.getScope() == ScopeType.EVENT)
+      if (seamComponent.getScope() == ScopeType.EVENT)
       {
          Contexts.getEventContext().set(name, result);
       }
       else if (seamComponent.getScope() == ScopeType.CONVERSATION)
       {
-         Contexts.getConversationContext().set(name, result);
-	  }
+         if ( Contexts.isConversationContextActive() ) 
+         {
+            Contexts.getConversationContext().set(name, result);
+         }
+         else
+         {
+            Contexts.getEventContext().set(name, result);
+         }
+         
+	   }
       else if (seamComponent.getScope() == ScopeType.SESSION)
       {
-         Contexts.getSessionContext().set(name, result);
+         if ( Contexts.isSessionContextActive() ) 
+         {
+            Contexts.getSessionContext().set(name, result);
+         }
+         else {
+            Contexts.getEventContext().set(name, result);
+         }
+      }
+      else if (seamComponent.getScope() == ScopeType.APPLICATION)
+      {
+         if ( Contexts.isApplicationContextActive() ) 
+         {
+            Contexts.getApplicationContext().set(name, result);
+         }
+         else {
+            Contexts.getEventContext().set(name, result);
+         }
       }
    }
 

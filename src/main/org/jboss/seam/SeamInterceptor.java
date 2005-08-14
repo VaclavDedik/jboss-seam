@@ -41,21 +41,24 @@ public class SeamInterceptor
    {
       Object bean = invocation.getBean();
 
+      final Method method = invocation.getMethod();
+      boolean begun = beginConversation(method);
+
       log.info("injecting dependencies to: " + bean.getClass().getName());
       injectFields(bean);
       injectMethods(bean);
-
-      final Method method = invocation.getMethod();
-      boolean begun = beginConversation(method);
 
       Object result;
       try
       {
          result = invocation.proceed();
-      } catch (Exception exception)
+      } 
+      catch (Exception exception)
       {
          if (begun)
+         {
             abortBeginConversation();
+         }
          endConversation(method, exception);
          throw exception;
       }

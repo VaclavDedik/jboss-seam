@@ -41,9 +41,15 @@ public class ConversationContext implements Context {
 
 	public void destroy() {
 		String[] names = loginContext.getNames();
+      Context eventContext = Contexts.getEventContext();
 		for ( int i = 0; i < names.length; i++ ) {
 			if ( names[i].endsWith( '$' + conversationId ) ) {
-				loginContext.clear( names[i] );
+            //demote components to request context
+            if ( !eventContext.isSet( names[i] ) ) {
+               String name = names[i].substring( 0, names[i].lastIndexOf('$') );
+               eventContext.set( name, loginContext.get( names[i] ) );
+            }
+            loginContext.clear( names[i] );
 			}
 		}
 	}

@@ -6,6 +6,9 @@
  */
 package org.jboss.seam;
 
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+
 import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.VariableResolver;
@@ -37,7 +40,30 @@ public class SeamJSFVariableResolver extends VariableResolver
    public Object resolveVariable(FacesContext facesContext, String name) throws EvaluationException
    {
       log.info("resolving name: " + name);
-      return seamVariableResolver.resolveVariable(name, true);
+      Object component = seamVariableResolver.resolveVariable(name, true);
+      if (component==null) 
+      {
+         log.info("not found: " + name);
+      }
+      else 
+      {
+         log.info("found: " + name);
+         print(component);
+      }  
+      return component;
+   }
+
+   private void print(Object component)
+   {
+      try {
+         PropertyDescriptor[] props = Introspector.getBeanInfo( component.getClass() )
+               .getPropertyDescriptors();
+         for (PropertyDescriptor descriptor : props)
+         {
+            log.info( descriptor.getName() + " = " + descriptor.getReadMethod().invoke(component) );
+         }
+      }
+      catch (Exception e) {}
    }
 
 }

@@ -55,7 +55,7 @@ public class Contexts {
 	}
 
 	static void beginWebRequest(HttpServletRequest request) {
-		log.debug( "Begin web request" );
+		log.info( "Begin web request" );
 		eventContext.set( new WebRequestContext( request ) );
 		sessionContext.set( new WebSessionContext( request.getSession() ) );
 		ServletContext servletContext = request.getSession().getServletContext();
@@ -64,7 +64,7 @@ public class Contexts {
 	}
 
 	static void endWebRequest() {
-		log.debug( "End web request" );
+		log.info( "End web request" );
 		eventContext.set( null );
 		sessionContext.set( null );
 		applicationContext.set( null );
@@ -96,11 +96,13 @@ public class Contexts {
 	}
 
 	static void destroyCurrentConversationContext() {
+      log.info("destroying conversation context");
 		getConversationContext().destroy();
 		setConversationId(null);
 	}
 
 	static void initCurrentConversationContext() {
+      log.info("creating new conversation context");
 		setConversationId( ConversationContext.generateConversationId() );
 	}
 
