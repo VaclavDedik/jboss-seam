@@ -74,7 +74,7 @@ public class SeamInterceptor
     */
    private void abortBeginConversation()
    {
-      Contexts.destroyCurrentConversationContext();
+      Contexts.endConversation();
    }
 
    /**
@@ -88,7 +88,7 @@ public class SeamInterceptor
       {
          if (!Contexts.isConversationContextActive())
          {
-            Contexts.initCurrentConversationContext();
+            Contexts.beginConversation();
             return true;
          }
       }
@@ -111,7 +111,7 @@ public class SeamInterceptor
                   .exception();
             if (Arrays.asList(results).contains(exception.getClass()))
             {
-               Contexts.destroyCurrentConversationContext();
+               Contexts.endConversation();
             }
          }
       }
@@ -128,7 +128,7 @@ public class SeamInterceptor
       {
          if (Contexts.isConversationContextActive())
          {
-            Contexts.destroyCurrentConversationContext();
+            Contexts.endConversation();
          }
       }
       if (method.isAnnotationPresent(EndConversationIf.class))
@@ -139,7 +139,7 @@ public class SeamInterceptor
                   .result();
             if (Arrays.asList(results).contains(result))
             {
-               Contexts.destroyCurrentConversationContext();
+               Contexts.endConversation();
             }
          }
       }

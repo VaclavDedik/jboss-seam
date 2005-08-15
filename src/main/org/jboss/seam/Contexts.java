@@ -95,13 +95,21 @@ public class Contexts {
 		return false;
 	}
 
-	static void destroyCurrentConversationContext() {
+	public static void endConversation() {
+      if ( !isConversationContextActive() )
+      {
+         throw new IllegalStateException("No conversation is currently active");
+      }
       log.info("destroying conversation context");
 		getConversationContext().destroy();
 		setConversationId(null);
 	}
 
-	static void initCurrentConversationContext() {
+	public static void beginConversation() {
+      if ( isConversationContextActive() )
+      {
+         throw new IllegalStateException("A conversation is already active");
+      }
       log.info("creating new conversation context");
 		setConversationId( ConversationContext.generateConversationId() );
 	}
