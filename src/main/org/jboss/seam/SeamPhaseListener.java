@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
 
@@ -24,11 +25,20 @@ public class SeamPhaseListener implements PhaseListener
          log.info("After restore view: " + conversationId);
          Contexts.setConversationId(conversationId);
       }
+      else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
+         log.info("After render response");
+         Contexts.endWebRequest();
+      }
    }
 
    public void beforePhase(PhaseEvent event)
    {
-      if (event.getPhaseId() == PhaseId.RENDER_RESPONSE)
+      if (event.getPhaseId() == PhaseId.RESTORE_VIEW)
+      {
+         log.info("Before restore view");
+         Contexts.beginWebRequest( (HttpServletRequest) event.getFacesContext().getExternalContext().getRequest() );
+      }
+      else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE)
       {
          String conversationId = Contexts.getConversationContextId();
          log.info("Before render response: " + conversationId);
