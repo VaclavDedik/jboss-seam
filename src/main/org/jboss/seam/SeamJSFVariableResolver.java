@@ -6,8 +6,6 @@
  */
 package org.jboss.seam;
 
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 
 import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
@@ -27,7 +25,7 @@ import org.jboss.logging.Logger;
 public class SeamJSFVariableResolver extends VariableResolver
 {
 
-   private static final Logger log = Logger.getLogger(SeamJSFVariableResolver.class);
+   static public final Logger log = Logger.getLogger(SeamJSFVariableResolver.class);
 
    private SeamVariableResolver seamVariableResolver;
    private VariableResolver jsfVariableResolver;
@@ -56,22 +54,8 @@ public class SeamJSFVariableResolver extends VariableResolver
       else 
       {
          log.info("found: " + name);
-         print(component);
       }  
       return component;
-   }
-
-   private void print(Object component)
-   {
-      try {
-         PropertyDescriptor[] props = Introspector.getBeanInfo( component.getClass() )
-               .getPropertyDescriptors();
-         for (PropertyDescriptor descriptor : props)
-         {
-            log.info( descriptor.getName() + " = " + descriptor.getReadMethod().invoke(component) );
-         }
-      }
-      catch (Exception e) {}
    }
 
 }

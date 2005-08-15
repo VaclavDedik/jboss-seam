@@ -46,7 +46,7 @@ public class BusinessProcessContext implements Context
       this.processInstance = processInstance;
    }
 
-   public void clear(String name) 
+   public void remove(String name) 
    {
 	  throw new UnsupportedOperationException();
    }

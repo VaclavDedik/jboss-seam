@@ -17,9 +17,9 @@ import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
 import org.jboss.mx.util.MBeanServerLocator;
-import org.jboss.seam.annotations.ScopeType;
 import org.jboss.seam.deployment.SeamDeployer;
 import org.jboss.seam.deployment.SeamModule;
+import org.jboss.seam.util.Tool;
 
 /**
  * Variable resolving: first the method tries to return an object
@@ -33,7 +33,7 @@ import org.jboss.seam.deployment.SeamModule;
 public class SeamVariableResolver
 {
 
-   private static final Logger log = Logger.getLogger(SeamVariableResolver.class);
+   static final Logger log = Logger.getLogger(SeamVariableResolver.class);
 
    private Map<URL, SeamModule> seamModules;
 
@@ -52,50 +52,22 @@ public class SeamVariableResolver
 
    public Object resolveVariable(String name, boolean create) throws EvaluationException
    {
-      Object result = null;
-
-      if (Contexts.isEventContextActive())
-      {
-         log.info("looking in event context");
-         result = Contexts.getEventContext().get(name);
-      }
-      if (result == null && Contexts.isConversationContextActive())
-      {
-         log.info("looking in conversation context");
-         result = Contexts.getConversationContext().get(name);
-      }
-      if (result == null && Contexts.isSessionContextActive())
-      {
-         log.info("looking in session context");
-         result = Contexts.getSessionContext().get(name);
-      }
-      if (result == null && Contexts.isBusinessProcessContextActive())
-      {
-         log.info("looking in process context");
-         result = Contexts.getBusinessProcessContext().get(name);
-      }
-      if (result == null && Contexts.isApplicationContextActive())
-      {
-         log.info("looking in application context");
-         result = Contexts.getApplicationContext().get(name);
-      }
-      if (result == null)
-      {
-         log.info("looking in stateless context");
-         result = Contexts.getStatelessContext().get(name);
-      }
-
+      Object result = Contexts.lookup(name);
       if (result == null && create)
       {
-         log.info("instantiating");
-         result = createVariable(name);
+          result = createVariable(name);
+      }
+      if (result!=null) 
+      {
+         log.info( Tool.toString(result) );
       }
       return result;
    }
 
    private Object createVariable(String name)
    {
-      Object result = null;
+      log.info("instantiating: " + name);
+     Object result = null;
       SeamComponent seamComponent = findSeamComponent(name);
       if (seamComponent != null)
       {
@@ -113,7 +85,7 @@ public class SeamVariableResolver
             {
                result = instantiateEntity(result, seamComponent);
             }
-            bindToContext( name, result, seamComponent );
+            seamComponent.getScope().getContext().set(name, result);
          }
       }
 
@@ -149,45 +121,6 @@ public class SeamVariableResolver
       {
          log.error("Error", e);
          throw new InstantiationException("Could not instantiate component", e);
-      }
-   }
-
-   private void bindToContext(String name, Object result, SeamComponent seamComponent) {
-      if (seamComponent.getScope() == ScopeType.EVENT)
-      {
-         Contexts.getEventContext().set(name, result);
-      }
-      else if (seamComponent.getScope() == ScopeType.CONVERSATION)
-      {
-         if ( Contexts.isConversationContextActive() ) 
-         {
-            Contexts.getConversationContext().set(name, result);
-         }
-         else
-         {
-            Contexts.getEventContext().set(name, result);
-         }
-         
-	   }
-      else if (seamComponent.getScope() == ScopeType.SESSION)
-      {
-         if ( Contexts.isSessionContextActive() ) 
-         {
-            Contexts.getSessionContext().set(name, result);
-         }
-         else {
-            Contexts.getEventContext().set(name, result);
-         }
-      }
-      else if (seamComponent.getScope() == ScopeType.APPLICATION)
-      {
-         if ( Contexts.isApplicationContextActive() ) 
-         {
-            Contexts.getApplicationContext().set(name, result);
-         }
-         else {
-            Contexts.getEventContext().set(name, result);
-         }
       }
    }
 

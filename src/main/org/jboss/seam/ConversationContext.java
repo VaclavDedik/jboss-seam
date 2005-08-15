@@ -49,13 +49,13 @@ public class ConversationContext implements Context {
                String name = names[i].substring( 0, names[i].lastIndexOf('$') );
                eventContext.set( name, loginContext.get( names[i] ) );
             }
-            loginContext.clear( names[i] );
+            loginContext.remove( names[i] );
 			}
 		}
 	}
 
-	public void clear(String name) {
-		loginContext.clear( '$' + name );
+	public void remove(String name) {
+		loginContext.remove( '$' + name );
 	}
 
 	public String[] getNames() {

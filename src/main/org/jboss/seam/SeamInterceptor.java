@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
+import javax.ejb.Remove;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.BeginConversation;
@@ -37,7 +38,7 @@ public class SeamInterceptor
    private static final Logger log = Logger.getLogger(SeamInterceptor.class);
 
    @AroundInvoke
-   public Object inject(InvocationContext invocation) throws Exception
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       Object bean = invocation.getBean();
 
@@ -60,12 +61,29 @@ public class SeamInterceptor
             abortBeginConversation();
          }
          endConversation(method, exception);
+         removeIfNecessary(bean, method, true);
          throw exception;
       }
 
       endConversation(method, result);
-
+      removeIfNecessary(bean, method, false);
       return result;
+   }
+   
+   /**
+    * If it was a @Remove method, also remove the component instance from the context
+    */
+   private void removeIfNecessary(Object bean, Method method, boolean exception)
+   {
+      boolean wasRemoved = method.isAnnotationPresent(Remove.class) &&
+            ( !exception || !method.getAnnotation(Remove.class).retainIfException() );
+      if ( wasRemoved )
+      {
+         log.info("removing destroyed component");
+         Class beanClass = bean.getClass();
+         Seam.getComponentScope( beanClass ).getContext()
+               .remove( Seam.getComponentName( beanClass ) );
+      }
    }
 
    /**
@@ -78,9 +96,8 @@ public class SeamInterceptor
    }
 
    /**
-    * If the method is annotated
-    * 
-    * @BeginConversation, assign a new conversationId
+    * If the method is annotated @BeginConversation, 
+    * assign a new conversationId
     */
    private boolean beginConversation(Method method)
    {
@@ -96,10 +113,8 @@ public class SeamInterceptor
    }
 
    /**
-    * If the method is annotated
-    * 
-    * @EndConversation and an exception occurred, end the conversation and clean
-    *                  up
+    * If the method is annotated @EndConversation and an exception 
+    * occurred, end the conversation and clean up
     */
    private void endConversation(Method method, Exception exception)
    {
@@ -118,9 +133,8 @@ public class SeamInterceptor
    }
 
    /**
-    * If the method is annotated
-    * 
-    * @EndConversation end the conversation and clean up
+    * If the method is annotated @EndConversation end the conversation and 
+    * clean up
     */
    private void endConversation(Method method, Object result)
    {

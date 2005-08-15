@@ -113,5 +113,98 @@ public class Contexts {
       log.info("creating new conversation context");
 		setConversationId( ConversationContext.generateConversationId() );
 	}
+   
+   public static void remove(String name)
+   {
+      if (isEventContextActive())
+      {
+         SeamVariableResolver.log.info("removing from event context");
+         getEventContext().remove(name);
+      }
+      if (isConversationContextActive())
+      {
+         SeamVariableResolver.log.info("removing from conversation context");
+         getConversationContext().remove(name);
+      }
+      if (isSessionContextActive())
+      {
+         SeamVariableResolver.log.info("removing from session context");
+         getSessionContext().remove(name);
+      }
+      if (isBusinessProcessContextActive())
+      {
+         SeamVariableResolver.log.info("removing from process context");
+         getBusinessProcessContext().remove(name);
+      }
+      if (isApplicationContextActive())
+      {
+         SeamVariableResolver.log.info("removing from application context");
+         getApplicationContext().remove(name);
+      }
+   }
+
+   public static Object lookup(String name)
+   {
+      if (isEventContextActive())
+      {
+         Object result = getEventContext().get(name);
+         if (result!=null)
+         {
+            log.info("found in event context");
+            return result;
+         }
+      }
+      
+      if (isConversationContextActive())
+      {
+         Object result = getConversationContext().get(name);
+         if (result!=null)
+         {
+            log.info("found in conversation context");
+            return result;
+         }
+      }
+      
+      if (isSessionContextActive())
+      {
+         Object result = getSessionContext().get(name);
+         if (result!=null)
+         {
+            log.info("found in session context");
+            return result;
+         }
+      }
+      
+      if (isBusinessProcessContextActive())
+      {
+         Object result = getBusinessProcessContext().get(name);
+         if (result!=null)
+         {
+            log.info("found in business process context");
+            return result;
+         }
+      }
+      
+      if (isApplicationContextActive())
+      {
+         Object result = getApplicationContext().get(name);
+         if (result!=null)
+         {
+            log.info("found in application context");
+            return result;
+         }
+      }
+      
+      Object result = getStatelessContext().get(name);
+      if (result!=null)
+      {
+         log.info("found in stateless context");
+         return result;
+      }
+      else {
+         log.info("not found in any context");
+         return null;
+      }
+   }
 
 }

@@ -51,7 +51,7 @@ public class StatelessContext implements Context {
 		return get(name)!=null;
 	}
 
-	public void clear(String name) {
+	public void remove(String name) {
 		log.info("unbinding: " + name);
 		try {
 			new InitialContext().unbind(name);

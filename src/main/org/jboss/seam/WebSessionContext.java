@@ -36,7 +36,7 @@ public class WebSessionContext implements Context {
 		return get(name)!=null;
 	}
 
-	public void clear(String name) {
+	public void remove(String name) {
 		session.removeAttribute(name);
 	}
 

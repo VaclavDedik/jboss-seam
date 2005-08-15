@@ -6,6 +6,9 @@
  */
 package org.jboss.seam.annotations;
 
+import org.jboss.seam.Context;
+import org.jboss.seam.Contexts;
+
 /**
  * The available scopes (contexts).
  * 
@@ -19,7 +22,30 @@ public enum ScopeType
    CONVERSATION,
    SESSION,
    APPLICATION,
-   PROCESS
+   PROCESS;
+   
+   public Context getContext() {
+      switch (this)
+      {
+         case STATELESS: return Contexts.getStatelessContext();
+         
+         case EVENT: return Contexts.getEventContext();
+         
+         case CONVERSATION: return Contexts.isConversationContextActive() ? 
+               Contexts.getConversationContext() : Contexts.getEventContext();
+         
+         case SESSION: return Contexts.isSessionContextActive() ?
+               Contexts.getSessionContext() : Contexts.getEventContext();
+         
+         case APPLICATION: return Contexts.isApplicationContextActive() ?
+               Contexts.getApplicationContext() : Contexts.getEventContext();
+         
+         case PROCESS: return Contexts.isBusinessProcessContextActive() ?
+               Contexts.getBusinessProcessContext() :  Contexts.getEventContext();
+         
+         default: throw new IllegalArgumentException();
+      }
+   }
 }
 
 
