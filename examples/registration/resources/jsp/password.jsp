@@ -18,7 +18,7 @@
          <td><h:inputText value="#{user.password}"/></td>
        </tr>
      </table>
-     <h:commandButton type="submit" value="Change" action="#{userManagement.setPassword}"/>
+     <h:commandButton type="submit" value="Change" action="#{userManagement.changePassword}"/>
    </h:form>
   </f:view>
  </body>

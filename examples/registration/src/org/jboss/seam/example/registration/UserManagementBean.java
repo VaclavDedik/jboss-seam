@@ -1,10 +1,12 @@
 package org.jboss.seam.example.registration;
 
+import static javax.ejb.TransactionAttributeType.NOT_SUPPORTED;
+
 import java.io.Serializable;
 
 import javax.ejb.Interceptor;
-import javax.ejb.Remove;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -60,18 +62,20 @@ public class UserManagementBean implements UserManagement, Serializable
       return "success";
    }
    
-   @EndConversation @Remove
-   public String setPassword()
+   @EndConversation
+   public String changePassword()
    {
       manager.merge(user);
       return "success";
    }
    
+   @TransactionAttribute(NOT_SUPPORTED)
    public String getUsername()
    {
       return username;
    }
    
+   @TransactionAttribute(NOT_SUPPORTED)
    public void setUsername(String userName)
    {
       this.username = userName;

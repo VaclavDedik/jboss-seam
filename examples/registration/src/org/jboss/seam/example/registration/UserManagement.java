@@ -19,7 +19,7 @@ public interface UserManagement
 {
    public String register();
    public String retrieve();
-   public String setPassword();
+   public String changePassword();
 
    public String getUsername();
    public void setUsername(String userName);
