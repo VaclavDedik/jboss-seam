@@ -22,7 +22,7 @@
 		<url-pattern>/faces/*</url-pattern>
 	</servlet-mapping>
 	
-	<filter>
+	<!-- filter>
 	  <filter-name>Seam Filter</filter-name>
 	  <filter-class>org.jboss.seam.SeamFilter</filter-class>
 	</filter>
@@ -30,6 +30,6 @@
 	<filter-mapping>
 	  <filter-name>Seam Filter</filter-name>
 	  <url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping -->
 		
 </web-app>

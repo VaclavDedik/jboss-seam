@@ -3,7 +3,7 @@ package org.jboss.seam.example.registration;
 import java.io.Serializable;
 
 import javax.ejb.Interceptor;
-import javax.ejb.Local;
+import javax.ejb.Remove;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -60,7 +60,7 @@ public class UserManagementBean implements UserManagement, Serializable
       return "success";
    }
    
-   @EndConversation
+   @EndConversation @Remove
    public String setPassword()
    {
       manager.merge(user);
