@@ -7,13 +7,10 @@
 package org.jboss.seam;
 
 import java.net.URL;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.faces.el.EvaluationException;
 import javax.management.MBeanServer;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
 import org.jboss.mx.util.MBeanServerLocator;
@@ -67,24 +64,16 @@ public class SeamVariableResolver
    private Object createVariable(String name)
    {
       log.info("instantiating: " + name);
-      Object result = null;
       SeamComponent seamComponent = findSeamComponent(name);
-      if (seamComponent != null)
+      if (seamComponent == null)
       {
-         if (seamComponent.isStateless())
+         return null;
+      }
+      else
+      {
+         Object result = seamComponent.instantiate();
+         if (seamComponent.getType()!=SeamComponentType.STATELESS_SESSION_BEAN)
          {
-            result = instantiateSession(name, result);
-         }
-         else
-         {
-            if (seamComponent.isStateful())
-            {
-               result = instantiateSession(name, result);
-            }
-            else if (seamComponent.isEntity())
-            {
-               result = instantiateEntity(result, seamComponent);
-            }
             if (seamComponent.hasCreateMethod())
             {
                try 
@@ -98,47 +87,14 @@ public class SeamVariableResolver
             }
             seamComponent.getScope().getContext().set(name, result);
          }
-      }
-      return result;
-   }
-
-   private Object instantiateSession(String name, Object result)
-   {
-      try
-      {
-         return new InitialContext().lookup(name);
-      }
-      catch (NamingException e)
-      {
-         log.error("Error", e);
-         throw new InstantiationException("Could not find component in JNDI", e);
-      }
-   }
-
-   private Object instantiateEntity(Object result, SeamComponent seamComponent)
-   {
-      try
-      {
-         return seamComponent.getBean().newInstance();
-      }
-      catch (java.lang.InstantiationException e)
-      {
-         log.error("Error", e);
-         throw new InstantiationException("Could not instantiate component", e);
-      }
-      catch (IllegalAccessException e)
-      {
-         log.error("Error", e);
-         throw new InstantiationException("Could not instantiate component", e);
+         return result;
       }
    }
 
    public SeamComponent findSeamComponent(String name)
    {
-      Iterator it = seamModules.values().iterator();
-      while (it.hasNext())
+      for (SeamModule module: seamModules.values())
       {
-         SeamModule module = (SeamModule) it.next();
          SeamComponent seamComponent = module.getSeamComponents().get(name);
          if (seamComponent != null)
          {

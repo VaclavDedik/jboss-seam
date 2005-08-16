@@ -28,21 +28,11 @@ public enum ScopeType
       switch (this)
       {
          case STATELESS: return Contexts.getStatelessContext();
-         
          case EVENT: return Contexts.getEventContext();
-         
-         case CONVERSATION: return Contexts.isConversationContextActive() ? 
-               Contexts.getConversationContext() : Contexts.getEventContext();
-         
-         case SESSION: return Contexts.isSessionContextActive() ?
-               Contexts.getSessionContext() : Contexts.getEventContext();
-         
-         case APPLICATION: return Contexts.isApplicationContextActive() ?
-               Contexts.getApplicationContext() : Contexts.getEventContext();
-         
-         case PROCESS: return Contexts.isBusinessProcessContextActive() ?
-               Contexts.getBusinessProcessContext() :  Contexts.getEventContext();
-         
+         case CONVERSATION: return Contexts.getConversationContext();
+         case SESSION: return Contexts.getSessionContext();
+         case APPLICATION: return Contexts.getApplicationContext();
+         case PROCESS: return Contexts.getBusinessProcessContext();
          default: throw new IllegalArgumentException();
       }
    }

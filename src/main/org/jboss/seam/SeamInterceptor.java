@@ -42,13 +42,18 @@ public class SeamInterceptor
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       Object bean = invocation.getBean();
+      String name = Seam.getComponentName(bean.getClass());
+      SeamComponent seamComponent = new SeamVariableResolver().findSeamComponent(name);
 
       final Method method = invocation.getMethod();
       boolean begun = beginConversation(method);
 
-      log.info("injecting dependencies to: " + bean.getClass().getName());
-      injectFields(bean);
-      injectMethods(bean);
+      if ( seamComponent.getInjectFields().size()>0 || seamComponent.getInjectMethods().size()>0 ) //only needed to hush the log message
+      {
+         log.info("injecting dependencies to: " + name);
+         injectFields(bean, seamComponent);
+         injectMethods(bean, seamComponent);
+      }
 
       Object result;
       try
@@ -62,7 +67,7 @@ public class SeamInterceptor
             abortBeginConversation();
          }
          endConversation(method, exception);
-         removeIfNecessary(bean, method, true);
+         removeIfNecessary(bean, method, true, seamComponent);
          throw exception;
       }
       
@@ -71,23 +76,21 @@ public class SeamInterceptor
          abortBeginConversation(method, result);  
       }
       endConversation(method, result);
-      removeIfNecessary(bean, method, false);
+      removeIfNecessary(bean, method, false, seamComponent);
       return result;
    }
    
    /**
     * If it was a @Remove method, also remove the component instance from the context
     */
-   private void removeIfNecessary(Object bean, Method method, boolean exception)
+   private void removeIfNecessary(Object bean, Method method, boolean exception, SeamComponent seamComponent)
    {
       boolean wasRemoved = method.isAnnotationPresent(Remove.class) &&
             ( !exception || !method.getAnnotation(Remove.class).retainIfException() );
       if ( wasRemoved )
       {
-         log.info("removing destroyed component");
-         Class beanClass = bean.getClass();
-         Seam.getComponentScope( beanClass ).getContext()
-               .remove( Seam.getComponentName( beanClass ) );
+         seamComponent.getScope().getContext().remove( seamComponent.getName() );
+         log.info("Stateful component was removed");
       }
    }
 
@@ -171,10 +174,9 @@ public class SeamInterceptor
       }
    }
 
-   private void injectMethods(Object bean)
+   private void injectMethods(Object bean, SeamComponent seamComponent)
    {
-      Method[] methods = bean.getClass().getDeclaredMethods();
-      for (Method method : methods)
+      for (Method method : seamComponent.getInjectMethods())
       {
          Inject inject = method.getAnnotation(Inject.class);
          if (inject != null)
@@ -195,10 +197,9 @@ public class SeamInterceptor
       }
    }
 
-   private void injectFields(Object bean)
+   private void injectFields(Object bean, SeamComponent seamComponent)
    {
-      Field[] fields = bean.getClass().getDeclaredFields();
-      for (Field field : fields)
+      for (Field field : seamComponent.getInjectFields())
       {
          Inject inject = field.getAnnotation(Inject.class);
          if (inject != null)
