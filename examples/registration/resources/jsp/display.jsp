@@ -11,15 +11,19 @@
      <table border="0">
        <tr>
          <td>Username</td>
-         <td><h:outputText value="#{user.username}"/></td>
+         <td><h:outputText value="#{updateUser.user.username}"/></td>
+       </tr>
+       <tr>
+         <td>Real Name</td>
+         <td><h:outputText value="#{updateUser.user.name}"/></td>
        </tr>
        <tr>
          <td>Password</td>
-         <td><h:outputText value="#{user.password}"/></td>
+         <td><h:outputText value="#{updateUser.user.password}"/></td>
        </tr>
        <tr>
          <td>Age</td>
-         <td><h:outputText converter="javax.faces.Integer" value="#{user.age}"/></td>
+         <td><h:outputText value="#{updateUser.user.age}"/></td>
        </tr>
      </table>
    </h:form>

@@ -12,28 +12,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 		<phase-listener>org.jboss.seam.SeamPhaseListener</phase-listener>
 	</lifecycle>
 
-	<!--managed-bean>
-		<managed-bean-name>user</managed-bean-name>
-		<managed-bean-class>
-			org.jboss.seam.example.registration.User
-		</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-
-	<managed-bean>
-		<managed-bean-name>userManagement</managed-bean-name>
-		<managed-bean-class>
-			org.jboss.seam.example.registration.UserManagementBean
-		</managed-bean-class>
-		<managed-bean-scope>application</managed-bean-scope>
-	</managed-bean-->
-
-
 	<navigation-rule>
 		<from-view-id>/register.jsp</from-view-id>
 		<navigation-case>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/display.jsp</to-view-id>
+			<to-view-id>/find.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

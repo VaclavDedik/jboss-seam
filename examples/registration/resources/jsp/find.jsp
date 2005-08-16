@@ -10,10 +10,10 @@
      <table border="0">
        <tr>
          <td>Username</td>
-         <td><h:inputText value="#{userManagement.username}"/></td>
+         <td><h:inputText value="#{updateUser.username}"/></td>
        </tr>
      </table>
-     <h:commandButton type="submit" value="Find" action="#{userManagement.retrieve}"/>
+     <h:commandButton type="submit" value="Find" action="#{updateUser.findUser}"/>
    </h:form>
   </f:view>
  </body>
