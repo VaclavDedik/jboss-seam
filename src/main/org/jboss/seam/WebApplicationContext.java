@@ -40,10 +40,6 @@ public class WebApplicationContext implements Context {
 		context.removeAttribute(name);
 	}
 
-	public void destroy() {
-		throw new UnsupportedOperationException();
-	}
-
 	public String[] getNames() {
 		Enumeration names = context.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
@@ -52,4 +48,9 @@ public class WebApplicationContext implements Context {
 		}
 		return results.toArray(new String[]{});
 	}
+   
+   public void destroy() {
+      //TODO!!!!
+   }
+   
 }

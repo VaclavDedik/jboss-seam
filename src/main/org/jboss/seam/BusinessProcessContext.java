@@ -33,7 +33,7 @@ public class BusinessProcessContext implements Context
 
    public boolean isSet(String name)
    {
-      return processInstance.getContextInstance().getVariable(name) != null;
+      return processInstance.getContextInstance().hasVariable(name);
    }
 
    public ProcessInstance getProcessInstance()
@@ -48,12 +48,7 @@ public class BusinessProcessContext implements Context
 
    public void remove(String name) 
    {
-	  throw new UnsupportedOperationException();
-   }
-
-   public void destroy() 
-   {
-	  throw new UnsupportedOperationException();
+	   processInstance.getContextInstance().deleteVariable(name);
    }
 
    public String[] getNames() 
@@ -61,6 +56,8 @@ public class BusinessProcessContext implements Context
 	   return (String[]) processInstance.getContextInstance().getVariables()
 	         .keySet().toArray( new String[]{} );
    }
+
+   public void destroy() {}
 
 }
 

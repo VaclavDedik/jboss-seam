@@ -6,6 +6,14 @@
  */
 package org.jboss.seam;
 
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.ejb.Remove;
+
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.ScopeType;
 import org.jboss.seam.deployment.SeamModule;
 
@@ -33,11 +41,32 @@ public class SeamComponent
    private Class bean;
 
    private SeamModule seamModule;
+   
+   private Method destroyMethod;
+   private Method createMethod;
+   
+   private Set<Method> removeMethods = new HashSet<Method>();
 
    public SeamComponent(SeamModule seamModule, Class clazz)
    {
       this.seamModule = seamModule;  
       this.bean = clazz;
+      //TODO: init *all* state here in the constructor
+      for (Method method: clazz.getMethods())
+      {
+         if ( method.isAnnotationPresent(Destroy.class) )
+         {
+            destroyMethod = method;
+         }
+         if ( method.isAnnotationPresent(Remove.class) )
+         {
+            removeMethods.add(method);  
+         }
+         if ( method.isAnnotationPresent(Create.class) )
+         {
+            createMethod = method;
+         }
+      }
    }
 
    public Class getBean()
@@ -98,6 +127,36 @@ public class SeamComponent
    public void setScope(ScopeType scope)
    {
       this.scope = scope;
+   }
+
+   public Method getDestroyMethod()
+   {
+      return destroyMethod;
+   }
+
+   public Set<Method> getRemoveMethods()
+   {
+      return removeMethods;
+   }
+   
+   public boolean hasDestroyMethod() 
+   {
+      return destroyMethod!=null;
+   }
+
+   public boolean hasCreateMethod() 
+   {
+      return createMethod!=null;
+   }
+
+   public Method getCreateMethod()
+   {
+      return createMethod;
+   }
+
+   public void setCreateMethod(Method createMethod)
+   {
+      this.createMethod = createMethod;
    }
 
 }

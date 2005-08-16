@@ -13,7 +13,7 @@ import org.jboss.logging.Logger;
 public class SeamPhaseListener implements PhaseListener
 {
 
-   private static final String CONVERSATION_ID = "org.jboss.seam.ConversationId";
+   private static final String CONVERSATION = "org.jboss.seam.Conversation";
 
    private static Logger log = Logger.getLogger(SeamPhaseListener.class);
 
@@ -21,12 +21,28 @@ public class SeamPhaseListener implements PhaseListener
    {
       if (event.getPhaseId() == PhaseId.RESTORE_VIEW)
       {
-         String conversationId = (String) getAttributes(event).get(CONVERSATION_ID);
-         log.info("After restore view: " + conversationId);
-         Contexts.setConversationId(conversationId);
+         Context context = (Context) getAttributes(event).get(CONVERSATION);
+         log.info("After restore view, conversation context: " + context);
+         Contexts.setLongRunningConversation(context!=null);
+         if (context==null) 
+         {
+            log.info("No stored conversation state");
+            context = new ConversationContext();
+         }
+         else 
+         {
+            log.info("Retrieved conversation state");
+         }
+         Contexts.setConversationContext(context);
+         
       }
       else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-         log.info("After render response");
+         log.info("After render response, destroying contexts");
+         Contexts.getEventContext().destroy();
+         if ( !Contexts.isLongRunningConversation() )
+         {
+            Contexts.getConversationContext().destroy();
+         }
          Contexts.endWebRequest();
       }
    }
@@ -40,9 +56,18 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE)
       {
-         String conversationId = Contexts.getConversationContextId();
-         log.info("Before render response: " + conversationId);
-         getAttributes(event).put(CONVERSATION_ID, conversationId);
+         Context context = Contexts.getConversationContext();
+         log.info("Before render response, conversation context: " + context);
+         if ( Contexts.isLongRunningConversation() ) 
+         {
+            log.info("Storing conversation state");
+            getAttributes(event).put(CONVERSATION, context);
+         }
+         else 
+         {
+            log.info("Discarding conversation state");
+            getAttributes(event).put(CONVERSATION, null);
+         }
       }
    }
 

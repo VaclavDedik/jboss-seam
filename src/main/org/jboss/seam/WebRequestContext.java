@@ -40,10 +40,6 @@ public class WebRequestContext implements Context {
 		request.removeAttribute(name);
 	}
 
-	public void destroy() {
-		throw new UnsupportedOperationException();
-	}
-
 	public String[] getNames() {
 		Enumeration names = request.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
@@ -52,4 +48,25 @@ public class WebRequestContext implements Context {
 		}
 		return results.toArray(new String[]{});
 	}
+   
+   public void destroy() {
+      SeamVariableResolver svr = new SeamVariableResolver();
+      Enumeration names = request.getAttributeNames();
+      while ( names.hasMoreElements() ) {
+         String name = (String) names.nextElement();
+         SeamComponent component = svr.findSeamComponent(name);
+         if ( component!=null && component.hasDestroyMethod() )
+         {
+            try {
+               Object instance = request.getAttribute(name);
+               instance.getClass().getMethod(component.getDestroyMethod().getName()).invoke( instance );
+            }
+            catch (Exception e)
+            {
+               throw new RuntimeException(e);
+            }
+         }
+      }
+   }
+   
 }

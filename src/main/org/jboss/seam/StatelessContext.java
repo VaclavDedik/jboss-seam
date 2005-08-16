@@ -22,10 +22,6 @@ public class StatelessContext implements Context {
 
 	private static final Logger log = Logger.getLogger(StatelessContext.class);
 
-	public StatelessContext() {
-		super();
-	}
-
 	public Object get(String name) {
 		log.info("resolving: " + name);
 		try {

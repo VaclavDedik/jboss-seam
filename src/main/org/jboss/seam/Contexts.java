@@ -16,12 +16,15 @@ import org.jboss.logging.Logger;
  */
 public class Contexts {
 
-	private static Logger log = Logger.getLogger( Contexts.class );
+	private static final Logger log = Logger.getLogger( Contexts.class );
 
-	private static ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
-	private static ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
-	private static ThreadLocal<String> conversationId = new ThreadLocal<String>();
-	private static ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
+	private static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
+	private static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
+	private static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
+	private static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
+   
+   //private static ThreadLocal<String> conversationId = new ThreadLocal<String>();
+   private static final ThreadLocal<Boolean> isLongRunningConversation = new ThreadLocal<Boolean>();
 
 	public static Context getEventContext() {
 		return eventContext.get();
@@ -40,14 +43,7 @@ public class Contexts {
 	}
 
 	public static Context getConversationContext() {
-		if ( conversationId == null ) {
-			throw new IllegalStateException( "no active conversation" );
-		}
-		return new ConversationContext( getSessionContext(), getConversationContextId() );
-	}
-
-	public static String getConversationContextId() {
-		return conversationId.get();
+		return conversationContext.get();
 	}
 
 	public static Context getBusinessProcessContext() {
@@ -65,18 +61,15 @@ public class Contexts {
 
 	static void endWebRequest() {
 		log.info( "End web request" );
+      //clean up all threadlocals
 		eventContext.set( null );
 		sessionContext.set( null );
 		applicationContext.set( null );
-		setConversationId( null );
-	}
-
-	static void setConversationId(String conversationId) {
-		Contexts.conversationId.set( conversationId );
+		conversationContext.set( null );
 	}
 
 	public static boolean isConversationContextActive() {
-		return getConversationContextId() != null;
+		return getConversationContext() != null;
 	}
 
 	public static boolean isEventContextActive() {
@@ -94,25 +87,55 @@ public class Contexts {
 	public static boolean isBusinessProcessContextActive() {
 		return false;
 	}
+   
+   /*public static String getConversationId() 
+   {
+      return conversationId.get();
+   }
+   
+   public static void setConversationId(String id)
+   {
+      conversationId.set(id);
+   }
 
-	public static void endConversation() {
-      if ( !isConversationContextActive() )
-      {
-         throw new IllegalStateException("No conversation is currently active");
-      }
-      log.info("destroying conversation context");
-		getConversationContext().destroy();
-		setConversationId(null);
+	public static void endConversation() 
+   {
+      //check conversationId!=null
+		conversationId.set(null);
 	}
 
-	public static void beginConversation() {
-      if ( isConversationContextActive() )
-      {
-         throw new IllegalStateException("A conversation is already active");
-      }
-      log.info("creating new conversation context");
-		setConversationId( ConversationContext.generateConversationId() );
-	}
+	public static void beginConversation() 
+   {
+      //check conversationId==null
+		conversationId.set( ConversationContext.generateConversationId() );
+	}*/
+   
+   public static void endConversation() 
+   {
+      log.info("Ending conversation");
+      isLongRunningConversation.set(false);
+   }
+
+   public static void beginConversation() 
+   {
+      log.info("Beginning conversation");
+      isLongRunningConversation.set(true);
+   }
+   
+   public static boolean isLongRunningConversation()
+   {
+      return isLongRunningConversation.get();
+   }
+   
+   public static void setLongRunningConversation(boolean value)
+   {
+      isLongRunningConversation.set(value);
+   }
+   
+   public static void setConversationContext(Context context)
+   {
+      conversationContext.set(context);
+   }
    
    public static void remove(String name)
    {
@@ -143,7 +166,7 @@ public class Contexts {
       }
    }
 
-   public static Object lookup(String name)
+   public static Object lookupInStatefulContexts(String name)
    {
       if (isEventContextActive())
       {
@@ -195,7 +218,16 @@ public class Contexts {
          }
       }
       
-      Object result = getStatelessContext().get(name);
+      return null;
+      
+   }
+      
+   public static Object lookup(String name)
+   {
+      Object result = lookupInStatefulContexts(name);
+      if (result!=null) return result;
+      
+      result = getStatelessContext().get(name);
       if (result!=null)
       {
          log.info("found in stateless context");

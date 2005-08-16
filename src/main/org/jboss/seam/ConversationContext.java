@@ -4,6 +4,9 @@
  */
 package org.jboss.seam;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -14,56 +17,57 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class ConversationContext implements Context {
+public class ConversationContext implements Context, Serializable {
 
-	private Context loginContext;
-
-	private String conversationId;
+	private final Map<String, Object> map = new HashMap<String, Object>();
 
 	private static AtomicInteger uniqueId = new AtomicInteger(0);
 
-	public ConversationContext(Context loginContext, String conversationId) {
-		this.loginContext = loginContext;
-		this.conversationId = conversationId;
-	}
-
 	public Object get(String name) {
-		return loginContext.get( name + '$' + conversationId );
+		return map.get(name);
 	}
 
 	public void set(String name, Object value) {
-		loginContext.set( name + '$' + conversationId, value );
+		map.put( name, value );
 	}
 
 	public boolean isSet(String name) {
-		return get( name ) != null;
+		return map.containsKey(name);
 	}
-
-	public void destroy() {
-		String[] names = loginContext.getNames();
-      Context eventContext = Contexts.getEventContext();
-		for ( int i = 0; i < names.length; i++ ) {
-			if ( names[i].endsWith( '$' + conversationId ) ) {
-            //demote components to request context
-            if ( !eventContext.isSet( names[i] ) ) {
-               String name = names[i].substring( 0, names[i].lastIndexOf('$') );
-               eventContext.set( name, loginContext.get( names[i] ) );
-            }
-            loginContext.remove( names[i] );
-			}
-		}
-	}
-
+   
 	public void remove(String name) {
-		loginContext.remove( '$' + name );
+		map.remove( name );
 	}
 
 	public String[] getNames() {
-		throw new UnsupportedOperationException( "NYI" );
+		return map.keySet().toArray(new String[0]);
 	}
 
 	static String generateConversationId() {
 		return Integer.toString( uniqueId.incrementAndGet() );
 	}
+   
+   public String toString()
+   {
+      return "ConversationContext" + map.toString();
+   }
+
+   public void destroy() {
+      SeamVariableResolver svr = new SeamVariableResolver();
+      for ( String name: map.keySet() ) {
+         SeamComponent component = svr.findSeamComponent(name);
+         if ( component!=null && component.hasDestroyMethod() )
+         {
+            try {
+               Object instance = map.get(name);
+               instance.getClass().getMethod(component.getDestroyMethod().getName()).invoke(instance);
+            }
+            catch (Exception e)
+            {
+               throw new RuntimeException(e);
+            }
+         }
+      }
+   }
 
 }

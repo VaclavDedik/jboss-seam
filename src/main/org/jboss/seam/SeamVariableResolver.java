@@ -52,7 +52,7 @@ public class SeamVariableResolver
 
    public Object resolveVariable(String name, boolean create) throws EvaluationException
    {
-      Object result = Contexts.lookup(name);
+      Object result = Contexts.lookupInStatefulContexts(name);
       if (result == null && create)
       {
           result = createVariable(name);
@@ -67,7 +67,7 @@ public class SeamVariableResolver
    private Object createVariable(String name)
    {
       log.info("instantiating: " + name);
-     Object result = null;
+      Object result = null;
       SeamComponent seamComponent = findSeamComponent(name);
       if (seamComponent != null)
       {
@@ -85,11 +85,20 @@ public class SeamVariableResolver
             {
                result = instantiateEntity(result, seamComponent);
             }
+            if (seamComponent.hasCreateMethod())
+            {
+               try 
+               {
+                  result.getClass().getMethod(seamComponent.getCreateMethod().getName()).invoke(result);
+               }
+               catch (Exception e)
+               {
+                  throw new RuntimeException(e);
+               }
+            }
             seamComponent.getScope().getContext().set(name, result);
          }
       }
-
-      log.info(name + "=" + result);
       return result;
    }
 
@@ -124,7 +133,7 @@ public class SeamVariableResolver
       }
    }
 
-   private SeamComponent findSeamComponent(String name)
+   public SeamComponent findSeamComponent(String name)
    {
       Iterator it = seamModules.values().iterator();
       while (it.hasNext())

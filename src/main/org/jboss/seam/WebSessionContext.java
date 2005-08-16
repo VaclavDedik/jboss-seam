@@ -40,10 +40,6 @@ public class WebSessionContext implements Context {
 		session.removeAttribute(name);
 	}
 
-	public void destroy() {
-		throw new UnsupportedOperationException();
-	}
-
 	public String[] getNames() {
 		Enumeration names = session.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
@@ -52,5 +48,9 @@ public class WebSessionContext implements Context {
 		}
 		return results.toArray(new String[]{});
 	}
+   
+   public void destroy() {
+      //TODO!!!!
+   }
 
 }

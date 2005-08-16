@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam;
 
+import javax.ejb.Stateless;
+
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.ScopeType;
@@ -19,7 +21,16 @@ public class Seam
     */
    public static ScopeType getComponentScope(Class<?> clazz)
    {
-      return clazz.getAnnotation(Scope.class).value();
+      Scope scope = clazz.getAnnotation(Scope.class);
+      if (scope!=null) return scope.value();
+      if (clazz.isAnnotationPresent(Stateless.class))
+      {
+         return ScopeType.STATELESS;
+      }
+      else 
+      {
+         return ScopeType.CONVERSATION;
+      }
    }
    
    /**

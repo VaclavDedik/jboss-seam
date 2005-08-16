@@ -18,6 +18,7 @@ import javax.ejb.Remove;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.BeginConversation;
+import org.jboss.seam.annotations.BeginConversationIf;
 import org.jboss.seam.annotations.EndConversation;
 import org.jboss.seam.annotations.EndConversationIf;
 import org.jboss.seam.annotations.Inject;
@@ -64,7 +65,11 @@ public class SeamInterceptor
          removeIfNecessary(bean, method, true);
          throw exception;
       }
-
+      
+      if (begun) 
+      {
+         abortBeginConversation(method, result);  
+      }
       endConversation(method, result);
       removeIfNecessary(bean, method, false);
       return result;
@@ -90,6 +95,23 @@ public class SeamInterceptor
     * If we tried to begin a conversation, but an exception occurred, don't
     * begin after all
     */
+   private void abortBeginConversation(Method method, Object result)
+   {
+      if ( method.isAnnotationPresent(BeginConversationIf.class) )
+      {
+         String[] results = method.getAnnotation(BeginConversationIf.class)
+               .result();
+         if (!Arrays.asList(results).contains(result))
+         {
+            Contexts.endConversation();
+         }
+      }
+   }
+
+   /**
+    * If we tried to begin a conversation, but an exception occurred, don't
+    * begin after all
+    */
    private void abortBeginConversation()
    {
       Contexts.endConversation();
@@ -101,13 +123,12 @@ public class SeamInterceptor
     */
    private boolean beginConversation(Method method)
    {
-      if (method.isAnnotationPresent(BeginConversation.class))
+      boolean beginConversation = method.isAnnotationPresent(BeginConversation.class) || 
+            method.isAnnotationPresent(BeginConversationIf.class);
+      if (beginConversation)
       {
-         if (!Contexts.isConversationContextActive())
-         {
-            Contexts.beginConversation();
-            return true;
-         }
+         Contexts.beginConversation();
+         return true;
       }
       return false;
    }
@@ -120,14 +141,11 @@ public class SeamInterceptor
    {
       if (method.isAnnotationPresent(EndConversationIf.class))
       {
-         if (Contexts.isConversationContextActive())
+         Class[] results = method.getAnnotation(EndConversationIf.class)
+               .exception();
+         if (Arrays.asList(results).contains(exception.getClass()))
          {
-            Class[] results = method.getAnnotation(EndConversationIf.class)
-                  .exception();
-            if (Arrays.asList(results).contains(exception.getClass()))
-            {
-               Contexts.endConversation();
-            }
+            Contexts.endConversation();
          }
       }
    }
@@ -140,21 +158,15 @@ public class SeamInterceptor
    {
       if (method.isAnnotationPresent(EndConversation.class))
       {
-         if (Contexts.isConversationContextActive())
-         {
-            Contexts.endConversation();
-         }
+         Contexts.endConversation();
       }
       if (method.isAnnotationPresent(EndConversationIf.class))
       {
-         if (Contexts.isConversationContextActive())
+         String[] results = method.getAnnotation(EndConversationIf.class)
+               .result();
+         if (Arrays.asList(results).contains(result))
          {
-            String[] results = method.getAnnotation(EndConversationIf.class)
-                  .result();
-            if (Arrays.asList(results).contains(result))
-            {
-               Contexts.endConversation();
-            }
+            Contexts.endConversation();
          }
       }
    }
