@@ -6,11 +6,8 @@
   */
 package org.jboss.seam;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Properties;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
@@ -21,11 +18,6 @@ import org.jboss.seam.annotations.BeginConversation;
 import org.jboss.seam.annotations.BeginConversationIf;
 import org.jboss.seam.annotations.EndConversation;
 import org.jboss.seam.annotations.EndConversationIf;
-import org.jboss.seam.annotations.Inject;
-import org.jbpm.db.JbpmSession;
-import org.jbpm.db.JbpmSessionFactory;
-import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * Interceptor for injection and conversation scope management
@@ -51,8 +43,7 @@ public class SeamInterceptor
       if ( seamComponent.getInjectFields().size()>0 || seamComponent.getInjectMethods().size()>0 ) //only needed to hush the log message
       {
          log.info("injecting dependencies to: " + name);
-         injectFields(bean, seamComponent);
-         injectMethods(bean, seamComponent);
+         seamComponent.inject(bean);
       }
 
       Object result;
@@ -172,189 +163,6 @@ public class SeamInterceptor
             Contexts.endConversation();
          }
       }
-   }
-
-   private void injectMethods(Object bean, SeamComponent seamComponent)
-   {
-      for (Method method : seamComponent.getInjectMethods())
-      {
-         Inject inject = method.getAnnotation(Inject.class);
-         if (inject != null)
-         {
-            if ( method.getReturnType()==Properties.class) 
-            {
-               injectProperties(bean, method, inject);
-            }
-            else if ( method.getReturnType()==ProcessInstance.class)
-            {
-               injectProcessInstance(bean, method, inject);
-            }
-            else 
-            {
-               injectComponent(bean, method, inject);
-            }
-         }
-      }
-   }
-
-   private void injectFields(Object bean, SeamComponent seamComponent)
-   {
-      for (Field field : seamComponent.getInjectFields())
-      {
-         Inject inject = field.getAnnotation(Inject.class);
-         if (inject != null)
-         {
-            if ( field.getType()==Properties.class) 
-            {
-               injectProperties(bean, field, inject);
-            }
-            else if ( field.getType()==ProcessInstance.class)
-            {
-               injectProcessInstance(bean, field, inject);
-            }
-            else 
-            {
-               injectComponent(bean, field, inject);
-            }
-          }
-      }
-   }
-
-   private void injectProperties(Object bean, Method method, Inject inject)
-   {
-      String resource = toName( method, inject.value(), ".properties" );
-      inject(bean, method, resource, getProperties(bean, resource));
-   }
-
-   private void injectProperties(Object bean, Field field, Inject inject)
-   {
-      String resource = toName( field, inject.value(), ".properties" );
-      inject(bean, field, resource, getProperties(bean, resource));
-   }
-
-   private Properties getProperties(Object bean, String resource)
-   {
-      Properties props = new Properties();
-      try
-      {
-         props.load(bean.getClass().getResourceAsStream(resource));
-      } 
-      catch (IOException ioe)
-      {
-         throw new RuntimeException(ioe);
-      }
-      return props;
-   }
-
-   private void injectComponent(Object bean, Method method, Inject inject)
-   {
-      String name = toName(method, inject.value(), "");
-      Object value = new SeamVariableResolver()
-            .resolveVariable(name, inject.create());
-      inject(bean, method, name, value);
-   }
-
-   private void injectComponent(Object bean, Field field, Inject inject)
-   {
-      String name = toName(field, inject.value(), "");
-      Object value = new SeamVariableResolver()
-            .resolveVariable(name, inject.create());
-      inject(bean, field, name, value);
-   }
-
-   private String toName(Method method, String name, String extension)
-   {
-      if (name.length() == 0)
-      {
-         name = method.getName().substring(3, 4).toLowerCase()
-               + method.getName().substring(4)
-               + extension;
-      }
-      return name;
-   }
-
-   private String toName(Field field, String name, String extension)
-   {
-      if (name.length() == 0)
-      {
-         name = field.getName() + extension;
-      }
-      return name;
-   }
-
-   private void inject(Object bean, Method method, String name, Object value)
-   {
-      try
-      {
-         log.info("injecting: " + name);
-         if (!method.isAccessible())
-         {
-            method.setAccessible(true);
-         }
-         method.invoke( bean, new Object[] { value } );
-      } 
-      catch (Exception e)
-      {
-         throw new IllegalArgumentException("could not inject: " + name, e);
-      }
-   }
-
-   private void inject(Object bean, Field field, String name, Object value)
-   {
-      try
-      {
-         log.info("injecting: " + name);
-         if (!field.isAccessible()) 
-         {
-            field.setAccessible(true);
-         }
-         field.set(bean, value);
-      } 
-      catch (Exception e)
-      {
-         throw new IllegalArgumentException("could not inject: " + name, e);
-      }
-   }
-
-   private void injectProcessInstance(Object bean, Field field, Inject inject)
-   {
-      String name = toName( field, inject.value(), "");
-      inject(bean, field, name, getProcessInstance(name));
-   }
-
-   private void injectProcessInstance(Object bean, Method method, Inject inject)
-   {
-      String name = toName( method, inject.value(), "");
-      inject(bean, method, name, getProcessInstance(name));
-   }
-
-   private ProcessInstance getProcessInstance(String name)
-   {
-      JbpmSessionFactory jbpmSessionFactory = JbpmSessionFactory
-            .buildJbpmSessionFactory();
-
-      JbpmSession jbpmSession = jbpmSessionFactory.openJbpmSession();
-      jbpmSession.beginTransaction();
-      ProcessInstance processInstance = null;
-      try
-      {
-         ProcessDefinition processDefinition = jbpmSession.getGraphSession()
-               .findLatestProcessDefinition(name);
-         if (processDefinition != null)
-         {
-            processInstance = new ProcessInstance(processDefinition);
-            jbpmSession.getGraphSession().saveProcessInstance(processInstance);
-         } 
-         else
-         {
-            log.warn("ProcessDefinition: " + name + " could be found");
-         }
-      } 
-      finally
-      {
-         jbpmSession.commitTransactionAndClose();
-      }
-      return processInstance;
    }
 
 }

@@ -14,9 +14,11 @@ import static org.jboss.seam.annotations.ScopeType.CONVERSATION;
 import static org.jboss.seam.annotations.ScopeType.EVENT;
 import static org.jboss.seam.annotations.ScopeType.STATELESS;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.ejb.Remove;
@@ -31,6 +33,10 @@ import org.jboss.seam.annotations.Inject;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.ScopeType;
 import org.jboss.seam.deployment.SeamModule;
+import org.jbpm.db.JbpmSession;
+import org.jbpm.db.JbpmSessionFactory;
+import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -44,7 +50,7 @@ public class SeamComponent
    private SeamComponentType type;
    private String name;
    private ScopeType scope;
-   private Class bean;
+   private Class beanClass;
    
    private SeamModule seamModule;
    
@@ -58,7 +64,7 @@ public class SeamComponent
    {
       this.seamModule = seamModule;
       this.name = Seam.getComponentName(clazz);
-      this.bean = clazz;
+      this.beanClass = clazz;
 
       // Set up the component scope
       boolean hasScopeAnnotation = clazz.isAnnotationPresent(Scope.class);
@@ -144,9 +150,9 @@ public class SeamComponent
       }
    }
 
-   public Class getBean()
+   public Class getBeanClass()
    {
-      return bean;
+      return beanClass;
    }
 
    public String getName()
@@ -213,7 +219,9 @@ public class SeamComponent
          {
             case JAVA_BEAN: 
             case ENTITY_BEAN:
-               return bean.newInstance();
+               Object bean = beanClass.newInstance();
+               inject(bean);
+               return bean;
             case STATELESS_SESSION_BEAN : 
             case STATEFUL_SESSION_BEAN :
                return new InitialContext().lookup(name);
@@ -226,5 +234,193 @@ public class SeamComponent
          throw new InstantiationException("Could not instantiate component", e);
       }
    }
+   
+   public void inject(Object bean)
+   {
+      injectMethods(bean);
+      injectFields(bean);
+   }
+
+   public void injectMethods(Object bean)
+   {
+      for (Method method : getInjectMethods())
+      {
+         Inject inject = method.getAnnotation(Inject.class);
+         if (inject != null)
+         {
+            if ( method.getReturnType()==Properties.class) 
+            {
+               injectProperties(bean, method, inject);
+            }
+            else if ( method.getReturnType()==ProcessInstance.class)
+            {
+               injectProcessInstance(bean, method, inject);
+            }
+            else 
+            {
+               injectComponent(bean, method, inject);
+            }
+         }
+      }
+   }
+
+   private void injectFields(Object bean)
+   {
+      for (Field field : getInjectFields())
+      {
+         Inject inject = field.getAnnotation(Inject.class);
+         if (inject != null)
+         {
+            if ( field.getType()==Properties.class) 
+            {
+               injectProperties(bean, field, inject);
+            }
+            else if ( field.getType()==ProcessInstance.class)
+            {
+               injectProcessInstance(bean, field, inject);
+            }
+            else 
+            {
+               injectComponent(bean, field, inject);
+            }
+          }
+      }
+   }
+
+   private void injectProperties(Object bean, Method method, Inject inject)
+   {
+      String resource = toName( method, inject.value(), ".properties" );
+      inject(bean, method, resource, getProperties(bean, resource));
+   }
+
+   private void injectProperties(Object bean, Field field, Inject inject)
+   {
+      String resource = toName( field, inject.value(), ".properties" );
+      inject(bean, field, resource, getProperties(bean, resource));
+   }
+
+   private Properties getProperties(Object bean, String resource)
+   {
+      Properties props = new Properties();
+      try
+      {
+         props.load(bean.getClass().getResourceAsStream(resource));
+      } 
+      catch (IOException ioe)
+      {
+         throw new RuntimeException(ioe);
+      }
+      return props;
+   }
+
+   private void injectComponent(Object bean, Method method, Inject inject)
+   {
+      String name = toName(method, inject.value(), "");
+      Object value = new SeamVariableResolver()
+            .resolveVariable(name, inject.create());
+      inject(bean, method, name, value);
+   }
+
+   private void injectComponent(Object bean, Field field, Inject inject)
+   {
+      String name = toName(field, inject.value(), "");
+      Object value = new SeamVariableResolver()
+            .resolveVariable(name, inject.create());
+      inject(bean, field, name, value);
+   }
+
+   private String toName(Method method, String name, String extension)
+   {
+      if (name.length() == 0)
+      {
+         name = method.getName().substring(3, 4).toLowerCase()
+               + method.getName().substring(4)
+               + extension;
+      }
+      return name;
+   }
+
+   private String toName(Field field, String name, String extension)
+   {
+      if (name.length() == 0)
+      {
+         name = field.getName() + extension;
+      }
+      return name;
+   }
+
+   private void inject(Object bean, Method method, String name, Object value)
+   {
+      try
+      {
+         if (!method.isAccessible())
+         {
+            method.setAccessible(true);
+         }
+         method.invoke( bean, new Object[] { value } );
+      } 
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException("could not inject: " + name, e);
+      }
+   }
+
+   private void inject(Object bean, Field field, String name, Object value)
+   {
+      try
+      {
+         if (!field.isAccessible()) 
+         {
+            field.setAccessible(true);
+         }
+         field.set(bean, value);
+      } 
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException("could not inject: " + name, e);
+      }
+   }
+
+   private void injectProcessInstance(Object bean, Field field, Inject inject)
+   {
+      String name = toName( field, inject.value(), "");
+      inject(bean, field, name, getProcessInstance(name));
+   }
+
+   private void injectProcessInstance(Object bean, Method method, Inject inject)
+   {
+      String name = toName( method, inject.value(), "");
+      inject(bean, method, name, getProcessInstance(name));
+   }
+
+   private ProcessInstance getProcessInstance(String name)
+   {
+      JbpmSessionFactory jbpmSessionFactory = JbpmSessionFactory
+            .buildJbpmSessionFactory();
+
+      JbpmSession jbpmSession = jbpmSessionFactory.openJbpmSession();
+      jbpmSession.beginTransaction();
+      ProcessInstance processInstance = null;
+      try
+      {
+         ProcessDefinition processDefinition = jbpmSession.getGraphSession()
+               .findLatestProcessDefinition(name);
+         if (processDefinition != null)
+         {
+            processInstance = new ProcessInstance(processDefinition);
+            jbpmSession.getGraphSession().saveProcessInstance(processInstance);
+         } 
+         else
+         {
+            throw new InstantiationException("no process instance found: " + name);
+         }
+      } 
+      finally
+      {
+         jbpmSession.commitTransactionAndClose();
+      }
+      return processInstance;
+   }
+
 
 }

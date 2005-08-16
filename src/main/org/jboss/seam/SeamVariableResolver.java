@@ -63,14 +63,15 @@ public class SeamVariableResolver
 
    private Object createVariable(String name)
    {
-      log.info("instantiating: " + name);
       SeamComponent seamComponent = findSeamComponent(name);
       if (seamComponent == null)
       {
+         log.info("seam component not found: " + name);
          return null;
       }
       else
       {
+         log.info("instantiating seam component: " + name);
          Object result = seamComponent.instantiate();
          if (seamComponent.getType()!=SeamComponentType.STATELESS_SESSION_BEAN)
          {
