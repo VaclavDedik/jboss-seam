@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 @Retention(RUNTIME)
 @Documented
-public @interface EndConversationIf {
+public @interface EndIf {
 	String[] result() default {};
 	Class[] exception() default {};
 }

@@ -17,10 +17,10 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Finder;
 import org.jboss.seam.Seam;
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.BeginConversation;
-import org.jboss.seam.annotations.BeginConversationIf;
-import org.jboss.seam.annotations.EndConversation;
-import org.jboss.seam.annotations.EndConversationIf;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.BeginIf;
+import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.EndIf;
 import org.jboss.seam.contexts.Contexts;
 
 /**
@@ -111,13 +111,13 @@ public class SeamInterceptor
 
    private void beginConversationIfNecessary(Method method, Object result)
    {
-      if ( method.isAnnotationPresent(BeginConversation.class) )
+      if ( method.isAnnotationPresent(Begin.class) )
       {
          Contexts.beginConversation();
       }
-      else if ( method.isAnnotationPresent(BeginConversationIf.class) )
+      else if ( method.isAnnotationPresent(BeginIf.class) )
       {
-         String[] results = method.getAnnotation(BeginConversationIf.class)
+         String[] results = method.getAnnotation(BeginIf.class)
                .result();
          if (Arrays.asList(results).contains(result))
          {
@@ -128,9 +128,9 @@ public class SeamInterceptor
 
    private void endConversationIfNecessary(Method method, Exception exception)
    {
-      if (method.isAnnotationPresent(EndConversationIf.class))
+      if (method.isAnnotationPresent(EndIf.class))
       {
-         Class[] exceptions = method.getAnnotation(EndConversationIf.class)
+         Class[] exceptions = method.getAnnotation(EndIf.class)
                .exception();
          if (Arrays.asList(exceptions).contains(exception.getClass()))
          {
@@ -141,13 +141,13 @@ public class SeamInterceptor
 
    private void endConversationIfNecessary(Method method, Object result)
    {
-      if (method.isAnnotationPresent(EndConversation.class))
+      if (method.isAnnotationPresent(End.class))
       {
          Contexts.endConversation();
       }
-      else if (method.isAnnotationPresent(EndConversationIf.class))
+      else if (method.isAnnotationPresent(EndIf.class))
       {
-         String[] results = method.getAnnotation(EndConversationIf.class)
+         String[] results = method.getAnnotation(EndIf.class)
                .result();
          if (Arrays.asList(results).contains(result))
          {

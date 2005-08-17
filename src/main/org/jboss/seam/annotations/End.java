@@ -9,16 +9,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a method as conditionally beginning a conversation, 
- * if none exists. The conversation begins only if the 
- * method returns one of the values listed in the result
- * attribute.
+ * Marks a method as ending a conversation, if the
+ * method returns without throwing an exception.
  * 
  * @author Gavin King
  */
 @Target(METHOD)
 @Retention(RUNTIME)
 @Documented
-public @interface BeginConversationIf {
-   String[] result() default {};
-}
+public @interface End {}
