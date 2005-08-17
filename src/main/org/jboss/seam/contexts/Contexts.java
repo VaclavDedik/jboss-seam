@@ -28,9 +28,8 @@ public class Contexts {
 	private static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
    private static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
 
-   
-   //private static ThreadLocal<String> conversationId = new ThreadLocal<String>();
    private static final ThreadLocal<Boolean> isLongRunningConversation = new ThreadLocal<Boolean>();
+   private static final ThreadLocal<Boolean> isProcessing = new ThreadLocal<Boolean>();
 
 	public static Context getEventContext() {
 		return eventContext.get();
@@ -247,12 +246,22 @@ public class Contexts {
 
    public static void beginBusinessProcess()
    {
-      businessProcessContext.set(new BusinessProcessContext());
+      businessProcessContext.set( new BusinessProcessContext() );
    }
    
    public static void endBusinessProcess()
    {
       // getBusinessProcessContext().destroy();
       businessProcessContext.set(null);      
+   }
+   
+   public static void setProcessing(boolean processing)
+   {
+      isProcessing.set(processing);
+   }
+   
+   public static boolean isProcessing()
+   {
+      return isProcessing.get();
    }
 }

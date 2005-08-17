@@ -54,6 +54,11 @@ public class SeamPhaseListener implements PhaseListener
          }
          Contexts.endWebRequest();
       }
+      else if (event.getPhaseId() == PhaseId.INVOKE_APPLICATION)
+      {
+         log.info("After invoke application");
+         Contexts.setProcessing(false);
+      }
    }
 
    public void beforePhase(PhaseEvent event)
@@ -77,6 +82,11 @@ public class SeamPhaseListener implements PhaseListener
             log.info("Discarding conversation state");
             getAttributes(event).put(CONVERSATION, null);
          }
+      }
+      else if (event.getPhaseId() == PhaseId.INVOKE_APPLICATION)
+      {
+         log.info("Before invoke application");
+         Contexts.setProcessing(true);
       }
    }
 

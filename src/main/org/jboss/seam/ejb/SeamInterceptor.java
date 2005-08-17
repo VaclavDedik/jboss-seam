@@ -38,32 +38,38 @@ public class SeamInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      final Object bean = invocation.getBean();
-      final Component seamComponent = getSeamComponent(bean);
-
-      inject(bean, seamComponent);
-
-      final Method method = invocation.getMethod();
-      Object result;
-      try
+      if ( Contexts.isProcessing() )
       {
-         result = invocation.proceed();
-      } 
-      catch (Exception exception)
-      {
-         endConversationIfNecessary(method, exception);
-         removeIfNecessary(bean, method, true, seamComponent);
-         throw exception;
+         final Object bean = invocation.getBean();
+         final Component seamComponent = getSeamComponent(bean);
+   
+         inject(bean, seamComponent);
+   
+         final Method method = invocation.getMethod();
+         Object result;
+         try
+         {
+            result = invocation.proceed();
+         } 
+         catch (Exception exception)
+         {
+            endConversationIfNecessary(method, exception);
+            removeIfNecessary(bean, method, true, seamComponent);
+            throw exception;
+         }
+         
+         outject(bean, seamComponent);
+         
+         beginConversationIfNecessary(method, result);
+         endConversationIfNecessary(method, result);
+         
+         removeIfNecessary(bean, method, false, seamComponent);
+         
+         return result;
       }
-      
-      outject(bean, seamComponent);
-      
-      beginConversationIfNecessary(method, result);
-      endConversationIfNecessary(method, result);
-      
-      removeIfNecessary(bean, method, false, seamComponent);
-      
-      return result;
+      else {
+         return invocation.proceed();
+      }
    }
 
    private void outject(final Object bean, final Component seamComponent)
