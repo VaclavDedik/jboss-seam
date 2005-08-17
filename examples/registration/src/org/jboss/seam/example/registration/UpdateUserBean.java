@@ -15,11 +15,11 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.annotation.ejb.LocalBinding;
-import org.jboss.seam.SeamInterceptor;
 import org.jboss.seam.annotations.BeginConversationIf;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.EndConversation;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.ejb.SeamInterceptor;
 
 /*
  * JBoss, Home of Professional Open Source

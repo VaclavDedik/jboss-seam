@@ -6,9 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.annotation.ejb.LocalBinding;
-import org.jboss.seam.SeamInterceptor;
-import org.jboss.seam.annotations.Inject;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.ejb.SeamInterceptor;
 
 /*
  * JBoss, Home of Professional Open Source
@@ -30,7 +30,7 @@ public class CreateUserBean implements CreateUser
    @PersistenceContext
    private EntityManager manager;
    
-   @Inject
+   @In
    private User user;
    
    public String createUser()
