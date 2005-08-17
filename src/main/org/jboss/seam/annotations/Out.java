@@ -22,4 +22,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface Out {
 	String value() default "";
+   boolean required() default true;
 }

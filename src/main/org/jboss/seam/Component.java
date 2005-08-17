@@ -300,8 +300,16 @@ public class Component
 
    private Object getInjectedValue(In inject, String name)
    {
-      return new Finder()
+      Object result = new Finder()
             .getComponentInstance(name, inject.create());
+      if (result==null && inject.required())
+      {
+         throw new RequiredException("In attribute requires value for component: " + name);
+      }
+      else
+      {
+         return result;
+      }
    }
 
    private void injectComponent(Object bean, Method method, In inject)
@@ -316,20 +324,27 @@ public class Component
       inject( bean, field, name, getInjectedValue(inject, name) );
    }
 
-   private void setOutjectedValue(String name, Object value)
+   private void setOutjectedValue(Out out, String name, Object value)
    {
-      new Finder().getComponent(name)
-            .getScope().getContext().set(name, value);
+      if (value==null && out.required())
+      {
+         throw new RequiredException("Out attribute requires value for component: " + name);
+      }
+      else 
+      {
+         new Finder().getComponent(name)
+               .getScope().getContext().set(name, value);
+      }
    }
 
    private void outjectComponent(Object bean, Method method, Out out)
    {
-      setOutjectedValue( toName(method, out.value(), ""), outject(bean, method) );
+      setOutjectedValue( out, toName(method, out.value(), ""), outject(bean, method) );
    }
 
    private void outjectComponent(Object bean, Field field, Out out)
    {
-      setOutjectedValue( toName(field, out.value(), ""), outject(bean, field) );
+      setOutjectedValue( out, toName(field, out.value(), ""), outject(bean, field) );
    }
 
    private Object outject(Object bean, Field field)
