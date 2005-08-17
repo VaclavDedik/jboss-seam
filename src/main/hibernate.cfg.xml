@@ -20,7 +20,7 @@
     -->
 
     <!-- other hibernate properties -->
-    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.show_sql">false</property>
 
     <!--identity mapping files -->
     <!-- uncomment if you don't want to use the default jBPM identity mgmgt component -->

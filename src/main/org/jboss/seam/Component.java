@@ -23,10 +23,9 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.contexts.BusinessProcessContext;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamModule;
-import org.jbpm.db.JbpmSession;
-import org.jbpm.db.JbpmSessionFactory;
-import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
 /**
@@ -446,32 +445,11 @@ public class Component
 
    private ProcessInstance getProcessInstance(String name)
    {
-      JbpmSessionFactory jbpmSessionFactory = JbpmSessionFactory
-            .buildJbpmSessionFactory();
-
-      JbpmSession jbpmSession = jbpmSessionFactory.openJbpmSession();
-      jbpmSession.beginTransaction();
-      ProcessInstance processInstance = null;
-      try
-      {
-         ProcessDefinition processDefinition = jbpmSession.getGraphSession()
-               .findLatestProcessDefinition(name);
-         if (processDefinition != null)
-         {
-            processInstance = new ProcessInstance(processDefinition);
-            jbpmSession.getGraphSession().saveProcessInstance(processInstance);
-         } 
-         else
-         {
-            throw new InstantiationException("no process instance found: " + name);
-         }
-      } 
-      finally
-      {
-         jbpmSession.commitTransactionAndClose();
-      }
+     ProcessInstance processInstance = null;
+     
+      BusinessProcessContext bpc = (BusinessProcessContext)Contexts.getBusinessProcessContext();
+      processInstance = bpc.getProcessInstance(name, true);
+    
       return processInstance;
    }
-
-
 }

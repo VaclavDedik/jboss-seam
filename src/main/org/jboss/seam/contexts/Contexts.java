@@ -26,6 +26,8 @@ public class Contexts {
 	private static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
+    private static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
+
    
    //private static ThreadLocal<String> conversationId = new ThreadLocal<String>();
    private static final ThreadLocal<Boolean> isLongRunningConversation = new ThreadLocal<Boolean>();
@@ -50,9 +52,13 @@ public class Contexts {
 		return conversationContext.get();
 	}
 
-	public static Context getBusinessProcessContext() {
-		return null;
-	}
+    public static Context getBusinessProcessContext() {
+       if (!isBusinessProcessContextActive())
+       {
+          beginBusinessProcess();
+       }
+       return businessProcessContext.get();
+    }
 
 	public static void beginWebRequest(HttpServletRequest request) {
 		log.info( "Begin web request" );
@@ -88,9 +94,10 @@ public class Contexts {
 		return applicationContext.get() != null;
 	}
 
-	public static boolean isBusinessProcessContextActive() {
-		return false;
-	}
+    public static boolean isBusinessProcessContextActive() {
+        return businessProcessContext.get() != null;
+    }
+
    
    /*public static String getConversationId() 
    {
@@ -262,4 +269,14 @@ public class Contexts {
       }
    }
 
+   public static void beginBusinessProcess()
+   {
+      businessProcessContext.set(new BusinessProcessContext());
+   }
+   
+   public static void endBusinessProcess()
+   {
+      // getBusinessProcessContext().destroy();
+      businessProcessContext.set(null);      
+   }
 }
