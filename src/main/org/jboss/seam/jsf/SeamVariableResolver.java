@@ -26,7 +26,7 @@ import org.jboss.seam.Finder;
 public class SeamVariableResolver extends VariableResolver
 {
 
-   static public final Logger log = Logger.getLogger(SeamVariableResolver.class);
+   private static final Logger log = Logger.getLogger(SeamVariableResolver.class);
 
    private Finder seamVariableResolver;
    private VariableResolver jsfVariableResolver;

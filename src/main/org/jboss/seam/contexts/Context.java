@@ -7,6 +7,9 @@
 package org.jboss.seam.contexts;
 
 /**
+ * A set of named components and items of data that
+ * is associated with a particular seam context.
+ * 
  * @author Gavin King
  * @version $Revision$
  */

@@ -24,7 +24,8 @@ import org.jboss.seam.annotations.EndConversationIf;
 import org.jboss.seam.contexts.Contexts;
 
 /**
- * Interceptor for injection and conversation scope management
+ * Interceptor for bijection and conversation scope management
+ * for a session bean component
  * 
  * @author Gavin King
  * @version $Revision$

@@ -13,6 +13,12 @@ import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
 
+/**
+ * Manages the thread/context associations throught the
+ * lifecycle of a JSF request.
+ * 
+ * @author Gavin King
+ */
 public class SeamPhaseListener implements PhaseListener
 {
 

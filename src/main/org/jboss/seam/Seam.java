@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.Scope;
 /**
  * Convenience methods for accessing annotated information
  * about Seam component classes.
+ * 
  * @author Gavin King
  */
 public class Seam

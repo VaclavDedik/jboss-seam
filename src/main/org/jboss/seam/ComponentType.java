@@ -1,6 +1,10 @@
 //$Id$
 package org.jboss.seam;
 
+/**
+ * The types of components understood by seam
+ * @author Gavin King
+ */
 public enum ComponentType
 {
    ENTITY_BEAN, 

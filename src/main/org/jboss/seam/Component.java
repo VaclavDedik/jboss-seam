@@ -39,6 +39,7 @@ import org.jbpm.graph.exe.ProcessInstance;
  * A POJO is recognized as a Seam component if it is using the org.jboss.seam.annotations.Name annotation
  * 
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @author Gavin King
  * @version $Revision$
  */
 public class Component

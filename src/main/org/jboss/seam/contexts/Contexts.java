@@ -12,6 +12,8 @@ import org.jboss.seam.Finder;
 import org.jboss.seam.Component;
 
 /**
+ * Provides access to the current contexts associated with the thread.
+ * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$

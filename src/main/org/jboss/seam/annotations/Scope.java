@@ -25,7 +25,6 @@ import org.jboss.seam.ScopeType;
 @Retention(RUNTIME)
 @Documented
 public @interface Scope {
-   // TODO: Default value ?
    ScopeType value();
 }
 
