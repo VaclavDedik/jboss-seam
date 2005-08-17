@@ -29,7 +29,6 @@
 		<servlet-class>org.jboss.seam.example.bpm.InitServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
-	<!-- Faces Servlet Mapping -->
 	<servlet-mapping>
 		<servlet-name>InitServlet</servlet-name>
 		<url-pattern>/init</url-pattern>

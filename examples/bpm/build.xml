@@ -77,7 +77,7 @@
         <zipfileset dir="${src.dir}" prefix="WEB-INF/classes">
            <include name="**/*cfg.xml"/>
         </zipfileset>
-        <zipfileset dir="${basedir}/../../lib" prefix="WEB-INF/lib"/>
+        <!--zipfileset dir="${basedir}/../../lib" prefix="WEB-INF/lib"/-->
         <zipfileset dir="${resources.dir}/jsp"/>
      </jar>
    </target>

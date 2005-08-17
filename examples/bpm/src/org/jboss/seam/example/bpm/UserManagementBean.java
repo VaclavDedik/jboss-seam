@@ -1,16 +1,20 @@
 package org.jboss.seam.example.bpm;
+
+import java.io.Serializable;
+
 import javax.ejb.Interceptor;
-import javax.ejb.Remote;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.annotation.ejb.RemoteBinding;
+import org.jboss.annotation.ejb.LocalBinding;
+import org.jboss.seam.Contexts;
 import org.jboss.seam.SeamInterceptor;
 import org.jboss.seam.annotations.Inject;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.ScopeType;
+import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jbpm.graph.exe.ProcessInstance;
 
 /*
@@ -24,13 +28,12 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @version $Revision$
  */
-@Stateful
-@Remote(UserManagement.class)
-@RemoteBinding(jndiBinding = "userManagement")
+@Stateless
+@LocalBinding(jndiBinding = "userManagement")
 @Interceptor(SeamInterceptor.class)
 @Name("userManagement")
-@Scope(ScopeType.APPLICATION)
-public class UserManagementBean implements UserManagement, java.io.Serializable
+@Scope(ScopeType.STATELESS)
+public class UserManagementBean implements UserManagement, Serializable
 {
    /** The serialVersionUID */
    private static final long serialVersionUID = 1L;
@@ -41,12 +44,19 @@ public class UserManagementBean implements UserManagement, java.io.Serializable
    @Inject("user")
    private User user;
    
-   @Inject("MyProcessDefinition")
+   @Inject(value="MyProcessDefinition", create=true)
    private ProcessInstance processInstance;
+   
    
    public String register()
    {
       manager.persist(user);
+      BusinessProcessContext bpc = (BusinessProcessContext)Contexts.getBusinessProcessContext();
+      bpc.signal("submit for approval");
+      /*
+      JbpmSessionFactory jbpmSessionFactory = BusinessProcessContext.jbpmSessionFactory;
+      JbpmSession jbpmSession = jbpmSessionFactory.openJbpmSession();
+      */
       return "register";
    }
 }

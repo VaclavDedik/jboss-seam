@@ -1,5 +1,7 @@
 package org.jboss.seam.example.bpm;
 
+import javax.ejb.Local;
+
 
 /*
  * JBoss, Home of Professional Open Source
@@ -13,6 +15,7 @@ package org.jboss.seam.example.bpm;
  * @version $Revision$
  */
 
+@Local
 public interface UserManagement
 {
    String register();
