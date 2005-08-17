@@ -26,7 +26,7 @@ public class Contexts {
 	private static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
-    private static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
+   private static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
 
    
    //private static ThreadLocal<String> conversationId = new ThreadLocal<String>();
@@ -66,7 +66,6 @@ public class Contexts {
 		sessionContext.set( new WebSessionContext( request.getSession() ) );
 		ServletContext servletContext = request.getSession().getServletContext();
 		applicationContext.set( new WebApplicationContext( servletContext ) );
-		//setConversationId( request.getParameter( "org.jboss.seam.ConversationId" ) );
 	}
 
 	public static void endWebRequest() {
@@ -97,29 +96,6 @@ public class Contexts {
     public static boolean isBusinessProcessContextActive() {
         return businessProcessContext.get() != null;
     }
-
-   
-   /*public static String getConversationId() 
-   {
-      return conversationId.get();
-   }
-   
-   public static void setConversationId(String id)
-   {
-      conversationId.set(id);
-   }
-
-	public static void endConversation() 
-   {
-      //check conversationId!=null
-		conversationId.set(null);
-	}
-
-	public static void beginConversation() 
-   {
-      //check conversationId==null
-		conversationId.set( ConversationContext.generateConversationId() );
-	}*/
    
    public static void endConversation() 
    {
