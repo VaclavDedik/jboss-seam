@@ -18,6 +18,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 			<from-outcome>success</from-outcome>
 			<to-view-id>/displaynew.jsp</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>retry</from-outcome>
+			<to-view-id>/register.jsp</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
@@ -25,6 +29,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 		<navigation-case>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/password.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>retry</from-outcome>
+			<to-view-id>/find.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	

@@ -32,7 +32,7 @@ public class CreateUserBean implements CreateUser
    private EntityManager manager;
    
    @In(required=true) 
-   @Validate
+   @Validate(invalidOutcome="retry")
    private User user;
    
    public String createUser()

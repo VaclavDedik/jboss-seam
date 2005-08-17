@@ -48,7 +48,7 @@ public class UpdateUserBean implements UpdateUser, Serializable
    
    private User user;
    
-   private String username;
+   private String username = "";
    
    @TransactionAttribute(NOT_SUPPORTED)
    @Length(min=6, max=15)
@@ -62,12 +62,12 @@ public class UpdateUserBean implements UpdateUser, Serializable
       username = name;
    }
    
-   @Validate
+   @Validate(invalidOutcome="retry")
    @BeginIf(result="success")
    public String findUser() {
       log.info("finding User");
       user = manager.find(User.class, username);
-      return user==null ? "not-found" : "success";
+      return user==null ? "retry" : "success";
    }
    
    @TransactionAttribute(NOT_SUPPORTED)
