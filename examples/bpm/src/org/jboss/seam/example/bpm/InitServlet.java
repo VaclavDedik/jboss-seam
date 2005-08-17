@@ -8,7 +8,6 @@ package org.jboss.seam.example.bpm;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.net.ResponseCache;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

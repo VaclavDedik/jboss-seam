@@ -8,13 +8,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.annotation.ejb.LocalBinding;
-import org.jboss.seam.Contexts;
-import org.jboss.seam.SeamInterceptor;
-import org.jboss.seam.annotations.Inject;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.ScopeType;
 import org.jboss.seam.contexts.BusinessProcessContext;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.ejb.SeamInterceptor;
 import org.jbpm.graph.exe.ProcessInstance;
 
 /*
@@ -41,10 +41,10 @@ public class UserManagementBean implements UserManagement, Serializable
    @PersistenceContext
    private EntityManager manager;
    
-   @Inject("user")
+   @In("user")
    private User user;
    
-   @Inject(value="MyProcessDefinition", create=true)
+   @In(value="MyProcessDefinition", create=true)
    private ProcessInstance processInstance;
    
    
