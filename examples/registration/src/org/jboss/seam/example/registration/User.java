@@ -4,16 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.ScopeType;
 
 @Entity
 @Name("user")
-@Scope(ScopeType.CONVERSATION)
 public class User implements Serializable
 {
 
@@ -21,6 +19,7 @@ public class User implements Serializable
    private String name;
    private String password;
    private int age;
+   private int version = -1;
 
    public User() {}
 
@@ -66,6 +65,17 @@ public class User implements Serializable
    public void setName(String name)
    {
       this.name = name;
+   }
+   
+   @Version
+   public int getVersion()
+   {
+      return version;
+   }
+
+   public void setVersion(int version)
+   {
+      this.version = version;
    }
 
 }

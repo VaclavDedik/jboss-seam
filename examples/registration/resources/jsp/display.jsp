@@ -26,6 +26,7 @@
          <td><h:outputText value="#{updateUser.user.age}"/></td>
        </tr>
      </table>
+     <!-- <h:outputText value="#{updateUser.user.version}"/> -->
    </h:form>
   </f:view>
  </body>
