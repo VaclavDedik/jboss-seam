@@ -14,10 +14,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.ejb.Remove;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 import javax.naming.InitialContext;
-import javax.persistence.Entity;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -70,28 +67,6 @@ public class Component
       name = Seam.getComponentName(clazz);
       scope = Seam.getComponentScope(clazz);
       type = Seam.getComponentType(clazz);
-      
-      //TODO: what is this shit even for????
-      if (type.isEjb())
-      {
-      
-         String ejbName = clazz.getCanonicalName();
-         switch(type)
-         {
-            case STATEFUL_SESSION_BEAN: 
-               ejbName = clazz.getAnnotation(Stateful.class).name();
-               break;
-            case STATELESS_SESSION_BEAN: 
-               ejbName = clazz.getAnnotation(Stateless.class).name();
-               break;
-            case ENTITY_BEAN:
-               ejbName = clazz.getAnnotation(Entity.class).name();
-               break;
-         }
-         
-         seamModule.getEJB3Beans().put(ejbName, clazz.getCanonicalName());
-         
-      }
       
       for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
       {
