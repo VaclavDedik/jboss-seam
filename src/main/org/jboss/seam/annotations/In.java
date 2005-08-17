@@ -21,7 +21,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
-public @interface Inject {
+public @interface In {
 	String value() default "";
    boolean create() default false;
 }

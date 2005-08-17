@@ -9,7 +9,7 @@ package org.jboss.seam.test;
 import javax.ejb.Interceptor;
 
 import org.jboss.seam.SeamInterceptor;
-import org.jboss.seam.annotations.Inject;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.ScopeType;
@@ -24,10 +24,10 @@ import org.jbpm.graph.exe.ProcessInstance;
 @Scope(ScopeType.APPLICATION)
 public class Mock
 {
-   @Inject("MyProcessDefinition")
+   @In("MyProcessDefinition")
    private ProcessInstance processInstance;
    
-   @Inject("test")
+   @In("test")
    private String test;
       
    public ProcessInstance getProcessInstance()

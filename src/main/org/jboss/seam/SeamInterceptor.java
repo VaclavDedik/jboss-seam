@@ -33,19 +33,12 @@ public class SeamInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      Object bean = invocation.getBean();
-      String name = Seam.getComponentName(bean.getClass());
-      SeamComponent seamComponent = new SeamVariableResolver().findSeamComponent(name);
+      final Object bean = invocation.getBean();
+      final SeamComponent seamComponent = getSeamComponent(bean);
+
+      inject(bean, seamComponent);
 
       final Method method = invocation.getMethod();
-      boolean begun = beginConversation(method);
-
-      if ( seamComponent.getInjectFields().size()>0 || seamComponent.getInjectMethods().size()>0 ) //only needed to hush the log message
-      {
-         log.info("injecting dependencies to: " + name);
-         seamComponent.inject(bean);
-      }
-
       Object result;
       try
       {
@@ -53,22 +46,43 @@ public class SeamInterceptor
       } 
       catch (Exception exception)
       {
-         if (begun)
-         {
-            abortBeginConversation();
-         }
-         endConversation(method, exception);
+         endConversationIfNecessary(method, exception);
          removeIfNecessary(bean, method, true, seamComponent);
          throw exception;
       }
       
-      if (begun) 
-      {
-         abortBeginConversation(method, result);  
-      }
-      endConversation(method, result);
+      outject(bean, seamComponent);
+      
+      beginConversationIfNecessary(method, result);
+      endConversationIfNecessary(method, result);
+      
       removeIfNecessary(bean, method, false, seamComponent);
+      
       return result;
+   }
+
+   private void outject(final Object bean, final SeamComponent seamComponent)
+   {
+      if ( seamComponent.getOutFields().size()>0 || seamComponent.getOutMethods().size()>0 ) //only needed to hush the log message
+      {
+         log.info("injecting dependencies to: " + seamComponent.getName());
+         seamComponent.outject(bean);
+      }
+   }
+
+   private void inject(final Object bean, final SeamComponent seamComponent)
+   {
+      if ( seamComponent.getInFields().size()>0 || seamComponent.getInMethods().size()>0 ) //only needed to hush the log message
+      {
+         log.info("outjecting dependencies from: " + seamComponent.getName());
+         seamComponent.inject(bean);
+      }
+   }
+
+   private SeamComponent getSeamComponent(Object bean)
+   {
+      return new SeamVariableResolver()
+            .findSeamComponent( Seam.getComponentName( bean.getClass() ) );
    }
    
    /**
@@ -85,76 +99,43 @@ public class SeamInterceptor
       }
    }
 
-   /**
-    * If we tried to begin a conversation, but an exception occurred, don't
-    * begin after all
-    */
-   private void abortBeginConversation(Method method, Object result)
+   private void beginConversationIfNecessary(Method method, Object result)
    {
-      if ( method.isAnnotationPresent(BeginConversationIf.class) )
+      if ( method.isAnnotationPresent(BeginConversation.class) )
+      {
+         Contexts.beginConversation();
+      }
+      else if ( method.isAnnotationPresent(BeginConversationIf.class) )
       {
          String[] results = method.getAnnotation(BeginConversationIf.class)
                .result();
-         if (!Arrays.asList(results).contains(result))
+         if (Arrays.asList(results).contains(result))
          {
-            Contexts.endConversation();
+            Contexts.beginConversation();
          }
       }
    }
 
-   /**
-    * If we tried to begin a conversation, but an exception occurred, don't
-    * begin after all
-    */
-   private void abortBeginConversation()
-   {
-      Contexts.endConversation();
-   }
-
-   /**
-    * If the method is annotated @BeginConversation, 
-    * assign a new conversationId
-    */
-   private boolean beginConversation(Method method)
-   {
-      boolean beginConversation = method.isAnnotationPresent(BeginConversation.class) || 
-            method.isAnnotationPresent(BeginConversationIf.class);
-      if (beginConversation)
-      {
-         Contexts.beginConversation();
-         return true;
-      }
-      return false;
-   }
-
-   /**
-    * If the method is annotated @EndConversation and an exception 
-    * occurred, end the conversation and clean up
-    */
-   private void endConversation(Method method, Exception exception)
+   private void endConversationIfNecessary(Method method, Exception exception)
    {
       if (method.isAnnotationPresent(EndConversationIf.class))
       {
-         Class[] results = method.getAnnotation(EndConversationIf.class)
+         Class[] exceptions = method.getAnnotation(EndConversationIf.class)
                .exception();
-         if (Arrays.asList(results).contains(exception.getClass()))
+         if (Arrays.asList(exceptions).contains(exception.getClass()))
          {
             Contexts.endConversation();
          }
       }
    }
 
-   /**
-    * If the method is annotated @EndConversation end the conversation and 
-    * clean up
-    */
-   private void endConversation(Method method, Object result)
+   private void endConversationIfNecessary(Method method, Object result)
    {
       if (method.isAnnotationPresent(EndConversation.class))
       {
          Contexts.endConversation();
       }
-      if (method.isAnnotationPresent(EndConversationIf.class))
+      else if (method.isAnnotationPresent(EndConversationIf.class))
       {
          String[] results = method.getAnnotation(EndConversationIf.class)
                .result();

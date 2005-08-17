@@ -29,7 +29,8 @@ import javax.persistence.Entity;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Inject;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.ScopeType;
 import org.jboss.seam.deployment.SeamModule;
@@ -57,8 +58,20 @@ public class SeamComponent
    private Method destroyMethod;
    private Method createMethod;
    private Set<Method> removeMethods = new HashSet<Method>();
-   private Set<Method> injectMethods = new HashSet<Method>();
-   private Set<Field> injectFields = new HashSet<Field>();
+   private Set<Method> inMethods = new HashSet<Method>();
+   private Set<Field> inFields = new HashSet<Field>();
+   private Set<Method> outMethods = new HashSet<Method>();
+   private Set<Field> outFields = new HashSet<Field>();
+
+   public Set<Field> getOutFields()
+   {
+      return outFields;
+   }
+
+   public Set<Method> getOutMethods()
+   {
+      return outMethods;
+   }
 
    public SeamComponent(SeamModule seamModule, Class<?> clazz)
    {
@@ -123,29 +136,37 @@ public class SeamComponent
       
       for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
       {
-         if ( method.isAnnotationPresent(Destroy.class) )
-         {
-            destroyMethod = method;
-         }
          if ( method.isAnnotationPresent(Remove.class) )
          {
             removeMethods.add(method);  
+         }
+         if ( method.isAnnotationPresent(Destroy.class) )
+         {
+            destroyMethod = method;
          }
          if ( method.isAnnotationPresent(Create.class) )
          {
             createMethod = method;
          }
-         if ( method.isAnnotationPresent(Inject.class) )
+         if ( method.isAnnotationPresent(In.class) )
          {
-            injectMethods.add(method);
+            inMethods.add(method);
+         }
+         if ( method.isAnnotationPresent(Out.class) )
+         {
+            outMethods.add(method);
          }
       }
       
       for (Field field: clazz.getDeclaredFields()) //TODO: inheritance!
       {
-         if ( field.isAnnotationPresent(Inject.class) )
+         if ( field.isAnnotationPresent(In.class) )
          {
-            injectFields.add(field);
+            inFields.add(field);
+         }
+         if ( field.isAnnotationPresent(Out.class) )
+         {
+            outFields.add(field);
          }
       }
    }
@@ -201,14 +222,14 @@ public class SeamComponent
       return createMethod;
    }
 
-   public Set<Method> getInjectMethods()
+   public Set<Method> getInMethods()
    {
-      return injectMethods;
+      return inMethods;
    }
 
-   public Set<Field> getInjectFields()
+   public Set<Field> getInFields()
    {
-      return injectFields;
+      return inFields;
    }
 
    public Object instantiate()
@@ -241,11 +262,17 @@ public class SeamComponent
       injectFields(bean);
    }
 
+   public void outject(Object bean)
+   {
+      outjectMethods(bean);
+      outjectFields(bean);
+   }
+
    public void injectMethods(Object bean)
    {
-      for (Method method : getInjectMethods())
+      for (Method method : getInMethods())
       {
-         Inject inject = method.getAnnotation(Inject.class);
+         In inject = method.getAnnotation(In.class);
          if (inject != null)
          {
             if ( method.getReturnType()==Properties.class) 
@@ -266,9 +293,9 @@ public class SeamComponent
 
    private void injectFields(Object bean)
    {
-      for (Field field : getInjectFields())
+      for (Field field : getInFields())
       {
-         Inject inject = field.getAnnotation(Inject.class);
+         In inject = field.getAnnotation(In.class);
          if (inject != null)
          {
             if ( field.getType()==Properties.class) 
@@ -287,13 +314,37 @@ public class SeamComponent
       }
    }
 
-   private void injectProperties(Object bean, Method method, Inject inject)
+   public void outjectFields(Object bean)
+   {
+      for (Field field : getOutFields())
+      {
+         Out out = field.getAnnotation(Out.class);
+         if (out != null)
+         {
+            outjectComponent(bean, field, out);
+         }
+      }
+   }
+
+   private void outjectMethods(Object bean)
+   {
+      for (Method method : getOutMethods())
+      {
+         Out out = method.getAnnotation(Out.class);
+         if (out != null)
+         {
+            outjectComponent(bean, method, out);
+         }
+      }
+   }
+
+   private void injectProperties(Object bean, Method method, In inject)
    {
       String resource = toName( method, inject.value(), ".properties" );
       inject(bean, method, resource, getProperties(bean, resource));
    }
 
-   private void injectProperties(Object bean, Field field, Inject inject)
+   private void injectProperties(Object bean, Field field, In inject)
    {
       String resource = toName( field, inject.value(), ".properties" );
       inject(bean, field, resource, getProperties(bean, resource));
@@ -313,20 +364,60 @@ public class SeamComponent
       return props;
    }
 
-   private void injectComponent(Object bean, Method method, Inject inject)
+   private Object getInjectedValue(In inject, String name)
    {
-      String name = toName(method, inject.value(), "");
-      Object value = new SeamVariableResolver()
+      return new SeamVariableResolver()
             .resolveVariable(name, inject.create());
-      inject(bean, method, name, value);
    }
 
-   private void injectComponent(Object bean, Field field, Inject inject)
+   private void injectComponent(Object bean, Method method, In inject)
+   {
+      String name = toName(method, inject.value(), "");
+      inject( bean, method, name, getInjectedValue(inject, name) );
+   }
+
+   private void injectComponent(Object bean, Field field, In inject)
    {
       String name = toName(field, inject.value(), "");
-      Object value = new SeamVariableResolver()
-            .resolveVariable(name, inject.create());
-      inject(bean, field, name, value);
+      inject( bean, field, name, getInjectedValue(inject, name) );
+   }
+
+   private void setOutjectedValue(String name, Object value)
+   {
+      new SeamVariableResolver().findSeamComponent(name)
+            .getScope().getContext().set(name, value);
+   }
+
+   private void outjectComponent(Object bean, Method method, Out out)
+   {
+      setOutjectedValue( toName(method, out.value(), ""), outject(bean, method) );
+   }
+
+   private void outjectComponent(Object bean, Field field, Out out)
+   {
+      setOutjectedValue( toName(field, out.value(), ""), outject(bean, field) );
+   }
+
+   private Object outject(Object bean, Field field)
+   {
+      try {
+         return field.get(bean);
+      }
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException("could not outject: " + name, e);         
+      }
+   }
+
+   private Object outject(Object bean, Method method)
+   {
+      try {
+         return method.invoke(bean);
+      }
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException("could not outject: " + name, e);         
+      }
    }
 
    private String toName(Method method, String name, String extension)
@@ -381,13 +472,13 @@ public class SeamComponent
       }
    }
 
-   private void injectProcessInstance(Object bean, Field field, Inject inject)
+   private void injectProcessInstance(Object bean, Field field, In inject)
    {
       String name = toName( field, inject.value(), "");
       inject(bean, field, name, getProcessInstance(name));
    }
 
-   private void injectProcessInstance(Object bean, Method method, Inject inject)
+   private void injectProcessInstance(Object bean, Method method, In inject)
    {
       String name = toName( method, inject.value(), "");
       inject(bean, method, name, getProcessInstance(name));
