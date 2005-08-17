@@ -5,11 +5,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 <faces-config>
 
 	<application>
-		<variable-resolver>org.jboss.seam.SeamJSFVariableResolver</variable-resolver>
+		<variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
 	</application>
 	
 	<lifecycle>
-		<phase-listener>org.jboss.seam.SeamPhaseListener</phase-listener>
+		<phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
 	</lifecycle>
 
 	<navigation-rule>
