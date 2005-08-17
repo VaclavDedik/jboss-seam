@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam;
+package org.jboss.seam.contexts;
 
 /**
  * @author Gavin King
@@ -16,5 +16,4 @@ public interface Context {
 	public void remove(String name);
 	public boolean isSet(String name);
 	public String[] getNames();
-   public void destroy();
 }

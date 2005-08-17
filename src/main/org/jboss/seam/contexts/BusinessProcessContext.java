@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam;
+package org.jboss.seam.contexts;
 
 import org.jbpm.graph.exe.ProcessInstance;
 
@@ -56,8 +56,6 @@ public class BusinessProcessContext implements Context
 	   return (String[]) processInstance.getContextInstance().getVariables()
 	         .keySet().toArray( new String[]{} );
    }
-
-   public void destroy() {}
 
 }
 

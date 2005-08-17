@@ -2,7 +2,7 @@
  * JBoss, Home of Professional Open Source  * Distributable under LGPL license.  * See terms of
  * license at gnu.org.  
  */
-package org.jboss.seam;
+package org.jboss.seam.contexts;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -50,24 +50,6 @@ public class ConversationContext implements Context, Serializable {
    public String toString()
    {
       return "ConversationContext" + map.toString();
-   }
-
-   public void destroy() {
-      SeamVariableResolver svr = new SeamVariableResolver();
-      for ( String name: map.keySet() ) {
-         SeamComponent component = svr.findSeamComponent(name);
-         if ( component!=null && component.hasDestroyMethod() )
-         {
-            try {
-               Object instance = map.get(name);
-               instance.getClass().getMethod(component.getDestroyMethod().getName()).invoke(instance);
-            }
-            catch (Exception e)
-            {
-               throw new RuntimeException(e);
-            }
-         }
-      }
    }
 
 }

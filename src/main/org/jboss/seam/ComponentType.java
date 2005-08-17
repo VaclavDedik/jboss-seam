@@ -1,7 +1,7 @@
 //$Id$
 package org.jboss.seam;
 
-public enum SeamComponentType
+public enum ComponentType
 {
    ENTITY_BEAN, 
    STATELESS_SESSION_BEAN,

@@ -2,12 +2,14 @@
  *  * JBoss, Home of Professional Open Source  *  * Distributable under LGPL license.  * See terms
  * of license at gnu.org.  
  */
-package org.jboss.seam;
+package org.jboss.seam.contexts;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Finder;
+import org.jboss.seam.Component;
 
 /**
  * @author Gavin King
@@ -50,7 +52,7 @@ public class Contexts {
 		return null;
 	}
 
-	static void beginWebRequest(HttpServletRequest request) {
+	public static void beginWebRequest(HttpServletRequest request) {
 		log.info( "Begin web request" );
 		eventContext.set( new WebRequestContext( request ) );
 		sessionContext.set( new WebSessionContext( request.getSession() ) );
@@ -59,7 +61,7 @@ public class Contexts {
 		//setConversationId( request.getParameter( "org.jboss.seam.ConversationId" ) );
 	}
 
-	static void endWebRequest() {
+	public static void endWebRequest() {
 		log.info( "End web request" );
       //clean up all threadlocals
 		eventContext.set( null );
@@ -141,27 +143,27 @@ public class Contexts {
    {
       if (isEventContextActive())
       {
-         SeamVariableResolver.log.info("removing from event context");
+         log.info("removing from event context");
          getEventContext().remove(name);
       }
       if (isConversationContextActive())
       {
-         SeamVariableResolver.log.info("removing from conversation context");
+         log.info("removing from conversation context");
          getConversationContext().remove(name);
       }
       if (isSessionContextActive())
       {
-         SeamVariableResolver.log.info("removing from session context");
+         log.info("removing from session context");
          getSessionContext().remove(name);
       }
       if (isBusinessProcessContextActive())
       {
-         SeamVariableResolver.log.info("removing from process context");
+         log.info("removing from process context");
          getBusinessProcessContext().remove(name);
       }
       if (isApplicationContextActive())
       {
-         SeamVariableResolver.log.info("removing from application context");
+         log.info("removing from application context");
          getApplicationContext().remove(name);
       }
    }
@@ -236,6 +238,25 @@ public class Contexts {
       else {
          log.info("not found in any context");
          return null;
+      }
+   }
+   
+   public static void destroy(Context context)
+   {
+      Finder finder = new Finder();
+      for ( String name: context.getNames() ) {
+         Component component = finder.getComponent(name);
+         if ( component!=null && component.hasDestroyMethod() )
+         {
+            try {
+               Object instance = context.get(name);
+               instance.getClass().getMethod(component.getDestroyMethod().getName()).invoke(instance);
+            }
+            catch (Exception e)
+            {
+               throw new RuntimeException(e);
+            }
+         }
       }
    }
 

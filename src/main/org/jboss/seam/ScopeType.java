@@ -4,10 +4,10 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.annotations;
+package org.jboss.seam;
 
-import org.jboss.seam.Context;
-import org.jboss.seam.Contexts;
+import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  * The available scopes (contexts).

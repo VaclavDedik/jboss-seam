@@ -4,7 +4,7 @@
   * Distributable under LGPL license.
   * See terms of license at gnu.org.
   */
-package org.jboss.seam;
+package org.jboss.seam.ejb;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -14,10 +14,14 @@ import javax.ejb.InvocationContext;
 import javax.ejb.Remove;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Finder;
+import org.jboss.seam.Seam;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.BeginConversation;
 import org.jboss.seam.annotations.BeginConversationIf;
 import org.jboss.seam.annotations.EndConversation;
 import org.jboss.seam.annotations.EndConversationIf;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  * Interceptor for injection and conversation scope management
@@ -34,7 +38,7 @@ public class SeamInterceptor
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       final Object bean = invocation.getBean();
-      final SeamComponent seamComponent = getSeamComponent(bean);
+      final Component seamComponent = getSeamComponent(bean);
 
       inject(bean, seamComponent);
 
@@ -61,7 +65,7 @@ public class SeamInterceptor
       return result;
    }
 
-   private void outject(final Object bean, final SeamComponent seamComponent)
+   private void outject(final Object bean, final Component seamComponent)
    {
       if ( seamComponent.getOutFields().size()>0 || seamComponent.getOutMethods().size()>0 ) //only needed to hush the log message
       {
@@ -70,7 +74,7 @@ public class SeamInterceptor
       }
    }
 
-   private void inject(final Object bean, final SeamComponent seamComponent)
+   private void inject(final Object bean, final Component seamComponent)
    {
       if ( seamComponent.getInFields().size()>0 || seamComponent.getInMethods().size()>0 ) //only needed to hush the log message
       {
@@ -79,16 +83,15 @@ public class SeamInterceptor
       }
    }
 
-   private SeamComponent getSeamComponent(Object bean)
+   private Component getSeamComponent(Object bean)
    {
-      return new SeamVariableResolver()
-            .findSeamComponent( Seam.getComponentName( bean.getClass() ) );
+      return new Finder().getComponent( Seam.getComponentName( bean.getClass() ) );
    }
    
    /**
     * If it was a @Remove method, also remove the component instance from the context
     */
-   private void removeIfNecessary(Object bean, Method method, boolean exception, SeamComponent seamComponent)
+   private void removeIfNecessary(Object bean, Method method, boolean exception, Component seamComponent)
    {
       boolean wasRemoved = method.isAnnotationPresent(Remove.class) &&
             ( !exception || !method.getAnnotation(Remove.class).retainIfException() );

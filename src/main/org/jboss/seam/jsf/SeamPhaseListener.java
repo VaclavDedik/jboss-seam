@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam;
+package org.jboss.seam.jsf;
 
 import java.util.Map;
 
@@ -9,6 +9,9 @@ import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.ConversationContext;
 
 public class SeamPhaseListener implements PhaseListener
 {
@@ -38,10 +41,10 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
          log.info("After render response, destroying contexts");
-         Contexts.getEventContext().destroy();
+         Contexts.destroy( Contexts.getEventContext() );
          if ( !Contexts.isLongRunningConversation() )
          {
-            Contexts.getConversationContext().destroy();
+            Contexts.destroy( Contexts.getConversationContext() );
          }
          Contexts.endWebRequest();
       }

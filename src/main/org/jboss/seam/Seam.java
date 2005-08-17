@@ -1,11 +1,20 @@
 //$Id$
 package org.jboss.seam;
 
+import static org.jboss.seam.ComponentType.ENTITY_BEAN;
+import static org.jboss.seam.ComponentType.JAVA_BEAN;
+import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
+import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
+import static org.jboss.seam.ScopeType.CONVERSATION;
+import static org.jboss.seam.ScopeType.EVENT;
+import static org.jboss.seam.ScopeType.STATELESS;
+
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.persistence.Entity;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.ScopeType;
 
 /**
  * Convenience methods for accessing annotated information
@@ -21,16 +30,47 @@ public class Seam
     */
    public static ScopeType getComponentScope(Class<?> clazz)
    {
-      Scope scope = clazz.getAnnotation(Scope.class);
-      if (scope!=null) return scope.value();
-      if (clazz.isAnnotationPresent(Stateless.class))
+      if ( clazz.isAnnotationPresent(Scope.class) )
       {
-         return ScopeType.STATELESS;
+         return clazz.getAnnotation(Scope.class).value();
       }
-      else 
+      else
       {
-         return ScopeType.CONVERSATION;
+         switch ( getComponentType(clazz) )
+         {
+            case STATEFUL_SESSION_BEAN:
+            case ENTITY_BEAN:
+               return CONVERSATION;
+            case STATELESS_SESSION_BEAN:
+               return STATELESS;
+            case JAVA_BEAN:
+               return EVENT;
+            default:
+               throw new IllegalStateException();
+         }
       }
+   }
+   
+   /**
+    * Get the component type
+    */
+   public static ComponentType getComponentType(Class<?> clazz)
+   {
+      if ( clazz.isAnnotationPresent(Stateful.class) )
+      {
+         return STATEFUL_SESSION_BEAN;
+      }
+      else if ( clazz.isAnnotationPresent(Stateless.class) )
+      {
+         return STATELESS_SESSION_BEAN;
+      }
+      else if ( clazz.isAnnotationPresent(Entity.class) )
+      {
+         return ENTITY_BEAN;
+      }
+      else {
+         return JAVA_BEAN;
+      }      
    }
    
    /**

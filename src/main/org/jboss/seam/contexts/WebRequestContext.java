@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam;
+package org.jboss.seam.contexts;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -48,25 +48,5 @@ public class WebRequestContext implements Context {
 		}
 		return results.toArray(new String[]{});
 	}
-   
-   public void destroy() {
-      SeamVariableResolver svr = new SeamVariableResolver();
-      Enumeration names = request.getAttributeNames();
-      while ( names.hasMoreElements() ) {
-         String name = (String) names.nextElement();
-         SeamComponent component = svr.findSeamComponent(name);
-         if ( component!=null && component.hasDestroyMethod() )
-         {
-            try {
-               Object instance = request.getAttribute(name);
-               instance.getClass().getMethod(component.getDestroyMethod().getName()).invoke( instance );
-            }
-            catch (Exception e)
-            {
-               throw new RuntimeException(e);
-            }
-         }
-      }
-   }
    
 }

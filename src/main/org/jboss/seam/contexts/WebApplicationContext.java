@@ -4,32 +4,32 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam;
+package org.jboss.seam.contexts;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContext;
 
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class WebSessionContext implements Context {
+public class WebApplicationContext implements Context {
 
-	private HttpSession session;
+	private ServletContext context;
 	
-	public WebSessionContext(HttpSession session) {
-		this.session = session;
+	public WebApplicationContext(ServletContext context) {
+		this.context = context;
 	}
 
 	public Object get(String name) {
-		return session.getAttribute(name);
+		return context.getAttribute(name);
 	}
 
 	public void set(String name, Object value) {
-		session.setAttribute(name, value);
+		context.setAttribute(name, value);
 	}
 
 	public boolean isSet(String name) {
@@ -37,11 +37,11 @@ public class WebSessionContext implements Context {
 	}
 
 	public void remove(String name) {
-		session.removeAttribute(name);
+		context.removeAttribute(name);
 	}
 
 	public String[] getNames() {
-		Enumeration names = session.getAttributeNames();
+		Enumeration names = context.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
 		while ( names.hasMoreElements() ) {
 			results.add( (String) names.nextElement() );
@@ -49,8 +49,4 @@ public class WebSessionContext implements Context {
 		return results.toArray(new String[]{});
 	}
    
-   public void destroy() {
-      //TODO!!!!
-   }
-
 }

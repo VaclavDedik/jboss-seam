@@ -6,13 +6,10 @@
  */
 package org.jboss.seam;
 
-import static org.jboss.seam.SeamComponentType.ENTITY_BEAN;
-import static org.jboss.seam.SeamComponentType.JAVA_BEAN;
-import static org.jboss.seam.SeamComponentType.STATEFUL_SESSION_BEAN;
-import static org.jboss.seam.SeamComponentType.STATELESS_SESSION_BEAN;
-import static org.jboss.seam.annotations.ScopeType.CONVERSATION;
-import static org.jboss.seam.annotations.ScopeType.EVENT;
-import static org.jboss.seam.annotations.ScopeType.STATELESS;
+import static org.jboss.seam.ComponentType.ENTITY_BEAN;
+import static org.jboss.seam.ComponentType.JAVA_BEAN;
+import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
+import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -31,8 +28,6 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.ScopeType;
 import org.jboss.seam.deployment.SeamModule;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
@@ -46,9 +41,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class SeamComponent
+public class Component
 {
-   private SeamComponentType type;
+   private ComponentType type;
    private String name;
    private ScopeType scope;
    private Class beanClass;
@@ -73,26 +68,17 @@ public class SeamComponent
       return outMethods;
    }
 
-   public SeamComponent(SeamModule seamModule, Class<?> clazz)
+   public Component(SeamModule seamModule, Class<?> clazz)
    {
       this.seamModule = seamModule;
       this.name = Seam.getComponentName(clazz);
       this.beanClass = clazz;
 
-      // Set up the component scope
-      boolean hasScopeAnnotation = clazz.isAnnotationPresent(Scope.class);
-      if (hasScopeAnnotation)
-      {
-         scope = Seam.getComponentScope(clazz);
-      }
+      scope = Seam.getComponentScope(clazz);
 
       if ( clazz.isAnnotationPresent(Stateful.class) )
       {
          type = STATEFUL_SESSION_BEAN;
-         if (!hasScopeAnnotation) 
-         {
-            scope = CONVERSATION;
-         }
          seamModule.getEJB3Beans().put( 
                clazz.getAnnotation(Stateful.class).name(), 
                clazz.getCanonicalName()
@@ -102,10 +88,6 @@ public class SeamComponent
       else if ( clazz.isAnnotationPresent(Stateless.class) )
       {
          type = STATELESS_SESSION_BEAN;
-         if (!hasScopeAnnotation) 
-         {
-            scope = STATELESS;
-         }
          seamModule.getEJB3Beans().put(
                clazz.getAnnotation(Stateless.class).name(), 
                clazz.getCanonicalName()
@@ -115,10 +97,6 @@ public class SeamComponent
       else if ( clazz.isAnnotationPresent(Entity.class) )
       {
          type = ENTITY_BEAN;
-         if (!hasScopeAnnotation) 
-         {
-            scope = CONVERSATION;
-         }
          seamModule.getEJB3Beans().put(
                clazz.getAnnotation(Entity.class).name(), 
                clazz.getCanonicalName()
@@ -127,11 +105,7 @@ public class SeamComponent
       
       else {
          type = JAVA_BEAN;
-         if (!hasScopeAnnotation) 
-         {
-            scope = EVENT;
-         }
-      }
+       }
 
       
       for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
@@ -181,7 +155,7 @@ public class SeamComponent
       return name;
    }
    
-   public SeamComponentType getType()
+   public ComponentType getType()
    {
       return type;
    }
@@ -366,8 +340,8 @@ public class SeamComponent
 
    private Object getInjectedValue(In inject, String name)
    {
-      return new SeamVariableResolver()
-            .resolveVariable(name, inject.create());
+      return new Finder()
+            .getComponentInstance(name, inject.create());
    }
 
    private void injectComponent(Object bean, Method method, In inject)
@@ -384,7 +358,7 @@ public class SeamComponent
 
    private void setOutjectedValue(String name, Object value)
    {
-      new SeamVariableResolver().findSeamComponent(name)
+      new Finder().getComponent(name)
             .getScope().getContext().set(name, value);
    }
 

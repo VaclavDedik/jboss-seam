@@ -13,6 +13,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.jboss.seam.ScopeType;
+
 /**
  * Specifies the scope (context) of a seam component.
  *

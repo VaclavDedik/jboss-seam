@@ -8,11 +8,11 @@ package org.jboss.seam.test;
 
 import javax.ejb.Interceptor;
 
-import org.jboss.seam.SeamInterceptor;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.ScopeType;
+import org.jboss.seam.ejb.SeamInterceptor;
 import org.jbpm.graph.exe.ProcessInstance;
 
 /**

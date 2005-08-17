@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam;
+package org.jboss.seam.contexts;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -56,10 +56,6 @@ public class StatelessContext implements Context {
 			log.debug("could not unbind: " + name, ne);
 			throw new IllegalArgumentException("could not unbind: " + name, ne);
 		}
-	}
-
-	public void destroy() {
-		throw new UnsupportedOperationException();
 	}
 
 	public String[] getNames() {
