@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 
 import org.hibernate.validator.Length;
+import org.hibernate.validator.Min;
 import org.hibernate.validator.NotNull;
 import org.jboss.seam.annotations.Name;
 
@@ -45,7 +46,7 @@ public class User implements Serializable
       this.password = password;
    }
    
-   @NotNull
+   @NotNull @Min(1)
    public int getAge()
    {
       return age;

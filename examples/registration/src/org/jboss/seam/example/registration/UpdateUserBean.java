@@ -14,11 +14,14 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
 import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.seam.annotations.BeginIf;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Validate;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 /*
@@ -48,6 +51,8 @@ public class UpdateUserBean implements UpdateUser, Serializable
    private String username;
    
    @TransactionAttribute(NOT_SUPPORTED)
+   @Length(min=6, max=15)
+   @NotNull
    public String getUsername() {
       return username;
    }
@@ -57,6 +62,7 @@ public class UpdateUserBean implements UpdateUser, Serializable
       username = name;
    }
    
+   @Validate
    @BeginIf(result="success")
    public String findUser() {
       log.info("finding User");
