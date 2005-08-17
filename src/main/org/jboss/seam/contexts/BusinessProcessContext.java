@@ -31,6 +31,7 @@ public class BusinessProcessContext implements Context
    {
       log.info("Begin Business Process context");
       
+      // TODO: This is not good, the session is never closed since there is no destroy method anymore.
       jbpmSession = jbpmSessionFactory.openJbpmSession();
    }
    
@@ -89,13 +90,6 @@ public class BusinessProcessContext implements Context
       return processInstance;
    }
 
-   public void signal(String transitionName)
-   {
-      jbpmSession.beginTransaction();
-      ProcessInstance myProcessInstance = jbpmSession.getGraphSession().loadProcessInstance(processInstance.getId());
-      myProcessInstance.signal(transitionName);
-      jbpmSession.commitTransactionAndClose();
-   }
 }
 
 

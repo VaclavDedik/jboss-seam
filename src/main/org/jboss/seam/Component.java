@@ -420,7 +420,7 @@ public class Component
 
    private ProcessInstance getProcessInstance(String name)
    {
-     ProcessInstance processInstance = null;
+      ProcessInstance processInstance = null;
      
       BusinessProcessContext bpc = (BusinessProcessContext)Contexts.getBusinessProcessContext();
       processInstance = bpc.getProcessInstance(name, true);

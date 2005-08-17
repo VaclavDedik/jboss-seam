@@ -51,8 +51,12 @@ public class UserManagementBean implements UserManagement, Serializable
    public String register()
    {
       manager.persist(user);
+      
+      processInstance.signal("submit for approval");
+      /*
       BusinessProcessContext bpc = (BusinessProcessContext)Contexts.getBusinessProcessContext();
       bpc.signal("submit for approval");
+      */
       /*
       JbpmSessionFactory jbpmSessionFactory = BusinessProcessContext.jbpmSessionFactory;
       JbpmSession jbpmSession = jbpmSessionFactory.openJbpmSession();
