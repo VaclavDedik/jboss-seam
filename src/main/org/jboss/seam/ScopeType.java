@@ -27,13 +27,20 @@ public enum ScopeType
    public Context getContext() {
       switch (this)
       {
-         case STATELESS: return Contexts.getStatelessContext();
-         case EVENT: return Contexts.getEventContext();
-         case CONVERSATION: return Contexts.getConversationContext();
-         case SESSION: return Contexts.getSessionContext();
-         case APPLICATION: return Contexts.getApplicationContext();
-         case PROCESS: return Contexts.getBusinessProcessContext();
-         default: throw new IllegalArgumentException();
+         case STATELESS: 
+            return Contexts.getStatelessContext();
+         case EVENT: 
+            return Contexts.getEventContext();
+         case CONVERSATION: 
+            return Contexts.getConversationContext();
+         case SESSION: 
+            return Contexts.getSessionContext();
+         case APPLICATION: 
+            return Contexts.getApplicationContext();
+         case PROCESS: 
+            return Contexts.getBusinessProcessContext();
+         default: 
+            throw new IllegalArgumentException();
       }
    }
 }

@@ -6,11 +6,6 @@
  */
 package org.jboss.seam;
 
-import static org.jboss.seam.ComponentType.ENTITY_BEAN;
-import static org.jboss.seam.ComponentType.JAVA_BEAN;
-import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
-import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
-
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -72,42 +67,32 @@ public class Component
    public Component(SeamModule seamModule, Class<?> clazz)
    {
       this.seamModule = seamModule;
-      this.name = Seam.getComponentName(clazz);
       this.beanClass = clazz;
-
+      name = Seam.getComponentName(clazz);
       scope = Seam.getComponentScope(clazz);
-
-      if ( clazz.isAnnotationPresent(Stateful.class) )
-      {
-         type = STATEFUL_SESSION_BEAN;
-         seamModule.getEJB3Beans().put( 
-               clazz.getAnnotation(Stateful.class).name(), 
-               clazz.getCanonicalName()
-            );
-      }
-
-      else if ( clazz.isAnnotationPresent(Stateless.class) )
-      {
-         type = STATELESS_SESSION_BEAN;
-         seamModule.getEJB3Beans().put(
-               clazz.getAnnotation(Stateless.class).name(), 
-               clazz.getCanonicalName()
-            );
-      }
-
-      else if ( clazz.isAnnotationPresent(Entity.class) )
-      {
-         type = ENTITY_BEAN;
-         seamModule.getEJB3Beans().put(
-               clazz.getAnnotation(Entity.class).name(), 
-               clazz.getCanonicalName()
-            );
-      }
+      type = Seam.getComponentType(clazz);
       
-      else {
-         type = JAVA_BEAN;
-       }
-
+      //TODO: what is this shit even for????
+      if (type.isEjb())
+      {
+      
+         String ejbName = clazz.getCanonicalName();
+         switch(type)
+         {
+            case STATEFUL_SESSION_BEAN: 
+               ejbName = clazz.getAnnotation(Stateful.class).name();
+               break;
+            case STATELESS_SESSION_BEAN: 
+               ejbName = clazz.getAnnotation(Stateless.class).name();
+               break;
+            case ENTITY_BEAN:
+               ejbName = clazz.getAnnotation(Entity.class).name();
+               break;
+         }
+         
+         seamModule.getEJB3Beans().put(ejbName, clazz.getCanonicalName());
+         
+      }
       
       for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
       {

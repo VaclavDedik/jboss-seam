@@ -5,9 +5,6 @@ import static org.jboss.seam.ComponentType.ENTITY_BEAN;
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
 import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
-import static org.jboss.seam.ScopeType.CONVERSATION;
-import static org.jboss.seam.ScopeType.EVENT;
-import static org.jboss.seam.ScopeType.STATELESS;
 
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
@@ -31,25 +28,9 @@ public class Seam
     */
    public static ScopeType getComponentScope(Class<?> clazz)
    {
-      if ( clazz.isAnnotationPresent(Scope.class) )
-      {
-         return clazz.getAnnotation(Scope.class).value();
-      }
-      else
-      {
-         switch ( getComponentType(clazz) )
-         {
-            case STATEFUL_SESSION_BEAN:
-            case ENTITY_BEAN:
-               return CONVERSATION;
-            case STATELESS_SESSION_BEAN:
-               return STATELESS;
-            case JAVA_BEAN:
-               return EVENT;
-            default:
-               throw new IllegalStateException();
-         }
-      }
+      return clazz.isAnnotationPresent(Scope.class) ?
+            clazz.getAnnotation(Scope.class).value() :
+            getComponentType(clazz).getDefaultScope();
    }
    
    /**
