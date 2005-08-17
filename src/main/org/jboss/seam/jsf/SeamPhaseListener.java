@@ -67,6 +67,7 @@ public class SeamPhaseListener implements PhaseListener
       {
          log.info("Before restore view");
          Contexts.beginWebRequest( (HttpServletRequest) event.getFacesContext().getExternalContext().getRequest() );
+         Contexts.setProcessing(false);
       }
       else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE)
       {
