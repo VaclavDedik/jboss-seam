@@ -16,10 +16,14 @@ import java.util.Set;
 import javax.ejb.Remove;
 import javax.naming.InitialContext;
 
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Validate;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamModule;
@@ -45,20 +49,14 @@ public class Component
    private Method destroyMethod;
    private Method createMethod;
    private Set<Method> removeMethods = new HashSet<Method>();
+   private Set<Method> validateMethods = new HashSet<Method>();
    private Set<Method> inMethods = new HashSet<Method>();
    private Set<Field> inFields = new HashSet<Field>();
    private Set<Method> outMethods = new HashSet<Method>();
    private Set<Field> outFields = new HashSet<Field>();
-
-   public Set<Field> getOutFields()
-   {
-      return outFields;
-   }
-
-   public Set<Method> getOutMethods()
-   {
-      return outMethods;
-   }
+   private Set<Field> validateFields = new HashSet<Field>();
+   
+   private ClassValidator validator;
 
    public Component(SeamModule seamModule, Class<?> clazz)
    {
@@ -70,6 +68,10 @@ public class Component
       
       for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
       {
+         if ( method.isAnnotationPresent(Validate.class) )
+         {
+            validateMethods.add(method);  
+         }
          if ( method.isAnnotationPresent(Remove.class) )
          {
             removeMethods.add(method);  
@@ -102,7 +104,13 @@ public class Component
          {
             outFields.add(field);
          }
+         if ( field.isAnnotationPresent(Validate.class) )
+         {
+            validateFields.add(field);
+         }
       }
+      
+      validator = new ClassValidator(beanClass);
    }
 
    public Class getBeanClass()
@@ -120,7 +128,6 @@ public class Component
       return type;
    }
 
-
    public SeamModule getSeamModule()
    {
       return seamModule;
@@ -131,6 +138,10 @@ public class Component
       return scope;
    }
    
+   public ClassValidator getValidator() {
+      return validator;
+   }
+   
    public Method getDestroyMethod()
    {
       return destroyMethod;
@@ -139,6 +150,16 @@ public class Component
    public Set<Method> getRemoveMethods()
    {
       return removeMethods;
+   }
+   
+   public Set<Method> getValidateMethods()
+   {
+      return validateMethods;
+   }
+   
+   public Set<Field> getValidateFields()
+   {
+      return validateFields;
    }
    
    public boolean hasDestroyMethod() 
@@ -154,6 +175,16 @@ public class Component
    public Method getCreateMethod()
    {
       return createMethod;
+   }
+
+   public Set<Field> getOutFields()
+   {
+      return outFields;
+   }
+
+   public Set<Method> getOutMethods()
+   {
+      return outMethods;
    }
 
    public Set<Method> getInMethods()
@@ -190,10 +221,12 @@ public class Component
       }
    }
    
-   public void inject(Object bean)
+   public String inject(Object bean)
    {
-      injectMethods(bean);
-      injectFields(bean);
+      String outcome = injectMethods(bean);
+      if (outcome!=null) return outcome;
+      outcome = injectFields(bean);
+      return outcome;
    }
 
    public void outject(Object bean)
@@ -202,7 +235,7 @@ public class Component
       outjectFields(bean);
    }
 
-   public void injectMethods(Object bean)
+   public String injectMethods(Object bean)
    {
       for (Method method : getInMethods())
       {
@@ -219,13 +252,15 @@ public class Component
             }
             else 
             {
-               injectComponent(bean, method, inject);
+               String outcome = injectComponent(bean, method, inject);
+               if (outcome!=null) return outcome;
             }
          }
       }
+      return null;
    }
 
-   private void injectFields(Object bean)
+   private String injectFields(Object bean)
    {
       for (Field field : getInFields())
       {
@@ -242,10 +277,12 @@ public class Component
             }
             else 
             {
-               injectComponent(bean, field, inject);
+               String outcome = injectComponent(bean, field, inject);
+               if (outcome!=null) return outcome;
             }
-          }
+         }
       }
+      return null;
    }
 
    public void outjectFields(Object bean)
@@ -312,16 +349,16 @@ public class Component
       }
    }
 
-   private void injectComponent(Object bean, Method method, In inject)
+   private String injectComponent(Object bean, Method method, In inject)
    {
       String name = toName(method, inject.value(), "");
-      inject( bean, method, name, getInjectedValue(inject, name) );
+      return inject( bean, method, name, getInjectedValue(inject, name) );
    }
 
-   private void injectComponent(Object bean, Field field, In inject)
+   private String injectComponent(Object bean, Field field, In inject)
    {
       String name = toName(field, inject.value(), "");
-      inject( bean, field, name, getInjectedValue(inject, name) );
+      return inject( bean, field, name, getInjectedValue(inject, name) );
    }
 
    private void setOutjectedValue(Out out, String name, Object value)
@@ -389,8 +426,15 @@ public class Component
       return name;
    }
 
-   private void inject(Object bean, Method method, String name, Object value)
+   private String inject(Object bean, Method method, String name, Object value)
    {
+      if ( value!=null && method.isAnnotationPresent(Validate.class) )
+      {
+         String outcome = new Finder().getComponent(name)
+               .validate( value, method.getAnnotation(Validate.class) );
+         if (outcome!=null) return outcome;
+      }
+      
       try
       {
          if (!method.isAccessible())
@@ -403,10 +447,18 @@ public class Component
       {
          throw new IllegalArgumentException("could not inject: " + name, e);
       }
+      return null;
    }
 
-   private void inject(Object bean, Field field, String name, Object value)
+   private String inject(Object bean, Field field, String name, Object value)
    {
+      if ( value!=null && field.isAnnotationPresent(Validate.class) )
+      {
+         String outcome = new Finder().getComponent(name)
+               .validate( value, field.getAnnotation(Validate.class) );
+         if (outcome!=null) return outcome;
+      }
+      
       try
       {
          if (!field.isAccessible()) 
@@ -419,6 +471,8 @@ public class Component
       {
          throw new IllegalArgumentException("could not inject: " + name, e);
       }
+      
+      return null;
    }
 
    private void injectProcessInstance(Object bean, Field field, In inject)
@@ -441,5 +495,27 @@ public class Component
       processInstance = bpc.getProcessInstance(name, true);
     
       return processInstance;
+   }
+
+   public String validate(Object bean, Validate validate)
+   {
+      InvalidValue[] invalidValues = getValidator().getInvalidValues(bean);
+      if (invalidValues.length==0)
+      {
+         return null;
+      }
+      else
+      {
+         Contexts.getEventContext().set("invalidValues", invalidValues);
+         String invalidOutcome = validate.invalidOutcome();
+         if ( invalidOutcome.equals("") )
+         {
+            throw new InvalidStateException(invalidValues);
+         }
+         else
+         {
+            return invalidOutcome;
+         }
+      }
    }
 }

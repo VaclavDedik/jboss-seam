@@ -21,6 +21,7 @@ import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginIf;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndIf;
+import org.jboss.seam.annotations.Validate;
 import org.jboss.seam.contexts.Contexts;
 
 /**
@@ -41,12 +42,15 @@ public class SeamInterceptor
       if ( Contexts.isProcessing() )
       {
          final Object bean = invocation.getBean();
+         final Method method = invocation.getMethod();
          final Component seamComponent = getSeamComponent(bean);
    
-         inject(bean, seamComponent);
-   
-         final Method method = invocation.getMethod();
-         Object result;
+         Object result = inject(bean, seamComponent);
+         if (result!=null) return result;
+         
+         result = validateIfNecessary(bean, method, seamComponent);
+         if (result!=null) return result;
+         
          try
          {
             result = invocation.proceed();
@@ -72,21 +76,37 @@ public class SeamInterceptor
       }
    }
 
+   private Object validateIfNecessary(Object bean, Method method, Component seamComponent)
+   {
+      if ( method.isAnnotationPresent(Validate.class) )
+      {
+         return seamComponent.validate( bean, method.getAnnotation(Validate.class) );
+      }
+      else
+      {
+         return null;
+      }
+   }
+
    private void outject(final Object bean, final Component seamComponent)
    {
       if ( seamComponent.getOutFields().size()>0 || seamComponent.getOutMethods().size()>0 ) //only needed to hush the log message
       {
-         log.info("injecting dependencies to: " + seamComponent.getName());
+         log.info("outjecting dependencies to: " + seamComponent.getName());
          seamComponent.outject(bean);
       }
    }
 
-   private void inject(final Object bean, final Component seamComponent)
+   private String inject(final Object bean, final Component seamComponent)
    {
       if ( seamComponent.getInFields().size()>0 || seamComponent.getInMethods().size()>0 ) //only needed to hush the log message
       {
-         log.info("outjecting dependencies from: " + seamComponent.getName());
-         seamComponent.inject(bean);
+         log.info("injecting dependencies from: " + seamComponent.getName());
+         return seamComponent.inject(bean);
+      }
+      else 
+      {
+         return null;
       }
    }
 
