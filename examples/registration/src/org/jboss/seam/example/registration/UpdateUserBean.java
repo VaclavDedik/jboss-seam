@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.BeginIf;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Validate;
+import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 /*
@@ -62,7 +62,7 @@ public class UpdateUserBean implements UpdateUser, Serializable
       username = name;
    }
    
-   @Validate(invalidOutcome="retry")
+   @IfInvalid(outcome="retry")
    @BeginIf(outcome="success")
    public String findUser() {
       log.info("finding User");

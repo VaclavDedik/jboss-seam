@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Validate;
+import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 /*
@@ -35,7 +35,7 @@ public class CreateUserBean implements CreateUser
    //@Valid
    private User user;
    
-   @Validate(invalidOutcome="retry")
+   @IfInvalid(outcome="retry")
    public String createUser()
    {
       manager.persist(user);
