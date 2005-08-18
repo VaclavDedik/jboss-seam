@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginIf;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndIf;
-import org.jboss.seam.annotations.Validate;
+import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.contexts.Contexts;
 
 /**
@@ -78,9 +78,9 @@ public class SeamInterceptor
 
    private String validateIfNecessary(Object bean, Method method, Component seamComponent)
    {
-      if ( method.isAnnotationPresent(Validate.class) )
+      if ( method.isAnnotationPresent(IfInvalid.class) )
       {
-         return seamComponent.validate( bean, method.getAnnotation(Validate.class) );
+         return seamComponent.validate( bean, method.getAnnotation(IfInvalid.class) );
       }
       else
       {

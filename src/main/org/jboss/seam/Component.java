@@ -23,7 +23,7 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Validate;
+import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamModule;
@@ -68,7 +68,7 @@ public class Component
       
       for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
       {
-         if ( method.isAnnotationPresent(Validate.class) )
+         if ( method.isAnnotationPresent(IfInvalid.class) )
          {
             validateMethods.add(method);  
          }
@@ -108,7 +108,7 @@ public class Component
          {
             outFields.add(field);
          }
-         if ( field.isAnnotationPresent(Validate.class) )
+         if ( field.isAnnotationPresent(IfInvalid.class) )
          {
             validateFields.add(field);
          }
@@ -474,7 +474,7 @@ public class Component
       return processInstance;
    }
 
-   public String validate(Object bean, Validate validate)
+   public String validate(Object bean, IfInvalid validate)
    {
       InvalidValue[] invalidValues = getValidator().getInvalidValues(bean);
       if (invalidValues.length==0)
@@ -484,7 +484,7 @@ public class Component
       else
       {
          Contexts.getEventContext().set("invalidValues", invalidValues);
-         String invalidOutcome = validate.invalidOutcome();
+         String invalidOutcome = validate.outcome();
          if ( invalidOutcome.equals("") )
          {
             throw new InvalidStateException(invalidValues);
