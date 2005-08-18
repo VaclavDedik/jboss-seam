@@ -92,6 +92,10 @@ public class Component
          {
             outMethods.add(method);
          }
+         if ( !method.isAccessible() )
+         {
+            method.setAccessible(true);
+         }
       }
       
       for (Field field: clazz.getDeclaredFields()) //TODO: inheritance!
@@ -107,6 +111,10 @@ public class Component
          if ( field.isAnnotationPresent(Validate.class) )
          {
             validateFields.add(field);
+         }
+         if ( !field.isAccessible() )
+         {
+            field.setAccessible(true);
          }
       }
       
@@ -424,10 +432,6 @@ public class Component
    {  
       try
       {
-         if (!method.isAccessible())
-         {
-            method.setAccessible(true);
-         }
          method.invoke( bean, new Object[] { value } );
       } 
       catch (Exception e)
@@ -440,10 +444,6 @@ public class Component
    {  
       try
       {
-         if (!field.isAccessible()) 
-         {
-            field.setAccessible(true);
-         }
          field.set(bean, value);
       } 
       catch (Exception e)
