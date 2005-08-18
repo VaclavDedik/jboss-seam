@@ -22,6 +22,6 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 public @interface EndIf {
-	String[] result() default {};
+	String[] outcome() default {};
 	Class[] exception() default {};
 }

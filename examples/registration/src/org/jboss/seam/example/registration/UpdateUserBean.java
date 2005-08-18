@@ -63,7 +63,7 @@ public class UpdateUserBean implements UpdateUser, Serializable
    }
    
    @Validate(invalidOutcome="retry")
-   @BeginIf(result="success")
+   @BeginIf(outcome="success")
    public String findUser() {
       log.info("finding User");
       user = manager.find(User.class, username);

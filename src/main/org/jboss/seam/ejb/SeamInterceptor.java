@@ -138,7 +138,7 @@ public class SeamInterceptor
       else if ( method.isAnnotationPresent(BeginIf.class) )
       {
          String[] results = method.getAnnotation(BeginIf.class)
-               .result();
+               .outcome();
          if (Arrays.asList(results).contains(result))
          {
             Contexts.beginConversation();
@@ -168,7 +168,7 @@ public class SeamInterceptor
       else if (method.isAnnotationPresent(EndIf.class))
       {
          String[] results = method.getAnnotation(EndIf.class)
-               .result();
+               .outcome();
          if (Arrays.asList(results).contains(result))
          {
             Contexts.endConversation();
