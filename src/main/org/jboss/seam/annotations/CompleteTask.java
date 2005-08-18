@@ -15,9 +15,15 @@ import org.jboss.seam.ScopeType;
  *
  * @see org.jbpm.taskmgmt.exe.TaskInstance#end
  *
- * TODO : need to figure a scheme for handling the transitionName; possibilities:
- *    1) another context lookup.
- *    2) A mapping between the annotated method's return value to the transitionName
+ * TODO : need to figure a scheme for handling the transitionName;
+ * possibilities:
+ *      1) another context lookup.
+ *      2) A mapping between the annotated method's return value to the
+ *          transitionName (based on assumption this is attached to JSF
+ *          action handler returning the logic name of the page to go
+ *          to as a result)
+ *      3) (same assumption) require the trasitionName and action result
+ *          name be the same
  */
 @Target(METHOD)
 @Retention(RUNTIME)
