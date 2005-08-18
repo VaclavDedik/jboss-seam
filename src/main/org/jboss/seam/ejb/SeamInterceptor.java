@@ -45,12 +45,12 @@ public class SeamInterceptor
          final Method method = invocation.getMethod();
          final Component seamComponent = getSeamComponent(bean);
    
-         Object result = inject(bean, seamComponent);
-         if (result!=null) return result;
+         inject(bean, seamComponent);
          
-         result = validateIfNecessary(bean, method, seamComponent);
-         if (result!=null) return result;
+         String invalidOutcome = validateIfNecessary(bean, method, seamComponent);
+         if (invalidOutcome!=null) return invalidOutcome;
          
+         Object result;
          try
          {
             result = invocation.proceed();
@@ -76,7 +76,7 @@ public class SeamInterceptor
       }
    }
 
-   private Object validateIfNecessary(Object bean, Method method, Component seamComponent)
+   private String validateIfNecessary(Object bean, Method method, Component seamComponent)
    {
       if ( method.isAnnotationPresent(Validate.class) )
       {
@@ -97,16 +97,12 @@ public class SeamInterceptor
       }
    }
 
-   private String inject(final Object bean, final Component seamComponent)
+   private void inject(final Object bean, final Component seamComponent)
    {
       if ( seamComponent.getInFields().size()>0 || seamComponent.getInMethods().size()>0 ) //only needed to hush the log message
       {
          log.info("injecting dependencies from: " + seamComponent.getName());
-         return seamComponent.inject(bean);
-      }
-      else 
-      {
-         return null;
+         seamComponent.inject(bean);
       }
    }
 

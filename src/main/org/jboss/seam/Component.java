@@ -221,12 +221,10 @@ public class Component
       }
    }
    
-   public String inject(Object bean)
+   public void inject(Object bean)
    {
-      String outcome = injectMethods(bean);
-      if (outcome!=null) return outcome;
-      outcome = injectFields(bean);
-      return outcome;
+      injectMethods(bean);
+      injectFields(bean);
    }
 
    public void outject(Object bean)
@@ -235,7 +233,7 @@ public class Component
       outjectFields(bean);
    }
 
-   public String injectMethods(Object bean)
+   public void injectMethods(Object bean)
    {
       for (Method method : getInMethods())
       {
@@ -252,15 +250,13 @@ public class Component
             }
             else 
             {
-               String outcome = injectComponent(bean, method, inject);
-               if (outcome!=null) return outcome;
+               injectComponent(bean, method, inject);
             }
          }
       }
-      return null;
    }
 
-   private String injectFields(Object bean)
+   private void injectFields(Object bean)
    {
       for (Field field : getInFields())
       {
@@ -277,12 +273,10 @@ public class Component
             }
             else 
             {
-               String outcome = injectComponent(bean, field, inject);
-               if (outcome!=null) return outcome;
+               injectComponent(bean, field, inject);
             }
          }
       }
-      return null;
    }
 
    public void outjectFields(Object bean)
@@ -349,16 +343,16 @@ public class Component
       }
    }
 
-   private String injectComponent(Object bean, Method method, In inject)
+   private void injectComponent(Object bean, Method method, In inject)
    {
       String name = toName(method, inject.value(), "");
-      return inject( bean, method, name, getInjectedValue(inject, name) );
+      inject( bean, method, name, getInjectedValue(inject, name) );
    }
 
-   private String injectComponent(Object bean, Field field, In inject)
+   private void injectComponent(Object bean, Field field, In inject)
    {
       String name = toName(field, inject.value(), "");
-      return inject( bean, field, name, getInjectedValue(inject, name) );
+      inject( bean, field, name, getInjectedValue(inject, name) );
    }
 
    private void setOutjectedValue(Out out, String name, Object value)
@@ -426,15 +420,8 @@ public class Component
       return name;
    }
 
-   private String inject(Object bean, Method method, String name, Object value)
-   {
-      if ( value!=null && method.isAnnotationPresent(Validate.class) )
-      {
-         String outcome = new Finder().getComponent(name)
-               .validate( value, method.getAnnotation(Validate.class) );
-         if (outcome!=null) return outcome;
-      }
-      
+   private void inject(Object bean, Method method, String name, Object value)
+   {  
       try
       {
          if (!method.isAccessible())
@@ -447,18 +434,10 @@ public class Component
       {
          throw new IllegalArgumentException("could not inject: " + name, e);
       }
-      return null;
    }
 
-   private String inject(Object bean, Field field, String name, Object value)
-   {
-      if ( value!=null && field.isAnnotationPresent(Validate.class) )
-      {
-         String outcome = new Finder().getComponent(name)
-               .validate( value, field.getAnnotation(Validate.class) );
-         if (outcome!=null) return outcome;
-      }
-      
+   private void inject(Object bean, Field field, String name, Object value)
+   {  
       try
       {
          if (!field.isAccessible()) 
@@ -471,8 +450,6 @@ public class Component
       {
          throw new IllegalArgumentException("could not inject: " + name, e);
       }
-      
-      return null;
    }
 
    private void injectProcessInstance(Object bean, Field field, In inject)
