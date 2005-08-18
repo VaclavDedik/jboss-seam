@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Finder;
 import org.jboss.seam.Component;
+import org.jboss.seam.Interceptor;
 
 /**
  * Provides access to the current contexts associated with the thread.
@@ -230,15 +231,23 @@ public class Contexts {
       Finder finder = new Finder();
       for ( String name: context.getNames() ) {
          Component component = finder.getComponent(name);
-         if ( component!=null && component.hasDestroyMethod() )
+         if ( component!=null )
          {
-            try {
-               Object instance = context.get(name);
-               instance.getClass().getMethod(component.getDestroyMethod().getName()).invoke(instance);
-            }
-            catch (Exception e)
+            Object instance = context.get(name);
+            if ( component.hasDestroyMethod() )
             {
-               throw new RuntimeException(e);
+               String methodName = component.getDestroyMethod().getName();
+               try {
+                  instance.getClass().getMethod(methodName).invoke(instance);
+               }
+               catch (Exception e)
+               {
+                  throw new RuntimeException(e);
+               }
+            }
+            for( Interceptor interceptor: component.getInterceptors() )
+            {
+               interceptor.destroy(instance);
             }
          }
       }

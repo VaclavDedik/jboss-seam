@@ -64,8 +64,8 @@ public class Finder
 
    public Object newComponentInstance(String name)
    {
-      Component seamComponent = getComponent(name);
-      if (seamComponent == null)
+      Component component = getComponent(name);
+      if (component == null)
       {
          log.info("seam component not found: " + name);
          return null;
@@ -73,21 +73,25 @@ public class Finder
       else
       {
          log.info("instantiating seam component: " + name);
-         Object result = seamComponent.instantiate();
-         if (seamComponent.getType()!=ComponentType.STATELESS_SESSION_BEAN)
+         Object result = component.instantiate();
+         if (component.getType()!=ComponentType.STATELESS_SESSION_BEAN)
          {
-            if (seamComponent.hasCreateMethod())
+            if (component.hasCreateMethod())
             {
                try 
                {
-                  result.getClass().getMethod(seamComponent.getCreateMethod().getName()).invoke(result);
+                  result.getClass().getMethod(component.getCreateMethod().getName()).invoke(result);
                }
                catch (Exception e)
                {
                   throw new RuntimeException(e);
                }
             }
-            seamComponent.getScope().getContext().set(name, result);
+            for( Interceptor interceptor: component.getInterceptors() )
+            {
+               interceptor.create(result);
+            }
+            component.getScope().getContext().set(name, result);
          }
          return result;
       }

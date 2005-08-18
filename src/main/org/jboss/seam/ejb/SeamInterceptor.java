@@ -15,6 +15,7 @@ import javax.ejb.Remove;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Finder;
+import org.jboss.seam.Interceptor;
 import org.jboss.seam.Seam;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Begin;
@@ -50,6 +51,11 @@ public class SeamInterceptor
          String invalidOutcome = validateIfNecessary(bean, method, seamComponent);
          if (invalidOutcome!=null) return invalidOutcome;
          
+         for (Interceptor interceptor: seamComponent.getInterceptors())
+         {
+            interceptor.beforeInvoke(invocation);
+         }
+
          Object result;
          try
          {
@@ -57,9 +63,18 @@ public class SeamInterceptor
          } 
          catch (Exception exception)
          {
+            for (Interceptor interceptor: seamComponent.getInterceptors())
+            {
+               interceptor.afterException(exception, invocation);
+            }
             endConversationIfNecessary(method, exception);
             removeIfNecessary(bean, method, true, seamComponent);
             throw exception;
+         }
+         
+         for (Interceptor interceptor: seamComponent.getInterceptors())
+         {
+            interceptor.afterReturn(result, invocation);
          }
          
          outject(bean, seamComponent);

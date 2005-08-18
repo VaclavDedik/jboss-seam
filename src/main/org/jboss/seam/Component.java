@@ -7,9 +7,12 @@
 package org.jboss.seam;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -18,6 +21,7 @@ import javax.naming.InitialContext;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
+import org.jboss.seam.annotations.Advice;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
@@ -56,6 +60,8 @@ public class Component
    private Set<Field> validateFields = new HashSet<Field>();
    
    private ClassValidator validator;
+   
+   private List<Interceptor> interceptors = new ArrayList<Interceptor>();
 
    public Component(SeamModule seamModule, Class<?> clazz)
    {
@@ -118,6 +124,24 @@ public class Component
       }
       
       validator = new ClassValidator(beanClass);
+      
+      for (Annotation ann: clazz.getAnnotations())
+      {
+         if ( ann.getClass().isAnnotationPresent(Advice.class) )
+         {
+            try 
+            {
+               Interceptor interceptor = (Interceptor) ann.getClass()
+                     .getAnnotation(Advice.class).value().newInstance();
+               interceptor.initialize(ann);
+               interceptors.add(interceptor);
+            }
+            catch (Exception e)
+            {
+               throw new InstantiationException("could not instantiate interceptor", e);
+            }
+         }
+      }
    }
 
    public Class getBeanClass()
@@ -145,8 +169,14 @@ public class Component
       return scope;
    }
    
-   public ClassValidator getValidator() {
+   public ClassValidator getValidator() 
+   {
       return validator;
+   }
+   
+   public List<Interceptor> getInterceptors()
+   {
+      return interceptors;
    }
    
    public Method getDestroyMethod()
