@@ -17,13 +17,12 @@ import javax.ejb.Remove;
 import javax.naming.InitialContext;
 
 import org.hibernate.validator.ClassValidator;
-import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamModule;
@@ -474,7 +473,7 @@ public class Component
       return processInstance;
    }
 
-   public String validate(Object bean, IfInvalid validate)
+   public String validate(Object bean, IfInvalid ifInvalid)
    {
       InvalidValue[] invalidValues = getValidator().getInvalidValues(bean);
       if (invalidValues.length==0)
@@ -483,16 +482,11 @@ public class Component
       }
       else
       {
-         Contexts.getEventContext().set("invalidValues", invalidValues);
-         String invalidOutcome = validate.outcome();
-         if ( invalidOutcome.equals("") )
-         {
-            throw new InvalidStateException(invalidValues);
-         }
-         else
-         {
-            return invalidOutcome;
-         }
+         Contexts.getEventContext().set(
+               ifInvalid.invalidValuesName(), 
+               invalidValues
+            );
+         return ifInvalid.outcome();
       }
    }
 }

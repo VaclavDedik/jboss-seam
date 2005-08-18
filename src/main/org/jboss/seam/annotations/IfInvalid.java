@@ -14,7 +14,10 @@ import java.lang.annotation.Target;
  * Specifies that the object receiving an action method
  * invocation should be validated before the call and,
  * if in an invalid state, the call will be aborted and
- * result in the specified outcome.
+ * result in the specified outcome. The array of
+ * InvalidValues will be bound to the request context
+ * with the specified name.
+ * 
  * @author Gavin King
  */
 @Target({FIELD, METHOD, PARAMETER})
@@ -23,4 +26,5 @@ import java.lang.annotation.Target;
 public @interface IfInvalid
 {
     String outcome();
+    String invalidValuesName() default "invalidValues";
 }
