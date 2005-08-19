@@ -601,12 +601,15 @@ public class Component
 
    private ProcessInstance getProcessInstance(String name)
    {
-      ProcessInstance processInstance = null;
-     
-      BusinessProcessContext bpc = (BusinessProcessContext)Contexts.getBusinessProcessContext();
-      processInstance = bpc.getProcessInstance(name, true);
-    
-      return processInstance;
+	  // TODO : we *could* allow this to create a new ProcessInstance here
+      // by assuming that the incoming name is the definition name.
+      // However, not sure that is a good idea...
+      if ( !Contexts.isBusinessProcessContextActive() )
+      {
+	      throw new IllegalStateException( "No currently active business process context" );
+      }
+
+      return ( ( BusinessProcessContext ) Contexts.getBusinessProcessContext() ).getProcessInstance();
    }
 
    /*public static void main(String[] args)

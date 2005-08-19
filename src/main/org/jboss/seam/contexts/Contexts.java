@@ -1,7 +1,9 @@
 /*
- *  * JBoss, Home of Professional Open Source  *  * Distributable under LGPL license.  * See terms
- * of license at gnu.org.  
- */
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.contexts;
 
 import javax.servlet.ServletContext;
@@ -53,11 +55,7 @@ public class Contexts {
 	}
 
     public static Context getBusinessProcessContext() {
-       if (!isBusinessProcessContextActive())
-       {
-          beginBusinessProcess();
-       }
-       return businessProcessContext.get();
+	    return businessProcessContext.get();
     }
 
 	public static void beginWebRequest(HttpServletRequest request) {
@@ -70,11 +68,15 @@ public class Contexts {
 
 	public static void endWebRequest() {
 		log.info( "End web request" );
-      //clean up all threadlocals
+		//clean up all threadlocals
 		eventContext.set( null );
 		sessionContext.set( null );
 		applicationContext.set( null );
 		conversationContext.set( null );
+		if ( businessProcessContext.get() != null ) {
+			( ( BusinessProcessContext ) businessProcessContext.get() ).release();
+			businessProcessContext.set( null );
+		}
 	}
 
 	public static boolean isConversationContextActive() {
@@ -253,17 +255,37 @@ public class Contexts {
       }
    }
 
-   public static void beginBusinessProcess()
-   {
-      businessProcessContext.set( new BusinessProcessContext() );
-   }
-   
-   public static void endBusinessProcess()
-   {
-      // getBusinessProcessContext().destroy();
-      businessProcessContext.set(null);      
-   }
-   
+	public static void beginBusinessProcessContextViaTask(Long taskId) {
+		if ( isBusinessProcessContextActive() ) {
+			throw new IllegalStateException( "There is already a BusinessProcessContext active" );
+		}
+		BusinessProcessContext ctx = new BusinessProcessContext();
+		ctx.prepareForTask( taskId );
+		businessProcessContext.set( ctx );
+	}
+
+	public static void beginBusinessProcessContextViaProcess(Long processId) {
+		if ( isBusinessProcessContextActive() ) {
+			throw new IllegalStateException( "There is already a BusinessProcessContext active" );
+		}
+		BusinessProcessContext ctx = new BusinessProcessContext();
+		ctx.prepareForProcessInstance( processId );
+		businessProcessContext.set( ctx );
+	}
+
+	public static void beginBusinessProcessContextViaProcess(String processDefinitionName) {
+		if ( isBusinessProcessContextActive() ) {
+			throw new IllegalStateException( "There is already a BusinessProcessContext active" );
+		}
+		BusinessProcessContext ctx = new BusinessProcessContext();
+		ctx.prepareForProcessInstance( processDefinitionName );
+		businessProcessContext.set( ctx );
+	}
+
+	public static void endBusinessProcess() {
+		businessProcessContext.set( null );
+	}
+
    public static void setProcessing(boolean processing)
    {
       isProcessing.set(processing);
