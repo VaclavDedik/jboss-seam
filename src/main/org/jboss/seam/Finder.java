@@ -17,6 +17,7 @@ import org.jboss.mx.util.MBeanServerLocator;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamDeployer;
 import org.jboss.seam.deployment.SeamModule;
+import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.util.Tool;
 
 /**

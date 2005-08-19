@@ -11,25 +11,38 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.ejb.InvocationContext;
 import javax.ejb.Remove;
 import javax.naming.InitialContext;
 
 import org.hibernate.validator.ClassValidator;
-import org.hibernate.validator.InvalidValue;
+import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Advice;
+import org.jboss.seam.annotations.After;
+import org.jboss.seam.annotations.Around;
+import org.jboss.seam.annotations.Before;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamModule;
+import org.jboss.seam.interceptors.BijectionInterceptor;
+import org.jboss.seam.interceptors.ConversationInterceptor;
+import org.jboss.seam.interceptors.Interceptor;
+import org.jboss.seam.interceptors.RemoveInterceptor;
+import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.util.MergeSort;
+import org.jboss.seam.util.MergeSort.Order;
 import org.jbpm.graph.exe.ProcessInstance;
 
 /**
@@ -42,6 +55,62 @@ import org.jbpm.graph.exe.ProcessInstance;
  */
 public class Component
 {
+   private static final Logger log = Logger.getLogger(Component.class);
+   
+   public static final Order INTERCEPTOR_ORDER = new Order()
+   {
+      public boolean lessThan(Object a, Object b)
+      {
+         try
+         {
+            Before before = getBeforeInvokeMethod(a).getAnnotation(Before.class);
+            After after = getBeforeInvokeMethod(b).getAnnotation(After.class);
+            Around around = a.getClass().getAnnotation(Around.class);
+            Within within = b.getClass().getAnnotation(Within.class);
+            return before!=null && Arrays.asList( before.value() ).contains( b.getClass() ) ||
+                  after!=null && Arrays.asList( after.value() ).contains( a.getClass() )||
+                  around!=null && Arrays.asList( around.value() ).contains( b.getClass() ) ||
+                  within!=null && Arrays.asList( within.value() ).contains( a.getClass() );
+         }
+         catch (NoSuchMethodException nsme)
+         {
+            throw new IllegalArgumentException();
+         }
+      }
+
+      private Method getBeforeInvokeMethod(Object a) throws NoSuchMethodException
+      {
+         return a.getClass().getMethod("beforeInvoke", InvocationContext.class);
+      }
+   };
+
+   public static final Order INTERCEPTOR_REVERSE_ORDER = new Order()
+   {
+      public boolean lessThan(Object a, Object b)
+      {
+         try
+         {
+            Before before = getAfterReturnMethod(a).getAnnotation(Before.class);
+            After after = getAfterReturnMethod(b).getAnnotation(After.class);
+            Around around = b.getClass().getAnnotation(Around.class);
+            Within within = a.getClass().getAnnotation(Within.class);
+            return before!=null && Arrays.asList( before.value() ).contains( b.getClass() ) ||
+                  after!=null && Arrays.asList( after.value() ).contains( a.getClass() ) ||
+                  around!=null && Arrays.asList( around.value() ).contains( a.getClass() ) ||
+                  within!=null && Arrays.asList( within.value() ).contains( b.getClass() );
+         }
+         catch (NoSuchMethodException nsme)
+         {
+            throw new IllegalArgumentException();
+         }
+      }
+
+      private Method getAfterReturnMethod(Object a) throws NoSuchMethodException
+      {
+         return a.getClass().getMethod("afterReturn", Object.class, InvocationContext.class);
+      }
+   };
+
    private ComponentType type;
    private String name;
    private ScopeType scope;
@@ -62,6 +131,7 @@ public class Component
    private ClassValidator validator;
    
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
+   private List<Interceptor> reverseInterceptors = new ArrayList<Interceptor>();
 
    public Component(SeamModule seamModule, Class<?> clazz)
    {
@@ -125,16 +195,19 @@ public class Component
       
       validator = new ClassValidator(beanClass);
       
+      initDefaultInterceptors();
+      
       for (Annotation ann: clazz.getAnnotations())
       {
-         if ( ann.getClass().isAnnotationPresent(Advice.class) )
+         if ( ann.annotationType().isAnnotationPresent(Advice.class) )
          {
             try 
             {
-               Interceptor interceptor = (Interceptor) ann.getClass()
+               Interceptor interceptor = (Interceptor) ann.annotationType()
                      .getAnnotation(Advice.class).value().newInstance();
-               interceptor.initialize(ann);
+               interceptor.initialize(ann, this);
                interceptors.add(interceptor);
+               reverseInterceptors.add(interceptor);
             }
             catch (Exception e)
             {
@@ -142,6 +215,34 @@ public class Component
             }
          }
       }
+      
+      interceptors = new MergeSort<Interceptor>().mergeSort( INTERCEPTOR_ORDER, interceptors );
+      reverseInterceptors = new MergeSort<Interceptor>().mergeSort( INTERCEPTOR_REVERSE_ORDER, reverseInterceptors );
+      
+      log.info("component " + getName() + " scope " + getScope() + " type " + getType());
+      log.info("incoming interceptor stack: " + interceptors);
+      log.info("outgoing interceptor stack: " + reverseInterceptors);
+   }
+
+   private void initDefaultInterceptors()
+   {
+      Interceptor ri = new RemoveInterceptor();
+      ri.initialize(null, this);
+      interceptors.add(ri);
+      
+      Interceptor ci = new ConversationInterceptor();
+      ci.initialize(null, this);
+      interceptors.add(ci);
+      
+      Interceptor bi = new BijectionInterceptor();
+      bi.initialize(null, this);
+      interceptors.add(bi);
+      
+      Interceptor vi = new ValidationInterceptor();
+      vi.initialize(null, this);
+      interceptors.add(vi);
+      
+      reverseInterceptors.addAll(interceptors);
    }
 
    public Class getBeanClass()
@@ -177,6 +278,11 @@ public class Component
    public List<Interceptor> getInterceptors()
    {
       return interceptors;
+   }
+   
+   public List<Interceptor> getReverseInterceptors()
+   {
+      return reverseInterceptors;
    }
    
    public Method getDestroyMethod()
@@ -503,20 +609,8 @@ public class Component
       return processInstance;
    }
 
-   public String validate(Object bean, IfInvalid ifInvalid)
+   /*public static void main(String[] args)
    {
-      InvalidValue[] invalidValues = getValidator().getInvalidValues(bean);
-      if (invalidValues.length==0)
-      {
-         return null;
-      }
-      else
-      {
-         Contexts.getEventContext().set(
-               ifInvalid.invalidValuesName(), 
-               invalidValues
-            );
-         return ifInvalid.outcome();
-      }
-   }
+      new Component(null, FindHotelsAction.class);
+   }*/
 }

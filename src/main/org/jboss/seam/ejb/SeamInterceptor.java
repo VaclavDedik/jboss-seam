@@ -6,24 +6,14 @@
   */
 package org.jboss.seam.ejb;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
-import javax.ejb.Remove;
 
-import org.jboss.logging.Logger;
-import org.jboss.seam.Finder;
-import org.jboss.seam.Interceptor;
-import org.jboss.seam.Seam;
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.BeginIf;
-import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.EndIf;
-import org.jboss.seam.annotations.IfInvalid;
+import org.jboss.seam.Finder;
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.interceptors.Interceptor;
 
 /**
  * Interceptor for bijection and conversation scope management
@@ -35,25 +25,22 @@ import org.jboss.seam.contexts.Contexts;
 public class SeamInterceptor
 {
 
-   private static final Logger log = Logger.getLogger(SeamInterceptor.class);
-
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       if ( Contexts.isProcessing() )
       {
-         final Object bean = invocation.getBean();
-         final Method method = invocation.getMethod();
-         final Component seamComponent = getSeamComponent(bean);
+         final Component component = getSeamComponent( invocation.getBean() );
    
-         inject(bean, seamComponent);
+         //inject(bean, component);
          
-         String invalidOutcome = validateIfNecessary(bean, method, seamComponent);
-         if (invalidOutcome!=null) return invalidOutcome;
+         //String invalidOutcome = validateIfNecessary(bean, method, component);
+         //if (invalidOutcome!=null) return invalidOutcome;
          
-         for (Interceptor interceptor: seamComponent.getInterceptors())
+         for (Interceptor interceptor: component.getInterceptors())
          {
-            interceptor.beforeInvoke(invocation);
+            Object result = interceptor.beforeInvoke(invocation);
+            if (result!=null) return result;
          }
 
          Object result;
@@ -63,26 +50,26 @@ public class SeamInterceptor
          } 
          catch (Exception exception)
          {
-            for (Interceptor interceptor: seamComponent.getInterceptors())
+            for (Interceptor interceptor: component.getReverseInterceptors())
             {
-               interceptor.afterException(exception, invocation);
+               exception = interceptor.afterException(exception, invocation);
             }
-            endConversationIfNecessary(method, exception);
-            removeIfNecessary(bean, method, true, seamComponent);
+            //endConversationIfNecessary(method, exception);
+            //removeIfNecessary(bean, method, true, component);
             throw exception;
          }
          
-         for (Interceptor interceptor: seamComponent.getInterceptors())
+         for (Interceptor interceptor: component.getReverseInterceptors())
          {
-            interceptor.afterReturn(result, invocation);
+            result = interceptor.afterReturn(result, invocation);
          }
          
-         outject(bean, seamComponent);
+         //outject(bean, component);
          
-         beginConversationIfNecessary(method, result);
-         endConversationIfNecessary(method, result);
+         //beginConversationIfNecessary(method, result);
+         //endConversationIfNecessary(method, result);
          
-         removeIfNecessary(bean, method, false, seamComponent);
+         //removeIfNecessary(bean, method, false, component);
          
          return result;
       }
@@ -91,100 +78,9 @@ public class SeamInterceptor
       }
    }
 
-   private String validateIfNecessary(Object bean, Method method, Component seamComponent)
-   {
-      if ( method.isAnnotationPresent(IfInvalid.class) )
-      {
-         return seamComponent.validate( bean, method.getAnnotation(IfInvalid.class) );
-      }
-      else
-      {
-         return null;
-      }
-   }
-
-   private void outject(final Object bean, final Component seamComponent)
-   {
-      if ( seamComponent.getOutFields().size()>0 || seamComponent.getOutMethods().size()>0 ) //only needed to hush the log message
-      {
-         log.info("outjecting dependencies to: " + seamComponent.getName());
-         seamComponent.outject(bean);
-      }
-   }
-
-   private void inject(final Object bean, final Component seamComponent)
-   {
-      if ( seamComponent.getInFields().size()>0 || seamComponent.getInMethods().size()>0 ) //only needed to hush the log message
-      {
-         log.info("injecting dependencies from: " + seamComponent.getName());
-         seamComponent.inject(bean);
-      }
-   }
-
    private Component getSeamComponent(Object bean)
    {
       return new Finder().getComponent( Seam.getComponentName( bean.getClass() ) );
    }
    
-   /**
-    * If it was a @Remove method, also remove the component instance from the context
-    */
-   private void removeIfNecessary(Object bean, Method method, boolean exception, Component seamComponent)
-   {
-      boolean wasRemoved = method.isAnnotationPresent(Remove.class) &&
-            ( !exception || !method.getAnnotation(Remove.class).retainIfException() );
-      if ( wasRemoved )
-      {
-         seamComponent.getScope().getContext().remove( seamComponent.getName() );
-         log.info("Stateful component was removed");
-      }
-   }
-
-   private void beginConversationIfNecessary(Method method, Object result)
-   {
-      if ( method.isAnnotationPresent(Begin.class) )
-      {
-         Contexts.beginConversation();
-      }
-      else if ( method.isAnnotationPresent(BeginIf.class) )
-      {
-         String[] results = method.getAnnotation(BeginIf.class)
-               .outcome();
-         if (Arrays.asList(results).contains(result))
-         {
-            Contexts.beginConversation();
-         }
-      }
-   }
-
-   private void endConversationIfNecessary(Method method, Exception exception)
-   {
-      if (method.isAnnotationPresent(EndIf.class))
-      {
-         Class[] exceptions = method.getAnnotation(EndIf.class)
-               .exception();
-         if (Arrays.asList(exceptions).contains(exception.getClass()))
-         {
-            Contexts.endConversation();
-         }
-      }
-   }
-
-   private void endConversationIfNecessary(Method method, Object result)
-   {
-      if (method.isAnnotationPresent(End.class))
-      {
-         Contexts.endConversation();
-      }
-      else if (method.isAnnotationPresent(EndIf.class))
-      {
-         String[] results = method.getAnnotation(EndIf.class)
-               .outcome();
-         if (Arrays.asList(results).contains(result))
-         {
-            Contexts.endConversation();
-         }
-      }
-   }
-
 }

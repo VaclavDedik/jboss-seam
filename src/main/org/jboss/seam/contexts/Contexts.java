@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Finder;
 import org.jboss.seam.Component;
-import org.jboss.seam.Interceptor;
+import org.jboss.seam.interceptors.Interceptor;
 
 /**
  * Provides access to the current contexts associated with the thread.
