@@ -13,6 +13,12 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndIf;
 import org.jboss.seam.contexts.Contexts;
 
+/**
+ * After the end of the invocation, begin or end a long running
+ * conversation, if necessary.
+ * 
+ * @author Gavin King
+ */
 public class ConversationInterceptor extends AbstractInterceptor
 {
 

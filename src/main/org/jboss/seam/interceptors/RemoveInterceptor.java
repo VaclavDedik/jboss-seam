@@ -10,6 +10,12 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.After;
 import org.jboss.seam.annotations.Before;
 
+/**
+ * Removes components from the Seam context after invocation
+ * of an EJB @Remove method.
+ * 
+ * @author Gavin King
+ */
 public class RemoveInterceptor extends AbstractInterceptor
 {
    
@@ -31,9 +37,6 @@ public class RemoveInterceptor extends AbstractInterceptor
       return exception;
    }
 
-   /**
-    * If it was a @Remove method, also remove the component instance from the context
-    */
    private void removeIfNecessary(Object bean, Method method, boolean exception)
    {
       boolean wasRemoved = method.isAnnotationPresent(Remove.class) &&

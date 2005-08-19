@@ -5,6 +5,12 @@ import javax.ejb.InvocationContext;
 
 import org.jboss.logging.Logger;
 
+/**
+ * Before invoking the component, inject all dependencies. After
+ * invoking, outject dependencies back into their context.
+ * 
+ * @author Gavin King
+ */
 public class BijectionInterceptor extends AbstractInterceptor
 {
    

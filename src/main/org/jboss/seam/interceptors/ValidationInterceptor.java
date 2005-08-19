@@ -11,6 +11,14 @@ import org.jboss.seam.annotations.After;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.contexts.Contexts;
 
+/**
+ * Validate the method receiver using Hibernate validator before
+ * invoking the method. If a validation failure occurs, put
+ * information about the failure in the request context and
+ * return a different outcome, without invoking the method.
+ * 
+ * @author Gavin King
+ */
 public class ValidationInterceptor extends AbstractInterceptor
 {
 
