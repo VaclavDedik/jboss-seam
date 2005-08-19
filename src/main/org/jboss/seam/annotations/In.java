@@ -14,9 +14,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies that a seam component should be injected to
- * the annotated field or setter method of a session 
- * bean. May also be used to inject a JBPM ProcessInstance
- * or an instance of java.util.Properties.
+ * the annotated field or setter method of a seam component 
+ * May also be used to inject a jBPM ProcessInstance or an 
+ * instance of java.util.Properties.
  * 
  * @author Gavin King
  */

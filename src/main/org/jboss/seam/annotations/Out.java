@@ -14,8 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Specifies that a seam component should be outjected from
- * the annotated field or setter method of a session 
- * bean.
+ * the annotated field or setter method of a session bean.
  * 
  * @author Gavin King
  */
