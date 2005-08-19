@@ -31,11 +31,6 @@ public class SeamInterceptor
       if ( Contexts.isProcessing() )
       {
          final Component component = getSeamComponent( invocation.getBean() );
-   
-         //inject(bean, component);
-         
-         //String invalidOutcome = validateIfNecessary(bean, method, component);
-         //if (invalidOutcome!=null) return invalidOutcome;
          
          for (Interceptor interceptor: component.getInterceptors())
          {
@@ -54,8 +49,6 @@ public class SeamInterceptor
             {
                exception = interceptor.afterException(exception, invocation);
             }
-            //endConversationIfNecessary(method, exception);
-            //removeIfNecessary(bean, method, true, component);
             throw exception;
          }
          
@@ -63,13 +56,6 @@ public class SeamInterceptor
          {
             result = interceptor.afterReturn(result, invocation);
          }
-         
-         //outject(bean, component);
-         
-         //beginConversationIfNecessary(method, result);
-         //endConversationIfNecessary(method, result);
-         
-         //removeIfNecessary(bean, method, false, component);
          
          return result;
       }
