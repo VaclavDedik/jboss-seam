@@ -12,7 +12,7 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.VariableResolver;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Finder;
+import org.jboss.seam.finders.ComponentFinder;
 
 /**
  * Variable resolving: first the method tries to return an object
@@ -28,12 +28,12 @@ public class SeamVariableResolver extends VariableResolver
 
    private static final Logger log = Logger.getLogger(SeamVariableResolver.class);
 
-   private Finder seamVariableResolver;
+   private ComponentFinder seamVariableResolver;
    private VariableResolver jsfVariableResolver;
    
    public SeamVariableResolver(VariableResolver jsfVariableResolver)
    {
-      seamVariableResolver = new Finder();
+      seamVariableResolver = new ComponentFinder();
       this.jsfVariableResolver = jsfVariableResolver;
    }
 

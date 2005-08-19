@@ -6,7 +6,6 @@
  */
 package org.jboss.seam;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.ejb.InvocationContext;
@@ -33,9 +31,10 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Within;
-import org.jboss.seam.contexts.BusinessProcessContext;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamModule;
+import org.jboss.seam.finders.ComponentFinder;
+import org.jboss.seam.finders.Finder;
+import org.jboss.seam.finders.Finders;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
@@ -43,7 +42,6 @@ import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.MergeSort;
 import org.jboss.seam.util.MergeSort.Order;
-import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -132,6 +130,8 @@ public class Component
    
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
    private List<Interceptor> reverseInterceptors = new ArrayList<Interceptor>();
+
+   private ComponentFinder finder;
 
    public Component(SeamModule seamModule, Class<?> clazz)
    {
@@ -222,6 +222,9 @@ public class Component
       log.info("component " + getName() + " scope " + getScope() + " type " + getType());
       log.info("incoming interceptor stack: " + interceptors);
       log.info("outgoing interceptor stack: " + reverseInterceptors);
+      
+      finder = new ComponentFinder();
+      
    }
 
    private void initDefaultInterceptors()
@@ -380,21 +383,12 @@ public class Component
    {
       for (Method method : getInMethods())
       {
-         In inject = method.getAnnotation(In.class);
-         if (inject != null)
+         In in = method.getAnnotation(In.class);
+         if (in != null)
          {
-            if ( method.getReturnType()==Properties.class) 
-            {
-               injectProperties(bean, method, inject);
-            }
-            else if ( method.getReturnType()==ProcessInstance.class)
-            {
-               injectProcessInstance(bean, method, inject);
-            }
-            else 
-            {
-               injectComponent(bean, method, inject);
-            }
+            Finder finder = Finders.getFinder(method.getReturnType());
+            String name = finder.toName( in, method );
+            inject( bean, method, name, finder.find(in, name, bean) );
          }
       }
    }
@@ -403,21 +397,12 @@ public class Component
    {
       for (Field field : getInFields())
       {
-         In inject = field.getAnnotation(In.class);
-         if (inject != null)
+         In in = field.getAnnotation(In.class);
+         if (in != null)
          {
-            if ( field.getType()==Properties.class) 
-            {
-               injectProperties(bean, field, inject);
-            }
-            else if ( field.getType()==ProcessInstance.class)
-            {
-               injectProcessInstance(bean, field, inject);
-            }
-            else 
-            {
-               injectComponent(bean, field, inject);
-            }
+            Finder finder = Finders.getFinder(field.getType());
+            String name = finder.toName( in, field );
+            inject( bean, field, name, finder.find(in, name, bean) );
          }
       }
    }
@@ -429,7 +414,10 @@ public class Component
          Out out = field.getAnnotation(Out.class);
          if (out != null)
          {
-            outjectComponent(bean, field, out);
+           setOutjectedValue( out, 
+                  finder.toName(out, field), 
+                  outject(bean, field) 
+               );
          }
       }
    }
@@ -441,61 +429,12 @@ public class Component
          Out out = method.getAnnotation(Out.class);
          if (out != null)
          {
-            outjectComponent(bean, method, out);
+            setOutjectedValue( out, 
+                  finder.toName(out, method), 
+                  outject(bean, method) 
+               );
          }
       }
-   }
-
-   private void injectProperties(Object bean, Method method, In inject)
-   {
-      String resource = toName( method, inject.value(), ".properties" );
-      inject(bean, method, resource, getProperties(bean, resource));
-   }
-
-   private void injectProperties(Object bean, Field field, In inject)
-   {
-      String resource = toName( field, inject.value(), ".properties" );
-      inject(bean, field, resource, getProperties(bean, resource));
-   }
-
-   private Properties getProperties(Object bean, String resource)
-   {
-      Properties props = new Properties();
-      try
-      {
-         props.load(bean.getClass().getResourceAsStream(resource));
-      } 
-      catch (IOException ioe)
-      {
-         throw new RuntimeException(ioe);
-      }
-      return props;
-   }
-
-   private Object getInjectedValue(In inject, String name)
-   {
-      Object result = new Finder()
-            .getComponentInstance(name, inject.create());
-      if (result==null && inject.required())
-      {
-         throw new RequiredException("In attribute requires value for component: " + name);
-      }
-      else
-      {
-         return result;
-      }
-   }
-
-   private void injectComponent(Object bean, Method method, In inject)
-   {
-      String name = toName(method, inject.value(), "");
-      inject( bean, method, name, getInjectedValue(inject, name) );
-   }
-
-   private void injectComponent(Object bean, Field field, In inject)
-   {
-      String name = toName(field, inject.value(), "");
-      inject( bean, field, name, getInjectedValue(inject, name) );
    }
 
    private void setOutjectedValue(Out out, String name, Object value)
@@ -506,19 +445,9 @@ public class Component
       }
       else 
       {
-         new Finder().getComponent(name)
-               .getScope().getContext().set(name, value);
+         finder.getComponent(name).getScope()
+               .getContext().set(name, value);
       }
-   }
-
-   private void outjectComponent(Object bean, Method method, Out out)
-   {
-      setOutjectedValue( out, toName(method, out.value(), ""), outject(bean, method) );
-   }
-
-   private void outjectComponent(Object bean, Field field, Out out)
-   {
-      setOutjectedValue( out, toName(field, out.value(), ""), outject(bean, field) );
    }
 
    private Object outject(Object bean, Field field)
@@ -543,26 +472,6 @@ public class Component
       }
    }
 
-   private String toName(Method method, String name, String extension)
-   {
-      if (name.length() == 0)
-      {
-         name = method.getName().substring(3, 4).toLowerCase()
-               + method.getName().substring(4)
-               + extension;
-      }
-      return name;
-   }
-
-   private String toName(Field field, String name, String extension)
-   {
-      if (name.length() == 0)
-      {
-         name = field.getName() + extension;
-      }
-      return name;
-   }
-
    private void inject(Object bean, Method method, String name, Object value)
    {  
       try
@@ -585,31 +494,6 @@ public class Component
       {
          throw new IllegalArgumentException("could not inject: " + name, e);
       }
-   }
-
-   private void injectProcessInstance(Object bean, Field field, In inject)
-   {
-      String name = toName( field, inject.value(), "");
-      inject(bean, field, name, getProcessInstance(name));
-   }
-
-   private void injectProcessInstance(Object bean, Method method, In inject)
-   {
-      String name = toName( method, inject.value(), "");
-      inject(bean, method, name, getProcessInstance(name));
-   }
-
-   private ProcessInstance getProcessInstance(String name)
-   {
-	  // TODO : we *could* allow this to create a new ProcessInstance here
-      // by assuming that the incoming name is the definition name.
-      // However, not sure that is a good idea...
-      if ( !Contexts.isBusinessProcessContextActive() )
-      {
-	      throw new IllegalStateException( "No currently active business process context" );
-      }
-
-      return ( ( BusinessProcessContext ) Contexts.getBusinessProcessContext() ).getProcessInstance();
    }
 
    /*public static void main(String[] args)

@@ -10,8 +10,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Finder;
 import org.jboss.seam.Component;
+import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.interceptors.Interceptor;
 
 /**
@@ -230,7 +230,7 @@ public class Contexts {
    
    public static void destroy(Context context)
    {
-      Finder finder = new Finder();
+      ComponentFinder finder = new ComponentFinder();
       for ( String name: context.getNames() ) {
          Component component = finder.getComponent(name);
          if ( component!=null )

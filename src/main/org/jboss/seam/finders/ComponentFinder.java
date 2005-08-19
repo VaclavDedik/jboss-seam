@@ -4,8 +4,10 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam;
+package org.jboss.seam.finders;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Map;
 
@@ -14,6 +16,11 @@ import javax.management.MBeanServer;
 
 import org.jboss.logging.Logger;
 import org.jboss.mx.util.MBeanServerLocator;
+import org.jboss.seam.Component;
+import org.jboss.seam.ComponentType;
+import org.jboss.seam.RequiredException;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamDeployer;
 import org.jboss.seam.deployment.SeamModule;
@@ -29,14 +36,14 @@ import org.jboss.seam.util.Tool;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class Finder
+public class ComponentFinder implements Finder
 {
 
-   static final Logger log = Logger.getLogger(Finder.class);
+   static final Logger log = Logger.getLogger(ComponentFinder.class);
 
    private Map<URL, SeamModule> seamModules;
 
-   public Finder()
+   public ComponentFinder()
    {
       MBeanServer mBeanServer = MBeanServerLocator.locate();
       try
@@ -45,7 +52,7 @@ public class Finder
       }
       catch (Exception e)
       {
-         log.error("Error", e);
+         throw new RuntimeException("could not connect to Seam MBean server");
       }
    }
 
@@ -110,4 +117,57 @@ public class Finder
       }
       return null;
    }
+
+   public Object find(In in, String name, Object bean)
+   {
+      Object result = getComponentInstance(name, in.create());
+      if (result==null && in.required())
+      {
+         throw new RequiredException("In attribute requires value for component: " + name);
+      }
+      else
+      {
+         return result;
+      }
+   }
+   
+   public String toName(In in, Method method)
+   {
+      return toName(in.value(), method);
+   }
+
+   public String toName(In in, Field field)
+   {
+      return toName(in.value(), field);
+   }
+   
+   public String toName(Out out, Method method)
+   {
+      return toName(out.value(), method);
+   }
+
+   public String toName(Out out, Field field)
+   {
+      return toName(out.value(), field);
+   }
+   
+   public String toName(String name, Method method)
+   {
+      if (name==null || name.length() == 0)
+      {
+         name = method.getName().substring(3, 4).toLowerCase()
+               + method.getName().substring(4);
+      }
+      return name;
+   }
+
+   public String toName(String name, Field field)
+   {
+      if (name==null || name.length() == 0)
+      {
+         name = field.getName();
+      }
+      return name;
+   }
+
 }

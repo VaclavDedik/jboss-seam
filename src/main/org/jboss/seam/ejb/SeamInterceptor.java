@@ -10,9 +10,9 @@ import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.Finder;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.interceptors.Interceptor;
 
 /**
@@ -66,7 +66,7 @@ public class SeamInterceptor
 
    private Component getSeamComponent(Object bean)
    {
-      return new Finder().getComponent( Seam.getComponentName( bean.getClass() ) );
+      return new ComponentFinder().getComponent( Seam.getComponentName( bean.getClass() ) );
    }
    
 }
