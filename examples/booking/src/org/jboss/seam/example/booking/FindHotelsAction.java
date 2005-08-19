@@ -36,7 +36,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    public String find()
    {
       hotels = em.createQuery("from Hotel where city like :search or zip like :search or address like :search")
-            .setParameter("search", searchString)
+            .setParameter("search", '%' + searchString.replace('*', '%') + '%')
             .setMaxResults(50)
             .getResultList();
       
