@@ -20,8 +20,6 @@ import org.jboss.util.NotImplementedException;
 public class DirectoryFileNameArchiveBrowser implements Iterator
 {
 
-   private Iterator files;
-
    public DirectoryFileNameArchiveBrowser(File file, Filter filter)
    {
       ArrayList list = new ArrayList();
@@ -33,7 +31,6 @@ public class DirectoryFileNameArchiveBrowser implements Iterator
       {
          throw new RuntimeException(e);
       }
-      files = list.iterator();
    }
 
    private void create(ArrayList list, File dir, Filter filter)
