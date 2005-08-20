@@ -6,12 +6,15 @@
  */
 package org.jboss.seam.jsf;
 
+import static javax.faces.event.PhaseId.*;
+
+
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.event.PhaseEvent;
-import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.faces.event.PhaseId;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -29,7 +32,7 @@ import org.jboss.seam.contexts.ConversationContext;
  */
 public class SeamPhaseListener implements PhaseListener
 {
-   private static final String CONVERSATIONS = "org.jboss.seam.Conversation";
+   private static final String CONVERSATIONS = "org.jboss.seam.Conversations";
    
    public static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
    private static final String JBPM_TASK_ID = "org.jboss.seam.jbpm.taskId";
@@ -39,78 +42,88 @@ public class SeamPhaseListener implements PhaseListener
 
    public PhaseId getPhaseId()
    {
-      return PhaseId.ANY_PHASE;
+      return ANY_PHASE;
+   }
+
+   public void beforePhase(PhaseEvent event)
+   {
+      log.trace( "before phase [" + event.getPhaseId() + "]" );
+
+      if (event.getPhaseId() == RESTORE_VIEW)
+      {
+         beginWebRequest(event);
+      }
+      else if (event.getPhaseId() == RENDER_RESPONSE)
+      {
+         storeAnyConversationContext(event);
+         storeAnyBusinessProcessContext();
+      }
+      else if (event.getPhaseId() == INVOKE_APPLICATION)
+      {
+         Contexts.setProcessing(true);
+         log.info("About to invoke application");
+      }
+      else if (event.getPhaseId() == UPDATE_MODEL_VALUES)
+      {
+         log.info("About to update model values");
+      }
+      else if (event.getPhaseId() == PROCESS_VALIDATIONS)
+      {
+         log.info("About to process validations");
+      }
+      else if (event.getPhaseId() == APPLY_REQUEST_VALUES)
+      {
+         log.info("About to apply request values");
+      }
    }
 
    public void afterPhase(PhaseEvent event)
    {
 	   log.trace( "after phase [" + event.getPhaseId() + "]" );
 
-      if (event.getPhaseId() == PhaseId.RESTORE_VIEW)
+      if (event.getPhaseId() == RESTORE_VIEW)
       {
          restoreAnyConversationContext(event);
          restoreAnyBusinessProcessContext();
       }
-      else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-         log.info("After render response, destroying contexts");
-         Contexts.destroy( Contexts.getEventContext() );
-         if ( !Contexts.isLongRunningConversation() )
-         {
-            Contexts.destroy( Contexts.getConversationContext() );
-         }
-         Contexts.endWebRequest();
+      else if (event.getPhaseId() == RENDER_RESPONSE) {
+         endWebRequest();
       }
-      else if (event.getPhaseId() == PhaseId.INVOKE_APPLICATION)
+      else if (event.getPhaseId() == INVOKE_APPLICATION)
       {
          log.info("After invoke application");
          Contexts.setProcessing(false);
       }
-      else if (event.getPhaseId() == PhaseId.UPDATE_MODEL_VALUES)
+      else if (event.getPhaseId() == UPDATE_MODEL_VALUES)
       {
          log.info("After update model values");
       }
-      else if (event.getPhaseId() == PhaseId.PROCESS_VALIDATIONS)
+      else if (event.getPhaseId() == PROCESS_VALIDATIONS)
       {
          log.info("After process validations");
       }
-      else if (event.getPhaseId() == PhaseId.APPLY_REQUEST_VALUES)
+      else if (event.getPhaseId() == APPLY_REQUEST_VALUES)
       {
          log.info("After apply request values");
       }
    }
 
-   public void beforePhase(PhaseEvent event)
+   private void beginWebRequest(PhaseEvent event)
    {
-	   log.trace( "before phase [" + event.getPhaseId() + "]" );
+      Contexts.beginWebRequest( getRequest(event) );
+      Contexts.setProcessing(false);
+      log.info("About to restore view");
+   }
 
-      if (event.getPhaseId() == PhaseId.RESTORE_VIEW)
+   private void endWebRequest()
+   {
+      log.info("After render response, destroying contexts");
+      Contexts.destroy( Contexts.getEventContext() );
+      if ( !Contexts.isLongRunningConversation() )
       {
-         Contexts.beginWebRequest( getRequest(event) );
-         Contexts.setProcessing(false);
-         log.info("About to restore view");
+         Contexts.destroy( Contexts.getConversationContext() );
       }
-      else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE)
-      {
-         storeAnyConversationContext(event);
-         storeAnyBusinessProcessContext();
-      }
-      else if (event.getPhaseId() == PhaseId.INVOKE_APPLICATION)
-      {
-         Contexts.setProcessing(true);
-         log.info("About to invoke application");
-      }
-      else if (event.getPhaseId() == PhaseId.UPDATE_MODEL_VALUES)
-      {
-         log.info("About to update model values");
-      }
-      else if (event.getPhaseId() == PhaseId.PROCESS_VALIDATIONS)
-      {
-         log.info("About to process validations");
-      }
-      else if (event.getPhaseId() == PhaseId.APPLY_REQUEST_VALUES)
-      {
-         log.info("About to apply request values");
-      }
+      Contexts.endWebRequest();
    }
 
    private void restoreAnyConversationContext(PhaseEvent event)
