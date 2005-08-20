@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.finders.ComponentFinder;
 
 /**
  * Convenience methods for accessing annotated information
@@ -21,6 +22,11 @@ import org.jboss.seam.annotations.Scope;
  */
 public class Seam
 {
+   
+   public static Component getComponent(String name)
+   {
+      return new ComponentFinder().getComponent(name);
+   }
    
    /**
     * Get the default scope

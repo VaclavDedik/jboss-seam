@@ -6,18 +6,20 @@
  */
 package org.jboss.seam.jsf;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
-import org.jboss.seam.contexts.BusinessProcessContext;
 
 /**
  * Manages the thread/context associations throught the
@@ -27,7 +29,9 @@ import org.jboss.seam.contexts.BusinessProcessContext;
  */
 public class SeamPhaseListener implements PhaseListener
 {
-   private static final String CONVERSATION = "org.jboss.seam.Conversation";
+   private static final String CONVERSATIONS = "org.jboss.seam.Conversation";
+   
+   public static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
    private static final String JBPM_TASK_ID = "org.jboss.seam.jbpm.taskId";
    private static final String JBPM_PROCESS_ID = "org.jboss.seam.jbpm.processId";
 
@@ -44,21 +48,8 @@ public class SeamPhaseListener implements PhaseListener
 
       if (event.getPhaseId() == PhaseId.RESTORE_VIEW)
       {
-         Context context = (Context) getAttributes(event).get(CONVERSATION);
-         log.info("After restore view, conversation context: " + context);
-         Contexts.setLongRunningConversation(context!=null);
-         if (context==null)
-         {
-            log.info("No stored conversation state");
-            context = new ConversationContext();
-         }
-         else
-         {
-            log.info("Retrieved conversation state");
-            restoreAnyBusinessProcessContext();
-         }
-         Contexts.setConversationContext(context);
-
+         restoreAnyConversationContext(event);
+         restoreAnyBusinessProcessContext();
       }
       else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
          log.info("After render response, destroying contexts");
@@ -82,31 +73,91 @@ public class SeamPhaseListener implements PhaseListener
 
       if (event.getPhaseId() == PhaseId.RESTORE_VIEW)
       {
-         log.info("Before restore view");
-         Contexts.beginWebRequest( (HttpServletRequest) event.getFacesContext().getExternalContext().getRequest() );
+         Contexts.beginWebRequest( getRequest(event) );
          Contexts.setProcessing(false);
+         log.info("About to restore view");
       }
       else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE)
       {
-         Context context = Contexts.getConversationContext();
-         log.info("Before render response, conversation context: " + context);
-         if ( Contexts.isLongRunningConversation() )
-         {
-            log.info("Storing conversation state");
-            getAttributes(event).put(CONVERSATION, context);
-            storeAnyBusinessProcessContext();
-         }
-         else
-         {
-            log.info("Discarding conversation state");
-            getAttributes(event).put(CONVERSATION, null);
-         }
+         storeAnyConversationContext(event);
+         storeAnyBusinessProcessContext();
       }
       else if (event.getPhaseId() == PhaseId.INVOKE_APPLICATION)
       {
-         log.info("Before invoke application");
          Contexts.setProcessing(true);
+         log.info("About to invoke application");
       }
+   }
+
+   private void restoreAnyConversationContext(PhaseEvent event)
+   {
+      Object conversationId = getAttributes(event).get(CONVERSATION_ID);
+      Context conversationContext;
+      if (conversationId!=null)
+      {
+         conversationContext = (Context) getConversations(event).get(conversationId);
+         if (conversationContext==null)
+         {
+            //this can happen after server restart, so do something better
+            //(perhaps forward to a special outcome?)
+            throw new IllegalStateException("Missing conversation: " + conversationId);
+         }
+         Contexts.setLongRunningConversation(true);
+         log.info("Restored conversation with id: " + conversationId);
+      }
+      else
+      {
+         log.info("No stored conversation");
+         conversationContext = new ConversationContext();
+         Contexts.setLongRunningConversation(false);
+      }
+      
+      log.info("After restore view, conversation context: " + conversationContext);
+      Contexts.setConversationContext(conversationContext);
+   }
+
+   private void storeAnyConversationContext(PhaseEvent event)
+   {      
+      Context conversationContext = Contexts.getConversationContext();
+      log.info("Before render response, conversation context: " + conversationContext);
+      if ( conversationContext==null )
+      {
+         log.info("No active conversation context");
+      }
+      else if ( Contexts.isLongRunningConversation() ) 
+      {
+         Object conversationId = conversationContext.get(CONVERSATION_ID);
+         log.info("Storing conversation state: " + conversationId);
+         getAttributes(event).put(CONVERSATION_ID, conversationId);
+         getConversations(event).put(conversationId, conversationContext);
+      }
+      else 
+      {
+         log.info("Discarding conversation state");
+         getAttributes(event).remove(CONVERSATION_ID);
+      }
+   }
+
+   private Map getConversations(PhaseEvent event)
+   {
+      Map result = (Map) getSession(event).getAttribute(CONVERSATIONS);
+      if (result==null) 
+      {
+         //TODO: minor issue; not threadsafe....
+         result = new HashMap();
+         getSession(event).setAttribute(CONVERSATIONS, result);
+      }
+      return result;
+   }
+
+   private HttpSession getSession(PhaseEvent event)
+   {
+      return (HttpSession) event.getFacesContext().getExternalContext().getSession(true);
+   }
+
+   private HttpServletRequest getRequest(PhaseEvent event)
+   {
+      return (HttpServletRequest) event.getFacesContext().getExternalContext().getRequest();
    }
 
    private Map getAttributes(PhaseEvent event)

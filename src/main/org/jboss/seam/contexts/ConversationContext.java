@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jboss.seam.jsf.SeamPhaseListener;
+
 /**
  * A conversation context is a logical context that last longer than 
  * a request but shorter than a login session
@@ -21,6 +23,11 @@ import java.util.Map;
 public class ConversationContext implements Context, Serializable {
 
 	private final Map<String, Object> map = new HashMap<String, Object>();
+   
+   public ConversationContext()
+   {
+      map.put( SeamPhaseListener.CONVERSATION_ID, Id.nextId() );
+   }
 
 	public Object get(String name) {
 		return map.get(name);
@@ -39,7 +46,7 @@ public class ConversationContext implements Context, Serializable {
 	}
 
 	public String[] getNames() {
-		return map.keySet().toArray(new String[0]);
+		return map.keySet().toArray( new String[0] );
 	}
    
    public String toString()

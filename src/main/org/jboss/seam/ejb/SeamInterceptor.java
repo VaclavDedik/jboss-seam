@@ -24,6 +24,8 @@ import org.jboss.seam.interceptors.Interceptor;
  */
 public class SeamInterceptor
 {
+   
+   private ComponentFinder componentFinder = new ComponentFinder();
 
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
@@ -66,7 +68,7 @@ public class SeamInterceptor
 
    private Component getSeamComponent(Object bean)
    {
-      return new ComponentFinder().getComponent( Seam.getComponentName( bean.getClass() ) );
+      return componentFinder.getComponent( Seam.getComponentName( bean.getClass() ) );
    }
    
 }

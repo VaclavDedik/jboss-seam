@@ -59,7 +59,7 @@ public class Contexts {
     }
 
 	public static void beginWebRequest(HttpServletRequest request) {
-		log.info( "Begin web request" );
+		log.info( ">>> Begin web request" );
 		eventContext.set( new WebRequestContext( request ) );
 		sessionContext.set( new WebSessionContext( request.getSession() ) );
 		ServletContext servletContext = request.getSession().getServletContext();
@@ -67,7 +67,7 @@ public class Contexts {
 	}
 
 	public static void endWebRequest() {
-		log.info( "End web request" );
+		log.info( "<<< End web request" );
 		//clean up all threadlocals
 		eventContext.set( null );
 		sessionContext.set( null );
