@@ -42,9 +42,9 @@ public class SeamVariableResolver extends VariableResolver
    {
       log.info("resolving name: " + name);
       Object component = seamVariableResolver.getComponentInstance(name, true);
+      Object managedBean = jsfVariableResolver.resolveVariable(facesContext, name);
       if (component==null)
       {
-         Object managedBean = jsfVariableResolver.resolveVariable(facesContext, name);
          if (managedBean==null)
          {
             log.info("could not resolve name");
@@ -57,6 +57,10 @@ public class SeamVariableResolver extends VariableResolver
       }
       else
       {
+         if ( managedBean!=null && managedBean!=component )
+         {
+            log.warn("Seam component hides managed bean with same name");
+         }
          log.info("resolved name to seam component");
          return component;
       }      
