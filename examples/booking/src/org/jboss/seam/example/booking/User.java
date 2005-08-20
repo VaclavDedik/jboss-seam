@@ -63,4 +63,9 @@ public class User implements Serializable
    {
       this.username = username;
    }
+   
+   public String toString() 
+   {
+      return "User(" + username + ")";
+   }
 }

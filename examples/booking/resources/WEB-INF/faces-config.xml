@@ -32,6 +32,18 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 		</navigation-case>
 	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>/hotel.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>redisplay</from-outcome>
+			<to-view-id>/hotel.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/main.jsp</to-view-id>
+		</navigation-case>
+    </navigation-rule>
+    
 	<application>
 		<variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
 	</application>

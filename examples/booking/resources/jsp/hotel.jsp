@@ -21,7 +21,15 @@
          <td><h:outputText value="#{hotel.zip}"/></td>
        </tr>
      </table>
-     <h:commandButton type="submit" value="Next" action="#{findHotels.next}"/>
+    <h:commandLink action="#{findHotels.lastHotel}">
+      <h:outputText value="View previous hotel"/>
+    </h:commandLink>
+    <h:commandLink action="#{findHotels.nextHotel}">
+      <h:outputText value="View next hotel"/>
+    </h:commandLink>
+    <h:commandLink action="back">
+      <h:outputText value="Back to list"/>
+    </h:commandLink>
    </h:form>
   </f:view>
  </body>

@@ -31,7 +31,7 @@
     </h:column>
     <h:column>
     <h:commandLink action="#{findHotels.selectHotel}">
-      <h:outputText value="View Hotel"/>
+      <h:outputText value="View hotel"/>
     </h:commandLink>
     </h:column>
    </h:dataTable>

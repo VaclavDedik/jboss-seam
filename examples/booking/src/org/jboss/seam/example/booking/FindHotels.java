@@ -14,6 +14,9 @@ public interface FindHotels
    public DataModel getHotelsDataModel();
    public String selectHotel();
    
+   public String nextHotel();
+   public String lastHotel();
+   
    public void destroy();
-
+   
 }

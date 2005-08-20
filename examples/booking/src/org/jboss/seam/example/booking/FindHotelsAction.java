@@ -39,6 +39,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    private Hotel hotel;
    
    private DataModel listDataModel = new ListDataModel();
+   int rowIndex = 0;
    
    public DataModel getHotelsDataModel() {
       return listDataModel;
@@ -60,18 +61,6 @@ public class FindHotelsAction implements FindHotels, Serializable
       return "success";
    }
    
-   public String selectHotel()
-   {
-      hotel = (Hotel) listDataModel.getRowData();
-      log.info( listDataModel.getRowIndex() + "=>" + hotel );
-      return "selected";
-   }
-   
-   public List getHotels()
-   {
-      return hotels;
-   }
-
    public String getSearchString()
    {
       return searchString;
@@ -82,7 +71,40 @@ public class FindHotelsAction implements FindHotels, Serializable
       this.searchString = searchString==null ? 
             "*" : searchString;
    }
+   
+   public String selectHotel()
+   {
+      rowIndex = listDataModel.getRowIndex();
+      setHotel();
+      return "selected";
+   }
 
+   public String nextHotel()
+   {
+      if ( rowIndex<hotels.size()-1 )
+      {
+         listDataModel.setRowIndex(++rowIndex);
+         setHotel();
+      }
+      return "redisplay";
+   }
+
+   public String lastHotel()
+   {
+      if (rowIndex>0)
+      {
+         listDataModel.setRowIndex(--rowIndex);
+         setHotel();
+      }
+      return "redisplay";
+   }
+
+   private void setHotel()
+   {
+      hotel = (Hotel) listDataModel.getRowData();
+      log.info( rowIndex + "=>" + hotel );
+   }
+      
    @Destroy @Remove
    public void destroy() {}
 }
