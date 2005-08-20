@@ -1,9 +1,8 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
-import java.util.List;
-
 import javax.ejb.Local;
+import javax.faces.model.DataModel;
 
 @Local
 public interface FindHotels
@@ -11,10 +10,9 @@ public interface FindHotels
    public String getSearchString();
    public void setSearchString(String searchString);
    public String find();
-   public List getHotels();
 
-   public int getSelectedHotel();
-   public void setSelectedHotel(int i);
+   public DataModel getHotelsDataModel();
+   public String selectHotel();
    
    public void destroy();
 

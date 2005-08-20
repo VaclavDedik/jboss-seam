@@ -14,7 +14,7 @@
        </tr>
        <tr>
          <td>Password</td>
-         <td><h:inputText value="#{user.password}"/></td>
+         <td><h:inputSecret value="#{user.password}"/></td>
        </tr>
      </table>
      <h:commandButton type="submit" value="Login" action="#{login.login}"/>

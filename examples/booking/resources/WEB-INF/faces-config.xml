@@ -26,6 +26,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 			<from-outcome>login</from-outcome>
 			<to-view-id>/login.jsp</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>selected</from-outcome>
+			<to-view-id>/hotel.jsp</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<application>

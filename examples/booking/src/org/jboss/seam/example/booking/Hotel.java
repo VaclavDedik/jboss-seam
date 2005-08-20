@@ -65,4 +65,9 @@ public class Hotel implements Serializable
       this.zip = zip;
    }
    
+   public String toString()
+   {
+      return "Hotel(" + address + "," + city + "," + zip + ")";
+   }
+   
 }
