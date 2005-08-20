@@ -55,10 +55,10 @@ public class SeamPhaseListener implements PhaseListener
          else
          {
             log.info("Retrieved conversation state");
+            restoreAnyBusinessProcessContext();
          }
          Contexts.setConversationContext(context);
 
-         restoreAnyBusinessProcessContext( event );
       }
       else if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
          log.info("After render response, destroying contexts");
@@ -94,13 +94,13 @@ public class SeamPhaseListener implements PhaseListener
          {
             log.info("Storing conversation state");
             getAttributes(event).put(CONVERSATION, context);
+            storeAnyBusinessProcessContext();
          }
          else
          {
             log.info("Discarding conversation state");
             getAttributes(event).put(CONVERSATION, null);
          }
-         storeAnyBusinessProcessContext( event );
       }
       else if (event.getPhaseId() == PhaseId.INVOKE_APPLICATION)
       {
@@ -114,12 +114,12 @@ public class SeamPhaseListener implements PhaseListener
       return event.getFacesContext().getViewRoot().getAttributes();
    }
 
-	private void storeAnyBusinessProcessContext(PhaseEvent event) {
-		Map attributes = getAttributes( event );
+	private void storeAnyBusinessProcessContext() {
+		Context conversation = Contexts.getConversationContext();
 
 		if ( !Contexts.isBusinessProcessContextActive() ) {
-			attributes.remove( JBPM_TASK_ID );
-			attributes.remove( JBPM_PROCESS_ID );
+			conversation.remove( JBPM_TASK_ID );
+			conversation.remove( JBPM_PROCESS_ID );
 			return;
 		}
 
@@ -127,24 +127,24 @@ public class SeamPhaseListener implements PhaseListener
 
 		if ( jbpmContext.getProcessInstance().hasEnded() ||
 		        jbpmContext.getProcessInstance().isTerminatedImplicitly() ) {
-			attributes.remove( JBPM_TASK_ID );
-			attributes.remove( JBPM_PROCESS_ID );
+			conversation.remove( JBPM_TASK_ID );
+			conversation.remove( JBPM_PROCESS_ID );
 			return;
 		}
 
 		if ( jbpmContext.getTaskInstance() != null ) {
-			attributes.put( JBPM_TASK_ID, jbpmContext.getTaskInstance().getId() );
+			conversation.set( JBPM_TASK_ID, jbpmContext.getTaskInstance().getId() );
 		}
 
 		if ( jbpmContext.getProcessInstance() != null ) {
-			attributes.put( JBPM_PROCESS_ID, jbpmContext.getProcessInstance().getId() );
+			conversation.set( JBPM_PROCESS_ID, jbpmContext.getProcessInstance().getId() );
 		}
 	}
 
-	private void restoreAnyBusinessProcessContext(PhaseEvent event) {
-		Map attributes = getAttributes( event );
-		Long taskId = ( Long ) attributes.get( JBPM_TASK_ID );
-		Long processId = ( Long ) attributes.get( JBPM_PROCESS_ID );
+	private void restoreAnyBusinessProcessContext() {
+		Context conversation = Contexts.getConversationContext();
+		Long taskId = ( Long ) conversation.get( JBPM_TASK_ID );
+		Long processId = ( Long ) conversation.get( JBPM_PROCESS_ID );
 
 		// task is the more specific, so try that first...
 		if ( taskId != null ) {
