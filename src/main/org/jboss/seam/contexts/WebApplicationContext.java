@@ -20,16 +20,21 @@ public class WebApplicationContext implements Context {
 
 	private ServletContext context;
 	
+   private String getKey(String name)
+   {
+      return "seam$application$" + name;
+   }
+
 	public WebApplicationContext(ServletContext context) {
 		this.context = context;
 	}
 
 	public Object get(String name) {
-		return context.getAttribute(name);
+		return context.getAttribute( getKey(name) );
 	}
 
 	public void set(String name, Object value) {
-		context.setAttribute(name, value);
+		context.setAttribute( getKey(name), value );
 	}
 
 	public boolean isSet(String name) {
@@ -37,14 +42,18 @@ public class WebApplicationContext implements Context {
 	}
 
 	public void remove(String name) {
-		context.removeAttribute(name);
+		context.removeAttribute( getKey(name) );
 	}
 
 	public String[] getNames() {
 		Enumeration names = context.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
 		while ( names.hasMoreElements() ) {
-			results.add( (String) names.nextElement() );
+         String name = (String) names.nextElement();
+         if ( name.startsWith("seam$application$") )
+         {
+            results.add( name.substring(17) );
+         }
 		}
 		return results.toArray(new String[]{});
 	}

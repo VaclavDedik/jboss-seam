@@ -9,6 +9,7 @@ package org.jboss.seam.ejb;
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
@@ -25,6 +26,8 @@ import org.jboss.seam.interceptors.Interceptor;
 public class SeamInterceptor
 {
    
+   private static final Logger log = Logger.getLogger(SeamInterceptor.class);
+   
    private ComponentFinder componentFinder = new ComponentFinder();
 
    @AroundInvoke
@@ -32,6 +35,8 @@ public class SeamInterceptor
    {
       if ( Contexts.isProcessing() )
       {
+         log.debug("intercepted: " + invocation.getMethod().getName());
+         
          final Component component = getSeamComponent( invocation.getBean() );
          
          for (Interceptor interceptor: component.getInterceptors())
@@ -43,6 +48,7 @@ public class SeamInterceptor
          Object result;
          try
          {
+            log.info("invoking: " + invocation.getMethod().getName());
             result = invocation.proceed();
          } 
          catch (Exception exception)
@@ -62,6 +68,8 @@ public class SeamInterceptor
          return result;
       }
       else {
+         log.debug("not intercepted: " + invocation.getMethod().getName());
+
          return invocation.proceed();
       }
    }

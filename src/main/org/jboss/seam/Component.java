@@ -137,67 +137,72 @@ public class Component
    {
       this.seamModule = seamModule;
       this.beanClass = clazz;
-      name = Seam.getComponentName(clazz);
-      scope = Seam.getComponentScope(clazz);
-      type = Seam.getComponentType(clazz);
+      name = Seam.getComponentName(beanClass);
+      scope = Seam.getComponentScope(beanClass);
+      type = Seam.getComponentType(beanClass);
       
-      for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
+      for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
-         if ( method.isAnnotationPresent(IfInvalid.class) )
-         {
-            validateMethods.add(method);  
-         }
-         if ( method.isAnnotationPresent(Remove.class) )
-         {
-            removeMethods.add(method);  
-         }
-         if ( method.isAnnotationPresent(Destroy.class) )
-         {
-            destroyMethod = method;
-         }
-         if ( method.isAnnotationPresent(Create.class) )
-         {
-            createMethod = method;
-         }
-         if ( method.isAnnotationPresent(In.class) )
-         {
-            inMethods.add(method);
-         }
-         if ( method.isAnnotationPresent(Out.class) )
-         {
-            outMethods.add(method);
-         }
-         if ( !method.isAccessible() )
-         {
-            method.setAccessible(true);
-         }
-      }
       
-      for (Field field: clazz.getDeclaredFields()) //TODO: inheritance!
-      {
-         if ( field.isAnnotationPresent(In.class) )
+         for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
          {
-            inFields.add(field);
+            if ( method.isAnnotationPresent(IfInvalid.class) )
+            {
+               validateMethods.add(method);  
+            }
+            if ( method.isAnnotationPresent(Remove.class) )
+            {
+               removeMethods.add(method);  
+            }
+            if ( method.isAnnotationPresent(Destroy.class) )
+            {
+               destroyMethod = method;
+            }
+            if ( method.isAnnotationPresent(Create.class) )
+            {
+               createMethod = method;
+            }
+            if ( method.isAnnotationPresent(In.class) )
+            {
+               inMethods.add(method);
+            }
+            if ( method.isAnnotationPresent(Out.class) )
+            {
+               outMethods.add(method);
+            }
+            if ( !method.isAccessible() )
+            {
+               method.setAccessible(true);
+            }
          }
-         if ( field.isAnnotationPresent(Out.class) )
+         
+         for (Field field: clazz.getDeclaredFields()) //TODO: inheritance!
          {
-            outFields.add(field);
+            if ( field.isAnnotationPresent(In.class) )
+            {
+               inFields.add(field);
+            }
+            if ( field.isAnnotationPresent(Out.class) )
+            {
+               outFields.add(field);
+            }
+            if ( field.isAnnotationPresent(IfInvalid.class) )
+            {
+               validateFields.add(field);
+            }
+            if ( !field.isAccessible() )
+            {
+               field.setAccessible(true);
+            }
          }
-         if ( field.isAnnotationPresent(IfInvalid.class) )
-         {
-            validateFields.add(field);
-         }
-         if ( !field.isAccessible() )
-         {
-            field.setAccessible(true);
-         }
+         
       }
-      
+         
       validator = new ClassValidator(beanClass);
       
       initDefaultInterceptors();
       
-      for (Annotation ann: clazz.getAnnotations())
+      for (Annotation ann: beanClass.getAnnotations())
       {
          if ( ann.annotationType().isAnnotationPresent(Advice.class) )
          {
@@ -414,10 +419,7 @@ public class Component
          Out out = field.getAnnotation(Out.class);
          if (out != null)
          {
-           setOutjectedValue( out, 
-                  finder.toName(out, field), 
-                  outject(bean, field) 
-               );
+            setOutjectedValue( out, finder.toName(out, field), outject(bean, field) );
          }
       }
    }
@@ -429,10 +431,7 @@ public class Component
          Out out = method.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, 
-                  finder.toName(out, method), 
-                  outject(bean, method) 
-               );
+            setOutjectedValue( out, finder.toName(out, method), outject(bean, method) );
          }
       }
    }

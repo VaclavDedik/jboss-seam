@@ -40,23 +40,26 @@ public class SeamVariableResolver extends VariableResolver
    @Override
    public Object resolveVariable(FacesContext facesContext, String name) throws EvaluationException
    {
-      log.info("resolving name as a Seam component: " + name);
+      log.info("resolving name: " + name);
       Object component = seamVariableResolver.getComponentInstance(name, true);
       if (component==null)
       {
-         log.info("resolving name as a managed bean: " + name);
-         //delegate back to JSF to see if its a managed bean
-         component = jsfVariableResolver.resolveVariable(facesContext, name);
+         Object managedBean = jsfVariableResolver.resolveVariable(facesContext, name);
+         if (managedBean==null)
+         {
+            log.info("could not resolve name");
+            return null;
+         }
+         else {
+            log.info("resolved name to managed bean");
+            return managedBean;  
+         }
       }
-      if (component==null) 
+      else
       {
-         log.info("not found: " + name);
-      }
-      else 
-      {
-         log.info("found: " + name);
-      }  
-      return component;
+         log.info("resolved name to seam component");
+         return component;
+      }      
    }
 
 }

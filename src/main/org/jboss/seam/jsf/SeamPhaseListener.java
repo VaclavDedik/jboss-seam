@@ -65,6 +65,18 @@ public class SeamPhaseListener implements PhaseListener
          log.info("After invoke application");
          Contexts.setProcessing(false);
       }
+      else if (event.getPhaseId() == PhaseId.UPDATE_MODEL_VALUES)
+      {
+         log.info("After update model values");
+      }
+      else if (event.getPhaseId() == PhaseId.PROCESS_VALIDATIONS)
+      {
+         log.info("After process validations");
+      }
+      else if (event.getPhaseId() == PhaseId.APPLY_REQUEST_VALUES)
+      {
+         log.info("After apply request values");
+      }
    }
 
    public void beforePhase(PhaseEvent event)
@@ -86,6 +98,18 @@ public class SeamPhaseListener implements PhaseListener
       {
          Contexts.setProcessing(true);
          log.info("About to invoke application");
+      }
+      else if (event.getPhaseId() == PhaseId.UPDATE_MODEL_VALUES)
+      {
+         log.info("About to update model values");
+      }
+      else if (event.getPhaseId() == PhaseId.PROCESS_VALIDATIONS)
+      {
+         log.info("About to process validations");
+      }
+      else if (event.getPhaseId() == PhaseId.APPLY_REQUEST_VALUES)
+      {
+         log.info("About to apply request values");
       }
    }
 

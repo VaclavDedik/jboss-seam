@@ -23,13 +23,18 @@ public class WebRequestContext implements Context {
 	public WebRequestContext(HttpServletRequest request) {
 		this.request = request;
 	}
+   
+   private String getKey(String name)
+   {
+      return "seam$request$" + name;
+   }
 
 	public Object get(String name) {
-		return request.getAttribute(name);
+		return request.getAttribute( getKey(name) );
 	}
 
 	public void set(String name, Object value) {
-		request.setAttribute(name, value);
+		request.setAttribute( getKey(name), value);
 	}
 
 	public boolean isSet(String name) {
@@ -37,16 +42,20 @@ public class WebRequestContext implements Context {
 	}
 
 	public void remove(String name) {
-		request.removeAttribute(name);
+		request.removeAttribute( getKey(name) );
 	}
 
 	public String[] getNames() {
 		Enumeration names = request.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
 		while ( names.hasMoreElements() ) {
-			results.add( (String) names.nextElement() );
+			String name = (String) names.nextElement();
+         if ( name.startsWith("seam$request$") )
+         {
+            results.add( name.substring(13) );
+         }
 		}
-		return results.toArray(new String[]{});
+		return results.toArray( new String[]{} );
 	}
    
 }

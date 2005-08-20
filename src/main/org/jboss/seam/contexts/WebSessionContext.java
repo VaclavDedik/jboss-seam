@@ -20,16 +20,21 @@ public class WebSessionContext implements Context {
 
 	private HttpSession session;
 	
+   private String getKey(String name)
+   {
+      return "seam$session$" + name;
+   }
+
 	public WebSessionContext(HttpSession session) {
 		this.session = session;
 	}
 
 	public Object get(String name) {
-		return session.getAttribute(name);
+		return session.getAttribute( getKey(name) );
 	}
 
 	public void set(String name, Object value) {
-		session.setAttribute(name, value);
+		session.setAttribute( getKey(name), value );
 	}
 
 	public boolean isSet(String name) {
@@ -37,15 +42,19 @@ public class WebSessionContext implements Context {
 	}
 
 	public void remove(String name) {
-		session.removeAttribute(name);
+		session.removeAttribute( getKey(name) );
 	}
 
 	public String[] getNames() {
 		Enumeration names = session.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
-		while ( names.hasMoreElements() ) {
-			results.add( (String) names.nextElement() );
-		}
+      while ( names.hasMoreElements() ) {
+         String name = (String) names.nextElement();
+         if ( name.startsWith("seam$session$") )
+         {
+            results.add( name.substring(13) );
+         }
+      }
 		return results.toArray(new String[]{});
 	}
    
