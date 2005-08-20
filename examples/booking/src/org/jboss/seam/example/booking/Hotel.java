@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
 @Entity
-@Name("flight")
+@Name("hotel")
 @Scope(EVENT)
 public class Hotel implements Serializable
 {

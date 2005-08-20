@@ -14,7 +14,9 @@ import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -30,7 +32,11 @@ public class FindHotelsAction implements FindHotels, Serializable
    private EntityManager em;
    
    private String searchString;
-   private List hotels;
+   private List<Hotel> hotels;
+   
+   @Out(required=false)
+   private Hotel hotel;
+   private int selectedHotel;
 
    @Begin
    public String find()
@@ -42,6 +48,13 @@ public class FindHotelsAction implements FindHotels, Serializable
       
       log.info(hotels.size() + " hotels found");
       
+      return "success";
+   }
+   
+   @End
+   public String selectHotel()
+   {
+      hotel = hotels.get(selectedHotel);
       return "success";
    }
    
@@ -60,6 +73,16 @@ public class FindHotelsAction implements FindHotels, Serializable
       this.searchString = searchString;
    }
    
+   public int getSelectedHotel()
+   {
+      return selectedHotel;
+   }
+
+   public void setSelectedHotel(int selectedHotel)
+   {
+      this.selectedHotel = selectedHotel;
+   }
+
    @Destroy @Remove
    public void destroy() {}
 }

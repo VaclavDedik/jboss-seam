@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.annotation.ejb.LocalBinding;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -29,7 +28,7 @@ public class LoginAction implements Login
    @PersistenceContext
    private EntityManager em;
 
-   @IfInvalid(outcome="retry")
+   //@IfInvalid(outcome="retry")
    public String login()
    {
       List<User> results = em.createQuery("from User where username=:username and password=:password")
@@ -39,16 +38,15 @@ public class LoginAction implements Login
       
       if ( results.size()==0 )
       {
-         em.persist(user);
+         return "retry";
       }
       else
       {
          user = results.get(0);
+         Contexts.getSessionContext().set("loggedIn", true);         
+         return "success";
       }
       
-      Contexts.getSessionContext().set("loggedIn", true);
-      
-      return "success";
    }
 
 }

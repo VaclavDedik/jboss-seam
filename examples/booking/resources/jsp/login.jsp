@@ -16,10 +16,6 @@
          <td>Password</td>
          <td><h:inputText value="#{user.password}"/></td>
        </tr>
-       <tr>
-         <td>Real name (to register new user)</td>
-         <td><h:inputText value="#{user.name}"/></td>
-       </tr>
      </table>
      <h:commandButton type="submit" value="Login" action="#{login.login}"/>
    </h:form>
