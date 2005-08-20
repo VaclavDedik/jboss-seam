@@ -444,8 +444,10 @@ public class Component
       }
       else 
       {
-         finder.getComponent(name).getScope()
-               .getContext().set(name, value);
+         Component component = finder.getComponent(name);
+         ScopeType scope = component==null ? 
+               ScopeType.CONVERSATION : component.getScope();
+         scope.getContext().set(name, value);
       }
    }
 
