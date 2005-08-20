@@ -22,13 +22,12 @@ import org.jboss.seam.ejb.SeamInterceptor;
 public class LoginAction implements Login
 {
    
-   @In @Out //@Valid
+   @In @Out
    private User user;
    
    @PersistenceContext
    private EntityManager em;
 
-   //@IfInvalid(outcome="retry")
    public String login()
    {
       List<User> results = em.createQuery("from User where username=:username and password=:password")
