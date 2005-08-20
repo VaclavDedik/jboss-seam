@@ -19,7 +19,7 @@
    </h:form>
    
    <h:form>
-   <h:dataTable value="#{findHotels.hotelsDataModel}" var="hot">
+   <h:dataTable value="#{hotelsDataModel}" var="hot">
     <h:column>
      <h:outputText value="#{hot.address}"/>
     </h:column>

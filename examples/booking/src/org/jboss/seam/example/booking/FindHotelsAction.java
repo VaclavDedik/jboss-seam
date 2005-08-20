@@ -38,13 +38,10 @@ public class FindHotelsAction implements FindHotels, Serializable
    @Out(required=false)
    private Hotel hotel;
    
-   private DataModel listDataModel = new ListDataModel();
+   @Out
+   private DataModel hotelsDataModel = new ListDataModel();
    int rowIndex = 0;
    
-   public DataModel getHotelsDataModel() {
-      return listDataModel;
-   }
-
    @Begin
    public String find()
    {
@@ -56,7 +53,7 @@ public class FindHotelsAction implements FindHotels, Serializable
       
       log.info(hotels.size() + " hotels found");
       
-      listDataModel.setWrappedData(hotels);
+      hotelsDataModel.setWrappedData(hotels);
       
       return "success";
    }
@@ -74,7 +71,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    
    public String selectHotel()
    {
-      rowIndex = listDataModel.getRowIndex();
+      rowIndex = hotelsDataModel.getRowIndex();
       setHotel();
       return "selected";
    }
@@ -83,7 +80,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    {
       if ( rowIndex<hotels.size()-1 )
       {
-         listDataModel.setRowIndex(++rowIndex);
+         hotelsDataModel.setRowIndex(++rowIndex);
          setHotel();
       }
       return "redisplay";
@@ -93,7 +90,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    {
       if (rowIndex>0)
       {
-         listDataModel.setRowIndex(--rowIndex);
+         hotelsDataModel.setRowIndex(--rowIndex);
          setHotel();
       }
       return "redisplay";
@@ -101,7 +98,7 @@ public class FindHotelsAction implements FindHotels, Serializable
 
    private void setHotel()
    {
-      hotel = (Hotel) listDataModel.getRowData();
+      hotel = (Hotel) hotelsDataModel.getRowData();
       log.info( rowIndex + "=>" + hotel );
    }
       
