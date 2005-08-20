@@ -7,7 +7,6 @@ package org.jboss.seam.contexts;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A conversation context is a logical context that last longer than 
@@ -20,8 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ConversationContext implements Context, Serializable {
 
 	private final Map<String, Object> map = new HashMap<String, Object>();
-
-	private static AtomicInteger uniqueId = new AtomicInteger(0);
 
 	public Object get(String name) {
 		return map.get(name);
@@ -41,10 +38,6 @@ public class ConversationContext implements Context, Serializable {
 
 	public String[] getNames() {
 		return map.keySet().toArray(new String[0]);
-	}
-
-	static String generateConversationId() {
-		return Integer.toString( uniqueId.incrementAndGet() );
 	}
    
    public String toString()
