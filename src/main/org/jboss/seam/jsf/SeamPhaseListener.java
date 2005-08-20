@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.jsf;
 
 import java.util.Map;
@@ -17,7 +22,7 @@ import org.jboss.seam.contexts.BusinessProcessContext;
 /**
  * Manages the thread/context associations throught the
  * lifecycle of a JSF request.
- * 
+ *
  * @author Gavin King
  */
 public class SeamPhaseListener implements PhaseListener
@@ -28,19 +33,26 @@ public class SeamPhaseListener implements PhaseListener
 
    private static Logger log = Logger.getLogger(SeamPhaseListener.class);
 
+   public PhaseId getPhaseId()
+   {
+      return PhaseId.ANY_PHASE;
+   }
+
    public void afterPhase(PhaseEvent event)
    {
+	   log.trace( "after phase [" + event.getPhaseId() + "]" );
+
       if (event.getPhaseId() == PhaseId.RESTORE_VIEW)
       {
          Context context = (Context) getAttributes(event).get(CONVERSATION);
          log.info("After restore view, conversation context: " + context);
          Contexts.setLongRunningConversation(context!=null);
-         if (context==null) 
+         if (context==null)
          {
             log.info("No stored conversation state");
             context = new ConversationContext();
          }
-         else 
+         else
          {
             log.info("Retrieved conversation state");
          }
@@ -66,6 +78,8 @@ public class SeamPhaseListener implements PhaseListener
 
    public void beforePhase(PhaseEvent event)
    {
+	   log.trace( "before phase [" + event.getPhaseId() + "]" );
+
       if (event.getPhaseId() == PhaseId.RESTORE_VIEW)
       {
          log.info("Before restore view");
@@ -76,12 +90,12 @@ public class SeamPhaseListener implements PhaseListener
       {
          Context context = Contexts.getConversationContext();
          log.info("Before render response, conversation context: " + context);
-         if ( Contexts.isLongRunningConversation() ) 
+         if ( Contexts.isLongRunningConversation() )
          {
             log.info("Storing conversation state");
             getAttributes(event).put(CONVERSATION, context);
          }
-         else 
+         else
          {
             log.info("Discarding conversation state");
             getAttributes(event).put(CONVERSATION, null);
@@ -100,43 +114,45 @@ public class SeamPhaseListener implements PhaseListener
       return event.getFacesContext().getViewRoot().getAttributes();
    }
 
-   public PhaseId getPhaseId()
-   {
-      return PhaseId.ANY_PHASE;
-   }
+	private void storeAnyBusinessProcessContext(PhaseEvent event) {
+		Map attributes = getAttributes( event );
 
-   private void storeAnyBusinessProcessContext(PhaseEvent event)
-   {
-      if ( !Contexts.isBusinessProcessContextActive() ) return;
+		if ( !Contexts.isBusinessProcessContextActive() ) {
+			attributes.remove( JBPM_TASK_ID );
+			attributes.remove( JBPM_PROCESS_ID );
+			return;
+		}
 
-      BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
-	  Map attributes = getAttributes( event );
+		BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
 
-      if ( jbpmContext.getTaskInstance() != null )
-      {
-         attributes.put( JBPM_TASK_ID, jbpmContext.getTaskInstance().getId() );
-      }
+		if ( jbpmContext.getProcessInstance().hasEnded() ||
+		        jbpmContext.getProcessInstance().isTerminatedImplicitly() ) {
+			attributes.remove( JBPM_TASK_ID );
+			attributes.remove( JBPM_PROCESS_ID );
+			return;
+		}
 
-      if ( jbpmContext.getProcessInstance() != null )
-      {
-         attributes.put( JBPM_PROCESS_ID, jbpmContext.getProcessInstance().getId() );
-      }
-   }
+		if ( jbpmContext.getTaskInstance() != null ) {
+			attributes.put( JBPM_TASK_ID, jbpmContext.getTaskInstance().getId() );
+		}
 
-   private void restoreAnyBusinessProcessContext(PhaseEvent event)
-   {
-      Map attributes = getAttributes( event );
-      // task is the more specific, so try that first...
-      Long taskId = ( Long ) attributes.get( JBPM_TASK_ID );
-      Long processId = ( Long ) attributes.get( JBPM_PROCESS_ID );
-      if ( taskId != null )
-      {
-         Contexts.beginBusinessProcessContextViaTask( taskId );
-      }
-      else if ( processId != null )
-      {
-         Contexts.beginBusinessProcessContextViaProcess( processId );
-      }
-   }
+		if ( jbpmContext.getProcessInstance() != null ) {
+			attributes.put( JBPM_PROCESS_ID, jbpmContext.getProcessInstance().getId() );
+		}
+	}
+
+	private void restoreAnyBusinessProcessContext(PhaseEvent event) {
+		Map attributes = getAttributes( event );
+		Long taskId = ( Long ) attributes.get( JBPM_TASK_ID );
+		Long processId = ( Long ) attributes.get( JBPM_PROCESS_ID );
+
+		// task is the more specific, so try that first...
+		if ( taskId != null ) {
+			Contexts.beginBusinessProcessContextViaTask( taskId );
+		}
+		else if ( processId != null ) {
+			Contexts.beginBusinessProcessContextViaProcess( processId );
+		}
+	}
 
 }
