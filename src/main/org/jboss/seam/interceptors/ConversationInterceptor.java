@@ -7,6 +7,7 @@ import java.util.Arrays;
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginIf;
@@ -20,13 +21,23 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author Gavin King
  */
-@Around(ValidationInterceptor.class)
+@Around({ValidationInterceptor.class, BijectionInterceptor.class})
 public class ConversationInterceptor extends AbstractInterceptor
 {
+
+   private static final Logger log = Logger.getLogger(ConversationInterceptor.class);
 
    @AroundInvoke
    public Object endOrBeginLongRunningConversation(InvocationContext invocation) throws Exception
    {
+      Method method = invocation.getMethod();
+
+      if ( isNoConversationForConversationalBean(method) )
+      {
+         log.info("no long-running conversation for @Conversational bean: " + component.getName());
+         return component.getNoConversationOutcome();
+      }
+      
       Object result;
       try
       {
@@ -34,14 +45,23 @@ public class ConversationInterceptor extends AbstractInterceptor
       }
       catch (Exception exception)
       {
-         endConversationIfNecessary(invocation.getMethod(), exception);
+         endConversationIfNecessary(method, exception);
          throw exception;
       }
 
-      beginConversationIfNecessary(invocation.getMethod(), result);
-      endConversationIfNecessary(invocation.getMethod(), result);
+      beginConversationIfNecessary(method, result);
+      endConversationIfNecessary(method, result);
       return result;
    
+   }
+
+
+   private boolean isNoConversationForConversationalBean(Method method)
+   {
+      return component.isConversational() && 
+            !Contexts.isLongRunningConversation() &&
+            !method.isAnnotationPresent(Begin.class) &&
+            !method.isAnnotationPresent(BeginIf.class);
    }
 
 

@@ -16,7 +16,7 @@ import org.jboss.seam.annotations.Around;
  * 
  * @author Gavin King
  */
-@Around({ValidationInterceptor.class, BijectionInterceptor.class})
+@Around({ValidationInterceptor.class, BijectionInterceptor.class, ConversationInterceptor.class})
 public class RemoveInterceptor extends AbstractInterceptor
 {
    

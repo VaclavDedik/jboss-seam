@@ -22,6 +22,7 @@ import javax.naming.InitialContext;
 import org.hibernate.validator.ClassValidator;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
+import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
@@ -54,7 +55,7 @@ public class Component
    private ComponentType type;
    private String name;
    private ScopeType scope;
-   private Class beanClass;
+   private Class<?> beanClass;
    
    private SeamModule seamModule;
    
@@ -75,6 +76,8 @@ public class Component
    private ComponentFinder finder;
    
    private Set<Class> localInterfaces;
+   
+   private String ifNoConversationOutcome;
 
    public Component(SeamModule seamModule, Class<?> clazz)
    {
@@ -83,8 +86,13 @@ public class Component
       name = Seam.getComponentName(beanClass);
       scope = Seam.getComponentScope(beanClass);
       type = Seam.getComponentType(beanClass);
+      
+      log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType());
 
-      log.info("component " + getName() + " scope " + getScope() + " type " + getType());
+      if ( beanClass.isAnnotationPresent(Conversational.class) )
+      {
+         ifNoConversationOutcome = beanClass.getAnnotation(Conversational.class).ifNotBegunOutcome();
+      }
 
       for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
@@ -451,6 +459,16 @@ public class Component
       {
          throw new IllegalArgumentException("could not inject: " + name, e);
       }
+   }
+   
+   public boolean isConversational()
+   {
+      return ifNoConversationOutcome!=null;
+   }
+   
+   public String getNoConversationOutcome()
+   {
+      return ifNoConversationOutcome;
    }
 
 }
