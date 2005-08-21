@@ -36,7 +36,10 @@
     </h:column>
    </h:dataTable>
    </h:form>
-   
+   <br/>
+    <h:commandLink action="#{logout.logout}">
+      <h:outputText value="Logout"/>
+    </h:commandLink>
   </f:view>
  </body>
 </html>

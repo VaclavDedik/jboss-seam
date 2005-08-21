@@ -10,6 +10,17 @@
 		</listener-class>
 	</listener>
 
+	<listener>
+		<listener-class>
+			org.jboss.seam.contexts.SeamSessionListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.jboss.seam.contexts.SeamApplicationListener
+		</listener-class>
+	</listener>
+
 	<filter>
 		<filter-name>Seam Exception Filter</filter-name>
 		<filter-class>org.jboss.seam.jsf.SeamExceptionFilter</filter-class>

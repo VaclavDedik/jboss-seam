@@ -31,6 +31,10 @@
       <h:outputText value="Back to list"/>
     </h:commandLink>
    </h:form>
+   <br/>
+    <h:commandLink action="#{logout.logout}">
+      <h:outputText value="Logout"/>
+    </h:commandLink>
   </f:view>
  </body>
 </html>
