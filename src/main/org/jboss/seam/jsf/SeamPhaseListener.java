@@ -14,7 +14,6 @@ import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
 import static javax.faces.event.PhaseId.UPDATE_MODEL_VALUES;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.event.PhaseEvent;
@@ -37,9 +36,8 @@ import org.jboss.seam.contexts.ConversationContext;
  */
 public class SeamPhaseListener implements PhaseListener
 {
-   private static final String CONVERSATIONS = "org.jboss.seam.Conversations";
    
-   public static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
+   private static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
    private static final String JBPM_TASK_ID = "org.jboss.seam.jbpm.taskId";
    private static final String JBPM_PROCESS_ID = "org.jboss.seam.jbpm.processId";
 
@@ -142,29 +140,25 @@ public class SeamPhaseListener implements PhaseListener
 
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
-      Object conversationId = getAttributes(event).get(CONVERSATION_ID);
+      String conversationId = (String) getAttributes(event).get(CONVERSATION_ID);
       Context conversationContext;
       if (conversationId!=null)
       {
-         conversationContext = (Context) getConversations(event).get(conversationId);
-         if (conversationContext==null)
-         {
-            //this can happen after server restart, so do something better
-            //(perhaps forward to a special outcome?)
-            throw new IllegalStateException("Missing conversation: " + conversationId);
-         }
+         //TODO: how can we detect a missing conversation?
+         //      (happens after a server restart)
          Contexts.setLongRunningConversation(true);
+         conversationContext = new ConversationContext( getSession(event), conversationId );
          log.info("Restored conversation with id: " + conversationId);
       }
       else
       {
          log.info("No stored conversation");
-         conversationContext = new ConversationContext();
+         conversationContext = new ConversationContext( getSession(event) );
          Contexts.setLongRunningConversation(false);
       }
       
-      log.info("After restore view, conversation context: " + conversationContext);
       Contexts.setConversationContext(conversationContext);
+      log.info("After restore view, conversation context: " + Contexts.getConversationContext());
    }
 
    private static void storeAnyConversationContext(PhaseEvent event)
@@ -177,10 +171,9 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( Contexts.isLongRunningConversation() ) 
       {
-         Object conversationId = conversationContext.get(CONVERSATION_ID);
+         Object conversationId = ConversationContext.getId(conversationContext);
          log.info("Storing conversation state: " + conversationId);
          getAttributes(event).put(CONVERSATION_ID, conversationId);
-         getConversations(event).put(conversationId, conversationContext);
       }
       else 
       {
@@ -189,26 +182,14 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
 
-   private static Map getConversations(PhaseEvent event)
+   private static HttpServletRequest getRequest(PhaseEvent event)
    {
-      Map result = (Map) getSession(event).getAttribute(CONVERSATIONS);
-      if (result==null) 
-      {
-         //TODO: minor issue; not threadsafe....
-         result = new HashMap();
-         getSession(event).setAttribute(CONVERSATIONS, result);
-      }
-      return result;
+      return (HttpServletRequest) event.getFacesContext().getExternalContext().getRequest();
    }
 
    private static HttpSession getSession(PhaseEvent event)
    {
       return (HttpSession) event.getFacesContext().getExternalContext().getSession(true);
-   }
-
-   private static HttpServletRequest getRequest(PhaseEvent event)
-   {
-      return (HttpServletRequest) event.getFacesContext().getExternalContext().getRequest();
    }
 
    private static Map getAttributes(PhaseEvent event)

@@ -7,8 +7,10 @@
 package org.jboss.seam.contexts;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.jsf.SeamPhaseListener;
 
@@ -22,36 +24,64 @@ import org.jboss.seam.jsf.SeamPhaseListener;
  */
 public class ConversationContext implements Context, Serializable {
 
-	private final Map<String, Object> map = new HashMap<String, Object>();
+	private final HttpSession session;
+   private final String id;
    
-   public ConversationContext()
+   public String getKey(String name)
    {
-      map.put( SeamPhaseListener.CONVERSATION_ID, Id.nextId() );
+      return "seam$conversation$" + id + "$" + name;
+   }
+   
+   public static String getId(Context conversationContext)
+   {
+      return ( (ConversationContext) conversationContext ).id;
+   }
+   
+   public ConversationContext(HttpSession session)
+   {
+      this.session = session;
+      id = Id.nextId();
    }
 
+   public ConversationContext(HttpSession session, String id)
+   {
+      this.session = session;
+      this.id = id;
+   }
+   
 	public Object get(String name) {
-		return map.get(name);
+		return session.getAttribute( getKey(name) );
 	}
 
 	public void set(String name, Object value) {
-		map.put( name, value );
+		session.setAttribute( getKey(name), value );
 	}
 
 	public boolean isSet(String name) {
-		return map.containsKey(name);
+		return get(name)!=null;
 	}
    
 	public void remove(String name) {
-		map.remove( name );
+		session.removeAttribute( getKey(name) );
 	}
 
-	public String[] getNames() {
-		return map.keySet().toArray( new String[0] );
-	}
+   public String[] getNames() {
+      Enumeration names = session.getAttributeNames();
+      ArrayList<String> results = new ArrayList<String>();
+      String prefix = "seam$conversation$" + id + "$";
+      while ( names.hasMoreElements() ) {
+         String name = (String) names.nextElement();
+         if ( name.startsWith(prefix) )
+         {
+            results.add( name.substring( prefix.length() ) );
+         }
+      }
+      return results.toArray(new String[]{});
+   }
    
    public String toString()
    {
-      return "ConversationContext" + map.toString();
+      return "ConversationContext(" + id + ")";
    }
 
 }
