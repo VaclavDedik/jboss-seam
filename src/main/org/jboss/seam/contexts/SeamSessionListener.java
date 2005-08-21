@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.contexts;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -25,7 +24,6 @@ public class SeamSessionListener implements HttpSessionListener
          log.info("destroying session context");
          Contexts.destroy( Contexts.getSessionContext() );
       }
-      FacesContext.getCurrentInstance().getViewRoot().getAttributes().clear();
    }
 
 }

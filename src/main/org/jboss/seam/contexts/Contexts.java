@@ -32,7 +32,7 @@ public class Contexts {
    private static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
 
    private static final ThreadLocal<Boolean> isLongRunningConversation = new ThreadLocal<Boolean>();
-   private static final ThreadLocal<Boolean> isSessionInvalidated = new ThreadLocal<Boolean>();
+   private static final ThreadLocal<Boolean> isSessionInvalid = new ThreadLocal<Boolean>();
    private static final ThreadLocal<Boolean> isProcessing = new ThreadLocal<Boolean>();
 
 	public static Context getEventContext() {
@@ -65,21 +65,23 @@ public class Contexts {
 		sessionContext.set( new WebSessionContext( request.getSession() ) );
 		ServletContext servletContext = request.getSession().getServletContext();
 		applicationContext.set( new WebApplicationContext( servletContext ) );
-      isSessionInvalidated.set(false);
+      isSessionInvalid.set(false);
 	}
 
 	public static void endWebRequest(HttpServletRequest request) {
 		log.info( "<<< End web request" );
 		//clean up all threadlocals
-      if ( isSessionInvalidated.get() )
+      if ( isSessionInvalid.get() )
       {
-         isSessionInvalidated.set(false);
+         isSessionInvalid.set(false);
          request.getSession(false).invalidate();
       }
+      
 		eventContext.set( null );
 		sessionContext.set( null );
 		applicationContext.set( null );
 		conversationContext.set( null );
+      
 		if ( businessProcessContext.get() != null ) {
 			( ( BusinessProcessContext ) businessProcessContext.get() ).release();
 			businessProcessContext.set( null );
@@ -305,7 +307,12 @@ public class Contexts {
    
    public static void invalidateSession()
    {
-      isSessionInvalidated.set(true);
+      isSessionInvalid.set(true);
+   }
+   
+   public static boolean isSessionInvalid()
+   {
+      return isSessionInvalid();
    }
    
 }

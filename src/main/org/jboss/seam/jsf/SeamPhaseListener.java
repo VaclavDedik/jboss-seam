@@ -121,8 +121,7 @@ public class SeamPhaseListener implements PhaseListener
    private static void endWebRequest(PhaseEvent event)
    {
       log.info("After render response, destroying contexts");
-      HttpServletRequest request = getRequest(event);
-      endWebRequest(request);
+      endWebRequest( getRequest(event) );
    }
 
    static void endWebRequest(HttpServletRequest request)
@@ -169,7 +168,7 @@ public class SeamPhaseListener implements PhaseListener
       {
          log.info("No active conversation context");
       }
-      else if ( Contexts.isLongRunningConversation() ) 
+      else if ( Contexts.isLongRunningConversation() && !Contexts.isSessionInvalid() ) 
       {
          Object conversationId = ConversationContext.getId(conversationContext);
          log.info("Storing conversation state: " + conversationId);
