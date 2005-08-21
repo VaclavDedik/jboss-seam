@@ -3,6 +3,7 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
+import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
 import org.hibernate.validator.InvalidValue;
@@ -25,8 +26,8 @@ public class ValidationInterceptor extends AbstractInterceptor
 
    private static final Logger log = Logger.getLogger(ValidationInterceptor.class);
 
-   @Override
-   public Object aroundInvoke(InvocationContext invocation) throws Exception
+   @AroundInvoke
+   public Object validateTargetComponent(InvocationContext invocation) throws Exception
    {
       Method method = invocation.getMethod();
       if ( method.isAnnotationPresent(IfInvalid.class) )

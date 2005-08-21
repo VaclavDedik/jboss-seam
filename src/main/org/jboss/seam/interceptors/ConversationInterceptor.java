@@ -4,6 +4,7 @@ package org.jboss.seam.interceptors;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
 import org.jboss.seam.annotations.Around;
@@ -23,8 +24,8 @@ import org.jboss.seam.contexts.Contexts;
 public class ConversationInterceptor extends AbstractInterceptor
 {
 
-   @Override
-   public Object aroundInvoke(InvocationContext invocation) throws Exception
+   @AroundInvoke
+   public Object endOrBeginLongRunningConversation(InvocationContext invocation) throws Exception
    {
       Object result;
       try

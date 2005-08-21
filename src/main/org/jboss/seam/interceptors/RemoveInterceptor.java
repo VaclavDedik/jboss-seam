@@ -3,6 +3,7 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
+import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 import javax.ejb.Remove;
 
@@ -21,8 +22,8 @@ public class RemoveInterceptor extends AbstractInterceptor
    
    private static final Logger log = Logger.getLogger(RemoveInterceptor.class);
 
-   @Override
-   public Object aroundInvoke(InvocationContext invocation) throws Exception
+   @AroundInvoke
+   public Object removeIfNecessary(InvocationContext invocation) throws Exception
    {
       Object result;
       try

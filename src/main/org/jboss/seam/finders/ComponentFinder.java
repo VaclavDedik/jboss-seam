@@ -24,7 +24,6 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.deployment.SeamDeployer;
 import org.jboss.seam.deployment.SeamModule;
-import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.util.Tool;
 
 /**
@@ -94,10 +93,6 @@ public class ComponentFinder implements Finder
                {
                   throw new RuntimeException(e);
                }
-            }
-            for( Interceptor interceptor: component.getInterceptors() )
-            {
-               interceptor.create(result);
             }
             component.getScope().getContext().set(name, result);
          }

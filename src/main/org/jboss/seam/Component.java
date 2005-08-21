@@ -84,7 +84,9 @@ public class Component
       name = Seam.getComponentName(beanClass);
       scope = Seam.getComponentScope(beanClass);
       type = Seam.getComponentType(beanClass);
-      
+
+      log.info("component " + getName() + " scope " + getScope() + " type " + getType());
+
       for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
       
@@ -152,31 +154,22 @@ public class Component
       {
          if ( ann.annotationType().isAnnotationPresent(Advice.class) )
          {
-            try 
-            {
-               Interceptor interceptor = (Interceptor) ann.annotationType()
-                     .getAnnotation(Advice.class).value().newInstance();
-               interceptor.initialize(ann, this);
-               interceptors.add(interceptor);
-            }
-            catch (Exception e)
-            {
-               throw new InstantiationException("could not instantiate interceptor", e);
-            }
+            interceptors.add( new Interceptor(ann, this) );
          }
       }
       
       new Sorter<Interceptor>() {
          protected boolean isOrderViolated(Interceptor outside, Interceptor inside)
          {
-            Around around = inside.getClass().getAnnotation(Around.class);
-            Within within = outside.getClass().getAnnotation(Within.class);
-            return ( around!=null && Arrays.asList( around.value() ).contains( outside.getClass() ) ) ||
-                  ( within!=null && Arrays.asList( within.value() ).contains( inside.getClass() ) );
+            Class<?> insideClass = inside.getUserInterceptor().getClass();
+            Class<?> outsideClass = outside.getUserInterceptor().getClass();
+            Around around = insideClass.getAnnotation(Around.class);
+            Within within = outsideClass.getAnnotation(Within.class);
+            return ( around!=null && Arrays.asList( around.value() ).contains( outsideClass ) ) ||
+                  ( within!=null && Arrays.asList( within.value() ).contains( insideClass ) );
          }
       }.sort(interceptors);
       
-      log.info("component " + getName() + " scope " + getScope() + " type " + getType());
       log.info("interceptor stack: " + interceptors);
       
       finder = new ComponentFinder();
@@ -185,21 +178,10 @@ public class Component
 
    private void initDefaultInterceptors()
    {
-      Interceptor ri = new RemoveInterceptor();
-      ri.initialize(null, this);
-      interceptors.add(ri);
-      
-      Interceptor ci = new ConversationInterceptor();
-      ci.initialize(null, this);
-      interceptors.add(ci);
-      
-      Interceptor bi = new BijectionInterceptor();
-      bi.initialize(null, this);
-      interceptors.add(bi);
-      
-      Interceptor vi = new ValidationInterceptor();
-      vi.initialize(null, this);
-      interceptors.add(vi);
+      interceptors.add( new Interceptor( new RemoveInterceptor(), this ) );
+      interceptors.add( new Interceptor( new ConversationInterceptor(), this ) );
+      interceptors.add( new Interceptor( new BijectionInterceptor(), this ) );
+      interceptors.add( new Interceptor( new ValidationInterceptor(), this ) );
    }
 
    public Class getBeanClass()

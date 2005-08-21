@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.finders.ComponentFinder;
-import org.jboss.seam.interceptors.Interceptor;
 
 /**
  * Provides access to the current contexts associated with the thread.
@@ -255,10 +254,6 @@ public class Contexts {
                {
                   throw new RuntimeException(e);
                }
-            }
-            for( Interceptor interceptor: component.getInterceptors() )
-            {
-               interceptor.destroy(instance);
             }
          }
       }

@@ -1,30 +1,20 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
-import javax.ejb.InvocationContext;
-
 import org.jboss.seam.Component;
 
-public class AbstractInterceptor<T> implements Interceptor<T>
+/**
+ * Superclass of built-in interceptors
+ * 
+ * @author Gavin King
+ */
+class AbstractInterceptor
 {
    protected Component component;
 
-   public void initialize(T annotation, Component component)
+   public void setComponent(Component component)
    {
       this.component = component;
-   }
-
-   public Object aroundInvoke(InvocationContext invocation) throws Exception
-   {
-      return invocation.proceed();
-   }
-
-   public void create(Object component)
-   {
-   }
-
-   public void destroy(Object component)
-   {
    }
 
 }
