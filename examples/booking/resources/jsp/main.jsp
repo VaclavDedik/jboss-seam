@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
  <head>
-  <title>Login</title>
+  <title>Search Hotels</title>
  </head>
  <body>
   <f:view>
@@ -13,8 +13,8 @@
    <h:form>
    <p>
     Search for a hotel: 
-    <h:inputText value="#{findHotels.searchString}"/>
-    <h:commandButton type="submit" value="Find" action="#{findHotels.find}"/>
+    <h:inputText value="#{hotelBooking.searchString}"/>
+    <h:commandButton type="submit" value="Find" action="#{hotelBooking.find}"/>
    </p>
    </h:form>
    
@@ -30,7 +30,7 @@
      <h:outputText value="#{hot.zip}"/>
     </h:column>
     <h:column>
-    <h:commandLink action="#{findHotels.selectHotel}">
+    <h:commandLink action="#{hotelBooking.selectHotel}">
       <h:outputText value="View hotel"/>
     </h:commandLink>
     </h:column>

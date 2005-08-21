@@ -2,7 +2,6 @@
 package org.jboss.seam.example.booking;
 
 import static javax.persistence.GeneratorType.AUTO;
-import static org.jboss.seam.ScopeType.EVENT;
 
 import java.io.Serializable;
 
@@ -12,11 +11,9 @@ import javax.persistence.Id;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Pattern;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
 
 @Entity
 @Name("hotel")
-@Scope(EVENT)
 public class Hotel implements Serializable
 {
    private Long id;

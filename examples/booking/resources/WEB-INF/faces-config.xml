@@ -42,8 +42,24 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 	<navigation-rule>
 		<from-view-id>/book.jsp</from-view-id>
 		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/confirm.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>retry</from-outcome>
+			<to-view-id>/book.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/confirm.jsp</from-view-id>
+		<navigation-case>
 			<from-outcome>confirmed</from-outcome>
 			<to-view-id>/confirmed.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/book.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	

@@ -17,6 +17,7 @@ import org.hibernate.validator.Valid;
 import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
@@ -26,13 +27,14 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
-@Name("findHotels")
-@LocalBinding(jndiBinding="findHotels")
+@Name("hotelBooking")
+@LocalBinding(jndiBinding="hotelBooking")
 @Interceptor(SeamInterceptor.class)
+@Conversational(ifNotBegunOutcome="main")
 @LoggedIn
-public class FindHotelsAction implements FindHotels, Serializable
+public class HotelBookingAction implements HotelBooking, Serializable
 {
-   private static final Logger log = Logger.getLogger(FindHotels.class);
+   private static final Logger log = Logger.getLogger(HotelBooking.class);
    
    @PersistenceContext
    private EntityManager em;
@@ -84,7 +86,6 @@ public class FindHotelsAction implements FindHotels, Serializable
    
    public String selectHotel()
    {
-      if (hotels==null) return "main";
       rowIndex = hotelsDataModel.getRowIndex();
       setHotel();
       return "selected";
@@ -92,7 +93,6 @@ public class FindHotelsAction implements FindHotels, Serializable
 
    public String nextHotel()
    {
-      if (hotels==null) return "main";
       if ( rowIndex<hotels.size()-1 )
       {
          hotelsDataModel.setRowIndex(++rowIndex);
@@ -103,7 +103,6 @@ public class FindHotelsAction implements FindHotels, Serializable
 
    public String lastHotel()
    {
-      if (hotels==null) return "main";
       if (rowIndex>0)
       {
          hotelsDataModel.setRowIndex(--rowIndex);
@@ -127,8 +126,23 @@ public class FindHotelsAction implements FindHotels, Serializable
       return "book";
    }
    
+   @IfInvalid(outcome="retry")
+   public String setBookingDetails()
+   {
+      if (booking==null || hotel==null) return "main";
+      if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
+      {
+         log.info("invalid booking dates");
+         return "retry";
+      }
+      else
+      {
+         log.info("valid booking");
+         return "success";
+      }
+   }
+      
    @End @Remove 
-   @IfInvalid(outcome="main")
    public String confirm()
    {
       if (booking==null || hotel==null) return "main";

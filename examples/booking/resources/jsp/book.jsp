@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
  <head>
-  <title>Login</title>
+  <title>Book Hotel</title>
  </head>
  <body>
   <f:view>
@@ -33,7 +33,7 @@
          <td><h:inputText value="#{booking.creditCard}"/></td>
        </tr>
      </table>
-    <h:commandButton type="submit" value="Confirm" action="#{findHotels.confirm}"/>
+    <h:commandButton type="submit" value="Proceed" action="#{hotelBooking.setBookingDetails}"/>
     <h:commandButton type="submit" value="Cancel" action="main"/>
    </h:form>
    <br/>

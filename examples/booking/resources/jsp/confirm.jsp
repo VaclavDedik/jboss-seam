@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
  <head>
-  <title>View Hotel</title>
+  <title>Confirm Booking</title>
  </head>
  <body>
   <f:view>
@@ -20,20 +20,22 @@
          <td>Zip</td>
          <td><h:outputText value="#{hotel.zip}"/></td>
        </tr>
+       <tr>
+         <td>Check In Date</td>
+         <td><h:outputText value="#{booking.checkinDate}"/></td>
+       </tr>
+       <tr>
+         <td>Check Out Date</td>
+         <td><h:outputText value="#{booking.checkoutDate}"/></td>
+       </tr>
+       <tr>
+         <td>Credit Card Number</td>
+         <td><h:outputText value="#{booking.creditCard}"/></td>
+       </tr>
      </table>
-    <h:commandLink action="#{hotelBooking.lastHotel}">
-      <h:outputText value="View previous hotel"/>
-    </h:commandLink>
-    <h:commandLink action="#{hotelBooking.nextHotel}">
-      <h:outputText value="View next hotel"/>
-    </h:commandLink>
-    <br/>
-    <h:commandLink action="#{hotelBooking.bookHotel}">
-      <h:outputText value="Book this hotel"/>
-    </h:commandLink>
-    <h:commandLink action="main">
-      <h:outputText value="Back to list"/>
-    </h:commandLink>
+    <h:commandButton type="submit" value="Confirm" action="#{hotelBooking.confirm}"/>
+    <h:commandButton type="submit" value="Cancel" action="main"/>
+    <h:commandButton type="submit" value="Back" action="back"/>
    </h:form>
    <br/>
     <h:commandLink action="#{logout.logout}">

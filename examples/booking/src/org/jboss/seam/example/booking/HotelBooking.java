@@ -4,7 +4,7 @@ package org.jboss.seam.example.booking;
 import javax.ejb.Local;
 
 @Local
-public interface FindHotels
+public interface HotelBooking
 {
    public String getSearchString();
    public void setSearchString(String searchString);
@@ -16,6 +16,8 @@ public interface FindHotels
    public String lastHotel();
    
    public String bookHotel();
+   
+   public String setBookingDetails();
    
    public String confirm();
    
