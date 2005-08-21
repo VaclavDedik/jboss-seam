@@ -8,7 +8,7 @@
   <f:view>
     Thank you, <h:outputText value="#{user.name}"/>, your confimation number is <h:outputText value="#{booking.id}"/>.
    <br/>
-    <h:commandLink action="success">
+    <h:commandLink action="main">
       <h:outputText value="Done"/>
     </h:commandLink>
     <br/>

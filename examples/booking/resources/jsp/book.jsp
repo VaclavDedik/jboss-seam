@@ -30,6 +30,7 @@
        </tr>
      </table>
     <h:commandButton type="submit" value="Confirm" action="#{findHotels.confirm}"/>
+    <h:commandButton type="submit" value="Cancel" action="main"/>
    </h:form>
    <br/>
     <h:commandLink action="#{logout.logout}">

@@ -22,7 +22,7 @@
        </tr>
      </table>
      <h:commandButton type="submit" value="Change" action="#{changePassword.changePassword}"/>
-     <h:commandButton type="submit" value="Cancel" action="cancel"/>
+     <h:commandButton type="submit" value="Cancel" action="main"/>
    </h:form>
   </f:view>
  </body>

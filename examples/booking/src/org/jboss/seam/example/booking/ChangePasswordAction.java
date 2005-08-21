@@ -46,7 +46,7 @@ public class ChangePasswordAction implements ChangePassword
       {
          log.info("updating password to: " + verify);
          user = em.merge(user);
-         return "success";
+         return "main";
       }
       else 
       {

@@ -43,7 +43,7 @@ public class LoginAction implements Login
       {
          user = results.get(0);
          Contexts.getSessionContext().set("loggedIn", true);         
-         return "success";
+         return "main";
       }
       
    }

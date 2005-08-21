@@ -2,6 +2,7 @@
 package org.jboss.seam.example.booking;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Interceptor;
@@ -64,7 +65,7 @@ public class FindHotelsAction implements FindHotels, Serializable
       
       hotelsDataModel.setWrappedData(hotels);
       
-      return "success";
+      return "main";
    }
    
    public String getSearchString()
@@ -80,6 +81,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    
    public String selectHotel()
    {
+      if (hotels==null) return "main";
       rowIndex = hotelsDataModel.getRowIndex();
       setHotel();
       return "selected";
@@ -87,6 +89,7 @@ public class FindHotelsAction implements FindHotels, Serializable
 
    public String nextHotel()
    {
+      if (hotels==null) return "main";
       if ( rowIndex<hotels.size()-1 )
       {
          hotelsDataModel.setRowIndex(++rowIndex);
@@ -97,6 +100,7 @@ public class FindHotelsAction implements FindHotels, Serializable
 
    public String lastHotel()
    {
+      if (hotels==null) return "main";
       if (rowIndex>0)
       {
          hotelsDataModel.setRowIndex(--rowIndex);
@@ -113,16 +117,20 @@ public class FindHotelsAction implements FindHotels, Serializable
    
    public String bookHotel()
    {
+      if (hotel==null) return "main";
       booking = new Booking(hotel, user);
-      return "success";
+      booking.setCheckinDate( new Date() );
+      booking.setCheckoutDate( new Date() );
+      return "book";
    }
    
    @End @Remove
    public String confirm()
    {
+      if (booking==null) return "main";
       em.persist(booking);
       log.info("booking confirmed");
-      return "success";
+      return "confirmed";
    }
       
    @Destroy @Remove

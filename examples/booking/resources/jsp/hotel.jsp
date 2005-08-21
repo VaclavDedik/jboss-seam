@@ -31,7 +31,7 @@
     <h:commandLink action="#{findHotels.bookHotel}">
       <h:outputText value="Book this hotel"/>
     </h:commandLink>
-    <h:commandLink action="back">
+    <h:commandLink action="main">
       <h:outputText value="Back to list"/>
     </h:commandLink>
    </h:form>
