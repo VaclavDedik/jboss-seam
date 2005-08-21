@@ -6,15 +6,20 @@
  */
 package org.jboss.seam.jsf;
 
-import static javax.faces.event.PhaseId.*;
-
+import static javax.faces.event.PhaseId.ANY_PHASE;
+import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
+import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
+import static javax.faces.event.PhaseId.PROCESS_VALIDATIONS;
+import static javax.faces.event.PhaseId.RENDER_RESPONSE;
+import static javax.faces.event.PhaseId.RESTORE_VIEW;
+import static javax.faces.event.PhaseId.UPDATE_MODEL_VALUES;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.event.PhaseEvent;
-import javax.faces.event.PhaseListener;
 import javax.faces.event.PhaseId;
+import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -87,7 +92,7 @@ public class SeamPhaseListener implements PhaseListener
          restoreAnyBusinessProcessContext();
       }
       else if (event.getPhaseId() == RENDER_RESPONSE) {
-         endWebRequest();
+         endWebRequest(event);
       }
       else if (event.getPhaseId() == INVOKE_APPLICATION)
       {
@@ -115,15 +120,24 @@ public class SeamPhaseListener implements PhaseListener
       log.info("About to restore view");
    }
 
-   static void endWebRequest()
+   private static void endWebRequest(PhaseEvent event)
    {
       log.info("After render response, destroying contexts");
-      Contexts.destroy( Contexts.getEventContext() );
-      if ( !Contexts.isLongRunningConversation() )
+      HttpServletRequest request = getRequest(event);
+      endWebRequest(request);
+   }
+
+   static void endWebRequest(HttpServletRequest request)
+   {
+      if ( Contexts.isEventContextActive() )
+      {
+         Contexts.destroy( Contexts.getEventContext() );
+      }
+      if ( !Contexts.isLongRunningConversation() && Contexts.isConversationContextActive() )
       {
          Contexts.destroy( Contexts.getConversationContext() );
       }
-      Contexts.endWebRequest();
+      Contexts.endWebRequest( request );
    }
 
    private static void restoreAnyConversationContext(PhaseEvent event)

@@ -9,6 +9,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
 
@@ -30,15 +31,15 @@ public class SeamExceptionFilter implements Filter
       {
          log.error("uncaught exception handled by Seam", e);
          rollbackAfterException();
-         endWebRequestAfterException();
+         endWebRequestAfterException(request);
          throw new ServletException(e);
       }
    }
 
-   private void endWebRequestAfterException()
+   private void endWebRequestAfterException(ServletRequest request)
    {
       try {
-         SeamPhaseListener.endWebRequest();
+         SeamPhaseListener.endWebRequest( (HttpServletRequest) request);
       }
       catch (Exception ee)
       {
