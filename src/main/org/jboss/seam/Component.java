@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.InvocationContext;
+import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.naming.InitialContext;
 
@@ -132,6 +133,8 @@ public class Component
    private List<Interceptor> reverseInterceptors = new ArrayList<Interceptor>();
 
    private ComponentFinder finder;
+   
+   private Set<Class> localInterfaces;
 
    public Component(SeamModule seamModule, Class<?> clazz)
    {
@@ -199,6 +202,8 @@ public class Component
       }
          
       validator = new ClassValidator(beanClass);
+      
+      localInterfaces = getLocalInterfaces(beanClass);
       
       initDefaultInterceptors();
       
@@ -445,10 +450,41 @@ public class Component
       else 
       {
          Component component = finder.getComponent(name);
-         ScopeType scope = component==null ? 
-               ScopeType.CONVERSATION : component.getScope();
+         if (value!=null && component!=null)
+         {
+            if ( !component.isInstance(value) )
+            {
+               throw new IllegalArgumentException("attempted to bind an Out attribute of the wrong type to: " + name);
+            }
+         }
+         ScopeType scope = component==null ? ScopeType.CONVERSATION : component.getScope();
          scope.getContext().set(name, value);
       }
+   }
+   
+   public boolean isInstance(Object bean)
+   {
+      switch(type)
+      {
+         case JAVA_BEAN:
+         case ENTITY_BEAN:
+            return beanClass.isInstance(bean);
+         default:
+            return localInterfaces.contains(bean.getClass());
+      }
+   }
+   
+   public static Set<Class> getLocalInterfaces(Class clazz)
+   {
+      Set<Class> result = new HashSet<Class>();
+      for (Class iface: clazz.getInterfaces())
+      {
+         if ( iface.isAnnotationPresent(Local.class))
+         {
+            result.add(iface);
+         }
+      }
+      return result;
    }
 
    private Object outject(Object bean, Field field)

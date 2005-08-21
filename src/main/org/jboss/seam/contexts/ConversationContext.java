@@ -12,8 +12,6 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpSession;
 
-import org.jboss.seam.jsf.SeamPhaseListener;
-
 /**
  * A conversation context is a logical context that last longer than 
  * a request but shorter than a login session

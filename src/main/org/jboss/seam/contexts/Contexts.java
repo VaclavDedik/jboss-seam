@@ -312,7 +312,7 @@ public class Contexts {
    
    public static boolean isSessionInvalid()
    {
-      return isSessionInvalid();
+      return isSessionInvalid.get();
    }
    
 }
