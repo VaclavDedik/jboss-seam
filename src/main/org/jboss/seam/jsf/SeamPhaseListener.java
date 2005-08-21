@@ -108,14 +108,14 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
 
-   private void beginWebRequest(PhaseEvent event)
+   private static void beginWebRequest(PhaseEvent event)
    {
       Contexts.beginWebRequest( getRequest(event) );
       Contexts.setProcessing(false);
       log.info("About to restore view");
    }
 
-   private void endWebRequest()
+   static void endWebRequest()
    {
       log.info("After render response, destroying contexts");
       Contexts.destroy( Contexts.getEventContext() );
@@ -126,7 +126,7 @@ public class SeamPhaseListener implements PhaseListener
       Contexts.endWebRequest();
    }
 
-   private void restoreAnyConversationContext(PhaseEvent event)
+   private static void restoreAnyConversationContext(PhaseEvent event)
    {
       Object conversationId = getAttributes(event).get(CONVERSATION_ID);
       Context conversationContext;
@@ -153,7 +153,7 @@ public class SeamPhaseListener implements PhaseListener
       Contexts.setConversationContext(conversationContext);
    }
 
-   private void storeAnyConversationContext(PhaseEvent event)
+   private static void storeAnyConversationContext(PhaseEvent event)
    {      
       Context conversationContext = Contexts.getConversationContext();
       log.info("Before render response, conversation context: " + conversationContext);
@@ -175,7 +175,7 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
 
-   private Map getConversations(PhaseEvent event)
+   private static Map getConversations(PhaseEvent event)
    {
       Map result = (Map) getSession(event).getAttribute(CONVERSATIONS);
       if (result==null) 
@@ -187,22 +187,22 @@ public class SeamPhaseListener implements PhaseListener
       return result;
    }
 
-   private HttpSession getSession(PhaseEvent event)
+   private static HttpSession getSession(PhaseEvent event)
    {
       return (HttpSession) event.getFacesContext().getExternalContext().getSession(true);
    }
 
-   private HttpServletRequest getRequest(PhaseEvent event)
+   private static HttpServletRequest getRequest(PhaseEvent event)
    {
       return (HttpServletRequest) event.getFacesContext().getExternalContext().getRequest();
    }
 
-   private Map getAttributes(PhaseEvent event)
+   private static Map getAttributes(PhaseEvent event)
    {
       return event.getFacesContext().getViewRoot().getAttributes();
    }
 
-	private void storeAnyBusinessProcessContext() {
+	private static void storeAnyBusinessProcessContext() {
 		Context conversation = Contexts.getConversationContext();
 
 		if ( !Contexts.isBusinessProcessContextActive() ) {
@@ -229,7 +229,7 @@ public class SeamPhaseListener implements PhaseListener
 		}
 	}
 
-	private void restoreAnyBusinessProcessContext() {
+	private static void restoreAnyBusinessProcessContext() {
 		Context conversation = Contexts.getConversationContext();
 		Long taskId = ( Long ) conversation.get( JBPM_TASK_ID );
 		Long processId = ( Long ) conversation.get( JBPM_PROCESS_ID );

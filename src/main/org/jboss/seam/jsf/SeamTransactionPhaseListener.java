@@ -67,18 +67,18 @@ public class SeamTransactionPhaseListener extends SeamPhaseListener
       }
    }
 
-   private boolean isTransactionActive() throws SystemException, NamingException
+   static boolean isTransactionActive() throws SystemException, NamingException
    {
       return getUserTransaction().getStatus()==Status.STATUS_ACTIVE;
    }
 
-   private EntityManager getEntityManager() throws NamingException
+   private static EntityManager getEntityManager() throws NamingException
    {
       //TODO: allow configuration of the JNDI name!
       return (EntityManager) new InitialContext().lookup("java:/EntityManagers/data");
    }
 
-   private UserTransaction getUserTransaction() throws NamingException
+   static UserTransaction getUserTransaction() throws NamingException
    {
       return (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
    }
