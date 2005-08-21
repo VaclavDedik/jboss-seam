@@ -21,7 +21,6 @@ import javax.naming.InitialContext;
 
 import org.hibernate.validator.ClassValidator;
 import org.jboss.logging.Logger;
-import org.jboss.seam.annotations.Advice;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -150,11 +149,11 @@ public class Component
       
       initDefaultInterceptors();
       
-      for (Annotation ann: beanClass.getAnnotations())
+      for (Annotation annotation: beanClass.getAnnotations())
       {
-         if ( ann.annotationType().isAnnotationPresent(Advice.class) )
+         if ( annotation.annotationType().isAnnotationPresent(javax.ejb.Interceptor.class) )
          {
-            interceptors.add( new Interceptor(ann, this) );
+            interceptors.add( new Interceptor(annotation, this) );
          }
       }
       

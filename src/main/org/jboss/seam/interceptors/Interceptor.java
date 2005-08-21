@@ -8,7 +8,6 @@ import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.Advice;
 
 /**
  * Wraps and delegates to a Seam interceptor.
@@ -38,10 +37,11 @@ public final class Interceptor
    
    public Interceptor(Annotation annotation, Component component) 
    {
-      Advice advice = annotation.annotationType().getAnnotation(Advice.class);
+      javax.ejb.Interceptor interceptorAnnotation = annotation.annotationType()
+            .getAnnotation(javax.ejb.Interceptor.class);
       try
       {
-         userInterceptor = advice.value().newInstance();
+         userInterceptor = interceptorAnnotation.value().newInstance();
       }
       catch (Exception e)
       {
