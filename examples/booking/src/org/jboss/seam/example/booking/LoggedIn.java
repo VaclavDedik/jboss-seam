@@ -8,10 +8,10 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.jboss.seam.annotations.Advice;
+import javax.ejb.Interceptor;
 
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-@Advice(LoggedInInterceptor.class)
+@Interceptor(LoggedInInterceptor.class)
 public @interface LoggedIn {}
