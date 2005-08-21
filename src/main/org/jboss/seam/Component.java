@@ -10,7 +10,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,13 +21,11 @@ import javax.naming.InitialContext;
 import org.hibernate.validator.ClassValidator;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Advice;
-import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Within;
 import org.jboss.seam.deployment.SeamModule;
 import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.finders.Finder;
@@ -38,8 +35,6 @@ import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
-import org.jboss.seam.util.MergeSort;
-import org.jboss.seam.util.MergeSort.Order;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -52,29 +47,6 @@ import org.jboss.seam.util.MergeSort.Order;
 public class Component
 {
    private static final Logger log = Logger.getLogger(Component.class);
-   
-   public static final Order INTERCEPTOR_ORDER = new Order()
-   {
-      public boolean lessThan(Object a, Object b)
-      {
-         Around around = a.getClass().getAnnotation(Around.class);
-         Within within = b.getClass().getAnnotation(Within.class);
-         return around!=null && Arrays.asList( around.value() ).contains( b.getClass() ) ||
-               within!=null && Arrays.asList( within.value() ).contains( a.getClass() );
-      }
-   };
-
-   public static final Order INTERCEPTOR_REVERSE_ORDER = new Order()
-   {
-      public boolean lessThan(Object a, Object b)
-      {
-         Around around = b.getClass().getAnnotation(Around.class);
-         Within within = a.getClass().getAnnotation(Within.class);
-         return around!=null && Arrays.asList( around.value() ).contains( a.getClass() ) ||
-               within!=null && Arrays.asList( within.value() ).contains( b.getClass() );
-      }
-
-   };
 
    private ComponentType type;
    private String name;
@@ -96,7 +68,6 @@ public class Component
    private ClassValidator validator;
    
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
-   private List<Interceptor> reverseInterceptors = new ArrayList<Interceptor>();
 
    private ComponentFinder finder;
    
@@ -182,8 +153,7 @@ public class Component
                Interceptor interceptor = (Interceptor) ann.annotationType()
                      .getAnnotation(Advice.class).value().newInstance();
                interceptor.initialize(ann, this);
-               interceptors.add(interceptor);
-               reverseInterceptors.add(interceptor);
+               interceptors.add(1, interceptor);
             }
             catch (Exception e)
             {
@@ -192,12 +162,8 @@ public class Component
          }
       }
       
-      interceptors = new MergeSort<Interceptor>().mergeSort( INTERCEPTOR_ORDER, interceptors );
-      reverseInterceptors = new MergeSort<Interceptor>().mergeSort( INTERCEPTOR_REVERSE_ORDER, reverseInterceptors );
-      
       log.info("component " + getName() + " scope " + getScope() + " type " + getType());
-      log.info("incoming interceptor stack: " + interceptors);
-      log.info("outgoing interceptor stack: " + reverseInterceptors);
+      log.info("interceptor stack: " + interceptors);
       
       finder = new ComponentFinder();
       
@@ -220,8 +186,6 @@ public class Component
       Interceptor vi = new ValidationInterceptor();
       vi.initialize(null, this);
       interceptors.add(vi);
-      
-      reverseInterceptors.addAll(interceptors);
    }
 
    public Class getBeanClass()
@@ -257,11 +221,6 @@ public class Component
    public List<Interceptor> getInterceptors()
    {
       return interceptors;
-   }
-   
-   public List<Interceptor> getReverseInterceptors()
-   {
-      return reverseInterceptors;
    }
    
    public Method getDestroyMethod()
@@ -499,8 +458,4 @@ public class Component
       }
    }
 
-   /*public static void main(String[] args)
-   {
-      new Component(null, FindHotelsAction.class);
-   }*/
 }

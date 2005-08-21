@@ -14,19 +14,9 @@ public class AbstractInterceptor<T> implements Interceptor<T>
       this.component = component;
    }
 
-   public Object beforeInvoke(InvocationContext invocation)
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      return null;
-   }
-
-   public Object afterReturn(Object result, InvocationContext invocation)
-   {
-      return result;
-   }
-
-   public Exception afterException(Exception exception, InvocationContext invocation)
-   {
-      return exception;
+      return invocation.proceed();
    }
 
    public void create(Object component)

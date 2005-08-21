@@ -14,7 +14,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.finders.ComponentFinder;
-import org.jboss.seam.interceptors.Interceptor;
+import org.jboss.seam.interceptors.SeamInvocationContext;
 
 /**
  * Interceptor for bijection and conversation scope management
@@ -35,37 +35,9 @@ public class SeamInterceptor
    {
       if ( Contexts.isProcessing() )
       {
-         log.debug("intercepted: " + invocation.getMethod().getName());
-         
+         log.info("intercepted: " + invocation.getMethod().getName());
          final Component component = getSeamComponent( invocation.getBean() );
-         
-         for (Interceptor interceptor: component.getInterceptors())
-         {
-            Object result = interceptor.beforeInvoke(invocation);
-            if (result!=null) return result;
-         }
-
-         Object result;
-         try
-         {
-            log.info("invoking: " + invocation.getMethod().getName());
-            result = invocation.proceed();
-         } 
-         catch (Exception exception)
-         {
-            for (Interceptor interceptor: component.getReverseInterceptors())
-            {
-               exception = interceptor.afterException(exception, invocation);
-            }
-            throw exception;
-         }
-         
-         for (Interceptor interceptor: component.getReverseInterceptors())
-         {
-            result = interceptor.afterReturn(result, invocation);
-         }
-         
-         return result;
+         return new SeamInvocationContext(invocation, component).proceed();
       }
       else {
          log.debug("not intercepted: " + invocation.getMethod().getName());

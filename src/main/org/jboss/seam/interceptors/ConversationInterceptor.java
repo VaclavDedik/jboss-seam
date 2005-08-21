@@ -24,19 +24,25 @@ public class ConversationInterceptor extends AbstractInterceptor
 {
 
    @Override
-   public Object afterReturn(Object result, InvocationContext invocation)
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
+      Object result;
+      try
+      {
+         result = invocation.proceed();
+      }
+      catch (Exception exception)
+      {
+         endConversationIfNecessary(invocation.getMethod(), exception);
+         throw exception;
+      }
+
       beginConversationIfNecessary(invocation.getMethod(), result);
       endConversationIfNecessary(invocation.getMethod(), result);
       return result;
+   
    }
 
-   @Override
-   public Exception afterException(Exception exception, InvocationContext invocation)
-   {
-      endConversationIfNecessary(invocation.getMethod(), exception);
-      return exception;
-   }
 
    private void beginConversationIfNecessary(Method method, Object result)
    {
