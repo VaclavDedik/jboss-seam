@@ -10,6 +10,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,11 +22,13 @@ import javax.naming.InitialContext;
 import org.hibernate.validator.ClassValidator;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Advice;
+import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Within;
 import org.jboss.seam.deployment.SeamModule;
 import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.finders.Finder;
@@ -35,6 +38,7 @@ import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.util.Sorter;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -153,7 +157,7 @@ public class Component
                Interceptor interceptor = (Interceptor) ann.annotationType()
                      .getAnnotation(Advice.class).value().newInstance();
                interceptor.initialize(ann, this);
-               interceptors.add(1, interceptor);
+               interceptors.add(interceptor);
             }
             catch (Exception e)
             {
@@ -161,6 +165,16 @@ public class Component
             }
          }
       }
+      
+      new Sorter<Interceptor>() {
+         protected boolean isOrderViolated(Interceptor outside, Interceptor inside)
+         {
+            Around around = inside.getClass().getAnnotation(Around.class);
+            Within within = outside.getClass().getAnnotation(Within.class);
+            return ( around!=null && Arrays.asList( around.value() ).contains( outside.getClass() ) ) ||
+                  ( within!=null && Arrays.asList( within.value() ).contains( inside.getClass() ) );
+         }
+      }.sort(interceptors);
       
       log.info("component " + getName() + " scope " + getScope() + " type " + getType());
       log.info("interceptor stack: " + interceptors);

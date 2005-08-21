@@ -19,7 +19,7 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author Gavin King
  */
-@Around(BijectionInterceptor.class)
+@Around(ValidationInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {
 
