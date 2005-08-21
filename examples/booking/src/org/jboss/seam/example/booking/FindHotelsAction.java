@@ -127,7 +127,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    @End @Remove
    public String confirm()
    {
-      if (booking==null) return "main";
+      if (booking==null || hotel==null) return "main";
       em.persist(booking);
       log.info("booking confirmed");
       return "confirmed";
