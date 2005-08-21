@@ -7,8 +7,8 @@ import javax.ejb.InvocationContext;
 
 import org.hibernate.validator.InvalidValue;
 import org.jboss.logging.Logger;
-import org.jboss.seam.annotations.After;
 import org.jboss.seam.annotations.IfInvalid;
+import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
 
 /**
@@ -19,13 +19,13 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author Gavin King
  */
+@Within(BijectionInterceptor.class)
 public class ValidationInterceptor extends AbstractInterceptor
 {
 
    private static final Logger log = Logger.getLogger(ValidationInterceptor.class);
 
    @Override
-   @After(BijectionInterceptor.class)
    public Object beforeInvoke(InvocationContext invocation)
    {
       return validateIfNecessary( invocation.getBean(), invocation.getMethod() );

@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.ejb.InvocationContext;
 import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.naming.InitialContext;
@@ -23,9 +22,7 @@ import javax.naming.InitialContext;
 import org.hibernate.validator.ClassValidator;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Advice;
-import org.jboss.seam.annotations.After;
 import org.jboss.seam.annotations.Around;
-import org.jboss.seam.annotations.Before;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
@@ -60,26 +57,10 @@ public class Component
    {
       public boolean lessThan(Object a, Object b)
       {
-         try
-         {
-            Before before = getBeforeInvokeMethod(a).getAnnotation(Before.class);
-            After after = getBeforeInvokeMethod(b).getAnnotation(After.class);
-            Around around = a.getClass().getAnnotation(Around.class);
-            Within within = b.getClass().getAnnotation(Within.class);
-            return before!=null && Arrays.asList( before.value() ).contains( b.getClass() ) ||
-                  after!=null && Arrays.asList( after.value() ).contains( a.getClass() )||
-                  around!=null && Arrays.asList( around.value() ).contains( b.getClass() ) ||
-                  within!=null && Arrays.asList( within.value() ).contains( a.getClass() );
-         }
-         catch (NoSuchMethodException nsme)
-         {
-            throw new IllegalArgumentException();
-         }
-      }
-
-      private Method getBeforeInvokeMethod(Object a) throws NoSuchMethodException
-      {
-         return a.getClass().getMethod("beforeInvoke", InvocationContext.class);
+         Around around = a.getClass().getAnnotation(Around.class);
+         Within within = b.getClass().getAnnotation(Within.class);
+         return around!=null && Arrays.asList( around.value() ).contains( b.getClass() ) ||
+               within!=null && Arrays.asList( within.value() ).contains( a.getClass() );
       }
    };
 
@@ -87,27 +68,12 @@ public class Component
    {
       public boolean lessThan(Object a, Object b)
       {
-         try
-         {
-            Before before = getAfterReturnMethod(a).getAnnotation(Before.class);
-            After after = getAfterReturnMethod(b).getAnnotation(After.class);
-            Around around = b.getClass().getAnnotation(Around.class);
-            Within within = a.getClass().getAnnotation(Within.class);
-            return before!=null && Arrays.asList( before.value() ).contains( b.getClass() ) ||
-                  after!=null && Arrays.asList( after.value() ).contains( a.getClass() ) ||
-                  around!=null && Arrays.asList( around.value() ).contains( a.getClass() ) ||
-                  within!=null && Arrays.asList( within.value() ).contains( b.getClass() );
-         }
-         catch (NoSuchMethodException nsme)
-         {
-            throw new IllegalArgumentException();
-         }
+         Around around = b.getClass().getAnnotation(Around.class);
+         Within within = a.getClass().getAnnotation(Within.class);
+         return around!=null && Arrays.asList( around.value() ).contains( a.getClass() ) ||
+               within!=null && Arrays.asList( within.value() ).contains( b.getClass() );
       }
 
-      private Method getAfterReturnMethod(Object a) throws NoSuchMethodException
-      {
-         return a.getClass().getMethod("afterReturn", Object.class, InvocationContext.class);
-      }
    };
 
    private ComponentType type;

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import javax.ejb.InvocationContext;
 
-import org.jboss.seam.annotations.After;
+import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginIf;
 import org.jboss.seam.annotations.End;
@@ -19,11 +19,11 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author Gavin King
  */
+@Around(BijectionInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {
 
    @Override
-   @After(BijectionInterceptor.class)
    public Object afterReturn(Object result, InvocationContext invocation)
    {
       beginConversationIfNecessary(invocation.getMethod(), result);
