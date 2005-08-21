@@ -10,7 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 import org.jboss.seam.annotations.Name;
 
 @Entity
@@ -22,6 +24,7 @@ public class Booking
    private Hotel hotel;
    private Date checkinDate;
    private Date checkoutDate;
+   private String creditCard;
    
    public Booking() {}
    
@@ -80,6 +83,19 @@ public class Booking
    public void setCheckoutDate(Date checkoutDate)
    {
       this.checkoutDate = checkoutDate;
+   }
+   
+   @NotNull
+   @Length(min=6, max=16)
+   @Pattern(regex="\\d*")
+   public String getCreditCard()
+   {
+      return creditCard;
+   }
+
+   public void setCreditCard(String creditCard)
+   {
+      this.creditCard = creditCard;
    }
    
    

@@ -13,11 +13,13 @@ import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.validator.Valid;
 import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -35,7 +37,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    @PersistenceContext
    private EntityManager em;
    
-   private String searchString;
+   private String searchString = "";
    private List<Hotel> hotels;
    
    @Out(required=false)
@@ -43,6 +45,7 @@ public class FindHotelsAction implements FindHotels, Serializable
    
    @In(required=false) 
    @Out(required=false)
+   @Valid
    private Booking booking;
    
    @In
@@ -124,7 +127,8 @@ public class FindHotelsAction implements FindHotels, Serializable
       return "book";
    }
    
-   @End @Remove
+   @End @Remove 
+   @IfInvalid(outcome="main")
    public String confirm()
    {
       if (booking==null || hotel==null) return "main";

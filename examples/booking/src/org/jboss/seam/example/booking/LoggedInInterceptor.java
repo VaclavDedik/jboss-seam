@@ -14,13 +14,14 @@ public class LoggedInInterceptor extends AbstractInterceptor<LoggedIn>
 {
    private static final Logger log = Logger.getLogger(LoggedInInterceptor.class);
 
-   public Object beforeInvoke(InvocationContext invocation)
+   @Override
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       boolean isLoggedIn = Contexts.getSessionContext().get("loggedIn")!=null;
       if (isLoggedIn) 
       {
          log.info("User is already logged in");
-         return null;
+         return invocation.proceed();
       }
       else 
       {

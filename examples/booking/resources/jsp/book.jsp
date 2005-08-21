@@ -28,6 +28,10 @@
          <td>Check Out Date</td>
          <td><h:inputText value="#{booking.checkoutDate}"/></td>
        </tr>
+       <tr>
+         <td>Credit Card Number</td>
+         <td><h:inputText value="#{booking.creditCard}"/></td>
+       </tr>
      </table>
     <h:commandButton type="submit" value="Confirm" action="#{findHotels.confirm}"/>
     <h:commandButton type="submit" value="Cancel" action="main"/>
