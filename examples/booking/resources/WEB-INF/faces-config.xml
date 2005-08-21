@@ -5,15 +5,26 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 <faces-config>
 
 	<navigation-rule>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/login.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>password</from-outcome>
+			<to-view-id>/password.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
 		<from-view-id>/login.jsp</from-view-id>
 		<navigation-case>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/main.jsp</to-view-id>
 		</navigation-case>
-		<navigation-case>
+		<!--navigation-case>
 			<from-outcome>retry</from-outcome>
 			<to-view-id>/login.jsp</to-view-id>
-		</navigation-case>
+		</navigation-case-->
 	</navigation-rule>
 
 	<navigation-rule>
@@ -22,10 +33,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 			<from-outcome>success</from-outcome>
 			<to-view-id>/main.jsp</to-view-id>
 		</navigation-case>
-		<navigation-case>
+		<!--navigation-case>
 			<from-outcome>login</from-outcome>
 			<to-view-id>/login.jsp</to-view-id>
-		</navigation-case>
+		</navigation-case-->
 		<navigation-case>
 			<from-outcome>selected</from-outcome>
 			<to-view-id>/hotel.jsp</to-view-id>
@@ -42,12 +53,28 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 			<from-outcome>back</from-outcome>
 			<to-view-id>/main.jsp</to-view-id>
 		</navigation-case>
-		<navigation-case>
+		<!--navigation-case>
 			<from-outcome>login</from-outcome>
 			<to-view-id>/login.jsp</to-view-id>
-		</navigation-case>
+		</navigation-case-->
     </navigation-rule>
     
+	<navigation-rule>
+		<from-view-id>/password.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>retry</from-outcome>
+			<to-view-id>/password.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/main.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/main.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
 	<application>
 		<variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
 	</application>

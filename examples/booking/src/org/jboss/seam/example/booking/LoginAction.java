@@ -37,7 +37,7 @@ public class LoginAction implements Login
       
       if ( results.size()==0 )
       {
-         return "retry";
+         return "login";
       }
       else
       {

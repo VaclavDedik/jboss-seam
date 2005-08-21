@@ -40,6 +40,9 @@
     <h:commandLink action="#{logout.logout}">
       <h:outputText value="Logout"/>
     </h:commandLink>
+    <h:commandLink action="password">
+      <h:outputText value="Change password"/>
+    </h:commandLink>
   </f:view>
  </body>
 </html>
