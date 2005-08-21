@@ -81,6 +81,7 @@
          </fileset>
         <fileset dir="${resources.dir}">
             <include name="import.sql"/>
+        	<include name="META-INF/persistence.xml"/>
         </fileset>
       </jar>
    </target>
