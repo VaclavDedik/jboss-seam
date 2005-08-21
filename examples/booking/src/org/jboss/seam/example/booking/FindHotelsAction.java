@@ -16,6 +16,8 @@ import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.ejb.SeamInterceptor;
@@ -37,6 +39,13 @@ public class FindHotelsAction implements FindHotels, Serializable
    
    @Out(required=false)
    private Hotel hotel;
+   
+   @In(required=false) 
+   @Out(required=false)
+   private Booking booking;
+   
+   @In
+   private User user;
    
    @Out
    private DataModel hotelsDataModel = new ListDataModel();
@@ -100,6 +109,20 @@ public class FindHotelsAction implements FindHotels, Serializable
    {
       hotel = (Hotel) hotelsDataModel.getRowData();
       log.info( rowIndex + "=>" + hotel );
+   }
+   
+   public String bookHotel()
+   {
+      booking = new Booking(hotel, user);
+      return "success";
+   }
+   
+   @End @Remove
+   public String confirm()
+   {
+      em.persist(booking);
+      log.info("booking confirmed");
+      return "success";
    }
       
    @Destroy @Remove

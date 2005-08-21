@@ -20,20 +20,16 @@
          <td>Zip</td>
          <td><h:outputText value="#{hotel.zip}"/></td>
        </tr>
+       <tr>
+         <td>Check In Date</td>
+         <td><h:inputText value="#{booking.checkinDate}"/></td>
+       </tr>
+       <tr>
+         <td>Check Out Date</td>
+         <td><h:inputText value="#{booking.checkoutDate}"/></td>
+       </tr>
      </table>
-    <h:commandLink action="#{findHotels.lastHotel}">
-      <h:outputText value="View previous hotel"/>
-    </h:commandLink>
-    <h:commandLink action="#{findHotels.nextHotel}">
-      <h:outputText value="View next hotel"/>
-    </h:commandLink>
-    <br/>
-    <h:commandLink action="#{findHotels.bookHotel}">
-      <h:outputText value="Book this hotel"/>
-    </h:commandLink>
-    <h:commandLink action="back">
-      <h:outputText value="Back to list"/>
-    </h:commandLink>
+    <h:commandButton type="submit" value="Confirm" action="#{findHotels.confirm}"/>
    </h:form>
    <br/>
     <h:commandLink action="#{logout.logout}">

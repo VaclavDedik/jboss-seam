@@ -15,6 +15,10 @@ public interface FindHotels
    public String nextHotel();
    public String lastHotel();
    
+   public String bookHotel();
+   
+   public String confirm();
+   
    public void destroy();
    
 }
