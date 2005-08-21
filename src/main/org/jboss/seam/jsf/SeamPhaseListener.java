@@ -141,10 +141,11 @@ public class SeamPhaseListener implements PhaseListener
    {
       String conversationId = (String) getAttributes(event).get(CONVERSATION_ID);
       Context conversationContext;
-      if (conversationId!=null)
+      boolean isStoredConversation = conversationId!=null && 
+            getSession(event).getAttribute(getConversationKey(conversationId))!=null;
+      if ( isStoredConversation )
       {
-         //TODO: how can we detect a missing conversation?
-         //      (happens after a server restart)
+         
          Contexts.setLongRunningConversation(true);
          conversationContext = new ConversationContext( getSession(event), conversationId );
          log.info("Restored conversation with id: " + conversationId);
@@ -160,6 +161,11 @@ public class SeamPhaseListener implements PhaseListener
       log.info("After restore view, conversation context: " + Contexts.getConversationContext());
    }
 
+   private static String getConversationKey(String conversationId)
+   {
+      return "org.jboss.seam.conversationExists$" + conversationId;
+   }
+
    private static void storeAnyConversationContext(PhaseEvent event)
    {      
       Context conversationContext = Contexts.getConversationContext();
@@ -167,17 +173,21 @@ public class SeamPhaseListener implements PhaseListener
       if ( conversationContext==null )
       {
          log.info("No active conversation context");
+         getAttributes(event).remove(CONVERSATION_ID); //TODO: do we really need it in this case?
       }
       else if ( Contexts.isLongRunningConversation() && !Contexts.isSessionInvalid() ) 
       {
-         Object conversationId = ConversationContext.getId(conversationContext);
+         String conversationId = ConversationContext.getId(conversationContext);
          log.info("Storing conversation state: " + conversationId);
          getAttributes(event).put(CONVERSATION_ID, conversationId);
+         getSession(event).setAttribute( getConversationKey(conversationId), "exists" );
       }
       else 
       {
-         log.info("Discarding conversation state");
+         String conversationId = ConversationContext.getId(conversationContext);
+         log.info("Discarding conversation state: " + conversationId);
          getAttributes(event).remove(CONVERSATION_ID);
+         getSession(event).removeAttribute( getConversationKey(conversationId) );
       }
    }
 

@@ -50,7 +50,7 @@ public class SeamExceptionFilter implements Filter
    private void rollbackAfterException()
    {
       try {
-         if ( SeamTransactionPhaseListener.isTransactionActive() )
+         if ( SeamTransactionPhaseListener.isTransactionActiveOrMarkedRollback() )
          {
             log.info("killing transaction");
             SeamTransactionPhaseListener.getUserTransaction().rollback();

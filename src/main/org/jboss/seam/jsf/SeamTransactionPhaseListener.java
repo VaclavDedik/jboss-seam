@@ -72,6 +72,12 @@ public class SeamTransactionPhaseListener extends SeamPhaseListener
       return getUserTransaction().getStatus()==Status.STATUS_ACTIVE;
    }
 
+   static boolean isTransactionActiveOrMarkedRollback() throws SystemException, NamingException
+   {
+      int status = getUserTransaction().getStatus();
+      return status==Status.STATUS_ACTIVE || status == Status.STATUS_MARKED_ROLLBACK;
+   }
+
    private static EntityManager getEntityManager() throws NamingException
    {
       //TODO: allow configuration of the JNDI name!
