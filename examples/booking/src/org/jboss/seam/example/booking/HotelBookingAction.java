@@ -10,6 +10,8 @@ import java.util.List;
 import javax.ejb.Interceptor;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
@@ -135,6 +137,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
       if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
          log.info("invalid booking dates");
+         FacesContext.getCurrentInstance()
+               .addMessage(null, new FacesMessage("Check in date must be later than check out date"));
          return "retry";
       }
       else

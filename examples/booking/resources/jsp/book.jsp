@@ -7,6 +7,7 @@
  <body>
   <f:view>
    <h:form>
+     <h:messages/>
      <table border="0">
        <tr>
          <td>Address</td>
@@ -22,15 +23,15 @@
        </tr>
        <tr>
          <td>Check In Date</td>
-         <td><h:inputText value="#{booking.checkinDate}"/></td>
+         <td><h:inputText id="checkinDate" value="#{booking.checkinDate}"/><h:message for="checkinDate"/></td>
        </tr>
        <tr>
          <td>Check Out Date</td>
-         <td><h:inputText value="#{booking.checkoutDate}"/></td>
+         <td><h:inputText id="checkoutDate" value="#{booking.checkoutDate}"/><h:message for="checkinDate"/></td>
        </tr>
        <tr>
          <td>Credit Card Number</td>
-         <td><h:inputText value="#{booking.creditCard}"/></td>
+         <td><h:inputText id="creditCard" value="#{booking.creditCard}"/><h:message for="creditCard"/></td>
        </tr>
      </table>
     <h:commandButton type="submit" value="Proceed" action="#{hotelBooking.setBookingDetails}"/>
