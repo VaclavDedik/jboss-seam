@@ -25,6 +25,8 @@ import org.jboss.seam.contexts.Contexts;
 public class ConversationInterceptor extends AbstractInterceptor
 {
 
+   private static final String CONVERSATION_OWNER_NAME = "org.jboss.seam.conversationOwnerName";
+   
    private static final Logger log = Logger.getLogger(ConversationInterceptor.class);
 
    @AroundInvoke
@@ -59,17 +61,28 @@ public class ConversationInterceptor extends AbstractInterceptor
    private boolean isNoConversationForConversationalBean(Method method)
    {
       return component.isConversational() && 
-            !Contexts.isLongRunningConversation() &&
+            ( !Contexts.isLongRunningConversation() || !componentIsConversationOwner() ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(BeginIf.class);
    }
 
 
-   private void beginConversationIfNecessary(Method method, Object result)
+   private boolean componentIsConversationOwner()
+   {
+      return component.getName().equals( Contexts.getConversationContext().get(CONVERSATION_OWNER_NAME) );
+   }
+
+
+   private void setConversationOwnerName()
+   {
+      Contexts.getConversationContext().set(CONVERSATION_OWNER_NAME, component.getName());
+   }
+
+    private void beginConversationIfNecessary(Method method, Object result)
    {
       if ( method.isAnnotationPresent(Begin.class) )
       {
-         Contexts.beginConversation();
+         beginConversation();
       }
       else if ( method.isAnnotationPresent(BeginIf.class) )
       {
@@ -77,12 +90,20 @@ public class ConversationInterceptor extends AbstractInterceptor
                .outcome();
          if (Arrays.asList(results).contains(result))
          {
-            Contexts.beginConversation();
+            beginConversation();
          }
       }
    }
 
-   private void endConversationIfNecessary(Method method, Exception exception)
+
+   private void beginConversation()
+   {
+      Contexts.beginConversation();
+      setConversationOwnerName();
+   }
+
+
+  private void endConversationIfNecessary(Method method, Exception exception)
    {
       if (method.isAnnotationPresent(EndIf.class))
       {

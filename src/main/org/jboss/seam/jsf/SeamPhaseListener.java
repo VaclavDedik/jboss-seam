@@ -42,7 +42,7 @@ public class SeamPhaseListener implements PhaseListener
 {
    
    private static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
-   private static final String CONVERSATION_ID_MAP = "org.jboss.seam.allConversationsIds";
+   private static final String CONVERSATION_ID_MAP = "org.jboss.seam.allConversationIds";
    private static final String JBPM_TASK_ID = "org.jboss.seam.jbpm.taskId";
    private static final String JBPM_PROCESS_ID = "org.jboss.seam.jbpm.processId";
 
