@@ -252,7 +252,7 @@ public class Contexts {
                }
                catch (Exception e)
                {
-                  throw new IllegalArgumentException(e);
+                  log.warn("exception calling destroy method", e);
                }
             }
          }
