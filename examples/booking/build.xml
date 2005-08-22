@@ -71,6 +71,9 @@
      <jar destfile="${output.dir}/${example.name}.war">
      	<zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
      	<zipfileset dir="${resources.dir}/jsp"/>
+        <fileset dir="${resources.dir}">
+           <include name="seam.properties"/>
+        </fileset>
      </jar>
    </target>
 	
