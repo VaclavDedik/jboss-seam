@@ -252,7 +252,7 @@ public class Contexts {
                }
                catch (Exception e)
                {
-                  throw new RuntimeException(e);
+                  throw new IllegalArgumentException(e);
                }
             }
          }

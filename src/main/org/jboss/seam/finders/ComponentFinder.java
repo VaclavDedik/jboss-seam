@@ -80,23 +80,24 @@ public class ComponentFinder implements Finder
       else
       {
          log.info("instantiating seam component: " + name);
-         Object result = component.instantiate();
+         Object instance = component.instantiate();
          if (component.getType()!=ComponentType.STATELESS_SESSION_BEAN)
          {
             if (component.hasCreateMethod())
             {
+               String createMethodName = component.getCreateMethod().getName();
                try 
                {
-                  result.getClass().getMethod(component.getCreateMethod().getName()).invoke(result);
+                  instance.getClass().getMethod(createMethodName).invoke(instance);
                }
                catch (Exception e)
                {
-                  throw new RuntimeException(e);
+                  throw new IllegalArgumentException(e);
                }
             }
-            component.getScope().getContext().set(name, result);
+            component.getScope().getContext().set(name, instance);
          }
-         return result;
+         return instance;
       }
    }
 

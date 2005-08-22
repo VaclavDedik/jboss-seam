@@ -27,9 +27,9 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Within;
-import org.jboss.seam.deployment.SeamModule;
 import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.finders.Finder;
 import org.jboss.seam.finders.Finders;
@@ -57,8 +57,7 @@ public class Component
    private String name;
    private ScopeType scope;
    private Class<?> beanClass;
-   
-   private SeamModule seamModule;
+   private String jndiName;
    
    private Method destroyMethod;
    private Method createMethod;
@@ -80,13 +79,21 @@ public class Component
    
    private String ifNoConversationOutcome;
 
-   public Component(SeamModule seamModule, Class<?> clazz)
+   public Component(Class<?> clazz)
    {
-      this.seamModule = seamModule;
       this.beanClass = clazz;
       name = Seam.getComponentName(beanClass);
       scope = Seam.getComponentScope(beanClass);
       type = Seam.getComponentType(beanClass);
+      
+      if ( beanClass.isAnnotationPresent(JndiName.class) )
+      {
+         jndiName = beanClass.getAnnotation(JndiName.class).value();
+      }
+      else
+      {
+         jndiName = name;
+      }
       
       log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType());
 
@@ -208,11 +215,6 @@ public class Component
       return type;
    }
 
-   public SeamModule getSeamModule()
-   {
-      return seamModule;
-   }
-
    public ScopeType getScope()
    {
       return scope;
@@ -296,7 +298,7 @@ public class Component
                return bean;
             case STATELESS_SESSION_BEAN : 
             case STATEFUL_SESSION_BEAN :
-               return new InitialContext().lookup(name);
+               return new InitialContext().lookup(jndiName);
             default:
                throw new IllegalStateException();
          }
