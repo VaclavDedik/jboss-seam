@@ -2,6 +2,7 @@
 package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.ScopeType.EVENT;
+import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import javax.ejb.Interceptor;
 import javax.ejb.Remove;
@@ -39,7 +40,7 @@ public class ChangePasswordAction implements ChangePassword
    
    private String verify;
    
-   @IfInvalid(outcome="retry")
+   @IfInvalid(outcome=REDISPLAY)
    public String changePassword()
    {
       if ( user.getPassword().equals(verify) )

@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
+import static org.jboss.seam.annotations.Outcome.REDISPLAY;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -98,7 +100,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
          hotelsDataModel.setRowIndex(++rowIndex);
          setHotel();
       }
-      return "redisplay";
+      return null;
    }
 
    public String lastHotel()
@@ -108,7 +110,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
          hotelsDataModel.setRowIndex(--rowIndex);
          setHotel();
       }
-      return "redisplay";
+      return null;
    }
 
    private void setHotel()
@@ -126,7 +128,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       return "book";
    }
    
-   @IfInvalid(outcome="retry")
+   @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";
