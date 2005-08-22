@@ -10,6 +10,8 @@ import javax.transaction.Status;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import org.jboss.seam.Environment;
+
 public class SeamTransactionPhaseListener extends SeamPhaseListener
 {
 
@@ -56,7 +58,10 @@ public class SeamTransactionPhaseListener extends SeamPhaseListener
          {
             if ( isTransactionActive() )
             {
-               getEntityManager().flush();
+               for (String unitName : Environment.getPersistenceUnitNames())
+               {
+                  getEntityManager(unitName).flush();
+               }
             }
          }
          catch (Exception e)
@@ -78,10 +83,10 @@ public class SeamTransactionPhaseListener extends SeamPhaseListener
       return status==Status.STATUS_ACTIVE || status == Status.STATUS_MARKED_ROLLBACK;
    }
 
-   private static EntityManager getEntityManager() throws NamingException
+   private static EntityManager getEntityManager(String unitName) throws NamingException
    {
       //TODO: allow configuration of the JNDI name!
-      return (EntityManager) new InitialContext().lookup("java:/EntityManagers/data");
+      return (EntityManager) new InitialContext().lookup("java:/EntityManagers/" + unitName);
    }
 
    static UserTransaction getUserTransaction() throws NamingException

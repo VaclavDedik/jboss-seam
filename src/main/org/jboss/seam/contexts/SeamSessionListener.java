@@ -1,10 +1,14 @@
 //$Id$
 package org.jboss.seam.contexts;
 
+import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.jsf.SeamPhaseListener;
 
 public class SeamSessionListener implements HttpSessionListener
 {
@@ -14,16 +18,16 @@ public class SeamSessionListener implements HttpSessionListener
    public void sessionCreated(HttpSessionEvent event) {}
 
    public void sessionDestroyed(HttpSessionEvent event) {
-      if ( Contexts.isConversationContextActive() )
+      HttpSession session = event.getSession();
+      Set<String> ids = SeamPhaseListener.getConversationIds( session );
+      log.info("destroying conversation contexts: " + ids);
+      for (String conversationId: ids)
       {
-         log.info("destroying conversation context");
-         Contexts.destroy( Contexts.getConversationContext() );
+         Contexts.destroy( new ConversationContext(session, conversationId) );         
       }
-      if ( Contexts.isSessionContextActive() )
-      {
-         log.info("destroying session context");
-         Contexts.destroy( Contexts.getSessionContext() );
-      }
+
+      log.info("destroying session context");
+      Contexts.destroy( new WebSessionContext( session ) );
    }
 
 }

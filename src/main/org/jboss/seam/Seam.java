@@ -69,5 +69,11 @@ public class Seam
    {
       return clazz.getAnnotation(Name.class).value();
    }
+   
+   static
+   {
+      //force init
+      new Environment();
+   }
 
 }
