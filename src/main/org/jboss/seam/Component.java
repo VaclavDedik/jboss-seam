@@ -36,6 +36,7 @@ import org.jboss.seam.finders.Finders;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
+import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Sorter;
@@ -185,6 +186,7 @@ public class Component
 
    private void initDefaultInterceptors()
    {
+      interceptors.add( new Interceptor( new OutcomeInterceptor(), this ) );
       interceptors.add( new Interceptor( new RemoveInterceptor(), this ) );
       interceptors.add( new Interceptor( new ConversationInterceptor(), this ) );
       interceptors.add( new Interceptor( new BijectionInterceptor(), this ) );

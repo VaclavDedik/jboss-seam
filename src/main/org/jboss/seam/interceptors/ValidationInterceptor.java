@@ -20,7 +20,7 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author Gavin King
  */
-@Within(BijectionInterceptor.class)
+@Within({BijectionInterceptor.class, OutcomeInterceptor.class})
 public class ValidationInterceptor extends AbstractInterceptor
 {
 
