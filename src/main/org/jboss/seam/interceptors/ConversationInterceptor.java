@@ -11,6 +11,8 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginIf;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndIf;
 import org.jboss.seam.contexts.Contexts;
@@ -63,7 +65,9 @@ public class ConversationInterceptor extends AbstractInterceptor
       return component.isConversational() && 
             ( !Contexts.isLongRunningConversation() || !componentIsConversationOwner() ) &&
             !method.isAnnotationPresent(Begin.class) &&
-            !method.isAnnotationPresent(BeginIf.class);
+            !method.isAnnotationPresent(BeginIf.class) &&
+            !method.isAnnotationPresent(Destroy.class) && 
+            !method.isAnnotationPresent(Create.class); //probably superfluous
    }
 
 
