@@ -8,5 +8,5 @@ public class Outcome
     * value lets us specify a null outcome in an
     * annotation such as @Invalid
     */
-   public static final String REDISPLAY = Outcome.class.getName() + ".null";
+   public static final String REDISPLAY = "org.jboss.seam.outcome.null";
 }
