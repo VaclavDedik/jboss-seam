@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
  <head>
-  <title>Login</title>
+  <title>Register</title>
  </head>
  <body>
   <f:view>
@@ -13,15 +13,22 @@
          <td><h:inputText value="#{user.username}"/></td>
        </tr>
        <tr>
+         <td>Real Name</td>
+         <td><h:inputText value="#{user.name}"/></td>
+       </tr>
+       <tr>
          <td>Password</td>
          <td><h:inputSecret value="#{user.password}"/></td>
        </tr>
+       <tr>
+         <td>Verify Password</td>
+         <td><h:inputSecret value="#{register.verify}"/></td>
+       </tr>
      </table>
-     <h:commandButton type="submit" value="Login" action="#{login.login}"/>
+     </table>
+     <h:commandButton type="submit" value="Register" action="#{register.register}"/>
+     <h:commandButton type="submit" value="Cancel" action="login"/>
    </h:form>
-   <h:commandLink action="register">
-     <h:outputText value="Or, resister now"/>
-   </h:commandLink>
   </f:view>
  </body>
 </html>

@@ -17,22 +17,20 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Scope(EVENT)
-@Name("changePassword")
-@LocalBinding(jndiBinding="changePassword")
+@Name("register")
+@LocalBinding(jndiBinding="register")
 @Interceptor(SeamInterceptor.class)
-@LoggedIn
-public class ChangePasswordAction implements ChangePassword
+public class RegisterAction implements Register
 {
    
-   private static final Logger log = Logger.getLogger(ChangePassword.class);
+   private static final Logger log = Logger.getLogger(Register.class);
 
-   @In @Out @Valid
+   @In @Valid
    private User user;
    
    @PersistenceContext
@@ -41,18 +39,17 @@ public class ChangePasswordAction implements ChangePassword
    private String verify;
    
    @IfInvalid(outcome=REDISPLAY)
-   public String changePassword()
+   public String register()
    {
       if ( user.getPassword().equals(verify) )
       {
-         log.info("updating password to: " + verify);
-         user = em.merge(user);
+         log.info("registering user");
+         em.persist(user);
          return "main";
       }
       else 
       {
          log.info("password not verified");
-         user = em.find(User.class, user.getUsername());
          verify=null;
          return null;
       }
