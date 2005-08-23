@@ -9,7 +9,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
-@Name("seamComponents")
+@Name("org.jboss.seam.components.components")
 @Scope(ScopeType.APPLICATION)
 public class Components
 {

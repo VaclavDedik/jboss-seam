@@ -12,6 +12,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
 /**
@@ -29,7 +30,7 @@ public class ConversationContext implements Context, Serializable {
    
    public String getKey(String name)
    {
-      return "seam$conversation$" + id + "$" + name;
+      return ScopeType.CONVERSATION.getPrefix() + '#' + id + '$' + name;
    }
    
    public static String getId(Context conversationContext)

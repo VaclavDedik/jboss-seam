@@ -11,6 +11,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
 /**
@@ -28,7 +29,7 @@ public class WebRequestContext implements Context {
    
    private String getKey(String name)
    {
-      return "seam$request$" + name;
+      return ScopeType.EVENT.getPrefix() + '$' + name;
    }
 
 	public Object get(String name) {

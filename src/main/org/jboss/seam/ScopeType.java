@@ -43,6 +43,12 @@ public enum ScopeType
             throw new IllegalArgumentException();
       }
    }
+   
+   public String getPrefix()
+   {
+      return "org.jboss.seam." + toString();
+   }
+
 }
 
 

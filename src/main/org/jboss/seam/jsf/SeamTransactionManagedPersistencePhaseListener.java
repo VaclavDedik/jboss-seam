@@ -7,6 +7,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 
+import org.jboss.seam.components.ManagedHibernateSession;
+import org.jboss.seam.components.ManagedPersistenceContext;
 import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Transactions;
@@ -60,7 +62,11 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
                Settings settings = Contexts.getApplicationContext().get(Settings.class);
                for (String unitName : settings.getPersistenceUnitNames())
                {
-                  getEntityManager(unitName).flush();
+                  flushEntityManager(unitName);
+               }
+               for (String sfName : settings.getSessionFactoryNames())
+               {
+                  flushSession(sfName);
                }
             }
          }
@@ -72,10 +78,18 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       }
    }
 
-   private static EntityManager getEntityManager(String unitName) throws NamingException
+   private void flushEntityManager(String unitName) throws NamingException
    {
-      //TODO: allow configuration of the JNDI name!
-      return (EntityManager) new InitialContext().lookup("java:/EntityManagers/" + unitName);
+      ManagedPersistenceContext managedContext = (ManagedPersistenceContext) Contexts.getConversationContext().get(unitName);
+      if ( managedContext!=null ) managedContext.getEntityManager().flush();
+      EntityManager em = (EntityManager) new InitialContext().lookup("java:/EntityManagers/" + unitName);
+      if ( em!=null ) em.flush();
+   }
+
+   private void flushSession(String sfName)
+   {
+      ManagedHibernateSession managedSession = (ManagedHibernateSession) Contexts.getConversationContext().get(sfName);
+      if ( managedSession!=null ) managedSession.getSession().flush();
    }
 
 }

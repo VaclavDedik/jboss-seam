@@ -11,6 +11,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
 /**
@@ -24,7 +25,7 @@ public class WebSessionContext implements Context {
 	
    private String getKey(String name)
    {
-      return "seam$session$" + name;
+      return ScopeType.SESSION.getPrefix() + '$' + name;
    }
 
 	public WebSessionContext(HttpSession session) {

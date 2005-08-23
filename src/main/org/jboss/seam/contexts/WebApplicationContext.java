@@ -11,6 +11,7 @@ import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
 /**
@@ -24,7 +25,7 @@ public class WebApplicationContext implements Context {
 	
    private String getKey(String name)
    {
-      return "seam$application$" + name;
+      return ScopeType.APPLICATION.getPrefix() + '$' + name;
    }
 
 	public WebApplicationContext(ServletContext context) {

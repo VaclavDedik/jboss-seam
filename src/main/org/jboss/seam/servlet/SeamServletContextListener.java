@@ -45,6 +45,10 @@ public class SeamServletContextListener implements ServletContextListener
       {
          components.addComponent( unitName, new Component(ManagedPersistenceContext.class, unitName) );
       }
+      for ( String sfName : settings.getSessionFactoryNames() )
+      {
+         components.addComponent( sfName, new Component(ManagedPersistenceContext.class, sfName) );
+      }
    }
 
    public void contextDestroyed(ServletContextEvent event) { }

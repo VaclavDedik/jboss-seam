@@ -31,7 +31,7 @@ public class ManagedPersistenceContext implements Serializable
    
    private EntityManager entityManager;
    private String persistenceUnitName;
-
+   
    @Create
    public void create(Component component)
    {

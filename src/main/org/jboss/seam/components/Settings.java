@@ -16,17 +16,19 @@ import org.jboss.seam.annotations.Scope;
  * @author Gavin King
  */
 @Scope(ScopeType.APPLICATION)
-@Name("seamSettings")
+@Name("org.jboss.seam.components.settings")
 public class Settings
 {
    private static final Logger log = Logger.getLogger(Settings.class);
    
    private static final String CONVERSATION_TIMEOUT = "org.jboss.seam.conversationTimeout";
    private static final String PERSISTENCE_UNIT_NAMES = "org.jboss.seam.persistenceUnitNames";
+   private static final String SESSION_FACTORY_NAMES = "org.jboss.seam.sessionFactoryNames";
    private static final String COMPONENT_CLASS_NAMES = "org.jboss.seam.componentClassNames";
    
    private int conversationTimeout;
    private String[] persistenceUnitNames;
+   private String[] sessionFactoryNames;
    private String[] componentClassNames;
    
    public void init(ServletContext context)
@@ -43,6 +45,10 @@ public class Settings
       String puNamesString = context.getInitParameter(PERSISTENCE_UNIT_NAMES);
       log.info("persistence unit names: " + puNamesString);
       persistenceUnitNames = toArray(puNamesString);
+
+      String sfNamesString = context.getInitParameter(SESSION_FACTORY_NAMES);
+      log.info("session factory names: " + puNamesString);
+      sessionFactoryNames = toArray(sfNamesString);
    }
 
    private String[] toArray(String puNamesString)
@@ -80,6 +86,15 @@ public class Settings
    public void setPersistenceUnitNames(String[] persistenceUnitNames)
    {
       this.persistenceUnitNames = persistenceUnitNames;
+   }
+
+   public String[] getSessionFactoryNames()
+   {
+      return sessionFactoryNames;
+   }
+   public void setSessionFactoryNames(String[] sessionFactoryNames)
+   {
+      this.sessionFactoryNames = sessionFactoryNames;
    }
 
    public String[] getComponentClassNames()

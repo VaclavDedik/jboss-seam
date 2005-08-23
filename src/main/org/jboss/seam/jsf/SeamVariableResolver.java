@@ -40,6 +40,8 @@ public class SeamVariableResolver extends VariableResolver
    @Override
    public Object resolveVariable(FacesContext facesContext, String name) throws EvaluationException
    {
+      name = name.replace('$', '.');
+      
       log.info("resolving name: " + name);
       Object component = seamVariableResolver.getComponentInstance(name, true);
       Object managedBean = jsfVariableResolver.resolveVariable(facesContext, name);
