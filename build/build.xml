@@ -70,6 +70,9 @@
 			<fileset dir="${main.dir}">
 			    <include name="**/*.cfg.xml" />
 			</fileset>
+			<fileset dir="${resources.dir}">
+				<include name="META-INF/jboss-seam.tld"/>
+			</fileset>
 		</jar>
 	</target>
 
