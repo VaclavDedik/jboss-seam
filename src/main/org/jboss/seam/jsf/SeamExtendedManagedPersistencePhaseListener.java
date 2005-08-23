@@ -6,7 +6,7 @@ import javax.faces.event.PhaseId;
 
 import org.jboss.seam.util.Transactions;
 
-public class SeamManagedPersistencePhaseListener extends SeamPhaseListener
+public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListener
 {
    
    @Override

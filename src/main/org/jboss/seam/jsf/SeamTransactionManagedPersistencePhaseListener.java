@@ -11,7 +11,7 @@ import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Transactions;
 
-public class SeamManagedTransactionPhaseListener extends SeamPhaseListener
+public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseListener
 {
 
    @Override
