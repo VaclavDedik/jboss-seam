@@ -134,10 +134,12 @@ public class SeamPhaseListener implements PhaseListener
    {
       if ( Contexts.isEventContextActive() )
       {
+         log.info("destroying event context");
          Contexts.destroy( Contexts.getEventContext() );
       }
       if ( !Contexts.isLongRunningConversation() && Contexts.isConversationContextActive() )
       {
+         log.info("destroying conversation context");
          Contexts.destroy( Contexts.getConversationContext() );
       }
       Contexts.endWebRequest( request );
@@ -176,11 +178,19 @@ public class SeamPhaseListener implements PhaseListener
          log.info("No active conversation context");
          getAttributes(event).remove(CONVERSATION_ID); //TODO: do we really need it in this case?
       }
-      else if ( Contexts.isLongRunningConversation() && !Contexts.isSessionInvalid() ) 
+      else if ( Contexts.isLongRunningConversation() ) 
       {
          String conversationId = ConversationContext.getId(conversationContext);
          log.info("Storing conversation state: " + conversationId);
-         getAttributes(event).put(CONVERSATION_ID, conversationId);
+         if ( !Contexts.isSessionInvalid() ) 
+         {
+            //if the session is invalid, don't put the conversation id
+            //in the view, 'cos we are expecting the conversation to
+            //be destroyed by the servlet session listener
+            getAttributes(event).put(CONVERSATION_ID, conversationId);
+         }
+         //even if the session is invalid, still put the id in the map,
+         //so it can be cleaned up along with all the other conversations
          addConversationId(event, conversationId);
       }
       else 

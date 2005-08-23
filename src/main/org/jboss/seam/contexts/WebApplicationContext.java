@@ -25,7 +25,12 @@ public class WebApplicationContext implements Context {
 	
    private String getKey(String name)
    {
-      return ScopeType.APPLICATION.getPrefix() + '$' + name;
+      return getPrefix() + name;
+   }
+
+   private String getPrefix()
+   {
+      return ScopeType.APPLICATION.getPrefix() + '$';
    }
 
 	public WebApplicationContext(ServletContext context) {
@@ -51,9 +56,10 @@ public class WebApplicationContext implements Context {
 	public String[] getNames() {
 		Enumeration names = context.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
+      String prefix = getPrefix();
 		while ( names.hasMoreElements() ) {
          String name = (String) names.nextElement();
-         if ( name.startsWith("seam$application$") )
+         if ( name.startsWith(prefix) )
          {
             results.add( name.substring(17) );
          }

@@ -30,7 +30,12 @@ public class ConversationContext implements Context, Serializable {
    
    public String getKey(String name)
    {
-      return ScopeType.CONVERSATION.getPrefix() + '#' + id + '$' + name;
+      return getPrefix() + name;
+   }
+
+   private String getPrefix()
+   {
+      return ScopeType.CONVERSATION.getPrefix() + '#' + id + '$';
    }
    
    public static String getId(Context conversationContext)
@@ -69,7 +74,7 @@ public class ConversationContext implements Context, Serializable {
    public String[] getNames() {
       Enumeration names = session.getAttributeNames();
       ArrayList<String> results = new ArrayList<String>();
-      String prefix = "seam$conversation$" + id + "$";
+      String prefix = getPrefix();
       while ( names.hasMoreElements() ) {
          String name = (String) names.nextElement();
          if ( name.startsWith(prefix) )

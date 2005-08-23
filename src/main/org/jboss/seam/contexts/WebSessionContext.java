@@ -25,7 +25,12 @@ public class WebSessionContext implements Context {
 	
    private String getKey(String name)
    {
-      return ScopeType.SESSION.getPrefix() + '$' + name;
+      return getPrefix() + name;
+   }
+
+   private String getPrefix()
+   {
+      return ScopeType.SESSION.getPrefix() + '$';
    }
 
 	public WebSessionContext(HttpSession session) {
@@ -51,9 +56,10 @@ public class WebSessionContext implements Context {
 	public String[] getNames() {
 		Enumeration names = session.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
+      String prefix = getPrefix();
       while ( names.hasMoreElements() ) {
          String name = (String) names.nextElement();
-         if ( name.startsWith("seam$session$") )
+         if ( name.startsWith(prefix) )
          {
             results.add( name.substring(13) );
          }

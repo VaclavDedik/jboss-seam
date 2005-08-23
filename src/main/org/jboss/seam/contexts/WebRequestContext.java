@@ -29,7 +29,12 @@ public class WebRequestContext implements Context {
    
    private String getKey(String name)
    {
-      return ScopeType.EVENT.getPrefix() + '$' + name;
+      return getPrefix() + name;
+   }
+
+   private String getPrefix()
+   {
+      return ScopeType.EVENT.getPrefix() + '$';
    }
 
 	public Object get(String name) {
@@ -51,9 +56,10 @@ public class WebRequestContext implements Context {
 	public String[] getNames() {
 		Enumeration names = request.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
+      String prefix = getPrefix();
 		while ( names.hasMoreElements() ) {
 			String name = (String) names.nextElement();
-         if ( name.startsWith("seam$request$") )
+         if ( name.startsWith(prefix) )
          {
             results.add( name.substring(13) );
          }

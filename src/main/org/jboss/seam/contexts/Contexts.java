@@ -110,13 +110,13 @@ public class Contexts {
    public static void endConversation() 
    {
       log.info("Ending conversation");
-      isLongRunningConversation.set(false);
+      setLongRunningConversation(false);
    }
 
    public static void beginConversation() 
    {
       log.info("Beginning conversation");
-      isLongRunningConversation.set(true);
+      setLongRunningConversation(true);
    }
    
    public static boolean isLongRunningConversation()
