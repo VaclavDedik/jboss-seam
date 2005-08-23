@@ -70,11 +70,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 	</lifecycle-->
 
 	<!--lifecycle>
-		<phase-listener>org.jboss.seam.jsf.SeamManagedTransactionPhaseListener</phase-listener>
+		<phase-listener>org.jboss.seam.jsf.SeamTransactionManagedPersistencePhaseListener</phase-listener>
 	</lifecycle-->
 	
 	<lifecycle>
-		<phase-listener>org.jboss.seam.jsf.SeamManagedPersistencePhaseListener</phase-listener>
+		<phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
 	</lifecycle>
 
 </faces-config>
