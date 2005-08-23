@@ -6,13 +6,11 @@ import javax.faces.event.PhaseId;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
-import javax.transaction.Status;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 import org.jboss.seam.Environment;
+import org.jboss.seam.util.Transactions;
 
-public class SeamTransactionPhaseListener extends SeamPhaseListener
+public class SeamManagedTransactionPhaseListener extends SeamPhaseListener
 {
 
    @Override
@@ -22,7 +20,7 @@ public class SeamTransactionPhaseListener extends SeamPhaseListener
       {
          try 
          {
-            getUserTransaction().begin();
+            Transactions.getUserTransaction().begin();
          }
          catch (Exception e)
          {
@@ -41,9 +39,9 @@ public class SeamTransactionPhaseListener extends SeamPhaseListener
       {
          try 
          {
-            if ( isTransactionActive() )
+            if ( Transactions.isTransactionActive() )
             {
-               getUserTransaction().commit();
+               Transactions.getUserTransaction().commit();
             }
          }
          catch (Exception e)
@@ -56,7 +54,7 @@ public class SeamTransactionPhaseListener extends SeamPhaseListener
       {
          try 
          {
-            if ( isTransactionActive() )
+            if ( Transactions.isTransactionActive() )
             {
                for (String unitName : Environment.getPersistenceUnitNames())
                {
@@ -72,26 +70,10 @@ public class SeamTransactionPhaseListener extends SeamPhaseListener
       }
    }
 
-   static boolean isTransactionActive() throws SystemException, NamingException
-   {
-      return getUserTransaction().getStatus()==Status.STATUS_ACTIVE;
-   }
-
-   static boolean isTransactionActiveOrMarkedRollback() throws SystemException, NamingException
-   {
-      int status = getUserTransaction().getStatus();
-      return status==Status.STATUS_ACTIVE || status == Status.STATUS_MARKED_ROLLBACK;
-   }
-
    private static EntityManager getEntityManager(String unitName) throws NamingException
    {
       //TODO: allow configuration of the JNDI name!
       return (EntityManager) new InitialContext().lookup("java:/EntityManagers/" + unitName);
-   }
-
-   static UserTransaction getUserTransaction() throws NamingException
-   {
-      return (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
    }
 
 }

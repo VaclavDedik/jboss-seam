@@ -29,6 +29,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.finders.Finder;
@@ -61,6 +62,7 @@ public class Component
    
    private Method destroyMethod;
    private Method createMethod;
+   private Method unwrapMethod;
    private Set<Method> removeMethods = new HashSet<Method>();
    private Set<Method> validateMethods = new HashSet<Method>();
    private Set<Method> inMethods = new HashSet<Method>();
@@ -81,8 +83,13 @@ public class Component
 
    public Component(Class<?> clazz)
    {
-      this.beanClass = clazz;
-      name = Seam.getComponentName(beanClass);
+      this( clazz, Seam.getComponentName(clazz) );
+   }
+   
+   public Component(Class<?> clazz, String componentName)
+   {
+      beanClass = clazz;
+      name = componentName;
       scope = Seam.getComponentScope(beanClass);
       type = Seam.getComponentType(beanClass);
       
@@ -130,6 +137,10 @@ public class Component
             if ( method.isAnnotationPresent(Out.class) )
             {
                outMethods.add(method);
+            }
+            if ( method.isAnnotationPresent(Unwrap.class) )
+            {
+               unwrapMethod = method;
             }
             if ( !method.isAccessible() )
             {
@@ -263,6 +274,16 @@ public class Component
    public Method getCreateMethod()
    {
       return createMethod;
+   }
+
+   public boolean hasUnwrapMethod() 
+   {
+      return unwrapMethod!=null;
+   }
+
+   public Method getUnwrapMethod()
+   {
+      return unwrapMethod;
    }
 
    public Set<Field> getOutFields()
@@ -402,7 +423,15 @@ public class Component
          case ENTITY_BEAN:
             return beanClass.isInstance(bean);
          default:
-            return localInterfaces.contains(bean.getClass());
+            Class clazz = bean.getClass();
+            for (Class intfc: localInterfaces)
+            {
+               if (intfc.isAssignableFrom(clazz))
+               {
+                  return true;
+               }
+            }
+            return false;
       }
    }
    

@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.util.Transactions;
 
 public class SeamExceptionFilter implements Filter
 {
@@ -29,7 +30,7 @@ public class SeamExceptionFilter implements Filter
       }
       catch (Exception e)
       {
-         log.error("uncaught exception handled by Seam"+ e.getMessage());
+         log.error("uncaught exception handled by Seam: "+ e.getMessage());
          rollbackAfterException();
          endWebRequestAfterException(request);
          throw new ServletException(e);
@@ -38,7 +39,8 @@ public class SeamExceptionFilter implements Filter
 
    private void endWebRequestAfterException(ServletRequest request)
    {
-      try {
+      try 
+      {
          SeamPhaseListener.endWebRequest( (HttpServletRequest) request);
       }
       catch (Exception ee)
@@ -50,10 +52,10 @@ public class SeamExceptionFilter implements Filter
    private void rollbackAfterException()
    {
       try {
-         if ( SeamTransactionPhaseListener.isTransactionActiveOrMarkedRollback() )
+         if ( Transactions.isTransactionActiveOrMarkedRollback() )
          {
             log.info("killing transaction");
-            SeamTransactionPhaseListener.getUserTransaction().rollback();
+            Transactions.getUserTransaction().rollback();
          }
       }
       catch (Exception te)

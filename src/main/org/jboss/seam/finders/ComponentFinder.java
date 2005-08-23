@@ -19,6 +19,7 @@ import org.jboss.mx.util.MBeanServerLocator;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.RequiredException;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Contexts;
@@ -38,7 +39,7 @@ import org.jboss.seam.util.Tool;
 public class ComponentFinder implements Finder
 {
 
-   static final Logger log = Logger.getLogger(ComponentFinder.class);
+   private static final Logger log = Logger.getLogger(ComponentFinder.class);
 
    private Map<URL, SeamModule> seamModules;
 
@@ -64,6 +65,15 @@ public class ComponentFinder implements Finder
       }
       if (result!=null) 
       {
+         Component component = Seam.getComponent(name);
+         if (component!=null)
+         {
+            if ( !component.isInstance(result) )
+            {
+               throw new IllegalArgumentException("value found for In attribute has the wrong type: " + name);
+            }
+         }
+         result = unwrap( component, result );
          log.info( Tool.toString(result) );
       }
       return result;
@@ -75,7 +85,7 @@ public class ComponentFinder implements Finder
       if (component == null)
       {
          log.info("seam component not found: " + name);
-         return null;
+         return null; //needed when this method is called by JSF
       }
       else
       {
@@ -83,22 +93,47 @@ public class ComponentFinder implements Finder
          Object instance = component.instantiate();
          if (component.getType()!=ComponentType.STATELESS_SESSION_BEAN)
          {
-            if (component.hasCreateMethod())
-            {
-               String createMethodName = component.getCreateMethod().getName();
-               try 
-               {
-                  instance.getClass().getMethod(createMethodName).invoke(instance);
-               }
-               catch (Exception e)
-               {
-                  throw new IllegalArgumentException(e);
-               }
-            }
+            callCreateMethod(component, instance);
             component.getScope().getContext().set(name, instance);
          }
          return instance;
       }
+   }
+
+   private void callCreateMethod(Component component, Object instance)
+   {
+      if (component.hasCreateMethod())
+      {
+         Method createMethod = component.getCreateMethod();
+         Class[] paramTypes = createMethod.getParameterTypes();
+         Object param = paramTypes.length==0 ? null : component;
+         String createMethodName = createMethod.getName();
+         try 
+         {
+            instance.getClass().getMethod(createMethodName, paramTypes)
+                  .invoke(instance, param);
+         }
+         catch (Exception e)
+         {
+            throw new IllegalArgumentException(e);
+         }
+      }
+   }
+
+   private Object unwrap(Component component, Object instance)
+   {
+      if (component!=null && component.hasUnwrapMethod())
+      {
+         try 
+         {
+            instance = component.getUnwrapMethod().invoke(instance);
+         }
+         catch (Exception e)
+         {
+            throw new IllegalArgumentException(e);
+         }
+      }
+      return instance;
    }
 
    public Component getComponent(String name)

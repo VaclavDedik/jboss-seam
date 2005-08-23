@@ -243,18 +243,22 @@ public class Contexts {
          Component component = finder.getComponent(name);
          if ( component!=null )
          {
-            Object instance = context.get(name);
-            if ( component.hasDestroyMethod() )
-            {
-               String methodName = component.getDestroyMethod().getName();
-               try {
-                  instance.getClass().getMethod(methodName).invoke(instance);
-               }
-               catch (Exception e)
-               {
-                  log.warn("exception calling destroy method", e);
-               }
-            }
+            callDestroyMethod( component, context.get(name) );
+         }
+      }
+   }
+
+   private static void callDestroyMethod(Component component, Object instance)
+   {
+      if ( component.hasDestroyMethod() )
+      {
+         String methodName = component.getDestroyMethod().getName();
+         try {
+            instance.getClass().getMethod(methodName).invoke(instance);
+         }
+         catch (Exception e)
+         {
+            log.warn("exception calling destroy method", e);
          }
       }
    }
