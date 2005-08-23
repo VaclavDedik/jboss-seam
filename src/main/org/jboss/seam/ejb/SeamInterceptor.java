@@ -41,7 +41,6 @@ public class SeamInterceptor
       }
       else {
          log.debug("not intercepted: " + invocation.getMethod().getName());
-
          return invocation.proceed();
       }
    }

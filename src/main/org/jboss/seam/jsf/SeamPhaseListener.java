@@ -52,7 +52,7 @@ public class SeamPhaseListener implements PhaseListener
    {
       return ANY_PHASE;
    }
-
+   
    public void beforePhase(PhaseEvent event)
    {
       log.trace( "before phase [" + event.getPhaseId() + "]" );
