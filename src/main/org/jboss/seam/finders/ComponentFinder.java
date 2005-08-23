@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.components.Components;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.util.Tool;
+import org.jboss.seam.util.Strings;
 
 /**
  * Variable resolving: first the method tries to return an object
@@ -55,7 +55,7 @@ public class ComponentFinder implements Finder
             }
          }
          result = unwrap( component, result );
-         log.info( Tool.toString(result) );
+         log.info( Strings.toString(result) );
       }
       return result;
    }
