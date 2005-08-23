@@ -157,5 +157,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    }
       
    @Destroy @Remove
-   public void destroy() {}
+   public void destroy() {
+      log.info("destroyed");
+   }
 }
