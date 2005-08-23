@@ -61,12 +61,16 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 		<variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
 	</application>
 	
-	<lifecycle>
+	<!--lifecycle>
 		<phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-	</lifecycle>
+	</lifecycle-->
 
 	<!--lifecycle>
-		<phase-listener>org.jboss.seam.jsf.SeamTransactionPhaseListener</phase-listener>
+		<phase-listener>org.jboss.seam.jsf.SeamManagedTransactionPhaseListener</phase-listener>
 	</lifecycle-->
+	
+	<lifecycle>
+		<phase-listener>org.jboss.seam.jsf.SeamManagedPersistencePhaseListener</phase-listener>
+	</lifecycle>
 
 </faces-config>

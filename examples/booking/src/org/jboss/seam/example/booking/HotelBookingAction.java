@@ -15,7 +15,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
 import org.jboss.annotation.ejb.LocalBinding;
@@ -40,10 +39,10 @@ public class HotelBookingAction implements HotelBooking, Serializable
 {
    private static final Logger log = Logger.getLogger(HotelBooking.class);
    
-   @PersistenceContext
-   private EntityManager em;
+   @In(create=true)
+   private EntityManager bookingDatabase;
    
-   private String searchString = "";
+   private String searchString;
    private List<Hotel> hotels;
    
    @Out(required=false)
@@ -65,7 +64,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    public String find()
    {
       hotel = null;
-      hotels = em.createQuery("from Hotel where lower(city) like :search or lower(zip) like :search or lower(address) like :search")
+      hotels = bookingDatabase.createQuery("from Hotel where lower(city) like :search or lower(zip) like :search or lower(address) like :search")
             .setParameter("search", '%' + searchString.toLowerCase().replace('*', '%') + '%')
             .setMaxResults(50)
             .getResultList();
@@ -152,7 +151,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    public String confirm()
    {
       if (booking==null || hotel==null) return "main";
-      em.persist(booking);
+      bookingDatabase.persist(booking);
       log.info("booking confirmed");
       return "confirmed";
    }
