@@ -4,22 +4,37 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
+
+    <!-- Seam -->
+    
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamJBossServletContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>org.jboss.seam.conversationTimeout</param-name>
+        <param-value>30000</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.jboss.seam.persistenceUnitNames</param-name>
+        <param-value>bookingDatabase</param-value>
+    </context-param>
+
 	<filter>
 		<filter-name>Seam Exception Filter</filter-name>
-		<filter-class>org.jboss.seam.jsf.SeamExceptionFilter</filter-class>
+		<filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
 	</filter>
-
     <filter-mapping>
       <filter-name>Seam Exception Filter</filter-name>
       <url-pattern>/*</url-pattern>
     </filter-mapping> 
 
-    <listener>
-        <listener-class>
-            org.apache.myfaces.webapp.StartupServletContextListener
-        </listener-class>
-    </listener>
+    <!-- MyFaces -->
 
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+    
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>client</param-value>
