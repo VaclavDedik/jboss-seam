@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.contexts;
+package org.jboss.seam.servlet;
 
 import java.util.Set;
 
@@ -8,6 +8,9 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.ConversationContext;
+import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.jsf.SeamPhaseListener;
 
 public class SeamSessionListener implements HttpSessionListener

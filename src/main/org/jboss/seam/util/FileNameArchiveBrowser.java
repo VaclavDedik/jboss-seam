@@ -24,7 +24,7 @@ public class FileNameArchiveBrowser
       boolean accept(String filename);
    }
    
-   public static Iterator getBrowser(URL url, Filter filter)
+   public static Iterator<String> getBrowser(URL url, Filter filter)
    {
       if (url.getProtocol().equals("file"))
       {

@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.ejb;
+package org.jboss.seam.components;
 
 import java.io.Serializable;
 
@@ -17,6 +17,13 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 
+/**
+ * A Seam component that manages a conversation-scoped extended
+ * persistence context that can be shared by arbitrary other
+ * components.
+ * 
+ * @author Gavin King
+ */
 @Scope(ScopeType.CONVERSATION)
 public class ManagedPersistenceContext implements Serializable
 {

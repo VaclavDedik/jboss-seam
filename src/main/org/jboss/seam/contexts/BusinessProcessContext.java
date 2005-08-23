@@ -7,6 +7,7 @@
 package org.jboss.seam.contexts;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Seam;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -196,4 +197,9 @@ public class BusinessProcessContext implements Context {
 		}
 		return processInstance.getContextInstance();
 	}
+   
+   public <T> T get(Class<T> clazz)
+   {
+      return (T) get( Seam.getComponentName(clazz) );
+   }
 }

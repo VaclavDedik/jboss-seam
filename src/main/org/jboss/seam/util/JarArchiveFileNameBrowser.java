@@ -19,7 +19,7 @@ import org.jboss.seam.util.FileNameArchiveBrowser.Filter;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class JarArchiveFileNameBrowser implements Iterator
+public class JarArchiveFileNameBrowser implements Iterator<String>
 {
 
    private Filter filter;
@@ -65,7 +65,7 @@ public class JarArchiveFileNameBrowser implements Iterator
       return next != null;
    }
 
-   public Object next()
+   public String next()
    {
       ZipEntry entry = next;
       setNext();

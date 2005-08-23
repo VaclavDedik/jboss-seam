@@ -11,6 +11,8 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.Seam;
+
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
@@ -58,4 +60,9 @@ public class WebSessionContext implements Context {
 		return results.toArray(new String[]{});
 	}
    
+   public <T> T get(Class<T> clazz)
+   {
+      return (T) get( Seam.getComponentName(clazz) );
+   }
+  
 }

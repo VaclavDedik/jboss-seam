@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.jsf;
+package org.jboss.seam.servlet;
 
 import java.io.IOException;
 
@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.util.Transactions;
 
 public class SeamExceptionFilter implements Filter

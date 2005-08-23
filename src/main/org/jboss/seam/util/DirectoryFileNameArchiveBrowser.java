@@ -17,7 +17,7 @@ import org.jboss.util.NotImplementedException;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class DirectoryFileNameArchiveBrowser implements Iterator
+public class DirectoryFileNameArchiveBrowser implements Iterator<String>
 {
 
    public DirectoryFileNameArchiveBrowser(File file, Filter filter)
@@ -57,7 +57,7 @@ public class DirectoryFileNameArchiveBrowser implements Iterator
       throw new NotImplementedException();
    }
 
-   public Object next()
+   public String next()
    {
       throw new NotImplementedException();
    }

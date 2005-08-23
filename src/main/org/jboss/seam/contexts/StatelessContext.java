@@ -10,6 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Seam;
 
 /**
  * For stateless objects
@@ -62,4 +63,8 @@ public class StatelessContext implements Context {
 		throw new UnsupportedOperationException();
 	}
 
+   public <T> T get(Class<T> clazz)
+   {
+      return (T) get( Seam.getComponentName(clazz) );
+   }
 }

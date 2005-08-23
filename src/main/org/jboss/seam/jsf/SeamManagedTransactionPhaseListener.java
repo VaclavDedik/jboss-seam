@@ -7,7 +7,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.Environment;
+import org.jboss.seam.components.Settings;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Transactions;
 
 public class SeamManagedTransactionPhaseListener extends SeamPhaseListener
@@ -56,7 +57,8 @@ public class SeamManagedTransactionPhaseListener extends SeamPhaseListener
          {
             if ( Transactions.isTransactionActive() )
             {
-               for (String unitName : Environment.getPersistenceUnitNames())
+               Settings settings = Contexts.getApplicationContext().get(Settings.class);
+               for (String unitName : settings.getPersistenceUnitNames())
                {
                   getEntityManager(unitName).flush();
                }

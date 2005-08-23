@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Environment;
+import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -130,7 +130,7 @@ public class SeamPhaseListener implements PhaseListener
       endWebRequest( getRequest(event) );
    }
 
-   static void endWebRequest(HttpServletRequest request)
+   public static void endWebRequest(HttpServletRequest request)
    {
       if ( Contexts.isEventContextActive() )
       {
@@ -257,7 +257,8 @@ public class SeamPhaseListener implements PhaseListener
       {
          Map.Entry<String, Long> entry = iter.next();
          long delta = currentTime - entry.getValue();
-         if ( delta > Environment.getConversationTimeout() )
+         int conversationTimeout = Contexts.getApplicationContext().get(Settings.class).getConversationTimeout();
+         if ( delta > conversationTimeout )
          {
             String conversationId = entry.getKey();
             log.info("conversation timeout for conversation: " + conversationId);

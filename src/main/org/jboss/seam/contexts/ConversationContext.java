@@ -12,6 +12,8 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.Seam;
+
 /**
  * A conversation context is a logical context that last longer than 
  * a request but shorter than a login session
@@ -82,4 +84,8 @@ public class ConversationContext implements Context, Serializable {
       return "ConversationContext(" + id + ")";
    }
 
+   public <T> T get(Class<T> clazz)
+   {
+      return (T) get( Seam.getComponentName(clazz) );
+   }
 }

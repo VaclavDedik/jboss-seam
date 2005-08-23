@@ -8,23 +8,18 @@ package org.jboss.seam.finders;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.Map;
 
 import javax.faces.el.EvaluationException;
-import javax.management.MBeanServer;
 
 import org.jboss.logging.Logger;
-import org.jboss.mx.util.MBeanServerLocator;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.components.Components;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.deployment.SeamDeployer;
-import org.jboss.seam.deployment.SeamModule;
 import org.jboss.seam.util.Tool;
 
 /**
@@ -41,20 +36,6 @@ public class ComponentFinder implements Finder
 
    private static final Logger log = Logger.getLogger(ComponentFinder.class);
 
-   private Map<URL, SeamModule> seamModules;
-
-   public ComponentFinder()
-   {
-      MBeanServer mBeanServer = MBeanServerLocator.locate();
-      try
-      {
-         seamModules = (Map<URL, SeamModule>) mBeanServer.getAttribute(SeamDeployer.OBJECT_NAME, "SeamModules");
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException("could not connect to Seam MBean server");
-      }
-   }
 
    public Object getComponentInstance(String name, boolean create) throws EvaluationException
    {
@@ -138,15 +119,7 @@ public class ComponentFinder implements Finder
 
    public Component getComponent(String name)
    {
-      for (SeamModule module: seamModules.values())
-      {
-         Component seamComponent = module.getSeamComponents().get(name);
-         if (seamComponent != null)
-         {
-            return seamComponent;
-         }
-      }
-      return null;
+      return Contexts.getApplicationContext().get(Components.class).getComponent(name);
    }
 
    public Object find(In in, String name, Object bean)

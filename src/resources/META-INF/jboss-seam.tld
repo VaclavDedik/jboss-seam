@@ -12,12 +12,12 @@
 
     <listener>
         <listener-class>
-            org.jboss.seam.contexts.SeamSessionListener
+            org.jboss.seam.servlet.SeamSessionListener
         </listener-class>
     </listener>
     <listener>
         <listener-class>
-            org.jboss.seam.contexts.SeamApplicationListener
+            org.jboss.seam.servlet.SeamApplicationListener
         </listener-class>
     </listener>
 
