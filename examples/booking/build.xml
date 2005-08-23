@@ -74,6 +74,12 @@
         <fileset dir="${resources.dir}">
            <include name="seam.properties"/>
         </fileset>
+        <zipfileset dir="${basedir}/../../src/resources/META-INF" prefix="WEB-INF">
+           <include name="jboss-seam.tld"/>
+        </zipfileset>
+        <!--zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
+           <include name="jboss-seam.jar"/>
+        </zipfileset-->
      </jar>
    </target>
 	
