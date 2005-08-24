@@ -9,7 +9,7 @@ package org.jboss.seam.contexts;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -21,9 +21,9 @@ import org.jboss.seam.Seam;
  */
 public class WebRequestContext implements Context {
 
-	private HttpServletRequest request;
+	private ServletRequest request;
 	
-	public WebRequestContext(HttpServletRequest request) {
+	public WebRequestContext(ServletRequest request) {
 		this.request = request;
 	}
    
