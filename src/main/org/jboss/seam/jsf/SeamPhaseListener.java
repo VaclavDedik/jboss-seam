@@ -14,10 +14,7 @@ import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
 import static javax.faces.event.PhaseId.UPDATE_MODEL_VALUES;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -26,11 +23,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.components.Settings;
+import org.jboss.seam.Seam;
+import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
+import org.jboss.seam.finders.ComponentFinder;
 
 /**
  * Manages the thread/context associations throught the
@@ -42,7 +41,6 @@ public class SeamPhaseListener implements PhaseListener
 {
    
    private static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
-   private static final String CONVERSATION_ID_MAP = "org.jboss.seam.allConversationIds";
    private static final String JBPM_TASK_ID = "org.jboss.seam.jbpm.taskId";
    private static final String JBPM_PROCESS_ID = "org.jboss.seam.jbpm.processId";
 
@@ -67,7 +65,7 @@ public class SeamPhaseListener implements PhaseListener
       {
          storeAnyConversationContext(event);
          storeAnyBusinessProcessContext();
-         conversationTimeout(event);
+         getConversationManager().conversationTimeout( getSession(event) );
       }
       else if (event.getPhaseId() == INVOKE_APPLICATION)
       {
@@ -124,7 +122,7 @@ public class SeamPhaseListener implements PhaseListener
       String conversationId = (String) getAttributes(event).get(CONVERSATION_ID);
       Context conversationContext;
       boolean isStoredConversation = conversationId!=null && 
-            getConversationIds(event).contains(conversationId);
+            getConversationManager().getConversationIds().contains(conversationId);
       if ( isStoredConversation )
       {
          
@@ -165,93 +163,20 @@ public class SeamPhaseListener implements PhaseListener
          }
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
-         addConversationId(event, conversationId);
+         getConversationManager().addConversationId(conversationId);
       }
       else 
       {
          String conversationId = ConversationContext.getId(conversationContext);
          log.info("Discarding conversation state: " + conversationId);
          getAttributes(event).remove(CONVERSATION_ID);
-         removeConversationId(event, conversationId);
+         getConversationManager().removeConversationId(conversationId);
       }
-   }
-
-   public static Set<String> getConversationIds(HttpSession session)
-   {
-      return getConversationIdMap(session).keySet();
-   }
-
-   private static Set<String> getConversationIds(PhaseEvent event)
-   {
-      return getConversationIdMap(event).keySet();
-   }
-
-   private static Map<String, Long> getConversationIdMap(PhaseEvent event)
-   {
-      return getConversationIdMap( getSession(event) );
-   }
-
-   private static Map<String, Long> getConversationIdMap(HttpSession session)
-   {
-      Map<String, Long> idMap = (Map<String, Long>) session.getAttribute(CONVERSATION_ID_MAP);
-      if (idMap==null)
-      {
-         idMap = new HashMap<String, Long>();
-         session.setAttribute(CONVERSATION_ID_MAP, idMap);
-      }
-      return idMap;
    }
    
-   /**
-    * Make sure the sessio notices that we changed something
-    */
-   private static void dirtyConversationIdMap(PhaseEvent event)
+   private static ConversationManager getConversationManager()
    {
-      HttpSession session = getSession(event);
-      session.setAttribute( CONVERSATION_ID_MAP, session.getAttribute(CONVERSATION_ID_MAP) );
-   }
-
-   private static void removeConversationId(PhaseEvent event, String conversationId)
-   {
-      Set<String> ids = getConversationIds(event);
-      if ( ids.contains(conversationId) ) //might be a request-only conversationId, not yet existing in session
-      {
-         ids.remove(conversationId);
-         dirtyConversationIdMap(event);
-      }
-   }
-
-   private static void addConversationId(PhaseEvent event, String conversationId)
-   {
-      Map<String, Long> ids = getConversationIdMap(event);
-      ids.put( conversationId, System.currentTimeMillis() );
-      dirtyConversationIdMap(event);
-   }
-   
-   /**
-    * Clean up timed-out conversations
-    */
-   private static void conversationTimeout(PhaseEvent event)
-   {
-      long currentTime = System.currentTimeMillis();
-      HttpSession session = getSession(event);
-      Map<String, Long> ids = getConversationIdMap(event);
-      Iterator<Map.Entry<String, Long>> iter = ids.entrySet().iterator();
-      while ( iter.hasNext() )
-      {
-         Map.Entry<String, Long> entry = iter.next();
-         long delta = currentTime - entry.getValue();
-         Settings settings = (Settings) Contexts.getApplicationContext().get(Settings.class);
-         int conversationTimeout = settings.getConversationTimeout();
-         if ( delta > conversationTimeout )
-         {
-            String conversationId = entry.getKey();
-            log.info("conversation timeout for conversation: " + conversationId);
-            Contexts.destroy( new ConversationContext( session, conversationId ) );
-            iter.remove();
-            dirtyConversationIdMap(event);
-         }
-      }
+      return (ConversationManager) ComponentFinder.getComponentInstance( Seam.getComponentName(ConversationManager.class), true );
    }
 
    private static HttpServletRequest getRequest(PhaseEvent event)

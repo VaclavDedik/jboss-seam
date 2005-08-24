@@ -18,7 +18,7 @@ import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.components.Components;
+import org.jboss.seam.components.ComponentManager;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Strings;
 
@@ -118,7 +118,12 @@ public class ComponentFinder implements Finder
 
    public static Component getComponent(String name)
    {
-      return ( (Components) Contexts.getApplicationContext().get(Components.class) ).getComponent(name);
+      return getComponentManager().getComponent(name);
+   }
+
+   private static ComponentManager getComponentManager()
+   {
+      return (ComponentManager) Contexts.getApplicationContext().get(ComponentManager.class);
    }
 
    public Object find(In in, String name, Object bean)

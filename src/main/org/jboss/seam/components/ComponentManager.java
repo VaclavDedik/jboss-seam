@@ -9,9 +9,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
-@Name("org.jboss.seam.components.components")
+@Name("org.jboss.seam.components.componentManager")
 @Scope(ScopeType.APPLICATION)
-public class Components
+public class ComponentManager
 {
    private Map<String, Component> components = new HashMap<String, Component>();
    

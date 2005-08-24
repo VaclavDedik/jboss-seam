@@ -30,15 +30,35 @@ public enum ScopeType
          case STATELESS: 
             return Contexts.getStatelessContext();
          case EVENT: 
+            if ( !Contexts.isEventContextActive() )
+            {
+               throw new IllegalStateException("No event context active");
+            }
             return Contexts.getEventContext();
          case CONVERSATION: 
+            if ( !Contexts.isConversationContextActive() )
+            {
+               throw new IllegalStateException("No conversation context active");
+            }
             return Contexts.getConversationContext();
          case SESSION: 
-            return Contexts.getSessionContext();
+            if ( !Contexts.isSessionContextActive() )
+            {
+               throw new IllegalStateException("No session context active");
+            }
+             return Contexts.getSessionContext();
          case APPLICATION: 
-            return Contexts.getApplicationContext();
+            if ( !Contexts.isApplicationContextActive() )
+            {
+               throw new IllegalStateException("No application context active");
+            }
+             return Contexts.getApplicationContext();
          case PROCESS: 
-            return Contexts.getBusinessProcessContext();
+            if ( !Contexts.isBusinessProcessContextActive() )
+            {
+               throw new IllegalStateException("No process context active");
+            }
+             return Contexts.getBusinessProcessContext();
          default: 
             throw new IllegalArgumentException();
       }

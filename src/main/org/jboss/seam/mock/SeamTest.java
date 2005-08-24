@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.testng.annotations.Configuration;
@@ -91,9 +92,18 @@ public class SeamTest
       session = new MockHttpSession( servletContext );
    }
 
+   @Configuration(afterTestMethod=true)
+   public void end()
+   {
+      Contexts.endSession(session);
+      session = null;
+   }
+
    @Configuration(afterTestClass=true)
    public void cleanup() throws Exception
    {
+      Contexts.endApplication();
+      servletContext = null;
       deployer.stop();
       deployer.destroy();
    }
@@ -116,6 +126,7 @@ public class SeamTest
       phases = new SeamPhaseListener();
       servletContext = new MockServletContext();
       initServletContext( servletContext.getInitParameters() );
+      Contexts.beginApplication(servletContext);
       lifecycle = new MockLifecycle();
       new Initialization().init(servletContext);
    }

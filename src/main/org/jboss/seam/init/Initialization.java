@@ -6,7 +6,8 @@ import javax.servlet.ServletContext;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.components.Components;
+import org.jboss.seam.components.ComponentManager;
+import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.components.ManagedPersistenceContext;
 import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Context;
@@ -25,28 +26,29 @@ public class Initialization
       settings.init( servletContext );
       context.set( Seam.getComponentName(Settings.class), settings );
       
-      Components components = new Components();
-      addComponents(settings, components);
-      context.set( Seam.getComponentName(Components.class), components );
+      ComponentManager componentManager = new ComponentManager();
+      addComponents(settings, componentManager);
+      context.set( Seam.getComponentName(ComponentManager.class), componentManager );
       log.info("done initializing Seam");
       return this;
    }
 
-   protected void addComponents(Settings settings, Components components)
+   protected void addComponents(Settings settings, ComponentManager componentManager)
    {
-      components.addComponent(Settings.class);
-      components.addComponent(Components.class);
+      componentManager.addComponent(Settings.class);
+      componentManager.addComponent(ComponentManager.class);
+      componentManager.addComponent(ConversationManager.class);
       for ( String className : settings.getComponentClassNames() )
       {
-         components.addComponent(className);
+         componentManager.addComponent(className);
       }
       for ( String unitName : settings.getPersistenceUnitNames() )
       {
-         components.addComponent( unitName, new Component(ManagedPersistenceContext.class, unitName) );
+         componentManager.addComponent( unitName, new Component(ManagedPersistenceContext.class, unitName) );
       }
       for ( String sfName : settings.getSessionFactoryNames() )
       {
-         components.addComponent( sfName, new Component(ManagedPersistenceContext.class, sfName) );
+         componentManager.addComponent( sfName, new Component(ManagedPersistenceContext.class, sfName) );
       }
    }
 

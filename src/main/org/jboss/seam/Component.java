@@ -410,7 +410,8 @@ public class Component
                throw new IllegalArgumentException("attempted to bind an Out attribute of the wrong type to: " + name);
             }
          }
-         ScopeType scope = component==null ? ScopeType.CONVERSATION : component.getScope();
+         ScopeType scope = component==null ? 
+               ScopeType.CONVERSATION : component.getScope();
          scope.getContext().set(name, value);
       }
    }

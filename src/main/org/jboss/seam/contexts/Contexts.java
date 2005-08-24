@@ -14,8 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
+import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.finders.ComponentFinder;
-import org.jboss.seam.jsf.SeamPhaseListener;
 
 /**
  * Provides access to the current contexts associated with the thread.
@@ -84,9 +85,25 @@ public class Contexts {
       applicationContext = null;
    }
    
+   private static ConversationManager getConversationManager()
+   {
+      return (ConversationManager) ComponentFinder.getComponentInstance( Seam.getComponentName(ConversationManager.class), true );
+   }
+
    public static void endSession(HttpSession session)
    {
-      Set<String> ids = SeamPhaseListener.getConversationIds( session );
+      log.info("End of session, destroying contexts");
+      
+      //this is used as a place to stick the ConversationManager
+      Context tempEventContext = new EventContext();
+      eventContext.set(tempEventContext);
+      
+      //this is used (a) for destroying session-scoped components
+      //and is also used (b) by the ConversationManager
+      Context tempSessionContext = new WebSessionContext( session );
+      sessionContext.set(tempSessionContext);
+      
+      Set<String> ids = getConversationManager().getConversationIds();
       log.info("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
@@ -94,7 +111,11 @@ public class Contexts {
       }
 
       log.info("destroying session context");
-      destroy( new WebSessionContext( session ) );
+      destroy(tempSessionContext);
+      sessionContext.set(null);
+      
+      destroy(tempEventContext);
+      eventContext.set(null);
    }
 
 	public static void endRequest(HttpServletRequest request) {
@@ -283,6 +304,7 @@ public class Contexts {
    {
       for ( String name: context.getNames() ) {
          Component component = ComponentFinder.getComponent(name);
+         log.info("destroying: " + name);
          if ( component!=null )
          {
             callDestroyMethod( component, context.get(name) );

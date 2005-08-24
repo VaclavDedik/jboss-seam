@@ -61,7 +61,7 @@ public class WebRequestContext implements Context {
 			String name = (String) names.nextElement();
          if ( name.startsWith(prefix) )
          {
-            results.add( name.substring(13) );
+            results.add( name.substring(prefix.length()) );
          }
 		}
 		return results.toArray( new String[]{} );
