@@ -1,11 +1,18 @@
 //$Id$
 package org.jboss.seam.example.booking.test;
 
+import java.util.Map;
+
+import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.example.booking.Booking;
+import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
+import org.jboss.seam.example.booking.HotelBookingAction;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.util.Strings;
 import org.testng.annotations.Test;
 
 public class BookingTest extends SeamTest
@@ -50,6 +57,14 @@ public class BookingTest extends SeamTest
          
       }.run();
       
+   }
+
+   @Override
+   public void initServletContext(Map initParams)
+   {
+      initParams.put(Settings.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
+      String classNames = Strings.toString(HotelBookingAction.class, User.class, Booking.class, Hotel.class);
+      initParams.put(Settings.COMPONENT_CLASS_NAMES, classNames);
    }
    
 }

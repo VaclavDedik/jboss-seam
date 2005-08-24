@@ -38,6 +38,9 @@
       <fileset dir="${jboss.home}/server/default/deploy/jboss-aop-jdk50.deployer">
          <include name="*.jar"/>
       </fileset>
+    <fileset dir="${basedir}/../../lib">
+       <include name="testng*.jar"/>
+    </fileset>
    </path>
 
    <property name="build.classpath" refid="classpath"/>
