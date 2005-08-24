@@ -41,4 +41,6 @@ public class EventContext implements Context
       map.put(name, value);
    }
 
+   public void flush() {}
+
 }

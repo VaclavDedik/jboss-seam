@@ -12,7 +12,7 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.VariableResolver;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.finders.ComponentFinder;
+import org.jboss.seam.Components;
 
 /**
  * Variable resolving: first the method tries to return an object
@@ -40,7 +40,7 @@ public class SeamVariableResolver extends VariableResolver
       name = name.replace('$', '.');
       
       log.info("resolving name: " + name);
-      Object component = ComponentFinder.getComponentInstance(name, true);
+      Object component = Components.getComponentInstance(name, true);
       Object managedBean = jsfVariableResolver.resolveVariable(facesContext, name);
       if (component==null)
       {

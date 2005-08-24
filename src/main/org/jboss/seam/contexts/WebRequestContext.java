@@ -72,4 +72,6 @@ public class WebRequestContext implements Context {
       return get( Seam.getComponentName(clazz) );
    }
 
+   public void flush() {}
+
 }

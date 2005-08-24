@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
+import org.jboss.seam.Components;
 import org.jboss.seam.Seam;
 import org.jboss.seam.components.ConversationManager;
-import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.util.Reflections;
 
 import java.util.Map;
@@ -86,7 +86,7 @@ public class Contexts {
    
    private static ConversationManager getConversationManager()
    {
-      return (ConversationManager) ComponentFinder.getComponentInstance( Seam.getComponentName(ConversationManager.class), true );
+      return (ConversationManager) Components.getComponentInstance( Seam.getComponentName(ConversationManager.class), true );
    }
 
    public static void endSession(HttpSession session)
@@ -132,10 +132,21 @@ public class Contexts {
          log.info("destroying event context");
          destroy( Contexts.getEventContext() );
       }
-      if ( !Contexts.isLongRunningConversation() && Contexts.isConversationContextActive() )
+      if ( Contexts.isConversationContextActive() )
       {
-         log.info("destroying conversation context");
-         destroy( Contexts.getConversationContext() );
+         if ( Contexts.isLongRunningConversation() )
+         {
+            getConversationContext().flush();
+         }
+         else
+         {
+            log.info("destroying conversation context");
+            destroy( Contexts.getConversationContext() );
+         }
+      }
+      if ( Contexts.isBusinessProcessContextActive() )
+      {
+         getBusinessProcessContext().flush();
       }
 
       if ( isSessionInvalid.get() )
@@ -309,7 +320,7 @@ public class Contexts {
    public static void destroy(Context context)
    {
       for ( String name: context.getNames() ) {
-         Component component = ComponentFinder.getComponent(name);
+         Component component = Components.getComponent(name);
          log.info("destroying: " + name);
          if ( component!=null )
          {

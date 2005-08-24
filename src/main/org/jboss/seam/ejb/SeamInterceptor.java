@@ -11,9 +11,9 @@ import javax.ejb.InvocationContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
+import org.jboss.seam.Components;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.interceptors.SeamInvocationContext;
 
 /**
@@ -45,7 +45,7 @@ public class SeamInterceptor
 
    private Component getSeamComponent(Object bean)
    {
-      return ComponentFinder.getComponent( Seam.getComponentName( bean.getClass() ) );
+      return Components.getComponent( Seam.getComponentName( bean.getClass() ) );
    }
    
 }

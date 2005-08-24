@@ -31,17 +31,14 @@ import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Within;
-import org.jboss.seam.finders.ComponentFinder;
-import org.jboss.seam.finders.Finder;
-import org.jboss.seam.finders.Finders;
 import org.jboss.seam.interceptors.BijectionInterceptor;
+import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Reflections;
-import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.util.Sorter;
 
 /**
@@ -76,8 +73,6 @@ public class Component
    private ClassValidator validator;
    
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
-
-   private ComponentFinder finder;
    
    private Set<Class> localInterfaces;
    
@@ -199,8 +194,6 @@ public class Component
       }.sort(interceptors);
       
       log.info("interceptor stack: " + interceptors);
-      
-      finder = new ComponentFinder();
       
    }
 
@@ -352,9 +345,8 @@ public class Component
          In in = method.getAnnotation(In.class);
          if (in != null)
          {
-            Finder finder = Finders.getFinder(method.getReturnType());
-            String name = finder.toName( in, method );
-            inject( bean, method, name, finder.find(in, name, bean) );
+            String name = Components.toName( in, method );
+            inject( bean, method, name, Components.find(in, name, bean) );
          }
       }
    }
@@ -366,9 +358,8 @@ public class Component
          In in = field.getAnnotation(In.class);
          if (in != null)
          {
-            Finder finder = Finders.getFinder(field.getType());
-            String name = finder.toName( in, field );
-            inject( bean, field, name, finder.find(in, name, bean) );
+            String name = Components.toName( in, field );
+            inject( bean, field, name, Components.find(in, name, bean) );
          }
       }
    }
@@ -380,7 +371,7 @@ public class Component
          Out out = field.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, finder.toName(out, field), outject(bean, field) );
+            setOutjectedValue( out, Components.toName(out, field), outject(bean, field) );
          }
       }
    }
@@ -392,7 +383,7 @@ public class Component
          Out out = method.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, finder.toName(out, method), outject(bean, method) );
+            setOutjectedValue( out, Components.toName(out, method), outject(bean, method) );
          }
       }
    }
@@ -405,7 +396,7 @@ public class Component
       }
       else 
       {
-         Component component = ComponentFinder.getComponent(name);
+         Component component = Components.getComponent(name);
          if (value!=null && component!=null)
          {
             if ( !component.isInstance(value) )

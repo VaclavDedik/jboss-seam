@@ -9,6 +9,8 @@ package org.jboss.seam.contexts;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,6 +28,7 @@ import org.jboss.seam.Seam;
 public class ConversationContext implements Context, Serializable {
 
 	private final HttpSession session;
+   private final Map<String, Object> temporarySession = new HashMap<String, Object>();
    private final String id;
    
    public String getKey(String name)
@@ -45,11 +48,14 @@ public class ConversationContext implements Context, Serializable {
    }
    
 	public Object get(String name) {
+      Object temp = temporarySession.get(name);
+      if (temp!=null) return temp;
 		return session.getAttribute( getKey(name) );
 	}
 
 	public void set(String name, Object value) {
-		session.setAttribute( getKey(name), value );
+		temporarySession.put(name, value);
+      //session.setAttribute( getKey(name), value );
 	}
 
 	public boolean isSet(String name) {
@@ -57,12 +63,14 @@ public class ConversationContext implements Context, Serializable {
 	}
    
 	public void remove(String name) {
+      temporarySession.remove(name);
+      //hum, could we queue this one also?
 		session.removeAttribute( getKey(name) );
 	}
 
    public String[] getNames() {
-      Enumeration names = session.getAttributeNames();
       ArrayList<String> results = new ArrayList<String>();
+      Enumeration names = session.getAttributeNames();
       String prefix = getPrefix();
       while ( names.hasMoreElements() ) {
          String name = (String) names.nextElement();
@@ -71,6 +79,7 @@ public class ConversationContext implements Context, Serializable {
             results.add( name.substring( prefix.length() ) );
          }
       }
+      results.addAll( temporarySession.keySet() ); //after, to override
       return results.toArray(new String[]{});
    }
    
@@ -82,5 +91,13 @@ public class ConversationContext implements Context, Serializable {
    public Object get(Class clazz)
    {
       return get( Seam.getComponentName(clazz) );
+   }
+
+   public void flush()
+   {
+      for (Map.Entry<String, Object> entry: temporarySession.entrySet())
+      {
+         session.setAttribute( getKey( entry.getKey() ), entry.getValue() );
+      }
    }
 }

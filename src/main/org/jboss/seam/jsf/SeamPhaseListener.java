@@ -22,13 +22,13 @@ import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Components;
 import org.jboss.seam.Seam;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
-import org.jboss.seam.finders.ComponentFinder;
 
 /**
  * Manages the thread/context associations throught the
@@ -176,7 +176,7 @@ public class SeamPhaseListener implements PhaseListener
    
    private static ConversationManager getConversationManager()
    {
-      return (ConversationManager) ComponentFinder.getComponentInstance( Seam.getComponentName(ConversationManager.class), true );
+      return (ConversationManager) Components.getComponentInstance( Seam.getComponentName(ConversationManager.class), true );
    }
 
    /*private static HttpServletRequest getRequest(PhaseEvent event)

@@ -10,9 +10,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.Components;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
-import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.logging.Logger;
@@ -63,6 +63,6 @@ public class JbpmProcess {
 	}
 
 	private JbpmSession getJbpmSession() {
-		return ( JbpmSession ) ComponentFinder.getComponentInstance( ManagedJbpmSession.class.getName(), true );
+		return ( JbpmSession ) Components.getComponentInstance( ManagedJbpmSession.class.getName(), true );
 	}
 }

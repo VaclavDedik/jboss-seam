@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.finders;
+package org.jboss.seam;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,10 +12,6 @@ import java.lang.reflect.Method;
 import javax.faces.el.EvaluationException;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Component;
-import org.jboss.seam.ComponentType;
-import org.jboss.seam.RequiredException;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.components.ComponentManager;
@@ -32,10 +28,10 @@ import org.jboss.seam.util.Strings;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class ComponentFinder implements Finder
+public class Components
 {
 
-   private static final Logger log = Logger.getLogger(ComponentFinder.class);
+   private static final Logger log = Logger.getLogger(Components.class);
 
    public static Object getComponentInstance(String name, boolean create) throws EvaluationException
    {
@@ -120,7 +116,7 @@ public class ComponentFinder implements Finder
       return (ComponentManager) Contexts.getApplicationContext().get(ComponentManager.class);
    }
 
-   public Object find(In in, String name, Object bean)
+   public static Object find(In in, String name, Object bean)
    {
       Object result = getComponentInstance(name, in.create());
       if (result==null && in.required())
@@ -133,27 +129,27 @@ public class ComponentFinder implements Finder
       }
    }
    
-   public String toName(In in, Method method)
+   public static String toName(In in, Method method)
    {
       return toName(in.value(), method);
    }
 
-   public String toName(In in, Field field)
+   public static String toName(In in, Field field)
    {
       return toName(in.value(), field);
    }
    
-   public String toName(Out out, Method method)
+   public static String toName(Out out, Method method)
    {
       return toName(out.value(), method);
    }
 
-   public String toName(Out out, Field field)
+   public static String toName(Out out, Field field)
    {
       return toName(out.value(), field);
    }
    
-   public String toName(String name, Method method)
+   public static String toName(String name, Method method)
    {
       if (name==null || name.length() == 0)
       {
@@ -163,7 +159,7 @@ public class ComponentFinder implements Finder
       return name;
    }
 
-   public String toName(String name, Field field)
+   public static String toName(String name, Field field)
    {
       if (name==null || name.length() == 0)
       {

@@ -71,5 +71,7 @@ public class WebSessionContext implements Context {
    {
       return get( Seam.getComponentName(clazz) );
    }
+
+   public void flush() {}
   
 }

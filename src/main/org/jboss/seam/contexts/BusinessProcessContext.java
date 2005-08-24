@@ -148,4 +148,9 @@ public class BusinessProcessContext implements Context {
 	public Object get(Class clazz) {
 		return get( Seam.getComponentName( clazz ) );
 	}
+
+   public void flush()
+   {
+      //TODO
+   }
 }

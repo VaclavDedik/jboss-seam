@@ -5,9 +5,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.Components;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
-import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.logging.Logger;
@@ -30,7 +30,7 @@ public class JbpmTask {
 	public void create(Component component) {
 		log.trace( "creating jbpm task component [" + component + "]" );
 		Long taskId = ( Long ) Contexts.getStatelessContext().get( BusinessProcessContext.TASK_ID_KEY );
-		JbpmSession jbpmSession = ( JbpmSession ) ComponentFinder.getComponentInstance( ManagedJbpmSession.class.getName(), true );
+		JbpmSession jbpmSession = ( JbpmSession ) Components.getComponentInstance( ManagedJbpmSession.class.getName(), true );
 		task = jbpmSession.getTaskMgmtSession().loadTaskInstance( taskId );
 	}
 
