@@ -39,15 +39,24 @@ public class Settings
       log.info("conversation timeout: " + conversationTimeout);
 
       String ccNamesString = context.getInitParameter(COMPONENT_CLASS_NAMES);
-      log.info("component class names: " + ccNamesString);
+      if (ccNamesString!=null)
+      {
+         log.info("component class names: " + ccNamesString);
+      }
       componentClassNames = Strings.split(ccNamesString, ", ");
 
       String puNamesString = context.getInitParameter(PERSISTENCE_UNIT_NAMES);
-      log.info("persistence unit names: " + puNamesString);
+      if (puNamesString!=null)
+      {
+         log.info("persistence unit names: " + puNamesString);
+      }
       persistenceUnitNames = Strings.split(puNamesString, ", ");
 
       String sfNamesString = context.getInitParameter(SESSION_FACTORY_NAMES);
-      log.info("session factory names: " + puNamesString);
+      if (sfNamesString!=null)
+      {
+         log.info("session factory names: " + sfNamesString);
+      }
       sessionFactoryNames = Strings.split(sfNamesString, ", ");
    }
 

@@ -16,7 +16,7 @@ public class SeamApplicationListener implements ServletContextListener
    public void contextInitialized(ServletContextEvent event) {}
 
    public void contextDestroyed(ServletContextEvent event) {
-       log.info("destroying application context");
+      log.info("destroying application context");
       Contexts.destroy( new WebApplicationContext( event.getServletContext() ) );
    }
 
