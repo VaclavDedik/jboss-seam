@@ -63,8 +63,8 @@ public class StatelessContext implements Context {
 		throw new UnsupportedOperationException();
 	}
 
-   public <T> T get(Class<T> clazz)
+   public Object get(Class clazz)
    {
-      return (T) get( Seam.getComponentName(clazz) );
+      return get( Seam.getComponentName(clazz) );
    }
 }

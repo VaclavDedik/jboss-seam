@@ -198,8 +198,8 @@ public class BusinessProcessContext implements Context {
 		return processInstance.getContextInstance();
 	}
    
-   public <T> T get(Class<T> clazz)
+   public Object get(Class clazz)
    {
-      return (T) get( Seam.getComponentName(clazz) );
+      return get( Seam.getComponentName(clazz) );
    }
 }

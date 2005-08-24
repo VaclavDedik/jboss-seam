@@ -36,8 +36,7 @@ public class ComponentFinder implements Finder
 
    private static final Logger log = Logger.getLogger(ComponentFinder.class);
 
-
-   public Object getComponentInstance(String name, boolean create) throws EvaluationException
+   public static Object getComponentInstance(String name, boolean create) throws EvaluationException
    {
       Object result = Contexts.lookupInStatefulContexts(name);
       if (result == null && create)
@@ -60,7 +59,7 @@ public class ComponentFinder implements Finder
       return result;
    }
 
-   public Object newComponentInstance(String name)
+   public static Object newComponentInstance(String name)
    {
       Component component = getComponent(name);
       if (component == null)
@@ -81,7 +80,7 @@ public class ComponentFinder implements Finder
       }
    }
 
-   private void callCreateMethod(Component component, Object instance)
+   private static void callCreateMethod(Component component, Object instance)
    {
       if (component.hasCreateMethod())
       {
@@ -101,7 +100,7 @@ public class ComponentFinder implements Finder
       }
    }
 
-   private Object unwrap(Component component, Object instance)
+   private static Object unwrap(Component component, Object instance)
    {
       if (component!=null && component.hasUnwrapMethod())
       {
@@ -117,9 +116,9 @@ public class ComponentFinder implements Finder
       return instance;
    }
 
-   public Component getComponent(String name)
+   public static Component getComponent(String name)
    {
-      return Contexts.getApplicationContext().get(Components.class).getComponent(name);
+      return ( (Components) Contexts.getApplicationContext().get(Components.class) ).getComponent(name);
    }
 
    public Object find(In in, String name, Object bean)

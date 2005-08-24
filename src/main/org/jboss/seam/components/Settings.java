@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.components;
 
-import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
@@ -9,6 +8,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.util.Strings;
 
 /**
  * A Seam component that holds Seam configuration settings
@@ -21,10 +21,10 @@ public class Settings
 {
    private static final Logger log = Logger.getLogger(Settings.class);
    
-   private static final String CONVERSATION_TIMEOUT = "org.jboss.seam.conversationTimeout";
-   private static final String PERSISTENCE_UNIT_NAMES = "org.jboss.seam.persistenceUnitNames";
-   private static final String SESSION_FACTORY_NAMES = "org.jboss.seam.sessionFactoryNames";
-   private static final String COMPONENT_CLASS_NAMES = "org.jboss.seam.componentClassNames";
+   public static final String CONVERSATION_TIMEOUT = "org.jboss.seam.conversationTimeout";
+   public static final String PERSISTENCE_UNIT_NAMES = "org.jboss.seam.persistenceUnitNames";
+   public static final String SESSION_FACTORY_NAMES = "org.jboss.seam.sessionFactoryNames";
+   public static final String COMPONENT_CLASS_NAMES = "org.jboss.seam.componentClassNames";
    
    private int conversationTimeout;
    private String[] persistenceUnitNames;
@@ -40,36 +40,17 @@ public class Settings
 
       String ccNamesString = context.getInitParameter(COMPONENT_CLASS_NAMES);
       log.info("component class names: " + ccNamesString);
-      componentClassNames = toArray(ccNamesString);
+      componentClassNames = Strings.split(ccNamesString, ", ");
 
       String puNamesString = context.getInitParameter(PERSISTENCE_UNIT_NAMES);
       log.info("persistence unit names: " + puNamesString);
-      persistenceUnitNames = toArray(puNamesString);
+      persistenceUnitNames = Strings.split(puNamesString, ", ");
 
       String sfNamesString = context.getInitParameter(SESSION_FACTORY_NAMES);
       log.info("session factory names: " + puNamesString);
-      sessionFactoryNames = toArray(sfNamesString);
+      sessionFactoryNames = Strings.split(sfNamesString, ", ");
    }
 
-   private String[] toArray(String puNamesString)
-   {
-      if (puNamesString==null)
-      {
-         return new String[0];
-      }
-      else
-      {      
-         StringTokenizer tokens = new StringTokenizer(puNamesString, " ,");
-         String[] result = new String[ tokens.countTokens() ];
-         int i=0;
-         while ( tokens.hasMoreTokens() )
-         {
-            result[i++] = tokens.nextToken();
-         }
-         return result;
-      }
-   }
-   
    public int getConversationTimeout()
    {
       return conversationTimeout;

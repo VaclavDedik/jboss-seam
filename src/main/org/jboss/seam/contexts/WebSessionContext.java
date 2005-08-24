@@ -67,9 +67,9 @@ public class WebSessionContext implements Context {
 		return results.toArray(new String[]{});
 	}
    
-   public <T> T get(Class<T> clazz)
+   public Object get(Class clazz)
    {
-      return (T) get( Seam.getComponentName(clazz) );
+      return get( Seam.getComponentName(clazz) );
    }
   
 }

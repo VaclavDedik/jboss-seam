@@ -8,6 +8,7 @@ package org.jboss.seam.util;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.util.StringTokenizer;
 
 
 /**
@@ -39,6 +40,35 @@ public class Strings
       catch (Exception e) {
          return "";
       }
+   }
+
+   public static String[] split(String strings, String delims)
+   {
+      if (strings==null)
+      {
+         return new String[0];
+      }
+      else
+      {      
+         StringTokenizer tokens = new StringTokenizer(strings, delims);
+         String[] result = new String[ tokens.countTokens() ];
+         int i=0;
+         while ( tokens.hasMoreTokens() )
+         {
+            result[i++] = tokens.nextToken();
+         }
+         return result;
+      }
+   }
+   
+   public static String toString(Class... classes)
+   {
+      StringBuilder builder = new StringBuilder();
+      for (Class clazz : classes)
+      {
+         builder.append( clazz.getName() ).append(" ");
+      }
+      return builder.toString();
    }
 }
 

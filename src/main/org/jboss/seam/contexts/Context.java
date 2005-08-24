@@ -15,7 +15,7 @@ package org.jboss.seam.contexts;
  */
 public interface Context {
 	public Object get(String name);
-   public <T> T get(Class<T> clazz);
+   public Object get(Class clazz);
 	public void set(String name, Object value);
 	public void remove(String name);
 	public boolean isSet(String name);

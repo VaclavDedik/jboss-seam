@@ -267,7 +267,8 @@ public class SeamPhaseListener implements PhaseListener
       {
          Map.Entry<String, Long> entry = iter.next();
          long delta = currentTime - entry.getValue();
-         int conversationTimeout = Contexts.getApplicationContext().get(Settings.class).getConversationTimeout();
+         Settings settings = (Settings) Contexts.getApplicationContext().get(Settings.class);
+         int conversationTimeout = settings.getConversationTimeout();
          if ( delta > conversationTimeout )
          {
             String conversationId = entry.getKey();

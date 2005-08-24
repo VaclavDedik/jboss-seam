@@ -22,7 +22,7 @@ import org.jboss.seam.finders.ComponentFinder;
  */
 public class Seam
 {
-   
+      
    public static Component getComponent(String name)
    {
       return new ComponentFinder().getComponent(name);

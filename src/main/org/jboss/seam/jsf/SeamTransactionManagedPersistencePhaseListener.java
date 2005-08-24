@@ -59,7 +59,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
          {
             if ( Transactions.isTransactionActive() )
             {
-               Settings settings = Contexts.getApplicationContext().get(Settings.class);
+               Settings settings = (Settings) Contexts.getApplicationContext().get(Settings.class);
                for (String unitName : settings.getPersistenceUnitNames())
                {
                   flushEntityManager(unitName);
