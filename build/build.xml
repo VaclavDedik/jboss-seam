@@ -80,8 +80,6 @@
 		<mkdir dir="${deploy.dir}/seam.deployer" />
 		<copy file="${output.dir}/jboss-seam.jar" todir="${deploy.dir}/seam.deployer" />
 		<copy file="${basedir}/lib/jbpm-3.0.jar" todir="${deploy.dir}/seam.deployer" />
-		<copy file="${basedir}/lib/ehcache-1.1.jar" todir="${deploy.dir}/seam.deployer" />
-		<copy file="${basedir}/lib/hibernate3.jar" todir="${deploy.dir}/seam.deployer" />
 		<mkdir dir="${deploy.dir}/seam.deployer/META-INF" />
 		<copy todir="${deploy.dir}/seam.deployer/META-INF">
 			<fileset dir="${resources.dir}/META-INF" />
