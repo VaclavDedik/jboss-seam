@@ -28,12 +28,10 @@ public class SeamVariableResolver extends VariableResolver
 
    private static final Logger log = Logger.getLogger(SeamVariableResolver.class);
 
-   private ComponentFinder seamVariableResolver;
    private VariableResolver jsfVariableResolver;
    
    public SeamVariableResolver(VariableResolver jsfVariableResolver)
    {
-      seamVariableResolver = new ComponentFinder();
       this.jsfVariableResolver = jsfVariableResolver;
    }
 
@@ -43,7 +41,7 @@ public class SeamVariableResolver extends VariableResolver
       name = name.replace('$', '.');
       
       log.info("resolving name: " + name);
-      Object component = seamVariableResolver.getComponentInstance(name, true);
+      Object component = ComponentFinder.getComponentInstance(name, true);
       Object managedBean = jsfVariableResolver.resolveVariable(facesContext, name);
       if (component==null)
       {

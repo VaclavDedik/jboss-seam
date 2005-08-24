@@ -28,8 +28,6 @@ public class SeamInterceptor
    
    private static final Logger log = Logger.getLogger(SeamInterceptor.class);
    
-   private ComponentFinder componentFinder = new ComponentFinder();
-
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
@@ -47,7 +45,7 @@ public class SeamInterceptor
 
    private Component getSeamComponent(Object bean)
    {
-      return componentFinder.getComponent( Seam.getComponentName( bean.getClass() ) );
+      return ComponentFinder.getComponent( Seam.getComponentName( bean.getClass() ) );
    }
    
 }

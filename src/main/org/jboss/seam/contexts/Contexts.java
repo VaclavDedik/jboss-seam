@@ -238,9 +238,8 @@ public class Contexts {
    
    public static void destroy(Context context)
    {
-      ComponentFinder finder = new ComponentFinder();
       for ( String name: context.getNames() ) {
-         Component component = finder.getComponent(name);
+         Component component = ComponentFinder.getComponent(name);
          if ( component!=null )
          {
             callDestroyMethod( component, context.get(name) );

@@ -402,7 +402,7 @@ public class Component
       }
       else 
       {
-         Component component = finder.getComponent(name);
+         Component component = ComponentFinder.getComponent(name);
          if (value!=null && component!=null)
          {
             if ( !component.isInstance(value) )

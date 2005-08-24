@@ -25,7 +25,7 @@ public class Seam
       
    public static Component getComponent(String name)
    {
-      return new ComponentFinder().getComponent(name);
+      return ComponentFinder.getComponent(name);
    }
    
    /**
