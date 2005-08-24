@@ -4,6 +4,8 @@ package org.jboss.seam.contexts;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jboss.seam.Seam;
+
 public class EventContext implements Context
 {
    
@@ -11,7 +13,7 @@ public class EventContext implements Context
 
    public Object get(Class clazz)
    {
-      return null;
+      return get( Seam.getComponentName(clazz) );
    }
 
    public Object get(String name)
