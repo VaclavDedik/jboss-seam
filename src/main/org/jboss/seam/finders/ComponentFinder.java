@@ -20,6 +20,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.components.ComponentManager;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -90,12 +91,12 @@ public class ComponentFinder implements Finder
          String createMethodName = createMethod.getName();
          try 
          {
-            instance.getClass().getMethod(createMethodName, paramTypes)
-                  .invoke(instance, param);
+            Method method = instance.getClass().getMethod(createMethodName, paramTypes);
+            Reflections.invokeAndWrap( method, instance, param );
          }
-         catch (Exception e)
+         catch (NoSuchMethodException e)
          {
-            throw new IllegalArgumentException(e);
+            throw new IllegalArgumentException("create method not found", e);
          }
       }
    }
@@ -104,14 +105,7 @@ public class ComponentFinder implements Finder
    {
       if (component!=null && component.hasUnwrapMethod())
       {
-         try 
-         {
-            instance = component.getUnwrapMethod().invoke(instance);
-         }
-         catch (Exception e)
-         {
-            throw new IllegalArgumentException(e);
-         }
+         instance = Reflections.invokeAndWrap(component.getUnwrapMethod(), instance);
       }
       return instance;
    }

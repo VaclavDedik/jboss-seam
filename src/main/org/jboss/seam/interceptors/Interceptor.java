@@ -8,13 +8,14 @@ import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.util.Reflections;
 
 /**
  * Wraps and delegates to a Seam interceptor.
  * 
  * @author Gavin King
  */
-public final class Interceptor
+public final class Interceptor extends Reflections
 {
    private Method aroundInvokeMethod;
    private final Object userInterceptor;
@@ -52,37 +53,31 @@ public final class Interceptor
 
    private void init(Annotation annotation, Component component)
    {
-      try
+      for (Method method : userInterceptor.getClass().getMethods())
+      {
+         method.setAccessible(true);
+         if ( method.isAnnotationPresent(AroundInvoke.class) )
          {
-         for (Method method : userInterceptor.getClass().getMethods())
-         {
-            if ( method.isAnnotationPresent(AroundInvoke.class) )
-            {
-               aroundInvokeMethod = method;
-            }
-            Class[] params = method.getParameterTypes();
-            if ( annotation!=null && params.length==1 && params[0]==annotation.annotationType() )
-            {
-               method.invoke(userInterceptor, annotation);
-            }
-            if ( params.length==1 && params[0]==Component.class )
-            {
-               method.invoke(userInterceptor, component);
-            }
+            aroundInvokeMethod = method;
          }
-         if (aroundInvokeMethod==null) 
+         Class[] params = method.getParameterTypes();
+         if ( annotation!=null && params.length==1 && params[0]==annotation.annotationType() )
          {
-            throw new IllegalArgumentException("no @AroundInvoke method found");
+            Reflections.invokeAndWrap(method, userInterceptor, annotation);
+         }
+         if ( params.length==1 && params[0]==Component.class )
+         {
+            Reflections.invokeAndWrap(method, userInterceptor, component);
          }
       }
-      catch (Exception e)
+      if (aroundInvokeMethod==null) 
       {
-         throw new IllegalArgumentException(e);
+         throw new IllegalArgumentException("no @AroundInvoke method found");
       }
    }
    
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      return aroundInvokeMethod.invoke( userInterceptor, invocation );
+      return Reflections.invoke( aroundInvokeMethod, userInterceptor, invocation );
    }
 }

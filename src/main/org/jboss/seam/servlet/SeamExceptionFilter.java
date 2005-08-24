@@ -48,7 +48,7 @@ public class SeamExceptionFilter implements Filter
    {
       try 
       {
-         Contexts.endRequest( (HttpServletRequest) request );
+         Contexts.endRequest( ( (HttpServletRequest) request ).getSession() );
       }
       catch (Exception ee)
       {

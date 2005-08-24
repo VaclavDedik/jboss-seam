@@ -15,11 +15,11 @@ public class SeamServletContextListener implements ServletContextListener
 {
 
    public void contextInitialized(ServletContextEvent event) {
-      Contexts.beginApplication( event.getServletContext() );
+      //Contexts.beginApplication( event.getServletContext() );
    }
 
    public void contextDestroyed(ServletContextEvent event) {
-      Contexts.endApplication();
+      Contexts.endApplication( event.getServletContext() );
    }
 
 }

@@ -40,6 +40,7 @@ import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.util.Reflections;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.util.Sorter;
 
@@ -465,7 +466,7 @@ public class Component
    private Object outject(Object bean, Method method)
    {
       try {
-         return method.invoke(bean);
+         return Reflections.invoke(method, bean);
       }
       catch (Exception e)
       {
@@ -477,7 +478,7 @@ public class Component
    {  
       try
       {
-         method.invoke( bean, new Object[] { value } );
+         Reflections.invoke(method, bean, value );
       } 
       catch (Exception e)
       {

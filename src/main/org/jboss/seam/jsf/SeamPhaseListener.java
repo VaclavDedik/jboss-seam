@@ -19,7 +19,6 @@ import java.util.Map;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
@@ -56,7 +55,7 @@ public class SeamPhaseListener implements PhaseListener
 
       if (event.getPhaseId() == RESTORE_VIEW)
       {
-         Contexts.beginRequest( getRequest(event) );
+         Contexts.beginRequest( getSession(event) );
          Contexts.setProcessing(false);
          log.info("About to restore view");
       }
@@ -95,7 +94,7 @@ public class SeamPhaseListener implements PhaseListener
          restoreAnyBusinessProcessContext();
       }
       else if (event.getPhaseId() == RENDER_RESPONSE) {
-         Contexts.endRequest( getRequest(event) );
+         Contexts.endRequest( getSession(event) );
       }
       else if (event.getPhaseId() == INVOKE_APPLICATION)
       {
@@ -180,10 +179,10 @@ public class SeamPhaseListener implements PhaseListener
       return (ConversationManager) ComponentFinder.getComponentInstance( Seam.getComponentName(ConversationManager.class), true );
    }
 
-   private static HttpServletRequest getRequest(PhaseEvent event)
+   /*private static HttpServletRequest getRequest(PhaseEvent event)
    {
       return (HttpServletRequest) event.getFacesContext().getExternalContext().getRequest();
-   }
+   }*/
 
    private static HttpSession getSession(PhaseEvent event)
    {

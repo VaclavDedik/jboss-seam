@@ -102,7 +102,7 @@ public class SeamTest
    @Configuration(afterTestClass=true)
    public void cleanup() throws Exception
    {
-      Contexts.endApplication();
+      Contexts.endApplication(servletContext);
       servletContext = null;
       deployer.stop();
       deployer.destroy();
@@ -126,7 +126,7 @@ public class SeamTest
       phases = new SeamPhaseListener();
       servletContext = new MockServletContext();
       initServletContext( servletContext.getInitParameters() );
-      Contexts.beginApplication(servletContext);
+      //Contexts.beginApplication(servletContext);
       lifecycle = new MockLifecycle();
       new Initialization().init(servletContext);
    }

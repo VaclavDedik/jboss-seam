@@ -6,13 +6,13 @@
  */
 package org.jboss.seam.contexts;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.jboss.logging.Logger;
 import org.jboss.seam.Seam;
 import org.jbpm.context.exe.ContextInstance;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Exposes a jbpm variable context instance for reading/writing.

@@ -6,10 +6,10 @@
  */
 package org.jboss.seam.contexts;
 
+import java.lang.reflect.Method;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
@@ -17,6 +17,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.finders.ComponentFinder;
+import org.jboss.seam.util.Reflections;
 
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class Contexts {
 
 	private static final Logger log = Logger.getLogger( Contexts.class );
 
-   private static Context applicationContext;
+   private static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
@@ -50,7 +51,7 @@ public class Contexts {
 	}
 
 	public static Context getApplicationContext() {
-		return applicationContext;
+		return applicationContext.get();
 	}
 
 	public static Context getStatelessContext() {
@@ -65,27 +66,22 @@ public class Contexts {
 	    return businessProcessContext.get();
     }
 
-	public static void beginRequest(HttpServletRequest request) {
+	public static void beginRequest(HttpSession session) {
 		log.info( ">>> Begin web request" );
 		//eventContext.set( new WebRequestContext( request ) );
       eventContext.set( new EventContext() );
-		sessionContext.set( new WebSessionContext( request.getSession() ) );
+		sessionContext.set( new WebSessionContext(session) );
+      applicationContext.set( new WebApplicationContext( session.getServletContext() ) );
       isSessionInvalid.set(false);
 	}
-   
-   public static void beginApplication(ServletContext servletContext)
+
+   public static void endApplication(ServletContext servletContext)
    {
-      applicationContext = new WebApplicationContext( servletContext );
-   }
-   
-   public static void endApplication()
-   {
-      if ( Contexts.isApplicationContextActive() ) 
-      {
-         log.info("destroying application context");
-         destroy( Contexts.getApplicationContext() );
-      }
-      applicationContext = null;
+      Context tempApplicationContext = new WebApplicationContext( servletContext );
+      applicationContext.set( tempApplicationContext );
+      log.info("destroying application context");
+      destroy(tempApplicationContext);
+      applicationContext.set(null);
    }
    
    private static ConversationManager getConversationManager()
@@ -97,7 +93,10 @@ public class Contexts {
    {
       log.info("End of session, destroying contexts");
       
-      //this is used as a place to stick the ConversationManager
+      Context tempAppContext = new WebApplicationContext(session.getServletContext() );
+      applicationContext.set(tempAppContext);
+      
+      //this is used just as a place to stick the ConversationManager
       Context tempEventContext = new EventContext();
       eventContext.set(tempEventContext);
       
@@ -119,9 +118,12 @@ public class Contexts {
       
       destroy(tempEventContext);
       eventContext.set(null);
+      
+      destroy(tempAppContext);
+      applicationContext.set(null);
    }
 
-	public static void endRequest(HttpServletRequest request) {
+	public static void endRequest(HttpSession session) {
       
       log.info("After render response, destroying contexts");
       
@@ -139,7 +141,8 @@ public class Contexts {
       if ( isSessionInvalid.get() )
       {
          isSessionInvalid.set(false);
-         request.getSession(false).invalidate();
+         session.invalidate();
+         //actual session context will be destroyed from the listener
       }
       
 		eventContext.set( null );
@@ -321,11 +324,12 @@ public class Contexts {
       {
          String methodName = component.getDestroyMethod().getName();
          try {
-            instance.getClass().getMethod(methodName).invoke(instance);
+            Method method = instance.getClass().getMethod(methodName);
+            Reflections.invokeAndWrap( method, instance );
          }
-         catch (Exception e)
+         catch (NoSuchMethodException e)
          {
-            log.warn("exception calling destroy method", e);
+            log.warn("could not find destroy method", e);
          }
       }
    }
