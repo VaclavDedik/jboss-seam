@@ -13,8 +13,6 @@ import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
 
-import org.jboss.seam.ScopeType;
-
 /**
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
  * to be marked as started.
@@ -29,12 +27,7 @@ import org.jboss.seam.ScopeType;
 public @interface StartTask {
 	/**
 	 * The name of the context variable under which we should locate the
-	 * the task to be started.
+	 * the id of task to be started.
 	 */
 	String contextName();
-	/**
-	 * The scope in which the said variable is contained.
-	 * TODO : or should we just use Contexts.lookupInStatefulContexts()?
-	 */
-	ScopeType contextScope() default ScopeType.CONVERSATION;
 }
