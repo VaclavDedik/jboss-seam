@@ -3,6 +3,7 @@ package org.jboss.seam.example.booking.test;
 
 import java.util.Map;
 
+import org.jboss.seam.Components;
 import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.booking.Booking;
@@ -10,7 +11,6 @@ import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
 import org.jboss.seam.example.booking.HotelBookingAction;
 import org.jboss.seam.example.booking.User;
-import org.jboss.seam.finders.ComponentFinder;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.util.Strings;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            hotelBooking = (HotelBooking) ComponentFinder.getComponentInstance("hotelBooking", true);
+            hotelBooking = (HotelBooking) Components.getComponentInstance("hotelBooking", true);
             hotelBooking.setSearchString("NY");
          }
 
