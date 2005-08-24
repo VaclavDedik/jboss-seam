@@ -1,32 +1,43 @@
 //$Id$
 package org.jboss.seam.mock;
 
+import java.util.Map;
+
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
-import org.jboss.seam.components.Settings;
-import org.jboss.seam.example.booking.Booking;
-import org.jboss.seam.example.booking.Hotel;
-import org.jboss.seam.example.booking.HotelBookingAction;
-import org.jboss.seam.example.booking.User;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamPhaseListener;
-import org.jboss.seam.util.Strings;
 import org.testng.annotations.Configuration;
 
 public class SeamTest
 {
    private EJB3StandaloneDeployer deployer;
-   private MockServletContext mockServletContext;
+   private MockServletContext servletContext;
    private MockLifecycle lifecycle;
    private SeamPhaseListener phases;
    private FacesContext facesContext;
+   private MockHttpSession session;
+   
+   protected ServletContext getServletContext()
+   {
+      return servletContext;
+   }
+   
+   protected FacesContext getFacesContext()
+   {
+      return facesContext;
+   }
    
    public abstract class Script
    {
+      private MockHttpServletRequest request;
+
       protected void applyRequestValues() throws Exception {}
       protected void processValidations() throws Exception {}
       protected void updateModelValues() throws Exception {}
@@ -36,7 +47,9 @@ public class SeamTest
       public void run() throws Exception
       {   
    
-         facesContext = new MockFacesContext( new MockHttpServletRequest( new MockHttpSession( mockServletContext ) ) );
+         request = new MockHttpServletRequest( session );
+         facesContext = new MockFacesContext( request );
+         
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
@@ -65,6 +78,17 @@ public class SeamTest
          
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       }
+      
+      protected HttpServletRequest getRequest()
+      {
+         return request;
+      }
+   }
+   
+   @Configuration(beforeTestMethod=true)
+   public void begin()
+   {
+      session = new MockHttpSession( servletContext );
    }
 
    @Configuration(afterTestClass=true)
@@ -90,12 +114,12 @@ public class SeamTest
       deployer.start();
       
       phases = new SeamPhaseListener();
-      mockServletContext = new MockServletContext();
-      mockServletContext.getInitParameters().put(Settings.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(HotelBookingAction.class, User.class, Booking.class, Hotel.class);
-      mockServletContext.getInitParameters().put(Settings.COMPONENT_CLASS_NAMES, classNames);
+      servletContext = new MockServletContext();
+      initServletContext( servletContext.getInitParameters() );
       lifecycle = new MockLifecycle();
-      new Initialization().init(mockServletContext);
+      new Initialization().init(servletContext);
    }
+   
+   public void initServletContext(Map initParams) {}
 
 }
