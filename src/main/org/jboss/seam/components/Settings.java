@@ -24,11 +24,13 @@ public class Settings
    public static final String CONVERSATION_TIMEOUT = "org.jboss.seam.conversationTimeout";
    public static final String PERSISTENCE_UNIT_NAMES = "org.jboss.seam.persistenceUnitNames";
    public static final String SESSION_FACTORY_NAMES = "org.jboss.seam.sessionFactoryNames";
+   public static final String JBPM_SESSION_FACTORY_NAMES = "org.jboss.seam.jbpmSessionFactoryNames";
    public static final String COMPONENT_CLASS_NAMES = "org.jboss.seam.componentClassNames";
    
    private int conversationTimeout;
    private String[] persistenceUnitNames;
    private String[] sessionFactoryNames;
+   private String[] jbpmSessionFactoryNames;
    private String[] componentClassNames;
    
    public void init(ServletContext context)
@@ -58,6 +60,13 @@ public class Settings
          log.info("session factory names: " + sfNamesString);
       }
       sessionFactoryNames = Strings.split(sfNamesString, ", ");
+
+      String jbpmSfNamesString = context.getInitParameter(JBPM_SESSION_FACTORY_NAMES);
+      if (jbpmSfNamesString!=null)
+      {
+         log.info("JbpmSessioonFactory names: " + jbpmSfNamesString);
+      }
+      jbpmSessionFactoryNames = Strings.split(jbpmSfNamesString, ", ");
    }
 
    public int getConversationTimeout()
@@ -82,15 +91,27 @@ public class Settings
    {
       return sessionFactoryNames;
    }
+
    public void setSessionFactoryNames(String[] sessionFactoryNames)
    {
       this.sessionFactoryNames = sessionFactoryNames;
+   }
+
+   public String[] getJbpmSessionFactoryNames()
+   {
+      return jbpmSessionFactoryNames;
+   }
+
+   public void setJbpmSessionFactoryNames(String[] jbpmSessionFactoryNames)
+   {
+      this.jbpmSessionFactoryNames = jbpmSessionFactoryNames;
    }
 
    public String[] getComponentClassNames()
    {
       return componentClassNames;
    }
+
    public void setComponentClassNames(String[] componentClassNames)
    {
       this.componentClassNames = componentClassNames;
