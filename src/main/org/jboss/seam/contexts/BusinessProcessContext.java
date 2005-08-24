@@ -8,198 +8,144 @@ package org.jboss.seam.contexts;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Seam;
-import org.jbpm.db.JbpmSession;
-import org.jbpm.db.JbpmSessionFactory;
-import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jbpm.context.exe.ContextInstance;
 
-import java.util.Collection;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
- * Exposes the context variables associated with a jBPM {@link ProcessInstance}
- * for reading/writing.
- * <p/>
- * Also maintains a reference to a {@link ProcessInstance} and
- * possibly a current {@link TaskInstance} considered current
- * within this context.
+ * Exposes a jbpm variable context instance for reading/writing.
  *
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
 public class BusinessProcessContext implements Context {
-	private static final Logger log = Logger.getLogger(BusinessProcessContext.class);
-	private static JbpmSessionFactory jbpmSessionFactory = JbpmSessionFactory.buildJbpmSessionFactory();
 
-	public JbpmSession jbpmSession;
-	private ProcessInstance processInstance;
-	private TaskInstance taskInstance;
+	public static final String TASK_ID_KEY = "org.jboss.seam.bpm.taskId";
+	public static final String PROCESS_ID_KEY = "org.jboss.seam.bpm.processId";
+	public static final String PROCESS_DEF_KEY = "org.jboss.seam.bpm.processDefinitionName";
+
+	private static final Logger log = Logger.getLogger(BusinessProcessContext.class);
+
+	private Map tempContext;
+	private ContextInstance jbpmContext;
 
 	/**
 	 * Constructs a new instance of BusinessProcessContext.
-	 * <p/>
-	 * Additionally, obtains a {@link JbpmSession} and starts its transaction.
-	 * <p/>
-	 * Must ensure that {@link #release()} is called after we are done with the
-	 * this context...
 	 */
 	public BusinessProcessContext() {
 		log.debug( "Begin BusinessProcessContext" );
-		jbpmSession = jbpmSessionFactory.openJbpmSession();
-		jbpmSession.beginTransaction();
 	}
 
 	/**
-	 * Retrieve the {@link ProcessInstance} currently associated with this
-	 * context, if one.
+	 * Retrieves a map of all data needed to recover the current state of this context
+	 * upon a later request (within the same conversation).  This includes the
+	 * processInstance and taskInstance ids as well as any temporary state.
 	 *
-	 * @return The associated {@link ProcessInstance}, or null if no
-	 * {@link ProcessInstance} currently associated with this context.
+	 * @return
 	 */
-	public ProcessInstance getProcessInstance() {
-		return processInstance;
-	}
+	public Map getRecoverableState() {
+		Map map = new HashMap();
 
-	/**
-	 * Retrieve the {@link TaskInstance} currently associated with this
-	 * context, if one.
-	 *
-	 * @return The associated {@link TaskInstance}, or null if no
-	 * {@link TaskInstance} currently associated with this context.
-	 */
-	public TaskInstance getTaskInstance() {
-		return taskInstance;
-	}
-
-	/**
-	 * Prepares the context based on the {@link TaskInstance} defined by the
-	 * given taskId.
-	 * <p/>
-	 * The {@link ProcessInstance} associated with that {@link TaskInstance} is
-	 * also associated with this context ({@link #getProcessInstance()}).
-	 *
-	 * @param taskId The id of the {@link TaskInstance} to use to prepare
-	 * this context.
-	 */
-	public void prepareForTask(long taskId) {
-		taskInstance = jbpmSession.getTaskMgmtSession().loadTaskInstance( taskId );
-		processInstance = taskInstance.getTaskMgmtInstance().getProcessInstance();
-	}
-
-	/**
-	 * Prepares the context based on the {@link ProcessInstance} defined by the
-	 * given processInstanceId.
-	 * <p/>
-	 * In this case, there may not be a {@link TaskInstance} associated with
-	 * the context.  We do locate all tasks associated with the current state
-	 * of the {@link ProcessInstance}; if there happens to be exactly one,
-	 * then we use it; otherwise there will be no {@link TaskInstance}
-	 * associated with this context.
-	 *
-	 * @param processInstanceId The id of the {@link TaskInstance} to use to prepare
-	 * this context.
-	 */
-	public void prepareForProcessInstance(Long processInstanceId) {
-		processInstance = jbpmSession.getGraphSession().loadProcessInstance( processInstanceId );
-		taskInstance = determineInitialTaskFromProcess();
-	}
-
-	/**
-	 * Creates a {@link ProcessInstance} based on the given processDefinitionName
-	 * and prepares the context from that created {@link ProcessInstance}.
-	 * <p/>
-	 * In this case, there may not be a {@link TaskInstance} associated with
-	 * the context.  We do locate all tasks associated with the current state
-	 * of the {@link ProcessInstance}; if there happens to be exactly one,
-	 * then we use it; otherwise there will be no {@link TaskInstance}
-	 * associated with this context.
-	 *
-	 * @param processDefinitionName The name of the {@link ProcessDefinition}
-	 * from which to create the {@link ProcessInstance} to be used to
-	 * prepare this context.
-	 */
-	public void prepareForProcessInstance(String processDefinitionName) {
-		ProcessDefinition processDefinition = jbpmSession
-		        .getGraphSession()
-		        .findLatestProcessDefinition( processDefinitionName );
-		if (processDefinition != null) {
-			processInstance = new ProcessInstance(processDefinition);
-			processInstance.signal();
-			jbpmSession.getGraphSession().saveProcessInstance( processInstance );
-			taskInstance = determineInitialTaskFromProcess();
-		}
-		else {
-			// TODO : this should be an error...
-			log.warn("ProcessDefinition: " + processDefinitionName + " could be found");
-		}
-	}
-
-	public void taskCompleted() {
-		taskInstance = null;
-	}
-
-	private TaskInstance determineInitialTaskFromProcess() {
-		// If there happens to be just a single task-instance associated to the
-		// current state of the process-instance, then I guess go ahead and use
-		// it...
-		Collection tasks = processInstance.getTaskMgmtInstance().getTaskInstances();
-		if ( tasks != null && tasks.size() == 1 ) {
-			return ( TaskInstance ) tasks.iterator().next();
-		}
-		else {
-			return null;
+		if ( tempContext != null ) {
+			map.putAll( tempContext );
+			tempContext.clear();
+			tempContext = null;
 		}
 
+		if ( log.isTraceEnabled() ) {
+			log.trace( "recoverable state : " + map );
+		}
+		return map;
 	}
 
-	/**
-	 * To be called at the end of the phase cycle so that we can clean up the
-	 * required resources...
-	 */
+	public void recover(Map previousState) {
+		if ( log.isTraceEnabled() ) {
+			log.trace( "recovering from state : " + previousState );
+		}
+
+		tempContext = new HashMap();
+		tempContext.putAll( previousState );
+	}
+
 	public void release() {
-		jbpmSession.commitTransaction();
-		jbpmSession.close();
+		jbpmContext = null;
+	}
 
-		processInstance = null;
-		taskInstance = null;
+	private void convertTempToPersistent() {
+		if ( tempContext == null ) return;
+
+		if ( log.isTraceEnabled() ) {
+			log.trace( "converting temp contex to be persistent [" + jbpmContext.getProcessInstance().getId() + "] : " + tempContext );
+		}
+		Iterator itr = tempContext.entrySet().iterator();
+		while ( itr.hasNext() ) {
+			final Map.Entry entry = ( Map.Entry ) itr.next();
+			jbpmContext.setVariable( ( String ) entry.getKey(), entry.getValue() );
+		}
+
+		tempContext.clear();
+		tempContext = null;
 	}
 
 
 	// Context impl ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	public Object get(String name) {
-		return ctx().getVariable( name );
+		if ( jbpmContext != null ) {
+			return jbpmContext.getVariable( name );
+		}
+		else {
+			return temp().get( name );
+		}
 	}
 
 	public void set(String name, Object value) {
-		ctx().setVariable( name, value );
+		if ( jbpmContext != null ) {
+			jbpmContext.setVariable( name, value );
+		}
+		else {
+			temp().put( name, value );
+		}
 	}
 
 	public boolean isSet(String name) {
-		return ctx().hasVariable( name );
+		if ( jbpmContext != null ) {
+			return jbpmContext.hasVariable( name );
+		}
+		else {
+			return temp().containsKey( name );
+		}
 	}
 
 	public void remove(String name) {
-		ctx().deleteVariable( name );
+		if ( jbpmContext != null ) {
+			jbpmContext.deleteVariable( name );
+		}
+		else {
+			temp().remove( name );
+		}
 	}
 
 	public String[] getNames() {
-		return ( String[] ) ctx().getVariables().keySet().toArray( new String[]{} );
+		if ( jbpmContext != null ) {
+			return ( String[] ) jbpmContext.getVariables().keySet().toArray( new String[]{} );
+		}
+		else {
+			return ( String[] ) temp().keySet().toArray( new String[]{} );
+		}
 	}
 
-	private ContextInstance ctx() {
-		if ( processInstance == null ) {
-			throw new IllegalStateException(
-			        "ProcessInstance not associated with this BusinessProcessContext"
-			);
+	private Map temp() {
+		if ( tempContext == null ) {
+			tempContext = new HashMap();
 		}
-		return processInstance.getContextInstance();
+		return tempContext;
 	}
-   
-   public Object get(Class clazz)
-   {
-      return get( Seam.getComponentName(clazz) );
-   }
+
+	public Object get(Class clazz) {
+		return get( Seam.getComponentName( clazz ) );
+	}
 }

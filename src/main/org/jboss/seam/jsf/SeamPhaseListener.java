@@ -41,8 +41,7 @@ public class SeamPhaseListener implements PhaseListener
 {
    
    private static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
-   private static final String JBPM_TASK_ID = "org.jboss.seam.jbpm.taskId";
-   private static final String JBPM_PROCESS_ID = "org.jboss.seam.jbpm.processId";
+   private static final String JBPM_STATE_MAP = "org.jboss.seam.bpm.recoverableState";
 
    private static Logger log = Logger.getLogger(SeamPhaseListener.class);
 
@@ -196,53 +195,24 @@ public class SeamPhaseListener implements PhaseListener
       return event.getFacesContext().getViewRoot().getAttributes();
    }
 
-   private static void storeAnyBusinessProcessContext() 
-   {
-      Context conversation = Contexts.getConversationContext();
+	private static void storeAnyBusinessProcessContext() {
+		Context conversation = Contexts.getConversationContext();
+		BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
 
-      if ( !Contexts.isBusinessProcessContextActive() ) 
-      {
-         conversation.remove( JBPM_TASK_ID );
-         conversation.remove( JBPM_PROCESS_ID );
-         return;
-      }
+		log.trace( "storing bpm recoverable state" );
+		conversation.set( JBPM_STATE_MAP, jbpmContext.getRecoverableState() );
+	}
 
-      BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
-
-      if ( jbpmContext.getProcessInstance().hasEnded() ||
-              jbpmContext.getProcessInstance().isTerminatedImplicitly() ) 
-      {
-         conversation.remove( JBPM_TASK_ID );
-         conversation.remove( JBPM_PROCESS_ID );
-         return;
-      }
-
-      if ( jbpmContext.getTaskInstance() != null ) 
-      {
-         conversation.set( JBPM_TASK_ID, jbpmContext.getTaskInstance().getId() );
-      }
-
-      if ( jbpmContext.getProcessInstance() != null ) 
-      {
-         conversation.set( JBPM_PROCESS_ID, jbpmContext.getProcessInstance().getId() );
-      }
-   }
-
-   private static void restoreAnyBusinessProcessContext() 
-   {
-      Context conversation = Contexts.getConversationContext();
-      Long taskId = ( Long ) conversation.get( JBPM_TASK_ID );
-      Long processId = ( Long ) conversation.get( JBPM_PROCESS_ID );
-
-      // task is the more specific, so try that first...
-      if ( taskId != null ) 
-      {
-         Contexts.beginBusinessProcessContextViaTask( taskId );
-      }
-      else if ( processId != null ) 
-      {
-         Contexts.beginBusinessProcessContextViaProcess( processId );
-      }
-   }
+	private static void restoreAnyBusinessProcessContext() {
+		Context conversation = Contexts.getConversationContext();
+		Map state = ( Map ) conversation.get( JBPM_STATE_MAP );
+		log.trace( "restoring bpm state from : " + state );
+		if ( state != null ) {
+			Contexts.recoverBusinessProcessContext( state );
+		}
+		else {
+			Contexts.beginBusinessProcessContext();
+		}
+	}
 
 }

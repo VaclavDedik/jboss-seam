@@ -18,6 +18,8 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.finders.ComponentFinder;
 
+import java.util.Map;
+
 /**
  * Provides access to the current contexts associated with the thread.
  * 
@@ -328,34 +330,23 @@ public class Contexts {
       }
    }
 
-	public static void beginBusinessProcessContextViaTask(Long taskId) {
+	public static void beginBusinessProcessContext() {
+		if ( isBusinessProcessContextActive() ) {
+			throw new IllegalStateException( "There is already a BusinessProcessContext active" );
+		}
+		businessProcessContext.set ( new BusinessProcessContext() );
+	}
+
+	public static void recoverBusinessProcessContext(Map state) {
 		if ( isBusinessProcessContextActive() ) {
 			throw new IllegalStateException( "There is already a BusinessProcessContext active" );
 		}
 		BusinessProcessContext ctx = new BusinessProcessContext();
-		ctx.prepareForTask( taskId );
+		ctx.recover( state );
 		businessProcessContext.set( ctx );
 	}
 
-	public static void beginBusinessProcessContextViaProcess(Long processId) {
-		if ( isBusinessProcessContextActive() ) {
-			throw new IllegalStateException( "There is already a BusinessProcessContext active" );
-		}
-		BusinessProcessContext ctx = new BusinessProcessContext();
-		ctx.prepareForProcessInstance( processId );
-		businessProcessContext.set( ctx );
-	}
-
-	public static void beginBusinessProcessContextViaProcess(String processDefinitionName) {
-		if ( isBusinessProcessContextActive() ) {
-			throw new IllegalStateException( "There is already a BusinessProcessContext active" );
-		}
-		BusinessProcessContext ctx = new BusinessProcessContext();
-		ctx.prepareForProcessInstance( processDefinitionName );
-		businessProcessContext.set( ctx );
-	}
-
-	public static void endBusinessProcess() {
+	public static void endBusinessProcessContext() {
 		businessProcessContext.set( null );
 	}
 
