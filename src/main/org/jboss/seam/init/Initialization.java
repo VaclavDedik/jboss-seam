@@ -10,6 +10,8 @@ import org.jboss.seam.components.ComponentManager;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.components.ManagedPersistenceContext;
 import org.jboss.seam.components.Settings;
+import org.jboss.seam.components.ManagedJbpmSession;
+import org.jboss.seam.components.ManagedHibernateSession;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.WebApplicationContext;
 
@@ -48,7 +50,11 @@ public class Initialization
       }
       for ( String sfName : settings.getSessionFactoryNames() )
       {
-         componentManager.addComponent( sfName, new Component(ManagedPersistenceContext.class, sfName) );
+         componentManager.addComponent( sfName, new Component(ManagedHibernateSession.class, sfName) );
+      }
+      for ( String jbpmSfName : settings.getJbpmSessionFactoryNames() )
+      {
+         componentManager.addComponent( jbpmSfName, new Component(ManagedJbpmSession.class, jbpmSfName) );
       }
    }
 
