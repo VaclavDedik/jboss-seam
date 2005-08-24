@@ -65,7 +65,8 @@ public class Contexts {
 
 	public static void beginRequest(HttpServletRequest request) {
 		log.info( ">>> Begin web request" );
-		eventContext.set( new WebRequestContext( request ) );
+		//eventContext.set( new WebRequestContext( request ) );
+      eventContext.set( new EventContext() );
 		sessionContext.set( new WebSessionContext( request.getSession() ) );
       isSessionInvalid.set(false);
 	}
@@ -107,7 +108,7 @@ public class Contexts {
       log.info("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
-         destroy( new ConversationContext(session, conversationId) );         
+         destroy( new ConversationContext(session, conversationId) );
       }
 
       log.info("destroying session context");

@@ -127,13 +127,15 @@ public class SeamPhaseListener implements PhaseListener
       {
          
          Contexts.setLongRunningConversation(true);
+         getConversationManager().setCurrentConversationId(conversationId);
          conversationContext = new ConversationContext( getSession(event), conversationId );
          log.info("Restored conversation with id: " + conversationId);
       }
       else
       {
          log.info("No stored conversation");
-         conversationContext = new ConversationContext( getSession(event) );
+         conversationId = getConversationManager().createConversationId();
+         conversationContext = new ConversationContext( getSession(event), conversationId );
          Contexts.setLongRunningConversation(false);
       }
       
@@ -152,7 +154,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( Contexts.isLongRunningConversation() ) 
       {
-         String conversationId = ConversationContext.getId(conversationContext);
+         String conversationId = getConversationManager().getCurrentConversationId();
          log.info("Storing conversation state: " + conversationId);
          if ( !Contexts.isSessionInvalid() ) 
          {
@@ -167,7 +169,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else 
       {
-         String conversationId = ConversationContext.getId(conversationContext);
+         String conversationId = getConversationManager().getCurrentConversationId();
          log.info("Discarding conversation state: " + conversationId);
          getAttributes(event).remove(CONVERSATION_ID);
          getConversationManager().removeConversationId(conversationId);

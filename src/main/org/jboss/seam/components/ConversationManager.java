@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
+import org.jboss.seam.contexts.Id;
 
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.components.conversationManager")
@@ -26,6 +27,7 @@ public class ConversationManager
    private static final String CONVERSATION_ID_MAP = "org.jboss.seam.allConversationIds";
    
    private Map<String, Long> conversationIdMap;
+   private String currentConversationId;
    private boolean dirty = false;
    
    public Set<String> getConversationIds()
@@ -107,5 +109,21 @@ public class ConversationManager
       {
          log.info("no need to flush");
       }
+   }
+   
+   public String createConversationId()
+   {
+      currentConversationId = Id.nextId();
+      return currentConversationId;
+   }
+
+   public String getCurrentConversationId()
+   {
+      return currentConversationId;
+   }
+
+   public void setCurrentConversationId(String currentConversationId)
+   {
+      this.currentConversationId = currentConversationId;
    }
 }

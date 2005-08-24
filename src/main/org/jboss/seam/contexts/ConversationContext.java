@@ -37,17 +37,6 @@ public class ConversationContext implements Context, Serializable {
    {
       return ScopeType.CONVERSATION.getPrefix() + '#' + id + '$';
    }
-   
-   public static String getId(Context conversationContext)
-   {
-      return ( (ConversationContext) conversationContext ).id;
-   }
-   
-   public ConversationContext(HttpSession session)
-   {
-      this.session = session;
-      id = Id.nextId();
-   }
 
    public ConversationContext(HttpSession session, String id)
    {
