@@ -7,7 +7,6 @@
  <body>
   <f:view>
    <h:form>
-     <h:messages/>
      <table border="0">
        <tr>
          <td>Address</td>
@@ -34,6 +33,7 @@
          <td><h:inputText id="creditCard" value="#{booking.creditCard}"/><h:message for="creditCard"/></td>
        </tr>
      </table>
+     <h:messages/>
     <h:commandButton type="submit" value="Proceed" action="#{hotelBooking.setBookingDetails}"/>
     <h:commandButton type="submit" value="Cancel" action="main"/>
    </h:form>
