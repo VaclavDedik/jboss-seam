@@ -15,6 +15,12 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.util.Transactions;
 
+/**
+ * As a last line of defence, rollback uncommitted transactions 
+ * at the very end of the request.
+ * 
+ * @author Gavin King
+ */
 public class SeamExceptionFilter implements Filter
 {
    

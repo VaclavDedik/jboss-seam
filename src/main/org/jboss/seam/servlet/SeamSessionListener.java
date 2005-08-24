@@ -13,6 +13,10 @@ import org.jboss.seam.contexts.ConversationContext;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.jsf.SeamPhaseListener;
 
+/**
+ * Destroys Seam components when the session times out
+ * @author Gavin King
+ */
 public class SeamSessionListener implements HttpSessionListener
 {
    
