@@ -6,12 +6,16 @@
  */
 package org.jboss.seam.contexts;
 
+import java.util.Set;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.finders.ComponentFinder;
+import org.jboss.seam.jsf.SeamPhaseListener;
 
 /**
  * Provides access to the current contexts associated with the thread.
@@ -24,10 +28,10 @@ public class Contexts {
 
 	private static final Logger log = Logger.getLogger( Contexts.class );
 
+   private static Context applicationContext;
 	private static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
-	private static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
    private static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
 
    private static final ThreadLocal<Boolean> isLongRunningConversation = new ThreadLocal<Boolean>();
@@ -43,7 +47,7 @@ public class Contexts {
 	}
 
 	public static Context getApplicationContext() {
-		return applicationContext.get();
+		return applicationContext;
 	}
 
 	public static Context getStatelessContext() {
@@ -58,18 +62,56 @@ public class Contexts {
 	    return businessProcessContext.get();
     }
 
-	public static void beginWebRequest(HttpServletRequest request) {
+	public static void beginRequest(HttpServletRequest request) {
 		log.info( ">>> Begin web request" );
 		eventContext.set( new WebRequestContext( request ) );
 		sessionContext.set( new WebSessionContext( request.getSession() ) );
-		ServletContext servletContext = request.getSession().getServletContext();
-		applicationContext.set( new WebApplicationContext( servletContext ) );
       isSessionInvalid.set(false);
 	}
+   
+   public static void beginApplication(ServletContext servletContext)
+   {
+      applicationContext = new WebApplicationContext( servletContext );
+   }
+   
+   public static void endApplication()
+   {
+      if ( Contexts.isApplicationContextActive() ) 
+      {
+         log.info("destroying application context");
+         destroy( Contexts.getApplicationContext() );
+      }
+      applicationContext = null;
+   }
+   
+   public static void endSession(HttpSession session)
+   {
+      Set<String> ids = SeamPhaseListener.getConversationIds( session );
+      log.info("destroying conversation contexts: " + ids);
+      for (String conversationId: ids)
+      {
+         destroy( new ConversationContext(session, conversationId) );         
+      }
 
-	public static void endWebRequest(HttpServletRequest request) {
-		log.info( "<<< End web request" );
-		//clean up all threadlocals
+      log.info("destroying session context");
+      destroy( new WebSessionContext( session ) );
+   }
+
+	public static void endRequest(HttpServletRequest request) {
+      
+      log.info("After render response, destroying contexts");
+      
+      if ( Contexts.isEventContextActive() )
+      {
+         log.info("destroying event context");
+         destroy( Contexts.getEventContext() );
+      }
+      if ( !Contexts.isLongRunningConversation() && Contexts.isConversationContextActive() )
+      {
+         log.info("destroying conversation context");
+         destroy( Contexts.getConversationContext() );
+      }
+
       if ( isSessionInvalid.get() )
       {
          isSessionInvalid.set(false);
@@ -78,13 +120,14 @@ public class Contexts {
       
 		eventContext.set( null );
 		sessionContext.set( null );
-		applicationContext.set( null );
 		conversationContext.set( null );
       
 		if ( businessProcessContext.get() != null ) {
 			( ( BusinessProcessContext ) businessProcessContext.get() ).release();
 			businessProcessContext.set( null );
 		}
+
+      log.info( "<<< End web request" );
 	}
 
 	public static boolean isConversationContextActive() {
@@ -100,7 +143,7 @@ public class Contexts {
 	}
 
 	public static boolean isApplicationContextActive() {
-		return applicationContext.get() != null;
+		return applicationContext != null;
 	}
 
     public static boolean isBusinessProcessContextActive() {

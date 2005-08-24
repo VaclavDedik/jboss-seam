@@ -55,11 +55,13 @@ public class SeamPhaseListener implements PhaseListener
    
    public void beforePhase(PhaseEvent event)
    {
-      log.trace( "before phase [" + event.getPhaseId() + "]" );
+      log.trace( "before phase: " + event.getPhaseId() );
 
       if (event.getPhaseId() == RESTORE_VIEW)
       {
-         beginWebRequest(event);
+         Contexts.beginRequest( getRequest(event) );
+         Contexts.setProcessing(false);
+         log.info("About to restore view");
       }
       else if (event.getPhaseId() == RENDER_RESPONSE)
       {
@@ -88,7 +90,7 @@ public class SeamPhaseListener implements PhaseListener
 
    public void afterPhase(PhaseEvent event)
    {
-	   log.trace( "after phase [" + event.getPhaseId() + "]" );
+      log.trace( "after phase: " + event.getPhaseId() );
 
       if (event.getPhaseId() == RESTORE_VIEW)
       {
@@ -96,7 +98,7 @@ public class SeamPhaseListener implements PhaseListener
          restoreAnyBusinessProcessContext();
       }
       else if (event.getPhaseId() == RENDER_RESPONSE) {
-         endWebRequest(event);
+         Contexts.endRequest( getRequest(event) );
       }
       else if (event.getPhaseId() == INVOKE_APPLICATION)
       {
@@ -115,34 +117,6 @@ public class SeamPhaseListener implements PhaseListener
       {
          log.info("After apply request values");
       }
-   }
-
-   private static void beginWebRequest(PhaseEvent event)
-   {
-      Contexts.beginWebRequest( getRequest(event) );
-      Contexts.setProcessing(false);
-      log.info("About to restore view");
-   }
-
-   private static void endWebRequest(PhaseEvent event)
-   {
-      log.info("After render response, destroying contexts");
-      endWebRequest( getRequest(event) );
-   }
-
-   public static void endWebRequest(HttpServletRequest request)
-   {
-      if ( Contexts.isEventContextActive() )
-      {
-         log.info("destroying event context");
-         Contexts.destroy( Contexts.getEventContext() );
-      }
-      if ( !Contexts.isLongRunningConversation() && Contexts.isConversationContextActive() )
-      {
-         log.info("destroying conversation context");
-         Contexts.destroy( Contexts.getConversationContext() );
-      }
-      Contexts.endWebRequest( request );
    }
 
    private static void restoreAnyConversationContext(PhaseEvent event)
@@ -295,45 +269,53 @@ public class SeamPhaseListener implements PhaseListener
       return event.getFacesContext().getViewRoot().getAttributes();
    }
 
-	private static void storeAnyBusinessProcessContext() {
-		Context conversation = Contexts.getConversationContext();
+   private static void storeAnyBusinessProcessContext() 
+   {
+      Context conversation = Contexts.getConversationContext();
 
-		if ( !Contexts.isBusinessProcessContextActive() ) {
-			conversation.remove( JBPM_TASK_ID );
-			conversation.remove( JBPM_PROCESS_ID );
-			return;
-		}
+      if ( !Contexts.isBusinessProcessContextActive() ) 
+      {
+         conversation.remove( JBPM_TASK_ID );
+         conversation.remove( JBPM_PROCESS_ID );
+         return;
+      }
 
-		BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
+      BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
 
-		if ( jbpmContext.getProcessInstance().hasEnded() ||
-		        jbpmContext.getProcessInstance().isTerminatedImplicitly() ) {
-			conversation.remove( JBPM_TASK_ID );
-			conversation.remove( JBPM_PROCESS_ID );
-			return;
-		}
+      if ( jbpmContext.getProcessInstance().hasEnded() ||
+              jbpmContext.getProcessInstance().isTerminatedImplicitly() ) 
+      {
+         conversation.remove( JBPM_TASK_ID );
+         conversation.remove( JBPM_PROCESS_ID );
+         return;
+      }
 
-		if ( jbpmContext.getTaskInstance() != null ) {
-			conversation.set( JBPM_TASK_ID, jbpmContext.getTaskInstance().getId() );
-		}
+      if ( jbpmContext.getTaskInstance() != null ) 
+      {
+         conversation.set( JBPM_TASK_ID, jbpmContext.getTaskInstance().getId() );
+      }
 
-		if ( jbpmContext.getProcessInstance() != null ) {
-			conversation.set( JBPM_PROCESS_ID, jbpmContext.getProcessInstance().getId() );
-		}
-	}
+      if ( jbpmContext.getProcessInstance() != null ) 
+      {
+         conversation.set( JBPM_PROCESS_ID, jbpmContext.getProcessInstance().getId() );
+      }
+   }
 
-	private static void restoreAnyBusinessProcessContext() {
-		Context conversation = Contexts.getConversationContext();
-		Long taskId = ( Long ) conversation.get( JBPM_TASK_ID );
-		Long processId = ( Long ) conversation.get( JBPM_PROCESS_ID );
+   private static void restoreAnyBusinessProcessContext() 
+   {
+      Context conversation = Contexts.getConversationContext();
+      Long taskId = ( Long ) conversation.get( JBPM_TASK_ID );
+      Long processId = ( Long ) conversation.get( JBPM_PROCESS_ID );
 
-		// task is the more specific, so try that first...
-		if ( taskId != null ) {
-			Contexts.beginBusinessProcessContextViaTask( taskId );
-		}
-		else if ( processId != null ) {
-			Contexts.beginBusinessProcessContextViaProcess( processId );
-		}
-	}
+      // task is the more specific, so try that first...
+      if ( taskId != null ) 
+      {
+         Contexts.beginBusinessProcessContextViaTask( taskId );
+      }
+      else if ( processId != null ) 
+      {
+         Contexts.beginBusinessProcessContextViaProcess( processId );
+      }
+   }
 
 }
