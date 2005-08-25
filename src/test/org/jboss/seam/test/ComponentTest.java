@@ -4,6 +4,7 @@ package org.jboss.seam.test;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.components.ManagedHibernateSession;
 import org.jboss.seam.components.ManagedPersistenceContext;
@@ -12,6 +13,17 @@ import org.testng.annotations.Test;
 
 public class ComponentTest
 {
+   @Test
+   public void testStaticMethods()
+   {
+      assert Seam.getComponentName(Bar.class).equals("bar");
+      assert Seam.getComponentType(Bar.class)==ComponentType.JAVA_BEAN;
+      assert Seam.getComponentScope(Bar.class)==ScopeType.CONVERSATION;
+      assert Seam.getComponentName(Foo.class).equals("foo");
+      assert Seam.getComponentType(Foo.class)==ComponentType.JAVA_BEAN;
+      assert Seam.getComponentScope(Foo.class)==ScopeType.SESSION;
+   }
+   
    @Test
    public void testComponent()
    {
