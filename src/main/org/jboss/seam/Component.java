@@ -73,7 +73,6 @@ public class Component
    private Set<Field> inFields = new HashSet<Field>();
    private Set<Method> outMethods = new HashSet<Method>();
    private Set<Field> outFields = new HashSet<Field>();
-   private Set<Field> validateFields = new HashSet<Field>();
    
    private ClassValidator validator;
    
@@ -159,10 +158,6 @@ public class Component
             if ( field.isAnnotationPresent(Out.class) )
             {
                outFields.add(field);
-            }
-            if ( field.isAnnotationPresent(IfInvalid.class) )
-            {
-               validateFields.add(field);
             }
             if ( !field.isAccessible() )
             {
@@ -255,11 +250,6 @@ public class Component
    public Set<Method> getValidateMethods()
    {
       return validateMethods;
-   }
-   
-   public Set<Field> getValidateFields()
-   {
-      return validateFields;
    }
    
    public boolean hasDestroyMethod() 
@@ -435,7 +425,7 @@ public class Component
       }
    }
    
-   public static Set<Class> getLocalInterfaces(Class clazz)
+   private static Set<Class> getLocalInterfaces(Class clazz)
    {
       Set<Class> result = new HashSet<Class>();
       for (Class iface: clazz.getInterfaces())

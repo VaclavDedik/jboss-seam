@@ -5,6 +5,7 @@
    <test name="Interceptors">
      <classes>
        <class name="org.jboss.seam.test.InterceptorTest"/>
+       <class name="org.jboss.seam.test.ComponentTest"/>
      </classes>
    </test>
 	

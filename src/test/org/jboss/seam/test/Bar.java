@@ -11,6 +11,8 @@ import javax.ejb.Interceptor;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -48,11 +50,17 @@ public class Bar
       string = "out";
       return "foo";
    }
+   
    @End
    public String end()
    {
       return "ended";
    }
+   
+   @Destroy
+   public void destroy(){}
+   @Create
+   public void create(){}
    
 }
 
