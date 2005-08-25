@@ -52,7 +52,7 @@ public class ChangePasswordAction implements ChangePassword
       else 
       {
          log.info("password not verified");
-         user = em.find(User.class, user.getUsername());
+         em.refresh(user);
          verify=null;
          return null;
       }

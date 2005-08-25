@@ -35,7 +35,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void applyRequestValues()
          {
-            Contexts.getSessionContext().set("loggedIn", "true");
+            Contexts.getSessionContext().set("loggedIn", true);
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
          }
 
