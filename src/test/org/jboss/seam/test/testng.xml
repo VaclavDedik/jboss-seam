@@ -6,6 +6,7 @@
      <classes>
        <class name="org.jboss.seam.test.InterceptorTest"/>
        <class name="org.jboss.seam.test.ComponentTest"/>
+       <class name="org.jboss.seam.test.ContextTest"/>
      </classes>
    </test>
 	

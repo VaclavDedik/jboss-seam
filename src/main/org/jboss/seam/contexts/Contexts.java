@@ -153,6 +153,8 @@ public class Contexts {
 			( ( BusinessProcessContext ) businessProcessContext.get() ).release();
 			businessProcessContext.set( null );
 		}
+      
+      applicationContext.set( null );
 
       log.info( "<<< End web request" );
 	}
@@ -170,7 +172,7 @@ public class Contexts {
 	}
 
 	public static boolean isApplicationContextActive() {
-		return applicationContext != null;
+		return applicationContext.get() != null;
 	}
 
     public static boolean isBusinessProcessContextActive() {
