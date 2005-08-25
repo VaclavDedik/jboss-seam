@@ -4,6 +4,7 @@ package org.jboss.seam.example.booking.test;
 import java.util.Map;
 
 import org.jboss.seam.Components;
+import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.booking.Booking;
@@ -51,8 +52,9 @@ public class BookingTest extends SeamTest
          protected void renderResponse()
          {
             assert "NY".equals( hotelBooking.getSearchString() );
-            assert Contexts.isLongRunningConversation();
+            assert ConversationManager.instance().isLongRunningConversation();
          }
+
 
          
       }.run();
