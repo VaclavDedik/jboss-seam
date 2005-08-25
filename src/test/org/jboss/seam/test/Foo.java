@@ -7,6 +7,7 @@
 package org.jboss.seam.test;
 
 import javax.ejb.Interceptor;
+import javax.ejb.Remove;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
@@ -20,14 +21,14 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @version $Revision$
  */
 @Interceptor(SeamInterceptor.class)
-@Name("userManagement")
-@Scope(ScopeType.APPLICATION)
-public class Mock
+@Name("foo")
+@Scope(ScopeType.SESSION)
+public class Foo
 {
-   @In("MyProcessDefinition")
+   @In
    private ProcessInstance processInstance;
    
-   @In("test")
+   @In
    private String test;
       
    public ProcessInstance getProcessInstance()
@@ -39,7 +40,12 @@ public class Mock
    {
       return test;
    }
+   
+   public String foo() { return "foo"; }
 
+   @Remove
+   public void destroy() {}
+   
 }
 
 
