@@ -9,7 +9,9 @@ package org.jboss.seam.test;
 import javax.ejb.Interceptor;
 import javax.ejb.Remove;
 
+import org.hibernate.validator.NotNull;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -30,6 +32,8 @@ public class Foo
    
    @In
    private String test;
+   
+   private String value;
       
    public ProcessInstance getProcessInstance()
    {
@@ -45,6 +49,23 @@ public class Foo
 
    @Remove
    public void destroy() {}
+
+   @NotNull
+   public String getValue()
+   {
+      return value;
+   }
+
+   public void setValue(String value)
+   {
+      this.value = value;
+   }
+   
+   @IfInvalid(outcome="baz")
+   public String bar()
+   {
+      return "bar";
+   }
    
 }
 

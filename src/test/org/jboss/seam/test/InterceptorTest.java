@@ -3,17 +3,102 @@ package org.jboss.seam.test;
 
 import java.lang.reflect.Method;
 
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
+import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.mock.MockFacesContext;
+import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.mock.MockHttpSession;
 import org.jboss.seam.mock.MockServletContext;
 import org.testng.annotations.Test;
 
 public class InterceptorTest
 {
+   
+   @Test
+   public void testValidationInterceptor() throws Exception
+   {
+      
+      new MockFacesContext( new MockHttpServletRequest( new MockHttpSession( new MockServletContext() ) ) ).setCurrent();
+      
+      ValidationInterceptor vi = new ValidationInterceptor();
+      vi.setComponent( new Component(Foo.class) );
+      
+      final Foo foo = new Foo();
+      
+      String result = (String) vi.validateTargetComponent( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("foo");
+         }
+         @Override
+         public Object getBean()
+         {
+            return foo;
+         }
+
+         @Override
+         public Object proceed() throws Exception
+         {
+            return foo.foo();
+         }
+      });
+      
+      assert "foo".equals(result);
+      assert !FacesContext.getCurrentInstance().getMessages().hasNext();      
+      
+      result = (String) vi.validateTargetComponent( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("bar");
+         }
+         @Override
+         public Object getBean()
+         {
+            return foo;
+         }
+
+         @Override
+         public Object proceed() throws Exception
+         {
+            return foo.bar();
+         }
+      });
+      
+      assert "baz".equals(result);
+      assert FacesContext.getCurrentInstance().getMessages().hasNext();      
+
+      foo.setValue("not null");
+      
+      result = (String) vi.validateTargetComponent( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("bar");
+         }
+         @Override
+         public Object getBean()
+         {
+            return foo;
+         }
+
+         @Override
+         public Object proceed() throws Exception
+         {
+            return foo.bar();
+         }
+      });
+      
+      assert "bar".equals(result);
+   }
+   
    @Test
    public void testOutcomeInterceptor() throws Exception
    {
