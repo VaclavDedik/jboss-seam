@@ -11,6 +11,8 @@ import javax.ejb.Remove;
 
 import org.hibernate.validator.NotNull;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -65,6 +67,17 @@ public class Foo
    public String bar()
    {
       return "bar";
+   }
+   
+   @Begin
+   public String begin()
+   {
+      return "begun";
+   }
+   @End
+   public String end()
+   {
+      return "ended";
    }
    
 }

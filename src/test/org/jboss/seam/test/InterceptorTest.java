@@ -6,8 +6,11 @@ import java.lang.reflect.Method;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Outcome;
+import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
@@ -19,6 +22,173 @@ import org.testng.annotations.Test;
 
 public class InterceptorTest
 {
+   
+   @Test
+   public void testConversationInterceptor() throws Exception
+   {
+      MockHttpSession session = new MockHttpSession( new MockServletContext() );
+      Contexts.beginRequest( session );
+      Contexts.resumeConversation( session, "1" );
+      Contexts.getApplicationContext().set( 
+               Seam.getComponentName(ConversationManager.class) + ".component", 
+               new Component(ConversationManager.class) 
+            );
+      
+      ConversationInterceptor ci = new ConversationInterceptor();
+      ci.setComponent( new Component(Foo.class) );
+      
+      assert !ConversationManager.instance().isLongRunningConversation();
+
+      String result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("foo");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "foo";
+         }
+      });
+      
+      assert !ConversationManager.instance().isLongRunningConversation();
+      assert "foo".equals(result);
+      
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("begin");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "begun";
+         }
+      });
+      
+      assert ConversationManager.instance().isLongRunningConversation();
+      assert "begun".equals(result);
+
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("foo");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "foo";
+         }
+      });
+      
+      assert ConversationManager.instance().isLongRunningConversation();
+      assert "foo".equals(result);
+
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("end");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "ended";
+         }
+      });
+      
+      assert !ConversationManager.instance().isLongRunningConversation();
+      assert "ended".equals(result);
+      
+      //TODO: @BeginIf/@EndIf
+      
+   }
+   
+   @Test
+   public void testConversationalConversationInterceptor() throws Exception
+   {
+      MockHttpSession session = new MockHttpSession( new MockServletContext() );
+      Contexts.beginRequest( session );
+      Contexts.resumeConversation( session, "1" );
+      Contexts.getApplicationContext().set( 
+               Seam.getComponentName(ConversationManager.class) + ".component", 
+               new Component(ConversationManager.class) 
+            );
+      
+      ConversationInterceptor ci = new ConversationInterceptor();
+      ci.setComponent( new Component(Bar.class) );
+      
+      assert !ConversationManager.instance().isLongRunningConversation();
+
+      String result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("foo");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            assert false;
+            return null;
+         }
+      });
+      
+      assert !ConversationManager.instance().isLongRunningConversation();
+      assert "error".equals(result);
+      
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("begin");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "begun";
+         }
+      });
+      
+      assert ConversationManager.instance().isLongRunningConversation();
+      assert "begun".equals(result);
+
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("foo");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "foo";
+         }
+      });
+      
+      assert ConversationManager.instance().isLongRunningConversation();
+      assert "foo".equals(result);
+
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("end");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "ended";
+         }
+      });
+      
+      assert !ConversationManager.instance().isLongRunningConversation();
+      assert "ended".equals(result);
+      
+   }
    
    @Test
    public void testValidationInterceptor() throws Exception
@@ -68,6 +238,7 @@ public class InterceptorTest
          @Override
          public Object proceed() throws Exception
          {
+            assert false;
             return foo.bar();
          }
       });
