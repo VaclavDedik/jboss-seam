@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
-import org.jboss.seam.Components;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.util.Reflections;
 
@@ -288,7 +287,7 @@ public class Contexts {
    public static void destroy(Context context)
    {
       for ( String name: context.getNames() ) {
-         Component component = Components.getComponent(name);
+         Component component = Component.forName(name);
          log.info("destroying: " + name);
          if ( component!=null )
          {

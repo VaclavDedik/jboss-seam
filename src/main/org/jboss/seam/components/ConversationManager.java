@@ -9,7 +9,7 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Components;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Destroy;
@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
-import org.jboss.seam.contexts.Id;
+import org.jboss.seam.util.Id;
 
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.components.conversationManager")
@@ -27,7 +27,7 @@ public class ConversationManager
 
    private static final String NAME = Seam.getComponentName(ConversationManager.class);
    private static final String CONVERSATION_ID_MAP = "org.jboss.seam.allConversationIds";
-   private static  final String CONVERSATION_OWNER_NAME = "org.jboss.seam.conversationOwnerName";
+   private static final String CONVERSATION_OWNER_NAME = "org.jboss.seam.conversationOwnerName";
    private static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
       
    //A map of all conversations for the session,
@@ -149,7 +149,7 @@ public class ConversationManager
 
    public static ConversationManager instance()
    {
-      return (ConversationManager) Components.getComponentInstance( NAME, true );
+      return (ConversationManager) Component.getInstance( NAME, true );
    }
 
    public boolean isProcessInterceptors()

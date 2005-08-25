@@ -6,20 +6,21 @@
  */
 package org.jboss.seam.interceptors;
 
-import org.jboss.seam.Components;
-import org.jboss.seam.annotations.BeginProcess;
-import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.annotations.CompleteTask;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.BusinessProcessContext;
-import org.jboss.seam.components.JbpmTask;
-import org.jboss.seam.components.JbpmProcess;
-import org.jboss.logging.Logger;
-import org.jbpm.taskmgmt.exe.TaskInstance;
+import java.lang.reflect.Method;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
-import java.lang.reflect.Method;
+
+import org.jboss.logging.Logger;
+import org.jboss.seam.Component;
+import org.jboss.seam.annotations.BeginProcess;
+import org.jboss.seam.annotations.CompleteTask;
+import org.jboss.seam.annotations.StartTask;
+import org.jboss.seam.components.JbpmProcess;
+import org.jboss.seam.components.JbpmTask;
+import org.jboss.seam.contexts.BusinessProcessContext;
+import org.jboss.seam.contexts.Contexts;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.
@@ -60,18 +61,18 @@ public class BusinessProcessInterceptor extends AbstractInterceptor {
 
 	private void beginProcess(String processDefinitionName) {
 		Contexts.getStatelessContext().set( BusinessProcessContext.PROCESS_DEF_KEY, processDefinitionName );
-		Components.getComponentInstance( JbpmProcess.class.getName(), true );
+		Component.getInstance( JbpmProcess.class.getName(), true );
 	}
 
 	private void startTask(Long id) {
 		Contexts.getStatelessContext().set( BusinessProcessContext.TASK_ID_KEY, id );
-		TaskInstance task = ( TaskInstance ) Components.getComponentInstance( JbpmTask.class.getName(), true );
+		TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class.getName(), true );
 		task.start();
 	}
 
 	private void completeTask(Long id, String transitionName) {
 		Contexts.getStatelessContext().set( BusinessProcessContext.TASK_ID_KEY, id );
-		TaskInstance task = ( TaskInstance ) Components.getComponentInstance( JbpmTask.class.getName(), true );
+		TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class.getName(), true );
 
 		if ( transitionName == null ) {
 			task.end();

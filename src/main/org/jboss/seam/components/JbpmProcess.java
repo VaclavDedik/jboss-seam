@@ -6,18 +6,17 @@
  */
 package org.jboss.seam.components;
 
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.Components;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.logging.Logger;
-import org.jbpm.graph.exe.ProcessInstance;
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.BusinessProcessContext;
+import org.jboss.seam.contexts.Contexts;
 import org.jbpm.db.JbpmSession;
+import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * Implementation of JbpmProcess.
@@ -63,6 +62,6 @@ public class JbpmProcess {
 	}
 
 	private JbpmSession getJbpmSession() {
-		return ( JbpmSession ) Components.getComponentInstance( ManagedJbpmSession.class.getName(), true );
+		return ( JbpmSession ) Component.getInstance( ManagedJbpmSession.class.getName(), true );
 	}
 }

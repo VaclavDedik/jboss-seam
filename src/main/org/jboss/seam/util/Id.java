@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.contexts;
+package org.jboss.seam.util;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

@@ -6,7 +6,6 @@ import javax.servlet.ServletContext;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.components.ComponentManager;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.components.ManagedPersistenceContext;
 import org.jboss.seam.components.Settings;
@@ -28,34 +27,47 @@ public class Initialization
       settings.init( servletContext );
       context.set( Seam.getComponentName(Settings.class), settings );
       
-      ComponentManager componentManager = new ComponentManager();
-      addComponents(settings, componentManager);
-      context.set( Seam.getComponentName(ComponentManager.class), componentManager );
+      addComponents(settings, context);
       log.info("done initializing Seam");
       return this;
    }
 
-   protected void addComponents(Settings settings, ComponentManager componentManager)
+   protected void addComponents(Settings settings, Context context)
    {
-      componentManager.addComponent(Settings.class);
-      componentManager.addComponent(ComponentManager.class);
-      componentManager.addComponent(ConversationManager.class);
+      addComponent( Settings.class, context );
+      addComponent( ConversationManager.class, context );
       for ( String className : settings.getComponentClassNames() )
       {
-         componentManager.addComponent(className);
+         try
+         {
+            addComponent( Class.forName(className), context );
+         }
+         catch (ClassNotFoundException cnfe)
+         {
+            throw new IllegalArgumentException("Component class not found: " + className, cnfe);
+         }
       }
       for ( String unitName : settings.getPersistenceUnitNames() )
       {
-         componentManager.addComponent( unitName, new Component(ManagedPersistenceContext.class, unitName) );
+         addComponent( unitName, ManagedPersistenceContext.class, context );
       }
       for ( String sfName : settings.getSessionFactoryNames() )
       {
-         componentManager.addComponent( sfName, new Component(ManagedHibernateSession.class, sfName) );
+         addComponent( sfName, ManagedHibernateSession.class, context );
       }
       for ( String jbpmSfName : settings.getJbpmSessionFactoryNames() )
       {
-         componentManager.addComponent( jbpmSfName, new Component(ManagedJbpmSession.class, jbpmSfName) );
+         addComponent( jbpmSfName, ManagedJbpmSession.class, context );
       }
+   }
+   
+   protected void addComponent(String name, Class clazz, Context context)
+   {
+      context.set(name + ".component", new Component(clazz, name) );
+   }
+   protected void addComponent(Class clazz, Context context)
+   {
+      context.set( Seam.getComponentName(clazz) + ".component", new Component(clazz) );
    }
 
 }

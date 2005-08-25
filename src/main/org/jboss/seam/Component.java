@@ -17,6 +17,7 @@ import java.util.Set;
 
 import javax.ejb.Local;
 import javax.ejb.Remove;
+import javax.faces.el.EvaluationException;
 import javax.naming.InitialContext;
 
 import org.hibernate.validator.ClassValidator;
@@ -29,8 +30,10 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Within;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
@@ -40,6 +43,7 @@ import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Sorter;
+import org.jboss.seam.util.Strings;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -49,6 +53,7 @@ import org.jboss.seam.util.Sorter;
  * @author Gavin King
  * @version $Revision$
  */
+@Scope(ScopeType.APPLICATION)
 public class Component
 {
    private static final Logger log = Logger.getLogger(Component.class);
@@ -302,7 +307,7 @@ public class Component
       return inFields;
    }
 
-   public Object instantiate()
+   public Object newInstance()
    {
       try 
       {
@@ -345,8 +350,8 @@ public class Component
          In in = method.getAnnotation(In.class);
          if (in != null)
          {
-            String name = Components.toName( in, method );
-            inject( bean, method, name, Components.find(in, name, bean) );
+            String name = toName(in.value(), method);
+            inject( bean, method, name, getInstanceToInject(in, name, bean) );
          }
       }
    }
@@ -358,20 +363,20 @@ public class Component
          In in = field.getAnnotation(In.class);
          if (in != null)
          {
-            String name = Components.toName( in, field );
-            inject( bean, field, name, Components.find(in, name, bean) );
+            String name = toName(in.value(), field);
+            inject( bean, field, name, getInstanceToInject(in, name, bean) );
          }
       }
    }
 
-   public void outjectFields(Object bean)
+   private void outjectFields(Object bean)
    {
       for (Field field : getOutFields())
       {
          Out out = field.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, Components.toName(out, field), outject(bean, field) );
+            setOutjectedValue( out, toName(out.value(), field), outject(bean, field) );
          }
       }
    }
@@ -383,7 +388,7 @@ public class Component
          Out out = method.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, Components.toName(out, method), outject(bean, method) );
+            setOutjectedValue( out, toName(out.value(), method), outject(bean, method) );
          }
       }
    }
@@ -396,7 +401,7 @@ public class Component
       }
       else 
       {
-         Component component = Components.getComponent(name);
+         Component component = Component.forName(name);
          if (value!=null && component!=null)
          {
             if ( !component.isInstance(value) )
@@ -498,5 +503,118 @@ public class Component
    {
       return ifNoConversationOutcome;
    }
+   
+   public static Component forName(String name)
+   {
+      return (Component) getInstance( name+".component", false );
+   }
 
+   public static Object getInstance(String name, boolean create) throws EvaluationException
+   {
+      Object result = Contexts.lookupInStatefulContexts(name);
+      if (result == null && create)
+      {
+          result = newInstance(name);
+      }
+      if (result!=null) 
+      {
+         Component component = Component.forName(name);
+         if (component!=null)
+         {
+            if ( !component.isInstance(result) )
+            {
+               throw new IllegalArgumentException("value found for In attribute has the wrong type: " + name);
+            }
+         }
+         result = unwrap( component, result );
+         if ( log.isTraceEnabled() ) 
+         {
+            log.trace( Strings.toString(result) );
+         }
+      }
+      return result;
+   }
+
+   public static Object newInstance(String name)
+   {
+      Component component = Component.forName(name);
+      if (component == null)
+      {
+         log.info("seam component not found: " + name);
+         return null; //needed when this method is called by JSF
+      }
+      else
+      {
+         log.info("instantiating seam component: " + name);
+         Object instance = component.newInstance();
+         if (component.getType()!=ComponentType.STATELESS_SESSION_BEAN)
+         {
+            callCreateMethod(component, instance);
+            component.getScope().getContext().set(name, instance);
+         }
+         return instance;
+      }
+   }
+
+   private static void callCreateMethod(Component component, Object instance)
+   {
+      if (component.hasCreateMethod())
+      {
+         Method createMethod = component.getCreateMethod();
+         Class[] paramTypes = createMethod.getParameterTypes();
+         Object param = paramTypes.length==0 ? null : component;
+         String createMethodName = createMethod.getName();
+         try 
+         {
+            Method method = instance.getClass().getMethod(createMethodName, paramTypes);
+            Reflections.invokeAndWrap( method, instance, param );
+         }
+         catch (NoSuchMethodException e)
+         {
+            throw new IllegalArgumentException("create method not found", e);
+         }
+      }
+   }
+
+   private static Object unwrap(Component component, Object instance)
+   {
+      if (component!=null && component.hasUnwrapMethod())
+      {
+         instance = Reflections.invokeAndWrap(component.getUnwrapMethod(), instance);
+      }
+      return instance;
+   }
+
+   private static Object getInstanceToInject(In in, String name, Object bean)
+   {
+      Object result = getInstance(name, in.create());
+      if (result==null && in.required())
+      {
+         throw new RequiredException("In attribute requires value for component: " + name);
+      }
+      else
+      {
+         return result;
+      }
+   }
+   
+   private static String toName(String name, Method method)
+   {
+      if (name==null || name.length() == 0)
+      {
+         name = method.getName().substring(3, 4).toLowerCase()
+               + method.getName().substring(4);
+      }
+      return name;
+   }
+
+   private static String toName(String name, Field field)
+   {
+      if (name==null || name.length() == 0)
+      {
+         name = field.getName();
+      }
+      return name;
+   }
+   
 }

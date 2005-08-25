@@ -22,11 +22,6 @@ import org.jboss.seam.annotations.Scope;
 public class Seam
 {
       
-   public static Component getComponent(String name)
-   {
-      return Components.getComponent(name);
-   }
-   
    /**
     * Get the default scope
     * @see Scope
