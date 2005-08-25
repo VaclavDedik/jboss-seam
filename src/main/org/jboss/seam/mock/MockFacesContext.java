@@ -1,8 +1,10 @@
 //$Id$
 package org.jboss.seam.mock;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.Application;
@@ -20,7 +22,7 @@ public class MockFacesContext extends FacesContext
 {
    
    private UIViewRoot viewRoot = new UIViewRoot();
-   private Map<String, FacesMessage> mesages = new HashMap<String, FacesMessage>();
+   private Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
    private ExternalContext externalContext;
    
    public MockFacesContext(HttpServletRequest request)
@@ -38,8 +40,7 @@ public class MockFacesContext extends FacesContext
    @Override
    public Iterator getClientIdsWithMessages()
    {
-      //TODO
-      return null;
+      return messages.values().iterator();
    }
 
    @Override
@@ -58,13 +59,21 @@ public class MockFacesContext extends FacesContext
    @Override
    public Iterator getMessages()
    {
-      return mesages.values().iterator();
+      return messages.keySet().iterator();
    }
 
    @Override
-   public Iterator getMessages(String arg0)
+   public Iterator getMessages(String clientId)
    {
-      return null;
+      List list = new ArrayList();
+      for (Map.Entry<FacesMessage, String> entry: messages.entrySet())
+      {
+         if ( clientId.equals( entry.getValue() ) )
+         {
+            list.add( entry.getKey() );
+         }
+      }
+      return list.iterator();
    }
 
    @Override
@@ -131,7 +140,7 @@ public class MockFacesContext extends FacesContext
    @Override
    public void addMessage(String clientId, FacesMessage msg)
    {
-      mesages.put(clientId, msg);
+      messages.put(msg, clientId);
    }
 
    @Override
