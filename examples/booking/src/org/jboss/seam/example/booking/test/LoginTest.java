@@ -13,6 +13,8 @@ import org.jboss.seam.example.booking.HotelBooking;
 import org.jboss.seam.example.booking.HotelBookingAction;
 import org.jboss.seam.example.booking.Login;
 import org.jboss.seam.example.booking.LoginAction;
+import org.jboss.seam.example.booking.Logout;
+import org.jboss.seam.example.booking.LogoutAction;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.util.Strings;
@@ -77,7 +79,7 @@ public class LoginTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      String id = new Script() {
 
          @Override
          protected void invokeApplication()
@@ -97,13 +99,33 @@ public class LoginTest extends SeamTest
          
       }.run();
       
+      new Script(id) {
+
+         @Override
+         protected void invokeApplication()
+         {
+            assert ConversationManager.instance().isLongRunningConversation();
+            Logout logout = (Logout) Component.getInstance("logout", true);
+            String outcome = logout.logout();
+            assert "login".equals( outcome );
+            assert Contexts.isSessionInvalid();
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            assert Contexts.isSessionInvalid();
+         }
+         
+      }.run();
+      
    }
 
    @Override
    public void initServletContext(Map initParams)
    {
       initParams.put(Settings.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(LoginAction.class, HotelBookingAction.class, User.class, Booking.class, Hotel.class);
+      String classNames = Strings.toString(LoginAction.class, LogoutAction.class, HotelBookingAction.class, User.class, Booking.class, Hotel.class);
       initParams.put(Settings.COMPONENT_CLASS_NAMES, classNames);
    }
    
