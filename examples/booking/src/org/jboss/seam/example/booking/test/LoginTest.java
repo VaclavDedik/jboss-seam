@@ -9,6 +9,8 @@ import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.Hotel;
+import org.jboss.seam.example.booking.HotelBooking;
+import org.jboss.seam.example.booking.HotelBookingAction;
 import org.jboss.seam.example.booking.Login;
 import org.jboss.seam.example.booking.LoginAction;
 import org.jboss.seam.example.booking.User;
@@ -22,6 +24,26 @@ public class LoginTest extends SeamTest
    @Test
    public void testLogin() throws Exception
    {
+      
+      new Script() {
+
+         @Override
+         protected void invokeApplication()
+         {
+            HotelBooking hb = (HotelBooking) Component.getInstance("hotelBooking", true);
+            String outcome = hb.find();
+            assert "login".equals( outcome );
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            assert !ConversationManager.instance().isLongRunningConversation();
+            assert Contexts.getSessionContext().get("loggedIn")==null;
+
+         }
+         
+      }.run();
       
       new Script() {
 
@@ -55,13 +77,33 @@ public class LoginTest extends SeamTest
          
       }.run();
       
+      new Script() {
+
+         @Override
+         protected void invokeApplication()
+         {
+            HotelBooking hb = (HotelBooking) Component.getInstance("hotelBooking", true);
+            String outcome = hb.find();
+            assert "main".equals( outcome );
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            assert ConversationManager.instance().isLongRunningConversation();
+            assert Contexts.getSessionContext().get("loggedIn").equals(true);
+
+         }
+         
+      }.run();
+      
    }
 
    @Override
    public void initServletContext(Map initParams)
    {
       initParams.put(Settings.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(LoginAction.class, User.class, Booking.class, Hotel.class);
+      String classNames = Strings.toString(LoginAction.class, HotelBookingAction.class, User.class, Booking.class, Hotel.class);
       initParams.put(Settings.COMPONENT_CLASS_NAMES, classNames);
    }
    

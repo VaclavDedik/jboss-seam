@@ -64,8 +64,9 @@ public class HotelBookingAction implements HotelBooking, Serializable
    public String find()
    {
       hotel = null;
+      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
       hotels = bookingDatabase.createQuery("from Hotel where lower(city) like :search or lower(zip) like :search or lower(address) like :search")
-            .setParameter("search", '%' + searchString.toLowerCase().replace('*', '%') + '%')
+            .setParameter("search", searchPattern)
             .setMaxResults(50)
             .getResultList();
       
@@ -83,8 +84,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
 
    public void setSearchString(String searchString)
    {
-      this.searchString = searchString==null ? 
-            "*" : searchString;
+      this.searchString = searchString;
    }
    
    public String selectHotel()
