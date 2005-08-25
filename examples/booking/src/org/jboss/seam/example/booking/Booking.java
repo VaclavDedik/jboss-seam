@@ -85,9 +85,9 @@ public class Booking
       this.checkoutDate = checkoutDate;
    }
    
-   @NotNull
-   @Length(min=6, max=16)
-   @Pattern(regex="\\d*")
+   @NotNull(message="Credit card number is required")
+   @Length(min=16, max=16, message="Credit card number must 16 digits long")
+   @Pattern(regex="\\d*", message="Credit card number must be numeric")
    public String getCreditCard()
    {
       return creditCard;

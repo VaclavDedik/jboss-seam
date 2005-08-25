@@ -1,8 +1,11 @@
 //$Id$
 package org.jboss.seam.example.booking.test;
 
+import java.util.Iterator;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
@@ -120,6 +123,10 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
+            Iterator messages = FacesContext.getCurrentInstance().getMessages();
+            assert messages.hasNext();
+            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number is required");
+            assert !messages.hasNext();
             assert ConversationManager.instance().isLongRunningConversation();
          }
          
@@ -145,6 +152,10 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
+            Iterator messages = FacesContext.getCurrentInstance().getMessages();
+            assert messages.hasNext();
+            assert ( (FacesMessage) messages.next() ).getSummary().equals("Check in date must be later than check out date");
+            assert !messages.hasNext();
             assert ConversationManager.instance().isLongRunningConversation();
          }
          
