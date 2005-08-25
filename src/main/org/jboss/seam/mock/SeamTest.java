@@ -8,6 +8,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
@@ -24,6 +25,16 @@ public class SeamTest
    private SeamPhaseListener phases;
    private MockFacesContext facesContext;
    private MockHttpSession session;
+   
+   protected HttpSession getSession()
+   {
+      return session;
+   }
+   
+   protected boolean isSessionInvalid()
+   {
+      return session.isInvalid();
+   }
    
    protected ServletContext getServletContext()
    {
