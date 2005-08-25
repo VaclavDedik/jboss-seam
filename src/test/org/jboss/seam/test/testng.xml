@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 
-<suite name="Hotel Booking" verbose="2" parallel="false">
+<suite name="Seam Unit Tests" verbose="2" parallel="false">
 
-   <test name="Booking">
+   <test name="Interceptors">
      <classes>
        <class name="org.jboss.seam.test.InterceptorTest"/>
      </classes>
