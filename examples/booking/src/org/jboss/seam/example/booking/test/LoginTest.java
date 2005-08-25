@@ -28,10 +28,11 @@ public class LoginTest extends SeamTest
    {
       
       new Script() {
-
+         
          @Override
          protected void invokeApplication()
          {
+            assert !isSessionInvalid();
             HotelBooking hb = (HotelBooking) Component.getInstance("hotelBooking", true);
             String outcome = hb.find();
             assert "login".equals( outcome );
@@ -52,6 +53,7 @@ public class LoginTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
+            assert !isSessionInvalid();
             User user = (User) Component.getInstance("user", true);
             user.setUsername("gavin");
             user.setPassword("foobar");
@@ -118,6 +120,8 @@ public class LoginTest extends SeamTest
          }
          
       }.run();
+      
+      assert isSessionInvalid();
       
    }
 
