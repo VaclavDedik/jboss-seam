@@ -108,6 +108,49 @@ public class BookingTest extends SeamTest
       }.run();
       
       new Script(id) {
+
+         @Override
+         protected void invokeApplication()
+         {
+            HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
+            String outcome = hotelBooking.setBookingDetails();
+            assert outcome==null;
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            assert ConversationManager.instance().isLongRunningConversation();
+         }
+         
+      }.run();
+      
+      new Script(id) {
+         
+         @Override @SuppressWarnings("deprecation")
+         protected void updateModelValues() throws Exception
+         {
+            Booking booking = (Booking) Contexts.getConversationContext().get("booking");
+            booking.setCreditCard("1234567891021234");
+         }
+
+         @Override
+         protected void invokeApplication()
+         {
+            HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
+            String outcome = hotelBooking.setBookingDetails();
+            assert outcome==null;
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            assert ConversationManager.instance().isLongRunningConversation();
+         }
+         
+      }.run();
+      
+      new Script(id) {
          
          @Override @SuppressWarnings("deprecation")
          protected void updateModelValues() throws Exception
@@ -115,7 +158,6 @@ public class BookingTest extends SeamTest
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
             booking.getCheckinDate().setDate(10); 
             booking.getCheckoutDate().setDate(12);
-            booking.setCreditCard("1234567891021234");
          }
 
          @Override

@@ -138,7 +138,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
          log.info("invalid booking dates");
          FacesContext.getCurrentInstance()
                .addMessage(null, new FacesMessage("Check in date must be later than check out date"));
-         return "retry";
+         return null;
       }
       else
       {
