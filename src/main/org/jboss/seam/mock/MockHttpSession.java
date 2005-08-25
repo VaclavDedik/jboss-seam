@@ -60,7 +60,8 @@ public class MockHttpSession implements HttpSession
       //TODO
       return 0;
    }
-
+   
+   @SuppressWarnings("deprecation")
    public HttpSessionContext getSessionContext()
    {
       //TODO

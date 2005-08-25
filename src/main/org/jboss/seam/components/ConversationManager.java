@@ -46,6 +46,16 @@ public class ConversationManager
    //Are we processing interceptors?
    private boolean processInterceptors = false;
    
+   public String getCurrentConversationId()
+   {
+      return currentConversationId;
+   }
+   
+   public void setCurrentConversationId(String id)
+   {
+      currentConversationId = id;
+   }
+   
    public Set<String> getSessionConversationIds()
    {
       return getConversationIdMap().keySet();

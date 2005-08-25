@@ -22,7 +22,7 @@ public class SeamTest
    private MockServletContext servletContext;
    private MockLifecycle lifecycle;
    private SeamPhaseListener phases;
-   private FacesContext facesContext;
+   private MockFacesContext facesContext;
    private MockHttpSession session;
    
    protected ServletContext getServletContext()
@@ -38,6 +38,14 @@ public class SeamTest
    public abstract class Script
    {
       private MockHttpServletRequest request;
+      private String conversationId;
+      
+      protected Script() {}
+      
+      protected Script(String id)
+      {
+         conversationId = id;
+      }
 
       protected void applyRequestValues() throws Exception {}
       protected void processValidations() throws Exception {}
@@ -45,11 +53,13 @@ public class SeamTest
       protected void invokeApplication() throws Exception {}
       protected void renderResponse() throws Exception {}
       
-      public void run() throws Exception
+      public String run() throws Exception
       {   
    
          request = new MockHttpServletRequest( session );
          facesContext = new MockFacesContext( request );
+         facesContext.setCurrent();
+         facesContext.getViewRoot().getAttributes().put("org.jboss.seam.conversationId", conversationId);
          
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
@@ -75,9 +85,12 @@ public class SeamTest
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
          
+         conversationId = (String) facesContext.getViewRoot().getAttributes().get("org.jboss.seam.conversationId");         
          renderResponse();
          
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
+         
+         return conversationId;
       }
       
       protected HttpServletRequest getRequest()

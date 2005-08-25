@@ -154,5 +154,10 @@ public class MockFacesContext extends FacesContext
       //TODO
 
    }
+   
+   public void setCurrent()
+   {
+      setCurrentInstance(this);
+   }
 
 }
