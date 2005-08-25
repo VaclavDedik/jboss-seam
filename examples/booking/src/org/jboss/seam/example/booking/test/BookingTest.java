@@ -3,7 +3,7 @@ package org.jboss.seam.example.booking.test;
 
 import java.util.Map;
 
-import org.jboss.seam.Components;
+import org.jboss.seam.Component;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
@@ -37,7 +37,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            hotelBooking = (HotelBooking) Components.getComponentInstance("hotelBooking", true);
+            hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
             hotelBooking.setSearchString("NY");
          }
 
