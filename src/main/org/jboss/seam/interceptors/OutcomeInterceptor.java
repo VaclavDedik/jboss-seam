@@ -17,6 +17,6 @@ public class OutcomeInterceptor extends AbstractInterceptor
    public Object interceptOutcome(InvocationContext invocation) throws Exception
    {
       final Object result = invocation.proceed();
-      return result==Outcome.REDISPLAY ? null : result;
+      return Outcome.REDISPLAY.equals(result) ? null : result;
    }
 }
