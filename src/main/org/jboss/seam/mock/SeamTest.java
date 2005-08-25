@@ -18,7 +18,7 @@ import org.testng.annotations.Configuration;
 
 public class SeamTest
 {
-   private EJB3StandaloneDeployer deployer;
+   private static EJB3StandaloneDeployer deployer;
    private MockServletContext servletContext;
    private MockLifecycle lifecycle;
    private SeamPhaseListener phases;
@@ -112,19 +112,38 @@ public class SeamTest
       session = null;
    }
 
+   @Configuration(beforeTestClass=true)
+   public void init() throws Exception
+   {  
+      phases = new SeamPhaseListener();
+      servletContext = new MockServletContext();
+      initServletContext( servletContext.getInitParameters() );
+      //Contexts.beginApplication(servletContext);
+      lifecycle = new MockLifecycle();
+      new Initialization().init(servletContext);
+   }
+   
    @Configuration(afterTestClass=true)
    public void cleanup() throws Exception
    {
       Contexts.endApplication(servletContext);
       servletContext = null;
-      deployer.stop();
-      deployer.destroy();
    }
    
-   @Configuration(beforeTestClass=true)
-   public void init() throws Exception
+   @Configuration(afterSuite=true)
+   public void cleanupSuite() throws Exception
    {
-      EJB3StandaloneBootstrap.boot("");
+      if (deployer==null) return;
+      deployer.stop();
+      deployer.destroy();
+      deployer = null;
+   }
+   
+   @Configuration(beforeSuite=true)
+   public void initSuite() throws Exception
+   {
+      if (deployer!=null) return;
+      EJB3StandaloneBootstrap.boot(null);
 
       deployer = new EJB3StandaloneDeployer();
       deployer.getArchivesByResource().add("META-INF/persistence.xml");
@@ -135,13 +154,6 @@ public class SeamTest
 
       deployer.create();
       deployer.start();
-      
-      phases = new SeamPhaseListener();
-      servletContext = new MockServletContext();
-      initServletContext( servletContext.getInitParameters() );
-      //Contexts.beginApplication(servletContext);
-      lifecycle = new MockLifecycle();
-      new Initialization().init(servletContext);
    }
    
    public void initServletContext(Map initParams) {}
