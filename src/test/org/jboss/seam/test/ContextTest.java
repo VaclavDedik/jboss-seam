@@ -21,8 +21,8 @@ public class ContextTest
    @Test
    public void testContextManagement()
    {
-      ServletContext servletContext = new MockServletContext();
-      HttpSession session = new MockHttpSession(servletContext);
+      MockServletContext servletContext = new MockServletContext();
+      MockHttpSession session = new MockHttpSession(servletContext);
       new WebApplicationContext(servletContext).set(
             "org.jboss.seam.components.conversationManager.component",
             new Component(ConversationManager.class)
@@ -32,6 +32,43 @@ public class ContextTest
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
+      
+      Contexts.beginRequest(session);
+      
+      assert Contexts.isEventContextActive();
+      assert Contexts.isSessionContextActive();
+      assert !Contexts.isConversationContextActive();
+      assert Contexts.isApplicationContextActive();
+      
+      Contexts.resumeConversation(session, "3");
+      ConversationManager.instance().setLongRunningConversation(true);
+      
+      assert Contexts.isEventContextActive();
+      assert Contexts.isSessionContextActive();
+      assert Contexts.isConversationContextActive();
+      assert Contexts.isApplicationContextActive();
+      
+      assert Contexts.getEventContext()!=null;
+      assert Contexts.getSessionContext()!=null;
+      assert Contexts.getConversationContext()!=null;
+      assert Contexts.getApplicationContext()!=null;
+      assert Contexts.getEventContext() instanceof EventContext;
+      assert Contexts.getSessionContext() instanceof WebSessionContext;
+      assert Contexts.getConversationContext() instanceof ConversationContext;
+      assert Contexts.getApplicationContext() instanceof WebApplicationContext;
+      
+      Contexts.getSessionContext().set("foo", "bar");
+      Contexts.getApplicationContext().set("foo", "bar");
+      Contexts.getConversationContext().set("xxx", "yyy");
+      
+      Contexts.endRequest(session);
+      
+      assert !Contexts.isEventContextActive();
+      assert !Contexts.isSessionContextActive();
+      assert !Contexts.isConversationContextActive();
+      assert !Contexts.isApplicationContextActive();
+      assert session.getAttributes().size()==2;
+      assert servletContext.getAttributes().size()==2;
       
       Contexts.beginRequest(session);
       
@@ -56,15 +93,27 @@ public class ContextTest
       assert Contexts.getConversationContext() instanceof ConversationContext;
       assert Contexts.getApplicationContext() instanceof WebApplicationContext;
       
+      assert Contexts.getSessionContext().get("foo").equals("bar");
+      assert Contexts.getApplicationContext().get("foo").equals("bar");
+      assert Contexts.getConversationContext().get("xxx").equals("yyy");
+      
+      ConversationManager.instance().setLongRunningConversation(false);
       Contexts.endRequest(session);
       
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
+      assert session.getAttributes().size()==1;
+      assert servletContext.getAttributes().size()==2;
       
       Contexts.endSession(session);
+      
+      //assert session.getAttributes().size()==0;
+      
       Contexts.endApplication(servletContext);
+      
+      //assert servletContext.getAttributes().size()==0;
    }
    
    @Test
@@ -72,6 +121,12 @@ public class ContextTest
    {
       ServletContext servletContext = new MockServletContext();
       HttpSession session = new MockHttpSession(servletContext);
+      Contexts.beginRequest(session);
+      Contexts.getApplicationContext().set(
+            "org.jboss.seam.components.conversationManager.component", 
+            new Component(ConversationManager.class) 
+         );
+      ConversationManager.instance().setLongRunningConversation(true);
       testContext( new WebApplicationContext(servletContext) );
       testContext( new WebSessionContext(session) );
       testContext( new EventContext() );
@@ -81,6 +136,8 @@ public class ContextTest
       testEquivalence( new WebApplicationContext(servletContext), new WebApplicationContext(servletContext) );
       testIsolation( new ConversationContext(session, "1"), new ConversationContext(session, "2") );
       testIsolation( new WebSessionContext(session), new WebSessionContext( new MockHttpSession(servletContext) ) );
+      
+      Contexts.endApplication(servletContext);
    }
    
    private void testEquivalence(Context ctx, Context cty)

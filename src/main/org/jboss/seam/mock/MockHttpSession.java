@@ -119,4 +119,9 @@ public class MockHttpSession implements HttpSession
       return false;
    }
 
+   public Map<String, Object> getAttributes()
+   {
+      return attributes;
+   }
+
 }

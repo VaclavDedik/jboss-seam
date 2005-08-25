@@ -28,7 +28,8 @@ public class InterceptorTest
    @Test
    public void testBijectionInterceptor() throws Exception
    {
-      MockHttpSession session = new MockHttpSession( new MockServletContext() );
+      MockServletContext servletContext = new MockServletContext();
+      MockHttpSession session = new MockHttpSession( servletContext );
       Contexts.beginRequest( session );
       Contexts.resumeConversation( session, "1" );
       Contexts.getApplicationContext().set( 
@@ -108,12 +109,15 @@ public class InterceptorTest
       {
          assert e instanceof RequiredException;
       }
+      
+      Contexts.endApplication(servletContext);
    }
    
    @Test
    public void testConversationInterceptor() throws Exception
    {
-      MockHttpSession session = new MockHttpSession( new MockServletContext() );
+      MockServletContext servletContext = new MockServletContext();
+      MockHttpSession session = new MockHttpSession( servletContext );
       Contexts.beginRequest( session );
       Contexts.resumeConversation( session, "1" );
       Contexts.getApplicationContext().set( 
@@ -191,13 +195,14 @@ public class InterceptorTest
       assert "ended".equals(result);
       
       //TODO: @BeginIf/@EndIf
-      
+      Contexts.endApplication(servletContext);
    }
    
    @Test
    public void testConversationalConversationInterceptor() throws Exception
    {
-      MockHttpSession session = new MockHttpSession( new MockServletContext() );
+      MockServletContext servletContext = new MockServletContext();
+      MockHttpSession session = new MockHttpSession( servletContext );
       Contexts.beginRequest( session );
       Contexts.resumeConversation( session, "1" );
       Contexts.getApplicationContext().set( 
@@ -274,6 +279,8 @@ public class InterceptorTest
       
       assert !ConversationManager.instance().isLongRunningConversation();
       assert "ended".equals(result);
+      
+      Contexts.endApplication(servletContext);
       
    }
    
@@ -393,7 +400,8 @@ public class InterceptorTest
    @Test 
    public void testRemoveInterceptor() throws Exception
    {
-      Contexts.beginRequest( new MockHttpSession( new MockServletContext() ) );
+      MockServletContext servletContext = new MockServletContext();
+      Contexts.beginRequest( new MockHttpSession( servletContext ) );
       Contexts.getSessionContext().set( "foo", new Foo() );
       
       RemoveInterceptor ri = new RemoveInterceptor();
@@ -418,6 +426,8 @@ public class InterceptorTest
       } );
       
       assert !Contexts.getSessionContext().isSet("foo");
+      
+      Contexts.endApplication(servletContext);
    }
 
    static Method getMethod(String name)

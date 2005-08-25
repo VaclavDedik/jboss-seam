@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.components.ConversationManager;
 
 /**
  * A conversation context is a logical context that last longer than 
@@ -95,9 +96,21 @@ public class ConversationContext implements Context, Serializable {
 
    public void flush()
    {
-      for (Map.Entry<String, Object> entry: temporarySession.entrySet())
+      if ( ConversationManager.instance().isLongRunningConversation() )
       {
-         session.setAttribute( getKey( entry.getKey() ), entry.getValue() );
+         for (Map.Entry<String, Object> entry: temporarySession.entrySet())
+         {
+            session.setAttribute( getKey( entry.getKey() ), entry.getValue() );
+         }
+      }
+      else
+      {
+         //the conversation is being destroyed, clean up its state
+         //TODO: for a pure temporary conversation, this is unnecessary, optimize it
+         for (String name: getNames())
+         {
+            session.removeAttribute( getKey(name) );
+         }
       }
    }
 }

@@ -159,7 +159,12 @@ public class ConversationManager
 
    public static ConversationManager instance()
    {
-      return (ConversationManager) Component.getInstance( NAME, true );
+      ConversationManager instance = (ConversationManager) Component.getInstance( NAME, true );
+      if (instance==null)
+      {
+         throw new IllegalStateException("No ConversationManager could be created, make sure the Component exists in application scope");
+      }
+      return instance;
    }
 
    public boolean isProcessInterceptors()

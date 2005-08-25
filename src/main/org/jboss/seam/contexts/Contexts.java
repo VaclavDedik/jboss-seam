@@ -77,6 +77,9 @@ public class Contexts {
       log.info("destroying application context");
       destroy(tempApplicationContext);
       applicationContext.set(null);
+      eventContext.set(null);
+      sessionContext.set(null);
+      conversationContext.set(null);
    }
 
    public static void endSession(HttpSession session)
@@ -109,6 +112,8 @@ public class Contexts {
       destroy(tempEventContext);
       eventContext.set(null);
       
+      conversationContext.set(null);
+      
       destroy(tempAppContext);
       applicationContext.set(null);
    }
@@ -124,11 +129,8 @@ public class Contexts {
       }
       if ( Contexts.isConversationContextActive() )
       {
-         if ( ConversationManager.instance().isLongRunningConversation() )
-         {
-            getConversationContext().flush();
-         }
-         else
+         getConversationContext().flush();
+         if ( !ConversationManager.instance().isLongRunningConversation() )
          {
             log.info("destroying conversation context");
             destroy( Contexts.getConversationContext() );
