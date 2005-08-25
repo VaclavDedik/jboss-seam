@@ -7,6 +7,7 @@
 package org.jboss.seam.contexts;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -15,11 +16,8 @@ import javax.servlet.http.HttpSession;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Components;
-import org.jboss.seam.Seam;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.util.Reflections;
-
-import java.util.Map;
 
 /**
  * Provides access to the current contexts associated with the thread.
@@ -30,17 +28,16 @@ import java.util.Map;
  */
 public class Contexts {
 
-	private static final Logger log = Logger.getLogger( Contexts.class );
+	public static final String PROCESS_INTERCEPTORS = "org.jboss.seam.processInterceptors";
+   public static final String SESSION_INVALID = "org.jboss.seam.sessionInvalid";
+
+   private static final Logger log = Logger.getLogger( Contexts.class );
 
    private static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
 	private static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
    private static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
-
-   private static final ThreadLocal<Boolean> isLongRunningConversation = new ThreadLocal<Boolean>();
-   private static final ThreadLocal<Boolean> isSessionInvalid = new ThreadLocal<Boolean>();
-   private static final ThreadLocal<Boolean> isProcessing = new ThreadLocal<Boolean>();
 
 	public static Context getEventContext() {
 		return eventContext.get();
@@ -72,7 +69,6 @@ public class Contexts {
       eventContext.set( new EventContext() );
 		sessionContext.set( new WebSessionContext(session) );
       applicationContext.set( new WebApplicationContext( session.getServletContext() ) );
-      isSessionInvalid.set(false);
 	}
 
    public static void endApplication(ServletContext servletContext)
@@ -82,11 +78,6 @@ public class Contexts {
       log.info("destroying application context");
       destroy(tempApplicationContext);
       applicationContext.set(null);
-   }
-   
-   private static ConversationManager getConversationManager()
-   {
-      return (ConversationManager) Components.getComponentInstance( Seam.getComponentName(ConversationManager.class), true );
    }
 
    public static void endSession(HttpSession session)
@@ -105,7 +96,7 @@ public class Contexts {
       Context tempSessionContext = new WebSessionContext( session );
       sessionContext.set(tempSessionContext);
       
-      Set<String> ids = getConversationManager().getConversationIds();
+      Set<String> ids = ConversationManager.instance().getSessionConversationIds();
       log.info("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
@@ -134,7 +125,7 @@ public class Contexts {
       }
       if ( Contexts.isConversationContextActive() )
       {
-         if ( Contexts.isLongRunningConversation() )
+         if ( ConversationManager.instance().isLongRunningConversation() )
          {
             getConversationContext().flush();
          }
@@ -149,9 +140,8 @@ public class Contexts {
          getBusinessProcessContext().flush();
       }
 
-      if ( isSessionInvalid.get() )
+      if ( isSessionInvalid() )
       {
-         isSessionInvalid.set(false);
          session.invalidate();
          //actual session context will be destroyed from the listener
       }
@@ -188,34 +178,12 @@ public class Contexts {
         return businessProcessContext.get() != null;
     }
    
-   public static void endConversation() 
+   public static void resumeConversation(HttpSession session, String id)
    {
-      log.info("Ending conversation");
-      setLongRunningConversation(false);
-   }
-
-   public static void beginConversation() 
-   {
-      log.info("Beginning conversation");
-      setLongRunningConversation(true);
+      conversationContext.set( new ConversationContext(session, id) );
    }
    
-   public static boolean isLongRunningConversation()
-   {
-      return isLongRunningConversation.get();
-   }
-   
-   public static void setLongRunningConversation(boolean value)
-   {
-      isLongRunningConversation.set(value);
-   }
-   
-   public static void setConversationContext(Context context)
-   {
-      conversationContext.set(context);
-   }
-   
-   public static void remove(String name)
+   public static void removeFromAllContexts(String name)
    {
       if (isEventContextActive())
       {
@@ -300,7 +268,7 @@ public class Contexts {
       
    }
       
-   public static Object lookup(String name)
+   public static Object lookupInAllContexts(String name)
    {
       Object result = lookupInStatefulContexts(name);
       if (result!=null) return result;
@@ -364,25 +332,16 @@ public class Contexts {
 	public static void endBusinessProcessContext() {
 		businessProcessContext.set( null );
 	}
-
-   public static void setProcessing(boolean processing)
-   {
-      isProcessing.set(processing);
-   }
-   
-   public static boolean isProcessing()
-   {
-      return isProcessing.get();
-   }
    
    public static void invalidateSession()
    {
-      isSessionInvalid.set(true);
+      getSessionContext().set(SESSION_INVALID, true);
    }
    
    public static boolean isSessionInvalid()
    {
-      return isSessionInvalid.get();
+      Boolean isSessionInvalid = (Boolean) getSessionContext().get(SESSION_INVALID);
+      return isSessionInvalid!=null && isSessionInvalid;
    }
    
 }

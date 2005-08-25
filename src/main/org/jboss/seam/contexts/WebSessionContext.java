@@ -33,7 +33,7 @@ public class WebSessionContext implements Context {
       return ScopeType.SESSION.getPrefix() + '$';
    }
 
-	public WebSessionContext(HttpSession session) {
+	WebSessionContext(HttpSession session) {
 		this.session = session;
 	}
 

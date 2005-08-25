@@ -23,7 +23,7 @@ public class WebRequestContext implements Context {
 
 	private ServletRequest request;
 	
-	public WebRequestContext(ServletRequest request) {
+	WebRequestContext(ServletRequest request) {
 		this.request = request;
 	}
    

@@ -9,7 +9,9 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Components;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -21,21 +23,35 @@ import org.jboss.seam.contexts.Id;
 @Name("org.jboss.seam.components.conversationManager")
 public class ConversationManager
 {
-
    private static Logger log = Logger.getLogger(ConversationManager.class);
 
+   private static final String NAME = Seam.getComponentName(ConversationManager.class);
    private static final String CONVERSATION_ID_MAP = "org.jboss.seam.allConversationIds";
-   
+   private static  final String CONVERSATION_OWNER_NAME = "org.jboss.seam.conversationOwnerName";
+   private static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
+      
+   //A map of all conversations for the session,
+   //to the last activity time, which is flushed
+   //stored in the session context at the end
+   //of each request
    private Map<String, Long> conversationIdMap;
-   private String currentConversationId;
    private boolean dirty = false;
    
-   public Set<String> getConversationIds()
+   //The id of the current conversation
+   private String currentConversationId;
+   
+   //Is the current conversation "long-running"?
+   private boolean isLongRunningConversation;
+   
+   //Are we processing interceptors?
+   private boolean processInterceptors = false;
+   
+   public Set<String> getSessionConversationIds()
    {
       return getConversationIdMap().keySet();
    }
 
-   public Map<String, Long> getConversationIdMap()
+   private Map<String, Long> getConversationIdMap()
    {
       if (conversationIdMap==null)
       {
@@ -51,14 +67,14 @@ public class ConversationManager
    /**
     * Make sure the session notices that we changed something
     */
-   public void dirty()
+   private void dirty()
    {
       dirty = true;
    }
 
-   public void removeConversationId(String conversationId)
+   private void removeConversationId(String conversationId)
    {
-      Set<String> ids = getConversationIds();
+      Set<String> ids = getSessionConversationIds();
       if ( ids.contains(conversationId) ) //might be a request-only conversationId, not yet existing in session
       {
          ids.remove(conversationId);
@@ -66,7 +82,7 @@ public class ConversationManager
       }
    }
 
-   public void addConversationId(String conversationId)
+   private void addConversationId(String conversationId)
    {
       getConversationIdMap().put( conversationId, System.currentTimeMillis() );
       dirty();
@@ -111,19 +127,85 @@ public class ConversationManager
       }
    }
    
-   public String createConversationId()
+   public boolean isLongRunningConversation()
    {
-      currentConversationId = Id.nextId();
-      return currentConversationId;
+      return isLongRunningConversation;
    }
 
-   public String getCurrentConversationId()
+   public void setLongRunningConversation(boolean isLongRunningConversation)
    {
-      return currentConversationId;
+      this.isLongRunningConversation = isLongRunningConversation;
    }
 
-   public void setCurrentConversationId(String currentConversationId)
+   public Object getConversationOwnerName()
    {
-      this.currentConversationId = currentConversationId;
+      return Contexts.getConversationContext().get(CONVERSATION_OWNER_NAME);
    }
+
+   public void setConversationOwnerName(String name)
+   {
+      Contexts.getConversationContext().set(CONVERSATION_OWNER_NAME, name);
+   }
+
+   public static ConversationManager instance()
+   {
+      return (ConversationManager) Components.getComponentInstance( NAME, true );
+   }
+
+   public boolean isProcessInterceptors()
+   {
+      return processInterceptors;
+   }
+
+   public void setProcessInterceptors(boolean processInterceptors)
+   {
+      this.processInterceptors = processInterceptors;
+   }
+   
+   public void store(Map attributes)
+   {
+      if ( isLongRunningConversation() ) 
+      {
+         String conversationId = currentConversationId;
+         log.info("Storing conversation state: " + conversationId);
+         if ( !Contexts.isSessionInvalid() ) 
+         {
+            //if the session is invalid, don't put the conversation id
+            //in the view, 'cos we are expecting the conversation to
+            //be destroyed by the servlet session listener
+            attributes.put(CONVERSATION_ID, conversationId);
+         }
+         //even if the session is invalid, still put the id in the map,
+         //so it can be cleaned up along with all the other conversations
+         addConversationId(conversationId);
+      }
+      else 
+      {
+         String conversationId = currentConversationId;
+         log.info("Discarding conversation state: " + conversationId);
+         attributes.remove(CONVERSATION_ID);
+         removeConversationId(conversationId);
+      }
+   }
+   
+   public String restore(Map attributes)
+   {
+      String storedConversationId = (String) attributes.get(CONVERSATION_ID);
+      boolean isStoredConversation = storedConversationId!=null && 
+            getSessionConversationIds().contains(storedConversationId);
+      if ( isStoredConversation )
+      {
+         log.info("Restoring conversation with id: " + storedConversationId);
+         setLongRunningConversation(true);
+         currentConversationId = storedConversationId;
+      }
+      else
+      {
+         log.info("No stored conversation");
+         currentConversationId = Id.nextId();
+         setLongRunningConversation(false);
+      }
+      return currentConversationId;
+   }
+   
 }

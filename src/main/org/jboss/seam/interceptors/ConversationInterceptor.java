@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndIf;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.components.ConversationManager;
 
 /**
  * After the end of the invocation, begin or end a long running
@@ -27,8 +27,6 @@ import org.jboss.seam.contexts.Contexts;
 public class ConversationInterceptor extends AbstractInterceptor
 {
 
-   private static final String CONVERSATION_OWNER_NAME = "org.jboss.seam.conversationOwnerName";
-   
    private static final Logger log = Logger.getLogger(ConversationInterceptor.class);
 
    @AroundInvoke
@@ -63,7 +61,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    private boolean isNoConversationForConversationalBean(Method method)
    {
       return component.isConversational() && 
-            ( !Contexts.isLongRunningConversation() || !componentIsConversationOwner() ) &&
+            ( !ConversationManager.instance().isLongRunningConversation() || !componentIsConversationOwner() ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(BeginIf.class) &&
             !method.isAnnotationPresent(Destroy.class) && 
@@ -73,16 +71,16 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private boolean componentIsConversationOwner()
    {
-      return component.getName().equals( Contexts.getConversationContext().get(CONVERSATION_OWNER_NAME) );
+      return component.getName().equals( ConversationManager.instance().getConversationOwnerName() );
    }
 
 
    private void setConversationOwnerName()
    {
-      Contexts.getConversationContext().set(CONVERSATION_OWNER_NAME, component.getName());
+      ConversationManager.instance().setConversationOwnerName( component.getName() );
    }
 
-    private void beginConversationIfNecessary(Method method, Object result)
+   private void beginConversationIfNecessary(Method method, Object result)
    {
       if ( method.isAnnotationPresent(Begin.class) )
       {
@@ -102,7 +100,8 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void beginConversation()
    {
-      Contexts.beginConversation();
+      log.info("Beginning conversation");
+      ConversationManager.instance().setLongRunningConversation(true);
       setConversationOwnerName();
    }
 
@@ -115,16 +114,17 @@ public class ConversationInterceptor extends AbstractInterceptor
                .exception();
          if (Arrays.asList(exceptions).contains(exception.getClass()))
          {
-            Contexts.endConversation();
+            endConversation();
          }
       }
    }
+
 
    private void endConversationIfNecessary(Method method, Object result)
    {
       if (method.isAnnotationPresent(End.class))
       {
-         Contexts.endConversation();
+         endConversation();
       }
       else if (method.isAnnotationPresent(EndIf.class))
       {
@@ -132,9 +132,15 @@ public class ConversationInterceptor extends AbstractInterceptor
                .outcome();
          if (Arrays.asList(results).contains(result))
          {
-            Contexts.endConversation();
+            endConversation();
          }
       }
+   }
+
+   private void endConversation()
+   {
+      log.info("Ending conversation");
+      ConversationManager.instance().setLongRunningConversation(false);
    }
 
 }

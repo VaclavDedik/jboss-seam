@@ -44,13 +44,13 @@ public class BusinessProcessInterceptor extends AbstractInterceptor {
 		}
 		else if ( method.isAnnotationPresent( StartTask.class ) ) {
 			log.trace( "encountered @StartTask" );
-			Long id = ( Long ) Contexts.lookup( method.getAnnotation( StartTask.class ).contextName() );
+			Long id = ( Long ) Contexts.lookupInAllContexts( method.getAnnotation( StartTask.class ).contextName() );
 			startTask( id );
 		}
 		else if ( method.isAnnotationPresent( CompleteTask.class ) ) {
 			log.trace( "encountered @CompleteTask" );
 			CompleteTask tag = method.getAnnotation( CompleteTask.class );
-			Long id = ( Long ) Contexts.lookup( tag.contextName() );
+			Long id = ( Long ) Contexts.lookupInAllContexts( tag.contextName() );
 			String transitionName = determineCompleteTaskTransition( result, tag.transitionMap() );
 			completeTask( id, transitionName );
 		}

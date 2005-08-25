@@ -13,7 +13,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Components;
 import org.jboss.seam.Seam;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.interceptors.SeamInvocationContext;
 
 /**
@@ -31,7 +31,7 @@ public class SeamInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if ( Contexts.isProcessing() )
+      if ( ConversationManager.instance().isProcessInterceptors() )
       {
          log.info("intercepted: " + invocation.getMethod().getName());
          final Component component = getSeamComponent( invocation.getBean() );
