@@ -12,7 +12,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -27,6 +29,15 @@ import org.jboss.seam.ejb.SeamInterceptor;
 public class Bar
 {
    
+   @In(required=true)
+   Foo otherFoo;
+   
+   @In(create=true)
+   Foo foo;
+   
+   @Out
+   String string;
+   
    @Begin
    public String begin()
    {
@@ -34,6 +45,7 @@ public class Bar
    }
    public String foo()
    {
+      string = "out";
       return "foo";
    }
    @End

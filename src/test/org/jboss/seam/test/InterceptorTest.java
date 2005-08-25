@@ -6,10 +6,12 @@ import java.lang.reflect.Method;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
@@ -22,6 +24,91 @@ import org.testng.annotations.Test;
 
 public class InterceptorTest
 {
+   
+   @Test
+   public void testBijectionInterceptor() throws Exception
+   {
+      MockHttpSession session = new MockHttpSession( new MockServletContext() );
+      Contexts.beginRequest( session );
+      Contexts.resumeConversation( session, "1" );
+      Contexts.getApplicationContext().set( 
+               Seam.getComponentName(ConversationManager.class) + ".component", 
+               new Component(ConversationManager.class) 
+            );
+      Contexts.getApplicationContext().set( 
+            Seam.getComponentName(Foo.class) + ".component", 
+            new Component(Foo.class) 
+         );
+      
+      final Bar bar = new Bar();
+      final Foo foo = new Foo();
+      Contexts.getSessionContext().set("otherFoo", foo);
+      
+      BijectionInterceptor bi = new BijectionInterceptor();
+      bi.setComponent( new Component(Bar.class) );
+      String result = (String) bi.bijectTargetComponent( new MockInvocationContext() {
+         @Override
+         public Object getBean()
+         {
+            return bar;
+         }
+
+         @Override
+         public Object proceed() throws Exception
+         {
+            assert bar.otherFoo==foo;
+            assert bar.foo!=null;
+            return bar.foo();
+         }
+      });
+      assert "foo".equals(result);
+      assert Contexts.getConversationContext().get("string").equals("out");
+      Foo created = bar.foo;
+      assert created!=null;
+      assert Contexts.getSessionContext().get("foo")==created;
+      
+      bar.foo=null;
+      bar.otherFoo=null;
+      bi.bijectTargetComponent( new MockInvocationContext() {
+         @Override
+         public Object getBean()
+         {
+            return bar;
+         }
+
+         @Override
+         public Object proceed() throws Exception
+         {
+            assert bar.otherFoo==foo;
+            assert bar.foo!=null;
+            return bar.foo();
+         }
+      });
+      assert bar.foo==created;
+      
+      try 
+      {
+         Contexts.getSessionContext().remove("otherFoo");
+         bi.bijectTargetComponent( new MockInvocationContext() {
+            @Override
+            public Object getBean()
+            {
+               return bar;
+            }
+            @Override
+            public Object proceed() throws Exception
+            {
+               assert false;
+               return null;
+            }
+         });
+         assert false;
+      }
+      catch (Exception e)
+      {
+         assert e instanceof RequiredException;
+      }
+   }
    
    @Test
    public void testConversationInterceptor() throws Exception

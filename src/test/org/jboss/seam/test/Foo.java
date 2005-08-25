@@ -14,11 +14,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
-import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
@@ -29,23 +27,8 @@ import org.jbpm.graph.exe.ProcessInstance;
 @Scope(ScopeType.SESSION)
 public class Foo
 {
-   @In
-   private ProcessInstance processInstance;
-   
-   @In
-   private String test;
    
    private String value;
-      
-   public ProcessInstance getProcessInstance()
-   {
-      return processInstance;
-   }
-
-   public String getTest()
-   {
-      return test;
-   }
    
    public String foo() { return "foo"; }
 
