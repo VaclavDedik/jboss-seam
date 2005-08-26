@@ -4,6 +4,7 @@ package org.jboss.seam.example.booking.test;
 import java.util.Map;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Init;
@@ -110,13 +111,13 @@ public class LoginTest extends SeamTest
             Logout logout = (Logout) Component.getInstance("logout", true);
             String outcome = logout.logout();
             assert "login".equals( outcome );
-            assert Contexts.isSessionInvalid();
+            assert Seam.isSessionInvalid();
          }
 
          @Override
          protected void renderResponse()
          {
-            assert Contexts.isSessionInvalid();
+            assert Seam.isSessionInvalid();
          }
          
       }.run();

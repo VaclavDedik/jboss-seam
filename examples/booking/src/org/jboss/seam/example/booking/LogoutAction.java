@@ -5,8 +5,8 @@ import javax.ejb.Interceptor;
 import javax.ejb.Stateless;
 
 import org.jboss.annotation.ejb.LocalBinding;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
@@ -18,7 +18,7 @@ public class LogoutAction implements Logout
 {
    public String logout()
    {
-      Contexts.invalidateSession();
+      Seam.invalidateSession();
       return "login";
    }
 }
