@@ -1,9 +1,12 @@
 //$Id$
 package org.jboss.seam.init;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
@@ -13,11 +16,11 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
-import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Manager;
 
 public class Initialization
 {
@@ -29,6 +32,7 @@ public class Initialization
       Lifecycle.beginInitialization(servletContext);
       Map<String, String> properties = new HashMap<String, String>();
       initPropertiesFromServletContext(servletContext, properties);
+      initPropertiesFromResource(properties);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       addComponents();
       log.info("done initializing Seam");
@@ -44,6 +48,25 @@ public class Initialization
          String name = (String) paramNames.nextElement();
          properties.put(name, servletContext.getInitParameter(name));
       }
+   }
+   
+   private void initPropertiesFromResource(Map<String, String> properties)
+   {
+      InputStream stream = Seam.class.getResourceAsStream("/seam.properties");
+      if (stream!=null)
+      {
+         Properties props = new Properties();
+         try
+         {
+            props.load(stream);
+         }
+         catch (IOException ioe)
+         {
+            log.error("Could not read seam.properties", ioe);
+         }
+         ( (Map) properties ).putAll(props);
+      }
+      ( (Map) properties ).putAll( System.getProperties() );
    }
 
    protected void addComponents()
