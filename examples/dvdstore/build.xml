@@ -148,7 +148,7 @@
         </ear>
     </target>
 
-    <target name="deploy">
+    <target name="deploy" depends="build">
         <copy file="${buildjar.dir}/dvd.ear" 
               todir="${jboss.deploy.dir}"/>
     </target>
