@@ -21,11 +21,11 @@ public class Init
    public static final String COMPONENT_CLASS_NAMES = NAME + ".componentClassNames";
    public static final String PERSISTENCE_UNIT_NAMES = NAME + ".persistenceUnitNames";
    public static final String SESSION_FACTORY_NAMES = NAME + ".sessionFactoryNames";
-   public static final String JBPM_SESSION_FACTORY_NAMES = NAME + ".jbpmSessionFactoryNames";
+   public static final String JBPM_SESSION_FACTORY_NAME = NAME + ".jbpmSessionFactoryName";
    
    private String[] persistenceUnitNames = {};
    private String[] sessionFactoryNames = {};
-   private String[] jbpmSessionFactoryNames = {};
+   private String jbpmSessionFactoryName;
    private String[] componentClassNames = {};
 
    public String[] getPersistenceUnitNames()
@@ -47,14 +47,14 @@ public class Init
       this.sessionFactoryNames = sessionFactoryNames;
    }
 
-   public String[] getJbpmSessionFactoryNames()
+   public String getJbpmSessionFactoryName()
    {
-      return jbpmSessionFactoryNames;
+      return jbpmSessionFactoryName;
    }
 
-   public void setJbpmSessionFactoryNames(String[] jbpmSessionFactoryNames)
+   public void setJbpmSessionFactoryName(String jbpmSessionFactoryName)
    {
-      this.jbpmSessionFactoryNames = jbpmSessionFactoryNames;
+      this.jbpmSessionFactoryName = jbpmSessionFactoryName;
    }
 
    public String[] getComponentClassNames()
