@@ -66,7 +66,27 @@ public class ComponentTest
       assert c.getValidateMethods().size()==1;
       assert c.isInstance( new Foo() );
       
-      //TODO: session beans
+      c = new Component(EjbBean.class);
+      assert c.getName().equals("ejb");
+      assert c.getBeanClass()==EjbBean.class;
+      assert c.getType()==ComponentType.STATEFUL_SESSION_BEAN;
+      assert c.getScope()==ScopeType.EVENT;
+      assert !c.hasDestroyMethod();
+      assert !c.hasCreateMethod();
+      assert c.getCreateMethod()==null;
+      assert c.getDestroyMethod()==null;
+      assert c.getInFields().size()==0;
+      assert c.getInMethods().size()==0;
+      assert !c.isConversational();
+      assert c.getUnwrapMethod()==null;
+      assert c.getOutFields().size()==0;
+      assert c.getOutMethods().size()==0;
+      assert c.getRemoveMethods().size()==1;
+      assert c.getValidateMethods().size()==0;
+      assert c.isInstance( new Ejb() {
+         public void destroy() {}
+         public void foo() {} 
+      } );
    }
    
    public void testBuiltInComponents()
