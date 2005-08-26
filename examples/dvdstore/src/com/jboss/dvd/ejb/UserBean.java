@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.annotation.ejb.LocalBinding;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -44,13 +45,7 @@ public class UserBean
     }
 
     public String logout() {
-        FacesContext facesContext = FacesContext.getCurrentInstance(); 
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-
-        if (session != null) {
-            session.invalidate();
-        }
-        
+        Seam.invalidateSession();
         return "done";
     }
 }

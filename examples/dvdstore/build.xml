@@ -3,6 +3,8 @@
 <project name="dvd app" default="main" basedir=".">
     <description>DVD Store</description>
     
+	<property environment="env"/>
+	
     <property name="src.dir"      location="src" />
 
     <property name="dd.dir"       location="dd" />
@@ -12,7 +14,7 @@
     <property name="lib.dir"      location="lib" />
     <property name="web.dir"      location="web" />
     
-    <property name="jboss.dir"    location="/Users/orb/proj/jboss/jboss-head/build/output/jboss-5.0.0alpha" />
+    <property name="jboss.dir"    location="${env.JBOSS_HOME}" />
     <property name="jboss.deploy.dir" 
               location="${jboss.dir}/server/default/deploy"/>
     <property name="jboss.conf.dir" 
@@ -91,6 +93,9 @@
             <metainf dir="dd/ejb3">
                 <include name="persistence.xml" />
             </metainf>
+            <fileset dir="dd/ejb3">
+                <include name="import.sql"/>
+            </fileset>
             <fileset dir="${build.dir}">
                 <include name="**/ejb/**/*.class"/>
             </fileset>
