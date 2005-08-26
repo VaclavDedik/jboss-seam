@@ -1,4 +1,9 @@
-// $Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.core;
 
 import org.jboss.logging.Logger;
@@ -14,10 +19,11 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 /**
  * Implementation of JbpmTask.
  *
- * @author Steve Ebersole
+ * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @version $Revision$
  */
-@Scope( ScopeType.EVENT )
-@Name( "org.jboss.seam.core.jbpmTask" )
+@Scope( ScopeType.APPLICATION )
+@Name( "org.jbpm.taskmgmt.exe.TaskInstance" )
 public class JbpmTask
 {
    private static final Logger log = Logger.getLogger( JbpmTask.class );
