@@ -126,7 +126,8 @@ public class SeamTest
 
    @Configuration(beforeTestClass=true)
    public void init() throws Exception
-   {  
+   {
+      buildJbpm();
       phases = new SeamPhaseListener();
       servletContext = new MockServletContext();
       initServletContext( servletContext.getInitParameters() );
@@ -134,14 +135,15 @@ public class SeamTest
       lifecycle = new MockLifecycle();
       new Initialization(servletContext).init();
    }
-   
+
    @Configuration(afterTestClass=true)
    public void cleanup() throws Exception
    {
       Lifecycle.endApplication(servletContext);
       servletContext = null;
+      releaseJbpm();
    }
-   
+
    @Configuration(afterSuite=true)
    public void cleanupSuite() throws Exception
    {
@@ -150,7 +152,7 @@ public class SeamTest
       deployer.destroy();
       deployer = null;
    }
-   
+
    @Configuration(beforeSuite=true)
    public void initSuite() throws Exception
    {
@@ -167,7 +169,10 @@ public class SeamTest
       deployer.create();
       deployer.start();
    }
-   
+
    public void initServletContext(Map initParams) {}
 
+   protected void buildJbpm() {}
+
+   protected void releaseJbpm() {}
 }
