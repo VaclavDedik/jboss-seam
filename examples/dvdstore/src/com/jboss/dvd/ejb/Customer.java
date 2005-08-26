@@ -32,14 +32,14 @@ public class Customer
     String state;
     String zip;  
     String country;
-    int    region;
+    Integer    region;
     String email;
     String phone;
     int    creditCardType;
     String creditCard;
     String creditCardExpiration;
-    int    age;
-    long   income;
+    Integer    age;
+    Long   income;
     String gender;
 
     public Customer() {
@@ -133,10 +133,10 @@ public class Customer
     }
 
     @Column(name="REGION",nullable=false)
-    public int getRegion() {
+    public Integer getRegion() {
         return region;
     }
-    public void setRegion(int region) {
+    public void setRegion(Integer region) {
         this.region = region;
     }
 
@@ -157,18 +157,18 @@ public class Customer
     }
 
     @Column(name="AGE")    
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
     @Column(name="INCOME")    
-    public long getIncome() {
+    public Long getIncome() {
         return income;
     }
-    public void setIncome(long income) {
+    public void setIncome(Long income) {
         this.income = income;
     }
 
