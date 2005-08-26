@@ -1,18 +1,22 @@
 //$Id$
 package org.jboss.seam.init;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.components.ConversationManager;
-import org.jboss.seam.components.ManagedPersistenceContext;
-import org.jboss.seam.components.Settings;
-import org.jboss.seam.components.ManagedJbpmSession;
-import org.jboss.seam.components.ManagedHibernateSession;
 import org.jboss.seam.contexts.Context;
-import org.jboss.seam.contexts.WebApplicationContext;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ManagedHibernateSession;
+import org.jboss.seam.core.ManagedJbpmSession;
+import org.jboss.seam.core.ManagedPersistenceContext;
+import org.jboss.seam.core.Init;
 
 public class Initialization
 {
@@ -21,21 +25,35 @@ public class Initialization
    public Initialization init(ServletContext servletContext)
    {
       log.info("initializing Seam");
-      Context context = new WebApplicationContext( servletContext );
-      
-      Settings settings = new Settings();
-      settings.init( servletContext );
-      context.set( Seam.getComponentName(Settings.class), settings );
-      
-      addComponents(settings, context);
+      Contexts.beginInitialization(servletContext);
+      Map<String, String> properties = new HashMap<String, String>();
+      initPropertiesFromServletContext(servletContext, properties);
+      Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
+      addComponents();
       log.info("done initializing Seam");
+      Contexts.endInitialization();
       return this;
    }
 
-   protected void addComponents(Settings settings, Context context)
+   private void initPropertiesFromServletContext(ServletContext servletContext, Map<String, String> properties)
    {
-      addComponent( Settings.class, context );
-      addComponent( ConversationManager.class, context );
+      Enumeration paramNames = servletContext.getInitParameterNames();
+      while (paramNames.hasMoreElements())
+      {
+         String name = (String) paramNames.nextElement();
+         properties.put(name, servletContext.getInitParameter(name));
+      }
+   }
+
+   protected void addComponents()
+   {
+      Context context = Contexts.getApplicationContext();
+      
+      addComponent( Init.class, context );
+      addComponent( Manager.class, context );
+      
+      Init settings = (Init) Component.getInstance(Init.class, true);
+      
       for ( String className : settings.getComponentClassNames() )
       {
          try
@@ -47,18 +65,22 @@ public class Initialization
             throw new IllegalArgumentException("Component class not found: " + className, cnfe);
          }
       }
+      
       for ( String unitName : settings.getPersistenceUnitNames() )
       {
          addComponent( unitName, ManagedPersistenceContext.class, context );
       }
+      
       for ( String sfName : settings.getSessionFactoryNames() )
       {
          addComponent( sfName, ManagedHibernateSession.class, context );
       }
+      
       for ( String jbpmSfName : settings.getJbpmSessionFactoryNames() )
       {
          addComponent( jbpmSfName, ManagedJbpmSession.class, context );
       }
+      
    }
    
    protected void addComponent(String name, Class clazz, Context context)

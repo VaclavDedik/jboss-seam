@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.components;
+package org.jboss.seam.core;
 
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Create;

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.testng.annotations.Configuration;
@@ -70,7 +71,7 @@ public class SeamTest
          request = new MockHttpServletRequest( session );
          facesContext = new MockFacesContext( request );
          facesContext.setCurrent();
-         facesContext.getViewRoot().getAttributes().put("org.jboss.seam.conversationId", conversationId);
+         facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, conversationId);
          
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
@@ -96,7 +97,7 @@ public class SeamTest
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
          
-         conversationId = (String) facesContext.getViewRoot().getAttributes().get("org.jboss.seam.conversationId");         
+         conversationId = (String) facesContext.getViewRoot().getAttributes().get(Manager.CONVERSATION_ID);         
          renderResponse();
          
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );

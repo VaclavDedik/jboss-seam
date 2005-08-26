@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.components.ConversationManager;
+import org.jboss.seam.core.Manager;
 
 /**
  * A conversation context is a logical context that last longer than 
@@ -96,7 +96,7 @@ public class ConversationContext implements Context, Serializable {
 
    public void flush()
    {
-      if ( ConversationManager.instance().isLongRunningConversation() )
+      if ( Manager.instance().isLongRunningConversation() )
       {
          for (Map.Entry<String, Object> entry: temporarySession.entrySet())
          {

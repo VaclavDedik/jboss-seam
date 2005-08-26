@@ -6,18 +6,24 @@
  */
 package org.jboss.seam;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
+import java.beans.PropertyEditorSupport;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Local;
 import javax.ejb.Remove;
-import javax.faces.el.EvaluationException;
 import javax.naming.InitialContext;
 
 import org.hibernate.validator.ClassValidator;
@@ -56,6 +62,27 @@ import org.jboss.seam.util.Strings;
 @Scope(ScopeType.APPLICATION)
 public class Component
 {
+   public static final String PROPERTIES = "org.jboss.seam.properties";
+   
+   static
+   {
+      PropertyEditorManager.registerEditor(String[].class, StringArrayPropertyEditor.class);
+   }
+   
+   public static class StringArrayPropertyEditor extends PropertyEditorSupport
+   {
+      @Override
+      public void setAsText(String text) throws IllegalArgumentException
+      {
+         setValue( Strings.split(text, ", ") );
+      }
+      @Override
+      public String getAsText()
+      {
+         return Strings.toString( (String[]) getValue() );
+      }
+   }
+
    private static final Logger log = Logger.getLogger(Component.class);
 
    private ComponentType type;
@@ -73,6 +100,7 @@ public class Component
    private Set<Field> inFields = new HashSet<Field>();
    private Set<Method> outMethods = new HashSet<Method>();
    private Set<Field> outFields = new HashSet<Field>();
+   private Map<Method, Object> initializers = new HashMap<Method, Object>();
    
    private ClassValidator validator;
    
@@ -110,6 +138,53 @@ public class Component
          ifNoConversationOutcome = beanClass.getAnnotation(Conversational.class).ifNotBegunOutcome();
       }
 
+      initMembers(clazz);
+         
+      validator = new ClassValidator(beanClass);
+      
+      localInterfaces = getLocalInterfaces(beanClass);
+      
+      initInterceptors();
+      
+      //TODO: YEW!!!!!
+      if ( Contexts.isApplicationContextActive() ) 
+      {
+         initInitializers();
+      }
+      
+   }
+
+   private void initInitializers()
+   {
+      Map<String, String> properties = (Map) Contexts.getApplicationContext().get(PROPERTIES);
+      if (properties==null) return; //TODO: yew!!!!!
+      for (Map.Entry<String, String> me: properties.entrySet())
+      {
+         String key = me.getKey();
+         String value = me.getValue();
+         log.info( key + "=" + value );
+         
+         if ( key.startsWith(name) )
+         {
+            String propertyName = key.substring( name.length()+1, key.length() );
+            PropertyDescriptor propertyDescriptor;
+            try
+            {
+               propertyDescriptor = new PropertyDescriptor(propertyName, beanClass);
+            }
+            catch (IntrospectionException ie)
+            {
+               throw new IllegalArgumentException(ie);
+            }
+            PropertyEditor propertyEditor = PropertyEditorManager.findEditor( propertyDescriptor.getPropertyType() );
+            propertyEditor.setAsText( value );
+            initializers.put( propertyDescriptor.getWriteMethod(), propertyEditor.getValue() );
+         }
+      }
+   }
+
+   private void initMembers(Class<?> clazz)
+   {
       for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
       
@@ -166,11 +241,10 @@ public class Component
          }
          
       }
-         
-      validator = new ClassValidator(beanClass);
-      
-      localInterfaces = getLocalInterfaces(beanClass);
-      
+   }
+
+   private void initInterceptors()
+   {
       initDefaultInterceptors();
       
       for (Annotation annotation: beanClass.getAnnotations())
@@ -194,7 +268,6 @@ public class Component
       }.sort(interceptors);
       
       log.info("interceptor stack: " + interceptors);
-      
    }
 
    private void initDefaultInterceptors()
@@ -301,24 +374,38 @@ public class Component
    {
       try 
       {
-         switch(type)
-         {
-            case JAVA_BEAN: 
-            case ENTITY_BEAN:
-               Object bean = beanClass.newInstance();
-               inject(bean);
-               return bean;
-            case STATELESS_SESSION_BEAN : 
-            case STATEFUL_SESSION_BEAN :
-               return new InitialContext().lookup(jndiName);
-            default:
-               throw new IllegalStateException();
-         }
+         return initialize( instantiate() );
       }
       catch (Exception e)
       {
          throw new InstantiationException("Could not instantiate component", e);
       }
+   }
+
+   protected Object instantiate() throws Exception
+   {
+      switch(type)
+      {
+         case JAVA_BEAN: 
+         case ENTITY_BEAN:
+            Object bean = beanClass.newInstance();
+            inject(bean);
+            return bean;
+         case STATELESS_SESSION_BEAN : 
+         case STATEFUL_SESSION_BEAN :
+            return new InitialContext().lookup(jndiName);
+         default:
+            throw new IllegalStateException();
+      }
+   }
+   
+   protected Object initialize(Object bean) throws Exception
+   {
+      for (Map.Entry<Method, Object> me: initializers.entrySet())
+      {
+         Reflections.invoke( me.getKey(), bean, me.getValue() );
+      }
+      return bean;
    }
    
    public void inject(Object bean)
@@ -496,10 +583,15 @@ public class Component
    
    public static Component forName(String name)
    {
-      return (Component) getInstance( name+".component", false );
+      return (Component) getInstance( name + ".component", false );
    }
 
-   public static Object getInstance(String name, boolean create) throws EvaluationException
+   public static Object getInstance(Class clazz, boolean create)
+   {
+      return getInstance( Seam.getComponentName(clazz), create );
+   }
+
+   public static Object getInstance(String name, boolean create)
    {
       Object result = Contexts.lookupInStatefulContexts(name);
       if (result == null && create)

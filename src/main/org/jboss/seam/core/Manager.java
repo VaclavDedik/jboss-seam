@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.components;
+package org.jboss.seam.core;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,15 +20,15 @@ import org.jboss.seam.contexts.ConversationContext;
 import org.jboss.seam.util.Id;
 
 @Scope(ScopeType.EVENT)
-@Name("org.jboss.seam.components.conversationManager")
-public class ConversationManager
+@Name("org.jboss.seam.core.manager")
+public class Manager
 {
-   private static Logger log = Logger.getLogger(ConversationManager.class);
+   private static Logger log = Logger.getLogger(Manager.class);
 
-   private static final String NAME = Seam.getComponentName(ConversationManager.class);
-   private static final String CONVERSATION_ID_MAP = "org.jboss.seam.allConversationIds";
-   private static final String CONVERSATION_OWNER_NAME = "org.jboss.seam.conversationOwnerName";
-   private static final String CONVERSATION_ID = "org.jboss.seam.conversationId";
+   private static final String NAME = Seam.getComponentName(Manager.class);
+   public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdActivityMap";
+   public static final String CONVERSATION_OWNER_NAME = NAME + ".conversationOwnerName";
+   public static final String CONVERSATION_ID = NAME + ".conversationId";
       
    //A map of all conversations for the session,
    //to the last activity time, which is flushed
@@ -45,6 +45,17 @@ public class ConversationManager
    
    //Are we processing interceptors?
    private boolean processInterceptors = false;
+   
+   private int conversationTimeout = 600000; //10 minutes
+
+   public int getConversationTimeout()
+   {
+      return conversationTimeout;
+   }
+   public void setConversationTimeout(int conversationTimeout)
+   {
+      this.conversationTimeout = conversationTimeout;
+   }
    
    public String getCurrentConversationId()
    {
@@ -110,7 +121,6 @@ public class ConversationManager
       {
          Map.Entry<String, Long> entry = iter.next();
          long delta = currentTime - entry.getValue();
-         int conversationTimeout = Settings.instance().getConversationTimeout();
          if ( delta > conversationTimeout )
          {
             String conversationId = entry.getKey();
@@ -156,9 +166,9 @@ public class ConversationManager
       Contexts.getConversationContext().set(CONVERSATION_OWNER_NAME, name);
    }
 
-   public static ConversationManager instance()
+   public static Manager instance()
    {
-      ConversationManager instance = (ConversationManager) Component.getInstance( NAME, true );
+      Manager instance = (Manager) Component.getInstance( NAME, true );
       if (instance==null)
       {
          throw new IllegalStateException("No ConversationManager could be created, make sure the Component exists in application scope");

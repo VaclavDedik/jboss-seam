@@ -7,10 +7,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.components.ManagedHibernateSession;
-import org.jboss.seam.components.ManagedPersistenceContext;
-import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.ManagedHibernateSession;
+import org.jboss.seam.core.ManagedPersistenceContext;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.util.Transactions;
 
 public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseListener
@@ -59,7 +59,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
          {
             if ( Transactions.isTransactionActive() )
             {
-               Settings settings = Settings.instance();
+               Init settings = Init.instance();
                for (String unitName : settings.getPersistenceUnitNames())
                {
                   flushEntityManager(unitName);

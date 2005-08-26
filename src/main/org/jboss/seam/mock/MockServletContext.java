@@ -122,7 +122,7 @@ public class MockServletContext implements ServletContext
 
    public Enumeration getInitParameterNames()
    {
-      return new IteratorEnumeration( initParameters.values().iterator() );
+      return new IteratorEnumeration( initParameters.keySet().iterator() );
    }
 
    public Object getAttribute(String att)

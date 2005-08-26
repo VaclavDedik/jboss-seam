@@ -22,10 +22,10 @@ import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.components.ConversationManager;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Manager;
 
 /**
  * Manages the thread/context associations throught the
@@ -52,18 +52,18 @@ public class SeamPhaseListener implements PhaseListener
       if (event.getPhaseId() == RESTORE_VIEW)
       {
          Contexts.beginRequest( getSession(event) );
-         ConversationManager.instance().setProcessInterceptors(false);
+         Manager.instance().setProcessInterceptors(false);
          log.info("About to restore view");
       }
       else if (event.getPhaseId() == RENDER_RESPONSE)
       {
          storeAnyConversationContext(event);
          storeAnyBusinessProcessContext();
-         ConversationManager.instance().conversationTimeout( getSession(event) );
+         Manager.instance().conversationTimeout( getSession(event) );
       }
       else if (event.getPhaseId() == INVOKE_APPLICATION)
       {
-         ConversationManager.instance().setProcessInterceptors(true);
+         Manager.instance().setProcessInterceptors(true);
          log.info("About to invoke application");
       }
       else if (event.getPhaseId() == UPDATE_MODEL_VALUES)
@@ -95,7 +95,7 @@ public class SeamPhaseListener implements PhaseListener
       else if (event.getPhaseId() == INVOKE_APPLICATION)
       {
          log.info("After invoke application");
-         ConversationManager.instance().setProcessInterceptors(false);
+         Manager.instance().setProcessInterceptors(false);
       }
       else if (event.getPhaseId() == UPDATE_MODEL_VALUES)
       {
@@ -113,7 +113,7 @@ public class SeamPhaseListener implements PhaseListener
 
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
-      String conversationId = ConversationManager.instance().restore( getAttributes(event) );
+      String conversationId = Manager.instance().restore( getAttributes(event) );
       Contexts.resumeConversation( getSession(event), conversationId );
       log.info("After restore view, conversation context: " + Contexts.getConversationContext());
    }
@@ -127,7 +127,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else 
       {
-         ConversationManager.instance().store( getAttributes(event) );
+         Manager.instance().store( getAttributes(event) );
       }
    }
    

@@ -16,10 +16,10 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.BeginProcess;
 import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.components.JbpmProcess;
-import org.jboss.seam.components.JbpmTask;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.JbpmProcess;
+import org.jboss.seam.core.JbpmTask;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -61,17 +61,20 @@ public class BusinessProcessInterceptor extends AbstractInterceptor {
 
 	private void beginProcess(String processDefinitionName) {
 		Contexts.getStatelessContext().set( BusinessProcessContext.PROCESS_DEF_KEY, processDefinitionName );
-		Component.getInstance( JbpmProcess.class.getName(), true );
+		//TODO: wrong name
+      Component.getInstance( JbpmProcess.class.getName(), true );
 	}
 
 	private void startTask(Long id) {
 		Contexts.getStatelessContext().set( BusinessProcessContext.TASK_ID_KEY, id );
+      //TODO: wrong name
 		TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class.getName(), true );
 		task.start();
 	}
 
 	private void completeTask(Long id, String transitionName) {
 		Contexts.getStatelessContext().set( BusinessProcessContext.TASK_ID_KEY, id );
+      //TODO: wrong name
 		TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class.getName(), true );
 
 		if ( transitionName == null ) {

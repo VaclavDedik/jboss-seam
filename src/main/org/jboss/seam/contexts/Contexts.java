@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
-import org.jboss.seam.components.ConversationManager;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -70,6 +70,16 @@ public class Contexts {
       applicationContext.set( new WebApplicationContext( session.getServletContext() ) );
 	}
 
+   public static void beginInitialization(ServletContext servletContext)
+   {
+      Context context = new WebApplicationContext( servletContext );
+      applicationContext.set( context );
+   }
+   public static void endInitialization()
+   {
+      applicationContext.set(null);
+   }
+   
    public static void endApplication(ServletContext servletContext)
    {
       Context tempApplicationContext = new WebApplicationContext( servletContext );
@@ -98,7 +108,7 @@ public class Contexts {
       Context tempSessionContext = new WebSessionContext( session );
       sessionContext.set(tempSessionContext);
       
-      Set<String> ids = ConversationManager.instance().getSessionConversationIds();
+      Set<String> ids = Manager.instance().getSessionConversationIds();
       log.info("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
@@ -130,7 +140,7 @@ public class Contexts {
       if ( Contexts.isConversationContextActive() )
       {
          getConversationContext().flush();
-         if ( !ConversationManager.instance().isLongRunningConversation() )
+         if ( !Manager.instance().isLongRunningConversation() )
          {
             log.info("destroying conversation context");
             destroy( Contexts.getConversationContext() );

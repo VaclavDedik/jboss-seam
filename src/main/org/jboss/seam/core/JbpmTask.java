@@ -1,5 +1,5 @@
 // $Id$
-package org.jboss.seam.components;
+package org.jboss.seam.core;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -29,6 +29,7 @@ public class JbpmTask {
 	public void create(Component component) {
 		log.trace( "creating jbpm task component [" + component + "]" );
 		Long taskId = ( Long ) Contexts.getStatelessContext().get( BusinessProcessContext.TASK_ID_KEY );
+      //TODO: the name looks wrong!!!
 		JbpmSession jbpmSession = ( JbpmSession ) Component.getInstance( ManagedJbpmSession.class.getName(), true );
 		task = jbpmSession.getTaskMgmtSession().loadTaskInstance( taskId );
 	}

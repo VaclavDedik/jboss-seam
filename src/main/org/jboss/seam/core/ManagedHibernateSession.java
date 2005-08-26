@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.components;
+package org.jboss.seam.core;
 
 import java.io.Serializable;
 

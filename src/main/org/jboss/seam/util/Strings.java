@@ -61,6 +61,16 @@ public class Strings
       }
    }
    
+   public static String toString(Object... objects)
+   {
+      StringBuilder builder = new StringBuilder();
+      for (Object obj : objects)
+      {
+         builder.append( obj.toString() ).append(" ");
+      }
+      return builder.toString();
+   }
+   
    public static String toString(Class... classes)
    {
       StringBuilder builder = new StringBuilder();
