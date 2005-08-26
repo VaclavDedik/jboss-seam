@@ -12,7 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -48,7 +48,7 @@ public class SeamExceptionFilter implements Filter
    {
       try 
       {
-         Contexts.endRequest( ( (HttpServletRequest) request ).getSession() );
+         Lifecycle.endRequest( ( (HttpServletRequest) request ).getSession() );
       }
       catch (Exception ee)
       {

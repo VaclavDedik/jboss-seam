@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamPhaseListener;
@@ -120,7 +120,7 @@ public class SeamTest
    @Configuration(afterTestMethod=true)
    public void end()
    {
-      Contexts.endSession(session);
+      Lifecycle.endSession(session);
       session = null;
    }
 
@@ -138,7 +138,7 @@ public class SeamTest
    @Configuration(afterTestClass=true)
    public void cleanup() throws Exception
    {
-      Contexts.endApplication(servletContext);
+      Lifecycle.endApplication(servletContext);
       servletContext = null;
    }
    

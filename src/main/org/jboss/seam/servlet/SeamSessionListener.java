@@ -4,7 +4,7 @@ package org.jboss.seam.servlet;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 
 /**
  * Destroys Seam components when the session times out
@@ -16,7 +16,7 @@ public class SeamSessionListener implements HttpSessionListener
    public void sessionCreated(HttpSessionEvent event) {}
 
    public void sessionDestroyed(HttpSessionEvent event) {
-      Contexts.endSession( event.getSession() );
+      Lifecycle.endSession( event.getSession() );
    }
 
 }

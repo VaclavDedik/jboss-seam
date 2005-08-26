@@ -12,6 +12,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
@@ -25,13 +26,13 @@ public class Initialization
    public Initialization init(ServletContext servletContext)
    {
       log.info("initializing Seam");
-      Contexts.beginInitialization(servletContext);
+      Lifecycle.beginInitialization(servletContext);
       Map<String, String> properties = new HashMap<String, String>();
       initPropertiesFromServletContext(servletContext, properties);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       addComponents();
       log.info("done initializing Seam");
-      Contexts.endInitialization();
+      Lifecycle.endInitialization();
       return this;
    }
 

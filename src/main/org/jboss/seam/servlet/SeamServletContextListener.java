@@ -4,7 +4,7 @@ package org.jboss.seam.servlet;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 
 /**
  * Destroys Seam components when the app is undeployed
@@ -19,7 +19,7 @@ public class SeamServletContextListener implements ServletContextListener
    }
 
    public void contextDestroyed(ServletContextEvent event) {
-      Contexts.endApplication( event.getServletContext() );
+      Lifecycle.endApplication( event.getServletContext() );
    }
 
 }

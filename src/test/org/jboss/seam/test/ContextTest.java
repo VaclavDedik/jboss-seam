@@ -10,6 +10,7 @@ import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
 import org.jboss.seam.contexts.EventContext;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Manager;
@@ -34,14 +35,14 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
       
-      Contexts.beginRequest(session);
+      Lifecycle.beginRequest(session);
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
       
-      Contexts.resumeConversation(session, "3");
+      Lifecycle.resumeConversation(session, "3");
       Manager.instance().setLongRunningConversation(true);
       
       assert Contexts.isEventContextActive();
@@ -62,7 +63,7 @@ public class ContextTest
       Contexts.getApplicationContext().set("foo", "bar");
       Contexts.getConversationContext().set("xxx", "yyy");
       
-      Contexts.endRequest(session);
+      Lifecycle.endRequest(session);
       
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -71,14 +72,14 @@ public class ContextTest
       assert session.getAttributes().size()==2;
       assert servletContext.getAttributes().size()==2;
       
-      Contexts.beginRequest(session);
+      Lifecycle.beginRequest(session);
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
       
-      Contexts.resumeConversation(session, "3");
+      Lifecycle.resumeConversation(session, "3");
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
@@ -99,7 +100,7 @@ public class ContextTest
       assert Contexts.getConversationContext().get("xxx").equals("yyy");
       
       Manager.instance().setLongRunningConversation(false);
-      Contexts.endRequest(session);
+      Lifecycle.endRequest(session);
       
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -108,11 +109,11 @@ public class ContextTest
       assert session.getAttributes().size()==1;
       assert servletContext.getAttributes().size()==2;
       
-      Contexts.endSession(session);
+      Lifecycle.endSession(session);
       
       //assert session.getAttributes().size()==0;
       
-      Contexts.endApplication(servletContext);
+      Lifecycle.endApplication(servletContext);
       
       //assert servletContext.getAttributes().size()==0;
    }
@@ -122,7 +123,7 @@ public class ContextTest
    {
       ServletContext servletContext = new MockServletContext();
       HttpSession session = new MockHttpSession(servletContext);
-      Contexts.beginRequest(session);
+      Lifecycle.beginRequest(session);
       Contexts.getApplicationContext().set(
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
@@ -138,7 +139,7 @@ public class ContextTest
       testIsolation( new ConversationContext(session, "1"), new ConversationContext(session, "2") );
       testIsolation( new WebSessionContext(session), new WebSessionContext( new MockHttpSession(servletContext) ) );
       
-      Contexts.endApplication(servletContext);
+      Lifecycle.endApplication(servletContext);
    }
    
    private void testEquivalence(Context ctx, Context cty)

@@ -25,6 +25,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 
 /**
@@ -51,7 +52,7 @@ public class SeamPhaseListener implements PhaseListener
 
       if (event.getPhaseId() == RESTORE_VIEW)
       {
-         Contexts.beginRequest( getSession(event) );
+         Lifecycle.beginRequest( getSession(event) );
          Manager.instance().setProcessInterceptors(false);
          log.info("About to restore view");
       }
@@ -90,7 +91,7 @@ public class SeamPhaseListener implements PhaseListener
          restoreAnyBusinessProcessContext();
       }
       else if (event.getPhaseId() == RENDER_RESPONSE) {
-         Contexts.endRequest( getSession(event) );
+         Lifecycle.endRequest( getSession(event) );
       }
       else if (event.getPhaseId() == INVOKE_APPLICATION)
       {
@@ -114,7 +115,7 @@ public class SeamPhaseListener implements PhaseListener
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
       String conversationId = Manager.instance().restore( getAttributes(event) );
-      Contexts.resumeConversation( getSession(event), conversationId );
+      Lifecycle.resumeConversation( getSession(event), conversationId );
       log.info("After restore view, conversation context: " + Contexts.getConversationContext());
    }
 
@@ -154,10 +155,10 @@ public class SeamPhaseListener implements PhaseListener
 		Map state = ( Map ) conversation.get( JBPM_STATE_MAP );
 		log.trace( "restoring bpm state from : " + state );
 		if ( state != null ) {
-			Contexts.recoverBusinessProcessContext( state );
+			Lifecycle.recoverBusinessProcessContext( state );
 		}
 		else {
-			Contexts.beginBusinessProcessContext();
+			Lifecycle.beginBusinessProcessContext();
 		}
 	}
 

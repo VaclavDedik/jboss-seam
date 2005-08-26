@@ -192,7 +192,7 @@ public class Manager
       {
          String conversationId = currentConversationId;
          log.info("Storing conversation state: " + conversationId);
-         if ( !Contexts.isSessionInvalid() ) 
+         if ( !Seam.isSessionInvalid() ) 
          {
             //if the session is invalid, don't put the conversation id
             //in the view, 'cos we are expecting the conversation to

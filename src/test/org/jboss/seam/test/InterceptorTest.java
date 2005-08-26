@@ -10,6 +10,7 @@ import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
@@ -30,8 +31,8 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockHttpSession session = new MockHttpSession( servletContext );
-      Contexts.beginRequest( session );
-      Contexts.resumeConversation( session, "1" );
+      Lifecycle.beginRequest( session );
+      Lifecycle.resumeConversation( session, "1" );
       Contexts.getApplicationContext().set( 
                Seam.getComponentName(Manager.class) + ".component", 
                new Component(Manager.class) 
@@ -110,7 +111,7 @@ public class InterceptorTest
          assert e instanceof RequiredException;
       }
       
-      Contexts.endApplication(servletContext);
+      Lifecycle.endApplication(servletContext);
    }
    
    @Test
@@ -118,8 +119,8 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockHttpSession session = new MockHttpSession( servletContext );
-      Contexts.beginRequest( session );
-      Contexts.resumeConversation( session, "1" );
+      Lifecycle.beginRequest( session );
+      Lifecycle.resumeConversation( session, "1" );
       Contexts.getApplicationContext().set( 
                Seam.getComponentName(Manager.class) + ".component", 
                new Component(Manager.class) 
@@ -195,7 +196,7 @@ public class InterceptorTest
       assert "ended".equals(result);
       
       //TODO: @BeginIf/@EndIf
-      Contexts.endApplication(servletContext);
+      Lifecycle.endApplication(servletContext);
    }
    
    @Test
@@ -203,8 +204,8 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockHttpSession session = new MockHttpSession( servletContext );
-      Contexts.beginRequest( session );
-      Contexts.resumeConversation( session, "1" );
+      Lifecycle.beginRequest( session );
+      Lifecycle.resumeConversation( session, "1" );
       Contexts.getApplicationContext().set( 
                Seam.getComponentName(Manager.class) + ".component", 
                new Component(Manager.class) 
@@ -280,7 +281,7 @@ public class InterceptorTest
       assert !Manager.instance().isLongRunningConversation();
       assert "ended".equals(result);
       
-      Contexts.endApplication(servletContext);
+      Lifecycle.endApplication(servletContext);
       
    }
    
@@ -401,7 +402,7 @@ public class InterceptorTest
    public void testRemoveInterceptor() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
-      Contexts.beginRequest( new MockHttpSession( servletContext ) );
+      Lifecycle.beginRequest( new MockHttpSession( servletContext ) );
       Contexts.getSessionContext().set( "foo", new Foo() );
       
       RemoveInterceptor ri = new RemoveInterceptor();
@@ -427,7 +428,7 @@ public class InterceptorTest
       
       assert !Contexts.getSessionContext().isSet("foo");
       
-      Contexts.endApplication(servletContext);
+      Lifecycle.endApplication(servletContext);
    }
 
    static Method getMethod(String name)

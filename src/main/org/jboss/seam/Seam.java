@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  * Convenience methods for accessing annotated information
@@ -22,6 +23,8 @@ import org.jboss.seam.annotations.Scope;
 public class Seam
 {
       
+   private static final String SESSION_INVALID = "org.jboss.seam.sessionInvalid";
+
    /**
     * Get the default scope
     * @see Scope
@@ -62,6 +65,31 @@ public class Seam
    public static String getComponentName(Class<?> clazz)
    {
       return clazz.getAnnotation(Name.class).value();
+   }
+   
+   /**
+    * Mark the session for invalidation at the end of the request cycle
+    */
+   public static void invalidateSession()
+   {
+      if ( !Contexts.isSessionContextActive() )
+      {
+         throw new IllegalStateException("No active session context");
+      }
+      Contexts.getSessionContext().set(SESSION_INVALID, true);
+   }
+   
+   /**
+    * Is the session marked for invalidation?
+    */
+   public static boolean isSessionInvalid()
+   {
+      if ( !Contexts.isSessionContextActive() )
+      {
+         throw new IllegalStateException("No active session context");
+      }
+      Boolean isSessionInvalid = (Boolean) Contexts.getSessionContext().get(SESSION_INVALID);
+      return isSessionInvalid!=null && isSessionInvalid;
    }
 
 }
