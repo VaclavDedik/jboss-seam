@@ -162,8 +162,7 @@ public class Component
       {
          String key = me.getKey();
          String value = me.getValue();
-         log.info( key + "=" + value );
-         
+          
          if ( key.startsWith(name) )
          {
             String propertyName = key.substring( name.length()+1, key.length() );
@@ -179,7 +178,9 @@ public class Component
             PropertyEditor propertyEditor = PropertyEditorManager.findEditor( propertyDescriptor.getPropertyType() );
             propertyEditor.setAsText( value );
             initializers.put( propertyDescriptor.getWriteMethod(), propertyEditor.getValue() );
-         }
+            log.info( key + "=" + value );
+        }
+         
       }
    }
 
@@ -267,7 +268,7 @@ public class Component
          }
       }.sort(interceptors);
       
-      log.info("interceptor stack: " + interceptors);
+      log.trace("interceptor stack: " + interceptors);
    }
 
    private void initDefaultInterceptors()
@@ -697,6 +698,11 @@ public class Component
          name = field.getName();
       }
       return name;
+   }
+   
+   public String toString()
+   {
+      return "Component(" + name + ")";
    }
    
 }
