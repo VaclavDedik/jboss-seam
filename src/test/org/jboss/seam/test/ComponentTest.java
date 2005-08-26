@@ -5,10 +5,10 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.components.ConversationManager;
-import org.jboss.seam.components.ManagedHibernateSession;
-import org.jboss.seam.components.ManagedPersistenceContext;
-import org.jboss.seam.components.Settings;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ManagedHibernateSession;
+import org.jboss.seam.core.ManagedPersistenceContext;
+import org.jboss.seam.core.Init;
 import org.testng.annotations.Test;
 
 public class ComponentTest
@@ -91,9 +91,9 @@ public class ComponentTest
    
    public void testBuiltInComponents()
    {
-      Component c = new Component(ConversationManager.class);
+      Component c = new Component(Manager.class);
       assert c.getName().equals("org.jboss.seam.conversationManager");
-      assert c.getBeanClass()==ConversationManager.class;
+      assert c.getBeanClass()==Manager.class;
       assert c.getType()==ComponentType.JAVA_BEAN;
       assert c.getScope()==ScopeType.EVENT;
       assert c.hasDestroyMethod();
@@ -109,9 +109,9 @@ public class ComponentTest
       assert c.getRemoveMethods().size()==0;
       assert c.getValidateMethods().size()==0;
 
-      c = new Component(Settings.class);
+      c = new Component(Init.class);
       assert c.getName().equals("org.jboss.seam.settings");
-      assert c.getBeanClass()==Settings.class;
+      assert c.getBeanClass()==Init.class;
       assert c.getType()==ComponentType.JAVA_BEAN;
       assert c.getScope()==ScopeType.APPLICATION;
       assert !c.hasDestroyMethod();

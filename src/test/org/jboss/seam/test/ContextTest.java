@@ -5,13 +5,14 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.components.ConversationManager;
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
 import org.jboss.seam.contexts.EventContext;
 import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.mock.MockHttpSession;
 import org.jboss.seam.mock.MockServletContext;
 import org.testng.annotations.Test;
@@ -24,8 +25,8 @@ public class ContextTest
       MockServletContext servletContext = new MockServletContext();
       MockHttpSession session = new MockHttpSession(servletContext);
       new WebApplicationContext(servletContext).set(
-            "org.jboss.seam.components.conversationManager.component",
-            new Component(ConversationManager.class)
+            Seam.getComponentName(Manager.class) + ".component",
+            new Component(Manager.class)
          );
       
       assert !Contexts.isEventContextActive();
@@ -41,7 +42,7 @@ public class ContextTest
       assert Contexts.isApplicationContextActive();
       
       Contexts.resumeConversation(session, "3");
-      ConversationManager.instance().setLongRunningConversation(true);
+      Manager.instance().setLongRunningConversation(true);
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
@@ -97,7 +98,7 @@ public class ContextTest
       assert Contexts.getApplicationContext().get("foo").equals("bar");
       assert Contexts.getConversationContext().get("xxx").equals("yyy");
       
-      ConversationManager.instance().setLongRunningConversation(false);
+      Manager.instance().setLongRunningConversation(false);
       Contexts.endRequest(session);
       
       assert !Contexts.isEventContextActive();
@@ -123,10 +124,10 @@ public class ContextTest
       HttpSession session = new MockHttpSession(servletContext);
       Contexts.beginRequest(session);
       Contexts.getApplicationContext().set(
-            "org.jboss.seam.components.conversationManager.component", 
-            new Component(ConversationManager.class) 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
          );
-      ConversationManager.instance().setLongRunningConversation(true);
+      Manager.instance().setLongRunningConversation(true);
       testContext( new WebApplicationContext(servletContext) );
       testContext( new WebSessionContext(session) );
       testContext( new EventContext() );

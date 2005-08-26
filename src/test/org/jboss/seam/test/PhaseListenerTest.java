@@ -12,11 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.components.ConversationManager;
-import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockHttpServletRequest;
@@ -38,8 +37,8 @@ public class PhaseListenerTest
       facesContext.setCurrent();
       
       new WebApplicationContext(servletContext).set( 
-            Seam.getComponentName(ConversationManager.class) + ".component",
-            new Component(ConversationManager.class)
+            Seam.getComponentName(Manager.class) + ".component",
+            new Component(Manager.class)
          );
       
       SeamPhaseListener phases = new SeamPhaseListener();
@@ -55,12 +54,12 @@ public class PhaseListenerTest
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
       assert !Contexts.isConversationContextActive();
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
       
       assert Contexts.isConversationContextActive();
-      assert !ConversationManager.instance().isLongRunningConversation();
+      assert !Manager.instance().isLongRunningConversation();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
@@ -69,20 +68,20 @@ public class PhaseListenerTest
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      assert ConversationManager.instance().isProcessInterceptors();
+      assert Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
-      assert !ConversationManager.instance().isLongRunningConversation();
+      assert !Manager.instance().isProcessInterceptors();
+      assert !Manager.instance().isLongRunningConversation();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       assert facesContext.getViewRoot().getAttributes().size()==0;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
@@ -108,21 +107,14 @@ public class PhaseListenerTest
       facesContext.setCurrent();
       
       new WebApplicationContext(servletContext).set( 
-            Seam.getComponentName(ConversationManager.class) + ".component",
-            new Component(ConversationManager.class)
+            Seam.getComponentName(Manager.class) + ".component",
+            new Component(Manager.class)
          );
       
-      Settings settings = new Settings();
-      settings.setConversationTimeout(10000);
-      new WebApplicationContext(servletContext).set( 
-            Seam.getComponentName(Settings.class),
-            settings
-         );
-      
-      facesContext.getViewRoot().getAttributes().put("org.jboss.seam.conversationId", "2");
+      facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
       ids.put("2", System.currentTimeMillis());
-      new WebSessionContext(session).set("org.jboss.seam.allConversationIds", ids);
+      new WebSessionContext(session).set(Manager.CONVERSATION_ID_MAP, ids);
       
       SeamPhaseListener phases = new SeamPhaseListener();
 
@@ -137,12 +129,12 @@ public class PhaseListenerTest
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
       assert !Contexts.isConversationContextActive();
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
       
       assert Contexts.isConversationContextActive();
-      assert ConversationManager.instance().isLongRunningConversation();
+      assert Manager.instance().isLongRunningConversation();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
@@ -151,24 +143,24 @@ public class PhaseListenerTest
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      assert ConversationManager.instance().isProcessInterceptors();
+      assert Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
-      assert ConversationManager.instance().isLongRunningConversation();
+      assert !Manager.instance().isProcessInterceptors();
+      assert Manager.instance().isLongRunningConversation();
       
       facesContext.getViewRoot().getAttributes().clear();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       assert facesContext.getViewRoot().getAttributes().size()==1;
-      assert facesContext.getViewRoot().getAttributes().get("org.jboss.seam.conversationId").equals("2");
+      assert facesContext.getViewRoot().getAttributes().get(Manager.CONVERSATION_ID).equals("2");
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
@@ -193,17 +185,10 @@ public class PhaseListenerTest
       facesContext.setCurrent();
       
       new WebApplicationContext(servletContext).set( 
-            Seam.getComponentName(ConversationManager.class) + ".component",
-            new Component(ConversationManager.class)
+            Seam.getComponentName(Manager.class) + ".component",
+            new Component(Manager.class)
          );
-      
-      Settings settings = new Settings();
-      settings.setConversationTimeout(10000);
-      new WebApplicationContext(servletContext).set( 
-            Seam.getComponentName(Settings.class),
-            settings
-         );
-      
+
       SeamPhaseListener phases = new SeamPhaseListener();
 
       assert !Contexts.isEventContextActive();
@@ -217,12 +202,12 @@ public class PhaseListenerTest
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
       assert !Contexts.isConversationContextActive();
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
       
       assert Contexts.isConversationContextActive();
-      assert !ConversationManager.instance().isLongRunningConversation();
+      assert !Manager.instance().isLongRunningConversation();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
@@ -231,22 +216,22 @@ public class PhaseListenerTest
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      ConversationManager.instance().setLongRunningConversation(true);
+      Manager.instance().setLongRunningConversation(true);
       
-      assert ConversationManager.instance().isProcessInterceptors();
+      assert Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
-      assert ConversationManager.instance().isLongRunningConversation();
+      assert !Manager.instance().isProcessInterceptors();
+      assert Manager.instance().isLongRunningConversation();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert !ConversationManager.instance().isProcessInterceptors();
+      assert !Manager.instance().isProcessInterceptors();
       assert facesContext.getViewRoot().getAttributes().size()==1;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
