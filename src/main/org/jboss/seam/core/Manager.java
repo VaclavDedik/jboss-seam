@@ -29,6 +29,8 @@ public class Manager
    public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdActivityMap";
    public static final String CONVERSATION_OWNER_NAME = NAME + ".conversationOwnerName";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
+   public static final String TASK_ID = NAME + ".jbpmTaskId";
+   public static final String PROCESS_ID = NAME + ".jbpmProcessId";
       
    //A map of all conversations for the session,
    //to the last activity time, which is flushed
@@ -47,6 +49,29 @@ public class Manager
    private boolean processInterceptors = false;
    
    private int conversationTimeout = 600000; //10 minutes
+
+   private Long taskId;
+   private Long processId;
+
+   public Long getTaskId()
+   {
+      return taskId;
+   }
+
+   public void setTaskId(Long taskId)
+   {
+      this.taskId = taskId;
+   }
+
+   public Long getProcessId()
+   {
+      return processId;
+   }
+
+   public void setProcessId(Long processId)
+   {
+      this.processId = processId;
+   }
 
    public int getConversationTimeout()
    {
@@ -202,6 +227,9 @@ public class Manager
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
          addConversationId(conversationId);
+
+         attributes.put( TASK_ID, taskId );
+         attributes.put( PROCESS_ID, processId );
       }
       else 
       {
@@ -222,6 +250,8 @@ public class Manager
          log.info("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          currentConversationId = storedConversationId;
+         taskId = ( Long ) attributes.get( TASK_ID );
+         processId = ( Long ) attributes.get( PROCESS_ID );
       }
       else
       {
