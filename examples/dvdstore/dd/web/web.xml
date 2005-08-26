@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+    <!-- <distributable /> -->
+
+    
+
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamJBossStartupListener</listener-class>
+    </listener>
+
+
+    <context-param>
+        <param-name>org.jboss.seam.conversationTimeout</param-name>
+        <param-value>30000</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.jboss.seam.persistenceUnitNames</param-name>
+        <param-value>dvd</param-value>
+    </context-param>
+    
+    <filter>
+        <filter-name>Seam Exception Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Seam Exception Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.faces</url-pattern>
+    </servlet-mapping>                    
+
+<!--
+    <error-page> 
+        <error-code>400</error-code>
+        <error-code>404</error-code>
+        <location>/index.jsp</location> 
+    </error-page>
+-->    
+
+    <security-constraint>
+        <display-name>require valid user</display-name>
+        <web-resource-collection>
+            <web-resource-name>internal application</web-resource-name>
+            <url-pattern>/app/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>DVD Store</realm-name>
+        <form-login-config>
+            <form-login-page>/login.faces</form-login-page>
+            <form-error-page>/loginError.faces</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
+</web-app>

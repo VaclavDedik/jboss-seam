@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<!DOCTYPE policy PUBLIC
+          "-//JBoss//DTD JBOSS Security Config 3.0//EN"
+          "http://www.jboss.org/j2ee/dtd/security_config.dtd">
+<policy>
+    <application-policy name="dvd">
+        <authentication>
+            <login-module code="org.jboss.security.auth.spi.DatabaseServerLoginModule"
+                          flag="required">
+                <module-option name="unauthenticatedIdentity">guest</module-option>
+                <module-option name="dsJndiName">java:/DVDStoreDS</module-option>
+                <module-option name="principalsQuery">
+                    select PASSWORD from CUSTOMERS where USERNAME=?
+                </module-option>
+                <module-option name="rolesQuery">
+                    select 'user', 'Roles' from CUSTOMERS where USERNAME=?
+                </module-option>
+                <module-option name="hashAlgorithm">MD5</module-option>
+                <module-option name="hashEncoding">BASE64</module-option>
+            </login-module>
+        </authentication>
+    </application-policy>
+</policy>
+

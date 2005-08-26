@@ -1,0 +1,16 @@
+<application xmlns="http://java.sun.com/xml/ns/j2ee" version="1.4"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com /xml/ns/j2ee 
+                        http://java.sun.com/xml/ns/j2ee/application_1_4.xsd">
+    <display-name>DVD Store</display-name>
+    <description>DVD Store</description>
+    <module>
+        <ejb>dvd.ejb3</ejb>
+    </module>
+    <module>
+        <web>
+            <web-uri>dvd.war</web-uri>
+            <context-root>dvd</context-root>
+        </web>
+    </module>
+</application>

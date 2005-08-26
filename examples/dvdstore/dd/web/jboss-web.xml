@@ -1,0 +1,3 @@
+<jboss-web>
+    <security-domain>java:/jaas/dvd</security-domain>
+</jboss-web>
