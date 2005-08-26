@@ -9,9 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.components.ConversationManager;
-import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
@@ -61,7 +61,7 @@ public class BookingTest extends SeamTest
             assert ( (Hotel) dm.getRowData() ).getCity().equals("NY");
             assert dm.getRowCount()==1;
             assert "NY".equals( hotelBooking.getSearchString() );
-            assert ConversationManager.instance().isLongRunningConversation();
+            assert Manager.instance().isLongRunningConversation();
          }
          
       }.run();
@@ -82,7 +82,7 @@ public class BookingTest extends SeamTest
             Hotel hotel = (Hotel) Contexts.getConversationContext().get("hotel");
             assert hotel.getCity().equals("NY");
             assert hotel.getZip().equals("11111");
-            assert ConversationManager.instance().isLongRunningConversation();
+            assert Manager.instance().isLongRunningConversation();
          }
          
       }.run();
@@ -105,7 +105,7 @@ public class BookingTest extends SeamTest
             assert booking.getHotel()!=null;
             assert booking.getHotel()==Contexts.getConversationContext().get("hotel");
             assert booking.getUser()==Contexts.getSessionContext().get("user");
-            assert ConversationManager.instance().isLongRunningConversation();
+            assert Manager.instance().isLongRunningConversation();
          }
          
       }.run();
@@ -127,7 +127,7 @@ public class BookingTest extends SeamTest
             assert messages.hasNext();
             assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number is required");
             assert !messages.hasNext();
-            assert ConversationManager.instance().isLongRunningConversation();
+            assert Manager.instance().isLongRunningConversation();
          }
          
       }.run();
@@ -156,7 +156,7 @@ public class BookingTest extends SeamTest
             assert messages.hasNext();
             assert ( (FacesMessage) messages.next() ).getSummary().equals("Check in date must be later than check out date");
             assert !messages.hasNext();
-            assert ConversationManager.instance().isLongRunningConversation();
+            assert Manager.instance().isLongRunningConversation();
          }
          
       }.run();
@@ -182,7 +182,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            assert ConversationManager.instance().isLongRunningConversation();
+            assert Manager.instance().isLongRunningConversation();
          }
          
       }.run();
@@ -200,7 +200,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            assert !ConversationManager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
          }
          
       }.run();
@@ -210,9 +210,9 @@ public class BookingTest extends SeamTest
    @Override
    public void initServletContext(Map initParams)
    {
-      initParams.put(Settings.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
+      initParams.put(Init.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
       String classNames = Strings.toString(HotelBookingAction.class, User.class, Booking.class, Hotel.class);
-      initParams.put(Settings.COMPONENT_CLASS_NAMES, classNames);
+      initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
    }
    
 }

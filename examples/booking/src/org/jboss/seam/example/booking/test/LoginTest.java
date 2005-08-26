@@ -4,9 +4,9 @@ package org.jboss.seam.example.booking.test;
 import java.util.Map;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.components.ConversationManager;
-import org.jboss.seam.components.Settings;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
@@ -41,7 +41,7 @@ public class LoginTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            assert !ConversationManager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn")==null;
 
          }
@@ -74,7 +74,7 @@ public class LoginTest extends SeamTest
             assert user.getName().equals("Gavin King");
             assert user.getUsername().equals("gavin");
             assert user.getPassword().equals("foobar");
-            assert !ConversationManager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 
          }
@@ -94,7 +94,7 @@ public class LoginTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            assert ConversationManager.instance().isLongRunningConversation();
+            assert Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 
          }
@@ -106,7 +106,7 @@ public class LoginTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert ConversationManager.instance().isLongRunningConversation();
+            assert Manager.instance().isLongRunningConversation();
             Logout logout = (Logout) Component.getInstance("logout", true);
             String outcome = logout.logout();
             assert "login".equals( outcome );
@@ -128,9 +128,9 @@ public class LoginTest extends SeamTest
    @Override
    public void initServletContext(Map initParams)
    {
-      initParams.put(Settings.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
+      initParams.put(Init.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
       String classNames = Strings.toString(LoginAction.class, LogoutAction.class, HotelBookingAction.class, User.class, Booking.class, Hotel.class);
-      initParams.put(Settings.COMPONENT_CLASS_NAMES, classNames);
+      initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
    }
    
 }

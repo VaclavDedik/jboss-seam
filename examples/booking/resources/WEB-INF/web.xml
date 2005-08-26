@@ -12,11 +12,11 @@
     </listener>
 
     <context-param>
-        <param-name>org.jboss.seam.conversationTimeout</param-name>
+        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
         <param-value>30000</param-value>
     </context-param>
     <context-param>
-        <param-name>org.jboss.seam.persistenceUnitNames</param-name>
+        <param-name>org.jboss.seam.core.init.persistenceUnitNames</param-name>
         <param-value>bookingDatabase</param-value>
     </context-param>
 
