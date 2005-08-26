@@ -2,11 +2,13 @@
 
 <suite name="Seam Unit Tests" verbose="2" parallel="false">
 
-   <test name="Interceptors">
+   <test name="Core">
      <classes>
+       <class name="org.jboss.seam.test.PhaseListenerTest"/>
        <class name="org.jboss.seam.test.InterceptorTest"/>
        <class name="org.jboss.seam.test.ComponentTest"/>
        <class name="org.jboss.seam.test.ContextTest"/>
+       <class name="org.jboss.seam.test.PhaseListenerTest"/>
      </classes>
    </test>
 	

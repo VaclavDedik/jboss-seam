@@ -110,8 +110,7 @@ public class ConversationManager
       {
          Map.Entry<String, Long> entry = iter.next();
          long delta = currentTime - entry.getValue();
-         Settings settings = (Settings) Contexts.getApplicationContext().get(Settings.class);
-         int conversationTimeout = settings.getConversationTimeout();
+         int conversationTimeout = Settings.instance().getConversationTimeout();
          if ( delta > conversationTimeout )
          {
             String conversationId = entry.getKey();
