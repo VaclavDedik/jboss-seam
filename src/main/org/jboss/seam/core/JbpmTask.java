@@ -5,11 +5,9 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.contexts.BusinessProcessContext;
-import org.jboss.seam.contexts.Contexts;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
@@ -18,29 +16,32 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  *
  * @author Steve Ebersole
  */
-@Scope(ScopeType.CONVERSATION)
-public class JbpmTask {
+@Scope( ScopeType.EVENT )
+@Name( "org.jboss.seam.core.jbpmTask" )
+public class JbpmTask
+{
+   private static final Logger log = Logger.getLogger( JbpmTask.class );
 
-	private static final Logger log = Logger.getLogger( JbpmTask.class );
+   @Create()
+   public void create(Component component)
+   {
+      log.trace( "created jbpm task component" );
+   }
 
-	private TaskInstance task;
+   @Unwrap
+   public TaskInstance getTaskInstance()
+   {
+      log.trace( "attempting to load jBPM TaskInstance" );
+      Long taskId = Manager.instance().getTaskId();
+      log.trace( "atskId to load : " + taskId );
+      if ( taskId == null )
+      {
+         throw new IllegalStateException( "could locate task id" );
+      }
+      JbpmSession session = ( JbpmSession ) Component.getInstance( ManagedJbpmSession.class, true );
+      TaskInstance task = session.getTaskMgmtSession().loadTaskInstance( taskId );
+      log.trace( "loaded task : " + task );
+      return task;
+   }
 
-	@Create()
-	public void create(Component component) {
-		log.trace( "creating jbpm task component [" + component + "]" );
-		Long taskId = ( Long ) Contexts.getStatelessContext().get( BusinessProcessContext.TASK_ID_KEY );
-      //TODO: the name looks wrong!!!
-		JbpmSession jbpmSession = ( JbpmSession ) Component.getInstance( ManagedJbpmSession.class.getName(), true );
-		task = jbpmSession.getTaskMgmtSession().loadTaskInstance( taskId );
-	}
-
-	@Unwrap
-	public TaskInstance getTaskInstance() {
-		return task;
-	}
-
-	@Destroy
-	public void destory() {
-		task = null;
-	}
 }

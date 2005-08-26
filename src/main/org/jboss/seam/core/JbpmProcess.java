@@ -26,7 +26,7 @@ import org.jbpm.graph.def.ProcessDefinition;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
-@Scope( ScopeType.EVENT )
+@Scope( ScopeType.APPLICATION )
 @Name( "org.jbpm.graph.exe.ProcessInstance" )
 public class JbpmProcess
 {
