@@ -132,7 +132,7 @@ public class SeamTest
       initServletContext( servletContext.getInitParameters() );
       //Contexts.beginApplication(servletContext);
       lifecycle = new MockLifecycle();
-      new Initialization().init(servletContext);
+      new Initialization(servletContext).init();
    }
    
    @Configuration(afterTestClass=true)

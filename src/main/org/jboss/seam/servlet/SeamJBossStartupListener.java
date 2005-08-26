@@ -19,7 +19,7 @@ public class SeamJBossStartupListener implements ServletContextListener
    
    public void contextInitialized(ServletContextEvent event) {
       log.info("Welcome to Seam on JBoss");
-      new JBossInitialization().init( event.getServletContext() );
+      new JBossInitialization( event.getServletContext() ).init();
    }
 
    public void contextDestroyed(ServletContextEvent event) {}

@@ -20,7 +20,7 @@ public class SeamStartupListener implements ServletContextListener
    public void contextInitialized(ServletContextEvent event)
    {
       log.info("Welcome to Seam");
-      new Initialization().init( event.getServletContext() );
+      new Initialization( event.getServletContext() ).init();
    }
 
    public void contextDestroyed(ServletContextEvent event) { }

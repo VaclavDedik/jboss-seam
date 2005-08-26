@@ -25,22 +25,35 @@ import org.jboss.seam.core.Manager;
 public class Initialization
 {
    private static final Logger log = Logger.getLogger(Seam.class);
-
-   public Initialization init(ServletContext servletContext)
+   
+   private Map<String, String> properties = new HashMap<String, String>();
+   private ServletContext servletContext;
+   
+   public Initialization(ServletContext servletContext)
    {
-      log.info("initializing Seam");
-      Lifecycle.beginInitialization(servletContext);
-      Map<String, String> properties = new HashMap<String, String>();
-      initPropertiesFromServletContext(servletContext, properties);
-      initPropertiesFromResource(properties);
-      Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
-      addComponents();
-      log.info("done initializing Seam");
-      Lifecycle.endInitialization();
+      this.servletContext = servletContext;
+      initPropertiesFromServletContext();
+      initPropertiesFromResource();
+   }
+   
+   public Initialization setProperty(String name, String value)
+   {
+      properties.put(name, value);
       return this;
    }
 
-   private void initPropertiesFromServletContext(ServletContext servletContext, Map<String, String> properties)
+   public Initialization init()
+   {
+      log.info("initializing Seam");
+      Lifecycle.beginInitialization(servletContext);
+      Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
+      addComponents();
+      Lifecycle.endInitialization();
+      log.info("done initializing Seam");
+      return this;
+   }
+
+   private void initPropertiesFromServletContext()
    {
       Enumeration paramNames = servletContext.getInitParameterNames();
       while (paramNames.hasMoreElements())
@@ -50,7 +63,7 @@ public class Initialization
       }
    }
    
-   private void initPropertiesFromResource(Map<String, String> properties)
+   private void initPropertiesFromResource()
    {
       InputStream stream = Seam.class.getResourceAsStream("/seam.properties");
       if (stream!=null)
@@ -66,7 +79,7 @@ public class Initialization
          }
          ( (Map) properties ).putAll(props);
       }
-      ( (Map) properties ).putAll( System.getProperties() );
+      //( (Map) properties ).putAll( System.getProperties() );
    }
 
    protected void addComponents()
