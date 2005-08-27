@@ -47,6 +47,7 @@ public class ManagedJbpmSession
    @Unwrap
    public JbpmSession getJbpmSession()
    {
+      log.info( "Unwrapping jBPM session" );
       if ( jbpmSession == null )
       {
          jbpmSession = getSessionFactory().openJbpmSessionAndBeginTransaction();

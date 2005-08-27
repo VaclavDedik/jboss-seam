@@ -117,9 +117,24 @@ public class Initialization
 
       if ( settings.getJbpmSessionFactoryName() != null )
       {
-         addComponent( ManagedJbpmSession.class, context );
-         addComponent( JbpmProcess.class, context );
-         addComponent( JbpmTask.class, context );
+         addComponent(
+                 Seam.getComponentName( ManagedJbpmSession.class ),
+                 ManagedJbpmSession.class,
+                 context
+         );
+         addComponent(
+                 Seam.getComponentName( JbpmProcess.class ),
+                 JbpmProcess.class,
+                 context
+         );
+         addComponent(
+                 Seam.getComponentName( JbpmTask.class ),
+                 JbpmTask.class,
+                 context
+         );
+//         addComponent( ManagedJbpmSession.class, context );
+//         addComponent( JbpmProcess.class, context );
+//         addComponent( JbpmTask.class, context );
       }
 
    }

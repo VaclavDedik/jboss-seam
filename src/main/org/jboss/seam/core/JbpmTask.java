@@ -22,11 +22,13 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
-@Scope( ScopeType.APPLICATION )
+@Scope( ScopeType.EVENT )
 @Name( "org.jbpm.taskmgmt.exe.TaskInstance" )
 public class JbpmTask
 {
    private static final Logger log = Logger.getLogger( JbpmTask.class );
+
+   private TaskInstance task;
 
    @Create()
    public void create(Component component)
@@ -37,9 +39,20 @@ public class JbpmTask
    @Unwrap
    public TaskInstance getTaskInstance()
    {
-      log.trace( "attempting to load jBPM TaskInstance" );
+      log.trace( "unwrapping jBPM task" );
+      if ( task == null )
+      {
+         task = getTask();
+      }
+      return task;
+   }
+
+   private TaskInstance getTask()
+   {
+      log.trace( "obtaining task" );
+
       Long taskId = Manager.instance().getTaskId();
-      log.trace( "atskId to load : " + taskId );
+      log.trace( "taskId to load : " + taskId );
       if ( taskId == null )
       {
          throw new IllegalStateException( "could locate task id" );

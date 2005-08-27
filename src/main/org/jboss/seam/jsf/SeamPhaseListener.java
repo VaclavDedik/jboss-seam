@@ -59,7 +59,7 @@ public class SeamPhaseListener implements PhaseListener
       else if (event.getPhaseId() == RENDER_RESPONSE)
       {
          storeAnyConversationContext(event);
-         storeAnyBusinessProcessContext();
+//         storeAnyBusinessProcessContext();
          Manager.instance().conversationTimeout( getSession(event) );
       }
       else if (event.getPhaseId() == INVOKE_APPLICATION)
@@ -88,7 +88,7 @@ public class SeamPhaseListener implements PhaseListener
       if (event.getPhaseId() == RESTORE_VIEW)
       {
          restoreAnyConversationContext(event);
-         restoreAnyBusinessProcessContext();
+//         restoreAnyBusinessProcessContext();
       }
       else if (event.getPhaseId() == RENDER_RESPONSE) {
          Lifecycle.endRequest( getSession(event) );
@@ -142,24 +142,24 @@ public class SeamPhaseListener implements PhaseListener
       return event.getFacesContext().getViewRoot().getAttributes();
    }
 
-	private static void storeAnyBusinessProcessContext() {
-		Context conversation = Contexts.getConversationContext();
-		BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
-
-		log.trace( "storing bpm recoverable state" );
-		conversation.set( JBPM_STATE_MAP, jbpmContext.getRecoverableState() );
-	}
-
-	private static void restoreAnyBusinessProcessContext() {
-		Context conversation = Contexts.getConversationContext();
-		Map state = ( Map ) conversation.get( JBPM_STATE_MAP );
-		log.trace( "restoring bpm state from : " + state );
-		if ( state != null ) {
-			Lifecycle.recoverBusinessProcessContext( state );
-		}
-		else {
-			Lifecycle.beginBusinessProcessContext();
-		}
-	}
+//	private static void storeAnyBusinessProcessContext() {
+//		Context conversation = Contexts.getConversationContext();
+//		BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
+//
+//		log.trace( "storing bpm recoverable state" );
+//		conversation.set( JBPM_STATE_MAP, jbpmContext.getRecoverableState() );
+//	}
+//
+//	private static void restoreAnyBusinessProcessContext() {
+//		Context conversation = Contexts.getConversationContext();
+//		Map state = ( Map ) conversation.get( JBPM_STATE_MAP );
+//		log.trace( "restoring bpm state from : " + state );
+//		if ( state != null ) {
+//			Lifecycle.recoverBusinessProcessContext( state );
+//		}
+//		else {
+//			Lifecycle.beginBusinessProcessContext();
+//		}
+//	}
 
 }

@@ -25,7 +25,7 @@ import org.jbpm.graph.def.ProcessDefinition;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
-@Scope( ScopeType.APPLICATION )
+@Scope( ScopeType.EVENT )
 @Name( "org.jbpm.graph.exe.ProcessInstance" )
 public class JbpmProcess
 {
@@ -34,16 +34,28 @@ public class JbpmProcess
 
    private static final Logger log = Logger.getLogger( JbpmProcess.class );
 
+   private ProcessInstance process;
+
    @Create()
    public void create(Component component)
    {
-
       log.trace( "created jbpm process component" );
    }
 
    @Unwrap
    public ProcessInstance getProcessInstance()
    {
+      log.trace( "unwrapping jBPM process" );
+      if ( process == null )
+      {
+         process = getProcess();
+      }
+      return process;
+   }
+
+   private ProcessInstance getProcess()
+   {
+      log.trace( "obtaining process instance" );
       String name = Seam.getComponentName( ManagedJbpmSession.class );
       JbpmSession session = ( JbpmSession ) Component.getInstance( name, true );
 
@@ -51,11 +63,13 @@ public class JbpmProcess
       Long processId = Manager.instance().getProcessId();
       if ( processId != null )
       {
+         log.trace( "process id for unwrap : " + processId );
          process = session.getGraphSession().loadProcessInstance( processId );
       }
       else
       {
          String definitionName = ( String ) Contexts.getEventContext().get( DEFINITION_NAME );
+         log.trace( "process definition name for unwrap : " + definitionName );
          if ( definitionName == null )
          {
             throw new IllegalStateException( "could not locate process id nor definition-name" );
@@ -69,7 +83,6 @@ public class JbpmProcess
          Manager.instance().setProcessId( process.getId() );
 
       }
-
       return process;
    }
 
