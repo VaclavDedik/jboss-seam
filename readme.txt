@@ -13,4 +13,4 @@ ant deploy
 cd $JBOSS_HOME
 bin/run.sh
 
-Browse to http://localhost:8080/seam-booking/
+Browse to http://localhost:8080/seam-booking/faces/login.jsp
