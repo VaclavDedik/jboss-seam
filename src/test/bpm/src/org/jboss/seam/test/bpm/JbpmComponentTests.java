@@ -36,14 +36,29 @@ public class JbpmComponentTests extends SeamTest
    public void testUserRegistration() throws Exception
    {
       // A user requests registration...
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
+      System.out.println( "starting user registration request" );
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
       UserRequestScript userRequest = new UserRequestScript();
       userRequest.run();
 
       // An admin works on the registration request...
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
+      System.out.println( "starting admin assignment request" );
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
       AdminAssignmentScript adminAssignment = new AdminAssignmentScript( userRequest.taskId );
       adminAssignment.run();
 
       // admin approves the request...
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
+      System.out.println( "starting admin approval request" );
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
       new CompletionScript( userRequest.taskId ).run();
    }
 
@@ -199,6 +214,7 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void renderResponse()
       {
+//         ProcessInstance process = ( ProcessInstance ) Contexts.getEventContext().get( Seam.getComponentName( JbpmProcess.class ) );
          ProcessInstance process = ( ProcessInstance ) Component.getInstance( JbpmProcess.class, false );
          assert process != null;
          Collection tasks = process.getTaskMgmtInstance().getTaskInstances();
@@ -236,6 +252,7 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void renderResponse()
       {
+//         TaskInstance task = ( TaskInstance ) Contexts.getEventContext().get( Seam.getComponentName( JbpmTask.class ) );
          TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class, false );
          assert task != null;
          assert task.getStart() != null;
