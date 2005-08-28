@@ -12,35 +12,38 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.ScopeType;
 
 @Entity
 @Table(name="CUSTOMERS")
-@Name("xcustomer")
+@Name("customer")
+@Scope(ScopeType.SESSION)
 public class Customer
     implements Serializable
 {
     public static String[] cctypes = {"MasterCard", "Visa", "Discover", "Amex", "Dell Preferred"}; 
 
-    long   customerId;
-    String userName;
-    String password;
-    String firstName;
-    String lastName;
-    String address1;
-    String address2;
-    String city;
-    String state;
-    String zip;  
-    String country;
-    Integer    region;
-    String email;
-    String phone;
-    int    creditCardType;
-    String creditCard;
-    String creditCardExpiration;
-    Integer    age;
-    Long   income;
-    String gender;
+    long    customerId;
+    String  userName;
+    String  password;
+    String  firstName;
+    String  lastName;
+    String  address1;
+    String  address2;
+    String  city;
+    String  state;
+    String  zip;  
+    String  country;
+    Integer region;
+    String  email;
+    String  phone;
+    int     creditCardType;
+    String  creditCard;
+    String  creditCardExpiration;
+    Integer age;
+    Long    income;
+    String  gender;
 
     public Customer() {
     }

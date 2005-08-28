@@ -105,8 +105,9 @@ public class EditCustomerBean
 
 
     public String getRandomUser() {
-        int random = (new Random()).nextInt(20000) + 1;
-        return "user" + random;
+        //int random = (new Random()).nextInt(20000) + 1;
+        //return "user" + random;
+        return "user1";
     }
 
     public String getRandomUserPassword() {

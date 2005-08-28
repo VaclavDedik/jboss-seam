@@ -17,15 +17,14 @@
     <application>
         <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
     </application>
+<!--
     <lifecycle>
         <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
     </lifecycle>
-
-<!--
+-->
     <lifecycle>
         <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
     </lifecycle>
--->
 
     <navigation-rule>
         <navigation-case>

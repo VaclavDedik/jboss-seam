@@ -1,8 +1,12 @@
-insert into categories (category, categoryname) values (1, 'Adult')
-insert into categories (category, categoryname) values (2, 'Children')
-insert into categories (category, categoryname) values (3, 'Comedy')
-insert into customers (customerid, username, password, firstname, lastname) values (1, 'gavin', 'bfI9wD+bVMw4oPwUg99uIQ==', 'Gavin', 'King')
-insert into products (prod_id, category, title, actor, price) values (1, 3, 'Indahouse', 'Ali G', 12.0)
-insert into products (prod_id, category, title, actor, price) values (2, 2, 'The Lion King', '', 12.50)
-insert into inventory (inv_id, prod_id, quan_in_stock, sales) values (1, 1, 10, 0)
-insert into inventory (inv_id, prod_id, quan_in_stock, sales) values (2, 2, 15, 5)
+insert into categories (category, categoryname) values (1, 'Adult');
+insert into categories (category, categoryname) values (2, 'Children');
+insert into categories (category, categoryname) values (3, 'Comedy');
+insert into categories (category, categoryname) values (4, 'Documentary');
+insert into customers (customerid, username, password, firstname, lastname) values (1, 'gavin', 'bfI9wD+bVMw4oPwUg99uIQ==', 'Gavin', 'King');
+insert into customers (customerid, username, password, firstname, lastname) values (2, 'user1', 'X03MO1qnZdYdgyfeuILPmQ==', 'Sum', 'Guy');
+insert into products (prod_id, category, title, actor, price) values (1, 3, 'Indahouse', 'Ali G', 12.0);
+insert into products (prod_id, category, title, actor, price) values (2, 2, 'The Lion King', '', 12.50);
+insert into products (prod_id, category, title, actor, price, common_prod_id) values (3, 4, 'March of the Penguins', '', 19.99, 2);
+insert into inventory (inv_id, prod_id, quan_in_stock, sales) values (1, 1, 10, 0);
+insert into inventory (inv_id, prod_id, quan_in_stock, sales) values (2, 2, 15, 5);
+insert into inventory (inv_id, prod_id, quan_in_stock, sales) values (3, 3, 77, 2);

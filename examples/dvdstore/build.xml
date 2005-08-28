@@ -49,7 +49,7 @@
     <target name="init">
     </target>
 
-    <target name="main" depends="build"/> 
+    <target name="main" depends="build,deploy"/> 
 
     <target name="build" depends="compile,ear">
     </target>

@@ -93,7 +93,7 @@
 
     <h:form>
         <h:commandButton action="#{cart.resetCart}" value="#{msgs.shopAgainButton}" />
-        <h:commandButton action="#{user.logout}"  value="#{msgs.logoutButton}" />
+        <h:commandButton action="#{login.logout}"  value="#{msgs.logoutButton}" />
     </h:form>
 
     <%@ include file="/foot.jsp" %> 

@@ -14,13 +14,10 @@ import javax.persistence.*;
 
 import com.jboss.dvd.ejb.*;
 
-import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.annotation.JndiInject;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.ejb.SeamInterceptor;
@@ -29,14 +26,14 @@ import java.io.Serializable;
 
 @Stateful
 @Name("search")
+@JndiName("com.jboss.dvd.ejb.Search")
 @Scope(ScopeType.SESSION)
-@LocalBinding(jndiBinding="search")
 @Interceptor(SeamInterceptor.class)
 public class SearchBean
     implements Search,
                Serializable
 {
-    @In
+    @In(create=true)
     ShoppingCart cart;
 
     @PersistenceContext(unitName="dvd")
@@ -194,13 +191,10 @@ public class SearchBean
 
 
     public String addToCart() {
-        System.out.println("Search -> cart " + this);
         for (SelectableItem<Product> item: results) {
             if (item.getSelected()) {
                 item.setSelected(false);
 
-                System.out.println("--------------- CART:: " + cart);
-                System.out.println("Adding to cart: " + item.getItem());
                 cart.addProduct(item.getItem(), 1);
             }
         }

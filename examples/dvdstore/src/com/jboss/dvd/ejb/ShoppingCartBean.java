@@ -134,8 +134,7 @@ public class ShoppingCartBean
             return "complete";
         } catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {
-                System.out.println("XXX - warn");
-                //Utils.warnUser("checkoutInsufficientQuantity", new Object[] {product.getTitle()});
+                Utils.warnUser("checkoutInsufficientQuantity", new Object[] {product.getTitle()});
             }
             
             return null;

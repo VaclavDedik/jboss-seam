@@ -1,3 +1,4 @@
+
 /*
  * JBoss, Home of Professional Open Source
  *
@@ -14,20 +15,16 @@ import javax.annotation.*;
 import javax.ejb.*;
 import javax.persistence.*;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-
 import org.jboss.annotation.ejb.LocalBinding;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
-// @Name("user")
-// @LocalBinding(jndiBinding="user")
-// @Interceptor(SeamInterceptor.class)
+@Name("userinfo")
+@JndiName("com.jboss.dvd.ejb.User")
 public class UserBean
-    implements User
+    implements User               
 {
     @PersistenceContext(unitName="dvd")
     EntityManager em;
@@ -44,8 +41,4 @@ public class UserBean
         return customer;
     }
 
-    public String logout() {
-        Seam.invalidateSession();
-        return "done";
-    }
 }

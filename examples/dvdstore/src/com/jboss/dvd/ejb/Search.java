@@ -9,9 +9,6 @@ package com.jboss.dvd.ejb;
 import java.util.Map;
 import java.util.List;
 
-import javax.ejb.Local;
-
-@Local
 public interface Search
 {
     public boolean getHasResults();

@@ -8,9 +8,6 @@ package com.jboss.dvd.ejb;
 
 import java.util.List;
 
-import javax.ejb.Local;
-
-@Local
 public interface PurchaseHistory {
-    public List<Product> getRecentProducts();
+    public String findProducts();
 }
