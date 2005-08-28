@@ -17,7 +17,8 @@ public class SeamJBossStartupListener implements ServletContextListener
 
    private static final Logger log = Logger.getLogger(SeamJBossStartupListener.class);
    
-   public void contextInitialized(ServletContextEvent event) {
+   public void contextInitialized(ServletContextEvent event) 
+   {
       log.info("Welcome to Seam on JBoss");
       new JBossInitialization( event.getServletContext() ).init();
    }
