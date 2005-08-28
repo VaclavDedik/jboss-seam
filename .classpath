@@ -2,9 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src/main"/>
-	<classpathentry kind="src" path="src/test/bpm/src"/>
 	<classpathentry kind="src" path="src/test/misc"/>
-	<classpathentry kind="src" path="examples/dvdstore/src"/>
 	<classpathentry kind="src" path="embedded-ejb/conf"/>
 	<classpathentry kind="src" path="examples/booking/resources"/>
 	<classpathentry kind="src" path="examples/booking/src"/>
