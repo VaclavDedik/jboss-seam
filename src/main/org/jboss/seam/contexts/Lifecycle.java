@@ -101,43 +101,50 @@ public class Lifecycle
    public static void endRequest(HttpSession session) {
 
       log.info("After render response, destroying contexts");
-
-      if ( Contexts.isEventContextActive() )
+      
+      try
       {
-         log.info("destroying event context");
-         Contexts.destroy( Contexts.getEventContext() );
-      }
 
-      if ( Contexts.isConversationContextActive() )
-      {
-         if ( !Seam.isSessionInvalid() ) 
+         if ( Contexts.isEventContextActive() )
          {
-            Contexts.getConversationContext().flush();
+            log.info("destroying event context");
+            Contexts.destroy( Contexts.getEventContext() );
          }
-         if ( !Manager.instance().isLongRunningConversation() )
+   
+         if ( Contexts.isConversationContextActive() )
          {
-            log.info("destroying conversation context");
-            Contexts.destroy( Contexts.getConversationContext() );
+            if ( !Seam.isSessionInvalid() ) 
+            {
+               Contexts.getConversationContext().flush();
+            }
+            if ( !Manager.instance().isLongRunningConversation() )
+            {
+               log.info("destroying conversation context");
+               Contexts.destroy( Contexts.getConversationContext() );
+            }
          }
+   
+         if ( Contexts.isBusinessProcessContextActive() )
+         {
+            Contexts.getBusinessProcessContext().flush();
+            Contexts.destroy( Contexts.getBusinessProcessContext() );
+         }
+   
+         if ( Seam.isSessionInvalid() )
+         {
+            session.invalidate();
+            //actual session context will be destroyed from the listener
+         }
+         
       }
-
-      if ( Contexts.isBusinessProcessContextActive() )
+      finally
       {
-         Contexts.getBusinessProcessContext().flush();
-         Contexts.destroy( Contexts.getBusinessProcessContext() );
+         Contexts.eventContext.set( null );
+         Contexts.sessionContext.set( null );
+         Contexts.conversationContext.set( null );
+         Contexts.businessProcessContext.set( null );
+         Contexts.applicationContext.set( null );
       }
-
-      if ( Seam.isSessionInvalid() )
-      {
-         session.invalidate();
-         //actual session context will be destroyed from the listener
-      }
-
-      Contexts.eventContext.set( null );
-      Contexts.sessionContext.set( null );
-      Contexts.conversationContext.set( null );
-
-      Contexts.applicationContext.set( null );
 
       log.info( "<<< End web request" );
    }
