@@ -9,8 +9,11 @@ import org.jboss.seam.Component;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Outcome;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.WebApplicationContext;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
@@ -31,16 +34,23 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockHttpSession session = new MockHttpSession( servletContext );
-      Lifecycle.beginRequest( session );
-      Lifecycle.resumeConversation( session, "1" );
-      Contexts.getApplicationContext().set( 
-               Seam.getComponentName(Manager.class) + ".component", 
-               new Component(Manager.class) 
-            );
-      Contexts.getApplicationContext().set( 
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
+         );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
+         );
+      appContext.set( 
             Seam.getComponentName(Foo.class) + ".component", 
             new Component(Foo.class) 
          );
+
+      Lifecycle.beginRequest( session );
+      Lifecycle.resumeConversation( session, "1" );
       
       final Bar bar = new Bar();
       final Foo foo = new Foo();
@@ -119,13 +129,15 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockHttpSession session = new MockHttpSession( servletContext );
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
+         );
       Lifecycle.beginRequest( session );
       Lifecycle.resumeConversation( session, "1" );
-      Contexts.getApplicationContext().set( 
-               Seam.getComponentName(Manager.class) + ".component", 
-               new Component(Manager.class) 
-            );
-      
+
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Foo.class) );
       
@@ -204,12 +216,14 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockHttpSession session = new MockHttpSession( servletContext );
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
+         );
       Lifecycle.beginRequest( session );
       Lifecycle.resumeConversation( session, "1" );
-      Contexts.getApplicationContext().set( 
-               Seam.getComponentName(Manager.class) + ".component", 
-               new Component(Manager.class) 
-            );
       
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Bar.class) );
@@ -402,6 +416,13 @@ public class InterceptorTest
    public void testRemoveInterceptor() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
+         );
+
       Lifecycle.beginRequest( new MockHttpSession( servletContext ) );
       Contexts.getSessionContext().set( "foo", new Foo() );
       

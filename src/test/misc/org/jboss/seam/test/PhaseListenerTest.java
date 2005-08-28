@@ -12,9 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.MockFacesContext;
@@ -36,9 +38,11 @@ public class PhaseListenerTest
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      new WebApplicationContext(servletContext).set( 
-            Seam.getComponentName(Manager.class) + ".component",
-            new Component(Manager.class)
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
          );
       
       SeamPhaseListener phases = new SeamPhaseListener();
@@ -106,9 +110,11 @@ public class PhaseListenerTest
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      new WebApplicationContext(servletContext).set( 
-            Seam.getComponentName(Manager.class) + ".component",
-            new Component(Manager.class)
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
          );
       
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
@@ -184,9 +190,11 @@ public class PhaseListenerTest
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      new WebApplicationContext(servletContext).set( 
-            Seam.getComponentName(Manager.class) + ".component",
-            new Component(Manager.class)
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class) 
          );
 
       SeamPhaseListener phases = new SeamPhaseListener();

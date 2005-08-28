@@ -13,6 +13,7 @@ import org.jboss.seam.contexts.EventContext;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.mock.MockHttpSession;
 import org.jboss.seam.mock.MockServletContext;
@@ -25,10 +26,12 @@ public class ContextTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockHttpSession session = new MockHttpSession(servletContext);
-      new WebApplicationContext(servletContext).set(
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set(
             Seam.getComponentName(Manager.class) + ".component",
             new Component(Manager.class)
          );
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
       
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -70,7 +73,7 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
       assert session.getAttributes().size()==2;
-      assert servletContext.getAttributes().size()==2;
+      assert servletContext.getAttributes().size()==3;
       
       Lifecycle.beginRequest(session);
       
@@ -107,7 +110,7 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
       assert session.getAttributes().size()==1;
-      assert servletContext.getAttributes().size()==2;
+      assert servletContext.getAttributes().size()==3;
       
       Lifecycle.endSession(session);
       
@@ -123,11 +126,13 @@ public class ContextTest
    {
       ServletContext servletContext = new MockServletContext();
       HttpSession session = new MockHttpSession(servletContext);
-      Lifecycle.beginRequest(session);
-      Contexts.getApplicationContext().set(
+      Context appContext = new WebApplicationContext(servletContext);
+      appContext.set(
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
          );
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      Lifecycle.beginRequest(session);
       Manager.instance().setLongRunningConversation(true);
       testContext( new WebApplicationContext(servletContext) );
       testContext( new WebSessionContext(session) );
