@@ -93,6 +93,16 @@ public class ConversationContext implements Context, Serializable {
    {
       return get( Seam.getComponentName(clazz) );
    }
+   
+   public void clear()
+   {
+      temporarySession.clear();
+      //the conversation is being destroyed, clean up its state
+      for (String name: getNames())
+      {
+         session.removeAttribute( getKey(name) );
+      }
+   }
 
    public void flush()
    {
@@ -105,12 +115,8 @@ public class ConversationContext implements Context, Serializable {
       }
       else
       {
-         //the conversation is being destroyed, clean up its state
          //TODO: for a pure temporary conversation, this is unnecessary, optimize it
-         for (String name: getNames())
-         {
-            session.removeAttribute( getKey(name) );
-         }
+         clear();
       }
    }
 }

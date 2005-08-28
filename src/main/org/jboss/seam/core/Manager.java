@@ -150,7 +150,9 @@ public class Manager
          {
             String conversationId = entry.getKey();
             log.info("conversation timeout for conversation: " + conversationId);
-            Contexts.destroy( new ConversationContext( session, conversationId ) );
+            ConversationContext conversationContext = new ConversationContext( session, conversationId );
+            conversationContext.clear();
+            Contexts.destroy( conversationContext );
             iter.remove();
             dirty();
          }
@@ -215,28 +217,40 @@ public class Manager
    {
       if ( isLongRunningConversation() ) 
       {
-         String conversationId = currentConversationId;
-         log.info("Storing conversation state: " + conversationId);
+         log.info("Storing conversation state: " + currentConversationId);
          if ( !Seam.isSessionInvalid() ) 
          {
             //if the session is invalid, don't put the conversation id
             //in the view, 'cos we are expecting the conversation to
             //be destroyed by the servlet session listener
-            attributes.put(CONVERSATION_ID, conversationId);
+            attributes.put(CONVERSATION_ID, currentConversationId);
+            if (taskId==null)
+            {
+               attributes.remove(TASK_ID);
+            }
+            else
+            {
+               attributes.put( TASK_ID, taskId );
+            }
+            if (processId==null)
+            {
+               attributes.remove(PROCESS_ID);
+            }
+            else
+            {
+               attributes.put( PROCESS_ID, processId );
+            }
          }
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
-         addConversationId(conversationId);
-
-         attributes.put( TASK_ID, taskId );
-         attributes.put( PROCESS_ID, processId );
+         addConversationId(currentConversationId);
       }
       else 
       {
-         String conversationId = currentConversationId;
-         log.info("Discarding conversation state: " + conversationId);
+         log.info("Discarding conversation state: " + currentConversationId);
          attributes.remove(CONVERSATION_ID);
-         removeConversationId(conversationId);
+         //TODO: should we also remove task and process ids here?
+         removeConversationId(currentConversationId);
       }
    }
    
@@ -250,8 +264,8 @@ public class Manager
          log.info("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          currentConversationId = storedConversationId;
-         taskId = ( Long ) attributes.get( TASK_ID );
-         processId = ( Long ) attributes.get( PROCESS_ID );
+         taskId = (Long) attributes.get( TASK_ID );
+         processId = (Long) attributes.get( PROCESS_ID );
       }
       else
       {

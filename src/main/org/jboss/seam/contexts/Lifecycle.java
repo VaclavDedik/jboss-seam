@@ -107,7 +107,10 @@ public class Lifecycle
 
       if ( Contexts.isConversationContextActive() )
       {
-         Contexts.getConversationContext().flush();
+         if ( !Seam.isSessionInvalid() ) 
+         {
+            Contexts.getConversationContext().flush();
+         }
          if ( !Manager.instance().isLongRunningConversation() )
          {
             log.info("destroying conversation context");
