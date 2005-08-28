@@ -383,22 +383,21 @@ public class Component
       }
    }
 
-   protected Object instantiate() throws Exception
-   {
-      switch(type)
-      {
-         case JAVA_BEAN: 
-         case ENTITY_BEAN:
+    protected Object instantiate() throws Exception
+    {
+        switch(type) {
+        case JAVA_BEAN: 
+        case ENTITY_BEAN:
             Object bean = beanClass.newInstance();
             inject(bean);
             return bean;
-         case STATELESS_SESSION_BEAN : 
-         case STATEFUL_SESSION_BEAN :
+        case STATELESS_SESSION_BEAN : 
+        case STATEFUL_SESSION_BEAN :
             return new InitialContext().lookup(jndiName);
-         default:
+        default:
             throw new IllegalStateException();
-      }
-   }
+        }
+    }
    
    protected Object initialize(Object bean) throws Exception
    {
@@ -515,16 +514,40 @@ public class Component
    
    private static Set<Class> getLocalInterfaces(Class clazz)
    {
-      Set<Class> result = new HashSet<Class>();
-      for (Class iface: clazz.getInterfaces())
-      {
-         if ( iface.isAnnotationPresent(Local.class))
-         {
-            result.add(iface);
-         }
-      }
-      return result;
+       Set<Class> result = new HashSet<Class>();
+
+       if (clazz.isAnnotationPresent(Local.class)) {
+           Local local = (Local) clazz.getAnnotation(Local.class);
+           for (Class iface: local.value()) {
+               result.add(iface);
+           }
+       } else {
+           for (Class iface: clazz.getInterfaces()) {
+               if (iface.isAnnotationPresent(Local.class)) {
+                   result.add(iface);
+               }
+           }
+
+           if (result.size() == 0) {
+               for (Class iface: clazz.getInterfaces()) {
+                   if (!isExcludedLocalInterfaceName(iface.getName())) {
+                       result.add(iface);
+                   }
+               }
+           }
+       }
+
+       return result;
    }
+
+
+    private static boolean isExcludedLocalInterfaceName(String name) {
+        return name.equals("java.io.Serializable") ||
+               name.equals("java.io.Externalizable") ||
+               name.startsWith("javax.ejb.");
+    }
+
+
 
    private Object outject(Object bean, Field field)
    {
@@ -620,6 +643,7 @@ public class Component
 
    public static Object newInstance(String name)
    {
+       
       Component component = Component.forName(name);
       if (component == null)
       {
