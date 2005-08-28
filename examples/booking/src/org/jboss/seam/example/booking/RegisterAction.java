@@ -45,7 +45,7 @@ public class RegisterAction implements Register
       {
          log.info("registering user");
          em.persist(user);
-         return "main";
+         return "login";
       }
       else 
       {
