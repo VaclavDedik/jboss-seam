@@ -20,7 +20,7 @@
      <h:commandButton type="submit" value="Login" action="#{login.login}"/>
    </h:form>
    <h:commandLink action="register">
-     <h:outputText value="Or, resister now"/>
+     <h:outputText value="Or, register now"/>
    </h:commandLink>
   </f:view>
  </body>
