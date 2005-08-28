@@ -1,0 +1,27 @@
+<chapter id="tutorial">
+    <title>Seam Tutorial</title>
+
+    <para>
+        TODO: Write a tutorial, possibly describing the booking app example. Critically important
+        is that all code snippets are copied from a working example! There is no room for any error
+        in a beginners tutorial.
+    </para>
+
+    <sect1 id="tutorial-start">
+        <title>Start</title>
+
+        <programlisting><![CDATA[
+    <code>
+]]></programlisting>
+
+        <itemizedlist spacing="compact">
+            <listitem>
+                <para>
+                    Foo
+                </para>
+            </listitem>
+        </itemizedlist>
+
+    </sect1>
+
+</chapter>

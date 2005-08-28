@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding="iso-8859-1"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+                      "../support/docbook-dtd/docbookx.dtd"
+[
+<!ENTITY introduction           SYSTEM "modules/introduction.xml">
+<!ENTITY tutorial               SYSTEM "modules/tutorial.xml">
+]>
+
+<book lang="en">
+
+    <bookinfo>
+        <title>JBoss Seam</title>
+        <subtitle>The JEE framework</subtitle>
+        <releaseinfo>0.1</releaseinfo>
+    </bookinfo>
+
+    <toc/>
+
+    <preface id="preface">
+        <title>Preface</title>
+
+        <para>
+            TODO: Some topics to cover...
+            Context and state
+            Business worflows
+            Conversations
+            Binding beans
+            Facelets
+            Service dependencies
+        </para>
+
+    </preface>
+
+    &introduction;
+    &tutorial;
+
+</book>
+

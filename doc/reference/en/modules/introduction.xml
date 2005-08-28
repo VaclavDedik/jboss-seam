@@ -1,0 +1,148 @@
+<chapter id="introduction">
+    <title>Introduction to Seam</title>
+
+    <para>
+        Seam is an application framework for Java EE 5. It is inspired by the following principles:
+    </para>
+    
+    <variablelist spacing="compact">
+        <varlistentry>
+            <term><emphasis>Integrate JSF with EJB 3.0</emphasis></term>
+            <listitem>
+                <para>
+                    JSF and EJB 3.0 are two of the best new features of Java EE 5. EJB3 is an brand new
+                    component model for server side business and persistence logic. Meanwhile, JSF is
+                    a great component model for the presentation tier. However, neither component
+                    model is able to solve all problems in computing by itself. Indeed, JSF and EJB3 work
+                    best used together. Unfortunately, the Java EE 5 specification provides no standard
+                    way to integrate the two component models. Fortunately, the creators of both models
+                    foresaw this situation and provided standard extension points to allow extension
+                    and integration of other solutions.
+                </para>
+                <para>
+                    Seam unifies the component models of JSF and EJB3, eliminating glue code, and letting
+                    the developer think about their business problem.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><emphasis>One Kind of "Stuff"</emphasis></term>
+            <listitem>
+                <para>
+                    Seam provides uniform handling of application <emphasis>state</emphasis>. A Seam
+                    component may be stateful, with the state associated to any one of a number of
+                    contexts, ranging from the long-running business process to a single web request.
+                </para>
+                <para>
+                    There is no distinction between presentation tier components and business logic
+                    components in Seam. "Everything" is an EJB. This may come as a surprise if you are
+                    used to thinking of EJBs as coarse-grained, heavyweight objects that are a pain
+                    in the backside to create! However, EJB 3.0 completely changes the nature of EJB
+                    from the point of view of the developer. An EJB is a fine-grained object - nothing
+                    more complex than an annotated JavaBean. Seam even uses session beans as JSF action
+                    listeners!
+                </para>
+                <para>
+                    Unlike plain JEE or J2EE components, Seam components may <emphasis>simultaneously</emphasis>
+                    access state associated with the web request and state held in transactional resources (without
+                    the need to propagate web request state manually via method parameters). You might object
+                    that the application layering imposed upon you by the old J2EE platform was a Good Thing.
+                    Well, nothing stops you creating an equivalent layered architecture using Seam - the difference
+                    is that <emphasis>you</emphasis> get to architect your own application and decide what the
+                    layers are and how they work together.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><emphasis>Declarative State Management</emphasis></term>
+            <listitem>
+                <para>
+                    We are all used to the concept of declarative transaction management and JEEE declarative
+                    security from EJB2 2.x. EJB 3.0 in JEE even introduces declarative persistence context
+                    management. These are three examples of a broader problem of managing state that is
+                    associated with a particular <emphasis>context</emphasis>, while ensuring that all needed
+                    cleanup occurs when the context ends. Seam takes the concept of declarative state
+                    management much further and applies it to <emphasis>application state</emphasis>.
+                    Traditionally, J2EE applications almost always implement state management manually, by getting
+                    and setting servlet session and request attributes. This approach to state management is the
+                    source of many bugs and memory leaks when applications fail to clean up session attributes,
+                    or when session data associated with different workflows collides in a multi-window
+                    application. Seam has the potential to almost entirely eliminate this class of bugs.
+                </para>
+                <para>
+                    Declarative state management is only possible because of the rich /context model/ defined
+                    by Seam.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><emphasis>Subversion of Control</emphasis></term>
+            <listitem>
+                <para>
+                    The notion <emphasis>Inversion of Control</emphasis> or <emphasis>dependency injection</emphasis>
+                    exists in both JSF and EJB3, as well as in numerous so-called "lighweight containers". Most of
+                    these containers emphasize injection of components that implement <emphasis>stateless services</emphasis>.
+                    Even when injection of stateful components is supported (such as in JSF), it is virtually useless
+                    for handling application state because the scope of the stateful component cannot be defined with
+                    sufficient flexibility.
+                </para>
+                <para>
+                    <emphasis>Subversion of control</emphasis> differs from IoC in that it is <emphasis>dynamic</emphasis>,
+                    <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>. You can think of it as a
+                    mechanism for aliasing names in the various contexts bound to the current thread, to attributes of
+                    the component. Subversion of control (or bijection) allows auto-wiring of stateful components by
+                    the container.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><emphasis>Integrate Busines Process as a First Class Construct</emphasis></term>
+            <listitem>
+                <para>
+                    Optionally, Seam integrates transparent business process management via jBPM. You won't believe
+                    how easy it is to implement complex workflows using jBPM and Seam.
+                </para>
+                <para>
+                    Eventually, Seam will also allow definition of presentation tier conversation flow by the
+                    same means.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><emphasis>Annotations Everywhere</emphasis></term>
+            <listitem>
+                <para>
+                    EJB 3.0 embraces annotations and "configuration by exception" as the easiest way to provide
+                    information to the container in a declarative form. Unfortunately, JSF is still heavily
+                    dependent on verbose XML configuration files. Seam extends the annotations provided by
+                    EJB 3.0 with a set of annotations for declarative state management and declarative
+                    context demarcation. This lets you eliminate the noisy JSF managed bean declarations
+                    and reduce the required XML to just that information which truly belongs in XML
+                    (the JSF navigation rules).
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><emphasis>Rich Event Model</emphasis></term>
+            <listitem>
+                <para>
+                    JSF provides an incredibly rich event model for the presentation tier. Seam enhances this
+                    model by exposing jBPM's business process related events via exactly the same event
+                    handling mechanism.
+                </para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+
+    <para>
+        It turns out that the combination of Seam, JSF and EJB3 is <emphasis>the</emphasis> simplest way
+        to write a complex web application in Java. You won't believe how few lines of code are required!
+    </para>
+
+    <para>
+        Seam works in any application server that supports EJB 3.0. You can even use Seam in a servlet
+        container like Tomcat, or in a J2EE 1.4 application server, by leveraging the new JBoss
+        embeddable EJB3 container.
+    </para>
+
+</chapter>
