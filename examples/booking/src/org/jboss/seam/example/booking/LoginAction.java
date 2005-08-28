@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.ejb.Interceptor;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -37,6 +39,8 @@ public class LoginAction implements Login
       
       if ( results.size()==0 )
       {
+         FacesContext.getCurrentInstance()
+               .addMessage(null, new FacesMessage("Invalid login"));
          return "login";
       }
       else
