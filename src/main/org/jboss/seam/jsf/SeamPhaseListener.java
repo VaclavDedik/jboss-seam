@@ -22,8 +22,6 @@ import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.contexts.BusinessProcessContext;
-import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
@@ -37,8 +35,6 @@ import org.jboss.seam.core.Manager;
 public class SeamPhaseListener implements PhaseListener
 {
    
-   private static final String JBPM_STATE_MAP = "org.jboss.seam.bpm.recoverableState";
-
    private static Logger log = Logger.getLogger(SeamPhaseListener.class);
 
    public PhaseId getPhaseId()
