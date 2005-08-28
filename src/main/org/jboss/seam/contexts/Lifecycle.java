@@ -27,9 +27,12 @@ public class Lifecycle
       Contexts.sessionContext.set( new WebSessionContext(session) );
       Contexts.applicationContext.set( new WebApplicationContext( session.getServletContext() ) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
+      Contexts.conversationContext.set(null); //in case endRequest() was never called
 
       if ( Init.instance().getJbpmSessionFactoryName() != null )
       {
+         //TODO: why create these here? Why not just use getComponent(name, true)
+         //      when you actually need it?
          Component.newInstance( Seam.getComponentName( ManagedJbpmSession.class ) );
          Component.newInstance( Seam.getComponentName( JbpmProcess.class ) );
          Component.newInstance( Seam.getComponentName( JbpmTask.class ) );
