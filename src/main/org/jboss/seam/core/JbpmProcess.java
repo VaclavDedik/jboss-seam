@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.contexts.Contexts;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.graph.exe.ProcessInstance;
@@ -34,11 +35,22 @@ public class JbpmProcess
 
    private static final Logger log = Logger.getLogger( JbpmProcess.class );
 
+   private Manager manager;
    private ProcessInstance process;
 
    @Create()
    public void create(Component component)
    {
+      // need to lookup the manager on creation to avoid unbroken recurions
+      // due to the fact that BusinessProcessContext is a stateful context
+      // which is searched prior to app-context; the call to Manager.instance()
+      // (if manager not yet created and placed in event context) searches for
+      // its component in stateful context; BusinessProcessContext searches
+      // contexts for both JbpmProcess and JbpmTask...
+      //
+      // NOTE : this works on the assumption that BusinessProcessContext
+      // is not bootstrapped until after the restore-view phase.
+      manager = Manager.instance();
       log.trace( "created jbpm process component" );
    }
 
@@ -53,14 +65,21 @@ public class JbpmProcess
       return process;
    }
 
+   @Destroy
+   public void cleanup()
+   {
+      process = null;
+      manager = null;
+   }
+
    private ProcessInstance getProcess()
    {
       log.trace( "obtaining process instance" );
-      String name = Seam.getComponentName( ManagedJbpmSession.class );
-      JbpmSession session = ( JbpmSession ) Component.getInstance( name, true );
+      JbpmSession session = ( JbpmSession )
+              Component.getInstance( ManagedJbpmSession.class, true );
 
       ProcessInstance process = null;
-      Long processId = Manager.instance().getProcessId();
+      Long processId = manager.getProcessId();
       if ( processId != null )
       {
          log.trace( "process id for unwrap : " + processId );
@@ -72,7 +91,8 @@ public class JbpmProcess
          log.trace( "process definition name for unwrap : " + definitionName );
          if ( definitionName == null )
          {
-            throw new IllegalStateException( "could not locate process id nor definition-name" );
+            log.info( "could not locate process id nor definition-name" );
+            return null;
          }
 
          ProcessDefinition pd = session.getGraphSession()
@@ -80,7 +100,7 @@ public class JbpmProcess
          process = new ProcessInstance( pd );
          process.signal();
          session.getGraphSession().saveProcessInstance( process );
-         Manager.instance().setProcessId( process.getId() );
+         manager.setProcessId( process.getId() );
 
       }
       return process;
