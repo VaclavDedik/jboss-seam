@@ -7,12 +7,19 @@
 package org.jboss.seam.contexts;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Component;
+import org.jboss.seam.core.JbpmProcess;
+import org.jboss.seam.core.JbpmTask;
+import org.jboss.seam.core.Init;
 import org.jbpm.context.exe.ContextInstance;
+import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
  * Exposes a jbpm variable context instance for reading/writing.
@@ -23,134 +30,157 @@ import org.jbpm.context.exe.ContextInstance;
  */
 public class BusinessProcessContext implements Context {
 
-	public static final String TASK_ID_KEY = "org.jboss.seam.bpm.taskId";
-	public static final String PROCESS_ID_KEY = "org.jboss.seam.bpm.processId";
-	public static final String PROCESS_DEF_KEY = "org.jboss.seam.bpm.processDefinitionName";
+   private static final Logger log = Logger.getLogger(BusinessProcessContext.class);
 
-	private static final Logger log = Logger.getLogger(BusinessProcessContext.class);
+   private Map tempContext = new HashMap();
+   private Set<String> removed = new HashSet<String>();
+   private ContextInstance contextInstance;
+   private Init settings;
+   private boolean resolvingJbpmContext;
 
-	private Map tempContext;
-	private ContextInstance jbpmContext;
+   /**
+    * Constructs a new instance of BusinessProcessContext.
+    */
+   public BusinessProcessContext() {
+      settings = Init.instance();
+      log.debug( "Begin BusinessProcessContext" );
+   }
 
-	/**
-	 * Constructs a new instance of BusinessProcessContext.
-	 */
-	public BusinessProcessContext() {
-		log.debug( "Begin BusinessProcessContext" );
-	}
+   /**
+    * Retrieves a map of all data needed to recover the current state of this context
+    * upon a later request (within the same conversation).
+    *
+    * @return the recoverable (temp) state
+    */
+   public Map getRecoverableState() {
+      if ( log.isTraceEnabled() )
+      {
+         log.trace( "recoverable state : " + tempContext );
+      }
+      return tempContext;
+   }
 
-	/**
-	 * Retrieves a map of all data needed to recover the current state of this context
-	 * upon a later request (within the same conversation).  This includes the
-	 * processInstance and taskInstance ids as well as any temporary state.
-	 *
-	 * @return
-	 */
-	public Map getRecoverableState() {
-		Map map = new HashMap();
+   public void recover(Map previousState) {
+      if ( log.isTraceEnabled() ) {
+         log.trace( "recovering from state : " + previousState );
+      }
 
-		if ( tempContext != null ) {
-			map.putAll( tempContext );
-			tempContext.clear();
-			tempContext = null;
-		}
-
-		if ( log.isTraceEnabled() ) {
-			log.trace( "recoverable state : " + map );
-		}
-		return map;
-	}
-
-	public void recover(Map previousState) {
-		if ( log.isTraceEnabled() ) {
-			log.trace( "recovering from state : " + previousState );
-		}
-
-		tempContext = new HashMap();
-		tempContext.putAll( previousState );
-	}
-
-	public void release() {
-		jbpmContext = null;
-	}
-
-	private void convertTempToPersistent() {
-		if ( tempContext == null ) return;
-
-		if ( log.isTraceEnabled() ) {
-			log.trace( "converting temp contex to be persistent [" + jbpmContext.getProcessInstance().getId() + "] : " + tempContext );
-		}
-		Iterator itr = tempContext.entrySet().iterator();
-		while ( itr.hasNext() ) {
-			final Map.Entry entry = ( Map.Entry ) itr.next();
-			jbpmContext.setVariable( ( String ) entry.getKey(), entry.getValue() );
-		}
-
-		tempContext.clear();
-		tempContext = null;
-	}
+      tempContext.putAll( previousState );
+   }
 
 
-	// Context impl ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-	public Object get(String name) {
-		if ( jbpmContext != null ) {
-			return jbpmContext.getVariable( name );
-		}
-		else {
-			return temp().get( name );
-		}
-	}
+   // Context impl ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-	public void set(String name, Object value) {
-		if ( jbpmContext != null ) {
-			jbpmContext.setVariable( name, value );
-		}
-		else {
-			temp().put( name, value );
-		}
-	}
+   public Object get(String name) {
+      Object value = tempContext.get( name );
+      if ( value == null )
+      {
+         ContextInstance jbpmContext = getJbpmContext();
+         if ( jbpmContext != null )
+         {
+            value = jbpmContext.getVariable( name );
+         }
+      }
+      return value;
+   }
 
-	public boolean isSet(String name) {
-		if ( jbpmContext != null ) {
-			return jbpmContext.hasVariable( name );
-		}
-		else {
-			return temp().containsKey( name );
-		}
-	}
+   public void set(String name, Object value) {
+      tempContext.put( name, value );
+   }
 
-	public void remove(String name) {
-		if ( jbpmContext != null ) {
-			jbpmContext.deleteVariable( name );
-		}
-		else {
-			temp().remove( name );
-		}
-	}
+   public boolean isSet(String name) {
+      if ( tempContext.containsKey( name ) )
+      {
+         return true;
+      }
 
-	public String[] getNames() {
-		if ( jbpmContext != null ) {
-			return ( String[] ) jbpmContext.getVariables().keySet().toArray( new String[]{} );
-		}
-		else {
-			return ( String[] ) temp().keySet().toArray( new String[]{} );
-		}
-	}
+      ContextInstance jbpmContext = getJbpmContext();
+      if ( jbpmContext != null )
+      {
+         jbpmContext.hasVariable( name );
+      }
 
-	private Map temp() {
-		if ( tempContext == null ) {
-			tempContext = new HashMap();
-		}
-		return tempContext;
-	}
+      return false;
+   }
 
-	public Object get(Class clazz) {
-		return get( Seam.getComponentName( clazz ) );
-	}
+   public void remove(String name) {
+      tempContext.remove( name );
+      removed.add( name );
+   }
+
+   public String[] getNames() {
+      Set keys = new HashSet();
+      keys.addAll( tempContext.keySet() );
+
+      ContextInstance jbpmContext = getJbpmContext();
+      if ( jbpmContext != null )
+      {
+         keys.addAll( jbpmContext.getVariables().keySet() );
+      }
+
+      return ( String[] ) keys.toArray( new String[] {} );
+   }
+
+
+   public Object get(Class clazz) {
+      return get( Seam.getComponentName( clazz ) );
+   }
 
    public void flush()
    {
-      //TODO
+      ContextInstance jbpmContext = getJbpmContext();
+      if ( jbpmContext == null )
+      {
+         log.debug( "no jBPM context to which to flush" );
+      }
+      else
+      {
+         log.debug( "flushing in-memory vars to jBPM context [" + jbpmContext.getProcessInstance().getId() + "]" );
+
+         for ( Object entry1 : tempContext.entrySet() )
+         {
+            final Map.Entry entry = ( Map.Entry ) entry1;
+            jbpmContext.setVariable( ( String ) entry.getKey(), entry.getValue() );
+         }
+
+         for ( String remove : removed )
+         {
+            jbpmContext.deleteVariable( remove );
+         }
+
+         tempContext.clear();
+      }
+   }
+
+   private ContextInstance getJbpmContext()
+   {
+      if ( settings.getJbpmSessionFactoryName() == null ) return null;
+
+      if ( resolvingJbpmContext ) return null;
+      resolvingJbpmContext = true;
+
+      if ( contextInstance == null )
+      {
+         log.trace( "trying to locate jBPM ContextInstance source (task/process)" );
+         // try to look up a process in event context first
+         ProcessInstance process = ( ProcessInstance ) Component.getInstance( JbpmProcess.class, true );
+         if ( process != null )
+         {
+            contextInstance = process.getContextInstance();
+         }
+         else
+         {
+            // else try to look up a task in event context
+            TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class, true );
+            if ( task != null )
+            {
+               contextInstance = task.getTaskMgmtInstance().getProcessInstance().getContextInstance();
+            }
+         }
+      }
+
+      resolvingJbpmContext = false;
+      return contextInstance;
    }
 }

@@ -2,18 +2,14 @@
 package org.jboss.seam.contexts;
 
 import java.util.Set;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Component;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.ManagedJbpmSession;
-import org.jboss.seam.core.Init;
-import org.jboss.seam.core.JbpmProcess;
-import org.jboss.seam.core.JbpmTask;
 
 public class Lifecycle
 {
@@ -26,17 +22,7 @@ public class Lifecycle
       Contexts.eventContext.set( new EventContext() );
       Contexts.sessionContext.set( new WebSessionContext(session) );
       Contexts.applicationContext.set( new WebApplicationContext( session.getServletContext() ) );
-      Contexts.businessProcessContext.set( new BusinessProcessContext() );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
-
-      if ( Init.instance().getJbpmSessionFactoryName() != null )
-      {
-         //TODO: why create these here? Why not just use getComponent(name, true)
-         //      when you actually need it?
-         Component.newInstance( Seam.getComponentName( ManagedJbpmSession.class ) );
-         Component.newInstance( Seam.getComponentName( JbpmProcess.class ) );
-         Component.newInstance( Seam.getComponentName( JbpmTask.class ) );
-      }
    }
 
    public static void beginInitialization(ServletContext servletContext)
@@ -101,19 +87,25 @@ public class Lifecycle
    public static void endRequest(HttpSession session) {
 
       log.info("After render response, destroying contexts");
-      
+
       try
       {
+
+         if ( Contexts.isBusinessProcessContextActive() )
+         {
+            Contexts.getBusinessProcessContext().flush();
+            Contexts.destroy( Contexts.getBusinessProcessContext() );
+         }
 
          if ( Contexts.isEventContextActive() )
          {
             log.info("destroying event context");
             Contexts.destroy( Contexts.getEventContext() );
          }
-   
+
          if ( Contexts.isConversationContextActive() )
          {
-            if ( !Seam.isSessionInvalid() ) 
+            if ( !Seam.isSessionInvalid() )
             {
                Contexts.getConversationContext().flush();
             }
@@ -123,19 +115,13 @@ public class Lifecycle
                Contexts.destroy( Contexts.getConversationContext() );
             }
          }
-   
-         if ( Contexts.isBusinessProcessContextActive() )
-         {
-            Contexts.getBusinessProcessContext().flush();
-            Contexts.destroy( Contexts.getBusinessProcessContext() );
-         }
-   
+
          if ( Seam.isSessionInvalid() )
          {
             session.invalidate();
             //actual session context will be destroyed from the listener
          }
-         
+
       }
       finally
       {
@@ -152,6 +138,15 @@ public class Lifecycle
    public static void resumeConversation(HttpSession session, String id)
    {
       Contexts.conversationContext.set( new ConversationContext(session, id) );
+   }
+
+   public static void recoverBusinessProcessContext(Map state)
+   {
+      Contexts.businessProcessContext.set( new BusinessProcessContext() );
+      if ( state != null )
+      {
+         ( ( BusinessProcessContext ) Contexts.getBusinessProcessContext() ).recover( state );
+      }
    }
 
 }
