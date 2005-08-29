@@ -6,13 +6,12 @@
  */ 
 package com.jboss.dvd.ejb;
 
-import java.util.*;
+import java.util.List;
 
-import javax.ejb.*;
-import javax.persistence.*;
-import javax.annotation.*;
-
-import com.jboss.dvd.ejb.*;
+import javax.ejb.Interceptor;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
@@ -33,7 +32,7 @@ public class PurchaseHistoryAction
         System.out.println("CREATE PURCHASE HISTORY: " + this);
     }
 
-    @In(value="userinfo",create=true)
+    @In(value="userinfo",create=true, alwaysDefined=true)
     User user;
 
     @PersistenceContext(unitName="dvd")

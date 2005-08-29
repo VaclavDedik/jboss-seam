@@ -6,23 +6,24 @@
  */ 
 package com.jboss.dvd.ejb;
 
-import java.util.*;
-
-import javax.ejb.*;
-import javax.annotation.*;
-import javax.persistence.*;
-
-import com.jboss.dvd.ejb.*;
-
-import org.jboss.annotation.JndiInject;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.JndiName;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.ejb.SeamInterceptor;
-
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ejb.Interceptor;
+import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.JndiName;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("search")

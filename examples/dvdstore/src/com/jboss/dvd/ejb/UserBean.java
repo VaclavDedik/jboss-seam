@@ -7,18 +7,12 @@
  */ 
 package com.jboss.dvd.ejb;
 
-import java.util.*;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import com.jboss.dvd.ejb.*;
-
-import javax.annotation.*;
-import javax.ejb.*;
-import javax.persistence.*;
-
-import org.jboss.annotation.ejb.LocalBinding;
-import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.JndiName;
-import org.jboss.seam.ejb.SeamInterceptor;
+import org.jboss.seam.annotations.Name;
 
 @Stateless
 @Name("userinfo")

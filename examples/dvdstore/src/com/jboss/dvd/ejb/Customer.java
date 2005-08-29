@@ -6,14 +6,18 @@
  */ 
 package com.jboss.dvd.ejb;
 
-import javax.ejb.*;
-import javax.persistence.*;
-
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratorType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ScopeType;
 
 @Entity
 @Table(name="CUSTOMERS")
@@ -135,7 +139,7 @@ public class Customer
         this.country = country;
     }
 
-    @Column(name="REGION",nullable=false)
+    @Column(name="REGION")
     public Integer getRegion() {
         return region;
     }

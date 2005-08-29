@@ -7,18 +7,20 @@
 package com.jboss.dvd.ejb;
 
 
-import javax.annotation.*;
-import javax.ejb.*;
-import javax.persistence.*;
+import java.util.Map;
+import java.util.TreeMap;
 
-import java.util.*;
+import javax.annotation.Resource;
+import javax.ejb.Interceptor;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import org.jboss.security.Util;
 import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.ejb.SeamInterceptor;
+import org.jboss.security.Util;
 
 
 @Stateless
@@ -30,6 +32,9 @@ public class EditCustomerBean
 {
     @PersistenceContext(unitName="dvd")
     EntityManager em;
+    
+    @Resource
+    SessionContext ctx;
 
     Customer customer;
 
@@ -97,8 +102,12 @@ public class EditCustomerBean
             em.persist(customer);            
 
             return "newcustomerok";
-        } catch (Exception e) {
+        } 
+        catch (RuntimeException e) {
+            System.out.println("Could not create customer");
+            e.printStackTrace();
             Utils.warnUser("createCustomerError", null);
+            ctx.setRollbackOnly();
             return null;
         }
     }

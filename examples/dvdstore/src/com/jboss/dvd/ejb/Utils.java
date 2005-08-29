@@ -6,16 +6,13 @@
  */ 
 package com.jboss.dvd.ejb;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import javax.naming.InitialContext;
-
-import java.text.MessageFormat;
-
-import javax.faces.context.FacesContext; 
-import javax.faces.application.FacesMessage; 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 public class Utils {
     public static void warnUser(String id, Object params[]) {

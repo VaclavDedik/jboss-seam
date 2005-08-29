@@ -6,10 +6,16 @@
  */ 
 package com.jboss.dvd.ejb;
 
-import javax.ejb.*;
-import javax.persistence.*;
-
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratorType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.jboss.seam.annotations.Name;
 
 @Entity

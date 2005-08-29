@@ -75,7 +75,7 @@
 
     <navigation-rule>
         <navigation-case> 
-            <from-action>#{user.logout}</from-action>   
+            <from-action>#{login.logout}</from-action>   
             <from-outcome>done</from-outcome> 
             <to-view-id>/index.jsp</to-view-id> 
             <redirect />

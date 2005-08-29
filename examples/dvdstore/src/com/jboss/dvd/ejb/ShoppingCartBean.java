@@ -6,26 +6,22 @@
  */ 
 package com.jboss.dvd.ejb;
 
-import com.jboss.dvd.ejb.InsufficientQuantityException;
-
-import java.util.List;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.ejb.*;
-import javax.annotation.*;
-import javax.persistence.*;
+import javax.ejb.Interceptor;
+import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.jboss.annotation.ejb.LocalBinding;
-import org.jboss.seam.annotations.Name;
-
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
-
-import java.io.Serializable;
 
 @Stateful
 @Name("cart")
@@ -36,7 +32,7 @@ public class ShoppingCartBean
     implements ShoppingCart,
                Serializable
 {
-    @EJB
+    @In(value="userinfo", create=true, alwaysDefined=true)
     User userBean;
 
     @PersistenceContext(unitName="dvd")

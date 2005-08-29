@@ -2,15 +2,13 @@ package com.jboss.dvd.ejb;
 
 import java.io.Serializable;
 
-import javax.ejb.Stateless;
 import javax.ejb.Interceptor;
+import javax.ejb.Stateless;
 
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.JndiName;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.ejb.SeamInterceptor;
-
-import org.jboss.annotation.ejb.LocalBinding;
 
 @Stateless
 @Name("login")
@@ -24,6 +22,5 @@ public class LoginAction
         Seam.invalidateSession();
         return "done";
     }
-
 
 }

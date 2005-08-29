@@ -6,15 +6,16 @@
  */ 
 package com.jboss.dvd.ejb;
 
-import javax.ejb.*;
-import javax.persistence.*;
-
 import java.io.Serializable;
-import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratorType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import org.jboss.seam.annotations.Name;
 
 @Entity
