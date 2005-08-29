@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Interceptor;
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
@@ -159,5 +161,19 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @Destroy @Remove
    public void destroy() {
       log.info("destroyed");
+   }
+   
+   @PrePassivate
+   public void passivate()
+   {
+      hotelsDataModel = null;
+   }
+   
+   @PostActivate
+   public void activate()
+   {
+      hotelsDataModel = new ListDataModel();
+      hotelsDataModel.setWrappedData(hotels);
+      hotelsDataModel.setRowIndex(rowIndex);
    }
 }
