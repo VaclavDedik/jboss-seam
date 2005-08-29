@@ -30,14 +30,15 @@ public class SeamInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
+      final Component component = getSeamComponent( invocation.getBean() );
       if ( Manager.instance().isProcessInterceptors() )
       {
          log.info("intercepted: " + invocation.getMethod().getName());
-         final Component component = getSeamComponent( invocation.getBean() );
          return new SeamInvocationContext(invocation, component).proceed();
       }
       else {
          log.debug("not intercepted: " + invocation.getMethod().getName());
+         component.inject( invocation.getBean(), false );
          return invocation.proceed();
       }
    }

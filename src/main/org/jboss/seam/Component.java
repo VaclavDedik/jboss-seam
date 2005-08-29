@@ -389,7 +389,7 @@ public class Component
         case JAVA_BEAN: 
         case ENTITY_BEAN:
             Object bean = beanClass.newInstance();
-            inject(bean);
+            inject(bean, true);
             return bean;
         case STATELESS_SESSION_BEAN : 
         case STATEFUL_SESSION_BEAN :
@@ -408,10 +408,10 @@ public class Component
       return bean;
    }
    
-   public void inject(Object bean)
+   public void inject(Object bean, boolean isActionInvocation)
    {
-      injectMethods(bean);
-      injectFields(bean);
+      injectMethods(bean, isActionInvocation);
+      injectFields(bean, isActionInvocation);
    }
 
    public void outject(Object bean)
@@ -420,12 +420,12 @@ public class Component
       outjectFields(bean);
    }
 
-   public void injectMethods(Object bean)
+   private void injectMethods(Object bean, boolean isActionInvocation)
    {
       for (Method method : getInMethods())
       {
          In in = method.getAnnotation(In.class);
-         if (in != null)
+         if ( isActionInvocation || in.alwaysDefined() )
          {
             String name = toName(in.value(), method);
             inject( bean, method, name, getInstanceToInject(in, name, bean) );
@@ -433,12 +433,12 @@ public class Component
       }
    }
 
-   private void injectFields(Object bean)
+   private void injectFields(Object bean, boolean isActionInvocation)
    {
       for (Field field : getInFields())
       {
          In in = field.getAnnotation(In.class);
-         if (in != null)
+         if ( isActionInvocation || in.alwaysDefined() )
          {
             String name = toName(in.value(), field);
             inject( bean, field, name, getInstanceToInject(in, name, bean) );
