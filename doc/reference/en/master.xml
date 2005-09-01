@@ -3,6 +3,7 @@
                       "../support/docbook-dtd/docbookx.dtd"
 [
 <!ENTITY introduction           SYSTEM "modules/introduction.xml">
+<!ENTITY installation           SYSTEM "modules/installation.xml">
 <!ENTITY tutorial               SYSTEM "modules/tutorial.xml">
 ]>
 
@@ -32,6 +33,7 @@
     </preface>
 
     &introduction;
+    &installation;
     &tutorial;
 
 </book>
