@@ -15,10 +15,6 @@
         <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
         <param-value>30000</param-value>
     </context-param>
-    <context-param>
-        <param-name>org.jboss.seam.core.init.persistenceUnitNames</param-name>
-        <param-value>bookingDatabase</param-value>
-    </context-param>
 
 	<filter>
 		<filter-name>Seam Exception Filter</filter-name>

@@ -2,26 +2,82 @@
     <title>Seam Tutorial</title>
 
     <para>
-        TODO: Write a tutorial, possibly describing the booking app example. Critically important
+        WORK IN PROGRESS: Write a tutorial, possibly describing the booking app example. Critically important
         is that all code snippets are copied from a working example! There is no room for any error
         in a beginners tutorial.
     </para>
 
-    <sect1 id="tutorial-start">
-        <title>Start</title>
-
-        <programlisting><![CDATA[
-    <code>
-]]></programlisting>
-
-        <itemizedlist spacing="compact">
-            <listitem>
-                <para>
-                    Foo
+    <section id="tutorial-start">
+        <title>Registration example</title>
+        <para>The registration example is the simplest example showing some parts of Seam features, this application already ties EJB3 to JSF but in such an easy way that it should not scare anybody away. The registration example, allows a user to store his username, real name and password into a database. Before explaining how all this work, we will build, start and play with this mini application</para>
+        <section>
+            <title>Running the example</title>
+            <section>
+                <title>Building and deploying</title>
+                <para>Here we will consider that you already did a checkout of jboss-seam as explained in <xref linkend="installation" />.</para>
+                <para>The structure of this exemple is the same as for all the exemples that will follow this one.
+                <itemizedlist>
+                    <listitem><para><filename>exemples/<replaceable>registration</replaceable>/resources</filename>: for all resources</para></listitem>    
+                    <listitem><para><filename>exemples/<replaceable>registration</replaceable>/src</filename>: for java sources</para></listitem>
+                    <listitem><para><filename>exemples/<replaceable>registration</replaceable>/build.xml</filename>: ant build script</para></listitem>
+                </itemizedlist>
+                <imagedata fileref="images/FileSystem.png"/>
                 </para>
-            </listitem>
-        </itemizedlist>
+                <para>Make sure <literal>$JBOSS_HOME</literal> is correctly setup and launch the ant build script in <filename>exemples/registration</filename>.
+                You should obtain something looking like this:
+                    <screen><prompt>~/Workspace/jboss-seam/examples/registration$</prompt> <userinput>ant</userinput>
+Buildfile: build.xml
 
-    </sect1>
+prepare:
+[mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output
+[mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output/classes
+[mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output/war
 
+compile: <co id="registration-build-compile"/>
+[javac] Compiling 3 source files to /home/theute/Workspace/jboss-seam/examples/registration/output/classes
+
+ejb3: <co id="registration-build-ejb3"/>
+[jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.ejb3
+
+war: <co id="registration-build-war"/>
+[jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.war
+
+ear: <co id="registration-build-ear"/>
+[jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.ear
+
+deploy: <co id="registration-build-deploy"/>
+[copy] Copying 1 file to /home/theute/Workspace/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy
+
+BUILD SUCCESSFUL
+Total time: 2 seconds</screen>
+                    <calloutlist>
+                        <callout arearefs="registration-build-compile">
+                            <para>Compiles all the classes of the example</para>
+                        </callout>
+                        <callout arearefs="registration-build-ejb3">
+                            <para>Builds the EJB3 package of the example</para>
+                        </callout>
+                        <callout arearefs="registration-build-war">
+                            <para>Builds the WAR package of the example</para>
+                        </callout>
+                        <callout arearefs="registration-build-ear">
+                            <para>From the EJB3 and WAR packages, it builds the EAR package of the example</para>
+                        </callout>
+                        <callout arearefs="registration-build-deploy">
+                            <para>Copies the EAR package to the deploy directory of the JBoss instance defined by <literal>$JBOSS_HOME</literal></para>
+                        </callout>
+                    </calloutlist>                        
+                </para>                
+            </section>
+            <section>
+                <title>Running</title>
+                <para>Point your browser to <ulink url="http://localhost:8080/seam-registration/faces/register.jsp"><literal>http://localhost:8080/seam-registration/faces/register.jsp</literal></ulink></para>
+                <para>The page displays a very basic form with three input fields, fill them, submit the form, it will display the content of the form.</para>
+                <para>Now open the HSQL Database Manager by going into the <ulink url="http://localhost:8080/jmx-console/HtmlAdaptor?action=inspectMBean&amp;name=jboss%3Aservice%3DHypersonic%2Cdatabase%3DlocalDB">JMX console</ulink> then press the <button>invoke</button> button under the <literal>startDatabaseManager</literal> method.</para>
+                <para>
+                    <imagedata fileref="images/HSQLDatabaseManager.png"/>
+                </para>
+            </section>
+        </section>
+    </section>
 </chapter>

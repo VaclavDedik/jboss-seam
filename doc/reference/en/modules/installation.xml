@@ -2,40 +2,49 @@
     <title>Installation of Seam</title>
     <para> Seam by nature requires Java 5. We also recommend to use the latest copy of JBoss in the
         CVS even though JBoss Seam would work in other application servers or even in a standalone Tomcat.</para>
-    <sect1>
+    <section>
         <title>From the sources</title>
-        <sect2>
+        <section>
             <title>Java 5</title>
             <para>First, install Java JDK 5.0 for your operating system, you can get it <ulink url="http://java.sun.com/j2se/1.5.0/download.jsp">here</ulink></para>
-        </sect2>
-        <sect2>
+        </section>
+        <section>
             <title>JBoss Head</title>
             <para>Now you will need to get jboss-head from CVS, compile it and setup <literal>JBOSS_HOME</literal>, to do so follow the following instructions:
-            <itemizedlist>
-                <listitem>Checkout the module jboss-head from the CVS repository of JBoss using <literal>:pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss</literal> as CVSROOT. Typing <literal>cvs -d :pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss co jboss-head</literal> will do it.</listitem>
-                <listitem>Now that the module is checked out, go to the <literal>build</literal> directory and start build JBoss Head by starting <literal>build.bat</literal> or <literal>build.sh</literal> depending on which operating system you are using.
+            <procedure>
+                <step>
+                    <para>Checkout the module jboss-head from the CVS repository of JBoss using <literal>:pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss</literal> as CVSROOT. Typing <literal>cvs -d :pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss co jboss-head</literal> will do it.</para>
+                </step>
+                <step>
+                    <para>Now that the module is checked out, go to the <literal>build</literal> directory and start build JBoss Head by starting <literal>build.bat</literal> or <literal>build.sh</literal> depending on which operating system you are using.</para>
                     <note>To be able to build JBoss the first time, you will have to be connected to Internet.</note>
                     <note>On some system, you may have a out of memory exception during the building, restart the build and it should finish the job.</note>
-                  <warning>Make sure that typing "java -version" in a console returns a version 1.5 of Java, otherwise ejb3 libraries won't be compiled.</warning> 
-                </listitem>
-                <listitem>Now define the environment variable <literal>JBOSS_HOME</literal> to the full path leading to <literal>jboss-head/build/output/jboss-xxxxxx</literal>.</listitem>
-            </itemizedlist>
+                    <warning>Make sure that typing "java -version" in a console returns a version 1.5 of Java, otherwise ejb3 libraries won't be compiled.</warning> 
+                </step>
+                <step>
+                    <para>Now define the environment variable <literal>JBOSS_HOME</literal> to the full path leading to <literal>jboss-head/build/output/jboss-xxxxxx</literal>.</para>
+                </step>
+            </procedure>
             </para>
-        </sect2>
-        <sect2>
+        </section>
+        <section>
             <title>JBoss Seam</title>
             <para>Now you will need to get jboss-seam from CVS and compile it, to do so follow the following instructions:
-                <itemizedlist>
-                    <listitem>Checkout the module jboss-seam from the CVS repository of JBoss using <literal>:pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss</literal> as CVSROOT. Typing <literal>cvs -d :pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss co jboss-seam</literal> will do it.</listitem>
-                    <listitem>Now that the module is checked out, go to the <literal>build</literal> directory and start build JBoss Seam by starting <literal>build.bat</literal> or <literal>build.sh</literal> depending on which operating system you are using.</listitem>
-                </itemizedlist>
+                <procedure>
+                    <step>
+                        <para>Checkout the module jboss-seam from the CVS repository of JBoss using <literal>:pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss</literal> as CVSROOT. Typing <literal>cvs -d :pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jboss co jboss-seam</literal> will do it.</para>
+                    </step>
+                    <step>
+                        <para>Now that the module is checked out, go to the <literal>build</literal> directory and start build JBoss Seam by starting the <literal>build.xml</literal> file using ant.</para>
+                    </step>
+                </procedure>
             Once this is all done, you should have a directory named <literal>seam.deployer</literal> inside <literal>$JBOSS_HEAD/server/default/deploy</literal>.
             </para>
-        </sect2>
-    </sect1>
-    <sect1>
+        </section>
+    </section>
+    <section>
         <title>From binaries</title>
         <para>No binaries are available so far</para>
-    </sect1>
+    </section>
     <para>Now you are ready to start on the tutorial</para>
 </chapter>
