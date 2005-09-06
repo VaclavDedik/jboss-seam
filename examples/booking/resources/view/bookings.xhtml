@@ -8,40 +8,37 @@
 <!-- content -->
 <ui:define name="content">
 <div class="section">
-	<h1>Search Hotels</h1>
-	<h:form>
-	<fieldset> 
-		<h:inputText value="#{hotelBooking.searchString}" style="width: 165px;" />&nbsp;
-		<h:commandButton value="Find Hotels" action="#{hotelBooking.find}" styleClass="button" />
-	</fieldset>
-	</h:form>
+	<h1>Current Hotel Bookings</h1>
 </div>
 <div class="section">
-	<h:outputText value="No Hotels Found" rendered="#{hotelsDataModel != null and hotelsDataModel.rowCount == 0}"/>
-	<h:dataTable value="#{hotelsDataModel}" var="hot" rendered="#{hotelsDataModel.rowCount > 0}">
+	<h:outputText value="No Bookings Found" rendered="#{bookingsDataModel != null and bookingsDataModel.rowCount == 0}"/>
+	<h:dataTable value="#{bookingsDataModel}" var="book" rendered="#{bookingsDataModel.rowCount > 0}">
 		<h:column>
 			<f:facet name="header">Address</f:facet>
-			#{hot.address}
+			#{book.hotel.address}
 		</h:column>
 		<h:column>
 			<f:facet name="header">City</f:facet>
-			#{hot.city}
+			#{book.hotel.city}
 		</h:column>
 		<h:column>
-			<f:facet name="header">Zip</f:facet>
-			#{hot.zip}
+			<f:facet name="header">Check in date</f:facet>
+			#{book.checkinDate}
 		</h:column>
 		<h:column>
-			<f:facet name="header">Action</f:facet>
-			<h:commandLink action="#{hotelBooking.selectHotel}">View Hotel</h:commandLink>
+			<f:facet name="header">Check out date</f:facet>
+			#{book.checkoutDate}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Confirmation number</f:facet>
+			#{book.id}
 		</h:column>
 	</h:dataTable>
 </div>
 <div class="section">
-	<h1>Search Your Bookings</h1>
 	<h:form>
-	<fieldset> 
-		<h:commandButton value="Find Existing Bookings" action="#{bookingList.find}" styleClass="button" />
+	<fieldset class="buttonBox">
+		<h:commandButton action="main" value="Done" class="button"/>
 	</fieldset>
 	</h:form>
 </div>
@@ -49,8 +46,6 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-<h1>Search Capabilities</h1>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut</p>
 <h1>What's Bijection?</h1>
 <p>Aoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
 </ui:define>
