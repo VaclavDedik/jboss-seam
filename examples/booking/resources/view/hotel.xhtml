@@ -1,0 +1,47 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+				template="template.xhtml">
+
+<!-- content -->
+<ui:define name="content">
+<div class="section">
+	<h1>View Hotel</h1>
+</div>
+<div class="section">
+	<div class="entry">
+		<div class="label">Address:</div>
+		<div class="output">#{hotel.address}</div>
+	</div>
+	<div class="entry">
+		<div class="label">City:</div>
+		<div class="output">#{hotel.city}</div>
+	</div>
+	<div class="entry">
+		<div class="label">Zip:</div>
+		<div class="output">#{hotel.zip}</div>
+	</div>
+</div>
+<div class="section">
+	<h:form>
+	<fieldset class="buttonBox">
+		<h:commandButton action="#{hotelBooking.lastHotel}" value="Previous Hotel" class="button"/>&nbsp;
+		<h:commandButton action="#{hotelBooking.nextHotel}" value="Next Hotel" class="button"/>&nbsp;
+		<h:commandButton action="#{hotelBooking.bookHotel}" value="Book Hotel" class="button"/>&nbsp;
+		<h:commandButton action="main" value="Back to Search" class="button"/>
+	</fieldset>
+	</h:form>
+</div>
+</ui:define>
+
+<!-- sidebar -->
+<ui:define name="sidebar">
+<h1>Search Capabilities</h1>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut</p>
+<h1>What's Bijection?</h1>
+<p>Aoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+</ui:define>
+
+</ui:composition>

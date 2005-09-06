@@ -74,15 +74,16 @@
      <jar destfile="${output.dir}/${example.name}.war">
      	<zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
      	<zipfileset dir="${resources.dir}/jsp"/>
+	<zipfileset dir="${resources.dir}/view"/>
         <fileset dir="${resources.dir}">
            <include name="seam.properties"/>
         </fileset>
         <zipfileset dir="${basedir}/../../src/resources/META-INF" prefix="WEB-INF">
            <include name="jboss-seam.tld"/>
         </zipfileset>
-        <!--zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
+        <!-- zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
            <include name="jboss-seam.jar"/>
-        </zipfileset-->
+        </zipfileset -->
      </jar>
    </target>
 	
