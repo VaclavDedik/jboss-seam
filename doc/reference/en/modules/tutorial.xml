@@ -1,83 +1,598 @@
 <chapter id="tutorial">
     <title>Seam Tutorial</title>
-
-    <para>
-        WORK IN PROGRESS: Write a tutorial, possibly describing the booking app example. Critically important
-        is that all code snippets are copied from a working example! There is no room for any error
-        in a beginners tutorial.
-    </para>
-
-    <section id="tutorial-start">
-        <title>Registration example</title>
-        <para>The registration example is the simplest example showing some parts of Seam features, this application already ties EJB3 to JSF but in such an easy way that it should not scare anybody away. The registration example, allows a user to store his username, real name and password into a database. Before explaining how all this work, we will build, start and play with this mini application</para>
+    <section>
+        <title>Try the examples</title>
         <section>
-            <title>Running the example</title>
-            <section>
-                <title>Building and deploying</title>
-                <para>Here we will consider that you already did a checkout of jboss-seam as explained in <xref linkend="installation" />.</para>
-                <para>The structure of this exemple is the same as for all the exemples that will follow this one.
-                <itemizedlist>
-                    <listitem><para><filename>exemples/<replaceable>registration</replaceable>/resources</filename>: for all resources</para></listitem>    
-                    <listitem><para><filename>exemples/<replaceable>registration</replaceable>/src</filename>: for java sources</para></listitem>
-                    <listitem><para><filename>exemples/<replaceable>registration</replaceable>/build.xml</filename>: ant build script</para></listitem>
+            <title>Building and deploying</title>
+            <indexterm>
+                <primary>compile example</primary>
+            </indexterm>
+            <indexterm>
+                <primary>example</primary>
+                <secondary>compile</secondary>
+            </indexterm>
+            <indexterm>
+                <primary>build example</primary>
+            </indexterm>
+            <indexterm>
+                <primary>example</primary>
+                <secondary>build</secondary>
+            </indexterm>
+            <para>Here we will consider that you already did a checkout of jboss-seam as
+                explained in <xref linkend="installation"/>.</para>
+            <para>The structure of all the examples is the same and will follow this one.<itemizedlist>
+                    <listitem>
+                        <para><filename>exemples/<replaceable>registration</replaceable>/resources</filename>:
+                            for all resources</para>
+                    </listitem>
+                    <listitem>
+                        <para><filename>exemples/<replaceable>registration</replaceable>/src</filename>:
+                            for java sources</para>
+                    </listitem>
+                    <listitem>
+                        <para><filename>exemples/<replaceable>registration</replaceable>/build.xml</filename>:
+                            ant build script</para>
+                    </listitem>
                 </itemizedlist>
-                <imagedata fileref="images/FileSystem.png"/>
-                </para>
-                <para>Make sure <literal>$JBOSS_HOME</literal> is correctly setup and launch the ant build script in <filename>exemples/registration</filename>.
-                You should obtain something looking like this:
-                    <screen><prompt>~/Workspace/jboss-seam/examples/registration$</prompt> <userinput>ant</userinput>
-Buildfile: build.xml
+                <mediaobject>
+                    <imageobject role="fo">
+                        <imagedata fileref="images/FileSystem.png" align="center"/>
+                    </imageobject>
+                    <imageobject role="html">
+                        <imagedata fileref="../shared/images/FileSystem.png" align="center"/>
+                    </imageobject>
+                </mediaobject>
+            </para>
+            <para>Make sure <literal>$JBOSS_HOME</literal> is correctly setup and launch the ant
+                build script in <filename>exemples/<replaceable>registration</replaceable></filename>. You should obtain
+                something looking like this: <screen><prompt>~/Workspace/jboss-seam/examples/<replaceable>registration</replaceable>$</prompt> <userinput>ant</userinput>
+                    Buildfile: build.xml
+                    
+                    prepare:
+                    [mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output
+                    [mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output/classes
+                    [mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output/war
+                    
+                    compile: <co id="registration-build-compile"/>
+                    [javac] Compiling 3 source files to /home/theute/Workspace/jboss-seam/examples/registration/output/classes
+                    
+                    ejb3: <co id="registration-build-ejb3"/>
+                    [jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.ejb3
+                    
+                    war: <co id="registration-build-war"/>
+                    [jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.war
+                    
+                    ear: <co id="registration-build-ear"/>
+                    [jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.ear
+                    
+                    deploy: <co id="registration-build-deploy"/>
+                    [copy] Copying 1 file to /home/theute/Workspace/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy
+                    
+                    BUILD SUCCESSFUL
+                    Total time: 2 seconds</screen>
+                <calloutlist>
+                    <callout arearefs="registration-build-compile">
+                        <para>Compiles all the classes of the example</para>
+                    </callout>
+                    <callout arearefs="registration-build-ejb3">
+                        <para>Builds the EJB3 package of the example</para>
+                    </callout>
+                    <callout arearefs="registration-build-war">
+                        <para>Builds the WAR package of the example</para>
+                    </callout>
+                    <callout arearefs="registration-build-ear">
+                        <para>From the EJB3 and WAR packages, it builds the EAR package of the
+                            example</para>
+                    </callout>
+                    <callout arearefs="registration-build-deploy">
+                        <para>Copies the EAR package to the deploy directory of the JBoss
+                            instance defined by <literal>$JBOSS_HOME</literal></para>
+                    </callout>
+                </calloutlist>
+            </para>
+        </section>
+    </section>
+    <section id="tutorial-start">
+        <title>The first Seam application: Registration example</title>
+        <indexterm id="registration-example" class="start-of-range">
+            <primary>example</primary>
+            <secondary>Registration example</secondary>
+        </indexterm>
+        <para>The registration example is the simplest example exposed here showing some parts of
+            the Seam features, this application already ties EJB3 to JSF in such an easy way that it
+            should not scare anybody away. If you have basic knowledge of JSF and EJB3, this example
+            will be extremely easy, otherwise it could be a good introduction to those technologies.
+            The registration example, allows a user to store his username, real name and password
+            directly into a database. Before explaining how all of this work, we will build, start
+            and play with this mini application</para>
+        <section>
+            <title>Running</title>
+            <indexterm>
+                <primary>running example</primary>
+            </indexterm>
+            <indexterm>
+                <primary>example</primary>
+                <secondary>running</secondary>
+            </indexterm>
+            <para>Start JBoss then point your browser to <ulink
+                url="http://localhost:8080/seam-registration/faces/register.jsp">
+                <literal>http://localhost:8080/seam-<replaceable>registration</replaceable>/faces/<replaceable>register.jsp</replaceable></literal>
+            </ulink></para>
+            <para>The page displays a very basic form with three input fields, fill them, submit
+                the form, it will display the content of the form.</para>
+            <para>Now open the HSQL Database Manager by going into the <ulink
+                url="http://localhost:8080/jmx-console/HtmlAdaptor?action=inspectMBean&amp;name=jboss%3Aservice%3DHypersonic%2Cdatabase%3DlocalDB"
+                >JMX console</ulink> then press the <mousebutton>invoke</mousebutton> button
+                under the <literal>startDatabaseManager</literal> method.</para>
+            <para>By typing the request <literal>SELECT * FROM USERS</literal> then clicking on
+                <mousebutton>"Execute SQL Statement"</mousebutton> you should see the
+                content of your form stored in the database like on the
+                <screenshot>
+                    <screeninfo>HSQL database manager</screeninfo>
+                    <mediaobject>
+                        <imageobject role="fo">
+                            <imagedata fileref="images/HSQLDatabaseManager.png" align="center"/>
+                        </imageobject>
+                        <imageobject role="html">
+                            <imagedata fileref="../shared/images/HSQLDatabaseManager.png" align="center"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>See how it works</title>
+            <para>While you can use your favorite editor, you will find easier to use Eclipse as the
+                projects files are distributed with Seam. Make sure to have the sources files of
+                this example defined in the project.</para>
+            <section>
+                <title>The entity bean: User.java</title>
+                <para>
+                    <programlisting>package org.jboss.seam.example.registration;
+import static org.jboss.seam.ScopeType.SESSION;
 
-prepare:
-[mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output
-[mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output/classes
-[mkdir] Created dir: /home/theute/Workspace/jboss-seam/examples/registration/output/war
+import java.io.Serializable;
 
-compile: <co id="registration-build-compile"/>
-[javac] Compiling 3 source files to /home/theute/Workspace/jboss-seam/examples/registration/output/classes
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-ejb3: <co id="registration-build-ejb3"/>
-[jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.ejb3
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
-war: <co id="registration-build-war"/>
-[jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.war
+@Entity <co id="registration-entity-annotation"/>
+@Name("user") <co id="registration-name-annotation"/>
+@Scope(SESSION) <co id="registration-scope-annotation"/>
+public class User implements Serializable
+{
+   /** The serialVersionUID */
+   private static final long serialVersionUID = 1881413500711441951L;
+   
+   private String username; <co id="registration-attributes"/>
+   private String password;
+   private String name;
 
-ear: <co id="registration-build-ear"/>
-[jar] Building jar: /home/theute/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.ear
+   public User() {} <co id="registration-empty-constructor"/>
 
-deploy: <co id="registration-build-deploy"/>
-[copy] Copying 1 file to /home/theute/Workspace/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy
+   public String getName() <co id="registration-getters"/>
+   {
+      return name;
+   }
 
-BUILD SUCCESSFUL
-Total time: 2 seconds</screen>
+   public void setName(String name) <co id="registration-setters"/>
+   {
+      this.name = name;
+   }
+
+   public String getPassword()
+   {
+      return password;
+   }
+
+   public void setPassword(String password) 
+   {
+      this.password = password;
+   }
+
+   @Id <co id="registration-id-annotation"/>
+   public String getUsername()
+   {
+      return username;
+   }
+
+   public void setUsername(String username)
+   {
+      this.username = username;
+   }
+
+}</programlisting>
                     <calloutlist>
-                        <callout arearefs="registration-build-compile">
-                            <para>Compiles all the classes of the example</para>
+                        <callout arearefs="registration-entity-annotation">
+                            <para>The User bean represent the model of a user and contains all its
+                                data, we want that ovject to be persistent. The EJB3 specification
+                                defines an entity bean as a <citation>lightweight persistent domain
+                                    object</citation>, so we mark this class as being an entity bean
+                                by writing <literal>@Entity</literal>. <indexterm>
+                                    <primary>@Entity</primary>
+                                </indexterm>
+                            </para>
                         </callout>
-                        <callout arearefs="registration-build-ejb3">
-                            <para>Builds the EJB3 package of the example</para>
+                        <callout arearefs="registration-name-annotation">
+                            <para>A Seam component must have a name given by the <link
+                                    linkend="name-annotation"><literal>@Name</literal>
+                                annotation</link>, this name must be unique within the application. <indexterm>
+                                    <primary>@Name</primary>
+                                </indexterm>
+                            </para>
                         </callout>
-                        <callout arearefs="registration-build-war">
-                            <para>Builds the WAR package of the example</para>
+                        <callout arearefs="registration-scope-annotation">
+                            <para>The scope of the bean has to be defined to manage its lifecycle,
+                                this is done by using the <link linkend="scope-annotation"
+                                        ><literal>@Scope</literal> annotation</link>. This bean has
+                                been defined living in the user's session scope. <indexterm>
+                                    <primary>@Scope</primary>
+                                </indexterm></para>
                         </callout>
-                        <callout arearefs="registration-build-ear">
-                            <para>From the EJB3 and WAR packages, it builds the EAR package of the example</para>
+                        <callout arearefs="registration-attributes">
+                            <para><literal>name</literal>, <literal>password</literal> and
+                                    <literal>username</literal> are the attributes of the
+                            bean.</para>
                         </callout>
-                        <callout arearefs="registration-build-deploy">
-                            <para>Copies the EAR package to the deploy directory of the JBoss instance defined by <literal>$JBOSS_HOME</literal></para>
+                        <callout arearefs="registration-empty-constructor">
+                            <para>An empty constructor is both required by the EJB specification for
+                                entity beans and for JSF managed beans.</para>
                         </callout>
-                    </calloutlist>                        
-                </para>                
+                        <callout arearefs="registration-getters">
+                            <para>To access the attributes, we write getter methods for all readable
+                                attributes.</para>
+                        </callout>
+                        <callout arearefs="registration-setters">
+                            <para>To access the attributes, we write setter methods for all writable
+                                attributes.</para>
+                        </callout>
+                        <callout arearefs="registration-id-annotation">
+                            <para>The <literal>@Id</literal> annotation of EJB will be used to set
+                                the identifier of the entity bean, here the value is given by the
+                                application. <indexterm>
+                                    <primary>@Id</primary>
+                                </indexterm>
+                            </para>
+                        </callout>
+                    </calloutlist>
+                </para>
             </section>
             <section>
-                <title>Running</title>
-                <para>Point your browser to <ulink url="http://localhost:8080/seam-registration/faces/register.jsp"><literal>http://localhost:8080/seam-registration/faces/register.jsp</literal></ulink></para>
-                <para>The page displays a very basic form with three input fields, fill them, submit the form, it will display the content of the form.</para>
-                <para>Now open the HSQL Database Manager by going into the <ulink url="http://localhost:8080/jmx-console/HtmlAdaptor?action=inspectMBean&amp;name=jboss%3Aservice%3DHypersonic%2Cdatabase%3DlocalDB">JMX console</ulink> then press the <button>invoke</button> button under the <literal>startDatabaseManager</literal> method.</para>
-                <para>
-                    <imagedata fileref="images/HSQLDatabaseManager.png"/>
+                <title>Register.java</title>
+                <para><programlisting>package org.jboss.seam.example.registration;
+import javax.ejb.Local;
+
+@Local
+public interface Register
+{
+   public String register();
+
+   public void destroy();
+}</programlisting>
+                    This is the local interface for the session bean that will be used to manage JSF
+                    actions. In our example the only action that can be triggered is when the user
+                    click on the <mousebutton>register</mousebutton> button. The destroy method is
+                    not mandatory and we will see in RegisterAction.java how it can be used. <indexterm>
+                        <primary>@Local</primary>
+                    </indexterm>
                 </para>
             </section>
+            <section>
+                <title>RegisterAction.java</title>
+                <para>
+                    <programlisting>package org.jboss.seam.example.registration;
+
+import static org.jboss.seam.ScopeType.EVENT;
+
+import javax.ejb.Interceptor;
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.jboss.annotation.ejb.LocalBinding;
+import org.jboss.logging.Logger;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.ejb.SeamInterceptor;
+
+@Stateful <co id="registration-stateful-annotation"/>
+@Scope(EVENT)
+@Name("register")
+@LocalBinding(jndiBinding="register")  <co id="registration-localbinding-annotation"/>
+@Interceptor(SeamInterceptor.class) <co id="registration-interceptor-annotation"/>
+public class RegisterAction implements Register
+{
+   private static final Logger log = Logger.getLogger(Register.class);
+                    
+   @In <co id="registration-in-annotation"/>
+   private User user;
+
+   @PersistenceContext <co id="registration-persistencecontext-annotation"/>
+   private EntityManager em;
+
+   public String register()
+   {
+      em.persist(user); <co id="registration-persist-method"/>
+      return "login";
+   }
+
+   @Destroy @Remove<co id="registration-destroy-annotation"/><co id="registration-remove-annotation"/>
+   public void destroy()
+   {
+      log.info("destroyed");
+   }
+                    }</programlisting>
+                    <calloutlist>
+                        <callout arearefs="registration-stateful-annotation">
+                            <para>This EJB3 annotation marks this class as stateful bean.</para>
+                        </callout>
+                        <callout arearefs="registration-localbinding-annotation">
+                            <para>The localbinding value will be used to map this object in the JNDI
+                                tree.</para>
+                        </callout>
+                        <callout arearefs="registration-interceptor-annotation">
+                            <para>The Interceptor must be set to SeamInterceptor to enable the Seam
+                                annotations on fields and methods (like
+                            <literal>@In</literal>).</para>
+                        </callout>
+                        <callout arearefs="registration-in-annotation">
+                            <para>The <link linkend="in-annotation">
+                                <literal>@In<indexterm>
+                                    <primary>@In</primary></indexterm></literal>
+                            </link> annotation is used to inject the user from any context to
+                                the user attribute.</para>
+                        </callout>
+                        <callout arearefs="registration-persistencecontext-annotation">
+                            <para>This EJB3 annotation is used to inject the entity manager.</para>
+                        </callout>
+                        <callout arearefs="registration-persist-method">
+                            <para>The persist method on the entity manager will tie the object to
+                                the persistent layer and store the content of the bean to the
+                                defined database (embeded HSQL by default in JBoss)</para>
+                        </callout>
+                        <callout arearefs="registration-destroy-annotation">
+                            <para>Methods marked with the <link linkend="destroy-annotation">
+                                <literal>@Destroy<indexterm>
+                                    <primary>@Destroy</primary></indexterm></literal>
+                                </link> annotation are called when the context they are stored in is
+                                destroyed.</para>
+                        </callout>
+                        <callout arearefs="registration-remove-annotation">
+                            <para>Methods marked with the <literal>@Remove<indexterm>
+                                <primary>@Remove</primary></indexterm></literal> annotation are
+                                called when the entity bean is "removed".</para>
+                        </callout>
+                    </calloutlist>
+                </para>
+            </section>
+            <section>
+                <title>web.xml</title>
+                <indexterm>
+                    <primary>web.xml</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>descriptor file</primary>
+                    <secondary>web.xml</secondary>
+                </indexterm>
+                <para><programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+
+    <!-- Seam -->
+    
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamJBossStartupListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>Seam Exception Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+    </filter>
+	
+    <filter-mapping>
+      <filter-name>Seam Exception Filter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping> 
+
+    <!-- MyFaces -->
+
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+    
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!-- Faces Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+	
+</web-app>]]></programlisting>The whole part dedicated to Seam and MyFaces is mandatory for Seam to
+                    work correctly, you can also use the Sun RI then you don't need to add any
+                    listener. The servlet mapping can be done on anything,
+                    <literal>/faces/*</literal> in this example.</para>
+            </section>
+            <section>
+                <title>faces-config.xml</title>
+                <indexterm>
+                    <primary>faces-config.xml</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>descriptor file</primary>
+                    <secondary>faces-config.xml</secondary>
+                </indexterm>
+                <para>
+                    <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config 
+PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+                            "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<faces-config>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/login.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<!-- Same for all Seam applications -->
+	
+	<application>
+		<variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
+	</application>
+	
+	<lifecycle>
+		<phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+	</lifecycle>
+
+                        </faces-config>]]></programlisting>The second part of the file is mandatory
+                    if you are using JSF with Seam, the <literal>variable resolver</literal>
+                    <indexterm>
+                        <primary>variable resolver</primary>
+                    </indexterm>and <literal>phase listener</literal><indexterm>
+                        <primary>phase listener</primary>
+                    </indexterm> must be set to use the Seam classes.</para>
+            </section>
+            <section>
+                <title>application.xml</title>
+                <indexterm>
+                    <primary>application.xml</primary>
+                </indexterm>
+                <indexterm>
+                    <primary>descriptor file</primary>
+                    <secondary>application.xml</secondary>
+                </indexterm>
+                <para>
+                    <programlisting><![CDATA[<application>
+	<display-name>Seam</display-name>
+
+	<module>
+		<web>
+			<web-uri>jboss-seam-registration.war</web-uri>
+			<context-root>/seam-registration</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>jboss-seam-registration.ejb3</ejb>
+	</module>
+	
+</application>]]></programlisting>This is the common file to link modules in an enterprise archive
+                    (EAR) and bound the web application to <literal>/seam-registration</literal>.
+                </para>
+            </section>
+            <section>
+                <title>register.jsp</title>
+                <para>
+                    <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<html>
+ <head>
+  <title>Register</title>
+ </head>
+ <body>
+  <f:view>
+   <h:form>
+     <table border="0">
+       <tr>
+         <td>Username</td>
+         <td><h:inputText value="#{user.username}"/></td>
+       </tr>
+       <tr>
+         <td>Real Name</td>
+         <td><h:inputText value="#{user.name}"/></td>
+       </tr>
+       <tr>
+         <td>Password</td>
+         <td><h:inputSecret value="#{user.password}"/></td>
+       </tr>
+     </table>
+     </table>
+     <h:commandButton type="submit" value="Register" action="#{register.register}"/>
+   </h:form>
+  </f:view>
+ </body>
+</html>]]></programlisting>This file will display a form for the visitor to enter his data to store.
+                    This is a plain JSF file, managed beans are called using the name giveng by the
+                        <link linkend="name-annotation"><literal>@Name</literal> annotation</link>,
+                    noticve that you didn't have to declare the User and RegisterAction beans as JSF
+                    managed beans in <literal>faces-config.xml</literal> like you usually do.
+                </para>
+            </section>
+            <section>
+                <title>login.jsp</title>
+                <para>
+                    <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<html>
+ <head>
+  <title>Login</title>
+ </head>
+ <body>
+  <f:view>
+     <table border="0">
+       <tr>
+         <td>Username</td>
+         <td><h:outputText value="#{user.username}"/></td>
+       </tr>
+       <tr>
+         <td>Name</td>
+         <td><h:outputText value="#{user.name}"/></td>
+       </tr>
+       <tr>
+         <td>Password</td>
+         <td><h:outputText value="#{user.password}"/></td>
+       </tr>
+     </table>
+  </f:view>
+ </body>
+</html>]]></programlisting>Again, this is a typical JSF file, fetching data from the User bean.</para>
+                <para>Only the surface of Seam and a small subset of its possibilities has been
+                    scratched by this example, but at this point it must be clear how much plumbing
+                    code has been removed and how you can focus on the business part of your
+                    application without worrying to much about persistence and bean filling.</para>
+                <para>We saw in details <emphasis>all</emphasis> the files required for this
+                    application to work, there is no hidden long and complex descriptor files,
+                    everything is in this page !</para>
+            </section>
+        </section>
+        <section>
+            <title>Understand the example</title>
+            <para>The starting point from a user point of view is the <literal>regiser.jsp</literal>
+                JSF page. Usually, the JSF expression language <literal>#{user.name}</literal> will
+                look for the JSF managed bean <literal>user</literal> and its attribute
+                    <literal>name</literal> to set with the entered value. There is no difference
+                here except that the managed bean does not have to be declared anymore in
+                    <filename>faces-config.xml</filename> but only with the <link
+                    linkend="name-annotation"><literal>@Name</literal>
+                    <indexterm>
+                        <primary>@Name</primary>
+                    </indexterm> annotation</link>.</para>
+            <para>Once the <literal>user</literal> bean is filled, the <literal>register</literal>
+                method is invoked on the <literal>register</literal> bean in which the EJB3 Entity
+                manager and the <literal>user</literal> seam component are injected. Using those,
+                the <literal>register</literal> session bean is able to persist the user
+                information.</para>
+                
+            <indexterm startref="registration-example" class="endofrange"/>
         </section>
     </section>
 </chapter>

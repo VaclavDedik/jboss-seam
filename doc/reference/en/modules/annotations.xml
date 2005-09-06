@@ -1,0 +1,277 @@
+<chapter id="annotations">
+    <title>Seam's annotations</title>
+    
+    <para>On top of the EJB3 and hibernate annotation that are used, there are few specific annotations for Seam that are described in this chapter</para>
+    <section id="around-annotation">
+        <title>@Around</title>
+        <indexterm>
+            <primary>@Around</primary>
+        </indexterm>
+        <indexterm>
+            <primary>around annotation</primary>
+            <see>@Around</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>around</secondary>
+            <see>@Around</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="begin-annotation">
+        <title>@Begin</title>
+        <indexterm>
+            <primary>@Begin</primary>
+        </indexterm>
+        <indexterm>
+            <primary>begin annotation</primary>
+            <see>@Begin</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>begin</secondary>
+            <see>@Begin</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="beginif-annotation">
+        <title>@BeginIf</title>
+        <indexterm>
+            <primary>@Around</primary>
+        </indexterm>
+        <indexterm>
+            <primary>BeginIf annotation</primary>
+            <see>@BeginIf</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>beginIf</secondary>
+            <see>@BeginIf</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="conversational-annotation">
+        <title>@Conversational</title>
+        <indexterm>
+            <primary>@Conversational</primary>
+        </indexterm>
+        <indexterm>
+            <primary>conversational annotation</primary>
+            <see>@Conversational</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>conversational</secondary>
+            <see>@Convesational</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="create-annotation">
+        <title>@Create</title>
+        <indexterm>
+            <primary>@Create</primary>
+        </indexterm>
+        <indexterm>
+            <primary>create annotation</primary>
+            <see>@Create</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>create</secondary>
+            <see>@Create</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="destroy-annotation">
+        <title>@Destroy</title>
+        <indexterm>
+            <primary>@Destroy</primary>
+        </indexterm>
+        <indexterm>
+            <primary>destroy annotation</primary>
+            <see>@Destroy</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>destroy</secondary>
+            <see>@Destroy</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="end-annotation">
+        <title>@End</title>
+        <indexterm>
+            <primary>@End</primary>
+        </indexterm>
+        <indexterm>
+            <primary>end annotation</primary>
+            <see>@End</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>end</secondary>
+            <see>@End</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="endif-annotation">
+        <title>@EndIf</title>
+        <indexterm>
+            <primary>@EndIf</primary>
+        </indexterm>
+        <indexterm>
+            <primary>endIf annotation</primary>
+            <see>@EndIf</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>endIf</secondary>
+            <see>@Around</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="ifinvalid-annotation">
+        <title>@IfInvalid</title>
+        <indexterm>
+            <primary>@IfInvalid</primary>
+        </indexterm>
+        <indexterm>
+            <primary>ifInvalid annotation</primary>
+            <see>@IfInvalid</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>ifInvalid</secondary>
+            <see>@IfInvalid</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="in-annotation">
+        <title>@In</title>
+        <indexterm>
+            <primary>@In</primary>
+        </indexterm>
+        <indexterm>
+            <primary>in annotation</primary>
+            <see>@In</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>in</secondary>
+            <see>@In</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="jndiname-annotation">
+        <title>@JndiName</title>
+        <indexterm>
+            <primary>@jndiName</primary>
+        </indexterm>
+        <indexterm>
+            <primary>jndiName annotation</primary>
+            <see>@JndiName</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>jndiName</secondary>
+            <see>@JndiName</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="name-annotation">
+        <title>@Name</title>
+        <indexterm>
+            <primary>@Name</primary>
+        </indexterm>
+        <indexterm>
+            <primary>name annotation</primary>
+            <see>@Name</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>name</secondary>
+            <see>@Name</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="out-annotation">
+        <title>@Out</title>
+        <indexterm>
+            <primary>@Out</primary>
+        </indexterm>
+        <indexterm>
+            <primary>out annotation</primary>
+            <see>@Out</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>out</secondary>
+            <see>@Out</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="outcome-annotation">
+        <title>@Outcome</title>
+        <indexterm>
+            <primary>@Outcome</primary>
+        </indexterm>
+        <indexterm>
+            <primary>outcome annotation</primary>
+            <see>@Outcome</see>
+        </indexterm>
+        <indexterm>
+            <primary>annotation</primary>
+            <secondary>outcome</secondary>
+            <see>@Outcome</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="scope-annotation">
+        <title>@Scope</title>
+        <indexterm>
+            <primary>@Scope</primary>
+        </indexterm>
+        <indexterm>
+            <primary>scope annotation</primary>
+            <see>@Scope</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>scope</secondary>
+            <see>@Scope</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="unwrap-annotation">
+        <title>@Unwrap</title>
+        <indexterm>
+            <primary>@Unwrap</primary>
+        </indexterm>
+        <indexterm>
+            <primary>unwrap annotation</primary>
+            <see>@Unwrap</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>unwrap</secondary>
+            <see>@Unwrap</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+    <section id="within-annotation">
+        <title>@Within</title>
+        <indexterm>
+            <primary>@Within</primary>
+        </indexterm>
+        <indexterm>
+            <primary>within annotation</primary>
+            <see>@Within</see>
+        </indexterm>
+        <indexterm>
+            <primary>Annotation</primary>
+            <secondary>within</secondary>
+            <see>@Within</see>
+        </indexterm>
+        <para>TODO: Detail this annotation</para>
+    </section>
+</chapter>

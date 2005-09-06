@@ -5,6 +5,7 @@
 <!ENTITY introduction           SYSTEM "modules/introduction.xml">
 <!ENTITY installation           SYSTEM "modules/installation.xml">
 <!ENTITY tutorial               SYSTEM "modules/tutorial.xml">
+<!ENTITY annotations            SYSTEM "modules/annotations.xml">
 ]>
 
 <book lang="en">
@@ -35,6 +36,11 @@
     &introduction;
     &installation;
     &tutorial;
-
+    &annotations;
+    
+    <index id="pageindex">
+        <title>Index</title>
+    </index>
+    
 </book>
 
