@@ -79,8 +79,6 @@ public class Lifecycle
       Contexts.eventContext.set(null);
 
       Contexts.conversationContext.set(null);
-
-      Contexts.destroy(tempAppContext);
       Contexts.applicationContext.set(null);
    }
 
