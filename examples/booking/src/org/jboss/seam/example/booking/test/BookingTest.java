@@ -13,6 +13,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.example.booking.Booking;
+import org.jboss.seam.example.booking.BookingList;
+import org.jboss.seam.example.booking.BookingListAction;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
 import org.jboss.seam.example.booking.HotelBookingAction;
@@ -205,13 +207,36 @@ public class BookingTest extends SeamTest
          
       }.run();
       
+      new Script() {
+         
+         @Override
+         protected void invokeApplication()
+         {
+            BookingList bookingList = (BookingList) Component.getInstance("bookingList", true);
+            String outcome = bookingList.find();
+            assert "bookings".equals( outcome );
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            DataModel dm = (DataModel) Contexts.getConversationContext().get("bookingsDataModel");
+            assert dm.isRowAvailable();
+            assert dm.getRowCount()==1;
+            assert ( (Booking) dm.getRowData() ).getHotel().getCity().equals("NY");
+            assert ( (Booking) dm.getRowData() ).getUser().getUsername().equals("gavin");
+            assert !Manager.instance().isLongRunningConversation();
+         }
+         
+      }.run();
+      
    }
 
    @Override
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(HotelBookingAction.class, User.class, Booking.class, Hotel.class);
+      String classNames = Strings.toString(HotelBookingAction.class, BookingListAction.class, User.class, Booking.class, Hotel.class);
       initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
    }
    
