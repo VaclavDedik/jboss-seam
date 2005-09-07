@@ -13,13 +13,9 @@ import java.util.HashSet;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Component;
-import org.jboss.seam.core.JbpmProcess;
-import org.jboss.seam.core.JbpmTask;
+import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.core.Init;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
  * Exposes a jbpm variable context instance for reading/writing.
@@ -32,7 +28,7 @@ public class BusinessProcessContext implements Context {
 
    private static final Logger log = Logger.getLogger(BusinessProcessContext.class);
 
-   private Map tempContext = new HashMap();
+   private Map<String, Object> tempContext = new HashMap<String, Object>();
    private Set<String> removed = new HashSet<String>();
    private ContextInstance contextInstance;
    private Init settings;
@@ -41,9 +37,17 @@ public class BusinessProcessContext implements Context {
    /**
     * Constructs a new instance of BusinessProcessContext.
     */
-   public BusinessProcessContext() {
+   public BusinessProcessContext(Map<String, Object> previousState) {
+      if ( previousState != null )
+      {
+         if ( log.isTraceEnabled() )
+         {
+            log.trace( "recovering from state : " + previousState );
+         }
+         tempContext.putAll( previousState );
+      }
       settings = Init.instance();
-      log.debug( "Begin BusinessProcessContext" );
+      log.debug( "Created BusinessProcessContext" );
    }
 
    /**
@@ -59,15 +63,6 @@ public class BusinessProcessContext implements Context {
       }
       return tempContext;
    }
-
-   public void recover(Map previousState) {
-      if ( log.isTraceEnabled() ) {
-         log.trace( "recovering from state : " + previousState );
-      }
-
-      tempContext.putAll( previousState );
-   }
-
 
 
    // Context impl ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,7 +105,7 @@ public class BusinessProcessContext implements Context {
    }
 
    public String[] getNames() {
-      Set keys = new HashSet();
+      Set<String> keys = new HashSet<String>();
       keys.addAll( tempContext.keySet() );
 
       ContextInstance jbpmContext = getJbpmContext();
@@ -119,7 +114,7 @@ public class BusinessProcessContext implements Context {
          keys.addAll( jbpmContext.getVariables().keySet() );
       }
 
-      return ( String[] ) keys.toArray( new String[] {} );
+      return keys.toArray( new String[] {} );
    }
 
 
@@ -160,27 +155,21 @@ public class BusinessProcessContext implements Context {
       if ( resolvingJbpmContext ) return null;
       resolvingJbpmContext = true;
 
-      if ( contextInstance == null )
+      try
       {
-         log.trace( "trying to locate jBPM ContextInstance source (task/process)" );
-         // try to look up a process in event context first
-         ProcessInstance process = ( ProcessInstance ) Component.getInstance( JbpmProcess.class, true );
-         if ( process != null )
+         if ( contextInstance == null && Contexts.isEventContextActive() )
          {
-            contextInstance = process.getContextInstance();
-         }
-         else
-         {
-            // else try to look up a task in event context
-            TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class, true );
-            if ( task != null )
-            {
-               contextInstance = task.getTaskMgmtInstance().getProcessInstance().getContextInstance();
-            }
+            log.trace( "trying to locate jBPM ContextInstance source (task/process)" );
+            contextInstance = ( ContextInstance ) Contexts.getEventContext()
+                    .get( BusinessProcessInterceptor.JBPM_CONTEXT_NAME );
          }
       }
+      finally
+      {
+         resolvingJbpmContext = false;
+      }
 
-      resolvingJbpmContext = false;
       return contextInstance;
    }
+
 }

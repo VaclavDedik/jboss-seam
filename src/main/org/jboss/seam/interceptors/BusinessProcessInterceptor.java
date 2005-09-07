@@ -10,18 +10,23 @@ import java.lang.reflect.Method;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
+import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.BeginProcess;
 import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.StartTask;
+import org.jboss.seam.annotations.ResumeTask;
+import org.jboss.seam.annotations.ResumeProcess;
+import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.JbpmProcess;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.JbpmTask;
+import org.jboss.seam.core.ManagedJbpmSession;
 import org.jbpm.taskmgmt.exe.TaskInstance;
+import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.db.JbpmSession;
 
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.
@@ -31,11 +36,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
-   public static final String TASK_ID_NAME = "org.jboss.seam.jbpm.taskId";
-   public static final String PROCESS_ID_NAME = "org.jboss.seam.jbpm.processId";
-
-   public static final String TASK_NAME = "currentTask";
-   public static final String PROCESS_NAME = "currentProcess";
+   public static final String DEF_TASK_NAME = "currentTask";
+   public static final String DEF_PROCESS_NAME = "currentProcess";
+   public static final String JBPM_CONTEXT_NAME = ".jbpmContext";
 
    private static final Logger log = Logger.getLogger( BusinessProcessInterceptor.class );
 
@@ -46,116 +49,185 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       Method method = invocation.getMethod();
       log.trace( "Starting bpm interception [component=" + componentName + ", method=" + method.getName() + "]" );
 
-//      beforeInvocation( componentName, invocation );
+      beforeInvocation( invocation );
       Object result = invocation.proceed();
       afterInvocation( invocation, result );
 
       return result;
    }
 
-//   private void beforeInvocation(String componentName, InvocationContext invocation)
-//   {
-//      Method method = invocation.getMethod();
-//
-//      if ( method.isAnnotationPresent( StartTask.class ) ||
-//              method.isAnnotationPresent( CompleteTask.class ) )
-//      {
-//         String taskIdName = null;
-//         if ( method.isAnnotationPresent( StartTask.class ) )
-//         {
-//            taskIdName = method.getAnnotation( StartTask.class ).contextName();
-//         }
-//         else if ( method.isAnnotationPresent( CompleteTask.class ) )
-//         {
-//            taskIdName = method.getAnnotation( CompleteTask.class ).contextName();
-//         }
-//
-//         Long taskId = ( Long ) Contexts.lookupInAllContexts( taskIdName );
-//         if ( taskId == null )
-//         {
-//            // try to find the id in conversation
-//            taskId = ( Long ) Contexts.getConversationContext().get( TASK_ID_NAME );
-//         }
-//
-//         if ( taskId != null )
-//         {
-//            Manager.instance().setTaskId( taskId );
-//         }
-//      }
-//      else
-//      {
-//         String expectedProcessInjectionName = locateProcessInjectionName(
-//                 invocation.getBean()
-//         );
-//         if ( expectedProcessInjectionName != null )
-//         {
-//            ProcessInstance process = ( ProcessInstance ) Contexts.lookupInAllContexts(
-//                    expectedProcessInjectionName
-//            );
-//            if ( process == null )
-//            {
-//               process = ( ProcessInstance ) Contexts.getConversationContext().get(
-//                       PROCESS_NAME
-//               );
-//            }
-//            if ( process == null )
-//            {
-//               // see if we know about a process id in conversation
-//               Long processId = ( Long ) Contexts.getConversationContext().get( PROCESS_ID_NAME );
-//               if ( processId != null )
-//               {
-//                  process = loadProcess( processId );
-//               }
-//            }
-//            Contexts.getStatelessContext().set( expectedProcessInjectionName, process );
-//         }
-//      }
-//   }
-//
-//   private String locateProcessInjectionName(Object bean)
-//   {
-//      return null;
-//   }
+   private void beforeInvocation(InvocationContext invocationContext) {
+      Method method = invocationContext.getMethod();
+
+      if ( method.isAnnotationPresent( StartTask.class ) ) {
+         log.trace( "encountered @StartTask" );
+         StartTask tag = method.getAnnotation( StartTask.class );
+         Long taskId = ( Long ) Contexts.lookupInAllContexts( tag.taskIdName() );
+         prepareForTask( taskId, tag.taskName(), tag.processName() );
+      }
+      else if ( method.isAnnotationPresent( ResumeTask.class ) ) {
+         log.trace( "encountered @ResumeTask" );
+         ResumeTask tag = method.getAnnotation( ResumeTask.class );
+         Long taskId = ( Long ) Contexts.lookupInAllContexts( tag.taskIdName() );
+         prepareForTask( taskId, tag.taskName(), tag.processName() );
+      }
+      else if ( method.isAnnotationPresent( ResumeProcess.class ) ) {
+         log.trace( "encountered @ResumeProcess" );
+         ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
+         Long processId = ( Long ) Contexts.lookupInAllContexts( tag.processIdName() );
+         prepareForProcess( processId, tag.processName() );
+      }
+      else
+      {
+         Manager manager = Manager.instance();
+         if ( !manager.isLongRunningConversation() ) return;
+
+         log.trace( "Checking manager for possible restoration" );
+         if ( manager.getTaskId() != null
+                 && manager.getTaskName() != null
+                 && manager.getProcessName() != null )
+         {
+            prepareForTask(
+                    manager.getTaskId(),
+                    manager.getTaskName(),
+                    manager.getProcessName()
+            );
+         }
+         else if ( manager.getProcessId() != null && manager.getProcessName() != null )
+         {
+            prepareForProcess( manager.getProcessId(), manager.getProcessName() );
+         }
+      }
+   }
+
+   private void prepareForTask(Long taskId, String taskName, String processName)
+   {
+      TaskInstance task = loadTask( taskId );
+      exposeState( task, taskName, processName );
+   }
+
+   private void exposeState(TaskInstance task, String taskName, String processName)
+   {
+      if ( "".equals( taskName ) )
+      {
+         taskName = DEF_TASK_NAME;
+      }
+      log.trace( "binding task to event context [" + taskName + "]" );
+      Contexts.getEventContext().set( taskName, task );
+
+      ProcessInstance process = task.getTaskMgmtInstance().getProcessInstance();
+
+      exposeState(process, processName );
+
+      Manager manager = Manager.instance();
+      manager.setTaskId( task.getId() );
+      manager.setTaskName( taskName );
+   }
+
+   private void exposeState(ProcessInstance process, String processName)
+   {
+      if ( "".equals( processName ) )
+      {
+         processName = DEF_PROCESS_NAME;
+      }
+      log.trace( "binding process to event context [" + processName + "]" );
+      Contexts.getEventContext().set( processName, process );
+
+      Contexts.getEventContext().set( JBPM_CONTEXT_NAME, process.getContextInstance() );
+
+      Manager manager = Manager.instance();
+      manager.setTaskId( null );
+      manager.setTaskName( null );
+      manager.setProcessId( process.getId() );
+      manager.setProcessName( processName );
+   }
+
+   private void prepareForProcess(Long processId, String processName)
+   {
+      ProcessInstance process = loadProcess( processId );
+      exposeState( process, processName );
+   }
+
+   private TaskInstance loadTask(Long taskId)
+   {
+      JbpmSession session = ( JbpmSession )
+              Component.getInstance( ManagedJbpmSession.class, true );
+      return session.getTaskMgmtSession().loadTaskInstance( taskId );
+   }
+
+   private ProcessInstance loadProcess(Long processId)
+   {
+      JbpmSession session = ( JbpmSession )
+              Component.getInstance( ManagedJbpmSession.class, true );
+      return session.getGraphSession().loadProcessInstance( processId );
+   }
 
    private void afterInvocation(InvocationContext invocation, Object result)
    {
       Method method = invocation.getMethod();
-      if ( method.isAnnotationPresent( BeginProcess.class ) )
+      if ( method.isAnnotationPresent( CreateProcess.class ) )
       {
-         log.trace( "encountered @BeginProcess" );
-         beginProcess( method.getAnnotation( BeginProcess.class ).name() );
+         log.trace( "encountered @CreateProcess" );
+         CreateProcess tag = method.getAnnotation( CreateProcess.class );
+         createProcess( tag.definition(), tag.processName() );
       }
       else if ( method.isAnnotationPresent( StartTask.class ) )
       {
          log.trace( "encountered @StartTask" );
-         Long id = ( Long ) Contexts.lookupInAllContexts( method.getAnnotation( StartTask.class ).contextName() );
-         startTask( id );
+         StartTask tag = method.getAnnotation( StartTask.class );
+         startTask( tag.taskName(), tag.actorExpression() );
       }
       else if ( method.isAnnotationPresent( CompleteTask.class ) )
       {
          log.trace( "encountered @CompleteTask" );
          CompleteTask tag = method.getAnnotation( CompleteTask.class );
-         Long id = ( Long ) Contexts.lookupInAllContexts( tag.contextName() );
          String transitionName = determineCompleteTaskTransition( result, tag.transitionMap() );
-         completeTask( id, transitionName );
+         completeTask( tag.name(), transitionName );
       }
    }
 
-   private void beginProcess(String processDefinitionName)
+   private void createProcess(String processDefinitionName, String processName)
    {
-      Contexts.getEventContext().set( JbpmProcess.DEFINITION_NAME, processDefinitionName );
-      Component.getInstance( JbpmProcess.class, true );
+      JbpmSession session = ( JbpmSession )
+              Component.getInstance( ManagedJbpmSession.class, true );
+      ProcessDefinition pd = session.getGraphSession()
+              .findLatestProcessDefinition( processDefinitionName );
+      ProcessInstance process = new ProcessInstance( pd );
+      process.signal();
+      session.getGraphSession().saveProcessInstance( process );
+
+      exposeState( process, processName );
    }
 
-   private void startTask(Long id)
+   private void startTask(String taskName, String actorExpression)
    {
-      TaskInstance task = getTask( id );
-      task.start();
+      String actorId = null;
+      if ( !"".equals( actorExpression ) )
+      {
+         FacesContext facesCtx = FacesContext.getCurrentInstance();
+         Object resolvedValue = facesCtx.getApplication()
+                 .createValueBinding( actorExpression )
+                 .getValue( facesCtx );
+         if ( !( resolvedValue instanceof String ) )
+         {
+            throw new IllegalStateException( "Actor expression did not resolve to a string value for 'actorId'" );
+         }
+         actorId = ( String ) resolvedValue;
+      }
+      TaskInstance task = locateTaskByName( taskName );
+      if ( actorId != null )
+      {
+         task.start( actorId );
+      }
+      else
+      {
+         task.start();
+      }
    }
 
-   private void completeTask(Long id, String transitionName)
+   private void completeTask(String taskName, String transitionName)
    {
-      TaskInstance task = getTask( id );
+      TaskInstance task = locateTaskByName( taskName );
       if ( transitionName == null )
       {
          task.end();
@@ -164,24 +236,14 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       {
          task.end( transitionName );
       }
+      Manager manager = Manager.instance();
+      manager.setTaskId( null );
+      manager.setTaskName( null );
    }
 
-   private TaskInstance getTask(Long id)
+   private TaskInstance locateTaskByName(String name)
    {
-      if ( id == null )
-      {
-         // TODO : actually should probably be an error if the ann points to a task id which cannot be found
-         id = Manager.instance().getTaskId();
-         if ( id == null )
-         {
-            throw new IllegalStateException( "could not determine task id" );
-         }
-      }
-      else
-      {
-         Manager.instance().setTaskId( id );
-      }
-      return ( TaskInstance ) Component.getInstance( JbpmTask.class, true );
+      return ( TaskInstance ) Contexts.getEventContext().get( name );
    }
 
    private String determineCompleteTaskTransition(Object result, String[] mappings)

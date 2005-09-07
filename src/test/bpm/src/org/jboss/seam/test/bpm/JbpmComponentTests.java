@@ -7,12 +7,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Component;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.JbpmProcess;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.JbpmTask;
-import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.logging.Logger;
 import org.hibernate.cfg.Configuration;
 import org.jbpm.db.JbpmSessionFactory;
@@ -41,7 +37,7 @@ public class JbpmComponentTests extends SeamTest
       System.out.println( "starting user registration request" );
       System.out.println( "***********************************************" );
       System.out.println( "***********************************************" );
-      UserRequestScript userRequest = new UserRequestScript();
+      UserRequestScript userRequest = new UserRequestScript( "steve" );
       userRequest.run();
 
       // An admin works on the registration request...
@@ -51,7 +47,7 @@ public class JbpmComponentTests extends SeamTest
       System.out.println( "***********************************************" );
       System.out.println( "***********************************************" );
       AdminAssignmentScript adminAssignment = new AdminAssignmentScript( userRequest.taskId );
-      adminAssignment.run();
+      String conversationId = adminAssignment.run();
 
       // admin approves the request...
       System.out.println( "***********************************************" );
@@ -59,16 +55,55 @@ public class JbpmComponentTests extends SeamTest
       System.out.println( "starting admin approval request" );
       System.out.println( "***********************************************" );
       System.out.println( "***********************************************" );
-      new CompletionScript( userRequest.taskId ).run();
+      new CompletionScript( conversationId, userRequest.taskId ).run();
    }
 
+   @Test
+   public void testProcessInjection() throws Exception
+   {
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
+      System.out.println( "starting user registration request" );
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
+      final UserRequestScript userRequest = new UserRequestScript( "steve2" );
+      userRequest.run();
+
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
+      System.out.println( "starting process cancellation request" );
+      System.out.println( "***********************************************" );
+      System.out.println( "***********************************************" );
+      new Script()
+      {
+         protected void applyRequestValues() throws Exception
+         {
+            Contexts.getStatelessContext().set( "processId", userRequest.processId );
+         }
+
+         protected void invokeApplication() throws Exception
+         {
+            super.invokeApplication();    //todo: implement overriden method body
+         }
+
+         protected void renderResponse() throws Exception
+         {
+            super.renderResponse();    //todo: implement overriden method body
+         }
+      }.run();
+   }
 
    @Override
    public void initServletContext(Map initParams)
    {
       initParams.put( Init.PERSISTENCE_UNIT_NAMES, "bpmUserDatabase" );
 
-      String classNames = Strings.toString( User.class, RegistrationHandlerBean.class, ApprovalHandlerBean.class );
+      String classNames = Strings.toString(
+              User.class,
+              RegistrationHandlerBean.class,
+              ApprovalHandlerBean.class,
+              ProcessMaintenanceBean.class
+      );
       initParams.put( Init.COMPONENT_CLASS_NAMES, classNames );
 
       initParams.put( Init.JBPM_SESSION_FACTORY_NAME, JBPM_SF_NAME );
@@ -183,17 +218,23 @@ public class JbpmComponentTests extends SeamTest
                    "</process-definition>";
 
 
-
    private class UserRequestScript extends Script
    {
       public Long taskId;
+      public Long processId;
+      public final String username;
       RegistrationHandler registrationHandlerBean;
+
+      public UserRequestScript(String username)
+      {
+         this.username = username;
+      }
 
       @Override
       protected void applyRequestValues()
       {
          User user = new User();
-         user.setUsername( "steve" );
+         user.setUsername( username );
          user.setPassword( "steve" );
          Contexts.getEventContext().set( "user", user );
       }
@@ -214,9 +255,12 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void renderResponse()
       {
-//         ProcessInstance process = ( ProcessInstance ) Contexts.getEventContext().get( Seam.getComponentName( JbpmProcess.class ) );
-         ProcessInstance process = ( ProcessInstance ) Component.getInstance( JbpmProcess.class, false );
+         ProcessInstance process = ( ProcessInstance ) Contexts.lookupInAllContexts( "currentProcess" );
          assert process != null;
+         processId = process.getId();
+         // force the flush...
+         Contexts.getBusinessProcessContext().flush();
+         assert process.getContextInstance().hasVariable( "username" );
          Collection tasks = process.getTaskMgmtInstance().getTaskInstances();
          assert tasks != null && tasks.size() == 1;
          TaskInstance task = ( TaskInstance ) tasks.iterator().next();
@@ -236,7 +280,6 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void applyRequestValues()
       {
-         // TODO : need to add this logic back into the interceptor b4 interception
       }
 
       @Override
@@ -244,7 +287,6 @@ public class JbpmComponentTests extends SeamTest
       {
          String name = Seam.getComponentName( ApprovalHandlerBean.class );
          Contexts.getEventContext().set( "taskId", taskId );
-//         Manager.instance().setTaskId( taskId );
          ApprovalHandler approvalHandler = ( ApprovalHandler ) Contexts.lookupInAllContexts( name );
          approvalHandler.beginApproval();
       }
@@ -252,11 +294,15 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void renderResponse()
       {
-//         TaskInstance task = ( TaskInstance ) Contexts.getEventContext().get( Seam.getComponentName( JbpmTask.class ) );
-         TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class, false );
+         TaskInstance task = ( TaskInstance ) Contexts.lookupInAllContexts( "task" );
          assert task != null;
          assert task.getStart() != null;
-         assert Manager.instance().isLongRunningConversation();
+         Manager manager = Manager.instance();
+         assert manager.isLongRunningConversation();
+         assert manager.getTaskId() == taskId;
+         assert "task".equals( manager.getTaskName() );
+         ProcessInstance process = task.getTaskMgmtInstance().getProcessInstance();
+         assert process.getContextInstance().hasVariable( "username" );
       }
    }
 
@@ -264,8 +310,9 @@ public class JbpmComponentTests extends SeamTest
    {
       public Long taskId;
 
-      public CompletionScript(Long taskId)
+      public CompletionScript(String conversationId, Long taskId)
       {
+         super( conversationId );
          this.taskId = taskId;
       }
 
@@ -280,7 +327,8 @@ public class JbpmComponentTests extends SeamTest
          ///////////////////////////////////////////////////////////////////////
          // For some reason manager as part of conversation not being restored
          // properly here...
-         Manager.instance().setTaskId( taskId );
+//         Manager.instance().setTaskId( taskId );
+//         Manager.instance().setTaskName( "task" );
          ///////////////////////////////////////////////////////////////////////
          String name = Seam.getComponentName( ApprovalHandlerBean.class );
          ApprovalHandler approvalHandler = ( ApprovalHandler ) Contexts.lookupInAllContexts( name );
@@ -290,7 +338,7 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void renderResponse()
       {
-         TaskInstance task = ( TaskInstance ) Component.getInstance( JbpmTask.class, false );
+         TaskInstance task = ( TaskInstance ) Contexts.lookupInAllContexts( "task" );
          assert task != null;
          assert task.hasEnded();
          assert !Manager.instance().isLongRunningConversation();

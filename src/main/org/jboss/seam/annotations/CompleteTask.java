@@ -27,7 +27,7 @@ public @interface CompleteTask {
 	 * The name of the context variable under which we should locate the
 	 * the id of the task to be completed.
 	 */
-	String contextName();
+	String name();
 
 	/**
 	 * An array of result to transition mappings in the form "methodResult=>transitionName".

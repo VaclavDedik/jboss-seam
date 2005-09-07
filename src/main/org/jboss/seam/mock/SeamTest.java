@@ -2,6 +2,7 @@
 package org.jboss.seam.mock;
 
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -26,6 +27,7 @@ public class SeamTest
    private SeamPhaseListener phases;
    private MockFacesContext facesContext;
    private MockHttpSession session;
+   private Map<String, ConversationState> conversationStates;
    
    protected HttpSession getSession()
    {
@@ -72,6 +74,12 @@ public class SeamTest
          facesContext = new MockFacesContext( request );
          facesContext.setCurrent();
          facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, conversationId);
+         if ( conversationStates.containsKey( conversationId ) )
+         {
+            facesContext.getViewRoot().getAttributes().putAll(
+                    conversationStates.get( conversationId ).state
+            );
+         }
          
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
@@ -101,7 +109,11 @@ public class SeamTest
          renderResponse();
          
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
-         
+
+         ConversationState conversationState = new ConversationState();
+         conversationState.state.putAll( facesContext.getViewRoot().getAttributes() );
+         conversationStates.put( conversationId, conversationState );
+
          return conversationId;
       }
       
@@ -134,6 +146,8 @@ public class SeamTest
       //Contexts.beginApplication(servletContext);
       lifecycle = new MockLifecycle();
       new Initialization(servletContext).init();
+
+      conversationStates = new HashMap<String, ConversationState>();
    }
 
    @Configuration(afterTestClass=true)
@@ -141,6 +155,8 @@ public class SeamTest
    {
       Lifecycle.endApplication(servletContext);
       servletContext = null;
+      conversationStates.clear();
+      conversationStates = null;
       releaseJbpm();
    }
 
@@ -175,4 +191,9 @@ public class SeamTest
    protected void buildJbpm() {}
 
    protected void releaseJbpm() {}
+
+   private class ConversationState
+   {
+      Map state = new HashMap();
+   }
 }

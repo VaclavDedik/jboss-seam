@@ -19,34 +19,36 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.BeginProcess;
+import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 /**
  */
 @Stateless
-@LocalBinding(jndiBinding = "registrationHandler")
-@Interceptor(SeamInterceptor.class)
-@Name("registrationHandler")
-@Scope(ScopeType.STATELESS)
-public class RegistrationHandlerBean implements RegistrationHandler, Serializable {
+@LocalBinding( jndiBinding = "registrationHandler" )
+@Interceptor( SeamInterceptor.class )
+@Name( "registrationHandler" )
+@Scope( ScopeType.STATELESS )
+public class RegistrationHandlerBean implements RegistrationHandler, Serializable
+{
 
    static final long serialVersionUID = 3853242352125553207L;
 
-	@PersistenceContext
-	private EntityManager manager;
+   @PersistenceContext
+   private EntityManager manager;
 
-	@In("user")
-	private User user;
+   @In( "user" )
+   private User user;
 
-   @BeginProcess(name = "UserRegistration")
-   public String register() {
+   @CreateProcess( definition = "UserRegistration" )
+   public String register()
+   {
       System.out.println( "***************************************************************" );
       System.out.println( "Performing RegistrationHandlerBean.register()..." );
       System.out.println( "***************************************************************" );
 
       manager.persist( user );
-      Contexts.getApplicationContext().set( "username", user.getUsername() );
+      Contexts.getBusinessProcessContext().set( "username", user.getUsername() );
 
       System.out.println( "***************************************************************" );
       System.out.println( "Done RegistrationHandlerBean.register()..." );

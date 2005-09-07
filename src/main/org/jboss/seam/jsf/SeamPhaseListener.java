@@ -58,7 +58,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         storeAnyBusinessProcessContext();
+         storeAnyBusinessProcessContext(); // needs to come *before* storing conversation!
          storeAnyConversationContext( event );
          Manager.instance().conversationTimeout( getSession( event ) );
       }

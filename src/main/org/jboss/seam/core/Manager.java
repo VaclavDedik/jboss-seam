@@ -30,7 +30,10 @@ public class Manager
    public static final String CONVERSATION_OWNER_NAME = NAME + ".conversationOwnerName";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
    public static final String TASK_ID = NAME + ".jbpmTaskId";
+   public static final String TASK_NAME = NAME + ".jbpmTaskName";
    public static final String PROCESS_ID = NAME + ".jbpmProcessId";
+   public static final String PROCESS_NAME = NAME + ".jbpmProcessName";
+
       
    //A map of all conversations for the session,
    //to the last activity time, which is flushed
@@ -51,7 +54,9 @@ public class Manager
    private int conversationTimeout = 600000; //10 minutes
 
    private Long taskId;
+   private String taskName;
    private Long processId;
+   private String processName;
 
    public Long getTaskId()
    {
@@ -63,6 +68,16 @@ public class Manager
       this.taskId = taskId;
    }
 
+   public String getTaskName()
+   {
+      return taskName;
+   }
+
+   public void setTaskName(String taskName)
+   {
+      this.taskName = taskName;
+   }
+
    public Long getProcessId()
    {
       return processId;
@@ -71,6 +86,16 @@ public class Manager
    public void setProcessId(Long processId)
    {
       this.processId = processId;
+   }
+
+   public String getProcessName()
+   {
+      return processName;
+   }
+
+   public void setProcessName(String processName)
+   {
+      this.processName = processName;
    }
 
    public int getConversationTimeout()
@@ -226,19 +251,23 @@ public class Manager
             attributes.put(CONVERSATION_ID, currentConversationId);
             if (taskId==null)
             {
-               attributes.remove(TASK_ID);
+               attributes.remove( TASK_ID );
+               attributes.remove( TASK_NAME );
             }
             else
             {
                attributes.put( TASK_ID, taskId );
+               attributes.put( TASK_NAME, taskName );
             }
             if (processId==null)
             {
-               attributes.remove(PROCESS_ID);
+               attributes.remove( PROCESS_ID );
+               attributes.remove( PROCESS_NAME );
             }
             else
             {
                attributes.put( PROCESS_ID, processId );
+               attributes.put( PROCESS_NAME, processName );
             }
          }
          //even if the session is invalid, still put the id in the map,
@@ -264,8 +293,10 @@ public class Manager
          log.info("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          currentConversationId = storedConversationId;
-         taskId = (Long) attributes.get( TASK_ID );
-         processId = (Long) attributes.get( PROCESS_ID );
+         taskId = ( Long ) attributes.get( TASK_ID );
+         taskName = ( String ) attributes.get( TASK_NAME );
+         processId = ( Long ) attributes.get( PROCESS_ID );
+         processName = ( String ) attributes.get( PROCESS_NAME );
       }
       else
       {

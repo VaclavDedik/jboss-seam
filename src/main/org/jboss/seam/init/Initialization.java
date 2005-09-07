@@ -21,8 +21,6 @@ import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.JbpmProcess;
-import org.jboss.seam.core.JbpmTask;
 
 public class Initialization
 {
@@ -122,19 +120,6 @@ public class Initialization
                  ManagedJbpmSession.class,
                  context
          );
-         addComponent(
-                 Seam.getComponentName( JbpmProcess.class ),
-                 JbpmProcess.class,
-                 context
-         );
-         addComponent(
-                 Seam.getComponentName( JbpmTask.class ),
-                 JbpmTask.class,
-                 context
-         );
-//         addComponent( ManagedJbpmSession.class, context );
-//         addComponent( JbpmProcess.class, context );
-//         addComponent( JbpmTask.class, context );
       }
 
    }

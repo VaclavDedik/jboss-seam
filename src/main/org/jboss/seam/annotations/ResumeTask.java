@@ -6,46 +6,34 @@
  */
 package org.jboss.seam.annotations;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.lang.annotation.ElementType.METHOD;
 
 /**
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
- * to be marked as started.
+ * to be resumed.  Essentially this simply re-associates the jBPM
+ * {@link org.jbpm.context.exe.ContextInstance} with the current
+ * {@link org.jboss.seam.contexts.BusinessProcessContext}.
  * <p/>
  * Note that both {@link ResumeTask} and {@link StartTask} have effect
  * before invocation of the intercepted method in that they are both
  * about setting up appropriate {@link org.jbpm.context.exe.ContextInstance}
- * for the current {@link org.jboss.seam.contexts.BusinessProcessContext};
- * {@link StartTask} however, also has effect after method invocation
- * as that is the time it actually marks the task as started.
+ * for the current {@link org.jboss.seam.contexts.BusinessProcessContext}.
  *
- * @see org.jbpm.taskmgmt.exe.TaskInstance#start()
  */
 @Target( METHOD )
 @Retention( RUNTIME )
 @Documented
-public @interface StartTask
+public @interface ResumeTask
 {
    /**
     * The name of the context variable under which we should locate the
-    * the id of task to be started.
+    * the id of task to be resumed.
     */
    String taskIdName();
-   /**
-    * Should we push actor information onto the task, or allow any defined
-    * assigments/swimlanes take effect?
-    */
-   boolean pushActor() default false;
-   /**
-    * A (optional) JSF expression resolving to the jBPM actorId to which
-    * the task should be assigned using the push model.
-    */
-   String actorExpression() default "";
    /**
     * The name under which to expose the jBPM
     * {@link org.jbpm.taskmgmt.exe.TaskInstance} into conversation context.

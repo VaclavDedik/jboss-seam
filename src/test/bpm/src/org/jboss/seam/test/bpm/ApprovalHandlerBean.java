@@ -13,11 +13,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.ScopeType;
-import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * Implementation of ApprovalHandlerBean.
@@ -35,17 +33,17 @@ public class ApprovalHandlerBean implements ApprovalHandler
    private EntityManager manager;
 
    @In("username")
-   private String username;
+   private String username; // a BusinessProcessContext scoped attribute
 
-   @StartTask( contextName = "taskId" )
    @Begin
+   @StartTask( taskIdName = "taskId", taskName = "task" )
    public String beginApproval()
    {
       return "assigned";
    }
 
-   @CompleteTask( contextName = "taskId", transitionMap = { "approved=>approve" } )
    @End
+   @CompleteTask( name = "task", transitionMap = { "approved=>approve" } )
    public String approve()
    {
       User user = findUser();
@@ -54,8 +52,8 @@ public class ApprovalHandlerBean implements ApprovalHandler
       return "approved";
    }
 
-   @CompleteTask( contextName = "taskId", transitionMap = { "denied=>deny" } )
    @End
+   @CompleteTask( name = "task", transitionMap = { "denied=>deny" } )
    public String deny()
    {
       User user = findUser();

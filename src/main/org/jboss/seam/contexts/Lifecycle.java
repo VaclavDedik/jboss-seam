@@ -142,11 +142,7 @@ public class Lifecycle
 
    public static void recoverBusinessProcessContext(Map state)
    {
-      Contexts.businessProcessContext.set( new BusinessProcessContext() );
-      if ( state != null )
-      {
-         ( ( BusinessProcessContext ) Contexts.getBusinessProcessContext() ).recover( state );
-      }
+      Contexts.businessProcessContext.set( new BusinessProcessContext( state ) );
    }
 
 }
