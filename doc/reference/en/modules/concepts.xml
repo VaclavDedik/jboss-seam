@@ -493,4 +493,163 @@ public class User {
 
     </sect1>
     
+    <sect1>
+        <title>Bijection</title>
+        <para>
+            <emphasis>Dependency injection</emphasis> or <emphasis>inversion of control</emphasis> is by now
+            a familiar concept to most Java developers. Dependency injection allows a component to obtain a
+            reference to another component by having the container "inject" the other component to a setter
+            method or instance variable. In all dependency injection implementations that we have seen, 
+            injection occurs when the component is constructed, and the reference does not subsequently 
+            change for the lifetime of the component instance. For stateless components, this is reasonable.
+            From the point of view of a client, all instances of a particular stateless component are 
+            interchangeable. On the other hand, Seam emphasizes the use of stateful components. So traditional
+            dependency injection is no longer a very useful construct. Seam introduces the notion of
+            <emphasis>bijection</emphasis> as a generalization of injection. In contrast to injection,
+            bijection is:
+        </para>
+
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <emphasis>contextual</emphasis> - bijection is used to assemble stateful components
+                    from various different contexts (a component from a "wider" context may even have
+                    a reference to a component from a "narrower" context)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <emphasis>bidirectional</emphasis> - components are injected from a context into 
+                    attributes of the component being invoked, and also <emphasis>outjected</emphasis>
+                    from the component attributes back out to the context, allowing the component being
+                    invoked to manipulate the values of contextual variables simply by setting its own
+                    instance variables
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <emphasis>dynamic</emphasis> - since the value of contextual variables changes over 
+                    time, and since Seam components are stateful, bijection takes place every time a
+                    component is invoked
+                </para>
+            </listitem>
+        </itemizedlist>
+
+        <para>
+            In essence, bijection lets you alias a contextual variable to a component instance variable,
+            by specifying that the value of that variable is injected, outjected, or both. Of course,
+            we use annotations to enable bijection.
+        </para>
+        
+        <para>
+            The <literal>@In</literal> annotation specifies that a value should be injected, either into 
+            an instance variable:
+        </para>
+        
+        <programlisting><![CDATA[@Name("loginAction")
+@Stateless
+@Interceptor(SeamInterceptor.class)
+public class LoginAction implements Login { 
+    @In User user;
+    ... 
+}]]></programlisting>
+
+        <para>
+            or into a setter method:
+        </para>
+        
+            <programlisting><![CDATA[@Name("loginAction")
+@Stateless
+@Interceptor(SeamInterceptor.class)
+public class LoginAction implements Login { 
+    User user;
+    
+    @In
+    public void setUser(User user) {
+        this.user=user;
+    }
+    
+    ... 
+}]]></programlisting>
+
+        <para>
+            By default, Seam will do a priority search of all contexts, using the name of the property
+            or instance variable that is being injected. You may wish to specify the contextual variable
+            name explicitly, using, for example, <literal>@In("currentUser")</literal>.
+        </para>
+
+        <para>
+            If you want Seam to create an instance of the component when there is no existing component
+            instance bound to that name, you should specify <literal>@In(create=true)</literal>. If the
+            value is optional (cannot be null), specify <literal>@In(required=false)</literal>.
+        </para>
+        
+        <para>
+            The <literal>@Out</literal> annotation specifies that an attribute should be outjected,
+            either from an instance variable:
+        </para>
+
+        <programlisting><![CDATA[@Name("loginAction")
+@Stateless
+@Interceptor(SeamInterceptor.class)
+public class LoginAction implements Login { 
+    @Out User user;
+    ... 
+}]]></programlisting>
+
+        <para>
+            or from a getter method:
+        </para>
+        
+            <programlisting><![CDATA[@Name("loginAction")
+@Stateless
+@Interceptor(SeamInterceptor.class)
+public class LoginAction implements Login { 
+    User user;
+    
+    @Out
+    public User getUser() {
+        return user;
+    }
+    
+    ... 
+}]]></programlisting>
+
+        <para>
+            An attribute may be both injected and outjected:
+        </para>
+
+        <programlisting><![CDATA[@Name("loginAction")
+@Stateless
+@Interceptor(SeamInterceptor.class)
+public class LoginAction implements Login { 
+    @In @Out User user;
+    ... 
+}]]></programlisting>
+
+        <para>
+            or:
+        </para>
+        
+            <programlisting><![CDATA[@Name("loginAction")
+@Stateless
+@Interceptor(SeamInterceptor.class)
+public class LoginAction implements Login { 
+    User user;
+    
+    @In
+    public void setUser(User user) {
+        this.user=user;
+    }
+    
+    @Out
+    public User getUser() {
+        return user;
+    }
+    
+    ... 
+}]]></programlisting>
+
+    </sect1>
+    
 </chapter>
