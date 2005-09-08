@@ -16,6 +16,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ManagedDataSource;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
@@ -91,6 +92,7 @@ public class Initialization
 
       Init settings = (Init) Component.getInstance(Init.class, true);
 
+      //TODO: move all this stuff into Init component?
       for ( String className : settings.getComponentClassNames() )
       {
          try
@@ -101,6 +103,11 @@ public class Initialization
          {
             throw new IllegalArgumentException("Component class not found: " + className, cnfe);
          }
+      }
+
+      for ( String dsName : settings.getDataSourceNames() )
+      {
+         addComponent( dsName, ManagedDataSource.class, context );
       }
 
       for ( String unitName : settings.getPersistenceUnitNames() )
@@ -115,11 +122,7 @@ public class Initialization
 
       if ( settings.getJbpmSessionFactoryName() != null )
       {
-         addComponent(
-                 Seam.getComponentName( ManagedJbpmSession.class ),
-                 ManagedJbpmSession.class,
-                 context
-         );
+         addComponent( ManagedJbpmSession.class, context );
       }
 
    }

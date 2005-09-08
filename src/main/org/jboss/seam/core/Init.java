@@ -25,12 +25,14 @@ public class Init
    public static final String COMPONENT_CLASS_NAMES = NAME + ".componentClassNames";
    public static final String PERSISTENCE_UNIT_NAMES = NAME + ".persistenceUnitNames";
    public static final String SESSION_FACTORY_NAMES = NAME + ".sessionFactoryNames";
+   public static final String DATA_SOURCE_NAMES = NAME + ".dataSourceNames";
    public static final String JBPM_SESSION_FACTORY_NAME = NAME + ".jbpmSessionFactoryName";
    
    private String[] persistenceUnitNames = {};
    private String[] sessionFactoryNames = {};
    private String jbpmSessionFactoryName;
    private String[] componentClassNames = {};
+   private String[] dataSourceNames = {};
 
    public String[] getPersistenceUnitNames()
    {
@@ -74,6 +76,16 @@ public class Init
    public static Init instance()
    {
       return (Init) Contexts.getApplicationContext().get(Init.class);
+   }
+   
+   public String[] getDataSourceNames()
+   {
+      return dataSourceNames;
+   }
+   
+   public void setDataSourceNames(String[] datasourceNames)
+   {
+      this.dataSourceNames = datasourceNames;
    }
    
 }
