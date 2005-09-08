@@ -4,6 +4,7 @@
 
    <test name="Core">
      <classes>
+       <class name="org.jboss.seam.test.CoreTest"/>
        <class name="org.jboss.seam.test.InitializationTest"/>
        <class name="org.jboss.seam.test.PhaseListenerTest"/>
        <class name="org.jboss.seam.test.InterceptorTest"/>
