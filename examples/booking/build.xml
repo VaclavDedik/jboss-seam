@@ -23,6 +23,9 @@
       <fileset dir="${basedir}/../../output">
          <include name="jboss-seam.jar"/>
       </fileset>
+      <fileset dir="${basedir}/../../embedded-ejb/lib">
+         <include name="*.jar" />
+      </fileset>
       <fileset dir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs">
          <include name="**/*.jar"/>
       </fileset>
@@ -31,9 +34,6 @@
       </fileset>
       <fileset dir="${jboss.home}/server/default/lib">
          <include name="**/*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/server/default/deploy/ejb3.deployer">
-         <include name="*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/server/default/deploy/jboss-aop-jdk50.deployer">
          <include name="*.jar"/>

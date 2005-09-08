@@ -24,6 +24,9 @@
 		<fileset dir="${basedir}/lib">
 			<include name="**/*.jar"/>
 		</fileset>
+		<fileset dir="${basedir}/embedded-ejb/lib">
+			<include name="*.jar" />
+		</fileset>
 		<fileset dir="${jboss.home}/lib">
 			<include name="**/*.jar" />
 		</fileset>
@@ -32,9 +35,6 @@
 		</fileset>
 		<fileset dir="${jboss.server.dir}/deploy/jbossweb-tomcat55.sar/jsf-libs">
 			<include name="**/*.jar" />
-		</fileset>
-		<fileset dir="${jboss.server.dir}/deploy/ejb3.deployer">
-			<include name="*.jar" />
 		</fileset>
 		<fileset dir="${jboss.server.dir}/deploy/jboss-aop-jdk50.deployer">
 			<include name="*.jar" />
@@ -80,6 +80,7 @@
 		<mkdir dir="${deploy.dir}/seam.deployer" />
 		<copy file="${output.dir}/jboss-seam.jar" todir="${deploy.dir}/seam.deployer" />
 		<copy file="${basedir}/lib/jbpm-3.0.jar" todir="${deploy.dir}/seam.deployer" />
+		<copy file="${basedir}/embedded-ejb/lib/hibernate-annotations.jar" todir="${deploy.dir}/seam.deployer" />
 		<mkdir dir="${deploy.dir}/seam.deployer/META-INF" />
 		<copy todir="${deploy.dir}/seam.deployer/META-INF">
 			<fileset dir="${resources.dir}/META-INF" />
