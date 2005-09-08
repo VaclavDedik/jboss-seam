@@ -124,7 +124,7 @@
             </para>
             <para>
                  Some conversations are also <emphasis>tasks</emphasis>. A task is a conversation that is significant 
-                 in terms of a long-running business process, and has the potential to trigger a business process state 
+                 in terms of a long-running business process, and has the potential to trigger a business process state
                  transition when it is successfully completed. Seam provides a special set of annotations for task 
                  demarcation.
             </para>
@@ -406,10 +406,11 @@ public class LoginAction implements Login {
             <para>
                 Just like in JSF, a seam component instance is usually bound to its context using 
                 the component name. So, for example, we would access the <literal>LoginAction</literal> 
-                using <literal>Contexts.getStatelessContext().get("login")</literal>. Whenever Seam
+                using <literal>Contexts.getStatelessContext().get("loginAction")</literal>. Whenever Seam
                 itself instantiates a component, it binds the instance to the component name. However, 
                 it is possible for the application to bind a component to some other name 
-                programmatically. Again, this works just like JSF managed beans.
+                programmatically. Again, this works just like JSF managed beans. (CB: The last
+                three sentences are a bit confusing.)
             </para>
             
             <para>
@@ -472,11 +473,12 @@ public class User {
             <para>
                 Seam components may be provided with configuration data either via servlet init
                 params, or via a properties file named <literal>seam.properties</literal> in the 
-                root of the classpath. The Seam component must expose a JavaBeans-style property
-                setter methods for the configurable attributes.
+                root of the classpath.
             </para>
             <para>
-                If a seam component named <literal>"com.jboss.myapp.settings"</literal> has a setter
+                The Seam component must expose a JavaBeans-style property
+                setter methods for the configurable attributes. If a seam component named
+                <literal>"com.jboss.myapp.settings"</literal> has a setter
                 method named <literal>setLocale()</literal>, we can provide a property named
                 <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal>
                 file or as a servlet init param, and Seam will set the value of the 
@@ -519,7 +521,7 @@ public class User {
             </listitem>
             <listitem>
                 <para>
-                    <emphasis>bidirectional</emphasis> - components are injected from a context into 
+                    <emphasis>bidirectional</emphasis> - components are injected from a context into
                     attributes of the component being invoked, and also <emphasis>outjected</emphasis>
                     from the component attributes back out to the context, allowing the component being
                     invoked to manipulate the values of contextual variables simply by setting its own
@@ -581,7 +583,9 @@ public class LoginAction implements Login {
         <para>
             If you want Seam to create an instance of the component when there is no existing component
             instance bound to that name, you should specify <literal>@In(create=true)</literal>. If the
-            value is optional (cannot be null), specify <literal>@In(required=false)</literal>.
+            value is optional (cannot be null), specify <literal>@In(required=false)</literal>. (CB: Take
+            this explanation and make it into a whole subsection or bigger paragraph, explaining the lifecycle
+            of a component, and who instantiates what and when.)
         </para>
         
         <para>
