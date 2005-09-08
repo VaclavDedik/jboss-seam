@@ -6,15 +6,15 @@
         <title>@Around</title>
         <indexterm>
             <primary>@Around</primary>
+            <see>Annotation/org.jboss.seam.annotations.Around</see>
         </indexterm>
         <indexterm>
             <primary>around annotation</primary>
-            <see>@Around</see>
+            <see>Annotation/org.jboss.seam.annotations.Around</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>around</secondary>
-            <see>@Around</see>
+            <secondary>@org.jboss.seam.annotations.Around</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -22,31 +22,31 @@
         <title>@Begin</title>
         <indexterm>
             <primary>@Begin</primary>
+            <see>Annotation/org.jboss.seam.annotations.Begin</see>
         </indexterm>
         <indexterm>
             <primary>begin annotation</primary>
-            <see>@Begin</see>
+            <see>Annotation/org.jboss.seam.annotations.Begin</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>begin</secondary>
-            <see>@Begin</see>
+            <secondary>@org.jboss.seam.annotations.Begin</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
     <section id="beginif-annotation">
         <title>@BeginIf</title>
         <indexterm>
-            <primary>@Around</primary>
+            <primary>@BeginIf</primary>
+            <see>Annotation/org.jboss.seam.annotations.BeginIf</see>
         </indexterm>
         <indexterm>
-            <primary>BeginIf annotation</primary>
-            <see>@BeginIf</see>
+            <primary>beginIf annotation</primary>
+            <see>Annotation/org.jboss.seam.annotations.BeginIf</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>beginIf</secondary>
-            <see>@BeginIf</see>
+            <secondary>@org.jboss.seam.annotations.BeginIf</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -54,15 +54,15 @@
         <title>@Conversational</title>
         <indexterm>
             <primary>@Conversational</primary>
+            <see>Annotation/org.jboss.seam.annotations.Conversational</see>
         </indexterm>
         <indexterm>
             <primary>conversational annotation</primary>
-            <see>@Conversational</see>
+            <see>Annotation/org.jboss.seam.annotations.Conversational</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>conversational</secondary>
-            <see>@Convesational</see>
+            <secondary>@org.jboss.seam.annotations.Conversational</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -70,15 +70,15 @@
         <title>@Create</title>
         <indexterm>
             <primary>@Create</primary>
+            <see>Annotation/org.jboss.seam.annotations.Create</see>
         </indexterm>
         <indexterm>
             <primary>create annotation</primary>
-            <see>@Create</see>
+            <see>Annotation/org.jboss.seam.annotations.Create</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>create</secondary>
-            <see>@Create</see>
+            <secondary>@org.jboss.seam.annotations.Create</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -86,15 +86,15 @@
         <title>@Destroy</title>
         <indexterm>
             <primary>@Destroy</primary>
+            <see>Annotation/org.jboss.seam.annotations.Destroy</see>
         </indexterm>
         <indexterm>
             <primary>destroy annotation</primary>
-            <see>@Destroy</see>
+            <see>Annotation/org.jboss.seam.annotations.Destroy</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>destroy</secondary>
-            <see>@Destroy</see>
+            <secondary>@org.jboss.seam.annotations.Destroy</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -102,15 +102,15 @@
         <title>@End</title>
         <indexterm>
             <primary>@End</primary>
+            <see>Annotation/org.jboss.seam.annotations.End</see>
         </indexterm>
         <indexterm>
             <primary>end annotation</primary>
-            <see>@End</see>
+            <see>Annotation/org.jboss.seam.annotations.End</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>end</secondary>
-            <see>@End</see>
+            <secondary>@org.jboss.seam.annotations.End</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -118,15 +118,15 @@
         <title>@EndIf</title>
         <indexterm>
             <primary>@EndIf</primary>
+            <see>Annotation/org.jboss.seam.annotations.EndIf</see>
         </indexterm>
         <indexterm>
             <primary>endIf annotation</primary>
-            <see>@EndIf</see>
+            <see>Annotation/org.jboss.seam.annotations.EndIf</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>endIf</secondary>
-            <see>@Around</see>
+            <secondary>@org.jboss.seam.annotations.EndIf</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -134,15 +134,15 @@
         <title>@IfInvalid</title>
         <indexterm>
             <primary>@IfInvalid</primary>
+            <see>Annotation/org.jboss.seam.annotations.IfInvalid</see>
         </indexterm>
         <indexterm>
             <primary>ifInvalid annotation</primary>
-            <see>@IfInvalid</see>
+            <see>Annotation/org.jboss.seam.annotations.IfInvalid</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>ifInvalid</secondary>
-            <see>@IfInvalid</see>
+            <secondary>@org.jboss.seam.annotations.IfInvalid</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -150,15 +150,15 @@
         <title>@In</title>
         <indexterm>
             <primary>@In</primary>
+            <see>Annotation/org.jboss.seam.annotations.In</see>
         </indexterm>
         <indexterm>
             <primary>in annotation</primary>
-            <see>@In</see>
+            <see>Annotation/org.jboss.seam.annotations.In</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>in</secondary>
-            <see>@In</see>
+            <secondary>@org.jboss.seam.annotations.In</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -166,15 +166,15 @@
         <title>@JndiName</title>
         <indexterm>
             <primary>@jndiName</primary>
+            <see>Annotation/org.jboss.seam.annotations.JndiName</see>
         </indexterm>
         <indexterm>
             <primary>jndiName annotation</primary>
-            <see>@JndiName</see>
+            <see>Annotation/org.jboss.seam.annotations.JndiName</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>jndiName</secondary>
-            <see>@JndiName</see>
+            <secondary>@org.jboss.seam.annotations.JndiName</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -182,15 +182,15 @@
         <title>@Name</title>
         <indexterm>
             <primary>@Name</primary>
+            <see>Annotation/org.jboss.seam.annotations.Name</see>
         </indexterm>
         <indexterm>
             <primary>name annotation</primary>
-            <see>@Name</see>
+            <see>Annotation/org.jboss.seam.annotations.Name</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>name</secondary>
-            <see>@Name</see>
+            <secondary>@org.jboss.seam.annotations.Name</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -198,15 +198,15 @@
         <title>@Out</title>
         <indexterm>
             <primary>@Out</primary>
+            <see>Annotation/org.jboss.seam.annotations.Out</see>
         </indexterm>
         <indexterm>
             <primary>out annotation</primary>
-            <see>@Out</see>
+            <see>Annotation/org.jboss.seam.annotations.Out</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>out</secondary>
-            <see>@Out</see>
+            <secondary>@org.jboss.seam.annotations.Out</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -214,15 +214,15 @@
         <title>@Outcome</title>
         <indexterm>
             <primary>@Outcome</primary>
+            <see>Annotation/org.jboss.seam.annotations.Outcome</see>
         </indexterm>
         <indexterm>
             <primary>outcome annotation</primary>
-            <see>@Outcome</see>
+            <see>Annotation/org.jboss.seam.annotations.Outcome</see>
         </indexterm>
         <indexterm>
-            <primary>annotation</primary>
-            <secondary>outcome</secondary>
-            <see>@Outcome</see>
+            <primary>Annotation</primary>
+            <secondary>@org.jboss.seam.annotations.Outcome</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -230,15 +230,15 @@
         <title>@Scope</title>
         <indexterm>
             <primary>@Scope</primary>
+            <see>Annotation/org.jboss.seam.annotations.Scope</see>
         </indexterm>
         <indexterm>
             <primary>scope annotation</primary>
-            <see>@Scope</see>
+            <see>Annotation/org.jboss.seam.annotations.Scope</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>scope</secondary>
-            <see>@Scope</see>
+            <secondary>@org.jboss.seam.annotations.Scope</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -246,15 +246,15 @@
         <title>@Unwrap</title>
         <indexterm>
             <primary>@Unwrap</primary>
+            <see>Annotation/org.jboss.seam.annotations.Unwrap</see>
         </indexterm>
         <indexterm>
             <primary>unwrap annotation</primary>
-            <see>@Unwrap</see>
+            <see>Annotation/org.jboss.seam.annotations.Unwrap</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>unwrap</secondary>
-            <see>@Unwrap</see>
+            <secondary>@org.jboss.seam.annotations.Unwrap</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>
@@ -262,15 +262,15 @@
         <title>@Within</title>
         <indexterm>
             <primary>@Within</primary>
+            <see>Annotation/org.jboss.seam.annotations.Within</see>
         </indexterm>
         <indexterm>
             <primary>within annotation</primary>
-            <see>@Within</see>
+            <see>Annotation/org.jboss.seam.annotations.Within</see>
         </indexterm>
         <indexterm>
             <primary>Annotation</primary>
-            <secondary>within</secondary>
-            <see>@Within</see>
+            <secondary>@org.jboss.seam.annotations.Within</secondary>
         </indexterm>
         <para>TODO: Detail this annotation</para>
     </section>

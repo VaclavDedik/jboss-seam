@@ -15,8 +15,21 @@
         <xsl:copy-of select="."/>
         <!-- Create new index entry -->
         <indexterm>
-            <primary><xsl:value-of select="."/></primary>
+            <primary>Files</primary>
+            <secondary><xsl:value-of select="."/></secondary>
         </indexterm>
     </xsl:template>
     
+    <!-- Each filename is placed into index -->
+    <xsl:template match="screenshot">
+        <!-- Copy original element -->
+        <xsl:copy-of select="."/>
+        <!-- Create new index entry -->
+        <indexterm>
+            <primary>Screenshot</primary>
+            <secondary><xsl:value-of select="./screeninfo"/></secondary>
+        </indexterm>
+    </xsl:template>
+    
+
 </xsl:stylesheet>

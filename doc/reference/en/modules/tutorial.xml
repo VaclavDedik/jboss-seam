@@ -2,8 +2,8 @@
     <title>Seam Tutorial</title>
     <section>
         <title>Try the examples</title>
-        <section>
-            <title>Building and deploying</title>
+        <section id="try-examples">
+            <title>Building and deploying the examples</title>
             <indexterm>
                 <primary>compile example</primary>
             </indexterm>
@@ -18,8 +18,8 @@
                 <primary>example</primary>
                 <secondary>build</secondary>
             </indexterm>
-            <para>Here we will consider that you already did a checkout of jboss-seam as
-                explained in <xref linkend="installation"/>.</para>
+            <para>Here we will consider that you already did a checkout of jboss-seam as explained
+                in <xref linkend="installation"/>.</para>
             <para>The structure of all the examples is the same and will follow this one.<itemizedlist>
                     <listitem>
                         <para><filename>exemples/<replaceable>registration</replaceable>/resources</filename>:
@@ -44,8 +44,9 @@
                 </mediaobject>
             </para>
             <para>Make sure <literal>$JBOSS_HOME</literal> is correctly setup and launch the ant
-                build script in <filename>exemples/<replaceable>registration</replaceable></filename>. You should obtain
-                something looking like this: <screen><prompt>~/Workspace/jboss-seam/examples/<replaceable>registration</replaceable>$</prompt> <userinput>ant</userinput>
+                build script in
+                <filename>exemples/<replaceable>registration</replaceable></filename>. You should
+                obtain something looking like this: <screen><prompt>~/Workspace/jboss-seam/examples/<replaceable>registration</replaceable>$</prompt> <userinput>ant</userinput>
                     Buildfile: build.xml
                     
                     prepare:
@@ -85,14 +86,14 @@
                             example</para>
                     </callout>
                     <callout arearefs="registration-build-deploy">
-                        <para>Copies the EAR package to the deploy directory of the JBoss
-                            instance defined by <literal>$JBOSS_HOME</literal></para>
+                        <para>Copies the EAR package to the deploy directory of the JBoss instance
+                            defined by <literal>$JBOSS_HOME</literal></para>
                     </callout>
                 </calloutlist>
             </para>
         </section>
     </section>
-    <section id="tutorial-start">
+    <section id="registration-example">
         <title>The first Seam application: Registration example</title>
         <indexterm id="registration-example" class="start-of-range">
             <primary>example</primary>
@@ -115,18 +116,18 @@
                 <secondary>running</secondary>
             </indexterm>
             <para>Start JBoss then point your browser to <ulink
-                url="http://localhost:8080/seam-registration/faces/register.jsp">
-                <literal>http://localhost:8080/seam-<replaceable>registration</replaceable>/faces/<replaceable>register.jsp</replaceable></literal>
-            </ulink></para>
-            <para>The page displays a very basic form with three input fields, fill them, submit
-                the form, it will display the content of the form.</para>
+                    url="http://localhost:8080/seam-registration/faces/register.jsp">
+                    <literal>http://localhost:8080/seam-<replaceable>registration</replaceable>/faces/<replaceable>register.jsp</replaceable></literal>
+                </ulink></para>
+            <para>The page displays a very basic form with three input fields, fill them, submit the
+                form, it will display the content of the form.</para>
             <para>Now open the HSQL Database Manager by going into the <ulink
-                url="http://localhost:8080/jmx-console/HtmlAdaptor?action=inspectMBean&amp;name=jboss%3Aservice%3DHypersonic%2Cdatabase%3DlocalDB"
-                >JMX console</ulink> then press the <mousebutton>invoke</mousebutton> button
+                    url="http://localhost:8080/jmx-console/HtmlAdaptor?action=inspectMBean&amp;name=jboss%3Aservice%3DHypersonic%2Cdatabase%3DlocalDB"
+                    >JMX console</ulink> then press the <mousebutton>invoke</mousebutton> button
                 under the <literal>startDatabaseManager</literal> method.</para>
             <para>By typing the request <literal>SELECT * FROM USERS</literal> then clicking on
-                <mousebutton>"Execute SQL Statement"</mousebutton> you should see the
-                content of your form stored in the database like on the
+                    <mousebutton>"Execute SQL Statement"</mousebutton> you should see the content of
+                your form stored in the database like on the
                 <screenshot>
                     <screeninfo>HSQL database manager</screeninfo>
                     <mediaobject>
@@ -207,30 +208,35 @@ public class User implements Serializable
 }</programlisting>
                     <calloutlist>
                         <callout arearefs="registration-entity-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@javax.persistence.Entity</secondary>
+                            </indexterm>
                             <para>The User bean represent the model of a user and contains all its
                                 data, we want that ovject to be persistent. The EJB3 specification
                                 defines an entity bean as a <citation>lightweight persistent domain
                                     object</citation>, so we mark this class as being an entity bean
-                                by writing <literal>@Entity</literal>. <indexterm>
-                                    <primary>@Entity</primary>
-                                </indexterm>
-                            </para>
+                                by writing <literal>@Entity</literal>.</para>
                         </callout>
                         <callout arearefs="registration-name-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@org.jboss.seam.annotation.Name</secondary>
+                            </indexterm>
                             <para>A Seam component must have a name given by the <link
                                     linkend="name-annotation"><literal>@Name</literal>
-                                annotation</link>, this name must be unique within the application. <indexterm>
-                                    <primary>@Name</primary>
-                                </indexterm>
+                                annotation</link>, this name must be unique within the application.
                             </para>
                         </callout>
                         <callout arearefs="registration-scope-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@org.jboss.seam.annotation.Scope</secondary>
+                            </indexterm>
                             <para>The scope of the bean has to be defined to manage its lifecycle,
                                 this is done by using the <link linkend="scope-annotation"
                                         ><literal>@Scope</literal> annotation</link>. This bean has
-                                been defined living in the user's session scope. <indexterm>
-                                    <primary>@Scope</primary>
-                                </indexterm></para>
+                                been defined living in the user's session scope.</para>
                         </callout>
                         <callout arearefs="registration-attributes">
                             <para><literal>name</literal>, <literal>password</literal> and
@@ -250,12 +256,13 @@ public class User implements Serializable
                                 attributes.</para>
                         </callout>
                         <callout arearefs="registration-id-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@javax.persistence.Id</secondary>
+                            </indexterm>
                             <para>The <literal>@Id</literal> annotation of EJB will be used to set
                                 the identifier of the entity bean, here the value is given by the
-                                application. <indexterm>
-                                    <primary>@Id</primary>
-                                </indexterm>
-                            </para>
+                                application. </para>
                         </callout>
                     </calloutlist>
                 </para>
@@ -276,7 +283,8 @@ public interface Register
                     actions. In our example the only action that can be triggered is when the user
                     click on the <mousebutton>register</mousebutton> button. The destroy method is
                     not mandatory and we will see in RegisterAction.java how it can be used. <indexterm>
-                        <primary>@Local</primary>
+                        <primary>Annotation</primary>
+                        <secondary>@javax.ejb.Local</secondary>
                     </indexterm>
                 </para>
             </section>
@@ -330,25 +338,44 @@ public class RegisterAction implements Register
                     }</programlisting>
                     <calloutlist>
                         <callout arearefs="registration-stateful-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@javax.ejb.Stateful</secondary>
+                            </indexterm>
                             <para>This EJB3 annotation marks this class as stateful bean.</para>
                         </callout>
                         <callout arearefs="registration-localbinding-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@org.jboss.annotation.ejb.LocalBinding</secondary>
+                            </indexterm>
                             <para>The localbinding value will be used to map this object in the JNDI
                                 tree.</para>
                         </callout>
                         <callout arearefs="registration-interceptor-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@javax.ejb.InterceptorInterceptor</secondary>
+                            </indexterm>
                             <para>The Interceptor must be set to SeamInterceptor to enable the Seam
-                                annotations on fields and methods (like
+                                injection and outjection on fields and methods (like
                             <literal>@In</literal>).</para>
                         </callout>
                         <callout arearefs="registration-in-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@org.jboss.seam.annotations.In</secondary>
+                            </indexterm>
                             <para>The <link linkend="in-annotation">
-                                <literal>@In<indexterm>
-                                    <primary>@In</primary></indexterm></literal>
-                            </link> annotation is used to inject the user from any context to
+                                    <literal>@In</literal>
+                                </link> annotation is used to inject the user from any context to
                                 the user attribute.</para>
                         </callout>
                         <callout arearefs="registration-persistencecontext-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@javax.persistence.PersistenceContext</secondary>
+                            </indexterm>
                             <para>This EJB3 annotation is used to inject the entity manager.</para>
                         </callout>
                         <callout arearefs="registration-persist-method">
@@ -357,15 +384,21 @@ public class RegisterAction implements Register
                                 defined database (embeded HSQL by default in JBoss)</para>
                         </callout>
                         <callout arearefs="registration-destroy-annotation">
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@org.jboss.seam.annotations.Destroy</secondary>
+                            </indexterm>
                             <para>Methods marked with the <link linkend="destroy-annotation">
-                                <literal>@Destroy<indexterm>
-                                    <primary>@Destroy</primary></indexterm></literal>
+                                    <literal>@Destroy</literal>
                                 </link> annotation are called when the context they are stored in is
                                 destroyed.</para>
                         </callout>
                         <callout arearefs="registration-remove-annotation">
-                            <para>Methods marked with the <literal>@Remove<indexterm>
-                                <primary>@Remove</primary></indexterm></literal> annotation are
+                            <indexterm>
+                                <primary>Annotation</primary>
+                                <secondary>@javax.ejb.Remove</secondary>
+                            </indexterm>
+                            <para>Methods marked with the <literal>@Remove</literal> annotation are
                                 called when the entity bean is "removed".</para>
                         </callout>
                     </calloutlist>
@@ -584,15 +617,433 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                     <filename>faces-config.xml</filename> but only with the <link
                     linkend="name-annotation"><literal>@Name</literal>
                     <indexterm>
-                        <primary>@Name</primary>
+                        <primary>Annotation</primary>
+                        <secondary>@org.jboss.seam.annotations.Name</secondary>
                     </indexterm> annotation</link>.</para>
             <para>Once the <literal>user</literal> bean is filled, the <literal>register</literal>
                 method is invoked on the <literal>register</literal> bean in which the EJB3 Entity
                 manager and the <literal>user</literal> seam component are injected. Using those,
                 the <literal>register</literal> session bean is able to persist the user
                 information.</para>
-                
             <indexterm startref="registration-example" class="endofrange"/>
+        </section>
+        <section id="booking">
+            <title>An advanced Seam application: Booking example</title>
+            <indexterm id="booking-example" class="start-of-range">
+                <primary>example</primary>
+                <secondary>Booking example</secondary>
+            </indexterm>
+            <para>The booking application is our most advanced example for this tutorial, the
+                features are those used for a room reservation system, all the features are listed
+                here: <itemizedlist>
+                    <listitem>
+                        <para>User registration</para>
+                    </listitem>
+                    <listitem>
+                        <para>User login</para>
+                    </listitem>
+                    <listitem>
+                        <para>User logout</para>
+                    </listitem>
+                    <listitem>
+                        <para>User password change</para>
+                    </listitem>
+                    <listitem>
+                        <para>Hotel search</para>
+                    </listitem>
+                    <listitem>
+                        <para>Hotel selection</para>
+                    </listitem>
+                    <listitem>
+                        <para>Reservation check-out (dates and credit card)</para>
+                    </listitem>
+                    <listitem>
+                        <para>Reservation confirmation</para>
+                    </listitem>
+                    <listitem>
+                        <para>Reservations listing</para>
+                    </listitem>
+                </itemizedlist>
+                <screenshot>
+                    <screeninfo>Booking example</screeninfo>
+                    <mediaobject>
+                        <imageobject role="fo">
+                            <imagedata fileref="images/booking.png" align="center"/>
+                        </imageobject>
+                        <imageobject role="html">
+                            <imagedata fileref="../shared/images/booking.png" align="center"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+                On top of those features, the system is doing entry validation and returns clear
+                error messages back to the user.</para>
+            <para>On a technical note, this example is using EJB3, JSF and Facelet all well
+                integrated into the Seam framework.</para>
+            <section>
+                <title>Understand the example</title>
+                <para>For now, let's pull back the view part and focus on the business part of the
+                    booking application.</para>
+                <para>The project structure is identical to the previous one, to install and deploy
+                    this application, please refer to the installation section of the exemples
+                        (<xref linkend="try-examples"/>) Only 10 classes (plus 6 session beans
+                    interfaces and 1 annotation interface) where used to do this application and
+                    each of those are really specific. Six session beans contains all the business
+                    code for all the features we need, they are group in a meaningful way: <itemizedlist>
+                        <listitem>BookingListAction is a stateless session bean containing the
+                            business code to search for all the bookings.</listitem>
+                        <listitem>ChangePasswordAction is a stateful session bean containing the
+                            business code to change a password.</listitem>
+                        <listitem>HotelBookingAction is a stateful session bean containing the
+                            business code to book a hotel.</listitem>
+                        <listitem>LoginAction is a stateless session bean containing the business
+                            code to login.</listitem>
+                        <listitem>LogoutAction is a stateless session bean containing the business
+                            code to logout.</listitem>
+                        <listitem>RegisterAction is a stateful session bean containing the business
+                            code to register, we already saw a simplified version in the <link
+                                linkend="registration-example">registration
+                        example</link>.</listitem>
+                    </itemizedlist> On top of those six session beans, three entity beans are
+                    representing our objects: <itemizedlist>
+                        <listitem>Booking is an entity bean to represent a booking (user who made
+                            the reservation, hotel booked, checkin and checkout date, credit card
+                            number)</listitem>
+                        <listitem>Hotel is an entity bean to represent an hotel (address, city,
+                            zipcode)</listitem>
+                        <listitem>User is an entity bean to represent a user (real name, username,
+                            password)</listitem>
+                    </itemizedlist> The two classes we are missing are LoggedIn and
+                    LoggedInInterceptor, it will show you how you can add your own meaningful
+                    annotations to a Seam application. But we will keep that for later in this
+                    tutorial.</para>
+                <section>
+                    <title>Entity beans</title>
+                    <para>On the registration part, we added validation to the process, the
+                            <literal>User</literal> class changed in order to reflect the required
+                        validation. <programlisting>package org.jboss.seam.example.booking;
+
+import static org.jboss.seam.ScopeType.SESSION;
+
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+
+@Entity
+@Name("user")
+@Scope(SESSION)
+public class User implements Serializable
+{
+    /** The serialVersionUID */
+    private static final long serialVersionUID = -7559208397033120709L;
+
+    private String username;
+    private String password;
+    private String name;
+
+    public User(String name, String password, String username)
+    {
+        this.name = name;
+        this.password = password;
+        this.username = username;
+    }
+
+    public User() {}
+
+    @NotNull <co id="booking-notnull-annotation"/>
+    @Length(max=100) <co id="booking-length-annotation"/>
+    public String getName()
+    {
+        return name;
+    }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    @NotNull
+    @Length(min=5, max=15)
+    public String getPassword()
+    {
+        return password;
+    }
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    @Id
+    @Length(min=5, max=15)
+    public String getUsername()
+    {
+        return username;
+    }
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    public String toString() 
+    {
+        return "User(" + username + ")";
+    }
+}</programlisting>
+                        <calloutlist>
+                            <callout arearefs="booking-notnull-annotation">
+                                <indexterm>
+                                    <primary>Annotation</primary>
+                                    <secondary>@org.hibernate.validator.NotNull</secondary>
+                                </indexterm>
+                                <para>This Hibernate annotation marks this attribute as "must not be
+                                    null".</para>
+                            </callout>
+                            <callout arearefs="booking-length-annotation">
+                                <indexterm>
+                                    <primary>Annotation</primary>
+                                    <secondary>@org.hibernate.validator.Length</secondary>
+                                </indexterm>
+                                <para>Using <literal>max</literal> and/or <literal>min</literal>
+                                    parameters, this Hibernate annotation marks the attribute as
+                                    "must be between <literal>min</literal> and
+                                    <literal>max</literal> numbers of characters".</para>
+                            </callout>
+                        </calloutlist>
+                    </para>
+                    <para>The <literal>Booking</literal> is a good introduction to other means of
+                        validation. It is not the goal of this tutorial to reference all the
+                        hibernate validation means but to understand the whole booking example.</para>
+                    <para>
+                        <programlisting>package org.jboss.seam.example.booking;
+
+import java.util.Date;
+
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.GeneratorType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.TemporalType;
+
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
+import org.jboss.seam.annotations.Name;
+
+@Entity
+@Name("booking")
+public class Booking
+{
+    private Long id;
+    private User user;
+    private Hotel hotel;
+    private Date checkinDate;
+    private Date checkoutDate;
+    private String creditCard;
+
+    public Booking() {}
+
+    public Booking(Hotel hotel, User user)
+    {
+        this.hotel = hotel;
+        this.user = user;
+    }
+
+    @Id(generate=GeneratorType.AUTO) <co id="booking-id-annotation"/>
+    public Long getId()
+    {
+        return id;
+    }
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+    
+    @NotNull
+    @Basic(temporalType=TemporalType.DATE) <co id="booking-basic-annotation"/> 
+    public Date getCheckinDate()
+    {
+        return checkinDate;
+    }
+    public void setCheckinDate(Date datetime)
+    {
+        this.checkinDate = datetime;
+    }
+
+    @ManyToOne @NotNull <co id="booking-manytoone-annotation"/>
+    public Hotel getHotel()
+    {
+        return hotel;
+    }
+    public void setHotel(Hotel hotel)
+    {
+        this.hotel = hotel;
+    }
+
+    @ManyToOne @NotNull
+    public User getUser()
+    {
+        return user;
+    }
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    @Basic(temporalType=TemporalType.DATE) 
+    @NotNull
+    public Date getCheckoutDate()
+    {
+        return checkoutDate;
+    }
+    public void setCheckoutDate(Date checkoutDate)
+    {
+        this.checkoutDate = checkoutDate;
+    }
+
+    @NotNull(message="Credit card number is required")
+    @Length(min=16, max=16, message="Credit card number must 16 digits long")
+    @Pattern(regex="\\d*", message="Credit card number must be numeric") <co id="booking-pattern-annotation"/>
+    public String getCreditCard()
+    {
+        return creditCard;
+    }
+
+    public void setCreditCard(String creditCard)
+    {
+        this.creditCard = creditCard;
+    }
+}</programlisting>
+                        <calloutlist>
+                            <callout arearefs="booking-id-annotation">
+                                <indexterm>
+                                    <primary>Annotation</primary>
+                                    <secondary>@javax.persistence.Id</secondary>
+                                </indexterm>
+                                <para>In the <literal>User</literal> class we were defining the
+                                    username as Id, and the username is given by the website
+                                    visitor, in the case of <literal>Booking</literal> we want to
+                                    automatically assign an ID, we use the AUTO generator type for
+                                    the EJB to give us such an ID.</para>
+                            </callout>
+                            <callout arearefs="booking-basic-annotation">
+                                <indexterm>
+                                    <primary>Annotation</primary>
+                                    <secondary>@javax.persistence.Basic</secondary>
+                                </indexterm>
+                                <para>The <literal>@Basic</literal> annotation is used to define the
+                                    precision for the date to store in database, we could have use
+                                        <literal>DATA</literal>, <literal>TIME</literal> or
+                                        <literal>TIMESTAMP</literal>, since only the date is
+                                    relevant to us, we picked <literal>DATE</literal> as precision
+                                    to store in database.</para>
+                            </callout>
+                            <callout arearefs="booking-manytoone-annotation">
+                                <indexterm>
+                                    <primary>Annotation</primary>
+                                    <secondary>@javax.persistence.ManyToOne</secondary>
+                                </indexterm>
+                                <para>Used to define the many-to-one relationship, one hotel can
+                                    have many bookings (Same for <literal>User</literal>, one user
+                                    can have many bookings.</para>
+                            </callout>
+                            <callout arearefs="booking-pattern-annotation">
+                                <indexterm>
+                                    <primary>Annotation</primary>
+                                    <secondary>@org.hibernate.validator.Pattern</secondary>
+                                </indexterm>
+                                <para><literal>@Pattern annotation is used for validation, here a
+                                        custom error message has been defined and will be added to
+                                        the error messages queue only if the returned string is not
+                                        validated by the regular expression (here only numeric
+                                        values are accepted).</literal>.</para>
+                            </callout>
+                        </calloutlist>
+                    </para>
+                </section>
+                <section>
+                    <title>Session beans</title>
+                    <para>Based on our knowledge aquired during the registration example explanations, the modified <literal>RegisterAction</literal> session bean is not much different.
+                        <programlisting>package org.jboss.seam.example.booking;
+
+import static org.jboss.seam.ScopeType.EVENT;
+import static org.jboss.seam.annotations.Outcome.REDISPLAY;
+
+import javax.ejb.Interceptor;
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.validator.Valid;
+import org.jboss.annotation.ejb.LocalBinding;
+import org.jboss.logging.Logger;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.IfInvalid;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.ejb.SeamInterceptor;
+
+@Stateful
+@Scope(EVENT)
+@Name("register")
+@LocalBinding(jndiBinding="register")
+@Interceptor(SeamInterceptor.class)
+public class RegisterAction implements Register
+{
+
+    private static final Logger log = Logger.getLogger(Register.class);
+
+    @In @Valid
+    private User user;
+
+    @PersistenceContext
+    private EntityManager em;
+
+    private String verify;
+
+    @IfInvalid(outcome=REDISPLAY)
+    public String register()
+    {
+        if ( user.getPassword().equals(verify) )
+        {
+            log.info("registering user");
+            em.persist(user);
+            return "login";
+        }
+        else 
+        {
+            log.info("password not verified");
+            verify=null;
+            return null;
+        }
+    }
+
+    public String getVerify()
+    {
+        return verify;
+    }
+
+    public void setVerify(String verify)
+    {
+        this.verify = verify;
+    }
+
+    @Destroy @Remove
+    public void destroy()
+    {
+        log.info("destroyed");
+    }
+}</programlisting>
+                    </para>
+                </section>
+            </section>
+            <indexterm startref="booking-example" class="endofrange"/>
         </section>
     </section>
 </chapter>
