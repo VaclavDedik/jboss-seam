@@ -180,13 +180,20 @@
                 This will be provided in a future release.
             </para>
         </sect2>
-
+        
         <sect2>
-            <title>Accessing contexts programmatically</title>
+            <title>Context variables</title>
             <para>
-                Within a context, component instances are identified by name (this is usually, but not always, the same as 
-                the component name). You may access a named component instance in a particular scope via the Contexts class, 
-                which provides access to several thread-bound instances of the Context interface:
+                A context defines a namespace, a set of <emphasis>context variables</emphasis>. These work much the
+                same as session or request attributes in the servlet spec. You may bind any value you like to
+                a context variable, but usually we bind Seam component instances to context variables.
+            </para>
+            
+            <para>
+                So, within a context, a component instance is identified by the context variable name (this is usually, 
+                but not always, the same as the component name). You may programatically access a named component 
+                instance in a particular scope via the <literal>Contexts</literal> class, which provides access to 
+                several thread-bound instances of the <literal>Context</literal> interface:
             </para>
             
             <programlisting><![CDATA[User user = (User) Contexts.getSessionContext().get("user");]]></programlisting>
@@ -206,7 +213,7 @@
         <sect2>
             <title>Context search priority</title>
             <para>
-                Sometimes, as above, component instances are located within a particular known scope. Other times, all 
+                Sometimes, as above, component instances are obtained from a particular known scope. Other times, all 
                 scopes are searched, in <emphasis>priority order</emphasis>. The order is as follows:           
             </para>
             
@@ -324,7 +331,7 @@
         <sect2>
             <title>Entity beans</title>
             <para>
-                Entity beans may be bound to a context and function as a seam component. Because
+                Entity beans may be bound to a context variable and function as a seam component. Because
                 entities have a persistent identity in addition to their contextual identity, entity
                 instances are usually bound explicitly in Java code, rather than being instantiated
                 implicitly by Seam.
@@ -404,13 +411,18 @@ public class LoginAction implements Login {
             </para>
             
             <para>
-                Just like in JSF, a seam component instance is usually bound to its context using 
-                the component name. So, for example, we would access the <literal>LoginAction</literal> 
-                using <literal>Contexts.getStatelessContext().get("loginAction")</literal>. Whenever Seam
-                itself instantiates a component, it binds the instance to the component name. However, 
-                it is possible for the application to bind a component to some other name 
-                programmatically. Again, this works just like JSF managed beans. (CB: The last
-                three sentences are a bit confusing.)
+                Just like in JSF, a seam component instance is usually bound to a context variable 
+                with the same name as the component name. So, for example, we would access the 
+                <literal>LoginAction</literal> using 
+                <literal>Contexts.getStatelessContext().get("loginAction")</literal>. In particular,
+                whenever Seam itself instantiates a component, it binds the new instance to a variable
+                with the component name. However, again like JSF, it is possible for the application 
+                to bind a component to some other context variable by programmatic API call. This is
+                only useful if a particular component serves more than one role in the system. For
+                example, the currently logged in <literal>User</literal> might be bound to the
+                <literal>currentUser</literal> session context variable, while an <literal>User</literal>
+                that is the subject of some administration functionality might be bound to the
+                <literal>user</literal> conversation context variable.
             </para>
             
             <para>
@@ -521,7 +533,7 @@ public class User {
             </listitem>
             <listitem>
                 <para>
-                    <emphasis>bidirectional</emphasis> - components are injected from a context into
+                    <emphasis>bidirectional</emphasis> - values are injected from context variables into
                     attributes of the component being invoked, and also <emphasis>outjected</emphasis>
                     from the component attributes back out to the context, allowing the component being
                     invoked to manipulate the values of contextual variables simply by setting its own
@@ -538,8 +550,8 @@ public class User {
         </itemizedlist>
 
         <para>
-            In essence, bijection lets you alias a contextual variable to a component instance variable,
-            by specifying that the value of that variable is injected, outjected, or both. Of course,
+            In essence, bijection lets you alias a context variable to a component instance variable,
+            by specifying that the value of that context variable is injected, outjected, or both. Of course,
             we use annotations to enable bijection.
         </para>
         
@@ -583,9 +595,11 @@ public class LoginAction implements Login {
         <para>
             If you want Seam to create an instance of the component when there is no existing component
             instance bound to that name, you should specify <literal>@In(create=true)</literal>. If the
-            value is optional (cannot be null), specify <literal>@In(required=false)</literal>. (CB: Take
-            this explanation and make it into a whole subsection or bigger paragraph, explaining the lifecycle
-            of a component, and who instantiates what and when.)
+            value is optional (cannot be null), specify <literal>@In(required=false)</literal>. 
+        </para>
+        
+        <para>
+            (There is much more information about component lifecycle and injection in the next chapter.)
         </para>
         
         <para>
