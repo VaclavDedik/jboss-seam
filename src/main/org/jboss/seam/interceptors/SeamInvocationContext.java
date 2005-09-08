@@ -10,6 +10,11 @@ import javax.ejb.InvocationContext;
 
 import org.jboss.seam.Component;
 
+/**
+ * Adapts from EJB interception to Seam component interceptors
+ * 
+ * @author Gavin King
+ */
 public class SeamInvocationContext implements InvocationContext
 {
    

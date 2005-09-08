@@ -11,6 +11,7 @@ import javax.ejb.InvocationContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
+import org.jboss.seam.InterceptionType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.interceptors.SeamInvocationContext;
@@ -31,16 +32,23 @@ public class SeamInterceptor
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       final Component component = getSeamComponent( invocation.getBean() );
-      if ( Manager.instance().isProcessInterceptors() )
+      if ( isProcessInterceptors(component) )
       {
          log.info("intercepted: " + invocation.getMethod().getName());
          return new SeamInvocationContext(invocation, component).proceed();
       }
       else {
          log.debug("not intercepted: " + invocation.getMethod().getName());
-         component.inject( invocation.getBean(), false );
+         //component.inject( invocation.getBean(), false );
          return invocation.proceed();
       }
+   }
+
+   private boolean isProcessInterceptors(final Component component)
+   {
+      return component!=null &&
+            component.getInterceptionType()!=InterceptionType.NEVER && 
+            ( Manager.instance().isProcessInterceptors() || component.getInterceptionType()==InterceptionType.ALWAYS );
    }
 
    private Component getSeamComponent(Object bean)

@@ -26,6 +26,10 @@ import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.naming.InitialContext;
 
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.Factory;
+import net.sf.cglib.proxy.MethodInterceptor;
+
 import org.hibernate.validator.ClassValidator;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
@@ -44,6 +48,7 @@ import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
+import org.jboss.seam.interceptors.JavaBeanInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
@@ -90,6 +95,7 @@ public class Component
    private ScopeType scope;
    private Class<?> beanClass;
    private String jndiName;
+   private InterceptionType interceptionType;
    
    private Method destroyMethod;
    private Method createMethod;
@@ -109,6 +115,8 @@ public class Component
    private Set<Class> localInterfaces;
    
    private String ifNoConversationOutcome;
+   
+   private Class<Factory> factory;
 
    public Component(Class<?> clazz)
    {
@@ -121,6 +129,7 @@ public class Component
       name = componentName;
       scope = Seam.getComponentScope(beanClass);
       type = Seam.getComponentType(beanClass);
+      interceptionType = Seam.getInterceptionType(beanClass);
       
       log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType());
 
@@ -143,6 +152,11 @@ public class Component
       if ( Contexts.isApplicationContextActive() ) 
       {
          initInitializers();
+      }
+      
+      if (type==ComponentType.JAVA_BEAN)
+      {
+         factory = createProxyFactory();
       }
       
    }
@@ -402,16 +416,24 @@ public class Component
     protected Object instantiate() throws Exception
     {
         switch(type) {
-        case JAVA_BEAN: 
-        case ENTITY_BEAN:
-            Object bean = beanClass.newInstance();
-            inject(bean, true);
-            return bean;
-        case STATELESS_SESSION_BEAN : 
-        case STATEFUL_SESSION_BEAN :
-            return new InitialContext().lookup(jndiName);
-        default:
-            throw new IllegalStateException();
+           case JAVA_BEAN: 
+              if (interceptionType==InterceptionType.NEVER)
+              {
+                 return beanClass.newInstance();
+              }
+              else
+              {
+                 Factory bean = factory.newInstance();
+                 bean.setCallback( 0, new JavaBeanInterceptor() );
+                 return bean;
+              }
+           case ENTITY_BEAN:
+              return beanClass.newInstance();
+           case STATELESS_SESSION_BEAN : 
+           case STATEFUL_SESSION_BEAN :
+              return new InitialContext().lookup(jndiName);
+           default:
+              throw new IllegalStateException();
         }
     }
    
@@ -424,10 +446,10 @@ public class Component
       return bean;
    }
    
-   public void inject(Object bean, boolean isActionInvocation)
+   public void inject(Object bean/*, boolean isActionInvocation*/)
    {
-      injectMethods(bean, isActionInvocation);
-      injectFields(bean, isActionInvocation);
+      injectMethods(bean/*, isActionInvocation*/);
+      injectFields(bean/*, isActionInvocation*/);
    }
 
    public void outject(Object bean)
@@ -436,29 +458,29 @@ public class Component
       outjectFields(bean);
    }
 
-   private void injectMethods(Object bean, boolean isActionInvocation)
+   private void injectMethods(Object bean/*, boolean isActionInvocation*/)
    {
       for (Method method : getInMethods())
       {
          In in = method.getAnnotation(In.class);
-         if ( isActionInvocation || in.alwaysDefined() )
-         {
+         //if ( isActionInvocation || in.alwaysDefined() )
+         //{
             String name = toName(in.value(), method);
             inject( bean, method, name, getInstanceToInject(in, name, bean) );
-         }
+         //}
       }
    }
 
-   private void injectFields(Object bean, boolean isActionInvocation)
+   private void injectFields(Object bean/*, boolean isActionInvocation*/)
    {
       for (Field field : getInFields())
       {
          In in = field.getAnnotation(In.class);
-         if ( isActionInvocation || in.alwaysDefined() )
-         {
+         //if ( isActionInvocation || in.alwaysDefined() )
+         //{
             String name = toName(in.value(), field);
             inject( bean, field, name, getInstanceToInject(in, name, bean) );
-         }
+         //}
       }
    }
 
@@ -743,6 +765,21 @@ public class Component
    public String toString()
    {
       return "Component(" + name + ")";
+   }
+   
+   private Class<Factory> createProxyFactory()
+   {
+      Enhancer en = new Enhancer();
+      en.setUseCache(false);
+      en.setInterceptDuringConstruction(false);
+      en.setCallbackType(MethodInterceptor.class);
+      en.setSuperclass(beanClass);
+      return en.createClass();
+   }
+
+   public InterceptionType getInterceptionType()
+   {
+      return interceptionType;
    }
    
 }

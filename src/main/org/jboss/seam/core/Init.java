@@ -2,8 +2,11 @@
 package org.jboss.seam.core;
 
 
+import static org.jboss.seam.InterceptionType.NEVER;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -14,6 +17,7 @@ import org.jboss.seam.contexts.Contexts;
  * @author Gavin King
  */
 @Scope(ScopeType.APPLICATION)
+@Intercept(NEVER)
 @Name("org.jboss.seam.core.init")
 public class Init
 {

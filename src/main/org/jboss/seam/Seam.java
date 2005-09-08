@@ -10,6 +10,7 @@ import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.Entity;
 
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -64,9 +65,26 @@ public class Seam
     */
    public static String getComponentName(Class<?> clazz)
    {
-      return clazz.getAnnotation(Name.class).value();
+      Name name = clazz.getAnnotation(Name.class);
+      return name==null ? null : name.value();
    }
    
+   public static InterceptionType getInterceptionType(Class<?> clazz)
+   {
+      if ( getComponentType(clazz)==ENTITY_BEAN )
+      {
+         return InterceptionType.NEVER;
+      }
+      else if ( clazz.isAnnotationPresent(Intercept.class) )
+      {
+         return clazz.getAnnotation(Intercept.class).value();
+      }
+      else 
+      {
+         return InterceptionType.INVOKE_APPLICATION;
+      }
+   }
+
    /**
     * Mark the session for invalidation at the end of the request cycle
     */

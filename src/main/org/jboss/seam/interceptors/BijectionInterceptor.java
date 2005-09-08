@@ -23,7 +23,7 @@ public class BijectionInterceptor extends AbstractInterceptor
       if ( component.getInFields().size()>0 || component.getInMethods().size()>0 ) //only needed to hush the log message
       {
          log.info("injecting dependencies of: " + component.getName());
-         component.inject(invocation.getBean(), true);
+         component.inject(invocation.getBean()/*, true*/);
       }
       
       Object result = invocation.proceed();

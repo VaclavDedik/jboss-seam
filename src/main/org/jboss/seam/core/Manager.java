@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.core;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -13,6 +15,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -21,6 +24,7 @@ import org.jboss.seam.util.Id;
 
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.manager")
+@Intercept(NEVER)
 public class Manager
 {
    private static Logger log = Logger.getLogger(Manager.class);

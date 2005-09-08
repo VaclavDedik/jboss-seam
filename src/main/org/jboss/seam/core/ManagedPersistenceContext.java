@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.core;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+
 import java.io.Serializable;
 
 import javax.naming.InitialContext;
@@ -14,6 +16,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 
@@ -25,6 +28,7 @@ import org.jboss.seam.annotations.Unwrap;
  * @author Gavin King
  */
 @Scope(ScopeType.CONVERSATION)
+@Intercept(NEVER)
 public class ManagedPersistenceContext implements Serializable
 {
    private static final Logger log = Logger.getLogger(ManagedPersistenceContext.class);

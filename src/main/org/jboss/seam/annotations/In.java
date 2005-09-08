@@ -27,5 +27,5 @@ public @interface In {
 	String value() default "";
    boolean create() default false;
    boolean required() default true;
-   boolean alwaysDefined() default false;
+   //boolean alwaysDefined() default false;
 }

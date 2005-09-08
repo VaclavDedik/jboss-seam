@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.core;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -14,6 +16,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
@@ -28,6 +31,7 @@ import org.jbpm.db.JbpmSessionFactory;
  */
 @Scope( ScopeType.EVENT )
 @Name( "org.jboss.seam.core.managedJbpmSession" )
+@Intercept(NEVER)
 public class ManagedJbpmSession
 {
    private static final Logger log = Logger.getLogger( ManagedJbpmSession.class );
