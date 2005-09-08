@@ -5,8 +5,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import javax.naming.InitialContext;
 
-import org.jboss.naming.NonSerializableFactory;
 import org.jboss.naming.Util;
+import org.jboss.naming.NonSerializableFactory;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
 import org.jboss.resource.connectionmanager.TransactionSynchronizer;
 import org.jboss.seam.Component;
