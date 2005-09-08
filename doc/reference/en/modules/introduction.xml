@@ -10,13 +10,13 @@
             <term><emphasis>Integrate JSF with EJB 3.0</emphasis></term>
             <listitem>
                 <para>
-                    JSF and EJB 3.0 are two of the best new features of Java EE 5. EJB3 is an brand new
-                    component model for server side business and persistence logic. Meanwhile, JSF is
-                    a great component model for the presentation tier. However, neither component
-                    model is able to solve all problems in computing by itself. Indeed, JSF and EJB3 work
-                    best used together. Unfortunately, the Java EE 5 specification provides no standard
-                    way to integrate the two component models. Fortunately, the creators of both models
-                    foresaw this situation and provided standard extension points to allow extension
+                    JSF and EJB 3.0 are two of the best new features of Java EE 5. EJB3 is a brand new 
+                    component model for server side business and persistence logic. Meanwhile, JSF is a 
+                    great component model for the presentation tier. Unfortunately, neither component 
+                    model is able to solve all problems in computing by itself. Indeed, JSF and EJB3 
+                    work best used together. But the Java EE 5 specification provides no standard way 
+                    to integrate the two component models. Fortunately, the creators of both models 
+                    foresaw this situation and provided standard extension points to allow extension 
                     and integration of other solutions.
                 </para>
                 <para>
@@ -34,16 +34,17 @@
                     contexts, ranging from the long-running business process to a single web request.
                 </para>
                 <para>
-                    There is no distinction between presentation tier components and business logic
-                    components in Seam. "Everything" is an EJB. This may come as a surprise if you are
-                    used to thinking of EJBs as coarse-grained, heavyweight objects that are a pain
-                    in the backside to create! However, EJB 3.0 completely changes the nature of EJB
-                    from the point of view of the developer. An EJB is a fine-grained object - nothing
-                    more complex than an annotated JavaBean. Seam even uses session beans as JSF action
-                    listeners!
+                    There is no distinction between presentation tier components and business logic 
+                    components in Seam. It is possible to write Seam applications where "everything" 
+                    is an EJB. This may come as a surprise if you are used to thinking of EJBs as 
+                    coarse-grained, heavyweight objects that are a pain in the backside to create! 
+                    However, EJB 3.0 completely changes the nature of EJB from the point of view of 
+                    the developer. An EJB is a fine-grained object - nothing more complex than an 
+                    annotated JavaBean. Seam even encourages you to use session beans as JSF 
+                    action listeners! 
                 </para>
                 <para>
-                    Unlike plain JEE or J2EE components, Seam components may <emphasis>simultaneously</emphasis>
+                    Unlike plain Java EE or J2EE components, Seam components may <emphasis>simultaneously</emphasis>
                     access state associated with the web request and state held in transactional resources (without
                     the need to propagate web request state manually via method parameters). You might object
                     that the application layering imposed upon you by the old J2EE platform was a Good Thing.
@@ -57,8 +58,8 @@
             <term><emphasis>Declarative State Management</emphasis></term>
             <listitem>
                 <para>
-                    We are all used to the concept of declarative transaction management and JEEE declarative
-                    security from EJB2 2.x. EJB 3.0 in JEE even introduces declarative persistence context
+                    We are all used to the concept of declarative transaction management and J2EE declarative
+                    security from EJB 2.x. EJB 3.0 even introduces declarative persistence context
                     management. These are three examples of a broader problem of managing state that is
                     associated with a particular <emphasis>context</emphasis>, while ensuring that all needed
                     cleanup occurs when the context ends. Seam takes the concept of declarative state
@@ -106,6 +107,11 @@
                     Eventually, Seam will also allow definition of presentation tier conversation flow by the
                     same means.
                 </para>
+                <para>
+                    JSF provides an incredibly rich event model for the presentation tier. Seam enhances this 
+                    model by exposing jBPM's business process related events via exactly the same event handling 
+                    mechanism, providing a uniform event model for Seam's uniform component model.
+                </para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -123,12 +129,16 @@
             </listitem>
         </varlistentry>
         <varlistentry>
-            <term><emphasis>Rich Event Model</emphasis></term>
+            <term><emphasis>Testability as a Core Feature</emphasis></term>
             <listitem>
                 <para>
-                    JSF provides an incredibly rich event model for the presentation tier. Seam enhances this
-                    model by exposing jBPM's business process related events via exactly the same event
-                    handling mechanism.
+                    Seam components, being POJOs, are by nature unit testable. But for complex applications, 
+                    unit testing alone is insufficient. Integration testing has traditionally been a messy and 
+                    difficult task for Java web applications. Therefore, Seam provides for testability of Seam 
+                    applications as a core feature of the framework. You can easily write JUnit or TestNG tests 
+                    that reproduce a whole interaction with a user, exercising all components of the system 
+                    apart from the view (the JSP or Facelets page). You can run these tests directly inside your 
+                    IDE, where Seam will automatically deploy EJB components into the JBoss embeddable EJB3 container.
                 </para>
             </listitem>
         </varlistentry>
