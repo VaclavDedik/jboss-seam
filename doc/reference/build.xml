@@ -67,21 +67,9 @@
         <antcall target="lang.dochtmlsingle"/>
         <antcall target="lang.htmlmisc"/>
     </target>
-    
-    <target name="prepare">
-        <mkdir dir="${build.dir}/${lang}"/>
-        <java classname="com.icl.saxon.StyleSheet" fork="true">
-            <classpath refid="lib.classpath"/>
-            <arg value="-o"/>
-            <arg value="${build.dir}/${lang}/master.xml.filtered.tmp"/>
-            <arg value="${basedir}/${lang}/master.xml"/>
-            <arg value="${basedir}/${lang}/styles/filter.xsl"/>
-        </java>
-    </target>
-    
 
 
-    <target name="lang.docpdf.prepare" depends="prepare">
+    <target name="lang.docpdf.prepare">
 
         <!-- Copy all the images to the output location, will be removed later. -->
         <copy todir="${build.dir}/${lang}/pdf/images">
@@ -97,7 +85,7 @@
             <classpath refid="lib.classpath"/>
             <arg value="-o"/>
             <arg value="${build.dir}/${lang}/pdf/docbook_fop.tmp"/>
-            <arg value="${build.dir}/${lang}/master.xml.filtered.tmp"/>
+            <arg value="${basedir}/${lang}/master.xml"/>
             <arg value="${basedir}/${lang}/styles/${db.style.fopdf}"/>
         </java>
 
@@ -140,19 +128,19 @@
         <delete  dir="${build.dir}/${lang}/pdf/images"/>
     </target>
 
-    <target name="lang.dochtml"  depends="prepare"
+    <target name="lang.dochtml"
             description="Generates the HTML documentation only for a language (set lang)">
 
         <mkdir dir="${build.dir}/${lang}/html/"/>
-        
+
         <java classname="com.icl.saxon.StyleSheet" fork="true" dir="${build.dir}/${lang}/html">
             <classpath refid="lib.classpath"/>
-            <arg value="${build.dir}/${lang}/master.xml.filtered.tmp"/>
+            <arg value="${basedir}/${lang}/master.xml"/>
             <arg value="${basedir}/${lang}/styles/${db.style.html}"/>
         </java>
     </target>
 
-    <target name="lang.dochtmlsingle"  depends="prepare"
+    <target name="lang.dochtmlsingle"
         description="Generates the single-page HTML documentation only for a language (set lang)">
 
         <mkdir dir="${build.dir}/${lang}/html_single/"/>
@@ -161,7 +149,7 @@
             <classpath refid="lib.classpath"/>
             <arg value="-o"/>
             <arg value="${build.dir}/${lang}/html_single/index.html"/>
-            <arg value="${build.dir}/${lang}/master.xml.filtered.tmp"/>
+            <arg value="${basedir}/${lang}/master.xml"/>
             <arg value="${basedir}/${lang}/styles/${db.style.htmlsingle}"/>
         </java>
     </target>
