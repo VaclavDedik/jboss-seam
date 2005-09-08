@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
-import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
@@ -23,7 +22,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Scope(EVENT)
 @Name("register")
-@LocalBinding(jndiBinding="register")
 @Interceptor(SeamInterceptor.class)
 public class RegisterAction implements Register
 {

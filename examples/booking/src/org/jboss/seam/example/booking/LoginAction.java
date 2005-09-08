@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -19,7 +18,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("login")
-@LocalBinding(jndiBinding="login")
 @Interceptor(SeamInterceptor.class)
 public class LoginAction implements Login
 {

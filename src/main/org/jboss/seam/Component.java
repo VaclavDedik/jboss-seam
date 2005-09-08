@@ -122,15 +122,6 @@ public class Component
       scope = Seam.getComponentScope(beanClass);
       type = Seam.getComponentType(beanClass);
       
-      if ( beanClass.isAnnotationPresent(JndiName.class) )
-      {
-         jndiName = beanClass.getAnnotation(JndiName.class).value();
-      }
-      else
-      {
-         jndiName = name;
-      }
-      
       log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType());
 
       if ( beanClass.isAnnotationPresent(Conversational.class) )
@@ -144,6 +135,8 @@ public class Component
       
       localInterfaces = getLocalInterfaces(beanClass);
       
+      jndiName = getJndiName();
+      
       initInterceptors();
       
       //TODO: YEW!!!!!
@@ -152,6 +145,29 @@ public class Component
          initInitializers();
       }
       
+   }
+
+   private String getJndiName()
+   {
+      if ( beanClass.isAnnotationPresent(JndiName.class) )
+      {
+         return beanClass.getAnnotation(JndiName.class).value();
+      }
+      else
+      {
+         switch (type) {
+            case ENTITY_BEAN:
+            case JAVA_BEAN:
+               return null;
+            default:
+               if ( localInterfaces.size()>1 ) {
+                  throw new IllegalArgumentException("session beans with multiple business interfaces must specify @JndiName");
+               }
+               else {
+                  return localInterfaces.iterator().next().getName();
+               }
+         }
+      }
    }
 
    private void initInitializers()

@@ -19,7 +19,6 @@ import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
 
 import org.hibernate.validator.Valid;
-import org.jboss.annotation.ejb.LocalBinding;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
@@ -33,7 +32,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("hotelBooking")
-@LocalBinding(jndiBinding="hotelBooking")
 @Interceptor(SeamInterceptor.class)
 @Conversational(ifNotBegunOutcome="main")
 @LoggedIn
