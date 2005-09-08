@@ -6,6 +6,8 @@
  */ 
 package com.jboss.dvd.ejb;
 
+import static org.jboss.seam.InterceptionType.ALWAYS;
+
 import java.util.List;
 
 import javax.ejb.Interceptor;
@@ -14,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -21,6 +24,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("history")
+@Intercept(ALWAYS)
 @JndiName("com.jboss.dvd.ejb.PurchaseHistory")
 @Interceptor(SeamInterceptor.class)
 public class PurchaseHistoryAction
@@ -32,7 +36,7 @@ public class PurchaseHistoryAction
         System.out.println("CREATE PURCHASE HISTORY: " + this);
     }
 
-    @In(value="userinfo",create=true, alwaysDefined=true)
+    @In(value="userinfo",create=true)
     User user;
 
     @PersistenceContext(unitName="dvd")
