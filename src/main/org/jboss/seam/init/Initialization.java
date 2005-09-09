@@ -22,6 +22,7 @@ import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.util.Reflections;
 
 public class Initialization
 {
@@ -97,7 +98,7 @@ public class Initialization
       {
          try
          {
-            addComponent( Class.forName(className), context );
+            addComponent( Reflections.classForName(className), context );
          }
          catch (ClassNotFoundException cnfe)
          {

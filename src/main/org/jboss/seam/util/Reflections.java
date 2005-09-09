@@ -43,5 +43,17 @@ public class Reflections
          }
       }
    }
+   
+   public static Class classForName(String name) throws ClassNotFoundException
+   {
+      try 
+      {
+         return Thread.currentThread().getContextClassLoader().loadClass(name);
+      }
+      catch (Exception e)
+      {
+         return Class.forName(name);
+      }
+   }
 
 }

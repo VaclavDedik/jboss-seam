@@ -6,6 +6,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
+import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -28,6 +29,8 @@ import org.jboss.seam.annotations.Unwrap;
 @Name("org.jboss.seam.core.hibernate")
 public class Hibernate
 {
+   private static final Logger log = Logger.getLogger(Hibernate.class);
+
    private SessionFactory sf;
    
    @Unwrap
@@ -48,6 +51,7 @@ public class Hibernate
       
       //force datasource startup
       String datasourceName = acfg.getProperty(Environment.DATASOURCE);
+      log.info("using datasource: " + datasourceName);
       Component.getInstance( datasourceName, true );
       
       sf = acfg.buildSessionFactory();
