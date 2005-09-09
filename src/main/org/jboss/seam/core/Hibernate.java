@@ -28,9 +28,6 @@ import org.jboss.seam.annotations.Unwrap;
 @Name("org.jboss.seam.core.hibernate")
 public class Hibernate
 {
-   public static final String CLASS_NAMES = Seam.getComponentName(Hibernate.class) + ".classNames";
-   
-   private String[] classNames;
    private SessionFactory sf;
    
    @Unwrap
@@ -47,15 +44,12 @@ public class Hibernate
       Component.getInstance( Seam.getComponentName(Tm.class), true );
       
       AnnotationConfiguration acfg = new AnnotationConfiguration();
+      acfg.configure();
       
       //force datasource startup
       String datasourceName = acfg.getProperty(Environment.DATASOURCE);
       Component.getInstance( datasourceName, true );
       
-      for (String clazz: classNames)
-      {
-         acfg.addAnnotatedClass( Class.forName(clazz) );
-      }
       sf = acfg.buildSessionFactory();
       
    }
@@ -64,16 +58,6 @@ public class Hibernate
    public void shutdown()
    {
       sf.close();
-   }
-
-   public String[] getClassNames()
-   {
-      return classNames;
-   }
-
-   public void setClassNames(String[] classNames)
-   {
-      this.classNames = classNames;
    }
 
 }
