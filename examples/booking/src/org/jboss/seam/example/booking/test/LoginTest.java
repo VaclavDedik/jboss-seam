@@ -6,6 +6,7 @@ import java.util.Map;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Ejb;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.example.booking.Booking;
@@ -130,7 +131,7 @@ public class LoginTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(LoginAction.class, LogoutAction.class, HotelBookingAction.class, User.class, Booking.class, Hotel.class);
+      String classNames = Strings.toString(Ejb.class, LoginAction.class, LogoutAction.class, HotelBookingAction.class, User.class, Booking.class, Hotel.class);
       initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
    }
    
