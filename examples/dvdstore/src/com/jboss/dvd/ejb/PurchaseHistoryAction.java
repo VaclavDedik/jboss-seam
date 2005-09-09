@@ -6,7 +6,6 @@
  */ 
 package com.jboss.dvd.ejb;
 
-import static org.jboss.seam.InterceptionType.ALWAYS;
 
 import java.util.List;
 
@@ -20,11 +19,12 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("history")
-@Intercept(ALWAYS)
+@Intercept(InterceptionType.ALWAYS)
 @JndiName("com.jboss.dvd.ejb.PurchaseHistory")
 @Interceptor(SeamInterceptor.class)
 public class PurchaseHistoryAction
@@ -42,18 +42,21 @@ public class PurchaseHistoryAction
     @PersistenceContext(unitName="dvd")
     EntityManager em;
 
-    @Out(value="recentProducts")
     private List<Product> products = null;
 
-    public String findProducts() {
+    public List<Product> getRecentProducts() {
         System.out.println("FIND - user=" + user);
-        products = em.createQuery("select i.product as p from Order o JOIN o.orderLines i " + 
-                                  "LEFT JOIN FETCH i.product.relatedProduct " + 
-                                  "where o.customer = :customer order by i.lineId DESC")
-            .setParameter("customer", user.getCustomer())
-            .setMaxResults(NUM_PRODUCTS)
-            .getResultList();
 
-        return "main";
+        if (products == null) {
+            products = em.createQuery("select i.product as p from Order o JOIN o.orderLines i " + 
+                                      "LEFT JOIN FETCH i.product.relatedProduct " + 
+                                      "where o.customer = :customer order by i.lineId DESC")
+                .setParameter("customer", user.getCustomer())
+                .setMaxResults(NUM_PRODUCTS)
+                .getResultList();
+        }
+
+        return products;
     }
+
 }

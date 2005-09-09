@@ -30,4 +30,6 @@ public interface Search
     public String doSearch();
     public String addToCart();
     public String checkout();
+
+    public void dieDieDie();
 }

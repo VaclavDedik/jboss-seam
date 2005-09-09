@@ -16,9 +16,9 @@
     <!-- <h1><h:outputText value="#{msgs.storeHeader}" /></h1> -->
     <h2><h:outputText value="#{msgs.mainHeader}" /></h2>
 
-    <f:subview id="previous" rendered="#{!empty(recentProducts)}">
+    <f:subview id="previous" rendered="#{!empty(history.recentProducts)}">
         <h3><h:outputText value="#{msgs.previousPurchasesHeader}" /></h3>
-        <h:dataTable value="#{recentProducts}" var="product"
+        <h:dataTable value="#{history.recentProducts}" var="product"
                      styleClass="dvdtable" 
                      headerClass="dvdtablehead"
                      rowClasses="dvdtableodd,dvdtableeven"

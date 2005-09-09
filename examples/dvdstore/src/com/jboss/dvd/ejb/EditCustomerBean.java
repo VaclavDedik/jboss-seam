@@ -17,15 +17,16 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.annotation.ejb.LocalBinding;
+
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.ejb.SeamInterceptor;
 import org.jboss.security.Util;
 
 
 @Stateless
 @Name("editCustomer")
-@LocalBinding(jndiBinding="editCustomer")
+@JndiName("com.jboss.dvd.ejb.EditCustomer")
 @Interceptor(SeamInterceptor.class)
 public class EditCustomerBean
     implements EditCustomer

@@ -16,6 +16,7 @@ public interface EditCustomer
     public String create();
     public String getRandomUser();
     public String getRandomUserPassword();
+
     public Map<String,Integer> getCreditCardTypes();
 
     public int getCreditCardMonth();

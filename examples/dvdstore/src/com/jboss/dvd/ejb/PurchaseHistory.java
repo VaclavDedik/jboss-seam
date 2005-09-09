@@ -6,7 +6,8 @@
  */ 
 package com.jboss.dvd.ejb;
 
+import java.util.List;
 
 public interface PurchaseHistory {
-    public String findProducts();
+    public List<Product> getRecentProducts();
 }

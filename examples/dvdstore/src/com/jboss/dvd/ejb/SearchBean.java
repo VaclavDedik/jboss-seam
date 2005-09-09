@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Interceptor;
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,13 +23,15 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.Destroy;
+
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("search")
 @JndiName("com.jboss.dvd.ejb.Search")
-@Scope(ScopeType.SESSION)
 @Interceptor(SeamInterceptor.class)
 public class SearchBean
     implements Search,
@@ -55,17 +58,8 @@ public class SearchBean
 
     public SearchBean() {
         System.out.println("!!!!!!!!!!!!!!!!!!! CREATE SEARCHBEAN " + this);
-        reset();
     }
 
-    public void reset() {
-        category = new Integer(0);
-
-        title    = "";
-        actor    = "";    
-
-        results = null;
-    }
 
     public boolean getHasResults() {
         return (results != null) && (results.size()>0);
@@ -149,7 +143,8 @@ public class SearchBean
     public boolean isFirstPage() {
         return (results != null) && (currentPage == 0);
     }
-    
+
+    @Begin    
     public String doSearch() {
         currentPage=0;
         updateResults();
@@ -203,8 +198,15 @@ public class SearchBean
         return null;
     }
 
+
+    @End @Remove
     public String checkout() {
-        reset();
+        System.out.println("!!CHECKOUT");
         return "checkout";
+    }
+
+    @End @Destroy
+    public void dieDieDie() {
+        System.out.println("!! SEARCH BEAN IS SO DEAD: " + this);
     }
 }
