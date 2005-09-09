@@ -15,40 +15,45 @@
     
     <para>
       The structure of all the examples is the same and will follow this one.
-      <itemizedlist>
-				<listitem>
-					<para>
-					  <filename>exemples/<replaceable>registration</replaceable>/resources</filename>: for	all resources
-					</para>
-				</listitem>
-				<listitem>
-					<para>
-					  <filename>exemples/<replaceable>registration</replaceable>/src</filename>: for java
-						sources
-				  </para>
-				</listitem>
-				<listitem>
-					<para>
-					  <filename>exemples/<replaceable>registration</replaceable>/build.xml</filename>: ant
-						build script
-				  </para>
-				</listitem>
-			</itemizedlist>
+    </para>
+
+    <itemizedlist>
+  		<listitem>
+			  <para>
+				  <filename>exemples/<replaceable>registration</replaceable>/resources</filename>: for	all resources
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+				  <filename>exemples/<replaceable>registration</replaceable>/src</filename>: for java
+					sources
+			  </para>
+			</listitem>
+			<listitem>
+				<para>
+				  <filename>exemples/<replaceable>registration</replaceable>/build.xml</filename>: ant
+					build script
+			  </para>
+			</listitem>
+		</itemizedlist>
 			
-			<mediaobject>
-				<imageobject role="fo">
-					<imagedata fileref="images/FileSystem.png" align="center"/>
-				</imageobject>
-				<imageobject role="html">
-					<imagedata fileref="../shared/images/FileSystem.png" align="center"/>
-				</imageobject>
-			</mediaobject>
-		</para>
+		<mediaobject>
+			<imageobject role="fo">
+				<imagedata fileref="images/FileSystem.png" align="center"/>
+			</imageobject>
+			<imageobject role="html">
+				<imagedata fileref="../shared/images/FileSystem.png" align="center"/>
+			</imageobject>
+		</mediaobject>
 
     <para>
       Make sure <literal>$JBOSS_HOME</literal> is correctly setup and launch the ant build
 			script in <filename>exemples/<replaceable>registration</replaceable></filename>. You should
-			obtain something looking like this: <screen><prompt>~/Workspace/jboss-seam/examples/<replaceable>registration</replaceable>$</prompt> <userinput>ant</userinput>
+			obtain something looking like this:
+    </para>
+     
+    <example>	
+			<screen><prompt>~/Workspace/jboss-seam/examples/<replaceable>registration</replaceable>$</prompt> <userinput>ant</userinput>
 Buildfile: build.xml
 
 prepare:
@@ -91,7 +96,7 @@ Total time: 2 seconds</screen>
 							<literal>$JBOSS_HOME</literal></para>
 				</callout>
 			</calloutlist>
-		</para>
+		</example>
 		
   </section>
   <section id="registration-example">
@@ -117,37 +122,53 @@ Total time: 2 seconds</screen>
       
       <para>
         Start JBoss then point your browser to <ulink url="http://localhost:8080/seam-registration/faces/register.jsp">
-				<literal>http://localhost:8080/seam-<replaceable>registration</replaceable>/faces/<replaceable>register.jsp</replaceable></literal>
-				</ulink>
+        <literal>http://localhost:8080/seam-<replaceable>registration</replaceable>/faces/<replaceable>register.jsp</replaceable></literal>
+        </ulink>
 		  </para>
-      <para>The page displays a very basic form with three input fields, fill them, submit the form,
-				it will display the content of the form.</para>
-      <para>Now open the HSQL Database Manager by going into the <ulink url="http://localhost:8080/jmx-console/HtmlAdaptor?action=inspectMBean&amp;name=jboss%3Aservice%3DHypersonic%2Cdatabase%3DlocalDB">JMX console</ulink> then press the <mousebutton>invoke</mousebutton> button under the
-					<literal>startDatabaseManager</literal> method.</para>
-      <para>By typing the request <literal>SELECT * FROM USERS</literal> then clicking on
-					<mousebutton>"Execute SQL Statement"</mousebutton> you should see the content of your form
-				stored in the database like on the
-				<screenshot>
-          <screeninfo>HSQL database manager</screeninfo>
-          <mediaobject>
-            <imageobject role="fo">
-              <imagedata fileref="images/HSQLDatabaseManager.png" align="center"/>
-            </imageobject>
-            <imageobject role="html">
-              <imagedata fileref="../shared/images/HSQLDatabaseManager.png" align="center"/>
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-			</para>
+
+      <para>
+        The page displays a very basic form with three input fields, fill them, submit the form,
+        it will display the content of the form.
+      </para>
+
+      <para>
+        Now open the HSQL Database Manager by going into the <ulink url="http://localhost:8080/jmx-console/HtmlAdaptor?action=inspectMBean&amp;name=jboss%3Aservice%3DHypersonic%2Cdatabase%3DlocalDB">JMX console</ulink> then press the <mousebutton>invoke</mousebutton> button under the
+        <literal>startDatabaseManager</literal> method.
+      </para>
+      
+      <para>
+        By typing the request <literal>SELECT * FROM USERS</literal> then clicking on
+				<mousebutton>"Execute SQL Statement"</mousebutton> you should see the content of your form
+				stored in the database like on the following screenshot.
+      </para>
+      
+      <screenshot>
+        <screeninfo>HSQL database manager</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/HSQLDatabaseManager.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/HSQLDatabaseManager.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+			
+
     </section>
+
     <section>
       <title>See how it works</title>
-      <para>While you can use your favorite editor, you will find easier to use Eclipse as the
-				projects files are distributed with Seam. Make sure to have the sources files of this
-				example defined in the project.</para>
+
+      <para>
+        While you can use your favorite editor, you will find easier to use Eclipse as the
+        projects files are distributed with Seam. Make sure to have the sources files of this
+        example defined in the project.
+      </para>
       <section>
         <title>The entity bean: User.java</title>
-        <para>
+
+        <example>
 					<programlistingco>
 						<areaspec>
 							<area id="registration-entity-annotation" coords="12"/>
@@ -271,11 +292,17 @@ public class User implements Serializable
 							</callout>
 						</calloutlist>
 					</programlistingco>
-				</para>
+				</example>
+				
       </section>
+      
       <section>
         <title>Register.java</title>
-        <para><programlisting><![CDATA[package org.jboss.seam.example.registration;
+
+        <indexterm><primary>Annotation</primary><secondary>@javax.ejb.Local</secondary></indexterm>
+        
+        <example>
+          <programlisting><![CDATA[package org.jboss.seam.example.registration;
 import javax.ejb.Local;
 
 @Local
@@ -284,18 +311,22 @@ public interface Register
    public String register();
 
    public void destroy();
-}]]></programlisting> This is the local interface for the session bean that will be used to manage
-					JSF actions. In our example the only action that can be triggered is when the user click
-					on the <mousebutton>register</mousebutton> button. The destroy method is not mandatory and
-					we will see in RegisterAction.java how it can be used. <indexterm>
-						<primary>Annotation</primary>
-						<secondary>@javax.ejb.Local</secondary>
-					</indexterm>
-				</para>
+}]]></programlisting>
+        </example>
+          <para>
+            This is the local interface for the session bean that will be used to manage
+            JSF actions. In our example the only action that can be triggered is when the user click
+            on the <mousebutton>register</mousebutton> button. The destroy method is not mandatory and
+            we will see in RegisterAction.java how it can be used.
+					</para>
+					
+
       </section>
+      
       <section>
         <title>RegisterAction.java</title>
-        <para>
+        
+        <example>
 					<programlistingco>
 						<areaspec>
 							<area id="registration-stateful-annotation" coords="19"/>
@@ -418,18 +449,18 @@ public class RegisterAction implements Register
 						</callout>
 					</calloutlist>
 					</programlistingco>
-				</para>
+				</example>
+      
       </section>
+      
       <section>
         <title>web.xml</title>
-        <indexterm>
-					<primary>web.xml</primary>
-				</indexterm>
-        <indexterm>
-					<primary>descriptor file</primary>
-					<secondary>web.xml</secondary>
-				</indexterm>
-        <para><programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+        
+        <indexterm><primary>web.xml</primary></indexterm>
+        <indexterm><primary>descriptor file</primary><secondary>web.xml</secondary></indexterm>
+				
+        <example>
+          <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" 
 	xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -475,20 +506,23 @@ public class RegisterAction implements Register
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
 	
-</web-app>]]></programlisting>The whole part dedicated to Seam and MyFaces is mandatory for Seam to
-					work correctly, you can also use the Sun RI then you don't need to add any listener. The
-					servlet mapping can be done on anything, <literal>/faces/*</literal> in this
-				example.</para>
+</web-app>]]></programlisting>
+        </example>
+        
+        <para>
+          The whole part dedicated to Seam and MyFaces is mandatory for Seam to
+          work correctly, you can also use the Sun RI then you don't need to add any listener. The
+          servlet mapping can be done on anything, <literal>/faces/*</literal> in this
+          example.
+				</para>
       </section>
+      
       <section>
         <title>faces-config.xml</title>
-        <indexterm>
-					<primary>faces-config.xml</primary>
-				</indexterm>
-        <indexterm>
-					<primary>descriptor file</primary>
-					<secondary>faces-config.xml</secondary>
-				</indexterm>
+        
+        <indexterm><primary>faces-config.xml</primary></indexterm>
+        <indexterm><primary>descriptor file</primary><secondary>faces-config.xml</secondary></indexterm>
+        
         <example id="registration-faces-config-xml">
           <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE faces-config 
@@ -515,20 +549,23 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 
 </faces-config>]]></programlisting>
         </example>
+        
         <indexterm><primary>variable resolver</primary></indexterm>
         <indexterm><primary>phase listener</primary></indexterm>
-        <para>The second part of the file is mandatory if you are using JSF with Seam, the <literal>variable resolver</literal> and <literal>phase listener</literal>
-					must be set to use the Seam classes.</para>
+        
+        <para>
+          The second part of the file is mandatory if you are using JSF with Seam, the <literal>variable resolver</literal> and <literal>phase listener</literal>
+          must be set to use the Seam classes.
+        </para>
+        
       </section>
+      
       <section>
         <title>application.xml</title>
-        <indexterm>
-					<primary>application.xml</primary>
-				</indexterm>
-        <indexterm>
-					<primary>descriptor file</primary>
-					<secondary>application.xml</secondary>
-				</indexterm>
+        
+        <indexterm><primary>application.xml</primary></indexterm>
+        <indexterm><primary>descriptor file</primary><secondary>application.xml</secondary></indexterm>
+        
         <example id="registration-application-xml">
           <programlisting><![CDATA[<application>
 	<display-name>Seam</display-name>
@@ -545,13 +582,17 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 	
 </application>]]></programlisting>
         </example>
+        
         <para>
-             This is the common file to link modules in an enterprise archive
-					   (EAR) and bound the web application to <literal>/seam-registration</literal>.
-					 </para>
+          This is the common file to link modules in an enterprise archive
+          (EAR) and bound the web application to <literal>/seam-registration</literal>.
+        </para>
+        
       </section>
+      
       <section>
         <title>register.jsp</title>
+        
         <example id="registration-simpleform">
           <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
@@ -583,16 +624,21 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
  </body>
 </html>]]></programlisting>
         </example>
+        
         <para>
           This file will display a form for the visitor to enter his data to store.
-				 This is a plain JSF file, managed beans are called using the name giveng by the <link linkend="name-annotation"><literal>@Name</literal> annotation</link>, noticve that you
-				 didn't have to declare the User and RegisterAction beans as JSF managed beans in
-				<literal>faces-config.xml</literal> like you usually do.
+          This is a plain JSF file, managed beans are called using the name giveng by the
+          <link linkend="name-annotation"><literal>@Name</literal> annotation</link>, noticve that you
+          didn't have to declare the User and RegisterAction beans as JSF managed beans in
+          <literal>faces-config.xml</literal> like you usually do.
 			  </para>
+
       </section>
+
       <section>
         <title>login.jsp</title>
-        <para>
+        
+        <example>
 					<programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
@@ -617,89 +663,121 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
      </table>
   </f:view>
  </body>
-</html>]]></programlisting>Again, this is a typical JSF file, fetching data from the User bean.</para>
-        <para>Only the surface of Seam and a small subset of its possibilities has been scratched by
-					this example, but at this point it must be clear how much plumbing code has been removed
-					and how you can focus on the business part of your application without worrying to much
-					about persistence and bean filling.</para>
-        <para>We saw in details <emphasis>all</emphasis> the files required for this application to
-					work, there is no hidden long and complex descriptor files, everything is in this page
-				!</para>
+</html>]]></programlisting>
+        </example>
+
+        <para>
+          Again, this is a typical JSF file, fetching data from the User bean.
+        </para>
+
+        <para>
+          Only the surface of Seam and a small subset of its possibilities has been scratched by
+          this example, but at this point it must be clear how much plumbing code has been removed
+          and how you can focus on the business part of your application without worrying to much
+          about persistence and bean filling.
+        </para>
+        
+        <para>
+          We saw in details <emphasis>all</emphasis> the files required for this application to
+          work, there is no hidden long and complex descriptor files, everything is in this page !
+				</para>
+    
       </section>
+    
     </section>
+    
     <section>
       <title>Understand the example</title>
-      <para>The starting point from a user point of view is the <literal>regiser.jsp</literal> JSF
-				page. Usually, the JSF expression language <literal>#{user.name}</literal> will look for the
-				JSF managed bean <literal>user</literal> and its attribute <literal>name</literal> to set
-				with the entered value. There is no difference here except that the managed bean does not
-				have to be declared anymore in <filename>faces-config.xml</filename> but only with the <link linkend="name-annotation"><literal>@Name</literal>
-					<indexterm>
-						<primary>Annotation</primary>
-						<secondary>@org.jboss.seam.annotations.Name</secondary>
-					</indexterm> annotation</link>.</para>
-      <para>Once the <literal>user</literal> bean is filled, the <literal>register</literal> method
-				is invoked on the <literal>register</literal> bean in which the EJB3 Entity manager and the
-					<literal>user</literal> seam component are injected. Using those, the
-				<literal>register</literal> session bean is able to persist the user information.</para>
+      
+      <indexterm><primary>Annotation</primary><secondary>@org.jboss.seam.annotations.Name</secondary></indexterm>
+      
+      <para>
+        The starting point from a user point of view is the <literal>regiser.jsp</literal> JSF
+        page. Usually, the JSF expression language <literal>#{user.name}</literal> will look for the
+        JSF managed bean <literal>user</literal> and its attribute <literal>name</literal> to set
+        with the entered value. There is no difference here except that the managed bean does not
+        have to be declared anymore in <filename>faces-config.xml</filename> but only with the
+        <link linkend="name-annotation"><literal>@Name</literal> annotation</link>.
+      </para>
+      
+      <para>
+        Once the <literal>user</literal> bean is filled, the <literal>register</literal> method
+        is invoked on the <literal>register</literal> bean in which the EJB3 Entity manager and the
+        <literal>user</literal> seam component are injected. Using those, the
+        <literal>register</literal> session bean is able to persist the user information.
+      </para>
+
       <indexterm startref="registration-example-range" class="endofrange"/>
+
     </section>
+
   </section>
+
   <section id="booking">
     <title>An advanced Seam application: Booking example</title>
-    <indexterm id="booking-example" class="start-of-range">
-			<primary>example</primary>
-			<secondary>Booking example</secondary>
-		</indexterm>
+    
+    <indexterm id="booking-example" class="start-of-range"><primary>example</primary><secondary>Booking example</secondary></indexterm>
+    
     <section>
       <title>Introduction</title>
-      <para>The booking application is our most advanced example for this tutorial, the features are
-				those used for a room reservation system, all the features are listed here: <itemizedlist>
-					<listitem>
-						<para>User registration</para>
-					</listitem>
-					<listitem>
-						<para>User login</para>
-					</listitem>
-					<listitem>
-						<para>User logout</para>
-					</listitem>
-					<listitem>
-						<para>User password change</para>
-					</listitem>
-					<listitem>
-						<para>Hotel search</para>
-					</listitem>
-					<listitem>
-						<para>Hotel selection</para>
-					</listitem>
-					<listitem>
-						<para>Reservation check-out (dates and credit card)</para>
-					</listitem>
-					<listitem>
-						<para>Reservation confirmation</para>
-					</listitem>
-					<listitem>
-						<para>Reservations listing</para>
-					</listitem>
-				</itemizedlist>
-				<screenshot>
-                    <screeninfo>Booking example</screeninfo>
-                    <mediaobject>
-                        <imageobject role="fo">
-                            <imagedata fileref="images/booking.png" align="center"/>
-                        </imageobject>
-                        <imageobject role="html">
-                            <imagedata fileref="../shared/images/booking.png" align="center"/>
-                        </imageobject>
-                    </mediaobject>
-                </screenshot>
-				On top of those features, the system is doing entry validation and returns clear error
-				messages back to the user when needed all the data are also persisted (users, hotels and
-				bookings). The purpose of this example is to show how you can develop web applications with
-				Seam without having to worry about all the plumbing usaully tied to web application
-				development.</para>
+      
+      <para>
+        The booking application is our most advanced example for this tutorial, the features are
+        those used for a room reservation system, all the features are listed here: 
+      </para>
+      
+      <itemizedlist>
+        <listitem>
+          <para>User registration</para>
+        </listitem>
+        <listitem>
+          <para>User login</para>
+        </listitem>
+        <listitem>
+          <para>User logout</para>
+        </listitem>
+        <listitem>
+          <para>User password change</para>
+        </listitem>
+        <listitem>
+          <para>Hotel search</para>
+        </listitem>
+        <listitem>
+          <para>Hotel selection</para>
+        </listitem>
+        <listitem>
+          <para>Reservation check-out (dates and credit card)</para>
+        </listitem>
+        <listitem>
+          <para>Reservation confirmation</para>
+        </listitem>
+        <listitem>
+          <para>Reservations listing</para>
+        </listitem>
+		  </itemizedlist>
+		  
+      <screenshot>
+        <screeninfo>Booking example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/booking.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/booking.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+      <para>
+        On top of those features, the system is doing entry validation and returns clear error
+        messages back to the user when needed all the data are also persisted (users, hotels and
+        bookings). The purpose of this example is to show how you can develop web applications with
+        Seam without having to worry about all the plumbing usaully tied to web application
+        development.
+      </para>
+      
     </section>
+    
     <section>
       <title>Understand the example</title>
       <para>For now, we will pull back the view part and focus on the business part of the booking
@@ -728,13 +806,17 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 					password)</listitem>
 				</itemizedlist> The two classes we are missing are LoggedIn and LoggedInInterceptor, it will
 				show you how you can add your own meaningful annotations to a Seam application. But we will
-				keep that for later in this tutorial.</para>
+				keep that for later in this tutorial.
+				</para>
+      
       <section>
         <title>Entity beans</title>
+        
         <para>
           On the registration part, we added validation to the process, the <literal>User</literal> class
           changed in order to reflect the required validation.
         </para>
+        
         <example id="booking-user-entitybean">
           <programlistingco>
             <areaspec>
@@ -834,9 +916,13 @@ public class User implements Serializable
             </calloutlist>
           </programlistingco>
         </example>
-        <para>The <literal>Booking</literal> class is a good introduction to other means of
-					validation. It is not the goal of this tutorial to reference all the hibernate validation
-					means but to understand the whole booking example.</para>
+        
+        <para>
+          The <literal>Booking</literal> class is a good introduction to other means of
+          validation. It is not the goal of this tutorial to reference all the hibernate validation
+          means but to understand the whole booking example.
+        </para>
+        
         <example id="booking-booking-entitybean">
           <programlistingco>
             <areaspec>
@@ -988,8 +1074,17 @@ public class Booking
             </calloutlist>
           </programlistingco>
         </example>
-        <para>The last entity bean <literal>Hotel</literal> does not introduce anything new</para>
-        <para>If you are following this tutorial, you should have the following directory structure: <programlisting><![CDATA[.
+        
+        <para>
+          The last entity bean <literal>Hotel</literal> does not introduce anything new.
+        </para>
+        
+        <para>
+          If you are following this tutorial, you should have the following directory structure:
+        </para>
+        
+        <para>
+          <programlisting><![CDATA[.
 +src
   +org
     +jboss
@@ -998,22 +1093,35 @@ public class Booking
           +booking
             Booking.java
             Hotel.java
-            User.java]]></programlisting></para>
-        <para>You should now be pretty confident on how you can modelized your desired application
-					using entities. If you think of a blog system application you will probably want to have
-					entity beans representing a blog entry, a user, an image with its metadata...</para>
+            User.java]]></programlisting>
+        </para>
+        
+        <para>
+          You should now be pretty confident on how you can modelized your desired application
+          using entities. If you think of a blog system application you will probably want to have
+          entity beans representing a blog entry, a user, an image with its metadata...
+        </para>
+        
       </section>
+
       <section>
         <title>Session beans</title>
-        <para>Session beans are used by Seam to include your business code, all your JSF actions
-					will now be methods of session beans, unlike using pure JSF you will be able to have
-					stateless session beans that are not instanciated each time you access it and then save
-					resources. Session beans will also act as mediators to access your entity beans, things
-					you often do with pure JSF but where everything is a managed bean. For example your
-					session bean will be in charge to fetch a list of hotel (entity bean) to display them in a
-					table.</para>
-        <para>Based on the registration example, the modified <literal>RegisterAction</literal>
-					session bean is not much different and will introduce you to few annotations.</para>
+
+        <para>
+          Session beans are used by Seam to include your business code, all your JSF actions
+          will now be methods of session beans, unlike using pure JSF you will be able to have
+          stateless session beans that are not instanciated each time you access it and then save
+          resources. Session beans will also act as mediators to access your entity beans, things
+          you often do with pure JSF but where everything is a managed bean. For example your
+          session bean will be in charge to fetch a list of hotel (entity bean) to display them in a
+          table.
+        </para>
+        
+        <para>
+          Based on the registration example, the modified <literal>RegisterAction</literal>
+          session bean is not much different and will introduce you to few annotations.
+        </para>
+        
         <example id="booking-registeraction-sessionbean">
           <programlistingco>
             <areaspec>
@@ -1123,9 +1231,14 @@ public class RegisterAction implements Register
             </calloutlist>
           </programlistingco>
         </example>
-        <para>Before this session bean can be used, you will need to define a local interface to
-					specify which methods you are willing to expose. In our case we need to expose all the
-					methods: <programlisting><![CDATA[package org.jboss.seam.example.booking;
+        
+        <para>
+          Before this session bean can be used, you will need to define a local interface to
+          specify which methods you are willing to expose. In our case we need to expose all the
+          methods:
+        </para>
+        
+			  <example><programlisting><![CDATA[package org.jboss.seam.example.booking;
 
 import javax.ejb.Local;
 
@@ -1137,13 +1250,22 @@ public interface Register
     public void setVerify(String verify);
 
     public void destroy();
-}]]></programlisting> The <literal>@Local</literal><indexterm>
-						<primary>Annotation</primary>
-						<secondary>@javax.ejb.Local</secondary>
-					</indexterm> annotation marks this class as local interface for
-					<literal>RegisterAction</literal>.</para>
-        <para/>
-        <para>The <literal>ChangePasswordAction</literal> is very similar <programlisting><![CDATA[package org.jboss.seam.example.booking;
+}]]></programlisting>
+        </example>
+        
+        <indexterm><primary>Annotation</primary><secondary>@javax.ejb.Local</secondary></indexterm>
+        
+        <para>
+          The <literal>@Local</literal> annotation marks this class as local interface for
+          <literal>RegisterAction</literal>.
+        </para>
+        
+        <para>
+          The <literal>ChangePasswordAction</literal> is very similar.
+        </para> 
+        
+        <example>
+          <programlisting><![CDATA[package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
@@ -1217,15 +1339,23 @@ public class ChangePasswordAction implements ChangePassword
     {
         log.info("destroyed");
     }
-}]]></programlisting> We will see later on the purpose of <literal>@LoggedIn</literal>, for now we
-					can notice that there are not much difference with <literal>RegisterAction</literal>, the
-					only differences are related to persistence, where <literal>em.merge(user)</literal> is
-					used to persist changes made to the user's password and
-					<literal>em.refresh(user)</literal> made to revert user's password to its previous value
-					in the detached object.</para>
-        <para>The <literal>LoginAction</literal> stateless session bean will include the business
+}]]></programlisting> 
+        </example>
+        <para>
+          We will see later on the purpose of <literal>@LoggedIn</literal>, for now we
+          can notice that there are not much difference with <literal>RegisterAction</literal>, the
+          only differences are related to persistence, where <literal>em.merge(user)</literal> is
+          used to persist changes made to the user's password and
+          <literal>em.refresh(user)</literal> made to revert user's password to its previous value
+          in the detached object.
+        </para>
+        
+        <para>
+          The <literal>LoginAction</literal> stateless session bean will include the business
 					logic to check that username and password provided by the user are valid then place a
-					boolean in the session context.</para>
+					boolean in the session context.
+        </para>
+        
         <example id="booking-loginaction-sessionbean">
           <programlistingco>
             <areaspec>
@@ -1313,7 +1443,7 @@ public class LoginAction implements Login
             </calloutlist>
           </programlistingco>
         </example>
-        <para>
+        <example>
 					<programlisting><![CDATA[package org.jboss.seam.example.booking;
 
 import java.io.Serializable;
@@ -1365,9 +1495,15 @@ public class BookingListAction implements BookingList, Serializable
 }
 
 }]]></programlisting>
-				</para>
-        <para>The <literal>Logout</literal> action will invalidate the session and so, delete our
-						<literal>loggedIn</literal> token. <programlisting><![CDATA[package org.jboss.seam.example.booking;
+        </example>
+        
+        <para>
+          The <literal>Logout</literal> action will invalidate the session and so, delete our
+          <literal>loggedIn</literal> token.
+        </para>
+        
+        <example>
+          <programlisting><![CDATA[package org.jboss.seam.example.booking;
                         
 import javax.ejb.Interceptor;
 import javax.ejb.Stateless;
@@ -1389,11 +1525,17 @@ public class LogoutAction implements Logout
         Seam.invalidateSession();
         return "login";
     }
-}]]></programlisting> We can notice that to invalidate the session Seam's class provide convenience
-					static methods among which you can find <literal>invalidateSession</literal> to invalidate
-					the session.</para>
+}]]></programlisting>
+        </example>  
+
         <para>
-					<programlisting><![CDATA[
+          We can notice that to invalidate the session Seam's class provide convenience
+          static methods among which you can find <literal>invalidateSession</literal> to invalidate
+          the session.
+        </para>
+        
+        <example>
+          <programlisting><![CDATA[
 package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
@@ -1572,9 +1714,13 @@ public class HotelBookingAction implements HotelBooking, Serializable
         hotelsDataModel.setRowIndex(rowIndex);
     }
 }]]></programlisting>
-				</para>
+				</example>
+
       </section>
+
     </section>
+
     <indexterm startref="booking-example" class="endofrange"/>
+
   </section>
 </chapter>
