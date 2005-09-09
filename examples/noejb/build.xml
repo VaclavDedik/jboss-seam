@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+
+<!-- ======================================================================= -->
+<!-- JBoss build file                                                       -->
+<!-- ======================================================================= -->
+
+<project name="JBoss" default="deploy" basedir=".">
+
+   <property environment="env"/>
+   <property name="src.dir" value="${basedir}/src"/>
+   <property name="resources.dir" value="${basedir}/resources"/>
+   <!--property name="thirdparty.dir" value="${basedir}/thirdparty"/-->
+   <property name="jboss.home" value="${env.JBOSS_HOME}"/>
+   <property name="output.dir" value="${basedir}/output"/>
+   <property name="deploy.dir" value="${jboss.home}/server/default/deploy"/>
+   <property name="output.classes.dir" value="${output.dir}/classes"/>
+   <property name="output.war.dir" value="${output.dir}/war"/>
+   <property name="example.name" value="jboss-seam-booking"/>	
+	
+	
+   <!-- Build classpath -->
+   <path id="classpath">
+      <fileset dir="${basedir}/../../output">
+         <include name="jboss-seam.jar"/>
+      </fileset>
+      <fileset dir="${basedir}/../../embedded-ejb/lib">
+         <include name="*.jar" />
+      </fileset>
+      <fileset dir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs">
+         <include name="**/*.jar"/>
+      </fileset>
+      <fileset dir="${jboss.home}/lib">
+         <include name="**/*.jar"/>
+      </fileset>
+      <fileset dir="${jboss.home}/server/default/lib">
+         <include name="**/*.jar"/>
+      </fileset>
+      <fileset dir="${jboss.home}/server/default/deploy/jboss-aop-jdk50.deployer">
+         <include name="*.jar"/>
+      </fileset>
+    <fileset dir="${basedir}/../../lib">
+       <include name="testng*.jar"/>
+    </fileset>
+   </path>
+
+   <property name="build.classpath" refid="classpath"/>
+
+   <!-- =================================================================== -->
+   <!-- Prepares the build directory                                        -->
+   <!-- =================================================================== -->
+   <target name="prepare">
+      <mkdir dir="${output.dir}"/>
+      <mkdir dir="${output.classes.dir}"/>
+      <mkdir dir="${output.war.dir}"/>
+   </target>
+
+   <!-- =================================================================== -->
+   <!-- Compiles the source code                                            -->
+   <!-- =================================================================== -->
+   <target name="compile" depends="prepare">
+      <javac srcdir="${src.dir}"
+         destdir="${output.classes.dir}"
+         debug="on"
+         deprecation="on"
+         optimize="off"
+         includes="**">
+         <classpath refid="classpath"/>
+      </javac>
+    </target>
+   	
+   	
+
+   <target name="war" depends="compile">
+     <jar destfile="${output.dir}/${example.name}.war">
+     	<zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
+     	<zipfileset dir="${resources.dir}/jsp"/>
+	<zipfileset dir="${resources.dir}/view"/>
+        <fileset dir="${resources.dir}">
+           <include name="seam.properties"/>
+        </fileset>
+        <zipfileset dir="${basedir}/../../src/resources/META-INF" prefix="WEB-INF">
+           <include name="jboss-seam.tld"/>
+        </zipfileset>
+        <!-- zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
+           <include name="jboss-seam.jar"/>
+        </zipfileset -->
+     </jar>
+   </target>
+	
+   <target name="ejb3" depends="compile">
+      <jar jarfile="${output.dir}/${example.name}.ejb3">
+         <fileset dir="${output.classes.dir}">
+            <include name="**/*.class"/>
+         </fileset>
+        <fileset dir="${resources.dir}">
+            <include name="import.sql"/>
+        	<include name="META-INF/persistence.xml"/>
+        </fileset>
+      </jar>
+   </target>
+
+   <target name="ear" depends="ejb3, war">
+     <jar destfile="${output.dir}/${example.name}.ear">
+   	   <zipfileset dir="${output.dir}">
+   	     <include name="${example.name}.ejb3"/>
+       </zipfileset>
+   	   <zipfileset dir="${output.dir}">
+   	     <include name="${example.name}.war"/>
+   	   </zipfileset>
+   	   <zipfileset dir="${resources.dir}/META-INF" prefix="META-INF"/>
+   	 </jar>
+   </target>
+	
+	
+   <target name="deploy" depends="ear">
+     <copy file="${output.dir}/${example.name}.ear" todir="${deploy.dir}"/>
+   </target>
+
+   <!-- =================================================================== -->
+   <!-- Cleans up generated stuff                                           -->
+   <!-- =================================================================== -->
+   <target name="clean.db">
+      <delete dir="${deploy.dir}/../data/hypersonic"/>
+   </target>
+
+   <target name="clean">
+      <delete dir="${output.dir}"/>
+      <delete file="${deploy.dir}/${example.name}.ear"/>
+   </target>
+
+
+</project>
+

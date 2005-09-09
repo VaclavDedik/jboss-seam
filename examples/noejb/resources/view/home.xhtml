@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>JBoss Suites: Seam Framework</title>
+	<link href="css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="pgHome">
+<h:form>
+<div id="document">
+	<div id="header">
+		<div id="title"><img src="img/hdr.title.gif" /></div>
+	</div>
+	<div id="container">
+		<div id="sidebar">
+			<fieldset>
+				<div>
+					<h:outputLabel for="username">Login Name</h:outputLabel>
+					<h:inputText id="username" value="#{user.username}" style="width: 175px;" />
+				</div>
+				<div>
+					<h:outputLabel for="password">Password</h:outputLabel>
+					<h:inputSecret id="password" value="#{user.password}" style="width: 175px;" />
+				</div>
+				<div class="errors"><h:messages globalOnly="true"/></div>
+				<div class="buttonBox"><h:commandButton action="#{login.login}" value="Account Login" class="button" /></div>
+				<div class="notes"><h:commandLink action="register">Register User</h:commandLink> | Ask for Help</div>
+			</fieldset>
+		</div>
+		<div id="content">
+			<div class="section">
+				<h1>Yet Affordable.</h1>
+				<p>Much like almost everything else JBoss offers, this is free.  In JBoss's ability to utilize bleeding edge technologies, they bring you the Seam framework.</p>
+				<p>Creating powerful Java Enterprise applications has never been easier.  Seam combinines the new Enterprise JavaBean 3 specification and rich component user interfaces with JavaServer Faces, to provide developers with the ability to quickly express complex functionality with only a few lines of code.</p>
+			</div>
+			<div class="section">
+				<h1>Get 'Rich' Fast.</h1>
+				<p>There is no distinction between presentation tier components and business logic components in Seam. "Everything" is an EJB. This may come as a surprise if you are used to thinking of EJBs as coarse-grained, heavyweight objects that are a pain in the backside to create! However, EJB 3.0 completely changes the nature of an EJB from the point of view of the developer. An EJB is a fine-grained object - nothing more complex than an annotated JavaBean. Seam even uses session beans as JSF action listeners!</p>
+				<p>Unlike J2EE components, Seam components may <i>simultaneously</i> access state associated with the web request and state held in transactional resources (without the need to propagate web request state manually via method parameters). You might object that the application layering imposed upon you by the old J2EE platform was a Good Thing. Well, nothing stops you creating an equivalent layered architecture using Seam - the difference is that <i>you</i> get to architect your own application and decide what the layers are and how they work together.</p>
+			</div>
+		</div>
+	</div>
+	<div id="footer">Created with JBoss EJB, MyFaces, and Facelets</div>
+</div>
+<ui:debug hotkey="D"/>
+</h:form>
+</body>
+</html>
