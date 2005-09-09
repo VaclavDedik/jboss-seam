@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="embedded-ejb/conf"/>
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="src/test/misc"/>
-	<classpathentry kind="src" path="embedded-ejb/conf"/>
 	<classpathentry kind="src" path="examples/booking/resources"/>
 	<classpathentry kind="src" path="examples/booking/src"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.0.jar"/>
-	<classpathentry sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.1.0/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="JUNIT_HOME/junit.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-impl.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-jsf-api.jar"/>
-	<classpathentry kind="lib" path="lib/jboss-mbeans.jar"/>
 	<classpathentry kind="lib" path="lib/testng-2.5.3-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-mbeans.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/antlr-2.7.5H3.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/asm.jar"/>
-	<classpathentry kind="lib" path="embedded-ejb/lib/asm-attrs.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/cglib-2.1.1.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/commons-beanutils.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/commons-codec-1.2.jar"/>
