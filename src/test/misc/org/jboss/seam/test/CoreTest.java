@@ -9,9 +9,12 @@ import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Jndi;
 import org.jboss.seam.core.ManagedDataSource;
+import org.jboss.seam.core.Tm;
 import org.jboss.seam.mock.MockServletContext;
 import org.testng.annotations.Test;
 
@@ -26,11 +29,11 @@ public class CoreTest
       props.setProperty("datasource.userName", "sa");
       Lifecycle.beginInitialization( new MockServletContext() );
       Contexts.getApplicationContext().set(Component.PROPERTIES, props);
-      Component component = new Component(ManagedDataSource.class, "datasource");
-      ManagedDataSource sds = (ManagedDataSource) component.newInstance();
+      Contexts.getApplicationContext().set( Seam.getComponentName(Jndi.class) + ".component", new Component(Jndi.class) );
+      Contexts.getApplicationContext().set( Seam.getComponentName(Tm.class) + ".component", new Component(Tm.class) );
+      Contexts.getApplicationContext().set( "datasource.component", new Component(ManagedDataSource.class, "datasource") );
       Lifecycle.endInitialization();
       
-      sds.startup(component);
       DataSource ds = (DataSource) new InitialContext().lookup("datasource");
       assert ds!=null;
       UserTransaction ut = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
