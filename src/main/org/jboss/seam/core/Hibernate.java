@@ -33,6 +33,9 @@ public class Hibernate
 
    private SessionFactory sf;
    
+   private String cfgResourceName;
+   private String dataSourceName;
+   
    @Unwrap
    public SessionFactory getSessionFactory()
    {
@@ -47,12 +50,22 @@ public class Hibernate
       Component.getInstance( Seam.getComponentName(Tm.class), true );
       
       AnnotationConfiguration acfg = new AnnotationConfiguration();
-      acfg.configure();
+      if (cfgResourceName==null) 
+      {
+         acfg.configure();
+      }
+      else
+      {
+         acfg.configure(cfgResourceName);
+      }
       
       //force datasource startup
-      String datasourceName = acfg.getProperty(Environment.DATASOURCE);
-      log.info("using datasource: " + datasourceName);
-      Component.getInstance( datasourceName, true );
+      if (dataSourceName==null)
+      {
+         dataSourceName = acfg.getProperty(Environment.DATASOURCE);
+      }
+      log.info("using datasource: " + dataSourceName);
+      Component.getInstance( dataSourceName, true );
       
       sf = acfg.buildSessionFactory();
       
@@ -62,6 +75,26 @@ public class Hibernate
    public void shutdown()
    {
       sf.close();
+   }
+
+   public String getCfgResourceName()
+   {
+      return cfgResourceName;
+   }
+
+   public void setCfgResourceName(String cfgFileName)
+   {
+      this.cfgResourceName = cfgFileName;
+   }
+
+   public String getDataSourceName()
+   {
+      return dataSourceName;
+   }
+
+   public void setDataSourceName(String dataSourceName)
+   {
+      this.dataSourceName = dataSourceName;
    }
 
 }
