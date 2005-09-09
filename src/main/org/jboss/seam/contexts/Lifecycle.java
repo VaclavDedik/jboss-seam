@@ -1,8 +1,8 @@
 //$Id$
 package org.jboss.seam.contexts;
 
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -35,7 +35,6 @@ public class Lifecycle
    public static void endInitialization()
    {
 	  //instantiate @Startup components
-	  //TODO: could this belong in the Component constructor?
       Context context = Contexts.getApplicationContext();
       for ( String name: context.getNames() ) {
     	  Object object = context.get(name);
@@ -44,11 +43,20 @@ public class Lifecycle
 	        Component component = (Component) object;
 	        if ( component.isStartup() )
 	        {
-	     	     Component.getInstance( component.getName(), true );
+              startup(component);
 	        }
     	  }
        }
       Contexts.applicationContext.set(null);
+   }
+
+   private static void startup(Component component)
+   {
+      for (String dependency: component.getDependencies() )
+      {
+         startup( Component.forName(dependency) );
+      }
+      Component.getInstance( component.getName(), true );
    }
 
    public static void endApplication(ServletContext servletContext)

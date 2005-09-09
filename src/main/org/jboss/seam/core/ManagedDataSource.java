@@ -3,6 +3,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import javax.naming.InitialContext;
 import javax.transaction.TransactionManager;
 
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
@@ -10,7 +11,6 @@ import org.jboss.resource.connectionmanager.CachedConnectionManager;
 import org.jboss.resource.connectionmanager.CachedConnectionManagerReference;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
@@ -24,7 +24,7 @@ import org.jboss.seam.annotations.Startup;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup
+@Startup(depends={"org.jboss.seam.core.tm", "org.jboss.seam.core.jndi"})
 public class ManagedDataSource
 {
    //private static final Logger log = Logger.getLogger(JTADatasource.class);
@@ -53,9 +53,7 @@ public class ManagedDataSource
       }
       
       //get the transaction manager
-      TransactionManager tm = (TransactionManager) Component.getInstance( Seam.getComponentName(Tm.class), true );
-      //force JNDI startup
-      Component.getInstance( Seam.getComponentName(Jndi.class), true );
+      TransactionManager tm = (TransactionManager) new InitialContext().lookup("java:/TransactionManager");
       
       CachedConnectionManager ccm = new CachedConnectionManager();
       CachedConnectionManagerReference ccmr = new CachedConnectionManagerReference();

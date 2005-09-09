@@ -9,7 +9,6 @@ import org.hibernate.cfg.Environment;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
@@ -25,7 +24,7 @@ import org.jboss.seam.annotations.Unwrap;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup
+@Startup(depends={"org.jboss.seam.core.jndi", "org.jboss.seam.core.tm"})
 @Name("org.jboss.seam.core.hibernate")
 public class Hibernate
 {
@@ -45,9 +44,6 @@ public class Hibernate
    @Create
    public void startup() throws Exception
    {
-      //force JNDI and TM startup
-      Component.getInstance( Seam.getComponentName(Jndi.class), true );
-      Component.getInstance( Seam.getComponentName(Tm.class), true );
       
       AnnotationConfiguration acfg = new AnnotationConfiguration();
       if (cfgResourceName==null) 

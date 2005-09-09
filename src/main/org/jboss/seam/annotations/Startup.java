@@ -18,4 +18,6 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-public @interface Startup {}
+public @interface Startup {
+   String[] depends() default {};
+}

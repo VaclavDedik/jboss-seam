@@ -28,7 +28,7 @@ import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup
+@Startup(depends="org.jboss.seam.core.jndi")
 @Name("org.jboss.seam.core.tm")
 public class Tm
 {

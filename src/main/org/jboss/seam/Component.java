@@ -84,6 +84,7 @@ public class Component
    private String jndiName;
    private InterceptionType interceptionType;
    private boolean startup;
+   private String[] dependencies;
    
    private Method destroyMethod;
    private Method createMethod;
@@ -119,6 +120,10 @@ public class Component
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
       startup = beanClass.isAnnotationPresent(Startup.class);
+      if (startup)
+      {
+         dependencies = getBeanClass().getAnnotation(Startup.class).depends();
+      }
       
       log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType());
 
@@ -300,7 +305,7 @@ public class Component
       interceptors.add( new Interceptor( new ValidationInterceptor(), this ) );
    }
 
-   public Class getBeanClass()
+   public Class<?> getBeanClass()
    {
       return beanClass;
    }
@@ -779,5 +784,10 @@ public class Component
 	public boolean isStartup() {
 		return startup;
 	}
+
+   public String[] getDependencies()
+   {
+      return dependencies;
+   }
    
 }
