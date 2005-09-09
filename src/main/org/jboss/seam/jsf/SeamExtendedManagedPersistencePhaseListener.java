@@ -4,10 +4,12 @@ package org.jboss.seam.jsf;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.util.Transactions;
 
 public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListener
 {
+   private static Logger log = Logger.getLogger( SeamExtendedManagedPersistencePhaseListener.class );
    
    @Override
    public void beforePhase(PhaseEvent event)
@@ -16,6 +18,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       {
          try 
          {
+            log.info("beginning transaction");
             Transactions.getUserTransaction().begin();
          }
          catch (Exception e)
@@ -37,6 +40,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
          {
             if ( Transactions.isTransactionActive() )
             {
+               log.info("committing transaction");
                Transactions.getUserTransaction().commit();
             }
          }
