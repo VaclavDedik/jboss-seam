@@ -53,7 +53,8 @@ public class SeamInterceptor
 
    private Component getSeamComponent(Object bean)
    {
-      return Component.forName(Seam.getComponentName( bean.getClass() ));
+      String componentName = Seam.getComponentName( bean.getClass() );
+      return Component.forName( componentName );
    }
    
 }

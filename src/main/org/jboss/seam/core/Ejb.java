@@ -17,6 +17,11 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.tm.TransactionManagerInitializer;
 
+/**
+ * A seam component that bootstraps the embedded EJB container
+ * 
+ * @author Gavin King
+ */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
@@ -57,4 +62,5 @@ public class Ejb
       deployer.destroy();
       deployer = null;
    }
+   
 }

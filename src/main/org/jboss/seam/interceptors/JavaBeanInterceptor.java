@@ -22,9 +22,31 @@ public class JavaBeanInterceptor implements MethodInterceptor
 {
    
    private final SeamInterceptor seamInterceptor = new SeamInterceptor();
+   private boolean recursive = false;
 
    public Object intercept(final Object target, final Method method, final Object[] params,
          final MethodProxy methodProxy) throws Throwable
+   {
+      if (recursive) 
+      {
+         return methodProxy.invokeSuper(target, params);
+      }
+      else
+      {
+         recursive = true;
+         try
+         {
+            return interceptInvocation(target, method, params, methodProxy);
+         }
+         finally
+         {
+            recursive = false;
+         }
+      }
+   }
+
+   private Object interceptInvocation(final Object target, final Method method, final Object[] params, 
+         final MethodProxy methodProxy) throws Exception
    {
       return seamInterceptor.aroundInvoke( new InvocationContext() {
          

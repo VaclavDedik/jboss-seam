@@ -182,7 +182,7 @@ public class Component
          String key = me.getKey();
          String value = me.getValue();
           
-         if ( key.startsWith(name) )
+         if ( key.startsWith(name) && key.charAt( name.length() )=='.' )
          {
             String propertyName = key.substring( name.length()+1, key.length() );
             PropertyDescriptor propertyDescriptor;
@@ -606,7 +606,7 @@ public class Component
       } 
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not inject: " + name, e);
+         throw new IllegalArgumentException("could not inject: " + name + " to: " + getName(), e);
       }
    }
 
@@ -618,7 +618,7 @@ public class Component
       } 
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not inject: " + name, e);
+         throw new IllegalArgumentException("could not inject: " + name + " to: " + getName(), e);
       }
    }
    

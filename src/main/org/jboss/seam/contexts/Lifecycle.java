@@ -44,7 +44,7 @@ public class Lifecycle
 	        Component component = (Component) object;
 	        if ( component.isStartup() )
 	        {
-	     	     Component.newInstance( component.getName() );
+	     	     Component.getInstance( component.getName(), true );
 	        }
     	  }
        }

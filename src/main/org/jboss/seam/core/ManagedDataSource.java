@@ -3,23 +3,25 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import javax.naming.InitialContext;
+import javax.transaction.TransactionManager;
 
-import org.jboss.naming.NonSerializableFactory;
-import org.jboss.naming.Util;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
-import org.jboss.resource.connectionmanager.TransactionSynchronizer;
+import org.jboss.resource.connectionmanager.CachedConnectionManager;
+import org.jboss.resource.connectionmanager.CachedConnectionManagerReference;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.tm.TxManager;
-import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;
-import org.jnp.server.SingletonNamingServer;
 
+/**
+ * A seam component that configures and creates a JCA datasource
+ * 
+ * @author Gavin King
+ */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
@@ -27,9 +29,7 @@ public class ManagedDataSource
 {
    //private static final Logger log = Logger.getLogger(JTADatasource.class);
    
-   private TxManager tm;
    private LocalTxDataSource ds;
-   private SingletonNamingServer sns;
    
    private int maxSize = 20;
    private int minSize = 0;
@@ -46,18 +46,16 @@ public class ManagedDataSource
    @Create
    public void startup(Component component) throws Exception
    {
-      //start up JNDI
-      sns = new SingletonNamingServer();
-      InitialContext ctx = new InitialContext();
-      Util.createSubcontext(ctx, "java:/comp");
       
-      //create a TransactionManager
-      tm = TxManager.getInstance();
-      TransactionSynchronizer.setTransactionManager(tm);
+      //get the transaction manager
+      TransactionManager tm = (TransactionManager) Component.getInstance( Seam.getComponentName(Tm.class), true );
+      //force JNDI startup
+      Component.getInstance( Seam.getComponentName(Jndi.class), true );
       
-      //create a UserTransaction and bind to JNDI
-      ServerVMClientUserTransaction ut = new ServerVMClientUserTransaction(tm);
-      NonSerializableFactory.rebind(ctx, "java:comp/UserTransaction", ut);
+      CachedConnectionManager ccm = new CachedConnectionManager();
+      CachedConnectionManagerReference ccmr = new CachedConnectionManagerReference();
+      ccmr.setCachedConnectionManager(ccm);
+      ccmr.setTransactionManager(tm);
       
       //create a JCA Datasource
       ds = new LocalTxDataSource();
@@ -73,6 +71,7 @@ public class ManagedDataSource
       ds.setIdleTimeout(idleTimeout);
       ds.setTransactionManager(tm);
       ds.setJndiName( component.getName() );
+      ds.setCachedConnectionManager(ccmr);
       ds.start();
    }
    
@@ -81,8 +80,6 @@ public class ManagedDataSource
    {
       //TODO: we need a ds.stop() method
       ds = null;
-      tm = null;
-      sns = null;
    }
 
    public int getBlockingTimeout()
@@ -184,6 +181,5 @@ public class ManagedDataSource
    {
       this.checkValidConnectionSql = checkValidConnectionSql;
    }
-
 
 }

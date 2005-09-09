@@ -69,9 +69,10 @@ public class Strings
    public static String toString(String sep, Object... objects)
    {
       StringBuilder builder = new StringBuilder();
-      for (Object obj : objects)
+      for (int i=0; i<objects.length; i++)
       {
-         builder.append( obj.toString() ).append(sep);
+         builder.append( objects[i].toString() );
+         if (i<objects.length-1) builder.append(sep);
       }
       return builder.toString();
    }
@@ -79,9 +80,10 @@ public class Strings
    public static String toString(Class... classes)
    {
       StringBuilder builder = new StringBuilder();
-      for (Class clazz : classes)
+      for (int i=0; i<classes.length; i++)
       {
-         builder.append( clazz.getName() ).append(" ");
+         builder.append( classes[i].getName() );
+         if (i<classes.length-1) builder.append(" ");
       }
       return builder.toString();
    }
