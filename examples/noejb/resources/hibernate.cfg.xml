@@ -5,7 +5,6 @@
 <hibernate-configuration>
 	<session-factory name="bookingDatabase">
 		<property name="show_sql">true</property>
-		<!--property name="connection.datasource">bookingDatasource</property-->
 		<property name="connection.datasource">java:bookingDatasource</property>
 		<property name="dialect">org.hibernate.dialect.HSQLDialect</property>
 		<property name="hbm2ddl.auto">create-drop</property>
