@@ -41,13 +41,14 @@ public class Tm
       //force JNDI startup
       Component.getInstance( Seam.getComponentName(Jndi.class), true );
       
-      //create a TransactionManager
+      //create a TransactionManager and bind to JNDI
       tm = TxManager.getInstance();
       TransactionSynchronizer.setTransactionManager(tm);
+      NonSerializableFactory.rebind( new InitialContext(), "java:/TransactionManager", tm );
       
       //create a UserTransaction and bind to JNDI
       ServerVMClientUserTransaction ut = new ServerVMClientUserTransaction(tm);
-      NonSerializableFactory.rebind( new InitialContext(), "java:comp/UserTransaction", ut);
+      NonSerializableFactory.rebind( new InitialContext(), "java:comp/UserTransaction", ut );
 
    }
    
