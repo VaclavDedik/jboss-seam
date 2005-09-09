@@ -1,0 +1,16 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory name="bookingDatabase">
+		<property name="show_sql">true</property>
+		<property name="connection.datasource">bookingDatasource</property>
+		<property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+		<property name="hbm2ddl.auto">create-drop</property>
+		<property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
+		<mapping class="org.jboss.seam.example.noejb.Hotel"/>
+		<mapping class="org.jboss.seam.example.noejb.User"/>
+		<mapping class="org.jboss.seam.example.noejb.Booking"/>
+	</session-factory>
+</hibernate-configuration>

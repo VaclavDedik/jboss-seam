@@ -16,10 +16,15 @@
     </context-param>
 
     <context-param>
-        <param-name>org.jboss.seam.core.init.persistenceUnitNames</param-name>
+        <param-name>org.jboss.seam.core.init.sessionFactoryNames</param-name>
         <param-value>bookingDatabase</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>org.jboss.seam.core.init.componentClassNames</param-name>
+        <param-value>org.jboss.seam.core.Hibernate</param-value>
+    </context-param>
+    
     <filter>
         <filter-name>Seam Exception Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>

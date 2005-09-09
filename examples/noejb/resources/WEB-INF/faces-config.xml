@@ -106,9 +106,9 @@
     <!-- Select one of the three standard persistence lifecycle models for the Seam application -->
 
     <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+        <!--phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener-->
         <!--phase-listener>org.jboss.seam.jsf.SeamTransactionManagedPersistencePhaseListener</phase-listener-->
-        <!--phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener-->
+        <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
     </lifecycle>
 
 </faces-config>
