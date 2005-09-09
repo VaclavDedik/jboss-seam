@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Manager;
 
@@ -33,6 +34,20 @@ public class Lifecycle
 
    public static void endInitialization()
    {
+	  //instantiate @Startup components
+	  //TODO: could this belong in the Component constructor?
+      Context context = Contexts.getApplicationContext();
+      for ( String name: context.getNames() ) {
+    	  Object object = context.get(name);
+    	  if ( object instanceof Component )
+    	  {
+	        Component component = (Component) object;
+	        if ( component.isStartup() )
+	        {
+	     	     Component.newInstance( component.getName() );
+	        }
+    	  }
+       }
       Contexts.applicationContext.set(null);
    }
 

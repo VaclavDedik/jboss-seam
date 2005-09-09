@@ -41,6 +41,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
@@ -96,6 +97,7 @@ public class Component
    private Class<?> beanClass;
    private String jndiName;
    private InterceptionType interceptionType;
+   private boolean startup;
    
    private Method destroyMethod;
    private Method createMethod;
@@ -130,6 +132,7 @@ public class Component
       scope = Seam.getComponentScope(beanClass);
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
+      startup = beanClass.isAnnotationPresent(Startup.class);
       
       log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType());
 
@@ -781,5 +784,9 @@ public class Component
    {
       return interceptionType;
    }
+
+	public boolean isStartup() {
+		return startup;
+	}
    
 }

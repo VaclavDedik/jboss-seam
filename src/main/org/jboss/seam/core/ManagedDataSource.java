@@ -5,8 +5,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import javax.naming.InitialContext;
 
-import org.jboss.naming.Util;
 import org.jboss.naming.NonSerializableFactory;
+import org.jboss.naming.Util;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
 import org.jboss.resource.connectionmanager.TransactionSynchronizer;
 import org.jboss.seam.Component;
@@ -15,12 +15,14 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.tm.TxManager;
 import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;
 import org.jnp.server.SingletonNamingServer;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
+@Startup
 public class ManagedDataSource
 {
    //private static final Logger log = Logger.getLogger(JTADatasource.class);

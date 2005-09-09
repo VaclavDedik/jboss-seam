@@ -78,7 +78,7 @@ public class SeamTest
          {
             facesContext.getViewRoot().getAttributes().putAll(
                     conversationStates.get( conversationId ).state
-            );
+            	);
          }
          
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
@@ -135,12 +135,17 @@ public class SeamTest
       Lifecycle.endSession(session);
       session = null;
    }
+   
+   protected SeamPhaseListener createPhaseListener()
+   {
+	  return new SeamPhaseListener();
+   }
 
    @Configuration(beforeTestClass=true)
    public void init() throws Exception
    {
       buildJbpm();
-      phases = new SeamPhaseListener();
+      phases = createPhaseListener();
       servletContext = new MockServletContext();
       initServletContext( servletContext.getInitParameters() );
       //Contexts.beginApplication(servletContext);

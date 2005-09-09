@@ -90,10 +90,10 @@ public class Initialization
       addComponent( Init.class, context );
       addComponent( Manager.class, context );
 
-      Init settings = (Init) Component.getInstance(Init.class, true);
+      Init init = (Init) Component.getInstance(Init.class, true);
 
       //TODO: move all this stuff into Init component?
-      for ( String className : settings.getComponentClassNames() )
+      for ( String className : init.getComponentClassNames() )
       {
          try
          {
@@ -105,22 +105,22 @@ public class Initialization
          }
       }
 
-      for ( String dsName : settings.getDataSourceNames() )
+      for ( String dsName : init.getDataSourceNames() )
       {
          addComponent( dsName, ManagedDataSource.class, context );
       }
 
-      for ( String unitName : settings.getPersistenceUnitNames() )
+      for ( String unitName : init.getPersistenceUnitNames() )
       {
          addComponent( unitName, ManagedPersistenceContext.class, context );
       }
 
-      for ( String sfName : settings.getSessionFactoryNames() )
+      for ( String sfName : init.getSessionFactoryNames() )
       {
          addComponent( sfName, ManagedHibernateSession.class, context );
       }
 
-      if ( settings.getJbpmSessionFactoryName() != null )
+      if ( init.getJbpmSessionFactoryName() != null )
       {
          addComponent( ManagedJbpmSession.class, context );
       }
