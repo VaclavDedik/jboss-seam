@@ -1,8 +1,8 @@
 //$Id$
 package org.jboss.seam.mock;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -11,8 +11,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
-import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.init.Initialization;
@@ -21,7 +19,7 @@ import org.testng.annotations.Configuration;
 
 public class SeamTest
 {
-   private static EJB3StandaloneDeployer deployer;
+
    private MockServletContext servletContext;
    private MockLifecycle lifecycle;
    private SeamPhaseListener phases;
@@ -163,32 +161,6 @@ public class SeamTest
       conversationStates.clear();
       conversationStates = null;
       releaseJbpm();
-   }
-
-   @Configuration(afterSuite=true)
-   public void cleanupSuite() throws Exception
-   {
-      if (deployer==null) return;
-      deployer.stop();
-      deployer.destroy();
-      deployer = null;
-   }
-
-   @Configuration(beforeSuite=true)
-   public void initSuite() throws Exception
-   {
-      if (deployer!=null) return;
-      EJB3StandaloneBootstrap.boot(null);
-
-      deployer = new EJB3StandaloneDeployer();
-      deployer.getArchivesByResource().add("META-INF/persistence.xml");
-
-      // need to set the InitialContext properties that deployer will use
-      // to initial EJB containers
-      //deployer.setJndiProperties(getInitialContextProperties());
-
-      deployer.create();
-      deployer.start();
    }
 
    public void initServletContext(Map initParams) {}

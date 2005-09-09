@@ -16,8 +16,8 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.ManagedDataSource;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.ManagedDataSource;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
@@ -26,7 +26,7 @@ import org.jboss.seam.core.Manager;
 public class Initialization
 {
    private static final Logger log = Logger.getLogger(Seam.class);
-
+   
    private Map<String, String> properties = new HashMap<String, String>();
    private ServletContext servletContext;
 
@@ -91,7 +91,7 @@ public class Initialization
       addComponent( Manager.class, context );
 
       Init init = (Init) Component.getInstance(Init.class, true);
-
+      
       //TODO: move all this stuff into Init component?
       for ( String className : init.getComponentClassNames() )
       {

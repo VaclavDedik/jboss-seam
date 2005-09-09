@@ -63,10 +63,15 @@ public class Strings
    
    public static String toString(Object... objects)
    {
+      return toString(" ", objects);
+   }
+   
+   public static String toString(String sep, Object... objects)
+   {
       StringBuilder builder = new StringBuilder();
       for (Object obj : objects)
       {
-         builder.append( obj.toString() ).append(" ");
+         builder.append( obj.toString() ).append(sep);
       }
       return builder.toString();
    }

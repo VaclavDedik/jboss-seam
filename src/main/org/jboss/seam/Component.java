@@ -10,7 +10,6 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
-import java.beans.PropertyEditorSupport;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -55,6 +54,7 @@ import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Sorter;
+import org.jboss.seam.util.StringArrayPropertyEditor;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -70,25 +70,11 @@ public class Component
 {
    public static final String PROPERTIES = "org.jboss.seam.properties";
    
-   static
+   //static
    {
       PropertyEditorManager.registerEditor(String[].class, StringArrayPropertyEditor.class);
    }
    
-   public static class StringArrayPropertyEditor extends PropertyEditorSupport
-   {
-      @Override
-      public void setAsText(String text) throws IllegalArgumentException
-      {
-         setValue( Strings.split(text, ", ") );
-      }
-      @Override
-      public String getAsText()
-      {
-         return Strings.toString( (String[]) getValue() );
-      }
-   }
-
    private static final Logger log = Logger.getLogger(Component.class);
 
    private ComponentType type;
@@ -710,12 +696,17 @@ public class Component
       {
          Method createMethod = component.getCreateMethod();
          Class[] paramTypes = createMethod.getParameterTypes();
-         Object param = paramTypes.length==0 ? null : component;
          String createMethodName = createMethod.getName();
          try 
          {
             Method method = instance.getClass().getMethod(createMethodName, paramTypes);
-            Reflections.invokeAndWrap( method, instance, param );
+            if ( paramTypes.length==0 )
+            {
+               Reflections.invokeAndWrap( method, instance );
+            }
+            else {
+               Reflections.invokeAndWrap( method, instance, component );
+            }
          }
          catch (NoSuchMethodException e)
          {
