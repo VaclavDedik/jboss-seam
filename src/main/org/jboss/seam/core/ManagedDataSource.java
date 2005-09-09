@@ -28,7 +28,6 @@ public class ManagedDataSource
    //private static final Logger log = Logger.getLogger(JTADatasource.class);
    
    private TxManager tm;
-   //private TxConnectionManager cm;
    private LocalTxDataSource ds;
    private SingletonNamingServer sns;
    
