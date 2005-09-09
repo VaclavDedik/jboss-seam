@@ -111,6 +111,7 @@
     
     
    <target name="deploy" depends="ear">
+   	 <copy file="${resources.dir}/booking-ds.xml" todir="${deploy.dir}"/>
      <copy file="${output.dir}/${example.name}.ear" todir="${deploy.dir}"/>
    </target>
 
