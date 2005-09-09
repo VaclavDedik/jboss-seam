@@ -38,7 +38,10 @@ public class ManagedHibernateSession implements Serializable
    @Create
    public void create(Component component)
    {
-      sessionFactoryName = component.getName();
+      if (sessionFactoryName==null)
+      {
+         sessionFactoryName = component.getName();
+      }
       try
       {
          session = getSessionFactory(sessionFactoryName).openSession();
@@ -73,5 +76,15 @@ public class ManagedHibernateSession implements Serializable
    public String toString()
    {
       return "ManagedHibernateSession(" + sessionFactoryName + ")";
+   }
+
+   public String getSessionFactoryName()
+   {
+      return sessionFactoryName;
+   }
+
+   public void setSessionFactoryName(String sessionFactoryName)
+   {
+      this.sessionFactoryName = sessionFactoryName;
    }
 }

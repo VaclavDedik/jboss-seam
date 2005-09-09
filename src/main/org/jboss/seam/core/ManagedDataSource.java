@@ -42,10 +42,15 @@ public class ManagedDataSource
    private String password;
    private int preparedStatementCacheSize;
    private String checkValidConnectionSql;
+   private String jndiName;
    
    @Create
    public void startup(Component component) throws Exception
    {
+      if (jndiName==null) 
+      {
+         jndiName = component.getName();
+      }
       
       //get the transaction manager
       TransactionManager tm = (TransactionManager) Component.getInstance( Seam.getComponentName(Tm.class), true );
@@ -70,7 +75,7 @@ public class ManagedDataSource
       ds.setBlockingTimeout(blockingTimeout);
       ds.setIdleTimeout(idleTimeout);
       ds.setTransactionManager(tm);
-      ds.setJndiName( component.getName() );
+      ds.setJndiName(jndiName);
       ds.setCachedConnectionManager(ccmr);
       ds.start();
    }
@@ -180,6 +185,16 @@ public class ManagedDataSource
    public void setCheckValidConnectionSql(String checkValidConnectionSql)
    {
       this.checkValidConnectionSql = checkValidConnectionSql;
+   }
+
+   public String getJndiName()
+   {
+      return jndiName;
+   }
+
+   public void setJndiName(String jndiName)
+   {
+      this.jndiName = jndiName;
    }
 
 }
