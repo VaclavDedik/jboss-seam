@@ -52,9 +52,12 @@ public class Lifecycle
 
    private static void startup(Component component)
    {
-      for (String dependency: component.getDependencies() )
+      if ( component.isStartup() )
       {
-         startup( Component.forName(dependency) );
+         for (String dependency: component.getDependencies() )
+         {
+            startup( Component.forName(dependency) );
+         }
       }
       Component.getInstance( component.getName(), true );
    }
