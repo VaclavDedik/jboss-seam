@@ -4,12 +4,18 @@ package org.jboss.seam.contexts;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
 public class EventContext implements Context
 {
    
    private Map<String, Object> map = new HashMap<String, Object>();
+
+   public ScopeType getType()
+   {
+      return ScopeType.EVENT;
+   }
 
    public Object get(Class clazz)
    {

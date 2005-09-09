@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.contexts;
 
+import org.jboss.seam.ScopeType;
+
 /**
  * A set of named components and items of data that
  * is associated with a particular seam context.
@@ -21,4 +23,5 @@ public interface Context {
 	public boolean isSet(String name);
 	public String[] getNames();
    public void flush();
+   public ScopeType getType();
 }

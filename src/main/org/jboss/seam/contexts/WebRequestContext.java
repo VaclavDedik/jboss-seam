@@ -23,6 +23,11 @@ public class WebRequestContext implements Context {
 
 	private ServletRequest request;
 	
+   public ScopeType getType()
+   {
+      return ScopeType.EVENT;
+   }
+
 	WebRequestContext(ServletRequest request) {
 		this.request = request;
 	}

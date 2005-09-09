@@ -23,6 +23,11 @@ public class WebApplicationContext implements Context {
 
 	private ServletContext context;
 	
+   public ScopeType getType()
+   {
+      return ScopeType.APPLICATION;
+   }
+
    private String getKey(String name)
    {
       return getPrefix() + name;

@@ -10,6 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
 /**
@@ -22,6 +23,11 @@ import org.jboss.seam.Seam;
 public class StatelessContext implements Context {
 
 	private static final Logger log = Logger.getLogger(StatelessContext.class);
+
+   public ScopeType getType()
+   {
+      return ScopeType.STATELESS;
+   }
 
 	public Object get(String name) {
 		log.info("resolving: " + name);

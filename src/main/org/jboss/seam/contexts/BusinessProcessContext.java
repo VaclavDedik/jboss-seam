@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.core.Init;
@@ -33,6 +34,11 @@ public class BusinessProcessContext implements Context {
    private ContextInstance contextInstance;
    private Init settings;
    private boolean resolvingJbpmContext;
+
+   public ScopeType getType()
+   {
+      return ScopeType.PROCESS;
+   }
 
    /**
     * Constructs a new instance of BusinessProcessContext.

@@ -23,6 +23,11 @@ public class WebSessionContext implements Context {
 
 	private HttpSession session;
 	
+   public ScopeType getType()
+   {
+      return ScopeType.SESSION;
+   }
+
    private String getKey(String name)
    {
       return getPrefix() + name;

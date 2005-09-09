@@ -32,6 +32,11 @@ public class ConversationContext implements Context, Serializable {
    private final Map<String, Object> temporarySession = new HashMap<String, Object>();
    private final String id;
    
+   public ScopeType getType()
+   {
+      return ScopeType.CONVERSATION;
+   }
+
    public String getKey(String name)
    {
       return getPrefix() + name;
