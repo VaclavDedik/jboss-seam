@@ -60,6 +60,9 @@ public class HotelBookingAction implements HotelBooking, Serializable
    private DataModel hotelsDataModel = new ListDataModel();
    int rowIndex = 0;
    
+   @In
+   private FacesContext facesContext;
+
    @Begin
    public String find()
    {
@@ -137,7 +140,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       {
          log.info("invalid booking dates");
          FacesMessage facesMessage = new FacesMessage("Check in date must be later than check out date");
-         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+         facesContext.addMessage(null, facesMessage);
          return null;
       }
       else

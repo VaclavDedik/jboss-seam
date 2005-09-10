@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
@@ -27,6 +27,11 @@ public class LoginAction implements Login
    
    @PersistenceContext
    private EntityManager em;
+   
+   @In
+   private Context sessionContext;
+   @In
+   private FacesContext facesContext;
 
    public String login()
    {
@@ -37,14 +42,13 @@ public class LoginAction implements Login
       
       if ( results.size()==0 )
       {
-         FacesContext.getCurrentInstance()
-               .addMessage(null, new FacesMessage("Invalid login"));
+         facesContext.addMessage(null, new FacesMessage("Invalid login"));
          return "login";
       }
       else
       {
          user = results.get(0);
-         Contexts.getSessionContext().set("loggedIn", true);         
+         sessionContext.set("loggedIn", true);         
          return "main";
       }
       
