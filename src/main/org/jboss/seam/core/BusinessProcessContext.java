@@ -26,6 +26,7 @@ public class BusinessProcessContext
    @Unwrap
    public Context getContext()
    {
-      return Contexts.getBusinessProcessContext();
+      return Contexts.isBusinessProcessContextActive() ? 
+            Contexts.getBusinessProcessContext(): null;
    }
 }

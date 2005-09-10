@@ -26,6 +26,7 @@ public class EventContext
    @Unwrap
    public Context getContext()
    {
-      return Contexts.getEventContext();
+      return Contexts.isEventContextActive() ? 
+            Contexts.getEventContext() : null;
    }
 }

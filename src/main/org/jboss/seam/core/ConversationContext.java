@@ -26,6 +26,7 @@ public class ConversationContext
    @Unwrap
    public Context getContext()
    {
-      return Contexts.getConversationContext();
+      return Contexts.isConversationContextActive() ? 
+            Contexts.getConversationContext() : null;
    }
 }

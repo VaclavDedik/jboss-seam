@@ -26,6 +26,7 @@ public class ApplicationContext
    @Unwrap
    public Context getContext()
    {
-      return Contexts.getApplicationContext();
+      return Contexts.isApplicationContextActive() ? 
+            Contexts.getApplicationContext() : null;
    }
 }

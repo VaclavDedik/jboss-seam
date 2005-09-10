@@ -26,6 +26,7 @@ public class SessionContext
    @Unwrap
    public Context getContext()
    {
-      return Contexts.getSessionContext();
+      return Contexts.isSessionContextActive() ? 
+            Contexts.getSessionContext() : null;
    }
 }
