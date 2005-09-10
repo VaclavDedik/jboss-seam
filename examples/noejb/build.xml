@@ -15,7 +15,7 @@
    <property name="deploy.dir" value="${jboss.home}/server/default/deploy"/>
    <property name="output.classes.dir" value="${output.dir}/classes"/>
    <property name="output.war.dir" value="${output.dir}/war"/>
-   <property name="example.name" value="jboss-seam-booking"/>    
+   <property name="example.name" value="jboss-seam-booking"/>
     
     
    <!-- Build classpath -->
@@ -63,7 +63,8 @@
          debug="on"
          deprecation="on"
          optimize="off"
-         includes="**">
+         includes="**"
+      	 excludes="**/test/*.java">
          <classpath refid="classpath"/>
       </javac>
     </target>
