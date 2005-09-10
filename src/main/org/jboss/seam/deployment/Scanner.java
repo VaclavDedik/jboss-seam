@@ -11,8 +11,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import org.jboss.logging.Logger;
+
 public class Scanner
 {
+
+   private static final Logger log = Logger.getLogger(Scanner.class);
+
    private String resourceName;
    private ClassLoader classLoader;
    
@@ -35,7 +40,7 @@ public class Scanner
    
    public Set<Class<?>> getClasses()
    {
-      System.out.println("deploying resource: " + resourceName);
+      System.out.println("deploying archives with resource: " + resourceName);
       Set<Class<?>> result = new HashSet<Class<?>>();
       Enumeration<URL> urls;
       try
@@ -50,9 +55,7 @@ public class Scanner
       {
          try
          {
-            URL url = urls.nextElement();
-            String urlPath = url.getFile();
-            System.out.println("scanning: " + urlPath);
+            String urlPath = urls.nextElement().getFile();
             if ( urlPath.startsWith("file:") )
             {
                urlPath = urlPath.substring(6);
@@ -65,7 +68,7 @@ public class Scanner
             {
                urlPath = new File(urlPath).getParent();
             }
-            System.out.println("scanning: " + urlPath);
+            log.info("scanning: " + urlPath);
             File file = new File(urlPath);
             if ( file.isDirectory() )
             {
@@ -76,30 +79,28 @@ public class Scanner
                handleArchive(result, file);
             }
          }
-         catch (IOException ioe) {
-            ioe.printStackTrace();
-         }
+         catch (IOException ioe) {}
       }
       return result;
    }
 
    private void handleArchive(Set<Class<?>> result, File file) throws ZipException, IOException
    {
-      System.out.println("archive: " + file);
+      log.debug("archive: " + file);
       ZipFile zip = new ZipFile(file);
       Enumeration<? extends ZipEntry> entries = zip.entries();
       while ( entries.hasMoreElements() )
       {
          ZipEntry entry = entries.nextElement();
          String name = entry.getName();
-         System.out.println("found: " + name);
+         log.debug("found: " + name);
          handleItem(result, name);
       }
    }
 
    private void handleDirectory(Set<Class<?>> result, File file, String path)
    {
-      System.out.println("directory: " + file);
+      log.debug("directory: " + file);
       for ( File child: file.listFiles() )
       {
          String newPath = path==null ? 
@@ -125,7 +126,7 @@ public class Scanner
             result.add( classLoader.loadClass( classname ) );
          }
          catch (ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
+            log.debug( "could not load class: " + classname, cnfe );
          }
       }
    }
