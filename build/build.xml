@@ -4,7 +4,7 @@
 <!-- JBoss build file                                                       -->
 <!-- ======================================================================= -->
 
-<project name="JBoss" default="deploy" basedir="..">
+<project name="JBoss" default="package" basedir="..">
 
 	<property environment="env" />
 	<property name="src.dir" value="${basedir}/src" />
@@ -76,7 +76,7 @@
 		</jar>
 	</target>
 
-	<target name="deploy" depends="package">
+	<!--target name="deploy" depends="package">
 		<mkdir dir="${deploy.dir}/seam.deployer" />
 		<copy file="${output.dir}/jboss-seam.jar" todir="${deploy.dir}/seam.deployer" />
 		<copy file="${basedir}/lib/jbpm-3.0.jar" todir="${deploy.dir}/seam.deployer" />
@@ -89,7 +89,7 @@
 
 	<target name="undeploy">
 		<delete dir="${deploy.dir}/seam.deployer" />
-	</target>
+	</target-->
 
 	<!-- =================================================================== -->
 	<!-- Cleans up generated stuff                                           -->
