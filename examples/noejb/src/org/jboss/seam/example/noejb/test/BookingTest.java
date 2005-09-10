@@ -14,7 +14,7 @@ import org.jboss.seam.core.Hibernate;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Jndi;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Tm;
+import org.jboss.seam.core.Jta;
 import org.jboss.seam.example.noejb.Booking;
 import org.jboss.seam.example.noejb.BookingListAction;
 import org.jboss.seam.example.noejb.Hotel;
@@ -239,7 +239,7 @@ public class BookingTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.SESSION_FACTORY_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(Jndi.class, Tm.class, Hibernate.class);
+      String classNames = Strings.toString(Jndi.class, Jta.class, Hibernate.class);
       initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
       initParams.put(Init.DATA_SOURCE_NAMES, "java:bookingDatasource");
       initParams.put("java:bookingDatasource.driverClass", "org.hsqldb.jdbcDriver");
