@@ -509,8 +509,8 @@ public class User {
         <sect2>
             <title>Configuring components</title>
             <para>
-                Seam components may be provided with configuration data either via servlet init
-                params, or via a properties file named <literal>seam.properties</literal> in the 
+                Seam components may be provided with configuration data either via servlet context
+                parameters, or via a properties file named <literal>seam.properties</literal> in the 
                 root of the classpath.
             </para>
             <para>
@@ -519,7 +519,7 @@ public class User {
                 <literal>"com.jboss.myapp.settings"</literal> has a setter method named 
                 <literal>setLocale()</literal>, we can provide a property named
                 <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal>
-                file or as a servlet init param, and Seam will set the value of the 
+                file or as a servlet context parameter, and Seam will set the value of the 
                 <literal>locale</literal> attribute whenever it instantiates the component.
             </para>
             <para>

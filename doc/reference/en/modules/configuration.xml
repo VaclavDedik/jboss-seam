@@ -1,0 +1,172 @@
+<chapter id="configuration">
+	<title>Configuring Seam</title>
+	<para>
+        Seam itself is extremely easy to configure. However, several lines of XML
+        are required to integrate Seam into your JSF implementation and servlet
+        container. There's no need to be too put off by the next section, this
+        configuration is identical for every Seam application, so you can just 
+        copy and paste from one of the example apps!
+    </para>
+    
+    <sect1>
+        <title>Integrating Seam with JSF and your servlet container</title>
+        <para>
+            Seam requires the following entry in your <literal>web.xml</literal>
+            file:
+        </para>
+        
+        <programlisting><![CDATA[<listener>
+    <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+</listener>]]></programlisting>
+         
+        <para>
+            This listener is responsible for bootstrapping seam, and for destroying
+            session and application contexts.
+        </para>
+
+        <para>
+            To force JSF to delegate variable resolution to Seam, we need to register
+            a <literal>VariableResolver</literal> in the 
+            <literal>faces-config.xml</literal> file:
+        </para>
+        
+        <programlisting><![CDATA[<application>
+    <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
+</application>]]></programlisting>
+
+        <para>
+            To integrate with the JSF request lifecycle, we also needs a JSF
+            <literal>PhaseListener</literal> registered in in the 
+            <literal>faces-config.xml</literal> file:
+        </para>
+        
+        <programlisting><![CDATA[<lifecycle>
+     <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+</lifecycle>]]></programlisting>
+
+        <para>
+            The actual listener class here varies depending upon how you want to
+            manage transaction demarcation (more on this later).
+        </para>
+
+    </sect1>
+    
+    <sect1>
+        <title>Configuring Seam in Java EE 5</title>
+        <para>
+            If you are running in a Java EE 5 environment, this is all the configuration
+            required to start using Seam! But there is one final item you need to know about. 
+            You must place a <literal>seam.properties</literal> file in the root of any 
+            archive in which your Seam components are deployed (even an empty properties file 
+            will do). At startup, Seam will scan any archives with
+            <literal>seam.properties</literal> files for seam components.
+        </para>
+        
+        <para>
+            Seam ships with several example applications that are deployable in any
+            Java EE container that supports EJB 3.0.
+        </para>
+        
+    </sect1>
+    
+    <sect1>
+        <title>Configuring Seam with the JBoss Embeddable EJB3 container</title>
+        <para>
+            The JBoss Embeddable EJB3 container lets you run EJB3 components outside the context
+            of the Java EE 5 application server. This is especially useful for testing. To
+            use the EJB3 container with Seam, you will need to add the following line to
+            <literal>seam.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Ejb]]></programlisting>
+        
+        <para>
+            Or, alternatively, add the following entry to <literal>web.xml</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<context-param>
+    <param-name>org.jboss.seam.init.componentClassNames</param-name>
+    <param-value>org.jboss.seam.core.Ejb</param-value>
+</context-param>]]></programlisting>
+
+        <para>
+            This setting installs the built-in component named <literal>org.jboss.seam.core.ejb</literal>.
+            This component is responsible for bootstrapping the EJB container.
+        </para>
+        
+        <para>
+            You should refer to the Embeddable EJB3 container documentation for more information
+            on configuring the container. You'll need to set up a datasource, an 
+            <literal>EntityManagerFactory</literal>, and so on.
+        </para>
+        
+        <para>
+            The Seam booking example application includes a TestNG integration test suite that runs on
+            the Embeddable EJB3 container.
+        </para>
+
+    </sect1>
+    
+    <sect1>
+        <title>Configuring Seam with Hibernate</title>
+        <para>
+            Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. In this 
+            case you would use Hibernate3 instead of EJB 3.0 persistence, and plain JavaBeans
+            instead of session beans. You'll miss out on some of the nice features of session 
+            beans but it will be very easy to migrate to EJB 3.0 when you're ready and, in the
+            meantime, you'll be able to take advantage of Seam's unique declarative state
+            management architecture.
+        </para>
+        
+        <para>
+            Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
+            <literal>hibernate.cfg.xml</literal> file if you install the built-in component
+            named <literal>org.jboss.seam.core.hibernate</literal>. As usual, you have a 
+            choice between <literal>seam.properties</literal> and <literal>web.xml</literal>.
+        </para>
+        
+        <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Hibernate]]></programlisting>
+
+        <programlisting><![CDATA[<context-param>
+    <param-name>org.jboss.seam.init.componentClassNames</param-name>
+    <param-value>org.jboss.seam.core.Hibernate</param-value>
+</context-param>]]></programlisting>
+
+        <para>
+            There Seam distribution includes a version of the booking example application that 
+            uses Hibernate and JavaBeans instead of EJB3. This example application is ready to 
+            deploy into any J2EE application server. If we want to deploy in a non-J2EE environment
+            like Tomcat or TestNG, we need to do a little bit more work.
+        </para>
+
+        <para>
+            The Seam support for Hibernate requires JTA and a JCA datasource. If you are running in
+            a non-EE environment like Tomcat, you'll need to install Seam's built-in JNDI and
+            JTA components, and configure the datasource. Let's just show the properties file
+            this time:
+        </para>
+
+        <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Hibernate, org.jboss.seam.core.Jndi, org.jboss.seam.core.Jta
+
+org.jboss.seam.init.dataSourceNames bookingDatabase
+
+bookingDatabase.driverClass org.hsqldb.jdbcDriver
+bookingDatabase.connectionUrl jdbc:hsqldb:.
+bookingDatabase.userName sa]]></programlisting>
+
+        <para>
+            Seam JavaBean components do not provide declarative transaction demarcation like session
+            beans do. You <emphasis>could</emphasis> manage your transactions manually using the
+            JTA <literal>UserTransaction</literal> (you could even implement your own declarative
+            transaction management in a Seam interceptor). But most applications will use a cool
+            feature called <emphasis>Seam managed transactions</emphasis>.
+        </para>
+        
+    </sect1>
+    
+    <sect1>
+    	<title>Seam managed transactions</title>
+    	
+    </sect1>
+    
+</chapter>
