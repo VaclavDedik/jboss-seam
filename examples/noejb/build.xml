@@ -72,7 +72,6 @@
    <target name="war" depends="jar,compile">
      <jar destfile="${output.dir}/${example.name}.war">
        <zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
-       <zipfileset dir="${resources.dir}/jsp"/>
        <zipfileset dir="${output.dir}" prefix="WEB-INF/lib">
          <include name="${example.name}.jar"/>
        </zipfileset>
