@@ -71,8 +71,11 @@
                     application. Seam has the potential to almost entirely eliminate this class of bugs.
                 </para>
                 <para>
-                    Declarative state management is only possible because of the rich /context model/ defined
-                    by Seam.
+                    Declarative application state management is made possible by the richness of the
+                    <emphasis>context model</emphasis> defined by Seam. Seam extends the context model defined
+                    the servlet spec&mdash;request, session, application&mdash;with two new 
+                    contexts&mdash;conversation and business process&mdash;that are more meaningful from the 
+                    point of view of the business logic.
                 </para>
             </listitem>
         </varlistentry>
@@ -138,7 +141,25 @@
                     applications as a core feature of the framework. You can easily write JUnit or TestNG tests 
                     that reproduce a whole interaction with a user, exercising all components of the system 
                     apart from the view (the JSP or Facelets page). You can run these tests directly inside your 
-                    IDE, where Seam will automatically deploy EJB components into the JBoss embeddable EJB3 container.
+                    IDE, where Seam will automatically deploy EJB components into the JBoss Embeddable EJB3 
+                    container.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><emphasis>Get started now!</emphasis></term>
+            <listitem>
+                <para>
+			        Seam works in any application server that supports EJB 3.0. You can even use Seam in a 
+			        servlet container like Tomcat, or in any J2EE application server, by leveraging the new 
+			        JBoss Embeddable EJB3 container.
+                </para>
+                <para>
+                    However, we realize that not everone is ready to make the switch to EJB 3.0. (After all, 
+                    the Java EE 5 spec is not even final yet!) So, in the interim, you can use Seam as
+                    a framework for applications that use JSF for presentation, Hibernate (or plain JDBC) 
+                    for persistence and JavaBeans for application logic. Then, when you're ready to make 
+                    the switch to EJB 3.0, migration will be straightforward.
                 </para>
             </listitem>
         </varlistentry>
@@ -146,13 +167,7 @@
 
     <para>
         It turns out that the combination of Seam, JSF and EJB3 is <emphasis>the</emphasis> simplest way
-        to write a complex web application in Java. You won't believe how few lines of code are required!
-    </para>
-
-    <para>
-        Seam works in any application server that supports EJB 3.0. You can even use Seam in a servlet
-        container like Tomcat, or in a J2EE 1.4 application server, by leveraging the new JBoss
-        embeddable EJB3 container.
+        to write a complex web application in Java. You won't believe how little code is required!
     </para>
 
 </chapter>
