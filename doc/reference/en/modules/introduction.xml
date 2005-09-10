@@ -91,11 +91,12 @@
                     sufficient flexibility.
                 </para>
                 <para>
-                    <emphasis>Subversion of control</emphasis> differs from IoC in that it is <emphasis>dynamic</emphasis>,
-                    <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>. You can think of it as a
-                    mechanism for aliasing names in the various contexts bound to the current thread, to attributes of
-                    the component. Subversion of control (or bijection) allows auto-wiring of stateful components by
-                    the container.
+                    <emphasis>Subversion of control</emphasis> (or bijection) differs from IoC in that it is 
+                    <emphasis>dynamic</emphasis>, <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>. 
+                    You can think of it as a mechanism for aliasing contextual variables (names in the various contexts 
+                    bound to the current thread) to attributes of the component. Bijection allows auto-assembly of stateful 
+                    components by the container. It even allows a component to safely and easily manipulate the
+                    value of a context variable, just by assigning to an attribute of the component.
                 </para>
             </listitem>
         </varlistentry>
