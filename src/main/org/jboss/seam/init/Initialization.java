@@ -17,12 +17,19 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ApplicationContext;
+import org.jboss.seam.core.BusinessProcessContext;
+import org.jboss.seam.core.ConversationContext;
+import org.jboss.seam.core.EventContext;
+import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedDataSource;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.SessionContext;
+import org.jboss.seam.core.StatelessContext;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.Reflections;
 
@@ -93,6 +100,13 @@ public class Initialization
 
       addComponent( Init.class, context );
       addComponent( Manager.class, context );
+      addComponent( FacesContext.class, context );
+      addComponent( EventContext.class, context );
+      addComponent( SessionContext.class, context );
+      addComponent( StatelessContext.class, context );
+      addComponent( ConversationContext.class, context );
+      addComponent( ApplicationContext.class, context );
+      addComponent( BusinessProcessContext.class, context );
 
       Init init = (Init) Component.getInstance(Init.class, true);
       
