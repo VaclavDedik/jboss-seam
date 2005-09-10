@@ -16,8 +16,8 @@ import org.jboss.seam.annotations.Scope;
 @Scope(SESSION)
 public class User implements Serializable
 {
-   /** The serialVersionUID */
    private static final long serialVersionUID = 1881413500711441951L;
+   
    private String username;
    private String password;
    private String name;

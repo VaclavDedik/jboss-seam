@@ -18,7 +18,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 	</application>
 	
 	<lifecycle>
-		<phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+		<phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
 	</lifecycle>
 
 </faces-config>

@@ -7,6 +7,4 @@ import javax.ejb.Local;
 public interface Register
 {
    public String register();
-   
-   public void destroy();
 }
