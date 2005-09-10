@@ -24,7 +24,7 @@ import org.jboss.seam.annotations.Startup;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup(depends={"org.jboss.seam.core.tm", "org.jboss.seam.core.jndi"})
+@Startup(depends={"org.jboss.seam.core.jta", "org.jboss.seam.core.jndi"})
 public class ManagedDataSource
 {
    //private static final Logger log = Logger.getLogger(JTADatasource.class);

@@ -24,7 +24,7 @@ import org.jboss.seam.annotations.Unwrap;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup(depends={"org.jboss.seam.core.jndi", "org.jboss.seam.core.tm"})
+@Startup(depends={"org.jboss.seam.core.jndi", "org.jboss.seam.core.jta"})
 @Name("org.jboss.seam.core.hibernate")
 public class Hibernate
 {
