@@ -4,6 +4,9 @@ package org.jboss.seam.example.noejb;
 import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
 import org.jboss.logging.Logger;
@@ -12,6 +15,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.example.booking.User;
 
 @Scope(EVENT)
 @Name("changePassword")
@@ -27,6 +31,9 @@ public class ChangePasswordAction
    @In(create=true)
    private Session bookingDatabase;
    
+   @In
+   private FacesContext facesContext;
+   
    private String verify;
    
    @IfInvalid(outcome=REDISPLAY)
@@ -41,10 +48,17 @@ public class ChangePasswordAction
       else 
       {
          log.info("password not verified");
+         facesContext.addMessage(null, new FacesMessage("Re-enter new password"));
          bookingDatabase.refresh(user);
          verify=null;
          return null;
       }
+   }
+
+   public String cancel()
+   {
+      user = (User) bookingDatabase.get(User.class, user.getUsername());
+      return "main";
    }
 
    public String getVerify()

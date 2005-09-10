@@ -7,6 +7,8 @@ import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 import javax.ejb.Interceptor;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -36,6 +38,9 @@ public class ChangePasswordAction implements ChangePassword
    @PersistenceContext
    private EntityManager em;
    
+   @In
+   private FacesContext facesContext;
+   
    private String verify;
    
    @IfInvalid(outcome=REDISPLAY)
@@ -50,10 +55,17 @@ public class ChangePasswordAction implements ChangePassword
       else 
       {
          log.info("password not verified");
+         facesContext.addMessage(null, new FacesMessage("Re-enter new password"));
          em.refresh(user);
          verify=null;
          return null;
       }
+   }
+   
+   public String cancel()
+   {
+      user = em.find(User.class, user.getUsername());
+      return "main";
    }
 
    public String getVerify()

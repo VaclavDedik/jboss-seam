@@ -7,6 +7,8 @@ import javax.ejb.Local;
 public interface ChangePassword
 {
    public String changePassword();
+   public String cancel();
+   
    public String getVerify();
    public void setVerify(String verify);
    
