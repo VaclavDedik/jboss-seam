@@ -15,9 +15,9 @@
    <property name="deploy.dir" value="${jboss.home}/server/default/deploy"/>
    <property name="output.classes.dir" value="${output.dir}/classes"/>
    <property name="output.war.dir" value="${output.dir}/war"/>
-   <property name="example.name" value="jboss-seam-booking"/>	
-	
-	
+   <property name="example.name" value="jboss-seam-booking"/>
+   
+   
    <!-- Build classpath -->
    <path id="classpath">
       <fileset dir="${basedir}/../../output">
@@ -67,51 +67,53 @@
          <classpath refid="classpath"/>
       </javac>
     </target>
-   	
-   	
+      
+      
 
    <target name="war" depends="compile">
      <jar destfile="${output.dir}/${example.name}.war">
-     	<zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
-     	<zipfileset dir="${resources.dir}/jsp"/>
-	<zipfileset dir="${resources.dir}/view"/>
+        <zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
+        <zipfileset dir="${resources.dir}/jsp"/>
+       <zipfileset dir="${resources.dir}/view"/>
         <fileset dir="${resources.dir}">
            <include name="seam.properties"/>
         </fileset>
+     	<!-- This is bad! -->
         <zipfileset dir="${basedir}/../../src/resources/META-INF" prefix="WEB-INF">
            <include name="jboss-seam.tld"/>
         </zipfileset>
-        <!-- zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
-           <include name="jboss-seam.jar"/>
-        </zipfileset -->
      </jar>
    </target>
-	
+   
    <target name="ejb3" depends="compile">
       <jar jarfile="${output.dir}/${example.name}.ejb3">
          <fileset dir="${output.classes.dir}">
             <include name="**/*.class"/>
          </fileset>
-        <fileset dir="${resources.dir}">
+         <fileset dir="${resources.dir}">
             <include name="import.sql"/>
-        	<include name="META-INF/persistence.xml"/>
-        </fileset>
+         	<include name="seam.properties"/>
+            <include name="META-INF/persistence.xml"/>
+         </fileset>
+         <zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
+            <include name="jboss-seam.jar"/>
+         </zipfileset>
       </jar>
    </target>
 
    <target name="ear" depends="ejb3, war">
      <jar destfile="${output.dir}/${example.name}.ear">
-   	   <zipfileset dir="${output.dir}">
-   	     <include name="${example.name}.ejb3"/>
-       </zipfileset>
-   	   <zipfileset dir="${output.dir}">
-   	     <include name="${example.name}.war"/>
-   	   </zipfileset>
-   	   <zipfileset dir="${resources.dir}/META-INF" prefix="META-INF"/>
-   	 </jar>
+         <zipfileset dir="${output.dir}">
+            <include name="${example.name}.ejb3"/>
+         </zipfileset>
+         <zipfileset dir="${output.dir}">
+            <include name="${example.name}.war"/>
+         </zipfileset>
+         <zipfileset dir="${resources.dir}/META-INF" prefix="META-INF"/>
+       </jar>
    </target>
-	
-	
+   
+   
    <target name="deploy" depends="ear">
      <copy file="${output.dir}/${example.name}.ear" todir="${deploy.dir}"/>
    </target>
