@@ -10,9 +10,7 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Jndi;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Tm;
-import org.jboss.seam.example.noejb.Booking;
 import org.jboss.seam.example.noejb.ChangePasswordAction;
-import org.jboss.seam.example.noejb.Hotel;
 import org.jboss.seam.example.noejb.User;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
@@ -177,7 +175,7 @@ public class ChangePasswordTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.SESSION_FACTORY_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(Jndi.class, Tm.class, Hibernate.class, ChangePasswordAction.class, User.class, Booking.class, Hotel.class);
+      String classNames = Strings.toString(Jndi.class, Tm.class, Hibernate.class);
       initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
       initParams.put(Init.DATA_SOURCE_NAMES, "java:bookingDatasource");
       initParams.put("java:bookingDatasource.driverClass", "org.hsqldb.jdbcDriver");

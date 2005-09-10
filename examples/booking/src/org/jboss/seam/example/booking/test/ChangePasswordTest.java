@@ -6,15 +6,11 @@ import java.util.Map;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Ejb;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.example.booking.Booking;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.ChangePassword;
-import org.jboss.seam.example.booking.ChangePasswordAction;
-import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
-import org.jboss.seam.util.Strings;
 import org.testng.annotations.Test;
 
 public class ChangePasswordTest extends SeamTest
@@ -174,8 +170,7 @@ public class ChangePasswordTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(Ejb.class, ChangePasswordAction.class, User.class, Booking.class, Hotel.class);
-      initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
+      initParams.put(Init.COMPONENT_CLASS_NAMES, Ejb.class.getName());
    }
    
 }

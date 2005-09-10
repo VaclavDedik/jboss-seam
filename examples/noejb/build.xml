@@ -75,6 +75,9 @@
        <zipfileset dir="${output.dir}" prefix="WEB-INF/lib">
          <include name="${example.name}.jar"/>
        </zipfileset>
+       <zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
+         <include name="jboss-seam.jar"/>
+       </zipfileset>
        <zipfileset dir="${resources.dir}/view"/>
        <fileset dir="${resources.dir}">
          <include name="seam.properties"/>
@@ -93,6 +96,7 @@
         <fileset dir="${resources.dir}">
           <include name="import.sql"/>
           <include name="hibernate.cfg.xml"/>
+        	<include name="seam.properties"/>
         </fileset>
       </jar>
    </target>

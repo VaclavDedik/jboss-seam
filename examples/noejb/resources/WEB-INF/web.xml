@@ -7,7 +7,7 @@
     <!-- Seam -->
    
     <listener>
-        <listener-class>org.jboss.seam.servlet.SeamJBossStartupListener</listener-class>
+        <listener-class>org.jboss.seam.servlet.SeamStartupListener</listener-class>
     </listener>
 
     <context-param>
@@ -22,7 +22,7 @@
 
     <context-param>
         <param-name>org.jboss.seam.core.init.componentClassNames</param-name>
-        <param-value>org.jboss.seam.core.Hibernate org.jboss.seam.example.noejb.User org.jboss.seam.example.noejb.Hotel org.jboss.seam.example.noejb.Booking org.jboss.seam.example.noejb.LoginAction org.jboss.seam.example.noejb.LogoutAction org.jboss.seam.example.noejb.HotelBookingAction org.jboss.seam.example.noejb.BookingListAction org.jboss.seam.example.noejb.RegisterAction org.jboss.seam.example.noejb.ChangePasswordAction</param-value>
+        <param-value>org.jboss.seam.core.Hibernate</param-value>
     </context-param>
     
     <filter>

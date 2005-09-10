@@ -11,17 +11,14 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Ejb;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.BookingList;
-import org.jboss.seam.example.booking.BookingListAction;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
-import org.jboss.seam.example.booking.HotelBookingAction;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
-import org.jboss.seam.util.Strings;
 import org.testng.annotations.Test;
 
 public class BookingTest extends SeamTest
@@ -237,8 +234,7 @@ public class BookingTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
-      String classNames = Strings.toString(Ejb.class, HotelBookingAction.class, BookingListAction.class, User.class, Booking.class, Hotel.class);
-      initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
+      initParams.put(Init.COMPONENT_CLASS_NAMES, Ejb.class.getName());
    }
    
 }
