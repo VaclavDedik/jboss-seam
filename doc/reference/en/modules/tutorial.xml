@@ -20,12 +20,12 @@
     <itemizedlist>
   		<listitem>
 			  <para>
-				  <filename>exemples/<replaceable>registration</replaceable>/resources</filename>: for	all resources
+				  <filename>examples/<replaceable>registration</replaceable>/resources</filename>: for all resources
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-				  <filename>exemples/<replaceable>registration</replaceable>/src</filename>: for java
+				  <filename>examples/<replaceable>registration</replaceable>/src</filename>: for java
 					sources
 			  </para>
 			</listitem>
@@ -470,7 +470,7 @@ public class RegisterAction implements Register
     <!-- Seam -->
     
     <listener>
-        <listener-class>org.jboss.seam.servlet.SeamJBossStartupListener</listener-class>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
 
     <filter>
@@ -554,8 +554,8 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         <indexterm><primary>phase listener</primary></indexterm>
         
         <para>
-          The second part of the file is mandatory if you are using JSF with Seam, the <literal>variable resolver</literal> and <literal>phase listener</literal>
-          must be set to use the Seam classes.
+          The second part of the file is mandatory if you are using JSF with Seam, the <literal>variable resolver</literal> 
+          and <literal>phase listener</literal> must be set to use the Seam classes.
         </para>
         
       </section>

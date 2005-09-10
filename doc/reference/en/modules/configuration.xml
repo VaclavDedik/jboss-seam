@@ -1,11 +1,11 @@
 <chapter id="configuration">
 	<title>Configuring Seam</title>
 	<para>
-        Seam itself is extremely easy to configure. However, several lines of XML
-        are required to integrate Seam into your JSF implementation and servlet
-        container. There's no need to be too put off by the next section, this
-        configuration is identical for every Seam application, so you can just 
-        copy and paste from one of the example apps!
+        Configuration is a very boring topic and an extremely tedious pastime. 
+        Unfortunately, several lines of XML are required to integrate Seam into 
+        your JSF implementation and servlet container. There's no need to be too 
+        put off by the following sections; you'll never need to type any of this stuff
+        yourself, since you can just cope and paste from the example applications!
     </para>
     
     <sect1>
@@ -67,6 +67,13 @@
             Java EE container that supports EJB 3.0.
         </para>
         
+        <para>
+            I really wish that was all there was to say on the topic of configuration but unfortunately 
+            we're only about a third of the way there. If you're too overwhelmed by all this tedious 
+            configuration stuff, feel free to skip over the rest of this section and come back to it 
+            later.
+        </para>
+        
     </sect1>
     
     <sect1>
@@ -108,7 +115,99 @@
     </sect1>
     
     <sect1>
-        <title>Configuring Seam with Hibernate</title>
+    	<title>Seam managed transactions</title>
+    	<para>
+    	    EJB session beans feature declarative transaction management. The EJB container is able
+    	    to start a transaction transparently when the bean is invoked, and end it when the
+    	    invocation ends. If we write a session bean method that acts as a JSF action listener, 
+    	    we can do all the work associated with that action in one transaction, and be sure that
+    	    it is committed or rolled back when we finish processing the action. This is a great feature, 
+    	    and all that is needed by many Seam applications.
+    	</para>
+    	
+    	<para>
+    	    There is just one problem with this approach. ORM solutions like Hibernate and EJB 3.0
+    	    persistence support lazy fetching of entity associations inside a transaction context, 
+    	    but throw <literal>LazyInitializationException</literal>s if you try to access an unfetched
+    	    association outside the context of a transaction. This is a problem if your view page
+    	    tries to access data that was not fetched during the transaction. Hibernate users developed 
+    	    the <emphasis>open session in view</emphasis> pattern to work around this problem. This
+    	    pattern is usually implemented as a transaction which spans the entire request. There are
+    	    several problems with this idea, the most serious being that we can't be sure that a
+    	    transaction has been successful until we commit it, but by the time we commit the transaction,
+    	    we have already rendered the view. Furthermore, this is at best a partial solution to the
+    	    problem, because we can still meet the dreaded <literal>LazyInitializationException</literal>
+    	    if we try to re-use the entity object in the next request.
+    	</para>
+    	
+    	<para>
+    	    Seam <emphasis>completely solves</emphasis> the problem of unwanted
+    	    <literal>LazyInitializationException</literal>s, while working around the biggest problem
+    	    in the <emphasis>open session in view</emphasis> pattern. The solution comes in two parts:
+    	</para>
+    	
+    	<itemizedlist>
+    		<listitem>
+    			<para>
+    			    use an extended persistence context that is scoped to the conversation, 
+    			    instead of to the request
+    			</para>
+    		</listitem>
+    		<listitem>
+    			<para>
+    			    use two transactions per request; the first spans the beginning of the update model
+    			    values phase until the end of the invoke application phase; the second spans the
+    			    render response phase
+    			</para>
+    		</listitem>
+    	</itemizedlist>
+    	
+    	<para>
+    	    To make use of <emphasis>Seam managed transactions</emphasis>, you need to use 
+    	    <literal>SeamExtendedManagedPersistencePhaseListener</literal> in place of
+    	    <literal>SeamPhaseListener</literal>.
+    	</para>
+    	
+        <programlisting><![CDATA[<lifecycle>
+     <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+</lifecycle>]]></programlisting>
+
+        <para>
+            You also need to use a <emphasis>managed persistence context</emphasis> (for EJB3) or
+            <emphasis>managed session</emphasis> (for Hibernate) in your components. We'll see how to 
+            use a managed session later. Configuring a managed persistence context is easy. In
+            <literal>seam.properties</literal>, we can write:
+        </para>
+
+        <programlisting><![CDATA[org.jboss.seam.init.persistenceUnitNames bookingDatabase]]></programlisting>
+        
+        <para>
+            Or, in <literal>web.xml</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<context-param>
+    <param-name>org.jboss.seam.init.persistenceUnitNames</param-name>
+    <param-value>bookingDatabase</param-value>
+</context-param>]]></programlisting>
+
+        <para>
+            This alerts Seam to the existence of an EJB 3.0 persistence unit (an 
+            <literal>EntityManagerFactory</literal> instance) named <literal>bookingDatabase</literal>,
+            and creates a conversation-scoped Seam component also named <literal>bookingDatabase</literal>
+            that manages the lifecycle of <literal>EntityManager</literal> instances for that persistence 
+            unit.
+        </para>
+        
+        <para>
+            Now we can have our <literal>EntityManager</literal> injected using:
+        </para>
+
+        <programlisting><![CDATA[@In(create=true) EntityManager bookingDatabase;]]></programlisting>
+                
+    </sect1>
+    
+    <sect1>
+        <title>Configuring Seam with Hibernate in Java EE</title>
         <para>
             Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. In this 
             case you would use Hibernate3 instead of EJB 3.0 persistence, and plain JavaBeans
@@ -119,54 +218,74 @@
         </para>
         
         <para>
-            Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
-            <literal>hibernate.cfg.xml</literal> file if you install the built-in component
-            named <literal>org.jboss.seam.core.hibernate</literal>. As usual, you have a 
-            choice between <literal>seam.properties</literal> and <literal>web.xml</literal>.
+            Seam JavaBean components do not provide declarative transaction demarcation like session
+            beans do. You <emphasis>could</emphasis> manage your transactions manually using the
+            JTA <literal>UserTransaction</literal> (you could even implement your own declarative
+            transaction management in a Seam interceptor). But most applications will use Seam managed 
+            transactions when using Hibernate with JavaBeans.
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Hibernate]]></programlisting>
+        <para>
+            Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
+            <literal>hibernate.cfg.xml</literal> file if you install the built-in component
+            named <literal>org.jboss.seam.core.hibernate</literal>. This component bootstraps
+            the <literal>SessionFactory</literal>. You will also need to a configure a <emphasis>managed
+            session</emphasis>. As usual, you have a choice between <literal>seam.properties</literal> 
+            and <literal>web.xml</literal>.
+        </para>
+        
+        <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Hibernate
+org.jboss.seam.init.sessionFactoryNames bookingDatabase]]></programlisting>
 
         <programlisting><![CDATA[<context-param>
     <param-name>org.jboss.seam.init.componentClassNames</param-name>
     <param-value>org.jboss.seam.core.Hibernate</param-value>
+</context-param>
+
+<context-param>
+    <param-name>org.jboss.seam.init.sessionFactoryNames</param-name>
+    <param-value>bookingDatabase</param-value>
 </context-param>]]></programlisting>
 
         <para>
-            There Seam distribution includes a version of the booking example application that 
+            Where <literal>bookingDatabase</literal> is the name of the session factory given in
+            <literal>hibernate.cfg.xml</literal>. You can now have a managed Hibernate 
+            <literal>Session</literal> injected into your JavaBean using the following code:
+        </para>
+        
+        <programlisting><![CDATA[@In(create=true) Session bookingDatabase;]]></programlisting>
+
+        <para>
+            The Seam distribution includes a version of the booking example application that 
             uses Hibernate and JavaBeans instead of EJB3. This example application is ready to 
             deploy into any J2EE application server. If we want to deploy in a non-J2EE environment
             like Tomcat or TestNG, we need to do a little bit more work.
         </para>
 
+    </sect1>
+    
+    <sect1>
+        <title>Configuring Seam with Hibernate in Java SE</title>
         <para>
             The Seam support for Hibernate requires JTA and a JCA datasource. If you are running in
-            a non-EE environment like Tomcat, you'll need to install Seam's built-in JNDI and
-            JTA components, and configure the datasource. Let's just show the properties file
+            a non-EE environment like Tomcat or TestNG, you'll need to install Seam's built-in JNDI 
+            and JTA components and configure the datasource. Let's just show the properties file
             this time:
         </para>
 
         <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Hibernate, org.jboss.seam.core.Jndi, org.jboss.seam.core.Jta
+org.jboss.seam.init.dataSourceNames bookingDataSource
+org.jboss.seam.init.sessionFactoryNames bookingDatabase
 
-org.jboss.seam.init.dataSourceNames bookingDatabase
-
-bookingDatabase.driverClass org.hsqldb.jdbcDriver
-bookingDatabase.connectionUrl jdbc:hsqldb:.
-bookingDatabase.userName sa]]></programlisting>
+bookingDataSource.driverClass org.hsqldb.jdbcDriver
+bookingDataSource.connectionUrl jdbc:hsqldb:.
+bookingDataSource.userName sa]]></programlisting>
 
         <para>
-            Seam JavaBean components do not provide declarative transaction demarcation like session
-            beans do. You <emphasis>could</emphasis> manage your transactions manually using the
-            JTA <literal>UserTransaction</literal> (you could even implement your own declarative
-            transaction management in a Seam interceptor). But most applications will use a cool
-            feature called <emphasis>Seam managed transactions</emphasis>.
+            There are several other available datasource configuration parameters. Refer to the JavaDoc
+            for the class <literal>org.jboss.seam.core.ManagedDataSource</literal> for further details.
         </para>
-        
-    </sect1>
-    
-    <sect1>
-    	<title>Seam managed transactions</title>
-    	
-    </sect1>
+
+    </sect1>    	
     
 </chapter>

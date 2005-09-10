@@ -516,7 +516,7 @@ public class User {
             <para>
                 The configurable Seam component must expose a JavaBeans-style property
                 setter methods for the configurable attributes. If a seam component named
-                <literal>"com.jboss.myapp.settings"</literal> has a setter method named 
+                <literal>com.jboss.myapp.settings</literal> has a setter method named 
                 <literal>setLocale()</literal>, we can provide a property named
                 <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal>
                 file or as a servlet context parameter, and Seam will set the value of the 
