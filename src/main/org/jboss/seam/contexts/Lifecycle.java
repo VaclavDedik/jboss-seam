@@ -56,7 +56,11 @@ public class Lifecycle
       {
          for (String dependency: component.getDependencies() )
          {
-            startup( Component.forName(dependency) );
+            Component dependentComponent = Component.forName(dependency);
+            if (dependentComponent!=null)
+            {
+               startup( dependentComponent );
+            }
          }
       }
       Component.getInstance( component.getName(), true );

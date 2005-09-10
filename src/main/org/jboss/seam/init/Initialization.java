@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -22,6 +23,7 @@ import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.Reflections;
 
 public class Initialization
@@ -30,6 +32,7 @@ public class Initialization
    
    private Map<String, String> properties = new HashMap<String, String>();
    private ServletContext servletContext;
+   private boolean isScannerEnabled = true;
 
    public Initialization(ServletContext servletContext)
    {
@@ -125,7 +128,18 @@ public class Initialization
       {
          addComponent( ManagedJbpmSession.class, context );
       }
-
+      
+      if (isScannerEnabled)
+      {
+         for ( Class clazz: new Scanner().getClasses() )
+         {
+            if (clazz.isAnnotationPresent(Name.class) )
+            {
+               addComponent(clazz, context);
+            }
+         }
+      }
+      
    }
 
    protected void addComponent(String name, Class clazz, Context context)
@@ -136,6 +150,17 @@ public class Initialization
    protected void addComponent(Class clazz, Context context)
    {
       context.set( Seam.getComponentName(clazz) + ".component", new Component(clazz) );
+   }
+
+   public boolean isScannerEnabled()
+   {
+      return isScannerEnabled;
+   }
+
+   public Initialization setScannerEnabled(boolean isScannerEnabled)
+   {
+      this.isScannerEnabled = isScannerEnabled;
+      return this;
    }
 
 }

@@ -5,7 +5,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.init.JBossInitialization;
+import org.jboss.seam.init.Initialization;
 
 /**
  * Boostraps Seam inside JBoss
@@ -20,7 +20,7 @@ public class SeamJBossStartupListener implements ServletContextListener
    public void contextInitialized(ServletContextEvent event) 
    {
       log.info("Welcome to Seam on JBoss");
-      new JBossInitialization( event.getServletContext() ).init();
+      new Initialization( event.getServletContext() ).init();
    }
 
    public void contextDestroyed(ServletContextEvent event) {}
