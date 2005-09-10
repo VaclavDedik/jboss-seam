@@ -77,12 +77,6 @@
         <fileset dir="${resources.dir}">
            <include name="seam.properties"/>
         </fileset>
-        <zipfileset dir="${basedir}/../../src/resources/META-INF" prefix="WEB-INF">
-           <include name="jboss-seam.tld"/>
-        </zipfileset>
-        <!--zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
-           <include name="jboss-seam.jar"/>
-        </zipfileset-->
      </jar>
    </target>
 	
@@ -93,8 +87,12 @@
          </fileset>
         <fileset dir="${resources.dir}">
             <include name="import.sql"/>
+        	<include name="seam.properties"/>
         	<include name="META-INF/persistence.xml"/>
         </fileset>
+        <zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
+           <include name="jboss-seam.jar"/>
+        </zipfileset>
       </jar>
    </target>
 

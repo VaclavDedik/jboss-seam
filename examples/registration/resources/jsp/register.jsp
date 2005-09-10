@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
  <head>
-  <title>Register</title>
+  <title>Register New User</title>
  </head>
  <body>
   <f:view>
@@ -21,7 +21,7 @@
          <td><h:inputSecret value="#{user.password}"/></td>
        </tr>
      </table>
-     </table>
+     <h:messages/>
      <h:commandButton type="submit" value="Register" action="#{register.register}"/>
    </h:form>
   </f:view>

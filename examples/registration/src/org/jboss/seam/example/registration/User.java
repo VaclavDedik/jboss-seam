@@ -7,13 +7,17 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
 @Entity
 @Name("user")
 @Scope(SESSION)
+@Table(name="users")
 public class User implements Serializable
 {
    private static final long serialVersionUID = 1881413500711441951L;
@@ -30,7 +34,8 @@ public class User implements Serializable
    }
    
    public User() {}
-
+   
+   @NotNull
    public String getName()
    {
       return name;
@@ -41,6 +46,7 @@ public class User implements Serializable
       this.name = name;
    }
    
+   @NotNull @Length(min=5, max=15)
    public String getPassword()
    {
       return password;
@@ -51,7 +57,7 @@ public class User implements Serializable
       this.password = password;
    }
    
-   @Id
+   @Id @NotNull @Length(min=5, max=15)
    public String getUsername()
    {
       return username;
