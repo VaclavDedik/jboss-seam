@@ -57,7 +57,7 @@ public class ChangePasswordAction
 
    public String cancel()
    {
-      user = (User) bookingDatabase.get(User.class, user.getUsername());
+      bookingDatabase.refresh(user);
       return "main";
    }
 

@@ -56,7 +56,7 @@ public class ChangePasswordAction implements ChangePassword
       {
          log.info("password not verified");
          facesContext.addMessage(null, new FacesMessage("Re-enter new password"));
-         em.refresh(user);
+         revertUser();
          verify=null;
          return null;
       }
@@ -64,8 +64,13 @@ public class ChangePasswordAction implements ChangePassword
    
    public String cancel()
    {
-      user = em.find(User.class, user.getUsername());
+      revertUser();
       return "main";
+   }
+
+   private void revertUser()
+   {
+      user = em.find(User.class, user.getUsername());
    }
 
    public String getVerify()
