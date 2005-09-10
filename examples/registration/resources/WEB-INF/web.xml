@@ -8,7 +8,7 @@
     <!-- Seam -->
     
     <listener>
-        <listener-class>org.jboss.seam.servlet.SeamStartupListener</listener-class>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
 
     <context-param>
