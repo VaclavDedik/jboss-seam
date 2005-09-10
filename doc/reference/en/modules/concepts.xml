@@ -347,7 +347,7 @@
                 session bean action listener to implement create/update/delete type functionality.
             </para>
             <para>
-                By default, entity beans are bound to the conversation context.
+                By default, entity beans are bound to the event context.
             </para>
         </sect2>
 
@@ -420,7 +420,7 @@ public class LoginAction implements Login {
                 to bind a component to some other context variable by programmatic API call. This is
                 only useful if a particular component serves more than one role in the system. For
                 example, the currently logged in <literal>User</literal> might be bound to the
-                <literal>currentUser</literal> session context variable, while an <literal>User</literal>
+                <literal>currentUser</literal> session context variable, while a <literal>User</literal>
                 that is the subject of some administration functionality might be bound to the
                 <literal>user</literal> conversation context variable.
             </para>
@@ -473,10 +473,36 @@ public class User {
             <para>
                 Like many good frameworks, Seam eats its own dogfood and is implemented mostly as
                 a set of built-in Seam interceptors (see later) and Seam components. This makes it
-                easy for applications to customize the basic functionality of Seam by replacing the
-                built-in implementations with custom implementations, or interact with built-in 
-                components at runtime. The built-in components are defined in the Seam namespace 
+                easy for applications to interact with built-in components at runtime or even 
+                customize the basic functionality of Seam by replacing the built-in components with 
+                custom implementations. The built-in components are defined in the Seam namespace 
                 <literal>org.jboss.seam.core</literal> and the Java package of the same name.
+            </para>
+            <para>
+                Seam was designed to integrate tightly in a Java EE 5 environment. However, 
+                we understand that there are many projects which are not running in a full EE
+                environment, and at the time of writing, Java EE 5 is not yet final. We also
+                realize the critical importance of easy unit and integration testing using 
+                frameworks such as TestNG and JUnit. So, we've made it easy to run Seam in Java SE
+                environments by allowing you to boostrap certain critical infrastructure normally
+                only found in EE environments by installing built-in Seam components.
+            </para>
+            <para>
+                For example, you can run your EJB3 components in Tomcat or an integration test suite 
+                just by installing the built-in component <literal>org.jboss.seam.ejb</literal>,
+                which automatically bootstraps the JBoss Embeddable EJB3 container and deploys your
+                EJB components.
+            </para>
+            <para>
+                Or, if you're not quite ready for the Brave New World of EJB 3.0, you can write
+                a Seam application that uses only JavaBean components, together with Hibernate3
+                for persistence, by installing the built-in component 
+                <literal>org.jboss.seam.hibernate</literal>. When using Hibernate outside of a 
+                J2EE environment, you will also probably need a JTA transaction manager and JNDI 
+                server, which are available via the built-in components 
+                <literal>org.jboss.seam.jta</literal> and <literal>org.jboss.seam.jndi</literal>. 
+                This lets you use the bulletproof JTA/JCA pooling datasource from JBoss application 
+                server in an SE environment like Tomcat!
             </para>
         </sect2>
 
@@ -488,19 +514,22 @@ public class User {
                 root of the classpath.
             </para>
             <para>
-                The Seam component must expose a JavaBeans-style property
+                The configurable Seam component must expose a JavaBeans-style property
                 setter methods for the configurable attributes. If a seam component named
-                <literal>"com.jboss.myapp.settings"</literal> has a setter
-                method named <literal>setLocale()</literal>, we can provide a property named
+                <literal>"com.jboss.myapp.settings"</literal> has a setter method named 
+                <literal>setLocale()</literal>, we can provide a property named
                 <literal>com.jboss.myapp.settings.locale</literal> in the <literal>seam.properties</literal>
                 file or as a servlet init param, and Seam will set the value of the 
                 <literal>locale</literal> attribute whenever it instantiates the component.
             </para>
             <para>
+                Note that it is not possible to configure stateless session beans or entity beans.
+            </para>
+            <para>
                 The same mechanism is used to configure Seam itself. For example, to set the conversation
                 timeout, we provide a value for <literal>org.jboss.seam.core.manager.conversationTimeout</literal>
                 in <literal>web.xml</literal> or <literal>seam.properties</literal>. (There is a built-in
-                Seam component named <literal>"org.jboss.seam.core.manager"</literal> with a setter method 
+                Seam component named <literal>org.jboss.seam.core.manager</literal> with a setter method 
                 named <literal>setConversationTimeout()</literal>.)
             </para>
         </sect2>
@@ -551,7 +580,7 @@ public class User {
 
         <para>
             In essence, bijection lets you alias a context variable to a component instance variable,
-            by specifying that the value of that context variable is injected, outjected, or both. Of course,
+            by specifying that the value of the instance variable is injected, outjected, or both. Of course,
             we use annotations to enable bijection.
         </para>
         
@@ -588,14 +617,14 @@ public class LoginAction implements Login {
 
         <para>
             By default, Seam will do a priority search of all contexts, using the name of the property
-            or instance variable that is being injected. You may wish to specify the contextual variable
+            or instance variable that is being injected. You may wish to specify the context variable
             name explicitly, using, for example, <literal>@In("currentUser")</literal>.
         </para>
 
         <para>
             If you want Seam to create an instance of the component when there is no existing component
-            instance bound to that name, you should specify <literal>@In(create=true)</literal>. If the
-            value is optional (cannot be null), specify <literal>@In(required=false)</literal>. 
+            instance bound to the named context variable, you should specify <literal>@In(create=true)</literal>. 
+            If the value is optional (it can be null), specify <literal>@In(required=false)</literal>. 
         </para>
         
         <para>
