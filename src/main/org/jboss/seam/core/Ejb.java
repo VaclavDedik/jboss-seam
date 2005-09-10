@@ -40,7 +40,7 @@ public class Ejb
       EJB3StandaloneBootstrap.boot(null);
 
       deployer = new EJB3StandaloneDeployer();
-      deployer.getArchivesByResource().add("META-INF/persistence.xml");
+      deployer.getArchivesByResource().add("seam.properties");
 
       // need to set the InitialContext properties that deployer will use
       // to initial EJB containers
