@@ -82,9 +82,9 @@
        <fileset dir="${resources.dir}">
          <include name="seam.properties"/>
        </fileset>
-       <zipfileset dir="${basedir}/../../src/resources/META-INF" prefix="WEB-INF">
+       <!--zipfileset dir="${basedir}/../../src/resources/META-INF" prefix="WEB-INF">
          <include name="jboss-seam.tld"/>
-       </zipfileset>
+       </zipfileset-->
      </jar>
    </target>
     
@@ -101,7 +101,7 @@
       </jar>
    </target>
 
-   <target name="ear" depends="war">
+   <!--target name="ear" depends="war">
      <jar destfile="${output.dir}/${example.name}.ear">
        <zipfileset dir="${output.dir}">
           <include name="${example.name}.ejb3"/>
@@ -111,12 +111,12 @@
        </zipfileset>
        <zipfileset dir="${resources.dir}/META-INF" prefix="META-INF"/>
      </jar>
-   </target>
+   </target-->
     
     
-   <target name="deploy" depends="ear">
+   <target name="deploy" depends="war">
    	 <copy file="${resources.dir}/booking-ds.xml" todir="${deploy.dir}"/>
-     <copy file="${output.dir}/${example.name}.ear" todir="${deploy.dir}"/>
+     <copy file="${output.dir}/${example.name}.war" todir="${deploy.dir}"/>
    </target>
 
    <!-- =================================================================== -->
