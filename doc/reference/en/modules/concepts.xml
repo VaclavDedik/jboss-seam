@@ -678,7 +678,7 @@ public class LoginAction implements Login {
             or:
         </para>
         
-            <programlisting><![CDATA[@Name("loginAction")
+        <programlisting><![CDATA[@Name("loginAction")
 @Stateless
 @Interceptor(SeamInterceptor.class)
 public class LoginAction implements Login { 
@@ -696,6 +696,90 @@ public class LoginAction implements Login {
     
     ... 
 }]]></programlisting>
+
+    </sect1>
+    
+    <sect1>
+    	<title>Seam interceptors</title>
+    	<para>
+    		EJB 3.0 introduced a standard interceptor model for session bean components. To add an
+    		interceptor to a bean, you need to write a class with a method annotated 
+    		<literal>@AroundInvoke</literal> and annotate the bean with an
+    		<literal>@Interceptor</literal> annotation that specifies the name of the interceptor
+    		class. For example, the following interceptor checks that the user is logged in before
+    		allowing invoking an action listener method:
+    	</para>
+    	
+    	<programlisting><![CDATA[public class LoggedInInterceptor {
+
+   @AroundInvoke
+   public Object checkLoggedIn(InvocationContext invocation) throws Exception {
+   
+      boolean isLoggedIn = Contexts.getSessionContext().get("loggedIn")!=null;
+      if (isLoggedIn) {
+         //the user is already logged in
+         return invocation.proceed();
+      }
+      else {
+         //the user is not logged in, fwd to login page
+         return "login";
+      }
+   }
+
+}]]></programlisting>
+
+		<para>
+		    To apply this interceptor to a session bean which acts as an action listener, we must
+		    annotate the session bean <literal>@Interceptor(LoggedInInterceptor.class)</literal>.
+		    This is a somewhat ugly annotation. Seam builds upon the interceptor framework in
+		    EJB3 by allowing you to use <literal>@Interceptor</literal> as a meta-annotation. In
+		    our example, we would create an <literal>@LoggedIn</literal> annotation, as follows:
+		</para>
+    	
+    	<programlisting><![CDATA[@Target(TYPE)
+@Retention(RUNTIME)
+@Interceptor(LoggedInInterceptor.class)
+public @interface LoggedIn {}]]></programlisting>
+
+        <para>
+            We can now simply annotate our action listener bean with <literal>@LoggedIn</literal>
+            to apply the interceptor.
+        </para>
+        
+        <programlisting><![CDATA[@Stateless
+@Name("changePasswordAction")
+@LoggedIn
+@Interceptor(SeamInterceptor.class)
+public class ChangePasswordAction implements ChangePassword { 
+    
+    ...
+    
+    public String changePassword() { ... }
+    
+}]]></programlisting>
+
+        <para>
+            If interceptor ordering is important (it usually is), you can add 
+            <literal>@Within</literal> and <literal>@Around</literal> annotations to your
+            interceptor classes to specify a partial order of interceptors.
+        </para>
+        
+<programlisting><![CDATA[@Around({BijectionInterceptor.class, ValidationInterceptor.class, ConversationInterceptor.class})
+@Within(RemoveInterceptor.class)
+public class LoggedInInterceptor
+{
+    ...
+}]]></programlisting>
+
+        <para>
+            Much of the functionality of Seam is implemented as a set of built-in Seam interceptors,
+            including the interceptors named in the previous example. You don't have to explicitly specify 
+            these interceptors by annotating your components; they exist for all interceptable Seam components.
+        </para>
+        
+        <para>
+            You can even use Seam interceptors with JavaBean components, not just EJB3 beans!
+        </para>
 
     </sect1>
     
