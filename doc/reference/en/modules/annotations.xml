@@ -1,277 +1,238 @@
 <chapter id="annotations">
-    <title>Seam's annotations</title>
+    <title>Seam annotations</title>
     
-    <para>On top of the EJB3 and hibernate annotation that are used, there are few specific annotations for Seam that are described in this chapter</para>
-    <section id="around-annotation">
-        <title>@Around</title>
-        <indexterm>
-            <primary>@Around</primary>
-            <see>Annotation/org.jboss.seam.annotations.Around</see>
-        </indexterm>
-        <indexterm>
-            <primary>around annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Around</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Around</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
+    <para>
+        When you write a Seam application, you'll use a lot of annotations. Seam lets you use
+        annotations to achieve a declarative style of programming. Most of the annotations you'll
+        use are defined by the EJB 3.0 specification. The annotations for data validation are
+        defined by the Hibernate Validator package. Finally, Seam defines its own set of
+        annotations, which we'll describe in this chapter.
+    </para>
+    
+    <para>
+        All of these annotations are defined in the package 
+        <literal>org.jboss.seam.annotations</literal>.
+    </para>
+    
+    <section>
+    	<title>Annotations for component definition</title>
+    	<para>
+    	    The first group of annotations lets you define a Seam component. These
+    	    annotations appear on the component class.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>@Name</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Name("componentName")]]></programlisting>
+                    <para>
+                        Define the Seam component name for a class. This annotation is 
+                        required for all Seam components.
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@Scope</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Name(ScopeType.CONVERSATION)]]></programlisting>
+                    <para>
+                        Define the default context of the component. The possible values
+                        are defined by the <literal>ScopeType</literal> enumeration:
+                        <literal>EVENT, CONVERSATION, SESSION, PROCESS, APPLICATION,
+                        STATELESS</literal>.
+                    </para>
+                    <para>
+                        When no scope is explicitly specified, the default depends upon
+                        the component type. For stateless session beans, the default
+                        is <literal>STATELESS</literal>. For entity beans and stateful
+                        session beans, the default is <literal>CONVERSATION</literal>.
+                        For java beans, the default is <literal>EVENT</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@Intercept</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Intercept(InterceptionType.ALWAYS)]]></programlisting>
+                    <para>
+                        Determines when Seam interceptors are active. The possible values
+                        are defined by the <literal>InterceptionType</literal> enumeration:
+                        <literal>ALWAYS, INVOKE_APPLICATION, NEVER</literal>.
+                    </para>
+                    <para>
+                        When no interception type is explicitly specified, the default depends 
+                        upon the component type. For entity beans, the default is 
+                        <literal>NEVER</literal>. For session beans and JavaBeans, the default 
+                        is <literal>INVOKE_APPLICATION</literal> (interception only enabled 
+                        during the JSF invoke application phase).
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@JndiName</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@JndiName("my/jndi/name")]]></programlisting>
+                    <para>
+                        Define the JNDI name of an EJB component.
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@Conversational</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Conversational(ifNotBegunOutcome="error")]]></programlisting>
+                    <para>
+                        Specifies that a conversation scope component is conversational,
+                        meaning that no method of the component can be called unless
+                        a long-running conversation is active (unless it the method would
+                        begin a new long-running conversations).
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>ifNotBegunOutcome</literal> &mdash; specifies a JSF
+                            outcome for the action when the component is invoked and no
+                            long-running conversation is active.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
+        </variablelist>
     </section>
-    <section id="begin-annotation">
-        <title>@Begin</title>
-        <indexterm>
-            <primary>@Begin</primary>
-            <see>Annotation/org.jboss.seam.annotations.Begin</see>
-        </indexterm>
-        <indexterm>
-            <primary>begin annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Begin</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Begin</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="beginif-annotation">
-        <title>@BeginIf</title>
-        <indexterm>
-            <primary>@BeginIf</primary>
-            <see>Annotation/org.jboss.seam.annotations.BeginIf</see>
-        </indexterm>
-        <indexterm>
-            <primary>beginIf annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.BeginIf</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.BeginIf</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="conversational-annotation">
-        <title>@Conversational</title>
-        <indexterm>
-            <primary>@Conversational</primary>
-            <see>Annotation/org.jboss.seam.annotations.Conversational</see>
-        </indexterm>
-        <indexterm>
-            <primary>conversational annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Conversational</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Conversational</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="create-annotation">
-        <title>@Create</title>
-        <indexterm>
-            <primary>@Create</primary>
-            <see>Annotation/org.jboss.seam.annotations.Create</see>
-        </indexterm>
-        <indexterm>
-            <primary>create annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Create</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Create</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="destroy-annotation">
-        <title>@Destroy</title>
-        <indexterm>
-            <primary>@Destroy</primary>
-            <see>Annotation/org.jboss.seam.annotations.Destroy</see>
-        </indexterm>
-        <indexterm>
-            <primary>destroy annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Destroy</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Destroy</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="end-annotation">
-        <title>@End</title>
-        <indexterm>
-            <primary>@End</primary>
-            <see>Annotation/org.jboss.seam.annotations.End</see>
-        </indexterm>
-        <indexterm>
-            <primary>end annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.End</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.End</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="endif-annotation">
-        <title>@EndIf</title>
-        <indexterm>
-            <primary>@EndIf</primary>
-            <see>Annotation/org.jboss.seam.annotations.EndIf</see>
-        </indexterm>
-        <indexterm>
-            <primary>endIf annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.EndIf</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.EndIf</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="ifinvalid-annotation">
-        <title>@IfInvalid</title>
-        <indexterm>
-            <primary>@IfInvalid</primary>
-            <see>Annotation/org.jboss.seam.annotations.IfInvalid</see>
-        </indexterm>
-        <indexterm>
-            <primary>ifInvalid annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.IfInvalid</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.IfInvalid</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="in-annotation">
-        <title>@In</title>
-        <indexterm>
-            <primary>@In</primary>
-            <see>Annotation/org.jboss.seam.annotations.In</see>
-        </indexterm>
-        <indexterm>
-            <primary>in annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.In</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.In</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="jndiname-annotation">
-        <title>@JndiName</title>
-        <indexterm>
-            <primary>@jndiName</primary>
-            <see>Annotation/org.jboss.seam.annotations.JndiName</see>
-        </indexterm>
-        <indexterm>
-            <primary>jndiName annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.JndiName</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.JndiName</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="name-annotation">
-        <title>@Name</title>
-        <indexterm>
-            <primary>@Name</primary>
-            <see>Annotation/org.jboss.seam.annotations.Name</see>
-        </indexterm>
-        <indexterm>
-            <primary>name annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Name</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Name</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="out-annotation">
-        <title>@Out</title>
-        <indexterm>
-            <primary>@Out</primary>
-            <see>Annotation/org.jboss.seam.annotations.Out</see>
-        </indexterm>
-        <indexterm>
-            <primary>out annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Out</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Out</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="outcome-annotation">
-        <title>@Outcome</title>
-        <indexterm>
-            <primary>@Outcome</primary>
-            <see>Annotation/org.jboss.seam.annotations.Outcome</see>
-        </indexterm>
-        <indexterm>
-            <primary>outcome annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Outcome</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Outcome</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="scope-annotation">
-        <title>@Scope</title>
-        <indexterm>
-            <primary>@Scope</primary>
-            <see>Annotation/org.jboss.seam.annotations.Scope</see>
-        </indexterm>
-        <indexterm>
-            <primary>scope annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Scope</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Scope</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="unwrap-annotation">
-        <title>@Unwrap</title>
-        <indexterm>
-            <primary>@Unwrap</primary>
-            <see>Annotation/org.jboss.seam.annotations.Unwrap</see>
-        </indexterm>
-        <indexterm>
-            <primary>unwrap annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Unwrap</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Unwrap</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
-    <section id="within-annotation">
-        <title>@Within</title>
-        <indexterm>
-            <primary>@Within</primary>
-            <see>Annotation/org.jboss.seam.annotations.Within</see>
-        </indexterm>
-        <indexterm>
-            <primary>within annotation</primary>
-            <see>Annotation/org.jboss.seam.annotations.Within</see>
-        </indexterm>
-        <indexterm>
-            <primary>Annotation</primary>
-            <secondary>@org.jboss.seam.annotations.Within</secondary>
-        </indexterm>
-        <para>TODO: Detail this annotation</para>
-    </section>
+
+    <section>
+    	<title>Annotations for bijection</title>
+    	<para>
+    	    The next two annotations control bijection. These attributes
+    	    occur on component instance variables or property accessor
+    	    methods.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>@In</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@In(value="contextVariableName", create=false, required=false)]]></programlisting>
+                    <para>
+                        Specifies that a component attribute is to be injected from a context 
+                        variable at the beginning of each component invocation.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; specifies the name of the
+                            context variable. Default to the name of the component
+                            attribute.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>create</literal> &mdash; specifies that Seam should
+                            instantiate the component with the same name as the context
+                            variable if the context variable is undefined (null) in all 
+                            contexts. Default to false.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>required</literal> &mdash; specifies Seam should throw
+                            an exception if the context variable is undefined in all contexts.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@Out</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Out(value="contextVariableName", required=false)]]></programlisting>
+                    <para>
+                        Specifies that a component attribute is to be outjected to a context 
+                        variable at the end of a component invocation.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; specifies the name of the
+                            context variable. Default to the name of the component
+                            attribute.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>required</literal> &mdash; specifies Seam should throw
+                            an exception if the component attribute is null during outjection.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+        <para>
+            Note that it is quite common for these annotations to occur together, for example:
+        </para>
+        
+        <programlisting><![CDATA[@In(create=true) @Out private User currentUser;]]></programlisting>
+        
+        <para>
+            The next annotation supports the <emphasis>manager component</emphasis> pattern,
+            where a Seam component to manages the lifecycle of an instance of some
+            other class that is to be injected. It appears on a component getter method.
+        </para>
+        
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>@Unwrap</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Unwrap]]></programlisting>
+                    <para>
+                        Specifies that the object returned by the annotated getter method is 
+                        the thing that is injected instead of the component instance itself.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+          
+    </section> 
+    
+    <section>
+    	<title>Annotations for component lifecycle methods</title>
+    	<para>
+    	    These annotations allow a component to react to its own lifecycle events.
+    	    They occur on methods of the component. There may be only one of each
+    	    per component class.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>@Create</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Create]]></programlisting>
+                    <para>
+                        Specifies that the method should be called when an instance
+                        of the component is instantiated by Seam.
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@Destroy</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Destroy]]></programlisting>
+                    <para>
+                        Specifies that the method should be called when the context ends and
+                        its context variables are destroyed.
+                    </para>
+                    <para>
+                        Note that all stateful session bean components <emphasis>must</emphasis>
+                        define a method annotated <literal>@Destroy @Remove</literal> in order
+                        to guarantee destruction of the stateful bean when a context ends.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+    </section> 
 </chapter>

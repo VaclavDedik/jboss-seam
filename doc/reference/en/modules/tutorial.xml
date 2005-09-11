@@ -921,4 +921,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
     <indexterm startref="booking-example" class="endofrange"/>
 
   </section>
+
+  <section id="dvdstore">
+    <title>A complete Seam application: the DVD store example</title>
+    <para>TODO</para>
+  </section>
+  
 </chapter>
