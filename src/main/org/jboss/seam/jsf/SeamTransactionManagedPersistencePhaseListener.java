@@ -60,11 +60,11 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
             if ( Transactions.isTransactionActive() )
             {
                Init settings = Init.instance();
-               for (String unitName : settings.getPersistenceUnitNames())
+               for (String unitName : settings.getManagedPersistenceContexts())
                {
                   flushEntityManager(unitName);
                }
-               for (String sfName : settings.getSessionFactoryNames())
+               for (String sfName : settings.getManagedSessions())
                {
                   flushSession(sfName);
                }

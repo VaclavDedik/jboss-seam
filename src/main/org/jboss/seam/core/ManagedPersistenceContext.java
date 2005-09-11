@@ -39,7 +39,11 @@ public class ManagedPersistenceContext implements Serializable
    @Create
    public void create(Component component)
    {
-      persistenceUnitName = component.getName();
+      if (persistenceUnitName==null)
+      {
+         persistenceUnitName = component.getName();
+      }
+      
       try
       {
          entityManager = getEntityManagerFactory(persistenceUnitName)
@@ -76,5 +80,15 @@ public class ManagedPersistenceContext implements Serializable
    public String toString()
    {
       return "ManagedPersistenceContext(" + persistenceUnitName + ")";
+   }
+
+   public String getPersistenceUnitName()
+   {
+      return persistenceUnitName;
+   }
+
+   public void setPersistenceUnitName(String persistenceUnitName)
+   {
+      this.persistenceUnitName = persistenceUnitName;
    }
 }

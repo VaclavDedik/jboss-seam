@@ -111,7 +111,7 @@ public class Initialization
       Init init = (Init) Component.getInstance(Init.class, true);
       
       //TODO: move all this stuff into Init component?
-      for ( String className : init.getComponentClassNames() )
+      for ( String className : init.getComponentClasses() )
       {
          try
          {
@@ -123,17 +123,17 @@ public class Initialization
          }
       }
 
-      for ( String dsName : init.getDataSourceNames() )
+      for ( String dsName : init.getManagedDataSources() )
       {
          addComponent( dsName, ManagedDataSource.class, context );
       }
 
-      for ( String unitName : init.getPersistenceUnitNames() )
+      for ( String unitName : init.getManagedPersistenceContexts() )
       {
          addComponent( unitName, ManagedPersistenceContext.class, context );
       }
 
-      for ( String sfName : init.getSessionFactoryNames() )
+      for ( String sfName : init.getManagedSessions() )
       {
          addComponent( sfName, ManagedHibernateSession.class, context );
       }

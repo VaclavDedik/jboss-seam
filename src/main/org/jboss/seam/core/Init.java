@@ -22,35 +22,35 @@ import org.jboss.seam.contexts.Contexts;
 public class Init
 {
    private static final String NAME = Seam.getComponentName(Init.class);
-   public static final String COMPONENT_CLASS_NAMES = NAME + ".componentClassNames";
-   public static final String PERSISTENCE_UNIT_NAMES = NAME + ".persistenceUnitNames";
-   public static final String SESSION_FACTORY_NAMES = NAME + ".sessionFactoryNames";
-   public static final String DATA_SOURCE_NAMES = NAME + ".dataSourceNames";
+   public static final String COMPONENT_CLASS_NAMES = NAME + ".componentClasses";
+   public static final String PERSISTENCE_UNIT_NAMES = NAME + ".managedPersistenceContexts";
+   public static final String SESSION_FACTORY_NAMES = NAME + ".managedSessions";
+   public static final String DATA_SOURCE_NAMES = NAME + ".managedDatasources";
    public static final String JBPM_SESSION_FACTORY_NAME = NAME + ".jbpmSessionFactoryName";
    
-   private String[] persistenceUnitNames = {};
-   private String[] sessionFactoryNames = {};
+   private String[] managedPersistenceContexts = {};
+   private String[] managedSessions = {};
    private String jbpmSessionFactoryName;
-   private String[] componentClassNames = {};
-   private String[] dataSourceNames = {};
+   private String[] componentClasses = {};
+   private String[] managedDataSources = {};
 
-   public String[] getPersistenceUnitNames()
+   public String[] getManagedPersistenceContexts()
    {
-      return persistenceUnitNames;
+      return managedPersistenceContexts;
    }
-   public void setPersistenceUnitNames(String[] persistenceUnitNames)
+   public void setManagedPersistenceContexts(String[] managedPersistenceContexts)
    {
-      this.persistenceUnitNames = persistenceUnitNames;
-   }
-
-   public String[] getSessionFactoryNames()
-   {
-      return sessionFactoryNames;
+      this.managedPersistenceContexts = managedPersistenceContexts;
    }
 
-   public void setSessionFactoryNames(String[] sessionFactoryNames)
+   public String[] getManagedSessions()
    {
-      this.sessionFactoryNames = sessionFactoryNames;
+      return managedSessions;
+   }
+
+   public void setManagedSessions(String[] managedSessions)
+   {
+      this.managedSessions = managedSessions;
    }
 
    public String getJbpmSessionFactoryName()
@@ -63,14 +63,14 @@ public class Init
       this.jbpmSessionFactoryName = jbpmSessionFactoryName;
    }
 
-   public String[] getComponentClassNames()
+   public String[] getComponentClasses()
    {
-      return componentClassNames;
+      return componentClasses;
    }
 
-   public void setComponentClassNames(String[] componentClassNames)
+   public void setComponentClasses(String[] componentClasses)
    {
-      this.componentClassNames = componentClassNames;
+      this.componentClasses = componentClasses;
    }
    
    public static Init instance()
@@ -78,14 +78,14 @@ public class Init
       return (Init) Contexts.getApplicationContext().get(Init.class);
    }
    
-   public String[] getDataSourceNames()
+   public String[] getManagedDataSources()
    {
-      return dataSourceNames;
+      return managedDataSources;
    }
    
-   public void setDataSourceNames(String[] datasourceNames)
+   public void setManagedDataSources(String[] datasourceNames)
    {
-      this.dataSourceNames = datasourceNames;
+      this.managedDataSources = datasourceNames;
    }
    
 }
