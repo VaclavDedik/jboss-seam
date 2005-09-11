@@ -15,6 +15,8 @@
     <property name="src.java.dir"       value="src/main"/>
 
     <property name="lib.dir"            value="lib"/>
+    <property name="eejb.lib.dir"       value="embedded-ejb/lib"/>
+    <property name="eejb.conf.dir"      value="embedded-ejb/conf"/>
 
     <property name="doc.dir"            value="doc"/>
     <property name="doc.api.dir"        value="${doc.dir}/api"/>
@@ -25,8 +27,11 @@
     <property name="dist.doc.dir"       value="${dist.dir}/doc"/>
     <property name="dist.api.dir"       value="${dist.dir}/doc/api"/>
     <property name="dist.ref.dir"       value="${dist.dir}/doc/reference"/>
-    <property name="dist.src.dir"       value="${dist.dir}/src"/>
+    <property name="dist.src.java.dir"  value="${dist.dir}/src/main"/>
     <property name="dist.lib.dir"       value="${dist.dir}/lib"/>
+    <property name="dist.eejb.lib.dir"  value="${dist.dir}/embedded-ejb/lib"/>
+    <property name="dist.eejb.conf.dir" value="${dist.dir}/embedded-ejb/conf"/>
+
 
     <property name="jar.name"           value="${name}"/>
     <property name="jar.path"           value="${dist.dir}/${jar.name}.jar"/>
@@ -37,7 +42,7 @@
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${basedir}/embedded-ejb/lib">
+        <fileset dir="${eejb.lib.dir}">
             <include name="*.jar" />
         </fileset>
     </path>
@@ -46,6 +51,7 @@
         <include name="**/*.dtd"/>
         <include name="**/*.xml"/>
         <include name="**/*.xslt"/>
+        <include name="**/*.properties"/>
     </patternset>
 
     <patternset id="src.files">
@@ -96,8 +102,8 @@
     </target>
 
     <target name="copysource" description="Copy sources to dist dir">
-        <mkdir dir="${dist.src.dir}"/>
-        <copy todir="${dist.src.dir}">
+        <mkdir dir="${dist.src.java.dir}"/>
+        <copy todir="${dist.src.java.dir}">
             <fileset dir="${src.java.dir}">
                 <patternset refid="src.files"/>
             </fileset>
@@ -113,6 +119,17 @@
             <fileset dir="${lib.dir}">
                 <include name="*.jar"/>
                 <include name="*.txt"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist.eejb.lib.dir}">
+            <fileset dir="${eejb.lib.dir}">
+                <include name="*.jar"/>
+                <include name="*.txt"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist.eejb.conf.dir}">
+            <fileset dir="${eejb.conf.dir}">
+                <patternset refid="jar.files"/>
             </fileset>
         </copy>
     </target>
