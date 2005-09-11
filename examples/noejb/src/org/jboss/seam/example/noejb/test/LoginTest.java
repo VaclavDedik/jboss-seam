@@ -136,7 +136,7 @@ public class LoginTest extends SeamTest
       initParams.put("bookingDatasource.driverClass", "org.hsqldb.jdbcDriver");
       initParams.put("bookingDatasource.connectionUrl", "jdbc:hsqldb:.");
       initParams.put("bookingDatasource.userName", "sa");
-      initParams.put("bookingDatasource.jndiName", "java:bookingDatasource");
+      initParams.put("bookingDatasource.jndiName", "java:noejbDatasource");
       initParams.put("org.jboss.seam.core.hibernate.dataSourceName", "bookingDatasource");
    }
    

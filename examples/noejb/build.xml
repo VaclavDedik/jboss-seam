@@ -97,8 +97,8 @@
    </target>
 
    <target name="deploy" depends="war">
-   	 <copy file="${resources.dir}/booking-ds.xml" todir="${deploy.dir}"/>
-     <copy file="${output.dir}/${example.name}.war" todir="${deploy.dir}"/>
+   	   <copy file="${resources.dir}/noejb-ds.xml" todir="${deploy.dir}"/>
+       <copy file="${output.dir}/${example.name}.war" todir="${deploy.dir}"/>
    </target>
 
    <!-- =================================================================== -->
@@ -110,7 +110,7 @@
 
    <target name="clean">
       <delete dir="${output.dir}"/>
-      <delete file="${deploy.dir}/${example.name}.ear"/>
+      <delete file="${deploy.dir}/${example.name}.war"/>
    </target>
 
 </project>
