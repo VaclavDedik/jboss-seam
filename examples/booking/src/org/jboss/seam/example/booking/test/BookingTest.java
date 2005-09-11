@@ -233,8 +233,8 @@ public class BookingTest extends SeamTest
    @Override
    public void initServletContext(Map initParams)
    {
-      initParams.put(Init.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
-      initParams.put(Init.COMPONENT_CLASS_NAMES, Ejb.class.getName());
+      initParams.put(Init.MANAGED_PERSISTENCE_CONTEXTS, "bookingDatabase");
+      initParams.put(Init.COMPONENT_CLASSES, Ejb.class.getName());
    }
    
 }
