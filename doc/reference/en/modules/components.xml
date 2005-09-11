@@ -187,8 +187,9 @@
                         <listitem>
                         <para>
                             <literal>org.jboss.seam.core.hibernate.datasourceName</literal> &mdash; 
-                            the name of the datasource component. Default to the JNDI name of the
-                            datasource known from the configuration file.
+                            the name of the Seam managed datasource component. Default to the JNDI name 
+                            of the datasource known from the configuration file. This is needed to ensure
+                            that the datasource is started before the Hibernate session factory.
                         </para>
                         </listitem>
                     </itemizedlist>

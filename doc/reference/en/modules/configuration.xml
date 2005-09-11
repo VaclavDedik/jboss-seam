@@ -292,7 +292,9 @@ bookingDataSource.driverClass org.hsqldb.jdbcDriver
 bookingDataSource.connectionUrl jdbc:hsqldb:.
 bookingDataSource.userName sa
 
-bookingDatabase.sessionFactoryName java:bookingSessionFactory]]></programlisting>
+bookingDatabase.sessionFactoryName java:bookingSessionFactory
+
+org.jboss.seam.core.hibernate.dataSourceName bookingDataSource]]></programlisting>
 
         <para>
             There are several other available datasource configuration parameters which are explained 
