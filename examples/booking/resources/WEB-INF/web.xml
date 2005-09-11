@@ -16,7 +16,7 @@
     </context-param>
 
     <context-param>
-        <param-name>org.jboss.seam.core.init.persistenceUnitNames</param-name>
+        <param-name>org.jboss.seam.core.init.managedPersistenceContexts</param-name>
         <param-value>bookingDatabase</param-value>
     </context-param>
 

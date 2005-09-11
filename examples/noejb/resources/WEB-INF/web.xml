@@ -16,12 +16,12 @@
     </context-param>
 
     <context-param>
-        <param-name>org.jboss.seam.core.init.sessionFactoryNames</param-name>
+        <param-name>org.jboss.seam.core.init.managedSessions</param-name>
         <param-value>bookingDatabase</param-value>
     </context-param>
 
     <context-param>
-        <param-name>org.jboss.seam.core.init.componentClassNames</param-name>
+        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
         <param-value>org.jboss.seam.core.Hibernate</param-value>
     </context-param>
     

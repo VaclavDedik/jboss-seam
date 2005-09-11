@@ -19,7 +19,7 @@
         <param-value>30000</param-value>
     </context-param>
     <context-param>
-        <param-name>org.jboss.seam.persistenceUnitNames</param-name>
+        <param-name>org.jboss.seam.managedPersistenceContexts</param-name>
         <param-value>dvd</param-value>
     </context-param>
 
