@@ -86,7 +86,7 @@
         <title>Infrastructural components</title>
         <para>
             These components provide critical platform infrastructure. You can install a component
-            by including its class name in the <literal>org.jboss.seam.core.init.componentClassNames</literal>
+            by including its class name in the <literal>org.jboss.seam.core.init.componentClasses</literal>
             configuration property.
         </para>
         
@@ -100,26 +100,26 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.componentClassNames</literal> &mdash; a list of names
-                            of Seam component classes to be installed. (The class name, not the component name!)
+                            <literal>org.jboss.seam.core.init.componentClasses</literal> &mdash; a list of class 
+                            names of Seam components to be installed. (The class name, not the component name!)
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.persistenceUnitNames</literal> &mdash; a list of names
-                            of EJB 3.0 persistence units for use with Seam managed persistence contexts.
+                            <literal>org.jboss.seam.core.init.managedPersistenceContexts</literal> &mdash; a 
+                            list of component names of Seam managed persistence contexts to be installed.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.sessionFactoryNames</literal> &mdash; a list of names
-                            of Hibernate session factories for use with Seam managed sessions.
+                            <literal>org.jboss.seam.core.init.managedSessions</literal> &mdash; a list of 
+                            component names of Seam managed Hibernate sessions to be installed.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.dataSourceNames</literal> &mdash; a list of names
-                            of Seam managed datasources.
+                            <literal>org.jboss.seam.core.init.managedDataSources</literal> &mdash; a list 
+                            of component names of of Seam managed datasources to be installed.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -129,7 +129,7 @@
                 <term><literal>org.jboss.seam.core.manager</literal></term>
                 <listitem>
                     <para>
-                        Internal context management. Always installed.
+                        Internal component for Seam context management. Always installed.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -196,4 +196,130 @@
             </varlistentry>
        </variablelist>
    </section>
+
+    <section>
+        <title>Special components</title>
+        <para>
+            Certain special Seam component classes are installable multiple times under names
+            specified in the Seam configuration. For example, the following lines in 
+            <literal>seam.properties</literal> install and configure two Seam components:
+        </para>
+        
+        <programlisting><![CDATA[org.jboss.seam.init.managedPersistenceContexts bookingDatabase, userDatabase
+bookingDatabase.persistenceUnitName java:/comp/emf/bookingPersistence
+userDatabase.persistenceUnitName java:/comp/emf/userPersistence]]></programlisting>
+        
+        <para>
+            The Seam component names are <literal>bookingDatabase</literal> and 
+            <literal>userDatabase</literal>.
+        </para>
+        
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal><emphasis>&lt;managedPersistenceContext&gt;</emphasis></literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a conversation scoped managed <literal>EntityManager</literal>
+                        with an extended persistence context. Installed via 
+                        <literal>org.jboss.seam.init.managedPersistenceContexts</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedPersistenceContext&gt;</emphasis>.persistenceUnitName</literal> 
+                            &mdash; the JNDI name of the entity manager factory, defaults to the component name.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;managedSession&gt;</emphasis></literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a conversation scoped managed Hibernate <literal>Session</literal>.  
+                        Installed via <literal>org.jboss.seam.init.managedSessions</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedSession&gt;</emphasis>.sessionFactoryName</literal> 
+                            &mdash; the JNDI name of the session factory, defaults to to the component name.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;managedDataSource&gt;</emphasis></literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a JBoss JCA datasource.  Installed via 
+                        <literal>org.jboss.seam.init.managedDataSources</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.jndiName</literal> &mdash;
+                            the JNDI name of the datasource, defaults to to the component name.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.connectionUrl</literal>
+                            &mdash; the JDBC URL
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.driverClass</literal>
+                            &mdash; the JDBC driver class
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.userName</literal>
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.password</literal>
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.maxSize</literal>
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.minSize</literal>
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.blockingTimeout</literal>
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.idleTimeout</literal>
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.preparedStatementCacheSize</literal>
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.checkValidConnectionSql</literal>
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    
 </chapter>

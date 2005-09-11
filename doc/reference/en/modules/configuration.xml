@@ -85,14 +85,14 @@
             <literal>seam.properties</literal>:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Ejb]]></programlisting>
+        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Ejb]]></programlisting>
         
         <para>
             Or, alternatively, add the following entry to <literal>web.xml</literal>:
         </para>
         
         <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.init.componentClassNames</param-name>
+    <param-name>org.jboss.seam.init.componentClasses</param-name>
     <param-value>org.jboss.seam.core.Ejb</param-value>
 </context-param>]]></programlisting>
 
@@ -179,23 +179,28 @@
             <literal>seam.properties</literal>, we can write:
         </para>
 
-        <programlisting><![CDATA[org.jboss.seam.init.persistenceUnitNames bookingDatabase]]></programlisting>
+        <programlisting><![CDATA[org.jboss.seam.init.managedPersistenceContexts bookingDatabase
+bookingDatabase.persistenceUnitName java:/comp/emf/bookingData]]></programlisting>
         
         <para>
             Or, in <literal>web.xml</literal>:
         </para>
         
         <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.init.persistenceUnitNames</param-name>
+    <param-name>org.jboss.seam.init.managedPersistenceContexts</param-name>
     <param-value>bookingDatabase</param-value>
+</context-param>
+
+<context-param>
+    <param-name>bookingDatabase.persistenceUnitName</param-name>
+    <param-value>java:/comp/emf/bookingData</param-value>
 </context-param>]]></programlisting>
 
         <para>
-            This alerts Seam to the existence of an EJB 3.0 persistence unit (an 
-            <literal>EntityManagerFactory</literal> instance) named <literal>bookingDatabase</literal>,
-            and creates a conversation-scoped Seam component also named <literal>bookingDatabase</literal>
-            that manages the lifecycle of <literal>EntityManager</literal> instances for that persistence 
-            unit.
+            This configuration creates a conversation-scoped Seam component named 
+            <literal>bookingDatabase</literal> that manages the lifecycle of <literal>EntityManager</literal> 
+            instances for the persistence unit (<literal>EntityManagerFactory</literal> instance) 
+            with JNDI name <literal>java:/comp/emf/bookingData</literal>.
         </para>
         
         <para>
@@ -228,28 +233,33 @@
         <para>
             Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
             <literal>hibernate.cfg.xml</literal> file if you install the built-in component
-            named <literal>org.jboss.seam.core.hibernate</literal>. This component bootstraps
-            the <literal>SessionFactory</literal>. You will also need to a configure a <emphasis>managed
-            session</emphasis>. As usual, you have a choice between <literal>seam.properties</literal> 
-            and <literal>web.xml</literal>.
+            named <literal>org.jboss.seam.core.hibernate</literal>. You will also need to a 
+            configure a <emphasis>managed session</emphasis>. As usual, you have a choice 
+            between <literal>seam.properties</literal> and <literal>web.xml</literal>.
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Hibernate
-org.jboss.seam.init.sessionFactoryNames bookingDatabase]]></programlisting>
+        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Hibernate
+org.jboss.seam.init.managedSessions bookingDatabase
+bookingDatabase.sessionFactoryName java:bookingSessionFactory]]></programlisting>
 
         <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.init.componentClassNames</param-name>
+    <param-name>org.jboss.seam.init.componentClasses</param-name>
     <param-value>org.jboss.seam.core.Hibernate</param-value>
 </context-param>
 
 <context-param>
-    <param-name>org.jboss.seam.init.sessionFactoryNames</param-name>
+    <param-name>org.jboss.seam.init.managedSessions</param-name>
     <param-value>bookingDatabase</param-value>
+</context-param>
+
+<context-param>
+    <param-name>bookingDatabase.sessionFactoryName</param-name>
+    <param-value>java:bookingSessionFactory</param-value>
 </context-param>]]></programlisting>
 
         <para>
-            Where <literal>bookingDatabase</literal> is the name of the session factory given in
-            <literal>hibernate.cfg.xml</literal>. You can now have a managed Hibernate 
+            Where <literal>java:bookingSessionFactory</literal> is the name of the session factory 
+            given in <literal>hibernate.cfg.xml</literal>. You can now have a managed Hibernate 
             <literal>Session</literal> injected into your JavaBean using the following code:
         </para>
         
@@ -273,17 +283,20 @@ org.jboss.seam.init.sessionFactoryNames bookingDatabase]]></programlisting>
             this time:
         </para>
 
-        <programlisting><![CDATA[org.jboss.seam.init.componentClassNames org.jboss.seam.core.Hibernate, org.jboss.seam.core.Jndi, org.jboss.seam.core.Jta
-org.jboss.seam.init.dataSourceNames bookingDataSource
-org.jboss.seam.init.sessionFactoryNames bookingDatabase
+        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Hibernate, org.jboss.seam.core.Jndi, org.jboss.seam.core.Jta
+org.jboss.seam.init.managedDataSources bookingDataSource
+org.jboss.seam.init.managedSessions bookingDatabase
 
+bookingDataSource.jndiName java:bookingDataSource
 bookingDataSource.driverClass org.hsqldb.jdbcDriver
 bookingDataSource.connectionUrl jdbc:hsqldb:.
-bookingDataSource.userName sa]]></programlisting>
+bookingDataSource.userName sa
+
+bookingDatabase.sessionFactoryName java:bookingSessionFactory]]></programlisting>
 
         <para>
-            There are several other available datasource configuration parameters. Refer to the JavaDoc
-            for the class <literal>org.jboss.seam.core.ManagedDataSource</literal> for further details.
+            There are several other available datasource configuration parameters which are explained 
+            later.
         </para>
 
     </sect1>    	
