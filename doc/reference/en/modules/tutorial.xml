@@ -954,7 +954,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
           </listitem>
           <listitem>
               <literal>HotelBookingAction</literal> implements the core functionality of the application:
-              Hotel room searching, selection, booking and booking confirmation. This functionality is
+              hotel room searching, selection, booking and booking confirmation. This functionality is
               implemented as a <emphasis>conversation</emphasis>, so this is the most interesting class
               in the application. 
           </listitem>
@@ -976,7 +976,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
       
       <itemizedlist>
           <listitem>
-              <literal>Hotel</literal> is an entity bean that represent a Hotel
+              <literal>Hotel</literal> is an entity bean that represent a hotel
           </listitem>
           <listitem>
               <literal>Booking</literal> is an entity bean that represents an existing booking
@@ -996,7 +996,71 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
     
     <section>
         <title>Understanding Seam conversations</title>
-        <para>TODO: use the BookHotelsAction as an example</para>
+        <para>
+            We encourage you browse the sourcecode at your pleasure. In this tutorial we'll concentrate
+            upon one particular piece of functionality: hotel search, selection, booking and confirmation.
+            From the point of view of the user, this is one continuous unit of work, a 
+            <emphasis>conversation</emphasis>. 
+        </para>
+        <para>
+            Most web application architectures have no first class construct to represent a conversation. 
+            This causes enormous problems managing state associated with the conversation. Usually, Java 
+            applications use a combination of two techniques: first, some state is thrown into the 
+            <literal>HttpSession</literal>; second, persistable state is flushed to the database after 
+            every request, and reconstructed from the database at the beginning of each new request. 
+        </para>
+        <para>
+            Since the database is the least scalable tier, this often results in an utterly unacceptable 
+            lack of scalability. Added latency is also a problem, due to the extra traffic to and from the 
+            database on every request. To reduce this redundant traffic, Java applications introduce a data 
+            (second-level) cache that keeps commonly accessed data between requests. This cache is necessarily 
+            inefficient, because invalidation is based upon an LRU policy instead of being based upon when the 
+            user has finished working with the data. Furthermore, because the cache is shared between many 
+            concurrent transactions, we've introduced a whole raft of problem's associated with keeping the
+            cached state consistent with the database.
+        </para>
+        <para>
+            Now consider the state held in the <literal>HttpSession</literal>. By very careful programming, 
+            we might be able to control the size of the session data. This is a very difficult task since web 
+            applications permit non-linear navigation. But suppose we suddenly discover a system requirement
+            that says that a user is allowed to have <emphasis>mutiple concurrent conversations</emphasis>,
+            halfway through the development of the system (this has happened to me). Developing mechanisms
+            to isolate session state associated with different concurrent conversations, and incorporating
+            failsafes to ensure that conversation state is destroyed when the user aborts one of the 
+            conversations by closing a browser window or tab is not for the faint hearted (I've implemented 
+            this stuff twice so far, once for a client application, once for Seam, but I'm famously
+            psychotic).
+        </para>
+        <para>
+            Now there is a better way.
+        </para>
+        <para>
+            Seam introduces the <emphasis>conversation context</emphasis> as a first class construct. You
+            can safely keep conversational state in this context, and be assured that it will have a 
+            well-defined lifecycle. Even better, you won't need to be continually pushing data back and 
+            forth between the application server and the database, since the conversation context is a
+            natural cache of data that the user is currently working with.
+        </para>
+        <para>
+            Usually, the components we keep in the conversation context are stateful session beans. (We 
+            can also keep entity beans and JavaBeans in the conversation context.) There is an ancient
+            canard in the Java community that stateful session beans are a scalability killer. This may
+            have been true in 1998 when WebFoobar 1.0 was released. It is no longer true today.
+            Application servers like JBoss 4.0 have extremely sophisticated mechanisms for stateful
+            session bean state replication. (For example, the JBoss EJB3 container performs fine-grained
+            replication, replicating only those bean attribute values which actually changed.) Note 
+            that all the traditional technical arguments for why stateful beans are inefficient apply
+            equally to the <literal>HttpSession</literal>, so the current practice of shifting
+            state from stateful session beans to the web session to try and improve performance is 
+            unbelievably misguided. It is certainly possible to write unscalable applications using 
+            stateful session beans, by using stateful beans incorrectly, or by using them for the wrong 
+            thing. So, Seam guides you toward a safe usage model. Welcome to 2005.
+        </para>
+        <para>
+            Let's see how the booking example application uses a conversation-scoped stateful session
+            bean to achieve a natural cache of persistent data related to the conversation.
+        </para>
+        
     </section>
 
     <indexterm startref="booking-example" class="endofrange"/>
