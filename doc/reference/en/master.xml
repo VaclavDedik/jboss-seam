@@ -15,14 +15,14 @@
 <book lang="en">
 
     <bookinfo>
-        <title>JBoss Seam</title>
-        <subtitle>The JEE framework</subtitle>
-        <releaseinfo>0.1</releaseinfo>
+        <title>SEAM - Contextual Components</title>
+        <subtitle>A Framework for Java EE 5</subtitle>
+        <releaseinfo>1.0 beta, September 2005</releaseinfo>
     </bookinfo>
 
     <toc/>
 
-    <preface id="preface">
+    <!--preface id="preface">
         <title>Preface</title>
 
         <para>
@@ -35,7 +35,7 @@
             Service dependencies
         </para>
 
-    </preface>
+    </preface-->
 
     &introduction;
     &installation;
