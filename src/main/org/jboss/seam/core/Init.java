@@ -22,10 +22,10 @@ import org.jboss.seam.contexts.Contexts;
 public class Init
 {
    private static final String NAME = Seam.getComponentName(Init.class);
-   public static final String COMPONENT_CLASS_NAMES = NAME + ".componentClasses";
-   public static final String PERSISTENCE_UNIT_NAMES = NAME + ".managedPersistenceContexts";
-   public static final String SESSION_FACTORY_NAMES = NAME + ".managedSessions";
-   public static final String DATA_SOURCE_NAMES = NAME + ".managedDatasources";
+   public static final String COMPONENT_CLASSES = NAME + ".componentClasses";
+   public static final String MANAGED_PERSISTENCE_CONTEXTS = NAME + ".managedPersistenceContexts";
+   public static final String MANAGED_SESSIONS = NAME + ".managedSessions";
+   public static final String MANAGED_DATA_SOURCES = NAME + ".managedDataSources";
    public static final String JBPM_SESSION_FACTORY_NAME = NAME + ".jbpmSessionFactoryName";
    
    private String[] managedPersistenceContexts = {};

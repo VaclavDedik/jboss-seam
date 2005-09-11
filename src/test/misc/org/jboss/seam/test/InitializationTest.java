@@ -14,7 +14,7 @@ public class InitializationTest
    {
       MockServletContext servletContext = new MockServletContext();
       new Initialization(servletContext).setScannerEnabled(false).init();
-      assert servletContext.getAttributes().size()==4;
+      assert servletContext.getAttributes().size()==4 + 2*7;
       assert !Contexts.isApplicationContextActive();
    }
 
@@ -22,10 +22,10 @@ public class InitializationTest
    public void testInitialization()
    {
       MockServletContext servletContext = new MockServletContext();
-      servletContext.getInitParameters().put(Init.COMPONENT_CLASS_NAMES, "org.jboss.seam.test.Foo, org.jboss.seam.test.Bar");
-      servletContext.getInitParameters().put(Init.PERSISTENCE_UNIT_NAMES, "bookingDatabase");
+      servletContext.getInitParameters().put(Init.COMPONENT_CLASSES, "org.jboss.seam.test.Foo, org.jboss.seam.test.Bar");
+      servletContext.getInitParameters().put(Init.MANAGED_PERSISTENCE_CONTEXTS, "bookingDatabase");
       new Initialization(servletContext).setScannerEnabled(false).init();
-      assert servletContext.getAttributes().size()==7;
+      assert servletContext.getAttributes().size()==7 + 2*7;
       assert !Contexts.isApplicationContextActive();
    }
 }
