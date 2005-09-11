@@ -22,21 +22,6 @@
 
     <toc/>
 
-    <!--preface id="preface">
-        <title>Preface</title>
-
-        <para>
-            TODO: Some topics to cover...
-            Context and state
-            Business worflows
-            Conversations
-            Binding beans
-            Facelets
-            Service dependencies
-        </para>
-
-    </preface-->
-
     &introduction;
     &installation;
     &tutorial;
@@ -45,10 +30,6 @@
     &annotations;
     &components;
     &testing;
-    
-    <index id="pageindex">
-        <title>Index</title>
-    </index>
-    
+
 </book>
 
