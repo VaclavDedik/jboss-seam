@@ -242,15 +242,23 @@ bookingDatabase.persistenceUnitName java:/comp/emf/bookingData]]></programlistin
             beans do. You <emphasis>could</emphasis> manage your transactions manually using the
             JTA <literal>UserTransaction</literal> (you could even implement your own declarative
             transaction management in a Seam interceptor). But most applications will use Seam managed 
-            transactions when using Hibernate with JavaBeans.
+            transactions when using Hibernate with JavaBeans. Follow the instructions above to
+            enable <literal>SeamExtendedManagedPersistencePhaseListener</literal>.
         </para>
         
         <para>
             Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
             <literal>hibernate.cfg.xml</literal> file if you install the built-in component
-            named <literal>org.jboss.seam.core.hibernate</literal>. You will also need to a 
-            configure a <emphasis>managed session</emphasis>. As usual, you have a choice 
-            between <literal>seam.properties</literal> and <literal>web.xml</literal>.
+            named <literal>org.jboss.seam.core.hibernate</literal>. 
+        </para>
+        
+        <para>
+            You will also need to configure a <emphasis>managed session</emphasis>. 
+        </para>
+        
+        <para>
+            To configure your Seam components, as usual, you have a choice between 
+            <literal>seam.properties</literal> and <literal>web.xml</literal>.
         </para>
         
         <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Hibernate
@@ -294,7 +302,7 @@ bookingDatabase.sessionFactoryName java:bookingSessionFactory]]></programlisting
         <para>
             The Seam support for Hibernate requires JTA and a JCA datasource. If you are running in
             a non-EE environment like Tomcat or TestNG, you'll need to install Seam's built-in JNDI 
-            and JTA components and configure the datasource. Let's just show the properties file
+            and JTA components and configure the datasource. Let's show just the properties file
             this time:
         </para>
 
