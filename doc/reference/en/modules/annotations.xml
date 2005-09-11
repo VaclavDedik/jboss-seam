@@ -80,15 +80,15 @@
                     </para>
                 </listitem>
             </varlistentry>   
-            <varlistentry>
+            <varlistentry id="conversational-annotation">
                 <term><literal>@Conversational</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Conversational(ifNotBegunOutcome="error")]]></programlisting>
                     <para>
                         Specifies that a conversation scope component is conversational,
                         meaning that no method of the component can be called unless
-                        a long-running conversation is active (unless it the method would
-                        begin a new long-running conversations).
+                        a long-running conversation started by this component is active 
+                        (unless the method would begin a new long-running conversations).
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -229,7 +229,7 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry>
+            <varlistentry id="create-annotation">
                 <term><literal>@Create</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Create]]></programlisting>
@@ -239,7 +239,7 @@
                     </para>
                 </listitem>
             </varlistentry>   
-            <varlistentry>
+            <varlistentry id="destroy-annotation">
                 <term><literal>@Destroy</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Destroy]]></programlisting>
@@ -274,7 +274,7 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry>
+            <varlistentry id="begin-annotation">
                 <term><literal>@Begin</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Begin]]></programlisting>
@@ -284,7 +284,7 @@
                     </para>
                 </listitem>
             </varlistentry>   
-            <varlistentry>
+            <varlistentry id="end-annotation">
                 <term><literal>@End</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@End]]></programlisting>

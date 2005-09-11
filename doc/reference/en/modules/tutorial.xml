@@ -1005,25 +1005,25 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         <para>
             Most web application architectures have no first class construct to represent a conversation. 
             This causes enormous problems managing state associated with the conversation. Usually, Java 
-            applications use a combination of two techniques: first, some state is thrown into the 
+            web applications use a combination of two techniques: first, some state is thrown into the 
             <literal>HttpSession</literal>; second, persistable state is flushed to the database after 
             every request, and reconstructed from the database at the beginning of each new request. 
         </para>
         <para>
             Since the database is the least scalable tier, this often results in an utterly unacceptable 
             lack of scalability. Added latency is also a problem, due to the extra traffic to and from the 
-            database on every request. To reduce this redundant traffic, Java applications introduce a data 
-            (second-level) cache that keeps commonly accessed data between requests. This cache is necessarily 
-            inefficient, because invalidation is based upon an LRU policy instead of being based upon when the 
-            user has finished working with the data. Furthermore, because the cache is shared between many 
-            concurrent transactions, we've introduced a whole raft of problem's associated with keeping the
-            cached state consistent with the database.
+            database on every request. To reduce this redundant traffic, Java applications often introduce 
+            a data (second-level) cache that keeps commonly accessed data between requests. This cache is 
+            necessarily inefficient, because invalidation is based upon an LRU policy instead of being based 
+            upon when the user has finished working with the data. Furthermore, because the cache is shared 
+            between many concurrent transactions, we've introduced a whole raft of problem's associated with 
+            keeping the cached state consistent with the database.
         </para>
         <para>
             Now consider the state held in the <literal>HttpSession</literal>. By very careful programming, 
-            we might be able to control the size of the session data. This is a very difficult task since web 
-            applications permit non-linear navigation. But suppose we suddenly discover a system requirement
-            that says that a user is allowed to have <emphasis>mutiple concurrent conversations</emphasis>,
+            we might be able to control the size of the session data. This is a lot difficult than it sounds, 
+            since web browsers permit ad hoc non-linear navigation. But suppose we suddenly discover a system 
+            requirement that says that a user is allowed to have <emphasis>mutiple concurrent conversations</emphasis>,
             halfway through the development of the system (this has happened to me). Developing mechanisms
             to isolate session state associated with different concurrent conversations, and incorporating
             failsafes to ensure that conversation state is destroyed when the user aborts one of the 
@@ -1050,17 +1050,265 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
             session bean state replication. (For example, the JBoss EJB3 container performs fine-grained
             replication, replicating only those bean attribute values which actually changed.) Note 
             that all the traditional technical arguments for why stateful beans are inefficient apply
-            equally to the <literal>HttpSession</literal>, so the current practice of shifting
-            state from stateful session beans to the web session to try and improve performance is 
+            equally to the <literal>HttpSession</literal>, so the practice of shifting state from business 
+            tier stateful session bean components to the web session to try and improve performance is 
             unbelievably misguided. It is certainly possible to write unscalable applications using 
             stateful session beans, by using stateful beans incorrectly, or by using them for the wrong 
-            thing. So, Seam guides you toward a safe usage model. Welcome to 2005.
+            thing. But that doesn't mean you should <emphasis>never</emphasis> use them. Anyway, Seam 
+            guides you toward a safe usage model. Welcome to 2005.
         </para>
         <para>
             Let's see how the booking example application uses a conversation-scoped stateful session
             bean to achieve a natural cache of persistent data related to the conversation.
         </para>
         
+        <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="registration-stateful-annotation" coords="1"/>
+                    <area id="registration-conversational-annotation" coords="4"/>
+                    <area id="registration-custom-annotation" coords="5"/>
+                    <area id="registration-out-annotation" coords="16"/>
+                    <area id="registration-begin-annotation" coords="34"/>
+                    <area id="registration-end-annotation" coords="121"/>
+                    <area id="registration-remove-annotation" coords="121"/>
+                    <area id="registration-destroy-annotation" coords="130"/>
+                </areaspec>    
+            <programlisting><![CDATA[@Stateful
+@Name("hotelBooking")
+@Interceptor(SeamInterceptor.class)
+@Conversational(ifNotBegunOutcome="main")
+@LoggedIn
+public class HotelBookingAction implements HotelBooking, Serializable
+{
+   private static final Logger log = Logger.getLogger(HotelBooking.class);
+   
+   @In(create=true)
+   private EntityManager bookingDatabase;
+   
+   private String searchString;
+   private List<Hotel> hotels;
+   
+   @Out(required=false)
+   private Hotel hotel;
+   
+   @In(required=false) 
+   @Out(required=false)
+   @Valid
+   private Booking booking;
+   
+   @In
+   private User user;
+   
+   @Out
+   private DataModel hotelsDataModel = new ListDataModel();
+   int rowIndex = 0;
+   
+   @In
+   private FacesContext facesContext;
+
+   @Begin
+   public String find()
+   {
+      hotel = null;
+      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
+      hotels = bookingDatabase.createQuery("from Hotel where lower(city) like :search or lower(zip) like :search or lower(address) like :search")
+            .setParameter("search", searchPattern)
+            .setMaxResults(50)
+            .getResultList();
+      
+      log.info(hotels.size() + " hotels found");
+      
+      hotelsDataModel.setWrappedData(hotels);
+      
+      return "main";
+   }
+   
+   public String getSearchString()
+   {
+      return searchString;
+   }
+
+   public void setSearchString(String searchString)
+   {
+      this.searchString = searchString;
+   }
+   
+   public String selectHotel()
+   {
+      rowIndex = hotelsDataModel.getRowIndex();
+      setHotel();
+      return "selected";
+   }
+
+   public String nextHotel()
+   {
+      if ( rowIndex<hotels.size()-1 )
+      {
+         hotelsDataModel.setRowIndex(++rowIndex);
+         setHotel();
+      }
+      return null;
+   }
+
+   public String lastHotel()
+   {
+      if (rowIndex>0)
+      {
+         hotelsDataModel.setRowIndex(--rowIndex);
+         setHotel();
+      }
+      return null;
+   }
+
+   private void setHotel()
+   {
+      hotel = (Hotel) hotelsDataModel.getRowData();
+      log.info( rowIndex + "=>" + hotel );
+   }
+   
+   public String bookHotel()
+   {
+      if (hotel==null) return "main";
+      booking = new Booking(hotel, user);
+      booking.setCheckinDate( new Date() );
+      booking.setCheckoutDate( new Date() );
+      return "book";
+   }
+   
+   @IfInvalid(outcome=REDISPLAY)
+   public String setBookingDetails()
+   {
+      if (booking==null || hotel==null) return "main";
+      if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
+      {
+         log.info("invalid booking dates");
+         FacesMessage facesMessage = new FacesMessage("Check in date must be later than check out date");
+         facesContext.addMessage(null, facesMessage);
+         return null;
+      }
+      else
+      {
+         log.info("valid booking");
+         return "success";
+      }
+   }
+      
+   @End @Remove 
+   public String confirm()
+   {
+      if (booking==null || hotel==null) return "main";
+      bookingDatabase.persist(booking);
+      log.info("booking confirmed");
+      return "confirmed";
+   }
+      
+   @Destroy @Remove
+   public void destroy() {
+      log.info("destroyed");
+   }
+   
+   @PrePassivate
+   public void passivate()
+   {
+      hotelsDataModel = null;
+   }
+   
+   @PostActivate
+   public void activate()
+   {
+      hotelsDataModel = new ListDataModel();
+      hotelsDataModel.setWrappedData(hotels);
+      hotelsDataModel.setRowIndex(rowIndex);
+   }
+}]]></programlisting>                    
+            <calloutlist>
+                <callout arearefs="registration-stateful-annotation">
+                    <para>
+                        The EJB standard <literal>@Stateful</literal> annotation identifies
+                        this class as a stateful session bean. Stateful session beans are
+                        scoped to the conversation context by default.
+                    </para>
+                </callout>
+                <callout arearefs="registration-conversational-annotation">
+                    <para>
+                        The Seam <link linkend="conversational-annotation"><literal>@Conversational</literal></link> 
+                        annotation declares this as a <emphasis>conversational</emphasis> component that cannot be 
+                        invoked outside of a long-running conversation that was started by a call to its 
+                        <literal>@Begin</literal> method. If such an invocation does occur, Seam returns the
+                        <literal>ifNotBegunOutcome</literal> to JSF.
+                    </para>
+                </callout>
+                <callout arearefs="registration-custom-annotation">
+                    <para>
+                        The <literal>@LoggedIn</literal> annotation applies a custom Seam interceptor
+                        to the component. This works because <literal>@LoggedIn</literal> is marked
+                        with an <literal>@Interceptor</literal> meta-annotation.
+                    </para>
+                </callout>
+                <callout arearefs="registration-out-annotation">
+                    <para>
+                        The <link linkend="out-annotation"><literal>@Out</literal></link> annotation
+                        declares that an attribute value is <emphasis>outjected</emphasis> to a
+                        context variable after method invocations. In this case, the context variable
+                        named <literal>hotel</literal> will be set to the value of the 
+                        <literal>hotel</literal> instance variable after every action listener
+                        invocation completes.
+                    </para>
+                </callout>
+                <callout arearefs="registration-begin-annotation">
+                    <para>
+                        The <link linkend="begin-annotation"><literal>@Begin</literal></link> annotation
+                        specifies that the annotated method begins a 
+                        <emphasis>long-running conversation</emphasis>, so the current conversation context
+                        will not be destroyed at the end of the request. Instead, it will be reassociated
+                        with every request from the current window, and destroyed either by timeout due to
+                        conversation inactivity or invocation of a matching <literal>@End</literal> method.
+                    </para>
+                </callout>
+                <callout arearefs="registration-end-annotation">
+                    <para>
+                        The <link linkend="end-annotation"><literal>@End</literal></link> annotation
+                        specifies that the annotated method ends the current long-running conversation, 
+                        so the current conversation context be destroyed at the end of the request.
+                    </para>
+                </callout>
+                <callout arearefs="registration-remove-annotation">
+                    <para>
+                        The EJB standard <literal>@Remove</literal> annotation specifies that a stateful
+                        session bean should be removed and its state destroyed after invocation of the
+                        annotated method. We don't really need it here, since the conversation context
+                        is about to end and Seam is about to call the <literal>@Destroy</literal>
+                        method.
+                    </para>
+                </callout>
+                <callout arearefs="registration-destroy-annotation">
+                    <para>
+                        All stateful session beans should define a method marked 
+                        <literal>@Destroy @Remove</literal>. This is the EJB remove method that will
+                        be called when Seam destroys the conversation context. Actually, the
+                        <link linkend="destroy-annotation"><literal>@Destroy</literal></link> 
+                        annotation is of more general usefulness, since it can be used for any 
+                        kind of cleanup that should happen when any Seam context ends.
+                    </para>
+                </callout>
+            </calloutlist>
+            </programlistingco>
+        </example>
+        
+        <para>
+            <literal>HotelBookingAction</literal> contains all the action listener methods that implement 
+            hotel searching, selection, booking and booking confirmation, and holds state related to
+            this work in its instance variables. We think you'll agree that this code is much cleaner
+            and simpler than getting and setting <literal>HttpSession</literal> attributes.
+        </para>
+        <para>
+            Even better, a user can have multiple isolated conversations per login session. Try it!
+            Log in, and open the hotel search page in multiple browser tabs. You'll be able to work
+            on creating two different hotel reservations at the same time. If you leave any one
+            conversation inactive for long enough, Seam will eventually time out that conversation
+            and destroy its state.
+        </para>
     </section>
 
     <indexterm startref="booking-example" class="endofrange"/>
