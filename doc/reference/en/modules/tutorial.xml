@@ -514,7 +514,7 @@ public class RegisterAction implements Register
                         before invoking the action listener method, and return a different JSF outcome 
                         if the state is invalid. In this example, the <literal>user</literal> is 
                         validated when the <literal>register()</literal> method is invoked, and the
-                        form is redisplayed if a validation failure occurs.
+                        form is redisplayed with messages if a validation failure occurs.
                     </para>
                 </callout>
                 <callout arearefs="registration-action-listener">

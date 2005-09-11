@@ -362,7 +362,9 @@
                     <para>
                         Specifies that Hibernate Validator should validate the component before
                         the method is invoked. If the invocation fails, the specified outcome
-                        will be returned. Otherwise, the invocation will proceed.
+                        will be returned, and the validation failure messages returned by
+                        Hibernate Validator will be added to the <literal>FacesContext</literal>. 
+                        Otherwise, the invocation will proceed.
                     </para>
                     <itemizedlist>
                         <listitem>
