@@ -15,7 +15,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.example.booking.User;
 
 @Scope(EVENT)
 @Name("changePassword")

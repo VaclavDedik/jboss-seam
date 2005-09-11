@@ -174,13 +174,15 @@ public class ChangePasswordTest extends SeamTest
    @Override
    public void initServletContext(Map initParams)
    {
-      initParams.put(Init.SESSION_FACTORY_NAMES, "bookingDatabase");
+      initParams.put(Init.MANAGED_SESSIONS, "bookingDatabase");
       String classNames = Strings.toString(Jndi.class, Jta.class, Hibernate.class);
-      initParams.put(Init.COMPONENT_CLASS_NAMES, classNames);
-      initParams.put(Init.DATA_SOURCE_NAMES, "java:bookingDatasource");
-      initParams.put("java:bookingDatasource.driverClass", "org.hsqldb.jdbcDriver");
-      initParams.put("java:bookingDatasource.connectionUrl", "jdbc:hsqldb:.");
-      initParams.put("java:bookingDatasource.userName", "sa");
+      initParams.put(Init.COMPONENT_CLASSES, classNames);
+      initParams.put(Init.MANAGED_DATA_SOURCES, "bookingDatasource");
+      initParams.put("bookingDatasource.driverClass", "org.hsqldb.jdbcDriver");
+      initParams.put("bookingDatasource.connectionUrl", "jdbc:hsqldb:.");
+      initParams.put("bookingDatasource.userName", "sa");
+      initParams.put("bookingDatasource.jndiName", "java:bookingDatasource");
+      initParams.put("org.jboss.seam.core.hibernate.dataSourceName", "bookingDatasource");
    }
    
    @Override
