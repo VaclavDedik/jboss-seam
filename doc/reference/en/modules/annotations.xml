@@ -27,7 +27,7 @@
                 <listitem>
                     <programlisting><![CDATA[@Name("componentName")]]></programlisting>
                     <para>
-                        Define the Seam component name for a class. This annotation is 
+                        Defines the Seam component name for a class. This annotation is 
                         required for all Seam components.
                     </para>
                 </listitem>
@@ -37,7 +37,7 @@
                 <listitem>
                     <programlisting><![CDATA[@Name(ScopeType.CONVERSATION)]]></programlisting>
                     <para>
-                        Define the default context of the component. The possible values
+                        Defines the default context of the component. The possible values
                         are defined by the <literal>ScopeType</literal> enumeration:
                         <literal>EVENT, CONVERSATION, SESSION, PROCESS, APPLICATION,
                         STATELESS</literal>.
@@ -74,7 +74,9 @@
                 <listitem>
                     <programlisting><![CDATA[@JndiName("my/jndi/name")]]></programlisting>
                     <para>
-                        Define the JNDI name of an EJB component.
+                        Defines the JNDI name of an EJB component. If no JNDI name is explicitly
+                        specified, the fully qualified class name of the local interface is
+                        used.
                     </para>
                 </listitem>
             </varlistentry>   
@@ -94,6 +96,26 @@
                             <literal>ifNotBegunOutcome</literal> &mdash; specifies a JSF
                             outcome for the action when the component is invoked and no
                             long-running conversation is active.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@Startup</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Startup(depends={"org.jboss.core.jndi", "org.jboss.core.jta"})]]></programlisting>
+                    <para>
+                        Specifies that an application scope component is started immediately
+                        at initialization time. This is mainly used for certain built-in 
+                        components that bootstrap critical infrastructure such as JNDI,
+                        datasources, etc.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>depends</literal> &mdash; specifies that the named
+                            components must be started first, if they are installed.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -235,4 +257,160 @@
         </variablelist>
         
     </section> 
+
+    <section>
+    	<title>Annotations for context demarcation</title>
+    	<para>
+    	    These annotations provide declarative conversation demarcation. They appear
+    	    on methods of Seam components, usually action listener methods.
+    	</para>
+    	
+    	<para>
+    	    Every web request has a conversation context associated with it. Most of these
+    	    conversations end at the end of the request. If you want a conversation that
+    	    span multiple requests, you must "promote" the current conversation to
+    	    a <emphasis>long-running conversation</emphasis> by calling a method marked
+    	    with <literal>@Begin</literal> or <literal>@BeginIf</literal>.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>@Begin</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Begin]]></programlisting>
+                    <para>
+                        Specifies that a long-running conversation begins when this
+                        method returns without exception.
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@End</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@End]]></programlisting>
+                    <para>
+                        Specifies that a long-running conversation ends when this
+                        method returns without exception.
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@BeginIf</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@BeginIf(outcome={"success", "continue"})]]></programlisting>
+                    <para>
+                        Specifies that a long-running conversation begins when this
+                        action listener method returns with one of the given outcomes.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>outcome</literal> &mdash; specifies the JSF outcome or 
+                            outcomes that result in a new long-running conversation context.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
+            <varlistentry>
+                <term><literal>@EndIf</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@EndIf(outcome={"success", "error"}, exception={SomeException.class, OtherException.class})]]></programlisting>
+                    <para>
+                        Specifies that a long-running conversation ends when this
+                        action listener method returns with one of the given outcomes or
+                        throws one of the specified classes of exception.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>outcome</literal> &mdash; specifies the JSF outcome or 
+                            outcomes that result in the end of the current long-running 
+                            conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>exception</literal> &mdash; specifies the exception class 
+                            or classes that result in the end of the current long-running 
+                            conversation.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
+        </variablelist>
+        
+    </section> 
+    
+    <section>
+    	<title>Annotations for validation</title>
+    	<para>
+    	    This annotation triggers Hibernate Validator. It appears on a method of a Seam 
+    	    component, almost always an action listener method.
+    	</para>
+    	<para>
+    	    Please refer to the documentation for the Hibernate Annotations package for
+    	    information about the annotations defined by the Hibernate Validator framework.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>@IfInvalid</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@IfInvalid(outcome="invalid")]]></programlisting>
+                    <para>
+                        Specifies that Hibernate Validator should validate the component before
+                        the method is invoked. If the invocation fails, the specified outcome
+                        will be returned. Otherwise, the invocation will proceed.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>outcome</literal> &mdash; the JSF outcome when validation
+                            fails.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+    </section> 
+
+    <section>
+    	<title>Annotations for Seam interceptors</title>
+    	<para>
+    	    The following annotations appear on Seam interceptor classes.
+    	</para>
+    	<para>
+    	    Please refer to the documentation for the EJB 3.0 specification for information about 
+    	    the annotations required for EJB interceptor definition.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>@Around</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Around({SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
+                    <para>
+                        Specifies that this interceptor is positioned higher in the stack than
+                        the given interceptors.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>@Within</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Within({SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
+                    <para>
+                        Specifies that this interceptor is positioned deeper in the stack than
+                        the given interceptors.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+    </section> 
+
 </chapter>
