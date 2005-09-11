@@ -993,14 +993,19 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
       </para>
       
     </section>
+    
+    <section>
+        <title>Understanding Seam conversations</title>
+        <para>TODO: use the BookHotelsAction as an example</para>
+    </section>
 
     <indexterm startref="booking-example" class="endofrange"/>
 
   </section>
 
   <section id="dvdstore">
-    <title>A complete Seam application: the DVD store example</title>
-    <para>TODO</para>
+      <title>A complete Seam application: the DVD store example</title>
+      <para>TODO</para>
   </section>
   
 </chapter>
