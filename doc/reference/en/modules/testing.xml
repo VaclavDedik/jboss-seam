@@ -1,0 +1,226 @@
+<chapter id="testing">
+	<title>Testing Seam applications</title>
+	<para>
+	    Most Seam applications will need at least two kinds of automated tests:
+	    <emphasis>unit tests</emphasis> test, which test a particular Seam component
+	    in isolation, and scripted <emphasis>integration tests</emphasis> which
+	    exercise all Java layers of the application (that is, everything except the
+	    view pages).
+	</para>
+	<para>
+	   Both kinds of tests are very easy to write.
+	</para>
+	
+	<section>
+		<title>Unit testing Seam components</title>
+		<para>
+		    All Seam components are POJOs. This is a great place to start if you
+		    want easy unit testing. And since Seam emphasises the use of bijection 
+            for inter-component interactions, it's very easy to test a Seam
+            component outside of its normal runtime environment.
+		</para>
+		<para>
+		    Consider the following Seam component:
+		</para>
+		
+        <programlisting><![CDATA[@Stateless
+@Scope(EVENT)
+@Name("register")
+@Interceptor(SeamInterceptor.class)
+public class RegisterAction implements Register
+{
+   private User user;
+   private EntityManager em;
+
+   @In
+   public void setUser(User user) {
+       this.user = user;
+   }
+   
+   @PersistenceContext
+   public void setBookingDatabase(User em) {
+       this.em = em;
+   }
+   
+   
+   @IfInvalid(outcome=Outcome.REDISPLAY)
+   public String register()
+   {
+      List existing = em.createQuery("select username from User where username=:username")
+         .setParameter("username", user.getUsername())
+         .getResultList();
+      if (existing.size()==0)
+      {
+         em.persist(user);
+         return "success";
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+}]]></programlisting>
+
+        <para>
+            We could write a TestNG test for this component as follows:
+        </para>
+
+        <programlisting><![CDATA[public class RegisterActionTest
+{
+    @Test
+    public testRegisterAction()
+    {
+        EntityManager em = getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+        
+        User gavin = new User();
+        gavin.setName("Gavin King");
+        gavin.setUserName("1ovthafew");
+        gavin.setPassword("secret");
+        
+        RegisterAction action = new RegisterAction();
+        action.setUser(gavin);
+        action.setBookingDatabase(em);
+        
+        assert "success".equals( action.register() );
+        
+        em.getTransaction().commit();
+        em.close();
+    }
+}
+]]></programlisting>
+
+        <para>
+            Seam components don't usually depend directly upon container infrastructure,
+            so most unit testing as as easy as that!
+        </para>
+        
+    </section>
+    
+    <section>
+        <title>Integration testing Seam applications</title>
+        <para>
+            Integration testing is slightly more difficult. In this case, we can't eliminate
+            the container infrastructure; indeed, that is part of what is being tested! At
+            the same time, we don't want to be forced to deploy our application to an
+            application server to run the automated tests. We need to be able to reproduce
+            just enough of the container infrastructure inside our testing environment to be 
+            able to exercise the whole application, without hurting performance too much.
+        </para>
+        <para>
+            A second problem is emulating user interactions. A third problem is where to
+            put our assertions. Some test frameworks let us test the whole application
+            by reproducing user interactions with the web browser. These frameworks have
+            their place, but they are not appropriate for use at development time.
+        </para>
+        <para>
+            The approach taken by Seam is to let you write tests that script your
+            components while running inside a pruned down container environment (Seam,
+            together with the JBoss Embeddable EJB container). The role of the test script 
+            is basically to reproduce the interaction between the view and the Seam components. 
+            In other words, you get to pretend you are the JSF implementation!
+        </para>
+        <para>
+            This approach tests everything except the view.
+        </para>
+        
+        <para>
+            Let's consider a JSP view for the component we unit tested above:
+        </para>
+        <programlisting><![CDATA[<html>
+ <head>
+  <title>Register New User</title>
+ </head>
+ <body>
+  <f:view>
+   <h:form>
+     <table border="0">
+       <tr>
+         <td>Username</td>
+         <td><h:inputText value="#{user.username}"/></td>
+       </tr>
+       <tr>
+         <td>Real Name</td>
+         <td><h:inputText value="#{user.name}"/></td>
+       </tr>
+       <tr>
+         <td>Password</td>
+         <td><h:inputSecret value="#{user.password}"/></td>
+       </tr>
+     </table>
+     <h:messages/>
+     <h:commandButton type="submit" value="Register" action="#{register.register}"/>
+   </h:form>
+  </f:view>
+ </body>
+</html>]]></programlisting>
+
+        <para>
+            We want to test the registration functionality of our application (the stuff
+            that happens when the user clicks the Register button. We'll reproduce the JSF 
+            request lifecycle in an automated TestNG test:
+        </para>
+
+<programlisting><![CDATA[public class RegisterTest extends SeamTest
+{
+   
+   @Test
+   public void testLogin() throws Exception
+   {
+            
+      new Script() {
+
+         @Override
+         protected void updateModelValues() throws Exception
+         {
+            User user = (User) Component.getInstance("user", true);
+            assert user!=null;
+            user.setUsername("1ovthafew");
+            user.setPassword("secret");
+            user.setName("Gavin King");
+         }
+
+         @Override
+         protected void invokeApplication()
+         {
+            Register register = (Register) Component.getInstance("register", true);
+            String outcome = register.register();
+            assert "success".equals( outcome );
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            User user = (User) Component.getInstance("user", false);
+            assert user!=null;
+            assert user.getName().equals("Gavin King");
+            assert user.getUsername().equals("1ovthafew");
+            assert user.getPassword().equals("secret");
+         }
+         
+      }.run();
+      
+   }
+
+   ...
+   
+}]]></programlisting>
+
+        <para>
+            Notice that we've extended <literal>SeamTest</literal>, which provides a 
+            Seam environment for our components, and written our test script as an 
+            anonymous class that extends <literal>SeamTest.Script</literal>, which 
+            provides an emulated JSF request lifecycle. We've written our code in 
+            methods which are named for the various JSF phases, to emulate the calls 
+            that JSF would make to our components. Then we've thrown in various 
+            assertions.
+        </para>
+        <para>
+            You'll find plenty of integration tests for the Seam example applications
+            which demonstrate more complex cases.
+        </para>
+
+    </section>
+	
+</chapter>

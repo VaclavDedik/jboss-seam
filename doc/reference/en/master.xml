@@ -9,6 +9,7 @@
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
+<!ENTITY testing                SYSTEM "modules/testing.xml">
 ]>
 
 <book lang="en">
@@ -43,6 +44,7 @@
     &configuration;
     &annotations;
     &components;
+    &testing;
     
     <index id="pageindex">
         <title>Index</title>
