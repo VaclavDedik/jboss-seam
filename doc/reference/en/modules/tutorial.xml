@@ -4,11 +4,6 @@
   <section id="try-examples">
     <title>Try the examples</title>
     
-    <indexterm><primary>compile example</primary></indexterm>
-    <indexterm><primary>example</primary><secondary>compile</secondary></indexterm>
-    <indexterm><primary>build example</primary></indexterm>
-    <indexterm><primary>example</primary><secondary>build</secondary></indexterm>
-    
     <para>
       In this tutorial, we'll assume that you have checked out <literal>jboss-seam-head</literal>
       and compiled the Seam core as explained in <xref linkend="installation"/>, or simply unzipped 
@@ -121,10 +116,6 @@ Total time: 2 seconds]]></programlisting>
   <section id="registration-example">
     <title>Your first Seam application: the registration example</title>
 
-    <indexterm id="registration-example-range" class="start-of-range">
-        <primary>example</primary><secondary>registration example</secondary>
-    </indexterm>
-
     <para>
         The registration example is a fairly trivial application that lets a new user store
         his username, real name and password in the database. The example isn't intended to
@@ -138,9 +129,6 @@ Total time: 2 seconds]]></programlisting>
         
     <section>
       <title>Running the example</title>
-      
-      <indexterm><primary>running example</primary></indexterm>
-      <indexterm><primary>example</primary><secondary>running</secondary></indexterm>
       
       <para>
           If it's not already running, start JBoss by typing <literal>bin/run.sh</literal> 
@@ -809,18 +797,12 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
           returned <literal>User</literal> entity from Seam's session scope.
       </para>
 
-      <indexterm startref="registration-example-range" class="endofrange"/>
-
     </section>
 
   </section>
 
   <section id="booking">
     <title>A complete Seam application: the booking example</title>
-    
-    <indexterm id="booking-example" class="start-of-range">
-        <primary>example</primary><secondary>Booking example</secondary>
-    </indexterm>
     
     <section>
       <title>Introduction</title>
@@ -1280,8 +1262,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
             and destroy its state.
         </para>
     </section>
-
-    <indexterm startref="booking-example" class="endofrange"/>
 
   </section>
 

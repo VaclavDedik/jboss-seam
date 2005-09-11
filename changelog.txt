@@ -1,0 +1,7 @@
+JBoss Seam
+===================
+
+Changes in version 1.0 beta 1 (September 2005)
+-----------------------------------------------
+
+* Initial release

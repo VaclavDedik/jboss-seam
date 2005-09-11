@@ -1,16 +1,15 @@
-Building and running:
+JBoss Seam - Contextual Component framework for Java EE 5
+=========================================================
+version 1.0 beta 1, September 2005
 
-cvs co jboss-head
-cd jboss-head/build
-./build.sh
-export JBOSS_HOME=XXXX/jboss-head/build/output/jboss-5.0.0alpha
-cd ../..
-cvs co jboss-seam-head
-cd build
-ant
-cd ../examples/booking
-ant deploy
-cd $JBOSS_HOME
-bin/run.sh
+This software is distributed under the terms of the FSF Lesser Gnu
+Public License (see lgpl.txt).
 
-Browse to http://localhost:8080/seam-booking/faces/login.jsp
+
+Get Up And Running Quick
+-------------------------------
+
+TODO (Browse to http://localhost:8080/seam-booking/faces/login.jsp)
+
+
+
