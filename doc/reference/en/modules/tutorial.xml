@@ -158,33 +158,8 @@ Total time: 2 seconds]]></programlisting>
 
       <para>
         The page displays a very basic form with three input fields. Try filling them 
-        in and then submitting the form.
+        in and then submitting the form. This will save a user object in the database.
       </para>
-
-      <para>
-        Now open the HSQL Database Manager by going to the
-        <ulink url="http://localhost:8080/jmx-console/HtmlAdaptor?action=inspectMBean&amp;name=jboss%3Aservice%3DHypersonic%2Cdatabase%3DlocalDB">JBoss JMX console</ulink> 
-        and pressing the <mousebutton>invoke</mousebutton> button under the <literal>startDatabaseManager</literal> method.
-      </para>
-      
-      <para>
-        Type in the SQL query <literal>SELECT * FROM USERS</literal> and click
-        <mousebutton>Execute SQL Statement</mousebutton>. You should see the 
-        data you just entered.
-      </para>
-      
-      <screenshot>
-        <screeninfo>HSQL database manager</screeninfo>
-        <mediaobject>
-          <imageobject role="fo">
-            <imagedata fileref="images/HSQLDatabaseManager.png" align="center"/>
-          </imageobject>
-          <imageobject role="html">
-            <imagedata fileref="../shared/images/HSQLDatabaseManager.png" align="center"/>
-          </imageobject>
-        </mediaobject>
-      </screenshot>
-            
 
     </section>
 
