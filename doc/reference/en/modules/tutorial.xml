@@ -11,11 +11,12 @@
     
     <para>
       In this tutorial, we'll assume that you have checked out <literal>jboss-seam-head</literal>
-      as explained in <xref linkend="installation"/>, or simply unzipped the Seam distribution.
+      and compiled the Seam core as explained in <xref linkend="installation"/>, or simply unzipped 
+      the Seam distribution.
     </para>
     
     <para>
-      The directory structure of the example applications follow this pattern:
+      The directory structure of each example application follows this pattern:
     </para>
 
      <itemizedlist>
@@ -58,13 +59,12 @@
        </para>
        
        <para>
-            Now, launch the ant build script by typing <literal>ant</literal> in 
-            <filename>examples/<replaceable>registration</replaceable></filename>. 
+            Now, launch the ant build script by typing <literal>ant</literal> in the
+            <filename>examples/<replaceable>registration</replaceable></filename> directory. 
             You should see something like this:
         </para>
      
-    <example>    
-            <screen><prompt>~/Workspace/jboss-seam/examples/<replaceable>registration</replaceable>$</prompt> <userinput>ant</userinput>
+        <programlisting><![CDATA[~/Workspace/jboss-seam/examples/registration$ ant
 Buildfile: build.xml
 
 prepare:
@@ -88,8 +88,8 @@ deploy: <co id="registration-build-deploy"/>
 [copy] Copying 1 file to /home/user/Workspace/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy
 
 BUILD SUCCESSFUL
-Total time: 2 seconds</screen>
-            <calloutlist>
+Total time: 2 seconds]]></programlisting>
+            <!--calloutlist>
                 <callout arearefs="registration-build-compile">
                     <para>Compiles all the Java classes</para>
                 </callout>
@@ -108,8 +108,11 @@ Total time: 2 seconds</screen>
                         <literal>$JBOSS_HOME</literal>
                     </para>
                 </callout>
-            </calloutlist>
-        </example>
+            </calloutlist-->
+        
+        <para>
+            Assuming that all is well, the example application will now be deployed to JBoss. 
+        </para>
         
     </section>
         
@@ -140,12 +143,15 @@ Total time: 2 seconds</screen>
       <indexterm><primary>example</primary><secondary>running</secondary></indexterm>
       
       <para>
-        Start JBoss by typing <literal>bin/run.sh</literal> in the <literal>$JBOSS_HOME</literal>
-        directory.
+          If it's not already running, start JBoss by typing <literal>bin/run.sh</literal> 
+          in the <literal>$JBOSS_HOME</literal> directory. Look for this line in the
+          JBoss log to verify that the application was started succesfully:
       </para>
       
+      <programlisting><![CDATA[11:44:12,759 INFO  [EARDeployer] Started J2EE application: file:/home/user/Workspace/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jboss-seam-registration.ear]]></programlisting>
+      
       <para>
-        Now point your browser to <ulink url="http://localhost:8080/seam-registration/faces/register.jsp">
+        Now point your web browser to <ulink url="http://localhost:8080/seam-registration/faces/register.jsp">
         <literal>http://localhost:8080/seam-<replaceable>registration</replaceable>/faces/<replaceable>register.jsp</replaceable></literal>
         </ulink>
       </para>
@@ -193,9 +199,9 @@ Total time: 2 seconds</screen>
         <title>The entity bean: <literal>User.java</literal></title>
 
         <para>
-            We need an EJB entity bean for user data. This class defines
-            <emphasis>persistence</emphasis> and <emphasis>validation</emphasis>
-            declaratively, via annotations.
+            We need an EJB entity bean for user data. This class defines <emphasis>persistence</emphasis>  
+            and <emphasis>validation</emphasis> declaratively, via annotations. It also needs some extra
+            annotations that define the class as a Seam component.
         </para>
 
         <example>
@@ -208,8 +214,6 @@ Total time: 2 seconds</screen>
                     <area id="registration-attributes" coords="9"/>
                     <area id="registration-empty-constructor" coords="20"/>
                     <area id="registration-notnull" coords="22"/>
-                    <area id="registration-accessors" coords="23"/>
-                    <area id="registration-length" coords="33"/>
                     <area id="registration-id-annotation" coords="44"/>
                 </areaspec>
                 <programlisting><![CDATA[@Entity
@@ -233,17 +237,6 @@ public class User implements Serializable
    
    public User() {}
    
-   @NotNull
-   public String getName()
-   {
-      return name;
-   }
-
-   public void setName(String name)
-   {
-      this.name = name;
-   }
-   
    @NotNull @Length(min=5, max=15)
    public String getPassword()
    {
@@ -253,6 +246,17 @@ public class User implements Serializable
    public void setPassword(String password)
    {
       this.password = password;
+   }
+   
+   @NotNull
+   public String getName()
+   {
+      return name;
+   }
+
+   public void setName(String name)
+   {
+      this.name = name;
    }
    
    @Id @NotNull @Length(min=5, max=15)
@@ -265,54 +269,56 @@ public class User implements Serializable
    {
       this.username = username;
    }
-   
-   public String toString() 
-   {
-      return "User(" + username + ")";
-   }
+
 }]]></programlisting>
                 <calloutlist>
                     <callout arearefs="registration-entity-annotation">
-                        <indexterm>
+                        <!-- indexterm>
                             <primary>Annotation</primary>
                             <secondary>@javax.persistence.Entity</secondary>
-                        </indexterm>
+                        </indexterm-->
                         <para>
-                            The <literal>User</literal> class is an entity bean that represents persistent
-                            data in the database. The EJB3 specification requires that we mark entity
-                            beans with the <literal>@Entity</literal> annotation.
+                            The EJB3 standard <literal>@Entity</literal> annotation indicates that the
+                            <literal>User</literal> class is an entity bean.
                         </para>
                     </callout>
                     <callout arearefs="registration-name-annotation">
-                        <indexterm>
+                        <!-- indexterm>
                             <primary>Annotation</primary>
                             <secondary>@org.jboss.seam.annotation.Name</secondary>
-                        </indexterm>
+                        </indexterm-->
                         <para>
                             A Seam component needs a <emphasis>component name</emphasis> specified by the 
                             <link linkend="name-annotation"><literal>@Name</literal></link> annotation. This 
-                            name must be unique within the Seam application.
+                            name must be unique within the Seam application. When JSF asks Seam to resolve
+                            a context variable with a name that is the same as a Seam component name, and
+                            the context variable is currently undefined (null), Seam will instantiate that
+                            component, and bind the new instance to the context variable. In this case,
+                            Seam will instantiate a <literal>User</literal> the first time JSF encounters
+                            a variable named <literal>user</literal>.
                         </para>
                     </callout>
                     <callout arearefs="registration-scope-annotation">
-                        <indexterm>
+                        <!-- indexterm>
                             <primary>Annotation</primary>
                             <secondary>@org.jboss.seam.annotation.Scope</secondary>
-                        </indexterm>
+                        </indexterm-->
                         <para>
-                            A Seam component has a default context. This is defined using the 
-                            <link linkend="scope-annotation"><literal>@Scope</literal></link>
-                            annotation. The <literal>User</literal> bean is a session scoped component.
+                            Whenever Seam instantiates a component, it binds the new instance to a context
+                            variable in the component's <emphasis>default context</emphasis>. The default 
+                            context is specified using the 
+                            <link linkend="scope-annotation"><literal>@Scope</literal></link> annotation. 
+                            The <literal>User</literal> bean is a session scoped component.
                         </para>
                     </callout>
                     <callout arearefs="registration-table-annotation">
-                        <indexterm>
+                        <!--indexterm>
                             <primary>Annotation</primary>
                             <secondary>@javax.persistence.Table</secondary>
-                        </indexterm>
+                        </indexterm-->
                         <para>
                             The EJB standard <literal>@Table</literal> annotation indicates that 
-                            the <literal>User</literal> class is persistent to the <literal>users</literal>
+                            the <literal>User</literal> class is mapped to the <literal>users</literal>
                             table.
                         </para>
                     </callout>
@@ -320,46 +326,52 @@ public class User implements Serializable
                         <para>
                             <literal>name</literal>, <literal>password</literal> and
                             <literal>username</literal> are the persistent attributes of the 
-                            entity bean.
+                            entity bean. All of our persistent attributes define accessor
+                            methods. These are needed when this component is used by JSF
+                            in the render response and update model values phases.
                         </para>
                     </callout>
                     <callout arearefs="registration-empty-constructor">
                         <para>
-                            An empty constructor is both required by both the EJB specification and 
-                            by Seam.
+                            An empty constructor is both required by both the EJB specification 
+                            and by Seam.
                         </para>
                     </callout>
                     <callout arearefs="registration-notnull">
                         <para>
-                            The <literal>@NotNull</literal> annotation is part of the Hibernate
-                            Validator framework. Seam integrates Hibernate Validator and lets 
-                            you use it for data validation (even if you are not using Hibernate
-                            for persistence).
-                        </para>
-                    </callout>
-                    <callout arearefs="registration-accessors">
-                        <para>
-                            We require accessor methods for the persistent attributes of the bean.
-                        </para>
-                    </callout>
-                    <callout arearefs="registration-length">
-                        <para>
-                            The <literal>@Length</literal> annotation is also part of the Hibernate
-                            Validator framework.
+                            The <literal>@NotNull</literal> and <literal>@Length</literal> 
+                            annotations are part of the Hibernate Validator framework. Seam 
+                            integrates Hibernate Validator and lets you use it for data validation 
+                            (even if you are not using Hibernate for persistence).
                         </para>
                     </callout>
                     <callout arearefs="registration-id-annotation">
-                        <indexterm>
+                        <!--indexterm>
                             <primary>Annotation</primary>
                             <secondary>@javax.persistence.Id</secondary>
-                        </indexterm>
+                        </indexterm-->
                         <para>
-                            The EJB standard <literal>@Id</literal> annotation indicates that this 
-                            attribute is the primary key.
+                            The EJB standard <literal>@Id</literal> annotation indicates the 
+                            primary key attribute of the entity bean.
                         </para>
                     </callout>
                 </calloutlist>
             </programlistingco>
+            <para>
+                The most important things to notice in this example are the <literal>@Name</literal>
+                and <literal>@Scope</literal> annotations. This annotations establish that this class
+                as a Seam component.
+            </para>
+            <para>
+                We'll see below that the properties of our <literal>User</literal> class are bound 
+                to directly to JSF components and are populated by JSF during the update model values
+                phase. We don't need any tedious glue code to copy data back and forth between the 
+                JSP pages and the entity bean domain model.
+            </para>
+            <para>
+                However, entity beans shouldn't do transaction management or database access. So we 
+                can't use this component as a JSF action listener. For that we need a session bean.
+            </para>
         </example>
                 
       </section>
@@ -368,8 +380,13 @@ public class User implements Serializable
         <title>The stateless session bean class: <literal>RegisterAction.java</literal></title>
         
         <para>
-            Most Seam application use stateless session beans as JSF action listeners. We have
-            exactly one action in our application, and one session bean method attached to it.
+            Most Seam application use session beans as JSF action listeners (you can use JavaBeans
+            instead if you like). 
+        </para>
+        <para>
+            We have exactly one JSF action in our application, and one session bean method attached 
+            to it. In this case, we'll use a stateless session bean, since all the state associated 
+            with our action is held by the <literal>User</literal> bean. 
         </para>
         
         <para>
@@ -380,11 +397,13 @@ public class User implements Serializable
             <programlistingco>
                 <areaspec>
                     <area id="registration-stateless-annotation" coords="1"/>
-                    <area id="registration-interceptor-annotation" coords="3"/>
+                    <area id="registration-interceptor-annotation" coords="4"/>
                     <area id="registration-in-annotation" coords="8"/>
                     <area id="registration-valid-annotation" coords="8"/>
                     <area id="registration-persistencecontext-annotation" coords="11"/>
+                    <area id="registration-facescontext" coords="15"/>
                     <area id="registration-ifinvalid-annotation" coords="17"/>
+                    <area id="registration-action-listener" coords="18"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateless
 @Scope(EVENT)
@@ -408,6 +427,7 @@ public class RegisterAction implements Register
       List existing = em.createQuery("select username from User where username=:username")
          .setParameter("username", user.getUsername())
          .getResultList();
+         
       if (existing.size()==0)
       {
          em.persist(user);
@@ -424,33 +444,35 @@ public class RegisterAction implements Register
                     
             <calloutlist>
                 <callout arearefs="registration-stateless-annotation">
-                    <indexterm>
+                    <!--indexterm>
                         <primary>Annotation</primary>
                         <secondary>@javax.ejb.Stateful</secondary>
-                    </indexterm>
+                    </indexterm-->
                     <para>
                         The EJB standard <literal>@Stateless</literal> annotation marks this class 
                         as stateless session bean.
                     </para>
                 </callout>
                 <callout arearefs="registration-interceptor-annotation">
-                    <indexterm>
+                    <!--indexterm>
                         <primary>Annotation</primary>
                         <secondary>@javax.ejb.Interceptor</secondary>
-                    </indexterm>
+                    </indexterm-->
                     <para>
                         The <literal>SeamInterceptor</literal> EJB interceptor must be enabled for 
                         all session beans which are Seam components.
                     </para>
                 </callout>
                 <callout arearefs="registration-in-annotation">
-                    <indexterm>
+                    <!--indexterm>
                         <primary>Annotation</primary>
                         <secondary>@org.jboss.seam.annotations.In</secondary>
-                    </indexterm>
+                    </indexterm-->
                     <para>
                         The <link linkend="in-annotation"><literal>@In</literal></link> annotation 
-                        marks an attribute of the bean as injected by Seam.
+                        marks an attribute of the bean as injected by Seam. In this case, the
+                        attribute is injected from a context variable named <literal>user</literal>
+                        (the instance variable name).
                     </para>
                 </callout>
                 <callout arearefs="registration-valid-annotation">
@@ -460,37 +482,77 @@ public class RegisterAction implements Register
                     </para>
                 </callout>
                 <callout arearefs="registration-persistencecontext-annotation">
-                    <indexterm>
+                    <!--indexterm>
                         <primary>Annotation</primary>
                         <secondary>@javax.persistence.PersistenceContext</secondary>
-                    </indexterm>
+                    </indexterm-->
                     <para>
-                        The EJB <literal>PersistenceContext</literal> annotation is used to 
+                        The EJB standard <literal>@PersistenceContext</literal> annotation is used to 
                         inject the EJB3 entity manager.
                     </para>
                 </callout>
+                <callout arearefs="registration-facescontext">
+                    <!--indexterm>
+                        <primary>Annotation</primary>
+                        <secondary>@javax.persistence.PersistenceContext</secondary>
+                    </indexterm-->
+                    <para>
+                        Seam also allows various JSF, Seam and jBPM context objects to be injected.
+                        To get the current <literal>FacesContext</literal> instance injected to
+                        a Seam component, just mark an instance variable named 
+                        <literal>facesContext</literal> with the <literal>@In</literal> annotation.
+                    </para>
+                </callout>
                 <callout arearefs="registration-ifinvalid-annotation">
-                    <indexterm>
+                    <!--indexterm>
                         <primary>Annotation</primary>
                         <secondary>@org.jboss.seam.annotations.IfInvalid</secondary>
-                    </indexterm>
+                    </indexterm-->
                     <para>
-                        The <literal>@IfInvalid</literal> annotation tells Seam to
-                        validate the component state using Hibernate Validator before
-                        invoking the annotated action listener method, and return
-                        a different JSF outcome if the state is invalid.
+                        The <link linkend="ifinvalid-annotation"><literal>@IfInvalid</literal></link> 
+                        annotation tells Seam to validate the component state using Hibernate Validator 
+                        before invoking the action listener method, and return a different JSF outcome 
+                        if the state is invalid. In this example, the <literal>user</literal> is 
+                        validated when the <literal>register()</literal> method is invoked, and the
+                        form is redisplayed if a validation failure occurs.
+                    </para>
+                </callout>
+                <callout arearefs="registration-action-listener">
+                    <para>
+                        The action listener method uses the standard EJB3 <literal>EntityManager</literal> 
+                        API to interact with the database, and returns the JSF outcome. Note that, since
+                        this is a sesson bean, a transaction is automatically begun when the 
+                        <literal>register()</literal> method is called, and committed when it completes.
                     </para>
                 </callout>
             </calloutlist>
             </programlistingco>
-        </example>
         
         <para>
-            Our session bean uses the standard EJB3 <literal>EntityManager</literal>
-            API to interact with the database. It uses Seam's Hibernate Validator
-            integration to perform validation of the data in the <literal>User</literal>
-            bean.
+            Note that we did not explicitly specify a <literal>@Scope</literal> this time. Each Seam 
+            component type has a default scope if not explicitly specified. For stateless session beans,
+            the default scope is the stateless context. Actually, <emphasis>all</emphasis> stateless
+            session beans belong in the stateless context.
         </para>
+        
+        <para>
+            Our session bean action listener performs the business and persistence logic for our
+            mini-application. In more complex applications, we might need to layer the code and
+            refactor persistence logic into a dedicated data access component. That's perfectly
+            trivial to do. But notice that Seam does not force you into any particular strategy 
+            for application layering.
+        </para>
+        
+        <para>
+            Furthermore, notice that our session bean has simultaneous access to context associated
+            with the web request (the <literal>FacesContext</literal> object, for example), and
+            state held in transactional resources (the <literal>EntityManager</literal> object).
+            This is a break from traditional J2EE architectures. Again, if you are more comfortable
+            with the traditional J2EE layering, you can certainly implement that in a Seam application.
+            But for many applications, it's simply not very useful.
+        </para>
+
+        </example>        
       
       </section>
       
@@ -508,6 +570,10 @@ public interface Register
    public String register();
 }]]></programlisting>
         </example>
+        
+        <para>
+            That's the end of the Java code. Now onto the deployment descriptors.
+        </para>
         
         <para>
             Stop yawning!
@@ -621,7 +687,17 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         <para>
             The <literal>jsf-config.xml</literal> file integrates Seam into JSF and specifies the 
             single navigation rule for our registration application. Note that there are no managed 
-            bean declarations (they are not needed with Seam).
+            bean declarations (they are not needed with Seam). The managed beans are the Seam 
+            components. In Seam applications, the <literal>jsf-config.xml</literal> is used only 
+            for specifying the page flow by mapping logical JSF outcome names to view pages.
+        </para>
+        
+        <para>
+            In fact, once you have all the basic descriptors set up, the <emphasis>only</emphasis>
+            XML you need to write as you add new functionality to a Seam application is the navigation
+            rules, and possibly jBPM process definitions. Seam takes the view that 
+            <emphasis>process flow</emphasis> and <emphasis>configuration data</emphasis> are the only 
+            things that truly belong in XML.
         </para>
         
       </section>

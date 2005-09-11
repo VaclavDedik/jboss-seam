@@ -22,7 +22,7 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry>
+            <varlistentry id="name-annotation">
                 <term><literal>@Name</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Name("componentName")]]></programlisting>
@@ -32,7 +32,7 @@
                     </para>
                 </listitem>
             </varlistentry>   
-            <varlistentry>
+            <varlistentry  id="scope-annotation">
                 <term><literal>@Scope</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Name(ScopeType.CONVERSATION)]]></programlisting>
@@ -133,7 +133,7 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry>
+            <varlistentry id="in-annotation">
                 <term><literal>@In</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@In(value="contextVariableName", create=false, required=false)]]></programlisting>
@@ -166,7 +166,7 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
-            <varlistentry>
+            <varlistentry id="out-annotation">
                 <term><literal>@Out</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Out(value="contextVariableName", required=false)]]></programlisting>
@@ -355,7 +355,7 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry>
+            <varlistentry id="ifinvalid-annotation">
                 <term><literal>@IfInvalid</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@IfInvalid(outcome="invalid")]]></programlisting>
