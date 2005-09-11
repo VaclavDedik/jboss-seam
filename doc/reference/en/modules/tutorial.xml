@@ -574,11 +574,6 @@ public interface Register
         <para>
             That's the end of the Java code. Now onto the deployment descriptors.
         </para>
-        
-        <para>
-            Stop yawning!
-        </para>
-                    
 
       </section>
       
@@ -638,9 +633,6 @@ public interface Register
             see here is pretty much identical in all Seam applications. 
         </para>
         
-        <para>
-            (OK, you're allowed to yawn now.)
-        </para>
       </section>
       
       <section>
