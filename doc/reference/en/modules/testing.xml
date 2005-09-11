@@ -158,7 +158,7 @@ public class RegisterAction implements Register
 
         <para>
             We want to test the registration functionality of our application (the stuff
-            that happens when the user clicks the Register button. We'll reproduce the JSF 
+            that happens when the user clicks the Register button). We'll reproduce the JSF 
             request lifecycle in an automated TestNG test:
         </para>
 
