@@ -1058,6 +1058,9 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
             guides you toward a safe usage model. Welcome to 2005.
         </para>
         <para>
+            OK, I'll stop ranting now, and get back to the tutorial.
+        </para>
+        <para>
             Let's see how the booking example application uses a conversation-scoped stateful session
             bean to achieve a natural cache of persistent data related to the conversation.
         </para>
