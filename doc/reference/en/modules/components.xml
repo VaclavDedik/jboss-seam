@@ -1,0 +1,199 @@
+<chapter id="components">
+    <title>Built-in Seam components</title>
+    <para>
+        This chapter describes Seam's built-in components, and their
+        configuration properties.
+    </para>
+    
+    <section>
+        <title>Context injection components</title>
+        <para>
+            The first set of build in components exist purely to support
+            injection of various contextual objects. For example, the
+            following component instance variable would have the Seam
+            session context object injected:
+        </para>
+        
+        <programlisting><![CDATA[@In private Context sessionContext;]]></programlisting>
+    
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>eventContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the event context object
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>conversationContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the conversation context object
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>sessionContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the session context object
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>applicationContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the appication context object
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>businessProcessContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the business process context object
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>statelessContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the stateless context object
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>facesContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the <literal>FacesContext</literal> context object
+                        (not a true Seam context)
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+        <para>
+            All of these components are always installed.
+        </para>
+        
+    </section>
+    
+    <section>
+        <title>Infrastructural components</title>
+        <para>
+            These components provide critical platform infrastructure. You can install a component
+            by including its class name in the <literal>org.jboss.seam.core.init.componentClassNames</literal>
+            configuration property.
+        </para>
+        
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.init</literal></term>
+                <listitem>
+                    <para>
+                        Initialization settings for Seam. Always installed.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.componentClassNames</literal> &mdash; a list of names
+                            of Seam component classes to be installed. (The class name, not the component name!)
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.persistenceUnitNames</literal> &mdash; a list of names
+                            of EJB 3.0 persistence units for use with Seam managed persistence contexts.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.sessionFactoryNames</literal> &mdash; a list of names
+                            of Hibernate session factories for use with Seam managed sessions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.dataSourceNames</literal> &mdash; a list of names
+                            of Seam managed datasources.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.manager</literal></term>
+                <listitem>
+                    <para>
+                        Internal context management. Always installed.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.conversationTimeout</literal> &mdash; 
+                            the conversation context timeout in milliseconds.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.ejb</literal></term>
+                <listitem>
+                    <para>
+                        Bootstraps the JBoss Embeddable EJB3 container. Install as
+                        class <literal>org.jboss.seam.core.Ejb</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.jndi</literal></term>
+                <listitem>
+                    <para>
+                        Bootstraps the JBoss JNDI naming server. Install as
+                        class <literal>org.jboss.seam.core.Jndi</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.jta</literal></term>
+                <listitem>
+                    <para>
+                        Bootstraps the JBoss local JTA transaction manager. Install as
+                        class <literal>org.jboss.seam.core.Jta</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.hibernate</literal></term>
+                <listitem>
+                    <para>
+                        Bootstraps a Hibernate <literal>SessionFactory</literal>. Install as
+                        class <literal>org.jboss.seam.core.Hibernate</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.hibernate.cfgResourceName</literal> &mdash; 
+                            the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.hibernate.datasourceName</literal> &mdash; 
+                            the name of the datasource component. Default to the JNDI name of the
+                            datasource known from the configuration file.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+       </variablelist>
+   </section>
+</chapter>

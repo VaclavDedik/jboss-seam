@@ -8,6 +8,7 @@
 <!ENTITY concepts               SYSTEM "modules/concepts.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
+<!ENTITY components             SYSTEM "modules/components.xml">
 ]>
 
 <book lang="en">
@@ -41,6 +42,7 @@
     &concepts;
     &configuration;
     &annotations;
+    &components;
     
     <index id="pageindex">
         <title>Index</title>
