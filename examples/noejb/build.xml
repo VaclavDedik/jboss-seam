@@ -9,15 +9,13 @@
    <property environment="env"/>
    <property name="src.dir" value="${basedir}/src"/>
    <property name="resources.dir" value="${basedir}/resources"/>
-   <!--property name="thirdparty.dir" value="${basedir}/thirdparty"/-->
    <property name="jboss.home" value="${env.JBOSS_HOME}"/>
    <property name="output.dir" value="${basedir}/output"/>
    <property name="deploy.dir" value="${jboss.home}/server/default/deploy"/>
    <property name="output.classes.dir" value="${output.dir}/classes"/>
    <property name="output.war.dir" value="${output.dir}/war"/>
-   <property name="example.name" value="jboss-seam-booking"/>
-    
-    
+   <property name="example.name" value="seam-noejb"/>
+
    <!-- Build classpath -->
    <path id="classpath">
       <fileset dir="${basedir}/../../output">
@@ -98,19 +96,6 @@
       </jar>
    </target>
 
-   <!--target name="ear" depends="war">
-     <jar destfile="${output.dir}/${example.name}.ear">
-       <zipfileset dir="${output.dir}">
-          <include name="${example.name}.ejb3"/>
-       </zipfileset>
-       <zipfileset dir="${output.dir}">
-         <include name="${example.name}.war"/>
-       </zipfileset>
-       <zipfileset dir="${resources.dir}/META-INF" prefix="META-INF"/>
-     </jar>
-   </target-->
-    
-    
    <target name="deploy" depends="war">
    	 <copy file="${resources.dir}/booking-ds.xml" todir="${deploy.dir}"/>
      <copy file="${output.dir}/${example.name}.war" todir="${deploy.dir}"/>
@@ -127,7 +112,6 @@
       <delete dir="${output.dir}"/>
       <delete file="${deploy.dir}/${example.name}.ear"/>
    </target>
-
 
 </project>
 

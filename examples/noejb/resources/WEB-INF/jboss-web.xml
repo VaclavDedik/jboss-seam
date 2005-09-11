@@ -1,0 +1,7 @@
+<jboss-web>
+   <class-loading> 
+      <loader-repository> 
+      seam.jboss.org:loader=seam-noejb
+      </loader-repository> 
+   </class-loading>
+</jboss-web> 
