@@ -14,7 +14,7 @@
       The directory structure of each example in Seam follows this pattern:
     </para>
 
-     <itemizedlist>
+    <itemizedlist>
         <listitem>
           <para>
               Resources, such as deployment descriptors and web pages may be found in
@@ -35,25 +35,26 @@
         </listitem>
     </itemizedlist>
 
-   <section>
+    <section>
        <title>Compiling the examples</title>
        
        <para>
            First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal>
            and <literal>$JAVA_HOME</literal> set correctly. Next, make sure you set the
            location of your JBoss AS 4.0.3 installation in the <literal>build.properties</literal>
-           of Seam. If you haven't done so, start JBoss AS now with the <literal>bin/run.(sh|bat)</literal>
-           script.
+           file in the root folder of your Seam installation. If you haven't already done so, start 
+           JBoss AS now by typing <literal>bin/run.sh</literal> or <literal>bin/run.bat</literal> 
+           in the root directory of your JBoss installation.
        </para>
        
        <para>
-            Now, launch the example's build by typing <literal>ant deploy</literal> in the
+            Now, build and deploy the example by typing <literal>ant deploy</literal> in the
             <filename>examples/<replaceable>registration</replaceable></filename> directory.
-           T
         </para>
         <para>
             Assuming that all is well, the example application will now be deployed to JBoss.
-            Browse it by accessing <literal>http://localhost:8080/seam-registration/faces/register.jsp</literal>
+            Browse it by accessing 
+            <ulink url="http://localhost:8080/seam-registration/register.jsf"><literal>http://localhost:8080/seam-registration/register.jsf</literal></ulink>
             with your web browser.
         </para>
         
@@ -79,8 +80,6 @@
         The start page displays a very basic form with three input fields. Try filling them
         in and then submitting the form. This will save a user object in the database.
     </para>
-
-    </section>
 
     <section>
       <title>Understanding the code</title>
@@ -814,12 +813,14 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 
       <para>
           The project structure is identical to the previous one, to install and deploy this
-          application, please refer to <xref linkend="try-examples"/>. Just ten classes (plus six 
-          session beans local interfaces and 1 annotation interface) where used to implement 
-          this application. 
+          application, please refer to <xref linkend="try-examples"/>. Once you've successfully
+          started the application, you can access it by pointing your browser to
+          <ulink url="http://localhost:8080/seam-booking/"><literal>http://localhost:8080/seam-booking/</literal></ulink>
       </para>
-      
+
       <para>
+          Just ten classes (plus six session beans local interfaces and 1 annotation interface) 
+          where used to implement this application. 
           Six session bean action listeners contain all the business logic for the listed features.
       </para>
       
@@ -1199,6 +1200,13 @@ public class HotelBookingAction implements HotelBooking, Serializable
   <section id="dvdstore">
       <title>A complete Seam application: the DVD store example</title>
       <para>TODO</para>
+      <para>Look in the <literal>dvdstore</literal> directory.</para>
+  </section>
+  
+  <section id="noejb">
+      <title>An example of Seam with Hibernate: the Hibernate booking example</title>
+      <para>TODO</para>
+      <para>Look in the <literal>noejb</literal> directory.</para>
   </section>
   
 </chapter>
