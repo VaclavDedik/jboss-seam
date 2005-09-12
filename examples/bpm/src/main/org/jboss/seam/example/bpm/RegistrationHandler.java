@@ -1,14 +1,13 @@
-package org.jboss.seam.example.bpm;
-
-import javax.ejb.Local;
-
-
 /*
  * JBoss, Home of Professional Open Source
  *
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
+package org.jboss.seam.example.bpm;
+
+import javax.ejb.Local;
+
 
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
@@ -16,7 +15,7 @@ import javax.ejb.Local;
  */
 
 @Local
-public interface UserManagement
+public interface RegistrationHandler
 {
    String register();
 }
