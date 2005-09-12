@@ -38,7 +38,16 @@ public class Ejb
       
       log.info("starting the embedded EJB container");
       EJB3StandaloneBootstrap.boot(null);
-
+      try
+      {
+         EJB3StandaloneBootstrap.deployXmlResource("META-INF/jboss-beans.xml");
+      }
+      catch (RuntimeException re)
+      {
+         log.warn("could not start components in jboss-beans.xml: " + re.getMessage());
+         log.debug("could not start components in jboss-beans.xml", re);
+      }
+      
       deployer = new EJB3StandaloneDeployer();
       deployer.getArchivesByResource().add("seam.properties");
 
