@@ -9,7 +9,7 @@
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="resources/view">
-        <include name="*"/>
+        <include name="**/*"/>
     </zipfileset>
     <zipfileset id="example.war.webinf"
             prefix="WEB-INF"
