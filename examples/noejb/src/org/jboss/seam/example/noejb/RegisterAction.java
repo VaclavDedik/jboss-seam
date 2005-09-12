@@ -7,6 +7,7 @@ import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
@@ -29,6 +30,9 @@ public class RegisterAction
    @In(create=true)
    private Session bookingDatabase;
    
+   @In
+   private FacesContext facesContext;
+   
    private String verify;
    
    @IfInvalid(outcome=REDISPLAY)
@@ -37,9 +41,9 @@ public class RegisterAction
       if ( user.getPassword().equals(verify) )
       {
          log.info("registering user");
-         List existing = em.createQuery("select username from User where username=:username")
+         List existing = bookingDatabase.createQuery("select username from User where username=:username")
             .setParameter("username", user.getUsername())
-            .getResultList();
+            .list();
          if (existing.size()==0)
          {
             bookingDatabase.persist(user);
