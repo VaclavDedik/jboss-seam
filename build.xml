@@ -2,6 +2,12 @@
 
 <project name="Seam" default="jar" basedir=".">
 
+    <!-- Allow this to be overriden by others importing this project. -->
+    <dirname property="imported.basedir" file="${ant.file.Seam}"/>
+
+    <!-- Give user a chance to override without editing this file or typing -D -->
+    <property file="${imported.basedir}/build.properties"/>
+
     <!-- Name of project and version, used to create filenames -->
     <property name="Name"               value="JBoss Seam"/>
     <property name="name"               value="jboss-seam"/>
@@ -13,17 +19,18 @@
     <property name="classes.dir"        value="${build.dir}/classes"/>
 
     <property name="src.java.dir"       value="src/main"/>
+    <property name="src.resources.di"  value="resources"/>
 
-    <property name="lib.dir"            value="lib"/>
-    <property name="eejb.lib.dir"       value="embedded-ejb/lib"/>
-    <property name="eejb.conf.dir"      value="embedded-ejb/conf"/>
+    <property name="lib.dir"            value="${imported.basedir}/lib"/>
+    <property name="eejb.lib.dir"       value="${imported.basedir}/embedded-ejb/lib"/>
+    <property name="eejb.conf.dir"      value="${imported.basedir}/embedded-ejb/conf"/>
 
     <property name="doc.dir"            value="doc"/>
     <property name="doc.api.dir"        value="${doc.dir}/api"/>
     <property name="doc.ref.dir"        value="${doc.dir}/reference"/>
     <property name="javadoc.link"       value="http://java.sun.com/j2se/5.0/docs/api"/>
 
-    <property name="dist.dir"           value="../${name}-${version}"/>
+    <property name="dist.dir"           value="${imported.basedir}/../${name}-${version}"/>
     <property name="dist.doc.dir"       value="${dist.dir}/doc"/>
     <property name="dist.api.dir"       value="${dist.dir}/doc/api"/>
     <property name="dist.ref.dir"       value="${dist.dir}/doc/reference"/>
@@ -32,11 +39,7 @@
     <property name="dist.eejb.lib.dir"  value="${dist.dir}/embedded-ejb/lib"/>
     <property name="dist.eejb.conf.dir" value="${dist.dir}/embedded-ejb/conf"/>
 
-
-    <property name="jar.name"           value="${name}"/>
-    <property name="jar.path"           value="${dist.dir}/${jar.name}.jar"/>
-
-    <property name="test.src.dir"       value="src/test"/>
+    <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
 
     <path id="build.classpath">
         <fileset dir="${lib.dir}">
@@ -44,6 +47,9 @@
         </fileset>
         <fileset dir="${eejb.lib.dir}">
             <include name="*.jar" />
+        </fileset>
+        <fileset dir="${imported.basedir}">
+            <include name="${name}.jar" />
         </fileset>
     </path>
 
@@ -70,8 +76,12 @@
     <!-- ############################ Targets #############################-->
 
     <target name="clean"
-            description="Cleans up build and dist directories">
+            description="Cleans up the build directory">
         <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="cleandist"
+            description="Cleans up the dist and directory">
         <delete dir="${dist.dir}"/>
     </target>
 
@@ -134,16 +144,25 @@
         </copy>
     </target>
 
+    <target name="copyexamples" description="Copy examples to dist dir">
+        <copy todir="${dist.dir}/examples">
+            <fileset dir="${imported.basedir}/examples">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+    </target>
+
     <target name="jar" depends="compile"
             description="Build the distribution .jar file">
         <mkdir dir="${dist.dir}"/>
-        <jar jarfile="${jar.path}" basedir="${classes.dir}">
+        <jar jarfile="${basedir}/${name}.jar" basedir="${classes.dir}">
             <include name="org/jboss/seam/**/*.class"/>
             <patternset refid="jar.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
+        <copy file="${basedir}/${name}.jar" todir="${dist.dir}"/>
     </target>
 
     <target name="javadoc"
@@ -183,10 +202,11 @@
 
     <target name="extras"
             description="Copy miscellaneous files to root dir">
-        <copy file="readme.txt" todir="${dist.dir}"/>
-        <copy file="lgpl.txt" todir="${dist.dir}"/>
-        <copy file="changelog.txt" todir="${dist.dir}"/>
-        <copy file="build.xml" todir="${dist.dir}"/>
+        <copy file="readme.txt"         todir="${dist.dir}"/>
+        <copy file="lgpl.txt"           todir="${dist.dir}"/>
+        <copy file="changelog.txt"      todir="${dist.dir}"/>
+        <copy file="build.properties"   todir="${dist.dir}"/>
+        <copy file="build.xml"          todir="${dist.dir}"/>
         <replace file="${dist.dir}/build.xml">
             <replacetoken><![CDATA[../${name}-${version}]]></replacetoken>
             <replacevalue><![CDATA[../${name}]]></replacevalue>
@@ -194,7 +214,7 @@
     </target>
 
     <target name="dist"
-        depends="jar,javadoc,copysource,copylib,extras,refdoc"
+        depends="cleandist,jar,javadoc,copysource,copylib,copyexamples,extras,refdoc"
         description="Build everything and package">
         <zip zipfile="${dist.dir}.zip">
             <zipfileset prefix="${name}-${version}" dir="${dist.dir}"/>
@@ -204,6 +224,55 @@
         </tar>
         <gzip src="${dist.dir}.tar" zipfile="${dist.dir}.tar.gz"/>
         <delete file="${dist.dir}.tar"/>
+    </target>
+
+    <!-- ############################ Examples #############################-->
+
+    <target name="war" depends="compile">
+        <jar destfile="${build.dir}/${example.name}.war">
+            <zipfileset dir="${example.war.webinf}" prefix="WEB-INF"/>
+            <zipfileset dir="${example.war.docroot}"/>
+        </jar>
+    </target>
+
+    <target name="ejb3" depends="compile">
+        <jar jarfile="${build.dir}/${example.name}.ejb3">
+
+            <fileset dir="${classes.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+
+            <fileset refid="example.ejb3.resources"/>
+
+            <zipfileset dir="${imported.basedir}" prefix="WEB-INF/lib">
+                <include name="${name}.jar"/>
+            </zipfileset>
+
+        </jar>
+    </target>
+
+    <target name="ear" depends="ejb3, war">
+        <jar destfile="${build.dir}/${example.name}.ear">
+            <zipfileset dir="${build.dir}">
+                <include name="${example.name}.ejb3"/>
+            </zipfileset>
+            <zipfileset dir="${build.dir}">
+                <include name="${example.name}.war"/>
+            </zipfileset>
+            <zipfileset refid="example.ear.resources"/>
+        </jar>
+    </target>
+
+    <target name="deploy" depends="ear">
+        <copy file="${build.dir}/${example.name}.ear" todir="${deploy.dir}"/>
+    </target>
+
+    <target name="undeploy">
+        <delete file="${deploy.dir}/${example.name}.ear"/>
+    </target>
+
+    <target name="clean.db">
+        <delete dir="${deploy.dir}/../data/hypersonic"/>
     </target>
 
 </project>
