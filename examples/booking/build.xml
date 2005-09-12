@@ -27,7 +27,6 @@
             dir="resources">
         <include name="import.sql"/>
         <include name="seam.properties"/>
-        <include name="booking-ds.xml"/>
         <include name="META-INF/persistence.xml"/>
     </fileset>
 
@@ -38,6 +37,17 @@
         <include name="*"/>
         <exclude name="persistence.xml"/>
     </zipfileset>
+
+    <!-- Deploy -->
+    <fileset id="example.deploy"
+            dir="resources">
+        <include name="booking-ds.xml"/>
+    </fileset>
+
+    <!-- Undeploy -->
+    <patternset id="example.undeploy">
+        <include name="booking-ds.xml"/>
+    </patternset>
 
     <!-- Overrides -->
     <property name="src.java.dir"           value="src"/>

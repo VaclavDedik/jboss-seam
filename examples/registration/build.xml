@@ -38,6 +38,17 @@
         <exclude name="persistence.xml"/>
     </zipfileset>
 
+    <!-- Deploy -->
+    <fileset id="example.deploy"
+            dir="resources">
+        <include name="_NONE_"/>
+    </fileset>
+
+    <!-- Undeploy -->
+    <patternset id="example.undeploy">
+        <include name="_NONE_"/>
+    </patternset>
+    
     <!-- Overrides -->
     <property name="src.java.dir"            value="src"/>
 
