@@ -18,7 +18,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       {
          try 
          {
-            log.info("beginning transaction");
+            log.debug("beginning transaction");
             Transactions.getUserTransaction().begin();
          }
          catch (Exception e)
@@ -40,7 +40,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
          {
             if ( Transactions.isTransactionActive() )
             {
-               log.info("committing transaction");
+               log.debug("committing transaction");
                Transactions.getUserTransaction().commit();
             }
          }

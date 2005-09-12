@@ -9,7 +9,6 @@ package org.jboss.seam.contexts;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
@@ -22,15 +21,12 @@ import org.jboss.seam.Seam;
  */
 public class StatelessContext implements Context {
 
-	private static final Logger log = Logger.getLogger(StatelessContext.class);
-
    public ScopeType getType()
    {
       return ScopeType.STATELESS;
    }
 
 	public Object get(String name) {
-		log.info("resolving: " + name);
 		try {
 			return new InitialContext().lookup(name);
 		}
@@ -40,12 +36,10 @@ public class StatelessContext implements Context {
 	}
 
 	public void set(String name, Object value) {
-		log.info("binding: " + name);
 		try {
 			new InitialContext().bind(name, value);
 		}
 		catch (NamingException ne) {
-			log.debug("could not bind: " + name, ne);
 			throw new IllegalArgumentException("could not bind: " + name, ne);
 		}
 	}
@@ -55,12 +49,10 @@ public class StatelessContext implements Context {
 	}
 
 	public void remove(String name) {
-		log.info("unbinding: " + name);
 		try {
 			new InitialContext().unbind(name);
 		}
 		catch (NamingException ne) {
-			log.debug("could not unbind: " + name, ne);
 			throw new IllegalArgumentException("could not unbind: " + name, ne);
 		}
 	}

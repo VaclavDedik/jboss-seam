@@ -54,7 +54,7 @@ public class SeamPhaseListener implements PhaseListener
       {
          Lifecycle.beginRequest( getSession( event ) );
          Manager.instance().setProcessInterceptors( false );
-         log.info( "About to restore view" );
+         log.trace( "About to restore view" );
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
@@ -65,19 +65,19 @@ public class SeamPhaseListener implements PhaseListener
       else if ( event.getPhaseId() == INVOKE_APPLICATION )
       {
          Manager.instance().setProcessInterceptors( true );
-         log.info( "About to invoke application" );
+         log.trace( "About to invoke application" );
       }
       else if ( event.getPhaseId() == UPDATE_MODEL_VALUES )
       {
-         log.info( "About to update model values" );
+         log.trace( "About to update model values" );
       }
       else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
       {
-         log.info( "About to process validations" );
+         log.trace( "About to process validations" );
       }
       else if ( event.getPhaseId() == APPLY_REQUEST_VALUES )
       {
-         log.info( "About to apply request values" );
+         log.trace( "About to apply request values" );
       }
    }
 
@@ -96,20 +96,20 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == INVOKE_APPLICATION )
       {
-         log.info( "After invoke application" );
+         log.trace( "After invoke application" );
          Manager.instance().setProcessInterceptors( false );
       }
       else if ( event.getPhaseId() == UPDATE_MODEL_VALUES )
       {
-         log.info( "After update model values" );
+         log.trace( "After update model values" );
       }
       else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
       {
-         log.info( "After process validations" );
+         log.trace( "After process validations" );
       }
       else if ( event.getPhaseId() == APPLY_REQUEST_VALUES )
       {
-         log.info( "After apply request values" );
+         log.trace( "After apply request values" );
       }
    }
 
@@ -117,15 +117,15 @@ public class SeamPhaseListener implements PhaseListener
    {
       String conversationId = Manager.instance().restore( getAttributes( event ) );
       Lifecycle.resumeConversation( getSession( event ), conversationId );
-      log.info( "After restore view, conversation context: " + Contexts.getConversationContext() );
+      log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }
 
    private static void storeAnyConversationContext(PhaseEvent event)
    {
-      log.info( "Before render response" );
+      log.debug( "Before render response" );
       if ( !Contexts.isConversationContextActive() )
       {
-         log.info( "No active conversation context" );
+         log.debug( "No active conversation context" );
       }
       else
       {

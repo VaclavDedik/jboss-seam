@@ -125,7 +125,7 @@ public class Component
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
       
-      log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType());
+      log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType() + ", class: " + beanClass.getName());
 
       if ( beanClass.isAnnotationPresent(Conversational.class) )
       {
@@ -202,7 +202,7 @@ public class Component
             PropertyEditor propertyEditor = PropertyEditorManager.findEditor( propertyDescriptor.getPropertyType() );
             propertyEditor.setAsText( value );
             initializers.put( propertyDescriptor.getWriteMethod(), propertyEditor.getValue() );
-            log.info( key + "=" + value );
+            log.debug( key + "=" + value );
         }
          
       }
@@ -397,13 +397,15 @@ public class Component
 
    public Object newInstance()
    {
+      log.debug("instantiating Seam component: " + name);
+
       try 
       {
          return initialize( instantiate() );
       }
       catch (Exception e)
       {
-         throw new InstantiationException("Could not instantiate component", e);
+         throw new InstantiationException("Could not instantiate Seam component", e);
       }
    }
 
@@ -679,12 +681,11 @@ public class Component
       Component component = Component.forName(name);
       if (component == null)
       {
-         log.info("seam component not found: " + name);
+         log.debug("seam component not found: " + name);
          return null; //needed when this method is called by JSF
       }
       else
       {
-         log.info("instantiating seam component: " + name);
          Object instance = component.newInstance();
          if (component.getType()!=ComponentType.STATELESS_SESSION_BEAN)
          {

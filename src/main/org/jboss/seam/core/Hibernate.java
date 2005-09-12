@@ -60,7 +60,7 @@ public class Hibernate
       {
          dataSourceName = acfg.getProperty(Environment.DATASOURCE);
       }
-      log.info("using datasource: " + dataSourceName);
+      log.info("Starting Hibernate, using datasource: " + dataSourceName);
       Component.getInstance( dataSourceName, true );
       
       sf = acfg.buildSessionFactory();

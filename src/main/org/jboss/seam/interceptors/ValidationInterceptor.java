@@ -44,13 +44,13 @@ public class ValidationInterceptor extends AbstractInterceptor
          }
          else
          {
-            log.info("invalid component state: " + component.getName());
+            log.debug("invalid component state: " + component.getName());
             for (InvalidValue iv : invalidValues)
             {
                FacesContext facesContext = FacesContext.getCurrentInstance();
                String clientId = getClientId( facesContext.getViewRoot(), iv.getPropertyName(), facesContext);     
                FacesMessage facesMessage = new FacesMessage( FacesMessage.SEVERITY_INFO, iv.getMessage(), iv.getMessage() );
-               log.info("invalid value:" + iv + ", clientId: " + clientId);
+               log.debug("invalid value:" + iv + ", clientId: " + clientId);
                facesContext.addMessage( clientId, facesMessage );
             }
             return ifInvalid.outcome();

@@ -22,7 +22,10 @@ public class BijectionInterceptor extends AbstractInterceptor
    {
       if ( component.getInFields().size()>0 || component.getInMethods().size()>0 ) //only needed to hush the log message
       {
-         log.info("injecting dependencies of: " + component.getName());
+         if ( log.isTraceEnabled() )
+         {
+            log.trace("injecting dependencies of: " + component.getName());
+         }
          component.inject(invocation.getBean()/*, true*/);
       }
       
@@ -30,7 +33,10 @@ public class BijectionInterceptor extends AbstractInterceptor
       
       if ( component.getOutFields().size()>0 || component.getOutMethods().size()>0 ) //only needed to hush the log message
       {
-         log.info("outjecting dependencies of: " + component.getName());
+         if ( log.isTraceEnabled() )
+         {
+            log.trace("outjecting dependencies of: " + component.getName());
+         }
          component.outject(invocation.getBean());
       }
       

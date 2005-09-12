@@ -178,7 +178,7 @@ public class Manager
          if ( delta > conversationTimeout )
          {
             String conversationId = entry.getKey();
-            log.info("conversation timeout for conversation: " + conversationId);
+            log.debug("conversation timeout for conversation: " + conversationId);
             ConversationContext conversationContext = new ConversationContext( session, conversationId );
             conversationContext.clear();
             Contexts.destroy( conversationContext );
@@ -193,12 +193,7 @@ public class Manager
    {
       if (dirty)
       {
-         log.info("flushing");
          Contexts.getSessionContext().set(CONVERSATION_ID_MAP, conversationIdMap);
-      }
-      else
-      {
-         log.info("no need to flush");
       }
    }
    
@@ -280,7 +275,7 @@ public class Manager
       }
       else 
       {
-         log.info("Discarding conversation state: " + currentConversationId);
+         log.debug("Discarding conversation state: " + currentConversationId);
          attributes.remove(CONVERSATION_ID);
          //TODO: should we also remove task and process ids here?
          removeConversationId(currentConversationId);
@@ -294,7 +289,7 @@ public class Manager
             getSessionConversationIds().contains(storedConversationId);
       if ( isStoredConversation )
       {
-         log.info("Restoring conversation with id: " + storedConversationId);
+         log.debug("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          currentConversationId = storedConversationId;
          taskId = ( Long ) attributes.get( TASK_ID );
@@ -304,7 +299,7 @@ public class Manager
       }
       else
       {
-         log.info("No stored conversation");
+         log.debug("No stored conversation");
          currentConversationId = Id.nextId();
          setLongRunningConversation(false);
       }

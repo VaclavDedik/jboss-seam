@@ -51,7 +51,7 @@ public class ManagedHibernateSession implements Serializable
          throw new IllegalArgumentException("SessionFactory not found", ne);
       }
       
-      log.info("created seam managed session for session factory: "+ sessionFactoryName);
+      log.debug("created seam managed session for session factory: "+ sessionFactoryName);
    }
    
    @Unwrap
@@ -63,7 +63,7 @@ public class ManagedHibernateSession implements Serializable
    @Destroy
    public void destroy()
    {
-      log.info("destroying seam managed session for session factory: " + sessionFactoryName);
+      log.debug("destroying seam managed session for session factory: " + sessionFactoryName);
       session.close();
    }
    

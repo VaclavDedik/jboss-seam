@@ -39,18 +39,18 @@ public class SeamVariableResolver extends VariableResolver
    {
       name = name.replace('$', '.');
       
-      log.info("resolving name: " + name);
+      log.debug("resolving name: " + name);
       Object component = Component.getInstance(name, true);
       Object managedBean = jsfVariableResolver.resolveVariable(facesContext, name);
       if (component==null)
       {
          if (managedBean==null)
          {
-            log.info("could not resolve name");
+            log.debug("could not resolve name");
             return null;
          }
          else {
-            log.info("resolved name to managed bean");
+            log.debug("resolved name to managed bean");
             return managedBean;  
          }
       }
@@ -60,7 +60,7 @@ public class SeamVariableResolver extends VariableResolver
          {
             log.warn("Seam component hides managed bean with same name");
          }
-         log.info("resolved name to seam component");
+         log.debug("resolved name to seam component");
          return component;
       }      
    }

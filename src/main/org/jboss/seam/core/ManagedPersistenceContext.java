@@ -54,7 +54,7 @@ public class ManagedPersistenceContext implements Serializable
          throw new IllegalArgumentException("EntityManagerFactory not found", ne);
       }
       
-      log.info("created seam managed persistence context for persistence unit: "+ persistenceUnitName);
+      log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitName);
    }
    
    @Unwrap
@@ -66,7 +66,7 @@ public class ManagedPersistenceContext implements Serializable
    @Destroy
    public void destroy()
    {
-      log.info("destroying seam managed persistence context for persistence unit: " + persistenceUnitName);
+      log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitName);
       entityManager.close();
    }
    

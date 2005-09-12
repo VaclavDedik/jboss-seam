@@ -18,7 +18,7 @@ public class Lifecycle
    private static final Logger log = Logger.getLogger( Lifecycle.class );
 
    public static void beginRequest(HttpSession session) {
-      log.info( ">>> Begin web request" );
+      log.debug( ">>> Begin web request" );
       //eventContext.set( new WebRequestContext( request ) );
       Contexts.eventContext.set( new EventContext() );
       Contexts.sessionContext.set( new WebSessionContext(session) );
@@ -68,9 +68,10 @@ public class Lifecycle
 
    public static void endApplication(ServletContext servletContext)
    {
+      log.debug("Undeploying, destroying application context");
+
       Context tempApplicationContext = new WebApplicationContext( servletContext );
       Contexts.applicationContext.set( tempApplicationContext );
-      log.info("destroying application context");
       Contexts.destroy(tempApplicationContext);
       Contexts.applicationContext.set(null);
       Contexts.eventContext.set(null);
@@ -80,7 +81,7 @@ public class Lifecycle
 
    public static void endSession(HttpSession session)
    {
-      log.info("End of session, destroying contexts");
+      log.debug("End of session, destroying contexts");
 
       Context tempAppContext = new WebApplicationContext(session.getServletContext() );
       Contexts.applicationContext.set(tempAppContext);
@@ -95,13 +96,13 @@ public class Lifecycle
       Contexts.sessionContext.set(tempSessionContext);
 
       Set<String> ids = Manager.instance().getSessionConversationIds();
-      log.info("destroying conversation contexts: " + ids);
+      log.debug("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
          Contexts.destroy( new ConversationContext(session, conversationId) );
       }
 
-      log.info("destroying session context");
+      log.debug("destroying session context");
       Contexts.destroy(tempSessionContext);
       Contexts.sessionContext.set(null);
 
@@ -114,7 +115,7 @@ public class Lifecycle
 
    public static void endRequest(HttpSession session) {
 
-      log.info("After render response, destroying contexts");
+      log.debug("After render response, destroying contexts");
 
       try
       {
@@ -127,7 +128,7 @@ public class Lifecycle
 
          if ( Contexts.isEventContextActive() )
          {
-            log.info("destroying event context");
+            log.debug("destroying event context");
             Contexts.destroy( Contexts.getEventContext() );
          }
 
@@ -139,7 +140,7 @@ public class Lifecycle
             }
             if ( !Manager.instance().isLongRunningConversation() )
             {
-               log.info("destroying conversation context");
+               log.debug("destroying conversation context");
                Contexts.destroy( Contexts.getConversationContext() );
             }
          }
@@ -160,7 +161,7 @@ public class Lifecycle
          Contexts.applicationContext.set( null );
       }
 
-      log.info( "<<< End web request" );
+      log.debug( "<<< End web request" );
    }
 
    public static void resumeConversation(HttpSession session, String id)

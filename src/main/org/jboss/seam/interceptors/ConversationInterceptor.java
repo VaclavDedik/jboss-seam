@@ -36,7 +36,7 @@ public class ConversationInterceptor extends AbstractInterceptor
 
       if ( isNoConversationForConversationalBean(method) )
       {
-         log.info("no long-running conversation for @Conversational bean: " + component.getName());
+         log.debug("no long-running conversation for @Conversational bean: " + component.getName());
          return component.getNoConversationOutcome();
       }
       
@@ -100,7 +100,7 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void beginConversation()
    {
-      log.info("Beginning conversation");
+      log.debug("Beginning long-running conversation");
       Manager.instance().setLongRunningConversation(true);
       setConversationOwnerName();
    }
@@ -139,7 +139,7 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void endConversation()
    {
-      log.info("Ending conversation");
+      log.debug("Ending long-running conversation");
       Manager.instance().setLongRunningConversation(false);
    }
 

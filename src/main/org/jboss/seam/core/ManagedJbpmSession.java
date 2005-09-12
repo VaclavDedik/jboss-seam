@@ -45,13 +45,12 @@ public class ManagedJbpmSession
       Init settings = Init.instance();
       jbpmSessionFactoryName = settings.getJbpmSessionFactoryName();
 
-      log.info( "created seam managed jbpm-session [" + jbpmSessionFactoryName + "]" );
+      log.debug( "created seam managed jbpm-session [" + jbpmSessionFactoryName + "]" );
    }
 
    @Unwrap
    public JbpmSession getJbpmSession()
    {
-      log.info( "Unwrapping jBPM session" );
       if ( jbpmSession == null )
       {
          jbpmSession = getSessionFactory().openJbpmSessionAndBeginTransaction();
@@ -62,7 +61,7 @@ public class ManagedJbpmSession
    @Destroy
    public void destroy()
    {
-      log.info( "destroying seam managed jbpm-session [" + jbpmSessionFactoryName + "]" );
+      log.debug( "destroying seam managed jbpm-session [" + jbpmSessionFactoryName + "]" );
       if ( jbpmSession != null )
       {
          jbpmSession.commitTransactionAndClose();

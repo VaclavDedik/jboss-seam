@@ -76,29 +76,25 @@ public class Contexts {
    
    public static void removeFromAllContexts(String name)
    {
+      log.debug("removing from all contexts: " + name);
       if (isEventContextActive())
       {
-         log.info("removing from event context");
          getEventContext().remove(name);
       }
       if (isConversationContextActive())
       {
-         log.info("removing from conversation context");
          getConversationContext().remove(name);
       }
       if (isSessionContextActive())
       {
-         log.info("removing from session context");
          getSessionContext().remove(name);
       }
       if (isBusinessProcessContextActive())
       {
-         log.info("removing from process context");
          getBusinessProcessContext().remove(name);
       }
       if (isApplicationContextActive())
       {
-         log.info("removing from application context");
          getApplicationContext().remove(name);
       }
    }
@@ -110,7 +106,7 @@ public class Contexts {
          Object result = getEventContext().get(name);
          if (result!=null)
          {
-            log.info("found in event context");
+            log.debug("found in event context: " + name);
             return result;
          }
       }
@@ -120,7 +116,7 @@ public class Contexts {
          Object result = getConversationContext().get(name);
          if (result!=null)
          {
-            log.info("found in conversation context");
+            log.debug("found in conversation context: " + name);
             return result;
          }
       }
@@ -130,7 +126,7 @@ public class Contexts {
          Object result = getSessionContext().get(name);
          if (result!=null)
          {
-            log.info("found in session context");
+            log.debug("found in session context: " + name);
             return result;
          }
       }
@@ -140,7 +136,7 @@ public class Contexts {
          Object result = getBusinessProcessContext().get(name);
          if (result!=null)
          {
-            log.info("found in business process context");
+            log.debug("found in business process context: " + name);
             return result;
          }
       }
@@ -150,7 +146,7 @@ public class Contexts {
          Object result = getApplicationContext().get(name);
          if (result!=null)
          {
-            log.info("found in application context");
+            log.debug("found in application context: " + name);
             return result;
          }
       }
@@ -158,29 +154,12 @@ public class Contexts {
       return null;
       
    }
-      
-   public static Object lookupInAllContexts(String name)
-   {
-      Object result = lookupInStatefulContexts(name);
-      if (result!=null) return result;
-      
-      result = getStatelessContext().get(name);
-      if (result!=null)
-      {
-         log.info("found in stateless context");
-         return result;
-      }
-      else {
-         log.info("not found in any context");
-         return null;
-      }
-   }
    
    public static void destroy(Context context)
    {
       for ( String name: context.getNames() ) {
          Component component = Component.forName(name);
-         log.info("destroying: " + name);
+         log.debug("destroying: " + name);
          if ( component!=null )
          {
             callDestroyMethod( component, context.get(name) );

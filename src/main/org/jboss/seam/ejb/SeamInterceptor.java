@@ -34,11 +34,17 @@ public class SeamInterceptor
       final Component component = getSeamComponent( invocation.getBean() );
       if ( isProcessInterceptors(component) )
       {
-         log.info("intercepted: " + invocation.getMethod().getName());
+         if ( log.isTraceEnabled() ) 
+         {
+            log.trace("intercepted: " + invocation.getMethod().getName());
+         }
          return new SeamInvocationContext(invocation, component).proceed();
       }
       else {
-         log.debug("not intercepted: " + invocation.getMethod().getName());
+         if ( log.isTraceEnabled() ) 
+         {
+            log.trace("not intercepted: " + invocation.getMethod().getName());
+         }
          //component.inject( invocation.getBean(), false );
          return invocation.proceed();
       }

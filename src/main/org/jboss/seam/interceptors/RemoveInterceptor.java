@@ -47,7 +47,7 @@ public class RemoveInterceptor extends AbstractInterceptor
       if ( wasRemoved )
       {
          component.getScope().getContext().remove( component.getName() );
-         log.info("Stateful component was removed: " + component.getName());
+         log.debug("Stateful component was removed: " + component.getName());
       }
    }
 
