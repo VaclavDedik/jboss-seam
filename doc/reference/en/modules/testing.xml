@@ -2,7 +2,7 @@
 	<title>Testing Seam applications</title>
 	<para>
 	    Most Seam applications will need at least two kinds of automated tests:
-	    <emphasis>unit tests</emphasis> test, which test a particular Seam component
+	    <emphasis>unit tests</emphasis>, which test a particular Seam component
 	    in isolation, and scripted <emphasis>integration tests</emphasis> which
 	    exercise all Java layers of the application (that is, everything except the
 	    view pages).
@@ -16,8 +16,9 @@
 		<para>
 		    All Seam components are POJOs. This is a great place to start if you
 		    want easy unit testing. And since Seam emphasises the use of bijection 
-            for inter-component interactions, it's very easy to test a Seam
-            component outside of its normal runtime environment.
+            for inter-component interactions and access to contextual objects, it's 
+            very easy to test a Seam component outside of its normal runtime 
+            environment.
 		</para>
 		<para>
 		    Consider the following Seam component:
