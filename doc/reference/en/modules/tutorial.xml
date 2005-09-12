@@ -5,108 +5,56 @@
     <title>Try the examples</title>
     
     <para>
-      In this tutorial, we'll assume that you have checked out <literal>jboss-seam-head</literal>
-      and compiled the Seam core as explained in <xref linkend="installation"/>, or simply unzipped 
-      the Seam distribution.
+      In this tutorial, we'll assume that you have downloaded JBoss AS 4.0.3 and installed the
+      EJB 3.0 profile (using the JBoss AS installer). You should also have a copy of Seam
+      downloaded and extracted to a work directory.
     </para>
     
     <para>
-      The directory structure of each example application follows this pattern:
+      The directory structure of each example in Seam follows this pattern:
     </para>
 
      <itemizedlist>
-            <listitem>
-              <para>
-                  Resources, such as deployment descriptors and web pages may be found in
-                  <filename>examples/<replaceable>registration</replaceable>/resources</filename>
-               </para>
-            </listitem>
-            <listitem>
-               <para>
-                  Java source code may be found in
-                  <filename>examples/<replaceable>registration</replaceable>/src</filename>
-               </para>
-            </listitem>
-            <listitem>
-               <para>
-                  The Ant build script is
-                  <filename>examples/<replaceable>registration</replaceable>/build.xml</filename>
-               </para>
-            </listitem>
-        </itemizedlist>
-        
-        <mediaobject>
-            <imageobject role="fo">
-                <imagedata fileref="images/FileSystem.png" align="center"/>
-            </imageobject>
-            <imageobject role="html">
-                <imagedata fileref="../shared/images/FileSystem.png" align="center"/>
-            </imageobject>
-        </mediaobject>
+        <listitem>
+          <para>
+              Resources, such as deployment descriptors and web pages may be found in
+              <filename>examples/<replaceable>registration</replaceable>/resources</filename>
+           </para>
+        </listitem>
+        <listitem>
+           <para>
+              Java source code may be found in
+              <filename>examples/<replaceable>registration</replaceable>/src</filename>
+           </para>
+        </listitem>
+        <listitem>
+           <para>
+              The Ant build script is
+              <filename>examples/<replaceable>registration</replaceable>/build.xml</filename>
+           </para>
+        </listitem>
+    </itemizedlist>
 
    <section>
        <title>Compiling the examples</title>
        
        <para>
            First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal>
-           and <literal>$JAVA_HOME</literal> set correctly. Next, make sure <literal>$JBOSS_HOME</literal> 
-           is set correctly for your JBoss 4.0.3 installation.
+           and <literal>$JAVA_HOME</literal> set correctly. Next, make sure you set the
+           location of your JBoss AS 4.0.3 installation in the <literal>build.properties</literal>
+           of Seam. If you haven't done so, start JBoss AS now with the <literal>bin/run.(sh|bat)</literal>
+           script.
        </para>
        
        <para>
-            Now, launch the ant build script by typing <literal>ant</literal> in the
-            <filename>examples/<replaceable>registration</replaceable></filename> directory. 
-            You should see something like this:
+            Now, launch the example's build by typing <literal>ant deploy</literal> in the
+            <filename>examples/<replaceable>registration</replaceable></filename> directory.
+           T
         </para>
-     
-        <programlisting><![CDATA[~/Workspace/jboss-seam/examples/registration$ ant
-Buildfile: build.xml
-
-prepare:
-[mkdir] Created dir: /home/user/Workspace/jboss-seam/examples/registration/output
-[mkdir] Created dir: /home/user/Workspace/jboss-seam/examples/registration/output/classes
-[mkdir] Created dir: /home/user/Workspace/jboss-seam/examples/registration/output/war
-
-compile: <co id="registration-build-compile"/>
-[javac] Compiling 3 source files to /home/user/Workspace/jboss-seam/examples/registration/output/classes
-
-ejb3: <co id="registration-build-ejb3"/>
-[jar] Building jar: /home/user/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.ejb3
-
-war: <co id="registration-build-war"/>
-[jar] Building jar: /home/user/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.war
-
-ear: <co id="registration-build-ear"/>
-[jar] Building jar: /home/user/Workspace/jboss-seam/examples/registration/output/jboss-seam-registration.ear
-
-deploy: <co id="registration-build-deploy"/>
-[copy] Copying 1 file to /home/user/Workspace/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy
-
-BUILD SUCCESSFUL
-Total time: 2 seconds]]></programlisting>
-            <!--calloutlist>
-                <callout arearefs="registration-build-compile">
-                    <para>Compiles all the Java classes</para>
-                </callout>
-                <callout arearefs="registration-build-ejb3">
-                    <para>Builds the EJB3 archive</para>
-                </callout>
-                <callout arearefs="registration-build-war">
-                    <para>Builds the WAR archive</para>
-                </callout>
-                <callout arearefs="registration-build-ear">
-                    <para>Package the EJB3 and WAR archives into an EAR</para>
-                </callout>
-                <callout arearefs="registration-build-deploy">
-                    <para>
-                        Copies the EAR to the deploy directory of the JBoss instance defined by
-                        <literal>$JBOSS_HOME</literal>
-                    </para>
-                </callout>
-            </calloutlist-->
-        
         <para>
-            Assuming that all is well, the example application will now be deployed to JBoss. 
+            Assuming that all is well, the example application will now be deployed to JBoss.
+            Browse it by accessing <literal>http://localhost:8080/seam-registration/faces/register.jsp</literal>
+            with your web browser.
         </para>
         
     </section>
@@ -127,27 +75,10 @@ Total time: 2 seconds]]></programlisting>
         We'll go slowly, since we realize you might not yet be familiar with EJB 3.0.
     </para>
         
-    <section>
-      <title>Running the example</title>
-      
-      <para>
-          If it's not already running, start JBoss by typing <literal>bin/run.sh</literal> 
-          in the <literal>$JBOSS_HOME</literal> directory. Look for this line in the
-          JBoss log to verify that the application was started succesfully:
-      </para>
-      
-      <programlisting><![CDATA[11:44:12,759 INFO  [EARDeployer] Started J2EE application: file:/home/user/Workspace/jboss-head/build/output/jboss-5.0.0alpha/server/default/deploy/jboss-seam-registration.ear]]></programlisting>
-      
-      <para>
-        Now point your web browser to <ulink url="http://localhost:8080/seam-registration/faces/register.jsp">
-        <literal>http://localhost:8080/seam-<replaceable>registration</replaceable>/faces/<replaceable>register.jsp</replaceable></literal>
-        </ulink>
-      </para>
-
-      <para>
-        The page displays a very basic form with three input fields. Try filling them 
+    <para>
+        The start page displays a very basic form with three input fields. Try filling them
         in and then submitting the form. This will save a user object in the database.
-      </para>
+    </para>
 
     </section>
 
@@ -840,7 +771,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         <listitem>
           <para>Existing reservation list</para>
         </listitem>
-          </itemizedlist>
+      </itemizedlist>
           
       <screenshot>
         <screeninfo>Booking example</screeninfo>

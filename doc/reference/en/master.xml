@@ -123,7 +123,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><emphasis>Integrate Busines Process as a First Class Construct</emphasis></term>
+                <term><emphasis>Integrate Business Process as a First Class Construct</emphasis></term>
                 <listitem>
                     <para>
                         Optionally, Seam integrates transparent business process management via jBPM. You won't believe
