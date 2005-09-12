@@ -52,7 +52,7 @@
         </fileset>
     </path>
 
-    <patternset id="jar.files">
+    <patternset id="meta.files">
         <include name="**/*.dtd"/>
         <include name="**/*.xml"/>
         <include name="**/*.xslt"/>
@@ -94,7 +94,7 @@
         <mkdir dir="${classes.dir}"/>
         <copy todir="${classes.dir}">
             <fileset dir="${src.java.dir}">
-                <patternset refid="jar.files"/>
+                <patternset refid="meta.files"/>
             </fileset>
         </copy>
     </target>
@@ -117,7 +117,7 @@
                 <patternset refid="src.files"/>
             </fileset>
             <fileset dir="${src.java.dir}">
-                <patternset refid="jar.files"/>
+                <patternset refid="meta.files"/>
             </fileset>
         </copy>
     </target>
@@ -138,7 +138,7 @@
         </copy>
         <copy todir="${dist.eejb.conf.dir}">
             <fileset dir="${eejb.conf.dir}">
-                <patternset refid="jar.files"/>
+                <patternset refid="meta.files"/>
             </fileset>
         </copy>
     </target>
@@ -156,7 +156,7 @@
         <mkdir dir="${dist.dir}"/>
         <jar jarfile="${basedir}/${name}.jar" basedir="${classes.dir}">
             <include name="org/jboss/seam/**/*.class"/>
-            <patternset refid="jar.files"/>
+            <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
             </manifest>
@@ -229,24 +229,21 @@
 
     <target name="war" depends="compile">
         <jar destfile="${build.dir}/${example.name}.war">
-            <zipfileset dir="${example.war.webinf}" prefix="WEB-INF"/>
-            <zipfileset dir="${example.war.docroot}"/>
+            <zipfileset refid="example.war.docroot"/>
+            <zipfileset refid="example.war.webinf"/>
+            <zipfileset refid="example.war.webinf.lib"/>
         </jar>
     </target>
 
     <target name="ejb3" depends="compile">
         <jar jarfile="${build.dir}/${example.name}.ejb3">
-
+            <fileset dir="${imported.basedir}">
+                <include name="${name}.jar"/>
+            </fileset>
             <fileset dir="${classes.dir}">
                 <include name="**/*.class"/>
             </fileset>
-
-            <fileset refid="example.ejb3.resources"/>
-
-            <zipfileset dir="${imported.basedir}" prefix="WEB-INF/lib">
-                <include name="${name}.jar"/>
-            </zipfileset>
-
+            <fileset refid="example.ejb3.root"/>
         </jar>
     </target>
 
@@ -263,6 +260,7 @@
     </target>
 
     <target name="deploy" depends="ear">
+        <echo>Don't forget to set the path of jboss.home to JBoss AS 4.0.3!</echo>
         <copy file="${build.dir}/${example.name}.ear" todir="${deploy.dir}"/>
     </target>
 

@@ -6,25 +6,39 @@
     <property name="Name"                   value="Seam Registration Example"/>
     <property name="example.name"           value="jboss-seam-registration"/>
 
-    <!-- Example WAR packaging -->
-    <property name="example.war.webinf"     value="resources/WEB-INF"/>
-    <property name="example.war.docroot"    value="resources/jsp"/>
+    <!-- WAR -->
+    <zipfileset id="example.war.docroot"
+               dir="resources/jsp">
+        <include name="*"/>
+    </zipfileset>
+    <zipfileset id="example.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <patternset refid="meta.files"/>
+     </zipfileset>
+    <zipfileset id="example.war.webinf.lib"
+            prefix="WEB-INF/lib"
+               dir="resources/WEB-INF">
+        <include name="_NONE_"/>
+    </zipfileset>
 
-    <!-- Example EJB3 packaging -->
-    <fileset id="example.ejb3.resources"
+    <!-- EJB3 -->
+    <fileset id="example.ejb3.root"
             dir="resources">
         <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
     </fileset>
 
-    <!-- Example EAR packaging -->
+    <!-- EAR -->
     <zipfileset id="example.ear.resources"
-            dir="resources">
-        <include name="META-INF/*"/>
+            prefix="META-INF"
+               dir="resources/META-INF">
+        <include name="*"/>
+        <exclude name="persistence.xml"/>
     </zipfileset>
 
-    <!-- Example overrides -->
+    <!-- Overrides -->
     <property name="src.java.dir"            value="src"/>
 
     <import file="../../build.xml"/>
