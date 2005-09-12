@@ -174,7 +174,7 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void renderResponse()
       {
-         ProcessInstance process = ( ProcessInstance ) Contexts.lookupInAllContexts( "currentProcess" );
+         ProcessInstance process = ( ProcessInstance ) Contexts.lookupInStatefulContexts( "currentProcess" );
          assert process != null;
          processId = process.getId();
          // force the flush...
@@ -213,7 +213,7 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void renderResponse()
       {
-         TaskInstance task = ( TaskInstance ) Contexts.lookupInAllContexts( "task" );
+         TaskInstance task = ( TaskInstance ) Contexts.lookupInStatefulContexts( "task" );
          assert task != null;
          assert task.getStart() != null;
          Manager manager = Manager.instance();
@@ -251,7 +251,7 @@ public class JbpmComponentTests extends SeamTest
       @Override
       protected void renderResponse()
       {
-         TaskInstance task = ( TaskInstance ) Contexts.lookupInAllContexts( "task" );
+         TaskInstance task = ( TaskInstance ) Contexts.lookupInStatefulContexts( "task" );
          assert task != null;
          assert task.hasEnded();
          assert !Manager.instance().isLongRunningConversation();

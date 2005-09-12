@@ -4,84 +4,103 @@
 <!-- JBoss build file                                                       -->
 <!-- ======================================================================= -->
 
-<project name="JBoss" default="deploy" basedir=".">
+<project name="Seam - examples/bpm" default="deploy" basedir=".">
+
+   <property name="example.name" value="jboss-seam-bpm"/>
+   <property name="src.dir" value="${basedir}/src/main"/>
+   <property name="test.src.dir" value="${basedir}/src/test"/>
+   <property name="resources.dir" value="${basedir}/resources"/>
+
+   <property name="output.dir" value="${basedir}/output"/>
+   <property name="output.classes.dir" value="${output.dir}/classes"/>
+   <property name="output.test.classes.dir" value="${output.dir}/test-classes"/>
 
    <property environment="env"/>
-   <property name="src.dir" value="${basedir}/src"/>
-   <property name="resources.dir" value="${basedir}/resources"/>
-   <!--property name="thirdparty.dir" value="${basedir}/thirdparty"/-->
    <property name="jboss.home" value="${env.JBOSS_HOME}"/>
-   <property name="output.dir" value="${basedir}/output"/>
-   <property name="deploy.dir" value="${jboss.home}/server/default/deploy"/>
-   <property name="output.classes.dir" value="${output.dir}/classes"/>
-   <property name="output.war.dir" value="${output.dir}/war"/>
-   <property name="example.name" value="jboss-seam-bpm"/>	
-	
-	
-   <!-- Build classpath -->
-   <path id="classpath">
-      <fileset dir="${basedir}/../../lib">
-         <include name="**/*.jar"/>
-      </fileset>
-      <fileset dir="${basedir}/../../output">
-         <include name="jboss-seam.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs">
-         <include name="**/*.jar"/>
-      </fileset>
+   <property name="jboss.server" value="default"/>
+   <property name="jboss.server.dir" value="${jboss.home}/server/${jboss.server}"/>
+   <property name="jboss.deploy.dir" value="${jboss.server.dir}/deploy"/>
+
+
+   <path id="classpath.jboss">
       <fileset dir="${jboss.home}/lib">
          <include name="**/*.jar"/>
       </fileset>
-      <fileset dir="${jboss.home}/server/default/lib">
+      <fileset dir="${jboss.server.dir}/lib">
          <include name="**/*.jar"/>
       </fileset>
-      <fileset dir="${jboss.home}/server/default/deploy/ejb3.deployer">
-         <include name="*.jar"/>
+      <fileset dir="${jboss.deploy.dir}/jbossweb-tomcat55.sar/jsf-libs">
+         <include name="**/*.jar"/>
       </fileset>
-      <fileset dir="${jboss.home}/server/default/deploy/jboss-aop-jdk50.deployer">
+      <fileset dir="${jboss.deploy.dir}/jboss-aop-jdk50.deployer">
          <include name="*.jar"/>
       </fileset>
    </path>
 
-   <property name="build.classpath" refid="classpath"/>
+   <path id="classpath.seam">
+      <fileset dir="${basedir}/../..">
+         <include name="jboss-seam.jar"/>
+      </fileset>
+      <fileset dir="${basedir}/../../lib">
+         <include name="*.jar"/>
+      </fileset>
+   </path>
 
-   <!-- =================================================================== -->
-   <!-- Prepares the build directory                                        -->
-   <!-- =================================================================== -->
-   <target name="prepare">
-      <mkdir dir="${output.dir}"/>
+   <path id="classpath.e-ejb">
+      <fileset dir="${basedir}/../../embedded-ejb/lib">
+         <include name="*.jar"/>
+      </fileset>
+   </path>
+
+   <path id="build.classpath">
+      <path refid="classpath.seam"/>
+      <path refid="classpath.e-ejb"/>
+      <path refid="classpath.jboss"/>
+   </path>
+
+   <path id="test.classpath">
+      <path refid="build.classpath"/>
+      <pathelement location="${output.classes.dir}"/>
+   </path>
+
+
+   <target name="compile">
       <mkdir dir="${output.classes.dir}"/>
-      <mkdir dir="${output.war.dir}"/>
+      <javac srcdir="${src.dir}"
+             destdir="${output.classes.dir}"
+             debug="on"
+             deprecation="on"
+             optimize="off"
+             includes="**">
+         <classpath refid="build.classpath"/>
+      </javac>
    </target>
 
-   <!-- =================================================================== -->
-   <!-- Compiles the source code                                            -->
-   <!-- =================================================================== -->
-   <target name="compile" depends="prepare">
-      <javac srcdir="${src.dir}"
-         destdir="${output.classes.dir}"
-         debug="on"
-         deprecation="on"
-         optimize="off"
-         includes="**">
-         <classpath refid="classpath"/>
+   <target name="compile-test" depends="compile">
+      <mkdir dir="${output.test.classes.dir}"/>
+      <javac srcdir="${test.src.dir}"
+             destdir="${output.test.classes.dir}"
+             debug="on"
+             deprecation="on"
+             optimize="off"
+             includes="**">
+         <classpath refid="test.classpath"/>
       </javac>
-    </target>
+   </target>
 
    <target name="war" depends="compile">
-     <jar destfile="${output.dir}/${example.name}.war">
-     	<zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
-        <zipfileset dir="${output.classes.dir}" prefix="WEB-INF/classes">
-           <include name="**/*Servlet.class"/>
-        </zipfileset>
-        <zipfileset dir="${src.dir}" prefix="WEB-INF/classes">
-           <include name="**/*cfg.xml"/>
-        </zipfileset>
-        <!--zipfileset dir="${basedir}/../../lib" prefix="WEB-INF/lib"/-->
-        <zipfileset dir="${resources.dir}/jsp"/>
-     </jar>
+      <jar destfile="${output.dir}/${example.name}.war">
+         <zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
+         <zipfileset dir="${output.classes.dir}" prefix="WEB-INF/classes">
+            <include name="**/*Servlet.class"/>
+         </zipfileset>
+         <zipfileset dir="${src.dir}" prefix="WEB-INF/classes">
+            <include name="**/*cfg.xml"/>
+         </zipfileset>
+         <zipfileset dir="${resources.dir}/jsp"/>
+      </jar>
    </target>
-	
+
    <target name="ejb3" depends="compile">
       <jar jarfile="${output.dir}/${example.name}.ejb3">
          <fileset dir="${output.classes.dir}">
@@ -92,32 +111,32 @@
    </target>
 
    <target name="ear" depends="ejb3, war">
-     <jar destfile="${output.dir}/${example.name}.ear">
-   	   <zipfileset dir="${output.dir}">
-   	     <include name="${example.name}.ejb3"/>
-       </zipfileset>
-   	   <zipfileset dir="${output.dir}">
-   	     <include name="${example.name}.war"/>
-   	   </zipfileset>
-   	   <zipfileset dir="${resources.dir}/META-INF" prefix="META-INF"/>
-     </jar>
+      <jar destfile="${output.dir}/${example.name}.ear">
+         <zipfileset dir="${output.dir}">
+            <include name="${example.name}.ejb3"/>
+         </zipfileset>
+         <zipfileset dir="${output.dir}">
+            <include name="${example.name}.war"/>
+         </zipfileset>
+         <zipfileset dir="${resources.dir}/META-INF" prefix="META-INF"/>
+      </jar>
    </target>
-	
-	
+
+
    <target name="deploy" depends="ear">
-     <copy file="${output.dir}/${example.name}.ear" todir="${deploy.dir}"/>
+      <copy file="${output.dir}/${example.name}.ear" todir="${jboss.deploy.dir}"/>
    </target>
 
    <!-- =================================================================== -->
    <!-- Cleans up generated stuff                                           -->
    <!-- =================================================================== -->
    <target name="clean.db">
-      <delete dir="${deploy.dir}/../data/hypersonic"/>
+      <delete dir="${jboss.deploy.dir}/../data/hypersonic"/>
    </target>
 
    <target name="clean">
       <delete dir="${output.dir}"/>
-      <delete file="${deploy.dir}/${example.name}.ear"/>
+      <delete file="${jboss.deploy.dir}/${example.name}.ear"/>
    </target>
 
 
