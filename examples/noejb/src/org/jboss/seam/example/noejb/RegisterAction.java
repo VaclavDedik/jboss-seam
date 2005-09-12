@@ -4,6 +4,10 @@ package org.jboss.seam.example.noejb;
 import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
 import org.jboss.logging.Logger;
@@ -33,12 +37,24 @@ public class RegisterAction
       if ( user.getPassword().equals(verify) )
       {
          log.info("registering user");
-         bookingDatabase.persist(user);
-         return "login";
+         List existing = em.createQuery("select username from User where username=:username")
+            .setParameter("username", user.getUsername())
+            .getResultList();
+         if (existing.size()==0)
+         {
+            bookingDatabase.persist(user);
+            return "login";
+         }
+         else
+         {
+            facesContext.addMessage(null, new FacesMessage("username already exists"));
+            return null;
+         }
       }
       else 
       {
          log.info("password not verified");
+         facesContext.addMessage(null, new FacesMessage("re-enter your password"));
          verify=null;
          return null;
       }

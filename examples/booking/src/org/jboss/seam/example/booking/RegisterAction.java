@@ -4,9 +4,12 @@ package org.jboss.seam.example.booking;
 import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
+import java.util.List;
+
 import javax.ejb.Interceptor;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -42,12 +45,24 @@ public class RegisterAction implements Register
       if ( user.getPassword().equals(verify) )
       {
          log.info("registering user");
-         em.persist(user);
-         return "login";
+         List existing = em.createQuery("select username from User where username=:username")
+            .setParameter("username", user.getUsername())
+            .getResultList();
+         if (existing.size()==0)
+         {
+            em.persist(user);
+            return "login";
+         }
+         else
+         {
+            facesContext.addMessage(null, new FacesMessage("username already exists"));
+            return null;
+         }
       }
       else 
       {
          log.info("password not verified");
+         facesContext.addMessage(null, new FacesMessage("re-enter your password"));
          verify=null;
          return null;
       }

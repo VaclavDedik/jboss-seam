@@ -77,9 +77,6 @@
          <include name="jboss-seam.jar"/>
        </zipfileset>
        <zipfileset dir="${resources.dir}/view"/>
-       <fileset dir="${resources.dir}">
-         <include name="seam.properties"/>
-       </fileset>
      </jar>
    </target>
     
@@ -91,7 +88,7 @@
         <fileset dir="${resources.dir}">
           <include name="import.sql"/>
           <include name="hibernate.cfg.xml"/>
-        	<include name="seam.properties"/>
+          <include name="seam.properties"/>
         </fileset>
       </jar>
    </target>
