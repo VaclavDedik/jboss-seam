@@ -10,6 +10,7 @@ import javax.ejb.Interceptor;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -36,6 +37,9 @@ public class RegisterAction implements Register
    
    @PersistenceContext
    private EntityManager em;
+   
+   @In
+   private FacesContext facesContext;
    
    private String verify;
    
