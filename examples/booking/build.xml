@@ -53,4 +53,10 @@
     <property name="src.java.dir"           value="src"/>
 
     <import file="../../build.xml"/>
+
+    <!-- Redefine targets -->
+    <target name="deploy" depends="ear">
+        <antcall target="Seam.deploy"/>
+    </target>
+    
 </project>
