@@ -6,6 +6,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import javax.naming.InitialContext;
 import javax.transaction.TransactionManager;
 
+import org.jboss.logging.Logger;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
 import org.jboss.resource.connectionmanager.CachedConnectionManager;
 import org.jboss.resource.connectionmanager.CachedConnectionManagerReference;
@@ -27,7 +28,7 @@ import org.jboss.seam.annotations.Startup;
 @Startup(depends={"org.jboss.seam.core.jta", "org.jboss.seam.core.jndi"})
 public class ManagedDataSource
 {
-   //private static final Logger log = Logger.getLogger(JTADatasource.class);
+   private static final Logger log = Logger.getLogger(ManagedDataSource.class);
    
    private LocalTxDataSource ds;
    
@@ -47,11 +48,14 @@ public class ManagedDataSource
    @Create
    public void startup(Component component) throws Exception
    {
+      
       if (jndiName==null) 
       {
          jndiName = component.getName();
       }
-      
+
+      log.info("starting Datasource at JNDI name: " + jndiName);
+
       //get the transaction manager
       TransactionManager tm = (TransactionManager) new InitialContext().lookup("java:/TransactionManager");
       

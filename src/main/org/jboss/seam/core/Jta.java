@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.TransactionManager;
 
+import org.jboss.logging.Logger;
 import org.jboss.naming.NonSerializableFactory;
 import org.jboss.resource.connectionmanager.TransactionSynchronizer;
 import org.jboss.seam.ScopeType;
@@ -32,11 +33,15 @@ import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;
 public class Jta
 {
    
+   private static final Logger log = Logger.getLogger(Jta.class);
+
    private TransactionManager transactionManager;
 
    @Create
    public void startup() throws Exception
    {
+      
+      log.info("starting JTA transaction manager");
       
       //create a TransactionManager and bind to JNDI
       transactionManager = TxManager.getInstance();

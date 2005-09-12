@@ -5,6 +5,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import javax.naming.InitialContext;
 
+import org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 import org.jboss.naming.Util;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -27,12 +29,15 @@ import org.jnp.server.SingletonNamingServer;
 public class Jndi
 {
    
+   private static final Logger log = Logger.getLogger(Jndi.class);
+   
    private SingletonNamingServer namingServer;
 
    @Create
    public void startup() throws Exception
    {
       //start up JNDI
+      log.info("starting JNDI server");
       namingServer = new SingletonNamingServer();
       InitialContext ctx = new InitialContext();
       Util.createSubcontext(ctx, "java:/comp");
