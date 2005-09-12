@@ -260,15 +260,17 @@
     </target>
 
     <target name="deploy" depends="ear">
+        <property name="unit.ext" value="ear"/>
         <echo>Don't forget to set the path of jboss.home to JBoss AS 4.0.3!</echo>
-        <copy file="${build.dir}/${example.name}.ear" todir="${deploy.dir}"/>
+        <copy file="${build.dir}/${example.name}.${unit.ext}" todir="${deploy.dir}"/>
         <copy todir="${deploy.dir}">
             <fileset refid="example.deploy"/>
         </copy>
     </target>
 
     <target name="undeploy">
-        <delete file="${deploy.dir}/${example.name}.ear"/>
+        <property name="unit.ext" value="ear"/>
+        <delete file="${deploy.dir}/${example.name}.${unit.ext}"/>
         <delete>
             <fileset dir="${deploy.dir}">
                 <patternset refid="example.undeploy"/>

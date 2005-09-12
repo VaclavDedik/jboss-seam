@@ -1,114 +1,75 @@
 <?xml version="1.0"?>
 
-<!-- ======================================================================= -->
-<!-- JBoss build file                                                       -->
-<!-- ======================================================================= -->
+<project name="NoEJB" default="deploy" basedir=".">
 
-<project name="JBoss" default="deploy" basedir=".">
+    <!-- Naming -->
+    <property name="Name"                   value="Seam NoEJB Example"/>
+    <property name="example.name"           value="jboss-seam-noejb"/>
 
-   <property environment="env"/>
-   <property name="src.dir" value="${basedir}/src"/>
-   <property name="resources.dir" value="${basedir}/resources"/>
-   <property name="jboss.home" value="${env.JBOSS_HOME}"/>
-   <property name="output.dir" value="${basedir}/output"/>
-   <property name="deploy.dir" value="${jboss.home}/server/default/deploy"/>
-   <property name="output.classes.dir" value="${output.dir}/classes"/>
-   <property name="output.war.dir" value="${output.dir}/war"/>
-   <property name="example.name" value="seam-noejb"/>
+    <!-- WAR -->
+    <zipfileset id="example.war.docroot"
+               dir="resources/view">
+        <include name="*"/>
+    </zipfileset>
+    <zipfileset id="example.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <patternset refid="meta.files"/>
+     </zipfileset>
+    <zipfileset id="example.war.webinf.lib"
+            prefix="WEB-INF/lib"
+               dir="resources/WEB-INF/lib">
+        <include name="*.jar"/>
+    </zipfileset>
 
-   <!-- Build classpath -->
-   <path id="classpath">
-      <fileset dir="${basedir}/../../output">
-         <include name="jboss-seam.jar"/>
-      </fileset>
-      <fileset dir="${basedir}/../../embedded-ejb/lib">
-         <include name="*.jar" />
-      </fileset>
-      <fileset dir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs">
-         <include name="**/*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/lib">
-         <include name="**/*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/server/default/lib">
-         <include name="**/*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/server/default/deploy/jboss-aop-jdk50.deployer">
-         <include name="*.jar"/>
-      </fileset>
-    <fileset dir="${basedir}/../../lib">
-       <include name="testng*.jar"/>
+    <!-- EJB3 -->
+    <fileset id="example.ejb3.root" dir=".">
+        <include name="_NONE_"/>
     </fileset>
-   </path>
 
-   <property name="build.classpath" refid="classpath"/>
+    <!-- EAR -->
+    <zipfileset id="example.ear.resources" dir=".">
+        <include name="_NONE_"/>
+    </zipfileset>
 
-   <!-- =================================================================== -->
-   <!-- Prepares the build directory                                        -->
-   <!-- =================================================================== -->
-   <target name="prepare">
-      <mkdir dir="${output.dir}"/>
-      <mkdir dir="${output.classes.dir}"/>
-      <mkdir dir="${output.war.dir}"/>
-   </target>
+    <!-- Deploy -->
+    <fileset id="example.deploy"
+            dir="resources">
+        <include name="noejb-ds.xml"/>
+    </fileset>
 
-   <!-- =================================================================== -->
-   <!-- Compiles the source code                                            -->
-   <!-- =================================================================== -->
-   <target name="compile" depends="prepare">
-      <javac srcdir="${src.dir}"
-         destdir="${output.classes.dir}"
-         debug="on"
-         deprecation="on"
-         optimize="off"
-         includes="**"
-      	 excludes="**/test/*.java">
-         <classpath refid="classpath"/>
-      </javac>
+    <!-- Undeploy -->
+    <patternset id="example.undeploy">
+        <include name="noejb-ds.xml"/>
+    </patternset>
+
+    <!-- Overrides -->
+    <property name="src.java.dir"           value="src"/>
+
+    <import file="../../build.xml"/>
+
+    <!-- Redefine targets -->
+    <target name="war" depends="compile">
+        <jar jarfile="resources/WEB-INF/lib/${example.name}.jar">
+          <fileset dir="${classes.dir}">
+            <include name="**/*.class"/>
+          </fileset>
+          <fileset dir="resources">
+            <include name="import.sql"/>
+            <include name="hibernate.cfg.xml"/>
+            <include name="seam.properties"/>
+          </fileset>
+        </jar>
+        <copy file="${imported.basedir}/${name}.jar" todir="resources/WEB-INF/lib/"/>
+        <antcall target="Seam.war"/>
     </target>
-       
-   <target name="war" depends="jar,compile">
-     <jar destfile="${output.dir}/${example.name}.war">
-       <zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
-       <zipfileset dir="${output.dir}" prefix="WEB-INF/lib">
-         <include name="${example.name}.jar"/>
-       </zipfileset>
-       <zipfileset dir="${basedir}/../../output" prefix="WEB-INF/lib">
-         <include name="jboss-seam.jar"/>
-       </zipfileset>
-       <zipfileset dir="${resources.dir}/view"/>
-     </jar>
-   </target>
-    
-   <target name="jar" depends="compile">
-      <jar jarfile="${output.dir}/${example.name}.jar">
-        <fileset dir="${output.classes.dir}">
-          <include name="**/*.class"/>
-        </fileset>
-        <fileset dir="${resources.dir}">
-          <include name="import.sql"/>
-          <include name="hibernate.cfg.xml"/>
-          <include name="seam.properties"/>
-        </fileset>
-      </jar>
-   </target>
 
-   <target name="deploy" depends="war">
-   	   <copy file="${resources.dir}/noejb-ds.xml" todir="${deploy.dir}"/>
-       <copy file="${output.dir}/${example.name}.war" todir="${deploy.dir}"/>
-   </target>
+    <target name="deploy" depends="war">
+        <antcall target="Seam.deploy"><param name="unit.ext" value="war"/></antcall>
+    </target>
 
-   <!-- =================================================================== -->
-   <!-- Cleans up generated stuff                                           -->
-   <!-- =================================================================== -->
-   <target name="clean.db">
-      <delete dir="${deploy.dir}/../data/hypersonic"/>
-   </target>
-
-   <target name="clean">
-      <delete dir="${output.dir}"/>
-      <delete file="${deploy.dir}/${example.name}.war"/>
-   </target>
+    <target name="undeploy" depends="war">
+        <antcall target="Seam.undeploy"><param name="unit.ext" value="war"/></antcall>
+    </target>
 
 </project>
-
