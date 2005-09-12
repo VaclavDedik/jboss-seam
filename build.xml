@@ -242,6 +242,7 @@
             </fileset>
             <fileset dir="${classes.dir}">
                 <include name="**/*.class"/>
+            	<exclude name="**/test/*.class"/>
             </fileset>
             <fileset refid="example.ejb3.root"/>
         </jar>
