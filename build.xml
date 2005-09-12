@@ -19,7 +19,6 @@
     <property name="classes.dir"        value="${build.dir}/classes"/>
 
     <property name="src.java.dir"       value="src/main"/>
-    <property name="src.resources.di"  value="resources"/>
 
     <property name="lib.dir"            value="${imported.basedir}/lib"/>
     <property name="eejb.lib.dir"       value="${imported.basedir}/embedded-ejb/lib"/>
@@ -271,7 +270,7 @@
         <delete file="${deploy.dir}/${example.name}.ear"/>
     </target>
 
-    <target name="clean.db">
+    <target name="cleandb">
         <delete dir="${deploy.dir}/../data/hypersonic"/>
     </target>
 
