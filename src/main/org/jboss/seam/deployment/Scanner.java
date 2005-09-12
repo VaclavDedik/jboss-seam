@@ -40,7 +40,6 @@ public class Scanner
    
    public Set<Class<?>> getClasses()
    {
-      System.out.println("deploying archives with resource: " + resourceName);
       Set<Class<?>> result = new HashSet<Class<?>>();
       Enumeration<URL> urls;
       try
