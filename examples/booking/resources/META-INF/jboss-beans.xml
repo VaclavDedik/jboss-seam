@@ -20,7 +20,7 @@
 
    <bean name="bookingDatasource" class="java.lang.Object">
       <constructor factoryMethod="getDatasource">
-         <factory bean="DefaultDSBootstrap"/>
+         <factory bean="bookingDatasourceBootstrap"/>
       </constructor>
    </bean>
 
