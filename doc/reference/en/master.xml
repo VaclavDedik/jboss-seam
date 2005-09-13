@@ -178,7 +178,7 @@
                         JBoss Embeddable EJB3 container.
                     </para>
                     <para>
-                        However, we realize that not everone is ready to make the switch to EJB 3.0. (After all,
+                        However, we realize that not everyone is ready to make the switch to EJB 3.0. (After all,
                         the Java EE 5 spec is not even final yet!) So, in the interim, you can use Seam as
                         a framework for applications that use JSF for presentation, Hibernate (or plain JDBC)
                         for persistence and JavaBeans for application logic. Then, when you're ready to make
@@ -187,6 +187,15 @@
                 </listitem>
             </varlistentry>
         </variablelist>
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/architecture.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/architecture.png" align="center"/>
+          </imageobject>
+        </mediaobject>
 
         <para>
             It turns out that the combination of Seam, JSF and EJB3 is <emphasis>the</emphasis> simplest way
