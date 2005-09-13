@@ -23,7 +23,6 @@ import org.jboss.seam.core.ConversationContext;
 import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.ManagedDataSource;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
@@ -121,11 +120,6 @@ public class Initialization
          {
             throw new IllegalArgumentException("Component class not found: " + className, cnfe);
          }
-      }
-
-      for ( String dsName : init.getManagedDataSources() )
-      {
-         addComponent( dsName, ManagedDataSource.class, context );
       }
 
       for ( String unitName : init.getManagedPersistenceContexts() )

@@ -1,34 +1,21 @@
 //$Id$
-package org.jboss.seam.core;
+package org.jboss.seam.microcontainer;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
-import javax.naming.InitialContext;
 import javax.transaction.TransactionManager;
 
 import org.jboss.logging.Logger;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
 import org.jboss.resource.connectionmanager.CachedConnectionManager;
 import org.jboss.resource.connectionmanager.CachedConnectionManagerReference;
-import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 
 /**
- * A seam component that configures and creates a JCA datasource
+ * A factory that configures and creates a JCA datasource
  * 
  * @author Gavin King
  */
-@Scope(ScopeType.APPLICATION)
-@Intercept(NEVER)
-@Startup(depends={"org.jboss.seam.core.jta", "org.jboss.seam.core.jndi"})
-public class ManagedDataSource
+public class DataSourceFactory
 {
-   private static final Logger log = Logger.getLogger(ManagedDataSource.class);
+   private static final Logger log = Logger.getLogger(DataSourceFactory.class);
    
    private LocalTxDataSource ds;
    
@@ -45,26 +32,18 @@ public class ManagedDataSource
    private String checkValidConnectionSql;
    private String jndiName;
    
-   @Create
-   public void startup(Component component) throws Exception
+   private TransactionManager transactionManager;
+   
+   public Object getDataSource() throws Exception
    {
       
-      if (jndiName==null) 
-      {
-         jndiName = component.getName();
-      }
-
       log.info("starting Datasource at JNDI name: " + jndiName);
 
-      //get the transaction manager
-      TransactionManager tm = (TransactionManager) new InitialContext().lookup("java:/TransactionManager");
-      
       CachedConnectionManager ccm = new CachedConnectionManager();
       CachedConnectionManagerReference ccmr = new CachedConnectionManagerReference();
       ccmr.setCachedConnectionManager(ccm);
-      ccmr.setTransactionManager(tm);
+      ccmr.setTransactionManager(transactionManager);
       
-      //create a JCA Datasource
       ds = new LocalTxDataSource();
       ds.setConnectionURL(connectionUrl);
       ds.setDriverClass(driverClass);
@@ -76,19 +55,14 @@ public class ManagedDataSource
       ds.setMinSize(minSize);
       ds.setBlockingTimeout(blockingTimeout);
       ds.setIdleTimeout(idleTimeout);
-      ds.setTransactionManager(tm);
+      ds.setTransactionManager(transactionManager);
       ds.setJndiName(jndiName);
       ds.setCachedConnectionManager(ccmr);
       ds.start();
+      
+      return ds;
    }
    
-   @Destroy
-   public void shutdown()
-   {
-      //TODO: we need a ds.stop() method
-      ds = null;
-   }
-
    public int getBlockingTimeout()
    {
       return blockingTimeout;
@@ -197,6 +171,16 @@ public class ManagedDataSource
    public void setJndiName(String jndiName)
    {
       this.jndiName = jndiName;
+   }
+
+   public TransactionManager getTransactionManager()
+   {
+      return transactionManager;
+   }
+
+   public void setTransactionManager(TransactionManager transactionManager)
+   {
+      this.transactionManager = transactionManager;
    }
 
 }
