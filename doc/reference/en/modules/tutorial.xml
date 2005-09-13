@@ -36,7 +36,7 @@
     </itemizedlist>
 
     <section>
-       <title>Compiling the examples</title>
+       <title>Running the examples</title>
        
        <para>
            First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal>
@@ -83,7 +83,21 @@
 
     <section>
       <title>Understanding the code</title>
+      
+      <para>
+          The example is implemented with two JSP pages, one entity bean and one stateless
+          session bean.
+      </para>
 
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/register.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/register.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
       <para>
           Let's take a look at the code, starting from the "bottom".
       </para>
