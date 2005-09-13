@@ -7,7 +7,7 @@
        <class name="org.jboss.seam.example.noejb.test.LoginTest"/>
      </classes>
    </test>
-
+ 
    <test name="Booking">
      <classes>
        <class name="org.jboss.seam.example.noejb.test.BookingTest"/>

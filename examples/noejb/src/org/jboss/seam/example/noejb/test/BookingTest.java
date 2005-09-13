@@ -10,11 +10,9 @@ import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Hibernate;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.Jndi;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Jta;
+import org.jboss.seam.core.Microcontainer;
 import org.jboss.seam.example.noejb.Booking;
 import org.jboss.seam.example.noejb.BookingListAction;
 import org.jboss.seam.example.noejb.Hotel;
@@ -23,7 +21,6 @@ import org.jboss.seam.example.noejb.User;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
-import org.jboss.seam.util.Strings;
 import org.testng.annotations.Test;
 
 public class BookingTest extends SeamTest
@@ -239,14 +236,7 @@ public class BookingTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.MANAGED_SESSIONS, "bookingDatabase");
-      String classNames = Strings.toString(Jndi.class, Jta.class, Hibernate.class);
-      initParams.put(Init.COMPONENT_CLASSES, classNames);
-      initParams.put(Init.MANAGED_DATA_SOURCES, "bookingDatasource");
-      initParams.put("bookingDatasource.driverClass", "org.hsqldb.jdbcDriver");
-      initParams.put("bookingDatasource.connectionUrl", "jdbc:hsqldb:.");
-      initParams.put("bookingDatasource.userName", "sa");
-      initParams.put("bookingDatasource.jndiName", "java:noejbDatasource");
-      initParams.put("org.jboss.seam.core.hibernate.dataSourceName", "bookingDatasource");
+      initParams.put(Init.COMPONENT_CLASSES, Microcontainer.class.getName());
    }
    
    @Override
