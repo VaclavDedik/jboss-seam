@@ -25,12 +25,12 @@ public class LoggedInInterceptor
       boolean isLoggedIn = Contexts.getSessionContext().get("loggedIn")!=null;
       if (isLoggedIn) 
       {
-         log.info("User is already logged in");
+         log.debug("User is already logged in");
          return invocation.proceed();
       }
       else 
       {
-         log.info("User is not logged in");
+         log.debug("User is not logged in");
          return "login";
       }
    }

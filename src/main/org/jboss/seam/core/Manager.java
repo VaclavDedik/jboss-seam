@@ -241,7 +241,7 @@ public class Manager
    {
       if ( isLongRunningConversation() ) 
       {
-         log.info("Storing conversation state: " + currentConversationId);
+         log.debug("Storing conversation state: " + currentConversationId);
          if ( !Seam.isSessionInvalid() ) 
          {
             //if the session is invalid, don't put the conversation id
