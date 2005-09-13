@@ -54,24 +54,26 @@
     <sect1>
         <title>Configuring Seam in Java EE 5</title>
         <para>
-            If you are running in a Java EE 5 environment, this is all the configuration
+            If you're running in a Java EE 5 environment, this is all the configuration
             required to start using Seam! But there is one final item you need to know about. 
             You must place a <literal>seam.properties</literal> file in the root of any 
             archive in which your Seam components are deployed (even an empty properties file 
             will do). At startup, Seam will scan any archives with
-            <literal>seam.properties</literal> files for seam components.
+            <literal>seam.properties</literal> files for seam components. If that doesn't
+            work for you, you can also add components by listing them explicitly in
+            the configuration property named <literal>org.jboss.seam.init.componentClasses</literal>.
         </para>
         
         <para>
-            Seam ships with several example applications that are deployable in any
-            Java EE container that supports EJB 3.0.
+            Seam ships with several example applications that are deployable in any Java EE 
+            container that supports EJB 3.0.
         </para>
         
         <para>
-            I really wish that was all there was to say on the topic of configuration but unfortunately 
-            we're only about a third of the way there. If you're too overwhelmed by all this tedious 
-            configuration stuff, feel free to skip over the rest of this section and come back to it 
-            later.
+            I really wish that was all there was to say on the topic of configuration but 
+            unfortunately we're only about a third of the way there. If you're too overwhelmed 
+            by all this tedious configuration stuff, feel free to skip over the rest of this section 
+            and come back to it later.
         </para>
         
     </sect1>
@@ -80,9 +82,15 @@
         <title>Configuring Seam with the JBoss Embeddable EJB3 container</title>
         <para>
             The JBoss Embeddable EJB3 container lets you run EJB3 components outside the context
-            of the Java EE 5 application server. This is especially useful for testing. To
-            use the EJB3 container with Seam, you will need to add the following line to
-            <literal>seam.properties</literal>:
+            of the Java EE 5 application server. This is especially, but not only, useful for testing. 
+        </para>
+        
+        <para>
+            Seam ships with a build of the Embeddable EJB3 container in the <literal>embedded-ejb</literal>
+            directory. To use the Embeddable EJB3 container with Seam, add the 
+            <literal>embedded-ejb/conf</literal> directory, and all jars in the <literal>lib</literal> 
+            and <literal>embedded-ejb/lib</literal> directories to your classpath. Then, add the following 
+            line to <literal>seam.properties</literal>:
         </para>
         
         <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Ejb]]></programlisting>
@@ -98,14 +106,45 @@
 
         <para>
             This setting installs the built-in component named <literal>org.jboss.seam.core.ejb</literal>.
-            This component is responsible for bootstrapping the EJB container.
+            This component is responsible for bootstrapping the EJB container when Seam is started,
+            and shutting it down when the web application is undeployed.
         </para>
         
         <para>
-            You should refer to the Embeddable EJB3 container documentation for more information
-            on configuring the container. You'll need to set up a datasource, an 
-            <literal>EntityManagerFactory</literal>, and so on.
+            You should refer to the Embeddable EJB3 container documentation for more information about
+            configuring the container. You'll probably at least need to set up your own datasource. 
+            Embeddable EJB3 is implemented using the JBoss Microcontainer, so it's very easy to add 
+            new services to the minimal set of services provided by default. For example, I can add a 
+            new datasource by putting this <literal>jboss-beans.xml</literal> file in my classpath:
         </para>
+        
+        <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+
+<deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
+            xmlns="urn:jboss:bean-deployer">
+
+   <bean name="bookingDatasourceBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
+      <property name="driverClass">org.hsqldb.jdbcDriver</property>
+      <property name="connectionURL">jdbc:hsqldb:.</property>
+      <property name="userName">sa</property>
+      <property name="jndiName">java:/bookingDatasource</property>
+      <property name="minSize">0</property>
+      <property name="maxSize">10</property>
+      <property name="blockingTimeout">1000</property>
+      <property name="idleTimeout">100000</property>
+      <property name="transactionManager"><inject bean="TransactionManager"/></property>
+      <property name="cachedConnectionManager"><inject bean="CachedConnectionManager"/></property>
+      <property name="initialContextProperties"><inject bean="InitialContextProperties"/></property>
+   </bean>
+
+   <bean name="bookingDatasource" class="java.lang.Object">
+      <constructor factoryMethod="getDatasource">
+         <factory bean="bookingDatasourceBootstrap"/>
+      </constructor>
+   </bean>
+
+</deployment>]]></programlisting>
         
         <para>
             The Seam booking example application includes a TestNG integration test suite that runs on
@@ -195,7 +234,7 @@
         </para>
 
         <programlisting><![CDATA[org.jboss.seam.init.managedPersistenceContexts bookingDatabase
-bookingDatabase.persistenceUnitName java:/comp/emf/bookingData]]></programlisting>
+bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]></programlisting>
         
         <para>
             Or, in <literal>web.xml</literal>:
@@ -208,14 +247,14 @@ bookingDatabase.persistenceUnitName java:/comp/emf/bookingData]]></programlistin
 
 <context-param>
     <param-name>bookingDatabase.persistenceUnitName</param-name>
-    <param-value>java:/comp/emf/bookingData</param-value>
+    <param-value>java:/EntityManagerFactories/bookingData</param-value>
 </context-param>]]></programlisting>
 
         <para>
             This configuration creates a conversation-scoped Seam component named 
             <literal>bookingDatabase</literal> that manages the lifecycle of <literal>EntityManager</literal> 
             instances for the persistence unit (<literal>EntityManagerFactory</literal> instance) 
-            with JNDI name <literal>java:/comp/emf/bookingData</literal>.
+            with JNDI name <literal>java:/EntityManagerFactories/bookingData</literal>.
         </para>
         
         <para>
@@ -253,37 +292,24 @@ bookingDatabase.persistenceUnitName java:/comp/emf/bookingData]]></programlistin
         </para>
         
         <para>
-            You will also need to configure a <emphasis>managed session</emphasis>. 
+            We will also need to configure a <emphasis>managed session</emphasis> if we want a Seam 
+            managed Hibernate <literal>Session</literal> to be available via injection. 
         </para>
         
         <para>
-            To configure your Seam components, as usual, you have a choice between 
+            To configure our Seam components, as usual, we have a choice between 
             <literal>seam.properties</literal> and <literal>web.xml</literal>.
+            Let's show just the properties file this time:
         </para>
         
         <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Hibernate
 org.jboss.seam.init.managedSessions bookingDatabase
-bookingDatabase.sessionFactoryName java:bookingSessionFactory]]></programlisting>
-
-        <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.init.componentClasses</param-name>
-    <param-value>org.jboss.seam.core.Hibernate</param-value>
-</context-param>
-
-<context-param>
-    <param-name>org.jboss.seam.init.managedSessions</param-name>
-    <param-value>bookingDatabase</param-value>
-</context-param>
-
-<context-param>
-    <param-name>bookingDatabase.sessionFactoryName</param-name>
-    <param-value>java:bookingSessionFactory</param-value>
-</context-param>]]></programlisting>
+bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlisting>
 
         <para>
-            Where <literal>java:bookingSessionFactory</literal> is the name of the session factory 
-            given in <literal>hibernate.cfg.xml</literal>. You can now have a managed Hibernate 
-            <literal>Session</literal> injected into your JavaBean using the following code:
+            Where <literal>java:/bookingSessionFactory</literal> is the name of the session factory 
+            specified in <literal>hibernate.cfg.xml</literal>. We can now have a managed Hibernate 
+            <literal>Session</literal> injected into a JavaBean using the following code:
         </para>
         
         <programlisting><![CDATA[@In(create=true) Session bookingDatabase;]]></programlisting>
@@ -301,27 +327,31 @@ bookingDatabase.sessionFactoryName java:bookingSessionFactory]]></programlisting
         <title>Configuring Seam with Hibernate in Java SE</title>
         <para>
             The Seam support for Hibernate requires JTA and a JCA datasource. If you are running in
-            a non-EE environment like Tomcat or TestNG, you'll need to install Seam's built-in JNDI 
-            and JTA components and configure the datasource. Let's show just the properties file
-            this time:
+            a non-EE environment like Tomcat or TestNG, you can run these services, and Hibernate 
+            itself, in the JBoss Microcontainer. 
+        </para>
+        <para>
+            Seam ships with an example Microcontainer configuration in 
+            <literal>microcontainer/conf/jboss-beans.xml</literal> that provides all the things you
+            need to run Seam with Hibernate in any non-EE environment. Just add the 
+            <literal>microcontainer/conf</literal> directory, and all jars in the <literal>lib</literal>
+            and <literal>microcontainer/lib</literal> directories to your classpath. To rename or 
+            reconfigure the datasource, add a new datasource or reconfigure Hibernate, just edit 
+            <literal>microcontainer/conf/jboss-beans.xml</literal>. Refer to the documentation for
+            the JBoss Microcontainer for more information.
+        </para>
+        <para>
+            The built-in Seam component named <literal>org.jboss.seam.core.microcontainer</literal>
+            bootstraps the microcontainer. As before, we probably want to use a Seam managed session.
         </para>
 
-        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Hibernate, org.jboss.seam.core.Jndi, org.jboss.seam.core.Jta
-org.jboss.seam.init.managedDataSources bookingDataSource
+        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Microcontainer
 org.jboss.seam.init.managedSessions bookingDatabase
-
-bookingDataSource.jndiName java:bookingDataSource
-bookingDataSource.driverClass org.hsqldb.jdbcDriver
-bookingDataSource.connectionUrl jdbc:hsqldb:.
-bookingDataSource.userName sa
-
-bookingDatabase.sessionFactoryName java:bookingSessionFactory
-
-org.jboss.seam.core.hibernate.dataSourceName bookingDataSource]]></programlisting>
+bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlisting>
 
         <para>
-            There are several other available datasource configuration parameters which are explained 
-            later.
+            Where <literal>java:/bookingSessionFactory</literal> is the name of the Hibernate session
+            factory specified in <literal>hibernate.cfg.xml</literal>.
         </para>
 
     </sect1>    	

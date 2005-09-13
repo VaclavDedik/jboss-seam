@@ -8,7 +8,7 @@
     <section>
         <title>Context injection components</title>
         <para>
-            The first set of build in components exist purely to support
+            The first set of built in components exist purely to support
             injection of various contextual objects. For example, the
             following component instance variable would have the Seam
             session context object injected:
@@ -116,12 +116,6 @@
                             component names of Seam managed Hibernate sessions to be installed.
                         </para>
                         </listitem>
-                        <listitem>
-                        <para>
-                            <literal>org.jboss.seam.core.init.managedDataSources</literal> &mdash; a list 
-                            of component names of of Seam managed datasources to be installed.
-                        </para>
-                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
@@ -146,25 +140,35 @@
                 <listitem>
                     <para>
                         Bootstraps the JBoss Embeddable EJB3 container. Install as
-                        class <literal>org.jboss.seam.core.Ejb</literal>.
+                        class <literal>org.jboss.seam.core.Ejb</literal>. This
+                        is useful when using Seam with EJB components outside the
+                        context of a Java EE 5 application server.
+                    </para>
+                    <para>
+                        The basic Embedded EJB configuration is defined in 
+                        <literal>jboss-embedded-beans.xml</literal>. Additional 
+                        microcontainer configuration (for example, extra datasources) 
+                        may be specified by <literal>jboss-beans.xml</literal> or
+                        <literal>META-INF/jboss-beans.xml</literal> in the classpath.
                     </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.jndi</literal></term>
+                <term><literal>org.jboss.seam.core.microcontainer</literal></term>
                 <listitem>
                     <para>
-                        Bootstraps the JBoss JNDI naming server. Install as
-                        class <literal>org.jboss.seam.core.Jndi</literal>.
+                        Bootstraps the JBoss microcontainer. Install as
+                        class <literal>org.jboss.seam.core.Microcontainer</literal>.
+                        This is useful when using Seam with Hibernate and no EJB
+                        components outside the context of a Java EE application
+                        server. The microcontainer can provide a partial EE 
+                        environment with JNDI, JTA, JCA datasource and Hibernate.
                     </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>org.jboss.seam.core.jta</literal></term>
-                <listitem>
                     <para>
-                        Bootstraps the JBoss local JTA transaction manager. Install as
-                        class <literal>org.jboss.seam.core.Jta</literal>.
+                        The microcontainer configuration may be specified by
+                        <literal>jboss-beans.xml</literal> or 
+                        <literal>META-INF/jboss-beans.xml</literal> in the 
+                        classpath.
                     </para>
                 </listitem>
             </varlistentry>
@@ -172,24 +176,16 @@
                 <term><literal>org.jboss.seam.core.hibernate</literal></term>
                 <listitem>
                     <para>
-                        Bootstraps a Hibernate <literal>SessionFactory</literal>. Install as
-                        class <literal>org.jboss.seam.core.Hibernate</literal>.
+                        Bootstraps a Hibernate <literal>SessionFactory</literal>. Install 
+                        as class <literal>org.jboss.seam.core.Hibernate</literal>. This is
+                        most useful when using Seam with Hibernate inside a Java EE
+                        application server.
                     </para>
                     <itemizedlist>
                         <listitem>
                         <para>
                             <literal>org.jboss.seam.core.hibernate.cfgResourceName</literal> &mdash; 
                             the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal>org.jboss.seam.core.hibernate.datasourceName</literal> &mdash; 
-                            the name of the Seam managed datasource component. Default to the JNDI name 
-                            of the datasource known from the configuration file. This is needed to ensure
-                            that the datasource is started before the Hibernate session factory.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -246,75 +242,6 @@ userDatabase.persistenceUnitName java:/comp/emf/userPersistence]]></programlisti
                         <para>
                             <literal><emphasis>&lt;managedSession&gt;</emphasis>.sessionFactoryName</literal> 
                             &mdash; the JNDI name of the session factory, defaults to to the component name.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal><emphasis>&lt;managedDataSource&gt;</emphasis></literal></term>
-                <listitem>
-                    <para>
-                        Manager component for a JBoss JCA datasource.  Installed via 
-                        <literal>org.jboss.seam.init.managedDataSources</literal>.
-                    </para>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.jndiName</literal> &mdash;
-                            the JNDI name of the datasource, defaults to to the component name.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.connectionUrl</literal>
-                            &mdash; the JDBC URL
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.driverClass</literal>
-                            &mdash; the JDBC driver class
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.userName</literal>
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.password</literal>
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.maxSize</literal>
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.minSize</literal>
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.blockingTimeout</literal>
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.idleTimeout</literal>
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.preparedStatementCacheSize</literal>
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal><emphasis>&lt;managedDataSource&gt;</emphasis>.checkValidConnectionSql</literal>
                         </para>
                         </listitem>
                     </itemizedlist>
