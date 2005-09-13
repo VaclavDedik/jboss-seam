@@ -53,6 +53,16 @@
     
     <sect1>
         <title>Configuring Seam in Java EE 5</title>
+        
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/ee5.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/ee5.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
         <para>
             If you're running in a Java EE 5 environment, this is all the configuration
             required to start using Seam! But there is one final item you need to know about. 
@@ -84,6 +94,15 @@
             The JBoss Embeddable EJB3 container lets you run EJB3 components outside the context
             of the Java EE 5 application server. This is especially, but not only, useful for testing. 
         </para>
+        
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/e-ejb3.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/e-ejb3.png" align="center"/>
+          </imageobject>
+        </mediaobject>
         
         <para>
             Seam ships with a build of the Embeddable EJB3 container in the <literal>embedded-ejb</literal>
@@ -151,6 +170,15 @@
             the Embeddable EJB3 container.
         </para>
 
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/testng.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/testng.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
     </sect1>
     
     <sect1>
@@ -276,6 +304,15 @@ bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]><
             management architecture.
         </para>
         
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/hibernate-ee.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/hibernate-ee.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
         <para>
             Seam JavaBean components do not provide declarative transaction demarcation like session
             beans do. You <emphasis>could</emphasis> manage your transactions manually using the
@@ -330,6 +367,16 @@ bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlistin
             a non-EE environment like Tomcat or TestNG, you can run these services, and Hibernate 
             itself, in the JBoss Microcontainer. 
         </para>
+        
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/hibernate-mc.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/hibernate-mc.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
         <para>
             Seam ships with an example Microcontainer configuration in 
             <literal>microcontainer/conf/jboss-beans.xml</literal> that provides all the things you
