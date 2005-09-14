@@ -22,6 +22,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
+import org.jbpm.taskmgmt.exe.TaskInstance;
+import org.jbpm.graph.exe.ProcessInstance;
+
+import java.util.List;
 
 /**
  * Manages a reference to a JbpmSession
@@ -30,7 +34,7 @@ import org.jbpm.db.JbpmSessionFactory;
  * @version $Revision$
  */
 @Scope( ScopeType.EVENT )
-@Name( "org.jboss.seam.core.managedJbpmSession" )
+@Name( "jbpmSession" )
 @Intercept(NEVER)
 public class ManagedJbpmSession
 {
@@ -66,6 +70,21 @@ public class ManagedJbpmSession
       {
          jbpmSession.commitTransactionAndClose();
       }
+   }
+
+   public List getTaskInstanceList(String username)
+   {
+      return getJbpmSession().getTaskMgmtSession().findTaskInstances( username );
+   }
+
+   public Object getTaskContextVariable(TaskInstance task, String variableName)
+   {
+      return getProcessContextVariable( task.getTaskMgmtInstance().getProcessInstance(), variableName );
+   }
+
+   public Object getProcessContextVariable(ProcessInstance process, String variableName)
+   {
+      return process.getContextInstance().getVariable( variableName );
    }
 
    private JbpmSessionFactory getSessionFactory()
