@@ -3,16 +3,17 @@
 <deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
             xmlns="urn:jboss:bean-deployer">
-<!--
+
    <bean name="TransactionManagerFactory" class="org.jboss.seam.microcontainer.TransactionManagerFactory"/>
-   <bean name="TransactionManager" class="java.lang.Object">
+   <bean name="TransactionManagerInit" class="java.lang.Object">
       <constructor factoryMethod="getTransactionManager">
          <factory bean="TransactionManagerFactory"/>
       </constructor>
    </bean>
--->
+
    <bean name="JbpmFactory" class="org.jboss.seam.microcontainer.JbpmFactory">
       <depends>Naming</depends>
+      <depends>bpmDatasource</depends>
       <property name="jndiName">/JbpmSessionFactory</property>
       <property name="processDefinitions">
          <array elementClass="java.lang.String">
@@ -38,6 +39,7 @@
    </bean>
 
    <bean name="bpmDatasourceFactory" class="org.jboss.seam.microcontainer.DataSourceFactory">
+      <depends>Naming</depends>
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
       <property name="connectionUrl">jdbc:hsqldb:.</property>
       <property name="userName">sa</property>
