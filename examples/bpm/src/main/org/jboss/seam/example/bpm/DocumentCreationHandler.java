@@ -4,6 +4,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.ejb.SeamInterceptor;
+import org.jboss.seam.contexts.Contexts;
 
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
@@ -34,6 +35,7 @@ public class DocumentCreationHandler implements DocumentCreation
 //      document.setSubmitter( user );
 //      document.setSubmittedTimestamp( new Date() );
       entityManager.persist( document );
+      Contexts.getBusinessProcessContext().set( "description", document.getTitle() );
       return "success";
    }
 }
