@@ -43,7 +43,7 @@
                     </para>
                     <para>
                         Seam unifies the component models of JSF and EJB3, eliminating glue code, and letting
-                        the developer think about their business problem.
+                        the developer think about the business problem.
                     </para>
                 </listitem>
             </varlistentry>
@@ -51,9 +51,9 @@
                 <term><emphasis>One Kind of "Stuff"</emphasis></term>
                 <listitem>
                     <para>
-                        Seam provides uniform handling of application <emphasis>state</emphasis>. A Seam
-                        component may be stateful, with the state associated to any one of a number of
-                        contexts, ranging from the long-running business process to a single web request.
+                        Seam provides a uniform component model. A Seam component may be stateful, with 
+                        the state associated to any one of a number of contexts, ranging from the 
+                        long-running business process to a single web request.
                     </para>
                     <para>
                         There is no distinction between presentation tier components and business logic
@@ -105,7 +105,7 @@
                 <term><emphasis>Subversion of Control</emphasis></term>
                 <listitem>
                     <para>
-                        The notion <emphasis>Inversion of Control</emphasis> or <emphasis>dependency injection</emphasis>
+                        The notion of <emphasis>Inversion of Control</emphasis> or <emphasis>dependency injection</emphasis>
                         exists in both JSF and EJB3, as well as in numerous so-called "lighweight containers". Most of
                         these containers emphasize injection of components that implement <emphasis>stateless services</emphasis>.
                         Even when injection of stateful components is supported (such as in JSF), it is virtually useless
@@ -141,7 +141,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><emphasis>Annotations Everywhere</emphasis></term>
+                <term><emphasis>Annotated POJOs Everywhere</emphasis></term>
                 <listitem>
                     <para>
                         EJB 3.0 embraces annotations and "configuration by exception" as the easiest way to provide
