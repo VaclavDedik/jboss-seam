@@ -32,7 +32,7 @@ import java.lang.annotation.Documented;
 public @interface StartTask
 {
    /**
-    * The name of the context variable under which we should locate the
+    * The name of the request parameter under which we should locate the
     * the id of task to be started.
     */
    String taskIdName();

@@ -24,7 +24,7 @@ import static java.lang.annotation.ElementType.METHOD;
 public @interface ResumeProcess
 {
    /**
-    * The name of the context variable under which we should locate the
+    * The name of the request parameter under which we should locate the
     * the id of process to be resumed.
     */
    String processIdName();
