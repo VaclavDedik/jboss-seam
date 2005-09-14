@@ -192,6 +192,10 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
               Component.getInstance( ManagedJbpmSession.class, true );
       ProcessDefinition pd = session.getGraphSession()
               .findLatestProcessDefinition( processDefinitionName );
+      if ( pd == null )
+      {
+         throw new IllegalArgumentException( "Unknown process definition [" + processDefinitionName + "]" );
+      }
       ProcessInstance process = new ProcessInstance( pd );
       process.signal();
       session.getGraphSession().saveProcessInstance( process );
