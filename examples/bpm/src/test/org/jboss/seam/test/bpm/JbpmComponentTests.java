@@ -7,7 +7,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.Component;
-import org.jboss.seam.example.bpm.JbpmInitializer;
 import org.jboss.seam.example.bpm.User;
 import org.jboss.seam.example.bpm.ProcessMaintenanceBean;
 import org.jboss.seam.example.bpm.ApprovalHandlerBean;
@@ -26,33 +25,10 @@ import org.testng.annotations.Test;
 
 public class JbpmComponentTests extends SeamTest
 {
-   private JbpmInitializer jbpmInitializer;
-
-   @Override
-   protected void prepareApplication()
-   {
-      jbpmInitializer = new JbpmInitializer();
-      jbpmInitializer.initialize();
-   }
-
-   @Override
-   protected void cleanupApplication()
-   {
-      try
-      {
-         jbpmInitializer.release();
-      }
-      catch( Throwable ignore )
-      {
-         // ignore current issue with "out of order" cleanup
-      }
-      jbpmInitializer = null;
-   }
-
    @Override
    public void initServletContext(Map initParams)
    {
-      initParams.put( Init.MANAGED_PERSISTENCE_CONTEXTS, "bpmUserDatabase" );
+      initParams.put( Init.MANAGED_PERSISTENCE_CONTEXTS, "bpmDatabase" );
 
       String classNames = Strings.toString(
               Ejb.class,
@@ -64,7 +40,7 @@ public class JbpmComponentTests extends SeamTest
       );
       initParams.put( Init.COMPONENT_CLASSES, classNames );
 
-      initParams.put( Init.JBPM_SESSION_FACTORY_NAME, JbpmInitializer.JBPM_SF_NAME );
+      initParams.put( Init.JBPM_SESSION_FACTORY_NAME, "/JbpmSessionFactory" );
    }
 
 

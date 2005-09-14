@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
+            xmlns="urn:jboss:bean-deployer">
+<!--
+   <bean name="TransactionManagerFactory" class="org.jboss.seam.microcontainer.TransactionManagerFactory"/>
+   <bean name="TransactionManager" class="java.lang.Object">
+      <constructor factoryMethod="getTransactionManager">
+         <factory bean="TransactionManagerFactory"/>
+      </constructor>
+   </bean>
+-->
+   <bean name="JbpmFactory" class="org.jboss.seam.microcontainer.JbpmFactory">
+      <depends>Naming</depends>
+      <property name="jndiName">/JbpmSessionFactory</property>
+      <property name="processDefinitions">
+         <array elementClass="java.lang.String">
+            <value>
+               <![CDATA[
+                        <process-definition name="DocumentSubmission">
+                            <start-state>
+                                <transition to="review"/>
+                            </start-state>
+                            <task-node name="review">
+                                <task name="review"/>
+                                <transition name="approve" to="complete"/>
+                                <transition name="reject" to="complete"/>
+                            </task-node>
+                            <end-state name="complete"/>
+                        </process-definition>
+                 ]]>
+            </value>
+         </array>
+      </property>
+      <start method="initialize"/>
+      <stop method="cleanup"/>
+   </bean>
+
+   <bean name="bpmDatasourceFactory" class="org.jboss.seam.microcontainer.DataSourceFactory">
+      <property name="driverClass">org.hsqldb.jdbcDriver</property>
+      <property name="connectionUrl">jdbc:hsqldb:.</property>
+      <property name="userName">sa</property>
+      <property name="jndiName">java:/bpmDatasource</property>
+      <property name="minSize">0</property>
+      <property name="maxSize">10</property>
+      <property name="blockingTimeout">1000</property>
+      <property name="idleTimeout">100000</property>
+      <property name="transactionManager">
+         <inject bean="TransactionManager"/>
+      </property>
+   </bean>
+   <bean name="bpmDatasource" class="java.lang.Object">
+      <constructor factoryMethod="getDataSource">
+         <factory bean="bpmDatasourceFactory"/>
+      </constructor>
+   </bean>
+
+
+</deployment>
