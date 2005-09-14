@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE faces-config 
-PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
-                            "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<!DOCTYPE faces-config
+      PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+      "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+
 <faces-config>
 
-	<application>
-		<variable-resolver>org.jboss.seam.SeamJSFVariableResolver</variable-resolver>
-	</application>
+    <navigation-rule>
+       <description>global nav rules</description>
+        <navigation-case>
+            <from-outcome>create</from-outcome>
+            <to-view-id>/edit.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/main.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
-	<navigation-rule>
-		<description>Simple navigation rule.</description>
-		<from-view-id>/register.jsp</from-view-id>
-		<navigation-case>
-			<description>Simple navigation case.</description>
-			<from-outcome>register</from-outcome>
-			<to-view-id>/registered.jsp</to-view-id>
-		</navigation-case>
-	</navigation-rule>
+    <navigation-rule>
+        <from-view-id>/main.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>detail</from-outcome>
+            <to-view-id>/detail.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/detail.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>approved</from-outcome>
+            <to-view-id>/main.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>rejected</from-outcome>
+            <to-view-id>/main.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <application>
+        <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
+    </application>
+
+    <lifecycle>
+        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+    </lifecycle>
 
 </faces-config>
