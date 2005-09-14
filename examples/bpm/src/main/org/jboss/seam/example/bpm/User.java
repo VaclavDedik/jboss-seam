@@ -7,29 +7,27 @@
 package org.jboss.seam.example.bpm;
 
 import java.io.Serializable;
-import java.util.Set;
-import java.util.HashSet;
 import javax.persistence.Entity;
 import javax.persistence.GeneratorType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.ManyToMany;
+import javax.persistence.AccessType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
-@Entity
+@Entity( access= AccessType.FIELD )
 @Table( name="T_USER" )
 @Name( "user" )
-@Scope( ScopeType.CONVERSATION )
+@Scope( ScopeType.SESSION )
 public class User implements Serializable
 {
+   @Id( generate = GeneratorType.AUTO )
    private Long id;
+   private String name;
    private String username;
    private String password;
-   private State state = State.PENDING;
-   private Set<Group> groups = new HashSet<Group>();
 
    public User()
    {
@@ -41,25 +39,19 @@ public class User implements Serializable
       this.password = password;
    }
 
-   @Id( generate = GeneratorType.AUTO )
    public Long getId()
    {
       return id;
    }
 
-   public void setId(Long id)
+   public String getName()
    {
-      this.id = id;
+      return name;
    }
 
-   public String getPassword()
+   public void setName(String name)
    {
-      return password;
-   }
-
-   public void setPassword(String password)
-   {
-      this.password = password;
+      this.name = name;
    }
 
    public String getUsername()
@@ -72,24 +64,14 @@ public class User implements Serializable
       this.username = username;
    }
 
-   public State getState()
+   public String getPassword()
    {
-      return state;
+      return password;
    }
 
-   public void setState(State state)
+   public void setPassword(String password)
    {
-      this.state = state;
+      this.password = password;
    }
 
-   @ManyToMany()
-   public Set<Group> getGroups()
-   {
-      return groups;
-   }
-
-   public void setGroups(Set<Group> groups)
-   {
-      this.groups = groups;
-   }
 }
