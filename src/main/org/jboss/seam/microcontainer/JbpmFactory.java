@@ -10,6 +10,7 @@ import org.jbpm.db.JbpmSessionFactory;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.hibernate.cfg.Configuration;
+import org.jboss.logging.Logger;
 
 import javax.naming.InitialContext;
 
@@ -20,10 +21,14 @@ import javax.naming.InitialContext;
  */
 public class JbpmFactory
 {
+   private Logger log = Logger.getLogger( JbpmFactory.class );
+
    private String jndiName;
    private String hibernateConfigResource;
    private String[] processDefinitions;
    private String[] processDefinitionResources;
+
+   private JbpmSessionFactory factory;
 
    public String getJndiName()
    {
@@ -67,11 +72,40 @@ public class JbpmFactory
 
    public JbpmSessionFactory getJbpmSessionFactory() throws Exception
    {
-      JbpmSessionFactory factory = buildJbpmSessionFactory();
-      installProcessDefinitions( factory );
-      bind( factory );
+//      JbpmSessionFactory factory = buildJbpmSessionFactory();
+//      installProcessDefinitions( factory );
+//      bind( factory );
 
       return factory;
+   }
+
+   public void initialize() throws Exception
+   {
+      log.trace( "Starting initialization" );
+      factory = buildJbpmSessionFactory();
+      installProcessDefinitions( factory );
+      bind( factory );
+   }
+
+   public void cleanup()
+   {
+      try
+      {
+         unbind();
+      }
+      catch( Throwable t )
+      {
+         log.debug( "Problem unbinding jBPM session factory from JNDI", t );
+      }
+
+      try
+      {
+         factory.getSessionFactory().close();
+      }
+      catch( Throwable t )
+      {
+         log.debug( "Problem cleaning up jBPM session factory", t );
+      }
    }
 
    private JbpmSessionFactory buildJbpmSessionFactory() throws Exception
@@ -80,10 +114,12 @@ public class JbpmFactory
       cfg.getProperties().clear();
       if ( hibernateConfigResource == null )
       {
+         log.trace( "Configuring Hibernate from default cfg" );
          cfg.configure();
       }
       else
       {
+         log.trace( "Configuring Hibernate from resource : " + hibernateConfigResource );
          cfg.configure( hibernateConfigResource );
       }
       return JbpmSessionFactory.buildJbpmSessionFactory( cfg );
@@ -99,6 +135,7 @@ public class JbpmFactory
             for ( final String definition : processDefinitions )
             {
                ProcessDefinition processDefinition = ProcessDefinition.parseXmlString( definition );
+               log.trace( "installing process definition : " + processDefinition.getName() );
                jbpmSession.getGraphSession().saveProcessDefinition( processDefinition );
             }
          }
@@ -108,6 +145,7 @@ public class JbpmFactory
             for ( final String definitionResource : processDefinitionResources )
             {
                ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource( definitionResource );
+               log.trace( "installing process definition : " + processDefinition.getName() );
                jbpmSession.getGraphSession().saveProcessDefinition( processDefinition );
             }
          }
@@ -125,6 +163,30 @@ public class JbpmFactory
       {
          ctx = new InitialContext();
          ctx.bind( jndiName, factory );
+      }
+      finally
+      {
+         if ( ctx != null )
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch ( Throwable ignore )
+            {
+               // ignore
+            }
+         }
+      }
+   }
+
+   private void unbind() throws Exception
+   {
+      InitialContext ctx = null;
+      try
+      {
+         ctx = new InitialContext();
+         ctx.unbind( jndiName );
       }
       finally
       {
