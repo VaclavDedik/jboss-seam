@@ -142,7 +142,6 @@ public class SeamTest
    @Configuration(beforeTestClass=true)
    public void init() throws Exception
    {
-      buildJbpm();
       phases = createPhaseListener();
       servletContext = new MockServletContext();
       initServletContext( servletContext.getInitParameters() );
@@ -160,14 +159,9 @@ public class SeamTest
       servletContext = null;
       conversationStates.clear();
       conversationStates = null;
-      releaseJbpm();
    }
 
    public void initServletContext(Map initParams) {}
-
-   protected void buildJbpm() {}
-
-   protected void releaseJbpm() {}
 
    private class ConversationState
    {
