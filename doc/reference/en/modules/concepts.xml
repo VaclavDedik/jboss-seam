@@ -101,7 +101,7 @@
             <title>Conversation context</title>
             <para>
                 The conversation context is a truly central concept in Seam. A <emphasis>conversation</emphasis> 
-                is a unit of work from the point of view of the user. It might span serveral interactions with 
+                is a unit of work from the point of view of the user. It might span several interactions with 
                 the user, several requests, and several database transactions. But to the user, a conversation 
                 solves a single problem. For example, "book hotel", "approve contract", "create order" are all 
                 conversations. You might like to think of a conversation implementing a single "use case", but 
@@ -214,7 +214,7 @@
             <title>Context search priority</title>
             <para>
                 Sometimes, as above, component instances are obtained from a particular known scope. Other times, all 
-                scopes are searched, in <emphasis>priority order</emphasis>. The order is as follows:           
+                stateful scopes are searched, in <emphasis>priority order</emphasis>. The order is as follows:           
             </para>
             
             <itemizedlist>
@@ -243,15 +243,10 @@
                         Application context
                     </para>
                 </listitem>
-                <listitem>
-                    <para>
-                        Stateless context
-                    </para>
-                </listitem>
             </itemizedlist>
         
             <para>
-                You can perform a priority search by calling <literal>Contexts.lookupInAllContexts()</literal>. 
+                You can perform a priority search by calling <literal>Contexts.lookupInStatefulContexts()</literal>. 
                 Whenever you access a component by name from a JSF page, a priority search occurs.
             </para>
 

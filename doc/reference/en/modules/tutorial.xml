@@ -916,7 +916,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         </para>
         <para>
             Now consider the state held in the <literal>HttpSession</literal>. By very careful programming, 
-            we might be able to control the size of the session data. This is a lot difficult than it sounds, 
+            we might be able to control the size of the session data. This is a lot more difficult than it sounds, 
             since web browsers permit ad hoc non-linear navigation. But suppose we suddenly discover a system 
             requirement that says that a user is allowed to have <emphasis>mutiple concurrent conversations</emphasis>,
             halfway through the development of the system (this has happened to me). Developing mechanisms
