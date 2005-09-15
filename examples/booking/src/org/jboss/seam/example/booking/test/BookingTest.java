@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
@@ -56,9 +57,9 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            List<Hotel> hotels = (List<Hotel>) Contexts.getConversationContext().get("hotels");
-            assert hotels.size()==1;
-            assert hotels.get(0).getCity().equals("NY");
+            DataModel hotels = (DataModel) Contexts.getConversationContext().get("hotels");
+            assert hotels.getRowCount()==1;
+            assert ( (Hotel) hotels.getRowData() ).getCity().equals("NY");
             assert "NY".equals( hotelBooking.getSearchString() );
             assert Manager.instance().isLongRunningConversation();
          }
@@ -70,7 +71,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            getRequest().getParameterMap().put("hotelId", "2");
+            //getRequest().getParameterMap().put("hotelId", "2");
             HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.selectHotel();
             assert "selected".equals( outcome );
