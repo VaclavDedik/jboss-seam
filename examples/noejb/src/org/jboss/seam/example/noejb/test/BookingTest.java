@@ -2,11 +2,11 @@
 package org.jboss.seam.example.noejb.test;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
@@ -29,7 +29,7 @@ public class BookingTest extends SeamTest
    @Test
    public void testBookHotel() throws Exception
    {
-      
+
       String id = new Script() {
 
          HotelBookingAction hotelBooking;
@@ -58,10 +58,9 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            DataModel dm = (DataModel) Contexts.getConversationContext().get("hotelsDataModel");
-            assert dm.isRowAvailable();
-            assert ( (Hotel) dm.getRowData() ).getCity().equals("NY");
-            assert dm.getRowCount()==1;
+            List<Hotel> hotels = (List<Hotel>) Contexts.getConversationContext().get("hotels");
+            assert hotels.size()==1;
+            assert hotels.get(0).getCity().equals("NY");
             assert "NY".equals( hotelBooking.getSearchString() );
             assert Manager.instance().isLongRunningConversation();
          }
@@ -73,6 +72,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
+            getRequest().getParameterMap().put("hotelId", "2");
         	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.selectHotel();
             assert "selected".equals( outcome );
@@ -194,7 +194,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-        	 HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
+        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.confirm();
             assert "confirmed".equals( outcome );
          }
@@ -220,11 +220,10 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            DataModel dm = (DataModel) Contexts.getConversationContext().get("bookingsDataModel");
-            assert dm.isRowAvailable();
-            assert dm.getRowCount()==1;
-            assert ( (Booking) dm.getRowData() ).getHotel().getCity().equals("NY");
-            assert ( (Booking) dm.getRowData() ).getUser().getUsername().equals("gavin");
+            List<Booking> bookings = (List<Booking>) Contexts.getConversationContext().get("bookings");
+            assert bookings.size()==1;
+            assert bookings.get(0).getHotel().getCity().equals("NY");
+            assert bookings.get(0).getUser().getUsername().equals("gavin");
             assert !Manager.instance().isLongRunningConversation();
          }
          
