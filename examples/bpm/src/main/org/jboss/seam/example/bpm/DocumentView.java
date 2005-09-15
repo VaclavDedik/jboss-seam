@@ -8,9 +8,5 @@ import javax.ejb.Local;
 @Local
 public interface DocumentView
 {
-   public String details();
-   public String save();
-
-   public String approve();
-   public String reject();
+   public String details() throws Exception;
 }

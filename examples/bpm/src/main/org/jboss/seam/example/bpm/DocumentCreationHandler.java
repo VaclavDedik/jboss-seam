@@ -16,6 +16,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
  */
 @Stateless
 @Name( "documentCreator" )
+@LoggedIn
 @Interceptor( SeamInterceptor.class )
 public class DocumentCreationHandler implements DocumentCreation
 {
@@ -34,6 +35,7 @@ public class DocumentCreationHandler implements DocumentCreation
 //      document.setSubmitter( user );
 //      document.setSubmittedTimestamp( new Date() );
       entityManager.persist( document );
+      Contexts.getBusinessProcessContext().set( "documentId", document.getId() );
       Contexts.getBusinessProcessContext().set( "description", document.getTitle() );
       return "success";
    }
