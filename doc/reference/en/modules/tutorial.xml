@@ -1172,7 +1172,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
                     <para>
                         The <link linkend="end-annotation"><literal>@End</literal></link> annotation
                         specifies that the annotated method ends the current long-running conversation, 
-                        so the current conversation context be destroyed at the end of the request.
+                        so the current conversation context will be destroyed at the end of the request.
                     </para>
                 </callout>
                 <callout arearefs="registration-destroy-annotation">
