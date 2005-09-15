@@ -957,7 +957,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         </para>
         <para>
             Let's see how the booking example application uses a conversation-scoped stateful session
-            bean to achieve a natural cache of persistent data related to the conversation.
+            bean to achieve a natural cache of persistent data related to the conversation. The following
+            code example is pretty long. But if you think of it as a list of scripted actions that
+            implement the various steps of the conversation, it's pretty understandable. Read the class
+            from top to bottom, as a if it were a story.
         </para>
         
         <example>
@@ -966,11 +969,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                     <area id="registration-stateful-annotation" coords="1"/>
                     <area id="registration-conversational-annotation" coords="4"/>
                     <area id="registration-custom-annotation" coords="5"/>
-                    <area id="registration-out-annotation" coords="16"/>
+                    <area id="registration-out-annotation" coords="14"/>
                     <area id="registration-begin-annotation" coords="34"/>
-                    <area id="registration-end-annotation" coords="121"/>
-                    <area id="registration-remove-annotation" coords="121"/>
-                    <area id="registration-destroy-annotation" coords="130"/>
+                    <area id="registration-end-annotation" coords="136"/>
+                    <area id="registration-destroy-annotation" coords="145"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
@@ -985,6 +987,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    private EntityManager bookingDatabase;
    
    private String searchString;
+   @Out
    private List<Hotel> hotels;
    
    @Out(required=false)
@@ -998,9 +1001,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In
    private User user;
    
-   @Out
-   private DataModel hotelsDataModel = new ListDataModel();
-   int rowIndex = 0;
+   private Long hotelId;
+   private int hotelIndex;
    
    @In
    private FacesContext facesContext;
@@ -1017,8 +1019,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
       
       log.info(hotels.size() + " hotels found");
       
-      hotelsDataModel.setWrappedData(hotels);
-      
       return "main";
    }
    
@@ -1032,18 +1032,35 @@ public class HotelBookingAction implements HotelBooking, Serializable
       this.searchString = searchString;
    }
    
+   public Long getHotelId()
+   {
+      return hotelId;
+   }
+
+   public void setHotelId(Long hotelId)
+   {
+      this.hotelId = hotelId;
+   }
+
    public String selectHotel()
    {
-      rowIndex = hotelsDataModel.getRowIndex();
+      for (int i=0; i<hotels.size(); i++)
+      {
+         if ( hotels.get(i).getId().equals(hotelId) )
+         {
+            hotelIndex=i;
+            break;
+         }
+      }
       setHotel();
       return "selected";
    }
 
    public String nextHotel()
    {
-      if ( rowIndex<hotels.size()-1 )
+      if ( hotelIndex<hotels.size()-1 )
       {
-         hotelsDataModel.setRowIndex(++rowIndex);
+         ++hotelIndex;
          setHotel();
       }
       return null;
@@ -1051,9 +1068,9 @@ public class HotelBookingAction implements HotelBooking, Serializable
 
    public String lastHotel()
    {
-      if (rowIndex>0)
+      if (hotelIndex>0)
       {
-         hotelsDataModel.setRowIndex(--rowIndex);
+         --hotelIndex;
          setHotel();
       }
       return null;
@@ -1061,8 +1078,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
 
    private void setHotel()
    {
-      hotel = (Hotel) hotelsDataModel.getRowData();
-      log.info( rowIndex + "=>" + hotel );
+      hotel = hotels.get(hotelIndex);
+      log.info( hotelIndex + "=>" + hotel );
    }
    
    public String bookHotel()
@@ -1092,7 +1109,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       }
    }
       
-   @End @Remove 
+   @End
    public String confirm()
    {
       if (booking==null || hotel==null) return "main";
@@ -1106,19 +1123,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
       log.info("destroyed");
    }
    
-   @PrePassivate
-   public void passivate()
-   {
-      hotelsDataModel = null;
-   }
-   
-   @PostActivate
-   public void activate()
-   {
-      hotelsDataModel = new ListDataModel();
-      hotelsDataModel.setWrappedData(hotels);
-      hotelsDataModel.setRowIndex(rowIndex);
-   }
 }]]></programlisting>                    
             <calloutlist>
                 <callout arearefs="registration-stateful-annotation">
@@ -1171,23 +1175,18 @@ public class HotelBookingAction implements HotelBooking, Serializable
                         so the current conversation context be destroyed at the end of the request.
                     </para>
                 </callout>
-                <callout arearefs="registration-remove-annotation">
+                <callout arearefs="registration-destroy-annotation">
                     <para>
                         The EJB standard <literal>@Remove</literal> annotation specifies that a stateful
                         session bean should be removed and its state destroyed after invocation of the
-                        annotated method. We don't really need it here, since the conversation context
-                        is about to end and Seam is about to call the <literal>@Destroy</literal>
-                        method.
-                    </para>
-                </callout>
-                <callout arearefs="registration-destroy-annotation">
-                    <para>
-                        All stateful session beans should define a method marked 
-                        <literal>@Destroy @Remove</literal>. This is the EJB remove method that will
-                        be called when Seam destroys the conversation context. Actually, the
+                        annotated method. In Seam, all stateful session beans should define a method 
+                        marked <literal>@Destroy @Remove</literal>. This is the EJB remove method that 
+                        will be called when Seam destroys the conversation context. Actually, the
                         <link linkend="destroy-annotation"><literal>@Destroy</literal></link> 
                         annotation is of more general usefulness, since it can be used for any 
-                        kind of cleanup that should happen when any Seam context ends.
+                        kind of cleanup that should happen when any Seam context ends. If you don't
+                        have an <literal>@Destroy @Remove</literal> method, state will leak and you
+                        will suffer performance problems.
                     </para>
                 </callout>
             </calloutlist>
