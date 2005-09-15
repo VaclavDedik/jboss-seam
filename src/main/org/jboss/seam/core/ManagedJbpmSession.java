@@ -26,6 +26,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jbpm.graph.exe.ProcessInstance;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Collection;
 
 /**
  * Manages a reference to a JbpmSession
@@ -70,6 +73,82 @@ public class ManagedJbpmSession
       {
          jbpmSession.commitTransactionAndClose();
       }
+   }
+
+   /**
+    * Exposes a users task list as a map to be more easily usable within
+    * JSF EL.  Only the {@link Map#get} method is supported, where the
+    * given key is expected to be the actorId for which to retreive
+    * the task list: jbpmSession.taskLists['admin']
+    *
+    * @return the sorta map :)
+    */
+   public Map<String, List> getTaskLists()
+   {
+      return new Map<String, List>()
+      {
+
+         public List get(Object key)
+         {
+            return getTaskInstanceList( ( String ) key );
+         }
+
+         public int size()
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public boolean isEmpty()
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public boolean containsKey(Object key)
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public boolean containsValue(Object value)
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public List put(String key, List value)
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public List remove(Object key)
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public void putAll(Map<? extends String, ? extends List> t)
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public void clear()
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public Set<String> keySet()
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public Collection<List> values()
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+
+         public Set<Entry<String, List>> entrySet()
+         {
+            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
+         }
+      };
+
    }
 
    public List getTaskInstanceList(String username)

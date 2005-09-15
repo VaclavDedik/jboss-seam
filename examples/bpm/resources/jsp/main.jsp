@@ -16,10 +16,10 @@
          <hr/>
 
          <h:form>
-            <h:dataTable value="#{jbpmSession.getTaskInstanceList('admin')}" var="task">
+            <h:dataTable value="#{jbpmSession.taskLists['admin']}" var="task">
                <h:column>
-                  <h:commandLink action="#{documentEditor.details}" value="#{jbpmSession.getTaskContextVariable(task,'description')}">
-                     <f:param name="taskId" value="#{task.id}"/>
+                  <h:commandLink action="#{documentView.details}" value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['description']}">
+                     <f:param name="jbpmTaskId" value="#{task.id}"/>
                   </h:commandLink>
                </h:column>
             </h:dataTable>
