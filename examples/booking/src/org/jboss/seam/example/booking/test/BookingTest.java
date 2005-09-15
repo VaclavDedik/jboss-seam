@@ -70,6 +70,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
+            getRequest().getParameterMap().put("hotelId", "2");
             HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.selectHotel();
             assert "selected".equals( outcome );

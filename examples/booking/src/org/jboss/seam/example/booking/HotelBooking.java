@@ -10,8 +10,6 @@ public interface HotelBooking
    public void setSearchString(String searchString);
    public String find();
 
-   public Long getHotelId();
-   public void setHotelId(Long hotelId);
    public String selectHotel();
    
    public String nextHotel();

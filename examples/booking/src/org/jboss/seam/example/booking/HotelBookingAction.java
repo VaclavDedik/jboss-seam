@@ -53,7 +53,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In
    private User user;
    
-   private Long hotelId;
    private int hotelIndex;
    
    @In
@@ -83,22 +82,15 @@ public class HotelBookingAction implements HotelBooking, Serializable
    {
       this.searchString = searchString;
    }
-   
-   public Long getHotelId()
-   {
-      return hotelId;
-   }
-
-   public void setHotelId(Long hotelId)
-   {
-      this.hotelId = hotelId;
-   }
 
    public String selectHotel()
    {
+      String hotelId = (String) facesContext.getExternalContext()
+            .getRequestParameterMap().get("hotelId");
+      if ( hotelId==null || hotels==null ) return "main";
       for (int i=0; i<hotels.size(); i++)
       {
-         if ( hotels.get(i).getId().equals(hotelId) )
+         if ( hotels.get(i).getId().toString().equals(hotelId) )
          {
             hotelIndex=i;
             break;
