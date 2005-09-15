@@ -130,17 +130,17 @@ public class Document
 //      this.approver = approver;
 //   }
 //
-//   public void approve(User approver)
-//   {
+   public void approve(User approver)
+   {
 //      this.approver = approver;
 //      this.approvalTimestamp = new Date();
-//      this.status = Status.APPROVED;
-//   }
-//
-//   public void reject(User approver)
-//   {
+      this.status = Status.APPROVED;
+   }
+
+   public void reject(User approver)
+   {
 //      this.approver = approver;
 //      this.approvalTimestamp = new Date();
-//      this.status = Status.REJECTED;
-//   }
+      this.status = Status.REJECTED;
+   }
 }
