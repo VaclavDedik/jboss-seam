@@ -1,144 +1,61 @@
 <?xml version="1.0"?>
 
-<!-- ======================================================================= -->
-<!-- JBoss build file                                                       -->
-<!-- ======================================================================= -->
-
-<project name="Seam - examples/bpm" default="deploy" basedir=".">
-
-   <property name="example.name" value="jboss-seam-bpm"/>
-   <property name="src.dir" value="${basedir}/src/main"/>
-   <property name="test.src.dir" value="${basedir}/src/test"/>
-   <property name="resources.dir" value="${basedir}/resources"/>
-
-   <property name="output.dir" value="${basedir}/output"/>
-   <property name="output.classes.dir" value="${output.dir}/classes"/>
-   <property name="output.test.classes.dir" value="${output.dir}/test-classes"/>
-
-   <property environment="env"/>
-   <property name="jboss.home" value="${env.JBOSS_HOME}"/>
-   <property name="jboss.server" value="default"/>
-   <property name="jboss.server.dir" value="${jboss.home}/server/${jboss.server}"/>
-   <property name="jboss.deploy.dir" value="${jboss.server.dir}/deploy"/>
-
-
-   <path id="classpath.jboss">
-      <fileset dir="${jboss.home}/lib">
-         <include name="**/*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.server.dir}/lib">
-         <include name="**/*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.deploy.dir}/jbossweb-tomcat55.sar/jsf-libs">
-         <include name="**/*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.deploy.dir}/jboss-aop-jdk50.deployer">
-         <include name="*.jar"/>
-      </fileset>
-   </path>
-
-   <path id="classpath.seam">
-      <fileset dir="${basedir}/../..">
-         <include name="jboss-seam.jar"/>
-      </fileset>
-      <fileset dir="${basedir}/../../lib">
-         <include name="*.jar"/>
-      </fileset>
-   </path>
-
-   <path id="classpath.e-ejb">
-      <fileset dir="${basedir}/../../embedded-ejb/lib">
-         <include name="*.jar"/>
-      </fileset>
-   </path>
-
-   <path id="build.classpath">
-      <path refid="classpath.seam"/>
-      <path refid="classpath.e-ejb"/>
-      <path refid="classpath.jboss"/>
-   </path>
-
-   <path id="test.classpath">
-      <path refid="build.classpath"/>
-      <pathelement location="${output.classes.dir}"/>
-   </path>
-
-
-   <target name="compile">
-      <mkdir dir="${output.classes.dir}"/>
-      <javac srcdir="${src.dir}"
-             destdir="${output.classes.dir}"
-             debug="on"
-             deprecation="on"
-             optimize="off"
-             includes="**">
-         <classpath refid="build.classpath"/>
-      </javac>
-   </target>
-
-   <target name="compile-test" depends="compile">
-      <mkdir dir="${output.test.classes.dir}"/>
-      <javac srcdir="${test.src.dir}"
-             destdir="${output.test.classes.dir}"
-             debug="on"
-             deprecation="on"
-             optimize="off"
-             includes="**">
-         <classpath refid="test.classpath"/>
-      </javac>
-   </target>
-
-   <target name="war" depends="compile">
-      <jar destfile="${output.dir}/${example.name}.war">
-         <zipfileset dir="${resources.dir}/WEB-INF" prefix="WEB-INF"/>
-         <zipfileset dir="${output.classes.dir}" prefix="WEB-INF/classes">
-            <include name="**/*Servlet.class"/>
-         </zipfileset>
-         <zipfileset dir="${src.dir}" prefix="WEB-INF/classes">
-            <include name="**/*cfg.xml"/>
-         </zipfileset>
-         <zipfileset dir="${resources.dir}/jsp"/>
-      </jar>
-   </target>
-
-   <target name="ejb3" depends="compile">
-      <jar jarfile="${output.dir}/${example.name}.ejb3">
-         <fileset dir="${output.classes.dir}">
-            <include name="**/*.class"/>
-            <exclude name="**/*Servlet.class"/>
-         </fileset>
-      </jar>
-   </target>
-
-   <target name="ear" depends="ejb3, war">
-      <jar destfile="${output.dir}/${example.name}.ear">
-         <zipfileset dir="${output.dir}">
-            <include name="${example.name}.ejb3"/>
-         </zipfileset>
-         <zipfileset dir="${output.dir}">
-            <include name="${example.name}.war"/>
-         </zipfileset>
-         <zipfileset dir="${resources.dir}/META-INF" prefix="META-INF"/>
-      </jar>
-   </target>
-
-
-   <target name="deploy" depends="ear">
-      <copy file="${output.dir}/${example.name}.ear" todir="${jboss.deploy.dir}"/>
-   </target>
-
-   <!-- =================================================================== -->
-   <!-- Cleans up generated stuff                                           -->
-   <!-- =================================================================== -->
-   <target name="clean.db">
-      <delete dir="${jboss.deploy.dir}/../data/hypersonic"/>
-   </target>
-
-   <target name="clean">
-      <delete dir="${output.dir}"/>
-      <delete file="${jboss.deploy.dir}/${example.name}.ear"/>
-   </target>
-
-
+<project name="Bpm" default="deploy" basedir=".">
+  
+  <!-- Naming -->
+  <property name="Name"                   value="Seam BPM Example"/>
+  <property name="example.name"           value="jboss-seam-bpm"/>
+  
+  <!-- WAR -->
+  <zipfileset id="example.war.docroot"
+    dir="resources/jsp">
+    <include name="**/*"/>
+  </zipfileset>
+  <zipfileset id="example.war.webinf"
+    prefix="WEB-INF"
+    dir="resources/WEB-INF" >
+    <patternset refid="meta.files"/>
+  </zipfileset>
+  <zipfileset id="example.war.webinf.lib"
+    prefix="WEB-INF/lib"
+    dir="resources/WEB-INF">
+    <include name="_NONE_"/>
+  </zipfileset>
+  
+  <!-- EJB3 -->
+  <fileset id="example.ejb3.root"
+    dir="resources">
+    <include name="seam.properties"/>
+    <include name="META-INF/persistence.xml"/>
+  </fileset>
+  
+  <!-- EAR -->
+  <zipfileset id="example.ear.resources"
+    prefix="META-INF"
+    dir="resources/META-INF">
+    <include name="*"/>
+    <exclude name="persistence.xml"/>
+  </zipfileset>
+  
+  <!-- Deploy -->
+  <fileset id="example.deploy"
+    dir="resources">
+    <include name="_NONE_"/>
+  </fileset>
+  
+  <!-- Undeploy -->
+  <patternset id="example.undeploy">
+    <include name="_NONE_"/>
+  </patternset>
+  
+  <!-- Overrides -->
+  <property name="src.java.dir"           value="src"/>
+  
+  <import file="../../build.xml"/>
+  
+  <!-- Redefine targets -->
+  <target name="deploy" depends="ear">
+    <antcall target="Seam.deploy"/>
+  </target>
+  
 </project>
-
