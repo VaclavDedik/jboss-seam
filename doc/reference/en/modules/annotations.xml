@@ -413,7 +413,8 @@
                         Completes work on a jBPM task. Specifies that a long-running conversation 
                         ends when this method returns a non-null value, and that the current task 
                         is complete. Triggers a jBPM transition. The actual transition triggered
-                        depends upon the outcome returned. TODO!
+                        will be the default transition unless there is a <literal>@Transition</literal>
+                        getter method defined.
                     </para>
                 </listitem>
             </varlistentry>   
@@ -437,6 +438,23 @@
             </varlistentry>   
         </variablelist>
         
+        <para>
+            Finally, this annotation appears on a string-valued getter method:
+        </para>
+        
+    	<variablelist spacing="compact">
+            <varlistentry id="transition-annotation">
+                <term><literal>@Transition</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Transition]]></programlisting>
+                    <para>
+                        Returns the transition name to be used when a jBPM transition is triggered
+                        by <literal>@CompleteTask</literal>. A null return value indicates the
+                        default transition.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist> 
     </section> 
     
     <section>
@@ -504,6 +522,55 @@
                     <para>
                         Specifies that this interceptor is positioned deeper in the stack than
                         the given interceptors.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+    </section> 
+
+    <section>
+    	<title>Annotations for use with JSF <literal>dataTable</literal></title>
+    	<para>
+    	    The following annotations make it easy to implement clickable lists
+    	    backed by a stateful session bean. They appear on attributes.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry id="datamodel-annotation">
+                <term><literal>@DataModel</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@DataModel("variableName")]]></programlisting>
+                    <para>
+                        Exposes an attribute of type <literal>List</literal> as a JSF
+                        <literal>DataModel</literal> into the conversation scope.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; name of the conversation
+                            context variable. Default to the attribute name.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="datamodelselection-annotation">
+                <term><literal>@DataModelSelection</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@DataModelSelection]]></programlisting>
+                    <para>
+                        Injects the selected value from the JSF <literal>DataModel</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="datamodelselectionindex-annotation">
+                <term><literal>@DataModelSelectionIndex</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@DataModelSelectionIndex]]></programlisting>
+                    <para>
+                        Exposes the selection index of the JSF <literal>DataModel</literal>
+                        as an attribute of the component.
                     </para>
                 </listitem>
             </varlistentry>
