@@ -1210,11 +1210,11 @@ public class HotelBookingAction implements HotelBooking, Serializable
 
   </section>
 
-  <section id="dvdstore">
+  <!--section id="dvdstore">
       <title>A complete Seam application: the DVD store example</title>
       <para>TODO</para>
       <para>Look in the <literal>dvdstore</literal> directory.</para>
-  </section>
+  </section-->
   
   <section id="noejb">
       <title>An example of Seam with Hibernate: the Hibernate booking example</title>
