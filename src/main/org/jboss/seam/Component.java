@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.ejb.Local;
 import javax.ejb.Remove;
+import javax.faces.model.ListDataModel;
 import javax.naming.InitialContext;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -44,6 +45,9 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Transition;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Within;
+import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
@@ -97,8 +101,17 @@ public class Component
    private Set<Method> outMethods = new HashSet<Method>();
    private Set<Field> outFields = new HashSet<Field>();
    private Map<Method, Object> initializers = new HashMap<Method, Object>();
-   private Method transitionMethod;
+   private Method transitionGetter;
    private Field transitionField;
+   
+   private Method dataModelGetter;
+   private Method dataModelSelectionIndexSetter;
+   private Method dataModelSelectionIndexGetter;
+   private Method dataModelSelectionSetter;
+   private Field dataModelField;
+   private Field dataModelSelectionIndexField;
+   private Field dataModelSelectionField;
+   
    
    private ClassValidator validator;
    
@@ -248,7 +261,26 @@ public class Component
             }
             if ( method.isAnnotationPresent(Transition.class) )
             {
-               transitionMethod = method;
+               transitionGetter = method;
+            }
+            if ( method.isAnnotationPresent(DataModel.class) )
+            {
+               dataModelGetter = method;
+            }
+            if ( method.isAnnotationPresent(DataModelSelectionIndex.class) )
+            {
+               if (method.getReturnType()==void.class)
+               {
+                  dataModelSelectionIndexSetter = method;
+               }
+               else
+               {
+                  dataModelSelectionIndexGetter = method;
+               }
+            }
+            if ( method.isAnnotationPresent(DataModelSelection.class) )
+            {
+               dataModelSelectionSetter = method;
             }
             if ( !method.isAccessible() )
             {
@@ -269,6 +301,18 @@ public class Component
             if ( field.isAnnotationPresent(Transition.class) )
             {
                transitionField = field;
+            }
+            if ( field.isAnnotationPresent(DataModel.class) )
+            {
+               dataModelField = field;
+            }
+            if ( field.isAnnotationPresent(DataModelSelection.class) )
+            {
+               dataModelSelectionField = field;
+            }
+            if ( field.isAnnotationPresent(DataModelSelectionIndex.class) )
+            {
+               dataModelSelectionIndexField = field;
             }
             if ( !field.isAccessible() )
             {
@@ -457,12 +501,95 @@ public class Component
    {
       injectMethods(bean/*, isActionInvocation*/);
       injectFields(bean/*, isActionInvocation*/);
+      injectDataModelSelection(bean);
    }
 
    public void outject(Object bean)
    {
       outjectMethods(bean);
       outjectFields(bean);
+      outjectDataModel(bean);
+   }
+
+   private void injectDataModelSelection(Object bean)
+   {
+      final String name;
+      if (dataModelGetter!=null)
+      {
+         name = toName( dataModelGetter.getAnnotation(DataModel.class).value(), dataModelGetter );
+      }
+      else if (dataModelField!=null)
+      {
+         name = toName( dataModelField.getAnnotation(DataModel.class).value(), dataModelField );
+      }
+      else {
+         return;
+      }
+
+      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) 
+            Contexts.getConversationContext().get(name);
+      if (dataModel!=null)
+      {
+         if (dataModelSelectionIndexSetter!=null)
+         {
+            setPropertyValue(bean, dataModelSelectionIndexSetter, name, dataModel.getRowIndex() );
+         }
+         if (dataModelSelectionSetter!=null)
+         {
+            setPropertyValue(bean, dataModelSelectionSetter, name, dataModel.getRowData() );
+         }
+         if (dataModelSelectionIndexField!=null)
+         {
+            setFieldValue(bean, dataModelSelectionIndexField, name, dataModel.getRowIndex() );
+         }
+         if (dataModelSelectionField!=null)
+         {
+            setFieldValue(bean, dataModelSelectionField, name, dataModel.getRowData() );
+         }
+      }
+   }
+
+   private void outjectDataModel(Object bean)
+   {
+         final List list;
+         final String name;
+         if (dataModelGetter!=null)
+         {
+            list = (List) getPropertyValue(bean, dataModelGetter);
+            name = toName(dataModelGetter.getAnnotation(DataModel.class).value(), dataModelGetter);
+         }
+         else if (dataModelField!=null)
+         {
+            list = (List) getFieldValue(bean, dataModelField);
+            name = toName(dataModelField.getAnnotation(DataModel.class).value(), dataModelField);
+         }
+         else {
+            return;
+         }
+         
+         Integer index = null;
+         if (dataModelSelectionIndexField!=null)
+         {
+            index = (Integer) getFieldValue(bean, dataModelSelectionIndexField);
+         }
+         else if (dataModelSelectionIndexGetter!=null)
+         {
+            index = (Integer) getPropertyValue(bean, dataModelSelectionIndexGetter);
+         }
+         
+         if (list!=null)
+         {
+            ListDataModel dataModel = new ListDataModel(list);
+            if (index!=null) 
+            {
+               dataModel.setRowIndex(index);
+            }
+            Contexts.getConversationContext().set( name, dataModel );
+         }
+         else
+         {
+            Contexts.getConversationContext().remove(name);
+         }
    }
 
    private void injectMethods(Object bean/*, boolean isActionInvocation*/)
@@ -756,6 +883,7 @@ public class Component
    
    private static String toName(String name, Method method)
    {
+      //TODO: does not handle "isFoo"
       if (name==null || name.length() == 0)
       {
          name = method.getName().substring(3, 4).toLowerCase()
@@ -808,9 +936,9 @@ public class Component
       {
          return (String) getFieldValue(bean, transitionField);
       }
-      else if (transitionMethod!=null)
+      else if (transitionGetter!=null)
       {
-         return (String) getPropertyValue(bean, transitionMethod);
+         return (String) getPropertyValue(bean, transitionGetter);
       }
       else
       {
