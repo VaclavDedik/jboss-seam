@@ -17,8 +17,8 @@
 	</h:form>
 </div>
 <div class="section">
-	<h:outputText value="No Hotels Found" rendered="#{hotelsDataModel != null and hotelsDataModel.rowCount == 0}"/>
-	<h:dataTable value="#{hotelsDataModel}" var="hot" rendered="#{hotelsDataModel.rowCount > 0}">
+	<h:outputText value="No Hotels Found" rendered="#{hotels != null and empty hotels}"/>
+	<h:dataTable value="#{hotels}" var="hot" rendered="#{not empty hotels}">
 		<h:column>
 			<f:facet name="header">Address</f:facet>
 			#{hot.address}
@@ -33,7 +33,10 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<h:commandLink action="#{hotelBooking.selectHotel}">View Hotel</h:commandLink>
+			<h:commandLink action="#{hotelBooking.selectHotel}">
+			    <f:param name="hotelId" value="#{hot.id}"/>
+			    View Hotel
+			</h:commandLink>
 		</h:column>
 	</h:dataTable>
 </div>

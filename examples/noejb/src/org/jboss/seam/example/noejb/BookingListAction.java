@@ -4,9 +4,6 @@ package org.jboss.seam.example.noejb;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
-
 import org.hibernate.Session;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.In;
@@ -26,17 +23,15 @@ public class BookingListAction implements Serializable
    private User user;
    
    @Out
-   private DataModel bookingsDataModel = new ListDataModel();
+   private List<Booking> bookings;
    
    public String find()
    {
-      List bookings = bookingDatabase.createQuery("from Booking b where b.user = :user order by b.checkinDate")
+      bookings = bookingDatabase.createQuery("from Booking b where b.user = :user order by b.checkinDate")
             .setEntity("user", user)
             .list();
       
       log.info(bookings.size() + " bookings found");
-      
-      bookingsDataModel.setWrappedData(bookings);
       
       return "bookings";
    }
