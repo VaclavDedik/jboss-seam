@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -17,7 +18,7 @@ import org.jboss.seam.annotations.Name;
 
 @Entity
 @Name("booking")
-public class Booking
+public class Booking implements Serializable
 {
    private Long id;
    private User user;
