@@ -5,7 +5,7 @@
         Unfortunately, several lines of XML are required to integrate Seam into 
         your JSF implementation and servlet container. There's no need to be too 
         put off by the following sections; you'll never need to type any of this stuff
-        yourself, since you can just cope and paste from the example applications!
+        yourself, since you can just copy and paste from the example applications!
     </para>
     
     <sect1>

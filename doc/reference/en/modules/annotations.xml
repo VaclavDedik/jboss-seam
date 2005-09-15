@@ -35,7 +35,7 @@
             <varlistentry  id="scope-annotation">
                 <term><literal>@Scope</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@Name(ScopeType.CONVERSATION)]]></programlisting>
+                    <programlisting><![CDATA[@Scope(ScopeType.CONVERSATION)]]></programlisting>
                     <para>
                         Defines the default context of the component. The possible values
                         are defined by the <literal>ScopeType</literal> enumeration:
@@ -88,7 +88,7 @@
                         Specifies that a conversation scope component is conversational,
                         meaning that no method of the component can be called unless
                         a long-running conversation started by this component is active 
-                        (unless the method would begin a new long-running conversations).
+                        (unless the method would begin a new long-running conversation).
                     </para>
                     <itemizedlist>
                         <listitem>
