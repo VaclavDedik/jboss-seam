@@ -11,10 +11,13 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginIf;
+import org.jboss.seam.annotations.BeginTask;
+import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndIf;
+import org.jboss.seam.annotations.ResumeTask;
 import org.jboss.seam.core.Manager;
 
 /**
@@ -64,6 +67,7 @@ public class ConversationInterceptor extends AbstractInterceptor
             ( !Manager.instance().isLongRunningConversation() || !componentIsConversationOwner() ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(BeginIf.class) &&
+            !method.isAnnotationPresent(BeginTask.class) &&
             !method.isAnnotationPresent(Destroy.class) && 
             !method.isAnnotationPresent(Create.class); //probably superfluous
    }
@@ -82,7 +86,10 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void beginConversationIfNecessary(Method method, Object result)
    {
-      if ( method.isAnnotationPresent(Begin.class) )
+      boolean simpleBegin = method.isAnnotationPresent(Begin.class) || 
+            method.isAnnotationPresent(BeginTask.class) || 
+            method.isAnnotationPresent(ResumeTask.class);
+      if ( simpleBegin )
       {
          beginConversation();
       }
@@ -108,7 +115,7 @@ public class ConversationInterceptor extends AbstractInterceptor
 
   private void endConversationIfNecessary(Method method, Exception exception)
    {
-      if (method.isAnnotationPresent(EndIf.class))
+      if ( method.isAnnotationPresent(EndIf.class) )
       {
          Class[] exceptions = method.getAnnotation(EndIf.class)
                .exception();
@@ -122,15 +129,22 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void endConversationIfNecessary(Method method, Object result)
    {
-      if (method.isAnnotationPresent(End.class))
+      if ( method.isAnnotationPresent(End.class) )
       {
          endConversation();
       }
-      else if (method.isAnnotationPresent(EndIf.class))
+      else if ( method.isAnnotationPresent(EndIf.class) )
       {
          String[] results = method.getAnnotation(EndIf.class)
                .outcome();
          if (Arrays.asList(results).contains(result))
+         {
+            endConversation();
+         }
+      }
+      else if ( method.isAnnotationPresent(CompleteTask.class) )
+      {
+         if (result!=null) //null outcome interpreted as redisplay
          {
             endConversation();
          }

@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
 
+import org.jboss.seam.interceptors.BusinessProcessInterceptor;
+
 /**
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
  * to be completed.
@@ -27,11 +29,5 @@ public @interface CompleteTask {
 	 * The name of the context variable under which we should locate the
 	 * the id of the task to be completed.
 	 */
-	String name();
-
-	/**
-	 * An array of result to transition mappings in the form "methodResult=>transitionName".
-	 * No match means that the default transition will be attempted.
-	 */
-	String[] transitionMap() default "";
+	String taskInstanceName() default BusinessProcessInterceptor.DEF_TASK_INSTANCE_NAME;
 }

@@ -13,15 +13,17 @@ import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
 
+import org.jboss.seam.interceptors.BusinessProcessInterceptor;
+
 /**
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
  * to be marked as started.
  * <p/>
- * Note that both {@link ResumeTask} and {@link StartTask} have effect
+ * Note that both {@link ResumeTask} and {@link BeginTask} have effect
  * before invocation of the intercepted method in that they are both
  * about setting up appropriate {@link org.jbpm.context.exe.ContextInstance}
  * for the current {@link org.jboss.seam.contexts.BusinessProcessContext};
- * {@link StartTask} however, also has effect after method invocation
+ * {@link BeginTask} however, also has effect after method invocation
  * as that is the time it actually marks the task as started.
  *
  * @see org.jbpm.taskmgmt.exe.TaskInstance#start()
@@ -29,13 +31,13 @@ import java.lang.annotation.Documented;
 @Target( METHOD )
 @Retention( RUNTIME )
 @Documented
-public @interface StartTask
+public @interface BeginTask
 {
    /**
     * The name of the request parameter under which we should locate the
     * the id of task to be started.
     */
-   String taskIdName();
+   String taskIdParameter() default "jbpmTaskId";
    /**
     * Should we push actor information onto the task, or allow any defined
     * assigments/swimlanes take effect?
@@ -50,14 +52,14 @@ public @interface StartTask
     * The name under which to expose the jBPM
     * {@link org.jbpm.taskmgmt.exe.TaskInstance} into conversation context.
     *
-    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_TASK_NAME}.
+    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_TASK_INSTANCE_NAME}.
     */
-   String taskName() default "";
+   String taskInstanceName() default BusinessProcessInterceptor.DEF_TASK_INSTANCE_NAME;
    /**
     * The name under which to expose the jBPM
     * {@link org.jbpm.graph.exe.ProcessInstance} into conversation context.
     *
-    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_PROCESS_NAME}.
+    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_PROCESS_INSTANCE_NAME}.
     */
-   String processName() default "";
+   String processInstanceName() default BusinessProcessInterceptor.DEF_PROCESS_INSTANCE_NAME;
 }

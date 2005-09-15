@@ -9,6 +9,9 @@ package org.jboss.seam.annotations;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
+
+import org.jboss.seam.interceptors.BusinessProcessInterceptor;
+
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.lang.annotation.ElementType.METHOD;
 
@@ -33,5 +36,5 @@ public @interface CreateProcess
     * Optional; by default the created ProcessInstance is exposed under
     * the definition name.
     */
-   String processName() default "";
+   String processInstanceName() default BusinessProcessInterceptor.DEF_PROCESS_INSTANCE_NAME;
 }

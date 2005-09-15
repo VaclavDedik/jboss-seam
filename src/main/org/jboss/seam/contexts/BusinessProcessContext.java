@@ -167,7 +167,7 @@ public class BusinessProcessContext implements Context {
          {
             log.trace( "trying to locate jBPM ContextInstance source (task/process)" );
             contextInstance = ( ContextInstance ) Contexts.getEventContext()
-                    .get( BusinessProcessInterceptor.JBPM_CONTEXT_NAME );
+                    .get( BusinessProcessInterceptor.CONTEXT_INSTANCE_NAME );
          }
       }
       finally

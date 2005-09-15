@@ -9,6 +9,9 @@ package org.jboss.seam.annotations;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
+
+import org.jboss.seam.interceptors.BusinessProcessInterceptor;
+
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.lang.annotation.ElementType.METHOD;
 
@@ -18,7 +21,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * {@link org.jbpm.context.exe.ContextInstance} with the current
  * {@link org.jboss.seam.contexts.BusinessProcessContext}.
  * <p/>
- * Note that both {@link ResumeTask} and {@link StartTask} have effect
+ * Note that both {@link ResumeTask} and {@link BeginTask} have effect
  * before invocation of the intercepted method in that they are both
  * about setting up appropriate {@link org.jbpm.context.exe.ContextInstance}
  * for the current {@link org.jboss.seam.contexts.BusinessProcessContext}.
@@ -33,19 +36,19 @@ public @interface ResumeTask
     * The name of the request parameter under which we should locate the
     * the id of task to be resumed.
     */
-   String taskIdName();
+   String taskIdParameter() default "jbpmTaskId";
    /**
     * The name under which to expose the jBPM
     * {@link org.jbpm.taskmgmt.exe.TaskInstance} into conversation context.
     *
-    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_TASK_NAME}.
+    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_TASK_INSTANCE_NAME}.
     */
-   String taskName() default "";
+   String taskInstanceName() default BusinessProcessInterceptor.DEF_TASK_INSTANCE_NAME;
    /**
     * The name under which to expose the jBPM
     * {@link org.jbpm.graph.exe.ProcessInstance} into conversation context.
     *
-    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_PROCESS_NAME}.
+    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_PROCESS_INSTANCE_NAME}.
     */
-   String processName() default "";
+   String processInstanceName() default BusinessProcessInterceptor.DEF_PROCESS_INSTANCE_NAME;
 }

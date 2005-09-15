@@ -16,7 +16,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.CompleteTask;
-import org.jboss.seam.annotations.StartTask;
+import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.ResumeTask;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.CreateProcess;
@@ -36,9 +36,9 @@ import org.jbpm.db.JbpmSession;
  */
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
-   public static final String DEF_TASK_NAME = "currentTask";
-   public static final String DEF_PROCESS_NAME = "currentProcess";
-   public static final String JBPM_CONTEXT_NAME = ".jbpmContext";
+   public static final String DEF_TASK_INSTANCE_NAME = "taskInstance";
+   public static final String DEF_PROCESS_INSTANCE_NAME = "processInstance";
+   public static final String CONTEXT_INSTANCE_NAME = "contextInstance";
 
    private static final Logger log = Logger.getLogger( BusinessProcessInterceptor.class );
 
@@ -50,31 +50,31 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       log.trace( "Starting bpm interception [component=" + componentName + ", method=" + method.getName() + "]" );
 
       beforeInvocation( invocation );
-      Object result = invocation.proceed();
-      afterInvocation( invocation, result );
-
-      return result;
+      return afterInvocation( invocation, invocation.proceed() );
    }
 
    private void beforeInvocation(InvocationContext invocationContext) {
       Method method = invocationContext.getMethod();
 
-      if ( method.isAnnotationPresent( StartTask.class ) ) {
+      if ( method.isAnnotationPresent( BeginTask.class ) ) {
          log.trace( "encountered @StartTask" );
-         StartTask tag = method.getAnnotation( StartTask.class );
-         Long taskId = ( Long ) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get( tag.taskIdName() );
-         prepareForTask( taskId, tag.taskName(), tag.processName() );
+         BeginTask tag = method.getAnnotation( BeginTask.class );
+         Long taskId = ( Long ) FacesContext.getCurrentInstance().getExternalContext()
+               .getRequestParameterMap().get( tag.taskIdParameter() );
+         prepareForTask( taskId, tag.taskInstanceName(), tag.processInstanceName() );
       }
       else if ( method.isAnnotationPresent( ResumeTask.class ) ) {
          log.trace( "encountered @ResumeTask" );
          ResumeTask tag = method.getAnnotation( ResumeTask.class );
-         Long taskId = ( Long ) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get( tag.taskIdName() );
-         prepareForTask( taskId, tag.taskName(), tag.processName() );
+         Long taskId = ( Long ) FacesContext.getCurrentInstance().getExternalContext()
+               .getRequestParameterMap().get( tag.taskIdParameter() );
+         prepareForTask( taskId, tag.taskInstanceName(), tag.processInstanceName() );
       }
       else if ( method.isAnnotationPresent( ResumeProcess.class ) ) {
          log.trace( "encountered @ResumeProcess" );
          ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
-         Long processId = ( Long ) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get( tag.processIdName() );
+         Long processId = ( Long ) FacesContext.getCurrentInstance().getExternalContext()
+               .getRequestParameterMap().get( tag.processIdName() );
          prepareForProcess( processId, tag.processName() );
       }
       else
@@ -108,10 +108,6 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private void exposeState(TaskInstance task, String taskName, String processName)
    {
-      if ( "".equals( taskName ) )
-      {
-         taskName = DEF_TASK_NAME;
-      }
       log.trace( "binding task to event context [" + taskName + "]" );
       Contexts.getEventContext().set( taskName, task );
 
@@ -126,14 +122,10 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private void exposeState(ProcessInstance process, String processName)
    {
-      if ( "".equals( processName ) )
-      {
-         processName = DEF_PROCESS_NAME;
-      }
       log.trace( "binding process to event context [" + processName + "]" );
       Contexts.getEventContext().set( processName, process );
 
-      Contexts.getEventContext().set( JBPM_CONTEXT_NAME, process.getContextInstance() );
+      Contexts.getEventContext().set( CONTEXT_INSTANCE_NAME, process.getContextInstance() );
 
       Manager manager = Manager.instance();
       manager.setTaskId( null );
@@ -162,28 +154,45 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       return session.getGraphSession().loadProcessInstance( processId );
    }
 
-   private void afterInvocation(InvocationContext invocation, Object result)
+   private Object afterInvocation(InvocationContext invocation, Object result)
    {
       Method method = invocation.getMethod();
       if ( method.isAnnotationPresent( CreateProcess.class ) )
       {
          log.trace( "encountered @CreateProcess" );
          CreateProcess tag = method.getAnnotation( CreateProcess.class );
-         createProcess( tag.definition(), tag.processName() );
+         createProcess( tag.definition(), tag.processInstanceName() );
       }
-      else if ( method.isAnnotationPresent( StartTask.class ) )
+      else if ( method.isAnnotationPresent( BeginTask.class ) )
       {
          log.trace( "encountered @StartTask" );
-         StartTask tag = method.getAnnotation( StartTask.class );
-         startTask( tag.taskName(), tag.actorExpression() );
+         BeginTask tag = method.getAnnotation( BeginTask.class );
+         startTask( tag.taskInstanceName(), tag.actorExpression() );
       }
       else if ( method.isAnnotationPresent( CompleteTask.class ) )
       {
          log.trace( "encountered @CompleteTask" );
-         CompleteTask tag = method.getAnnotation( CompleteTask.class );
-         String transitionName = determineCompleteTaskTransition( result, tag.transitionMap() );
-         completeTask( tag.name(), transitionName );
+          if (result!=null) 
+         {
+            String outcome = (String) result;
+            result = getOutcome(outcome);
+            CompleteTask tag = method.getAnnotation( CompleteTask.class );
+            completeTask( tag.taskInstanceName(), getTransitionName(outcome) );
+         }
       }
+      return result;
+   }
+
+   private static String getOutcome(String outcome)
+   {
+      int loc = outcome.indexOf(',');
+      return loc<0 ? outcome : outcome.substring(0, loc);
+   }
+
+   private static String getTransitionName(String outcome)
+   {
+      int loc = outcome.indexOf(',');
+      return loc<0 ? null : outcome.substring(loc+1, outcome.length());
    }
 
    private void createProcess(String processDefinitionName, String processName)
@@ -249,20 +258,5 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    {
       return ( TaskInstance ) Contexts.getEventContext().get( name );
    }
-
-   private String determineCompleteTaskTransition(Object result, String[] mappings)
-   {
-      final String resultKey = result + "=>";
-      String transition = null;
-      for ( final String mapping : mappings )
-      {
-         if ( mapping.startsWith( resultKey ) )
-         {
-            transition = mapping.substring( resultKey.length() );
-            break;
-         }
-      }
-      return transition;
-   }
-
+   
 }

@@ -9,6 +9,9 @@ package org.jboss.seam.annotations;
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
+
+import org.jboss.seam.interceptors.BusinessProcessInterceptor;
+
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.lang.annotation.ElementType.METHOD;
 
@@ -32,7 +35,7 @@ public @interface ResumeProcess
     * The name under which to expose the jBPM
     * {@link org.jbpm.graph.exe.ProcessInstance} into conversation context.
     *
-    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_PROCESS_NAME}.
+    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_PROCESS_INSTANCE_NAME}.
     */
-   String processName() default "";
+   String processName() default BusinessProcessInterceptor.DEF_PROCESS_INSTANCE_NAME;
 }
