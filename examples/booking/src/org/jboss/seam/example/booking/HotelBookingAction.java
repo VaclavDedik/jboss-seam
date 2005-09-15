@@ -8,14 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Interceptor;
-import javax.ejb.PostActivate;
-import javax.ejb.PrePassivate;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
 
 import org.hibernate.validator.Valid;
@@ -43,6 +39,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    private EntityManager bookingDatabase;
    
    private String searchString;
+   @Out
    private List<Hotel> hotels;
    
    @Out(required=false)
@@ -56,9 +53,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In
    private User user;
    
-   @Out
-   private DataModel hotelsDataModel = new ListDataModel();
-   int rowIndex = 0;
+   private Long hotelId;
+   private int hotelIndex;
    
    @In
    private FacesContext facesContext;
@@ -75,8 +71,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
       
       log.info(hotels.size() + " hotels found");
       
-      hotelsDataModel.setWrappedData(hotels);
-      
       return "main";
    }
    
@@ -90,18 +84,35 @@ public class HotelBookingAction implements HotelBooking, Serializable
       this.searchString = searchString;
    }
    
+   public Long getHotelId()
+   {
+      return hotelId;
+   }
+
+   public void setHotelId(Long hotelId)
+   {
+      this.hotelId = hotelId;
+   }
+
    public String selectHotel()
    {
-      rowIndex = hotelsDataModel.getRowIndex();
+      for (int i=0; i<hotels.size(); i++)
+      {
+         if ( hotels.get(i).getId().equals(hotelId) )
+         {
+            hotelIndex=i;
+            break;
+         }
+      }
       setHotel();
       return "selected";
    }
 
    public String nextHotel()
    {
-      if ( rowIndex<hotels.size()-1 )
+      if ( hotelIndex<hotels.size()-1 )
       {
-         hotelsDataModel.setRowIndex(++rowIndex);
+         ++hotelIndex;
          setHotel();
       }
       return null;
@@ -109,9 +120,9 @@ public class HotelBookingAction implements HotelBooking, Serializable
 
    public String lastHotel()
    {
-      if (rowIndex>0)
+      if (hotelIndex>0)
       {
-         hotelsDataModel.setRowIndex(--rowIndex);
+         --hotelIndex;
          setHotel();
       }
       return null;
@@ -119,8 +130,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
 
    private void setHotel()
    {
-      hotel = (Hotel) hotelsDataModel.getRowData();
-      log.info( rowIndex + "=>" + hotel );
+      hotel = hotels.get(hotelIndex);
+      log.info( hotelIndex + "=>" + hotel );
    }
    
    public String bookHotel()
@@ -150,7 +161,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       }
    }
       
-   @End @Remove 
+   @End
    public String confirm()
    {
       if (booking==null || hotel==null) return "main";
@@ -164,17 +175,4 @@ public class HotelBookingAction implements HotelBooking, Serializable
       log.info("destroyed");
    }
    
-   @PrePassivate
-   public void passivate()
-   {
-      hotelsDataModel = null;
-   }
-   
-   @PostActivate
-   public void activate()
-   {
-      hotelsDataModel = new ListDataModel();
-      hotelsDataModel.setWrappedData(hotels);
-      hotelsDataModel.setRowIndex(rowIndex);
-   }
 }

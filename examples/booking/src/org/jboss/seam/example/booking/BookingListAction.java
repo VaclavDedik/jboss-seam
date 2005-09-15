@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.ejb.Interceptor;
 import javax.ejb.Stateless;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
 
 import org.jboss.logging.Logger;
@@ -31,17 +29,15 @@ public class BookingListAction implements BookingList, Serializable
    private User user;
    
    @Out
-   private DataModel bookingsDataModel = new ListDataModel();
+   private List<Booking> bookings;
    
    public String find()
    {
-      List bookings = bookingDatabase.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
+      bookings = bookingDatabase.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
             .setParameter("username", user.getUsername())
             .getResultList();
       
       log.info(bookings.size() + " bookings found");
-      
-      bookingsDataModel.setWrappedData(bookings);
       
       return "bookings";
    }
