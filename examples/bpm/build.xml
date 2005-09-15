@@ -1,61 +1,56 @@
 <?xml version="1.0"?>
 
-<project name="Bpm" default="deploy" basedir=".">
-  
-  <!-- Naming -->
-  <property name="Name"                   value="Seam BPM Example"/>
-  <property name="example.name"           value="jboss-seam-bpm"/>
-  
-  <!-- WAR -->
-  <zipfileset id="example.war.docroot"
-    dir="resources/jsp">
-    <include name="**/*"/>
-  </zipfileset>
-  <zipfileset id="example.war.webinf"
-    prefix="WEB-INF"
-    dir="resources/WEB-INF" >
-    <patternset refid="meta.files"/>
-  </zipfileset>
-  <zipfileset id="example.war.webinf.lib"
-    prefix="WEB-INF/lib"
-    dir="resources/WEB-INF">
-    <include name="_NONE_"/>
-  </zipfileset>
-  
-  <!-- EJB3 -->
-  <fileset id="example.ejb3.root"
-    dir="resources">
-    <include name="seam.properties"/>
-    <include name="META-INF/persistence.xml"/>
-  </fileset>
-  
-  <!-- EAR -->
-  <zipfileset id="example.ear.resources"
-    prefix="META-INF"
-    dir="resources/META-INF">
-    <include name="*"/>
-    <exclude name="persistence.xml"/>
-  </zipfileset>
-  
-  <!-- Deploy -->
-  <fileset id="example.deploy"
-    dir="resources">
-    <include name="_NONE_"/>
-  </fileset>
-  
-  <!-- Undeploy -->
-  <patternset id="example.undeploy">
-    <include name="_NONE_"/>
-  </patternset>
-  
-  <!-- Overrides -->
-  <property name="src.java.dir"           value="src"/>
-  
-  <import file="../../build.xml"/>
-  
-  <!-- Redefine targets -->
-  <target name="deploy" depends="ear">
-    <antcall target="Seam.deploy"/>
-  </target>
-  
+<!-- ======================================================================= -->
+<!-- JBoss build file                                                       -->
+<!-- ======================================================================= -->
+
+<project name="jbpm" default="deploy" basedir=".">
+
+   <!-- Naming -->
+   <property name="Name" value="Seam jBPM Example"/>
+   <property name="example.name" value="jboss-seam-jbpm"/>
+
+   <!-- WAR -->
+   <zipfileset id="example.war.docroot" dir="resources/jsp">
+      <include name="**/*"/>
+   </zipfileset>
+   <zipfileset id="example.war.webinf" dir="resources/WEB-INF" prefix="WEB-INF">
+      <patternset refid="meta.files"/>
+   </zipfileset>
+   <zipfileset id="example.war.webinf.lib" dir="resources/WEB-INF/lib" prefix="WEB-INF/lib">
+      <include name="*.jar"/>
+   </zipfileset>
+
+   <!-- EJB3 -->
+   <fileset id="example.ejb3.root" dir="resources">
+      <!--include name="import.sql"/-->
+      <include name="hibernate.cfg.xml"/>
+      <include name="jbpm-DocumentSubmission.xml"/>
+      <include name="META-INF/persistence.xml"/>
+   </fileset>
+
+   <!-- EAR -->
+   <zipfileset id="example.ear.resources" dir="resources/META-INF" prefix="META-INF">
+      <include name="*"/>
+      <exclude name="persistence.xml"/>
+   </zipfileset>
+
+   <!-- Deploy -->
+   <fileset id="example.deploy" dir="resources">
+      <include name="seam-jbpm-ds.xml"/>
+   </fileset>
+
+   <!-- Undeploy -->
+   <patternset id="example.undeploy">
+      <include name="seam-jbpm-ds.xml"/>
+   </patternset>
+
+
+   <import file="../../build.xml"/>
+
+   <!-- Redefine deploy target to add ear dependency -->
+   <target name="deploy" depends="ear">
+        <antcall target="Seam.deploy"/>
+   </target>
+
 </project>

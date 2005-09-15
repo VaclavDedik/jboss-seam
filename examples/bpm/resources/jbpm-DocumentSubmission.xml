@@ -1,0 +1,12 @@
+
+<process-definition name="DocumentSubmission">
+    <start-state>
+        <transition to="review"/>
+    </start-state>
+    <task-node name="review">
+        <task name="review"/>
+        <transition name="approve" to="complete"/>
+        <transition name="reject" to="complete"/>
+    </task-node>
+    <end-state name="complete"/>
+</process-definition>

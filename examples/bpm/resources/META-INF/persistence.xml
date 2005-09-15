@@ -1,7 +1,7 @@
 <entity-manager>
-   <name>bpmDatabase</name>
+   <name>seamJbpmDatabase</name>
    <provider>org.hibernate.ejb.HibernatePersistence</provider>
-   <jta-data-source>java:/bpmDatasource</jta-data-source>
+   <jta-data-source>java:/seamJbpmDatasource</jta-data-source>
    <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
       <property name="hibernate.hbm2ddl.auto" value="create-drop"/>

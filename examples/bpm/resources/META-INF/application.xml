@@ -1,14 +1,15 @@
 <application>
-	<display-name>SEAM</display-name>
+	<display-name>JBoss SEAM jBPM Example App</display-name>
 
 	<module>
 		<web>
-			<web-uri>jboss-seam-bpm.war</web-uri>
-			<context-root>/seam-bpm</context-root>
+			<web-uri>jboss-seam-jbpm.war</web-uri>
+			<context-root>/seam-jbpm</context-root>
 		</web>
 	</module>
-	<module>
-		<ejb>jboss-seam-bpm.ejb3</ejb>
+
+   <module>
+		<ejb>jboss-seam-jbpm.ejb3</ejb>
 	</module>
-	
+
 </application>

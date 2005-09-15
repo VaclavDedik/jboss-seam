@@ -13,10 +13,12 @@
 
    <bean name="JbpmFactory" class="org.jboss.seam.microcontainer.JbpmFactory">
       <depends>Naming</depends>
-      <depends>bpmDatasource</depends>
+      <depends>jbpmDatasource</depends>
       <property name="jndiName">/JbpmSessionFactory</property>
-      <property name="processDefinitions">
+      <property name="processDefinitionResources">
          <array elementClass="java.lang.String">
+            <value>jbpm-DocumentSubmission.xml</value>
+            <!--
             <value>
                <![CDATA[
                         <process-definition name="DocumentSubmission">
@@ -31,19 +33,20 @@
                             <end-state name="complete"/>
                         </process-definition>
                  ]]>
-            </value>
+             </value>
+            -->
          </array>
       </property>
       <start method="initialize"/>
       <stop method="cleanup"/>
    </bean>
 
-   <bean name="bpmDatasourceFactory" class="org.jboss.seam.microcontainer.DataSourceFactory">
+   <bean name="jbpmDatasourceFactory" class="org.jboss.seam.microcontainer.DataSourceFactory">
       <depends>Naming</depends>
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
       <property name="connectionUrl">jdbc:hsqldb:.</property>
       <property name="userName">sa</property>
-      <property name="jndiName">java:/bpmDatasource</property>
+      <property name="jndiName">java:/seamJbpmDatasource</property>
       <property name="minSize">0</property>
       <property name="maxSize">10</property>
       <property name="blockingTimeout">1000</property>
@@ -52,9 +55,9 @@
          <inject bean="TransactionManager"/>
       </property>
    </bean>
-   <bean name="bpmDatasource" class="java.lang.Object">
+   <bean name="jbpmDatasource" class="java.lang.Object">
       <constructor factoryMethod="getDataSource">
-         <factory bean="bpmDatasourceFactory"/>
+         <factory bean="jbpmDatasourceFactory"/>
       </constructor>
    </bean>
 

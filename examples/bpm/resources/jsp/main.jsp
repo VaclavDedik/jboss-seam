@@ -16,9 +16,9 @@
          <hr/>
 
          <h:form>
-            <h:dataTable value="#{jbpmSession.taskLists['admin']}" var="task">
+            <h:dataTable value="#{jbpmUtil.taskLists[ user.username ]}" var="task">
                <h:column>
-                  <h:commandLink action="#{documentView.details}" value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['description']}">
+                  <h:commandLink action="#{documentViewer.details}" value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['description']}">
                      <f:param name="jbpmTaskId" value="#{task.id}"/>
                   </h:commandLink>
                </h:column>

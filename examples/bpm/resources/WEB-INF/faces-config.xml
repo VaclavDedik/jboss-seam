@@ -9,7 +9,7 @@
        <description>global nav rules</description>
         <navigation-case>
             <from-outcome>create</from-outcome>
-            <to-view-id>/edit.jsp</to-view-id>
+            <to-view-id>/detail.jsp</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>main</from-outcome>

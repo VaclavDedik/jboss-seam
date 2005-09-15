@@ -20,7 +20,7 @@
       -->
 
       <!-- managed-env properties -->
-      <property name="connection.datasource">java:/bpmDatasource</property>
+      <property name="connection.datasource">java:/seamJbpmDatasource</property>
       <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
       <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
       <property name="jta.UserTransaction">java:comp/UserTransaction</property>
