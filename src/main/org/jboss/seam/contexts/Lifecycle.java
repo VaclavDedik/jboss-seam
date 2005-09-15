@@ -123,7 +123,6 @@ public class Lifecycle
          if ( Contexts.isBusinessProcessContextActive() )
          {
             Contexts.getBusinessProcessContext().flush();
-            Contexts.destroy( Contexts.getBusinessProcessContext() );
          }
 
          if ( Contexts.isEventContextActive() )
@@ -134,14 +133,14 @@ public class Lifecycle
 
          if ( Contexts.isConversationContextActive() )
          {
-            if ( !Seam.isSessionInvalid() )
-            {
-               Contexts.getConversationContext().flush();
-            }
             if ( !Manager.instance().isLongRunningConversation() )
             {
                log.debug("destroying conversation context");
                Contexts.destroy( Contexts.getConversationContext() );
+            }
+            if ( !Seam.isSessionInvalid() )
+            {
+               Contexts.getConversationContext().flush();
             }
          }
 
