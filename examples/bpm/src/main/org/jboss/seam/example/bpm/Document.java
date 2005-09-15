@@ -1,18 +1,16 @@
 package org.jboss.seam.example.bpm;
 
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratorType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
+import org.hibernate.annotations.Type;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ScopeType;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.Entity;
-import javax.persistence.AccessType;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratorType;
-import javax.persistence.Version;
-import javax.persistence.ManyToOne;
-import java.util.Date;
 
 /**
  * Domain representation of a user-submitted document.

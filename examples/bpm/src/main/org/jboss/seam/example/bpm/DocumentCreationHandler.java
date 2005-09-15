@@ -1,16 +1,15 @@
 package org.jboss.seam.example.bpm;
 
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.CreateProcess;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.ejb.SeamInterceptor;
-import org.jboss.seam.contexts.Contexts;
-
-import javax.persistence.PersistenceContext;
-import javax.persistence.EntityManager;
-import javax.ejb.Stateless;
 import javax.ejb.Interceptor;
-import java.util.Date;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.jboss.seam.annotations.CreateProcess;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.ejb.SeamInterceptor;
 
 /**
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
