@@ -970,9 +970,9 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                     <area id="registration-conversational-annotation" coords="4"/>
                     <area id="registration-custom-annotation" coords="5"/>
                     <area id="registration-out-annotation" coords="14"/>
-                    <area id="registration-begin-annotation" coords="34"/>
-                    <area id="registration-end-annotation" coords="136"/>
-                    <area id="registration-destroy-annotation" coords="145"/>
+                    <area id="registration-begin-annotation" coords="33"/>
+                    <area id="registration-end-annotation" coords="128"/>
+                    <area id="registration-destroy-annotation" coords="137"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
@@ -1001,7 +1001,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In
    private User user;
    
-   private Long hotelId;
    private int hotelIndex;
    
    @In
@@ -1031,22 +1030,15 @@ public class HotelBookingAction implements HotelBooking, Serializable
    {
       this.searchString = searchString;
    }
-   
-   public Long getHotelId()
-   {
-      return hotelId;
-   }
-
-   public void setHotelId(Long hotelId)
-   {
-      this.hotelId = hotelId;
-   }
 
    public String selectHotel()
    {
+      String hotelId = (String) facesContext.getExternalContext()
+            .getRequestParameterMap().get("hotelId");
+      if ( hotelId==null || hotels==null ) return "main";
       for (int i=0; i<hotels.size(); i++)
       {
-         if ( hotels.get(i).getId().equals(hotelId) )
+         if ( hotels.get(i).getId().toString().equals(hotelId) )
          {
             hotelIndex=i;
             break;
