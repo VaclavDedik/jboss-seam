@@ -969,10 +969,12 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                     <area id="registration-stateful-annotation" coords="1"/>
                     <area id="registration-conversational-annotation" coords="4"/>
                     <area id="registration-custom-annotation" coords="5"/>
-                    <area id="registration-out-annotation" coords="14"/>
-                    <area id="registration-begin-annotation" coords="33"/>
-                    <area id="registration-end-annotation" coords="128"/>
-                    <area id="registration-destroy-annotation" coords="137"/>
+                    <area id="registration-datamodel-annotation" coords="15"/>
+                    <area id="registration-datamodelselectionindex-annotation" coords="17"/>
+                    <area id="registration-out-annotation" coords="20"/>
+                    <area id="registration-begin-annotation" coords="34"/>
+                    <area id="registration-end-annotation" coords="119"/>
+                    <area id="registration-destroy-annotation" coords="128"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
@@ -987,8 +989,11 @@ public class HotelBookingAction implements HotelBooking, Serializable
    private EntityManager bookingDatabase;
    
    private String searchString;
-   @Out
+   
+   @DataModel
    private List<Hotel> hotels;
+   @DataModelSelectionIndex
+   private int hotelIndex;
    
    @Out(required=false)
    private Hotel hotel;
@@ -1001,11 +1006,9 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In
    private User user;
    
-   private int hotelIndex;
-   
    @In
    private FacesContext facesContext;
-
+   
    @Begin
    public String find()
    {
@@ -1033,17 +1036,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
 
    public String selectHotel()
    {
-      String hotelId = (String) facesContext.getExternalContext()
-            .getRequestParameterMap().get("hotelId");
-      if ( hotelId==null || hotels==null ) return "main";
-      for (int i=0; i<hotels.size(); i++)
-      {
-         if ( hotels.get(i).getId().toString().equals(hotelId) )
-         {
-            hotelIndex=i;
-            break;
-         }
-      }
+      if ( hotels==null ) return "main";
       setHotel();
       return "selected";
    }
@@ -1138,6 +1131,22 @@ public class HotelBookingAction implements HotelBooking, Serializable
                         The <literal>@LoggedIn</literal> annotation applies a custom Seam interceptor
                         to the component. This works because <literal>@LoggedIn</literal> is marked
                         with an <literal>@Interceptor</literal> meta-annotation.
+                    </para>
+                </callout>
+                <callout arearefs="registration-datamodel-annotation">
+                    <para>
+                        The <link linkend="datamodel-annotation"><literal>@DataModel</literal></link> 
+                        annotation exposes a <literal>List</literal> as a JSF <literal>ListDataModel</literal>.
+                        This makes it easy to implement clickable lists for search screens. In this
+                        case, the list of hotels is exposed to the page as a <literal>ListDataModel</literal>
+                        in the conversation variable named <literal>hotels</literal>.
+                    </para>
+                </callout>
+                <callout arearefs="registration-datamodelselectionindex-annotation">
+                    <para>
+                        The <link linkend="datamodelselectionindex-annotation"><literal>@DataModelSelectionIndex</literal></link> 
+                        annotation defines a field or get/set pair as holding the row index for the
+                        corresponding <literal>@DataModel</literal> property.
                     </para>
                 </callout>
                 <callout arearefs="registration-out-annotation">
