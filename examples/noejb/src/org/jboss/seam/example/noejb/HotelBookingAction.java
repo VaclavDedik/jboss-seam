@@ -87,7 +87,7 @@ public class HotelBookingAction implements Serializable
       if ( hotelId==null || hotels==null ) return "main";
       for (int i=0; i<hotels.size(); i++)
       {
-         if ( hotels.get(i).getId().equals( new Long(hotelId) ) )
+         if ( hotels.get(i).getId().toString().equals(hotelId) )
          {
            hotelIndex=i;
            break;
