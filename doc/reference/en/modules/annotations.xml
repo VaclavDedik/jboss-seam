@@ -339,6 +339,102 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
+            <varlistentry id="begintask-annotation">
+                <term><literal>@BeginTask</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@BeginTask(taskIdParameter="taskId")]]></programlisting>
+                    <para>
+                        Begins work on a jBPM task. Specifies that a long-running 
+                        conversation begins when this method returns without exception. 
+                        This conversation is associated with the jBPM task specified in 
+                        the named request parameter. Within the context of this conversation, 
+                        a business process context is also defined, for the business process 
+                        instance of the task instance.
+                    </para>
+                    <para>
+                        The jBPM <literal>TaskInstance</literal> will be available in a
+                        request context variable named <literal>taskInstance</literal>.
+                        The jPBM <literal>ProcessInstance</literal> will be available in
+                        a request context variable named <literal>processInstance</literal>.
+                        The jPBM <literal>ContextInstance</literal> will be available in
+                        a request context variable named <literal> contextInstance</literal>.
+                        (Of course, any of these objects are available for injection via 
+                        <literal>@In</literal>.)
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>taskIdParameter</literal> &mdash; the name of a request
+                            parameter which holds the id of the task. Default to
+                            <literal>"jbpmTaskId"</literal>, which is also the default
+                            used by the Seam <literal>taskList</literal> JSF component.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
+            <varlistentry id="resumetask-annotation">
+                <term><literal>@ResumeTask</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@ResumeTask(taskIdParameter="taskId")]]></programlisting>
+                    <para>
+                        Resumes work on an incomplete jBPM task. Specifies that a long-running 
+                        conversation begins when this method returns without exception.
+                        This conversation is associated with the jBPM task specified in 
+                        the named request parameter. Within the context of this conversation, 
+                        a business process context is also defined, for the business process 
+                        instance of the task instance.
+                    </para>
+                    <para>
+                        The jBPM <literal>TaskInstance</literal> will be available in a
+                        request context variable named <literal>taskInstance</literal>.
+                        The jPBM <literal>ProcessInstance</literal> will be available in
+                        a request context variable named <literal>processInstance</literal>.
+                        The jPBM <literal>ContextInstance</literal> will be available in
+                        a request context variable named <literal> contextInstance</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>taskIdParameter</literal> &mdash; the name of a request
+                            parameter which holds the id of the task. Default to
+                            <literal>"jbpmTaskId"</literal>, which is also the default
+                            used by the Seam <literal>taskList</literal> JSF component.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
+            <varlistentry id="completetask-annotation">
+                <term><literal>@CompleteTask</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@CompleteTask]]></programlisting>
+                    <para>
+                        Completes work on a jBPM task. Specifies that a long-running conversation 
+                        ends when this method returns a non-null value, and that the current task 
+                        is complete. Triggers a jBPM transition. The actual transition triggered
+                        depends upon the outcome returned. TODO!
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry id="createprocess-annotation">
+                <term><literal>@CreateProcess</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@CreateProcess(definition="ProcessDefinition")]]></programlisting>
+                    <para>
+                        Creates a new JBPM process instance when the method returns without
+                        exception.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>definition</literal> &mdash; the name of the jBPM
+                            process definition.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
         </variablelist>
         
     </section> 
