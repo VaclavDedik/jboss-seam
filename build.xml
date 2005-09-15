@@ -29,7 +29,7 @@
     <property name="doc.ref.dir"        value="${doc.dir}/reference"/>
     <property name="javadoc.link"       value="http://java.sun.com/j2se/5.0/docs/api"/>
 
-    <property name="dist.dir"           value="${imported.basedir}/../${name}-${version}"/>
+    <property name="dist.dir"           value="${imported.basedir}/../${name}-${version}${patchlevel}"/>
     <property name="dist.doc.dir"       value="${dist.dir}/doc"/>
     <property name="dist.api.dir"       value="${dist.dir}/doc/api"/>
     <property name="dist.ref.dir"       value="${dist.dir}/doc/reference"/>
@@ -216,10 +216,10 @@
         depends="cleandist,jar,javadoc,copysource,copylib,copyexamples,extras,refdoc"
         description="Build everything and package">
         <zip zipfile="${dist.dir}.zip">
-            <zipfileset prefix="${name}-${version}" dir="${dist.dir}"/>
+          <zipfileset prefix="${name}-${version}${patchlevel}" dir="${dist.dir}"/>
         </zip>
         <tar tarfile="${dist.dir}.tar">
-            <tarfileset prefix="${name}-${version}" dir="${dist.dir}"/>
+          <tarfileset prefix="${name}-${version}${patchlevel}" dir="${dist.dir}"/>
         </tar>
         <gzip src="${dist.dir}.tar" zipfile="${dist.dir}.tar.gz"/>
         <delete file="${dist.dir}.tar"/>
