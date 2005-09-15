@@ -41,6 +41,7 @@ import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.Transition;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
@@ -96,6 +97,8 @@ public class Component
    private Set<Method> outMethods = new HashSet<Method>();
    private Set<Field> outFields = new HashSet<Field>();
    private Map<Method, Object> initializers = new HashMap<Method, Object>();
+   private Method transitionMethod;
+   private Field transitionField;
    
    private ClassValidator validator;
    
@@ -243,6 +246,10 @@ public class Component
             {
                unwrapMethod = method;
             }
+            if ( method.isAnnotationPresent(Transition.class) )
+            {
+               transitionMethod = method;
+            }
             if ( !method.isAccessible() )
             {
                method.setAccessible(true);
@@ -258,6 +265,10 @@ public class Component
             if ( field.isAnnotationPresent(Out.class) )
             {
                outFields.add(field);
+            }
+            if ( field.isAnnotationPresent(Transition.class) )
+            {
+               transitionField = field;
             }
             if ( !field.isAccessible() )
             {
@@ -462,7 +473,7 @@ public class Component
          //if ( isActionInvocation || in.alwaysDefined() )
          //{
             String name = toName(in.value(), method);
-            inject( bean, method, name, getInstanceToInject(in, name, bean) );
+            setPropertyValue( bean, method, name, getInstanceToInject(in, name, bean) );
          //}
       }
    }
@@ -475,7 +486,7 @@ public class Component
          //if ( isActionInvocation || in.alwaysDefined() )
          //{
             String name = toName(in.value(), field);
-            inject( bean, field, name, getInstanceToInject(in, name, bean) );
+            setFieldValue( bean, field, name, getInstanceToInject(in, name, bean) );
          //}
       }
    }
@@ -487,7 +498,7 @@ public class Component
          Out out = field.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, toName(out.value(), field), outject(bean, field) );
+            setOutjectedValue( out, toName(out.value(), field), getFieldValue(bean, field) );
          }
       }
    }
@@ -499,7 +510,7 @@ public class Component
          Out out = method.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, toName(out.value(), method), outject(bean, method) );
+            setOutjectedValue( out, toName(out.value(), method), getPropertyValue(bean, method) );
          }
       }
    }
@@ -583,7 +594,7 @@ public class Component
 
 
 
-   private Object outject(Object bean, Field field)
+   private Object getFieldValue(Object bean, Field field)
    {
       try {
          return field.get(bean);
@@ -594,7 +605,7 @@ public class Component
       }
    }
 
-   private Object outject(Object bean, Method method)
+   private Object getPropertyValue(Object bean, Method method)
    {
       try {
          return Reflections.invoke(method, bean);
@@ -605,7 +616,7 @@ public class Component
       }
    }
 
-   private void inject(Object bean, Method method, String name, Object value)
+   private void setPropertyValue(Object bean, Method method, String name, Object value)
    {  
       try
       {
@@ -617,7 +628,7 @@ public class Component
       }
    }
 
-   private void inject(Object bean, Field field, String name, Object value)
+   private void setFieldValue(Object bean, Field field, String name, Object value)
    {  
       try
       {
@@ -789,6 +800,22 @@ public class Component
    public String[] getDependencies()
    {
       return dependencies;
+   }
+   
+   public String getTransition(Object bean)
+   {
+      if (transitionField!=null)
+      {
+         return (String) getFieldValue(bean, transitionField);
+      }
+      else if (transitionMethod!=null)
+      {
+         return (String) getPropertyValue(bean, transitionMethod);
+      }
+      else
+      {
+         return null;
+      }
    }
    
 }

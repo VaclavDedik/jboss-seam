@@ -91,7 +91,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
                     manager.getTaskId(),
                     manager.getTaskName(),
                     manager.getProcessName()
-            );
+               );
          }
          else if ( manager.getProcessId() != null && manager.getProcessName() != null )
          {
@@ -172,27 +172,13 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       else if ( method.isAnnotationPresent( CompleteTask.class ) )
       {
          log.trace( "encountered @CompleteTask" );
-          if (result!=null) 
+         if (result!=null) 
          {
-            String outcome = (String) result;
-            result = getOutcome(outcome);
             CompleteTask tag = method.getAnnotation( CompleteTask.class );
-            completeTask( tag.taskInstanceName(), getTransitionName(outcome) );
+            completeTask( tag.taskInstanceName(), component.getTransition( invocation.getBean() ) );
          }
       }
       return result;
-   }
-
-   private static String getOutcome(String outcome)
-   {
-      int loc = outcome.indexOf(',');
-      return loc<0 ? outcome : outcome.substring(0, loc);
-   }
-
-   private static String getTransitionName(String outcome)
-   {
-      int loc = outcome.indexOf(',');
-      return loc<0 ? null : outcome.substring(loc+1, outcome.length());
    }
 
    private void createProcess(String processDefinitionName, String processName)
