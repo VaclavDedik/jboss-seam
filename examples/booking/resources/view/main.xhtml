@@ -53,10 +53,26 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-<h1>Search Capabilities</h1>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut</p>
-<h1>What's Bijection?</h1>
-<p>Aoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+<h1>Contextual Components</h1>
+<p>
+    Seam components are stateful. Say goodbye to the idea of maintaining application state by
+    getting and setting attributes of the servlet session. We're sure you won't miss it.
+    Maintaining server side state has traditionally been a painful and bugprone task. Users
+    do funny things with their web browsers. They open the same page in multiple tabs. They 
+    love their back buttons. They start doing stuff that they never finish. Cleaning up
+    "orphaned" state, and insuring that state from different threads of user interaction does
+    not collide is a nightmare in a traditional web application architecture. So Seam uses
+    <em>contextual</em> application state management, and especially the notion of a 
+    <em>conversation</em> to provide a well-defined lifecycle for application state.
+</p>
+<h1>You're in a conversation right now</h1>
+<p>
+    When you click "Find Hotels", a conversation begins. The state associated with that
+    conversation is associated with this tab, in this browser window. Try 
+    <a href="main.jsf">opening this page</a> in a new browser tab or window. The work you do 
+    in each window will be completely isolated from the other one. We didn't have to do anything 
+    difficult to achieve this behavior. Believe it or not, just one annotation was enough.
+</p>
 </ui:define>
 
 </ui:composition>

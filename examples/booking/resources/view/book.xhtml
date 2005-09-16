@@ -52,10 +52,16 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-<h1>Search Capabilities</h1>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut</p>
-<h1>What's Bijection?</h1>
-<p>Aoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+<h1>Subversion of Control</h1>
+<p>
+    We're sure you know all about the idea of <em>inversion of control</em> or <em>dependency injection</em>, 
+    as seen in EJB 3.0, JSF, and about a thousand other frameworks out there. Well, we're here to tell you that
+    dependency injection is broken. It simply doesn't work for stateful components. So we fixed it. Seam 
+    introduces the notion of <em>subversion of control</em> (yes, that was a private joke we've been 
+    taking <em>way</em> too far), where a component attribute is considered to be aliased to a 
+    <emphasis>contextual</emphasis> variable, and the component is allowed to manipulate the value of the 
+    contextual variable just be reading and writing its own instance variable.
+</p>
 </ui:define>
 
 </ui:composition>
