@@ -7,7 +7,6 @@ insert into Hotel (id, name, address, city, state, zip) values (3, 'W Hotel', 'U
 insert into Hotel (id, name, address, city, state, zip) values (4, 'W Hotel', 'Lexington Ave, Manhattan', 'NY', 'NY', '10011')
 insert into Hotel (id, name, address, city, state, zip) values (5, 'Hotel Rouge', 'Dupont Circle', 'Washington', 'DC', '20036')
 insert into Hotel (id, name, address, city, state, zip) values (6, '70 Park Avenue Hotel', '70 Park Avenue', 'NY', 'NY', '10011')
-insert into Hotel (id, name, address, city, state, zip) values (7, 'W Hotel', 'Union Square, Manhattan', 'NY', 'NY', '10011')
 insert into Hotel (id, name, address, city, state, zip) values (8, 'Conrad Miami', '1395 Brickell Ave', 'Miami', 'FL', '33131')
 insert into Hotel (id, name, address, city, state, zip) values (9, 'Sea Horse Inn', '2106 N Clairemont Ave', 'Eau Claire', 'WI', '54703')
 insert into Hotel (id, name, address, city, state, zip) values (10, 'Super 8 Eau Claire Campus Area', '1151 W Macarthur Ave', 'Eau Claire', 'WI', '54701')

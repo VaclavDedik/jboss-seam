@@ -46,7 +46,7 @@ public class BookingTest extends SeamTest
          protected void updateModelValues() throws Exception
          {
             hotelBooking = (HotelBookingAction) Component.getInstance("hotelBooking", true);
-            hotelBooking.setSearchString("NY");
+            hotelBooking.setSearchString("Union Square");
          }
 
          @Override
@@ -62,7 +62,7 @@ public class BookingTest extends SeamTest
             DataModel hotelsDataModel = (DataModel) Contexts.getConversationContext().get("hotels");
             assert hotelsDataModel.getRowCount()==1;
             assert ( (Hotel) hotelsDataModel.getRowData() ).getCity().equals("NY");
-            assert "NY".equals( hotelBooking.getSearchString() );
+            assert "Union Square".equals( hotelBooking.getSearchString() );
             assert Manager.instance().isLongRunningConversation();
          }
          
@@ -84,7 +84,7 @@ public class BookingTest extends SeamTest
          {
             Hotel hotel = (Hotel) Contexts.getConversationContext().get("hotel");
             assert hotel.getCity().equals("NY");
-            assert hotel.getZip().equals("11111");
+            assert hotel.getZip().equals("10011");
             assert Manager.instance().isLongRunningConversation();
          }
          
