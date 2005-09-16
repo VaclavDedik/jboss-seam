@@ -10,24 +10,22 @@
    <property name="Name" value="Seam jBPM Example"/>
    <property name="example.name" value="jboss-seam-jbpm"/>
 
+
    <!-- WAR -->
-   <zipfileset id="example.war.docroot" dir="resources/jsp">
+   <zipfileset id="example.war.docroot" dir="resources/web">
       <include name="**/*"/>
    </zipfileset>
-   <zipfileset id="example.war.webinf" dir="resources/WEB-INF" prefix="WEB-INF">
-      <patternset refid="meta.files"/>
+   <zipfileset id="example.war.webinf" dir="resources/web">
+      <include name="_NADA_"/>
    </zipfileset>
-   <zipfileset id="example.war.webinf.lib" dir="resources/WEB-INF/lib" prefix="WEB-INF/lib">
-      <include name="*.jar"/>
+   <zipfileset id="example.war.webinf.lib" dir="resources/web">
+      <include name="_NADA_"/>
    </zipfileset>
 
+
    <!-- EJB3 -->
-   <fileset id="example.ejb3.root" dir="resources">
-      <!--include name="import.sql"/-->
-      <include name="seam.properties"/>
-      <include name="hibernate.cfg.xml"/>
-      <include name="jbpm-DocumentSubmission.xml"/>
-      <include name="META-INF/persistence.xml"/>
+   <fileset id="example.ejb3.root" dir="resources/ejb">
+      <include name="**/*"/>
    </fileset>
    <fileset id="example.ejb3.lib" dir="../../lib">
       <include name="jbpm-3.0.jar"/>
@@ -35,18 +33,17 @@
 
 
    <!-- EAR -->
-
-   <zipfileset id="example.ear.resources" dir="resources/META-INF" prefix="META-INF">
-      <include name="*"/>
-      <exclude name="persistence.xml"/>
+   <zipfileset id="example.ear.resources" dir="resources/ear">
+      <include name="**/*"/>
    </zipfileset>
 
-   <!-- Deploy -->
-   <fileset id="example.deploy" dir="resources">
+
+   <!-- Deploy (to jboss) -->
+   <fileset id="example.deploy" dir="resources/env/jboss">
       <include name="seam-jbpm-ds.xml"/>
    </fileset>
 
-   <!-- Undeploy -->
+   <!-- Undeploy (from jboss) -->
    <patternset id="example.undeploy">
       <include name="seam-jbpm-ds.xml"/>
    </patternset>
