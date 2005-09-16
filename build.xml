@@ -23,6 +23,8 @@
     <property name="lib.dir"            value="${imported.basedir}/lib"/>
     <property name="eejb.lib.dir"       value="${imported.basedir}/embedded-ejb/lib"/>
     <property name="eejb.conf.dir"      value="${imported.basedir}/embedded-ejb/conf"/>
+    <property name="mc.lib.dir"       value="${imported.basedir}/microcontainer/lib"/>
+    <property name="mc.conf.dir"      value="${imported.basedir}/microcontainer/conf"/>
 
     <property name="doc.dir"            value="doc"/>
     <property name="doc.api.dir"        value="${doc.dir}/api"/>
@@ -37,15 +39,14 @@
     <property name="dist.lib.dir"       value="${dist.dir}/lib"/>
     <property name="dist.eejb.lib.dir"  value="${dist.dir}/embedded-ejb/lib"/>
     <property name="dist.eejb.conf.dir" value="${dist.dir}/embedded-ejb/conf"/>
+    <property name="dist.mc.lib.dir"  value="${dist.dir}/microcontainer/lib"/>
+    <property name="dist.mc.conf.dir" value="${dist.dir}/microcontainer/conf"/>
 
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
 
     <path id="build.classpath">
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${eejb.lib.dir}">
-            <include name="*.jar" />
         </fileset>
         <fileset dir="${imported.basedir}">
             <include name="${name}.jar" />
@@ -138,6 +139,17 @@
         </copy>
         <copy todir="${dist.eejb.conf.dir}">
             <fileset dir="${eejb.conf.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist.mc.lib.dir}">
+            <fileset dir="${mc.lib.dir}">
+                <include name="*.jar"/>
+                <include name="*.txt"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist.mc.conf.dir}">
+            <fileset dir="${mc.conf.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
