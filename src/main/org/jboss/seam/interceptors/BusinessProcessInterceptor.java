@@ -6,12 +6,10 @@
  */
 package org.jboss.seam.interceptors;
 
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
 import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.List;
-import java.util.Collection;
-import java.beans.PropertyEditorManager;
-import java.beans.PropertyEditor;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
@@ -20,18 +18,18 @@ import javax.faces.context.FacesContext;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.BeginTask;
-import org.jboss.seam.annotations.ResumeTask;
-import org.jboss.seam.annotations.ResumeProcess;
+import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.CreateProcess;
+import org.jboss.seam.annotations.ResumeProcess;
+import org.jboss.seam.annotations.ResumeTask;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ManagedJbpmSession;
-import org.jbpm.taskmgmt.exe.TaskInstance;
-import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.graph.def.ProcessDefinition;
+import org.jboss.seam.core.Manager;
 import org.jbpm.db.JbpmSession;
+import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.

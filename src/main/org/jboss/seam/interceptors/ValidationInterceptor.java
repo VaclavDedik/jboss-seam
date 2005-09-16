@@ -47,11 +47,7 @@ public class ValidationInterceptor extends AbstractInterceptor
             log.debug("invalid component state: " + component.getName());
             for (InvalidValue iv : invalidValues)
             {
-               FacesContext facesContext = FacesContext.getCurrentInstance();
-               String clientId = getClientId( facesContext.getViewRoot(), iv.getPropertyName(), facesContext);     
-               FacesMessage facesMessage = new FacesMessage( FacesMessage.SEVERITY_INFO, iv.getMessage(), iv.getMessage() );
-               log.debug("invalid value:" + iv + ", clientId: " + clientId);
-               facesContext.addMessage( clientId, facesMessage );
+               addMessageToFacesContext(iv);
             }
             return ifInvalid.outcome();
          }
@@ -60,6 +56,14 @@ public class ValidationInterceptor extends AbstractInterceptor
       {
          return invocation.proceed();
       }
+   }
+
+   private void addMessageToFacesContext(InvalidValue iv)
+   {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      String clientId = getClientId( facesContext.getViewRoot(), iv.getPropertyName(), facesContext);     
+      log.debug("invalid value:" + iv + ", clientId: " + clientId);
+      facesContext.addMessage( clientId, new FacesMessage( iv.getMessage() ) );
    }
    
    private static String getClientId(UIComponent component, String id, FacesContext facesContext)
