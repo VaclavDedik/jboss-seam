@@ -7,6 +7,9 @@
 package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.beans.PropertyEditorManager;
+import java.beans.PropertyEditor;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
@@ -59,22 +62,19 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       if ( method.isAnnotationPresent( BeginTask.class ) ) {
          log.trace( "encountered @StartTask" );
          BeginTask tag = method.getAnnotation( BeginTask.class );
-         Long taskId = ( Long ) FacesContext.getCurrentInstance().getExternalContext()
-               .getRequestParameterMap().get( tag.taskIdParameter() );
+         Long taskId = getRequestParamValueAsLong( tag.taskIdParameter() );
          prepareForTask( taskId, tag.taskInstanceName(), tag.processInstanceName() );
       }
       else if ( method.isAnnotationPresent( ResumeTask.class ) ) {
          log.trace( "encountered @ResumeTask" );
          ResumeTask tag = method.getAnnotation( ResumeTask.class );
-         Long taskId = ( Long ) FacesContext.getCurrentInstance().getExternalContext()
-               .getRequestParameterMap().get( tag.taskIdParameter() );
+         Long taskId = getRequestParamValueAsLong( tag.taskIdParameter() );
          prepareForTask( taskId, tag.taskInstanceName(), tag.processInstanceName() );
       }
       else if ( method.isAnnotationPresent( ResumeProcess.class ) ) {
          log.trace( "encountered @ResumeProcess" );
          ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
-         Long processId = ( Long ) FacesContext.getCurrentInstance().getExternalContext()
-               .getRequestParameterMap().get( tag.processIdName() );
+         Long processId = getRequestParamValueAsLong( tag.processIdName() );
          prepareForProcess( processId, tag.processName() );
       }
       else
@@ -244,5 +244,22 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    {
       return ( TaskInstance ) Contexts.getEventContext().get( name );
    }
-   
+
+    private Long getRequestParamValueAsLong(String paramName)
+    {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map paramMap = facesContext.getExternalContext()
+                .getRequestParameterMap();
+        String paramValue = ( String ) paramMap.get( paramName );
+        PropertyEditor editor = PropertyEditorManager.findEditor( Long.class );
+        if ( editor != null )
+        {
+            editor.setAsText( paramValue );
+            return ( Long ) editor.getValue();
+        }
+        else
+        {
+            return Long.parseLong( paramValue );
+        }
+    }
 }
