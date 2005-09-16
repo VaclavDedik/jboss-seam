@@ -139,7 +139,7 @@ public class HotelBookingAction implements Serializable
       if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
          log.info("invalid booking dates");
-         FacesMessage facesMessage = new FacesMessage("Check in date must be later than check out date");
+         FacesMessage facesMessage = new FacesMessage("Check out date must be later than check in date");
          facesContext.addMessage(null, facesMessage);
          return null;
       }
