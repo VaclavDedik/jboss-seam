@@ -9,6 +9,11 @@
 
    <body>
       <f:view>
+         <p>
+            <h:commandLink action="main" value="Task List"/>
+         </p>
+
+         <hr/>
 
          <h:messages globalOnly="true" layout="list" errorClass="error"/>
 

@@ -10,7 +10,7 @@
    <body>
       <f:view>
          <p>
-            <h:commandLink action="create" value="New Document"/>
+            <h:commandLink action="#{documentCreator.start}" value="New Document"/>
          </p>
 
          <hr/>

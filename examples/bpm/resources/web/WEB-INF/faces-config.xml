@@ -8,10 +8,6 @@
     <navigation-rule>
        <description>global nav rules</description>
         <navigation-case>
-            <from-outcome>create</from-outcome>
-            <to-view-id>/detail.jsp</to-view-id>
-        </navigation-case>
-        <navigation-case>
             <from-outcome>main</from-outcome>
             <to-view-id>/main.jsp</to-view-id>
         </navigation-case>
@@ -42,7 +38,7 @@
     </application>
 
     <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+        <phase-listener>org.jboss.seam.jsf.SeamTransactionManagedPersistencePhaseListener</phase-listener>
     </lifecycle>
 
 </faces-config>
