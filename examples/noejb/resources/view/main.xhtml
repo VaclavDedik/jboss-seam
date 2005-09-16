@@ -20,12 +20,16 @@
 	<h:outputText value="No Hotels Found" rendered="#{hotels != null and empty hotels}"/>
 	<h:dataTable value="#{hotels}" var="hot" rendered="#{not empty hotels}">
 		<h:column>
+			<f:facet name="header">Name</f:facet>
+			#{hot.name}
+		</h:column>
+		<h:column>
 			<f:facet name="header">Address</f:facet>
 			#{hot.address}
 		</h:column>
 		<h:column>
-			<f:facet name="header">City</f:facet>
-			#{hot.city}
+			<f:facet name="header">City, State</f:facet>
+			#{hot.city}, #{hot.state}
 		</h:column>
 		<h:column>
 			<f:facet name="header">Zip</f:facet>

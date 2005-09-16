@@ -165,7 +165,7 @@ fieldset {
 	font-family: "Trebuchet MS", Arial, sans-serif;
 	line-height: normal;
 	font-weight: normal;
-	font-size: x-large;
+	font-size: large;
 }
 #content .section p {
 	line-height: 150%;
@@ -188,11 +188,13 @@ fieldset {
 	border-bottom: 1px solid #D2C9C4;
 	padding: 6px;
 	text-align: left;
+	font-size: small;
 }
 #content table tbody td {
 	border-left: 1px solid #E4DBD5;
 	padding: 4px;
 	border-bottom: 1px solid #D2C9C4;
+	font-size: small;
 }
 #content dt {
 	font-weight: bold;
