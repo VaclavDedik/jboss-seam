@@ -158,7 +158,11 @@
     <target name="copyexamples" description="Copy examples to dist dir">
         <copy todir="${dist.dir}/examples">
             <fileset dir="${imported.basedir}/examples">
-                <include name="**/*"/>
+                <include name="booking/**/*"/>
+                <include name="bpm/**/*"/>
+                <include name="noejb/**/*"/>
+                <include name="registration/**/*"/>
+                <include name="readme.txt"/>
             </fileset>
         </copy>
     </target>
