@@ -104,7 +104,9 @@ public class JbpmUtil
       {
          return null;
       }
-      JbpmSession jbpmSession = ( JbpmSession ) Component.getInstance( ManagedJbpmSession.class, false );
+      // NOTE: in a real ootb component we'd also need to consider any pooled tasks
+      // associated with the user...
+      JbpmSession jbpmSession = ( JbpmSession ) Component.getInstance( ManagedJbpmSession.class, true );
       return jbpmSession.getTaskMgmtSession().findTaskInstances( username );
    }
 }

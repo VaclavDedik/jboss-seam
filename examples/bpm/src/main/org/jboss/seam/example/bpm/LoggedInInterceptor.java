@@ -14,9 +14,7 @@ import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jbpm.security.Authentication;
 
-// before (or outside of) these interceptors
 @Around( { BijectionInterceptor.class, ValidationInterceptor.class, ConversationInterceptor.class } )
-// and after (or inside of) these interceptors
 @Within( RemoveInterceptor.class )
 public class LoggedInInterceptor
 {
@@ -28,7 +26,7 @@ public class LoggedInInterceptor
    public Object checkLoggedIn(InvocationContext invocation) throws Exception
    {
       User user = ( User ) Contexts.getSessionContext().get( "user" );
-      if ( user == null )
+      if ( user == null || user.getUsername() == null )
       {
          // in the eventual real impl, we'd want to redirect them to login
          user = new User();
