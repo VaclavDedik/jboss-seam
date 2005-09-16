@@ -53,6 +53,7 @@
         <jar jarfile="resources/WEB-INF/lib/${example.name}.jar">
           <fileset dir="${classes.dir}">
             <include name="**/*.class"/>
+          	<exclude name="**/test/*.class"/>
           </fileset>
           <fileset dir="resources">
             <include name="import.sql"/>
