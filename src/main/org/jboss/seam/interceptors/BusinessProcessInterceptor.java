@@ -8,6 +8,8 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.List;
+import java.util.Collection;
 import java.beans.PropertyEditorManager;
 import java.beans.PropertyEditor;
 
@@ -227,6 +229,11 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    private void completeTask(String taskName, String transitionName)
    {
       TaskInstance task = locateTaskByName( taskName );
+      if ( task == null )
+      {
+         throw new IllegalStateException( "jBPM task instance not associated with context" );
+      }
+
       if ( transitionName == null )
       {
          task.end();
