@@ -38,6 +38,10 @@
         <exclude name="persistence.xml"/>
     </zipfileset>
 
+    <fileset id="example.ejb3.lib" dir="../../lib">
+        <include name="_NONE_"/>
+    </fileset>
+  
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">

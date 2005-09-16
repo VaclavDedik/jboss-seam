@@ -261,6 +261,7 @@
             	<exclude name="**/test/*.class"/>
             </fileset>
             <fileset refid="example.ejb3.root"/>
+            <fileset refid="example.ejb3.lib"/>
         </jar>
     </target>
 

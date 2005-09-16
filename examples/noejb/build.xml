@@ -27,6 +27,10 @@
         <include name="_NONE_"/>
     </fileset>
 
+    <fileset id="example.ejb3.lib" dir="../../lib">
+        <include name="_NONE_"/>
+    </fileset>
+  
     <!-- EAR -->
     <zipfileset id="example.ear.resources" dir=".">
         <include name="_NONE_"/>
