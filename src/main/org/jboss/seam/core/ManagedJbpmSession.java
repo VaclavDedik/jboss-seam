@@ -20,25 +20,19 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
-import org.jbpm.taskmgmt.exe.TaskInstance;
-import org.jbpm.graph.exe.ProcessInstance;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Collection;
 
 /**
- * Manages a reference to a JbpmSession
+ * Manages a reference to a JbpmSession.
  *
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
 @Scope( ScopeType.EVENT )
 @Name( "jbpmSession" )
-@Intercept(NEVER)
+@Intercept( NEVER )
 public class ManagedJbpmSession
 {
    private static final Logger log = Logger.getLogger( ManagedJbpmSession.class );
@@ -60,7 +54,7 @@ public class ManagedJbpmSession
    {
       if ( jbpmSession == null )
       {
-         jbpmSession = getSessionFactory().openJbpmSessionAndBeginTransaction();
+         jbpmSession = getSessionFactory().openJbpmSession();
       }
       return jbpmSession;
    }
@@ -71,99 +65,8 @@ public class ManagedJbpmSession
       log.debug( "destroying seam managed jbpm-session [" + jbpmSessionFactoryName + "]" );
       if ( jbpmSession != null )
       {
-         jbpmSession.commitTransactionAndClose();
+         jbpmSession.close();
       }
-   }
-
-   /**
-    * Exposes a users task list as a map to be more easily usable within
-    * JSF EL.  Only the {@link Map#get} method is supported, where the
-    * given key is expected to be the actorId for which to retreive
-    * the task list: jbpmSession.taskLists['admin']
-    *
-    * @return the sorta map :)
-    */
-   public Map<String, List> getTaskLists()
-   {
-      return new Map<String, List>()
-      {
-
-         public List get(Object key)
-         {
-            return getTaskInstanceList( ( String ) key );
-         }
-
-         public int size()
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public boolean isEmpty()
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public boolean containsKey(Object key)
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public boolean containsValue(Object value)
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public List put(String key, List value)
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public List remove(Object key)
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public void putAll(Map<? extends String, ? extends List> t)
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public void clear()
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public Set<String> keySet()
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public Collection<List> values()
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-
-         public Set<Entry<String, List>> entrySet()
-         {
-            throw new UnsupportedOperationException( "only a map to workaround jsf el limitation..." );
-         }
-      };
-
-   }
-
-   public List getTaskInstanceList(String username)
-   {
-      return getJbpmSession().getTaskMgmtSession().findTaskInstances( username );
-   }
-
-   public Object getTaskContextVariable(TaskInstance task, String variableName)
-   {
-      return getProcessContextVariable( task.getTaskMgmtInstance().getProcessInstance(), variableName );
-   }
-
-   public Object getProcessContextVariable(ProcessInstance process, String variableName)
-   {
-      return process.getContextInstance().getVariable( variableName );
    }
 
    private JbpmSessionFactory getSessionFactory()
