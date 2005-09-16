@@ -44,6 +44,7 @@ public class Booking implements Serializable
    {
       this.id = id;
    }
+   
    @NotNull
    @Basic(temporalType=TemporalType.DATE) 
    public Date getCheckinDate()
