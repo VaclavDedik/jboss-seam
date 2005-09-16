@@ -130,7 +130,13 @@ public class BusinessProcessContext implements Context {
 
    public void flush()
    {
+      if ( tempContext.isEmpty() && removed.isEmpty() )
+      {
+         log.debug( "no in-memory state to flush to jBPM context" );
+      }
+
       ContextInstance jbpmContext = getJbpmContext();
+
       if ( jbpmContext == null )
       {
          log.debug( "no jBPM context to which to flush" );
@@ -151,6 +157,7 @@ public class BusinessProcessContext implements Context {
          }
 
          tempContext.clear();
+         removed.clear();
       }
    }
 
