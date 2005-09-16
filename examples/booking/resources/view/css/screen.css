@@ -94,6 +94,7 @@ fieldset {
 	border: 1px solid #5D1414;
 	height: 26px;
 	background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
+	border-style: none;
 }
 .center {
 	text-align: center;
@@ -184,7 +185,7 @@ fieldset {
 }
 #content table thead th {
 	border-left: 1px solid #D2C9C4;
-	background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+	background: #fff url(../img/th.bg.gif) 0 100% repeat-x;	
 	border-bottom: 1px solid #D2C9C4;
 	padding: 6px;
 	text-align: left;
