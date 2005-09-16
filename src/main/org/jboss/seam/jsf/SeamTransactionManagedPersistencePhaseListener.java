@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.jsf;
 
 import javax.faces.event.PhaseEvent;
@@ -11,18 +16,35 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.util.Transactions;
+import org.jboss.seam.Seam;
+import org.jboss.logging.Logger;
 
+/**
+ * Adds extra semantics relating to transactions and various "persistence contexts"
+ * during phase processing.  Specifically:<ol>
+ * <li>Prior to the {@link PhaseId#UPDATE_MODEL_VALUES} phase, a JTA transaction is
+ * begun.  The transaction is committed after the {@link PhaseId#RENDER_RESPONSE}
+ * phase.
+ * <li>After the {@link PhaseId#INVOKE_APPLICATION} pahse, managed persistence
+ * contexts are flushed.  This includes EJB3 {@link EntityManager)s,
+ * Hibernate {@link org.hibernate.Session}s, and the managed jBPM
+ * {@link org.jbpm.db.JbpmSession} (if used).
+ * </ol>
+ */
 public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseListener
 {
+   private static final Logger log = Logger.getLogger( SeamTransactionManagedPersistencePhaseListener.class );
 
    @Override
    public void beforePhase(PhaseEvent event)
    {
       if ( event.getPhaseId()==PhaseId.UPDATE_MODEL_VALUES )
       {
-         try 
+         try
          {
+            log.debug( "Starting transaction prior to UPDATE_MODEL_VALUES phase" );
             Transactions.getUserTransaction().begin();
          }
          catch (Exception e)
@@ -40,10 +62,11 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       super.afterPhase( event );
       if ( event.getPhaseId()==PhaseId.RENDER_RESPONSE )
       {
-         try 
+         try
          {
             if ( Transactions.isTransactionActive() )
             {
+               log.debug( "Commiting transaction after RENDER_RESPONSE phase" );
                Transactions.getUserTransaction().commit();
             }
          }
@@ -55,8 +78,9 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       }
       else if ( event.getPhaseId()==PhaseId.INVOKE_APPLICATION )
       {
-         try 
+         try
          {
+            log.debug( "Flushing persistence contexts after INVOKE_APPLICATION phase" );
             if ( Transactions.isTransactionActive() )
             {
                Init settings = Init.instance();
@@ -67,6 +91,10 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
                for (String sfName : settings.getManagedSessions())
                {
                   flushSession(sfName);
+               }
+               if ( settings.getJbpmSessionFactoryName() != null )
+               {
+                  flushJbpm();
                }
             }
          }
@@ -80,6 +108,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
 
    private void flushEntityManager(String unitName) throws NamingException
    {
+      log.trace( "flushing EntityManager [" + unitName + "]" );
       ManagedPersistenceContext managedContext = (ManagedPersistenceContext) Contexts.getConversationContext().get(unitName);
       if ( managedContext!=null ) managedContext.getEntityManager().flush();
       EntityManager em = (EntityManager) new InitialContext().lookup("java:/EntityManagers/" + unitName);
@@ -88,8 +117,18 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
 
    private void flushSession(String sfName)
    {
+      log.trace( "flushing Hibernate session [" + sfName + "]" );
       ManagedHibernateSession managedSession = (ManagedHibernateSession) Contexts.getConversationContext().get(sfName);
       if ( managedSession!=null ) managedSession.getSession().flush();
+   }
+
+   private void flushJbpm()
+   {
+      log.trace( "flushing jBBPM session" );
+      ManagedJbpmSession managed = ( ManagedJbpmSession ) Contexts.getEventContext().get(
+            Seam.getComponentName( ManagedJbpmSession.class )
+      );
+      managed.getJbpmSession().getSession().flush();
    }
 
 }
