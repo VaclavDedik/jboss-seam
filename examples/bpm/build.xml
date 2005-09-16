@@ -24,18 +24,18 @@
    <!-- EJB3 -->
    <fileset id="example.ejb3.root" dir="resources">
       <!--include name="import.sql"/-->
+      <include name="seam.properties"/>
       <include name="hibernate.cfg.xml"/>
-     <include name="jbpm-DocumentSubmission.xml"/>
-     <include name="META-INF/persistence.xml"/>
+      <include name="jbpm-DocumentSubmission.xml"/>
+      <include name="META-INF/persistence.xml"/>
+   </fileset>
+   <fileset id="example.ejb3.lib" dir="../../lib">
+      <include name="jbpm-3.0.jar"/>
    </fileset>
 
-   <fileset id="example.ejb3.lib" dir="../../lib">
-     <include name="jbpm-3.0.jar"/>
-   </fileset>
-  
 
    <!-- EAR -->
-   
+
    <zipfileset id="example.ear.resources" dir="resources/META-INF" prefix="META-INF">
       <include name="*"/>
       <exclude name="persistence.xml"/>
@@ -56,7 +56,7 @@
 
    <!-- Redefine deploy target to add ear dependency -->
    <target name="deploy" depends="ear">
-        <antcall target="Seam.deploy"/>
+      <antcall target="Seam.deploy"/>
    </target>
 
 </project>
