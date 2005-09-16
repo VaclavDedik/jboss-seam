@@ -280,10 +280,10 @@
     <target name="deploy">
         <property name="unit.ext" value="ear"/>
         <echo>Don't forget to set the path of jboss.home to JBoss AS 4.0.3!</echo>
-        <copy file="${build.dir}/${example.name}.${unit.ext}" todir="${deploy.dir}"/>
         <copy todir="${deploy.dir}">
             <fileset refid="example.deploy"/>
         </copy>
+        <copy file="${build.dir}/${example.name}.${unit.ext}" todir="${deploy.dir}"/>
     </target>
 
     <target name="undeploy">
