@@ -100,6 +100,10 @@ public class JbpmUtil
 
    public List getTaskInstanceList(String username)
    {
+      if ( username == null )
+      {
+         return null;
+      }
       JbpmSession jbpmSession = ( JbpmSession ) Component.getInstance( ManagedJbpmSession.class, false );
       return jbpmSession.getTaskMgmtSession().findTaskInstances( username );
    }

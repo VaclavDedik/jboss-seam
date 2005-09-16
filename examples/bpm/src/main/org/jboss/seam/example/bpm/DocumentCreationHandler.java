@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -29,6 +30,7 @@ public class DocumentCreationHandler implements DocumentCreation
    @In
    private Document document;
 
+   @Begin
    @CreateProcess( definition = "DocumentSubmission" )
    public String create() throws Exception
    {

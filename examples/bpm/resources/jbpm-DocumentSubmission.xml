@@ -4,7 +4,9 @@
         <transition to="review"/>
     </start-state>
     <task-node name="review">
-        <task name="review"/>
+        <task name="review">
+           <assignment class="org.jboss.seam.example.bpm.AdminTaskAssignmentHandler"/>
+        </task>
         <transition name="approve" to="complete"/>
         <transition name="reject" to="complete"/>
     </task-node>

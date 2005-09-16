@@ -41,7 +41,7 @@ public class DocumentEditionHandler implements DocumentEdition
    {
       document.approve( null );
       document = entityManager.merge( document );
-      return "approved, approved";
+      return "approved";
    }
 
    @CompleteTask
@@ -50,6 +50,6 @@ public class DocumentEditionHandler implements DocumentEdition
    {
       document.reject( null );
       document = entityManager.merge( document );
-      return "rejected, rejected";
+      return "rejected";
    }
 }
