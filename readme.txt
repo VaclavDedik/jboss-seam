@@ -19,7 +19,7 @@ http://www.jboss.com/products/jbossas/downloads
 (2) Install JBoss AS 4.0.3 with the EJB 3.0 profile selected.
 (3) Start JBoss AS 4.0.3 with the bin/run.(sh|bat) script.
 (4) Edit build.properties in your Seam directory and configure the path to your JBoss AS 4.0.3 installation directory.
-(5) In the jboss-seam/examples/booking directory, type ant deploy and check for any error messages.
+(5) In the jboss-seam-1.x/examples/booking directory, type ant deploy and check for any error messages.
 (6) Point your browser to http://localhost:8080/seam-booking/ and register an account, book a room...
 
 Learn more
