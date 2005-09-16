@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
@@ -58,9 +59,9 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            List<Hotel> hotels = (List<Hotel>) Contexts.getConversationContext().get("hotels");
-            assert hotels.size()==1;
-            assert hotels.get(0).getCity().equals("NY");
+            DataModel hotelsDataModel = (DataModel) Contexts.getConversationContext().get("hotels");
+            assert hotelsDataModel.getRowCount()==1;
+            assert ( (Hotel) hotelsDataModel.getRowData() ).getCity().equals("NY");
             assert "NY".equals( hotelBooking.getSearchString() );
             assert Manager.instance().isLongRunningConversation();
          }
@@ -72,7 +73,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            getRequest().getParameterMap().put("hotelId", "2");
+            //getRequest().getParameterMap().put("hotelId", "2");
         	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.selectHotel();
             assert "selected".equals( outcome );
@@ -94,7 +95,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-        	 HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
+        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.bookHotel();
             assert "book".equals( outcome );
          }
@@ -156,7 +157,7 @@ public class BookingTest extends SeamTest
          {
             Iterator messages = FacesContext.getCurrentInstance().getMessages();
             assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Check in date must be later than check out date");
+            assert ( (FacesMessage) messages.next() ).getSummary().equals("Check out date must be later than check in date");
             assert !messages.hasNext();
             assert Manager.instance().isLongRunningConversation();
          }

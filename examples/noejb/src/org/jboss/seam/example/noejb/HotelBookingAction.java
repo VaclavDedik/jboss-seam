@@ -22,6 +22,8 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 
 @Name("hotelBooking")
 @Scope(CONVERSATION)
@@ -35,8 +37,11 @@ public class HotelBookingAction implements Serializable
    private Session bookingDatabase;
    
    private String searchString;
-   @Out
+   
+   @DataModel
    private List<Hotel> hotels;
+   @DataModelSelectionIndex
+   int hotelIndex = 0;
    
    @Out(required=false)
    private Hotel hotel;
@@ -48,9 +53,7 @@ public class HotelBookingAction implements Serializable
    
    @In
    private User user;
-   
-   int hotelIndex = 0;
-   
+      
    @In
    private FacesContext facesContext;
    
@@ -81,18 +84,7 @@ public class HotelBookingAction implements Serializable
    
    public String selectHotel()
    {
-      String hotelId = (String) facesContext.getExternalContext()
-            .getRequestParameterMap().get("hotelId");
-      log.info("hotelId: " + hotelId);
-      if ( hotelId==null || hotels==null ) return "main";
-      for (int i=0; i<hotels.size(); i++)
-      {
-         if ( hotels.get(i).getId().toString().equals(hotelId) )
-         {
-           hotelIndex=i;
-           break;
-         }
-      }
+      if ( hotels==null ) return "main";
       setHotel();
       return "selected";
    }
