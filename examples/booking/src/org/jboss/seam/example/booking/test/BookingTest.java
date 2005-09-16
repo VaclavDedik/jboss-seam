@@ -155,7 +155,7 @@ public class BookingTest extends SeamTest
          {
             Iterator messages = FacesContext.getCurrentInstance().getMessages();
             assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Check in date must be later than check out date");
+            assert ( (FacesMessage) messages.next() ).getSummary().equals("Check out date must be later than check in date");
             assert !messages.hasNext();
             assert Manager.instance().isLongRunningConversation();
          }
