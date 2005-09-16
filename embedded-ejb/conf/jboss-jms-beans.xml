@@ -129,6 +129,25 @@
 
 
    <bean name="BasicQueueParameters" class="org.jboss.mq.server.BasicQueueParameters"/>
+
+   <bean name="jboss.mq:service=ThreadPool" class="org.jboss.util.threadpool.BasicThreadPool">
+      <property name="name">JMSThread</property>
+      <property name="threadGroupName">JBossMQ Server Threads</property>
+      <!-- The max number of threads in the pool -->
+      <property name="maximumPoolSize">10</property>
+      <!-- The max number of tasks before the queue is full -->
+      <property name="maximumQueueSize">1000</property>
+      <!-- The behavior of the pool when a task is added and the queue is full.
+      abort - a RuntimeException is thrown
+      run - the calling thread executes the task
+      wait - the calling thread blocks until the queue has room
+      discard - the task is silently discarded without being run
+      discardOldest - check to see if a task is about to complete and enque
+         the new task if possible, else run the task in the calling thread
+      -->
+      <property name="blockingModeString">run</property>
+   </bean>
+
    <bean name="jboss.mq:service=DestinationManager" class="org.jboss.mq.server.JMSDestinationManager">
       <constructor>
          <parameter class="org.jboss.mq.server.BasicQueueParameters">
@@ -138,6 +157,8 @@
       <property name="persistenceManager"><inject bean="jboss.mq:service=PersistenceManager"/></property>
       <property name="messageCache"><inject bean="jboss.mq:service=MessageCache"/></property>
       <property name="stateManager"><inject bean="jboss.mq:service=StateManager"/></property>
+      <property name="threadPool"><inject bean="jboss.mq:service=ThreadPool"/></property>
+      <property name="threadGroup"><inject bean="jboss.mq:service=ThreadPool" property="threadGroup"/></property>
       <start method="startServer"/>
       <stop method="stopServer"/>
    </bean>

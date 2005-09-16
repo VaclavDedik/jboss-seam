@@ -32,10 +32,10 @@
    
    <bean name="bookingDatabaseFactory" class="org.jboss.seam.microcontainer.HibernateFactory"/>
    <bean name="bookingDatabase" class="java.lang.Object">
-      <depends>bookingDatasource</depends>
       <constructor factoryMethod="getSessionFactory">
          <factory bean="bookingDatabaseFactory"/>
       </constructor>
+      <depends>bookingDatasource</depends>
    </bean>
 
 </deployment>

@@ -64,6 +64,7 @@
    </stack>
 
    <interceptor class="org.jboss.ejb3.asynchronous.AsynchronousInterceptor" scope="PER_CLASS"/>
+   <interceptor class="org.jboss.ejb3.ENCPropagationInterceptor" scope="PER_VM"/>
    <interceptor factory="org.jboss.ejb3.security.RoleBasedAuthorizationInterceptorFactory" scope="PER_CLASS"/>
    <interceptor factory="org.jboss.ejb3.security.AuthenticationInterceptorFactory" scope="PER_CLASS"/>
    <interceptor factory="org.jboss.ejb3.security.RunAsSecurityInterceptorFactory" scope="PER_CLASS"/>
@@ -85,6 +86,7 @@
    <domain name="Stateless Bean">
       <bind pointcut="execution(* *->*(..))">
          <interceptor-ref name="org.jboss.ejb3.asynchronous.AsynchronousInterceptor"/>
+         <interceptor-ref name="org.jboss.ejb3.ENCPropagationInterceptor"/>
          <interceptor-ref name="org.jboss.ejb3.security.AuthenticationInterceptorFactory"/>
       </bind>
       <bind pointcut="execution(* @org.jboss.annotation.security.SecurityDomain->*(..))">
@@ -119,6 +121,7 @@
    <domain name="Base Stateful Bean">
       <bind pointcut="execution(* *->*(..))">
          <interceptor-ref name="org.jboss.ejb3.asynchronous.AsynchronousInterceptor"/>
+         <interceptor-ref name="org.jboss.ejb3.ENCPropagationInterceptor"/>
          <interceptor-ref name="org.jboss.ejb3.security.AuthenticationInterceptorFactory"/>
       </bind>
       <bind pointcut="execution(* @org.jboss.annotation.security.SecurityDomain->*(..))">
@@ -209,6 +212,7 @@
    <domain name="Service Bean">
       <bind pointcut="execution(* *->*(..))">
          <interceptor-ref name="org.jboss.ejb3.asynchronous.AsynchronousInterceptor"/>
+         <interceptor-ref name="org.jboss.ejb3.ENCPropagationInterceptor"/>
          <interceptor-ref name="org.jboss.ejb3.security.AuthenticationInterceptorFactory"/>
       </bind>
       <bind pointcut="execution(* @org.jboss.annotation.security.SecurityDomain->*(..))">
