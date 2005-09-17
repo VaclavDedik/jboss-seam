@@ -10,26 +10,35 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
 
+    <!-- 120 second conversation timeout -->
     <context-param>
         <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
-        <param-value>30000</param-value>
+        <param-value>120000</param-value>
     </context-param>
 
+    <!-- This is not working right now because of a bug in Hibernate -->
+    <!-- context-param>
+        <param-name>org.jboss.seam.core.init.clientSideConversations</param-name>
+        <param-value>true</param-value>
+    </context-param-->
+    
+    <!-- Defines a Seam-managed Hibernate session -->
     <context-param>
         <param-name>org.jboss.seam.core.init.managedSessions</param-name>
         <param-value>bookingDatabase</param-value>
     </context-param>
 
+    <!-- Bootstrap Hibernate inside Java EE -->
     <context-param>
         <param-name>org.jboss.seam.core.init.componentClasses</param-name>
         <param-value>org.jboss.seam.core.Hibernate</param-value>
     </context-param>
     
+    <!-- Needed to ensure safe tx cleanup when using Seam-managed sessions/persistence contexts -->
     <filter>
         <filter-name>Seam Exception Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>Seam Exception Filter</filter-name>
         <url-pattern>*.jsf</url-pattern>
