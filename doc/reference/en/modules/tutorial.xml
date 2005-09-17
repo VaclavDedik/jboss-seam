@@ -969,6 +969,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                     <area id="registration-stateful-annotation" coords="1"/>
                     <area id="registration-conversational-annotation" coords="4"/>
                     <area id="registration-custom-annotation" coords="5"/>
+                    <area id="registration-extendedpersistencecontext-annotation" coords="10"/>
                     <area id="registration-datamodel-annotation" coords="15"/>
                     <area id="registration-datamodelselectionindex-annotation" coords="17"/>
                     <area id="registration-out-annotation" coords="20"/>
@@ -985,7 +986,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
 {
    private static final Logger log = Logger.getLogger(HotelBooking.class);
    
-   @In(create=true)
+   @PersistenceContext(type=EXTENDED)
    private EntityManager bookingDatabase;
    
    private String searchString;
@@ -1007,7 +1008,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    private User user;
    
    @In
-   private FacesContext facesContext;
+   private transient FacesContext facesContext;
    
    @Begin
    public String find()
@@ -1120,8 +1121,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
                 <callout arearefs="registration-conversational-annotation">
                     <para>
                         The Seam <link linkend="conversational-annotation"><literal>@Conversational</literal></link> 
-                        annotation declares this as a <emphasis>conversational</emphasis> component that cannot be 
-                        invoked outside of a long-running conversation that was started by a call to its 
+                        annotation declares this as a <emphasis>conversational</emphasis> component that cannot 
+                        be invoked outside of a long-running conversation that was started by a call to its 
                         <literal>@Begin</literal> method. If such an invocation does occur, Seam returns the
                         <literal>ifNotBegunOutcome</literal> to JSF.
                     </para>
@@ -1131,6 +1132,13 @@ public class HotelBookingAction implements HotelBooking, Serializable
                         The <literal>@LoggedIn</literal> annotation applies a custom Seam interceptor
                         to the component. This works because <literal>@LoggedIn</literal> is marked
                         with an <literal>@Interceptor</literal> meta-annotation.
+                    </para>
+                </callout>
+                <callout arearefs="registration-extendedpersistencecontext-annotation">
+                    <para>
+                        This bean uses an EJB3 <emphasis>extended persistence context</emphasis>, so that
+                        any entity instances remain managed for the whole lifecycle of the stateful
+                        session bean.
                     </para>
                 </callout>
                 <callout arearefs="registration-datamodel-annotation">
