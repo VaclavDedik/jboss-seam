@@ -595,7 +595,7 @@ public class Component
          
          if (list!=null)
          {
-            ListDataModel dataModel = new ListDataModel(list);
+            ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel(list);
             if (index!=null) 
             {
                dataModel.setRowIndex(index);
@@ -798,7 +798,7 @@ public class Component
       return (Component) getInstance( name + ".component", false );
    }
 
-   public static Object getInstance(Class clazz, boolean create)
+   public static Object getInstance(Class<?> clazz, boolean create)
    {
       return getInstance( Seam.getComponentName(clazz), create );
    }

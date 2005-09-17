@@ -19,7 +19,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.core.Manager;
 
 /**
- * A conversation context is a logical context that last longer than 
+ * A conversation context is a logical context that lasts longer than 
  * a request but shorter than a login session
  * 
  * @author Gavin King
