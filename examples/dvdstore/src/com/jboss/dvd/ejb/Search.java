@@ -21,7 +21,6 @@ public interface Search
     public void setBrowseActor(String actor);
     public String getBrowseActor();
     
-    public List<SelectableItem<Product>> getSearchResults();
     public String nextPage();
     public String prevPage(); 
     public boolean isLastPage();
@@ -31,5 +30,5 @@ public interface Search
     public String addToCart();
     public String checkout();
 
-    public void dieDieDie();
+    public void destroy();
 }

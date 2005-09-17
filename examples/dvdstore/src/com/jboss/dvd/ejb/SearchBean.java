@@ -27,12 +27,14 @@ import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("search")
-@JndiName("com.jboss.dvd.ejb.Search")
 @Conversational(ifNotBegunOutcome="browse")
 @Interceptor(SeamInterceptor.class)
 public class SearchBean
@@ -50,9 +52,13 @@ public class SearchBean
     String  actor;
     int     pageSize = 10;
     int     currentPage = 1; 
-    int     totalResults = 0;
+    boolean hasMore = false;
 
-    List<SelectableItem<Product>> results;
+//     @Out
+//     String testValue = "xyz";
+
+    @DataModel
+    List<SelectableItem<Product>> searchResults;
 
     List<Category>      categories;
     Map<String,Integer> categoryMap;
@@ -64,7 +70,7 @@ public class SearchBean
 
 
     public boolean getHasResults() {
-        return (results != null) && (results.size()>0);
+        return (searchResults != null) && (searchResults.size()>0);
     }
 
     public Map<String,Integer> getCategories() {
@@ -115,13 +121,9 @@ public class SearchBean
         return actor;
     }
 
-    public List<SelectableItem<Product>> getSearchResults() {
-        if ((results != null) && (results.size() > pageSize)) {
-            return results.subList(0, pageSize);
-        } else {
-            return results;
-        }
-    }
+//     public List<SelectableItem<Product>> getSearchResults() {
+//         return results;
+//     }
 
 
     public String nextPage() {
@@ -141,16 +143,17 @@ public class SearchBean
     }
 
     public boolean isLastPage() {
-        return (results != null) && (results.size() <= pageSize);
+        return (searchResults != null) && !hasMore;
     }
     public boolean isFirstPage() {
-        return (results != null) && (currentPage == 0);
+        return (searchResults != null) && (currentPage == 0);
     }
 
     @Begin    
     public String doSearch() {
         currentPage=0;
         updateResults();
+        System.out.println("!!! DO SEARCH");
         return null;
     }
 
@@ -166,7 +169,15 @@ public class SearchBean
             items.add(new SelectableItem(product));
         }
 
-        results = items;
+        if (items.size() > pageSize) { 
+            searchResults = new ArrayList(items.subList(0,pageSize));
+            hasMore = true;
+        } else {
+            searchResults = items;
+            hasMore = false;
+        }
+        
+        System.out.println("RESULTS: " + searchResults);
     }
 
 
@@ -190,7 +201,7 @@ public class SearchBean
 
 
     public String addToCart() {
-        for (SelectableItem<Product> item: results) {
+        for (SelectableItem<Product> item: searchResults) {
             if (item.getSelected()) {
                 item.setSelected(false);
 
@@ -202,14 +213,13 @@ public class SearchBean
     }
 
 
-    @End @Remove
+    @End
     public String checkout() {
-        System.out.println("!!CHECKOUT");
         return "checkout";
     }
 
     @End @Destroy
-    public void dieDieDie() {
+    public void destroy() {
         System.out.println("!! SEARCH BEAN IS SO DEAD: " + this);
     }
 }

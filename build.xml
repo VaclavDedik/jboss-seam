@@ -47,7 +47,10 @@
     <property name="javac.debug"        value="false"/>
     <property name="javac.deprecation"  value="false"/>
 
+    <path id="example.path" />
+
     <path id="build.classpath">
+        <path refid="example.path"/>
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
         </fileset>

@@ -20,7 +20,7 @@ public class BijectionInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object bijectTargetComponent(InvocationContext invocation) throws Exception
    {
-      if ( component.getInFields().size()>0 || component.getInMethods().size()>0 ) //only needed to hush the log message
+      if (component.needsInjection()) //only needed to hush the log message
       {
          if ( log.isTraceEnabled() )
          {
@@ -31,7 +31,7 @@ public class BijectionInterceptor extends AbstractInterceptor
       
       Object result = invocation.proceed();
       
-      if ( component.getOutFields().size()>0 || component.getOutMethods().size()>0 ) //only needed to hush the log message
+      if (component.needsOutjection()) //only needed to hush the log message
       {
          if ( log.isTraceEnabled() )
          {

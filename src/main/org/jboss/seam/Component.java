@@ -464,6 +464,22 @@ public class Component
       }
    }
 
+    public boolean needsInjection() {
+        return (getInFields().size()>0) || 
+            (getInMethods().size()>0) ||
+            (dataModelSelectionSetter != null) ||
+            (dataModelSelectionSetter != null) ||
+            (dataModelSelectionField != null) ||
+            (dataModelSelectionIndexField != null);
+   }
+
+    public boolean needsOutjection() {
+        return (getOutFields().size()>0) || 
+            (getOutMethods().size()>0) ||
+            (dataModelGetter != null) ||
+            (dataModelField != null);
+    }
+
     protected Object instantiate() throws Exception
     {
         switch(type) {

@@ -14,6 +14,8 @@
     <%@ include file="/head.jsp" %> 
     <!-- <h1><h:outputText value="#{msgs.storeHeader}" /></h1> -->
  
+    <h1><h:outputText value="#{testValue}" /></h1> 
+
     <h2><h:outputText value="#{msgs.browseSearchHeader}" /></h2>
     <h:form>
         <h:panelGrid columns="2">
@@ -32,13 +34,13 @@
         <h:commandButton action="#{search.doSearch}" value="#{msgs.searchButton}" /> 
     </h:form>
 
-    <f:subview id="search" rendered="#{search.searchResults!=null}">
+    <f:subview id="search" rendered="#{searchResults!=null}">
         <h:form>
                 <h2>
                     <h:outputText value="#{msgs.searchResultsHeader}"   
-                                  rendered="#{!empty(search.searchResults)}"/>
+                                  rendered="#{!empty(searchResults)}"/>
                     <h:outputText value="#{msgs.noSearchResultsHeader}"
-                                  rendered="#{empty(search.searchResults)}"/>
+                                  rendered="#{empty(searchResults)}"/>
                 </h2>
 
             <div>
@@ -47,8 +49,8 @@
                 <h:commandButton value="#{msgs.nextPageButton}" 
                                  action="#{search.nextPage}" disabled="#{search.lastPage}"  />
             </div>
-            <h:dataTable rendered="#{!empty(search.searchResults)}"
-                         value="#{search.searchResults}" 
+            <h:dataTable rendered="#{!empty(searchResults)}"
+                         value="#{searchResults}" 
                          var="product" 
                          styleClass="dvdtable" 
                          headerClass="dvdtablehead"
@@ -84,7 +86,7 @@
                 </h:column>                        
             </h:dataTable>
 
-            <h:commandButton rendered="#{!empty(search.searchResults)}"
+            <h:commandButton rendered="#{!empty(searchResults)}"
                              action="#{search.addToCart}" value="#{msgs.searchUpdateButton}"/>
             
         </h:form>        
