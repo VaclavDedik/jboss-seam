@@ -55,7 +55,7 @@ public class HotelBookingAction implements Serializable
    private User user;
       
    @In
-   private FacesContext facesContext;
+   private transient FacesContext facesContext;
    
    public String getSearchString()
    {

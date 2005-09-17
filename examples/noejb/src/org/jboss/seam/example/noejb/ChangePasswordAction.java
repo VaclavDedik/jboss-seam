@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.example.noejb;
 
-import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import javax.faces.application.FacesMessage;
@@ -14,9 +13,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Scope;
 
-@Scope(EVENT)
 @Name("changePassword")
 @LoggedIn
 public class ChangePasswordAction
