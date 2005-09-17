@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import net.sf.cglib.proxy.MethodProxy;
  * 
  * @author Gavin King
  */
-public class JavaBeanInterceptor implements MethodInterceptor
+public class JavaBeanInterceptor implements MethodInterceptor, Serializable
 {
    
    private final SeamInterceptor seamInterceptor = new SeamInterceptor();

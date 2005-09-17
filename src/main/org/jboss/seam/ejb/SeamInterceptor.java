@@ -6,6 +6,8 @@
   */
 package org.jboss.seam.ejb;
 
+import java.io.Serializable;
+
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
@@ -23,7 +25,7 @@ import org.jboss.seam.interceptors.SeamInvocationContext;
  * @author Gavin King
  * @version $Revision$
  */
-public class SeamInterceptor
+public class SeamInterceptor implements Serializable
 {
    
    private static final Logger log = Logger.getLogger(SeamInterceptor.class);
