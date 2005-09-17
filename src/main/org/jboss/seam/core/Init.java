@@ -33,6 +33,7 @@ public class Init
    private String jbpmSessionFactoryName;
    private String[] componentClasses = {};
    private String[] managedDataSources = {};
+   private boolean isClientSideConversations = false;
 
    public String[] getManagedPersistenceContexts()
    {
@@ -88,4 +89,14 @@ public class Init
       this.managedDataSources = datasourceNames;
    }
    
+   public boolean isClientSideConversations()
+   {
+      return isClientSideConversations;
+   }
+
+   public void setClientSideConversations(boolean isClientSideConversations)
+   {
+      this.isClientSideConversations = isClientSideConversations;
+   }
+
 }

@@ -5,6 +5,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.util.Transactions;
 
 public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListener
@@ -14,7 +15,9 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    @Override
    public void beforePhase(PhaseEvent event)
    {
-      if ( event.getPhaseId()==PhaseId.UPDATE_MODEL_VALUES || event.getPhaseId()==PhaseId.RENDER_RESPONSE )
+      boolean beginTran = event.getPhaseId()==PhaseId.UPDATE_MODEL_VALUES || 
+            ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
+      if ( beginTran )
       {
          try 
          {
@@ -33,8 +36,10 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    @Override
    public void afterPhase(PhaseEvent event)
    {
+      boolean commitTran = event.getPhaseId()==PhaseId.INVOKE_APPLICATION || 
+            ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       super.afterPhase( event );
-      if ( event.getPhaseId()==PhaseId.RENDER_RESPONSE || event.getPhaseId()==PhaseId.INVOKE_APPLICATION )
+      if ( commitTran )
       {
          try 
          {

@@ -3,6 +3,9 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import javax.naming.InitialContext;
@@ -86,5 +89,19 @@ public class ManagedHibernateSession implements Serializable
    public void setSessionFactoryName(String sessionFactoryName)
    {
       this.sessionFactoryName = sessionFactoryName;
+   }
+   
+   private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException
+   {
+      //TODO: this is just noise! We should deprecate disconnect/reconnect in HB core.
+      ois.defaultReadObject();
+      if (session!=null && !session.isConnected() ) session.reconnect();
+   }
+
+   private void writeObject(ObjectOutputStream oos) throws IOException
+   {
+      //TODO: this is just noise! We should deprecate disconnect/reconnect in HB core.
+      if (session!=null && session.isConnected() ) session.disconnect();
+      oos.defaultWriteObject();
    }
 }

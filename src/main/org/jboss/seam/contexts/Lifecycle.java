@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 
 public class Lifecycle
@@ -112,6 +113,18 @@ public class Lifecycle
       Contexts.conversationContext.set(null);
       Contexts.applicationContext.set(null);
    }
+   
+   public static void flushConversation()
+   {
+      if ( Contexts.isConversationContextActive() )
+      {
+         if ( !Seam.isSessionInvalid() && Init.instance().isClientSideConversations() )
+         {
+            log.debug("flushing client-side conversation context");
+            Contexts.getConversationContext().flush();
+         }
+      }   
+   }
 
    public static void endRequest(HttpSession session) {
 
@@ -122,6 +135,7 @@ public class Lifecycle
 
          if ( Contexts.isBusinessProcessContextActive() )
          {
+            log.debug("flushing busines process context");
             Contexts.getBusinessProcessContext().flush();
          }
 
@@ -138,8 +152,9 @@ public class Lifecycle
                log.debug("destroying conversation context");
                Contexts.destroy( Contexts.getConversationContext() );
             }
-            if ( !Seam.isSessionInvalid() )
+            if ( !Seam.isSessionInvalid() && !Init.instance().isClientSideConversations() )
             {
+               log.debug("flushing server-side conversation context");
                Contexts.getConversationContext().flush();
             }
          }
@@ -165,7 +180,11 @@ public class Lifecycle
 
    public static void resumeConversation(HttpSession session, String id)
    {
-      Contexts.conversationContext.set( new ConversationContext(session, id) );
+      Init init = (Init) Component.getInstance(Init.class, false);
+      Context conversationContext = init.isClientSideConversations() ?
+            (Context) new ClientConversationContext() :
+            (Context) new ConversationContext(session, id);
+      Contexts.conversationContext.set( conversationContext );
    }
 
    public static void recoverBusinessProcessContext(Map state)

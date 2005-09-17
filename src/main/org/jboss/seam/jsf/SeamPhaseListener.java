@@ -123,6 +123,7 @@ public class SeamPhaseListener implements PhaseListener
    private static void storeAnyConversationContext(PhaseEvent event)
    {
       log.debug( "Before render response" );
+      Lifecycle.flushConversation();
       if ( !Contexts.isConversationContextActive() )
       {
          log.debug( "No active conversation context" );
