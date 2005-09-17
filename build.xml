@@ -170,6 +170,7 @@
                 <include name="bpm/**/*"/>
                 <include name="noejb/**/*"/>
                 <include name="registration/**/*"/>
+                <include name="dvdstore/**/*"/>
                 <include name="readme.txt"/>
             </fileset>
         </copy>
