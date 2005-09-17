@@ -3,6 +3,15 @@
 <datasources>
     <local-tx-datasource>
         <jndi-name>DVDStoreDS</jndi-name>
+        <connection-url>jdbc:hsqldb:.</connection-url>
+        <driver-class>org.hsqldb.jdbcDriver</driver-class>
+        <user-name>sa</user-name>
+        <password></password>
+    </local-tx-datasource>
+    
+<!--
+    <local-tx-datasource>
+        <jndi-name>DVDStoreDS</jndi-name>
         <connection-url>jdbc:mysql://localhost:3306/dvdstore</connection-url>
         <driver-class>com.mysql.jdbc.Driver</driver-class>
         <user-name>gavin</user-name>
@@ -15,5 +24,6 @@
             <type-mapping>mySQL</type-mapping>
         </metadata>
     </local-tx-datasource>
+-->
 </datasources>
 

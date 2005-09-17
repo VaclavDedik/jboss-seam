@@ -11,6 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 
@@ -27,7 +30,10 @@ public class UserBean
 
     public Customer getCustomer() {
         if (customer == null) {
-            String   user  = org.jboss.security.SecurityAssociation.getPrincipal().getName();
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            HttpServletRequest req =
+                (HttpServletRequest) ctx.getExternalContext().getRequest();
+            String   user  = req.getRemoteUser();
             customer =  (Customer) em.createQuery("from Customer c where c.userName = :userName")
                 .setParameter("userName", user)
                 .getSingleResult();

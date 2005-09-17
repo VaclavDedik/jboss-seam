@@ -21,7 +21,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.ejb.SeamInterceptor;
-import org.jboss.security.Util;
+// import org.jboss.security.Util;
 
 
 @Stateless
@@ -94,12 +94,13 @@ public class EditCustomerBean
             customer.setCreditCardExpiration(year + "/" + (month < 10 ? "0" : "") + month);
 
             customer.setCreditCardType(cardType);
-            customer.setHashedPassword(Util.createPasswordHash("MD5", 
-                                                               Util.BASE64_ENCODING, 
-                                                               null, 
-                                                               null, 
-                                                               password));
-            
+//             customer.setHashedPassword(Util.createPasswordHash("MD5", 
+//                                                                Util.BASE64_ENCODING, 
+//                                                                null, 
+//                                                                null, 
+//                                                                password));
+            System.out.println("XXX - HASHED PASSWORD!!!!!!!!!!");
+            customer.setHashedPassword("X03MO1qnZdYdgyfeuILPmQ==");
             em.persist(customer);            
 
             return "newcustomerok";

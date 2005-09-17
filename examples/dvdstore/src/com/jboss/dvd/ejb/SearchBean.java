@@ -24,6 +24,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Destroy;
 
@@ -32,6 +33,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Name("search")
 @JndiName("com.jboss.dvd.ejb.Search")
+@Conversational(ifNotBegunOutcome="browse")
 @Interceptor(SeamInterceptor.class)
 public class SearchBean
     implements Search,
@@ -68,6 +70,7 @@ public class SearchBean
     public Map<String,Integer> getCategories() {
         if (categories == null) {
             categories = em.createQuery("from Category c").getResultList();
+
             Map<String,Integer> results = new HashMap<String, Integer>();
             
             results.put("Any", new Integer(0));

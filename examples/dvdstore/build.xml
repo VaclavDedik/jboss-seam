@@ -1,85 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="dvd app" default="main" basedir=".">
-    <description>DVD Store</description>
+<project name="DVDStore" default="deploy" basedir=".">
+    <property name="Name"         value="Seam DVD Store"/>
+    <property name="example.name" value="dvd"/>
     
-	<property environment="env"/>
-	
-    <property name="src.dir"      location="src" />
+    <property name="src.java.dir" location="src" />
 
     <property name="dd.dir"       location="dd" />
-    <property name="build.dir"    location="build/code" />
-    <property name="buildjar.dir" location="build/jars" />
 
-    <property name="lib.dir"      location="lib" />
+    <property name="extlib.dir"   location="lib" />
     <property name="web.dir"      location="web" />
+
+    <fileset id="example.deploy"
+            dir="db">
+        <include name="dvd-ds.xml"/>
+    </fileset>
+
+    <patternset id="example.undeploy">
+        <include name="dvd-ds.xml"/>
+    </patternset>
+
+    <import file="../../build.xml"/>
     
-    <property name="jboss.dir"    location="${env.JBOSS_HOME}" />
-    <property name="jboss.deploy.dir" 
-              location="${jboss.dir}/server/default/deploy"/>
-    <property name="jboss.conf.dir" 
-              location="${jboss.dir}/server/default/conf"/>
-
-    <path id="compile.path">
-        <fileset dir="${lib.dir}" includes="*.jar"/>
-        <fileset dir="${jboss.dir}/client" includes="*.jar" />
-        <fileset dir="${jboss.dir}/server/default/lib" 
-                 includes="javax.servlet*.jar" />
-        <fileset dir="${jboss.dir}/server/default/deploy/ejb3.deployer" 
-                 includes="*.jar" />
-
-        <!-- for aop only -->
-        <fileset dir="${jboss.dir}/server/default/deploy/jboss-aop-jdk50.deployer" 
-                 includes="*.jar" />
-
-        <fileset dir="${jboss.dir}/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/" 
-                 includes="*.jar" />
-
-        <fileset dir="${jboss.dir}/server/default/deploy/seam.deployer" 
-                 includes="*.jar" />
-
-    </path>
-    
-    <target name="clean">
-        <delete dir="${build.dir}"    />
-        <delete dir="${buildjar.dir}" />
-        <delete dir="build"           />
-    </target>
-    
-    <target name="init">
-    </target>
-
-    <target name="main" depends="build,deploy"/> 
-
-    <target name="build" depends="compile,ear">
-    </target>
-    
-    <target name="compile">
-        <mkdir dir="${build.dir}"/>
-        <javac destdir="${build.dir}" 
-               classpathref="compile.path" 
-               debug="true">
-            <src path="${src.dir}"/>
-        </javac>
-    </target>
-
     <target name="war" depends="compile">
-        <mkdir dir="${buildjar.dir}"/>
-        
-        <war destfile="${buildjar.dir}/dvd.war" 
+        <war destfile="${build.dir}/dvd.war" 
              webxml="dd/web/web.xml">
             <webinf dir="dd/web">
                 <include name="jboss-web.xml" />
                 <include name="faces-config.xml" />
             </webinf>
-            <lib dir="${lib.dir}"> 
+            <lib dir="${extlib.dir}"> 
                 <include name="standard.jar" />
             </lib>
-            <lib dir="${jboss.dir}/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/">
+
+            <!-- workaround for MyFaces bug in 4.0.3RC* -->
+            <lib dir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/">
                 <include name="myfaces-impl.jar" />
             </lib>
 
-            <classes dir="${build.dir}">
+            <classes dir="${classes.dir}">
                 <include name="**/web/**/*.class" />
             </classes>
             <fileset dir="${web.dir}"/>
@@ -87,82 +46,51 @@
     </target>
 
     <target name="ejb3jar" depends="compile">
-        <mkdir dir="${buildjar.dir}"/>
+        <mkdir dir="${build.dir}"/>
         
-        <jar destfile="${buildjar.dir}/dvd.ejb3" >
+        <jar destfile="${build.dir}/dvd.ejb3" >
             <metainf dir="dd/ejb3">
                 <include name="persistence.xml" />
             </metainf>
             <fileset dir="dd/ejb3">
                 <include name="import.sql"/>
+                <include name="seam.properties"/>
             </fileset>
-            <fileset dir="${build.dir}">
+            <fileset dir="${classes.dir}">
                 <include name="**/ejb/**/*.class"/>
             </fileset>
+            <fileset dir="${imported.basedir}">
+                <include name="jboss-seam.jar"/>
+            </fileset>
         </jar>
     </target>
 
-    <target name="par" depends="compile">
-<!--
-        <mkdir dir="${buildjar.dir}"/>
 
-        <jar destfile="${buildjar.dir}/dvd.par" >
-            <metainf dir="dd/par">
-                <include name="persistence.xml" />
-            </metainf>
-            <fileset dir="${build.dir}">
-                <include name="**/par/**/*.class"/>
-            </fileset>
-        </jar>
--->
-    </target>
 
-    <target name="sar" depends="compile">
-<!--
-        <mkdir dir="${buildjar.dir}"/>
-
-        <jar destfile="${buildjar.dir}/dvd.sar" >
-            <metainf dir="dd/sar">
-                <include name="jboss-service.xml" />
-            </metainf>
-            
-            <fileset dir="${build.dir}">
-                <include name="**/service/**/*.class"/>
-            </fileset>
-        </jar>
--->
-    </target>  
-
-    <target name="ear" depends="war,ejb3jar,par,sar">
-        <mkdir dir="${buildjar.dir}"/>
+    <target name="ear" depends="war,ejb3jar">
+        <mkdir dir="${build.dir}"/>
         
-        <ear destfile="${buildjar.dir}/dvd.ear" 
+        <ear destfile="${build.dir}/dvd.ear" 
              appxml="dd/ear/application.xml">
             <metainf dir="dd/ear">
                 <include name="jboss-app.xml" />
             </metainf>                
-            <fileset dir="${buildjar.dir}" 
+            <fileset dir="${build.dir}" 
                      includes="*.ejb3, *.par, *.war, *.sar"/>
             <fileset dir="dd/ear"
                      includes="dvd-*.xml" />
         </ear>
     </target>
 
-    <target name="deploy" depends="build">
-        <copy file="${buildjar.dir}/dvd.ear" 
-              todir="${jboss.deploy.dir}"/>
+
+
+
+    <target name="deploy" depends="ear">
+        <antcall target="Seam.deploy"/>
     </target>
 
     <target name="undeploy">
-        <delete file="${jboss.deploy.dir}/dvd.ear" />
-    </target>
-
-
-    <target name="deploy-db">
-        <copy file="lib/mysql-connector-java-3.0.15-ga-bin.jar"
-              todir="${jboss.deploy.dir}" />
-        <copy file="db/dvd-ds.xml"
-              todir="${jboss.deploy.dir}" />
+        <antcall target="Seam.undeploy"/>
     </target>
 
 </project>
