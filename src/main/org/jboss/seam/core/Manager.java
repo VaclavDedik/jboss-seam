@@ -180,8 +180,8 @@ public class Manager
             String conversationId = entry.getKey();
             log.debug("conversation timeout for conversation: " + conversationId);
             ConversationContext conversationContext = new ConversationContext( session, conversationId );
-            conversationContext.clear();
             Contexts.destroy( conversationContext );
+            conversationContext.clear();
             iter.remove();
             dirty();
          }
