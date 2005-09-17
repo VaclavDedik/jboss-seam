@@ -15,11 +15,14 @@ import java.util.List;
 
 import javax.ejb.Interceptor;
 import javax.ejb.Stateful;
+import javax.ejb.Remove;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
@@ -29,8 +32,8 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Name("cart")
 @Scope(ScopeType.SESSION)
-@Intercept(ALWAYS)
 @JndiName("com.jboss.dvd.ejb.ShoppingCart")
+@Intercept(ALWAYS)
 @Interceptor(SeamInterceptor.class)
 public class ShoppingCartBean
     implements ShoppingCart,
@@ -44,10 +47,12 @@ public class ShoppingCartBean
 
     List<SelectableItem<OrderLine>> cart = 
         new ArrayList<SelectableItem<OrderLine>>();
-    Order order   = null;
+
+    @Out(required=false)
+    Order order = null;
 
     public ShoppingCartBean() {
-        System.out.println("!!!!!!!!!!!!!!!!!!! CREATE CARTBEAN " + this);
+        // System.out.println("!!!!!!!!!!!!!!!!!!! CREATE CARTBEAN " + this);
     }
 
     public boolean getIsEmpty() {
@@ -128,9 +133,8 @@ public class ShoppingCartBean
         }
 
         try {
-            Order order = purchase(userBean.getCustomer(), lines);
-            setOrder(order);
-            
+            order = purchase(userBean.getCustomer(), lines);
+
             return "complete";
         } catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {
@@ -142,14 +146,7 @@ public class ShoppingCartBean
     }
 
     
-    public Order getOrder() {
-        return order;
-    }
-    private void setOrder(Order order) {
-        this.order=order;
-    }
-
-    public Order purchase(Customer customer, List<OrderLine> lines) 
+    private Order purchase(Customer customer, List<OrderLine> lines) 
         throws InsufficientQuantityException
     {
         Order order = new Order();
@@ -184,8 +181,10 @@ public class ShoppingCartBean
         return order;
     }
 
-
-
+    @Destroy
+    @Remove
+    public void destroy() {
+    }
 
 
 }

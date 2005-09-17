@@ -76,19 +76,19 @@
     </h:panelGrid>
 
     <p>
-        <h:outputText value="#{cart.order.totalAmount}"> 
+        <h:outputText value="#{order.totalAmount}"> 
             <f:convertNumber type="currency" currencySymbol="$" />
         </h:outputText>
         <h:outputText value="#{msgs.chargedToCard}" />
-        <h:outputText value="#{cart.order.customer.creditCard}" />
-        (<h:outputText value="#{cart.order.customer.creditCardTypeString}" />), 
+        <h:outputText value="#{order.customer.creditCard}" />
+        (<h:outputText value="#{order.customer.creditCardTypeString}" />), 
         <h:outputText value="#{msgs.expiration}" />
-        <h:outputText value="#{cart.order.customer.creditCardExpiration}" />
+        <h:outputText value="#{order.customer.creditCardExpiration}" />
     </p>
 
     <p>
         <h:outputText value="#{msgs.orderNumber}" />
-        <h:outputText value="#{cart.order.orderId}" />
+        <h:outputText value="#{order.orderId}" />
     </p>
 
     <h:form>

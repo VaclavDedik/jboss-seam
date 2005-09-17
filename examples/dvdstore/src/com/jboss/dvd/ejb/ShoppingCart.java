@@ -23,5 +23,7 @@ public interface ShoppingCart
     public String updateCart();
     public String resetCart();
     public String purchase();
-    public Order getOrder();
+    // public Order getOrder();
+
+    public void destroy();
 }
