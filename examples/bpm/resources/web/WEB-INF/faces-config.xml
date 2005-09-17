@@ -8,8 +8,16 @@
     <navigation-rule>
        <description>global nav rules</description>
         <navigation-case>
-            <from-outcome>main</from-outcome>
-            <to-view-id>/main.jsp</to-view-id>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>tasks</from-outcome>
+            <to-view-id>/tasks.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>detail</from-outcome>
+            <to-view-id>/detail.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
@@ -34,6 +42,7 @@
     </navigation-rule>
 
     <application>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
         <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
     </application>
 

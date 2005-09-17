@@ -1,0 +1,39 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      template="template.xhtml">
+
+   <ui:define name="content">
+
+      <h:outputText value="You are currently not logged on" rendered="#{empty loggedIn}"/>
+
+      <h:dataTable value="#{jbpmUtil.taskLists[ user.username ]}" var="task" rendered="#{not empty loggedIn}">
+         <h:column>
+            <f:facet name="header">
+               <h:outputText value="Title"/>
+            </f:facet>
+            <h:commandLink action="#{documentViewer.details}" value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['description']}">
+               <f:param name="jbpmTaskId" value="#{task.id}"/>
+            </h:commandLink>
+         </h:column>
+         <h:column>
+            <f:facet name="header">
+               <h:outputText value="Submitter"/>
+            </f:facet>
+            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['submitter']}"/>
+         </h:column>
+         <h:column>
+            <f:facet name="header">
+               <h:outputText value="Task Date"/>
+            </f:facet>
+            <h:outputText value="#{task.create}">
+               <f:convertDateTime dateStyle="short" timeStyle="short" type="both"/>
+            </h:outputText>
+         </h:column>
+      </h:dataTable>
+
+   </ui:define>
+
+</ui:composition>

@@ -1,0 +1,40 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      template="template.xhtml">
+
+   <ui:define name="content">
+
+      <h:panelGrid columns="1" summary="Details">
+
+         <h:outputLabel for="title" value="Title"/>
+         <h:panelGroup>
+            <h:inputText id="title" value="#{document.title}" required="true" />
+            <f:verbatim>*</f:verbatim>
+            <h:message for="title" styleClass="error" />
+         </h:panelGroup>
+
+         <h:outputLabel for="content" value="Content"/>
+         <h:panelGroup>
+            <h:inputTextarea id="content" value="#{document.content}" required="true" cols="50" rows="30"/>
+            <f:verbatim>*</f:verbatim>
+            <h:message for="content" styleClass="error" />
+         </h:panelGroup>
+
+         <h:panelGroup rendered="#{empty document.id}">
+            <h:commandButton action="#{documentCreator.create}" value="Create"/>
+         </h:panelGroup>
+
+         <h:panelGroup rendered="#{!(empty document.id)}">
+            <h:commandButton action="#{documentEditor.save}" value="Save"/>
+            <h:commandButton action="#{documentEditor.approve}" value="Approve"/>
+            <h:commandButton action="#{documentEditor.reject}" value="Reject"/>
+         </h:panelGroup>
+
+      </h:panelGrid>
+
+   </ui:define>
+
+</ui:composition>
