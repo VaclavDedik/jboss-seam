@@ -116,6 +116,13 @@
                             component names of Seam managed Hibernate sessions to be installed.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.clientSideConversations</literal> &mdash; 
+                            if set to <literal>true</literal>, Seam will save conversation context
+                            variables in the client instead of in the <literal>HttpSession</literal>.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
