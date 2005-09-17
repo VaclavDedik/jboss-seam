@@ -19,7 +19,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
@@ -46,16 +45,14 @@ public class SearchBean
 
     @PersistenceContext(unitName="dvd")
     EntityManager em;
-    
-    Integer category;
-    String  title;
-    String  actor;
-    int     pageSize = 10;
-    int     currentPage = 1; 
-    boolean hasMore = false;
 
-//     @Out
-//     String testValue = "xyz";
+    @In(value="searchparams", create=true)
+    @Out(value="searchparams")
+    SearchParameters params;
+    
+    int     pageSize    = 10;
+    int     currentPage = 1; 
+    boolean hasMore     = false;
 
     @DataModel
     List<SelectableItem<Product>> searchResults;
@@ -65,7 +62,7 @@ public class SearchBean
 
 
     public SearchBean() {
-        System.out.println("!!!!!!!!!!!!!!!!!!! CREATE SEARCHBEAN " + this);
+        // System.out.println("!!!!!!!!!!!!!!!!!!! CREATE SEARCHBEAN " + this);
     }
 
 
@@ -90,6 +87,7 @@ public class SearchBean
     }
 
     private Category categoryForNum(int value) {
+        getCategories(); 
         if (categories != null) {
             for (Category category: categories) {
                 if (category.getCategory() == value) {
@@ -100,32 +98,6 @@ public class SearchBean
         return null;
     }
     
-    public void setBrowseCategory(Integer category) {
-        this.category = category ; 
-    }
-    public Integer getBrowseCategory() {
-        return category;
-    }
-
-    public void setBrowseTitle(String title) {
-        this.title = title;
-    }
-    public String getBrowseTitle() {
-        return title;
-    }
-
-    public void setBrowseActor(String actor) {
-        this.actor = actor;
-    }
-    public String getBrowseActor() {
-        return actor;
-    }
-
-//     public List<SelectableItem<Product>> getSearchResults() {
-//         return results;
-//     }
-
-
     public String nextPage() {
         if (!isLastPage()) {
             currentPage++;
@@ -153,15 +125,17 @@ public class SearchBean
     public String doSearch() {
         currentPage=0;
         updateResults();
-        System.out.println("!!! DO SEARCH");
         return null;
     }
 
     private void updateResults() {
         List<SelectableItem<Product>> items = new ArrayList<SelectableItem<Product>>();
 
-        List<Product> products = searchQuery(title,actor,categoryForNum(getBrowseCategory()))
-            .setMaxResults(pageSize+1) 
+        System.out.println("CAT: " + params.getCategory());
+        List<Product> products = searchQuery(params.getTitle(),
+                                             params.getActor(),
+                                             categoryForNum(params.getCategory()))
+            .setMaxResults(pageSize+1)
             .setFirstResult(pageSize*currentPage)
             .getResultList();
         
@@ -176,21 +150,23 @@ public class SearchBean
             searchResults = items;
             hasMore = false;
         }
-        
-        System.out.println("RESULTS: " + searchResults);
     }
 
 
     private Query searchQuery(String title, String actor, Category category) {
-        title = (title == null) ? "%" : "%" + title + "%";
-        actor = (actor == null) ? "%" : "%" + actor + "%";
+        title = (title == null) ? "%" : "%" + title.toLowerCase() + "%";
+        actor = (actor == null) ? "%" : "%" + actor.toLowerCase() + "%";
+
+        System.out.println("XCAT: " + category);
 
         if (category == null) {
-            return em.createQuery("from Product p where p.title LIKE :title and p.actor LIKE :actor")
+            return em.createQuery("from Product p where lower(p.title) LIKE :title " + 
+                                  "and lower(p.actor) LIKE :actor")
                 .setParameter("title", title)
                 .setParameter("actor", actor);
         } else { 
-            return em.createQuery("from Product p where p.title LIKE :title and p.actor LIKE :actor " + 
+            return em.createQuery("from Product p where lower(p.title) LIKE :title " + 
+                                  "and lower(p.actor) LIKE :actor " + 
                                   "and p.category = :category")
                 .setParameter("title", title)
                 .setParameter("actor", actor)
@@ -218,8 +194,9 @@ public class SearchBean
         return "checkout";
     }
 
-    @End @Destroy
+    @Destroy 
+    @Remove
     public void destroy() {
-        System.out.println("!! SEARCH BEAN IS SO DEAD: " + this);
+        // System.out.println("!! SEARCH BEAN IS SO DEAD: " + this);
     }
 }

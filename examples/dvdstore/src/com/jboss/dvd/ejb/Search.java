@@ -14,13 +14,6 @@ public interface Search
     public boolean getHasResults();
     public Map<String,Integer> getCategories();
     
-    public void setBrowseCategory(Integer category);
-    public Integer getBrowseCategory();
-    public void setBrowseTitle(String title);
-    public String getBrowseTitle();
-    public void setBrowseActor(String actor);
-    public String getBrowseActor();
-    
     public String nextPage();
     public String prevPage(); 
     public boolean isLastPage();

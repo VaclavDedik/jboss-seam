@@ -12,21 +12,19 @@
 </head>
 <body>
     <%@ include file="/head.jsp" %> 
-    <!-- <h1><h:outputText value="#{msgs.storeHeader}" /></h1> -->
- 
     <h1><h:outputText value="#{testValue}" /></h1> 
 
     <h2><h:outputText value="#{msgs.browseSearchHeader}" /></h2>
     <h:form>
         <h:panelGrid columns="2">
             <h:outputText value="#{msgs.searchTitle}" />
-            <h:inputText value="#{search.browseTitle}" size="15"/>
+            <h:inputText value="#{searchparams.title}" size="15"/>
             
             <h:outputText value="#{msgs.searchActor}" />
-            <h:inputText value="#{search.browseActor}" size="15"/>
+            <h:inputText value="#{searchparams.actor}" size="15"/>
                         
             <h:outputText value="#{msgs.searchCategory}" />
-            <h:selectOneMenu value="#{search.browseCategory}">
+            <h:selectOneMenu value="#{searchparams.category}">
                 <f:selectItems value="#{search.categories}" />
             </h:selectOneMenu>
         </h:panelGrid>
