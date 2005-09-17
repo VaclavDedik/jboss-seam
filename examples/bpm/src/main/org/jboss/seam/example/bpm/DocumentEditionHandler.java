@@ -28,6 +28,9 @@ public class DocumentEditionHandler implements DocumentEdition
    @Out
    private Document document;
 
+   @In
+   private User user;
+
    public String save()
    {
       document = entityManager.merge( document );
@@ -36,19 +39,17 @@ public class DocumentEditionHandler implements DocumentEdition
 
 
    @CompleteTask
-   @Remove
    public String approve()
    {
-      document.approve( null );
+      document.approve( user );
       document = entityManager.merge( document );
       return "approved";
    }
 
    @CompleteTask
-   @Remove
    public String reject()
    {
-      document.reject( null );
+      document.reject( user );
       document = entityManager.merge( document );
       return "rejected";
    }

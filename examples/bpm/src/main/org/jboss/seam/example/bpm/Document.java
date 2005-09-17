@@ -1,11 +1,13 @@
 package org.jboss.seam.example.bpm;
 
+import java.util.Date;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratorType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 import org.jboss.seam.ScopeType;
@@ -31,24 +33,16 @@ public class Document
    private String title;
    @Type( type="serializable" )
    private String content;
-//   private Date submittedTimestamp;
-//   @ManyToOne
-//   private User submitter;
-//   private Date approvalTimestamp;
-//   @ManyToOne
-//   private User approver;
+   private Date submittedTimestamp;
+   @ManyToOne
+   private User submitter;
+   private Date approvalTimestamp;
+   @ManyToOne
+   private User approver;
 
    public Document()
    {
    }
-
-//   public Document(String title, String content, User submitter)
-//   {
-//      this.title = title;
-//      this.content = content;
-//      this.submitter = submitter;
-//      submittedTimestamp = new Date();
-//   }
 
    public Long getId()
    {
@@ -90,57 +84,57 @@ public class Document
       this.content = content;
    }
 
-//   public Date getSubmittedTimestamp()
-//   {
-//      return submittedTimestamp;
-//   }
-//
-//   public void setSubmittedTimestamp(Date submittedTimestamp)
-//   {
-//      this.submittedTimestamp = submittedTimestamp;
-//   }
-//
-//   public User getSubmitter()
-//   {
-//      return submitter;
-//   }
-//
-//   public void setSubmitter(User submitter)
-//   {
-//      this.submitter = submitter;
-//   }
-//
-//   public Date getApprovalTimestamp()
-//   {
-//      return approvalTimestamp;
-//   }
-//
-//   public void setApprovalTimestamp(Date approvalTimestamp)
-//   {
-//      this.approvalTimestamp = approvalTimestamp;
-//   }
-//
-//   public User getApprover()
-//   {
-//      return approver;
-//   }
-//
-//   public void setApprover(User approver)
-//   {
-//      this.approver = approver;
-//   }
-//
+   public Date getSubmittedTimestamp()
+   {
+      return submittedTimestamp;
+   }
+
+   public void setSubmittedTimestamp(Date submittedTimestamp)
+   {
+      this.submittedTimestamp = submittedTimestamp;
+   }
+
+   public User getSubmitter()
+   {
+      return submitter;
+   }
+
+   public void setSubmitter(User submitter)
+   {
+      this.submitter = submitter;
+   }
+
+   public Date getApprovalTimestamp()
+   {
+      return approvalTimestamp;
+   }
+
+   public void setApprovalTimestamp(Date approvalTimestamp)
+   {
+      this.approvalTimestamp = approvalTimestamp;
+   }
+
+   public User getApprover()
+   {
+      return approver;
+   }
+
+   public void setApprover(User approver)
+   {
+      this.approver = approver;
+   }
+
    public void approve(User approver)
    {
-//      this.approver = approver;
-//      this.approvalTimestamp = new Date();
+      this.approver = approver;
+      this.approvalTimestamp = new Date();
       this.status = Status.APPROVED;
    }
 
    public void reject(User approver)
    {
-//      this.approver = approver;
-//      this.approvalTimestamp = new Date();
+      this.approver = approver;
+      this.approvalTimestamp = new Date();
       this.status = Status.REJECTED;
    }
 }

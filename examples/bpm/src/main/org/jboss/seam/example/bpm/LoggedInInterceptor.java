@@ -20,20 +20,13 @@ public class LoggedInInterceptor
 {
    private static final Logger log = Logger.getLogger( LoggedInInterceptor.class );
 
-   // currently a very simple impl which always logs the 'admin' user in
-
    @AroundInvoke
    public Object checkLoggedIn(InvocationContext invocation) throws Exception
    {
       User user = ( User ) Contexts.getSessionContext().get( "user" );
       if ( user == null || user.getUsername() == null )
       {
-         // in the eventual real impl, we'd want to redirect them to login
-         user = new User();
-         user.setName( "Administrator" );
-         user.setUsername( "admin" );
-         user.setPassword( "admin" );
-         Contexts.getSessionContext().set( "user", user );
+         return "login";
       }
 
       Authentication.pushAuthenticatedActorId( user.getUsername() );

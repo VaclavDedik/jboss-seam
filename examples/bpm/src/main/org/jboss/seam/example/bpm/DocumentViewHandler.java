@@ -4,6 +4,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.ResumeTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 import javax.ejb.Interceptor;
@@ -25,7 +26,7 @@ public class DocumentViewHandler implements DocumentView, Serializable
    private EntityManager entityManager;
 
    @In
-   private String documentId;
+   private Long documentId;
 
    @Out
    private Document document;

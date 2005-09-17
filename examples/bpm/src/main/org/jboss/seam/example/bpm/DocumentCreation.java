@@ -9,4 +9,5 @@ import javax.ejb.Local;
 public interface DocumentCreation
 {
    public String create() throws Exception;
+   public String start();
 }
