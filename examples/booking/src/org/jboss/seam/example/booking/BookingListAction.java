@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Interceptor;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.In;
@@ -22,8 +23,8 @@ public class BookingListAction implements BookingList, Serializable
 {
    private static final Logger log = Logger.getLogger(BookingList.class);
    
-   @In(create=true)
-   private EntityManager bookingDatabase;
+   @PersistenceContext
+   private EntityManager em;
    
    @In
    private User user;
@@ -33,7 +34,7 @@ public class BookingListAction implements BookingList, Serializable
    
    public String find()
    {
-      bookings = bookingDatabase.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
+      bookings = em.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
             .setParameter("username", user.getUsername())
             .getResultList();
       

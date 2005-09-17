@@ -1,9 +1,9 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
-@Local
+@Remote
 public interface HotelBooking
 {
    public String getSearchString();

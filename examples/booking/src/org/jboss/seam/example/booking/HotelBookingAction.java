@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
+import static javax.persistence.PersistenceContextType.EXTENDED;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
 import org.jboss.logging.Logger;
@@ -37,8 +39,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
 {
    private static final Logger log = Logger.getLogger(HotelBooking.class);
    
-   @In(create=true)
-   private EntityManager bookingDatabase;
+   @PersistenceContext(type=EXTENDED)
+   private EntityManager em;
    
    private String searchString;
    
@@ -59,14 +61,14 @@ public class HotelBookingAction implements HotelBooking, Serializable
    private User user;
    
    @In
-   private FacesContext facesContext;
+   private transient FacesContext facesContext;
    
    @Begin
    public String find()
    {
       hotel = null;
       String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      hotels = bookingDatabase.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
+      hotels = em.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
             .setParameter("search", searchPattern)
             .setMaxResults(50)
             .getResultList();
@@ -150,7 +152,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    public String confirm()
    {
       if (booking==null || hotel==null) return "main";
-      bookingDatabase.persist(booking);
+      em.persist(booking);
       log.info("booking confirmed");
       return "confirmed";
    }
