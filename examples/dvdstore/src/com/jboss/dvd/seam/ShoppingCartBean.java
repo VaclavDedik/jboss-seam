@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */ 
-package com.jboss.dvd.ejb;
+package com.jboss.dvd.seam;
 
 import static org.jboss.seam.InterceptionType.ALWAYS;
 
@@ -24,7 +24,6 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
@@ -32,15 +31,14 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Name("cart")
 @Scope(ScopeType.SESSION)
-@JndiName("com.jboss.dvd.ejb.ShoppingCart")
 @Intercept(ALWAYS)
 @Interceptor(SeamInterceptor.class)
 public class ShoppingCartBean
     implements ShoppingCart,
                Serializable
 {
-    @In(value="userinfo", create=true)
-    User userBean;
+    @In
+    Customer customer;
 
     @PersistenceContext(unitName="dvd")
     EntityManager em;
@@ -133,7 +131,7 @@ public class ShoppingCartBean
         }
 
         try {
-            order = purchase(userBean.getCustomer(), lines);
+            order = purchase(customer, lines);
 
             return "complete";
         } catch (InsufficientQuantityException e) {

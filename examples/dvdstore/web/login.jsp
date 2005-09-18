@@ -17,22 +17,20 @@
     <h2><h:outputText value="#{msgs.loginPagePrompt}" /></h2>
     <h3><h:outputText value="#{msgs.loginPageInfo}" /></h3>
     
-    <form action="j_security_check" method="post">
+    <h:form>
         <h:outputText value="#{msgs.loginUser}" /> 
-        <input type="text" name="j_username" 
-               value="<h:outputText value="#{editCustomer.randomUser}" />"
-               size="16" maxlength="24" />
+        <h:inputText value="#{customer.userName}" size="16" />
+
         <h:outputText value="#{msgs.loginPass}" /> 
-        <input type="password" name="j_password" 
-               value="<h:outputText value="#{editCustomer.randomUserPassword}" />"
-               size="16" maxlength="24" />
-        <input type="submit" value="<h:outputText value="#{msgs.loginPrompt}" />"/> 
-    </form>
+        <h:inputText value="#{customer.password}" size="16"/>
+
+        <h:commandButton action="#{login.login}" />
+    </h:form>
     
     <h2><h:outputText value="#{msgs.newCustomerPrompt}"/></h2>
     
     <h:form>
-        <h:commandButton action="newcustomer" value="#{msgs.newCustomerButton}" />
+        <h:commandButton action="#{editCustomer.startEdit}" value="#{msgs.newCustomerButton}" />
     </h:form>
     <%@ include file="foot.jsp" %> 
 </body>

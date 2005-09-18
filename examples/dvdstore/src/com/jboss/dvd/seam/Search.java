@@ -4,16 +4,16 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */ 
-package com.jboss.dvd.ejb;
+package com.jboss.dvd.seam;
 
 import java.util.Map;
-import java.util.List;
 
 public interface Search
 {
     public boolean getHasResults();
     public Map<String,Integer> getCategories();
-    
+
+    public String start();
     public String nextPage();
     public String prevPage(); 
     public boolean isLastPage();

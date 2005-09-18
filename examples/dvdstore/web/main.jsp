@@ -16,9 +16,9 @@
     <!-- <h1><h:outputText value="#{msgs.storeHeader}" /></h1> -->
     <h2><h:outputText value="#{msgs.mainHeader}" /></h2>
 
-    <f:subview id="previous" rendered="#{!empty(history.recentProducts)}">
+    <f:subview id="previous" rendered="#{!empty(phistory.recentProducts)}">
         <h3><h:outputText value="#{msgs.previousPurchasesHeader}" /></h3>
-        <h:dataTable value="#{history.recentProducts}" var="product"
+        <h:dataTable value="#{phistory.recentProducts}" var="product"
                      styleClass="dvdtable" 
                      headerClass="dvdtablehead"
                      rowClasses="dvdtableodd,dvdtableeven"
@@ -49,7 +49,7 @@
     <br />
 
     <h:form>
-        <h:commandButton action="browse" value="#{msgs.startShoppingButton}" />   
+        <h:commandButton action="#{search.start}" value="#{msgs.startShoppingButton}" />   
     </h:form>
 
     <%@ include file="/foot.jsp" %> 

@@ -26,21 +26,13 @@
         <navigation-case>
             <from-outcome>login</from-outcome>
             <to-view-id>/login.jsp</to-view-id>
-            <redirect />
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>loginError</from-outcome>
-            <to-view-id>/loginError.jsp</to-view-id>
-            <redirect />
         </navigation-case>
     </navigation-rule>
-
 
     <navigation-rule>
         <navigation-case>
             <from-outcome>main</from-outcome>
-            <to-view-id>/app/main.jsp</to-view-id>
+            <to-view-id>/main.jsp</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
@@ -48,15 +40,15 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>browse</from-outcome>
-            <to-view-id>/app/browse.jsp</to-view-id>
-            <redirect />
+            <to-view-id>/browse.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
 
     <navigation-rule>
         <navigation-case>
             <from-outcome>checkout</from-outcome>
-            <to-view-id>/app/checkout.jsp</to-view-id>
+            <to-view-id>/checkout.jsp</to-view-id>
+            <redirect />
         </navigation-case>
     </navigation-rule>
 
@@ -64,7 +56,8 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>complete</from-outcome>
-            <to-view-id>/app/complete.jsp</to-view-id>
+            <to-view-id>/complete.jsp</to-view-id>
+            <redirect />
         </navigation-case>
     </navigation-rule>
 
@@ -73,7 +66,7 @@
         <navigation-case> 
             <from-action>#{login.logout}</from-action>   
             <from-outcome>done</from-outcome> 
-            <to-view-id>/index.jsp</to-view-id> 
+            <to-view-id>/login.jsp</to-view-id> 
             <redirect />
         </navigation-case> 
     </navigation-rule>
@@ -82,10 +75,6 @@
         <navigation-case>
             <from-outcome>newcustomer</from-outcome>
             <to-view-id>/newcustomer.jsp</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>newcustomerok</from-outcome>
-            <to-view-id>/newcustomerok.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
 

@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */ 
-package com.jboss.dvd.ejb;
+package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("xorderline")
+@Name("orderline")
 @Table(name="ORDERLINES")
 public class OrderLine
     implements Serializable

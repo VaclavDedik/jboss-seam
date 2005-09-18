@@ -55,8 +55,9 @@
         <error-code>404</error-code>
         <location>/index.jsp</location> 
     </error-page>
--->    
+-->
 
+<!--
     <security-constraint>
         <display-name>require valid user</display-name>
         <web-resource-collection>
@@ -85,4 +86,5 @@
     <security-role>
         <role-name>user</role-name>
     </security-role>
+-->
 </web-app>

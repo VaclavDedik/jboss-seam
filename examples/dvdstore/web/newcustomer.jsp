@@ -25,7 +25,7 @@
             <h:outputText value="#{msgs.newCustomerFN}" />
             <h:panelGroup>
                 <h:inputText id="firstName" required="true"
-                             value="#{editCustomer.customer.firstName}" />
+                             value="#{customer.firstName}" />
                 <f:verbatim>*</f:verbatim>
                 <h:message for="firstName" styleClass="error" />
             </h:panelGroup>
@@ -33,7 +33,7 @@
             <h:outputText value="#{msgs.newCustomerLN}" />
             <h:panelGroup>
                 <h:inputText id="lastName" required="true"
-                             value="#{editCustomer.customer.lastName}" />
+                             value="#{customer.lastName}" />
                 <f:verbatim>*</f:verbatim>
                 <h:message for="lastName" styleClass="error" />
             </h:panelGroup>
@@ -41,32 +41,32 @@
             <h:outputText value="#{msgs.newCustomerA1}" />
             <h:panelGroup>
                 <h:inputText id="address1" required="true"
-                             value="#{editCustomer.customer.address1}" />
+                             value="#{customer.address1}" />
                 <f:verbatim>*</f:verbatim>
                 <h:message for="address1" styleClass="error" />
             </h:panelGroup>
 
             <h:outputText value="#{msgs.newCustomerA2}" />
             <h:panelGroup>
-                <h:inputText value="#{editCustomer.customer.address2}" />
+                <h:inputText value="#{customer.address2}" />
             </h:panelGroup>
 
             <h:outputText value="#{msgs.newCustomerCY}" />
             <h:panelGroup>
                 <h:inputText id="city" required="true" 
-                             value="#{editCustomer.customer.city}" />
+                             value="#{customer.city}" />
                 <f:verbatim>*</f:verbatim>
                 <h:message for="city" styleClass="error" />
             </h:panelGroup>
 
             <h:outputText value="#{msgs.newCustomerST}" />
-            <h:inputText value="#{editCustomer.customer.state}" />
+            <h:inputText value="#{customer.state}" />
 
             <h:outputText value="#{msgs.newCustomerZP}" />
-            <h:inputText value="#{editCustomer.customer.zip}" />
+            <h:inputText value="#{customer.zip}" />
 
             <h:outputText value="#{msgs.newCustomerCO}" />
-            <h:selectOneMenu value="#{editCustomer.customer.country}">
+            <h:selectOneMenu value="#{customer.country}">
                 <f:selectItem itemValue="United States" itemLabel="#{msgs.co_US}"/>
                 <f:selectItem itemValue="Australia" itemLabel="#{msgs.co_AU}" />
                 <f:selectItem itemValue="Canada" itemLabel="#{msgs.co_CA}" />
@@ -81,15 +81,15 @@
             </h:selectOneMenu> 
 
             <h:outputText value="#{msgs.newCustomerEM}" />
-            <h:inputText value="#{editCustomer.customer.email}" />
+            <h:inputText value="#{customer.email}" />
 
             <h:outputText value="#{msgs.newCustomerPH}" />
-            <h:inputText value="#{editCustomer.customer.phone}" />
+            <h:inputText value="#{customer.phone}" />
 
             <h:outputText value="#{msgs.newCustomerUN}" />
             <h:panelGroup>
                 <h:inputText id="userName" required="true" 
-                             value="#{editCustomer.customer.userName}">
+                             value="#{customer.userName}">
                     <f:validateLength minimum="4" maximum="16"/> 
                 </h:inputText>
                 <f:verbatim>*</f:verbatim>
@@ -99,7 +99,7 @@
             <h:outputText value="#{msgs.newCustomerPW}" />
             <h:panelGroup>
                 <h:inputText id="password" required="true"
-                             value="#{editCustomer.password}">
+                             value="#{customer.password}">
                     <f:validateLength minimum="8" /> 
                 </h:inputText>
                 <f:verbatim>*</f:verbatim>
@@ -107,7 +107,7 @@
             </h:panelGroup>
             
             <h:outputText value="#{msgs.newCustomerCCT}" />
-            <h:selectOneMenu value="#{editCustomer.creditCardType}">
+            <h:selectOneMenu value="#{customer.creditCardType}">
                 <f:selectItems value="#{editCustomer.creditCardTypes}" />
             </h:selectOneMenu> 
 
@@ -115,7 +115,7 @@
             <h:outputText value="#{msgs.newCustomerCCN}" />
             <h:panelGroup>
                 <h:inputText id="creditCard" required="true" 
-                             value="#{editCustomer.customer.creditCard}" />
+                             value="#{customer.creditCard}" />
                 <f:verbatim>*</f:verbatim>
                 <h:message for="creditCard" styleClass="error" />
             </h:panelGroup>
@@ -123,7 +123,7 @@
 
             <h:outputText value="#{msgs.newCustomerCCE}" />
             <h:panelGroup>
-                <h:selectOneMenu value="#{editCustomer.creditCardMonth}">
+                <h:selectOneMenu value="#{customer.creditCardMonth}">
                     <f:selectItem itemValue="1" itemLabel="#{msgs.mo_1}" />
                     <f:selectItem itemValue="2" itemLabel="#{msgs.mo_2}" />
                     <f:selectItem itemValue="3" itemLabel="#{msgs.mo_3}" />
@@ -138,7 +138,7 @@
                     <f:selectItem itemValue="12" itemLabel="#{msgs.mo_12}" />
                 </h:selectOneMenu> 
 
-                <h:selectOneMenu value="#{editCustomer.creditCardYear}">
+                <h:selectOneMenu value="#{customer.creditCardYear}">
                     <f:selectItem itemValue="2005" />
                     <f:selectItem itemValue="2006" />
                     <f:selectItem itemValue="2007" />
@@ -149,14 +149,14 @@
             </h:panelGroup>
             
             <h:outputText value="#{msgs.newCustomerAG}" />
-            <h:inputText value="#{editCustomer.customer.age}" />
+            <h:inputText value="#{customer.age}" />
 
             <h:outputText value="#{msgs.newCustomerIN}" />
-            <h:inputText value="#{editCustomer.customer.income}" />
+            <h:inputText value="#{customer.income}" />
 
 
             <h:outputText value="#{msgs.newCustomerGE}" />
-            <h:selectOneMenu value="#{editCustomer.customer.gender}">
+            <h:selectOneMenu value="#{customer.gender}">
                 <f:selectItem itemValue="M" itemLabel="#{msgs.gender_m}" />
                 <f:selectItem itemValue="F" itemLabel="#{msgs.gender_f}" />
             </h:selectOneMenu> 

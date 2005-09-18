@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */ 
-package com.jboss.dvd.ejb;
+package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("xcategory")
+@Name("category")
 @Table(name="CATEGORIES")
 @Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 public class Category

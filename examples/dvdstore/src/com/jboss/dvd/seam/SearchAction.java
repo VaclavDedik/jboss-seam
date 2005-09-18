@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */ 
-package com.jboss.dvd.ejb;
+package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
@@ -28,15 +27,15 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("search")
-@Conversational(ifNotBegunOutcome="browse")
+@LoggedIn
+@Conversational(ifNotBegunOutcome="main")
 @Interceptor(SeamInterceptor.class)
-public class SearchBean
+public class SearchAction
     implements Search,
                Serializable
 {
@@ -61,10 +60,23 @@ public class SearchBean
     Map<String,Integer> categoryMap;
 
 
-    public SearchBean() {
-        // System.out.println("!!!!!!!!!!!!!!!!!!! CREATE SEARCHBEAN " + this);
+    public SearchAction() {
     }
 
+
+    @Begin
+    public String start() {
+        System.out.println("search.start! -> browse");
+        return "browse";
+    }
+
+
+    public String doSearch() {
+        System.out.println("search.doSearch! -> browse");
+        currentPage=0;
+        updateResults();
+        return null;
+    }
 
     public boolean getHasResults() {
         return (searchResults != null) && (searchResults.size()>0);
@@ -76,7 +88,7 @@ public class SearchBean
 
             Map<String,Integer> results = new HashMap<String, Integer>();
             
-            results.put("Any", new Integer(0));
+            results.put("Any", 0);
             for (Category category: categories) {
                 results.put(category.getCategoryName(),category.getCategory());
             }
@@ -121,17 +133,9 @@ public class SearchBean
         return (searchResults != null) && (currentPage == 0);
     }
 
-    @Begin    
-    public String doSearch() {
-        currentPage=0;
-        updateResults();
-        return null;
-    }
-
     private void updateResults() {
         List<SelectableItem<Product>> items = new ArrayList<SelectableItem<Product>>();
 
-        System.out.println("CAT: " + params.getCategory());
         List<Product> products = searchQuery(params.getTitle(),
                                              params.getActor(),
                                              categoryForNum(params.getCategory()))
@@ -197,6 +201,5 @@ public class SearchBean
     @Destroy 
     @Remove
     public void destroy() {
-        // System.out.println("!! SEARCH BEAN IS SO DEAD: " + this);
     }
 }

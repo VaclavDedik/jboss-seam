@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */ 
-package com.jboss.dvd.ejb;
+package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
@@ -18,6 +18,9 @@ import javax.persistence.Transient;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
 
 @Entity
 @Table(name="CUSTOMERS")
@@ -42,9 +45,10 @@ public class Customer
     Integer region;
     String  email;
     String  phone;
-    int     creditCardType;
-    String  creditCard;
-    String  creditCardExpiration;
+    Integer creditCardType = 1;
+    String  creditCard     = "000-0000-0000";
+    int     ccMonth        = 1;
+    int     ccYear         = 2005;
     Integer age;
     Long    income;
     String  gender;
@@ -71,10 +75,10 @@ public class Customer
     }
 
     @Column(name="PASSWORD",nullable=false,length=50)    
-    public String getHashedPassword() {
+    public String getPassword() {
         return password;
     }
-    public void setHashedPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -124,6 +128,8 @@ public class Customer
     }
 
     @Column(name="ZIP", length=50)
+    @Length(min=5, max=5)
+    @NotNull
     public String getZip() {
         return zip;
     }
@@ -188,10 +194,10 @@ public class Customer
     }
 
     @Column(name="CREDITCARDTYPE")    
-    public int getCreditCardType() {
+    public Integer getCreditCardType() {
         return creditCardType;
     }
-    public void setCreditCardType(int type) {
+    public void setCreditCardType(Integer type) {
         this.creditCardType = type;
     }
 
@@ -202,7 +208,7 @@ public class Customer
         return cctypes[creditCardType-1];
     }
 
-    @Column(name="CREDITCARD",nullable=false,length=50)
+    @Column(name="CC_NUM", nullable=false, length=50)
     public String getCreditCard() {
         return creditCard;
     }
@@ -210,13 +216,31 @@ public class Customer
         this.creditCard = creditCard;
     }
 
-    @Column(name="CREDITCARDEXPIRATION",nullable=false,length=50)
-    public String getCreditCardExpiration() {
-        return creditCardExpiration;
+    @Column(name="CC_MONTH", nullable=false, length=50)
+    public int getCreditCardMonth() {
+        return ccMonth;
     }
-    public void setCreditCardExpiration(String creditCardExpiration) {
-        this.creditCardExpiration = creditCardExpiration;
+    public void setCreditCardMonth(int ccMonth) {
+        this.ccMonth = ccMonth;
     }
 
+    @Column(name="CC_YEAR", nullable=false, length=50)
+    public int getCreditCardYear() {
+        return ccYear;
+    }
+    public void setCreditCardYear(int ccYear) {
+        this.ccYear = ccYear;
+    }
+
+
+    @Transient
+    public String getCreditCardExpiration() {
+        return "" + ccMonth + "/" + ccYear;
+    }
+
+
+    public String toString() {
+        return "Customer#" + customerId + "(" + userName + ")";
+    }
 
 }

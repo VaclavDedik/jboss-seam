@@ -11,8 +11,7 @@
     <property name="extlib.dir"   location="lib" />
     <property name="web.dir"      location="web" />
 
-    <fileset id="example.deploy"
-            dir="db">
+    <fileset id="example.deploy" dir="db">
         <include name="dvd-ds.xml"/>
     </fileset>
 
@@ -57,7 +56,7 @@
                 <include name="seam.properties"/>
             </fileset>
             <fileset dir="${classes.dir}">
-                <include name="**/ejb/**/*.class"/>
+                <include name="**/*.class"/>
             </fileset>
             <fileset dir="${imported.basedir}">
                 <include name="jboss-seam.jar"/>
