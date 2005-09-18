@@ -8,6 +8,7 @@ import javax.ejb.Local;
 @Local
 public interface DocumentCreation
 {
-   public String create() throws Exception;
    public String start();
+   public String create();
+   public String save();
 }

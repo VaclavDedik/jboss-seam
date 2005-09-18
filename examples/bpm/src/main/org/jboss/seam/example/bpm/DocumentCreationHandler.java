@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
+import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
@@ -38,9 +39,17 @@ public class DocumentCreationHandler implements DocumentCreation
    @Valid
    private Document document;
    
+   @End
+   public String start()
+   {
+      document = new Document();
+      return "detail";
+   }
+
    @CreateProcess( definition = "DocumentSubmission" )
    @IfInvalid(outcome=Outcome.REDISPLAY)
-   public String create() throws Exception
+   @Begin
+   public String create()
    {
       document.setSubmitter( user );
       document.setSubmittedTimestamp( new Date() );
@@ -48,13 +57,14 @@ public class DocumentCreationHandler implements DocumentCreation
       Contexts.getBusinessProcessContext().set( "documentId", document.getId() );
       Contexts.getBusinessProcessContext().set( "description", document.getTitle() );
       Contexts.getBusinessProcessContext().set( "submitter", user.getUsername() );
-      return "success";
-   }
-
-   @End
-   public String start()
-   {
-      document = new Document();
       return "detail";
    }
+
+   @IfInvalid(outcome=Outcome.REDISPLAY)
+   public String save()
+   {
+      document = entityManager.merge( document );
+      return "detail";
+   }
+
 }

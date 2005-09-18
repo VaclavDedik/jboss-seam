@@ -14,7 +14,7 @@
             <f:facet name="header">
                <h:outputText value="Title"/>
             </f:facet>
-            <h:commandLink action="#{documentViewer.details}" value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['description']}">
+            <h:commandLink action="#{documentTasks.details}" value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['description']}">
                <f:param name="jbpmTaskId" value="#{task.id}"/>
             </h:commandLink>
          </h:column>
