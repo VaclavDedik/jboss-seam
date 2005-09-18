@@ -4,7 +4,6 @@ package org.jboss.seam.example.bpm;
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
@@ -18,7 +17,6 @@ import org.jbpm.security.Authentication;
 @Within( RemoveInterceptor.class )
 public class LoggedInInterceptor
 {
-   private static final Logger log = Logger.getLogger( LoggedInInterceptor.class );
 
    @AroundInvoke
    public Object checkLoggedIn(InvocationContext invocation) throws Exception
@@ -26,7 +24,7 @@ public class LoggedInInterceptor
       User user = ( User ) Contexts.getSessionContext().get( "user" );
       if ( user == null || user.getUsername() == null )
       {
-         return "login";
+         return "home";
       }
 
       Authentication.pushAuthenticatedActorId( user.getUsername() );
