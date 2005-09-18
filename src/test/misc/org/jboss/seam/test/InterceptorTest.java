@@ -74,7 +74,7 @@ public class InterceptorTest
          }
       });
       assert "foo".equals(result);
-      assert Contexts.getConversationContext().get("string").equals("out");
+      assert Contexts.getEventContext().get("string").equals("out");
       Foo created = bar.foo;
       assert created!=null;
       assert Contexts.getSessionContext().get("foo")==created;

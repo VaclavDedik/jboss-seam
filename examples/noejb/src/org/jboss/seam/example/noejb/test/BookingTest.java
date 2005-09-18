@@ -221,7 +221,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            List<Booking> bookings = (List<Booking>) Contexts.getConversationContext().get("bookings");
+            List<Booking> bookings = (List<Booking>) Contexts.getEventContext().get("bookings");
             assert bookings.size()==1;
             assert bookings.get(0).getHotel().getCity().equals("NY");
             assert bookings.get(0).getUser().getUsername().equals("gavin");
