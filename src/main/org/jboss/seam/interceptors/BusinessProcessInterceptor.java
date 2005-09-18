@@ -23,6 +23,7 @@ import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.ResumeTask;
+import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.Manager;
@@ -37,6 +38,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
+@Within(ValidationInterceptor.class)
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
    public static final String DEF_TASK_INSTANCE_NAME = "taskInstance";
