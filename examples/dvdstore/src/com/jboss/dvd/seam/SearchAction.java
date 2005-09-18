@@ -33,7 +33,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Name("search")
 @LoggedIn
-@Conversational(ifNotBegunOutcome="main")
+@Conversational(ifNotBegunOutcome="browse")
 @Interceptor(SeamInterceptor.class)
 public class SearchAction
     implements Search,
@@ -45,13 +45,38 @@ public class SearchAction
     @PersistenceContext(unitName="dvd")
     EntityManager em;
 
-    @In(value="searchparams", create=true)
-    @Out(value="searchparams")
-    SearchParameters params;
+//     @In(value="searchparams", create=true)
+//     @Out(value="searchparams")
+//     SearchParameters params;
     
     int     pageSize    = 10;
-    int     currentPage = 1; 
+    int     currentPage = 0; 
     boolean hasMore     = false;
+
+    Integer category = new Integer(0);
+    String  title    = null;
+    String  actor    = null;
+
+    public void setCategory(Integer category) {
+        this.category = category ; 
+    }
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public String getTitle() {
+        return title;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+    public String getActor() {
+        return actor;
+    }
 
     @DataModel
     List<SelectableItem<Product>> searchResults;
@@ -63,14 +88,7 @@ public class SearchAction
     public SearchAction() {
     }
 
-
     @Begin
-    public String start() {
-        System.out.println("search.start! -> browse");
-        return "browse";
-    }
-
-
     public String doSearch() {
         System.out.println("search.doSearch! -> browse");
         currentPage=0;
@@ -136,9 +154,9 @@ public class SearchAction
     private void updateResults() {
         List<SelectableItem<Product>> items = new ArrayList<SelectableItem<Product>>();
 
-        List<Product> products = searchQuery(params.getTitle(),
-                                             params.getActor(),
-                                             categoryForNum(params.getCategory()))
+        List<Product> products = searchQuery(getTitle(),
+                                             getActor(),
+                                             categoryForNum(getCategory()))
             .setMaxResults(pageSize+1)
             .setFirstResult(pageSize*currentPage)
             .getResultList();
@@ -194,8 +212,8 @@ public class SearchAction
 
 
     @End
-    public String checkout() {
-        return "checkout";
+    public String reset() {
+        return null;
     }
 
     @Destroy 

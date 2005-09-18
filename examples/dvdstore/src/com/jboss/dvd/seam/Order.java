@@ -23,7 +23,7 @@ import javax.persistence.Table;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("order")
+@Name("xorder")
 @Table(name="ORDERS")
 public class Order
     implements Serializable

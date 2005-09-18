@@ -117,10 +117,6 @@ public class ShoppingCartBean
         }
     }
 
-    public String resetCart() {
-        cart = new ArrayList<SelectableItem<OrderLine>>(); 
-        return "main";
-    }
 
     public String purchase() {
         List<OrderLine> lines = new ArrayList<OrderLine>();
@@ -132,7 +128,7 @@ public class ShoppingCartBean
 
         try {
             order = purchase(customer, lines);
-
+            cart = new ArrayList<SelectableItem<OrderLine>>(); 
             return "complete";
         } catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {

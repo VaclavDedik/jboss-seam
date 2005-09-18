@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("xinventory")
+@Name("inventory")
 @Table(name="INVENTORY")
 public class Inventory 
     implements Serializable

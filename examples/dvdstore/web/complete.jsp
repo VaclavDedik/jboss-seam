@@ -12,11 +12,10 @@
 </head>
 <body> 
     <%@ include file="/head.jsp" %> 
-    <!-- <h1><h:outputText value="#{msgs.storeHeader}" /></h1> -->
 
     <h2><h:outputText value="#{msgs.checkoutCompleteHeader}" /></h2>
     <h:form>
-        <h:dataTable value="#{cart.cart}" 
+        <h:dataTable value="#{order.orderLines}" 
                      var="item"
                      styleClass="dvdtable" 
                      headerClass="dvdtablehead"
@@ -26,32 +25,32 @@
                 <f:facet name="header">
                     <h:outputText value="#{msgs.cartItemColumn}" />
                 </f:facet>
-                <h:outputText value="#{item.item.position}" />
+                <h:outputText value="#{item.position}" />
             </h:column>                        
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="#{msgs.cartQuantityColumn}" />
                 </f:facet>
-                <h:outputText value="#{item.item.quantity}" />
+                <h:outputText value="#{item.quantity}" />
             </h:column>                        
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="#{msgs.cartTitleColumn}" />
                 </f:facet>
-                <h:outputText value="#{item.item.product.title}" />
+                <h:outputText value="#{item.product.title}" />
             </h:column>                        
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="#{msgs.cartActorColumn}" />
                 </f:facet>
-                <h:outputText value="#{item.item.product.actor}" />
+                <h:outputText value="#{item.product.actor}" />
             </h:column>                        
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="#{msgs.cartPriceColumn}" />
                 </f:facet>
-                <h:outputText value="#{item.item.product.price}">
+                <h:outputText value="#{item.product.price}">
                     <f:convertNumber type="currency" currencySymbol="$" />
                 </h:outputText>
             </h:column>                        
@@ -60,17 +59,17 @@
 
     <h:panelGrid columns="2">
         <h:outputText value="#{msgs.checkoutSubtotal}" />
-        <h:outputText value="#{cart.subtotal}">
+        <h:outputText value="#{order.netAmount}">
             <f:convertNumber type="currency" currencySymbol="$" />
         </h:outputText>
 
         <h:outputText value="#{msgs.checkoutTax}" />
-        <h:outputText value="#{cart.tax}">
+        <h:outputText value="#{order.tax}">
             <f:convertNumber type="currency" currencySymbol="$" />
         </h:outputText>
 
         <h:outputText value="#{msgs.checkoutTotal}" />
-        <h:outputText value="#{cart.total}">
+        <h:outputText value="#{order.totalAmount}">
             <f:convertNumber type="currency" currencySymbol="$" />
         </h:outputText>
     </h:panelGrid>
@@ -92,7 +91,7 @@
     </p>
 
     <h:form>
-        <h:commandButton action="#{cart.resetCart}" value="#{msgs.shopAgainButton}" />
+        <h:commandButton action="browse"           value="#{msgs.shopAgainButton}" />
         <h:commandButton action="#{login.logout}"  value="#{msgs.logoutButton}" />
     </h:form>
 

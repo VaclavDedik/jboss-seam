@@ -32,10 +32,9 @@ public class LoginAction
     @In
     private Context sessionContext;
 
-    @LoginIf(outcome={"main"})
+    @LoginIf(outcome={"ok"})
     public String login() {
         try { 
-            System.out.println("FIND: " + customer.getUserName());
             Customer found =  
                 (Customer) em.createQuery("from Customer c where c.userName = :userName and " + 
                                           "c.password = :password")
@@ -43,17 +42,18 @@ public class LoginAction
                 .setParameter("password", customer.getPassword())
                 .getSingleResult();
 
-
             customer = found;
-            return "main";
+            return "ok";
         } catch (Exception e) {
-            System.out.println("!!FAIL");
-
-            return "login";
+            System.out.println("WARNING!");
+            Utils.warnUser("loginErrorPrompt", null);
+            
+            return "notok";
         }
     }
 
     public String logout() {
+        //customer = new Customer();
         Seam.invalidateSession();
         return "done";
     }

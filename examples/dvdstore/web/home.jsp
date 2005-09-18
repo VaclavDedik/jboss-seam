@@ -17,13 +17,18 @@
     <h2><h:outputText value="#{msgs.loginPagePrompt}" /></h2>
     <h3><h:outputText value="#{msgs.loginPageInfo}" /></h3>
     
+    <h:messages globalOnly="true" 
+                layout="list" 
+                errorClass="error"/>
+
     <h:form>
-        <h:outputText value="#{msgs.loginUser}" /> 
-        <h:inputText value="#{customer.userName}" size="16" />
+        <h:panelGrid columns="2">
+            <h:outputText value="#{msgs.loginUser}" /> 
+            <h:inputText value="#{customer.userName}" size="16" />
 
-        <h:outputText value="#{msgs.loginPass}" /> 
-        <h:inputSecret value="#{customer.password}" size="16"/>
-
+            <h:outputText value="#{msgs.loginPass}" /> 
+            <h:inputSecret value="#{customer.password}" size="16"/>
+        </h:panelGrid>
         <h:commandButton action="#{login.login}" />
     </h:form>
     

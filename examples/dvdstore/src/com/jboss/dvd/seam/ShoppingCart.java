@@ -21,9 +21,7 @@ public interface ShoppingCart
     public float getTax();
     public float getTotal();
     public String updateCart();
-    public String resetCart();
     public String purchase();
-    // public Order getOrder();
 
     public void destroy();
 }

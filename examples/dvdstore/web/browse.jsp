@@ -18,13 +18,13 @@
     <h:form>
         <h:panelGrid columns="2">
             <h:outputText value="#{msgs.searchTitle}" />
-            <h:inputText value="#{searchparams.title}" size="15"/>
+            <h:inputText value="#{search.title}" size="15"/>
             
             <h:outputText value="#{msgs.searchActor}" />
-            <h:inputText value="#{searchparams.actor}" size="15"/>
+            <h:inputText value="#{search.actor}" size="15"/>
                         
             <h:outputText value="#{msgs.searchCategory}" />
-            <h:selectOneMenu value="#{searchparams.category}">
+            <h:selectOneMenu value="#{search.category}">
                 <f:selectItems value="#{search.categories}" />
             </h:selectOneMenu>
         </h:panelGrid>
@@ -113,7 +113,7 @@
                     <h:outputText value="#{item.item.product.title}" />
                 </h:column>                        
             </h:dataTable>
-            <h:commandButton action="#{search.checkout}" value="#{msgs.checkoutButton}" />
+            <h:commandButton action="checkout" value="#{msgs.checkoutButton}" />
         </h:form>
         </div>
     </f:subview>

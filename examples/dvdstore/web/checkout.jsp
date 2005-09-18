@@ -12,7 +12,6 @@
 </head>
 <body> 
     <%@ include file="/head.jsp" %> 
-    <!-- <h1><h:outputText value="#{msgs.storeHeader}" /></h1> -->
 
     <h:messages globalOnly="true" 
                 layout="list" 
@@ -65,9 +64,7 @@
                 <h:selectBooleanCheckbox value="#{item.selected}"/>
             </h:column>
         </h:dataTable>
-        <h:commandButton action="browse"             value="#{msgs.shopAgainButton}" />
         <h:commandButton action="#{cart.updateCart}" value="#{msgs.checkoutUpdateButton}" />
-        <h:commandButton action="#{cart.purchase}"   value="#{msgs.checkoutPurchaseButton}" />
     </h:form>
 
     <h:panelGrid columns="2">
@@ -86,6 +83,11 @@
             <f:convertNumber type="currency" currencySymbol="$" />
         </h:outputText>
     </h:panelGrid>
+
+    <h:form>
+        <h:commandButton action="browse"             value="#{msgs.shopAgainButton}" />
+        <h:commandButton action="#{cart.purchase}"   value="#{msgs.checkoutPurchaseButton}" />
+    </h:form>
 
     <%@ include file="/foot.jsp" %> 
 </body>
