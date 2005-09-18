@@ -91,7 +91,10 @@ public class ConversationInterceptor extends AbstractInterceptor
             method.isAnnotationPresent(ResumeTask.class);
       if ( simpleBegin )
       {
-         beginConversation();
+         if (result!=null)
+         {
+            beginConversation();
+         }
       }
       else if ( method.isAnnotationPresent(BeginIf.class) )
       {
@@ -129,22 +132,18 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void endConversationIfNecessary(Method method, Object result)
    {
-      if ( method.isAnnotationPresent(End.class) )
+      if ( method.isAnnotationPresent(End.class) || method.isAnnotationPresent(CompleteTask.class) )
       {
-         endConversation();
+         if (result!=null) //null outcome interpreted as redisplay
+         {
+            endConversation();
+         }
       }
       else if ( method.isAnnotationPresent(EndIf.class) )
       {
          String[] results = method.getAnnotation(EndIf.class)
                .outcome();
          if (Arrays.asList(results).contains(result))
-         {
-            endConversation();
-         }
-      }
-      else if ( method.isAnnotationPresent(CompleteTask.class) )
-      {
-         if (result!=null) //null outcome interpreted as redisplay
          {
             endConversation();
          }

@@ -60,7 +60,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private void beforeInvocation(InvocationContext invocationContext) {
       Method method = invocationContext.getMethod();
-
+      
       if ( method.isAnnotationPresent( BeginTask.class ) ) {
          log.trace( "encountered @StartTask" );
          BeginTask tag = method.getAnnotation( BeginTask.class );
@@ -158,27 +158,24 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private Object afterInvocation(InvocationContext invocation, Object result)
    {
-      Method method = invocation.getMethod();
-      if ( method.isAnnotationPresent( CreateProcess.class ) )
+      if (result!=null) //interpreted as "redisplay"
       {
-         if (result!=null) //interpreted as "redisplay"
+         Method method = invocation.getMethod();
+         if ( method.isAnnotationPresent( CreateProcess.class ) )
          {
             log.trace( "encountered @CreateProcess" );
             CreateProcess tag = method.getAnnotation( CreateProcess.class );
             createProcess( tag.definition(), tag.processInstanceName() );
          }
-      }
-      else if ( method.isAnnotationPresent( BeginTask.class ) )
-      {
-         log.trace( "encountered @StartTask" );
-         BeginTask tag = method.getAnnotation( BeginTask.class );
-         startTask( tag.taskInstanceName(), tag.actorExpression() );
-      }
-      else if ( method.isAnnotationPresent( CompleteTask.class ) )
-      {
-         log.trace( "encountered @CompleteTask" );
-         if (result!=null) 
+         else if ( method.isAnnotationPresent( BeginTask.class ) )
          {
+            log.trace( "encountered @StartTask" );
+            BeginTask tag = method.getAnnotation( BeginTask.class );
+            startTask( tag.taskInstanceName(), tag.actorExpression() );
+         }
+         else if ( method.isAnnotationPresent( CompleteTask.class ) )
+         {
+            log.trace( "encountered @CompleteTask" );
             CompleteTask tag = method.getAnnotation( CompleteTask.class );
             completeTask( tag.taskInstanceName(), component.getTransition( invocation.getBean() ) );
          }
