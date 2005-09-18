@@ -8,6 +8,7 @@ import javax.ejb.Local;
 @Local
 public interface DocumentTask
 {
+   public String start();
    public String details();
    public String approve();
    public String reject();

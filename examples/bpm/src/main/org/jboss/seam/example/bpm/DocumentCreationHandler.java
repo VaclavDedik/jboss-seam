@@ -34,7 +34,7 @@ public class DocumentCreationHandler implements DocumentCreation
    @In
    private User user;
 
-   @In( required = false )
+   @In(required=false)
    @Out
    @Valid
    private Document document;

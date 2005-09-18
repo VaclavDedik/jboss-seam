@@ -2,18 +2,17 @@ package org.jboss.seam.example.bpm;
 
 import java.util.List;
 
+import javax.ejb.Interceptor;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.ejb.Interceptor;
-import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.ejb.SeamInterceptor;
@@ -54,6 +53,7 @@ public class MyDocumentsHandler implements MyDocuments
       return "myDocuments";
    }
    
+   @Remove
    public String select()
    {
       document = documents.get( documentIndex );
