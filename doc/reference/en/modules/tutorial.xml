@@ -497,14 +497,15 @@ public interface Register
                 
         <example>
           <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4" 
+<web-app version="2.4"
     xmlns="http://java.sun.com/xml/ns/j2ee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+                        http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 
     <!-- Seam -->
-    
+
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
@@ -512,9 +513,11 @@ public interface Register
     <!-- MyFaces -->
 
     <listener>
-        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+        <listener-class>
+            org.apache.myfaces.webapp.StartupServletContextListener
+        </listener-class>
     </listener>
-    
+
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>client</param-value>
@@ -531,7 +534,7 @@ public interface Register
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
-    
+
 </web-app>]]></programlisting>
         </example>
         
@@ -985,46 +988,49 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 public class HotelBookingAction implements HotelBooking, Serializable
 {
    private static final Logger log = Logger.getLogger(HotelBooking.class);
-   
+
    @PersistenceContext(type=EXTENDED)
    private EntityManager bookingDatabase;
-   
+
    private String searchString;
-   
+
    @DataModel
    private List<Hotel> hotels;
    @DataModelSelectionIndex
    private int hotelIndex;
-   
+
    @Out(required=false)
    private Hotel hotel;
-   
-   @In(required=false) 
+
+   @In(required=false)
    @Out(required=false)
    @Valid
    private Booking booking;
-   
+
    @In
    private User user;
-   
+
    @In
    private transient FacesContext facesContext;
-   
+
    @Begin
    public String find()
    {
       hotel = null;
       String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      hotels = bookingDatabase.createQuery("from Hotel where lower(city) like :search or lower(zip) like :search or lower(address) like :search")
+      String searchQuery = "from Hotel where lower(city) like :search" +
+                           " or lower(zip) like :search" +
+                           " or lower(address) like :search";
+      hotels = bookingDatabase.createQuery(searchQuery)
             .setParameter("search", searchPattern)
             .setMaxResults(50)
             .getResultList();
-      
+
       log.info(hotels.size() + " hotels found");
-      
+
       return "main";
    }
-   
+
    public String getSearchString()
    {
       return searchString;
@@ -1067,7 +1073,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       hotel = hotels.get(hotelIndex);
       log.info( hotelIndex + "=>" + hotel );
    }
-   
+
    public String bookHotel()
    {
       if (hotel==null) return "main";
@@ -1076,7 +1082,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       booking.setCheckoutDate( new Date() );
       return "book";
    }
-   
+
    @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
@@ -1084,7 +1090,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
       if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
          log.info("invalid booking dates");
-         FacesMessage facesMessage = new FacesMessage("Check out date must be later than check in date");
+         FacesMessage facesMessage =
+           new FacesMessage("Check out date must be later than check in date");
          facesContext.addMessage(null, facesMessage);
          return null;
       }
@@ -1094,7 +1101,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
          return "success";
       }
    }
-      
+
    @End
    public String confirm()
    {
@@ -1103,13 +1110,13 @@ public class HotelBookingAction implements HotelBooking, Serializable
       log.info("booking confirmed");
       return "confirmed";
    }
-      
+
    @Destroy @Remove
    public void destroy() {
       log.info("destroyed");
    }
-   
-}]]></programlisting>                    
+
+}]]></programlisting>
             <calloutlist>
                 <callout arearefs="registration-stateful-annotation">
                     <para>

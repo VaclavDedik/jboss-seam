@@ -427,7 +427,7 @@
     <xsl:param name="callout.extensions">1</xsl:param>
 
     <!-- Place callout bullets at this column in programmlisting.-->
-    <xsl:param name="callout.defaultcolumn">90</xsl:param>
+    <xsl:param name="callout.defaultcolumn">80</xsl:param>
 
     <!--
         No, don't use crappy graphics for the callout bullets. This setting

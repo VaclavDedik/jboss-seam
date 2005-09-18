@@ -438,7 +438,8 @@ public class LoginAction implements Login {
                 component name:
             </para>
             
-            <programlisting><![CDATA[<h:commandButton type="submit" value="Login" action="#{com$jboss$myapp$loginAction.login}"/>]]></programlisting>
+            <programlisting><![CDATA[<h:commandButton type="submit" value="Login"
+               action="#{com$jboss$myapp$loginAction.login}"/>]]></programlisting>
 
         </sect2>
         
@@ -759,7 +760,9 @@ public class ChangePasswordAction implements ChangePassword {
             interceptor classes to specify a partial order of interceptors.
         </para>
         
-<programlisting><![CDATA[@Around({BijectionInterceptor.class, ValidationInterceptor.class, ConversationInterceptor.class})
+<programlisting><![CDATA[@Around({BijectionInterceptor.class,
+         ValidationInterceptor.class,
+         ConversationInterceptor.class})
 @Within(RemoveInterceptor.class)
 public class LoggedInInterceptor
 {

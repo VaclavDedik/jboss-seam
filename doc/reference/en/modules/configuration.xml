@@ -143,7 +143,8 @@
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
             xmlns="urn:jboss:bean-deployer">
 
-   <bean name="bookingDatasourceBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
+   <bean name="bookingDatasourceBootstrap"
+        class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
       <property name="connectionURL">jdbc:hsqldb:.</property>
       <property name="userName">sa</property>
@@ -152,9 +153,15 @@
       <property name="maxSize">10</property>
       <property name="blockingTimeout">1000</property>
       <property name="idleTimeout">100000</property>
-      <property name="transactionManager"><inject bean="TransactionManager"/></property>
-      <property name="cachedConnectionManager"><inject bean="CachedConnectionManager"/></property>
-      <property name="initialContextProperties"><inject bean="InitialContextProperties"/></property>
+      <property name="transactionManager">
+        <inject bean="TransactionManager"/>
+      </property>
+      <property name="cachedConnectionManager">
+        <inject bean="CachedConnectionManager"/>
+      </property>
+      <property name="initialContextProperties">
+        <inject bean="InitialContextProperties"/>
+      </property>
    </bean>
 
    <bean name="bookingDatasource" class="java.lang.Object">
@@ -236,7 +243,9 @@
     	</para>
     	
         <programlisting><![CDATA[<lifecycle>
-     <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+     <phase-listener>
+        org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener
+    </phase-listener>
 </lifecycle>]]></programlisting>
 
         <para>
