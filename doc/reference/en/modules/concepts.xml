@@ -129,9 +129,13 @@
                  demarcation.
             </para>
             <para>
+                 Usually, conversation state is actually held by Seam in the servlet session between requests.
                  Seam implements configurable <emphasis>conversation timeout</emphasis>, automatically destroying 
                  inactive conversations, and thus ensuring that the state held by a single user login session does not 
                  grow without bound if the user abandons conversations.
+            </para>
+            <para>
+                 Alternatively, Seam may be configured to keep conversational state in the client browser.
             </para>
         </sect2>
 
