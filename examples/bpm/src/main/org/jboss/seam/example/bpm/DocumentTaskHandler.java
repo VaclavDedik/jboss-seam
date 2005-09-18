@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.CompleteTask;
-import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -25,8 +24,7 @@ public class DocumentTaskHandler implements DocumentTask
    @PersistenceContext
    private EntityManager entityManager;
 
-   @In(required=false)
-   @Out(required=false)
+   @In(required=false) @Out
    private Document document;
 
    @In(required=false)
@@ -34,12 +32,6 @@ public class DocumentTaskHandler implements DocumentTask
 
    @In
    private User user;
-   
-   @End
-   public String start()
-   {
-      return "tasks";
-   }
 
    @ResumeTask
    public String details()

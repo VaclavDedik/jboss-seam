@@ -11,7 +11,6 @@ import org.hibernate.validator.Valid;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.CreateProcess;
-import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -34,9 +33,7 @@ public class DocumentCreationHandler implements DocumentCreation
    @In
    private User user;
 
-   @In(required=false)
-   @Out
-   @Valid
+   @In @Out @Valid
    private Document document;
    
    @Out(scope=ScopeType.PROCESS, required=false)
@@ -45,13 +42,6 @@ public class DocumentCreationHandler implements DocumentCreation
    private String description;
    @Out(scope=ScopeType.PROCESS, required=false)
    private String submitter;
-   
-   @End
-   public String start()
-   {
-      document = new Document();
-      return "detail";
-   }
 
    @CreateProcess( definition = "DocumentSubmission" )
    @IfInvalid(outcome=Outcome.REDISPLAY)
