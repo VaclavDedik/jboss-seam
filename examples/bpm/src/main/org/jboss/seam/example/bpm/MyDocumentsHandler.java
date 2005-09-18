@@ -1,11 +1,16 @@
 package org.jboss.seam.example.bpm;
 
 import java.util.List;
+
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.ejb.Interceptor;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.In;
@@ -41,17 +46,21 @@ public class MyDocumentsHandler implements MyDocuments
 
    @In
    private User user;
-
+   
+   @Begin
    public String find()
    {
       documents = entityManager.createQuery( QRY ).setParameter( "user", user ).getResultList();
       return "myDocuments";
    }
-
+   
    public String select()
    {
       document = documents.get( documentIndex );
       editable = document.getStatus() == Status.PENDING;
       return "detail";
    }
+   
+   @Destroy @Remove
+   public void destroy() {}
 }

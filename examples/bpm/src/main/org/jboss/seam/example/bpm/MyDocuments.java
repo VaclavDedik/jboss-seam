@@ -10,4 +10,5 @@ public interface MyDocuments
 {
    public String find();
    public String select();
+   public void destroy();
 }

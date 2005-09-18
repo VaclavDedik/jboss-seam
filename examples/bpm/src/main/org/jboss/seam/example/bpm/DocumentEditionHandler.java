@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.CompleteTask;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -33,6 +34,7 @@ public class DocumentEditionHandler implements DocumentEdition
    private User user;
 
    @IfInvalid(outcome=Outcome.REDISPLAY)
+   @End
    public String save()
    {
       document = entityManager.merge( document );
