@@ -53,7 +53,6 @@ public class MyDocumentsHandler implements MyDocuments
       return "myDocuments";
    }
    
-   @Remove
    public String select()
    {
       document = documents.get( documentIndex );
