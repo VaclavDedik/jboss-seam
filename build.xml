@@ -93,11 +93,7 @@
 
     <target name="init"
             description="Initialize the build">
-        <tstamp>
-            <format property="subversion" pattern="yyyy-MM-dd hh:mm:ss"/>
-        </tstamp>
-        <echo message="Build ${Name} ${version} (${subversion})"/>
-
+        <echo message="Build ${Name} ${version}"/>
         <mkdir dir="${classes.dir}"/>
         <copy todir="${classes.dir}">
             <fileset dir="${src.java.dir}">
@@ -131,7 +127,7 @@
         </copy>
     </target>
 
-    <target name="copylib" description="Copy jars to lib dir">
+    <target name="copylib" description="Copy 3rd party libraries to dist dir">
         <mkdir dir="${dist.lib.dir}"/>
         <copy todir="${dist.lib.dir}">
             <fileset dir="${lib.dir}">
@@ -243,11 +239,9 @@
         <zip zipfile="${dist.dir}.zip">
           <zipfileset prefix="${name}-${version}${patchlevel}" dir="${dist.dir}"/>
         </zip>
-        <tar tarfile="${dist.dir}.tar">
+        <tar tarfile="${dist.dir}.tar.gz" compression="gzip">
           <tarfileset prefix="${name}-${version}${patchlevel}" dir="${dist.dir}"/>
         </tar>
-        <gzip src="${dist.dir}.tar" zipfile="${dist.dir}.tar.gz"/>
-        <delete file="${dist.dir}.tar"/>
     </target>
 
     <!-- ############################ Examples #############################-->
