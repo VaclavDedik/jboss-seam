@@ -18,12 +18,12 @@ import javax.faces.context.FacesContext;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.ResumeTask;
-import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.Manager;
@@ -38,7 +38,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
-@Within(ValidationInterceptor.class)
+@Around({ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class})
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
    public static final String DEF_TASK_INSTANCE_NAME = "taskInstance";
@@ -161,9 +161,12 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       Method method = invocation.getMethod();
       if ( method.isAnnotationPresent( CreateProcess.class ) )
       {
-         log.trace( "encountered @CreateProcess" );
-         CreateProcess tag = method.getAnnotation( CreateProcess.class );
-         createProcess( tag.definition(), tag.processInstanceName() );
+         if (result!=null) //interpreted as "redisplay"
+         {
+            log.trace( "encountered @CreateProcess" );
+            CreateProcess tag = method.getAnnotation( CreateProcess.class );
+            createProcess( tag.definition(), tag.processInstanceName() );
+         }
       }
       else if ( method.isAnnotationPresent( BeginTask.class ) )
       {
