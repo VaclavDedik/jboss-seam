@@ -8,6 +8,7 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
@@ -34,7 +35,7 @@ public class MyDocumentsHandler implements MyDocuments
    @Out(required=false)
    private Document document;
 
-   @Out(required=false)
+   @Out(required=false, scope=ScopeType.EVENT)
    private boolean editable;
 
    @DataModel
@@ -49,7 +50,9 @@ public class MyDocumentsHandler implements MyDocuments
    @Begin
    public String find()
    {
-      documents = entityManager.createQuery( QRY ).setParameter( "user", user ).getResultList();
+      documents = entityManager.createQuery( QRY )
+            .setParameter( "user", user )
+            .getResultList();
       return "myDocuments";
    }
    

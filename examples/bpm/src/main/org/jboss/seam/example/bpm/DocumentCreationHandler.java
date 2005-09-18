@@ -1,5 +1,7 @@
 package org.jboss.seam.example.bpm;
 
+import static org.jboss.seam.ScopeType.PROCESS;
+
 import java.util.Date;
 
 import javax.ejb.Interceptor;
@@ -8,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.IfInvalid;
@@ -36,11 +37,11 @@ public class DocumentCreationHandler implements DocumentCreation
    @In @Out @Valid
    private Document document;
    
-   @Out(scope=ScopeType.PROCESS, required=false)
+   @Out(scope=PROCESS, required=false)
    private Long documentId;
-   @Out(scope=ScopeType.PROCESS, required=false)
+   @Out(scope=PROCESS, required=false)
    private String description;
-   @Out(scope=ScopeType.PROCESS, required=false)
+   @Out(scope=PROCESS, required=false)
    private String submitter;
 
    @CreateProcess( definition = "DocumentSubmission" )

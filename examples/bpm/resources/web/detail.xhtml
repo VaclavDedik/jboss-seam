@@ -11,15 +11,15 @@
 
          <h:outputLabel for="title" value="Title"/>
          <h:panelGroup>
-            <h:inputText id="title" value="#{document.title}" />
-            <f:verbatim>*</f:verbatim>
+            <h:inputText id="title" value="#{document.title}" disabled="#{not empty editable and not editable}"/>
+            <f:verbatim rendered="#{empty editable or editable}">*</f:verbatim>
             <h:message for="title" styleClass="error" />
          </h:panelGroup>
 
          <h:outputLabel for="content" value="Content"/>
          <h:panelGroup>
-            <h:inputTextarea id="content" value="#{document.content}" cols="50" rows="30"/>
-            <f:verbatim>*</f:verbatim>
+            <h:inputTextarea id="content" value="#{document.content}" cols="50" rows="30" disabled="#{not empty editable and not editable}"/>
+            <f:verbatim rendered="#{empty editable or editable}">*</f:verbatim>
             <h:message for="content" styleClass="error" />
          </h:panelGroup>
 
@@ -27,7 +27,7 @@
             <h:commandButton action="#{documentCreator.create}" value="Create"/>
          </h:panelGroup>
 
-         <h:panelGroup rendered="#{!(empty document.id)}">
+         <h:panelGroup rendered="#{(empty editable or editable) and not empty document.id}">
             <h:commandButton action="#{documentCreator.save}" value="Save"/>
          </h:panelGroup>
 
