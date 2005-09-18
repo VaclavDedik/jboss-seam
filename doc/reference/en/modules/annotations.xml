@@ -280,7 +280,7 @@
                     <programlisting><![CDATA[@Begin]]></programlisting>
                     <para>
                         Specifies that a long-running conversation begins when this
-                        method returns without exception.
+                        method returns a non-null outcome without exception.
                     </para>
                 </listitem>
             </varlistentry>   
@@ -290,7 +290,7 @@
                     <programlisting><![CDATA[@End]]></programlisting>
                     <para>
                         Specifies that a long-running conversation ends when this
-                        method returns without exception.
+                        method returns a non-null outcome without exception.
                     </para>
                 </listitem>
             </varlistentry>   
@@ -345,11 +345,11 @@
                     <programlisting><![CDATA[@BeginTask(taskIdParameter="taskId")]]></programlisting>
                     <para>
                         Begins work on a jBPM task. Specifies that a long-running 
-                        conversation begins when this method returns without exception. 
-                        This conversation is associated with the jBPM task specified in 
-                        the named request parameter. Within the context of this conversation, 
-                        a business process context is also defined, for the business process 
-                        instance of the task instance.
+                        conversation begins when this method returns a non-null outcome 
+                        without exception. This conversation is associated with the jBPM 
+                        task specified in the named request parameter. Within the context 
+                        of this conversation, a business process context is also defined, 
+                        for the business process instance of the task instance.
                     </para>
                     <para>
                         The jBPM <literal>TaskInstance</literal> will be available in a
@@ -379,8 +379,8 @@
                     <programlisting><![CDATA[@ResumeTask(taskIdParameter="taskId")]]></programlisting>
                     <para>
                         Resumes work on an incomplete jBPM task. Specifies that a long-running 
-                        conversation begins when this method returns without exception.
-                        This conversation is associated with the jBPM task specified in 
+                        conversation begins when this method returns a non-null outcome without 
+                        exception. This conversation is associated with the jBPM task specified in 
                         the named request parameter. Within the context of this conversation, 
                         a business process context is also defined, for the business process 
                         instance of the task instance.
@@ -411,7 +411,7 @@
                     <programlisting><![CDATA[@CompleteTask]]></programlisting>
                     <para>
                         Completes work on a jBPM task. Specifies that a long-running conversation 
-                        ends when this method returns a non-null value, and that the current task 
+                        ends when this method returns a non-null outcome, and that the current task 
                         is complete. Triggers a jBPM transition. The actual transition triggered
                         will be the default transition unless there is a <literal>@Transition</literal>
                         getter method defined.
@@ -423,8 +423,8 @@
                 <listitem>
                     <programlisting><![CDATA[@CreateProcess(definition="ProcessDefinition")]]></programlisting>
                     <para>
-                        Creates a new JBPM process instance when the method returns without
-                        exception.
+                        Creates a new JBPM process instance when the method returns a non-null
+                        outcome without exception.
                     </para>
                     <itemizedlist>
                         <listitem>
