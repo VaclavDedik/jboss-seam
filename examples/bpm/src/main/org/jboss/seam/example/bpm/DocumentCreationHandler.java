@@ -36,7 +36,7 @@ public class DocumentCreationHandler implements DocumentCreation
    @Out
    @Valid
    private Document document;
-
+   
    @CreateProcess( definition = "DocumentSubmission" )
    @IfInvalid(outcome=Outcome.REDISPLAY)
    public String create() throws Exception

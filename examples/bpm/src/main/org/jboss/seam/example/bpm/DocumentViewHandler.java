@@ -7,10 +7,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.ResumeTask;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 /**
@@ -31,7 +31,7 @@ public class DocumentViewHandler implements DocumentView, Serializable
    @Out
    private Document document;
 
-   @ResumeTask
+   @BeginTask
    public String details()
    {
       document = entityManager.find( Document.class, documentId );

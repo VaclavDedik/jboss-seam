@@ -22,22 +22,22 @@
     </navigation-rule>
 
     <navigation-rule>
-        <from-view-id>/main.jsp</from-view-id>
+        <from-view-id>/main.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>detail</from-outcome>
-            <to-view-id>/detail.jsp</to-view-id>
+            <to-view-id>/detail.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
     <navigation-rule>
-        <from-view-id>/detail.jsp</from-view-id>
+        <from-view-id>/detail.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>approved</from-outcome>
-            <to-view-id>/main.jsp</to-view-id>
+            <to-view-id>/tasks.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>rejected</from-outcome>
-            <to-view-id>/main.jsp</to-view-id>
+            <to-view-id>/tasks.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
