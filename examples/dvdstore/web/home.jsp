@@ -24,10 +24,10 @@
     <h:form>
         <h:panelGrid columns="2">
             <h:outputText value="#{msgs.loginUser}" /> 
-            <h:inputText value="#{customer.userName}" size="16" />
+            <h:inputText value="#{login.userName}" size="16" />
 
             <h:outputText value="#{msgs.loginPass}" /> 
-            <h:inputSecret value="#{customer.password}" size="16"/>
+            <h:inputSecret value="#{login.password}" size="16"/>
         </h:panelGrid>
         <h:commandButton action="#{login.login}" />
     </h:form>

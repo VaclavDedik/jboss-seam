@@ -45,10 +45,6 @@ public class SearchAction
     @PersistenceContext(unitName="dvd")
     EntityManager em;
 
-//     @In(value="searchparams", create=true)
-//     @Out(value="searchparams")
-//     SearchParameters params;
-    
     int     pageSize    = 10;
     int     currentPage = 0; 
     boolean hasMore     = false;

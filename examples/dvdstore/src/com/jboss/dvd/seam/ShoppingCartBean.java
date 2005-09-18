@@ -37,7 +37,7 @@ public class ShoppingCartBean
     implements ShoppingCart,
                Serializable
 {
-    @In
+    @In("currentUser")
     Customer customer;
 
     @PersistenceContext(unitName="dvd")

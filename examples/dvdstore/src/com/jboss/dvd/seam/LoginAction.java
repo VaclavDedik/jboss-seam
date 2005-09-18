@@ -26,11 +26,26 @@ public class LoginAction
     @PersistenceContext(unitName="dvd")
     private EntityManager em;
 
-    @In @Out
-    private Customer customer;
-
     @In
     private Context sessionContext;
+    
+    String username = "";
+    String password = "";
+
+    public String getUserName() {
+        return username;
+    }
+    public void setUserName(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
 
     @LoginIf(outcome={"ok"})
     public String login() {
@@ -38,14 +53,13 @@ public class LoginAction
             Customer found =  
                 (Customer) em.createQuery("from Customer c where c.userName = :userName and " + 
                                           "c.password = :password")
-                .setParameter("userName", customer.getUserName())
-                .setParameter("password", customer.getPassword())
+                .setParameter("userName", username)
+                .setParameter("password", password)
                 .getSingleResult();
 
-            customer = found;
+            sessionContext.set("currentUser", found);
             return "ok";
         } catch (Exception e) {
-            System.out.println("WARNING!");
             Utils.warnUser("loginErrorPrompt", null);
             
             return "notok";
@@ -53,7 +67,6 @@ public class LoginAction
     }
 
     public String logout() {
-        //customer = new Customer();
         Seam.invalidateSession();
         return "done";
     }
