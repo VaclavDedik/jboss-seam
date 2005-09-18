@@ -9,6 +9,9 @@ package org.jboss.seam.annotations;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
+import org.jboss.seam.ScopeType;
+
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -27,5 +30,5 @@ public @interface In {
 	String value() default "";
    boolean create() default false;
    boolean required() default true;
-   //boolean alwaysDefined() default false;
+   ScopeType scope() default ScopeType.UNSPECIFIED;
 }

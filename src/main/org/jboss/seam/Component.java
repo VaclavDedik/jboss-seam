@@ -666,16 +666,23 @@ public class Component
       }
       else 
       {
-         Component component = Component.forName(name);
-         if (value!=null && component!=null)
+         ScopeType scope;
+         if (out.scope()==ScopeType.UNSPECIFIED)
          {
-            if ( !component.isInstance(value) )
+            Component component = Component.forName(name);
+            if (value!=null && component!=null)
             {
-               throw new IllegalArgumentException("attempted to bind an Out attribute of the wrong type to: " + name);
+               if ( !component.isInstance(value) )
+               {
+                  throw new IllegalArgumentException("attempted to bind an Out attribute of the wrong type to: " + name);
+               }
             }
+            scope = component==null ? ScopeType.EVENT : component.getScope();
          }
-         ScopeType scope = component==null ? 
-               ScopeType.CONVERSATION : component.getScope();
+         else
+         {
+            scope = out.scope();
+         }
          scope.getContext().set(name, value);
       }
    }
@@ -886,7 +893,15 @@ public class Component
 
    private static Object getInstanceToInject(In in, String name, Object bean)
    {
-      Object result = getInstance(name, in.create());
+      Object result;
+      if (in.scope()==ScopeType.UNSPECIFIED)
+      {
+         result = getInstance(name, in.create());
+      }
+      else
+      {
+         result = in.scope().getContext().get(name);
+      }
       if (result==null && in.required())
       {
          throw new RequiredException("In attribute requires value for component: " + name);

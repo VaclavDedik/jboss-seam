@@ -22,7 +22,8 @@ public enum ScopeType
    CONVERSATION,
    SESSION,
    APPLICATION,
-   PROCESS;
+   PROCESS,
+   UNSPECIFIED;
    
    public Context getContext() {
       switch (this)
