@@ -22,7 +22,7 @@
         <h:inputText value="#{customer.userName}" size="16" />
 
         <h:outputText value="#{msgs.loginPass}" /> 
-        <h:inputText value="#{customer.password}" size="16"/>
+        <h:inputSecret value="#{customer.password}" size="16"/>
 
         <h:commandButton action="#{login.login}" />
     </h:form>
