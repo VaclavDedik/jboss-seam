@@ -8,14 +8,14 @@
    <ui:define name="content">
 
       <h:outputText value="None Found..." rendered="#{documents != null and empty documents}"/>
-      <h:dataTable value="#{documents}" var="document" rendered="#{not empty documents}">
+      <h:dataTable value="#{documents}" var="doc" rendered="#{not empty documents}">
          <h:column>
             <f:facet name="header">Title</f:facet>
-            <h:commandLink action="#{myDocuments.select}">#{document.title}</h:commandLink>
+            <h:commandLink action="#{myDocuments.select}">#{doc.title}</h:commandLink>
          </h:column>
          <h:column>
             <f:facet name="header">Submitted</f:facet>
-            <h:outputText value="#{document.submittedTimestamp}">
+            <h:outputText value="#{doc.submittedTimestamp}">
                <f:convertDateTime dateStyle="short" timeStyle="short" type="both"/>
             </h:outputText>
          </h:column>
