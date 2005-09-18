@@ -26,10 +26,10 @@ public class DocumentTaskHandler implements DocumentTask
    private EntityManager entityManager;
 
    @In(required=false)
-   @Out
+   @Out(required=false)
    private Document document;
 
-   @In
+   @In(required=false)
    private Long documentId;
 
    @In

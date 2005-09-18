@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.End;
@@ -16,7 +17,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 /**
@@ -39,6 +39,13 @@ public class DocumentCreationHandler implements DocumentCreation
    @Valid
    private Document document;
    
+   @Out(scope=ScopeType.PROCESS, required=false)
+   private Long documentId;
+   @Out(scope=ScopeType.PROCESS, required=false)
+   private String description;
+   @Out(scope=ScopeType.PROCESS, required=false)
+   private String submitter;
+   
    @End
    public String start()
    {
@@ -54,9 +61,11 @@ public class DocumentCreationHandler implements DocumentCreation
       document.setSubmitter( user );
       document.setSubmittedTimestamp( new Date() );
       entityManager.persist( document );
-      Contexts.getBusinessProcessContext().set( "documentId", document.getId() );
-      Contexts.getBusinessProcessContext().set( "description", document.getTitle() );
-      Contexts.getBusinessProcessContext().set( "submitter", user.getUsername() );
+      
+      documentId = document.getId();
+      description = document.getTitle();
+      submitter = document.getSubmitter().getUsername();
+      
       return "detail";
    }
 
