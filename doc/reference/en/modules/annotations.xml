@@ -201,7 +201,7 @@
         
         <para>
             The next annotation supports the <emphasis>manager component</emphasis> pattern,
-            where a Seam component to manages the lifecycle of an instance of some
+            where a Seam component that manages the lifecycle of an instance of some
             other class that is to be injected. It appears on a component getter method.
         </para>
         
