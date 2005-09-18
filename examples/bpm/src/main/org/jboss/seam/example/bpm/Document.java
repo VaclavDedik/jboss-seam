@@ -1,15 +1,18 @@
 package org.jboss.seam.example.bpm;
 
 import java.util.Date;
+
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratorType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
-import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.Type;
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -29,13 +32,23 @@ public class Document
    private Long id;
    @Version
    private int version;
+   
+   @NotNull
    private Status status = Status.PENDING;
+   
+   @NotNull 
+   @Length(min=3, max=200, message="Title of length less than 200 is required")
    private String title;
-   @Type( type="serializable" )
+   
+   @NotNull 
+   @Length(min=3, message="Content is required") 
+   @Lob
    private String content;
+   
    private Date submittedTimestamp;
    @ManyToOne
    private User submitter;
+   
    private Date approvalTimestamp;
    @ManyToOne
    private User approver;

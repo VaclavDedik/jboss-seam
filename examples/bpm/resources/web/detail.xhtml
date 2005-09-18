@@ -11,14 +11,14 @@
 
          <h:outputLabel for="title" value="Title"/>
          <h:panelGroup>
-            <h:inputText id="title" value="#{document.title}" required="true" />
+            <h:inputText id="title" value="#{document.title}" />
             <f:verbatim>*</f:verbatim>
             <h:message for="title" styleClass="error" />
          </h:panelGroup>
 
          <h:outputLabel for="content" value="Content"/>
          <h:panelGroup>
-            <h:inputTextarea id="content" value="#{document.content}" required="true" cols="50" rows="30"/>
+            <h:inputTextarea id="content" value="#{document.content}" cols="50" rows="30"/>
             <f:verbatim>*</f:verbatim>
             <h:message for="content" styleClass="error" />
          </h:panelGroup>

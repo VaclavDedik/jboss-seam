@@ -9,5 +9,5 @@ import javax.ejb.Local;
 @Local
 public interface DocumentView
 {
-   public String details() throws Exception;
+   public String details();
 }

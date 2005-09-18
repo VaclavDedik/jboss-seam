@@ -6,11 +6,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.validator.Valid;
 import org.jboss.seam.annotations.CreateProcess;
+import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -31,9 +34,11 @@ public class DocumentCreationHandler implements DocumentCreation
 
    @In( required = false )
    @Out
+   @Valid
    private Document document;
 
    @CreateProcess( definition = "DocumentSubmission" )
+   @IfInvalid(outcome=Outcome.REDISPLAY)
    public String create() throws Exception
    {
       document.setSubmitter( user );
