@@ -35,7 +35,7 @@ public class DocumentViewHandler implements DocumentView, Serializable
    public String details()
    {
       document = entityManager.find( Document.class, documentId );
-      return "detail";
+      return "review";
    }
 
 }

@@ -16,13 +16,9 @@
             <to-view-id>/tasks.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>detail</from-outcome>
-            <to-view-id>/detail.xhtml</to-view-id>
+            <from-outcome>myDocuments</from-outcome>
+            <to-view-id>/myDocuments.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
-
-    <navigation-rule>
-        <from-view-id>/main.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>detail</from-outcome>
             <to-view-id>/detail.xhtml</to-view-id>
@@ -30,7 +26,15 @@
     </navigation-rule>
 
     <navigation-rule>
-        <from-view-id>/detail.xhtml</from-view-id>
+        <from-view-id>/tasks.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>review</from-outcome>
+            <to-view-id>/review.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/review.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>approved</from-outcome>
             <to-view-id>/tasks.xhtml</to-view-id>
