@@ -15,6 +15,8 @@ public interface EditCustomer
 {
     public Map<String,Integer> getCreditCardTypes();
 
-    public String startEdit();
+    public void   setPasswordVerify(String password);
+    public String getPasswordVerify();
+
     public String create();
 }

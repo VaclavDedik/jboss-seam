@@ -15,9 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.jboss.seam.ScopeType;
+//import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+//import org.jboss.seam.annotations.Scope;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
@@ -25,7 +25,7 @@ import org.hibernate.validator.NotNull;
 @Entity
 @Table(name="CUSTOMERS")
 @Name("customer")
-@Scope(ScopeType.SESSION)
+//@Scope(ScopeType.SESSION)
 public class Customer
     implements Serializable
 {
@@ -128,8 +128,8 @@ public class Customer
     }
 
     @Column(name="ZIP", length=50)
-    @Length(min=5, max=5)
-    @NotNull
+    //@Length(min=5, max=5)
+    //@NotNull
     public String getZip() {
         return zip;
     }

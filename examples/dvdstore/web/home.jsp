@@ -35,7 +35,7 @@
     <h2><h:outputText value="#{msgs.newCustomerPrompt}"/></h2>
     
     <h:form>
-        <h:commandButton action="#{editCustomer.startEdit}" value="#{msgs.newCustomerButton}" />
+        <h:commandButton action="newcustomer" value="#{msgs.newCustomerButton}" />
     </h:form>
     <%@ include file="foot.jsp" %> 
 </body>

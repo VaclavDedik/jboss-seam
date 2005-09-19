@@ -98,14 +98,24 @@
 
             <h:outputText value="#{msgs.newCustomerPW}" />
             <h:panelGroup>
-                <h:inputText id="password" required="true"
-                             value="#{customer.password}">
+                <h:inputSecret id="password" required="true"
+                               value="#{customer.password}">
                     <f:validateLength minimum="8" /> 
-                </h:inputText>
+                </h:inputSecret>
                 <f:verbatim>*</f:verbatim>
                 <h:message for="password" styleClass="error" />
             </h:panelGroup>
             
+            <h:outputText value="#{msgs.newCustomerP2}" />
+            <h:panelGroup>
+                <h:inputSecret id="passwordVerify" required="true"
+                               value="#{editCustomer.passwordVerify}">
+                    <f:validateLength minimum="8" /> 
+                </h:inputSecret>
+                <f:verbatim>*</f:verbatim>
+                <h:message for="passwordVerify" styleClass="error" />
+            </h:panelGroup>
+
             <h:outputText value="#{msgs.newCustomerCCT}" />
             <h:selectOneMenu value="#{customer.creditCardType}">
                 <f:selectItems value="#{editCustomer.creditCardTypes}" />

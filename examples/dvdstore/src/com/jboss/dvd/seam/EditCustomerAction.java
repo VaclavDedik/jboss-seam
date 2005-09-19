@@ -6,7 +6,7 @@
  */ 
 package com.jboss.dvd.seam;
 
-
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
@@ -43,17 +44,25 @@ public class EditCustomerAction
     @Resource
     SessionContext ctx;
 
-    @In 
+    @In
+    private Context sessionContext;
+
+    @In(create=true)
     @Out
     @Valid
     Customer customer;
+
+    String password = null;    
 
     public EditCustomerAction() {
 
     }
     
-    public Customer getCustomer() {
-        return customer;
+    public void   setPasswordVerify(String password) {
+        this.password = password;
+    }
+    public String getPasswordVerify() {
+        return password;
     }
 
     public Map<String,Integer> getCreditCardTypes() {
@@ -64,20 +73,44 @@ public class EditCustomerAction
         return map;
     }
 
-    public String startEdit() {
-        return "newcustomer";
+    private boolean passwordsMatch() {
+        String customerpass = customer.getPassword();
+
+        return (password != null)
+            && (customerpass != null) 
+            && (customerpass.equals(password));
     }
 
+
     @IfInvalid(outcome=Outcome.REDISPLAY)
-    @LoginIf(outcome={"main"})
+    @LoginIf(outcome={"ok"})
     public String create() {
+        if (!passwordsMatch()) {
+                Utils.warnUser("createCustomerPasswordError", null);
+                return null;
+        }
+
         try {
-            em.persist(customer);            
-            return "main";
+            List existing  =  
+                em.createQuery("from Customer c where c.userName = :userName")
+                .setParameter("userName", customer.getUserName())
+                .getResultList();
+
+
+            if (existing.size()>1) {
+                Utils.warnUser("createCustomerExistingError", null);
+
+                return null;
+            }
+
+            em.persist(customer);
+            sessionContext.set("currentUser", customer);
+            System.out.println("Created: " + customer);
+            return "ok";
         }  catch (RuntimeException e) {
+            System.out.println("not created");
             ctx.setRollbackOnly();
 
-            System.out.println("Could not create customer");
             Utils.warnUser("createCustomerError", null);
             return null;
         }

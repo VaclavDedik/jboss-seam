@@ -15,10 +15,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 public class Utils {
-    public static void warnUser(String id, Object params[]) {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        ctx.addMessage(null, getMessage(id, params, FacesMessage.SEVERITY_ERROR));
+    public static void warnUser(String msgid, Object params[]) {
+        warnUser(null, msgid, params);
     }
+
+    public static void warnUser(String component, String msgid, Object params[]) {
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        ctx.addMessage(component, getMessage(msgid, params, FacesMessage.SEVERITY_ERROR));
+    }
+
 
     // move somewhere else
     public static FacesMessage getMessage(String messageId, 

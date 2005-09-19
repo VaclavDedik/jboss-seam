@@ -52,6 +52,14 @@
         </navigation-case>
     </navigation-rule>
 
+    <navigation-rule>
+        <navigation-case> 
+            <from-action>#{editCustomer.create}</from-action>   
+            <from-outcome>ok</from-outcome> 
+            <to-view-id>/browse.jsp</to-view-id> 
+            <redirect />
+        </navigation-case> 
+    </navigation-rule>
 
     <navigation-rule>
         <navigation-case> 

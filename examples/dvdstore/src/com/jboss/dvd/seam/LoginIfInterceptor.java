@@ -24,14 +24,11 @@ public class LoginIfInterceptor
     public Object loginIf(InvocationContext invocation) 
         throws Exception
     {
-        System.out.println("???? LoginIF");
         Object  result = invocation.proceed();
         LoginIf anno   = invocation.getMethod().getAnnotation(LoginIf.class);
         if (anno != null) {
             if (Arrays.asList(anno.outcome()).contains(result))  {
-                System.out.println("!!!! LoginIF");
                 Contexts.getSessionContext().set(LOGIN_KEY, true);
-                System.out.println("!!!! LoginIF: " + Contexts.getSessionContext().get(LOGIN_KEY));
             }
         }
 
