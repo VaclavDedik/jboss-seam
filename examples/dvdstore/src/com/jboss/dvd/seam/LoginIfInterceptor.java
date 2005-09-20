@@ -19,6 +19,7 @@ import org.jboss.seam.interceptors.ValidationInterceptor;
 public class LoginIfInterceptor
 {
     public static final String LOGIN_KEY = "loggedIn";
+    private static final Logger log = Logger.getLogger(LoggedInInterceptor.class);
 
     @AroundInvoke
     public Object loginIf(InvocationContext invocation) 
@@ -27,7 +28,9 @@ public class LoginIfInterceptor
         Object  result = invocation.proceed();
         LoginIf anno   = invocation.getMethod().getAnnotation(LoginIf.class);
         if (anno != null) {
+            log.info("testing result " + result);
             if (Arrays.asList(anno.outcome()).contains(result))  {
+                log.info("logged in");
                 Contexts.getSessionContext().set(LOGIN_KEY, true);
             }
         }

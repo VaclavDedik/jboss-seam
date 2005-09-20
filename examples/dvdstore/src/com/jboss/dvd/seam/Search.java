@@ -10,6 +10,8 @@ import java.util.Map;
 
 public interface Search
 {
+    public java.util.List getSearchResults();
+
     public String getActor();
     public void   setActor(String actor);
 

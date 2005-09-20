@@ -105,7 +105,6 @@ public class EditCustomerAction
 
             em.persist(customer);
             sessionContext.set("currentUser", customer);
-            System.out.println("Created: " + customer);
             return "ok";
         }  catch (RuntimeException e) {
             System.out.println("not created");

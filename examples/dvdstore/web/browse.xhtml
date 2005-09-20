@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<body>
+    <ui:composition template="/template_page.xhtml">
+        <ui:define name="title">
+            #{msgs.browseTitle}
+        </ui:define>
+        
+        <ui:define name="body">
+            <c:if test="${currentUser!=null}">
+                <div id="navbox">
+                    <h2>Welcome <h:outputText value="#{currentUser.userName}" /></h2>
+                    <ul>
+                        <!--
+                        <li><h:commandLink action="search" value="search"/></li>
+                        <li><h:commandLink action="orders" value="list orders"/></li>
+                        -->
+                        <li><h:commandLink action="#{login.logout}" value="#{msgs.logoutButton}"/></li>
+                    </ul>
+                </div>
+            </c:if>
+
+            <h2>#{msgs.browseSearchHeader}</h2>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{msgs.searchTitle}" />
+                    <h:inputText value="#{search.title}" size="15"/>
+                    
+                    <h:outputText value="#{msgs.searchActor}" />
+                    <h:inputText value="#{search.actor}" size="15"/>
+                    
+                    <h:outputText value="#{msgs.searchCategory}" />
+                    <h:selectOneMenu value="#{search.category}">
+                        <f:selectItems value="#{search.categories}" />
+                    </h:selectOneMenu>
+                </h:panelGrid>
+        
+                <h:commandButton action="#{search.doSearch}" value="#{msgs.searchButton}" /> 
+            </h:form>
+            
+            <c:if test="${search.searchResults!=null}">
+                <h:form>
+                    <h2>
+                        <h:outputText value="#{msgs.searchResultsHeader}"   
+                                      rendered="#{!empty(search.searchResults)}"/>
+                        <h:outputText value="#{msgs.noSearchResultsHeader}"
+                                      rendered="#{empty(search.searchResults)}"/>
+                    </h2>
+                    
+                    <div>
+                        <h:commandButton value="#{msgs.prevPageButton}" 
+                                         action="#{search.prevPage}" disabled="#{search.firstPage}" />
+                        <h:commandButton value="#{msgs.nextPageButton}" 
+                                         action="#{search.nextPage}" disabled="#{search.lastPage}"  />
+                    </div>
+                    <h:dataTable rendered="#{!empty(search.searchResults)}"
+                                 value="#{search.searchResults}" 
+                                 var="product" 
+                                 styleClass="dvdtable" 
+                                 headerClass="dvdtablehead"
+                                 rowClasses="dvdtableodd,dvdtableeven"
+                                 columnClasses="dvdtablecol">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.searchResultsAdd}" />
+                            </f:facet>
+                            <h:selectBooleanCheckbox value="#{product.selected}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.searchResultsTitle}" />
+                            </f:facet>
+                            <h:outputText value="#{product.item.title}" />
+                       </h:column>                        
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.searchResultsActor}" />
+                            </f:facet>
+                            <h:outputText value="#{product.item.actor}" />
+                        </h:column>                        
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.searchResultsPrice}" />
+                            </f:facet>
+                            <h:outputText value="#{product.item.price}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </h:column>                        
+                    </h:dataTable>
+                    
+                    <h:commandButton rendered="#{!empty(search.searchResults)}"
+                                     action="#{search.addToCart}" value="#{msgs.searchUpdateButton}"/>
+                    
+                </h:form>        
+            </c:if>
+
+            <c:if test="${!cart.isEmpty}">
+                <div class="cart">
+                    <h2>#{msgs.searchCartHeader}</h2>
+                    <h:form>
+                        <h:dataTable value="#{cart.cart}" var="item"
+                                     styleClass="dvdtable" 
+                                     headerClass="dvdtablehead"
+                                     rowClasses="dvdtableodd,dvdtableeven"
+                                     columnClasses="dvdtablecol">
+                            <h:column>
+                                <f:facet name="header">
+                                    #{msgs.cartItemColumn}
+                                </f:facet>
+                                #{item.item.position}
+                            </h:column>                        
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    #{msgs.cartTitleColumn}
+                                </f:facet>
+                                #{item.item.product.title}
+                            </h:column>                        
+                        </h:dataTable>
+                        <h:commandButton action="checkout" value="#{msgs.checkoutButton}" />
+                    </h:form>
+                </div>
+            </c:if>
+        </ui:define>
+    </ui:composition>
+</body>
+</html>
+
+
+
+

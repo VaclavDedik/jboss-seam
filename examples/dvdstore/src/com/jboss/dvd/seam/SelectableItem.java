@@ -33,4 +33,8 @@ public class SelectableItem<T>
         this.selected=val;
     }
 
+    public String toString() {
+        return super.toString() + "[selected=" + selected + "]";
+    }
+    
 }

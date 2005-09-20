@@ -22,7 +22,6 @@ public class LoggedInInterceptor
     public Object checkLoggedIn(InvocationContext invocation) 
         throws Exception
     {
-        System.out.println("!!!! LoggedIn: " + Contexts.getSessionContext().get(LoginIfInterceptor.LOGIN_KEY));
         boolean isLoggedIn = Contexts.getSessionContext().get(LoginIfInterceptor.LOGIN_KEY)!=null;
         if (isLoggedIn) {
             log.info("User is already logged in");

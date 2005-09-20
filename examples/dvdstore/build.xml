@@ -30,6 +30,8 @@
             </webinf>
             <lib dir="${extlib.dir}"> 
                 <include name="standard.jar" />
+                <include name="el-*.jar" />
+                <include name="jsf-facelets.jar" />
             </lib>
 
             <!-- workaround for MyFaces bug in 4.0.3RC* -->

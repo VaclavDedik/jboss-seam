@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf"
+      xmlns:h="http://java.sun.com/jsf/html">
+<body>
+    <ui:composition template="/template_front.xhtml">
+        <ui:define name="title">
+            #{msgs.loginPageTitle}
+        </ui:define>
+        
+        <ui:define name="body">
+            <h2>#{msgs.loginPagePrompt}</h2>
+            <h3>#{msgs.loginPageInfo}</h3>
+            
+            <h:messages globalOnly="true" 
+                        layout="list" 
+                        errorClass="error"/>
+            
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{msgs.loginUser}" /> 
+                    <h:inputText value="#{login.userName}" size="16" />
+                    
+                    <h:outputText value="#{msgs.loginPass}" /> 
+                    <h:inputSecret value="#{login.password}" size="16"/>
+                </h:panelGrid>
+                <h:commandButton action="#{login.login}" />
+            </h:form>
+    
+            <h2><h:outputText value="#{msgs.newCustomerPrompt}"/></h2>
+    
+            <h:form>
+                <h:commandButton action="newcustomer" value="#{msgs.newCustomerButton}" />
+            </h:form>
+        </ui:define>
+
+
+    </ui:composition>
+</body>
+</html>

@@ -74,8 +74,11 @@ public class SearchAction
         return actor;
     }
 
-    @DataModel
     List<SelectableItem<Product>> searchResults;
+    public List getSearchResults() {
+        return searchResults;
+    }
+
 
     List<Category>      categories;
     Map<String,Integer> categoryMap;
@@ -89,7 +92,7 @@ public class SearchAction
         System.out.println("search.doSearch! -> browse");
         currentPage=0;
         updateResults();
-        return null;
+        return "browse";
     }
 
     public boolean getHasResults() {
@@ -195,14 +198,18 @@ public class SearchAction
 
 
     public String addToCart() {
+        System.out.println("ADD TO CART: " + cart);
         for (SelectableItem<Product> item: searchResults) {
             if (item.getSelected()) {
                 item.setSelected(false);
 
+
+                System.out.println("ADDING: " + item.getItem());
                 cart.addProduct(item.getItem(), 1);
             }
         }
 
+        System.out.println("!!");
         return null;
     }
 

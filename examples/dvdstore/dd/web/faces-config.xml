@@ -13,9 +13,11 @@
             <supported-locale>en</supported-locale>
         </locale-config>
     </application>
-
     <application>
         <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
+    </application>
+    <application>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
 
     <lifecycle>
@@ -25,21 +27,21 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>login</from-outcome>
-            <to-view-id>/home.jsp</to-view-id>
+            <to-view-id>/home.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
     <navigation-rule>
         <navigation-case>
             <from-outcome>browse</from-outcome>
-            <to-view-id>/browse.jsp</to-view-id>
+            <to-view-id>/browse.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
     <navigation-rule>
         <navigation-case>
             <from-outcome>checkout</from-outcome>
-            <to-view-id>/checkout.jsp</to-view-id>
+            <to-view-id>/checkout.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
@@ -48,7 +50,7 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>complete</from-outcome>
-            <to-view-id>/complete.jsp</to-view-id>
+            <to-view-id>/complete.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
@@ -56,7 +58,7 @@
         <navigation-case> 
             <from-action>#{editCustomer.create}</from-action>   
             <from-outcome>ok</from-outcome> 
-            <to-view-id>/browse.jsp</to-view-id> 
+            <to-view-id>/browse.xhtml</to-view-id> 
             <redirect />
         </navigation-case> 
     </navigation-rule>
@@ -65,20 +67,20 @@
         <navigation-case> 
             <from-action>#{login.login}</from-action>   
             <from-outcome>ok</from-outcome> 
-            <to-view-id>/browse.jsp</to-view-id> 
+            <to-view-id>/browse.xhtml</to-view-id> 
             <redirect />
         </navigation-case> 
 
         <navigation-case> 
             <from-action>#{login.login}</from-action>   
             <from-outcome>notok</from-outcome> 
-            <to-view-id>/home.jsp</to-view-id> 
+            <to-view-id>/home.xhtml</to-view-id> 
         </navigation-case> 
 
         <navigation-case> 
             <from-action>#{login.logout}</from-action> 
             <from-outcome>done</from-outcome> 
-            <to-view-id>/home.jsp</to-view-id> 
+            <to-view-id>/home.xhtml</to-view-id> 
             <redirect />
         </navigation-case> 
     </navigation-rule>
@@ -87,7 +89,7 @@
         <navigation-case> 
             <from-action>#{cart.checkout}</from-action> 
             <from-outcome>done</from-outcome> 
-            <to-view-id>/browse.jsp</to-view-id> 
+            <to-view-id>/browse.xhtml</to-view-id> 
             <redirect />
         </navigation-case> 
     </navigation-rule>
@@ -95,7 +97,7 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>newcustomer</from-outcome>
-            <to-view-id>/newcustomer.jsp</to-view-id>
+            <to-view-id>/newcustomer.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
