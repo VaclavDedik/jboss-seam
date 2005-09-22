@@ -1,6 +1,7 @@
 <entity-manager>
     <name>dvd</name>
-    <jta-data-source>java:/DVDStoreDS</jta-data-source>
+    <!--<jta-data-source>java:/DVDStoreDS</jta-data-source>-->
+    <jta-data-source>java:/DefaultDS</jta-data-source>
     <properties>
         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
         <property name="hibernate.show_sql" value="true" />

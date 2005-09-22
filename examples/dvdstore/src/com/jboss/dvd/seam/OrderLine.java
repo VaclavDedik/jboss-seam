@@ -77,13 +77,4 @@ public class OrderLine
     public void addQuantity(int howmany) {
         quantity += howmany;
     }
-    
-
-    @Column(name="ORDERDATE",nullable=false)
-    public Date getOrderDate() {
-        return orderDate;
-    }
-    public void setOrderDate(Date date) {
-        this.orderDate = date;
-    }
 }

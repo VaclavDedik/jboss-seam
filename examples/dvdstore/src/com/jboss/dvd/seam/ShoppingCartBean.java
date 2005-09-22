@@ -6,8 +6,6 @@
  */ 
 package com.jboss.dvd.seam;
 
-import static org.jboss.seam.InterceptionType.ALWAYS;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +18,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.InterceptionType;
+
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
@@ -31,7 +31,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Name("cart")
 @Scope(ScopeType.SESSION)
-@Intercept(ALWAYS)
+@Intercept(InterceptionType.ALWAYS)
 @Interceptor(SeamInterceptor.class)
 public class ShoppingCartBean
     implements ShoppingCart,
@@ -151,7 +151,6 @@ public class ShoppingCartBean
         float total = 0;
         for (OrderLine line: lines) {
             total += line.getQuantity() * line.getProduct().getPrice();
-            line.setOrderDate(order.getOrderDate());
             line.setOrder(order); 
 
             Inventory inv = line.getProduct().getInventory();
@@ -172,6 +171,7 @@ public class ShoppingCartBean
 
         em.persist(order);
 
+        System.out.println("ORDER STATUS: " + order.getStatus());
         return order;
     }
 

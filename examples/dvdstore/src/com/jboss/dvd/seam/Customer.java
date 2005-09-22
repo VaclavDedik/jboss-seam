@@ -9,31 +9,26 @@ package com.jboss.dvd.seam;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratorType;
-import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-//import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
-//import org.jboss.seam.annotations.Scope;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 @Entity
-@Table(name="CUSTOMERS")
 @Name("customer")
-//@Scope(ScopeType.SESSION)
+@Inheritance(discriminatorValue="customer")
 public class Customer
+    extends User
     implements Serializable
 {
     public static String[] cctypes = {"MasterCard", "Visa", "Discover", "Amex", "Dell Preferred"}; 
 
-    long    customerId;
-    String  userName;
-    String  password;
     String  firstName;
     String  lastName;
     String  address1;
@@ -57,40 +52,15 @@ public class Customer
     }
 
 
-    @Id(generate=GeneratorType.AUTO)
-    @Column(name="CUSTOMERID")
-    public long getCustomerId() {
-        return customerId;
-    }                    
-    public void setCustomerId(long id) {
-        this.customerId = id;
-    }     
 
-    @Column(name="USERNAME",unique=true,nullable=false,length=50)    
-    public String getUserName() {
-        return userName;
-    }
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    @Column(name="PASSWORD",nullable=false,length=50)    
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    @Column(name="FIRSTNAME",nullable=false,length=50)
+    @Column(name="FIRSTNAME",length=50)
     public String getFirstName() {
         return firstName;
     }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    @Column(name="LASTNAME",nullable=false,length=50)    
+    @Column(name="LASTNAME",length=50)    
     public String getLastName() {
         return lastName;
     }
@@ -98,7 +68,7 @@ public class Customer
         this.lastName = lastName;
     }
 
-    @Column(name="ADDRESS1",nullable=false,length=50)    
+    @Column(name="ADDRESS1",length=50)    
     public String getAddress1() {
         return address1;
     }
@@ -112,7 +82,7 @@ public class Customer
     public void setAddress2(String address2) {
         this.address2 = address2;
     }
-    @Column(name="CITY",nullable=false,length=50)  
+    @Column(name="CITY",length=50)  
     public String getCity() {
         return city;
     }
@@ -137,7 +107,7 @@ public class Customer
         this.zip = zip;
     }
 
-    @Column(name="COUNTRY",nullable=false,length=50)
+    @Column(name="COUNTRY",length=50)
     public String getCountry() {
         return country;
     }
@@ -208,7 +178,7 @@ public class Customer
         return cctypes[creditCardType-1];
     }
 
-    @Column(name="CC_NUM", nullable=false, length=50)
+    @Column(name="CC_NUM", length=50)
     public String getCreditCard() {
         return creditCard;
     }
@@ -216,7 +186,7 @@ public class Customer
         this.creditCard = creditCard;
     }
 
-    @Column(name="CC_MONTH", nullable=false, length=50)
+    @Column(name="CC_MONTH", length=50)
     public int getCreditCardMonth() {
         return ccMonth;
     }
@@ -224,7 +194,7 @@ public class Customer
         this.ccMonth = ccMonth;
     }
 
-    @Column(name="CC_YEAR", nullable=false, length=50)
+    @Column(name="CC_YEAR", length=50)
     public int getCreditCardYear() {
         return ccYear;
     }
@@ -232,12 +202,10 @@ public class Customer
         this.ccYear = ccYear;
     }
 
-
     @Transient
     public String getCreditCardExpiration() {
         return "" + ccMonth + "/" + ccYear;
     }
-
 
     public String toString() {
         return "Customer#" + customerId + "(" + userName + ")";

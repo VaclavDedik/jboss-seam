@@ -47,18 +47,24 @@ public class LoginAction
     }
     
 
-    @LoginIf(outcome={"ok"})
+    @LoginIf(outcome={"admin","customer"})
     public String login() {
         try { 
-            Customer found =  
-                (Customer) em.createQuery("from Customer c where c.userName = :userName and " + 
-                                          "c.password = :password")
+            System.out.println("LOGIN!");
+            User found =  
+                (User) em.createQuery("from User c where c.userName = :userName and " + 
+                                      "c.password = :password")
                 .setParameter("userName", username)
                 .setParameter("password", password)
                 .getSingleResult();
 
             sessionContext.set("currentUser", found);
-            return "ok";
+            
+            if (found instanceof Admin) {
+                return "admin";
+            } else {
+                return "customer";
+            }
         } catch (Exception e) {
             Utils.warnUser("loginErrorPrompt", null);
             

@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.jboss.seam.annotations.Name;
 
@@ -28,6 +29,8 @@ import org.jboss.seam.annotations.Name;
 public class Order
     implements Serializable
 {
+    public enum Status {OPEN,CANCELLED,PROCESSING,SHIPPED};
+
     long orderId;
     Date orderDate;
     Customer customer;
@@ -35,6 +38,8 @@ public class Order
     float tax;
     float totalAmount;
     List<OrderLine> orderLines;
+    Status status = Status.OPEN;
+    String trackingNumber;
 
     @Id(generate=GeneratorType.AUTO)
     @Column(name="ORDERID")
@@ -62,7 +67,7 @@ public class Order
     }
     
     @ManyToOne
-    @JoinColumn(name="CUSTOMERID")
+    @JoinColumn(name="USERID")
     public Customer getCustomer() {
         return customer;
     }
@@ -94,4 +99,24 @@ public class Order
         this.totalAmount = amount;
     }
 
+    @Column(name="TRACKING")
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    @Column(name="STATUS")
+    public Status getStatus() {
+        return status;
+    }
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    @Transient
+    public int getStatusCode() {
+        return status.ordinal();
+    }
 }

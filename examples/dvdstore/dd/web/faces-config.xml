@@ -40,6 +40,35 @@
 
     <navigation-rule>
         <navigation-case>
+            <from-outcome>admin</from-outcome>
+            <to-view-id>/admin.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>showorders</from-outcome>
+            <to-view-id>/showorders.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>showorder</from-outcome>
+            <to-view-id>/showorder.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>manageorders</from-outcome>
+            <to-view-id>/manageorders.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+
+    <navigation-rule>
+        <navigation-case>
             <from-outcome>checkout</from-outcome>
             <to-view-id>/checkout.xhtml</to-view-id>
             <redirect />
@@ -66,8 +95,14 @@
     <navigation-rule>
         <navigation-case> 
             <from-action>#{login.login}</from-action>   
-            <from-outcome>ok</from-outcome> 
+            <from-outcome>customer</from-outcome> 
             <to-view-id>/browse.xhtml</to-view-id> 
+            <redirect />
+        </navigation-case> 
+        <navigation-case> 
+            <from-action>#{login.login}</from-action>   
+            <from-outcome>admin</from-outcome> 
+            <to-view-id>/admin.xhtml</to-view-id> 
             <redirect />
         </navigation-case> 
 

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<body>
+    <ui:composition template="/template_page.xhtml">
+        <ui:define name="title">
+            show order page
+        </ui:define>
+        
+        <ui:define name="body">
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="Order" />
+                    <h:outputText value="#{order.orderId}" />
+                    
+                    <h:outputText value="Status:" />
+                    <h:outputText value="#{order.status}" />
+
+                    <h:outputText value="Order date:" />
+                    <h:outputText value="#{order.orderDate}" />
+                    
+                    <h:outputText value="Net Amount:" />
+                    <h:outputText value="#{order.netAmount}" />
+
+                    <h:outputText value="Tax:" />
+                    <h:outputText value="#{order.tax}" />
+
+                    <h:outputText value="Total Amount:" />
+                    <h:outputText value="#{order.totalAmount}" />
+                </h:panelGrid>
+                
+                <h:dataTable value="#{order.orderLines}" var="item"
+                             styleClass="dvdtable" 
+                             headerClass="dvdtablehead"
+                             rowClasses="dvdtableodd,dvdtableeven"
+                             columnClasses="dvdtablecol">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs.cartItemColumn}" />
+                        </f:facet>
+                        <h:outputText value="#{item.position}" />
+                    </h:column>                        
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs.cartQuantityColumn}" />
+                        </f:facet>
+                        <h:outputText value="#{item.quantity}" size="6" />
+                    </h:column>                        
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs.cartTitleColumn}" />
+                        </f:facet>
+                        <h:outputText value="#{item.product.title}" />
+                    </h:column>                        
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs.cartActorColumn}" />
+                        </f:facet>
+                        <h:outputText value="#{item.product.actor}" />
+                    </h:column>                        
+                    
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs.cartPriceColumn}" />
+                        </f:facet>
+                        <h:outputText value="#{item.product.price}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                    </h:column>                        
+                </h:dataTable>
+
+                <h:commandButton value="back"   action="showorders" />
+
+                <c:if test="#{order.statusCode==0}">
+                    <h:commandButton value="cancel" action="#{showorders.cancelOrder}" />
+                </c:if>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</body>
+</html>
+
+
+
+
