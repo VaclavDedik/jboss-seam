@@ -119,4 +119,10 @@ public class Order
     public int getStatusCode() {
         return status.ordinal();
     }
+
+    public void ship(String tracking) {
+        setStatus(Order.Status.SHIPPED);
+        setTrackingNumber(tracking);
+    }
+
 }

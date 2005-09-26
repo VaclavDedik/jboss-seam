@@ -20,6 +20,8 @@ import javax.persistence.PersistenceContext;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.InterceptionType;
 
+
+import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Out;
@@ -27,6 +29,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
+
 
 @Stateful
 @Name("cart")
@@ -37,6 +40,9 @@ public class ShoppingCartBean
     implements ShoppingCart,
                Serializable
 {
+    @In(create=true)
+    JbpmHelper jbpmHelper;
+
     @In(value="currentUser",required=false)
     Customer customer;
 
@@ -49,8 +55,10 @@ public class ShoppingCartBean
     @Out(required=false)
     Order order = null;
 
+    //     @Out(scope=ScopeType.PROCESS, required=false)
+    //     long orderId;
+
     public ShoppingCartBean() {
-        // System.out.println("!!!!!!!!!!!!!!!!!!! CREATE CARTBEAN " + this);
     }
 
     public boolean getIsEmpty() {
@@ -118,6 +126,7 @@ public class ShoppingCartBean
     }
 
 
+    //@CreateProcess(definition="OrderManagement")
     public String purchase() {
         List<OrderLine> lines = new ArrayList<OrderLine>();
 
@@ -129,6 +138,9 @@ public class ShoppingCartBean
         try {
             order = purchase(customer, lines);
             cart = new ArrayList<SelectableItem<OrderLine>>(); 
+
+            jbpmHelper.startOrderProcess(order);
+
             return "complete";
         } catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {
@@ -138,6 +150,7 @@ public class ShoppingCartBean
             return null;
         }
     }
+
 
     
     private Order purchase(Customer customer, List<OrderLine> lines) 

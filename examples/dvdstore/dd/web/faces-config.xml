@@ -47,6 +47,14 @@
 
     <navigation-rule>
         <navigation-case>
+            <from-outcome>ship</from-outcome>
+            <to-view-id>/ship.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+
+    <navigation-rule>
+        <navigation-case>
             <from-outcome>showorders</from-outcome>
             <to-view-id>/showorders.xhtml</to-view-id>
         </navigation-case>
@@ -59,13 +67,14 @@
         </navigation-case>
     </navigation-rule>
 
+<!--
     <navigation-rule>
         <navigation-case>
             <from-outcome>manageorders</from-outcome>
             <to-view-id>/manageorders.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-
+-->
 
     <navigation-rule>
         <navigation-case>

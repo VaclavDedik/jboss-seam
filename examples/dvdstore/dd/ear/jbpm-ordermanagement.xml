@@ -1,0 +1,14 @@
+<process-definition name="OrderManagement">
+    <start-state>
+        <transition to="process"/>
+    </start-state>
+
+    <task-node name="process">
+        <task name="assign">
+           <assignment class="com.jboss.dvd.seam.ShipperAssignment" />
+        </task>
+        <transition name="shipped" to="complete"/>
+    </task-node>
+
+    <end-state name="complete"/>
+</process-definition>

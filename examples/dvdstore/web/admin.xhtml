@@ -15,11 +15,48 @@
             <div id="navbox">
                 <h2>Welcome <h:outputText value="#{currentUser.userName}" /></h2>
                 <ul>
-                    <li><h:commandLink action="#{manageorders.findOrders}" value="Process Orders"/></li>
-                    <li><h:commandLink action="#{login.logout}" value="#{msgs.logoutButton}"/></li>
+                    <li><h:commandLink action="#{workflow.findTasks}" 
+                                       value="Find Tasks"/></li>
+                    <li><h:commandLink action="#{workflow.loadProcess}" 
+                                       value="Load Process Definition"/></li>
+                    <li><h:commandLink action="#{login.logout}" 
+                                       value="#{msgs.logoutButton}"/></li>
                 </ul>
             </div>
 
+            <h:dataTable value="#{workflow.tasks}"
+                         var="task" 
+                         rendered="#{workflow.tasks!=null}"
+                         styleClass="dvdtable" 
+                         headerClass="dvdtablehead"
+                         rowClasses="dvdtableodd,dvdtableeven"
+                         columnClasses="dvdtablecol">
+                <h:column>
+                    <f:facet name="header">
+                        task id
+                    </f:facet>
+                    <h:commandLink action="#{workflow.viewTask}">#{task.id}</h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        order id
+                    </f:facet>
+                    #{task.taskMgmtInstance.processInstance.contextInstance.variables['orderId']}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        order amount
+                    </f:facet>
+                    #{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        customer
+                    </f:facet>
+                    #{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}
+                </h:column>
+            </h:dataTable>
         </ui:define>
     </ui:composition>
 </body>

@@ -8,32 +8,53 @@
 <body>
     <ui:composition template="/template_page.xhtml">
         <ui:define name="title">
-            show order page
+            admin page
         </ui:define>
         
         <ui:define name="body">
+            <div id="navbox">
+                <h2>Welcome <h:outputText value="#{currentUser.userName}" /></h2>
+                <ul>
+                    <li><h:commandLink action="#{workflow.findTasks}" 
+                                       value="Find Tasks"/></li>
+                    <li><h:commandLink action="#{workflow.loadProcess}" 
+                                       value="Load Process Definition"/></li>
+                    <li><h:commandLink action="#{login.logout}" 
+                                       value="#{msgs.logoutButton}"/></li>
+                </ul>
+            </div>
+
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputText value="Order" />
                     <h:outputText value="#{order.orderId}" />
                     
-                    <h:outputText value="Status:" />
-                    <h:outputText value="#{order.status}" />
-
                     <h:outputText value="Order date:" />
                     <h:outputText value="#{order.orderDate}" />
                     
                     <h:outputText value="Net Amount:" />
                     <h:outputText value="#{order.netAmount}" />
-
+                    
                     <h:outputText value="Tax:" />
                     <h:outputText value="#{order.tax}" />
-
+                    
                     <h:outputText value="Total Amount:" />
                     <h:outputText value="#{order.totalAmount}" />
+
+
+                    <h:outputText value="Tracking number:" />
+                    
+                    <h:panelGroup>
+                        <h:inputText id="trackingNumber" required="true" 
+                                     value="#{workflow.track}">
+                            <f:validateLength minimum="4" /> 
+                        </h:inputText>
+                        <h:message for="trackingNumber" styleClass="error" />
+                    </h:panelGroup>
                 </h:panelGrid>
-                
-                <h:dataTable value="#{order.orderLines}" var="item"
+            
+                <h:dataTable value="#{order.orderLines}" 
+                             var="item"
                              styleClass="dvdtable" 
                              headerClass="dvdtablehead"
                              rowClasses="dvdtableodd,dvdtableeven"
@@ -72,18 +93,10 @@
                         </h:outputText>
                     </h:column>                        
                 </h:dataTable>
-
                 
-                <h:commandButton value="back" action="showorders" />
-
-                
-                <c:if test="#{order.statusCode==0}">
-                    <!-- 
-                    <h:commandButton value="cancel" action="#{showorders.cancelOrder}" />
-                    -->
-                </c:if>
+                <h:commandButton action="#{workflow.findTasks}" value="back" /> 
+                <h:commandButton action="#{workflow.ship}"      value="ship" /> 
             </h:form>
-
         </ui:define>
     </ui:composition>
 </body>

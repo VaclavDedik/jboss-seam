@@ -39,6 +39,8 @@ public class SearchAction
     implements Search,
                Serializable
 {
+    static final long serialVersionUID = -6536629890251170098L;
+
     @In(create=true)
     ShoppingCart cart;
 

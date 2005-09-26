@@ -53,16 +53,24 @@
             <metainf dir="dd/ejb3">
                 <include name="persistence.xml" />
             </metainf>
+            
             <fileset dir="dd/ejb3">
                 <include name="import.sql"/>
                 <include name="seam.properties"/>
             </fileset>
+
             <fileset dir="${classes.dir}">
                 <include name="**/*.class"/>
             </fileset>
             <fileset dir="${imported.basedir}">
                 <include name="jboss-seam.jar"/>
             </fileset>
+<!--
+            <fileset dir="${imported.basedir}/lib">
+                <include name="jbpm-3.0.jar"/>
+            </fileset>
+-->
+
         </jar>
     </target>
 
@@ -70,14 +78,24 @@
 
     <target name="ear" depends="war,ejb3jar">
         <mkdir dir="${build.dir}"/>
+
+        <jar destfile="${build.dir}/dvd.beans">
+            <metainf dir="dd/beans">
+                <include name="*" />
+            </metainf>                
+        </jar>
         
         <ear destfile="${build.dir}/dvd.ear" 
              appxml="dd/ear/application.xml">
             <metainf dir="dd/ear">
                 <include name="jboss-app.xml" />
             </metainf>                
+            <fileset dir="dd/ear">
+                <include name="jbpm-*"/>
+            </fileset>
+
             <fileset dir="${build.dir}" 
-                     includes="*.ejb3, *.par, *.war, *.sar"/>
+                     includes="*.ejb3, *.par, *.war, *.sar, *.beans"/>
             <fileset dir="dd/ear"
                      includes="dvd-*.xml" />
         </ear>
@@ -94,4 +112,18 @@
         <antcall target="Seam.undeploy"/>
     </target>
 
+
+    <target name="deploy.par">
+        <taskdef name="deploypar" classname="org.jbpm.jpdl.par.ProcessArchiveDeployer">
+            <classpath> 
+                <path refid="build.classpath" />
+                <fileset dir="/Users/orb/proj/jboss/jboss-head/build/output/jboss-5.0.0alpha/lib/">
+                    <include name="commons-logging.jar" />
+                </fileset>
+            </classpath>
+        </taskdef>  
+        <deploypar par="build/myprocess.par" /> 
+    </target>
+
 </project>
+
