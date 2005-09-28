@@ -11,12 +11,14 @@
     <listener>
         <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
     </listener>
-
-
-
+    <listener>
+        <listener-class>com.jboss.dvd.seam.StartupListener</listener-class>
+    </listener>
+   
     <context-param>
         <param-name>org.jboss.seam.core.init.jbpmSessionFactoryName</param-name>
-        <param-value>java:/jbpm/JbpmSessionFactory</param-value>
+        <!--        <param-value>java:/jbpm/JbpmSessionFactory</param-value> -->
+        <param-value>/JbpmSessionFactory</param-value> 
     </context-param>
     <context-param>
         <param-name>org.jboss.seam.conversationTimeout</param-name>

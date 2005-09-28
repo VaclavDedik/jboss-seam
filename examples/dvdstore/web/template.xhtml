@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<head>
+    <f:loadBundle basename="com.jboss.dvd.web.store" var="msgs" />     
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>JBoss DVD Store</title>
+    <link href="screen.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body id="pgMainMenu">
+    <div id="document"> 
+        <div id="header"><span>JBoss Seam DVD Store Demo</span></div>
+        <div id="nav"> 
+            <ui:insert name="topnav">
+                <ul>
+                    <li id="current"><h:commandLink action="main" value="Home"/></li>
+                    <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
+                    <li><h:commandLink action="#{login.logout}" value="#{msgs.logoutButton}"/></li>
+                </ul>
+            </ui:insert>
+        </div>
+
+        <div id="container">
+            <div id="sidebar">
+                <ui:insert name="sidebar">
+                    <div class="menu"> 
+                        <dl>
+                            <dt class="menuHeader">Login:</dt>
+                            <dd class="menuForm">
+                                <dl>
+                                    <dd>Username: <input type="text" /></dd>
+                                    <dd>Password: <input type="text" /></dd>
+                                    <dd><input type="submit" value="Login" 
+                                               class="formButton" style="width: 166px;"/></dd>
+                                </dl>
+                            </dd>
+                        </dl>
+                    </div>
+
+
+                    <div class="menu"> 
+                        <dl>
+                            <dt class="menuHeader">Search Catalog</dt>
+                            <dd class="menuForm">
+                                <dl>
+                                    <dd>Title: <input type="text" /></dd>
+                                    <dd>Author: <input type="text" /></dd>
+                                    <dd>Category: 
+                                    <select><option>All</option><option>McKesson Item Number</option><option>Manufacturer Item Number</option><option>Description</option></select></dd>
+                                    <dd><input type="submit" value="Search" class="formButton" style="width: 166px;"/></dd>
+                                </dl>
+                            </dd>
+                        </dl>
+                    </div>
+
+
+                    <div class="menu"> 
+                        <dl>
+                            <dt class="menuHeader">Refine Search</dt>
+                            <dd> 
+                                <dl class="menuSection">
+                                    <dt>Manufacturer Name</dt>
+                                    <dd><a href="#">McKesson Brand</a></dd>
+                                    <dd><a href="#">Ansell Perry</a></dd>
+                                    <dd><a href="#">Kimberly-Clark Professional</a></dd>
+                                    <dd><a href="#">Other</a></dd>
+                                </dl>
+                                <dl class="menuSection">
+                                    <dt>Size</dt>
+                                    <dd><a href="#">Large</a></dd>
+                                    <dd><a href="#">Medium</a></dd>
+                                    <dd><a href="#">Small</a></dd>
+                                    <dd><a href="#">X-Large</a></dd>
+                                    <dd><a href="#">Other</a></dd>
+                                </dl>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>Search Help</dt>
+                        </dl>
+                    </div>
+                </ui:insert>
+            </div>
+            
+
+            <div id="content">
+                <ui:insert name="body">
+                    <h1>Product Search: <span style="color: #F68938">gloves ansel</span></h1>
+                    <div id="searchSummary" class="cntSubTitle">		
+                        <p>Note: "<span style="color: #F68938;">ansel</span>" was spell-corrected to "<span style="color: #F68938;">ansell</span>"</p>
+                        <dl>
+                            <dt style="color: #2C5298; font-weight: bold;">365 Products found in:</dt>
+                            <dd style="padding-left: 6px;"><a href="#">Personal Protection</a> > <a href="#">Hand Protection</a> > <a href="#">Gloves (365)</a></dd>
+                        </dl>
+                    </div>
+                    <div style="clear: left;">
+                        <div style="float: left; width: 33%; text-align: center; margin-bottom: 10px;"><img src="prd/1.jpg" /><br/>Most Popular</div>
+                        <div style="float: left; width: 33%; text-align: center; margin-bottom: 10px;"><img src="prd/2.jpg" /><br/>Highly Recommended</div>
+                        <div style="float: left; width: 33%; text-align: center; margin-bottom: 10px;"><img src="prd/1.jpg" /><br/>Best Buy</div>
+                    </div>
+                    <div class="controlBar" style="clear: left;">
+                        <div style="float: right; width: 50%; text-align: right; padding: 3px 6px;">
+                            <div style="float: right; width: 24px"><img src="img/fastf_24.gif" /></div>
+                            <div style="float: right; padding: 1px 6px 0 6px;">Page <select name="bx" size="1"><option>1</option><option>2</option><option>3</option></select> of 3</div>
+                            <div style="float: right; width: 24px"><img src="img/rewnd_24.gif" /></div>
+                        </div>
+                        <div style="padding: 3px 6px; vertical-align: bottom;">Sort By: <select name="sort" size="1"><option>Relevance</option><option>McKesson Brand</option><option>Promotional Items</option><option>Max Rewards</option><option>Max Merit</option><option>Manufacturer Name</option></select></div>
+                    </div>
+                    <div>
+                        <div class="results">
+                            <div style="float: left; width: 50px;"><img src="prd/1.5.jpg" /></div>
+                            <div style="padding: 6px; padding-left: 60px;"><strong>COMPRESSOR/ASPIRATOR, UL LISTED 110W</strong><br/>Description</div>
+                        </div>
+                        <div class="results">
+                            <div style="float: left; width: 50px;"><img src="prd/2.5.jpg" /></div>
+                            <div style="padding: 6px; padding-left: 60px;"><strong>Some Content</strong><br/>Description</div>
+                        </div>
+                        <div class="results">
+                            <div style="float: left; width: 50px;"><img src="prd/1.5.jpg" /></div>
+                            <div style="padding: 6px; padding-left: 60px;"><strong>Some Content</strong><br/>Description</div>
+                        </div>
+                        <div class="results">
+                            <div style="float: left; width: 50px;"><img src="prd/2.5.jpg" /></div>
+                            <div style="padding: 6px; padding-left: 60px;"><strong>Some Content</strong><br/>Description</div>
+                        </div>
+                        <div class="results">
+                            <div style="float: left; width: 50px;"><img src="prd/1.5.jpg" /></div>
+                            <div style="padding: 6px; padding-left: 60px;"><strong>Some Content</strong><br/>Description</div>
+                        </div>
+                    </div>
+                </ui:insert>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -12,11 +12,11 @@
     <property name="web.dir"      location="web" />
 
     <fileset id="example.deploy" dir="db">
-        <include name="dvd-ds.xml"/>
+        <!-- <include name="dvd-ds.xml"/> -->
     </fileset>
 
     <patternset id="example.undeploy">
-        <include name="dvd-ds.xml"/>
+        <!-- <include name="dvd-ds.xml"/> -->
     </patternset>
 
     <import file="../../build.xml"/>
@@ -32,11 +32,6 @@
                 <include name="standard.jar" />
                 <include name="el-*.jar" />
                 <include name="jsf-facelets.jar" />
-            </lib>
-
-            <!-- workaround for MyFaces bug in 4.0.3RC* -->
-            <lib dir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/jsf-libs/">
-                <include name="myfaces-impl.jar" />
             </lib>
 
             <classes dir="${classes.dir}">
@@ -57,6 +52,7 @@
             <fileset dir="dd/ejb3">
                 <include name="import.sql"/>
                 <include name="seam.properties"/>
+                <include name="hibernate.cfg.xml" />
             </fileset>
 
             <fileset dir="${classes.dir}">
@@ -65,12 +61,10 @@
             <fileset dir="${imported.basedir}">
                 <include name="jboss-seam.jar"/>
             </fileset>
-<!--
-            <fileset dir="${imported.basedir}/lib">
-                <include name="jbpm-3.0.jar"/>
+            <fileset dir="lib">
+                <include name="jbpm-3.0.1.jar" />
+                <include name="ehcache-1.1.jar" />
             </fileset>
--->
-
         </jar>
     </target>
 
@@ -78,13 +72,13 @@
 
     <target name="ear" depends="war,ejb3jar">
         <mkdir dir="${build.dir}"/>
-
+<!--
         <jar destfile="${build.dir}/dvd.beans">
             <metainf dir="dd/beans">
                 <include name="*" />
             </metainf>                
         </jar>
-        
+    -->    
         <ear destfile="${build.dir}/dvd.ear" 
              appxml="dd/ear/application.xml">
             <metainf dir="dd/ear">

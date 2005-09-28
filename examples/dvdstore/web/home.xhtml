@@ -6,38 +6,51 @@
       xmlns:f="http://java.sun.com/jsf"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
-    <ui:composition template="/template_front.xhtml">
-        <ui:define name="title">
-            #{msgs.loginPageTitle}
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="sidebar">
+            <div class="menu"> 
+                <dl>
+                    <dt class="menuHeader">#{msgs.loginPagePrompt}</dt>
+                    <dd class="menuForm">
+                        <h:form>
+                            <dl>
+                                <dd>
+                                    <h:outputText value="#{msgs.loginUser}" /> 
+                                    <h:inputText value="#{login.userName}" size="16" />
+                                </dd>
+                                <dd>
+                                    <h:outputText value="#{msgs.loginPass}" /> 
+                                    <h:inputSecret value="#{login.password}" size="16"/>
+                                </dd>
+                                
+                                <dd>
+                                    <h:commandButton action="#{login.login}" value="#{msgs.loginPrompt}"
+                                                     class="formButton" style="width: 166px;"/>
+                                </dd>
+                            </dl>
+                        </h:form>
+                    </dd>
+                </dl>
+            </div>
+
+
         </ui:define>
         
         <ui:define name="body">
-            <h2>#{msgs.loginPagePrompt}</h2>
             <h3>#{msgs.loginPageInfo}</h3>
             
             <h:messages globalOnly="true" 
                         layout="list" 
-                        errorClass="error"/>
+                        errorClass="cntError"/>
             
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="#{msgs.loginUser}" /> 
-                    <h:inputText value="#{login.userName}" size="16" />
-                    
-                    <h:outputText value="#{msgs.loginPass}" /> 
-                    <h:inputSecret value="#{login.password}" size="16"/>
-                </h:panelGrid>
-                <h:commandButton action="#{login.login}" />
-            </h:form>
-    
-            <h2><h:outputText value="#{msgs.newCustomerPrompt}"/></h2>
-    
+            <br />
+
+            #{msgs.newCustomerPrompt}
             <h:form>
                 <h:commandButton action="newcustomer" value="#{msgs.newCustomerButton}" />
             </h:form>
         </ui:define>
-
-
     </ui:composition>
 </body>
 </html>

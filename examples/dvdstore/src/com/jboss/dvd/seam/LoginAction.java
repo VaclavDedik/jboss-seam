@@ -58,6 +58,8 @@ public class LoginAction
                 .setParameter("password", password)
                 .getSingleResult();
 
+            System.out.println("USER: " + found);
+
             sessionContext.set("currentUser", found);
             
             if (found instanceof Admin) {

@@ -6,24 +6,25 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
-    <ui:composition template="/template_page.xhtml">
-        <ui:define name="title">
-            admin page
+    <ui:composition template="/template.xhtml">
+        <ui:define name="sidebar">
+            <div id="menu">
+                <dl>
+                    <dt class="menuHeader">Admin options</dt>
+                    <dd> 
+                        <dl class="menuSection">
+                            <dt>Manufacturer Name</dt>
+                            <dd><h:commandLink action="#{workflow.findTasks}" 
+                                       value="Find Tasks"/></dd>
+                            <dd><h:commandLink action="#{workflow.loadProcess}" 
+                                       value="Load Process Definition"/></dd>
+                        </dl>
+                    </dd>
+                </dl>
+            </div>
         </ui:define>
         
         <ui:define name="body">
-            <div id="navbox">
-                <h2>Welcome <h:outputText value="#{currentUser.userName}" /></h2>
-                <ul>
-                    <li><h:commandLink action="#{workflow.findTasks}" 
-                                       value="Find Tasks"/></li>
-                    <li><h:commandLink action="#{workflow.loadProcess}" 
-                                       value="Load Process Definition"/></li>
-                    <li><h:commandLink action="#{login.logout}" 
-                                       value="#{msgs.logoutButton}"/></li>
-                </ul>
-            </div>
-
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputText value="Order" />

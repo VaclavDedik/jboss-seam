@@ -41,7 +41,7 @@ public class OrderLine
         this.lineId = id;
     }
 
-    @Column(name="POSITION")
+    @Column(name="POS")
     public int getPosition() {
         return position;
     }

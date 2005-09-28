@@ -6,11 +6,10 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
-    <ui:composition template="/template_page.xhtml">
-        <ui:define name="title">
-            #{msgs.checkoutTitle}
+    <ui:composition template="/template.xhtml">
+        <ui:define name="sidebar">
         </ui:define>
-        
+
         <ui:define name="body">
             <h2>#{msgs.checkoutCompleteHeader}</h2>
             <h:form>
@@ -91,7 +90,6 @@
             
             <h:form>
                 <h:commandButton action="browse"           value="#{msgs.shopAgainButton}" />
-                <h:commandButton action="#{login.logout}"  value="#{msgs.logoutButton}" />
             </h:form>
         </ui:define>
     </ui:composition>
