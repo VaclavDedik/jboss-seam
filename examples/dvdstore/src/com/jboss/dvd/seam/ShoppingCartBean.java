@@ -40,9 +40,6 @@ public class ShoppingCartBean
     implements ShoppingCart,
                Serializable
 {
-    @In(create=true)
-    JbpmHelper jbpmHelper;
-
     @In(value="currentUser",required=false)
     Customer customer;
 
@@ -55,8 +52,8 @@ public class ShoppingCartBean
     @Out(required=false)
     Order order = null;
 
-    //     @Out(scope=ScopeType.PROCESS, required=false)
-    //     long orderId;
+    @Out(scope=ScopeType.PROCESS, required=false)
+    long orderId;
 
     public ShoppingCartBean() {
     }
@@ -126,7 +123,7 @@ public class ShoppingCartBean
     }
 
 
-    //@CreateProcess(definition="OrderManagement")
+    @CreateProcess(definition="OrderManagement")
     public String purchase() {
         List<OrderLine> lines = new ArrayList<OrderLine>();
 
@@ -139,7 +136,7 @@ public class ShoppingCartBean
             order = purchase(customer, lines);
             cart = new ArrayList<SelectableItem<OrderLine>>(); 
 
-            jbpmHelper.startOrderProcess(order);
+            orderId = order.getOrderId();
 
             return "complete";
         } catch (InsufficientQuantityException e) {

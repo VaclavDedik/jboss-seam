@@ -12,11 +12,8 @@ public interface Workflow {
     public String getTrack();
     public void   setTrack(String track);
 
-    public DataModel getTasks();
-    public String findTasks();
+    public String ship();
     public String viewTask();
 
-    public String ship();
-    public String loadProcess();
     public void   destroy();
 }

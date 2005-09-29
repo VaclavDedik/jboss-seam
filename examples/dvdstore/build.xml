@@ -12,11 +12,11 @@
     <property name="web.dir"      location="web" />
 
     <fileset id="example.deploy" dir="db">
-        <!-- <include name="dvd-ds.xml"/> -->
+        <include name="dvd-ds.xml"/> 
     </fileset>
 
     <patternset id="example.undeploy">
-        <!-- <include name="dvd-ds.xml"/> -->
+        <include name="dvd-ds.xml"/> 
     </patternset>
 
     <import file="../../build.xml"/>

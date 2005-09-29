@@ -13,11 +13,9 @@
                     <dt class="menuHeader">Admin options</dt>
                     <dd> 
                         <dl class="menuSection">
-                            <dt>Manufacturer Name</dt>
-                            <dd><h:commandLink action="#{workflow.findTasks}" 
-                                       value="Find Tasks"/></dd>
-                            <dd><h:commandLink action="#{workflow.loadProcess}" 
-                                       value="Load Process Definition"/></dd>
+                            <dt>Process Management</dt>
+                            <dd><h:commandLink action="#{jbpmHelper.loadProcess}" 
+                                               value="Load Process Definition"/></dd>
                         </dl>
                     </dd>
                 </dl>
@@ -25,10 +23,8 @@
         </ui:define>
         
         <ui:define name="body">
-            
-            <h:dataTable value="#{workflow.tasks}"
+            <h:dataTable value="#{jbpmHelper.shipperTasks}"
                          var="task" 
-                         rendered="#{workflow.tasks!=null}"
                          styleClass="dvdtable" 
                          headerClass="dvdtablehead"
                          rowClasses="dvdtableodd,dvdtableeven"
@@ -37,7 +33,9 @@
                     <f:facet name="header">
                         task id
                     </f:facet>
-                    <h:commandLink action="#{workflow.viewTask}">#{task.id}</h:commandLink>
+                    <h:commandLink action="#{workflow.viewTask}" value="work on #{task.id}"> 
+                        <f:param name="jbpmTaskId" value="#{task.id}"/>
+                    </h:commandLink>
                 </h:column>
 
                 <h:column>

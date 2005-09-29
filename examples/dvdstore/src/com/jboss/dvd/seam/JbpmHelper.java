@@ -19,10 +19,49 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.core.ManagedJbpmSession;
 
+
 @Name("jbpmHelper")
 public class JbpmHelper
 {
     static final String ORDER_MANAGEMENT = "OrderManagement";
+
+    public List<TaskInstance> getShipperTasks() {
+        return getTasksFor("shipper");
+    }
+
+
+    public String loadProcess() {
+        try {
+            JbpmSession jbpmSession = (JbpmSession)
+                Component.getInstance(ManagedJbpmSession.class, true);
+
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            ProcessDefinition processDefinition = 
+                ProcessDefinition.parseXmlInputStream(loader.getResourceAsStream("jbpm-ordermanagement.xml"));
+
+            String processDefinitionName = processDefinition.getName();
+            if (processDefinitionName!=null) {
+                ProcessDefinition previousLatestVersion = 
+                    jbpmSession.getGraphSession().findLatestProcessDefinition(processDefinitionName);
+
+                if (previousLatestVersion!=null) {
+                    processDefinition.setVersion( previousLatestVersion.getVersion()+1 );
+                } else {
+                    processDefinition.setVersion(1);
+                }
+            }
+            
+            jbpmSession
+                .getGraphSession()
+                .saveProcessDefinition(processDefinition);
+
+            jbpmSession.getSession().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     
     public void startOrderProcess(Order order) 
     {
@@ -38,8 +77,6 @@ public class JbpmHelper
 
         jbpmSession.getGraphSession().saveProcessInstance(processInstance);
         jbpmSession.getSession().flush();
-    
-        System.out.println("STARTED " + ORDER_MANAGEMENT + " pid=" + processInstance.getId());
     }
 
 
