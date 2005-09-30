@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.microcontainer;
 
+import java.util.Hashtable;
+
 import javax.transaction.TransactionManager;
 
 import org.jboss.logging.Logger;
@@ -31,6 +33,8 @@ public class DataSourceFactory
    private int preparedStatementCacheSize;
    private String checkValidConnectionSql;
    private String jndiName;
+   private Hashtable initialContextProperties;
+
    
    private TransactionManager transactionManager;
    
@@ -58,6 +62,10 @@ public class DataSourceFactory
       ds.setTransactionManager(transactionManager);
       ds.setJndiName(jndiName);
       ds.setCachedConnectionManager(ccmr);
+      if (initialContextProperties != null)
+      {
+         ds.setInitialContextProperties(initialContextProperties);
+      }
       ds.start();
       
       return ds;
@@ -181,6 +189,11 @@ public class DataSourceFactory
    public void setTransactionManager(TransactionManager transactionManager)
    {
       this.transactionManager = transactionManager;
+   }
+
+   public void setInitialContextProperties(Hashtable initialContextProperties)
+   {
+      this.initialContextProperties = initialContextProperties;
    }
 
 }

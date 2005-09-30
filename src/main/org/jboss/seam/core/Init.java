@@ -4,6 +4,8 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import javax.naming.InitialContext;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
@@ -34,6 +36,7 @@ public class Init
    private String[] componentClasses = {};
    private String[] managedDataSources = {};
    private boolean isClientSideConversations = false;
+   private InitialContext initialContext;
 
    public String[] getManagedPersistenceContexts()
    {
@@ -97,6 +100,16 @@ public class Init
    public void setClientSideConversations(boolean isClientSideConversations)
    {
       this.isClientSideConversations = isClientSideConversations;
+   }
+   
+   public InitialContext getInitialContext()
+   {
+      return initialContext;
+   }
+   
+   public void setInitialContext(InitialContext initialContext)
+   {
+      this.initialContext = initialContext;
    }
 
 }

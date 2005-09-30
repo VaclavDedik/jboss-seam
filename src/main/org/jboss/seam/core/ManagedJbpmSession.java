@@ -1,12 +1,14 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+?* JBoss, Home of Professional Open Source
+?*
+?* Distributable under LGPL license.
+?* See terms of license at gnu.org.
+?*/
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+
+import java.util.Hashtable;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -39,6 +41,7 @@ public class ManagedJbpmSession
 
    private String jbpmSessionFactoryName;
    private JbpmSession jbpmSession;
+   private Hashtable initialContextProperties;
 
    @Create
    public void create(Component component)
@@ -74,7 +77,7 @@ public class ManagedJbpmSession
       InitialContext ctx = null;
       try
       {
-         ctx = new InitialContext();
+         ctx = (initialContextProperties != null) ? new InitialContext(initialContextProperties) : new InitialContext();
          return ( JbpmSessionFactory ) ctx.lookup( jbpmSessionFactoryName );
       }
       catch ( NamingException e )
@@ -105,5 +108,10 @@ public class ManagedJbpmSession
    public String toString()
    {
       return "ManagedJbpmSession(" + jbpmSessionFactoryName + ")";
+   }
+
+   public void setInitialContextProperties(Hashtable initialContextProperties)
+   {
+      this.initialContextProperties = initialContextProperties;
    }
 }

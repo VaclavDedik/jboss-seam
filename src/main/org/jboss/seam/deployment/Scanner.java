@@ -57,7 +57,6 @@ public class Scanner
             String urlPath = urls.nextElement().getFile();
             if ( urlPath.startsWith("file:") )
             {
-               // TODO: This sucks
                // On windows urlpath looks like file:/C: on Linux file:/home
                // substring(5) works for both
                urlPath = urlPath.substring(5);

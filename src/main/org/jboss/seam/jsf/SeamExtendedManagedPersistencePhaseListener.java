@@ -55,6 +55,6 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
             throw new IllegalStateException("Could not commit transaction", e);
          }
       }
-    }
+   }
 
 }

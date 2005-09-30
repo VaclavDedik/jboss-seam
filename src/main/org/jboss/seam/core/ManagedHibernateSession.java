@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Hashtable;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -37,6 +38,7 @@ public class ManagedHibernateSession implements Serializable
    
    private Session session;
    private String sessionFactoryName;
+   private Hashtable initialContextProperties;
    
    @Create
    public void create(Component component)
@@ -73,7 +75,8 @@ public class ManagedHibernateSession implements Serializable
    private SessionFactory getSessionFactory(String persistenceUnit)
          throws NamingException
    {
-      return (SessionFactory) new InitialContext().lookup(sessionFactoryName);
+      InitialContext initialContext = (initialContextProperties != null) ? new InitialContext(initialContextProperties) : new InitialContext();
+      return (SessionFactory) initialContext.lookup(sessionFactoryName);
    }
    
    public String toString()
@@ -103,5 +106,10 @@ public class ManagedHibernateSession implements Serializable
       //TODO: this is just noise! We should deprecate disconnect/reconnect in HB core.
       if (session!=null && session.isConnected() ) session.disconnect();
       oos.defaultWriteObject();
+   }
+
+   public void setInitialContextProperties(Hashtable initialContextProperties)
+   {
+      this.initialContextProperties = initialContextProperties;
    }
 }

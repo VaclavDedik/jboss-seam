@@ -1,9 +1,9 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+?* JBoss, Home of Professional Open Source
+?*
+?* Distributable under LGPL license.
+?* See terms of license at gnu.org.
+?*/
 package org.jboss.seam.contexts;
 
 import javax.naming.InitialContext;
@@ -11,6 +11,7 @@ import javax.naming.NamingException;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.core.Init;
 
 /**
  * For stateless objects
@@ -37,7 +38,8 @@ public class StatelessContext implements Context {
 
 	public void set(String name, Object value) {
 		try {
-			new InitialContext().bind(name, value);
+		   InitialContext initialContext = Init.instance().getInitialContext();
+           initialContext.bind(name, value);
 		}
 		catch (NamingException ne) {
 			throw new IllegalArgumentException("could not bind: " + name, ne);
