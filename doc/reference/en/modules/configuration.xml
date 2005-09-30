@@ -71,7 +71,7 @@
             will do). At startup, Seam will scan any archives with
             <literal>seam.properties</literal> files for seam components. If that doesn't
             work for you, you can also add components by listing them explicitly in
-            the configuration property named <literal>org.jboss.seam.init.componentClasses</literal>.
+            the configuration property named <literal>org.jboss.seam.core.init.componentClasses</literal>.
         </para>
         
         <para>
@@ -112,14 +112,14 @@
             line to <literal>seam.properties</literal>:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Ejb]]></programlisting>
+        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Ejb]]></programlisting>
         
         <para>
             Or, alternatively, add the following entry to <literal>web.xml</literal>:
         </para>
         
         <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.init.componentClasses</param-name>
+    <param-name>org.jboss.seam.core.init.componentClasses</param-name>
     <param-value>org.jboss.seam.core.Ejb</param-value>
 </context-param>]]></programlisting>
 
@@ -270,7 +270,7 @@
             <literal>seam.properties</literal>, we can write:
         </para>
 
-        <programlisting><![CDATA[org.jboss.seam.init.managedPersistenceContexts bookingDatabase
+        <programlisting><![CDATA[org.jboss.seam.core.init.managedPersistenceContexts bookingDatabase
 bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]></programlisting>
         
         <para>
@@ -278,7 +278,7 @@ bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]><
         </para>
         
         <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.init.managedPersistenceContexts</param-name>
+    <param-name>org.jboss.seam.core.init.managedPersistenceContexts</param-name>
     <param-value>bookingDatabase</param-value>
 </context-param>
 
@@ -348,8 +348,8 @@ bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]><
             Let's show just the properties file this time:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Hibernate
-org.jboss.seam.init.managedSessions bookingDatabase
+        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Hibernate
+org.jboss.seam.core.init.managedSessions bookingDatabase
 bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlisting>
 
         <para>
@@ -401,8 +401,8 @@ bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlistin
             bootstraps the microcontainer. As before, we probably want to use a Seam managed session.
         </para>
 
-        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Microcontainer
-org.jboss.seam.init.managedSessions bookingDatabase
+        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Microcontainer
+org.jboss.seam.core.init.managedSessions bookingDatabase
 bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlisting>
 
         <para>

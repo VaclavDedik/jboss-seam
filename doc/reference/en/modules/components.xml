@@ -209,7 +209,7 @@
             <literal>seam.properties</literal> install and configure two Seam components:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.init.managedPersistenceContexts bookingDatabase, userDatabase
+        <programlisting><![CDATA[org.jboss.seam.core.init.managedPersistenceContexts bookingDatabase, userDatabase
 bookingDatabase.persistenceUnitName java:/comp/emf/bookingPersistence
 userDatabase.persistenceUnitName java:/comp/emf/userPersistence]]></programlisting>
         
@@ -225,7 +225,7 @@ userDatabase.persistenceUnitName java:/comp/emf/userPersistence]]></programlisti
                     <para>
                         Manager component for a conversation scoped managed <literal>EntityManager</literal>
                         with an extended persistence context. Installed via 
-                        <literal>org.jboss.seam.init.managedPersistenceContexts</literal>.
+                        <literal>org.jboss.seam.core.init.managedPersistenceContexts</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -242,7 +242,7 @@ userDatabase.persistenceUnitName java:/comp/emf/userPersistence]]></programlisti
                 <listitem>
                     <para>
                         Manager component for a conversation scoped managed Hibernate <literal>Session</literal>.  
-                        Installed via <literal>org.jboss.seam.init.managedSessions</literal>.
+                        Installed via <literal>org.jboss.seam.core.init.managedSessions</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>
