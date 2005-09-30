@@ -7,7 +7,15 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
     <ui:composition template="/template.xhtml">
+        <ui:define name="topnav">
+            <ul>
+                <li id="current"><h:commandLink action="main" value="Search for Movies"/></li>
+                <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
+            </ul>
+        </ui:define>
+
         <ui:define name="sidebar">
+            <ui:include src="incl/login.xhtml" />
         </ui:define>
 
         <ui:define name="body">
@@ -24,16 +32,10 @@
                              columnClasses="dvdtablecol">
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{msgs.cartItemColumn}" />
+                            <h:outputText value="#{msgs.cartRemoveColumn}" />
                         </f:facet>
-                        <h:outputText value="#{item.item.position}" />
-                    </h:column>                        
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartQuantityColumn}" />
-                        </f:facet>
-                        <h:inputText value="#{item.item.quantity}" size="6" />
-                    </h:column>                        
+                        <h:selectBooleanCheckbox value="#{item.selected}"/>
+                    </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="#{msgs.cartTitleColumn}" />
@@ -57,10 +59,10 @@
                     </h:column>                        
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{msgs.cartRemoveColumn}" />
+                            <h:outputText value="#{msgs.cartQuantityColumn}" />
                         </f:facet>
-                        <h:selectBooleanCheckbox value="#{item.selected}"/>
-                    </h:column>
+                        <h:inputText value="#{item.item.quantity}" size="6" />
+                    </h:column>                        
                 </h:dataTable>
                 <h:commandButton action="#{cart.updateCart}" value="#{msgs.checkoutUpdateButton}" />
             </h:form>

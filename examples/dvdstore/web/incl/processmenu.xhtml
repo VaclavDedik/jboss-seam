@@ -1,0 +1,23 @@
+<div class="menu" 
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:c="http://java.sun.com/jstl/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html">
+    <dl>
+        <dt class="menuHeader">Admin Options</dt>
+        <dd> 
+            <dl class="menuSection">
+                <dt>Process Management</dt>
+                <dd><h:commandLink action="#{jbpmHelper.loadProcess1}" 
+                value="Load Order Process 1"/></dd>
+                <dd><h:commandLink action="#{jbpmHelper.loadProcess2}" 
+                value="Load Order Process 2"/></dd>
+                <!-- 
+                     <dd><h:commandLink action="#{jbpmHelper.loadProcess3}" 
+                     value="Load Order Management Process 3"/></dd>
+                  -->
+            </dl>
+        </dd>
+    </dl>
+</div>            

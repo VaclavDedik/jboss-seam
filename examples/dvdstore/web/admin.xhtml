@@ -7,56 +7,103 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
     <ui:composition template="/template.xhtml">
+        <ui:define name="topnav">
+            <ul>
+                <li id="current"><h:commandLink action="#{showorders.findOrders}" value="Manage Orders"/></li>
+            </ul>
+        </ui:define>
+
         <ui:define name="sidebar">
-            <div id="menu">
-                <dl>
-                    <dt class="menuHeader">Admin options</dt>
-                    <dd> 
-                        <dl class="menuSection">
-                            <dt>Process Management</dt>
-                            <dd><h:commandLink action="#{jbpmHelper.loadProcess}" 
-                                               value="Load Process Definition"/></dd>
-                        </dl>
-                    </dd>
-                </dl>
-            </div>
+            <ui:include src="incl/login.xhtml" />
+            <ui:include src="incl/processmenu.xhtml" />
         </ui:define>
         
         <ui:define name="body">
-            <h:dataTable value="#{jbpmHelper.shipperTasks}"
-                         var="task" 
-                         styleClass="dvdtable" 
-                         headerClass="dvdtablehead"
-                         rowClasses="dvdtableodd,dvdtableeven"
-                         columnClasses="dvdtablecol">
-                <h:column>
-                    <f:facet name="header">
-                        task id
-                    </f:facet>
-                    <h:commandLink action="#{workflow.viewTask}" value="work on #{task.id}"> 
-                        <f:param name="jbpmTaskId" value="#{task.id}"/>
-                    </h:commandLink>
-                </h:column>
+            <h1>Order Management</h1>
 
-                <h:column>
-                    <f:facet name="header">
-                        order id
-                    </f:facet>
-                    #{task.taskMgmtInstance.processInstance.contextInstance.variables['orderId']}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        order amount
-                    </f:facet>
-                    #{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        customer
-                    </f:facet>
-                    #{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}
-                </h:column>
-            </h:dataTable>
+            <h2>Order Acceptance</h2>
+            <c:choose>
+                <c:when test="${empty(jbpmHelper.approveTasks)}">
+                    <p>There are no orders to be accepted.</p>
+                </c:when>
+                <c:otherwise>      
+                    <h:dataTable value="#{jbpmHelper.approveTasks}"
+                                 var="task" 
+                                 styleClass="dvdtable" 
+                                 headerClass="dvdtablehead"
+                                 rowClasses="dvdtableodd,dvdtableeven"
+                                 columnClasses="dvdtablecol">
+                        <h:column>
+                            <f:facet name="header">
+                                Order Id
+                            </f:facet>
+                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['orderId']}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Order Amount
+                            </f:facet>
+                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Customer
+                            </f:facet>
+                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}
+                        </h:column>
+                        <h:column>
+                            <h:commandLink action="#{accept.viewTask}"> 
+                                <h:commandButton value="Review"/>
+                                <f:param name="jbpmTaskId" value="#{task.id}"/>
+                            </h:commandLink>
+                        </h:column>
+               
+                    </h:dataTable>
+                </c:otherwise>
+            </c:choose>
+
+
+            <h2>Shipping</h2>
+            <c:choose>
+                <c:when test="${empty(jbpmHelper.shipperTasks)}">
+                    <p>There are no orders to be shipped.</p>
+                </c:when>
+                <c:otherwise>      
+                    <h:dataTable value="#{jbpmHelper.shipperTasks}"
+                                 var="task" 
+                                 styleClass="dvdtable" 
+                                 headerClass="dvdtablehead"
+                                 rowClasses="dvdtableodd,dvdtableeven"
+                                 columnClasses="dvdtablecol">
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                Order Id
+                            </f:facet>
+                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['orderId']}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Order Amount
+                            </f:facet>
+                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Customer
+                            </f:facet>
+                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}
+                        </h:column>
+                        <h:column>
+                            <h:commandLink action="#{workflow.viewTask}"> 
+                                <h:commandButton value="Review"/>
+                                <f:param name="jbpmTaskId" value="#{task.id}"/>
+                            </h:commandLink>
+                        </h:column>
+               
+                    </h:dataTable>
+                </c:otherwise>
+            </c:choose>
         </ui:define>
     </ui:composition>
 </body>

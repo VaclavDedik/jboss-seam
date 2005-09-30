@@ -1,91 +1,91 @@
-/* Setup defaults since variable in browsers
------------------------------------------------ */
+/* Setup defaults since variable in browsers */
 body, div, dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5, form {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
-/* Element Defaults
------------------------------------------------ */
+
+/* Element Defaults */
 html {
-	height: 100%;
+    height: 100%;
 }
 img {
-	border: 0;
+    border: 0;
 }
+
 body {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: small;
-	line-height: 1.25em;
-	color: #333;
-	position: relative;
-	background: #fff url(img/bg.gif) 0 0 repeat-x;
-	width: 100%;
-	height: 100%;
-	margin-left: auto;
-	margin-right: auto;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: small;
+        line-height: 1.25em;
+        color: #333;
+        position: relative;
+        background: #fff url(img/bg.gif) 0 0 repeat-x;
+        width: 100%;
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
 }
 input {
-	
-	padding: 4px;
+        
+        padding: 4px;
 }
 input, select {
-	border: 1px solid #aaa;
-	vertical-align: middle;
+        border: 1px solid #aaa;
+        vertical-align: middle;
 }
 p {
-	text-align: justify;
-	padding: 2px 0;
-	line-height: 150%;
+        text-align: justify;
+        padding: 2px 0;
+        line-height: 150%;
 }
 ol, ul {
-	margin: 10px 0px 10px 6px;
+        margin: 10px 0px 10px 6px;
 }
 li {
-	margin: 10px 12px;
+        margin: 10px 12px;
 }
 /* Layout
 ----------------------------------------------- */
 #document {
-	height: 100%;
+        height: 100%;
 }
 #footer {
-	clear: both;
-	float: left;
-	width: 100%;
-	text-align: right;
-	display: block;
-	padding: 40px 192px 5px 5px;
-	border-top: 1px solid #eaeaea;
-	color: #ccc;
-	font-size: x-small;
+        clear: both;
+        float: left;
+        width: 100%;
+        text-align: right;
+        display: block;
+        padding: 40px 192px 5px 5px;
+        border-top: 1px solid #eaeaea;
+        color: #ccc;
+        font-size: x-small;
 }
 #container {
-	padding: 15px 5px;
+        padding: 15px 5px;
 }
 #sidebar {
-	width: 180px;
-	float: right;
-	margin-top: 11px;
-	margin-bottom: 12px;
-	text-align: center;
+        width: 180px;
+        float: right;
+        margin-top: 11px;
+        margin-bottom: 12px;
+        text-align: center;
 }
 #content {
-	margin-right: 192px;
+        margin-right: 192px;
 }
 
 #pgMainMenu {
-	width: 760px;
+        width: 760px;
 }
 #pgMainMenu #container {
-	padding-left: 0;
-	padding-right: 0;
+        padding-left: 0;
+        padding-right: 0;
 }
 
 /* Header
 ----------------------------------------------- */
 #header {
-	position: relative;
-	height: 60px;
+        position: relative;
+        height: 60px;
 }
 #header span {
     position: absolute;
@@ -99,130 +99,130 @@ li {
 /* Navigation
 ----------------------------------------------- */
 #nav {
-	position: relative;
-	padding: 1px 20px 0 20px;
-	border-top: 1px solid #c0c0c0;
-	border-bottom: 1px solid #c0c0c0;
-	line-height: normal;
-	height: 25px;
+        position: relative;
+        padding: 1px 20px 0 20px;
+        border-top: 1px solid #c0c0c0;
+        border-bottom: 1px solid #c0c0c0;
+        line-height: normal;
+        height: 25px;
 }
 #nav ul {
-	margin: 0px;
-	padding: 0px;
-	position: absolute;
-	margin-top: 1px;
-	list-style: none;
-	text-align: center;
+        margin: 0px;
+        padding: 0px;
+        position: absolute;
+        margin-top: 1px;
+        list-style: none;
+        text-align: center;
 }
 #nav li {
-	float: left;
-	margin: 0px;
-	margin-right: 2px;
-	padding: 0 0 0 4px;
+        float: left;
+        margin: 0px;
+        margin-right: 2px;
+        padding: 0 0 0 4px;
 }
 #nav li a {
-	display: block;
-	padding: 6px 20px 6px 16px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-	text-decoration: none;
-	color: #333;
+        display: block;
+        padding: 6px 20px 6px 16px;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
 }
 #nav li a:hover {
-	color: #044c9c;
+        color: #044c9c;
 }
 #nav #current {
-	border-bottom: 1px solid #fff;
-	background: url(img/nav.tab.left.gif) no-repeat left top;
+        border-bottom: 1px solid #fff;
+        background: url(img/nav.tab.left.gif) no-repeat left top;
 }
 #nav #current a {
-	color: #044c9c;
-	background: url(img/nav.tab.right.gif) no-repeat right top;
+        color: #044c9c;
+        background: url(img/nav.tab.right.gif) no-repeat right top;
 }
 #nav #current a {
-	text-decoration: none;
+        text-decoration: none;
 }
 /* Breadcrumb
 ----------------------------------------------- */
 #breadcrumb {
-	color: #3b66a2;
-	font-size: small;
+        color: #3b66a2;
+        font-size: small;
 }
 /* Headings
 ----------------------------------------------- */
 h1, h2, h3, h4, h5 {
-	font-family: "Trebuchet MS", Arial, sans-serif;
-	line-height: normal;
-	color: #223F74;
-	font-weight: bold;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        line-height: normal;
+        color: #223F74;
+        font-weight: bold;
 }
 h1 {
-	font-size: x-large;
-	padding: 0px;
-	margin-bottom: 10px;
+        font-size: x-large;
+        padding: 0px;
+        margin-bottom: 10px;
 }
 h2 {
-	font-size: large;
-	letter-spacing: 0px;
-	color: #376098;
-	line-height: 170%
+        font-size: large;
+        letter-spacing: 0px;
+        color: #376098;
+        line-height: 170%
 }
 h3 {
-	font-size: medium;
-	letter-spacing: 0px;
-	color: #333;
+        font-size: medium;
+        letter-spacing: 0px;
+        color: #333;
 }
 /* Content Boxes */
 .cntInfo, .cntError, .cntAlert, .cntSubTitle, .cntSubMenu {
-	padding: 4px;
-	margin: 0;
-	margin-bottom: 5px;
-	border: 1px solid #eaeaea;
-	background-color: #fff;
+        padding: 4px;
+        margin: 0;
+        margin-bottom: 5px;
+        border: 1px solid #eaeaea;
+        background-color: #fff;
 }
 .cntInfo p, .cntError p, .cntAlert p {
-	padding: 0;
-	padding-bottom: 5px;
+        padding: 0;
+        padding-bottom: 5px;
 }
 .cntInfo {
-	background: #FAFAF8 url(img/shade.info.gif) 0 0 repeat-x;
+        background: #FAFAF8 url(img/shade.info.gif) 0 0 repeat-x;
 }
 .cntError {
-	background-color: #ffc;
-	border-color: #930;
+        background-color: #ffc;
+        border-color: #930;
      font-size: 10px;
      position: fixed; /* make box not wrap */
 }
 .cntAlert {
-	background-color: #d3e4ff;
-	border-color: #36c;
+        background-color: #d3e4ff;
+        border-color: #36c;
 }
 .cntSubTitle {
-	border: 0;
-	border-top: 1px solid #dadada;
-	background: url(img/shade.subtitle.gif) 0 2px repeat-x;
+        border: 0;
+        border-top: 1px solid #dadada;
+        background: url(img/shade.subtitle.gif) 0 2px repeat-x;
 }
 .cntSubMenu {
-	border: 0;
-	border-top: 1px solid #dadada;
-	background: url(img/shade.menu.gif) 0 2px repeat-x;
+        border: 0;
+        border-top: 1px solid #dadada;
+        background: url(img/shade.menu.gif) 0 2px repeat-x;
 }
 .spacer {
-	margin-top: 20px;
+        margin-top: 20px;
 }
 .controlBar {
-	background: #fff url(img/control.bg.gif) 0 100% repeat-x;
-	border: 1px solid #CAC4B6;
-	color: #333;
-	font-weight: bold;
-	font-size: small;
-	line-height: medium;
-	padding: 0px;
-	margin: 0px;
-	margin-bottom: 5px;
-	height:  28px;
-	clear:  left;
+        background: #fff url(img/control.bg.gif) 0 100% repeat-x;
+        border: 1px solid #CAC4B6;
+        color: #333;
+        font-weight: bold;
+        font-size: small;
+        line-height: medium;
+        padding: 0px;
+        margin: 0px;
+        margin-bottom: 5px;
+        height:  28px;
+        clear:  left;
 }
 
 .dvdtable {    
@@ -234,144 +234,144 @@ h3 {
 }
 
 .results {
-	/*clear: left;
-	float: left;
-	*/
-	border-bottom: 1px solid #eaeaea;
+        /*clear: left;
+        float: left;
+        */
+        border-bottom: 1px solid #eaeaea;
 }
 .controlBar option {
-	font-size: small;	
+        font-size: small;       
 }
 #searchSummary a {
-	color: #2C5298;
-	text-decoration: none;
+        color: #2C5298;
+        text-decoration: none;
 }
 #searchSummary a:hover {
-	text-decoration: underline;
+        text-decoration: underline;
 }
 
 /* Box */
 .box {
-	text-align: left;
-	border: 1px solid #aaa;
-	margin-bottom: 20px;
-	width: 170px;
+        text-align: left;
+        border: 1px solid #aaa;
+        margin-bottom: 20px;
+        width: 170px;
 }
 .boxHeader {
-	background: #f6f5e7 url(img/box.hdr.bg.yellow.gif) repeat-x;
-	padding: 5px 10px;
+        background: #f6f5e7 url(img/box.hdr.bg.yellow.gif) repeat-x;
+        padding: 5px 10px;
 }
 .boxHeader h3 {
-	font-weight: bold;
-	padding: 0px;
-	color: #333;
+        font-weight: bold;
+        padding: 0px;
+        color: #333;
 }
 .boxContent {
-	background: #fff url(img/shade.gif) repeat-x;
-	border-top: 1px solid #aaa;
-	padding : 10px;
+        background: #fff url(img/shade.gif) repeat-x;
+        border-top: 1px solid #aaa;
+        padding : 10px;
 }
 .boxFooter {
-	text-align: center;
-	padding-bottom: 10px;
+        text-align: center;
+        padding-bottom: 10px;
 }
-/* Forms
------------------------------------------------ */
+
+/* Forms */
 .required {
-	font-weight: bold;
-	color: #900;
+        font-weight: bold;
+        color: #900;
 }
-/* Menu
------------------------------------------------ */
+
+/* Menu */
 .menu {
-	background: #619ad9 url(img/menu.bg.gif) 0 100% no-repeat;
-	text-align: left;
-	margin-bottom: 10px;
-	padding-bottom: 12px;
+        background: #619ad9 url(img/menu.bg.gif) 0 100% no-repeat;
+        text-align: left;
+        margin-bottom: 10px;
+        padding-bottom: 12px;
 }
 .menu dt {
-	color: #fff;
-	font-weight: bold;
-	padding: 7px 6px 5px 16px;
-	border-bottom: 2px groove #6AA9EE;
+        color: #fff;
+        font-weight: bold;
+        padding: 7px 6px 5px 16px;
+        border-bottom: 2px groove #6AA9EE;
 }
 .menu dd {
-	background-color: #DDEEFF;
-	border-top: 1px solid #F9FBFD;
-	border-bottom: 1px solid #3B7FBD;
-	border-left: 1px solid #C1C1C1;
-	border-right: 1px solid #C1C1C1;
-	padding: 6px;
+        background-color: #DDEEFF;
+        border-top: 1px solid #F9FBFD;
+        border-bottom: 1px solid #3B7FBD;
+        border-left: 1px solid #C1C1C1;
+        border-right: 1px solid #C1C1C1;
+        padding: 6px;
 }
 .menu input {
-	width: 156px;
+        width: 156px;
 }
 .menu select {
-	width: 165px;
+        width: 165px;
 }
 .menuHeader {
-	background: #619ad9 url(img/menu.top.bg.gif) 0 0 no-repeat;
-	border-bottom: 1px solid #000;
+    background: #619ad9 url(img/menu.top.bg.gif) 0 0 no-repeat;
+    border-bottom: 1px solid #000;
 }
 .menuSection {
-	color: #2C5298;
-	padding-bottom: 4px;
+    color: #2C5298;
+    padding-bottom: 4px;
 }
 .menuSection dt {
-	color: #2C5298;
-	font-size: small;
-	border: 0;
-	padding: 0;
-	font-weight: bold;
+    color: #2C5298;
+    font-size: small;
+    border: 0;
+    padding: 0;
+    font-weight: bold;
 }
 .menuSection dd {
-	color: #2C5298;
-	font-size: 85%;
-	padding: 0;
-	padding-left: 4px;
-	border: 0;
+        color: #2C5298;
+        font-size: 85%;
+        padding: 0;
+        padding-left: 4px;
+        border: 0;
 }
 .menuSection a {
-	color: #2C5298;
-	text-decoration: none;
+        color: #2C5298;
+        text-decoration: none;
 }
 .menuSection a:hover {
-	text-decoration: underline;
+        text-decoration: underline;
 }
 .menuForm dd, .menuForm dt {
-	border: 0;
-	padding: 0;
+        border: 0;
+        padding: 0;
 }
 .menuForm dt {
-	color: #2C5298;
-	font-size: 12px;
+        color: #2C5298;
+        font-size: 12px;
 }
 .menuForm dd {
-	padding-bottom: 5px;
+        padding-bottom: 5px;
 }
 /* Menu */
 .formButton {
-	background: #eaeaea url(img/btn.bg.gif) 0 0 repeat-x;
-	border-style: ridge; 
+        background: #eaeaea url(img/btn.bg.gif) 0 0 repeat-x;
+        border-style: ridge; 
 }
 /* Status Box */
 #status {
-	float: right;
-	padding: 5px 10px;
-	text-align: right;
+        float: right;
+        padding: 5px 10px;
+        text-align: right;
 }
 #status dl {
-	list-style: none;
-	background-image: url(img/status.bg.gif);
+        list-style: none;
+        background-image: url(img/status.bg.gif);
 }
 #status dt {
-	display: none;
+        display: none;
 }
 #status dd {
-	color: #fff;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: x-small;
-	padding: 2px 4px;
-	line-height: normal;
-	border: 1px solid #003080;
+        color: #fff;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: x-small;
+        padding: 2px 4px;
+        line-height: normal;
+        border: 1px solid #003080;
 }

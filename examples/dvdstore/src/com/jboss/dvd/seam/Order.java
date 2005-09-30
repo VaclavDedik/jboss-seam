@@ -120,6 +120,14 @@ public class Order
         return status.ordinal();
     }
 
+    public void cancel() {
+        setStatus(Order.Status.CANCELLED);
+    }
+
+    public void process() {
+        setStatus(Order.Status.PROCESSING);
+    }
+
     public void ship(String tracking) {
         setStatus(Order.Status.SHIPPED);
         setTrackingNumber(tracking);

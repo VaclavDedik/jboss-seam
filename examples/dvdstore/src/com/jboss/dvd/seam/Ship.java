@@ -6,9 +6,7 @@
  */ 
 package com.jboss.dvd.seam;
 
-import javax.faces.model.DataModel;
-
-public interface Workflow {
+public interface Ship {
     public String getTrack();
     public void   setTrack(String track);
 

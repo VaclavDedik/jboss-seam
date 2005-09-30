@@ -14,18 +14,18 @@ public class StartupListener
 {
     private static final Logger log = Logger.getLogger( StartupListener.class );
     
-//     private String[] PROCESS_LIST = {
-//         "jbpm-ordermanagement.xml"
-//     };
+    private String[] PROCESS_LIST = {
+        "jbpm-ordermanagement1.xml"
+    };
     
     private JbpmFactory jbpmFactory;
     
     public void contextInitialized(ServletContextEvent servletContextEvent)
     {
-        System.out.println("!!!!!!!!!!!!!!! STARTUP LISTENER");
         jbpmFactory = new JbpmFactory();
         jbpmFactory.setJndiName("/JbpmSessionFactory");
-        //jbpmFactory.setProcessDefinitionResources(PROCESS_LIST);
+
+        jbpmFactory.setProcessDefinitionResources(PROCESS_LIST);
 
         try {
             jbpmFactory.initialize();

@@ -7,24 +7,22 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
     <ui:composition template="/template.xhtml">
+        <ui:define name="topnav">
+            <ul>
+                <li><h:commandLink action="main" value="Home"/></li>
+                <li id="current"><h:commandLink action="#{showorders.findOrders}" value="Manage Orders"/></li>
+            </ul>
+        </ui:define>
+
         <ui:define name="sidebar">
-            <div id="menu">
-                <dl>
-                    <dt class="menuHeader">Admin options</dt>
-                    <dd> 
-                        <dl class="menuSection">
-                            <dt>Manufacturer Name</dt>
-                            <dd><h:commandLink action="#{workflow.findTasks}" 
-                                       value="Find Tasks"/></dd>
-                            <dd><h:commandLink action="#{workflow.loadProcess}" 
-                                       value="Load Process Definition"/></dd>
-                        </dl>
-                    </dd>
-                </dl>
-            </div>
+            <ui:include src="incl/processmenu.xhtml" />
         </ui:define>
         
         <ui:define name="body">
+            <h1>Order Shipping</h1>
+
+            <p>Please enter the tracking number below.</p>
+
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputText value="Order" />
@@ -50,7 +48,7 @@
                                      value="#{workflow.track}">
                             <f:validateLength minimum="4" /> 
                         </h:inputText>
-                        <h:message for="trackingNumber" styleClass="error" />
+                        <h:message for="trackingNumber" styleClass="cntError" />
                     </h:panelGroup>
                 </h:panelGrid>
             
@@ -95,9 +93,13 @@
                     </h:column>                        
                 </h:dataTable>
                 
-                <h:commandButton action="#{workflow.findTasks}" value="back" /> 
-                <h:commandButton action="#{workflow.ship}"      value="ship" /> 
+                <h:commandButton action="#{workflow.ship}" value="ship" /> 
             </h:form>
+
+            <h:form>
+                <h:commandButton action="admin" value="back" /> 
+            </h:form>
+
         </ui:define>
     </ui:composition>
 </body>

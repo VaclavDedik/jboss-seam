@@ -29,8 +29,6 @@ public class Customer
 {
     public static String[] cctypes = {"MasterCard", "Visa", "Discover", "Amex", "Dell Preferred"}; 
 
-    String  firstName;
-    String  lastName;
     String  address1;
     String  address2;
     String  city;
@@ -51,22 +49,6 @@ public class Customer
     public Customer() {
     }
 
-
-
-    @Column(name="FIRSTNAME",length=50)
-    public String getFirstName() {
-        return firstName;
-    }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    @Column(name="LASTNAME",length=50)    
-    public String getLastName() {
-        return lastName;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     @Column(name="ADDRESS1",length=50)    
     public String getAddress1() {

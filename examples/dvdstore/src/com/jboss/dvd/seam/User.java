@@ -28,8 +28,12 @@ public abstract class User
     implements Serializable
 {
     long    customerId;
+
     String  userName;
     String  password;
+
+    String  firstName;
+    String  lastName;
 
     @Id(generate=GeneratorType.AUTO)
     @Column(name="USERID")
@@ -54,5 +58,20 @@ public abstract class User
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Column(name="FIRSTNAME",length=50)
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    @Column(name="LASTNAME",length=50)    
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

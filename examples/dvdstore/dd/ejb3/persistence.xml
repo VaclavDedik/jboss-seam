@@ -3,8 +3,8 @@
     <!--<jta-data-source>java:/DVDStoreDS</jta-data-source>-->
     <jta-data-source>java:/DefaultDS</jta-data-source>
     <properties>
-        <property name="hibernate.hbm2ddl.auto" value="create-drop" />
-        <property name="hibernate.show_sql" value="true" />
+        <property name="hibernate.hbm2ddl.auto" value="update" /><!-- create-drop -->
+        <property name="hibernate.show_sql" value="false" />
         <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
     </properties>
 </entity-manager>

@@ -55,14 +55,13 @@ public class ShowOrdersAction
     //@DataModel
     List<Order> orders;    
 
-    @Out(required=false)
+    @Out(value="myorder", required=false)
     Order order;
 
     //@DataModelSelectionIndex
     int index;
 
     public ListDataModel getOrders() {
-        System.out.println("GET ORDERS: " + orders);
         return model;
     }
 
@@ -95,8 +94,8 @@ public class ShowOrdersAction
         index = model.getRowIndex();
         order = em.merge(orders.get(index));
         order.getOrderLines();
-        
-        return "showorder";
+
+        return "showorders";
     }
 
     @End

@@ -12,8 +12,7 @@ public class ShipperAssignment
     public void assign(Assignable assignable, ExecutionContext executionContext) 
         throws Exception
     {
-        System.out.println("jbpm assignment for assignable " + assignable);
         assignable.setActorId(SHIPPER);
-        System.out.println("JBPM!!!!!!!!! assigning task to " + SHIPPER);
+        //assignable.setPooledActors(new String[] {SHIPPER});
     }
 }

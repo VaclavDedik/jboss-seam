@@ -7,7 +7,15 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
     <ui:composition template="/template.xhtml">
+        <ui:define name="topnav">
+            <ul>
+                <li id="current"><h:commandLink action="main" value="Search for Movies"/></li>
+                <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
+            </ul>
+        </ui:define>
+
         <ui:define name="sidebar">
+            <ui:include src="incl/login.xhtml" />
         </ui:define>
 
         <ui:define name="body">

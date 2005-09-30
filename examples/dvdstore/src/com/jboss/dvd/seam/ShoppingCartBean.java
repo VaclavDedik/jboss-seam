@@ -40,6 +40,8 @@ public class ShoppingCartBean
     implements ShoppingCart,
                Serializable
 {
+    static final long serialVersionUID = 8722576722482084467L;
+
     @In(value="currentUser",required=false)
     Customer customer;
 
@@ -52,8 +54,13 @@ public class ShoppingCartBean
     @Out(required=false)
     Order order = null;
 
+
     @Out(scope=ScopeType.PROCESS, required=false)
     long orderId;
+    @Out(scope=ScopeType.PROCESS, required=false)
+    float amount;
+    @Out(value="customer",scope=ScopeType.PROCESS, required=false)
+    String customerName;
 
     public ShoppingCartBean() {
     }
@@ -134,9 +141,11 @@ public class ShoppingCartBean
 
         try {
             order = purchase(customer, lines);
-            cart = new ArrayList<SelectableItem<OrderLine>>(); 
+            cart  = new ArrayList<SelectableItem<OrderLine>>(); 
 
-            orderId = order.getOrderId();
+            orderId  = order.getOrderId();
+            amount   = order.getNetAmount();
+            customerName = order.getCustomer().getUserName();
 
             return "complete";
         } catch (InsufficientQuantityException e) {

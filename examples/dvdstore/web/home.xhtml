@@ -7,49 +7,27 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
     <ui:composition template="/template.xhtml">
-
+        <ui:define name="topnav">
+            <ul>
+                <li id="current"><h:commandLink action="main" value="Login"/></li>
+            </ul>
+        </ui:define>
+            
         <ui:define name="sidebar">
-            <div class="menu"> 
-                <dl>
-                    <dt class="menuHeader">#{msgs.loginPagePrompt}</dt>
-                    <dd class="menuForm">
-                        <h:form>
-                            <dl>
-                                <dd>
-                                    <h:outputText value="#{msgs.loginUser}" /> 
-                                    <h:inputText value="#{login.userName}" size="16" />
-                                </dd>
-                                <dd>
-                                    <h:outputText value="#{msgs.loginPass}" /> 
-                                    <h:inputSecret value="#{login.password}" size="16"/>
-                                </dd>
-                                
-                                <dd>
-                                    <h:commandButton action="#{login.login}" value="#{msgs.loginPrompt}"
-                                                     class="formButton" style="width: 166px;"/>
-                                </dd>
-                            </dl>
-                        </h:form>
-                    </dd>
-                </dl>
-            </div>
-
-
+            <ui:include src="incl/login.xhtml" />
         </ui:define>
         
         <ui:define name="body">
-            <h3>#{msgs.loginPageInfo}</h3>
+            <h1>Welcome to the DVD Store</h1>
             
             <h:messages globalOnly="true" 
                         layout="list" 
                         errorClass="cntError"/>
             
-            <br />
-
-            #{msgs.newCustomerPrompt}
-            <h:form>
-                <h:commandButton action="newcustomer" value="#{msgs.newCustomerButton}" />
-            </h:form>
+            <p>
+                Intro text goes here.  Explain users accounts, roles, etc...
+            </p>
+            
         </ui:define>
     </ui:composition>
 </body>

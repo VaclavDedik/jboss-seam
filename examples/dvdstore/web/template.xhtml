@@ -18,8 +18,8 @@
             <ui:insert name="topnav">
                 <ul>
                     <li id="current"><h:commandLink action="main" value="Home"/></li>
-                    <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
-                    <li><h:commandLink action="#{login.logout}" value="#{msgs.logoutButton}"/></li>
+                    <li><a href="#">Something</a></li>
+                    <li><a href="#">Something Else</a></li>
                 </ul>
             </ui:insert>
         </div>
@@ -58,31 +58,6 @@
                     </div>
 
 
-                    <div class="menu"> 
-                        <dl>
-                            <dt class="menuHeader">Refine Search</dt>
-                            <dd> 
-                                <dl class="menuSection">
-                                    <dt>Manufacturer Name</dt>
-                                    <dd><a href="#">McKesson Brand</a></dd>
-                                    <dd><a href="#">Ansell Perry</a></dd>
-                                    <dd><a href="#">Kimberly-Clark Professional</a></dd>
-                                    <dd><a href="#">Other</a></dd>
-                                </dl>
-                                <dl class="menuSection">
-                                    <dt>Size</dt>
-                                    <dd><a href="#">Large</a></dd>
-                                    <dd><a href="#">Medium</a></dd>
-                                    <dd><a href="#">Small</a></dd>
-                                    <dd><a href="#">X-Large</a></dd>
-                                    <dd><a href="#">Other</a></dd>
-                                </dl>
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt>Search Help</dt>
-                        </dl>
-                    </div>
                 </ui:insert>
             </div>
             
@@ -135,6 +110,9 @@
                 </ui:insert>
             </div>
         </div>
+
+        <div class="grayBox" style="text-align: right; color: #666;">#{copyright}</div>
     </div>
+
 </body>
 </html>

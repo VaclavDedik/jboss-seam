@@ -73,9 +73,11 @@ public class LoginAction
             return "notok";
         }
     }
-
+    
     public String logout() {
         Seam.invalidateSession();
+        sessionContext.set("currentUser", null);
+        sessionContext.set("loggedIn",    null);
         return "done";
     }
 

@@ -7,117 +7,95 @@
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
     <ui:composition template="/template.xhtml">
+        <ui:define name="topnav">
+            <ul>
+                <li id="current"><h:commandLink action="main" value="Search for Movies"/></li>
+                <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
+            </ul>
+        </ui:define>
+
         <ui:define name="sidebar">
-            <div class="menu"> 
-                <dl>
-                    <dt class="menuHeader">#{msgs.browseSearchHeader}</dt>
-                    <dd class="menuForm">
-                        <h:form>
-                            <dl>
-                                <dd>
-                                    <h:outputText value="#{msgs.searchTitle}" />
-                                    <h:inputText value="#{search.title}" size="15"/>
-                                </dd>
-                                <dd>
-                                    <h:outputText value="#{msgs.searchActor}" />
-                                    <h:inputText value="#{search.actor}" size="15"/>
-                                </dd>
-                                
-                                <dd>
-                                    <h:outputText value="#{msgs.searchCategory}" />
-                                    <h:selectOneMenu value="#{search.category}">
-                                        <f:selectItems value="#{search.categories}" />
-                                    </h:selectOneMenu>
-                                </dd>
-
-                                <dd>
-                                    <h:commandButton action="#{search.doSearch}" 
-                                                     value="#{msgs.searchButton}"
-                                                     class="formButton" style="width: 166px;"/>
-                                </dd>
-                            </dl>
-                        </h:form>
-                    </dd>
-                </dl>
-            </div>
-
+            <ui:include src="incl/login.xhtml" />
+            <ui:include src="incl/searchbox.xhtml" />
             <ui:include src="incl/cart.xhtml" />
         </ui:define>
         
         <ui:define name="body">
-            <c:if test="${search.searchResults!=null}">
-                <h:form>
+            <c:choose>
+                <c:when test="${search.searchResults==null}">
+                    Use the search box to the right to search for DVDs.
+                </c:when>
+                <c:when test="${empty(search.searchResults)}">
                     <h2>
-                        <h:outputText value="#{msgs.noSearchResultsHeader}"
-                                      rendered="#{empty(search.searchResults)}"/>
+                        <h:outputText value="#{msgs.noSearchResultsHeader}" />
                     </h2>
-                    
-
-                    <div class="controlBar" style="clear: left;">
-                        <div style="float: right; width: 50%; text-align: right; padding: 3px 6px;">
-                            <div style="float: right; width: 24px">
-                                <h:commandLink action="#{search.nextPage}" 
-                                               disabled="#{search.lastPage}">
-                                    <img src="img/fastf_24.gif" />
-                                </h:commandLink>
+                </c:when>
+                <c:otherwise>
+                    <h:form>
+                        <div class="controlBar" style="clear: left;">
+                            <div style="float: right; width: 50%; text-align: right; padding: 3px 6px;">
+                                <div style="float: right; width: 24px">
+                                    <h:commandLink action="#{search.nextPage}" 
+                                                   disabled="#{search.lastPage}">
+                                        <img src="img/fastf_24.gif" />
+                                    </h:commandLink>
+                                </div>
+                                <div style="float: right; width: 24px">
+                                    <h:commandLink action="#{search.prevPage}"
+                                                   disabled="#{search.firstPage}">
+                                        <img src="img/rewnd_24.gif" />
+                                    </h:commandLink>
+                                </div>
                             </div>
-                            <div style="float: right; width: 24px">
-                                <h:commandLink action="#{search.prevPage}"
-                                               disabled="#{search.firstPage}">
-                                    <img src="img/rewnd_24.gif" />
-                                </h:commandLink>
-                            </div>
-                        </div>
-
-                        <div style="padding: 3px 6px; vertical-align: bottom;">
-                            #{msgs.searchResultsHeader}
-                        </div>
-                    </div>
-
-                    <h:dataTable rendered="#{!empty(search.searchResults)}"
-                                 value="#{search.searchResults}" 
-                                 var="product" 
-                                 styleClass="dvdtable" 
-                                 headerClass="dvdtablehead"
-                                 rowClasses="results"
-                                 columnClasses="dvdtablecol">
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.searchResultsAdd}" />
-                                    </f:facet>
-                                    <h:selectBooleanCheckbox value="#{product.selected}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.searchResultsTitle}" />
-                                    </f:facet>
-                                    <h:outputText value="#{product.item.title}" />
-                                </h:column>                        
-                                
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.searchResultsActor}" />
-                                    </f:facet>
-                                    <h:outputText value="#{product.item.actor}" />
-                                </h:column>                        
-                                
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.searchResultsPrice}" />
-                                    </f:facet>
-                                    <h:outputText value="#{product.item.price}">
-                                        <f:convertNumber type="currency" currencySymbol="$" />
-                                    </h:outputText>
-                                </h:column>                        
-                            </h:dataTable>
                             
-                            <h:commandButton rendered="#{!empty(search.searchResults)}"
-                                             action="#{search.addToCart}" 
-                                             value="#{msgs.searchUpdateButton}"/>
-                    
-                </h:form>        
-            </c:if>
-
+                            <div style="padding: 3px 6px; vertical-align: bottom;">
+                                #{msgs.searchResultsHeader}
+                            </div>
+                        </div>
+                        
+                        <h:dataTable value="#{search.searchResults}" 
+                                     var="product" 
+                                     styleClass="dvdtable" 
+                                     headerClass="dvdtablehead"
+                                     rowClasses="results"
+                                     columnClasses="dvdtablecol">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.searchResultsAdd}" />
+                                </f:facet>
+                                <h:selectBooleanCheckbox value="#{product.selected}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.searchResultsTitle}" />
+                                </f:facet>
+                                <h:outputText value="#{product.item.title}" />
+                            </h:column>                        
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.searchResultsActor}" />
+                                </f:facet>
+                                <h:outputText value="#{product.item.actor}" />
+                            </h:column>                        
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.searchResultsPrice}" />
+                                </f:facet>
+                                <h:outputText value="#{product.item.price}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </h:column>                        
+                        </h:dataTable>
+                        
+                        <h:commandButton action="#{search.addToCart}" 
+                                         value="#{msgs.searchUpdateButton}"/>
+                        
+                    </h:form>        
+                </c:otherwise>
+            </c:choose>
+            
         </ui:define>
     </ui:composition>
 </body>
