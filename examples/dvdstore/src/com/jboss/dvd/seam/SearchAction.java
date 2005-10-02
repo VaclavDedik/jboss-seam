@@ -55,6 +55,11 @@ public class SearchAction
     String  title    = null;
     String  actor    = null;
 
+    List<Category>      categories;
+    Map<String,Integer> categoryMap;
+
+    List<SelectableItem<Product>> searchResults;
+
     public void setCategory(Integer category) {
         this.category = category ; 
     }
@@ -76,22 +81,15 @@ public class SearchAction
         return actor;
     }
 
-    List<SelectableItem<Product>> searchResults;
     public List getSearchResults() {
         return searchResults;
     }
-
-
-    List<Category>      categories;
-    Map<String,Integer> categoryMap;
-
 
     public SearchAction() {
     }
 
     @Begin
     public String doSearch() {
-        System.out.println("search.doSearch! -> browse");
         currentPage=0;
         updateResults();
         return "browse";
@@ -180,8 +178,6 @@ public class SearchAction
         title = (title == null) ? "%" : "%" + title.toLowerCase() + "%";
         actor = (actor == null) ? "%" : "%" + actor.toLowerCase() + "%";
 
-        System.out.println("XCAT: " + category);
-
         if (category == null) {
             return em.createQuery("from Product p where lower(p.title) LIKE :title " + 
                                   "and lower(p.actor) LIKE :actor")
@@ -200,18 +196,14 @@ public class SearchAction
 
 
     public String addToCart() {
-        System.out.println("ADD TO CART: " + cart);
         for (SelectableItem<Product> item: searchResults) {
             if (item.getSelected()) {
                 item.setSelected(false);
 
-
-                System.out.println("ADDING: " + item.getItem());
                 cart.addProduct(item.getItem(), 1);
             }
         }
 
-        System.out.println("!!");
         return null;
     }
 

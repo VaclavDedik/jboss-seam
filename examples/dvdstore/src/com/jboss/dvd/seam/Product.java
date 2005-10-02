@@ -32,7 +32,7 @@ public class Product
     float price;
 
     Category  category;
-    Product   relatedProduct;
+    //Product   relatedProduct;
     Inventory inventory;
 
     @Id(generate=GeneratorType.AUTO)
@@ -85,12 +85,12 @@ public class Product
         this.price=price;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="COMMON_PROD_ID")
-    public Product getRelatedProduct() {
-        return relatedProduct;
-    }
-    public void setRelatedProduct(Product related) {
-        this.relatedProduct=related;
-    }
+//     @ManyToOne(fetch=FetchType.LAZY)
+//     @JoinColumn(name="COMMON_PROD_ID")
+//     public Product getRelatedProduct() {
+//         return relatedProduct;
+//     }
+//     public void setRelatedProduct(Product related) {
+//         this.relatedProduct=related;
+//     }
 }

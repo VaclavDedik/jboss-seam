@@ -11,12 +11,13 @@
             <ul>
                 <li><h:commandLink action="main" value="Home"/></li>
                 <li id="current"><h:commandLink action="#{showorders.findOrders}" value="Manage Orders"/></li>
-                <li><h:commandLink action="logout" value="#{msgs.logoutButton}"/></li>
             </ul>
         </ui:define>
 
         <ui:define name="sidebar">
-            <ui:include src="incl/processmenu.xhtml" />
+            <ui:include src="/incl/login.xhtml" />
+            <ui:include src="/incl/stats.xhtml" />
+            <ui:include src="/incl/processmenu.xhtml" />
         </ui:define>
         
         <ui:define name="body">
@@ -24,69 +25,75 @@
 
             <p>Please accept or reject the order.</p>
 
-            <h:panelGrid columns="2">
-                <h:outputText value="Order" />
-                <h:outputText value="#{order.orderId}" />
-                
-                <h:outputText value="Order date:" />
-                <h:outputText value="#{order.orderDate}" />
-                
-                <h:outputText value="Net Amount:" />
-                <h:outputText value="#{order.netAmount}" />
-                
-                <h:outputText value="Tax:" />
-                <h:outputText value="#{order.tax}" />
-                
-                <h:outputText value="Total Amount:" />
-                <h:outputText value="#{order.totalAmount}" />
-            </h:panelGrid>
-            
-            <h:dataTable value="#{order.orderLines}" 
-                         var="item"
-                         styleClass="dvdtable" 
-                         headerClass="dvdtablehead"
-                         rowClasses="dvdtableodd,dvdtableeven"
-                         columnClasses="dvdtablecol">
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs.cartItemColumn}" />
-                    </f:facet>
-                    <h:outputText value="#{item.position}" />
-                </h:column>                        
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs.cartQuantityColumn}" />
-                    </f:facet>
-                    <h:outputText value="#{item.quantity}" size="6" />
-                </h:column>                        
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs.cartTitleColumn}" />
-                    </f:facet>
-                    <h:outputText value="#{item.product.title}" />
-                </h:column>                        
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs.cartActorColumn}" />
-                    </f:facet>
-                    <h:outputText value="#{item.product.actor}" />
-                </h:column>                        
-                
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs.cartPriceColumn}" />
-                    </f:facet>
-                    <h:outputText value="#{item.product.price}">
+            <div class="cntInfo">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Order" />
+                    <h:outputText value="#{order.orderId}" />
+                    
+                    <h:outputText value="Order date:" />
+                    <h:outputText value="#{order.orderDate}">
+                        <f:convertDateTime type="both" dateStyle="full"/> 
+                    </h:outputText>
+                    
+                    <h:outputText value="Net Amount:" />
+                    <h:outputText value="#{order.netAmount}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
-                </h:column>                        
-            </h:dataTable>
-            
-            <h:form>
-                <h:commandButton action="#{accept.reject}" value="Reject Order" /> 
-                <h:commandButton action="#{accept.accept}" value="Accept Ordert" /> 
-            </h:form>
-        </ui:define>
+                    
+                    <h:outputText value="Tax:" />
+                    <h:outputText value="#{order.tax}">
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                    
+                    <h:outputText value="Total Amount:" />
+                    <h:outputText value="#{order.totalAmount}">
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                </h:panelGrid>
+                
+                <div class="cntInfo">
+                    <h:dataTable value="#{order.orderLines}" 
+                                 var="item"
+                                 styleClass="dvdtable" 
+                                 headerClass="dvdtablehead"
+                                 rowClasses="dvdtableodd,dvdtableeven"
+                                 columnClasses="dvdtablecol">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.cartQuantityColumn}" />
+                            </f:facet>
+                            <h:outputText value="#{item.quantity}" size="6" />
+                        </h:column>                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.cartTitleColumn}" />
+                            </f:facet>
+                            <h:outputText value="#{item.product.title}" />
+                        </h:column>                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.cartActorColumn}" />
+                            </f:facet>
+                            <h:outputText value="#{item.product.actor}" />
+                        </h:column>                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.cartPriceColumn}" />
+                            </f:facet>
+                            <h:outputText value="#{item.product.price}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </h:column>                        
+                    </h:dataTable>
+                </div>                
+                
+                <h:form>
+                    <h:commandButton action="#{accept.reject}" value="Reject Order" /> 
+                    <h:commandButton action="#{accept.accept}" value="Accept Ordert" /> 
+                </h:form>
+            </div>
+ 
+       </ui:define>
     </ui:composition>
 </body>
 </html>

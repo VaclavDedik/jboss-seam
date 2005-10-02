@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -9,7 +9,7 @@
     <ui:composition template="/template.xhtml">
         <ui:define name="topnav">
             <ul>
-                <li id="current"><h:commandLink action="main" value="Search for Movies"/></li>
+                <li id="current"><h:commandLink action="browse" value="Search for Movies"/></li>
                 <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
             </ul>
         </ui:define>
@@ -34,17 +34,22 @@
                     <h:form>
                         <div class="controlBar" style="clear: left;">
                             <div style="float: right; width: 50%; text-align: right; padding: 3px 6px;">
-                                <div style="float: right; width: 24px">
-                                    <h:commandLink action="#{search.nextPage}" 
-                                                   disabled="#{search.lastPage}">
-                                        <img src="img/fastf_24.gif" />
-                                    </h:commandLink>
+
+                                <div style="float: right; width: 24px; border: 1;">
+                                    <c:if test="${!search.lastPage}">
+                                        <h:commandLink action="#{search.nextPage}">
+                                            <img src="img/fastf_24.gif" />
+                                        </h:commandLink>
+                                    </c:if>
+                                    &nbsp;
                                 </div>
-                                <div style="float: right; width: 24px">
-                                    <h:commandLink action="#{search.prevPage}"
-                                                   disabled="#{search.firstPage}">
-                                        <img src="img/rewnd_24.gif" />
-                                    </h:commandLink>
+                                <div style="float: right; width: 24px; border: 1;">
+                                    <c:if test="${!search.firstPage}">
+                                        <h:commandLink action="#{search.prevPage}">
+                                            <img src="img/rewnd_24.gif" />
+                                        </h:commandLink>
+                                    </c:if>
+                                    &nbsp;
                                 </div>
                             </div>
                             

@@ -91,6 +91,11 @@ public class ShipAction
     @CompleteTask
     @End
     public String ship() {
+        if (track == null || track.length()==0) {
+            // invalid message
+            return null;
+        }
+
         order.ship(track);
         
         return "admin";

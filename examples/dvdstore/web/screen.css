@@ -149,8 +149,7 @@ li {
         color: #3b66a2;
         font-size: small;
 }
-/* Headings
------------------------------------------------ */
+/* Headings */
 h1, h2, h3, h4, h5 {
         font-family: "Trebuchet MS", Arial, sans-serif;
         line-height: normal;
@@ -303,6 +302,8 @@ h3 {
         border-right: 1px solid #C1C1C1;
         padding: 6px;
 }
+
+
 .menu input {
         width: 156px;
 }
@@ -338,17 +339,28 @@ h3 {
 .menuSection a:hover {
         text-decoration: underline;
 }
-.menuForm dd, .menuForm dt {
-        border: 0;
-        padding: 0;
+
+.menuFooter a {
+    /* color: #2C5298; */
+    text-decoration: none;
 }
+.menuFooter a:hover {
+    text-decoration: underline;
+}
+
+.menuForm dd, .menuForm dt {
+    border: 0;
+    padding: 0;
+}
+
 .menuForm dt {
-        color: #2C5298;
-        font-size: 12px;
+    color: #2C5298;
+    font-size: 12px;
 }
 .menuForm dd {
-        padding-bottom: 5px;
+    padding-bottom: 5px;
 }
+
 /* Menu */
 .formButton {
         background: #eaeaea url(img/btn.bg.gif) 0 0 repeat-x;
@@ -374,4 +386,16 @@ h3 {
         padding: 2px 4px;
         line-height: normal;
         border: 1px solid #003080;
+}
+
+
+
+.orderBox {
+    clear: both;
+    position: relative;
+    top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 10px;
+
 }

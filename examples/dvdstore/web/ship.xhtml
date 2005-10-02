@@ -15,7 +15,9 @@
         </ui:define>
 
         <ui:define name="sidebar">
-            <ui:include src="incl/processmenu.xhtml" />
+            <ui:include src="/incl/login.xhtml" />
+            <ui:include src="/incl/stats.xhtml" />
+            <ui:include src="/incl/processmenu.xhtml" />
         </ui:define>
         
         <ui:define name="body">
@@ -23,83 +25,81 @@
 
             <p>Please enter the tracking number below.</p>
 
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="Order" />
-                    <h:outputText value="#{order.orderId}" />
-                    
-                    <h:outputText value="Order date:" />
-                    <h:outputText value="#{order.orderDate}" />
-                    
-                    <h:outputText value="Net Amount:" />
-                    <h:outputText value="#{order.netAmount}" />
-                    
-                    <h:outputText value="Tax:" />
-                    <h:outputText value="#{order.tax}" />
-                    
-                    <h:outputText value="Total Amount:" />
-                    <h:outputText value="#{order.totalAmount}" />
-
-
-                    <h:outputText value="Tracking number:" />
-                    
-                    <h:panelGroup>
-                        <h:inputText id="trackingNumber" required="true" 
-                                     value="#{workflow.track}">
-                            <f:validateLength minimum="4" /> 
-                        </h:inputText>
-                        <h:message for="trackingNumber" styleClass="cntError" />
-                    </h:panelGroup>
-                </h:panelGrid>
-            
-                <h:dataTable value="#{order.orderLines}" 
-                             var="item"
-                             styleClass="dvdtable" 
-                             headerClass="dvdtablehead"
-                             rowClasses="dvdtableodd,dvdtableeven"
-                             columnClasses="dvdtablecol">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartItemColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.position}" />
-                    </h:column>                        
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartQuantityColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.quantity}" size="6" />
-                    </h:column>                        
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartTitleColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.product.title}" />
-                    </h:column>                        
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartActorColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.product.actor}" />
-                    </h:column>                        
-                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartPriceColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.product.price}">
+            <div class="cntInfo">
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Order Number:" />
+                        <h:outputText value="#{order.orderId}" />
+                        
+                        <h:outputText value="Order date:" />
+                        <h:outputText value="#{order.orderDate}">
+                            <f:convertDateTime type="both" dateStyle="full"/> 
+                        </h:outputText>
+                        
+                        <h:outputText value="Net Amount:" />
+                        <h:outputText value="#{order.netAmount}">
                             <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
-                    </h:column>                        
-                </h:dataTable>
-                
-                <h:commandButton action="#{workflow.ship}" value="ship" /> 
-            </h:form>
-
-            <h:form>
-                <h:commandButton action="admin" value="back" /> 
-            </h:form>
-
+                        
+                        <h:outputText value="Tax:" />
+                        <h:outputText value="#{order.tax}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                        
+                        <h:outputText value="Total Amount:" />
+                        <h:outputText value="#{order.totalAmount}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                        
+                        <h:outputText value="Tracking number:" />
+                        <h:panelGroup>
+                            <!-- required -->
+                            <h:inputText id="trackingNumber" value="#{ship.track}">
+                                <f:validateLength minimum="4" /> 
+                            </h:inputText>
+                            <h:message for="trackingNumber" styleClass="cntError" />
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    
+                    <div class="cntInfo">
+                        <h:dataTable value="#{order.orderLines}" 
+                                     var="item"
+                                     styleClass="dvdtable" 
+                                     headerClass="dvdtablehead"
+                                     rowClasses="dvdtableodd,dvdtableeven"
+                                     columnClasses="dvdtablecol">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.cartQuantityColumn}" />
+                                </f:facet>
+                                <h:outputText value="#{item.quantity}" size="6" />
+                            </h:column>                        
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.cartTitleColumn}" />
+                                </f:facet>
+                                <h:outputText value="#{item.product.title}" />
+                            </h:column>                        
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.cartActorColumn}" />
+                                </f:facet>
+                                <h:outputText value="#{item.product.actor}" />
+                            </h:column>                        
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.cartPriceColumn}" />
+                                </f:facet>
+                                <h:outputText value="#{item.product.price}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </h:column>                        
+                        </h:dataTable>
+                    </div>
+                    <h:commandButton action="#{ship.ship}" value="ship" /> 
+                </h:form>
+            </div>
         </ui:define>
     </ui:composition>
 </body>

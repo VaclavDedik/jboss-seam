@@ -20,19 +20,19 @@ insert into PRODUCTS (PROD_ID, CATEGORY, TITLE, ACTOR, PRICE) values (11, 1, 'Ki
 insert into PRODUCTS (PROD_ID, CATEGORY, TITLE, ACTOR, PRICE) values (12, 7, 'Lost in Translation', 'Bill Murray', 19.99);
 insert into PRODUCTS (PROD_ID, CATEGORY, TITLE, ACTOR, PRICE) values (13, 7, 'Broken Flowers', 'Bill Murray', 19.99);
 
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (1, 1, 10, 0);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (2, 2, 15, 5);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (1, 1, 10, 1);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (2, 2, 15, 1);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (3, 3, 77, 2);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (4, 4, 67, 2);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (5, 5, 57, 9);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (6, 6, 44, 7);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (7, 7, 88, 2);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (8, 8, 99, 8);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (9, 9, 56, 2);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (10, 10, 102, 2);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (11, 11, 994, 2);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (12, 12, 12, 2);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (13, 13, 77, 7);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (4, 4, 67, 1);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (5, 5, 57, 1);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (6, 6, 44, 0);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (7, 7, 88, 0);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (8, 8, 99, 0);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (9, 9, 56, 0);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (10, 10, 102, 0);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (11, 11, 994, 0);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (12, 12, 12, 0);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (13, 13, 77, 0);
 
 
 INSERT INTO USERS (USERID,TYPE,USERNAME,PASSWORD,FIRSTNAME,LASTNAME) VALUES (1,'admin','manager','password','Albus', 'Dumblebore')

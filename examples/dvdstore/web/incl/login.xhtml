@@ -10,24 +10,21 @@
                 <dd class="menuForm">
                     <h:form>
                         <dl>
-                            <dd>
-                                <label><h:outputText value="#{msgs.loginUser}" /></label>
-                                <h:inputText value="#{login.userName}" size="16" />
-                            </dd>
-                            <dd>
-                                <label><h:outputText value="#{msgs.loginPass}" /></label>
-                                <h:inputSecret value="#{login.password}" size="16"/>
-                            </dd>
+                            <dt><h:outputText value="#{msgs.loginUser}" /></dt>
+                            <dd><h:inputText value="#{login.userName}" size="16" /></dd>
+                            <dt><h:outputText value="#{msgs.loginPass}" /></dt>
+                            <dd><h:inputSecret value="#{login.password}" size="16"/></dd>
                             
                             <dd>
                                 <h:commandButton action="#{login.login}" value="#{msgs.loginPrompt}"
                                                  class="formButton" style="width: 166px;"/>
                             </dd>
+
                         </dl>
                     </h:form>
                 </dd>
             </dl>
-            <dl><dt><h:commandLink action="newcustomer" value="Create Account" /></dt></dl>
+            <dl><dt class="menuFooter"><h:commandLink action="newcustomer" value="Create Account" /></dt></dl>
         </div>
     </c:when>
     <c:otherwise>

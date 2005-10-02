@@ -16,10 +16,10 @@ import javax.ejb.Stateful;
 import javax.ejb.Remove;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.InterceptionType;
-
 
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.Destroy;
@@ -29,7 +29,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
-
 
 @Stateful
 @Name("cart")
@@ -45,7 +44,7 @@ public class ShoppingCartBean
     @In(value="currentUser",required=false)
     Customer customer;
 
-    @PersistenceContext(unitName="dvd")
+    @PersistenceContext(unitName="dvd",type=PersistenceContextType.EXTENDED)
     EntityManager em;
 
     List<SelectableItem<OrderLine>> cart = 
@@ -70,6 +69,10 @@ public class ShoppingCartBean
     }
 
     public void addProduct(Product product, int quantity) {
+        System.out.println("merge: " + product);
+        product = em.find(Product.class, product.getProductId());
+        System.out.println("merged: " + product);
+
         for (SelectableItem<OrderLine> item: cart) {
             if (product.getProductId() == item.getItem().getProduct().getProductId()) {
                 item.getItem().addQuantity(quantity);
@@ -173,9 +176,11 @@ public class ShoppingCartBean
             line.setOrder(order); 
 
             Inventory inv = line.getProduct().getInventory();
+            System.out.println("INV: " + inv.getQuantity() + "/" + inv.getSales());
             if (!inv.order(line.getQuantity())) {
                 errorProducts.add(line.getProduct());
             }
+            System.out.println("INV: " + inv.getQuantity() + "/" + inv.getSales());
         }
 
         if (errorProducts.size()>0) {

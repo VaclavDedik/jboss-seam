@@ -33,7 +33,9 @@
                 </h:column>                        
                 <h:column>
                     <f:facet name="header">Date</f:facet>
-                    #{item.orderDate}
+                    <h:outputText value="#{item.orderDate}">
+                        <f:convertDateTime type="both" dateStyle="full"/> 
+                    </h:outputText>
                 </h:column>                        
                 <h:column>
                     <f:facet name="header">Status</f:facet>
@@ -49,65 +51,78 @@
 
 
             <c:if test="${myorder != null}">
-                <h2>Order Details</h2>
+                <div class="cntInfo">
+                    <h2>Order Details</h2>
 
-                <h:panelGrid columns="2">
-                    <h:outputText value="Order Id:" />
-                    <h:outputText value="#{myorder.orderId}" />
-                    
-                    <h:outputText value="Status:" />
-                    <h:panelGroup>
-                        <h:outputText value="#{myorder.status}" />
-                        <c:if test="#{myorder.statusCode==3}">
-                            (Tracking Number: <h:outputText value="#{myorder.trackingNumber}" />)
-                        </c:if>
-                    </h:panelGroup>
-                    
-                    <h:outputText value="Order date:" />
-                    <h:outputText value="#{myorder.orderDate}" />
-                    
-                    <h:outputText value="Net Amount:" />
-                    <h:outputText value="#{myorder.netAmount}" />
-                    
-                    <h:outputText value="Tax:" />
-                    <h:outputText value="#{myorder.tax}" />
-                    
-                    <h:outputText value="Total Amount:" />
-                    <h:outputText value="#{myorder.totalAmount}" />
-                </h:panelGrid>
-                
-                <h:dataTable value="#{myorder.orderLines}" var="item"
-                             styleClass="dvdtable" 
-                             headerClass="dvdtablehead"
-                             rowClasses="dvdtableodd,dvdtableeven"
-                             columnClasses="dvdtablecol">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartTitleColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.product.title}" />
-                    </h:column>                        
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartActorColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.product.actor}" />
-                    </h:column>                        
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartQuantityColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.quantity}" size="6" />
-                    </h:column>                                        
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{msgs.cartPriceColumn}" />
-                        </f:facet>
-                        <h:outputText value="#{item.product.price}">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Order Id:" />
+                        <h:outputText value="#{myorder.orderId}" />
+                        
+                        <h:outputText value="Status:" />
+                        <h:panelGroup>
+                            <h:outputText value="#{myorder.status}" />
+                            <c:if test="#{myorder.statusCode==3}">
+                                (Tracking Number: <h:outputText value="#{myorder.trackingNumber}" />)
+                            </c:if>
+                        </h:panelGroup>
+                        
+                        <h:outputText value="Order date:" />
+                        <h:outputText value="#{myorder.orderDate}">
+                            <f:convertDateTime type="both" dateStyle="full"/> 
+                        </h:outputText>
+                        
+                        <h:outputText value="Net Amount:" />
+                        <h:outputText value="#{myorder.netAmount}">
                             <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
-                    </h:column>                        
-                </h:dataTable>
+                        
+                        <h:outputText value="Tax:" />
+                        <h:outputText value="#{myorder.tax}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                        
+                        <h:outputText value="Total Amount:" />
+                        <h:outputText value="#{myorder.totalAmount}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                    </h:panelGrid>
+                    
+
+                    <div class="cntInfo">
+                        <h:dataTable value="#{myorder.orderLines}" var="item"
+                                     styleClass="dvdtable" 
+                                     headerClass="dvdtablehead"
+                                     rowClasses="dvdtableodd,dvdtableeven"
+                                     columnClasses="dvdtablecol">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.cartTitleColumn}" />
+                                </f:facet>
+                                <h:outputText value="#{item.product.title}" />
+                            </h:column>                        
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.cartActorColumn}" />
+                                </f:facet>
+                                <h:outputText value="#{item.product.actor}" />
+                            </h:column>                        
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.cartQuantityColumn}" />
+                                </f:facet>
+                                <h:outputText value="#{item.quantity}" size="6" />
+                            </h:column>                                        
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.cartPriceColumn}" />
+                                </f:facet>
+                                <h:outputText value="#{item.product.price}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </h:column>                        
+                        </h:dataTable>
+                    </div>
+                </div>
             </c:if>
         </ui:define>
     </ui:composition>

@@ -9,13 +9,14 @@
     <ui:composition template="/template.xhtml">
         <ui:define name="topnav">
             <ul>
-                <li id="current"><h:commandLink action="#{showorders.findOrders}" value="Manage Orders"/></li>
+                <li id="current"><h:commandLink action="admin" value="Manage Orders"/></li>
             </ul>
         </ui:define>
 
         <ui:define name="sidebar">
-            <ui:include src="incl/login.xhtml" />
-            <ui:include src="incl/processmenu.xhtml" />
+            <ui:include src="/incl/login.xhtml" />
+            <ui:include src="/incl/stats.xhtml" />
+            <ui:include src="/incl/processmenu.xhtml" />
         </ui:define>
         
         <ui:define name="body">
@@ -43,13 +44,15 @@
                             <f:facet name="header">
                                 Order Amount
                             </f:facet>
-                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}
+                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
                                 Customer
                             </f:facet>
-                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}
+                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}" />
                         </h:column>
                         <h:column>
                             <h:commandLink action="#{accept.viewTask}"> 
@@ -86,21 +89,22 @@
                             <f:facet name="header">
                                 Order Amount
                             </f:facet>
-                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}
+                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
                                 Customer
                             </f:facet>
-                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}
+                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <h:commandLink action="#{workflow.viewTask}"> 
-                                <h:commandButton value="Review"/>
+                            <h:commandLink action="#{ship.viewTask}"> 
+                                <h:commandButton value="Ship"/>
                                 <f:param name="jbpmTaskId" value="#{task.id}"/>
                             </h:commandLink>
-                        </h:column>
-               
+                        </h:column>               
                     </h:dataTable>
                 </c:otherwise>
             </c:choose>

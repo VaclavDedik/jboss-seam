@@ -62,43 +62,41 @@
                     </h:column>                        
                 </h:dataTable>
             </h:form>
+
+
+            <div style="width: 100%;">
+                <div class="cntInfo" style="float: right;">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="#{msgs.checkoutSubtotal}" />
+                        <h:outputText value="#{order.netAmount}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{msgs.checkoutTax}" />
+                        <h:outputText value="#{order.tax}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{msgs.checkoutTotal}" />
+                        <h:outputText value="#{order.totalAmount}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                    </h:panelGrid>
+                </div>
+
+                <div style="float:clear">&nbsp;</div>
+            </div>
             
-            <h:panelGrid columns="2">
-                <h:outputText value="#{msgs.checkoutSubtotal}" />
-                <h:outputText value="#{order.netAmount}">
-                    <f:convertNumber type="currency" currencySymbol="$" />
-                </h:outputText>
-                
-                <h:outputText value="#{msgs.checkoutTax}" />
-                <h:outputText value="#{order.tax}">
-                    <f:convertNumber type="currency" currencySymbol="$" />
-                </h:outputText>
-                
-                <h:outputText value="#{msgs.checkoutTotal}" />
-                <h:outputText value="#{order.totalAmount}">
-                    <f:convertNumber type="currency" currencySymbol="$" />
-                </h:outputText>
-            </h:panelGrid>
-            
-            <p>
+
+            <p class="orderBox cntAlert">
+                Thank you for ordering. 
                 <h:outputText value="#{order.totalAmount}"> 
                     <f:convertNumber type="currency" currencySymbol="$" />
                 </h:outputText>
-                <h:outputText value="#{msgs.chargedToCard}" />
-                <h:outputText value="#{order.customer.creditCard}" />
-                (<h:outputText value="#{order.customer.creditCardTypeString}" />), 
-                <h:outputText value="#{msgs.expiration}" />
-                <h:outputText value="#{order.customer.creditCardExpiration}" />
+                charged was to your <h:outputText value="#{order.customer.creditCardTypeString}" />.
+                Your order number is 
+                <h:outputText value="#{order.orderId}" />.
             </p>
-            
-            <p>
-                <h:outputText value="#{msgs.orderNumber}" />
-                <h:outputText value="#{order.orderId}" />
-            </p>
-            
-            <h:form>
-                <h:commandButton action="browse"           value="#{msgs.shopAgainButton}" />
-            </h:form>
         </ui:define>
     </ui:composition>
 </body>
