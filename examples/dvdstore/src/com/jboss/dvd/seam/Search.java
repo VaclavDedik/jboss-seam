@@ -6,11 +6,12 @@
  */ 
 package com.jboss.dvd.seam;
 
+import java.util.List;
 import java.util.Map;
 
 public interface Search
 {
-    public java.util.List getSearchResults();
+    public List getSearchResults();
 
     public String getActor();
     public void   setActor(String actor);
@@ -32,7 +33,7 @@ public interface Search
 
     public String doSearch();
     public String addToCart();
-    public String reset();
 
-    public void destroy();
+    public String reset();
+    public void   destroy();
 }

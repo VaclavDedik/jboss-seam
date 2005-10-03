@@ -58,6 +58,7 @@ public class SearchAction
     List<Category>      categories;
     Map<String,Integer> categoryMap;
 
+    @Out
     List<SelectableItem<Product>> searchResults;
 
     public void setCategory(Integer category) {
@@ -207,10 +208,9 @@ public class SearchAction
         return null;
     }
 
-
     @End
     public String reset() {
-        return null;
+        return "browse";
     }
 
     @Destroy 

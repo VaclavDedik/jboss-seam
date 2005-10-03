@@ -80,10 +80,12 @@ li {
         padding-right: 0;
 }
 
+
+
 /* Header */
 #header {
-        position: relative;
-        height: 60px;
+    position: relative;
+    height: 60px;
 }
 #header span {
     position: absolute;
@@ -94,8 +96,9 @@ li {
     font-weight: normal;
     color: #264071;
 }
-/* Navigation
------------------------------------------------ */
+
+
+/* Navigation */
 #nav {
         position: relative;
         padding: 1px 20px 0 20px;
@@ -192,21 +195,21 @@ h3 {
      position: fixed; /* make box not wrap */
 }
 .cntAlert {
-        background-color: #d3e4ff;
-        border-color: #36c;
+    background-color: #d3e4ff;
+    border-color: #36c;
 }
 .cntSubTitle {
-        border: 0;
-        border-top: 1px solid #dadada;
-        background: url(img/shade.subtitle.gif) 0 2px repeat-x;
+    border: 0;
+    border-top: 1px solid #dadada;
+    background: url(img/shade.subtitle.gif) 0 2px repeat-x;
 }
 .cntSubMenu {
-        border: 0;
-        border-top: 1px solid #dadada;
-        background: url(img/shade.menu.gif) 0 2px repeat-x;
+    border: 0;
+    border-top: 1px solid #dadada;
+    background: url(img/shade.menu.gif) 0 2px repeat-x;
 }
 .spacer {
-        margin-top: 20px;
+    margin-top: 20px;
 }
 .controlBar {
     background-color: #d3e4ff;

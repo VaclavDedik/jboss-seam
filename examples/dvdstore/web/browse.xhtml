@@ -21,7 +21,7 @@
         
         <ui:define name="body">
             <c:choose>
-                <c:when test="${search.searchResults==null}">
+                <c:when test="${searchResults==null}">
                     <p>
                         This is the DVD search screen.  Use the search box to the right to 
                         search for DVDs.  The search component is a Seam conversational
@@ -32,7 +32,7 @@
                     </p>
                     
                 </c:when>
-                <c:when test="${empty(search.searchResults)}">
+                <c:when test="${empty(searchResults)}">
                     <h2>
                         <h:outputText value="#{msgs.noSearchResultsHeader}" />
                     </h2>
@@ -41,7 +41,6 @@
                     <h:form>
                         <div class="controlBar">
                             <div class="buttonbox">
-
                                 <div class="button">
                                     <c:if test="${!search.lastPage}">
                                         <h:commandLink action="#{search.nextPage}">
