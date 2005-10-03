@@ -6,7 +6,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
             <ul>
                 <li id="current"><h:commandLink action="main" value="Login"/></li>
@@ -14,7 +14,7 @@
         </ui:define>
 
         <ui:define name="sidebar">
-            <ui:include src="incl/login.xhtml" />
+            <ui:include src="/WEB-INF/incl/login.xhtml" />
         </ui:define>
        
         <ui:define name="body">

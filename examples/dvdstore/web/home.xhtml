@@ -6,7 +6,7 @@
       xmlns:f="http://java.sun.com/jsf"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
             <ul>
                 <li id="current"><h:commandLink action="login" value="Login"/></li>
@@ -14,7 +14,7 @@
         </ui:define>
             
         <ui:define name="sidebar">
-            <ui:include src="incl/login.xhtml" />
+            <ui:include src="/WEB-INF/incl/login.xhtml" />
         </ui:define>
         
         <ui:define name="body">
@@ -25,10 +25,42 @@
                         errorClass="cntError"/>
             
             <p>
-                Intro text goes here.  Explain users accounts, roles, etc...
+                Welcome to the JBoss Seam DVD Store Demo.  The DVD Store is a simple store front
+                application written using the latest JBoss technologies: EJB3, Seam and jBPM.
             </p>
-            
+
+<!--
+            <h2>EJB3</h2>
+            <p>About EJB3</p>
+
+            <h2>Seam</h2>
+            <p>About SEAM</p>
+
+
+            <h2>JBPM</h2>
+            <p>About jBPM</p>
+-->
+            <h2>How to use the DVD Store</h2>
+            <p>
+                There are 5 customer accounts, user1 through user5
+                (with password "password").  You can login using any
+                of the customer accounts or create your own customer
+                account to browse the DVD store to make purchases.
+                Once an order is submitted, you can check the status
+                of the order from the My Orders screen.  When the
+                order is fulfilled by the store manager, the status of
+                the order will be updated.
+            </p>
+
+            <p>
+                When a customer places an order, a jBPM order
+                management process.  Depending on the version of 
+                the process deployed, the store manager (username
+                "manager", password "password") will be presented with
+                different fulfilment options.  
+            </p> 
+
         </ui:define>
-    </ui:composition>
-</body>
+    </ui:composition> 
+</body> 
 </html>

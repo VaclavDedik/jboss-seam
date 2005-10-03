@@ -6,24 +6,31 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ul>
-                <li id="current"><h:commandLink action="browse" value="Search for Movies"/></li>
-                <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
-            </ul>
+            <ui:include src="/WEB-INF/incl/cust_nav.xhtml">
+                <ui:param name="page" value="browse"/>
+            </ui:include>
         </ui:define>
 
         <ui:define name="sidebar">
-            <ui:include src="incl/login.xhtml" />
-            <ui:include src="incl/searchbox.xhtml" />
-            <ui:include src="incl/cart.xhtml" />
+            <ui:include src="/WEB-INF/incl/login.xhtml" />
+            <ui:include src="/WEB-INF/incl/searchbox.xhtml" />
+            <ui:include src="/WEB-INF/incl/cart.xhtml" />
         </ui:define>
         
         <ui:define name="body">
             <c:choose>
                 <c:when test="${search.searchResults==null}">
-                    Use the search box to the right to search for DVDs.
+                    <p>
+                        This is the DVD search screen.  Use the search box to the right to 
+                        search for DVDs.  The search component is a Seam conversational
+                        component.  You can perform multiple searches in multiple windows, 
+                        and Seam will keep them all separate.  The shopping cart, of course, is
+                        shared, allowing the customer to place items in the cart from any of
+                        the searches.  
+                    </p>
+                    
                 </c:when>
                 <c:when test="${empty(search.searchResults)}">
                     <h2>
@@ -32,28 +39,28 @@
                 </c:when>
                 <c:otherwise>
                     <h:form>
-                        <div class="controlBar" style="clear: left;">
-                            <div style="float: right; width: 50%; text-align: right; padding: 3px 6px;">
+                        <div class="controlBar">
+                            <div class="buttonbox">
 
-                                <div style="float: right; width: 24px; border: 1;">
+                                <div class="button">
                                     <c:if test="${!search.lastPage}">
                                         <h:commandLink action="#{search.nextPage}">
-                                            <img src="img/fastf_24.gif" />
+                                            <img src="img/arrow-r.png" />
                                         </h:commandLink>
                                     </c:if>
                                     &nbsp;
                                 </div>
-                                <div style="float: right; width: 24px; border: 1;">
+                                <div class="button">
                                     <c:if test="${!search.firstPage}">
                                         <h:commandLink action="#{search.prevPage}">
-                                            <img src="img/rewnd_24.gif" />
+                                            <img src="img/arrow-l.png" />
                                         </h:commandLink>
                                     </c:if>
                                     &nbsp;
                                 </div>
                             </div>
                             
-                            <div style="padding: 3px 6px; vertical-align: bottom;">
+                            <div class="message">
                                 #{msgs.searchResultsHeader}
                             </div>
                         </div>

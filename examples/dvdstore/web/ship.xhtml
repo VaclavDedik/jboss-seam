@@ -6,18 +6,15 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ul>
-                <li><h:commandLink action="main" value="Home"/></li>
-                <li id="current"><h:commandLink action="#{showorders.findOrders}" value="Manage Orders"/></li>
-            </ul>
+            <ui:include src="/WEB-INF/incl/admin_nav.xhtml" />
         </ui:define>
 
         <ui:define name="sidebar">
-            <ui:include src="/incl/login.xhtml" />
-            <ui:include src="/incl/stats.xhtml" />
-            <ui:include src="/incl/processmenu.xhtml" />
+            <ui:include src="/WEB-INF/incl/login.xhtml" />
+            <ui:include src="/WEB-INF/incl/stats.xhtml" />
+            <ui:include src="/WEB-INF/incl/processmenu.xhtml" />
         </ui:define>
         
         <ui:define name="body">
@@ -53,10 +50,8 @@
                         
                         <h:outputText value="Tracking number:" />
                         <h:panelGroup>
-                            <!-- required -->
-                            <h:inputText id="trackingNumber" value="#{ship.track}">
-                                <f:validateLength minimum="4" /> 
-                            </h:inputText>
+                            <!-- required, min length=4 -->
+                            <h:inputText id="trackingNumber" value="#{ship.track}" /> 
                             <h:message for="trackingNumber" styleClass="cntError" />
                         </h:panelGroup>
                     </h:panelGrid>

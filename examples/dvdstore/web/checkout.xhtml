@@ -6,16 +6,15 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ul>
-                <li id="current"><h:commandLink action="browse" value="Search for Movies"/></li>
-                <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
-            </ul>
+            <ui:include src="/WEB-INF/incl/cust_nav.xhtml">
+                <ui:param name="page" value="orders"/>
+            </ui:include>
         </ui:define>
 
         <ui:define name="sidebar">
-            <ui:include src="incl/login.xhtml" />
+            <ui:include src="/WEB-INF/incl/login.xhtml" />
         </ui:define>
 
         <ui:define name="body">

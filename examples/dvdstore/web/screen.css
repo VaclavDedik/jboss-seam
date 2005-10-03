@@ -13,38 +13,37 @@ img {
 }
 
 body {
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-        font-size: small;
-        line-height: 1.25em;
-        color: #333;
-        position: relative;
-        background: #fff url(img/bg.gif) 0 0 repeat-x;
-        width: 100%;
-        height: 100%;
-        margin-left: auto;
-        margin-right: auto;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: small;
+    line-height: 1.25em;
+    color: #333;
+    position: relative;
+    background: #fff url(img/bg.gif) 0 0 repeat-x;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 input {
-        
-        padding: 4px;
+    padding: 4px;
 }
 input, select {
-        border: 1px solid #aaa;
-        vertical-align: middle;
+    border: 1px solid #aaa;
+    vertical-align: middle;
 }
 p {
-        text-align: justify;
-        padding: 2px 0;
-        line-height: 150%;
+    text-align: justify;
+    margin: 12px;
+    line-height: 150%;
 }
 ol, ul {
-        margin: 10px 0px 10px 6px;
+    margin: 10px 0px 10px 6px;
 }
 li {
-        margin: 10px 12px;
+    margin: 10px 12px;
 }
-/* Layout
------------------------------------------------ */
+
+/* Layout */
 #document {
         height: 100%;
 }
@@ -81,8 +80,7 @@ li {
         padding-right: 0;
 }
 
-/* Header
------------------------------------------------ */
+/* Header */
 #header {
         position: relative;
         height: 60px;
@@ -211,17 +209,39 @@ h3 {
         margin-top: 20px;
 }
 .controlBar {
-        background: #fff url(img/control.bg.gif) 0 100% repeat-x;
-        border: 1px solid #CAC4B6;
-        color: #333;
-        font-weight: bold;
-        font-size: small;
-        line-height: medium;
-        padding: 0px;
-        margin: 0px;
-        margin-bottom: 5px;
-        height:  28px;
-        clear:  left;
+    background-color: #d3e4ff;
+    /* background: #fff url(img/control.bg.gif) 0 100% repeat-x; */
+    border: 1px solid #CAC4B6;
+    color: #333;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 5px;
+    height: 34px;
+    clear:  left;
+    text-align: left;
+    text-indent: 1px;
+}
+
+.controlBar .buttonbox {
+    float: right; 
+    width: 50%; 
+    text-align: left; 
+    padding: 3px 3px;
+}
+
+
+.controlBar .button {    
+   float: right; 
+   width: 30px; 
+   border: none;
+}
+
+.controlBar .message {
+    padding: 3px 6px;
+    vertical-align: bottom;
+    margin-top: 5px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .dvdtable {    
