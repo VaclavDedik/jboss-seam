@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
 import org.jboss.logging.Logger;
@@ -32,7 +30,6 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
 import org.jboss.seam.deployment.Scanner;
-import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Reflections;
 
 public class Initialization
@@ -62,7 +59,6 @@ public class Initialization
       Lifecycle.beginInitialization(servletContext);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       addComponents();
-      addInitialContext();
       Lifecycle.endInitialization();
       log.info("done initializing Seam");
       return this;
@@ -154,21 +150,6 @@ public class Initialization
       
    }
    
-   public void addInitialContext()
-   {
-      try
-      {
-         InitialContext initialContext = NamingHelper.getInitialContext(properties);
-         Init init = (Init) Component.getInstance(Init.class, true);
-         init.setInitialContext(initialContext);
-      }
-      catch (NamingException e)
-      {
-         log.error("Could not create an initial context based with properties values", e);
-      }
-      
-   }
-
    protected void addComponent(String name, Class clazz, Context context)
    {
       context.set(name + ".component", new Component(clazz, name) );

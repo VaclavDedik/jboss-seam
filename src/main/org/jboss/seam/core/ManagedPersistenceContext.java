@@ -5,7 +5,6 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,6 +18,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.NamingHelper;
 
 /**
  * A Seam component that manages a conversation-scoped extended
@@ -73,7 +73,7 @@ public class ManagedPersistenceContext implements Serializable
    private EntityManagerFactory getEntityManagerFactory(String persistenceUnit)
          throws NamingException
    {
-      return (EntityManagerFactory) new InitialContext()
+      return (EntityManagerFactory) NamingHelper.getInitialContext()
             .lookup("java:/EntityManagerFactories/" + persistenceUnit);
    }
    

@@ -1,9 +1,9 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+?* JBoss, Home of Professional Open Source
+?*
+?* Distributable under LGPL license.
+?* See terms of license at gnu.org.
+?*/
 package org.jboss.seam;
 
 import java.beans.IntrospectionException;
@@ -24,7 +24,6 @@ import java.util.Set;
 import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.faces.model.ListDataModel;
-import javax.naming.InitialContext;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
@@ -57,6 +56,7 @@ import org.jboss.seam.interceptors.JavaBeanInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Sorter;
 import org.jboss.seam.util.StringArrayPropertyEditor;
@@ -498,7 +498,7 @@ public class Component
               return beanClass.newInstance();
            case STATELESS_SESSION_BEAN : 
            case STATEFUL_SESSION_BEAN :
-              return new InitialContext().lookup(jndiName);
+              return (NamingHelper.getInitialContext()).lookup(jndiName);
            default:
               throw new IllegalStateException();
         }

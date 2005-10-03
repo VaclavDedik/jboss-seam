@@ -13,14 +13,11 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.naming.InitialContext;
-import javax.naming.Name;
-import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.contexts.Context;
+import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.init.Initialization;
 
 public final class NamingHelper {
    
@@ -30,6 +27,12 @@ public final class NamingHelper {
     
     private static final Logger log = Logger.getLogger(NamingHelper.class);
     
+    
+    @SuppressWarnings("unchecked")
+    public static InitialContext getInitialContext() throws NamingException {
+       Map<String, String> properties = (Map<String, String>) Contexts.getApplicationContext().get(Component.PROPERTIES);
+       return getInitialContext(properties);
+    }
 
     public static InitialContext getInitialContext(Map<String, String> props) throws NamingException {
 
