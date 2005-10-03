@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Hashtable;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -22,6 +21,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.NamingHelper;
 
 /**
  * A Seam component that manages a conversation-scoped extended
@@ -34,11 +34,13 @@ import org.jboss.seam.annotations.Unwrap;
 @Intercept(NEVER)
 public class ManagedHibernateSession implements Serializable
 {
+   /** The serialVersionUID */
+   private static final long serialVersionUID = 3130309555079841107L;
+
    private static final Logger log = Logger.getLogger(ManagedHibernateSession.class);
    
    private Session session;
    private String sessionFactoryName;
-   private Hashtable initialContextProperties;
    
    @Create
    public void create(Component component)
@@ -75,7 +77,7 @@ public class ManagedHibernateSession implements Serializable
    private SessionFactory getSessionFactory(String persistenceUnit)
          throws NamingException
    {
-      InitialContext initialContext = (initialContextProperties != null) ? new InitialContext(initialContextProperties) : new InitialContext();
+      InitialContext initialContext = NamingHelper.getInitialContext();
       return (SessionFactory) initialContext.lookup(sessionFactoryName);
    }
    
@@ -106,10 +108,5 @@ public class ManagedHibernateSession implements Serializable
       //TODO: this is just noise! We should deprecate disconnect/reconnect in HB core.
       if (session!=null && session.isConnected() ) session.disconnect();
       oos.defaultWriteObject();
-   }
-
-   public void setInitialContextProperties(Hashtable initialContextProperties)
-   {
-      this.initialContextProperties = initialContextProperties;
    }
 }
