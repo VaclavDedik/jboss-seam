@@ -1,0 +1,16 @@
+<ul xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+    <c:choose>
+        <c:when test="${page=='orders'}">
+            <li><h:commandLink action="browse" value="Search for Movies"/></li>
+            <li id="current"><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
+        </c:when>
+        <c:otherwise>
+            <li id="current"><h:commandLink action="browse" value="Search for Movies"/></li>
+            <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
+        </c:otherwise>
+    </c:choose>
+</ul>

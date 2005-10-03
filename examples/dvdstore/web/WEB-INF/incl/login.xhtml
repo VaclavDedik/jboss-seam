@@ -1,0 +1,48 @@
+<c:choose xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:c="http://java.sun.com/jstl/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html"> 
+    <c:when test="${currentUser == null}">
+        <div class="menu">
+            <dl>
+                <dt class="menuHeader">#{msgs.loginPagePrompt}</dt>
+                <dd class="menuForm">
+                    <h:form>
+                        <dl>
+                            <dt><h:outputText value="#{msgs.loginUser}" /></dt>
+                            <dd><h:inputText value="#{login.userName}" size="16" /></dd>
+                            <dt><h:outputText value="#{msgs.loginPass}" /></dt>
+                            <dd><h:inputSecret value="#{login.password}" size="16"/></dd>
+                            
+                            <dd>
+                                <h:commandButton action="#{login.login}" value="#{msgs.loginPrompt}"
+                                                 class="formButton" style="width: 166px;"/>
+                            </dd>
+
+                        </dl>
+                    </h:form>
+                </dd>
+            </dl>
+            <dl><dt class="menuFooter"><h:commandLink action="newcustomer" value="Create Account" /></dt></dl>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div class="menu">
+            <dl>
+                <dt class="menuHeader">Welcome, #{currentUser.firstName}</dt>
+                <dd class="menuForm">
+                    <h:form>
+                        <dl>
+                            <dd>Thank you for choosing the DVD Store</dd>
+                            <dd>
+                                <h:commandButton action="#{login.logout}" value="Logout"
+                                                 class="formButton" style="width: 166px;"/>
+                            </dd>
+                        </dl>
+                    </h:form>
+                </dd>
+            </dl>
+        </div>
+    </c:otherwise>
+</c:choose>
