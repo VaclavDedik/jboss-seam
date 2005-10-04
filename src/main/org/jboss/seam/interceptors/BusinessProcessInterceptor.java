@@ -187,6 +187,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    {
       JbpmSession session = ( JbpmSession )
               Component.getInstance( ManagedJbpmSession.class, true );
+      
       ProcessDefinition pd = session.getGraphSession()
               .findLatestProcessDefinition( processDefinitionName );
       if ( pd == null )
@@ -194,11 +195,16 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          throw new IllegalArgumentException( "Unknown process definition [" + processDefinitionName + "]" );
       }
       ProcessInstance process = new ProcessInstance( pd );
-      process.signal();
       session.getGraphSession().saveProcessInstance( process );
-
       exposeState( process, processName );
+
+      // need to set process variables before the signal
+      Contexts.getBusinessProcessContext().flush();
+
+      process.signal();
+      session.getSession().flush();
    }
+
 
    private void startTask(String taskName, String actorExpression)
    {

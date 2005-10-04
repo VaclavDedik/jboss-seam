@@ -17,6 +17,10 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.core.Init;
 import org.jbpm.context.exe.ContextInstance;
+import org.jbpm.db.JbpmSession;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.core.ManagedJbpmSession;
 
 /**
  * Exposes a jbpm variable context instance for reading/writing.
@@ -154,6 +158,12 @@ public class BusinessProcessContext implements Context {
          for ( String remove : removed )
          {
             jbpmContext.deleteVariable( remove );
+         }
+ 
+         JbpmSession jbpmSession = (JbpmSession)
+             Component.getInstance(ManagedJbpmSession.class, true);
+         if (jbpmSession!=null && jbpmSession.getSession() !=null) {
+             jbpmSession.getSession().flush();
          }
 
          tempContext.clear();
