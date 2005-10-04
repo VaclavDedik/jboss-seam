@@ -26,18 +26,26 @@
                 order management is process-driven.  A JBoss jBPM process assigns 
                 fulfillment tasks to the manager based on the version of the process
                 loaded.
+                The manager can change the version of the process
+                at any time using the admin options box to the right.
+                
             </p>
 
-            <p> The manager can change the version of the process
-                at any time using the admin options box to the right.
-                Order process 1 sends orders immediately to shipping, where
-                the manager should ship the order and record the tracking 
-                number for the user to see.  Order process 2 adds an approval
+            <ul>
+                <li>
+                Order process 1 sends orders immediately to shipping,
+                where the manager should ship the order and record the
+                tracking number for the user to see.</li>
+                <li>Order process 2 adds an approval
                 step where the manager is first given the chance to approve
                 the order before sending it to shipping.  In each case,
                 the status of the order is shown in the customer's order
-                list.
-            </p>
+                list.</li>
+                <li>Order process 3 introduces a decision node.  Only orders over $100.00
+                need to be accepted.  Smaller orders are automatically approved
+                for shipping.
+                </li>
+            </ul>
 
             <h2>Order Acceptance</h2>
             <c:choose>
