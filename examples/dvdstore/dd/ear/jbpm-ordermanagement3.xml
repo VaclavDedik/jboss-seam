@@ -1,0 +1,30 @@
+<process-definition name="OrderManagement">
+    <start-state>
+        <transition to="decide"/>
+    </start-state>
+    
+    <decision name="decide">
+        <transition name="large order" to="approval">
+            <condition>amount &gt; 100.00</condition>
+        </transition>
+        <transition name="small order" to="process"/>
+    </decision>
+
+    <task-node name="approval">
+        <task name="approve">
+            <assignment class="com.jboss.dvd.seam.ShipperAssignment" />
+        </task>
+        <transition name="approve" to="process"/>
+        <transition name="reject"  to="complete"/>
+    </task-node>
+    
+    <task-node name="process">
+        <task name="ship">
+            <assignment class="com.jboss.dvd.seam.ShipperAssignment" />
+        </task>
+        <transition name="shipped"  to="complete"/>
+          <!-- <transition name="reassign" to="approval"/> -->
+    </task-node>
+    
+    <end-state name="complete"/>
+</process-definition>
