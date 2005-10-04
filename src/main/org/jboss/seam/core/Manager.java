@@ -52,9 +52,6 @@ public class Manager
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
    
-   //Are we processing interceptors?
-   private boolean processInterceptors = false;
-   
    private int conversationTimeout = 600000; //10 minutes
 
    private Long taskId;
@@ -227,16 +224,6 @@ public class Manager
       return instance;
    }
 
-   public boolean isProcessInterceptors()
-   {
-      return processInterceptors;
-   }
-
-   public void setProcessInterceptors(boolean processInterceptors)
-   {
-      this.processInterceptors = processInterceptors;
-   }
-   
    public void store(Map attributes)
    {
       if ( isLongRunningConversation() ) 

@@ -81,7 +81,7 @@ public class Seam
       }
       else 
       {
-         return InterceptionType.INVOKE_APPLICATION;
+         return InterceptionType.AFTER_RESTORE_VIEW;
       }
    }
 

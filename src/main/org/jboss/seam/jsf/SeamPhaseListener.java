@@ -7,12 +7,8 @@
 package org.jboss.seam.jsf;
 
 import static javax.faces.event.PhaseId.ANY_PHASE;
-import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
-import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
-import static javax.faces.event.PhaseId.PROCESS_VALIDATIONS;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
-import static javax.faces.event.PhaseId.UPDATE_MODEL_VALUES;
 
 import java.util.Map;
 
@@ -22,10 +18,10 @@ import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 
 /**
@@ -49,11 +45,10 @@ public class SeamPhaseListener implements PhaseListener
    public void beforePhase(PhaseEvent event)
    {
       log.trace( "before phase: " + event.getPhaseId() );
-
+      
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          Lifecycle.beginRequest( getSession( event ) );
-         Manager.instance().setProcessInterceptors( false );
          log.trace( "About to restore view" );
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
@@ -62,28 +57,16 @@ public class SeamPhaseListener implements PhaseListener
          storeAnyConversationContext( event );
          Manager.instance().conversationTimeout( getSession( event ) );
       }
-      else if ( event.getPhaseId() == INVOKE_APPLICATION )
-      {
-         Manager.instance().setProcessInterceptors( true );
-         log.trace( "About to invoke application" );
-      }
-      else if ( event.getPhaseId() == UPDATE_MODEL_VALUES )
-      {
-         log.trace( "About to update model values" );
-      }
-      else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
-      {
-         log.trace( "About to process validations" );
-      }
-      else if ( event.getPhaseId() == APPLY_REQUEST_VALUES )
-      {
-         log.trace( "About to apply request values" );
-      }
+
+      Lifecycle.setPhaseId( event.getPhaseId() );
+
    }
 
    public void afterPhase(PhaseEvent event)
    {
       log.trace( "after phase: " + event.getPhaseId() );
+
+      Lifecycle.setPhaseId(null);
 
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
@@ -93,23 +76,6 @@ public class SeamPhaseListener implements PhaseListener
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          Lifecycle.endRequest( getSession( event ) );
-      }
-      else if ( event.getPhaseId() == INVOKE_APPLICATION )
-      {
-         log.trace( "After invoke application" );
-         Manager.instance().setProcessInterceptors( false );
-      }
-      else if ( event.getPhaseId() == UPDATE_MODEL_VALUES )
-      {
-         log.trace( "After update model values" );
-      }
-      else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
-      {
-         log.trace( "After process validations" );
-      }
-      else if ( event.getPhaseId() == APPLY_REQUEST_VALUES )
-      {
-         log.trace( "After apply request values" );
       }
    }
 

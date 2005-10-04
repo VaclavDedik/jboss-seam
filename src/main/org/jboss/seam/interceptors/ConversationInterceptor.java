@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
+import javax.faces.event.PhaseId;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
@@ -18,6 +19,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndIf;
 import org.jboss.seam.annotations.ResumeTask;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 
 /**
@@ -64,6 +66,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    private boolean isNoConversationForConversationalBean(Method method)
    {
       return component.isConversational() && 
+            Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION &&
             ( !Manager.instance().isLongRunningConversation() || !componentIsConversationOwner() ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(BeginIf.class) &&

@@ -13,9 +13,7 @@ import javax.ejb.InvocationContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.interceptors.SeamInvocationContext;
 
 /**
@@ -54,9 +52,7 @@ public class SeamInterceptor implements Serializable
 
    private boolean isProcessInterceptors(final Component component)
    {
-      return component!=null &&
-            component.getInterceptionType()!=InterceptionType.NEVER && 
-            ( Manager.instance().isProcessInterceptors() || component.getInterceptionType()==InterceptionType.ALWAYS );
+      return component!=null && component.getInterceptionType().isActive();
    }
 
    private Component getSeamComponent(Object bean)

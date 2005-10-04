@@ -4,6 +4,7 @@ package org.jboss.seam.contexts;
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
@@ -190,6 +191,18 @@ public class Lifecycle
    public static void recoverBusinessProcessContext(Map state)
    {
       Contexts.businessProcessContext.set( new BusinessProcessContext( state ) );
+   }
+   
+   private static ThreadLocal<PhaseId> phaseId = new ThreadLocal<PhaseId>();
+   
+   public static PhaseId getPhaseId()
+   {
+      return phaseId.get();
+   }
+   
+   public static void setPhaseId(PhaseId phase)
+   {
+      phaseId.set(phase);
    }
 
 }

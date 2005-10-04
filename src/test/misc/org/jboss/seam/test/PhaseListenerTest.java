@@ -58,7 +58,6 @@ public class PhaseListenerTest
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
       assert !Contexts.isConversationContextActive();
-      assert !Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
       
@@ -71,21 +70,15 @@ public class PhaseListenerTest
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, lifecycle ) );
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
-      
-      assert !Manager.instance().isProcessInterceptors();
-      
+            
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
-      
-      assert Manager.instance().isProcessInterceptors();
-      
+            
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      assert !Manager.instance().isProcessInterceptors();
       assert !Manager.instance().isLongRunningConversation();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert !Manager.instance().isProcessInterceptors();
       assert facesContext.getViewRoot().getAttributes().size()==0;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
@@ -135,7 +128,6 @@ public class PhaseListenerTest
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
       assert !Contexts.isConversationContextActive();
-      assert !Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
       
@@ -149,22 +141,16 @@ public class PhaseListenerTest
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       
-      assert !Manager.instance().isProcessInterceptors();
-      
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
-      
-      assert Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      assert !Manager.instance().isProcessInterceptors();
       assert Manager.instance().isLongRunningConversation();
       
       facesContext.getViewRoot().getAttributes().clear();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert !Manager.instance().isProcessInterceptors();
       assert facesContext.getViewRoot().getAttributes().size()==1;
       assert facesContext.getViewRoot().getAttributes().get(Manager.CONVERSATION_ID).equals("2");
       assert Contexts.isEventContextActive();
@@ -210,7 +196,6 @@ public class PhaseListenerTest
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
       assert !Contexts.isConversationContextActive();
-      assert !Manager.instance().isProcessInterceptors();
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
       
@@ -224,22 +209,16 @@ public class PhaseListenerTest
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
       
-      assert !Manager.instance().isProcessInterceptors();
-      
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
       Manager.instance().setLongRunningConversation(true);
       
-      assert Manager.instance().isProcessInterceptors();
-      
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      assert !Manager.instance().isProcessInterceptors();
       assert Manager.instance().isLongRunningConversation();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert !Manager.instance().isProcessInterceptors();
       assert facesContext.getViewRoot().getAttributes().size()==1;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
