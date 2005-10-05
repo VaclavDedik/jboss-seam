@@ -93,9 +93,9 @@
 	<classpathentry kind="lib" path="lib/jboss-transaction.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/jnpserver.jar"/>
-	<classpathentry kind="lib" path="lib/myfaces.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-impl.jar"/>
-	<classpathentry kind="lib" path="lib/myfaces-jsf-api.jar"/>
 	<classpathentry kind="lib" path="lib/testng-2.5.3-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-api.jar"/>
+	<classpathentry kind="lib" path="lib/tomahawk.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
