@@ -37,7 +37,7 @@ public final class NamingHelper {
     public static InitialContext getInitialContext(Map<String, String> props) throws NamingException {
 
         Hashtable hash = getJndiProperties(props);
-        log.info("JNDI InitialContext properties:" + hash);
+        log.debug("JNDI InitialContext properties:" + hash);
         try {
             return hash.size()==0 ?
                     new InitialContext() :
