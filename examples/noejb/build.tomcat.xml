@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<project name="NoEJB" default="deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam NoEJB Example"/>
+    <property name="example.name"           value="jboss-seam-noejb"/>
+
+    <!-- WAR -->
+    <fileset id="example.war.docroot"
+               dir="resources/view">
+        <include name="**/*"/>
+    </fileset>
+    <fileset id="example.war.webinf"
+               dir="resources/WEB-INF" >
+      <patternset>
+        <include name="**/*.dtd"/>
+        <include name="**/*.xml"/>
+        <include name="**/*.xslt"/>
+        <include name="**/*.properties"/>
+        <exclude name="web.xml"/> 
+      </patternset>
+    </fileset>
+    <fileset id="example.war.webinf.lib"
+               dir="resources/WEB-INF/lib">
+        <include name="*.jar"/>
+    </fileset>
+
+    <!-- EJB3 -->
+    <fileset id="example.ejb3.root" dir=".">
+        <include name="_NONE_"/>
+    </fileset>
+
+    <fileset id="example.ejb3.lib" dir="../../lib">
+        <include name="_NONE_"/>
+    </fileset>
+  
+    <!-- EAR -->
+    <zipfileset id="example.ear.resources" dir=".">
+        <include name="_NONE_"/>
+    </zipfileset>
+
+    <!-- Deploy -->
+    <fileset id="example.deploy"
+            dir="resources">
+        <include name="noejb-ds.xml"/>
+    </fileset>
+
+    <!-- Undeploy -->
+    <patternset id="example.undeploy">
+        <include name="noejb-ds.xml"/>
+    </patternset>
+
+    <!-- Overrides -->
+    <property name="src.java.dir"           value="src"/>
+
+    <import file="../../build.xml"/>
+
+    <!-- Redefine targets -->
+    <target name="war" depends="compile">
+        <jar jarfile="resources/WEB-INF/lib/${example.name}.jar">
+          <fileset dir="${classes.dir}">
+            <include name="**/*.class"/>
+          	<exclude name="**/test/*.class"/>
+          </fileset>
+          <fileset dir="resources">
+            <include name="import.sql"/>
+            <include name="hibernate.cfg.xml"/>
+            <include name="seam.properties"/>
+          </fileset>
+        </jar>
+        <copy file="${imported.basedir}/${name}.jar" todir="resources/WEB-INF/lib/"/>
+        <copy todir="${build.dir}/${example.name}">
+          <fileset refid="example.war.docroot"/>
+        </copy>
+        <copy todir="${build.dir}/${example.name}/WEB-INF/lib">
+          <fileset refid="example.war.webinf.lib"/>
+          <fileset dir="../../embedded-ejb/lib">
+            <include name="**/*.jar"/>
+          </fileset>
+          <fileset dir="../../lib">
+            <include name="**/*.jar"/>
+          </fileset>
+        </copy>
+        <copy todir="${build.dir}/${example.name}/WEB-INF/classes">
+          <fileset dir="../../embedded-ejb/conf">
+            <include name="*.*"/>
+          </fileset>
+          <fileset dir="resources/conf.tomcat">
+            <include name="jboss-beans.xml"/>
+          </fileset>
+        </copy>
+        <copy todir="${build.dir}/${example.name}/WEB-INF">
+          <fileset refid="example.war.webinf"/>
+          <fileset dir="resources/conf.tomcat">
+            <include name="web.xml"/>
+          </fileset>
+        </copy>
+    </target>
+
+  <target name="deploy" depends="war">
+    <echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
+    <copy todir="${tomcat.home}/webapps/${example.name}">
+      <fileset dir="${build.dir}/${example.name}"/>
+    </copy>
+    <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
+  </target>
+  
+  <target name="undeploy">
+    <delete file="${tomcat.home}/webapps/${example.name}"/>
+  </target>
+
+</project>
