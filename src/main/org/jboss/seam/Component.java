@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.ejb.Local;
 import javax.ejb.Remove;
+import javax.faces.context.FacesContext;
 import javax.faces.model.ListDataModel;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -896,14 +897,26 @@ public class Component
    private static Object getInstanceToInject(In in, String name, Object bean)
    {
       Object result;
-      if (in.scope()==ScopeType.UNSPECIFIED)
+      if ( name.startsWith("#") )
+      {
+         FacesContext facesCtx = FacesContext.getCurrentInstance();
+         result = facesCtx.getApplication()
+               .createValueBinding(name)
+               .getValue(facesCtx);
+      }
+      else if (in.scope()==ScopeType.UNSPECIFIED)
       {
          result = getInstance(name, in.create());
       }
       else
       {
+         if ( in.create() )
+         {
+        	 throw new IllegalArgumentException("cannot combine create=true with explicit scope on @In: " + name);
+         }
          result = in.scope().getContext().get(name);
       }
+      
       if (result==null && in.required())
       {
          throw new RequiredException("In attribute requires value for component: " + name);
