@@ -13,7 +13,7 @@
 		<property name="connection.release_mode">after_statement</property>
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
-        <property name="hibernate.jndi.java.naming.factory.initial">org.jnp.interfaces.LocalOnlyContextFactory</property>
+        <property name="hibernate.jndi.java.naming.factory.initial">org.jnp.interfaces.NamingContextFactory</property>
         <property name="hibernate.jndi.java.naming.factory.url.pkgs">org.jboss.naming:org.jnp.interfaces</property>
 		<mapping class="org.jboss.seam.example.noejb.Hotel"/>
 		<mapping class="org.jboss.seam.example.noejb.User"/>
