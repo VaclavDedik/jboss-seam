@@ -184,7 +184,10 @@ public class Component
             case JAVA_BEAN:
                return null;
             default:
-               if ( localInterfaces.size()>1 ) {
+               if ( localInterfaces.size()==0 ) {
+            	   throw new IllegalArgumentException("session bean with no local interface must specify @JndiName");
+               }
+               else if ( localInterfaces.size()>1 ) {
                   throw new IllegalArgumentException("session beans with multiple business interfaces must specify @JndiName");
                }
                else {
