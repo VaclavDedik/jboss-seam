@@ -196,7 +196,7 @@ public class Component
 
    private void initInitializers()
    {
-      Map<String, String> properties = (Map) Contexts.getApplicationContext().get(PROPERTIES);
+      Map<String, String> properties = (Map<String, String>) Contexts.getApplicationContext().get(PROPERTIES);
       if (properties==null) return; //TODO: yew!!!!!
       for (Map.Entry<String, String> me: properties.entrySet())
       {
@@ -542,8 +542,7 @@ public class Component
          return;
       }
 
-      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) 
-            Contexts.getConversationContext().get(name);
+      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) scope.getContext().get(name);
       if (dataModel!=null)
       {
          if (dataModelSelectionIndexSetter!=null)
@@ -600,11 +599,11 @@ public class Component
             {
                dataModel.setRowIndex(index);
             }
-            Contexts.getConversationContext().set( name, dataModel );
+            scope.getContext().set( name, dataModel );
          }
          else
          {
-            Contexts.getConversationContext().remove(name);
+        	 scope.getContext().remove(name);
          }
    }
 
@@ -944,7 +943,7 @@ public class Component
       en.setInterceptDuringConstruction(false);
       en.setCallbackType(MethodInterceptor.class);
       en.setSuperclass(beanClass);
-      return en.createClass();
+      return (Class<Factory>) en.createClass();
    }
 
    public InterceptionType getInterceptionType()

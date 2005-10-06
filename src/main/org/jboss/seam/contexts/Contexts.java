@@ -25,9 +25,9 @@ public class Contexts {
    private static final Logger log = Logger.getLogger( Contexts.class );
 
    static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
-	static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
-	static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
-	static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
+   static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
+   static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
+   static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
 
 	public static Context getEventContext() {
