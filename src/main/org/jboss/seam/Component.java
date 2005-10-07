@@ -19,10 +19,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.ejb.Local;
 import javax.ejb.Remove;
+import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.model.ListDataModel;
 
@@ -150,8 +153,17 @@ public class Component
       }
 
       initMembers(clazz);
-         
-      validator = new ClassValidator(beanClass);
+      
+      try
+      {
+         ResourceBundle messages = ResourceBundle.getBundle("validator");
+         validator = new ClassValidator(beanClass, messages);
+      }
+      catch (MissingResourceException mre)
+      {
+         validator = new ClassValidator(beanClass);
+      }
+       
       
       localInterfaces = getLocalInterfaces(beanClass);
       
@@ -900,9 +912,8 @@ public class Component
       if ( name.startsWith("#") )
       {
          FacesContext facesCtx = FacesContext.getCurrentInstance();
-         result = facesCtx.getApplication()
-               .createValueBinding(name)
-               .getValue(facesCtx);
+         Application application = facesCtx.getApplication();
+         result = application.createValueBinding(name).getValue(facesCtx);
       }
       else if (in.scope()==ScopeType.UNSPECIFIED)
       {
