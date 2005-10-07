@@ -4,6 +4,7 @@ package org.jboss.seam.test;
 import java.lang.reflect.Method;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.RequiredException;
@@ -222,6 +223,7 @@ public class InterceptorTest
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
          );
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.beginRequest( session );
       Lifecycle.resumeConversation( session, "1" );
       

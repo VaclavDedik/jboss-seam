@@ -71,10 +71,18 @@ public class SeamTest
          request = new MockHttpServletRequest( session );
          facesContext = new MockFacesContext( request );
          facesContext.setCurrent();
-         facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, conversationId);
+         Map attributes = facesContext.getViewRoot().getAttributes();
+         if (conversationId!=null) 
+         {
+            attributes.put(Manager.CONVERSATION_ID, conversationId);
+         }
+         else
+         {
+            attributes.remove(Manager.CONVERSATION_ID);
+         }
          if ( conversationStates.containsKey( conversationId ) )
          {
-            facesContext.getViewRoot().getAttributes().putAll(
+            attributes.putAll(
                     conversationStates.get( conversationId ).state
             	);
          }
@@ -103,13 +111,13 @@ public class SeamTest
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
          
-         conversationId = (String) facesContext.getViewRoot().getAttributes().get(Manager.CONVERSATION_ID);         
+         conversationId = (String) attributes.get(Manager.CONVERSATION_ID);         
          renderResponse();
          
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
 
          ConversationState conversationState = new ConversationState();
-         conversationState.state.putAll( facesContext.getViewRoot().getAttributes() );
+         conversationState.state.putAll( attributes );
          conversationStates.put( conversationId, conversationState );
 
          return conversationId;
