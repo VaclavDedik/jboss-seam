@@ -6,7 +6,6 @@
  */
 package org.jboss.seam.test;
 
-import javax.ejb.Interceptor;
 import javax.ejb.Remove;
 
 import org.hibernate.validator.NotNull;
@@ -16,13 +15,11 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @version $Revision$
  */
-@Interceptor(SeamInterceptor.class)
 @Name("foo")
 @Scope(ScopeType.SESSION)
 public class Foo

@@ -6,8 +6,6 @@
  */
 package org.jboss.seam.test;
 
-import javax.ejb.Interceptor;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
@@ -18,13 +16,11 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @version $Revision$
  */
-@Interceptor(SeamInterceptor.class)
 @Name("bar")
 @Scope(ScopeType.CONVERSATION)
 @Conversational(ifNotBegunOutcome="error")
