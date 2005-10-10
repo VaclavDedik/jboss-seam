@@ -58,8 +58,12 @@ public class SearchAction
     List<Category>      categories;
     Map<String,Integer> categoryMap;
 
-    @Out
-    List<SelectableItem<Product>> searchResults;
+    @DataModel
+    List<SelectableItem<Product>> searchResults;    
+
+
+    public SearchAction() {
+    }
 
     public void setCategory(Integer category) {
         this.category = category ; 
@@ -82,22 +86,11 @@ public class SearchAction
         return actor;
     }
 
-    public List getSearchResults() {
-        return searchResults;
-    }
-
-    public SearchAction() {
-    }
-
     @Begin
     public String doSearch() {
         currentPage=0;
         updateResults();
         return "browse";
-    }
-
-    public boolean getHasResults() {
-        return (searchResults != null) && (searchResults.size()>0);
     }
 
     public Map<String,Integer> getCategories() {

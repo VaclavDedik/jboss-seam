@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface Search
 {
-    public List getSearchResults();
+    //public List getSearchResults();
 
     public String getActor();
     public void   setActor(String actor);
@@ -22,7 +22,7 @@ public interface Search
     public Integer getCategory();
     public void    setCategory(Integer category);
 
-    public boolean getHasResults();
+    //public boolean getHasResults();
     public Map<String,Integer> getCategories();
 
     public String nextPage();
