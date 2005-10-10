@@ -86,15 +86,19 @@ li {
 #header {
     position: relative;
     height: 60px;
-}
-#header span {
-    position: absolute;
-    top: 20px;
-    left: 16px;
- 
+    text-align: center;
     font-size: 36px;
     font-weight: normal;
     color: #264071;
+}
+
+#header span {
+    position:absolute;
+    top: 20px;
+    left: 16px;
+
+    padding-top: 3px;
+    height: 40px;
 }
 
 
@@ -248,7 +252,7 @@ h3 {
 }
 
 .dvdtable {    
-    width:  100%;
+    width:  99%;
 }
 
 .dvdtablehead {

@@ -18,17 +18,17 @@
         </ui:define>
         
         <ui:define name="body">
+            <c:if test="${currentUserIsAdmin}">
             <h1>Order Management</h1>
             
             <p>
-                Pending orders are shown here on the order management screen for the 
-                store manager to process.  Rather than being data-driven, 
-                order management is process-driven.  A JBoss jBPM process assigns 
-                fulfillment tasks to the manager based on the version of the process
-                loaded.
-                The manager can change the version of the process
-                at any time using the admin options box to the right.
-                
+                Pending orders are shown here on the order management
+                screen for the store manager to process.  Rather than
+                being data-driven, order management is process-driven.
+                A JBoss jBPM process assigns fulfillment tasks to the
+                manager based on the version of the process loaded.
+                The manager can change the version of the process at
+                any time using the admin options box to the right.  
             </p>
 
             <ul>
@@ -133,6 +133,7 @@
                     </h:dataTable>
                 </c:otherwise>
             </c:choose>
+        </c:if>
         </ui:define>
     </ui:composition>
 </body>

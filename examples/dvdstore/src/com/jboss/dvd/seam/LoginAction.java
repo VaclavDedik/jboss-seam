@@ -63,6 +63,7 @@ public class LoginAction
             sessionContext.set("currentUser", found);
             
             if (found instanceof Admin) {
+                sessionContext.set("currentUserIsAdmin", true);
                 return "admin";
             } else {
                 return "customer";
