@@ -567,7 +567,8 @@ public class Component
          }
          if (dataModelSelectionSetter!=null)
          {
-            setPropertyValue(bean, dataModelSelectionSetter, name, dataModel.getRowData() );
+             Object rowData = (dataModel.getRowIndex() == -1) ? null: dataModel.getRowData();
+             setPropertyValue(bean, dataModelSelectionSetter, name, rowData);
          }
          if (dataModelSelectionIndexField!=null)
          {
@@ -575,7 +576,8 @@ public class Component
          }
          if (dataModelSelectionField!=null)
          {
-            setFieldValue(bean, dataModelSelectionField, name, dataModel.getRowData() );
+             Object rowData = (dataModel.getRowIndex() == -1) ? null: dataModel.getRowData();
+             setFieldValue(bean, dataModelSelectionField, name, rowData);
          }
       }
    }
