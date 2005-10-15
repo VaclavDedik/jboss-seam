@@ -98,7 +98,8 @@
         </copy>
     </target>
 
-  <target name="deploy" depends="war">
+  <target name="deploy" depends="war"
+      description="Deploys application to $tomcat.home">
     <echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
     <copy todir="${tomcat.home}/webapps/${example.name}">
       <fileset dir="${build.dir}/${example.name}"/>
@@ -106,7 +107,8 @@
     <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
   </target>
   
-  <target name="undeploy">
+  <target name="undeploy"
+      description="Undeploys application from $tomcat.home">
     <delete file="${tomcat.home}/webapps/${example.name}"/>
   </target>
 
