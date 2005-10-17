@@ -44,7 +44,7 @@
 
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
 
-    <property name="javac.debug"        value="false"/>
+    <property name="javac.debug"        value="true"/>
     <property name="javac.deprecation"  value="false"/>
 
     <path id="example.path" />
@@ -284,7 +284,7 @@
 
     <target name="deploy">
         <property name="unit.ext" value="ear"/>
-        <echo>Don't forget to set the path of jboss.home to JBoss AS 4.0.3!</echo>
+        <fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
         <copy todir="${deploy.dir}">
             <fileset refid="example.deploy"/>
         </copy>
