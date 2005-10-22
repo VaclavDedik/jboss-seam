@@ -80,7 +80,7 @@
                     <key>hibernate.cache.provider_class</key>
                     <value>org.hibernate.cache.HashtableCacheProvider</value>
                 </entry>
-                <entry>
+                <entry> <!-- Needed for ExtendedManagedPersistence strategy -->
                     <key>hibernate.transaction.flush_before_completion</key>
                     <value>true</value>
                 </entry>

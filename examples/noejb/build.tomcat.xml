@@ -12,6 +12,7 @@
     <property name="conf.dir"           value="resources/conf"/>
     <property name="build.dir"          value="build"/>
     <property name="classes.dir"        value="${build.dir}/classes"/>
+    <property name="test.out.dir"       value="build/testout"/>
 
     <!--
         Copy all the following libraries into one directory in your own project
@@ -52,6 +53,18 @@
     <target name="init">
         <echo message="Build ${Name} ${version}"/>
         <mkdir dir="${classes.dir}"/>
+        <!-- Copy metadata files to build directory -->
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.java.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        <!-- Copy configuration files to build directory -->
+        <copy todir="${classes.dir}">
+            <fileset dir="${conf.dir}">
+              <include name="**/*"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="compile" depends="init"
@@ -62,6 +75,23 @@
             nowarn="on">
             <src path="${src.java.dir}"/>
         </javac>
+    </target>
+
+    <target name="test" depends="compile"
+            description="Run the TestNG suite on JBoss Microcontainer">
+        <taskdef name="testng" classname="org.testng.TestNGAntTask"
+                 classpathref="build.classpath"/>
+        <testng outputDir="${test.out.dir}">
+            <classpath>
+                <path refid="build.classpath"/>
+                <pathelement location="${classes.dir}"/>
+                <fileset dir="${lib.microcontainer}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+           <xmlfileset dir="${classes.dir}/org/jboss/seam/example/noejb/test"
+                       includes="testng.xml"/>
+        </testng>
     </target>
 
     <target name="war" depends="compile"
@@ -87,11 +117,8 @@
         <!-- Package application JAR -->
         <jar jarfile="${build.dir}/${short.name}/WEB-INF/lib/${short.name}.jar">
           <fileset dir="${classes.dir}">
-            <include name="**/*.class"/>
-            <exclude name="**/test/*.class"/>
-          </fileset>
-          <fileset dir="${conf.dir}">
             <include name="**/*"/>
+            <exclude name="**/test/*"/>
           </fileset>
         </jar>
 
