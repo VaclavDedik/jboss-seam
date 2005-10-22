@@ -1,115 +1,152 @@
 <?xml version="1.0"?>
+<project name="NoEJB" default="war" basedir=".">
 
-<project name="NoEJB" default="deploy" basedir=".">
+    <!-- Project settings -->
+    <property name="Name"               value="Seam NoEJB Example"/>
+    <property name="short.name"         value="jboss-seam-noejb"/>
+    <property name="version"            value="1.0"/>
 
-    <!-- Naming -->
-    <property name="Name"                   value="Seam NoEJB Example"/>
-    <property name="example.name"           value="jboss-seam-noejb"/>
+    <property name="src.java.dir"       value="src"/>
+    <property name="docroot.dir"        value="resources/view"/>
+    <property name="webinf.dir"         value="resources/WEB-INF"/>
+    <property name="conf.dir"           value="resources/conf"/>
+    <property name="build.dir"          value="build"/>
+    <property name="classes.dir"        value="${build.dir}/classes"/>
 
-    <!-- WAR -->
-    <fileset id="example.war.docroot"
-               dir="resources/view">
-        <include name="**/*"/>
-    </fileset>
-    <fileset id="example.war.webinf"
-               dir="resources/WEB-INF" >
-      <patternset>
+    <!--
+        Copy all the following libraries into one directory in your own project
+        and set the properties accordingly. Recommended directory is the already
+        existing resources/WEB-INF/lib/ directory. See the "war" target for a
+        list of required libraries.
+    -->
+    <property name="lib.global"         value="../../lib"/>
+    <property name="lib.microcontainer" value="../../microcontainer/lib"/>
+    <property name="lib.seam"           value="../../jboss-seam.jar"/>
+
+    <!-- Deployment -->
+     <property name="tomcat.home" value="/home/turin/work/local/tomcat/apache-tomcat-5.5.12"/> 
+<!--
+    <property name="tomcat.home" value="C:\\Documents and Settings\\christian\\My Documents\\work\\local\\tomcat\\apache-tomcat-5.5.12"/>
+-->
+    <!-- Globals -->
+    <patternset id="meta.files">
         <include name="**/*.dtd"/>
         <include name="**/*.xml"/>
         <include name="**/*.xslt"/>
         <include name="**/*.properties"/>
-        <exclude name="web.xml"/> 
-      </patternset>
-    </fileset>
-    <fileset id="example.war.webinf.lib"
-               dir="resources/WEB-INF/lib">
-        <include name="*.jar"/>
-    </fileset>
-
-    <!-- EJB3 -->
-    <fileset id="example.ejb3.root" dir=".">
-        <include name="_NONE_"/>
-    </fileset>
-
-    <fileset id="example.ejb3.lib" dir="../../lib">
-        <include name="_NONE_"/>
-    </fileset>
-  
-    <!-- EAR -->
-    <zipfileset id="example.ear.resources" dir=".">
-        <include name="_NONE_"/>
-    </zipfileset>
-
-    <!-- Deploy -->
-    <fileset id="example.deploy"
-            dir="resources">
-        <include name="noejb-ds.xml"/>
-    </fileset>
-
-    <!-- Undeploy -->
-    <patternset id="example.undeploy">
-        <include name="noejb-ds.xml"/>
     </patternset>
 
-    <!-- Overrides -->
-    <property name="src.java.dir"           value="src"/>
-
-    <import file="../../build.xml"/>
-
-    <!-- Redefine targets -->
-    <target name="war" depends="compile">
-        <jar jarfile="resources/WEB-INF/lib/${example.name}.jar">
-          <fileset dir="${classes.dir}">
-            <include name="**/*.class"/>
-          	<exclude name="**/test/*.class"/>
-          </fileset>
-          <fileset dir="resources">
-            <include name="import.sql"/>
-            <include name="hibernate.cfg.xml"/>
-            <include name="seam.properties"/>
-          </fileset>
-        </jar>
-        <copy file="${imported.basedir}/${name}.jar" todir="resources/WEB-INF/lib/"/>
-        <copy todir="${build.dir}/${example.name}">
-          <fileset refid="example.war.docroot"/>
-        </copy>
-        <copy todir="${build.dir}/${example.name}/WEB-INF/lib">
-          <fileset refid="example.war.webinf.lib"/>
-          <fileset dir="../../embedded-ejb/lib">
+    <path id="build.classpath">
+        <fileset dir="${lib.global}">
             <include name="**/*.jar"/>
-          </fileset>
-          <fileset dir="../../lib">
-            <include name="**/*.jar"/>
-          </fileset>
-        </copy>
-        <copy todir="${build.dir}/${example.name}/WEB-INF/classes">
-          <fileset dir="../../embedded-ejb/conf">
-            <include name="*.*"/>
-          </fileset>
-          <fileset dir="resources/conf.tomcat">
-            <include name="jboss-beans.xml"/>
-          </fileset>
-        </copy>
-        <copy todir="${build.dir}/${example.name}/WEB-INF">
-          <fileset refid="example.war.webinf"/>
-          <fileset dir="resources/conf.tomcat">
-            <include name="web.xml"/>
-          </fileset>
-        </copy>
+        </fileset>
+        <pathelement location="${lib.seam}"/>
+    </path>
+
+    <!-- Targets -->
+    <target name="clean"
+            description="Cleans up the build directory">
+        <delete dir="${build.dir}"/>
     </target>
 
-  <target name="deploy" depends="war"
-      description="Deploys application to $tomcat.home">
-    <echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
-    <copy todir="${tomcat.home}/webapps/${example.name}">
-      <fileset dir="${build.dir}/${example.name}"/>
-    </copy>
-    <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
-  </target>
-  
-  <target name="undeploy"
-      description="Undeploys application from $tomcat.home">
-    <delete file="${tomcat.home}/webapps/${example.name}"/>
-  </target>
+    <target name="init">
+        <echo message="Build ${Name} ${version}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="compile" depends="init"
+            description="Compile the Java source code">
+        <javac
+            destdir="${classes.dir}"
+            classpathref="build.classpath"
+            nowarn="on">
+            <src path="${src.java.dir}"/>
+        </javac>
+    </target>
+
+    <target name="war" depends="compile"
+            description="Create the exploded WAR in build directory">
+
+        <!-- DOCROOT -->
+        <copy todir="${build.dir}/${short.name}">
+            <fileset dir="${docroot.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+        <!-- WEB-INF -->
+        <copy todir="${build.dir}/${short.name}/WEB-INF">
+            <fileset dir="${webinf.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+
+        <!-- WEB-INF/lib ... -->
+        <mkdir dir="${build.dir}/${short.name}/WEB-INF/lib"/>
+
+        <!-- Package application JAR -->
+        <jar jarfile="${build.dir}/${short.name}/WEB-INF/lib/${short.name}.jar">
+          <fileset dir="${classes.dir}">
+            <include name="**/*.class"/>
+            <exclude name="**/test/*.class"/>
+          </fileset>
+          <fileset dir="${conf.dir}">
+            <include name="**/*"/>
+          </fileset>
+        </jar>
+
+        <!-- Copy application + 3rd party libraries -->
+        <copy todir="${build.dir}/${short.name}/WEB-INF/lib">
+
+            <!-- Appliation-specific libraries -->
+            <fileset dir="${webinf.dir}/lib/">
+                <include name="**/*.jar"/>
+            </fileset>
+
+            <!-- 3rd party libraries -->
+            <fileset dir="${lib.global}">
+                <!-- MyFaces -->
+                <include name="myfaces*.jar" />
+                <include name="commons-digester*.jar" />
+                <include name="commons-beanutils*.jar" />
+                <include name="commons-codec*.jar" />
+
+                <!-- Hibernate -->
+                <include name="asm*.jar" />
+                <include name="cglib*.jar" />
+                <include name="hibernate*.jar" />
+
+                <!-- Required API stubs -->
+                <include name="ejb3-persistence*.jar" />
+                <include name="jboss-ejb3x*.jar" />
+            </fileset>
+
+            <!-- Seam library -->
+            <fileset file="${lib.seam}"/>
+
+        </copy>
+
+        <!-- Microcontainer libraries -->
+        <copy todir="${build.dir}/${short.name}/WEB-INF/lib">
+          <fileset dir="${lib.microcontainer}">
+            <include name="**/*.jar"/>
+          </fileset>
+        </copy>
+
+    </target>
+
+    <target name="deploy" depends="war"
+        description="Deploys application to $tomcat.home">
+        <echo>Don't forget to set the path to your Tomcat install as $tomcat.home!</echo>
+        <copy todir="${tomcat.home}/webapps/${short.name}">
+            <fileset dir="${build.dir}/${short.name}"/>
+        </copy>
+        <echo>Application deployed at http://localhost:8080/${short.name}</echo>
+    </target>
+
+    <target name="undeploy"
+        description="Undeploys application from $tomcat.home">
+        <delete dir="${tomcat.home}/webapps/${short.name}"/>
+    </target>
 
 </project>
