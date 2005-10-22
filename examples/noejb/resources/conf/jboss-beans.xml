@@ -62,7 +62,7 @@
             <map keyClass="java.lang.String" valueClass="java.lang.String">
                 <entry>
                     <key>hibernate.session_factory_name</key>
-                    <value>hibernate/bookingDatabase</value>
+                    <value>java:/hibernate/bookingDatabase</value>
                 </entry>
                 <entry>
                     <key>hibernate.connection.datasource</key>
