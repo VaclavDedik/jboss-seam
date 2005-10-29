@@ -52,16 +52,11 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-<h1>Subversion of Control</h1>
-<p>
-    We're sure you know all about the idea of <em>inversion of control</em> or <em>dependency injection</em>, 
-    as seen in EJB 3.0, JSF, and about a thousand other frameworks out there. Well, dependency injection is
-    great for services, but it doesn't work for stateful components. So Seam introduces <em>subversion of 
-    control</em> (yes, that was a private joke we've been taking <em>way</em> too far) or <em>bijection</em>, 
-    where a component attribute is considered to be aliased to a contextual variable, and the component is 
-    allowed to manipulate the value of the contextual variable just be reading and writing its own instance 
-    variable.
-</p>
+<h1>Guided tour: Step 5</h1>
+<p>Now, <b>fill in a checkout date</b> that is later than the check in date, and <b>fill in a 16 digit credit card number</b>. For example, you can use 0123456789123456 as the credit card number. <b>Click on the Proceed button</b> to finish booking.</p>
+
+<p>The action method for the Proceed button validates the checkout date and credit card number. If those numbers are invalid, this page will be re-displayed with the error message. We have discussed validation in the registration page.</p>
+
 </ui:define>
 
 </ui:composition>

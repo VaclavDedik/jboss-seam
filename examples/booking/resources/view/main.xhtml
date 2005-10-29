@@ -53,26 +53,20 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-<h1>Contextual Components</h1>
-<p>
-    Seam components are stateful. Say goodbye to the idea of maintaining application state by
-    getting and setting attributes of the servlet session. We're sure you won't miss it.
-    Maintaining server side state has traditionally been a painful and bugprone task. Users
-    do funny things with their web browsers. They open the same page in multiple tabs. They 
-    love their back buttons. They start doing stuff that they never finish. Cleaning up
-    "orphaned" state, and insuring that state from different threads of user interaction does
-    not collide is a nightmare in a traditional web application architecture. So Seam uses
-    <em>contextual</em> application state management, and especially the notion of a 
-    <em>conversation</em> to provide a well-defined lifecycle for application state.
-</p>
-<h1>You're in a conversation right now</h1>
-<p>
-    When you click "Find Hotels", a conversation begins. The state associated with that
-    conversation is associated with this tab, in this browser window. Try 
-    <a href="main.jsf">opening this page</a> in a new browser tab or window. The work you do 
-    in each window will be completely isolated from the other one. We didn't have to do anything 
-    difficult to achieve this behavior. Believe it or not, just one annotation was enough.
-</p>
+
+<h1>Guided tour: Step 4</h1>
+
+<p>Now, let's search for some hotels to book. <b>Put search string "atlanta" in the box and click on "Find Hotels"</b>. The page will be re-displayed with a list of Atlanta hotels. <b>Click on the "View Hotel" link</b> next to any of the hotels to view the hotel information. This page and the following several pages demonstrate a key feature of SEAM: the ability to manage multi-page conversations. Click the link below to see detailed explanations with code under the hood.</p>
+
+<p><b><a href="#" onClick="window.open('mainExp.html','exp','width=752,height=500,scrollbars=yes');">See under the hood</a></b></p>
+
+
+<h1>Contextual components</h1>
+
+<p>In this page, we introduce a very important and very useful SEAM concept: contextual components. When you click "Find Hotels", a conversation begins. The state associated with that conversation is associated with this tab, in this browser window (contextual!). To see this point, try <a target="_blank" href="main.jsf">opening this page</a> in a new browser tab or window. Now, <b>search for "NY"</b> in that new browser window and complete the rest of the guided tour in both browser windows. As you can see, the work you do in each window will be completely isolated from the other one -- you can move back and forth with the "atlanta" and "NY" bookings as if each window is a separate application. In reality, the backing bean and page source for the two windows are identical. How's that possible? Well, click on the link below to see more.</p>
+
+<p><b><a href="#" onClick="window.open('main2Exp.html','exp','width=752,height=500,scrollbars=yes');">See under the hood</a></b></p>
+
 </ui:define>
 
 </ui:composition>

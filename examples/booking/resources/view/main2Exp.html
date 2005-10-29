@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>In-depth Explanation</title>
+	<link href="css/trailblazer_main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="main">
+  <div class="trail">
+    <div class="numbox">4</div>
+    <h2>Contextual conversations</h2>
+    <img src="img/header_line.gif" />
+    
+    <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+
+<p>As we have seen before, the hotel search action (<code>find()</code> method) starts the conversation in the stateful <code>HotelBookingAction</code> bean.
+
+<code class="block">
+@Stateful
+@Name("hotelBooking")
+@Interceptor(SeamInterceptor.class)
+@Conversational(ifNotBegunOutcome="main")
+@LoggedIn
+public class HotelBookingAction implements HotelBooking, Serializable {
+
+  // ... ...
+  
+  @Begin
+  public String find() {
+    // ... ...
+  }
+}
+</code>
+
+<p>Without any additional code, SEAM knows to automatically tie the conversation with the current browser window. So, if you open another window to search for hotels in another city, the application in the new window would appear entirely independent from the one in the old window. You can search, view, and book hotels in the one window without affecting the conversational state in the other. This behavior helps to eliminate a whole class of browser related bugs. For instance, if the user abort the booking process in the middle of a conversation and closes the window (hence leaving an orphaned conversation), she or he will be start anew later with a new conversation and no residue states left from the orphaned conversation.</p>
+
+
+<p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+
+  </div>
+</div>
+
+</body>
+</html>

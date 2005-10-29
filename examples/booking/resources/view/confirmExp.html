@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>In-depth Explanation</title>
+	<link href="css/trailblazer_main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="main">
+  <div class="trail">
+    <div class="numbox">5</div>
+    <h2>End of conversation</h2>
+    <img src="img/header_line.gif" />
+    
+    <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+
+<p>The Proceed button in the confirm page invokes the <code>#{hotelBooking.confirm}</code> action, which is mapped to the <code>HotelBookingAction.confirm()</code> bean method by SEAM.</p>
+
+<code class="block">
+&lt;h:commandButton value="Confirm" 
+                 action="#{hotelBooking.confirm}" 
+                 class="button"/>
+</code>
+
+<p>The <code>HotelBookingAction.confirm()</code> bean method is tagged with the <code>@End</code> annotation, which means that it ends the conversation started by the <code>find()</code> and the <code>HotelBookingAction</code> bean no longer retains the state (e.g., the search results) of the booking. In the following listing, we also listed the <code>bookHotel()</code> and <code>setBookingDetails()</code> methods, which are invoked inside the conversation in the previous two pages.</p>
+
+<code class="block">
+@Stateful
+@Name("hotelBooking")
+@Interceptor(SeamInterceptor.class)
+@Conversational(ifNotBegunOutcome="main")
+@LoggedIn
+public class HotelBookingAction implements HotelBooking, Serializable {
+
+   @End
+   public String confirm() {
+      if (booking==null || hotel==null) return "main";
+      em.persist(booking);
+      log.info("booking confirmed");
+      return "confirmed";
+   }
+   
+   public String bookHotel() {
+      if (hotel==null) return "main";
+      booking = new Booking(hotel, user);
+      booking.setCheckinDate( new Date() );
+      booking.setCheckoutDate( new Date() );
+      return "book";
+   }
+   
+   @IfInvalid(outcome=REDISPLAY)
+   public String setBookingDetails() {
+      if (booking==null || hotel==null) return "main";
+      if ( !booking.getCheckinDate().before( booking.getCheckoutDate())) {
+         log.info("invalid booking dates");
+         FacesMessage facesMessage = 
+           new FacesMessage("Check out date must be later than check in date");
+         facesContext.addMessage(null, facesMessage);
+         return null;
+      } else {
+         log.info("valid booking");
+         return "success";
+      }
+   }
+   
+   // ... ...
+}
+</code>
+
+<p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+
+  </div>
+</div>
+
+</body>
+</html>
