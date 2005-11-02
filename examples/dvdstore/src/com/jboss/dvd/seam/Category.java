@@ -19,7 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("category")
+//@Name("category")
 @Table(name="CATEGORIES")
 @Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 public class Category

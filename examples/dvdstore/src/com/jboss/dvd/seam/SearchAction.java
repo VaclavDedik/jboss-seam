@@ -28,6 +28,8 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
 
+import javax.annotation.Resource;
+
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -47,6 +49,9 @@ public class SearchAction
     @PersistenceContext(unitName="dvd")
     EntityManager em;
 
+    @Resource(name="pojo")
+    Object injected;
+
     int     pageSize    = 10;
     int     currentPage = 0; 
     boolean hasMore     = false;
@@ -61,7 +66,7 @@ public class SearchAction
     @DataModel
     List<SelectableItem<Product>> searchResults;    
 
-
+ 
     public SearchAction() {
     }
 
@@ -69,6 +74,7 @@ public class SearchAction
         this.category = category ; 
     }
     public Integer getCategory() {
+        System.out.println("INJECTED: " + injected);
         return category;
     }
 

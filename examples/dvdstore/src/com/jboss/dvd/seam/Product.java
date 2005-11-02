@@ -21,7 +21,7 @@ import javax.persistence.Table;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("xproduct")
+//@Name("xproduct")
 @Table(name="PRODUCTS")
 public class Product
     implements Serializable
@@ -32,7 +32,6 @@ public class Product
     float price;
 
     Category  category;
-    //Product   relatedProduct;
     Inventory inventory;
 
     @Id(generate=GeneratorType.AUTO)
@@ -84,13 +83,4 @@ public class Product
     public void setPrice(float price) {
         this.price=price;
     }
-
-//     @ManyToOne(fetch=FetchType.LAZY)
-//     @JoinColumn(name="COMMON_PROD_ID")
-//     public Product getRelatedProduct() {
-//         return relatedProduct;
-//     }
-//     public void setRelatedProduct(Product related) {
-//         this.relatedProduct=related;
-//     }
 }

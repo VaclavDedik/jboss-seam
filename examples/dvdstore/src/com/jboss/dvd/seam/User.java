@@ -21,13 +21,13 @@ import org.jboss.seam.annotations.Name;
 
 @Entity
 @Table(name="USERS")
-@Name("user")
+//@Name("user")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE,
              discriminatorType=DiscriminatorType.STRING)
 public abstract class User
     implements Serializable
 {
-    long    customerId;
+    long    id;
 
     String  userName;
     String  password;
@@ -37,11 +37,11 @@ public abstract class User
 
     @Id(generate=GeneratorType.AUTO)
     @Column(name="USERID")
-    public long getCustomerId() {
-        return customerId;
+    public long getId() {
+        return id;
     }                    
-    public void setCustomerId(long id) {
-        this.customerId = id;
+    public void setId(long id) {
+        this.id = id;
     }     
 
     @Column(name="USERNAME",unique=true,nullable=false,length=50)    

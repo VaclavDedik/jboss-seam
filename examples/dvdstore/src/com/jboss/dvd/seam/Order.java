@@ -24,7 +24,7 @@ import javax.persistence.Transient;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("xorder")
+//@Name("xorder")
 @Table(name="ORDERS")
 public class Order
     implements Serializable
@@ -100,8 +100,8 @@ public class Order
     }
 
     @Column(name="TRACKING")
-    public String getTrackingNumber() {
-        return trackingNumber;
+    public String getTrackingNumber() { 
+       return trackingNumber;
     }
     public void setTrackingNumber(String trackingNumber) {
         this.trackingNumber = trackingNumber;

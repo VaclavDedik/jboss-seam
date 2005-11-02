@@ -23,7 +23,7 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 @Entity
-@Name("admin")
+//@Name("admin")
 @Inheritance(discriminatorValue="admin")
 public class Admin
     extends User
