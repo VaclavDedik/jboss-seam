@@ -52,6 +52,8 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Init.FactoryMethod;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
@@ -282,6 +284,14 @@ public class Component
             if ( method.isAnnotationPresent(DataModel.class) )
             {
                dataModelGetter = method;
+            }
+            if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) ) 
+            {
+            	Init.instance().addFactoryMethod( 
+            			method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), 
+            			method, 
+            			this
+            		);
             }
             if ( method.isAnnotationPresent(DataModelSelectionIndex.class) )
             {
@@ -567,8 +577,8 @@ public class Component
          }
          if (dataModelSelectionSetter!=null)
          {
-             Object rowData = (dataModel.getRowIndex() == -1) ? null: dataModel.getRowData();
-             setPropertyValue(bean, dataModelSelectionSetter, name, rowData);
+            Object rowData = (dataModel.getRowIndex() == -1) ? null: dataModel.getRowData();
+            setPropertyValue(bean, dataModelSelectionSetter, name, rowData);
          }
          if (dataModelSelectionIndexField!=null)
          {
@@ -576,8 +586,8 @@ public class Component
          }
          if (dataModelSelectionField!=null)
          {
-             Object rowData = (dataModel.getRowIndex() == -1) ? null: dataModel.getRowData();
-             setFieldValue(bean, dataModelSelectionField, name, rowData);
+            Object rowData = (dataModel.getRowIndex() == -1) ? null: dataModel.getRowData();
+            setFieldValue(bean, dataModelSelectionField, name, rowData);
          }
       }
    }
@@ -610,6 +620,11 @@ public class Component
             index = (Integer) getPropertyValue(bean, dataModelSelectionIndexGetter);
          }
          
+         ScopeType scope = this.scope;
+         if (scope==ScopeType.STATELESS)
+         {
+        	 scope = ScopeType.EVENT;
+         }
          if (list!=null)
          {
             ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel(list);
@@ -621,7 +636,7 @@ public class Component
          }
          else
          {
-        	 scope.getContext().remove(name);
+            scope.getContext().remove(name);
          }
    }
 
@@ -832,7 +847,11 @@ public class Component
       Object result = Contexts.lookupInStatefulContexts(name);
       if (result == null && create)
       {
-          result = newInstance(name);
+    	  result = getInstanceFromFactory(name);
+    	  if (result==null)
+    	  {
+             result = newInstance(name);
+    	  }
       }
       if (result!=null) 
       {
@@ -852,10 +871,26 @@ public class Component
       }
       return result;
    }
+   
+   public static Object getInstanceFromFactory(String name)
+   {
+      Init init = Init.instance();
+      Init.FactoryMethod factoryMethod = init==null ? 
+            null : init.getFactory(name);
+      if (factoryMethod==null) 
+      {
+         return null;
+      }
+      else
+      {
+         Object factory = Component.getInstance( factoryMethod.component.getName(), true );
+         callComponentMethod(factoryMethod.component, factory, factoryMethod.method);
+         return Contexts.lookupInStatefulContexts(name);
+      }
+   }
 
    public static Object newInstance(String name)
    {
-       
       Component component = Component.forName(name);
       if (component == null)
       {
@@ -878,24 +913,27 @@ public class Component
    {
       if (component.hasCreateMethod())
       {
-         Method createMethod = component.getCreateMethod();
-         Class[] paramTypes = createMethod.getParameterTypes();
-         String createMethodName = createMethod.getName();
-         try 
+         callComponentMethod( component, instance, component.getCreateMethod() );
+      }
+   }
+
+   private static Object callComponentMethod(Component component, Object instance, Method method) {
+      Class[] paramTypes = method.getParameterTypes();
+      String createMethodName = method.getName();
+      try 
+      {
+         Method interfaceMethod = instance.getClass().getMethod(createMethodName, paramTypes);
+         if ( paramTypes.length==0 )
          {
-            Method method = instance.getClass().getMethod(createMethodName, paramTypes);
-            if ( paramTypes.length==0 )
-            {
-               Reflections.invokeAndWrap( method, instance );
-            }
-            else {
-               Reflections.invokeAndWrap( method, instance, component );
-            }
+            return Reflections.invokeAndWrap( interfaceMethod, instance );
          }
-         catch (NoSuchMethodException e)
-         {
-            throw new IllegalArgumentException("create method not found", e);
+         else {
+            return Reflections.invokeAndWrap( interfaceMethod, instance, component );
          }
+      }
+      catch (NoSuchMethodException e)
+      {
+         throw new IllegalArgumentException("create method not found", e);
       }
    }
 
@@ -903,7 +941,7 @@ public class Component
    {
       if (component!=null && component.hasUnwrapMethod())
       {
-         instance = Reflections.invokeAndWrap(component.getUnwrapMethod(), instance);
+         instance = callComponentMethod(component, instance, component.getUnwrapMethod() );
       }
       return instance;
    }
@@ -925,7 +963,7 @@ public class Component
       {
          if ( in.create() )
          {
-        	 throw new IllegalArgumentException("cannot combine create=true with explicit scope on @In: " + name);
+            throw new IllegalArgumentException("cannot combine create=true with explicit scope on @In: " + name);
          }
          result = in.scope().getContext().get(name);
       }
@@ -980,9 +1018,9 @@ public class Component
       return interceptionType;
    }
 
-	public boolean isStartup() {
-		return startup;
-	}
+   public boolean isStartup() {
+      return startup;
+   }
 
    public String[] getDependencies()
    {

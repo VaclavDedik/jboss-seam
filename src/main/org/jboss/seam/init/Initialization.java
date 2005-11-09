@@ -141,7 +141,7 @@ public class Initialization
       {
          for ( Class clazz: new Scanner().getClasses() )
          {
-            if (clazz.isAnnotationPresent(Name.class) )
+            if ( clazz.isAnnotationPresent(Name.class) )
             {
                addComponent(clazz, context);
             }
@@ -152,7 +152,7 @@ public class Initialization
    
    protected void addComponent(String name, Class clazz, Context context)
    {
-      context.set(name + ".component", new Component(clazz, name) );
+      context.set( name + ".component", new Component(clazz, name) );
    }
 
    protected void addComponent(Class clazz, Context context)

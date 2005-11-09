@@ -4,6 +4,11 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
@@ -34,6 +39,8 @@ public class Init
    private String[] componentClasses = {};
    private String[] managedDataSources = {};
    private boolean isClientSideConversations = false;
+   
+   private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
 
    public String[] getManagedPersistenceContexts()
    {
@@ -97,6 +104,26 @@ public class Init
    public void setClientSideConversations(boolean isClientSideConversations)
    {
       this.isClientSideConversations = isClientSideConversations;
+   }
+   
+   public FactoryMethod getFactory(String variable)
+   {
+	   return factories.get(variable);
+   }
+   
+   public static class FactoryMethod {
+	   public Method method;
+	   public Component component;
+	   FactoryMethod(Method method, Component component)
+	   {
+		   this.method = method;
+		   this.component = component;
+	   }
+   }
+   
+   public void addFactoryMethod(String variable, Method method, Component component)
+   {
+	   factories.put( variable, new FactoryMethod(method, component) );
    }
 
 }
