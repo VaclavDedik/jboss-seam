@@ -1,24 +1,35 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
+import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
+import static org.jboss.seam.ScopeType.SESSION;
+
 import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Interceptor;
-import javax.ejb.Stateless;
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.ejb.SeamInterceptor;
 
-@Stateless
+@Stateful
+@Scope(SESSION)
 @Name("bookingList")
 @Interceptor(SeamInterceptor.class)
 @LoggedIn
+@TransactionAttribute(REQUIRES_NEW)
 public class BookingListAction implements BookingList, Serializable
 {
    private static final Logger log = Logger.getLogger(BookingList.class);
@@ -29,18 +40,39 @@ public class BookingListAction implements BookingList, Serializable
    @In
    private User user;
    
-   @Out
+   @DataModel
    private List<Booking> bookings;
+   @DataModelSelection 
+   private Booking booking;
    
-   public String find()
+   @Factory("bookings")
+   public void find()
    {
       bookings = em.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
             .setParameter("username", user.getUsername())
             .getResultList();
       
-      log.info(bookings.size() + " bookings found");
-      
-      return "bookings";
+      log.info(bookings.size() + " bookings found");  
+   }
+   
+   public String cancel()
+   {
+      log.info("cancelling: " + booking.getId());
+      Booking cancelled = em.find(Booking.class, booking.getId());
+      if (cancelled!=null) em.remove( cancelled );
+      refresh();
+      return "cancelled";
+   }
+   
+   public void refresh()
+   {
+      booking = null;
+      find();
+   }
+   
+   @Destroy @Remove
+   public void destroy() {
+      log.info("destroyed");
    }
    
 }
