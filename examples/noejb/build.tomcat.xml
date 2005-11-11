@@ -51,6 +51,7 @@
     </target>
 
     <target name="init">
+        <echo message="#### THIS BUILD SCRIPT IS UNTESTED AND WILL PROBABLY FAIL! ####"/>
         <echo message="Build ${Name} ${version}"/>
         <mkdir dir="${classes.dir}"/>
         <!-- Copy metadata files to build directory -->

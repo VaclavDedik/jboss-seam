@@ -6,6 +6,9 @@ Hibernate session management. This code can run in a J2EE
 environment, or in a servlet container with the JBoss Microcontainer
 for JTA/JCA support.
 
+
+### TODO: REVISE THE FOLLOWING INSTRUCTIONS ###
+
 To run the example with JBoss Microcontainer on Tomcat:
 
 1. Edit the build.tomcat.xml file and set your tomcat.home location.
