@@ -53,7 +53,6 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.Init.FactoryMethod;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
