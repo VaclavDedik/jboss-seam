@@ -57,6 +57,9 @@ public class HotelBookingAction implements Serializable
    @In
    private transient FacesContext facesContext;
    
+   @In(required=false)
+   private BookingListAction bookingList;
+   
    public String getSearchString()
    {
       return searchString;
@@ -147,6 +150,7 @@ public class HotelBookingAction implements Serializable
    {
       if (booking==null || hotel==null) return "main";
       bookingDatabase.persist(booking);
+      if (bookingList!=null) bookingList.refresh();
       log.info("booking confirmed");
       return "confirmed";
    }

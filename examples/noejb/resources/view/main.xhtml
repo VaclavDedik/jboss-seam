@@ -17,8 +17,8 @@
 	</h:form>
 </div>
 <div class="section">
-	<h:outputText value="No Hotels Found" rendered="#{hotels != null and empty hotels}"/>
-	<h:dataTable value="#{hotels}" var="hot" rendered="#{not empty hotels}">
+	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
+	<h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
 		<h:column>
 			<f:facet name="header">Name</f:facet>
 			#{hot.name}
@@ -30,7 +30,7 @@
 		<h:column>
 			<f:facet name="header">City, State</f:facet>
 			#{hot.city}, #{hot.state}
-		</h:column>
+		</h:column> 
 		<h:column>
 			<f:facet name="header">Zip</f:facet>
 			#{hot.zip}
@@ -42,12 +42,40 @@
 	</h:dataTable>
 </div>
 <div class="section">
-	<h1>Search Your Bookings</h1>
-	<h:form>
-	<fieldset> 
-		<h:commandButton value="Find Existing Bookings" action="#{bookingList.find}" styleClass="button" />
-	</fieldset>
-	</h:form>
+	<h1>Current Hotel Bookings</h1>
+</div>
+<div class="section">
+	<h:outputText value="No Bookings Found" rendered="#{bookings.rowCount==0}"/>
+	<h:dataTable value="#{bookings}" var="book" rendered="#{bookings.rowCount>0}">
+		<h:column>
+			<f:facet name="header">Name</f:facet>
+			#{book.hotel.name}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Address</f:facet>
+			#{book.hotel.address}
+		</h:column>
+		<h:column>
+			<f:facet name="header">City, State</f:facet>
+			#{book.hotel.city}, #{book.hotel.state}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Check in date</f:facet>
+			#{book.checkinDate}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Check out date</f:facet>
+			#{book.checkoutDate}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Confirmation number</f:facet>
+			#{book.id}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Action</f:facet>
+			<h:commandLink action="#{bookingList.cancel}">Cancel</h:commandLink>
+		</h:column>
+	</h:dataTable>
 </div>
 </ui:define>
 
