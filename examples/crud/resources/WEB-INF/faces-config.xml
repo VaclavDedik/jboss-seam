@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+    
+<faces-config>
+
+    <!-- Navigation rules for the crud demo app -->
+
+    <navigation-rule>
+
+        <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case><from-outcome>home</from-outcome><to-view-id>/home.xhtml</to-view-id></navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+
+        <from-view-id>/main.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-outcome>create</from-outcome>
+            <to-view-id>/create.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case><from-outcome>edit</from-outcome><to-view-id>/edit.xhtml</to-view-id></navigation-case>
+        <navigation-case>
+            <from-outcome>cancelled</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+        </navigation-case>
+
+    </navigation-rule>
+
+    <navigation-rule>
+
+        <from-view-id>/main.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-outcome>bookings</from-outcome>
+            <to-view-id>/bookings.xhtml</to-view-id>
+        </navigation-case>
+
+    </navigation-rule>
+
+    <navigation-rule>
+
+        <from-view-id>/edit.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+        </navigation-case>
+
+    </navigation-rule>
+
+    <navigation-rule>
+
+        <from-view-id>/book.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/confirm.xhtml</to-view-id>
+        </navigation-case>
+
+    </navigation-rule>
+
+    <navigation-rule>
+
+        <from-view-id>/confirm.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-outcome>confirmed</from-outcome>
+            <to-view-id>/confirmed.xhtml</to-view-id>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>back</from-outcome>
+            <to-view-id>/book.xhtml</to-view-id>
+        </navigation-case>
+
+    </navigation-rule>
+
+    <!-- Facelets support -->
+
+    <application>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+    </application>
+    
+    <!-- Same for all Seam applications -->
+
+    <application>
+        <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
+    </application>
+    
+    <!-- Select one of the three standard persistence lifecycle models for the Seam application -->
+
+    <lifecycle>
+        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+        <!--phase-listener>org.jboss.seam.jsf.SeamTransactionManagedPersistencePhaseListener</phase-listener-->
+        <!--phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener-->
+    </lifecycle>
+
+</faces-config>

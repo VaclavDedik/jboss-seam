@@ -1,0 +1,54 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+				template="template.xhtml">
+
+<!-- content -->
+<ui:define name="content">
+<div class="section">
+	<h1>List of existing hotels</h1>
+</div>
+<div class="section">
+	<h:outputText value="No hotel found" rendered="#{hotels.rowCount==0}"/>
+	<h:dataTable value="#{hotels}" var="ihotel" rendered="#{hotels.rowCount>0}">
+		<h:column>
+			<f:facet name="header">Name</f:facet>
+			#{ihotel.name}
+		</h:column>
+		<h:column>
+			<f:facet name="header">Address</f:facet>
+			#{ihotel.address}
+		</h:column>
+		<h:column>
+			<f:facet name="header">City, State</f:facet>
+			#{ihotel.city}, #{ihotel.state}
+		</h:column>  
+		<h:column>
+			<f:facet name="header">Action</f:facet>
+			<h:commandLink id="delete" action="#{hotelOperations.deleteHotel}">Delete</h:commandLink>
+		</h:column>
+    <h:column><f:facet name="header">Action</f:facet><h:commandLink id="edit" action="#{hotelEditOperations.editHotel}">Edit</h:commandLink></h:column></h:dataTable>
+</div>
+<div class="section">
+	<h:form><fieldset class="buttonBox"><h:commandButton action="#{hotelOperations.createHotel}" value="New hotel" class="button"/></fieldset>
+	<fieldset class="buttonBox">
+		<h:commandButton action="#{hotelOperations.done}" value="Done" class="button"/>
+	</fieldset>
+	</h:form>
+</div>
+</ui:define>
+
+<!-- sidebar -->
+<ui:define name="sidebar">
+<!--h1>Flexible navigation</h1>
+<p>
+    You can do other things while you're in a conversation, and then come back
+    to it, either be clicking links, or by back button. Your conversation will
+    be there waiting for you. This works whether your conversation state is
+    being held on the server, or in the browser.
+</p-->
+</ui:define>
+
+</ui:composition>
