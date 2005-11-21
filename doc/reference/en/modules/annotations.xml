@@ -270,7 +270,7 @@
     	    conversations end at the end of the request. If you want a conversation that
     	    span multiple requests, you must "promote" the current conversation to
     	    a <emphasis>long-running conversation</emphasis> by calling a method marked
-    	    with <literal>@Begin</literal> or <literal>@BeginIf</literal>.
+    	    with <literal>@Begin</literal>.
     	</para>
     	
     	<variablelist spacing="compact">
@@ -283,6 +283,23 @@
                         method returns a non-null outcome without exception.
                     </para>
                 </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Begin(ifOutcome={"success", "continue"})]]></programlisting>
+                    <para>
+                        Specifies that a long-running conversation begins when this
+                        action listener method returns with one of the given outcomes.
+                    </para>
+                </listitem>
+                <listitem>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or 
+                            outcomes that result in a new long-running conversation context.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
             </varlistentry>   
             <varlistentry id="end-annotation">
                 <term><literal>@End</literal></term>
@@ -293,29 +310,8 @@
                         method returns a non-null outcome without exception.
                     </para>
                 </listitem>
-            </varlistentry>   
-            <varlistentry>
-                <term><literal>@BeginIf</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@BeginIf(outcome={"success", "continue"})]]></programlisting>
-                    <para>
-                        Specifies that a long-running conversation begins when this
-                        action listener method returns with one of the given outcomes.
-                    </para>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal>outcome</literal> &mdash; specifies the JSF outcome or 
-                            outcomes that result in a new long-running conversation context.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>   
-            <varlistentry>
-                <term><literal>@EndIf</literal></term>
-                <listitem>
-                    <programlisting><![CDATA[@EndIf(outcome={"success", "error"}, exception={SomeException.class, OtherException.class})]]></programlisting>
+                    <programlisting><![CDATA[@End(ifOutcome={"success", "error"}, evenIfException={SomeException.class, OtherException.class})]]></programlisting>
                     <para>
                         Specifies that a long-running conversation ends when this
                         action listener method returns with one of the given outcomes or
@@ -324,15 +320,8 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>outcome</literal> &mdash; specifies the JSF outcome or 
+                            <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or 
                             outcomes that result in the end of the current long-running 
-                            conversation.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>exception</literal> &mdash; specifies the exception class 
-                            or classes that result in the end of the current long-running 
                             conversation.
                         </para>
                         </listitem>
