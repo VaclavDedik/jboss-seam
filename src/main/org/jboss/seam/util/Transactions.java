@@ -4,10 +4,10 @@ package org.jboss.seam.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.ejb.EJBContext;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.Status;
@@ -16,7 +16,6 @@ import javax.transaction.UserTransaction;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Seam;
-import org.jboss.seam.core.Init;
 
 public class Transactions
 {
@@ -29,8 +28,25 @@ public class Transactions
       return getUserTransaction().getStatus()==Status.STATUS_ACTIVE;
    }
 
+   public static boolean isTransactionActiveOrMarkedRollback() throws SystemException, NamingException
+   {
+      int status = getUserTransaction().getStatus();
+      return status==Status.STATUS_ACTIVE || status == Status.STATUS_MARKED_ROLLBACK;
+   }
+
    public static UserTransaction getUserTransaction() throws NamingException
    {
+      setupInitialContext();
+      return (UserTransaction) initialContext.lookup("java:comp/UserTransaction");
+   }
+
+   public static EJBContext getEJBContext() throws NamingException
+   {
+      setupInitialContext();
+      return (EJBContext) initialContext.lookup("java:comp/EJBContext");
+   }
+
+   private static void setupInitialContext() throws NamingException {
       if (initialContext == null)
       {
          // TODO: We shouldn't have to get the properties from seam.properties again
@@ -54,12 +70,6 @@ public class Transactions
          }
          initialContext = NamingHelper.getInitialContext(properties);
       }
-      return (UserTransaction) initialContext.lookup("java:comp/UserTransaction");
    }
 
-   public static boolean isTransactionActiveOrMarkedRollback() throws SystemException, NamingException
-   {
-      int status = getUserTransaction().getStatus();
-      return status==Status.STATUS_ACTIVE || status == Status.STATUS_MARKED_ROLLBACK;
-   }
 }
