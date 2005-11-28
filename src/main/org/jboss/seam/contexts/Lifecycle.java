@@ -1,36 +1,46 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source  
+ * 
+ * Distributable under LGPL license. 
+ * See terms of license at gnu.org.  
+ */
 package org.jboss.seam.contexts;
 
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Session;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 
+/**
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
 public class Lifecycle
 {
 
    private static final Logger log = Logger.getLogger( Lifecycle.class );
 
-   public static void beginRequest(HttpSession session) {
+   public static void beginRequest(ExternalContext externalContext) {
       log.debug( ">>> Begin web request" );
       //eventContext.set( new WebRequestContext( request ) );
       Contexts.eventContext.set( new EventContext() );
-      Contexts.sessionContext.set( new WebSessionContext(session) );
-      Contexts.applicationContext.set( new WebApplicationContext( session.getServletContext() ) );
+      Contexts.sessionContext.set( new WebSessionContext(externalContext) );
+      Contexts.applicationContext.set( new WebApplicationContext( externalContext ) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
 
-   public static void beginInitialization(ServletContext servletContext)
+   public static void beginInitialization(ExternalContext externalContext)
    {
-      Context context = new WebApplicationContext( servletContext );
+      Context context = new WebApplicationContext( externalContext );
       Contexts.applicationContext.set( context );
    }
 
@@ -68,11 +78,11 @@ public class Lifecycle
       Component.getInstance( component.getName(), true );
    }
 
-   public static void endApplication(ServletContext servletContext)
+   public static void endApplication(ExternalContext externalContext)
    {
       log.debug("Undeploying, destroying application context");
 
-      Context tempApplicationContext = new WebApplicationContext( servletContext );
+      Context tempApplicationContext = new WebApplicationContext( externalContext );
       Contexts.applicationContext.set( tempApplicationContext );
       Contexts.destroy(tempApplicationContext);
       Contexts.applicationContext.set(null);
@@ -81,11 +91,11 @@ public class Lifecycle
       Contexts.conversationContext.set(null);
    }
 
-   public static void endSession(HttpSession session)
+   public static void endSession(ExternalContext externalContext)
    {
       log.debug("End of session, destroying contexts");
 
-      Context tempAppContext = new WebApplicationContext(session.getServletContext() );
+      Context tempAppContext = new WebApplicationContext( externalContext );
       Contexts.applicationContext.set(tempAppContext);
 
       //this is used just as a place to stick the ConversationManager
@@ -94,14 +104,14 @@ public class Lifecycle
 
       //this is used (a) for destroying session-scoped components
       //and is also used (b) by the ConversationManager
-      Context tempSessionContext = new WebSessionContext( session );
+      Context tempSessionContext = new WebSessionContext( externalContext );
       Contexts.sessionContext.set(tempSessionContext);
 
       Set<String> ids = Manager.instance().getSessionConversationIds();
       log.debug("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
-         Contexts.destroy( new ConversationContext(session, conversationId) );
+         Contexts.destroy( new ConversationContext( externalContext, conversationId) );
       }
 
       log.debug("destroying session context");
@@ -127,7 +137,7 @@ public class Lifecycle
       }   
    }
 
-   public static void endRequest(HttpSession session) {
+   public static void endRequest(ExternalContext externalContext) {
 
       log.debug("After render response, destroying contexts");
 
@@ -162,7 +172,7 @@ public class Lifecycle
 
          if ( Seam.isSessionInvalid() )
          {
-            session.invalidate();
+            ((Session)externalContext.getSession(true)).invalidate();
             //actual session context will be destroyed from the listener
          }
 
@@ -179,12 +189,12 @@ public class Lifecycle
       log.debug( "<<< End web request" );
    }
 
-   public static void resumeConversation(HttpSession session, String id)
+   public static void resumeConversation(ExternalContext externalContext, String id)
    {
       Init init = (Init) Component.getInstance(Init.class, false);
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
-            (Context) new ConversationContext(session, id);
+            (Context) new ConversationContext(externalContext, id);
       Contexts.conversationContext.set( conversationContext );
    }
 

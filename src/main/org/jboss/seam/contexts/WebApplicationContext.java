@@ -7,9 +7,9 @@
 package org.jboss.seam.contexts;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Iterator;
 
-import javax.servlet.ServletContext;
+import javax.faces.context.ExternalContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -21,7 +21,7 @@ import org.jboss.seam.Seam;
  */
 public class WebApplicationContext implements Context {
 
-	private ServletContext context;
+	private ExternalContext externalContext;
 	
    public ScopeType getType()
    {
@@ -38,16 +38,16 @@ public class WebApplicationContext implements Context {
       return ScopeType.APPLICATION.getPrefix() + '$';
    }
 
-	public WebApplicationContext(ServletContext context) {
-		this.context = context;
+	public WebApplicationContext(ExternalContext externalContext) {
+		this.externalContext = externalContext;
 	}
 
 	public Object get(String name) {
-		return context.getAttribute( getKey(name) );
+		return externalContext.getApplicationMap().get( getKey(name) );
 	}
 
 	public void set(String name, Object value) {
-		context.setAttribute( getKey(name), value );
+       externalContext.getApplicationMap().put( getKey(name), value );
 	}
 
 	public boolean isSet(String name) {
@@ -55,22 +55,23 @@ public class WebApplicationContext implements Context {
 	}
 
 	public void remove(String name) {
-		context.removeAttribute( getKey(name) );
+       externalContext.getApplicationMap().remove( getKey(name) );
 	}
 
-	public String[] getNames() {
-		Enumeration names = context.getAttributeNames();
-		ArrayList<String> results = new ArrayList<String>();
-      String prefix = getPrefix();
-		while ( names.hasMoreElements() ) {
-         String name = (String) names.nextElement();
-         if ( name.startsWith(prefix) )
-         {
-            results.add( name.substring(prefix.length()) );
-         }
-		}
-		return results.toArray(new String[]{});
-	}
+    public String[] getNames() {
+       Iterator names = externalContext.getApplicationMap().keySet().iterator();
+       ArrayList<String> results = new ArrayList<String>();
+       String prefix = getPrefix();
+       while ( names.hasNext() )
+       {
+          String name = (String) names.next();
+          if ( name.startsWith(prefix) )
+          {
+             results.add( name.substring(prefix.length()) );
+          }
+       }
+       return results.toArray(new String[]{});
+    }
 
    public Object get(Class clazz)
    {

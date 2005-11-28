@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.servlet;
 
 import java.io.IOException;
@@ -9,10 +14,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -46,6 +49,10 @@ public class SeamExceptionFilter implements Filter
 
    private void endWebRequestAfterException(ServletRequest request)
    {
+      throw new RuntimeException("Uncaught Exception");
+      
+      // TODO: This would only work in a Servlet environment.
+      /*
       try 
       {
          Lifecycle.endRequest( ( (HttpServletRequest) request ).getSession() );
@@ -54,6 +61,7 @@ public class SeamExceptionFilter implements Filter
       {
          log.error("could not destroy contexts", ee);
       }
+      */
    }
 
    private void rollbackAfterException()

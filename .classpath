@@ -97,5 +97,7 @@
 	<classpathentry kind="lib" path="lib/testng-2.5.3-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-api.jar"/>
 	<classpathentry kind="lib" path="lib/tomahawk.jar"/>
+	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
+	<classpathentry kind="src" path="examples/noejb/src"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>

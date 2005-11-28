@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.mock;
 
 import java.io.BufferedReader;
@@ -16,19 +21,29 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
 public class MockHttpServletRequest implements HttpServletRequest
 {
    
-   private HttpSession session;
+//   private HttpSession session;
    
    private Map<String, String[]> parameters = new HashMap<String, String[]>();
    private Map<String, Object> attributes = new HashMap<String, Object>();
+   private HttpSession session;
    
-   public MockHttpServletRequest(HttpSession session)
+   public MockHttpServletRequest(MockHttpSession session)
    {
       this.session = session;
    }
    
+   public MockHttpServletRequest()
+   {
+   }
+
    public Map<String, String[]> getParameters()
    {
       return parameters;
@@ -155,12 +170,16 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public HttpSession getSession(boolean create)
    {
+      if (create && session==null)
+      {
+         session = new MockHttpSession();
+      }
       return session;
    }
 
    public HttpSession getSession()
    {
-      return session;
+      return getSession(true);
    }
 
    public boolean isRequestedSessionIdValid()

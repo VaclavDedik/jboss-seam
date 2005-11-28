@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.mock;
 
 import java.util.ArrayList;
@@ -16,8 +21,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseStream;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
-import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
 public class MockFacesContext extends FacesContext
 {
    
@@ -25,9 +34,9 @@ public class MockFacesContext extends FacesContext
    private Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
    private ExternalContext externalContext;
    
-   public MockFacesContext(HttpServletRequest request)
+   public MockFacesContext(ExternalContext externalContext)
    {
-      externalContext = new MockExternalContext(request);
+      this.externalContext = externalContext;
    }
 
    @Override

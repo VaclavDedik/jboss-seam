@@ -4,6 +4,7 @@ package org.jboss.seam.test;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
@@ -19,6 +20,7 @@ import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.mock.MockHttpSession;
@@ -31,14 +33,14 @@ public class PhaseListenerTest
    @Test
    public void testSeamPhaseListener()
    {
-      ServletContext servletContext = new MockServletContext();
-      HttpSession session = new MockHttpSession(servletContext);
+      ExternalContext externalContext = new MockExternalContext();
+      MockHttpSession session = new MockHttpSession();
       HttpServletRequest request = new MockHttpServletRequest( session );
-      MockFacesContext facesContext = new MockFacesContext( request );
+      MockFacesContext facesContext = new MockFacesContext( externalContext );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      Context appContext = new WebApplicationContext(servletContext);
+      Context appContext = new WebApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
@@ -96,14 +98,14 @@ public class PhaseListenerTest
    @Test
    public void testSeamPhaseListenerLongRunning()
    {
-      ServletContext servletContext = new MockServletContext();
-      HttpSession session = new MockHttpSession(servletContext);
+      ExternalContext externalContext = new MockExternalContext();
+      MockHttpSession session = new MockHttpSession();
       HttpServletRequest request = new MockHttpServletRequest( session );
-      MockFacesContext facesContext = new MockFacesContext( request );
+      MockFacesContext facesContext = new MockFacesContext( externalContext );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      Context appContext = new WebApplicationContext(servletContext);
+      Context appContext = new WebApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
@@ -113,7 +115,7 @@ public class PhaseListenerTest
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
       ids.put("2", System.currentTimeMillis());
-      new WebSessionContext(session).set(Manager.CONVERSATION_ID_MAP, ids);
+      new WebSessionContext(externalContext).set(Manager.CONVERSATION_ID_MAP, ids);
       
       SeamPhaseListener phases = new SeamPhaseListener();
 
@@ -169,14 +171,14 @@ public class PhaseListenerTest
    @Test
    public void testSeamPhaseListenerNewLongRunning()
    {
-      ServletContext servletContext = new MockServletContext();
-      HttpSession session = new MockHttpSession(servletContext);
+      ExternalContext externalContext = new MockExternalContext();
+      MockHttpSession session = new MockHttpSession();
       HttpServletRequest request = new MockHttpServletRequest( session );
-      MockFacesContext facesContext = new MockFacesContext( request );
+      MockFacesContext facesContext = new MockFacesContext( externalContext );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      Context appContext = new WebApplicationContext(servletContext);
+      Context appContext = new WebApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 

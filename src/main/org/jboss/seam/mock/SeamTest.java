@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.mock;
 
 import java.util.HashMap;
@@ -7,7 +12,6 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,10 +21,15 @@ import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.testng.annotations.Configuration;
 
+/**
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
 public class SeamTest
 {
 
-   private MockServletContext servletContext;
+   private MockExternalContext  externalContext;
    private MockLifecycle lifecycle;
    private SeamPhaseListener phases;
    private MockFacesContext facesContext;
@@ -35,11 +44,6 @@ public class SeamTest
    protected boolean isSessionInvalid()
    {
       return session.isInvalid();
-   }
-   
-   protected ServletContext getServletContext()
-   {
-      return servletContext;
    }
    
    protected FacesContext getFacesContext()
@@ -67,9 +71,7 @@ public class SeamTest
       
       public String run() throws Exception
       {   
-   
-         request = new MockHttpServletRequest( session );
-         facesContext = new MockFacesContext( request );
+         facesContext = new MockFacesContext( externalContext );
          facesContext.setCurrent();
          Map attributes = facesContext.getViewRoot().getAttributes();
          if (conversationId!=null) 
@@ -132,13 +134,13 @@ public class SeamTest
    @Configuration(beforeTestMethod=true)
    public void begin()
    {
-      session = new MockHttpSession( servletContext );
+      session = new MockHttpSession();
    }
 
    @Configuration(afterTestMethod=true)
    public void end()
    {
-      Lifecycle.endSession(session);
+      Lifecycle.endSession(externalContext);
       session = null;
    }
    
@@ -151,11 +153,12 @@ public class SeamTest
    public void init() throws Exception
    {
       phases = createPhaseListener();
-      servletContext = new MockServletContext();
+      MockServletContext servletContext = new MockServletContext();
+      externalContext = new MockExternalContext(servletContext);
       initServletContext( servletContext.getInitParameters() );
       //Contexts.beginApplication(servletContext);
       lifecycle = new MockLifecycle();
-      new Initialization(servletContext).init();
+      new Initialization(externalContext).init();
 
       conversationStates = new HashMap<String, ConversationState>();
    }
@@ -163,8 +166,8 @@ public class SeamTest
    @Configuration(afterTestClass=true)
    public void cleanup() throws Exception
    {
-      Lifecycle.endApplication(servletContext);
-      servletContext = null;
+      Lifecycle.endApplication(externalContext);
+      externalContext = null;
       conversationStates.clear();
       conversationStates = null;
    }

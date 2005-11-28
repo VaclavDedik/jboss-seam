@@ -1,11 +1,13 @@
 //$Id$
 package org.jboss.seam.test;
 
+import javax.faces.context.ExternalContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Session;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
@@ -15,8 +17,10 @@ import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockHttpSession;
 import org.jboss.seam.mock.MockServletContext;
+import org.jboss.seam.servlet.ServletSessionImpl;
 import org.testng.annotations.Test;
 
 public class ContextTest
@@ -24,9 +28,8 @@ public class ContextTest
    @Test
    public void testContextManagement()
    {
-      MockServletContext servletContext = new MockServletContext();
-      MockHttpSession session = new MockHttpSession(servletContext);
-      Context appContext = new WebApplicationContext(servletContext);
+      MockExternalContext externalContext = new MockExternalContext();
+      Context appContext = new WebApplicationContext(externalContext);
       appContext.set(
             Seam.getComponentName(Manager.class) + ".component",
             new Component(Manager.class)
@@ -38,14 +41,14 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
       
-      Lifecycle.beginRequest(session);
+      Lifecycle.beginRequest(externalContext);
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
       
-      Lifecycle.resumeConversation(session, "3");
+      Lifecycle.resumeConversation(externalContext, "3");
       Manager.instance().setLongRunningConversation(true);
       
       assert Contexts.isEventContextActive();
@@ -66,23 +69,23 @@ public class ContextTest
       Contexts.getApplicationContext().set("foo", "bar");
       Contexts.getConversationContext().set("xxx", "yyy");
       
-      Lifecycle.endRequest(session);
+      Lifecycle.endRequest(externalContext);
       
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
-      assert session.getAttributes().size()==2;
-      assert servletContext.getAttributes().size()==3;
+      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==2;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==3;
       
-      Lifecycle.beginRequest(session);
+      Lifecycle.beginRequest(externalContext);
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
       
-      Lifecycle.resumeConversation(session, "3");
+      Lifecycle.resumeConversation(externalContext, "3");
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
@@ -103,20 +106,20 @@ public class ContextTest
       assert Contexts.getConversationContext().get("xxx").equals("yyy");
       
       Manager.instance().setLongRunningConversation(false);
-      Lifecycle.endRequest(session);
+      Lifecycle.endRequest(externalContext);
       
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
-      assert session.getAttributes().size()==1;
-      assert servletContext.getAttributes().size()==3;
+      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==1;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==3;
       
-      Lifecycle.endSession(session);
+      Lifecycle.endSession(externalContext);
       
       //assert session.getAttributes().size()==0;
       
-      Lifecycle.endApplication(servletContext);
+      Lifecycle.endApplication(externalContext);
       
       //assert servletContext.getAttributes().size()==0;
    }
@@ -124,27 +127,27 @@ public class ContextTest
    @Test
    public void testContexts()
    {
-      ServletContext servletContext = new MockServletContext();
-      HttpSession session = new MockHttpSession(servletContext);
-      Context appContext = new WebApplicationContext(servletContext);
+      ExternalContext externalContext = new MockExternalContext();
+      HttpSession session = new MockHttpSession();
+      Context appContext = new WebApplicationContext(externalContext);
       appContext.set(
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
          );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
-      Lifecycle.beginRequest(session);
+      Lifecycle.beginRequest(externalContext);
       Manager.instance().setLongRunningConversation(true);
-      testContext( new WebApplicationContext(servletContext) );
-      testContext( new WebSessionContext(session) );
+      testContext( new WebApplicationContext(externalContext) );
+      testContext( new WebSessionContext(externalContext) );
       testContext( new EventContext() );
-      testContext( new ConversationContext(session, "1") );
-      testEquivalence( new ConversationContext(session, "1"), new ConversationContext(session, "1") );
-      testEquivalence( new WebSessionContext(session), new WebSessionContext(session) );
-      testEquivalence( new WebApplicationContext(servletContext), new WebApplicationContext(servletContext) );
-      testIsolation( new ConversationContext(session, "1"), new ConversationContext(session, "2") );
-      testIsolation( new WebSessionContext(session), new WebSessionContext( new MockHttpSession(servletContext) ) );
+      testContext( new ConversationContext(externalContext, "1") );
+      testEquivalence( new ConversationContext(externalContext, "1"), new ConversationContext(externalContext, "1") );
+      testEquivalence( new WebSessionContext(externalContext), new WebSessionContext(externalContext) );
+      testEquivalence( new WebApplicationContext(externalContext), new WebApplicationContext(externalContext) );
+      testIsolation( new ConversationContext(externalContext, "1"), new ConversationContext(externalContext, "2") );
+      testIsolation( new WebSessionContext(externalContext), new WebSessionContext( new MockExternalContext()) );
       
-      Lifecycle.endApplication(servletContext);
+      Lifecycle.endApplication(externalContext);
    }
    
    private void testEquivalence(Context ctx, Context cty)

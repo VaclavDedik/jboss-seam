@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.mock;
 
 import java.io.IOException;
@@ -14,16 +19,39 @@ import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.myfaces.context.servlet.InitParameterMap;
+
+/**
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
 public class MockExternalContext extends ExternalContext
 {
-   
+   private static final String INIT_PARAMETER_MAP_ATTRIBUTE = InitParameterMap.class.getName();
+
+   private MockServletContext context;
    private HttpServletRequest request;
    
-   MockExternalContext(HttpServletRequest request)
+   public MockExternalContext()
    {
-      this.request = request;
+      this.context = new MockServletContext();
+      this.request = new MockHttpServletRequest();
    }
 
+   public MockExternalContext(MockServletContext context)
+   {
+      this.context = context;
+      this.request = new MockHttpServletRequest();
+   }
+
+   public MockExternalContext(MockServletContext context, HttpServletRequest request)
+   {
+      this.context = context;
+      this.request = request;
+   }
+   
+   
    @Override
    public void dispatch(String arg0) throws IOException
    {
@@ -55,8 +83,7 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getApplicationMap()
    {
-      //TODO
-      return null;
+      return context.getAttributes();
    }
 
    @Override
@@ -69,22 +96,19 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Object getContext()
    {
-      //TODO
-      return null;
+      return context;
    }
 
    @Override
    public String getInitParameter(String arg0)
    {
-      //TODO
-      return null;
+      return context.getInitParameter(arg0);
    }
 
    @Override
    public Map getInitParameterMap()
    {
-      //TODO
-      return null;
+      return context.getInitParameters();
    }
 
    @Override

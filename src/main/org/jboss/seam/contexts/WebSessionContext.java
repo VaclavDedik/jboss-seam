@@ -9,10 +9,11 @@ package org.jboss.seam.contexts;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpSession;
+import javax.faces.context.ExternalContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Session;
 
 /**
  * @author Gavin King
@@ -21,7 +22,7 @@ import org.jboss.seam.Seam;
  */
 public class WebSessionContext implements Context {
 
-	private HttpSession session;
+   private Session session;
 	
    public ScopeType getType()
    {
@@ -38,8 +39,8 @@ public class WebSessionContext implements Context {
       return ScopeType.SESSION.getPrefix() + '$';
    }
 
-	public WebSessionContext(HttpSession session) {
-		this.session = session;
+	public WebSessionContext(ExternalContext externalContext) {
+       this.session = (Session) externalContext.getSession(true);
 	}
 
 	public Object get(String name) {

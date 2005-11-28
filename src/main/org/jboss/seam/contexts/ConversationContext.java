@@ -12,10 +12,11 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.faces.context.ExternalContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Session;
 import org.jboss.seam.core.Manager;
 
 /**
@@ -28,7 +29,7 @@ import org.jboss.seam.core.Manager;
  */
 public class ConversationContext implements Context, Serializable {
 
-	private final HttpSession session;
+   private final Session session;
    private final Map<String, Object> temporarySession = new HashMap<String, Object>();
    private final String id;
    
@@ -47,9 +48,9 @@ public class ConversationContext implements Context, Serializable {
       return ScopeType.CONVERSATION.getPrefix() + '#' + id + '$';
    }
 
-   public ConversationContext(HttpSession session, String id)
+   public ConversationContext(ExternalContext externalContext, String id)
    {
-      this.session = session;
+      this.session = (Session) externalContext.getSession(true);
       this.id = id;
    }
    

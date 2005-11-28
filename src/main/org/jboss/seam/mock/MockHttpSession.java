@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.mock;
 
 import java.util.Enumeration;
@@ -9,16 +14,21 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
-public class MockHttpSession implements HttpSession
+import org.jboss.seam.Session;
+
+/**
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
+public class MockHttpSession extends Session implements HttpSession
 {
    
    private Map<String, Object> attributes = new HashMap<String, Object>();
-   private ServletContext servletContext;
    private boolean isInvalid;
    
-   public MockHttpSession(ServletContext servletContext)
+   public MockHttpSession()
    {
-      this.servletContext = servletContext;
    }
    
    public boolean isInvalid()
@@ -42,11 +52,6 @@ public class MockHttpSession implements HttpSession
    {
       //TODO
       return 0;
-   }
-
-   public ServletContext getServletContext()
-   {
-      return servletContext;
    }
 
    public void setMaxInactiveInterval(int arg0)
@@ -122,6 +127,12 @@ public class MockHttpSession implements HttpSession
    public Map<String, Object> getAttributes()
    {
       return attributes;
+   }
+
+   public ServletContext getServletContext()
+   {
+      // FIXME getServletContext
+      return null;
    }
 
 }

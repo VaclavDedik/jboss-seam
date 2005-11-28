@@ -1,14 +1,19 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.init;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.servlet.ServletContext;
+import javax.faces.context.ExternalContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -32,17 +37,22 @@ import org.jboss.seam.core.StatelessContext;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.Reflections;
 
+/**
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
 public class Initialization
 {
    private static final Logger log = Logger.getLogger(Seam.class);
    
    private Map<String, String> properties = new HashMap<String, String>();
-   private ServletContext servletContext;
+   private ExternalContext externalContext;
    private boolean isScannerEnabled = true;
 
-   public Initialization(ServletContext servletContext)
+   public Initialization(ExternalContext externalContext)
    {
-      this.servletContext = servletContext;
+      this.externalContext = externalContext;
       initPropertiesFromServletContext();
       initPropertiesFromResource();
    }
@@ -56,7 +66,7 @@ public class Initialization
    public Initialization init()
    {
       log.info("initializing Seam");
-      Lifecycle.beginInitialization(servletContext);
+      Lifecycle.beginInitialization(externalContext);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       addComponents();
       Lifecycle.endInitialization();
@@ -66,11 +76,11 @@ public class Initialization
 
    private void initPropertiesFromServletContext()
    {
-      Enumeration paramNames = servletContext.getInitParameterNames();
-      while (paramNames.hasMoreElements())
+      Iterator params = externalContext.getInitParameterMap().keySet().iterator();
+      while (params.hasNext())
       {
-         String name = (String) paramNames.nextElement();
-         properties.put(name, servletContext.getInitParameter(name));
+         String name = (String) params.next();
+         properties.put(name, externalContext.getInitParameter(name));
       }
    }
 

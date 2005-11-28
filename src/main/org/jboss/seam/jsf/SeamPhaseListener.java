@@ -15,7 +15,6 @@ import java.util.Map;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.contexts.BusinessProcessContext;
@@ -48,14 +47,14 @@ public class SeamPhaseListener implements PhaseListener
       
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
-         Lifecycle.beginRequest( getSession( event ) );
+         Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
          log.trace( "About to restore view" );
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          storeAnyBusinessProcessContext(); // needs to come *before* storing conversation!
          storeAnyConversationContext( event );
-         Manager.instance().conversationTimeout( getSession( event ) );
+         Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
       }
 
       Lifecycle.setPhaseId( event.getPhaseId() );
@@ -75,14 +74,14 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         Lifecycle.endRequest( getSession( event ) );
+         Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
       }
    }
 
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
       String conversationId = Manager.instance().restore( getAttributes( event ) );
-      Lifecycle.resumeConversation( getSession( event ), conversationId );
+      Lifecycle.resumeConversation( event.getFacesContext().getExternalContext(), conversationId );
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }
 
@@ -115,11 +114,6 @@ public class SeamPhaseListener implements PhaseListener
       Map state = ( Map ) conversation.get( JBPM_STATE_MAP );
       log.trace( "restoring bpm state from : " + state );
       Lifecycle.recoverBusinessProcessContext( state );
-   }
-
-   private static HttpSession getSession(PhaseEvent event)
-   {
-      return ( HttpSession ) event.getFacesContext().getExternalContext().getSession( true );
    }
 
    private static Map getAttributes(PhaseEvent event)

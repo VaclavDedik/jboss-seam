@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
@@ -8,7 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
+import javax.faces.context.ExternalContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -22,6 +27,11 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ConversationContext;
 import org.jboss.seam.util.Id;
 
+/**
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.manager")
 @Intercept(NEVER)
@@ -163,7 +173,7 @@ public class Manager
    /**
     * Clean up timed-out conversations
     */
-   public void conversationTimeout(HttpSession session)
+   public void conversationTimeout(ExternalContext externalContext)
    {
       long currentTime = System.currentTimeMillis();
       Map<String, Long> ids = getConversationIdMap();
@@ -176,7 +186,7 @@ public class Manager
          {
             String conversationId = entry.getKey();
             log.debug("conversation timeout for conversation: " + conversationId);
-            ConversationContext conversationContext = new ConversationContext( session, conversationId );
+            ConversationContext conversationContext = new ConversationContext( externalContext, conversationId );
             Contexts.destroy( conversationContext );
             conversationContext.clear();
             iter.remove();
