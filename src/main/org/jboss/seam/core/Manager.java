@@ -19,6 +19,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Session;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -186,7 +187,7 @@ public class Manager
          {
             String conversationId = entry.getKey();
             log.debug("conversation timeout for conversation: " + conversationId);
-            ConversationContext conversationContext = new ConversationContext( externalContext, conversationId );
+            ConversationContext conversationContext = new ConversationContext( Session.getSession(externalContext, true), conversationId );
             Contexts.destroy( conversationContext );
             conversationContext.clear();
             iter.remove();

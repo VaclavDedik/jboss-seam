@@ -9,6 +9,7 @@ import javax.faces.event.PhaseId;
 import org.jboss.seam.Component;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Session;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -36,7 +37,6 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      MockHttpSession session = new MockHttpSession();
       Context appContext = new WebApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
@@ -53,7 +53,7 @@ public class InterceptorTest
          );
 
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation( externalContext, "1" );
+      Lifecycle.resumeConversation( (Session)externalContext.getSession(true), "1" );
       
       final Bar bar = new Bar();
       final Foo foo = new Foo();
@@ -132,7 +132,6 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      MockHttpSession session = new MockHttpSession();
       Context appContext = new WebApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
@@ -140,7 +139,7 @@ public class InterceptorTest
             new Component(Manager.class) 
          );
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation( externalContext, "1" );
+      Lifecycle.resumeConversation( (Session)externalContext.getSession(true), "1" );
 
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Foo.class) );
@@ -229,7 +228,7 @@ public class InterceptorTest
          );
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation( externalContext, "1" );
+      Lifecycle.resumeConversation((Session)externalContext.getSession(true), "1" );
       
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Bar.class) );

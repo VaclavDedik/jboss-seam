@@ -12,8 +12,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.context.ExternalContext;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.Session;
@@ -48,9 +46,9 @@ public class ConversationContext implements Context, Serializable {
       return ScopeType.CONVERSATION.getPrefix() + '#' + id + '$';
    }
 
-   public ConversationContext(ExternalContext externalContext, String id)
+   public ConversationContext(Session session, String id)
    {
-      this.session = (Session) externalContext.getSession(true);
+      this.session = session;
       this.id = id;
    }
    

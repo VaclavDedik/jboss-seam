@@ -117,8 +117,6 @@ public class LoginTest extends SeamTest
          
       }.run();
       
-      assert isSessionInvalid();
-      
    }
 
    @Override

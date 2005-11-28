@@ -98,9 +98,9 @@ public class PhaseListenerTest
    @Test
    public void testSeamPhaseListenerLongRunning()
    {
-      ExternalContext externalContext = new MockExternalContext();
       MockHttpSession session = new MockHttpSession();
       HttpServletRequest request = new MockHttpServletRequest( session );
+      ExternalContext externalContext = new MockExternalContext(new MockServletContext(), request);
       MockFacesContext facesContext = new MockFacesContext( externalContext );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
@@ -115,7 +115,7 @@ public class PhaseListenerTest
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
       ids.put("2", System.currentTimeMillis());
-      new WebSessionContext(externalContext).set(Manager.CONVERSATION_ID_MAP, ids);
+      new WebSessionContext(session).set(Manager.CONVERSATION_ID_MAP, ids);
       
       SeamPhaseListener phases = new SeamPhaseListener();
 

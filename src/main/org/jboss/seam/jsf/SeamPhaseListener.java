@@ -17,6 +17,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Session;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -81,7 +82,7 @@ public class SeamPhaseListener implements PhaseListener
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
       String conversationId = Manager.instance().restore( getAttributes( event ) );
-      Lifecycle.resumeConversation( event.getFacesContext().getExternalContext(), conversationId );
+      Lifecycle.resumeConversation( Session.getSession(event.getFacesContext().getExternalContext(), true), conversationId );
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }
 
@@ -101,11 +102,18 @@ public class SeamPhaseListener implements PhaseListener
 
    private static void storeAnyBusinessProcessContext()
    {
-      Context conversation = Contexts.getConversationContext();
-      BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
+      if ( !Contexts.isConversationContextActive() )
+      {
+         log.debug( "No active conversation context" );
+      }
+      else
+      {
+         Context conversation = Contexts.getConversationContext();
+         BusinessProcessContext jbpmContext = ( BusinessProcessContext ) Contexts.getBusinessProcessContext();
 
-      log.trace( "storing bpm recoverable state" );
-      conversation.set( JBPM_STATE_MAP, jbpmContext.getRecoverableState() );
+         log.trace( "storing bpm recoverable state" );
+         conversation.set( JBPM_STATE_MAP, jbpmContext.getRecoverableState() );
+      }
    }
 
    private static void restoreAnyBusinessProcessContext()

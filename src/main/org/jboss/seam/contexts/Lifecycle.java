@@ -33,7 +33,7 @@ public class Lifecycle
       log.debug( ">>> Begin web request" );
       //eventContext.set( new WebRequestContext( request ) );
       Contexts.eventContext.set( new EventContext() );
-      Contexts.sessionContext.set( new WebSessionContext(externalContext) );
+      Contexts.sessionContext.set( new WebSessionContext(Session.getSession(externalContext, true)) );
       Contexts.applicationContext.set( new WebApplicationContext( externalContext ) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
@@ -104,14 +104,14 @@ public class Lifecycle
 
       //this is used (a) for destroying session-scoped components
       //and is also used (b) by the ConversationManager
-      Context tempSessionContext = new WebSessionContext( externalContext );
+      Context tempSessionContext = new WebSessionContext( Session.getSession(externalContext, true) );
       Contexts.sessionContext.set(tempSessionContext);
 
       Set<String> ids = Manager.instance().getSessionConversationIds();
       log.debug("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
-         Contexts.destroy( new ConversationContext( externalContext, conversationId) );
+         Contexts.destroy( new ConversationContext( Session.getSession(externalContext, true), conversationId) );
       }
 
       log.debug("destroying session context");
@@ -189,12 +189,12 @@ public class Lifecycle
       log.debug( "<<< End web request" );
    }
 
-   public static void resumeConversation(ExternalContext externalContext, String id)
+   public static void resumeConversation(Session session, String id)
    {
       Init init = (Init) Component.getInstance(Init.class, false);
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
-            (Context) new ConversationContext(externalContext, id);
+            (Context) new ConversationContext(session, id);
       Contexts.conversationContext.set( conversationContext );
    }
 
@@ -213,6 +213,5 @@ public class Lifecycle
    public static void setPhaseId(PhaseId phase)
    {
       phaseId.set(phase);
-   }
-
+   }   
 }
