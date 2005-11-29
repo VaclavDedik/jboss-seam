@@ -48,7 +48,7 @@ public class RollbackInterceptor extends AbstractInterceptor
       }
       catch (Exception e)
       {
-         //Any exception that propogates out of a JavaBean component
+         //Any exception that propagates out of a JavaBean component
          //causes a transaction rollback
          if ( component.getType()==ComponentType.JAVA_BEAN )
          {
