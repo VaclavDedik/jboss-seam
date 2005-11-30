@@ -113,7 +113,6 @@ public class Component
    
    private Method dataModelGetter;
    private Method dataModelSelectionIndexSetter;
-   private Method dataModelSelectionIndexGetter;
    private Method dataModelSelectionSetter;
    private Field dataModelField;
    private Field dataModelSelectionIndexField;
@@ -296,14 +295,7 @@ public class Component
             }
             if ( method.isAnnotationPresent(DataModelSelectionIndex.class) )
             {
-               if (method.getReturnType()==void.class)
-               {
-                  dataModelSelectionIndexSetter = method;
-               }
-               else
-               {
-                  dataModelSelectionIndexGetter = method;
-               }
+               dataModelSelectionIndexSetter = method;
             }
             if ( method.isAnnotationPresent(DataModelSelection.class) )
             {
@@ -557,6 +549,7 @@ public class Component
 
    private void injectDataModelSelection(Object bean)
    {
+      
       final String name;
       if (dataModelGetter!=null)
       {
@@ -573,6 +566,8 @@ public class Component
       javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) getDataModelContext().get(name);
       if (dataModel!=null)
       {
+         log.debug("selected row: " + dataModel.getRowIndex());
+         
          if (dataModelSelectionIndexSetter!=null)
          {
             setPropertyValue(bean, dataModelSelectionIndexSetter, name, dataModel.getRowIndex() );
@@ -598,46 +593,38 @@ public class Component
 
    private void outjectDataModel(Object bean)
    {
-         final List list;
-         final String name;
-         if (dataModelGetter!=null)
-         {
-            name = toName(dataModelGetter.getAnnotation(DataModel.class).value(), dataModelGetter);
-            list = (List) getPropertyValue(bean, dataModelGetter, name);
-         }
-         else if (dataModelField!=null)
-         {
-            name = toName(dataModelField.getAnnotation(DataModel.class).value(), dataModelField);
-            list = (List) getFieldValue(bean, dataModelField, name);
-         }
-         else {
-            return;
-         }
-         
-         Integer index = null;
-         if (dataModelSelectionIndexField!=null)
-         {
-            index = (Integer) getFieldValue(bean, dataModelSelectionIndexField, name);
-         }
-         else if (dataModelSelectionIndexGetter!=null)
-         {
-            index = (Integer) getPropertyValue(bean, dataModelSelectionIndexGetter, name);
-         }
-         
+      
+      final List list;
+      final String name;
+      if (dataModelGetter!=null)
+      {
+         name = toName(dataModelGetter.getAnnotation(DataModel.class).value(), dataModelGetter);
+         list = (List) getPropertyValue(bean, dataModelGetter, name);
+      }
+      else if (dataModelField!=null)
+      {
+         name = toName(dataModelField.getAnnotation(DataModel.class).value(), dataModelField);
+         list = (List) getFieldValue(bean, dataModelField, name);
+      }
+      else {
+         return;
+      }
+      
+      javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) getDataModelContext().get(name);
+      if ( existingDataModel==null || list!=existingDataModel.getWrappedData() ) {
+      
          if ( list!=null )
-         {
-            //TODO: if the list has not changed, don't change the rowIndex
+         {            
             ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel(list);
-            if (index!=null) 
-            {
-               dataModel.setRowIndex(index);
-            }
             getDataModelContext().set( name, dataModel );
          }
          else
          {
             getDataModelContext().remove(name);
          }
+         
+      }
+      
    }
 
    private Context getDataModelContext() {
