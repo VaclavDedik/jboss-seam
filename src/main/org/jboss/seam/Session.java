@@ -37,17 +37,19 @@ public abstract class Session
       Object session = externalContext.getSession(true);
       if (session instanceof HttpSession)
       {
-         return new ServletSessionImpl((HttpSession) session);
+         return new ServletSessionImpl(externalContext, (HttpSession) session);
       }
       else if (session instanceof PortletSession)
       {
-         return new PortletSessionImpl((PortletSession) session);
+         return new PortletSessionImpl(externalContext, (PortletSession) session);
       }
       else 
       {
          throw new RuntimeException("Unknown type of session");
       }
    }
+
+   public abstract ExternalContext getExternalContext();
 
 }
 

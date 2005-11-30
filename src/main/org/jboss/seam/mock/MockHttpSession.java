@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.context.ExternalContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
@@ -26,9 +27,11 @@ public class MockHttpSession extends Session implements HttpSession
    
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private boolean isInvalid;
+   private ExternalContext externalContext;
    
-   public MockHttpSession()
+   public MockHttpSession(ExternalContext externalContext)
    {
+      this.externalContext = externalContext;
    }
    
    public boolean isInvalid()
@@ -133,6 +136,17 @@ public class MockHttpSession extends Session implements HttpSession
    {
       // FIXME getServletContext
       return null;
+   }
+
+   @Override
+   public ExternalContext getExternalContext()
+   {
+      return externalContext;
+   }
+
+   public void setExternalContext(ExternalContext externalContext)
+   {
+      this.externalContext = externalContext;
    }
 
 }

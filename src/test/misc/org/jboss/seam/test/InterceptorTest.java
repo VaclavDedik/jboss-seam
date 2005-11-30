@@ -217,9 +217,7 @@ public class InterceptorTest
    @Test
    public void testConversationalConversationInterceptor() throws Exception
    {
-      MockServletContext servletContext = new MockServletContext();
-      MockExternalContext externalContext = new MockExternalContext(servletContext);
-      MockHttpSession session = new MockHttpSession();
+      MockExternalContext externalContext = new MockExternalContext();
       Context appContext = new WebApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 

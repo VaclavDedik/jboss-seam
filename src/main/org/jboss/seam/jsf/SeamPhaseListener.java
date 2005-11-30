@@ -46,9 +46,13 @@ public class SeamPhaseListener implements PhaseListener
    {
       log.trace( "before phase: " + event.getPhaseId() );
       
-      if ( event.getPhaseId() == RESTORE_VIEW )
+      if (Contexts.getApplicationContext() == null)
       {
          Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
+      }
+      
+      if ( event.getPhaseId() == RESTORE_VIEW )
+      {
          log.trace( "About to restore view" );
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )

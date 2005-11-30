@@ -91,11 +91,11 @@ public class Lifecycle
       Contexts.conversationContext.set(null);
    }
 
-   public static void endSession(ExternalContext externalContext)
+   public static void endSession(Session session)
    {
       log.debug("End of session, destroying contexts");
 
-      Context tempAppContext = new WebApplicationContext( externalContext );
+      Context tempAppContext = new WebApplicationContext( session.getExternalContext() );
       Contexts.applicationContext.set(tempAppContext);
 
       //this is used just as a place to stick the ConversationManager
@@ -104,14 +104,14 @@ public class Lifecycle
 
       //this is used (a) for destroying session-scoped components
       //and is also used (b) by the ConversationManager
-      Context tempSessionContext = new WebSessionContext( Session.getSession(externalContext, true) );
+      Context tempSessionContext = new WebSessionContext( session );
       Contexts.sessionContext.set(tempSessionContext);
 
       Set<String> ids = Manager.instance().getSessionConversationIds();
       log.debug("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
-         Contexts.destroy( new ConversationContext( Session.getSession(externalContext, true), conversationId) );
+         Contexts.destroy( new ConversationContext( session, conversationId) );
       }
 
       log.debug("destroying session context");

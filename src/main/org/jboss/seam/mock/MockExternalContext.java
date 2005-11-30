@@ -19,8 +19,6 @@ import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.myfaces.context.servlet.InitParameterMap;
-
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
@@ -28,21 +26,20 @@ import org.apache.myfaces.context.servlet.InitParameterMap;
  */
 public class MockExternalContext extends ExternalContext
 {
-   private static final String INIT_PARAMETER_MAP_ATTRIBUTE = InitParameterMap.class.getName();
-
    private MockServletContext context;
    private HttpServletRequest request;
+   
    
    public MockExternalContext()
    {
       this.context = new MockServletContext();
-      this.request = new MockHttpServletRequest();
+      this.request = new MockHttpServletRequest(this);
    }
 
    public MockExternalContext(MockServletContext context)
    {
       this.context = context;
-      this.request = new MockHttpServletRequest();
+      this.request = new MockHttpServletRequest(this);
    }
 
    public MockExternalContext(MockServletContext context, HttpServletRequest request)

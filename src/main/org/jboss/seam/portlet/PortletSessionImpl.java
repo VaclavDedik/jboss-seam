@@ -8,6 +8,7 @@ package org.jboss.seam.portlet;
 
 import java.util.Enumeration;
 
+import javax.faces.context.ExternalContext;
 import javax.portlet.PortletSession;
 
 import org.jboss.seam.Session;
@@ -20,10 +21,12 @@ public class PortletSessionImpl extends Session
 {
 
    private PortletSession session;
+   private ExternalContext externalContext;
    
-   public PortletSessionImpl(PortletSession session)
+   public PortletSessionImpl(ExternalContext externalContext, PortletSession session)
    {
       this.session = session;
+      this.externalContext = externalContext;
    }
    
    public Object getAttribute(String key)
@@ -51,6 +54,10 @@ public class PortletSessionImpl extends Session
       session.invalidate();
    }
 
+   @Override
+   public ExternalContext getExternalContext()
+   {
+      return externalContext;
+   }
+
 }
-
-

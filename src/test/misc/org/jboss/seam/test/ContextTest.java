@@ -115,7 +115,7 @@ public class ContextTest
       assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==1;
       assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==3;
       
-      Lifecycle.endSession(externalContext);
+      Lifecycle.endSession((Session)externalContext.getSession(true));
       
       //assert session.getAttributes().size()==0;
       

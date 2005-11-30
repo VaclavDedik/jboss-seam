@@ -134,13 +134,13 @@ public class SeamTest
    @Configuration(beforeTestMethod=true)
    public void begin()
    {
-      session = new MockHttpSession();
+      session = new MockHttpSession(externalContext);
    }
 
    @Configuration(afterTestMethod=true)
    public void end()
    {
-      Lifecycle.endSession(externalContext);
+      Lifecycle.endSession(session);
       session = null;
    }
    

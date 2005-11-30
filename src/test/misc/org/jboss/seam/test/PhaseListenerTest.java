@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.Session;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.WebApplicationContext;
@@ -34,8 +35,8 @@ public class PhaseListenerTest
    public void testSeamPhaseListener()
    {
       ExternalContext externalContext = new MockExternalContext();
-      MockHttpSession session = new MockHttpSession();
-      HttpServletRequest request = new MockHttpServletRequest( session );
+      MockHttpSession session = new MockHttpSession(externalContext);
+      HttpServletRequest request = new MockHttpServletRequest(externalContext, session );
       MockFacesContext facesContext = new MockFacesContext( externalContext );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
@@ -98,9 +99,7 @@ public class PhaseListenerTest
    @Test
    public void testSeamPhaseListenerLongRunning()
    {
-      MockHttpSession session = new MockHttpSession();
-      HttpServletRequest request = new MockHttpServletRequest( session );
-      ExternalContext externalContext = new MockExternalContext(new MockServletContext(), request);
+      ExternalContext externalContext = new MockExternalContext();
       MockFacesContext facesContext = new MockFacesContext( externalContext );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
@@ -115,7 +114,7 @@ public class PhaseListenerTest
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
       ids.put("2", System.currentTimeMillis());
-      new WebSessionContext(session).set(Manager.CONVERSATION_ID_MAP, ids);
+      new WebSessionContext((Session)externalContext.getSession(true)).set(Manager.CONVERSATION_ID_MAP, ids);
       
       SeamPhaseListener phases = new SeamPhaseListener();
 
@@ -172,8 +171,7 @@ public class PhaseListenerTest
    public void testSeamPhaseListenerNewLongRunning()
    {
       ExternalContext externalContext = new MockExternalContext();
-      MockHttpSession session = new MockHttpSession();
-      HttpServletRequest request = new MockHttpServletRequest( session );
+      
       MockFacesContext facesContext = new MockFacesContext( externalContext );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();

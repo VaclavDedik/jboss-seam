@@ -40,7 +40,8 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
    public void sessionCreated(HttpSessionEvent event) {}
 
    public void sessionDestroyed(HttpSessionEvent event) {
-      Lifecycle.endSession( new ServletExternalContextImpl(event.getSession().getServletContext(), null, null) );
+      // TODO: Remove Myfaces Dependency
+      Lifecycle.endSession( new ServletSessionImpl(new ServletExternalContextImpl(event.getSession().getServletContext(), null, null), event.getSession()) );
    }
 
 }

@@ -8,6 +8,7 @@ package org.jboss.seam.servlet;
 
 import java.util.Enumeration;
 
+import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Session;
@@ -20,11 +21,12 @@ public class ServletSessionImpl extends Session
 {
    
    private HttpSession session;
+   private ExternalContext externalContext;
 
-   public ServletSessionImpl(HttpSession session)
+   public ServletSessionImpl(ExternalContext externalContext, HttpSession session)
    {
       this.session = session;
-      
+      this.externalContext = externalContext;
    }
 
    public Object getAttribute(String key)
@@ -50,6 +52,12 @@ public class ServletSessionImpl extends Session
    public void invalidate()
    {
       session.invalidate();
+   }
+
+   @Override
+   public ExternalContext getExternalContext()
+   {
+      return externalContext;
    }
 
 }
