@@ -51,6 +51,7 @@ import org.jboss.seam.annotations.Within;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.interceptors.BijectionInterceptor;
@@ -569,7 +570,7 @@ public class Component
          return;
       }
 
-      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) scope.getContext().get(name);
+      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) getDataModelContext().get(name);
       if (dataModel!=null)
       {
          if (dataModelSelectionIndexSetter!=null)
@@ -599,13 +600,13 @@ public class Component
          final String name;
          if (dataModelGetter!=null)
          {
-            list = (List) getPropertyValue(bean, dataModelGetter);
             name = toName(dataModelGetter.getAnnotation(DataModel.class).value(), dataModelGetter);
+            list = (List) getPropertyValue(bean, dataModelGetter, name);
          }
          else if (dataModelField!=null)
          {
-            list = (List) getFieldValue(bean, dataModelField);
             name = toName(dataModelField.getAnnotation(DataModel.class).value(), dataModelField);
+            list = (List) getFieldValue(bean, dataModelField, name);
          }
          else {
             return;
@@ -614,18 +615,13 @@ public class Component
          Integer index = null;
          if (dataModelSelectionIndexField!=null)
          {
-            index = (Integer) getFieldValue(bean, dataModelSelectionIndexField);
+            index = (Integer) getFieldValue(bean, dataModelSelectionIndexField, name);
          }
          else if (dataModelSelectionIndexGetter!=null)
          {
-            index = (Integer) getPropertyValue(bean, dataModelSelectionIndexGetter);
+            index = (Integer) getPropertyValue(bean, dataModelSelectionIndexGetter, name);
          }
          
-         ScopeType scope = this.scope;
-         if (scope==ScopeType.STATELESS)
-         {
-        	 scope = ScopeType.EVENT;
-         }
          if ( list!=null )
          {
             ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel(list);
@@ -633,16 +629,21 @@ public class Component
             {
                dataModel.setRowIndex(index);
             }
-            else
-            {
-            	dataModel.setRowIndex(-1);
-            }
-            scope.getContext().set( name, dataModel );
+            getDataModelContext().set( name, dataModel );
          }
          else
          {
-            scope.getContext().remove(name);
+            getDataModelContext().remove(name);
          }
+   }
+
+   private Context getDataModelContext() {
+      ScopeType scope = this.scope;
+      if (scope==ScopeType.STATELESS)
+      {
+       scope = ScopeType.EVENT;
+      }
+      return scope.getContext();
    }
 
    private void injectMethods(Object bean/*, boolean isActionInvocation*/)
@@ -678,7 +679,8 @@ public class Component
          Out out = field.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, toName(out.value(), field), getFieldValue(bean, field) );
+            String name = toName(out.value(), field);
+            setOutjectedValue( out, name, getFieldValue(bean, field, name) );
          }
       }
    }
@@ -690,7 +692,8 @@ public class Component
          Out out = method.getAnnotation(Out.class);
          if (out != null)
          {
-            setOutjectedValue( out, toName(out.value(), method), getPropertyValue(bean, method) );
+            String name = toName(out.value(), method);
+            setOutjectedValue( out, name, getPropertyValue(bean, method, name) );
          }
       }
    }
@@ -781,7 +784,7 @@ public class Component
 
 
 
-   private Object getFieldValue(Object bean, Field field)
+   private Object getFieldValue(Object bean, Field field, String name)
    {
       try {
          return field.get(bean);
@@ -792,7 +795,7 @@ public class Component
       }
    }
 
-   private Object getPropertyValue(Object bean, Method method)
+   private Object getPropertyValue(Object bean, Method method, String name)
    {
       try {
          return Reflections.invoke(method, bean);
@@ -1036,11 +1039,11 @@ public class Component
    {
       if (transitionField!=null)
       {
-         return (String) getFieldValue(bean, transitionField);
+         return (String) getFieldValue(bean, transitionField, transitionField.getName());
       }
       else if (transitionGetter!=null)
       {
-         return (String) getPropertyValue(bean, transitionGetter);
+         return (String) getPropertyValue(bean, transitionGetter, transitionGetter.getName());
       }
       else
       {
