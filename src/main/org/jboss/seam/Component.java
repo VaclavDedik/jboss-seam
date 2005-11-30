@@ -579,8 +579,7 @@ public class Component
          }
          if (dataModelSelectionSetter!=null)
          {
-            Object rowData = (dataModel.getRowIndex() == -1) ? null : dataModel.getRowData();
-            setPropertyValue(bean, dataModelSelectionSetter, name, rowData);
+            setPropertyValue(bean, dataModelSelectionSetter, name, getSelectedRowData(dataModel));
          }
          if (dataModelSelectionIndexField!=null)
          {
@@ -588,10 +587,13 @@ public class Component
          }
          if (dataModelSelectionField!=null)
          {
-            Object rowData = (dataModel.getRowIndex() == -1) ? null : dataModel.getRowData();
-            setFieldValue(bean, dataModelSelectionField, name, rowData);
+            setFieldValue(bean, dataModelSelectionField, name, getSelectedRowData(dataModel));
          }
       }
+   }
+
+   private Object getSelectedRowData(javax.faces.model.DataModel dataModel) {
+      return dataModel.getRowCount()==0 || dataModel.getRowIndex() == -1 ? null : dataModel.getRowData();
    }
 
    private void outjectDataModel(Object bean)
@@ -624,6 +626,7 @@ public class Component
          
          if ( list!=null )
          {
+            //TODO: if the list has not changed, don't change the rowIndex
             ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel(list);
             if (index!=null) 
             {
