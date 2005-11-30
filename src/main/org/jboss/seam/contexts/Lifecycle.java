@@ -172,7 +172,7 @@ public class Lifecycle
 
          if ( Seam.isSessionInvalid() )
          {
-            ((Session)externalContext.getSession(true)).invalidate();
+            Session.getSession(externalContext, true).invalidate();
             //actual session context will be destroyed from the listener
          }
 
