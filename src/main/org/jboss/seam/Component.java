@@ -611,7 +611,7 @@ public class Component
       }
       
       javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) getDataModelContext().get(name);
-      if ( existingDataModel==null || list!=existingDataModel.getWrappedData() ) {
+      if ( existingDataModel==null || !existingDataModel.getWrappedData().equals(list) ) {
       
          if ( list!=null )
          {            
