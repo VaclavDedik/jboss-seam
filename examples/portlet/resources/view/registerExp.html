@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>In-depth Explanation</title>
+	<link href="css/trailblazer_main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="main">
+  <div class="trail">
+    <div class="numbox">1</div>
+    <h2>What happens in the registration process?</h2>
+    <img src="img/header_line.gif" />
+    
+    <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+
+<p>The registration page is formated as a regular XHTML form.</p>
+
+<code class="block">
+&lt;div class="entry">
+    &lt;div class="label">
+        &lt;h:outputLabel for="username">Username:&lt;/h:outputLabel>
+    &lt;/div>
+    &lt;div class="input">
+        &lt;h:inputText id="username" value="#{user.username}"/>&lt;br/>
+        &lt;span class="errors">&lt;h:message for="username" />&lt;/span>
+    &lt;/div>
+&lt;/div>
+&lt;div class="entry">
+    &lt;div class="label">
+        &lt;h:outputLabel for="name">Real Name:&lt;/h:outputLabel>
+    &lt;/div>
+    &lt;div class="input">
+        &lt;h:inputText id="name" value="#{user.name}" />&lt;br/>
+        &lt;span class="errors">&lt;h:message for="name" />&lt;/span>
+    &lt;/div>
+&lt;/div>
+
+... ...
+
+    &lt;div class="input">
+        &lt;h:commandButton value="Register" 
+                         action="#{register.register}" 
+                         class="button"/>
+        &lt;h:commandButton value="Cancel" action="login" class="button"/>
+    &lt;/div>
+</code>
+
+<p>As you can see the fields in the form are mapped to the properties in the <code>user</code> bean (e.g., the <code>#{user.username}</code> property is mapped to the Username field in the form). The form action is mapped to the <code>register()</code> method in the <code>register</code> bean (i.e., the <code>#{register.register}</code> action.</p>
+
+<p>So, let's check out the <code>User</code> entity bean. EJB 3.0 maps the entity bean to the <code>User</code> SQL table by default, with each bean property corresponding to one data column. And SEAM maps the <code>User</code> bean to the <code>#{user}</code> bean in JSF / Facelets via the <code>@Name</code> annotation.</p>
+
+<code class="block">
+@Entity
+@Name("user")
+@Scope(SESSION)
+public class User implements Serializable {
+   private String username;
+   private String password;
+   private String name;
+
+   @NotNull
+   @Length(max=100)
+   public String getName() {
+      return name;
+   }
+   public void setName(String name) {
+      this.name = name;
+   }
+
+    // ... ...
+}
+</code>
+
+<p>The <code>RegisterAction</code> is an EJB 3.0 session bean and it is mapped to the <code>#{register}</code> bean in the JSF / Facelets page via the <code>@Name</code> annotation by SEAM. So, the <code>RegisterAction.register()</code> method is invoked when the "register" button is clicked.</p>
+
+<code class="block">
+@Stateful
+@Scope(EVENT)
+@Name("register")
+@Interceptor(SeamInterceptor.class)
+public class RegisterAction implements Register {
+
+   @In @Valid
+   private User user;
+   
+   @PersistenceContext
+   private EntityManager em;
+   
+   @In
+   private FacesContext facesContext;
+   
+   @IfInvalid(outcome=REDISPLAY)
+   public String register() {
+      if ( user.getPassword().equals(verify) ) {
+         List existing = em.createQuery(
+            "select username from User where username=:username")
+            .setParameter("username", user.getUsername())
+            .getResultList();
+         if (existing.size()==0) {
+            em.persist(user);
+            return "login";
+         } else {
+            facesContext.addMessage(null, 
+                new FacesMessage("username already exists"));
+            return null;
+         }
+      } else {
+         facesContext.addMessage(null, 
+            new FacesMessage("re-enter your password"));
+         verify=null;
+         return null;
+      }
+   }
+
+   // ... ...
+}
+</code>
+
+<p>The <code>@In</code> annotation in the <code>RegisterAction()</code> session bean injects the <code>User</code> entity bean and the <code>FacesContext</code> system object. The form input is validated by the server to match the data schema, if it is not valid the <code>@IfInValid</code> annotation tells the JSF to re-display the form with error messages.</p>
+
+<p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+
+  </div>
+</div>
+
+</body>
+</html>
