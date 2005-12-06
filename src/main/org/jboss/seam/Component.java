@@ -832,7 +832,7 @@ public class Component
    
    public static Component forName(String name)
    {
-      return (Component) getInstance( name + ".component", false );
+      return (Component) Contexts.getApplicationContext().get( name + ".component" );
    }
 
    public static Object getInstance(Class<?> clazz, boolean create)
