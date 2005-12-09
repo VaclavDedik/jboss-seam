@@ -17,48 +17,48 @@
 		<div id="sidebar">
 			<fieldset>
 				<div>
-					<h:outputLabel for="username">Login Name</h:outputLabel>
-					<h:inputText id="username" value="#{user.username}" style="width: 175px;" />
+				    <h1>For Guided Tour users:</h1>
+					<p>The registration page explains key Seam concepts.</p>
 				</div>
+				<div class="buttonBox"><h:commandButton action="register" value="Register" class="button" /></div>
+				
 				<div>
-					<h:outputLabel for="password">Password</h:outputLabel>
-					<h:inputSecret id="password" value="#{user.password}" style="width: 175px;" />
+				    <h1>For returning users:</h1>
+					<p>If you just want to try the app and already have an account, go directly to the login page</p>
 				</div>
-				<div class="errors"><h:messages globalOnly="true"/></div>
-				<div class="buttonBox"><h:commandButton action="#{login.login}" value="Account Login" class="button" /></div>
-				<div class="notes"><h:commandLink action="register">Register User</h:commandLink> | Ask for Help</div>
+				<div class="buttonBox"><h:commandButton action="login" value="Login" class="button" /></div>
 			</fieldset>
 		</div>
 		<div id="content">
 		    <div class="section">
 				<h1>Take the guided tour</h1>
-				<p>This example application is designed to showcase how easy it is to develop database-driven enterprise web applications with JBoss SEAM, EJB 3.0, and Facelets. Since SEAM is the glue that ties the application, it will be the focus of this example. Throughout the application, you will see step-by-step navigation tips and links to the behind-the-scene code snippets on the left sidebar of the page. Just follow those instructions and you will learn how to use SEAM to assemble a working web application in minutes.</p>
+				<p>This example application is designed to showcase how easy it is to develop database-driven enterprise web applications with JBoss SEAM, EJB 3.0, and Facelets. Since Seam is the glue that ties the application, it will be the focus of this example. Throughout the application, you will see step-by-step navigation tips and links to the behind-the-scene code snippets on the left sidebar of the page. Just follow those instructions and you will learn how to use SEAM to assemble a working web application in minutes.</p>
 				
-				<p>You can learn more about the JBoss SEAM framework, including how to build a SEAM application from ground up, in the <a href="http://docs.jboss.com/seam/reference/en/html/index.html">SEAM documentation</a>. The full source code of this hotel booking application is available in the <code>examples/booking</code> directory of the <a href="http://www.jboss.com/products/list/downloads#seam">SEAM source code distribution</a>. Please read the <a href="readme.txt">README</a> file for building instructions.</p>
+				<p>You can learn more about the JBoss Seam framework, including how to build a Seam application from ground up, in the <a href="http://docs.jboss.com/seam/reference/en/html/index.html">Seam documentation</a>. The full source code of this hotel booking application is available in the <code>examples/booking</code> directory of the <a href="http://www.jboss.com/products/list/downloads#seam">Seam source code distribution</a>. Please read the <a href="readme.txt">README</a> file for building instructions.</p>
 				
 				<b>Guide Tour: Step 1</b><br/>
-				<p>To begin the guided tour, <b>click on the "register" link</b> to the left and it will bring you the registration form. You need to register an account to use the application. <i>NOTE: Even if you have previously registered an account with this application, you should still go to the registration page to see how it works.</i></p>
+				<p>To begin the guided tour, <b>click on the "Register" button</b> to the left and it will bring you the registration form. You need to register an account to use the application. <i>NOTE: Even if you have previously registered an account with this application, you should still go to the registration page since it explains important Seam concepts.</i></p>
 			</div>
 			
 			<div class="section">
 				<h1>About this example application</h1>
 				
-				<p>Compared with traditional web development technologies, the EJB 3.0 + SEAM + Facelets approach only requires a fraction of the code, needs very little XML configuration files, and eliminates a whole class of bugs. In technical terms, the SEAM + EJB 3.0 + Facelets stack allows us to write the entire application using plain old Java objects (POJOs) and simple XHTML. There is no more boiler plate code and no more trivial multi-layer abstraction / delegation.</p>
+				<p>Compared with traditional web development technologies, the EJB 3.0 + Seam + Facelets approach only requires a fraction of the code, needs very little XML configuration files, and eliminates a whole class of bugs. In technical terms, the Seam + EJB 3.0 + Facelets stack allows us to write the entire application using plain old Java objects (POJOs) and simple XHTML. There is no more boiler plate code and no more trivial multi-layer abstraction / delegation.</p>
 				
 				<ul>
 				    <li>EJB 3.0 allows us to use simple POJOs to model the database (entity bean) and develop the business logic (session bean).</li>
 				    
 				    <li>Facelets allows us to author web pages in plain XHTML while taking advantage of JSF UI and component model.</li>
 				
-				    <li>JBoss SEAM glues EJB 3.0 POJOs with JSF UI components and event handlers. It automatically manages the application's conversational state and eliminates the needs for JSF backing beans.</li>
+				    <li>JBoss Seam glues EJB 3.0 POJOs with JSF UI components and event handlers. It automatically manages the application's conversational state and eliminates the needs for JSF backing beans.</li>
 				</ul>
 				
-				<p>Just like all JBoss software products, this entire software stack is free. Now, let's take a guided tour through the example application to learn how JBoss SEAM ties the application together.</p>
+				<p>Just like all JBoss software products, this entire software stack is free. Now, let's take a guided tour through the example application to learn how JBoss Seam ties the application together.</p>
 			</div>
 			
 		</div>
 	</div>
-	<div id="footer">Created with JBoss EJB 3.0, SEAM, MyFaces, and Facelets</div>
+	<div id="footer">Created with JBoss EJB 3.0, Seam, MyFaces, and Facelets</div>
 </div>
 <ui:debug hotkey="D"/>
 </h:form>
