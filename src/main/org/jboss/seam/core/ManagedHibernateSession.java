@@ -64,6 +64,7 @@ public class ManagedHibernateSession implements Serializable
    @Unwrap
    public Session getSession()
    {
+      session.isOpen();
       return session;
    }
    

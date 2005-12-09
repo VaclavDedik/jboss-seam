@@ -60,6 +60,7 @@ public class ManagedPersistenceContext implements Serializable
    @Unwrap
    public EntityManager getEntityManager()
    {
+      entityManager.isOpen();
       return entityManager;
    }
    
