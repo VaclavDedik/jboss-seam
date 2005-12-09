@@ -25,7 +25,6 @@
     <!-- EJB3 -->
     <fileset id="example.ejb3.root"
             dir="build/resources">
-        <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
     </fileset>

@@ -8,7 +8,11 @@ EJB container.
 How to Build and Deploy the Example
 ----------------------------------
 
-1. Download and install JBoss AS 4.0.3+
+1. Download and install JBoss AS 4.0.3
+
+NOTE: Due to a bug, the demo database content is not loaded properly
+in AS 4.0.3SP1. If you use 4.0.3SP1, you have to load the database
+yourself from the resources/import.sql file.
 
 2. Download the SEAM source code distribution from
 ttp://www.jboss.com/products/list/downloads#seam
