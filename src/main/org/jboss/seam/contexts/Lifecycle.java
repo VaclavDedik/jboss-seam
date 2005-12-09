@@ -189,18 +189,18 @@ public class Lifecycle
       log.debug( "<<< End web request" );
    }
 
-   public static void resumeConversation(Session session, String id)
+   public static void resumeConversation(ExternalContext externalContext, String id)
    {
       Init init = (Init) Component.getInstance(Init.class, false);
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
-            (Context) new ConversationContext(session, id);
+            (Context) new ConversationContext( Session.getSession(externalContext, true), id );
       Contexts.conversationContext.set( conversationContext );
    }
 
-   public static void recoverBusinessProcessContext(Map state)
+   public static void resumeBusinessProcess(Map state)
    {
-      Contexts.businessProcessContext.set( new BusinessProcessContext( state ) );
+      Contexts.businessProcessContext.set( new BusinessProcessContext(state) );
    }
    
    private static ThreadLocal<PhaseId> phaseId = new ThreadLocal<PhaseId>();

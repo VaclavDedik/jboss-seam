@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;

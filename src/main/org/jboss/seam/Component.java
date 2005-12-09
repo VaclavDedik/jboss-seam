@@ -566,23 +566,28 @@ public class Component
       javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) getDataModelContext().get(name);
       if (dataModel!=null)
       {
-         log.debug("selected row: " + dataModel.getRowIndex());
+         int rowIndex = dataModel.getRowIndex();
          
-         if (dataModelSelectionIndexSetter!=null)
+         log.debug("selected row: " + rowIndex);
+         
+         if ( rowIndex>-1 ) 
          {
-            setPropertyValue(bean, dataModelSelectionIndexSetter, name, dataModel.getRowIndex() );
-         }
-         if (dataModelSelectionSetter!=null)
-         {
-            setPropertyValue(bean, dataModelSelectionSetter, name, getSelectedRowData(dataModel));
-         }
-         if (dataModelSelectionIndexField!=null)
-         {
-            setFieldValue(bean, dataModelSelectionIndexField, name, dataModel.getRowIndex() );
-         }
-         if (dataModelSelectionField!=null)
-         {
-            setFieldValue(bean, dataModelSelectionField, name, getSelectedRowData(dataModel));
+            if (dataModelSelectionIndexSetter!=null)
+            {
+               setPropertyValue(bean, dataModelSelectionIndexSetter, name, rowIndex );
+            }
+            if (dataModelSelectionSetter!=null)
+            {
+               setPropertyValue(bean, dataModelSelectionSetter, name, getSelectedRowData(dataModel));
+            }
+            if (dataModelSelectionIndexField!=null)
+            {
+               setFieldValue(bean, dataModelSelectionIndexField, name, rowIndex );
+            }
+            if (dataModelSelectionField!=null)
+            {
+               setFieldValue(bean, dataModelSelectionField, name, getSelectedRowData(dataModel));
+            }
          }
       }
    }

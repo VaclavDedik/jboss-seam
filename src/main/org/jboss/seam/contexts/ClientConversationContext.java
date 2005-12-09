@@ -77,7 +77,6 @@ public class ClientConversationContext implements Context, Serializable {
 
    public void flush()
    {
-      Logger.getLogger(ClientConversationContext.class).info( Strings.toString(getNames()) );
       if ( Manager.instance().isLongRunningConversation() )
       {
          getAttributeMap().put( ScopeType.CONVERSATION.getPrefix(), temporarySession );

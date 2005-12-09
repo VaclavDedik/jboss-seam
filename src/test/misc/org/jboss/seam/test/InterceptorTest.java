@@ -53,7 +53,7 @@ public class InterceptorTest
          );
 
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation( (Session)externalContext.getSession(true), "1" );
+      Lifecycle.resumeConversation( externalContext, "1" );
       
       final Bar bar = new Bar();
       final Foo foo = new Foo();
@@ -139,7 +139,7 @@ public class InterceptorTest
             new Component(Manager.class) 
          );
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation( (Session)externalContext.getSession(true), "1" );
+      Lifecycle.resumeConversation( externalContext, "1" );
 
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Foo.class) );
@@ -226,7 +226,7 @@ public class InterceptorTest
          );
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation((Session)externalContext.getSession(true), "1" );
+      Lifecycle.resumeConversation(externalContext, "1" );
       
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Bar.class) );

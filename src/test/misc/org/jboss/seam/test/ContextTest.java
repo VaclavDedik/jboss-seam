@@ -48,7 +48,7 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
       
-      Lifecycle.resumeConversation((Session)externalContext.getSession(true), "3");
+      Lifecycle.resumeConversation(externalContext, "3");
       Manager.instance().setLongRunningConversation(true);
       
       assert Contexts.isEventContextActive();
@@ -85,7 +85,7 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
       
-      Lifecycle.resumeConversation((Session)externalContext.getSession(true), "3");
+      Lifecycle.resumeConversation(externalContext, "3");
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
