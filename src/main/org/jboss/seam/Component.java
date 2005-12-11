@@ -718,7 +718,14 @@ public class Component
          {
             scope = out.scope();
          }
-         scope.getContext().set(name, value);
+         if (value==null)
+         {
+            scope.getContext().remove(name);
+         }
+         else
+         {
+            scope.getContext().set(name, value);
+         }
       }
    }
    

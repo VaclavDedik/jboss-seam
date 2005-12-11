@@ -91,7 +91,14 @@ public class BusinessProcessContext implements Context {
    }
 
    public void set(String name, Object value) {
-      tempContext.put( name, value );
+      if (value==null)
+      {
+         remove(name);
+      }
+      else
+      {
+         tempContext.put( name, value );
+      }
    }
 
    public boolean isSet(String name) {

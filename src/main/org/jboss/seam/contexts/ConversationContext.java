@@ -59,8 +59,16 @@ public class ConversationContext implements Context, Serializable {
 	}
 
 	public void set(String name, Object value) {
-		temporarySession.put(name, value);
-      //session.setAttribute( getKey(name), value );
+      if (value==null)
+      {
+         //yes, we need this
+         remove(name);
+      }
+      else
+      {
+         temporarySession.put(name, value);
+         //session.setAttribute( getKey(name), value );
+      }
 	}
 
 	public boolean isSet(String name) {
