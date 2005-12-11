@@ -27,7 +27,9 @@ import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
+import javax.faces.lifecycle.Lifecycle;
 import javax.faces.model.ListDataModel;
+import javax.servlet.ServletRequest;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
@@ -43,6 +45,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Transition;
@@ -107,6 +110,8 @@ public class Component
    private Set<Field> inFields = new HashSet<Field>();
    private Set<Method> outMethods = new HashSet<Method>();
    private Set<Field> outFields = new HashSet<Field>();
+   private Set<Field> parameterFields = new HashSet<Field>();
+   private Set<Method> parameterSetters = new HashSet<Method>();
    private Map<Method, Object> initializers = new HashMap<Method, Object>();
    private Method transitionGetter;
    private Field transitionField;
@@ -301,6 +306,10 @@ public class Component
             {
                dataModelSelectionSetter = method;
             }
+            if ( method.isAnnotationPresent(RequestParameter.class) )
+            {
+               parameterSetters.add(method);
+            }
             if ( !method.isAccessible() )
             {
                method.setAccessible(true);
@@ -332,6 +341,10 @@ public class Component
             if ( field.isAnnotationPresent(DataModelSelectionIndex.class) )
             {
                dataModelSelectionIndexField = field;
+            }
+            if ( field.isAnnotationPresent(RequestParameter.class) )
+            {
+               parameterFields.add(field);
             }
             if ( !field.isAccessible() )
             {
@@ -538,6 +551,22 @@ public class Component
       injectMethods(bean/*, isActionInvocation*/);
       injectFields(bean/*, isActionInvocation*/);
       injectDataModelSelection(bean);
+      injectParameters(bean);
+   }
+   
+   private void injectParameters(Object bean)
+   {
+      Map request = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+      for (Method setter: parameterSetters)
+      {
+         String name = toName( setter.getAnnotation(RequestParameter.class).name(), setter );
+         setPropertyValue( bean, setter, name, request.get(name) );
+      }
+      for (Field field: parameterFields)
+      {
+         String name = toName( field.getAnnotation(RequestParameter.class).name(), field );
+         setFieldValue( bean, field, name, request.get(name) );
+      }
    }
 
    public void outject(Object bean)
