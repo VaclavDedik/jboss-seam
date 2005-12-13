@@ -27,9 +27,7 @@ import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
-import javax.faces.lifecycle.Lifecycle;
 import javax.faces.model.ListDataModel;
-import javax.servlet.ServletRequest;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
@@ -726,7 +724,7 @@ public class Component
    {
       if (value==null && out.required())
       {
-         throw new RequiredException("Out attribute requires value for component: " + name);
+         throw new RequiredException( "Out attribute requires value for component: " + getAttributeMessage(name) );
       }
       else 
       {
@@ -738,7 +736,7 @@ public class Component
             {
                if ( !component.isInstance(value) )
                {
-                  throw new IllegalArgumentException("attempted to bind an Out attribute of the wrong type to: " + name);
+                  throw new IllegalArgumentException( "attempted to bind an Out attribute of the wrong type to: " + getAttributeMessage(name) );
                }
             }
             scope = component==null ? ScopeType.EVENT : component.getScope();
@@ -822,7 +820,7 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not outject: " + name, e);         
+         throw new IllegalArgumentException("could not outject: " + getAttributeMessage(name), e);         
       }
    }
 
@@ -833,7 +831,7 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not outject: " + name, e);         
+         throw new IllegalArgumentException("could not outject: " + getAttributeMessage(name), e);         
       }
    }
 
@@ -845,7 +843,7 @@ public class Component
       } 
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not inject: " + name + " to: " + getName(), e);
+         throw new IllegalArgumentException("could not inject: " + getAttributeMessage(name), e);
       }
    }
 
@@ -857,7 +855,7 @@ public class Component
       } 
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not inject: " + name + " to: " + getName(), e);
+         throw new IllegalArgumentException("could not inject: " + getAttributeMessage(name), e);
       }
    }
    
@@ -899,7 +897,7 @@ public class Component
          {
             if ( !component.isInstance(result) )
             {
-               throw new IllegalArgumentException("value found for In attribute has the wrong type: " + name);
+               throw new IllegalArgumentException( "value found for In attribute has the wrong type: " + name );
             }
          }
          result = unwrap( component, result );
@@ -985,7 +983,7 @@ public class Component
       return instance;
    }
 
-   private static Object getInstanceToInject(In in, String name, Object bean)
+   private Object getInstanceToInject(In in, String name, Object bean)
    {
       Object result;
       if ( name.startsWith("#") )
@@ -1002,19 +1000,24 @@ public class Component
       {
          if ( in.create() )
          {
-            throw new IllegalArgumentException("cannot combine create=true with explicit scope on @In: " + name);
+            throw new IllegalArgumentException( "cannot combine create=true with explicit scope on @In: " + getAttributeMessage(name) );
          }
          result = in.scope().getContext().get(name);
       }
       
       if (result==null && in.required())
       {
-         throw new RequiredException("In attribute requires value for component: " + name);
+         throw new RequiredException( "In attribute requires value for component: " +  getAttributeMessage(name) );
       }
       else
       {
          return result;
       }
+   }
+   
+   private String getAttributeMessage(String attributeName)
+   {
+      return getName() + '.' + attributeName;
    }
    
    private static String toName(String name, Method method)

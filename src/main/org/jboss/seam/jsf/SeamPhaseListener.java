@@ -160,8 +160,7 @@ public class SeamPhaseListener implements PhaseListener
 
    private static void restoreAnyBusinessProcessContext()
    {
-      Context conversation = Contexts.getConversationContext();
-      Map state = (Map) conversation.get( JBPM_STATE_MAP );
+      Map state = (Map) Contexts.getConversationContext().get( JBPM_STATE_MAP );
       Lifecycle.resumeBusinessProcess( state );
       log.trace( "After restore view, business process context: " + Contexts.getBusinessProcessContext() );
    }
