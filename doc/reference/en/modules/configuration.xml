@@ -25,6 +25,17 @@
         </para>
 
         <para>
+            If you are using Seam in Apache MyFaces (and possibly some other JSF implementations),
+            you <emphasis>must</emphasis> use client-side state saving. So you'll also need this 
+            in <literal>web.xml</literal>:
+        </para>
+        
+<programlisting><![CDATA[<context-param>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+</context-param>]]></programlisting>
+
+        <para>
             To force JSF to delegate variable resolution to Seam, we need to register
             a <literal>VariableResolver</literal> in the 
             <literal>faces-config.xml</literal> file:
@@ -41,7 +52,7 @@
         </para>
         
         <programlisting><![CDATA[<lifecycle>
-     <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+    <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
 </lifecycle>]]></programlisting>
 
         <para>
