@@ -7,21 +7,9 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratorType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.jboss.seam.annotations.Name;
+import javax.persistence.*;
 
 @Entity
-//@Name("xproduct")
 @Table(name="PRODUCTS")
 public class Product
     implements Serializable

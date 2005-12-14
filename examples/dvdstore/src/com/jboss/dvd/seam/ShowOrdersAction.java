@@ -59,7 +59,7 @@ public class ShowOrdersAction
     Order order;
 
     //@DataModelSelectionIndex
-    int index;
+    //int index;
 
     public ListDataModel getOrders() {
         return model;
@@ -91,7 +91,7 @@ public class ShowOrdersAction
     }
 
     public String detailOrder() {
-        index = model.getRowIndex();
+        int index = model.getRowIndex();
         order = em.merge(orders.get(index));
         order.getOrderLines();
 

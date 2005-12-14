@@ -12,7 +12,9 @@ import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 
-@Around({BijectionInterceptor.class, ValidationInterceptor.class, ConversationInterceptor.class})
+@Around({BijectionInterceptor.class, 
+         ValidationInterceptor.class, 
+         ConversationInterceptor.class})
 @Within(RemoveInterceptor.class)
 public class LoggedInInterceptor
 {
@@ -22,7 +24,8 @@ public class LoggedInInterceptor
     public Object checkLoggedIn(InvocationContext invocation) 
         throws Exception
     {
-        boolean isLoggedIn = Contexts.getSessionContext().get(LoginIfInterceptor.LOGIN_KEY)!=null;
+        boolean isLoggedIn = 
+            Contexts.getSessionContext().get(LoginIfInterceptor.LOGIN_KEY)!=null;
         if (isLoggedIn) {
             log.info("User is already logged in");
             return invocation.proceed();

@@ -69,9 +69,7 @@ public class ShoppingCartBean
     }
 
     public void addProduct(Product product, int quantity) {
-        System.out.println("merge: " + product);
         product = em.find(Product.class, product.getProductId());
-        System.out.println("merged: " + product);
 
         for (SelectableItem<OrderLine> item: cart) {
             if (product.getProductId() == item.getItem().getProduct().getProductId()) {
@@ -112,7 +110,8 @@ public class ShoppingCartBean
 
 
     public String updateCart() {
-        List<SelectableItem<OrderLine>> newCart = new ArrayList<SelectableItem<OrderLine>>();
+        List<SelectableItem<OrderLine>> newCart = 
+            new ArrayList<SelectableItem<OrderLine>>();
         for(SelectableItem<OrderLine> item: cart) {
             if (!item.getSelected() && (item.getItem().getQuantity()>0)) {
                 newCart.add(item);
@@ -153,7 +152,8 @@ public class ShoppingCartBean
             return "complete";
         } catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {
-                Utils.warnUser("checkoutInsufficientQuantity", new Object[] {product.getTitle()});
+                Utils.warnUser("checkoutInsufficientQuantity", 
+                    new Object[] {product.getTitle()});
             }
             
             return null;
@@ -176,11 +176,9 @@ public class ShoppingCartBean
             line.setOrder(order); 
 
             Inventory inv = line.getProduct().getInventory();
-            System.out.println("INV: " + inv.getQuantity() + "/" + inv.getSales());
             if (!inv.order(line.getQuantity())) {
                 errorProducts.add(line.getProduct());
             }
-            System.out.println("INV: " + inv.getQuantity() + "/" + inv.getSales());
         }
 
         if (errorProducts.size()>0) {
@@ -195,7 +193,6 @@ public class ShoppingCartBean
 
         em.persist(order);
 
-        System.out.println("ORDER STATUS: " + order.getStatus());
         return order;
     }
 

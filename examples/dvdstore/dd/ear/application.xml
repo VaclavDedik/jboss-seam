@@ -10,7 +10,7 @@
     <module>
         <web>
             <web-uri>dvd.war</web-uri>
-            <context-root>dvd</context-root>
+            <context-root>/dvd</context-root>
         </web>
     </module>
 </application>

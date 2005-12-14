@@ -23,7 +23,6 @@
             <assignment class="com.jboss.dvd.seam.ShipperAssignment" />
         </task>
         <transition name="shipped"  to="complete"/>
-          <!-- <transition name="reassign" to="approval"/> -->
     </task-node>
     
     <end-state name="complete"/>

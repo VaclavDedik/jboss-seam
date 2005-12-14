@@ -8,20 +8,12 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratorType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.jboss.seam.annotations.Name;
 
 @Entity
 @Table(name="USERS")
-//@Name("user")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE,
              discriminatorType=DiscriminatorType.STRING)
 public abstract class User

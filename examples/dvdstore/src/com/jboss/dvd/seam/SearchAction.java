@@ -19,16 +19,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Conversational;
-import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
-
-import javax.annotation.Resource;
 
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -48,9 +40,6 @@ public class SearchAction
 
     @PersistenceContext(unitName="dvd")
     EntityManager em;
-
-    @Resource(name="pojo")
-    Object injected;
 
     int     pageSize    = 10;
     int     currentPage = 0; 
@@ -72,10 +61,6 @@ public class SearchAction
 
     public void setCategory(Integer category) {
         this.category = category ; 
-    }
-    public Integer getCategory() {
-        System.out.println("INJECTED: " + injected);
-        return category;
     }
 
     public void setTitle(String title) {
@@ -126,7 +111,12 @@ public class SearchAction
         }
         return null;
     }
-    
+
+
+    public Integer getCategory() {
+        return category;
+    }
+
     public String nextPage() {
         if (!isLastPage()) {
             currentPage++;

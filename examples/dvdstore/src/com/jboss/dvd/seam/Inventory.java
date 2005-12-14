@@ -8,18 +8,9 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratorType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.jboss.seam.annotations.Name;
+import javax.persistence.*;
 
 @Entity
-//@Name("inventory")
 @Table(name="INVENTORY")
 public class Inventory 
     implements Serializable

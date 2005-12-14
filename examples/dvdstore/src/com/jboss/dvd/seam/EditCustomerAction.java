@@ -83,7 +83,7 @@ public class EditCustomerAction
 
 
     @IfInvalid(outcome=Outcome.REDISPLAY)
-    @LoginIf(outcome={"ok"})
+    @LoginIf(outcome="ok")
     public String create() {
         if (!passwordsMatch()) {
                 Utils.warnUser("createCustomerPasswordError", null);
