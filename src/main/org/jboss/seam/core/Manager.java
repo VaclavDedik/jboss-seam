@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -64,8 +63,6 @@ public class Manager
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
    
-   private int conversationTimeout = 600000; //10 minutes
-
    private Long taskId;
    private String taskName;
    private Long processId;
@@ -109,15 +106,6 @@ public class Manager
    public void setProcessName(String processName)
    {
       this.processName = processName;
-   }
-
-   public int getConversationTimeout()
-   {
-      return conversationTimeout;
-   }
-   public void setConversationTimeout(int conversationTimeout)
-   {
-      this.conversationTimeout = conversationTimeout;
    }
    
    public String getCurrentConversationId()
@@ -172,31 +160,6 @@ public class Manager
       dirty();
    }
    
-   /**
-    * Clean up timed-out conversations
-    */
-   public void conversationTimeout(ExternalContext externalContext)
-   {
-      long currentTime = System.currentTimeMillis();
-      Map<String, Long> ids = getConversationIdMap();
-      Iterator<Map.Entry<String, Long>> iter = ids.entrySet().iterator();
-      while ( iter.hasNext() )
-      {
-         Map.Entry<String, Long> entry = iter.next();
-         long delta = currentTime - entry.getValue();
-         if ( delta > conversationTimeout )
-         {
-            String conversationId = entry.getKey();
-            log.debug("conversation timeout for conversation: " + conversationId);
-            ConversationContext conversationContext = new ConversationContext( Session.getSession(externalContext, true), conversationId );
-            Contexts.destroy( conversationContext );
-            conversationContext.clear();
-            iter.remove();
-            dirty();
-         }
-      }
-   }
-   
    @Destroy
    public void flush()
    {
@@ -236,6 +199,31 @@ public class Manager
       return instance;
    }
 
+   /**
+    * Clean up timed-out conversations
+    */
+   public void conversationTimeout(ExternalContext externalContext)
+   {
+      long currentTime = System.currentTimeMillis();
+      Map<String, Long> ids = getConversationIdMap();
+      Iterator<Map.Entry<String, Long>> iter = ids.entrySet().iterator();
+      while ( iter.hasNext() )
+      {
+         Map.Entry<String, Long> entry = iter.next();
+         long delta = currentTime - entry.getValue();
+         if ( delta > Conversation.instance().getTimeout() )
+         {
+            String conversationId = entry.getKey();
+            log.debug("conversation timeout for conversation: " + conversationId);
+            ConversationContext conversationContext = new ConversationContext( Session.getSession(externalContext, true), conversationId );
+            Contexts.destroy( conversationContext );
+            conversationContext.clear();
+            iter.remove();
+            dirty();
+         }
+      }
+   }
+   
    public void store(Map attributes)
    {
       if ( isLongRunningConversation() ) 

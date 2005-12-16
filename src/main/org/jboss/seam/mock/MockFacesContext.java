@@ -38,12 +38,13 @@ public class MockFacesContext extends FacesContext
    {
       this.externalContext = externalContext;
    }
+   
+   private Application application = new MockApplication();
 
    @Override
    public Application getApplication()
    {
-      //TODO
-      return null;
+      return application;
    }
 
    @Override
@@ -88,8 +89,7 @@ public class MockFacesContext extends FacesContext
    @Override
    public RenderKit getRenderKit()
    {
-      //TODO
-      return null;
+      return new MockRenderKit();
    }
 
    @Override
