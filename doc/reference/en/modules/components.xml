@@ -132,10 +132,18 @@
                     <para>
                         Internal component for Seam context management. Always installed.
                     </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.conversation</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for Seam context management. Always installed.
+                    </para>
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.manager.conversationTimeout</literal> &mdash; 
+                            <literal>org.jboss.seam.core.conversation.timeout</literal> &mdash; 
                             the conversation context timeout in milliseconds.
                         </para>
                         </listitem>
