@@ -18,6 +18,7 @@ import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.jsf.SeamPhaseListener;
@@ -46,6 +47,10 @@ public class PhaseListenerTest
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
+         );
+      appContext.set( 
+            Seam.getComponentName(Conversation.class) + ".component", 
+            new Component(Conversation.class) 
          );
       
       SeamPhaseListener phases = new SeamPhaseListener();
@@ -88,6 +93,8 @@ public class PhaseListenerTest
       assert Contexts.isApplicationContextActive();
       assert Contexts.isConversationContextActive();
       
+      facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+      
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
 
       assert !Contexts.isEventContextActive();
@@ -109,6 +116,10 @@ public class PhaseListenerTest
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
+         );
+      appContext.set( 
+            Seam.getComponentName(Conversation.class) + ".component", 
+            new Component(Conversation.class) 
          );
       
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
@@ -151,15 +162,18 @@ public class PhaseListenerTest
       facesContext.getViewRoot().getAttributes().clear();
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
-      
-      assert facesContext.getViewRoot().getAttributes().size()==1;
-      assert facesContext.getViewRoot().getAttributes().get(Manager.CONVERSATION_ID).equals("2");
+
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
       assert Contexts.isConversationContextActive();
       
+      facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+      
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
+      
+      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert facesContext.getViewRoot().getAttributes().get(Manager.CONVERSATION_ID).equals("2");
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -181,6 +195,10 @@ public class PhaseListenerTest
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
+         );
+      appContext.set( 
+            Seam.getComponentName(Conversation.class) + ".component", 
+            new Component(Conversation.class) 
          );
 
       SeamPhaseListener phases = new SeamPhaseListener();
@@ -219,12 +237,15 @@ public class PhaseListenerTest
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert facesContext.getViewRoot().getAttributes().size()==1;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
       assert Contexts.isConversationContextActive();
       
+      facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+      
+      assert facesContext.getViewRoot().getAttributes().size()==1;
+
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
 
       assert !Contexts.isEventContextActive();
