@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -26,9 +25,8 @@ import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockHttpServletRequest;
-import org.jboss.seam.mock.MockHttpSession;
 import org.jboss.seam.mock.MockLifecycle;
-import org.jboss.seam.mock.MockServletContext;
+import org.jboss.seam.servlet.ServletSessionImpl;
 import org.testng.annotations.Test;
 
 public class PhaseListenerTest
@@ -37,8 +35,7 @@ public class PhaseListenerTest
    public void testSeamPhaseListener()
    {
       ExternalContext externalContext = new MockExternalContext();
-      MockHttpSession session = new MockHttpSession(externalContext);
-      HttpServletRequest request = new MockHttpServletRequest(externalContext, session );
+      HttpServletRequest request = new MockHttpServletRequest(externalContext);
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
@@ -126,7 +123,7 @@ public class PhaseListenerTest
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
       ids.put("2", System.currentTimeMillis());
-      new WebSessionContext((Session)externalContext.getSession(true)).set(Manager.CONVERSATION_ID_MAP, ids);
+      new WebSessionContext( new ServletSessionImpl( externalContext, (HttpSession) externalContext.getSession(true) ) ).set(Manager.CONVERSATION_ID_MAP, ids);
       
       SeamPhaseListener phases = new SeamPhaseListener();
 

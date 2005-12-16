@@ -30,18 +30,10 @@ import javax.servlet.http.HttpSession;
 public class MockHttpServletRequest implements HttpServletRequest
 {
    
-//   private HttpSession session;
-   
    private Map<String, String[]> parameters = new HashMap<String, String[]>();
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private HttpSession session;
    private ExternalContext externalContext;
-   
-   public MockHttpServletRequest(ExternalContext externalContext, MockHttpSession session)
-   {
-      this.session = session;
-      this.externalContext = externalContext;
-   }
    
    public MockHttpServletRequest(ExternalContext externalContext)
    {
@@ -176,7 +168,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    {
       if (create && session==null)
       {
-         session = new MockHttpSession(externalContext);
+         session = new MockHttpSession();
       }
       return session;
    }

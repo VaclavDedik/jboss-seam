@@ -19,6 +19,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.servlet.ServletSessionImpl;
 import org.testng.annotations.Configuration;
 
 /**
@@ -29,22 +30,22 @@ import org.testng.annotations.Configuration;
 public class SeamTest
 {
 
-   private MockExternalContext  externalContext;
+   private MockExternalContext externalContext;
+   private MockServletContext servletContext;
    private MockLifecycle lifecycle;
    private MockApplication application;
    private SeamPhaseListener phases;
    private MockFacesContext facesContext;
-   private MockHttpSession session;
    private Map<String, ConversationState> conversationStates;
    
    protected HttpSession getSession()
    {
-      return session;
+      return (HttpSession) externalContext.getSession(true);
    }
    
    protected boolean isSessionInvalid()
    {
-      return session.isInvalid();
+      return ( (MockHttpSession) getSession() ).isInvalid();
    }
    
    protected FacesContext getFacesContext()
@@ -138,14 +139,13 @@ public class SeamTest
    @Configuration(beforeTestMethod=true)
    public void begin()
    {
-      session = new MockHttpSession(externalContext);
+      externalContext = new MockExternalContext(servletContext);
    }
 
    @Configuration(afterTestMethod=true)
    public void end()
    {
-      Lifecycle.endSession(session);
-      session = null;
+      Lifecycle.endSession( new ServletSessionImpl( externalContext, (HttpSession) facesContext.getExternalContext().getSession(true) ) );
    }
    
    protected SeamPhaseListener createPhaseListener()
@@ -158,12 +158,12 @@ public class SeamTest
    {
       application = new MockApplication();
       phases = createPhaseListener();
-      MockServletContext servletContext = new MockServletContext();
-      externalContext = new MockExternalContext(servletContext);
+      servletContext = new MockServletContext();
+      
       initServletContext( servletContext.getInitParameters() );
       //Contexts.beginApplication(servletContext);
       lifecycle = new MockLifecycle();
-      new Initialization(externalContext).init();
+      new Initialization( new MockExternalContext(servletContext) ).init();
 
       conversationStates = new HashMap<String, ConversationState>();
    }

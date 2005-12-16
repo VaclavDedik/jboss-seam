@@ -10,29 +10,20 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.faces.context.ExternalContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
-
-import org.jboss.seam.Session;
 
 /**
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class MockHttpSession extends Session implements HttpSession
+public class MockHttpSession implements HttpSession
 {
    
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private boolean isInvalid;
-   private ExternalContext externalContext;
-   
-   public MockHttpSession(ExternalContext externalContext)
-   {
-      this.externalContext = externalContext;
-   }
    
    public boolean isInvalid()
    {
@@ -138,15 +129,9 @@ public class MockHttpSession extends Session implements HttpSession
       return null;
    }
 
-   @Override
-   public ExternalContext getExternalContext()
-   {
-      return externalContext;
-   }
-
-   public void setExternalContext(ExternalContext externalContext)
-   {
-      this.externalContext = externalContext;
-   }
+   /*public void clear() {
+      attributes.clear();
+      isInvalid = false;
+   }*/
 
 }

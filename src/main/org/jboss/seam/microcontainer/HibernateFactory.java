@@ -1,13 +1,16 @@
 //$Id$
 package org.jboss.seam.microcontainer;
 
+import java.io.File;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
-import org.hibernate.SessionFactory;
 import org.hibernate.util.ReflectHelper;
-
-import java.util.*;
-import java.io.File;
 
 /**
  * A factory that bootstraps a Hibernate SessionFactory.

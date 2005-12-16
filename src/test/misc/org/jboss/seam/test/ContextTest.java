@@ -115,7 +115,7 @@ public class ContextTest
       assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==1;
       assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==3;
       
-      Lifecycle.endSession((Session)externalContext.getSession(true));
+      Lifecycle.endSession( new ServletSessionImpl( externalContext, (HttpSession) externalContext.getSession(true) ) );
       
       //assert session.getAttributes().size()==0;
       
@@ -129,7 +129,7 @@ public class ContextTest
    {
       ExternalContext externalContext = new MockExternalContext();
       Context appContext = new WebApplicationContext(externalContext);
-      Session session = (Session)externalContext.getSession(true);
+      Session session = new ServletSessionImpl( externalContext, (HttpSession) externalContext.getSession(true) );
       appContext.set(
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
