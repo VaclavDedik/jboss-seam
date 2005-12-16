@@ -54,7 +54,7 @@ public class HibernateFactory {
     private List<String> mappingPackages;
     private List<String> mappingResources;
 
-    public Object buildSessionFactory() throws Exception {
+    public Object getSessionFactory() throws Exception {
         AnnotationConfiguration acfg = new AnnotationConfiguration();
 
         // Programmatic configuration
