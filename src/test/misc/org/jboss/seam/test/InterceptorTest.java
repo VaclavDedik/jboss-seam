@@ -22,6 +22,7 @@ import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockHttpServletRequest;
@@ -306,7 +307,7 @@ public class InterceptorTest
    public void testValidationInterceptor() throws Exception
    {
       
-      new MockFacesContext( new MockExternalContext() ).setCurrent();
+      new MockFacesContext( new MockExternalContext(), new MockApplication() ).setCurrent();
       
       ValidationInterceptor vi = new ValidationInterceptor();
       vi.setComponent( new Component(Foo.class) );

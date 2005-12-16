@@ -22,6 +22,7 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.mock.MockHttpServletRequest;
@@ -38,7 +39,7 @@ public class PhaseListenerTest
       ExternalContext externalContext = new MockExternalContext();
       MockHttpSession session = new MockHttpSession(externalContext);
       HttpServletRequest request = new MockHttpServletRequest(externalContext, session );
-      MockFacesContext facesContext = new MockFacesContext( externalContext );
+      MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
@@ -107,7 +108,7 @@ public class PhaseListenerTest
    public void testSeamPhaseListenerLongRunning()
    {
       ExternalContext externalContext = new MockExternalContext();
-      MockFacesContext facesContext = new MockFacesContext( externalContext );
+      MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
@@ -186,7 +187,7 @@ public class PhaseListenerTest
    {
       ExternalContext externalContext = new MockExternalContext();
       
-      MockFacesContext facesContext = new MockFacesContext( externalContext );
+      MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       

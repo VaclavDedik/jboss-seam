@@ -34,12 +34,13 @@ public class MockFacesContext extends FacesContext
    private Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
    private ExternalContext externalContext;
    
-   public MockFacesContext(ExternalContext externalContext)
+   public MockFacesContext(ExternalContext externalContext, Application application)
    {
       this.externalContext = externalContext;
+      this.application = application;
    }
    
-   private Application application = new MockApplication();
+   private Application application;
 
    @Override
    public Application getApplication()

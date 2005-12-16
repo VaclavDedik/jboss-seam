@@ -24,6 +24,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ApplicationContext;
 import org.jboss.seam.core.BusinessProcessContext;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationContext;
 import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.FacesContext;
@@ -109,6 +110,7 @@ public class Initialization
 
       addComponent( Init.class, context );
       addComponent( Manager.class, context );
+      addComponent( Conversation.class, context );
       addComponent( FacesContext.class, context );
       addComponent( EventContext.class, context );
       addComponent( SessionContext.class, context );
