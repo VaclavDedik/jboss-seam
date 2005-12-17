@@ -13,15 +13,16 @@
     </zipfileset>
     <zipfileset id="example.war.webinf"
             prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <patternset refid="meta.files"/>
-     </zipfileset>
+               dir="${build.dir}/resources/WEB-INF" >
+    	<include name="**/*"/>
+    	<exclude name="lib/**/*"/>
+    </zipfileset>
     <zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
-               dir="resources/WEB-INF/lib">
+               dir="${build.dir}/resources/WEB-INF/lib/">
         <include name="*.jar"/>
     </zipfileset>
-
+	
     <!-- EJB3 -->
     <fileset id="example.ejb3.root" dir=".">
         <include name="_NONE_"/>
@@ -54,18 +55,36 @@
 
     <!-- Redefine targets -->
     <target name="war" depends="compile">
-        <jar jarfile="resources/WEB-INF/lib/${example.name}.jar">
+    	<mkdir dir="${build.dir}/resources/WEB-INF/lib/"/>
+        <jar jarfile="${build.dir}/resources/WEB-INF/lib/${example.name}.jar">
           <fileset dir="${classes.dir}">
             <include name="**/*.class"/>
           	<exclude name="**/test/*.class"/>
           </fileset>
           <fileset dir="resources">
-            <include name="import.sql"/>
-            <include name="hibernate.cfg.xml"/>
             <include name="seam.properties"/>
           </fileset>
         </jar>
-        <copy file="${imported.basedir}/${name}.jar" todir="resources/WEB-INF/lib/"/>
+        <copy todir="${build.dir}/resources/WEB-INF">
+          <fileset dir="resources/WEB-INF">
+            <include name="web.xml"/>
+    	    <include name="jboss-web.xml"/>
+    	    <include name="faces-config.xml"/>
+    	    <include name="**/*.properties"/>
+          </fileset>
+        </copy>
+        <copy todir="${build.dir}/resources/WEB-INF/classes">
+          <fileset dir="resources">
+            <include name="import.sql"/>
+            <include name="hibernate.cfg.xml"/>
+          </fileset>
+        </copy>
+        <copy file="${imported.basedir}/${name}.jar" todir="${build.dir}/resources/WEB-INF/lib/"/>
+    	<copy todir="${build.dir}/resources/WEB-INF/lib/">
+    		<fileset dir="resources/WEB-INF/lib/">
+    			<include name="*.jar"/>
+    		</fileset>
+    	</copy>
         <antcall target="Seam.war"/>
     </target>
 

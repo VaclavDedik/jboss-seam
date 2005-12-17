@@ -14,12 +14,8 @@
     <fileset id="example.war.webinf"
                dir="resources/WEB-INF" >
       <patternset>
-        <include name="**/*.dtd"/>
-        <include name="**/*.xml"/>
-        <include name="**/*.xslt"/>
-        <include name="**/*.properties"/>
-        <exclude name="web.xml"/>
-      	<exclude name="jboss-web.xml"/>
+      	<include name="faces-config.xml"/>
+      	<include name="**/*.properties"/>
       </patternset>
     </fileset>
     <fileset id="example.war.webinf.lib"
@@ -57,7 +53,11 @@
 
     <import file="../../build.xml"/>
 
-    <!-- Redefine targets -->
+	<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask"/>
+	<taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask"/>
+	<taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask"/>
+	
+	<!-- Redefine targets -->
     <target name="war" depends="compile">
     	<mkdir dir="${build.dir}/${example.name}/WEB-INF/lib"/>
         <jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/${example.name}.jar">
@@ -93,18 +93,24 @@
             <include name="web.xml"/>
           </fileset>
         </copy>
+        <jar basedir="${build.dir}/${example.name}" destfile="${build.dir}/${example.name}.war"/>
     </target>
 
   <target name="deploy" depends="war">
     <echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
-    <copy todir="${tomcat.home}/webapps/${example.name}">
-      <fileset dir="${build.dir}/${example.name}"/>
-    </copy>
+    <copy file="${build.dir}/${example.name}.war" todir="${tomcat.home}/webapps"/>
     <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
   </target>
   
+  <target name="redeploy" depends="deploy">
+     <reload url="http://localhost:8080/manager" 
+        username="admin" 
+        password="" 
+        path="/jboss-seam-noejb"/>
+  </target>
+	
   <target name="undeploy">
-    <delete dir="${tomcat.home}/webapps/${example.name}"/>
+     <delete file="${tomcat.home}/webapps/${example.name}.war"/>
   </target>
 
 </project>
