@@ -18,7 +18,8 @@
         <include name="**/*.xml"/>
         <include name="**/*.xslt"/>
         <include name="**/*.properties"/>
-        <exclude name="web.xml"/> 
+        <exclude name="web.xml"/>
+      	<exclude name="jboss-web.xml"/>
       </patternset>
     </fileset>
     <fileset id="example.war.webinf.lib"
@@ -58,24 +59,20 @@
 
     <!-- Redefine targets -->
     <target name="war" depends="compile">
-        <jar jarfile="resources/WEB-INF/lib/${example.name}.jar">
+    	<mkdir dir="${build.dir}/${example.name}/WEB-INF/lib"/>
+        <jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/${example.name}.jar">
           <fileset dir="${classes.dir}">
             <include name="**/*.class"/>
           	<exclude name="**/test/*.class"/>
           </fileset>
-          <fileset dir="resources">
-            <include name="import.sql"/>
-            <include name="hibernate.cfg.xml"/>
-            <include name="seam.properties"/>
-          </fileset>
         </jar>
-        <copy file="${imported.basedir}/${name}.jar" todir="resources/WEB-INF/lib/"/>
+        <copy file="${imported.basedir}/${name}.jar" todir="${build.dir}/${example.name}/WEB-INF/lib/"/>
         <copy todir="${build.dir}/${example.name}">
           <fileset refid="example.war.docroot"/>
         </copy>
         <copy todir="${build.dir}/${example.name}/WEB-INF/lib">
           <fileset refid="example.war.webinf.lib"/>
-          <fileset dir="../../embedded-ejb/lib">
+          <fileset dir="../../microcontainer/lib">
             <include name="**/*.jar"/>
           </fileset>
           <fileset dir="../../lib">
@@ -83,11 +80,11 @@
           </fileset>
         </copy>
         <copy todir="${build.dir}/${example.name}/WEB-INF/classes">
-          <fileset dir="../../embedded-ejb/conf">
-            <include name="*.*"/>
-          </fileset>
-          <fileset dir="resources/conf.tomcat">
+          <fileset dir="resources">
             <include name="jboss-beans.xml"/>
+            <include name="import.sql"/>
+            <include name="hibernate.cfg.xml"/>
+            <include name="seam-jndi.properties"/>
           </fileset>
         </copy>
         <copy todir="${build.dir}/${example.name}/WEB-INF">
@@ -107,7 +104,7 @@
   </target>
   
   <target name="undeploy">
-    <delete file="${tomcat.home}/webapps/${example.name}"/>
+    <delete dir="${tomcat.home}/webapps/${example.name}"/>
   </target>
 
 </project>
