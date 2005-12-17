@@ -47,6 +47,7 @@ public class Scanner
          urls = classLoader.getResources(resourceName);
       }
       catch (IOException ioe) {
+         log.warn("could not read: " + resourceName, ioe);
          return result;
       }
       
@@ -55,6 +56,7 @@ public class Scanner
          try
          {
             String urlPath = urls.nextElement().getFile();
+            urlPath = urlPath.replace("%20", " ");
             if ( urlPath.startsWith("file:") )
             {
                // On windows urlpath looks like file:/C: on Linux file:/home
@@ -80,7 +82,9 @@ public class Scanner
                handleArchive(result, file);
             }
          }
-         catch (IOException ioe) {}
+         catch (IOException ioe) {
+            log.warn("could not read entries", ioe);
+         }
       }
       return result;
    }
