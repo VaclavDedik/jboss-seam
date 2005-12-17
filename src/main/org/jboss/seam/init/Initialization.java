@@ -34,6 +34,7 @@ import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
 import org.jboss.seam.deployment.Scanner;
@@ -147,6 +148,7 @@ public class Initialization
       addComponent( ConversationContext.class, context );
       addComponent( ApplicationContext.class, context );
       addComponent( BusinessProcessContext.class, context );
+      addComponent( ResourceBundle.class, context );
 
       Init init = (Init) Component.getInstance(Init.class, true);
       

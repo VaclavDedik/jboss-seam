@@ -15,7 +15,7 @@ public class InitializationTest
    {
       MockExternalContext externalContext = new MockExternalContext();
       new Initialization(externalContext).setScannerEnabled(false).init();
-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==5 + 2*7;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==5 + 2*8;
       assert !Contexts.isApplicationContextActive();
    }
 
@@ -27,7 +27,7 @@ public class InitializationTest
       servletContext.getInitParameters().put(Init.MANAGED_PERSISTENCE_CONTEXTS, "bookingDatabase");
       MockExternalContext externalContext = new MockExternalContext(servletContext);
       new Initialization(externalContext).setScannerEnabled(false).init();
-      assert servletContext.getAttributes().size()==8 + 2*7;
+      assert servletContext.getAttributes().size()==8 + 2*8;
       assert !Contexts.isApplicationContextActive();
    }
 }

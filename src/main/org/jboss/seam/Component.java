@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -159,23 +158,14 @@ public class Component
 
       initMembers(clazz);
       
-      try
-      {
-         ResourceBundle messages = ResourceBundle.getBundle("validator");
-         validator = new ClassValidator(beanClass, messages);
-      }
-      catch (MissingResourceException mre)
-      {
-         validator = new ClassValidator(beanClass);
-      }
-       
-      
       localInterfaces = getLocalInterfaces(beanClass);
       
       jndiName = getJndiName();
       
       initInterceptors();
       
+      initValidator();
+
       //TODO: YEW!!!!!
       if ( Contexts.isApplicationContextActive() ) 
       {
@@ -187,6 +177,22 @@ public class Component
          factory = createProxyFactory();
       }
       
+   }
+
+   private void initValidator() {
+      if (interceptionType!=InterceptionType.NEVER)
+      {
+         ResourceBundle messages = Contexts.isApplicationContextActive() ? //YEW!!!!!!!! (for testing only)
+               org.jboss.seam.core.ResourceBundle.instance() : null;
+         if (messages==null)
+         {
+            validator = new ClassValidator(beanClass);
+         }
+         else
+         {
+            validator = new ClassValidator(beanClass, messages);
+         }
+      }
    }
 
    private String getJndiName()
