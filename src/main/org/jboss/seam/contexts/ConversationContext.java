@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Session;
 import org.jboss.seam.core.Manager;
 
 /**

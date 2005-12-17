@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam;
+package org.jboss.seam.contexts;
 
 import java.util.Enumeration;
 
@@ -37,19 +37,17 @@ public abstract class Session
       Object session = externalContext.getSession(true);
       if (session instanceof HttpSession)
       {
-         return new ServletSessionImpl(externalContext, (HttpSession) session);
+         return new ServletSessionImpl((HttpSession) session);
       }
       else if (session instanceof PortletSession)
       {
-         return new PortletSessionImpl(externalContext, (PortletSession) session);
+         return new PortletSessionImpl((PortletSession) session);
       }
       else 
       {
          throw new RuntimeException("Unknown type of session");
       }
    }
-
-   public abstract ExternalContext getExternalContext();
 
 }
 

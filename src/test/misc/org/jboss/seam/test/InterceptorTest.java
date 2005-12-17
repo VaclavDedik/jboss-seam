@@ -9,12 +9,11 @@ import javax.faces.event.PhaseId;
 import org.jboss.seam.Component;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Session;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.interceptors.BijectionInterceptor;
@@ -25,8 +24,6 @@ import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
-import org.jboss.seam.mock.MockHttpServletRequest;
-import org.jboss.seam.mock.MockHttpSession;
 import org.jboss.seam.mock.MockServletContext;
 import org.testng.annotations.Test;
 
@@ -38,7 +35,7 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      Context appContext = new WebApplicationContext(externalContext);
+      Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
@@ -125,7 +122,7 @@ public class InterceptorTest
          assert e instanceof RequiredException;
       }
       
-      Lifecycle.endApplication(externalContext);
+      Lifecycle.endApplication(servletContext);
    }
    
    @Test
@@ -133,7 +130,7 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      Context appContext = new WebApplicationContext(externalContext);
+      Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
@@ -212,14 +209,15 @@ public class InterceptorTest
       assert "ended".equals(result);
       
       //TODO: @BeginIf/@EndIf
-      Lifecycle.endApplication(externalContext);
+      Lifecycle.endApplication(servletContext);
    }
    
    @Test
    public void testConversationalConversationInterceptor() throws Exception
    {
-      MockExternalContext externalContext = new MockExternalContext();
-      Context appContext = new WebApplicationContext(externalContext);
+      MockServletContext servletContext = new MockServletContext();
+      MockExternalContext externalContext = new MockExternalContext(servletContext);
+      Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
@@ -299,7 +297,7 @@ public class InterceptorTest
       assert !Manager.instance().isLongRunningConversation();
       assert "ended".equals(result);
       
-      Lifecycle.endApplication(externalContext);
+      Lifecycle.endApplication(servletContext);
       
    }
    
@@ -421,7 +419,7 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
-      Context appContext = new WebApplicationContext(externalContext);
+      Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
@@ -454,7 +452,7 @@ public class InterceptorTest
       
       assert !Contexts.getSessionContext().isSet("foo");
       
-      Lifecycle.endApplication(externalContext);
+      Lifecycle.endApplication(servletContext);
    }
 
    static Method getMethod(String name)

@@ -12,10 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Session;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.WebApplicationContext;
+import org.jboss.seam.contexts.FacesApplicationContext;
+import org.jboss.seam.contexts.Session;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Init;
@@ -40,7 +40,7 @@ public class PhaseListenerTest
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      Context appContext = new WebApplicationContext(externalContext);
+      Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
@@ -109,7 +109,7 @@ public class PhaseListenerTest
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      Context appContext = new WebApplicationContext(externalContext);
+      Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
@@ -123,7 +123,7 @@ public class PhaseListenerTest
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
       ids.put("2", System.currentTimeMillis());
-      new WebSessionContext( new ServletSessionImpl( externalContext, (HttpSession) externalContext.getSession(true) ) ).set(Manager.CONVERSATION_ID_MAP, ids);
+      new WebSessionContext( new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) ).set(Manager.CONVERSATION_ID_MAP, ids);
       
       SeamPhaseListener phases = new SeamPhaseListener();
 
@@ -188,7 +188,7 @@ public class PhaseListenerTest
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();
       
-      Context appContext = new WebApplicationContext(externalContext);
+      Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 

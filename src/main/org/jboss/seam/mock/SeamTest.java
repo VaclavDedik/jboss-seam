@@ -145,7 +145,7 @@ public class SeamTest
    @Configuration(afterTestMethod=true)
    public void end()
    {
-      Lifecycle.endSession( new ServletSessionImpl( externalContext, (HttpSession) facesContext.getExternalContext().getSession(true) ) );
+      Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) facesContext.getExternalContext().getSession(true) ) );
    }
    
    protected SeamPhaseListener createPhaseListener()
@@ -163,7 +163,7 @@ public class SeamTest
       initServletContext( servletContext.getInitParameters() );
       //Contexts.beginApplication(servletContext);
       lifecycle = new MockLifecycle();
-      new Initialization( new MockExternalContext(servletContext) ).init();
+      new Initialization(servletContext).init();
 
       conversationStates = new HashMap<String, ConversationState>();
    }
@@ -171,7 +171,7 @@ public class SeamTest
    @Configuration(afterTestClass=true)
    public void cleanup() throws Exception
    {
-      Lifecycle.endApplication(externalContext);
+      Lifecycle.endApplication(servletContext);
       externalContext = null;
       conversationStates.clear();
       conversationStates = null;

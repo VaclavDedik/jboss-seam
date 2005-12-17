@@ -11,7 +11,6 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.apache.myfaces.context.servlet.ServletExternalContextImpl;
 import org.jboss.logging.Logger;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.init.Initialization;
@@ -27,21 +26,18 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
    private static final Logger log = Logger.getLogger(ServletContextListener.class);
 
    public void contextInitialized(ServletContextEvent event) {
-      log.info("Welcome to Seam 1.0 beta 1");
-      
-      // TODO: Need for a portletContextListener, portletSessionListener
-      new Initialization( new ServletExternalContextImpl(event.getServletContext(), null, null )).init();
+      log.info("Welcome to Seam 1.0 beta 2");
+      new Initialization( event.getServletContext() ).init();
    }
 
    public void contextDestroyed(ServletContextEvent event) {
-      Lifecycle.endApplication( new ServletExternalContextImpl(event.getServletContext(), null, null) );
+      Lifecycle.endApplication( event.getServletContext() );
    }
 
    public void sessionCreated(HttpSessionEvent event) {}
 
    public void sessionDestroyed(HttpSessionEvent event) {
-      // TODO: Remove Myfaces Dependency
-      Lifecycle.endSession( new ServletSessionImpl(new ServletExternalContextImpl(event.getSession().getServletContext(), null, null), event.getSession()) );
+      Lifecycle.endSession( event.getSession().getServletContext(), new ServletSessionImpl( event.getSession() ) );
    }
 
 }

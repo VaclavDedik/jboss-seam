@@ -8,14 +8,13 @@ package org.jboss.seam.init;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.faces.context.ExternalContext;
+import javax.servlet.ServletContext;
 
-import org.hibernate.HibernateException;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
@@ -50,12 +49,12 @@ public class Initialization
    private static final Logger log = Logger.getLogger(Initialization.class);
    
    private Map<String, String> properties = new HashMap<String, String>();
-   private ExternalContext externalContext;
+   private ServletContext servletContext;
    private boolean isScannerEnabled = true;
 
-   public Initialization(ExternalContext externalContext)
+   public Initialization(ServletContext externalContext)
    {
-      this.externalContext = externalContext;
+      this.servletContext = externalContext;
       initPropertiesFromServletContext();
       initPropertiesFromResource();
    }
@@ -69,7 +68,7 @@ public class Initialization
    public Initialization init()
    {
       log.info("initializing Seam");
-      Lifecycle.beginInitialization(externalContext);
+      Lifecycle.beginInitialization(servletContext);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       addComponents();
       Lifecycle.endInitialization();
@@ -79,11 +78,11 @@ public class Initialization
 
    private void initPropertiesFromServletContext()
    {
-      Iterator params = externalContext.getInitParameterMap().keySet().iterator();
-      while (params.hasNext())
+      Enumeration params = servletContext.getInitParameterNames();
+      while (params.hasMoreElements())
       {
-         String name = (String) params.next();
-         properties.put(name, externalContext.getInitParameter(name));
+         String name = (String) params.nextElement();
+         properties.put(name, servletContext.getInitParameter(name));
       }
    }
 

@@ -11,7 +11,6 @@ import java.util.Enumeration;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Session;
 
 /**
  * @author Gavin King

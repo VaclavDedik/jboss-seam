@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -29,8 +30,11 @@ public class SeamExceptionFilter implements Filter
 {
    
    private static Logger log = Logger.getLogger(SeamExceptionFilter.class);
+   private ServletContext context;
 
-   public void init(FilterConfig cfg) throws ServletException {}
+   public void init(FilterConfig cfg) throws ServletException {
+      context = cfg.getServletContext();
+   }
 
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
          throws IOException, ServletException
@@ -52,6 +56,7 @@ public class SeamExceptionFilter implements Filter
    {
       try 
       {
+         Lifecycle.beginInitialization(context); //the faces ExternalContext is useless to us at this point
          Lifecycle.endRequest(null);
       }
       catch (Exception ee)

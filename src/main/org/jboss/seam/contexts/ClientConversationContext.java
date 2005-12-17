@@ -12,11 +12,9 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.util.Strings;
 
 /**
  * A conversation context is a logical context that lasts longer than 

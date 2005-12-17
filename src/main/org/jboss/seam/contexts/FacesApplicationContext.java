@@ -7,9 +7,9 @@
 package org.jboss.seam.contexts;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Iterator;
 
-import javax.servlet.ServletContext;
+import javax.faces.context.ExternalContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -19,9 +19,9 @@ import org.jboss.seam.Seam;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class WebApplicationContext implements Context {
+public class FacesApplicationContext implements Context {
 
-	private ServletContext externalContext;
+	private ExternalContext externalContext;
 	
    public ScopeType getType()
    {
@@ -38,16 +38,16 @@ public class WebApplicationContext implements Context {
       return ScopeType.APPLICATION.getPrefix() + '$';
    }
 
-	public WebApplicationContext(ServletContext externalContext) {
+	public FacesApplicationContext(ExternalContext externalContext) {
 		this.externalContext = externalContext;
 	}
 
 	public Object get(String name) {
-		return externalContext.getAttribute( getKey(name) );
+		return externalContext.getApplicationMap().get( getKey(name) );
 	}
 
 	public void set(String name, Object value) {
-       externalContext.setAttribute( getKey(name), value );
+       externalContext.getApplicationMap().put( getKey(name), value );
 	}
 
 	public boolean isSet(String name) {
@@ -55,16 +55,16 @@ public class WebApplicationContext implements Context {
 	}
 
 	public void remove(String name) {
-       externalContext.removeAttribute( getKey(name) );
+       externalContext.getApplicationMap().remove( getKey(name) );
 	}
 
     public String[] getNames() {
-       Enumeration names = externalContext.getAttributeNames();
+       Iterator names = externalContext.getApplicationMap().keySet().iterator();
        ArrayList<String> results = new ArrayList<String>();
        String prefix = getPrefix();
-       while ( names.hasMoreElements() )
+       while ( names.hasNext() )
        {
-          String name = (String) names.nextElement();
+          String name = (String) names.next();
           if ( name.startsWith(prefix) )
           {
              results.add( name.substring(prefix.length()) );

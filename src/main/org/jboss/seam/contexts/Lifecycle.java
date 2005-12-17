@@ -11,11 +11,11 @@ import java.util.Set;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
+import javax.servlet.ServletContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.Session;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 
@@ -34,14 +34,14 @@ public class Lifecycle
       //eventContext.set( new WebRequestContext( request ) );
       Contexts.eventContext.set( new EventContext() );
       Contexts.sessionContext.set( new WebSessionContext(Session.getSession(externalContext, true)) );
-      Contexts.applicationContext.set( new WebApplicationContext( externalContext ) );
+      Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
 
-   public static void beginInitialization(ExternalContext externalContext)
+   public static void beginInitialization(ServletContext servletContext)
    {
-      Context context = new WebApplicationContext( externalContext );
-      Contexts.applicationContext.set( context );
+      Context context = new WebApplicationContext(servletContext);
+      Contexts.applicationContext.set(context);
    }
 
    public static void endInitialization()
@@ -78,11 +78,11 @@ public class Lifecycle
       Component.getInstance( component.getName(), true );
    }
 
-   public static void endApplication(ExternalContext externalContext)
+   public static void endApplication(ServletContext servletContext)
    {
       log.debug("Undeploying, destroying application context");
 
-      Context tempApplicationContext = new WebApplicationContext( externalContext );
+      Context tempApplicationContext = new WebApplicationContext(servletContext);
       Contexts.applicationContext.set( tempApplicationContext );
       Contexts.destroy(tempApplicationContext);
       Contexts.applicationContext.set(null);
@@ -91,11 +91,11 @@ public class Lifecycle
       Contexts.conversationContext.set(null);
    }
 
-   public static void endSession(Session session)
+   public static void endSession(ServletContext servletContext, Session session)
    {
       log.debug("End of session, destroying contexts");
 
-      Context tempAppContext = new WebApplicationContext( session.getExternalContext() );
+      Context tempAppContext = new WebApplicationContext(servletContext);
       Contexts.applicationContext.set(tempAppContext);
 
       //this is used just as a place to stick the ConversationManager

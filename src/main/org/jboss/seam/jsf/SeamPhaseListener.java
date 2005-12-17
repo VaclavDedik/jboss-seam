@@ -23,7 +23,6 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Session;
 import org.jboss.seam.contexts.BusinessProcessContext;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
