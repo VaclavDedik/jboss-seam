@@ -4,6 +4,7 @@ package org.jboss.seam.deployment;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,7 +57,7 @@ public class Scanner
          try
          {
             String urlPath = urls.nextElement().getFile();
-            urlPath = urlPath.replace("%20", " ");
+            urlPath = URLDecoder.decode(urlPath, "UTF-8");
             if ( urlPath.startsWith("file:") )
             {
                // On windows urlpath looks like file:/C: on Linux file:/home
