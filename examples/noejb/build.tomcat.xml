@@ -65,6 +65,9 @@
             <include name="**/*.class"/>
           	<exclude name="**/test/*.class"/>
           </fileset>
+          <fileset dir="resources">
+          	<include name="seam.properties"/>
+          </fileset>
         </jar>
         <copy file="${imported.basedir}/${name}.jar" todir="${build.dir}/${example.name}/WEB-INF/lib/"/>
         <copy todir="${build.dir}/${example.name}">
@@ -111,6 +114,7 @@
 	
   <target name="undeploy">
      <delete file="${tomcat.home}/webapps/${example.name}.war"/>
+  	 <delete dir="${tomcat.home}/webapps/${example.name}"/>
   </target>
 
 </project>

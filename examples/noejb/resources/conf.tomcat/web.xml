@@ -27,7 +27,7 @@
     <!-- Bootstrap Datasource/Hibernate outside Java EE -->
     <context-param>
         <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-        <param-value>org.jboss.seam.core.Microcontainer org.jboss.seam.example.noejb.BookingListAction org.jboss.seam.example.noejb.ChangePasswordAction org.jboss.seam.example.noejb.HotelBookingAction  org.jboss.seam.example.noejb.LoginAction org.jboss.seam.example.noejb.LogoutAction org.jboss.seam.example.noejb.RegisterAction org.jboss.seam.example.noejb.User  org.jboss.seam.example.noejb.Hotel org.jboss.seam.example.noejb.Booking</param-value>
+        <param-value>org.jboss.seam.core.Microcontainer</param-value>
     </context-param>
     
     <!-- Needed to ensure safe tx cleanup when using Seam-managed sessions/persistence contexts -->
