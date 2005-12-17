@@ -191,7 +191,7 @@ public class DataSourceFactory
       this.transactionManager = transactionManager;
    }
 
-   public void setInitialContextProperties(Hashtable initialContextProperties)
+   public void setJndiProperties(Hashtable initialContextProperties)
    {
       this.initialContextProperties = initialContextProperties;
    }

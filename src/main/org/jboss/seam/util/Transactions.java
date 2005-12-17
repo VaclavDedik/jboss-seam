@@ -1,12 +1,6 @@
 //$Id$
 package org.jboss.seam.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
 import javax.ejb.EJBContext;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -15,7 +9,6 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Seam;
 
 public class Transactions
 {
@@ -49,26 +42,7 @@ public class Transactions
    private static void setupInitialContext() throws NamingException {
       if (initialContext == null)
       {
-         // TODO: We shouldn't have to get the properties from seam.properties again
-         // getUserTransaction is called after the request ends, so the applicationContext is already set to null
-         // and we cannot user the Init component
-         log.debug("Create new Initial Context");
-         InputStream stream = Seam.class.getResourceAsStream("/seam.properties");
-         Map<String, String> properties = new HashMap<String, String>();
-         if (stream!=null)
-         {
-            Properties props = new Properties();
-            try
-            {
-               props.load(stream);
-            }
-            catch (IOException ioe)
-            {
-               log.error("Could not read seam.properties", ioe);
-            }
-            ( (Map) properties ).putAll(props);
-         }
-         initialContext = NamingHelper.getInitialContext(properties);
+         initialContext = NamingHelper.getInitialContext();
       }
    }
 

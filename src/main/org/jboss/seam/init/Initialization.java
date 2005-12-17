@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import javax.faces.context.ExternalContext;
 
+import org.hibernate.HibernateException;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
@@ -45,7 +46,7 @@ import org.jboss.seam.util.Reflections;
  */
 public class Initialization
 {
-   private static final Logger log = Logger.getLogger(Seam.class);
+   private static final Logger log = Logger.getLogger(Initialization.class);
    
    private Map<String, String> properties = new HashMap<String, String>();
    private ExternalContext externalContext;
@@ -87,9 +88,16 @@ public class Initialization
 
    private void initPropertiesFromResource()
    {
-      InputStream stream = Seam.class.getResourceAsStream("/seam.properties");
+      loadFromResource( properties, "/seam.properties" );
+      loadFromResource( properties, "/seam-jndi.properties" );
+   }
+   
+   public static void loadFromResource(Map properties, String resource)
+   {
+      InputStream stream = getResourceAsStream(resource);
       if (stream!=null)
       {
+         log.info("reading properties from: " + resource);
          Properties props = new Properties();
          try
          {
@@ -97,13 +105,34 @@ public class Initialization
          }
          catch (IOException ioe)
          {
-            log.error("Could not read seam.properties", ioe);
+            log.error("could not read " + resource, ioe);
          }
-         ( (Map) properties ).putAll(props);
+         properties.putAll(props);
       }
-      //( (Map) properties ).putAll( System.getProperties() );
+      else 
+      {
+         log.debug("not found: " + resource);
+      }
    }
 
+   private static InputStream getResourceAsStream(String resource) {
+      String stripped = resource.startsWith("/") ? 
+            resource.substring(1) : resource;
+   
+      InputStream stream = null; 
+      ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+      if (classLoader!=null) {
+         stream = classLoader.getResourceAsStream( stripped );
+      }
+      if ( stream == null ) {
+         Seam.class.getResourceAsStream( resource );
+      }
+      if ( stream == null ) {
+         stream = Seam.class.getClassLoader().getResourceAsStream( stripped );
+      }
+      return stream;
+   }
+   
    protected void addComponents()
    {
       Context context = Contexts.getApplicationContext();
