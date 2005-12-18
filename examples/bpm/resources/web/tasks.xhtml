@@ -9,7 +9,7 @@
 
       <h:outputText value="You are currently not logged on" rendered="#{empty loggedIn}"/>
 
-      <h:dataTable value="#{jbpmUtil.taskLists[ user.username ]}" var="task" rendered="#{not empty loggedIn}">
+      <h:dataTable value="#{jbpmUtil.taskLists[user.username]}" var="task" rendered="#{not empty loggedIn}">
          <h:column>
             <f:facet name="header">
                <h:outputText value="Title"/>
