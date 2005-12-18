@@ -22,6 +22,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.NamingHelper;
 
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
@@ -41,7 +42,6 @@ public class ManagedJbpmSession
 
    private String jbpmSessionFactoryName;
    private JbpmSession jbpmSession;
-   private Hashtable initialContextProperties;
 
    @Create
    public void create(Component component)
@@ -74,34 +74,14 @@ public class ManagedJbpmSession
 
    private JbpmSessionFactory getSessionFactory()
    {
-      InitialContext ctx = null;
       try
       {
-         ctx = (initialContextProperties != null) ? new InitialContext(initialContextProperties) : new InitialContext();
+         InitialContext ctx = NamingHelper.getInitialContext();
          return ( JbpmSessionFactory ) ctx.lookup( jbpmSessionFactoryName );
       }
       catch ( NamingException e )
       {
          throw new IllegalArgumentException( "JbpmSessionFactory [" + jbpmSessionFactoryName + "] not found", e );
-      }
-      finally
-      {
-         release( ctx );
-      }
-   }
-
-   private void release(InitialContext ctx)
-   {
-      if ( ctx != null )
-      {
-         try
-         {
-            ctx.close();
-         }
-         catch ( Throwable ignore )
-         {
-            // ignore
-         }
       }
    }
 
@@ -110,8 +90,4 @@ public class ManagedJbpmSession
       return "ManagedJbpmSession(" + jbpmSessionFactoryName + ")";
    }
 
-   public void setInitialContextProperties(Hashtable initialContextProperties)
-   {
-      this.initialContextProperties = initialContextProperties;
-   }
 }

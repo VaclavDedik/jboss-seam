@@ -11,6 +11,7 @@ import org.jbpm.db.JbpmSession;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.hibernate.cfg.Configuration;
 import org.jboss.logging.Logger;
+import org.jboss.seam.util.NamingHelper;
 
 import javax.naming.InitialContext;
 
@@ -158,49 +159,12 @@ public class JbpmFactory
 
    private void bind(JbpmSessionFactory factory) throws Exception
    {
-      InitialContext ctx = null;
-      try
-      {
-         ctx = new InitialContext();
-         ctx.bind( jndiName, factory );
-      }
-      finally
-      {
-         if ( ctx != null )
-         {
-            try
-            {
-               ctx.close();
-            }
-            catch ( Throwable ignore )
-            {
-               // ignore
-            }
-         }
-      }
+      NamingHelper.getInitialContext().bind( jndiName, factory );
    }
 
    private void unbind() throws Exception
    {
-      InitialContext ctx = null;
-      try
-      {
-         ctx = new InitialContext();
-         ctx.unbind( jndiName );
-      }
-      finally
-      {
-         if ( ctx != null )
-         {
-            try
-            {
-               ctx.close();
-            }
-            catch ( Throwable ignore )
-            {
-               // ignore
-            }
-         }
-      }
+      NamingHelper.getInitialContext().unbind( jndiName );
+
    }
 }

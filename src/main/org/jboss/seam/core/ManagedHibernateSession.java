@@ -78,8 +78,7 @@ public class ManagedHibernateSession implements Serializable
    private SessionFactory getSessionFactory(String persistenceUnit)
          throws NamingException
    {
-      InitialContext initialContext = NamingHelper.getInitialContext();
-      return (SessionFactory) initialContext.lookup(sessionFactoryName);
+      return (SessionFactory) NamingHelper.getInitialContext().lookup(sessionFactoryName);
    }
    
    public String toString()
