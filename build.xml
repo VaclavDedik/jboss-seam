@@ -44,6 +44,8 @@
     <property name="dist.mc.conf.dir"   value="${dist.dir}/microcontainer/conf"/>
 
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
+	
+	<property name="testng.jar"         value="${imported.basedir}/lib/testng-2.5.3-jdk15.jar"/>
 
     <property name="javac.debug"        value="true"/>
     <property name="javac.deprecation"  value="false"/>
@@ -59,13 +61,31 @@
             <include name="${name}.jar" />
         </fileset>
     </path>
+	
+	<property name="test.classpath" value="test.classpath"/>
 
     <path id="test.classpath">
         <path refid="build.classpath"/>
         <fileset dir="${mc.lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
-    </path>
+     </path>
+
+	<path id="test.mc.classpath">
+        <path refid="build.classpath"/>
+    	<path path="${mc.conf.dir}"/>
+        <fileset dir="${mc.lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+     </path>
+
+	<path id="test.eejb.classpath">
+        <path refid="build.classpath"/>
+    	<path path="${eejb.conf.dir}"/>
+        <fileset dir="${eejb.lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+     </path>
 
     <patternset id="meta.files">
         <include name="**/*.dtd"/>
@@ -73,7 +93,7 @@
         <include name="**/*.xslt"/>
         <include name="**/*.properties"/>
     </patternset>
-
+		
     <patternset id="src.files">
         <!-- include everything we want in the src directory
             that we didn't want in the jar itself -->
@@ -128,15 +148,37 @@
 	        description="Run the tests">
 		
 		<taskdef resource="testngtasks"
-		         classpath="lib/testng-2.5.3-jdk15.jar"/>
+		         classpath="${testng.jar}"/>
+		
+		<copy todir="${build.dir}/test" >
+			<fileset dir="${classes.dir}" includes="**/*.*"/>
+		</copy>
 		
 		<testng>
-			<classpath path="${classes.dir}"/>
+			<classpath path="${build.dir}/test"/>
 			<classpath refid="test.classpath"/>
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
 		</testng>
+			
+	</target>
+
+	<target name="testexample" depends="compile"
+	        description="Run the example tests">
 		
+		<taskdef resource="testngtasks"
+		         classpath="${testng.jar}"/>
 		
+		<copy todir="${build.dir}/test" >
+			<fileset dir="${classes.dir}" includes="**/*.*"/>
+			<fileset refid="example.resources"/>
+		</copy>
+		
+		<testng>
+			<classpath path="${build.dir}/test"/>
+			<classpath refid="${test.classpath}"/>
+			<xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
+		</testng>
+			
 	</target>
 
     <target name="copysource" description="Copy sources to dist dir">
@@ -201,6 +243,7 @@
         <mkdir dir="${dist.dir}"/>
         <jar jarfile="${basedir}/${name}.jar" basedir="${classes.dir}">
             <include name="org/jboss/seam/**/*.class"/>
+        	<exclude name="**/test/*.class"/>
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>

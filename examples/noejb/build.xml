@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 
-<project name="NoEJB" default="deploy" basedir=".">
+<project name="Hibernate3" default="deploy" basedir=".">
 
     <!-- Naming -->
     <property name="Name"                   value="Seam on JBoss Hibernate3 Example"/>
     <property name="example.name"           value="jboss-seam-noejb"/>
-
+	
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="resources/view">
@@ -43,13 +43,20 @@
         <include name="noejb-ds.xml"/>
     </fileset>
 
+	<!-- Test -->
+	<fileset id="example.resources" dir="resources">
+		<include name="**/*.*"/>
+	</fileset>
+
     <!-- Undeploy -->
     <patternset id="example.undeploy">
         <include name="noejb-ds.xml"/>
     </patternset>
 
     <!-- Overrides -->
-    <property name="src.java.dir"           value="src"/>
+    <property name="src.java.dir" value="src"/>
+	<property name="src.test.dir" value="src"/>
+	<property name="test.classpath" value="test.mc.classpath"/>
 
     <import file="../../build.xml"/>
 
@@ -87,7 +94,7 @@
     	</copy>
         <antcall target="Seam.war"/>
     </target>
-
+	
     <target name="deploy" depends="war">
         <antcall target="Seam.deploy"><param name="unit.ext" value="war"/></antcall>
     </target>

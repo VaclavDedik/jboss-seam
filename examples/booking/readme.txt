@@ -10,7 +10,7 @@ container.
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------
 
-1. Download and install JBoss AS 4.0.3
+1. Download and install JBoss AS 4.0.3, with the EJB 3.0 profile
 
    NOTE: Due to a bug, the demo database content is not loaded 
    properly in AS 4.0.3SP1. If you use 4.0.3SP1, you should
@@ -20,8 +20,8 @@ How to Build and Deploy the Example on JBoss AS
 
    http://www.jboss.com/products/list/downloads#seam
 
-3. Edit the "build.properties" file in the source code bundle
-   and change jboss.home to your JBoss AS installation directory
+3. Edit the "build.properties" file and change jboss.home to your 
+   JBoss AS installation directory
 
 4. Build Seam by running "ant" the Seam root directory
 
@@ -49,8 +49,8 @@ How to Build and Deploy the Example on Tomcat
 
    http://www.jboss.com/products/list/downloads#seam
 
-3. Edit the "build.properties" file in the source code bundle
-   and change tomcat.home to your Tomcat installation directory
+3. Edit the "build.properties" file and change tomcat.home to your 
+   Tomcat installation directory
 
 4. Build Seam by running "ant" the Seam root directory
 
@@ -62,3 +62,8 @@ How to Build and Deploy the Example on Tomcat
 7. Point your web browser to:
 
    http://localhost:8080/tomcat-seam-booking/
+
+Running The TestNG Tests
+------------------------
+
+In the "examples/noejb" directory, type "ant testexample"

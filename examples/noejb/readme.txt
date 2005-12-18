@@ -1,6 +1,6 @@
 Seam Hibernate3 Example
 =======================
-This is a port of the booking example to Hibernate3 with JavaBeans
+This is a port of the Booking example to Hibernate3 with JavaBeans
 for the actions. Seam handles the JTA transaction demarcation and
 Hibernate session management. 
 
@@ -17,8 +17,8 @@ How to Build and Deploy the Example on Tomcat
 
    http://www.jboss.com/products/list/downloads#seam
 
-3. Edit the "build.properties" file in the source code bundle
-   and change tomcat.home to your Tomcat installation directory
+3. Edit the "build.properties" file and change tomcat.home to your 
+   Tomcat installation directory
 
 4. Build Seam by running "ant" the Seam root directory
 
@@ -44,8 +44,8 @@ How to Build and Deploy the Example on JBoss AS
 
    http://www.jboss.com/products/list/downloads#seam
 
-3. Edit the "build.properties" file in the source code bundle
-   and change jboss.home to your JBoss AS installation directory
+3. Edit the "build.properties" file and change jboss.home to your 
+   JBoss AS installation directory
 
 4. Build Seam by running "ant" the Seam root directory
 
@@ -57,3 +57,10 @@ How to Build and Deploy the Example on JBoss AS
 7. Point your web browser to:
 
    http://localhost:8080/jboss-seam-noejb/
+
+Running The TestNG Tests
+------------------------
+
+In the "examples/noejb" directory, type "ant testexample"
+
+   

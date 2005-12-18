@@ -48,6 +48,11 @@
             dir="resources">
         <include name="booking-ds.xml"/>
     </fileset>
+	
+	<!-- Test -->
+	<fileset id="example.resources" dir="resources">
+		<include name="**/*.*"/>
+	</fileset>
 
     <!-- Undeploy -->
     <patternset id="example.undeploy">
@@ -55,7 +60,9 @@
     </patternset>
 
     <!-- Overrides -->
-    <property name="src.java.dir"           value="src"/>
+    <property name="src.java.dir" value="src"/>
+	<property name="src.test.dir" value="src"/>
+	<property name="test.classpath" value="test.eejb.classpath"/>
 
     <import file="../../build.xml"/>
 
