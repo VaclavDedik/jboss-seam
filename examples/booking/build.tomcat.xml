@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+
+<project name="NoEJB" default="deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam NoEJB Example"/>
+    <property name="example.name"           value="jboss-seam-booking"/>
+
+    <!-- WAR -->
+    <fileset id="example.war.docroot"
+               dir="resources/view">
+        <include name="**/*"/>
+    </fileset>
+    <fileset id="example.war.webinf"
+               dir="resources/WEB-INF" >
+      <patternset>
+      	<include name="faces-config.xml"/>
+      	<include name="**/*.properties"/>
+      </patternset>
+    </fileset>
+    <fileset id="example.war.webinf.lib"
+               dir="resources/WEB-INF/lib">
+        <include name="*.jar"/>
+    </fileset>
+
+    <!-- EJB3 -->
+    <fileset id="example.ejb3.root" dir=".">
+        <include name="_NONE_"/>
+    </fileset>
+
+    <fileset id="example.ejb3.lib" dir="../../lib">
+        <include name="_NONE_"/>
+    </fileset>
+  
+    <!-- EAR -->
+    <zipfileset id="example.ear.resources" dir=".">
+        <include name="_NONE_"/>
+    </zipfileset>
+
+    <!-- Deploy -->
+    <fileset id="example.deploy"
+            dir="resources">
+        <include name="booking-ds.xml"/>
+    </fileset>
+
+    <!-- Undeploy -->
+    <patternset id="example.undeploy">
+        <include name="booking-ds.xml"/>
+    </patternset>
+
+    <!-- Overrides -->
+    <property name="src.java.dir"           value="src"/>
+
+    <import file="../../build.xml"/>
+
+	<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask"/>
+	<taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask"/>
+	<taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask"/>
+	
+	<!-- Redefine targets -->
+    <target name="war" depends="compile">
+    	<mkdir dir="${build.dir}/${example.name}/WEB-INF/lib"/>
+        <jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/${example.name}.jar">
+          <fileset dir="${classes.dir}">
+            <include name="**/*.class"/>
+          	<exclude name="**/test/*.class"/>
+          </fileset>
+          <fileset dir="resources">
+          	<include name="seam.properties"/>
+          </fileset>
+        </jar>
+        <copy file="${imported.basedir}/${name}.jar" todir="${build.dir}/${example.name}/WEB-INF/lib/"/>
+        <copy todir="${build.dir}/${example.name}">
+          <fileset refid="example.war.docroot"/>
+        </copy>
+        <copy todir="${build.dir}/${example.name}/WEB-INF/lib">
+          <fileset refid="example.war.webinf.lib"/>
+          <fileset dir="../../embedded-ejb/lib">
+            <include name="**/*.jar"/>
+          </fileset>
+          <fileset dir="../../lib">
+            <include name="**/*.jar"/>
+          </fileset>
+        </copy>
+        <copy todir="${build.dir}/${example.name}/WEB-INF/classes">
+          <fileset dir="resources">
+            <include name="import.sql"/>
+            <include name="seam-jndi.properties"/>
+          </fileset>
+        </copy>
+        <copy todir="${build.dir}/${example.name}/WEB-INF/classes/META-INF">
+          <fileset dir="resources/META-INF">
+            <include name="jboss-beans.xml"/>
+          	<include name="persistence.xml"/>
+          </fileset>
+        </copy>
+    	<jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/embedded-ejb-conf.jar">
+            <fileset dir="../../embedded-ejb/conf">
+              <include name="ejb3-interceptors-aop.xml"/>
+              <include name="embedded-jboss-beans.xml"/>
+              <include name="default.persistence.properties"/>
+            </fileset>
+    	</jar>
+        <copy todir="${build.dir}/${example.name}/WEB-INF">
+          <fileset refid="example.war.webinf"/>
+          <fileset dir="resources/conf.tomcat">
+            <include name="web.xml"/>
+          </fileset>
+        </copy>
+        <jar basedir="${build.dir}/${example.name}" destfile="${build.dir}/${example.name}.war"/>
+    </target>
+
+  <target name="deploy" depends="undeploy,war">
+    <echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
+    <copy file="${build.dir}/${example.name}.war" todir="${tomcat.home}/webapps"/>
+    <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
+  </target>
+  
+  <target name="redeploy" depends="deploy">
+     <reload url="http://localhost:8080/manager" 
+        username="admin" 
+        password="" 
+        path="/${example.name}"/>
+  </target>
+	
+  <target name="undeploy">
+     <delete file="${tomcat.home}/webapps/${example.name}.war"/>
+  	 <delete dir="${tomcat.home}/webapps/${example.name}"/>
+  </target>
+
+</project>
