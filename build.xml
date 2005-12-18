@@ -19,6 +19,7 @@
     <property name="classes.dir"        value="${build.dir}/classes"/>
 
     <property name="src.java.dir"       value="src/main"/>
+	<property name="src.test.dir"       value="src/test"/>
 
     <property name="lib.dir"            value="${imported.basedir}/lib"/>
     <property name="eejb.lib.dir"       value="${imported.basedir}/embedded-ejb/lib"/>
@@ -56,6 +57,13 @@
         </fileset>
         <fileset dir="${imported.basedir}">
             <include name="${name}.jar" />
+        </fileset>
+    </path>
+
+    <path id="test.classpath">
+        <path refid="build.classpath"/>
+        <fileset dir="${mc.lib.dir}">
+            <include name="**/*.jar"/>
         </fileset>
     </path>
 
@@ -111,9 +119,25 @@
             deprecation="${javac.deprecation}"
             nowarn="on">
             <src path="${src.java.dir}"/>
+        	<src path="${src.test.dir}"/>
         </javac>
 
     </target>
+	
+	<target name="test" depends="compile"
+	        description="Run the tests">
+		
+		<taskdef resource="testngtasks"
+		         classpath="lib/testng-2.5.3-jdk15.jar"/>
+		
+		<testng>
+			<classpath path="${classes.dir}"/>
+			<classpath refid="test.classpath"/>
+			<xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
+		</testng>
+		
+		
+	</target>
 
     <target name="copysource" description="Copy sources to dist dir">
         <mkdir dir="${dist.src.java.dir}"/>
