@@ -12,10 +12,6 @@ How to Build and Deploy the Example on Tomcat
 -----------------------------------------------
 
 1. Download and install Tomcat
-
-   NOTE: Due to a bug, you must install Tomcat to a directory
-   path with no spaces. The example does not work in a default
-   install of Tomcat.
    
 2. Download the JBoss Seam distribution from:
 
