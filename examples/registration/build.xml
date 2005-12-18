@@ -42,6 +42,11 @@
         <include name="_NONE_"/>
     </fileset>
   
+	<!-- Test -->
+	<fileset id="example.resources" dir="resources">
+		<include name="**/*.*"/>
+	</fileset>
+
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
@@ -54,7 +59,9 @@
     </patternset>
 
     <!-- Overrides -->
-    <property name="src.java.dir"            value="src"/>
+    <property name="src.java.dir" value="src"/>
+	<property name="src.test.dir" value="src"/>
+	<property name="test.classpath" value="test.eejb.classpath"/>
 
     <import file="../../build.xml"/>
 
