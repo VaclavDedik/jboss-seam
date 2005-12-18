@@ -17,5 +17,5 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 public @interface RequestParameter {
-   String name() default "";
+   String value() default "";
 }

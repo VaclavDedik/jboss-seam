@@ -30,7 +30,7 @@ public @interface ResumeProcess
     * The name of the request parameter under which we should locate the
     * the id of process to be resumed.
     */
-   String processIdName();
+   String processIdParameter() default "jbpmProcessId";
    /**
     * The name under which to expose the jBPM
     * {@link org.jbpm.graph.exe.ProcessInstance} into conversation context.

@@ -19,7 +19,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Around;
-import org.jboss.seam.annotations.BeginTask;
+import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.ResumeProcess;
@@ -61,9 +61,9 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    private void beforeInvocation(InvocationContext invocationContext) {
       Method method = invocationContext.getMethod();
       
-      if ( method.isAnnotationPresent( BeginTask.class ) ) {
+      if ( method.isAnnotationPresent( StartTask.class ) ) {
          log.trace( "encountered @StartTask" );
-         BeginTask tag = method.getAnnotation( BeginTask.class );
+         StartTask tag = method.getAnnotation( StartTask.class );
          Long taskId = getRequestParamValueAsLong( tag.taskIdParameter() );
          prepareForTask( taskId, tag.taskInstanceName(), tag.processInstanceName() );
       }
@@ -76,7 +76,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       else if ( method.isAnnotationPresent( ResumeProcess.class ) ) {
          log.trace( "encountered @ResumeProcess" );
          ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
-         Long processId = getRequestParamValueAsLong( tag.processIdName() );
+         Long processId = getRequestParamValueAsLong( tag.processIdParameter() );
          prepareForProcess( processId, tag.processName() );
       }
       else
@@ -167,10 +167,10 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
             CreateProcess tag = method.getAnnotation( CreateProcess.class );
             createProcess( tag.definition(), tag.processInstanceName() );
          }
-         else if ( method.isAnnotationPresent( BeginTask.class ) )
+         else if ( method.isAnnotationPresent( StartTask.class ) )
          {
             log.trace( "encountered @StartTask" );
-            BeginTask tag = method.getAnnotation( BeginTask.class );
+            StartTask tag = method.getAnnotation( StartTask.class );
             startTask( tag.taskInstanceName(), tag.actorExpression() );
          }
          else if ( method.isAnnotationPresent( CompleteTask.class ) )

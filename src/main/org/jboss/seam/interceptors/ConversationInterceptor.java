@@ -11,7 +11,7 @@ import javax.faces.event.PhaseId;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.BeginTask;
+import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.annotations.CompleteTask;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -58,7 +58,7 @@ public class ConversationInterceptor extends AbstractInterceptor
             Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION &&
             ( !Manager.instance().isLongRunningConversation() || !componentIsConversationOwner() ) &&
             !method.isAnnotationPresent(Begin.class) &&
-            !method.isAnnotationPresent(BeginTask.class) &&
+            !method.isAnnotationPresent(StartTask.class) &&
             !method.isAnnotationPresent(Destroy.class) && 
             !method.isAnnotationPresent(Create.class); //probably superfluous
    }
@@ -78,7 +78,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    private void beginConversationIfNecessary(Method method, Object result)
    {
       boolean simpleBegin = 
-            method.isAnnotationPresent(BeginTask.class) || 
+            method.isAnnotationPresent(StartTask.class) || 
             method.isAnnotationPresent(ResumeTask.class) ||
             ( method.isAnnotationPresent(Begin.class) && method.getAnnotation(Begin.class).ifOutcome().length==0 );
       if ( simpleBegin )

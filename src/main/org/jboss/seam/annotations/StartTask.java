@@ -19,11 +19,11 @@ import org.jboss.seam.interceptors.BusinessProcessInterceptor;
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
  * to be marked as started.
  * <p/>
- * Note that both {@link ResumeTask} and {@link BeginTask} have effect
+ * Note that both {@link ResumeTask} and {@link StartTask} have effect
  * before invocation of the intercepted method in that they are both
  * about setting up appropriate {@link org.jbpm.context.exe.ContextInstance}
  * for the current {@link org.jboss.seam.contexts.BusinessProcessContext};
- * {@link BeginTask} however, also has effect after method invocation
+ * {@link StartTask} however, also has effect after method invocation
  * as that is the time it actually marks the task as started.
  *
  * @see org.jbpm.taskmgmt.exe.TaskInstance#start()
@@ -31,7 +31,7 @@ import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 @Target( METHOD )
 @Retention( RUNTIME )
 @Documented
-public @interface BeginTask
+public @interface StartTask
 {
    /**
     * The name of the request parameter under which we should locate the
@@ -47,7 +47,7 @@ public @interface BeginTask
     * A (optional) JSF expression resolving to the jBPM actorId to which
     * the task should be assigned using the push model.
     */
-   String actorExpression() default "";
+   String actorExpression() default "jbpmActorId";
    /**
     * The name under which to expose the jBPM
     * {@link org.jbpm.taskmgmt.exe.TaskInstance} into conversation context.

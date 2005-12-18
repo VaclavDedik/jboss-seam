@@ -264,7 +264,10 @@ public class Manager
       {
          log.debug("Discarding conversation state: " + currentConversationId);
          attributes.remove(CONVERSATION_ID);
-         //TODO: should we also remove task and process ids here?
+         attributes.remove( TASK_ID );
+         attributes.remove( TASK_NAME );
+         attributes.remove( PROCESS_ID );
+         attributes.remove( PROCESS_NAME );
          removeConversationId(currentConversationId);
       }
    }

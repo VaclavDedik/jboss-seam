@@ -21,7 +21,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * {@link org.jbpm.context.exe.ContextInstance} with the current
  * {@link org.jboss.seam.contexts.BusinessProcessContext}.
  * <p/>
- * Note that both {@link ResumeTask} and {@link BeginTask} have effect
+ * Note that both {@link ResumeTask} and {@link StartTask} have effect
  * before invocation of the intercepted method in that they are both
  * about setting up appropriate {@link org.jbpm.context.exe.ContextInstance}
  * for the current {@link org.jboss.seam.contexts.BusinessProcessContext}.

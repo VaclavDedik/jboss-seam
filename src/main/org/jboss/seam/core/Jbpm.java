@@ -6,8 +6,10 @@ import org.jboss.seam.annotations.Intercept;
 import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.InterceptionType.NEVER;
 import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jbpm.db.JbpmSession;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class Jbpm
    /**
     * Exposes a users task list as a map to be more easily usable within
     * JSF EL.  Only the {@link java.util.Map#get} method is supported, where the
-    * given key is expected to be the actorId for which to retreive
+    * given key is expected to be the actorId for which to retrieve
     * the task list: jbpmSession.taskLists['admin']
     *
     * @return the sorta map :)
@@ -96,6 +98,11 @@ public class Jbpm
          }
       };
 
+   }
+   
+   public List getTaskInstanceList()
+   {
+      return getTaskInstanceList( (String) Contexts.lookupInStatefulContexts("jbpmActorId") );
    }
 
    public List getTaskInstanceList(String username)

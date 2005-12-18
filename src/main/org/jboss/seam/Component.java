@@ -563,12 +563,12 @@ public class Component
       Map request = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
       for (Method setter: parameterSetters)
       {
-         String name = toName( setter.getAnnotation(RequestParameter.class).name(), setter );
+         String name = toName( setter.getAnnotation(RequestParameter.class).value(), setter );
          setPropertyValue( bean, setter, name, request.get(name) );
       }
       for (Field field: parameterFields)
       {
-         String name = toName( field.getAnnotation(RequestParameter.class).name(), field );
+         String name = toName( field.getAnnotation(RequestParameter.class).value(), field );
          setFieldValue( bean, field, name, request.get(name) );
       }
    }
