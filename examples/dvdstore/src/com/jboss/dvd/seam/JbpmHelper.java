@@ -1,24 +1,16 @@
 package com.jboss.dvd.seam;
 
-import java.util.List;
 import java.util.ArrayList;
-
-import org.jbpm.context.exe.ContextInstance;
-
-import org.jbpm.db.JbpmSession;
-import org.jbpm.db.JbpmSessionFactory;
-import org.jbpm.db.TaskMgmtSession;
-
-import org.jbpm.graph.def.ProcessDefinition;    
-import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.graph.exe.Token;
-
-import org.jbpm.taskmgmt.exe.TaskInstance;
-import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
+import java.util.List;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.core.ManagedJbpmSession;
+import org.jbpm.db.JbpmSession;
+import org.jbpm.db.TaskMgmtSession;
+import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 
 
 @Name("jbpmHelper")

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
@@ -21,8 +20,6 @@ import org.jboss.seam.interceptors.ValidationInterceptor;
 public class LoginIfInterceptor
 {
     public static final String LOGIN_KEY = "loggedIn";
-    private static final Logger log = 
-        Logger.getLogger(LoggedInInterceptor.class);
 
     @AroundInvoke
     public Object loginIf(InvocationContext invocation) 

@@ -7,8 +7,12 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import org.hibernate.validator.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.Transient;
+
 import org.jboss.seam.annotations.Name;
 
 @Entity

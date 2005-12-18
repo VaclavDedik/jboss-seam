@@ -4,16 +4,14 @@ import java.io.Serializable;
 
 import javax.ejb.Interceptor;
 import javax.ejb.Stateless;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.ejb.SeamInterceptor;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("login")
