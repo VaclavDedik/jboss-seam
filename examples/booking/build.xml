@@ -3,7 +3,7 @@
 <project name="Booking" default="deploy" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="Seam Booking Example"/>
+    <property name="Name"                   value="Seam on JBoss Booking Example"/>
     <property name="example.name"           value="jboss-seam-booking"/>
 
     <!-- WAR -->

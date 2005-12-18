@@ -3,7 +3,7 @@
 <project name="NoEJB" default="deploy" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="Seam NoEJB Example"/>
+    <property name="Name"                   value="Seam on JBoss NoEJB Example"/>
     <property name="example.name"           value="jboss-seam-noejb"/>
 
     <!-- WAR -->

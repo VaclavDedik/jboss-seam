@@ -3,8 +3,8 @@
 <project name="NoEJB" default="deploy" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="Seam NoEJB Example"/>
-    <property name="example.name"           value="jboss-seam-booking"/>
+    <property name="Name"                   value="Seam on Tomcat Booking Example"/>
+    <property name="example.name"           value="tomcat-seam-booking"/>
 
     <!-- WAR -->
     <fileset id="example.war.docroot"
