@@ -197,6 +197,20 @@
           </imageobject>
         </mediaobject>
         
+        <para>
+            Some Java SE environments include a JNDI server. This is a major problem particularly in the case 
+            of Tomcat, since Tomcat's JNDI implementation is read-only. To use Seam in Tomcat, you must
+            specify the JBoss JNDI <literal>InitialContext</literal> properties in a resource named 
+            <literal>seam-jndi.properties</literal>, as follows:
+        </para>
+        
+        <programlisting><![CDATA[java.naming.factory.initial org.jnp.interfaces.LocalOnlyContextFactory
+java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlisting>
+
+        <para>
+            This is not necessary when using Seam in TestNG.
+        </para>
+
     </sect1>
     
     <sect1>
@@ -407,6 +421,7 @@ bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlistin
             <literal>microcontainer/conf/jboss-beans.xml</literal>. Refer to the documentation for
             the JBoss Microcontainer for more information.
         </para>
+        
         <para>
             The built-in Seam component named <literal>org.jboss.seam.core.microcontainer</literal>
             bootstraps the microcontainer. As before, we probably want to use a Seam managed session.
@@ -420,6 +435,14 @@ bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlistin
             Where <literal>java:/bookingSessionFactory</literal> is the name of the Hibernate session
             factory specified in <literal>hibernate.cfg.xml</literal>.
         </para>
+        
+        <para>
+            As we mentioned above, to use Seam in Tomcat, you must specify the JBoss JNDI <literal>InitialContext</literal> 
+            properties in a resource named <literal>seam-jndi.properties</literal>.
+        </para>
+        
+        <programlisting><![CDATA[java.naming.factory.initial org.jnp.interfaces.LocalOnlyContextFactory
+java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlisting>
 
     </sect1>    	
     

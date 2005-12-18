@@ -74,6 +74,28 @@
                     </para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><literal>resourceBundle</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for an injectable resource bundle
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>resourceBundle.bundleName</literal> &mdash; the name of 
+                            the bundle. Default to <literal>messages</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>resourceBundle.language</literal> &mdash; the language.
+                            If missing, use the default locale.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
         </variablelist>
         
         <para>

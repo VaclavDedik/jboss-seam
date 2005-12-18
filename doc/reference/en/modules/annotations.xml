@@ -218,6 +218,27 @@
             </varlistentry>
         </variablelist>
           
+        <para>
+            The next annotation supports the <emphasis>factory component</emphasis> pattern,
+            where a Seam component is responsible for initializing the value of a context
+            variable. This is especially useful for initializing any state needed for 
+            rendering the response to a non-faces request. It appears on a component method.
+        </para>
+        
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>@Factory</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Factory("processInstance")]]></programlisting>
+                    <para>
+                        Specifies that the method of the component is used to initialize the
+                        value of the named context variable, when the context variable has
+                        no value.
+                    </para>
+                </listitem>
+            </varlistentry>   
+        </variablelist>
+        
     </section> 
     
     <section>
@@ -328,12 +349,12 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
-            <varlistentry id="begintask-annotation">
-                <term><literal>@BeginTask</literal></term>
+            <varlistentry id="starttask-annotation">
+                <term><literal>@StartTask</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@BeginTask(taskIdParameter="taskId")]]></programlisting>
+                    <programlisting><![CDATA[@StartTask(taskIdParameter="taskId")]]></programlisting>
                     <para>
-                        Begins work on a jBPM task. Specifies that a long-running 
+                        "Starts" a jBPM task. Specifies that a long-running 
                         conversation begins when this method returns a non-null outcome 
                         without exception. This conversation is associated with the jBPM 
                         task specified in the named request parameter. Within the context 
@@ -565,6 +586,31 @@
             </varlistentry>
         </variablelist>
         
+        <para>
+            The last annotation lets you inject a request parameter value:
+        </para>
+        
+        <variablelist spacing="compact">
+            <varlistentry id="out-annotation">
+                <term><literal>@RequestParameter</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@RequestParameter("parameterName")]]></programlisting>
+                    <para>
+                        Specifies that a component attribute is to be injected with the value
+                        of a request parameter.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; specifies the name of the
+                            request parameter. Default to the name of the component
+                            attribute.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
     </section> 
 
 </chapter>
