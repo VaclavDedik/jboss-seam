@@ -5,17 +5,8 @@
             xmlns="urn:jboss:bean-deployer">
             
    <bean name="Naming" class="org.jnp.server.SingletonNamingServer"/>
-   
-   <bean name="JndiPropertiesFactory" class="org.jboss.seam.microcontainer.JndiPropertiesFactory"/>
-   <bean name="JndiProperties" class="java.util.Hashtable">
-      <constructor factoryMethod="getJndiProperties">
-         <factory bean="JndiPropertiesFactory"/>
-      </constructor>
-   </bean>
-   
-   <bean name="TransactionManagerFactory" class="org.jboss.seam.microcontainer.TransactionManagerFactory">
-      <property name="jndiProperties"><inject bean="JndiProperties"/></property>
-   </bean>
+
+   <bean name="TransactionManagerFactory" class="org.jboss.seam.microcontainer.TransactionManagerFactory"/>
    <bean name="TransactionManager" class="java.lang.Object">
       <constructor factoryMethod="getTransactionManager">
          <factory bean="TransactionManagerFactory"/>
@@ -32,7 +23,6 @@
       <property name="blockingTimeout">1000</property>
       <property name="idleTimeout">100000</property>
       <property name="transactionManager"><inject bean="TransactionManager"/></property>
-      <property name="jndiProperties"><inject bean="JndiProperties"/></property>
    </bean>
    <bean name="bookingDatasource" class="java.lang.Object">
       <constructor factoryMethod="getDataSource">
@@ -40,9 +30,7 @@
       </constructor>
    </bean>
    
-   <bean name="bookingDatabaseFactory" class="org.jboss.seam.microcontainer.HibernateFactory">
-      <property name="jndiProperties"><inject bean="JndiProperties"/></property>
-   </bean>
+   <bean name="bookingDatabaseFactory" class="org.jboss.seam.microcontainer.HibernateFactory"/>
    <bean name="bookingDatabase" class="java.lang.Object">
       <constructor factoryMethod="getSessionFactory">
          <factory bean="bookingDatabaseFactory"/>

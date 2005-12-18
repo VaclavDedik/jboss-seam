@@ -99,7 +99,7 @@
         <jar basedir="${build.dir}/${example.name}" destfile="${build.dir}/${example.name}.war"/>
     </target>
 
-  <target name="deploy" depends="war">
+  <target name="deploy" depends="war,undeploy">
     <echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
     <copy file="${build.dir}/${example.name}.war" todir="${tomcat.home}/webapps"/>
     <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
