@@ -2,6 +2,7 @@
 package org.jboss.seam.microcontainer;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 import javax.transaction.TransactionManager;
 
@@ -9,6 +10,8 @@ import org.jboss.logging.Logger;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
 import org.jboss.resource.connectionmanager.CachedConnectionManager;
 import org.jboss.resource.connectionmanager.CachedConnectionManagerReference;
+import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  * A factory that configures and creates a JCA datasource
@@ -33,7 +36,6 @@ public class DataSourceFactory
    private int preparedStatementCacheSize;
    private String checkValidConnectionSql;
    private String jndiName;
-   private Hashtable initialContextProperties;
 
    
    private TransactionManager transactionManager;
@@ -62,10 +64,9 @@ public class DataSourceFactory
       ds.setTransactionManager(transactionManager);
       ds.setJndiName(jndiName);
       ds.setCachedConnectionManager(ccmr);
-      if (initialContextProperties != null)
-      {
-         ds.setInitialContextProperties(initialContextProperties);
-      }
+      Hashtable<String, String> hash = new Hashtable<String, String>();
+      hash.putAll( (Map<String, String>) Contexts.getApplicationContext().get(Component.PROPERTIES) );
+      ds.setInitialContextProperties(hash);
       ds.start();
       
       return ds;
@@ -189,11 +190,6 @@ public class DataSourceFactory
    public void setTransactionManager(TransactionManager transactionManager)
    {
       this.transactionManager = transactionManager;
-   }
-
-   public void setJndiProperties(Hashtable initialContextProperties)
-   {
-      this.initialContextProperties = initialContextProperties;
    }
 
 }

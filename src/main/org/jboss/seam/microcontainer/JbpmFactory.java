@@ -6,14 +6,12 @@
  */
 package org.jboss.seam.microcontainer;
 
-import org.jbpm.db.JbpmSessionFactory;
-import org.jbpm.db.JbpmSession;
-import org.jbpm.graph.def.ProcessDefinition;
 import org.hibernate.cfg.Configuration;
 import org.jboss.logging.Logger;
 import org.jboss.seam.util.NamingHelper;
-
-import javax.naming.InitialContext;
+import org.jbpm.db.JbpmSession;
+import org.jbpm.db.JbpmSessionFactory;
+import org.jbpm.graph.def.ProcessDefinition;
 
 /**
  * A factory to build/bootstrap a {@link JbpmSessionFactory}.

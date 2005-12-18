@@ -2,8 +2,6 @@
 package org.jboss.seam.microcontainer;
 
 import java.io.File;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -11,6 +9,8 @@ import java.util.Properties;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.util.ReflectHelper;
+import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  * A factory that bootstraps a Hibernate SessionFactory.
@@ -46,7 +46,6 @@ public class HibernateFactory {
 
     private String cfgResourceName;
     private Properties cfgProperties;
-    private Hashtable jndiProperties;
 
     private List<String> mappingClasses;
     private List<String> mappingFiles;
@@ -63,12 +62,10 @@ public class HibernateFactory {
         }
 
         // Prefix regular JNDI properties for Hibernate
-        if (jndiProperties != null) {
-            for (Iterator it = jndiProperties.entrySet().iterator(); it.hasNext();) {
-                Map.Entry entry = (Map.Entry)it.next();
-                acfg.setProperty(Environment.JNDI_PREFIX + "." + entry.getKey(),
-                                 (String)entry.getValue() );
-            }
+        Map<String, String> seamJndiProperties = (Map<String, String>) Contexts.getApplicationContext().get(Component.PROPERTIES);
+        for (Map.Entry<String, String> entry: seamJndiProperties.entrySet() )
+        {
+            acfg.setProperty(Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
         }
 
         // hibernate.cfg.xml configuration
@@ -156,14 +153,6 @@ public class HibernateFactory {
 
     public void setMappingResources(List<String> mappingResources) {
         this.mappingResources = mappingResources;
-    }
-
-    public Hashtable getJndiProperties() {
-        return jndiProperties;
-    }
-
-    public void setJndiProperties(Hashtable jndiProperties) {
-        this.jndiProperties = jndiProperties;
     }
 
 }

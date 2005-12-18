@@ -8,8 +8,6 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import java.util.Hashtable;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -23,7 +21,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.NamingHelper;
-
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
 

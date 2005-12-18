@@ -1,8 +1,6 @@
 //$Id$
 package org.jboss.seam.microcontainer;
 
-import java.util.Hashtable;
-
 import javax.naming.InitialContext;
 import javax.transaction.TransactionManager;
 

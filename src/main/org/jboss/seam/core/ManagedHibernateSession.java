@@ -8,7 +8,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.hibernate.Session;
