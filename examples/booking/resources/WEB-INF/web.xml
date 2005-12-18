@@ -56,6 +56,4 @@
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
 
-
 </web-app>
-

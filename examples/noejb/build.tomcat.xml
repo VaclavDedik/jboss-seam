@@ -109,7 +109,7 @@
      <reload url="http://localhost:8080/manager" 
         username="admin" 
         password="" 
-        path="/jboss-seam-noejb"/>
+        path="/${example.name}"/>
   </target>
 	
   <target name="undeploy">
