@@ -49,7 +49,9 @@
     </patternset>
 
     <!-- Overrides -->
-    <property name="src.java.dir"           value="src"/>
+    <property name="src.java.dir" value="src"/>
+	<property name="src.test.dir" value="src"/>
+
 
     <import file="../../build.xml"/>
 
