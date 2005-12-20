@@ -3,11 +3,6 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-
-    <listener>
-        <listener-class>org.jboss.seam.example.bpm.StartupListener</listener-class>
-    </listener>
-
    <!-- Seam -->
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
@@ -25,7 +20,17 @@
 
     <context-param>
         <param-name>org.jboss.seam.core.init.jbpmSessionFactoryName</param-name>
-        <param-value>/JbpmSessionFactory</param-value>
+        <param-value>JbpmSessionFactory</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
+        <param-value>org.jboss.seam.core.Jbpm</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.jboss.seam.core.jbpm.processDefinitions</param-name>
+        <param-value>jbpm-DocumentSubmission.xml</param-value>
     </context-param>
 
     <context-param>

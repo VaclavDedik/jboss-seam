@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -23,6 +24,9 @@ public class LoginHandler implements Login
 
    @In @Out
    private User user;
+   
+   @Out(scope=ScopeType.SESSION)
+   private String actorId;
 
    @PersistenceContext
    private EntityManager em;
@@ -47,8 +51,9 @@ public class LoginHandler implements Login
       }
       else
       {
-         user = ( User ) results.get( 0 );
+         user = (User) results.get(0);
          sessionContext.set( "loggedIn", true );
+         actorId = user.getUsername();
          return "main";
       }
 

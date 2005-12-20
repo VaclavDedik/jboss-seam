@@ -9,13 +9,13 @@
 
       <h:outputText value="You are currently not logged on" rendered="#{empty loggedIn}"/>
 
-      <h:dataTable value="#{jbpmUtil.taskLists[user.username]}" var="task" rendered="#{not empty loggedIn}">
+      <h:dataTable value="#{taskInstanceList}" var="task" rendered="#{not empty loggedIn}">
          <h:column>
             <f:facet name="header">
                <h:outputText value="Title"/>
             </f:facet>
             <h:commandLink action="#{documentTasks.details}" value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['description']}">
-               <f:param name="jbpmTaskId" value="#{task.id}"/>
+               <f:param name="taskId" value="#{task.id}"/>
             </h:commandLink>
          </h:column>
          <h:column>
