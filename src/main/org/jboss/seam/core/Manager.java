@@ -44,10 +44,6 @@ public class Manager
    public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdActivityMap";
    public static final String CONVERSATION_OWNER_NAME = NAME + ".conversationOwnerName";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
-   public static final String TASK_ID = NAME + ".jbpmTaskId";
-   public static final String TASK_NAME = NAME + ".jbpmTaskName";
-   public static final String PROCESS_ID = NAME + ".jbpmProcessId";
-   public static final String PROCESS_NAME = NAME + ".jbpmProcessName";
 
       
    //A map of all conversations for the session,
@@ -62,51 +58,6 @@ public class Manager
    
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
-   
-   private Long taskId;
-   private String taskName;
-   private Long processId;
-   private String processName;
-
-   public Long getTaskId()
-   {
-      return taskId;
-   }
-
-   public void setTaskId(Long taskId)
-   {
-      this.taskId = taskId;
-   }
-
-   public String getTaskName()
-   {
-      return taskName;
-   }
-
-   public void setTaskName(String taskName)
-   {
-      this.taskName = taskName;
-   }
-
-   public Long getProcessId()
-   {
-      return processId;
-   }
-
-   public void setProcessId(Long processId)
-   {
-      this.processId = processId;
-   }
-
-   public String getProcessName()
-   {
-      return processName;
-   }
-
-   public void setProcessName(String processName)
-   {
-      this.processName = processName;
-   }
    
    public String getCurrentConversationId()
    {
@@ -235,26 +186,6 @@ public class Manager
             //in the view, 'cos we are expecting the conversation to
             //be destroyed by the servlet session listener
             attributes.put(CONVERSATION_ID, currentConversationId);
-            if (taskId==null)
-            {
-               attributes.remove( TASK_ID );
-               attributes.remove( TASK_NAME );
-            }
-            else
-            {
-               attributes.put( TASK_ID, taskId );
-               attributes.put( TASK_NAME, taskName );
-            }
-            if (processId==null)
-            {
-               attributes.remove( PROCESS_ID );
-               attributes.remove( PROCESS_NAME );
-            }
-            else
-            {
-               attributes.put( PROCESS_ID, processId );
-               attributes.put( PROCESS_NAME, processName );
-            }
          }
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
@@ -264,10 +195,6 @@ public class Manager
       {
          log.debug("Discarding conversation state: " + currentConversationId);
          attributes.remove(CONVERSATION_ID);
-         attributes.remove( TASK_ID );
-         attributes.remove( TASK_NAME );
-         attributes.remove( PROCESS_ID );
-         attributes.remove( PROCESS_NAME );
          removeConversationId(currentConversationId);
       }
    }
@@ -282,10 +209,6 @@ public class Manager
          log.debug("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          currentConversationId = storedConversationId;
-         taskId = ( Long ) attributes.get( TASK_ID );
-         taskName = ( String ) attributes.get( TASK_NAME );
-         processId = ( Long ) attributes.get( PROCESS_ID );
-         processName = ( String ) attributes.get( PROCESS_NAME );
       }
       else
       {

@@ -170,7 +170,7 @@ public class Lifecycle
             }
          }
 
-         if ( Seam.isSessionInvalid() && externalContext!=null )
+         if ( externalContext!=null && Seam.isSessionInvalid() )
          {
             Session.getSession(externalContext, true).invalidate(); //huh? we create a session just to invalidate it?
             //actual session context will be destroyed from the listener

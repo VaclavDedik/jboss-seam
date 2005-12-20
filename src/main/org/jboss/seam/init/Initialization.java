@@ -33,10 +33,15 @@ import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Process;
+import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
+import org.jboss.seam.core.TaskInstance;
+import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.deployment.Scanner;
+import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -89,7 +94,10 @@ public class Initialization
    private void initPropertiesFromResource()
    {
       loadFromResource( properties, "/seam.properties" );
-      loadFromResource( properties, "/seam-jndi.properties" );
+      
+      Properties jndiProperties = new Properties();
+      loadFromResource( jndiProperties, "/seam-jndi.properties" );
+      NamingHelper.initialContextProperties = jndiProperties;
    }
    
    public static void loadFromResource(Map properties, String resource)
@@ -176,6 +184,10 @@ public class Initialization
 
       if ( init.getJbpmSessionFactoryName() != null )
       {
+         addComponent( Process.class, context );
+         addComponent( TaskInstance.class, context );
+         addComponent( ProcessInstance.class, context );
+         addComponent( TaskInstanceList.class, context );
          addComponent( ManagedJbpmSession.class, context );
       }
       

@@ -35,56 +35,34 @@ import org.jbpm.db.JbpmSessionFactory;
 @Intercept( NEVER )
 public class ManagedJbpmSession
 {
-   private static final Logger log = Logger.getLogger( ManagedJbpmSession.class );
+   private static final Logger log = Logger.getLogger(ManagedJbpmSession.class);
 
-   private String jbpmSessionFactoryName;
    private JbpmSession jbpmSession;
 
    @Create
-   public void create(Component component)
+   public void create(Component component) throws NamingException
    {
-      Init settings = Init.instance();
-      jbpmSessionFactoryName = settings.getJbpmSessionFactoryName();
-
-      log.debug( "created seam managed jbpm-session [" + jbpmSessionFactoryName + "]" );
+      jbpmSession = getSessionFactory().openJbpmSession();
+      log.debug( "created seam managed jBPM session" );
    }
 
    @Unwrap
    public JbpmSession getJbpmSession()
    {
-      if ( jbpmSession == null )
-      {
-         jbpmSession = getSessionFactory().openJbpmSession();
-      }
       return jbpmSession;
    }
 
    @Destroy
    public void destroy()
    {
-      log.debug( "destroying seam managed jbpm-session [" + jbpmSessionFactoryName + "]" );
-      if ( jbpmSession != null )
-      {
-         jbpmSession.close();
-      }
+      log.debug( "destroying seam managed jBPM session" );
+      jbpmSession.close();
    }
 
-   private JbpmSessionFactory getSessionFactory()
+   private JbpmSessionFactory getSessionFactory() throws NamingException
    {
-      try
-      {
-         InitialContext ctx = NamingHelper.getInitialContext();
-         return ( JbpmSessionFactory ) ctx.lookup( jbpmSessionFactoryName );
-      }
-      catch ( NamingException e )
-      {
-         throw new IllegalArgumentException( "JbpmSessionFactory [" + jbpmSessionFactoryName + "] not found", e );
-      }
-   }
-
-   public String toString()
-   {
-      return "ManagedJbpmSession(" + jbpmSessionFactoryName + ")";
+      InitialContext ctx = NamingHelper.getInitialContext();
+      return (JbpmSessionFactory) ctx.lookup( Init.instance().getJbpmSessionFactoryName() );
    }
 
 }

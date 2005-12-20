@@ -8,19 +8,18 @@ package org.jboss.seam.jsf;
 
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 
+import org.jboss.logging.Logger;
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.ManagedHibernateSession;
-import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmSession;
+import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Transactions;
-import org.jboss.seam.Seam;
-import org.jboss.logging.Logger;
 
 /**
  * Adds extra semantics relating to transactions and various "persistence contexts"
@@ -60,7 +59,9 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    @Override
    public void afterPhase(PhaseEvent event)
    {
+
       super.afterPhase( event );
+      
       if ( event.getPhaseId()==PhaseId.RENDER_RESPONSE )
       {
          try
@@ -126,9 +127,8 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    private void flushJbpm()
    {
       log.trace( "flushing jBPM session" );
-      ManagedJbpmSession managed = ( ManagedJbpmSession ) Contexts.getEventContext().get(
-            Seam.getComponentName( ManagedJbpmSession.class )
-      );
+      String mjsName = Seam.getComponentName(ManagedJbpmSession.class);
+      ManagedJbpmSession managed = (ManagedJbpmSession) Contexts.getEventContext().get(mjsName);
       if ( managed != null )
       {
          // need to make sure that the seam BusinessProcessContext gets flushed to

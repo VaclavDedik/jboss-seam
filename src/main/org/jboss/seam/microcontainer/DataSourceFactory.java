@@ -1,17 +1,13 @@
 //$Id$
 package org.jboss.seam.microcontainer;
 
-import java.util.Hashtable;
-import java.util.Map;
-
 import javax.transaction.TransactionManager;
 
 import org.jboss.logging.Logger;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
 import org.jboss.resource.connectionmanager.CachedConnectionManager;
 import org.jboss.resource.connectionmanager.CachedConnectionManagerReference;
-import org.jboss.seam.Component;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.NamingHelper;
 
 /**
  * A factory that configures and creates a JCA datasource
@@ -64,9 +60,7 @@ public class DataSourceFactory
       ds.setTransactionManager(transactionManager);
       ds.setJndiName(jndiName);
       ds.setCachedConnectionManager(ccmr);
-      Hashtable<String, String> hash = new Hashtable<String, String>();
-      hash.putAll( (Map<String, String>) Contexts.getApplicationContext().get(Component.PROPERTIES) );
-      ds.setInitialContextProperties(hash);
+      ds.setInitialContextProperties(NamingHelper.initialContextProperties);
       ds.start();
       
       return ds;

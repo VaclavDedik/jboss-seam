@@ -3,15 +3,11 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import java.util.Hashtable;
-import java.util.Map;
-
 import javax.naming.InitialContext;
 
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
 import org.jboss.logging.Logger;
-import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -19,7 +15,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.NamingHelper;
 import org.jboss.tm.TransactionManagerInitializer;
 
@@ -52,10 +47,8 @@ public class Ejb
 
       // need to set the InitialContext properties that deployer will use
       // to initial EJB containers
-      Hashtable hash = new Hashtable();
-      hash.putAll( (Map<String, String>) Contexts.getApplicationContext().get(Component.PROPERTIES) );
-      deployer.setJndiProperties(hash);
-
+      deployer.setJndiProperties(NamingHelper.initialContextProperties);
+      
       deployer.create();
       deployer.start();
    }

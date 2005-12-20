@@ -6,14 +6,12 @@
  */
 package org.jboss.seam.annotations;
 
-import java.lang.annotation.Target;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Documented;
-
-import org.jboss.seam.interceptors.BusinessProcessInterceptor;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
  * Marks a method creating a jBPM {@link org.jbpm.graph.exe.ProcessInstance process}
@@ -29,12 +27,4 @@ public @interface CreateProcess
     * to create the {@link org.jbpm.graph.exe.ProcessInstance}
     */
    String definition();
-   /**
-    * The name under which to expose the jBPM
-    * {@link org.jbpm.graph.exe.ProcessInstance} into conversation context.
-    *
-    * Optional; by default the created ProcessInstance is exposed under
-    * the definition name.
-    */
-   String processInstanceName() default BusinessProcessInterceptor.DEF_PROCESS_INSTANCE_NAME;
 }

@@ -2,7 +2,6 @@
 package org.jboss.seam.util;
 
 import javax.ejb.EJBContext;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.Status;
 import javax.transaction.SystemException;
@@ -13,8 +12,6 @@ import org.jboss.logging.Logger;
 public class Transactions
 {
    public static Logger log = Logger.getLogger(Transactions.class);
-
-   private static InitialContext initialContext; 
    
    public static boolean isTransactionActive() throws SystemException, NamingException
    {
@@ -29,21 +26,14 @@ public class Transactions
 
    public static UserTransaction getUserTransaction() throws NamingException
    {
-      setupInitialContext();
-      return (UserTransaction) initialContext.lookup("java:comp/UserTransaction");
+      return (UserTransaction) NamingHelper.getInitialContext().lookup("java:comp/UserTransaction");
    }
 
    public static EJBContext getEJBContext() throws NamingException
    {
-      setupInitialContext();
-      return (EJBContext) initialContext.lookup("java:comp/EJBContext");
+      return (EJBContext) NamingHelper.getInitialContext().lookup("java:comp/EJBContext");
    }
 
-   private static void setupInitialContext() throws NamingException {
-      if (initialContext == null)
-      {
-         initialContext = NamingHelper.getInitialContext();
-      }
-   }
-
+   private Transactions() {}
+   
 }

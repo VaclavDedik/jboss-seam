@@ -7,20 +7,19 @@
 package org.jboss.seam.contexts;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.ManagedJbpmSession;
+import org.jboss.seam.core.ProcessInstance;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.db.JbpmSession;
-
-import org.jboss.seam.Component;
-import org.jboss.seam.core.ManagedJbpmSession;
 
 /**
  * Exposes a jbpm variable context instance for reading/writing.
@@ -167,8 +166,7 @@ public class BusinessProcessContext implements Context {
             jbpmContext.deleteVariable( remove );
          }
  
-         JbpmSession jbpmSession = (JbpmSession)
-             Component.getInstance(ManagedJbpmSession.class, true);
+         JbpmSession jbpmSession = (JbpmSession) Component.getInstance(ManagedJbpmSession.class, true);
          if (jbpmSession!=null && jbpmSession.getSession() !=null) {
              jbpmSession.getSession().flush();
          }
@@ -187,11 +185,23 @@ public class BusinessProcessContext implements Context {
 
       try
       {
-         if ( contextInstance == null && Contexts.isEventContextActive() )
+         if ( contextInstance == null )
          {
             log.trace( "trying to locate jBPM ContextInstance source (task/process)" );
-            contextInstance = ( ContextInstance ) Contexts.getEventContext()
-                    .get( BusinessProcessInterceptor.CONTEXT_INSTANCE_NAME );
+            org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
+            if (processInstance==null) 
+            {
+               return null;
+            }
+            else
+            {
+               contextInstance = processInstance.getContextInstance();
+               return contextInstance;
+            }
+         }
+         else
+         {
+            return contextInstance;
          }
       }
       finally
@@ -199,7 +209,6 @@ public class BusinessProcessContext implements Context {
          resolvingJbpmContext = false;
       }
 
-      return contextInstance;
    }
 
 }

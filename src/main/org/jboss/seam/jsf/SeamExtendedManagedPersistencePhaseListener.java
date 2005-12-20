@@ -17,6 +17,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    {
       boolean beginTran = event.getPhaseId()==PhaseId.UPDATE_MODEL_VALUES || 
             ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
+      
       if ( beginTran )
       {
          try 
@@ -30,6 +31,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
             throw new IllegalStateException("Could not start transaction", e);
          }
       }
+      
       super.beforePhase( event );
    }
 
@@ -37,8 +39,10 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    public void afterPhase(PhaseEvent event)
    {
       boolean commitTran = event.getPhaseId()==PhaseId.INVOKE_APPLICATION || 
-            ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
+            ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() ); //call Init before ending the request by calling super
+
       super.afterPhase( event );
+      
       if ( commitTran )
       {
          try 

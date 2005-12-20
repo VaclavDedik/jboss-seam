@@ -67,15 +67,16 @@ public class SeamPhaseListener implements PhaseListener
       {
          //If this is a faces request, set up some contexts at the
          //start of RESTORE_VIEW, and the rest at the end
-         Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
+         if ( !isNonFacesRequest(event) ) //TODO: why do I need to do this in MyFaces????
+         {
+            Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
+         }
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          //If this is a non-faces request, we need to set up contexts at the
          //start of the RENDER_RESPONSE phase
-         boolean isNonFacesRequest = event.getFacesContext().getRenderKit().getResponseStateManager()
-               .getComponentStateToRestore( event.getFacesContext() )==null;
-         if (isNonFacesRequest) 
+         if ( isNonFacesRequest(event) )
          {
             Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
             restoreAnyConversationContext( event );
@@ -91,6 +92,12 @@ public class SeamPhaseListener implements PhaseListener
 
    }
 
+   private boolean isNonFacesRequest(PhaseEvent event) {
+      return false;
+      //RenderKit renderKit = event.getFacesContext().getRenderKit();
+      //return renderKit==null || renderKit.getResponseStateManager().getComponentStateToRestore( event.getFacesContext() )==null;
+   }
+
    public void afterPhase(PhaseEvent event)
    {
       log.trace( "after phase: " + event.getPhaseId() );
@@ -99,8 +106,11 @@ public class SeamPhaseListener implements PhaseListener
 
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
-         restoreAnyConversationContext( event );
-         restoreAnyBusinessProcessContext();
+         if ( !isNonFacesRequest(event) ) //TODO: why do I need to do this in MyFaces????
+         {
+            restoreAnyConversationContext( event );
+            restoreAnyBusinessProcessContext();
+         }
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {

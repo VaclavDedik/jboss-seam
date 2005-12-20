@@ -2,6 +2,7 @@
 package org.jboss.seam.microcontainer;
 
 import java.io.File;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -9,8 +10,7 @@ import java.util.Properties;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.util.ReflectHelper;
-import org.jboss.seam.Component;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.NamingHelper;
 
 /**
  * A factory that bootstraps a Hibernate SessionFactory.
@@ -62,8 +62,8 @@ public class HibernateFactory {
         }
 
         // Prefix regular JNDI properties for Hibernate
-        Map<String, String> seamJndiProperties = (Map<String, String>) Contexts.getApplicationContext().get(Component.PROPERTIES);
-        for (Map.Entry<String, String> entry: seamJndiProperties.entrySet() )
+        Hashtable<String, String> hash = NamingHelper.initialContextProperties;
+        for (Map.Entry<String, String> entry: hash.entrySet() )
         {
             acfg.setProperty(Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
         }

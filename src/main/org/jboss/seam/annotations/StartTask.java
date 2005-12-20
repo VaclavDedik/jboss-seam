@@ -9,11 +9,9 @@ package org.jboss.seam.annotations;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Target;
-import java.lang.annotation.Retention;
 import java.lang.annotation.Documented;
-
-import org.jboss.seam.interceptors.BusinessProcessInterceptor;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
@@ -37,7 +35,7 @@ public @interface StartTask
     * The name of the request parameter under which we should locate the
     * the id of task to be started.
     */
-   String taskIdParameter() default "jbpmTaskId";
+   String taskIdParameter() default "taskId";
    /**
     * Should we push actor information onto the task, or allow any defined
     * assigments/swimlanes take effect?
@@ -47,19 +45,5 @@ public @interface StartTask
     * A (optional) JSF expression resolving to the jBPM actorId to which
     * the task should be assigned using the push model.
     */
-   String actorExpression() default "jbpmActorId";
-   /**
-    * The name under which to expose the jBPM
-    * {@link org.jbpm.taskmgmt.exe.TaskInstance} into conversation context.
-    *
-    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_TASK_INSTANCE_NAME}.
-    */
-   String taskInstanceName() default BusinessProcessInterceptor.DEF_TASK_INSTANCE_NAME;
-   /**
-    * The name under which to expose the jBPM
-    * {@link org.jbpm.graph.exe.ProcessInstance} into conversation context.
-    *
-    * optional; defaults to {@link org.jboss.seam.interceptors.BusinessProcessInterceptor#DEF_PROCESS_INSTANCE_NAME}.
-    */
-   String processInstanceName() default BusinessProcessInterceptor.DEF_PROCESS_INSTANCE_NAME;
+   String actorExpression() default "actorId";
 }
