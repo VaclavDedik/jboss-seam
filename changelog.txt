@@ -9,7 +9,8 @@ Changes in version 1.0 beta 2 (December 2005)
 * Added @RequestParameter
 * Added resourceBundle component
 * Conversation timeout now settable via org.jboss.sean.core.conversation.timeout or programmatically
-* Added jbpm component for integration of jBPM business process management
+* Redesigned jBPM support
+* Introduced @Rollback
 
 Changes in version 1.0 beta 1 (September 2005)
 ----------------------------------------------
