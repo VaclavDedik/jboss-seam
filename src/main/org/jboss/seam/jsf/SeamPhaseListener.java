@@ -65,37 +65,16 @@ public class SeamPhaseListener implements PhaseListener
       
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
-         //If this is a faces request, set up some contexts at the
-         //start of RESTORE_VIEW, and the rest at the end
-         if ( !isNonFacesRequest(event) ) //TODO: why do I need to do this in MyFaces????
-         {
-            Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
-         }
+         Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
       }
-      else if ( event.getPhaseId() == RENDER_RESPONSE )
+      /*else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         //If this is a non-faces request, we need to set up contexts at the
-         //start of the RENDER_RESPONSE phase
-         if ( isNonFacesRequest(event) )
-         {
-            Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
-            restoreAnyConversationContext( event );
-            restoreAnyBusinessProcessContext();
-         }
-         
-         //beforeSaveState();
-         //Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
-
-      }
+         beforeSaveState();
+         Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
+      }*/
 
       Lifecycle.setPhaseId( event.getPhaseId() );
 
-   }
-
-   private boolean isNonFacesRequest(PhaseEvent event) {
-      return false;
-      //RenderKit renderKit = event.getFacesContext().getRenderKit();
-      //return renderKit==null || renderKit.getResponseStateManager().getComponentStateToRestore( event.getFacesContext() )==null;
    }
 
    public void afterPhase(PhaseEvent event)
@@ -106,11 +85,8 @@ public class SeamPhaseListener implements PhaseListener
 
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
-         if ( !isNonFacesRequest(event) ) //TODO: why do I need to do this in MyFaces????
-         {
-            restoreAnyConversationContext( event );
-            restoreAnyBusinessProcessContext();
-         }
+         restoreAnyConversationContext( event );
+         restoreAnyBusinessProcessContext();
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
