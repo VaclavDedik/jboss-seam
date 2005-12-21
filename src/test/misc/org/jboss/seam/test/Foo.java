@@ -76,6 +76,17 @@ public class Foo
    @End
    public void endVoid() { }
    
+   @Begin(ifOutcome="success")
+   public String beginIf()
+   {
+      return "success";
+   }
+   @End(ifOutcome="success")
+   public String endIf()
+   {
+      return "success";
+   }
+   
 }
 
 
