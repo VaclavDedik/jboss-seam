@@ -227,6 +227,8 @@ fieldset {
 ----------------------------------------------- */
 #title {
 	float: left;
+	font-size: x-large;
+	font-color: blue;
 	padding: 1px 0 6px 15px;
 }
 #status {

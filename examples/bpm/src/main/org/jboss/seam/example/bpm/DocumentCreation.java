@@ -10,4 +10,6 @@ public interface DocumentCreation
 {
    public String create();
    public String save();
+   public boolean isEditable();
+   public boolean isNew();
 }

@@ -20,7 +20,7 @@
 
     <context-param>
         <param-name>org.jboss.seam.core.init.jbpmSessionFactoryName</param-name>
-        <param-value>JbpmSessionFactory</param-value>
+        <param-value>jbpmSessionFactory</param-value>
     </context-param>
 
     <context-param>

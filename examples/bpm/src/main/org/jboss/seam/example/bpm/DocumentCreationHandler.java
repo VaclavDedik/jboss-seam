@@ -34,7 +34,7 @@ public class DocumentCreationHandler implements DocumentCreation
    @In
    private User user;
 
-   @In @Out @Valid
+   @In(create=true) @Out @Valid
    private Document document;
    
    @Out(scope=PROCESS, required=false)
@@ -66,5 +66,14 @@ public class DocumentCreationHandler implements DocumentCreation
       document = entityManager.merge( document );
       return "detail";
    }
+   
+   public boolean isEditable()
+   {
+      return document.getStatus() == Status.PENDING;
+   }
 
+   public boolean isNew()
+   {
+      return document.getId()==null;
+   }
 }

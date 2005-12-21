@@ -4,62 +4,24 @@
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
             xmlns="urn:jboss:bean-deployer">
 
-   <bean name="TransactionManagerFactory" class="org.jboss.seam.microcontainer.TransactionManagerFactory"/>
-   <bean name="TransactionManagerInit" class="java.lang.Object">
-      <constructor factoryMethod="getTransactionManager">
-         <factory bean="TransactionManagerFactory"/>
-      </constructor>
-   </bean>
-
-   <bean name="JbpmFactory" class="org.jboss.seam.microcontainer.JbpmFactory">
-      <depends>Naming</depends>
-      <depends>jbpmDatasource</depends>
-      <property name="jndiName">/JbpmSessionFactory</property>
-      <property name="processDefinitionResources">
-         <array elementClass="java.lang.String">
-            <value>jbpm-DocumentSubmission.xml</value>
-            <!--
-            <value>
-               <![CDATA[
-                        <process-definition name="DocumentSubmission">
-                            <start-state>
-                                <transition to="review"/>
-                            </start-state>
-                            <task-node name="review">
-                                <task name="review"/>
-                                <transition name="approve" to="complete"/>
-                                <transition name="reject" to="complete"/>
-                            </task-node>
-                            <end-state name="complete"/>
-                        </process-definition>
-                 ]]>
-             </value>
-            -->
-         </array>
-      </property>
-      <start method="initialize"/>
-      <stop method="cleanup"/>
-   </bean>
-
-   <bean name="jbpmDatasourceFactory" class="org.jboss.seam.microcontainer.DataSourceFactory">
-      <depends>Naming</depends>
+   <bean name="seamJbpmDatasourceBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
-      <property name="connectionUrl">jdbc:hsqldb:.</property>
+      <property name="connectionURL">jdbc:hsqldb:.</property>
       <property name="userName">sa</property>
       <property name="jndiName">java:/seamJbpmDatasource</property>
       <property name="minSize">0</property>
       <property name="maxSize">10</property>
       <property name="blockingTimeout">1000</property>
       <property name="idleTimeout">100000</property>
-      <property name="transactionManager">
-         <inject bean="TransactionManager"/>
-      </property>
-   </bean>
-   <bean name="jbpmDatasource" class="java.lang.Object">
-      <constructor factoryMethod="getDataSource">
-         <factory bean="jbpmDatasourceFactory"/>
-      </constructor>
+      <property name="transactionManager"><inject bean="TransactionManager"/></property>
+      <property name="cachedConnectionManager"><inject bean="CachedConnectionManager"/></property>
+      <property name="initialContextProperties"><inject bean="InitialContextProperties"/></property>
    </bean>
 
+   <bean name="seamJbpmDatasource" class="java.lang.Object">
+      <constructor factoryMethod="getDatasource">
+         <factory bean="bookingDatasourceBootstrap"/>
+      </constructor>
+   </bean>
 
 </deployment>

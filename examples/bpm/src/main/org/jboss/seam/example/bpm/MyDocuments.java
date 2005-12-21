@@ -8,7 +8,7 @@ import javax.ejb.Local;
 @Local
 public interface MyDocuments
 {
-   public String find();
+   public void find();
    public String select();
    public void destroy();
 }

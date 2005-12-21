@@ -7,7 +7,7 @@
 <f:view>
 
    <head>
-	   <title>JBoss Seam (jBPM Example)</title>
+	   <title>JBoss Seam Document Manager (jBPM Example)</title>
       <link href="styles/LnF.css" rel="stylesheet" type="text/css" />
    </head>
 
@@ -17,11 +17,12 @@
          <div id="document">
 
             <div id="header">
-               <div id="title"><img src="images/logo.jpg" alt=""/></div>
+               <div id="title">JBoss Seam Document Manager</div>
             </div>
 
             <div id="container">
                <div id="sidebar">
+                  
                   <h:panelGroup rendered="#{empty loggedIn}">
                      <fieldset>
                         <div>
@@ -36,17 +37,19 @@
                         <div class="buttonBox"><h:commandButton action="#{login.login}" value="Login" class="button" /></div>
                      </fieldset>
                   </h:panelGroup>
+                  
                   <h:panelGroup rendered="#{not empty loggedIn}">
                      <div class="links">
                         <ul>
-                           <li><h:commandLink action="home">Home</h:commandLink></li>
+                           <li><a href="home.jsf">Home</a></li>
                            <li><a href="tasks.jsf">My Tasks</a></li>
-                           <li><h:commandLink action="#{myDocuments.find}">My Documents</h:commandLink></li>
+                           <li><a href="documents.jsf">My Documents</a></li>
                            <li><a href="detail.jsf">New Document</a></li>
                            <li><h:commandLink action="#{logout.logout}">Logout</h:commandLink></li>
                         </ul>
                      </div>
                   </h:panelGroup>
+                  
                </div>
                <div id="content">
                   <ui:insert name="content"/>

@@ -8,6 +8,7 @@ import javax.persistence.GeneratorType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -26,6 +27,8 @@ import org.jboss.seam.annotations.Scope;
 @Table( name="T_DOCUMENT" )
 @Name( "document" )
 @Scope( ScopeType.CONVERSATION )
+@NamedQuery(name="myDocuments", 
+      queryString="select d from Document as d where d.submitter = :user")
 public class Document
 {
    @Id( generate = GeneratorType.AUTO )
