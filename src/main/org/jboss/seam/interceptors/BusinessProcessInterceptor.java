@@ -30,6 +30,7 @@ import org.jboss.seam.core.ManagedJbpmSession;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.security.Authentication;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -46,12 +47,21 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object manageBusinessProcessContext(InvocationContext invocation) throws Exception
    {
-      String componentName = Seam.getComponentName( invocation.getBean().getClass() );
-      Method method = invocation.getMethod();
-      log.trace( "Starting bpm interception [component=" + componentName + ", method=" + method.getName() + "]" );
-
-      beforeInvocation( invocation );
-      return afterInvocation( invocation, invocation.proceed() );
+      String actorId = (String) Contexts.lookupInStatefulContexts( "actorId" );
+      if (actorId!=null) Authentication.pushAuthenticatedActorId( actorId );
+      try
+      {
+         String componentName = Seam.getComponentName( invocation.getBean().getClass() );
+         Method method = invocation.getMethod();
+         log.trace( "Starting bpm interception [component=" + componentName + ", method=" + method.getName() + "]" );
+   
+         beforeInvocation( invocation );
+         return afterInvocation( invocation, invocation.proceed() );
+      }
+      finally
+      {
+         if (actorId!=null) Authentication.popAuthenticatedActorId();
+      }
    }
 
    private void beforeInvocation(InvocationContext invocationContext) {
@@ -99,8 +109,8 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          else if ( method.isAnnotationPresent( StartTask.class ) )
          {
             log.trace( "encountered @StartTask" );
-            StartTask tag = method.getAnnotation( StartTask.class );
-            startTask( tag.actorExpression() );
+            //StartTask tag = method.getAnnotation( StartTask.class );
+            startTask();
          }
          else if ( method.isAnnotationPresent( CompleteTask.class ) )
          {
@@ -118,7 +128,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       ProcessDefinition pd = session.getGraphSession().findLatestProcessDefinition(processDefinitionName);
       if ( pd == null )
       {
-         throw new IllegalArgumentException( "Unknown process definition [" + processDefinitionName + "]" );
+         throw new IllegalArgumentException( "Unknown process definition: " + processDefinitionName );
       }
       ProcessInstance process = new ProcessInstance( pd );
       session.getGraphSession().saveProcessInstance( process );
@@ -132,18 +142,9 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    }
 
 
-   private void startTask(String actorExpression)
+   private void startTask()
    {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      Object resolvedValue = facesContext.getApplication()
-            .createValueBinding(actorExpression)
-            .getValue(facesContext);
-      if ( !(resolvedValue instanceof String) )
-      {
-         throw new IllegalStateException( "actorId expression did not resolve to a string value: " + actorExpression );
-      }
-      String actorId = (String) resolvedValue;
-      
+      String actorId = (String) Contexts.lookupInStatefulContexts("actorId");
       TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
       if ( actorId != null )
       {

@@ -41,9 +41,4 @@ public @interface StartTask
     * assigments/swimlanes take effect?
     */
    boolean pushActor() default false;
-   /**
-    * A (optional) JSF expression resolving to the jBPM actorId to which
-    * the task should be assigned using the push model.
-    */
-   String actorExpression() default "actorId";
 }
