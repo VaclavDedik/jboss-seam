@@ -60,6 +60,22 @@ public class Foo
       return "ended";
    }
    
+   @Begin
+   public String beginNull()
+   {
+      return null;
+   }
+   @End
+   public String endNull()
+   {
+      return null;
+   }
+   
+   @Begin
+   public void beginVoid() { }
+   @End
+   public void endVoid() { }
+   
 }
 
 

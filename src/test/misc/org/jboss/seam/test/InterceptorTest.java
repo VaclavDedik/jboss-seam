@@ -259,6 +259,86 @@ public class InterceptorTest
       assert !Manager.instance().isLongRunningConversation();
       assert "ended".equals(result);
       
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("beginNull");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return null;
+         }
+      });
+      
+      assert !Manager.instance().isLongRunningConversation();
+      assert result==null;
+
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("beginVoid");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "begun";
+         }
+      });
+      
+      assert Manager.instance().isLongRunningConversation();
+      assert "begun".equals(result);
+
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("foo");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "foo";
+         }
+      });
+      
+      assert Manager.instance().isLongRunningConversation();
+      assert "foo".equals(result);
+
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("endNull");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return null;
+         }
+      });
+      
+      assert Manager.instance().isLongRunningConversation();
+      assert result==null;
+
+      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("endVoid");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "ended";
+         }
+      });
+      
+      assert !Manager.instance().isLongRunningConversation();
+      assert "ended".equals(result);
+      
       //TODO: @BeginIf/@EndIf
       Lifecycle.endApplication(servletContext);
    }

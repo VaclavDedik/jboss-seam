@@ -83,7 +83,7 @@ public class ConversationInterceptor extends AbstractInterceptor
             ( method.isAnnotationPresent(Begin.class) && method.getAnnotation(Begin.class).ifOutcome().length==0 );
       if ( simpleBegin )
       {
-         if (result!=null)
+         if ( result!=null || method.getReturnType().equals(void.class) )
          {
             beginConversation();
          }
@@ -113,7 +113,7 @@ public class ConversationInterceptor extends AbstractInterceptor
             method.isAnnotationPresent(CompleteTask.class);
       if ( simpleEnd )
       {
-         if (result!=null) //null outcome interpreted as redisplay
+         if ( result!=null || method.getReturnType().equals(void.class) ) //null outcome interpreted as redisplay
          {
             endConversation();
          }
