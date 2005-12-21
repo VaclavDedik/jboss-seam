@@ -468,6 +468,41 @@
     </section> 
     
     <section>
+    	<title>Annotations for transaction demarcation</title>
+    	<para>
+    	    Seam provides an annotation that lets you force a rollback of the JTA transaction
+    	    for certain action listener outcomes.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry id="transition-annotation">
+                <term><literal>@Rollback</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Rollback(ifOutcome={"failure", "not-found"})]]></programlisting>
+                    <para>
+                        If the outcome of the method matches any of the listed outcomes, or if
+                        no outcomes are listed, set the transaction to rollback only when the
+                        method completes.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>ifOutcome</literal> &mdash; the JSF outcomes that cause a 
+                            transaction rollback (no outcomes is interpreted to mean any outcome).
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist> 
+        
+        <para>
+            Seam applications usually use the standard EJB3 annotations for all other transaction
+            demarcation needs.
+        </para>
+    </section>
+    
+    <section>
     	<title>Annotations for validation</title>
     	<para>
     	    This annotation triggers Hibernate Validator. It appears on a method of a Seam 
