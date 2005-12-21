@@ -55,9 +55,6 @@ public class DocumentCreationHandler implements DocumentCreation
    public String save()
    {
       document = entityManager.merge( document );
-      
-      setProcessVars();
-      
       return "detail";
    }
    
