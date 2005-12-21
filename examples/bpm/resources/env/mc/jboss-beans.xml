@@ -20,7 +20,7 @@
 
    <bean name="seamJbpmDatasource" class="java.lang.Object">
       <constructor factoryMethod="getDatasource">
-         <factory bean="bookingDatasourceBootstrap"/>
+         <factory bean="seamJbpmDatasourceBootstrap"/>
       </constructor>
    </bean>
 

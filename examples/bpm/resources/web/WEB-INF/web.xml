@@ -14,11 +14,6 @@
     </context-param>
 
     <context-param>
-        <param-name>org.jboss.seam.core.init.managedPersistenceContexts</param-name>
-        <param-value>seamJbpmDatabase</param-value>
-    </context-param>
-
-    <context-param>
         <param-name>org.jboss.seam.core.init.jbpmSessionFactoryName</param-name>
         <param-value>jbpmSessionFactory</param-value>
     </context-param>

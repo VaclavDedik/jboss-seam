@@ -31,19 +31,12 @@ public class DocumentCreationHandler implements DocumentCreation
    @PersistenceContext
    private EntityManager entityManager;
 
-   @In
+   @In 
    private User user;
 
-   @In(create=true) @Out @Valid
+   @Valid @In(create=true) @Out
    private Document document;
    
-   @Out(scope=PROCESS, required=false)
-   private Long documentId;
-   @Out(scope=PROCESS, required=false)
-   private String description;
-   @Out(scope=PROCESS, required=false)
-   private String submitter;
-
    @CreateProcess( definition = "DocumentSubmission" )
    @IfInvalid(outcome=Outcome.REDISPLAY)
    @Begin
@@ -53,9 +46,7 @@ public class DocumentCreationHandler implements DocumentCreation
       document.setSubmittedTimestamp( new Date() );
       entityManager.persist( document );
       
-      documentId = document.getId();
-      description = document.getTitle();
-      submitter = document.getSubmitter().getUsername();
+      setProcessVars();
       
       return "detail";
    }
@@ -64,9 +55,22 @@ public class DocumentCreationHandler implements DocumentCreation
    public String save()
    {
       document = entityManager.merge( document );
+      
+      setProcessVars();
+      
       return "detail";
    }
    
+   @Out(scope=PROCESS, required=false) private Long documentId;
+   @Out(scope=PROCESS, required=false) private String description;
+   @Out(scope=PROCESS, required=false) private String submitter;
+
+   private void setProcessVars() {
+      documentId = document.getId();
+      description = document.getTitle();
+      submitter = document.getSubmitter().getUsername();
+   }
+
    public boolean isEditable()
    {
       return document.getStatus() == Status.PENDING;
