@@ -48,7 +48,6 @@ public class MockExternalContext extends ExternalContext
       this.request = request;
    }
    
-   
    @Override
    public void dispatch(String arg0) throws IOException
    {

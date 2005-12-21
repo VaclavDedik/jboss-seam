@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.contexts.Lifecycle;
@@ -55,7 +54,6 @@ public class SeamTest
    
    public abstract class Script
    {
-      private MockHttpServletRequest request;
       private String conversationId;
       
       protected Script() {}
@@ -70,6 +68,12 @@ public class SeamTest
       protected void updateModelValues() throws Exception {}
       protected void invokeApplication() throws Exception {}
       protected void renderResponse() throws Exception {}
+      protected void setParameters() {}
+      
+      public Map getRequestParameterMap()
+      {
+         return externalContext.getRequestParameterMap();
+      }
       
       public String run() throws Exception
       {   
@@ -90,6 +94,8 @@ public class SeamTest
                     conversationStates.get( conversationId ).state
             	);
          }
+         
+         setParameters();
          
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
@@ -130,10 +136,6 @@ public class SeamTest
          return conversationId;
       }
       
-      protected HttpServletRequest getRequest()
-      {
-         return request;
-      }
    }
    
    @Configuration(beforeTestMethod=true)

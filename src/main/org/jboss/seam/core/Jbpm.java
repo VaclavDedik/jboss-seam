@@ -3,6 +3,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
@@ -23,6 +24,7 @@ import org.jboss.seam.microcontainer.JbpmFactory;
 @Name("org.jboss.seam.core.jbpm")
 public class Jbpm 
 {
+   public static final String PROCESS_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".processDefinitions";
 
    private JbpmFactory jbpmFactory;
    private String[] processDefinitions;
