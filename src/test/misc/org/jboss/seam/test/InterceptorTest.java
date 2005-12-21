@@ -3,6 +3,7 @@ package org.jboss.seam.test;
 
 import java.lang.reflect.Method;
 
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
@@ -39,15 +40,19 @@ public class InterceptorTest
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
+            new Component(Manager.class, appContext) 
          );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
+            new Component(Manager.class, appContext) 
          );
       appContext.set( 
             Seam.getComponentName(Foo.class) + ".component", 
-            new Component(Foo.class) 
+            new Component(Foo.class, appContext) 
+         );
+      appContext.set( 
+            Seam.getComponentName(Factory.class) + ".component", 
+            new Component(Factory.class, appContext) 
          );
 
       Lifecycle.beginRequest( externalContext );
@@ -58,7 +63,7 @@ public class InterceptorTest
       Contexts.getSessionContext().set("otherFoo", foo);
       
       BijectionInterceptor bi = new BijectionInterceptor();
-      bi.setComponent( new Component(Bar.class) );
+      bi.setComponent( new Component(Bar.class, appContext) );
       String result = (String) bi.bijectTargetComponent( new MockInvocationContext() {
          @Override
          public Object getBean()
@@ -122,6 +127,52 @@ public class InterceptorTest
          assert e instanceof RequiredException;
       }
       
+      final BrokenAction brokenAction = new BrokenAction();
+      BijectionInterceptor biba = new BijectionInterceptor();
+      biba.setComponent( new Component(BrokenAction.class, appContext) );
+      try
+      {
+         biba.bijectTargetComponent( new MockInvocationContext() {
+   
+            @Override
+            public Object getBean() {
+               return brokenAction;
+            }
+   
+            @Override
+            public Object proceed() throws Exception {
+               assert false;
+               return null;
+            }
+          
+         } );
+         assert false;
+      }
+      catch (Exception e)
+      {
+         assert e instanceof RequiredException;
+      }
+      
+      final Action action = new Action();
+      BijectionInterceptor bia = new BijectionInterceptor();
+      bia.setComponent( new Component(Action.class, appContext) );
+      result = (String) bia.bijectTargetComponent( new MockInvocationContext() {
+
+         @Override
+         public Object getBean() {
+            return action;
+         }
+
+         @Override
+         public Object proceed() throws Exception {
+            assert "Gavin King".equals(action.name);
+            return action.go();
+         }
+       
+      } );
+      assert "success".equals(result);
+      assert Contexts.getConversationContext().get("name").equals("Gavin King");
+
       Lifecycle.endApplication(servletContext);
    }
    
@@ -134,13 +185,13 @@ public class InterceptorTest
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
+            new Component(Manager.class, appContext) 
          );
       Lifecycle.beginRequest( externalContext );
       Lifecycle.resumeConversation( externalContext, "1" );
 
       ConversationInterceptor ci = new ConversationInterceptor();
-      ci.setComponent( new Component(Foo.class) );
+      ci.setComponent( new Component(Foo.class, appContext) );
       
       assert !Manager.instance().isLongRunningConversation();
 
@@ -221,14 +272,14 @@ public class InterceptorTest
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
+            new Component(Manager.class, appContext) 
          );
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.beginRequest( externalContext );
       Lifecycle.resumeConversation(externalContext, "1" );
       
       ConversationInterceptor ci = new ConversationInterceptor();
-      ci.setComponent( new Component(Bar.class) );
+      ci.setComponent( new Component(Bar.class, appContext) );
       
       assert !Manager.instance().isLongRunningConversation();
 
@@ -304,11 +355,12 @@ public class InterceptorTest
    @Test
    public void testValidationInterceptor() throws Exception
    {
-      
-      new MockFacesContext( new MockExternalContext(), new MockApplication() ).setCurrent();
+      ExternalContext externalContext = new MockExternalContext();
+      new MockFacesContext( externalContext, new MockApplication() ).setCurrent();
       
       ValidationInterceptor vi = new ValidationInterceptor();
-      vi.setComponent( new Component(Foo.class) );
+      Context appContext = new FacesApplicationContext(externalContext);
+      vi.setComponent( new Component(Foo.class, appContext) );
       
       final Foo foo = new Foo();
       
@@ -423,14 +475,14 @@ public class InterceptorTest
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
+            new Component(Manager.class, appContext) 
          );
 
       Lifecycle.beginRequest( externalContext );
       Contexts.getSessionContext().set( "foo", new Foo() );
       
       RemoveInterceptor ri = new RemoveInterceptor();
-      ri.setComponent( new Component(Foo.class) );
+      ri.setComponent( new Component(Foo.class, appContext) );
       
       ri.removeIfNecessary( new MockInvocationContext() {
          @Override

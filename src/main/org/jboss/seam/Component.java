@@ -138,6 +138,16 @@ public class Component
    
    public Component(Class<?> clazz, String componentName)
    {
+      this(clazz, componentName, Contexts.getApplicationContext());
+   }
+
+   public Component(Class<?> clazz, Context applicationContext)
+   {
+      this( clazz, Seam.getComponentName(clazz), applicationContext );
+   }
+   
+   public Component(Class<?> clazz, String componentName, Context applicationContext)
+   {
       beanClass = clazz;
       name = componentName;
       scope = Seam.getComponentScope(beanClass);
@@ -156,7 +166,7 @@ public class Component
          ifNoConversationOutcome = beanClass.getAnnotation(Conversational.class).ifNotBegunOutcome();
       }
 
-      initMembers(clazz);
+      initMembers(clazz, applicationContext);
       
       localInterfaces = getLocalInterfaces(beanClass);
       
@@ -166,11 +176,7 @@ public class Component
       
       initValidator();
 
-      //TODO: YEW!!!!!
-      if ( Contexts.isApplicationContextActive() ) 
-      {
-         initInitializers();
-      }
+      initInitializers(applicationContext);
       
       if (type==ComponentType.JAVA_BEAN)
       {
@@ -221,9 +227,10 @@ public class Component
       }
    }
 
-   private void initInitializers()
+   private void initInitializers(Context applicationContext)
    {
-      Map<String, String> properties = (Map<String, String>) Contexts.getApplicationContext().get(PROPERTIES);
+      if (applicationContext==null) return; //TODO: yew!!!!!
+      Map<String, String> properties = (Map<String, String>) applicationContext.get(PROPERTIES);
       if (properties==null) return; //TODO: yew!!!!!
       for (Map.Entry<String, String> me: properties.entrySet())
       {
@@ -251,7 +258,7 @@ public class Component
       }
    }
 
-   private void initMembers(Class<?> clazz)
+   private void initMembers(Class<?> clazz, Context applicationContext)
    {
       for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
@@ -296,7 +303,8 @@ public class Component
             }
             if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) ) 
             {
-            	Init.instance().addFactoryMethod( 
+               Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) );
+               init.addFactoryMethod( 
             			method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), 
             			method, 
             			this
