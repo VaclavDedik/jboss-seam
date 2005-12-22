@@ -106,7 +106,7 @@ public class SeamPhaseListener implements PhaseListener
 
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
-      String conversationId = Manager.instance().restore( getAttributes( event.getFacesContext() ) );
+      String conversationId = Manager.instance().restore( getAttributes( event.getFacesContext() ), getParameters(event) );
       Lifecycle.resumeConversation( event.getFacesContext().getExternalContext(), conversationId );
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }
@@ -123,6 +123,13 @@ public class SeamPhaseListener implements PhaseListener
       {
          Manager.instance().store( getAttributes(ctx) );
       }
+   }
+
+   private static void restoreAnyBusinessProcessContext()
+   {
+      Map state = (Map) Contexts.getConversationContext().get( JBPM_STATE_MAP );
+      Lifecycle.resumeBusinessProcess( state );
+      log.trace( "After restore view, business process context: " + Contexts.getBusinessProcessContext() );
    }
 
    private static void storeAnyBusinessProcessContext()
@@ -143,11 +150,8 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
 
-   private static void restoreAnyBusinessProcessContext()
-   {
-      Map state = (Map) Contexts.getConversationContext().get( JBPM_STATE_MAP );
-      Lifecycle.resumeBusinessProcess( state );
-      log.trace( "After restore view, business process context: " + Contexts.getBusinessProcessContext() );
+   private static Map getParameters(PhaseEvent event) {
+      return event.getFacesContext().getExternalContext().getRequestParameterMap();
    }
 
    private static Map getAttributes(FacesContext facesContext)

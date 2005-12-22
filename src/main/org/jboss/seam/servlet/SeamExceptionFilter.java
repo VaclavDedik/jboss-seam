@@ -57,7 +57,7 @@ public class SeamExceptionFilter implements Filter
       try 
       {
          Lifecycle.beginInitialization(context); //the faces ExternalContext is useless to us at this point
-         Lifecycle.endRequest(null);
+         Lifecycle.endRequest();
       }
       catch (Exception ee)
       {

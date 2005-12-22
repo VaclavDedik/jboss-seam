@@ -49,6 +49,10 @@ public abstract class Session
       }
    }
 
+   public static Session getSession(HttpSession session)
+   {
+      return new ServletSessionImpl(session);
+   }
 }
 
 

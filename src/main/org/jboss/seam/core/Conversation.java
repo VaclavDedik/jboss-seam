@@ -19,8 +19,6 @@ import org.jboss.seam.annotations.Scope;
 @Intercept(NEVER)
 public class Conversation {
    
-   //private static Logger log = Logger.getLogger(Conversation.class);
-   
    private int timeout = 600000; //10 minutes
 
    public int getTimeout() {
@@ -29,6 +27,11 @@ public class Conversation {
 
    public void setTimeout(int timeout) {
       this.timeout = timeout;
+   }
+   
+   public String getId()
+   {
+      return Manager.instance().getCurrentConversationId();
    }
 
    public static Conversation instance()

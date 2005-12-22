@@ -27,10 +27,10 @@ import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Process;
 import org.jboss.seam.core.ManagedJbpmSession;
+import org.jboss.seam.util.JbpmAuthentication;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.security.Authentication;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -48,7 +48,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    public Object manageBusinessProcessContext(InvocationContext invocation) throws Exception
    {
       String actorId = (String) Contexts.lookupInStatefulContexts( "actorId" );
-      if (actorId!=null) Authentication.pushAuthenticatedActorId( actorId );
+      if (actorId!=null) JbpmAuthentication.pushAuthenticatedActorId( actorId );
       try
       {
          String componentName = Seam.getComponentName( invocation.getBean().getClass() );
@@ -60,7 +60,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
       finally
       {
-         if (actorId!=null) Authentication.popAuthenticatedActorId();
+         if (actorId!=null) JbpmAuthentication.popAuthenticatedActorId();
       }
    }
 

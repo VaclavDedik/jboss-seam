@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -33,8 +34,17 @@ public class Lifecycle
       log.debug( ">>> Begin web request" );
       //eventContext.set( new WebRequestContext( request ) );
       Contexts.eventContext.set( new EventContext() );
-      Contexts.sessionContext.set( new WebSessionContext(Session.getSession(externalContext, true)) );
+      Contexts.sessionContext.set( new WebSessionContext( Session.getSession(externalContext, true) ) );
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
+      Contexts.conversationContext.set(null); //in case endRequest() was never called
+   }
+
+   public static void beginRequest(ServletContext servletContext, HttpSession session) {
+      log.debug( ">>> Begin web request" );
+      //eventContext.set( new WebRequestContext( request ) );
+      Contexts.eventContext.set( new EventContext() );
+      Contexts.sessionContext.set( new WebSessionContext( Session.getSession(session) ) );
+      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
 
@@ -143,50 +153,94 @@ public class Lifecycle
 
       try
       {
+         flushAndDestroyContexts();
 
-         if ( Contexts.isBusinessProcessContextActive() )
-         {
-            log.debug("flushing busines process context");
-            Contexts.getBusinessProcessContext().flush();
-         }
-
-         if ( Contexts.isEventContextActive() )
-         {
-            log.debug("destroying event context");
-            Contexts.destroy( Contexts.getEventContext() );
-         }
-
-         if ( Contexts.isConversationContextActive() )
-         {
-            if ( !Manager.instance().isLongRunningConversation() )
-            {
-               log.debug("destroying conversation context");
-               Contexts.destroy( Contexts.getConversationContext() );
-            }
-            if ( !Seam.isSessionInvalid() && !Init.instance().isClientSideConversations() )
-            {
-               log.debug("flushing server-side conversation context");
-               Contexts.getConversationContext().flush();
-            }
-         }
-
-         if ( externalContext!=null && Seam.isSessionInvalid() )
+         if ( Seam.isSessionInvalid() )
          {
             Session.getSession(externalContext, true).invalidate(); //huh? we create a session just to invalidate it?
             //actual session context will be destroyed from the listener
          }
-
       }
       finally
       {
-         Contexts.eventContext.set( null );
-         Contexts.sessionContext.set( null );
-         Contexts.conversationContext.set( null );
-         Contexts.businessProcessContext.set( null );
-         Contexts.applicationContext.set( null );
+         clearThreadlocals();
       }
 
       log.debug( "<<< End web request" );
+   }
+
+   public static void endRequest() {
+
+      log.debug("After request, destroying contexts");
+
+      try
+      {
+         flushAndDestroyContexts();
+      }
+      finally
+      {
+         clearThreadlocals();
+      }
+
+      log.debug( "<<< End web request" );
+   }
+
+   public static void endRequest(HttpSession session) {
+
+      log.debug("After request, destroying contexts");
+
+      try
+      {
+         flushAndDestroyContexts();
+
+         if ( Seam.isSessionInvalid() )
+         {
+            Session.getSession(session).invalidate(); //huh? we create a session just to invalidate it?
+            //actual session context will be destroyed from the listener
+         }
+      }
+      finally
+      {
+         clearThreadlocals();
+      }
+
+      log.debug( "<<< End web request" );
+   }
+
+   private static void clearThreadlocals() {
+      Contexts.eventContext.set( null );
+      Contexts.sessionContext.set( null );
+      Contexts.conversationContext.set( null );
+      Contexts.businessProcessContext.set( null );
+      Contexts.applicationContext.set( null );
+   }
+
+   private static void flushAndDestroyContexts() {
+      if ( Contexts.isBusinessProcessContextActive() )
+      {
+         log.debug("flushing busines process context");
+         Contexts.getBusinessProcessContext().flush();
+      }
+
+      if ( Contexts.isEventContextActive() )
+      {
+         log.debug("destroying event context");
+         Contexts.destroy( Contexts.getEventContext() );
+      }
+
+      if ( Contexts.isConversationContextActive() )
+      {
+         if ( !Manager.instance().isLongRunningConversation() )
+         {
+            log.debug("destroying conversation context");
+            Contexts.destroy( Contexts.getConversationContext() );
+         }
+         if ( !Seam.isSessionInvalid() && !Init.instance().isClientSideConversations() )
+         {
+            log.debug("flushing server-side conversation context");
+            Contexts.getConversationContext().flush();
+         }
+      }
    }
 
    public static void resumeConversation(ExternalContext externalContext, String id)
@@ -195,6 +249,12 @@ public class Lifecycle
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
             (Context) new ConversationContext( Session.getSession(externalContext, true), id );
+      Contexts.conversationContext.set( conversationContext );
+   }
+
+   public static void resumeConversation(HttpSession session, String id)
+   {
+      Context conversationContext = new ConversationContext( Session.getSession(session), id );
       Contexts.conversationContext.set( conversationContext );
    }
 

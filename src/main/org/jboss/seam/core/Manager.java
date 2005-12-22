@@ -8,12 +8,15 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.ExternalContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -72,6 +75,11 @@ public class Manager
    public Set<String> getSessionConversationIds()
    {
       return getConversationIdMap().keySet();
+   }
+   
+   public List<String> getSessionConversationIdList()
+   {
+      return new ArrayList<String>( getSessionConversationIds() );
    }
 
    private Map<String, Long> getConversationIdMap()
@@ -199,19 +207,58 @@ public class Manager
       }
    }
    
-   public String restore(Map attributes)
+   public void store(HttpServletResponse response)
    {
-      String storedConversationId = (String) attributes.get(CONVERSATION_ID);
+      if ( isLongRunningConversation() ) 
+      {
+         log.debug("Storing conversation state: " + currentConversationId);
+         if ( !Seam.isSessionInvalid() ) 
+         {
+            //if the session is invalid, don't put the conversation id
+            //in the view, 'cos we are expecting the conversation to
+            //be destroyed by the servlet session listener
+            response.setHeader("conversationId", currentConversationId);
+         }
+         //even if the session is invalid, still put the id in the map,
+         //so it can be cleaned up along with all the other conversations
+         addConversationId(currentConversationId);
+      }
+      else 
+      {
+         log.debug("Discarding conversation state: " + currentConversationId);
+         removeConversationId(currentConversationId);
+      }
+   }
+   
+   public String restore(Map attributes, Map parameters)
+   {
+      String storedConversationId;
+      //First, try to get the conversation id from a request parameter
+      storedConversationId = (String) parameters.get("conversationId");
+      if ( storedConversationId==null && attributes!=null )
+      {
+         //if it is not passed as a request parameter, try to get it from
+         //the JSF component tree
+         storedConversationId = (String) attributes.get(CONVERSATION_ID);
+      }
+      else
+      {
+         log.debug("Found conversation id in request parameter");
+      }
+      
       boolean isStoredConversation = storedConversationId!=null && 
             getSessionConversationIds().contains(storedConversationId);
       if ( isStoredConversation )
       {
+         //we found an id, so restore the long-running conversation
          log.debug("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          currentConversationId = storedConversationId;
       }
       else
       {
+         //there was no id in either place, so there is no
+         //long-running conversation to restore
          log.debug("No stored conversation");
          currentConversationId = Id.nextId();
          setLongRunningConversation(false);
