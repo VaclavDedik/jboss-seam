@@ -12,7 +12,7 @@
     
     <!-- 120 second conversation timeout -->
     <context-param>
-        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
+        <param-name>org.jboss.seam.core.conversation.timeout</param-name>
         <param-value>120000</param-value>
     </context-param>
 

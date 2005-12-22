@@ -21,11 +21,11 @@
             </h:column>
             <h:column>
                 <h:outputText value="#{entry.startDatetime}">
-                    <f:convertDateTime type="time"/>
+                    <f:convertDateTime type="time" pattern="hh:mm"/>
                 </h:outputText>
-                :
+                -
                 <h:outputText value="#{entry.lastDatetime}">
-                    <f:convertDateTime type="time"/>
+                    <f:convertDateTime type="time" pattern="hh:mm"/>
                 </h:outputText>
             </h:column>
         </h:dataTable>

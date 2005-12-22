@@ -49,17 +49,6 @@
 
     <navigation-rule>
 
-        <from-view-id>/main.jsp</from-view-id>
-
-        <navigation-case>
-            <from-outcome>bookings</from-outcome>
-            <to-view-id>/bookings.jsp</to-view-id>
-        </navigation-case>
-
-    </navigation-rule>
-
-    <navigation-rule>
-
         <from-view-id>/hotel.jsp</from-view-id>
 
         <navigation-case>
