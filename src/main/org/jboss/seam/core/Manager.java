@@ -269,9 +269,14 @@ public class Manager
          storedConversationId = (String) attributes.get(CONVERSATION_ID);
       }
       
-      if (storedConversationId!=null) 
+      else if (storedConversationId!=null) 
       {
          log.debug("Found conversation id in request parameter: " + storedConversationId);
+      }
+      
+      if ( "new".equals(storedConversationId) )
+      {
+         storedConversationId = null;
       }
       
       boolean isStoredConversation = storedConversationId!=null && 
