@@ -2,11 +2,13 @@ package com.jboss.dvd.seam;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
+import javax.faces.event.PhaseId;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
@@ -24,7 +26,12 @@ public class LoggedInInterceptor
     public Object checkLoggedIn(InvocationContext invocation) 
         throws Exception
     {
-        boolean isLoggedIn = 
+       if ( Lifecycle.getPhaseId()!=PhaseId.INVOKE_APPLICATION )
+       {
+          return invocation.proceed();
+       }
+
+       boolean isLoggedIn = 
             Contexts.getSessionContext().get(LoginIfInterceptor.LOGIN_KEY)!=null;
         if (isLoggedIn) {
             log.info("User is already logged in");
