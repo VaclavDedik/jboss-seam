@@ -15,9 +15,9 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesApplicationContext;
-import org.jboss.seam.contexts.Session;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.jsf.SeamPhaseListener;
@@ -122,7 +122,9 @@ public class PhaseListenerTest
       
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
-      ids.put("2", System.currentTimeMillis());
+      ConversationEntry ce = new ConversationEntry("2");
+      ce.getLastRequestTime();
+      ids.put("2", ce);
       new WebSessionContext( new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) ).set(Manager.CONVERSATION_ID_MAP, ids);
       
       SeamPhaseListener phases = new SeamPhaseListener();

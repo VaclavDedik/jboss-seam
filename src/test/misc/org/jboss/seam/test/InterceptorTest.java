@@ -43,10 +43,6 @@ public class InterceptorTest
             new Component(Manager.class, appContext) 
          );
       appContext.set( 
-            Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class, appContext) 
-         );
-      appContext.set( 
             Seam.getComponentName(Foo.class) + ".component", 
             new Component(Foo.class, appContext) 
          );

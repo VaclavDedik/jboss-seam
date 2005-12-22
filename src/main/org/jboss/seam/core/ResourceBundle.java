@@ -16,6 +16,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 
+/**
+ * @author Gavin King
+ */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("resourceBundle")

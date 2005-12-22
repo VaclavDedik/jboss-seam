@@ -22,6 +22,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.ApplicationContext;
 import org.jboss.seam.core.BusinessProcessContext;
 import org.jboss.seam.core.Conversation;
@@ -38,8 +39,10 @@ import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
+import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
+import org.jboss.seam.core.Transition;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Reflections;
@@ -147,13 +150,14 @@ public class Initialization
 
       addComponent( Init.class, context );
       addComponent( Manager.class, context );
+      addComponent( ConversationList.class, context );
       addComponent( Conversation.class, context );
       addComponent( FacesContext.class, context );
       addComponent( EventContext.class, context );
       addComponent( SessionContext.class, context );
       addComponent( StatelessContext.class, context );
-      addComponent( ConversationContext.class, context );
       addComponent( ApplicationContext.class, context );
+      addComponent( ConversationContext.class, context );
       addComponent( BusinessProcessContext.class, context );
       addComponent( ResourceBundle.class, context );
 
@@ -184,7 +188,9 @@ public class Initialization
 
       if ( init.getJbpmSessionFactoryName() != null )
       {
+         addComponent( Actor.class, context);
          addComponent( Process.class, context );
+         addComponent( Transition.class, context);
          addComponent( TaskInstance.class, context );
          addComponent( ProcessInstance.class, context );
          addComponent( TaskInstanceList.class, context );

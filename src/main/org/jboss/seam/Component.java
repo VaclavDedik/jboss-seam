@@ -45,7 +45,6 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.annotations.Transition;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.annotations.datamodel.DataModel;
@@ -53,6 +52,7 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
@@ -110,8 +110,6 @@ public class Component
    private Set<Field> parameterFields = new HashSet<Field>();
    private Set<Method> parameterSetters = new HashSet<Method>();
    private Map<Method, Object> initializers = new HashMap<Method, Object>();
-   private Method transitionGetter;
-   private Field transitionField;
    
    private Method dataModelGetter;
    private Method dataModelSelectionIndexSetter;
@@ -293,10 +291,6 @@ public class Component
             {
                unwrapMethod = method;
             }
-            if ( method.isAnnotationPresent(Transition.class) )
-            {
-               transitionGetter = method;
-            }
             if ( method.isAnnotationPresent(DataModel.class) )
             {
                dataModelGetter = method;
@@ -337,10 +331,6 @@ public class Component
             if ( field.isAnnotationPresent(Out.class) )
             {
                outFields.add(field);
-            }
-            if ( field.isAnnotationPresent(Transition.class) )
-            {
-               transitionField = field;
             }
             if ( field.isAnnotationPresent(DataModel.class) )
             {
@@ -568,16 +558,25 @@ public class Component
    
    private void injectParameters(Object bean)
    {
-      Map request = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+      Map requestParameters = null;
+      if ( FacesContext.getCurrentInstance() != null )
+      {
+         requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+      }
+      else if ( Lifecycle.getServletRequest() != null )
+      {
+         requestParameters = Lifecycle.getServletRequest().getParameterMap();
+      }
+      
       for (Method setter: parameterSetters)
       {
          String name = toName( setter.getAnnotation(RequestParameter.class).value(), setter );
-         setPropertyValue( bean, setter, name, request.get(name) );
+         setPropertyValue( bean, setter, name, requestParameters.get(name) );
       }
       for (Field field: parameterFields)
       {
          String name = toName( field.getAnnotation(RequestParameter.class).value(), field );
-         setFieldValue( bean, field, name, request.get(name) );
+         setFieldValue( bean, field, name, requestParameters.get(name) );
       }
    }
 
@@ -1081,22 +1080,6 @@ public class Component
    public String[] getDependencies()
    {
       return dependencies;
-   }
-   
-   public String getTransition(Object bean)
-   {
-      if (transitionField!=null)
-      {
-         return (String) getFieldValue(bean, transitionField, transitionField.getName());
-      }
-      else if (transitionGetter!=null)
-      {
-         return (String) getPropertyValue(bean, transitionGetter, transitionGetter.getName());
-      }
-      else
-      {
-         return null;
-      }
    }
    
 }

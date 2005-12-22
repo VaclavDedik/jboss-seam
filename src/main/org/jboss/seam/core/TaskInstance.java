@@ -13,7 +13,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Contexts;
 import org.jbpm.db.JbpmSession;
 
 /**
@@ -23,12 +25,15 @@ import org.jbpm.db.JbpmSession;
 @Scope(ScopeType.APPLICATION)
 @Name("taskInstance")
 @Intercept(NEVER)
+@Startup
 public class TaskInstance 
 {
    
    @Unwrap
    public org.jbpm.taskmgmt.exe.TaskInstance getTaskInstance()
    {
+      if ( !Contexts.isConversationContextActive() ) return null;
+      
       Long taskId = Process.instance().getTaskId();
       if (taskId!=null)
       {
@@ -44,6 +49,10 @@ public class TaskInstance
    
    public static org.jbpm.taskmgmt.exe.TaskInstance instance()
    {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("No active application context");
+      }
       return (org.jbpm.taskmgmt.exe.TaskInstance) Component.getInstance(TaskInstance.class, true);
    }
    

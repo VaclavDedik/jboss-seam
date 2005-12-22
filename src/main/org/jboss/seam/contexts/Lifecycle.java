@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
@@ -273,5 +274,16 @@ public class Lifecycle
    public static void setPhaseId(PhaseId phase)
    {
       phaseId.set(phase);
-   }   
+   }
+   
+   private static ThreadLocal<ServletRequest> servletRequest = new ThreadLocal<ServletRequest>();
+
+   public static ServletRequest getServletRequest() {
+      return servletRequest.get();
+   }
+
+   public static void setServletRequest(ServletRequest servletRequest) {
+      Lifecycle.servletRequest.set(servletRequest);
+   }
+   
 }

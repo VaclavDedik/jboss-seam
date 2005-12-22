@@ -13,7 +13,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Contexts;
 import org.jbpm.db.JbpmSession;
 
 /**
@@ -23,12 +25,15 @@ import org.jbpm.db.JbpmSession;
 @Scope(ScopeType.APPLICATION)
 @Name("processInstance")
 @Intercept(NEVER)
+@Startup
 public class ProcessInstance 
 {
    
    @Unwrap
    public org.jbpm.graph.exe.ProcessInstance getProcessInstance()
    {
+      if ( !Contexts.isConversationContextActive() ) return null;
+      
       Long processId = Process.instance().getProcessId();
       if (processId!=null)
       {
@@ -44,6 +49,10 @@ public class ProcessInstance
    
    public static org.jbpm.graph.exe.ProcessInstance instance()
    {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("No active application context");
+      }
       return (org.jbpm.graph.exe.ProcessInstance) Component.getInstance(ProcessInstance.class, true);
    }
 }

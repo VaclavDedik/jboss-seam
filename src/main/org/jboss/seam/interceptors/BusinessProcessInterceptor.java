@@ -25,8 +25,10 @@ import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.ResumeTask;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.Process;
 import org.jboss.seam.core.ManagedJbpmSession;
+import org.jboss.seam.core.Transition;
 import org.jboss.seam.util.JbpmAuthentication;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -47,8 +49,9 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object manageBusinessProcessContext(InvocationContext invocation) throws Exception
    {
-      String actorId = (String) Contexts.lookupInStatefulContexts( "actorId" );
-      if (actorId!=null) JbpmAuthentication.pushAuthenticatedActorId( actorId );
+      Actor actor = Actor.instance();
+      boolean isActor = actor!=null && actor.getId()!=null;
+      if (isActor) JbpmAuthentication.pushAuthenticatedActorId( actor.getId() );
       try
       {
          String componentName = Seam.getComponentName( invocation.getBean().getClass() );
@@ -60,7 +63,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
       finally
       {
-         if (actorId!=null) JbpmAuthentication.popAuthenticatedActorId();
+         if (isActor) JbpmAuthentication.popAuthenticatedActorId();
       }
    }
 
@@ -115,7 +118,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          else if ( method.isAnnotationPresent( CompleteTask.class ) )
          {
             log.trace( "encountered @CompleteTask" );
-            completeTask( component.getTransition( invocation.getBean() ) );
+            completeTask();
          }
       }
       return result;
@@ -144,7 +147,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private void startTask()
    {
-      String actorId = (String) Contexts.lookupInStatefulContexts("actorId");
+      String actorId = Actor.instance().getId();
       TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
       if ( actorId != null )
       {
@@ -156,14 +159,15 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
    }
 
-   private void completeTask(String transitionName)
+   private void completeTask()
    {
       TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
       if ( task == null )
       {
          throw new IllegalStateException( "jBPM task instance not associated with context" );
       }
-
+      
+      String transitionName = Transition.instance().getName();
       if ( transitionName == null )
       {
          task.end();

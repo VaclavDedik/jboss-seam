@@ -8,10 +8,8 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,7 +51,7 @@ public class Manager
    //to the last activity time, which is flushed
    //stored in the session context at the end
    //of each request
-   private Map<String, Long> conversationIdMap;
+   private Map<String, ConversationEntry> conversationIdEntryMap;
    private boolean dirty = false;
    
    //The id of the current conversation
@@ -74,25 +72,20 @@ public class Manager
    
    public Set<String> getSessionConversationIds()
    {
-      return getConversationIdMap().keySet();
-   }
-   
-   public List<String> getSessionConversationIdList()
-   {
-      return new ArrayList<String>( getSessionConversationIds() );
+      return getConversationIdEntryMap().keySet();
    }
 
-   private Map<String, Long> getConversationIdMap()
+   public Map<String, ConversationEntry> getConversationIdEntryMap()
    {
-      if (conversationIdMap==null)
+      if (conversationIdEntryMap==null)
       {
-         conversationIdMap = (Map<String, Long>) Contexts.getSessionContext().get(CONVERSATION_ID_MAP);
-         if (conversationIdMap==null)
+         conversationIdEntryMap = (Map<String, ConversationEntry>) Contexts.getSessionContext().get(CONVERSATION_ID_MAP);
+         if (conversationIdEntryMap==null)
          {
-            conversationIdMap = new HashMap<String, Long>();
+            conversationIdEntryMap = new HashMap<String, ConversationEntry>();
          }
       }
-      return conversationIdMap;
+      return conversationIdEntryMap;
    }
    
    /**
@@ -113,10 +106,40 @@ public class Manager
       }
    }
 
-   private void addConversationId(String conversationId)
+   private void updateConversationEntry(String conversationId)
    {
-      getConversationIdMap().put( conversationId, System.currentTimeMillis() );
+      getConversationEntry(conversationId).touch();
       dirty();
+   }
+
+   private ConversationEntry getConversationEntry(String conversationId) {
+      ConversationEntry ce = getConversationIdEntryMap().get(conversationId);
+      if (ce==null)
+      {
+         ce = new ConversationEntry( getCurrentConversationId() );
+         getConversationIdEntryMap().put(conversationId, ce);
+      }
+      return ce;
+   }
+   
+   public void setCurrentConversationDescription(String description)
+   {
+      getConversationEntry( getCurrentConversationId() ).setDescription(description);
+      dirty();
+   }
+   
+   public void setCurrentConversationOutcome(String outcome)
+   {
+      getConversationEntry( getCurrentConversationId() ).setOutcome(outcome);
+      dirty();
+   }
+   
+   public String getCurrentConversationDescription()
+   {
+      if ( conversationIdEntryMap==null ) return null;
+      ConversationEntry ce = conversationIdEntryMap.get(currentConversationId);
+      if ( ce==null ) return null;
+      return ce.getDescription();
    }
    
    @Destroy
@@ -124,7 +147,7 @@ public class Manager
    {
       if (dirty)
       {
-         Contexts.getSessionContext().set(CONVERSATION_ID_MAP, conversationIdMap);
+         Contexts.getSessionContext().set(CONVERSATION_ID_MAP, conversationIdEntryMap);
       }
    }
    
@@ -150,10 +173,14 @@ public class Manager
 
    public static Manager instance()
    {
-      Manager instance = (Manager) Component.getInstance( NAME, true );
+      if ( !Contexts.isEventContextActive() )
+      {
+         throw new IllegalStateException("No active event context");
+      }
+      Manager instance = (Manager) Component.getInstance(Manager.class, true);
       if (instance==null)
       {
-         throw new IllegalStateException("No ConversationManager could be created, make sure the Component exists in application scope");
+         throw new IllegalStateException("No Manager could be created, make sure the Component exists in application scope");
       }
       return instance;
    }
@@ -164,12 +191,12 @@ public class Manager
    public void conversationTimeout(ExternalContext externalContext)
    {
       long currentTime = System.currentTimeMillis();
-      Map<String, Long> ids = getConversationIdMap();
-      Iterator<Map.Entry<String, Long>> iter = ids.entrySet().iterator();
+      Map<String, ConversationEntry> ids = getConversationIdEntryMap();
+      Iterator<Map.Entry<String, ConversationEntry>> iter = ids.entrySet().iterator();
       while ( iter.hasNext() )
       {
-         Map.Entry<String, Long> entry = iter.next();
-         long delta = currentTime - entry.getValue();
+         Map.Entry<String, ConversationEntry> entry = iter.next();
+         long delta = currentTime - entry.getValue().getLastRequestTime();
          if ( delta > Conversation.instance().getTimeout() )
          {
             String conversationId = entry.getKey();
@@ -197,7 +224,7 @@ public class Manager
          }
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
-         addConversationId(currentConversationId);
+         updateConversationEntry(currentConversationId);
       }
       else 
       {
@@ -221,7 +248,7 @@ public class Manager
          }
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
-         addConversationId(currentConversationId);
+         updateConversationEntry(currentConversationId);
       }
       else 
       {
@@ -241,9 +268,10 @@ public class Manager
          //the JSF component tree
          storedConversationId = (String) attributes.get(CONVERSATION_ID);
       }
-      else
+      
+      if (storedConversationId!=null) 
       {
-         log.debug("Found conversation id in request parameter");
+         log.debug("Found conversation id in request parameter: " + storedConversationId);
       }
       
       boolean isStoredConversation = storedConversationId!=null && 

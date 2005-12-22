@@ -83,7 +83,17 @@ public class Init
    
    public static Init instance()
    {
-      return (Init) Contexts.getApplicationContext().get(Init.class);
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("No active application scope");
+      }
+      Init init = (Init) Contexts.getApplicationContext().get(Init.class);
+      //commented out because of some test cases:
+      /*if (init==null)
+      {
+         throw new IllegalStateException("No Init exists");
+      }*/
+      return init;
    }
    
    public String[] getManagedDataSources()

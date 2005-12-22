@@ -14,18 +14,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 
 public class SeamServletFilter implements Filter {
    
+   private static Logger log = Logger.getLogger(SeamServletFilter.class);
    private ServletContext servletContext;
 
    public void destroy() {}
 
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+      log.debug("beginning request");
+      
       HttpSession session = ( (HttpServletRequest) request ).getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, session);
       String conversationId = Manager.instance().restore( null, request.getParameterMap() );
       Lifecycle.resumeConversation( session, conversationId );
@@ -39,11 +44,14 @@ public class SeamServletFilter implements Filter {
       catch (Exception e)
       {
          Lifecycle.endRequest();
+         log.error("ended request due to exception", e);
          throw new ServletException(e);
       }
       finally
       {
-         Lifecycle.setPhaseId(null);         
+         Lifecycle.setServletRequest(null);
+         Lifecycle.setPhaseId(null);
+         log.debug("ended request");
       }
    }
 

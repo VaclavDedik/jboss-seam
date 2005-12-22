@@ -11,12 +11,12 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.contexts.Contexts;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @author Gavin King
  */
 @Name( "taskInstanceList" )
 @Scope( APPLICATION )
@@ -27,8 +27,7 @@ public class TaskInstanceList
    @Unwrap
    public List<TaskInstance> getTaskInstanceList()
    {
-      String actorId = (String) Contexts.lookupInStatefulContexts("actorId");
-      return getTaskInstanceList(actorId);
+      return getTaskInstanceList( Actor.instance().getId() );
    }
 
    private List<TaskInstance> getTaskInstanceList(String actorId)
