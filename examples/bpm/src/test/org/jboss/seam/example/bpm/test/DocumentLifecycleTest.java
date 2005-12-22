@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.Ejb;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Jbpm;
@@ -39,7 +40,7 @@ public class DocumentLifecycleTest extends SeamTest
             user.setId(2l);
             user.setUsername("user");
             Contexts.getSessionContext().set("user", user);
-            Contexts.getSessionContext().set("actorId", "user");
+            Actor.instance().setId("user");
          }
 
          @Override
@@ -102,7 +103,7 @@ public class DocumentLifecycleTest extends SeamTest
             user.setId(1l);
             user.setUsername("admin");
             Contexts.getSessionContext().set("user", user);
-            Contexts.getSessionContext().set("actorId", "admin");
+            Actor.instance().setId("admin");
          }
          
          @Override

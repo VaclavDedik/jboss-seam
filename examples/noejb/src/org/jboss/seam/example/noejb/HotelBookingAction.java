@@ -5,6 +5,7 @@ import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
+import org.jboss.seam.core.Conversation;
 
 @Name("hotelBooking")
 @Scope(CONVERSATION)
@@ -60,6 +62,9 @@ public class HotelBookingAction implements Serializable
    @In(required=false)
    private BookingListAction bookingList;
    
+   @In(create=true)
+   Conversation conversation;
+   
    public String getSearchString()
    {
       return searchString;
@@ -82,14 +87,17 @@ public class HotelBookingAction implements Serializable
       
       log.info(hotels.size() + " hotels found");
       
-      return "main";
+      String description = "Find hotels: " + searchString;
+      return conversation.switchableOutcome("main", description);
    }
    
    public String selectHotel()
    {
       if ( hotels==null ) return "main";
+      
       setHotel();
-      return "selected";
+      
+      return conversation.switchableOutcome("selected");
    }
 
    public String nextHotel()
@@ -109,28 +117,34 @@ public class HotelBookingAction implements Serializable
          --hotelIndex;
          setHotel();
       }
-      return null;
+       return null;
    }
 
    private void setHotel()
    {
       hotel = hotels.get(hotelIndex);
+      String description = "View hotel: " + hotel.getName();
+      conversation.setDescription(description);
       log.info( hotelIndex + "=>" + hotel );
    }
    
    public String bookHotel()
    {
       if (hotel==null) return "main";
+      
       booking = new Booking(hotel, user);
       booking.setCheckinDate( new Date() );
       booking.setCheckoutDate( new Date() );
-      return "book";
+      
+      String description = "Book hotel: " + hotel.getName();
+      return conversation.switchableOutcome("book", description);
    }
    
    @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";
+      
       if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
          log.info("invalid booking dates");
@@ -140,8 +154,13 @@ public class HotelBookingAction implements Serializable
       }
       else
       {
-         log.info("valid booking");
-         return "success";
+         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+         String description = "Book hotel: " + hotel.getName() + 
+               ", " + df.format( booking.getCheckinDate() ) + 
+               " to " + df.format( booking.getCheckoutDate() );
+         
+         log.info("valid booking: " + description);
+         return conversation.switchableOutcome("confirm", description);
       }
    }
       
@@ -149,6 +168,7 @@ public class HotelBookingAction implements Serializable
    public String confirm()
    {
       if (booking==null || hotel==null) return "main";
+      
       bookingDatabase.persist(booking);
       if (bookingList!=null) bookingList.refresh();
       log.info("booking confirmed");

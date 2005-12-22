@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.ResumeTask;
+import org.jboss.seam.core.Transition;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 /**
@@ -29,6 +30,9 @@ public class DocumentTaskHandler implements DocumentTask
 
    @In(required=false)
    private Long documentId;
+   
+   @In(create=true)
+   private Transition transition;
 
    @In
    private User user;
@@ -45,6 +49,7 @@ public class DocumentTaskHandler implements DocumentTask
    {
       document.approve( user );
       document = entityManager.merge( document );
+      transition.setName("approve");
       return "approved";
    }
 
@@ -53,6 +58,7 @@ public class DocumentTaskHandler implements DocumentTask
    {
       document.reject( user );
       document = entityManager.merge( document );
+      transition.setName("reject");
       return "rejected";
    }
 }

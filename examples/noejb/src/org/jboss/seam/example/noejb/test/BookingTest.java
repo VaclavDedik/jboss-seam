@@ -179,7 +179,7 @@ public class BookingTest extends SeamTest
          {
         	 HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.setBookingDetails();
-            assert "success".equals( outcome );
+            assert "confirm".equals( outcome );
          }
 
          @Override
