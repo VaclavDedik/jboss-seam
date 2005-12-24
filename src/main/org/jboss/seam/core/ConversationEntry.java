@@ -66,6 +66,11 @@ public final class ConversationEntry implements Serializable
    public void setOutcome(String outcome) {
       this.outcome = outcome;
    }
+   
+   public String getOutcome()
+   {
+      return outcome;
+   }
 
    public Date getLastDatetime() {
       return lastDatetime;

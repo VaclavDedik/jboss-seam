@@ -142,6 +142,14 @@ public class Manager
       return ce.getDescription();
    }
    
+   public String getCurrentConversationOutcome()
+   {
+      if ( conversationIdEntryMap==null ) return null;
+      ConversationEntry ce = conversationIdEntryMap.get(currentConversationId);
+      if ( ce==null ) return null;
+      return ce.outcome();
+   }
+   
    @Destroy
    public void flush()
    {

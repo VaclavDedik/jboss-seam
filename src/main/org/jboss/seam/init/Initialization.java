@@ -40,6 +40,7 @@ import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
 import org.jboss.seam.core.ConversationList;
+import org.jboss.seam.core.Switcher;
 import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.Transition;
@@ -150,8 +151,9 @@ public class Initialization
 
       addComponent( Init.class, context );
       addComponent( Manager.class, context );
-      addComponent( ConversationList.class, context );
+      addComponent( Switcher.class, context );
       addComponent( Conversation.class, context );
+      addComponent( ConversationList.class, context );
       addComponent( FacesContext.class, context );
       addComponent( EventContext.class, context );
       addComponent( SessionContext.class, context );
