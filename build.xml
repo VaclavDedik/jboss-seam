@@ -112,6 +112,7 @@
     <target name="clean"
             description="Cleans up the build directory">
         <delete dir="${build.dir}"/>
+    	<delete dir="test-output"/>
     </target>
 
     <target name="cleandist"
