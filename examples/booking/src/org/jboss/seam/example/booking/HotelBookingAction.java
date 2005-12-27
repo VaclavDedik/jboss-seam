@@ -5,8 +5,7 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.util.Calendar;
 
 import javax.ejb.Interceptor;
 import javax.ejb.Remove;
@@ -26,8 +25,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -42,14 +40,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @PersistenceContext(type=EXTENDED)
    private EntityManager em;
    
-   private String searchString;
-   
-   @DataModel
-   private List<Hotel> hotels;
-   @DataModelSelectionIndex
-   private int hotelIndex;
-   
-   @Out(required=false)
+   @In @Out
    private Hotel hotel;
    
    @In(required=false) 
@@ -63,74 +54,22 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In
    private transient FacesContext facesContext;
    
+   @In(create=true)
+   private transient Conversation conversation;
+   
    @In(required=false)
    private BookingList bookingList;
    
-   @Begin
-   public String find()
-   {
-      hotel = null;
-      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      hotels = em.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
-            .setParameter("search", searchPattern)
-            .setMaxResults(50)
-            .getResultList();
-      
-      log.info(hotels.size() + " hotels found");
-      
-      return "main";
-   }
-   
-   public String getSearchString()
-   {
-      return searchString;
-   }
-
-   public void setSearchString(String searchString)
-   {
-      this.searchString = searchString;
-   }
-
-   public String selectHotel()
-   {
-      if ( hotels==null ) return "main";
-      setHotel();
-      return "selected";
-   }
-
-   public String nextHotel()
-   {
-      if ( hotelIndex<hotels.size()-1 )
-      {
-         ++hotelIndex;
-         setHotel();
-      }
-      return null;
-   }
-
-   public String lastHotel()
-   {
-      if (hotelIndex>0)
-      {
-         --hotelIndex;
-         setHotel();
-      }
-      return null;
-   }
-
-   private void setHotel()
-   {
-      hotel = hotels.get(hotelIndex);
-      log.info( hotelIndex + "=>" + hotel );
-   }
-   
+   @Begin(nested=true)
    public String bookHotel()
-   {
-      if (hotel==null) return "main";
+   {      
       booking = new Booking(hotel, user);
-      booking.setCheckinDate( new Date() );
-      booking.setCheckoutDate( new Date() );
-      return "book";
+      Calendar calendar = Calendar.getInstance();
+      booking.setCheckinDate( calendar.getTime() );
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
+      booking.setCheckoutDate( calendar.getTime() );
+      
+      return conversation.switchableOutcome( "book", "Book hotel: " + hotel.getName() );
    }
    
    @IfInvalid(outcome=REDISPLAY)
@@ -147,7 +86,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       else
       {
          log.info("valid booking");
-         return "success";
+         return conversation.switchableOutcome( "confirm", "Confirm booking: " + booking.getDescription() );
       }
    }
       
@@ -161,9 +100,15 @@ public class HotelBookingAction implements HotelBooking, Serializable
       return "confirmed";
    }
       
+   @End
+   public String cancel()
+   {
+      return "main";
+   }
+   
    @Destroy @Remove
    public void destroy() {
       log.info("destroyed");
    }
-   
+
 }

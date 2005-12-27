@@ -2,6 +2,7 @@
 package org.jboss.seam.example.booking;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratorType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
@@ -100,5 +102,17 @@ public class Booking implements Serializable
       this.creditCard = creditCard;
    }
    
+   @Transient
+   public String getDescription()
+   {
+      DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+      return hotel.getName() + 
+            ", " + df.format( getCheckinDate() ) + 
+            " to " + df.format( getCheckoutDate() );
+   }
    
+   public String toString()
+   {
+      return "Booking(" + user + ","+ hotel + ")";
+   }
 }

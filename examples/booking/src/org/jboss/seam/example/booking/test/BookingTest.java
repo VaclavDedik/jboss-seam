@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.example.booking.test;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.BookingList;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
+import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
@@ -31,7 +34,7 @@ public class BookingTest extends SeamTest
       
       String id = new Script() {
 
-         HotelBooking hotelBooking;
+         HotelSearching hotelSearching;
          
          @Override
          protected void applyRequestValues()
@@ -43,14 +46,14 @@ public class BookingTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
-            hotelBooking.setSearchString("Union Square");
+            hotelSearching = (HotelSearching) Component.getInstance("hotelSearching", true);
+            hotelSearching.setSearchString("Union Square");
          }
 
          @Override
          protected void invokeApplication()
          {
-            String outcome = hotelBooking.find();
+            String outcome = hotelSearching.find();
             assert "main".equals( outcome );
          }
 
@@ -60,7 +63,7 @@ public class BookingTest extends SeamTest
             DataModel hotels = (DataModel) Contexts.getConversationContext().get("hotels");
             assert hotels.getRowCount()==1;
             assert ( (Hotel) hotels.getRowData() ).getCity().equals("NY");
-            assert "Union Square".equals( hotelBooking.getSearchString() );
+            assert "Union Square".equals( hotelSearching.getSearchString() );
             assert Manager.instance().isLongRunningConversation();
          }
          
@@ -71,9 +74,8 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            //getRequest().getParameterMap().put("hotelId", "2");
-            HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.selectHotel();
+            HotelSearching hotelSearching = (HotelSearching) Component.getInstance("hotelSearching", true);
+            String outcome = hotelSearching.selectHotel();
             assert "selected".equals( outcome );
          }
 
@@ -88,12 +90,12 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      id = new Script(id) {
 
          @Override
          protected void invokeApplication()
          {
-            HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
+            HotelBooking hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
             String outcome = hotelBooking.bookHotel();
             assert "book".equals( outcome );
          }
@@ -140,6 +142,9 @@ public class BookingTest extends SeamTest
          {
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
             booking.setCreditCard("1234567891021234");
+            Date now = new Date();
+            booking.setCheckinDate(now);
+            booking.setCheckoutDate(now);
          }
 
          @Override
@@ -168,8 +173,9 @@ public class BookingTest extends SeamTest
          protected void updateModelValues() throws Exception
          {
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
-            booking.getCheckinDate().setDate(10); 
-            booking.getCheckoutDate().setDate(12);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, 2);
+            booking.setCheckoutDate( cal.getTime() );
          }
 
          @Override
@@ -177,7 +183,7 @@ public class BookingTest extends SeamTest
          {
             HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.setBookingDetails();
-            assert "success".equals( outcome );
+            assert "confirm".equals( outcome );
          }
 
          @Override

@@ -9,7 +9,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Ejb;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.example.booking.HotelBooking;
+import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.Login;
 import org.jboss.seam.example.booking.Logout;
 import org.jboss.seam.example.booking.User;
@@ -29,7 +29,7 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            HotelBooking hb = (HotelBooking) Component.getInstance("hotelBooking", true);
+            HotelSearching hb = (HotelSearching) Component.getInstance("hotelSearching", true);
             String outcome = hb.find();
             assert "login".equals( outcome );
          }
@@ -82,7 +82,7 @@ public class LoginTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            HotelBooking hb = (HotelBooking) Component.getInstance("hotelBooking", true);
+            HotelSearching hb = (HotelSearching) Component.getInstance("hotelSearching", true);
             String outcome = hb.find();
             assert "main".equals( outcome );
          }
