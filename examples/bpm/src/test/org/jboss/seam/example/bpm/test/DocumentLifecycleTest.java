@@ -4,6 +4,8 @@ package org.jboss.seam.example.bpm.test;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.model.DataModel;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Actor;
@@ -17,6 +19,8 @@ import org.jboss.seam.example.bpm.DocumentCreation;
 import org.jboss.seam.example.bpm.DocumentCreationHandler;
 import org.jboss.seam.example.bpm.DocumentTask;
 import org.jboss.seam.example.bpm.DocumentTaskHandler;
+import org.jboss.seam.example.bpm.MyDocuments;
+import org.jboss.seam.example.bpm.MyDocumentsHandler;
 import org.jboss.seam.example.bpm.Status;
 import org.jboss.seam.example.bpm.User;
 import org.jboss.seam.mock.SeamTest;
@@ -90,6 +94,43 @@ public class DocumentLifecycleTest extends SeamTest
          
       }.run();
       
+      String id = new Script() {
+         
+         @Override
+         protected void renderResponse() throws Exception {
+            DataModel documents = (DataModel) Component.getInstance("documents", true);
+            assert documents.getRowCount()==1;
+            Document doc = (Document) documents.getRowData();
+            assert doc.getContent().equals("The content of the document");
+            assert doc.getTitle().equals("The Document Title");
+            assert doc.getStatus()==Status.PENDING;
+            assert Manager.instance().isLongRunningConversation();
+         }
+      
+      }.run();
+      
+      new Script(id) {
+
+         @Override
+         protected void invokeApplication() throws Exception {
+            MyDocuments mydoc = (MyDocuments) Component.getInstance(MyDocumentsHandler.class, true);
+            assert mydoc.select().equals("detail");
+         }
+
+         @Override
+         protected void renderResponse() throws Exception {
+            Document doc = (Document) Component.getInstance(Document.class, true);
+            assert doc.getContent().equals("The content of the document");
+            assert doc.getTitle().equals("The Document Title");
+            assert doc.getStatus()==Status.PENDING;
+            DocumentCreation creator = (DocumentCreation) Component.getInstance(DocumentCreationHandler.class, true);
+            assert !creator.isNew();
+            assert creator.isEditable();
+            assert Manager.instance().isLongRunningConversation();
+         }
+         
+      }.run();
+      
        
       final Long[] taskId = new Long[1];
       
@@ -117,7 +158,7 @@ public class DocumentLifecycleTest extends SeamTest
          
       }.run();
      
-      String id = new Script() {
+      id = new Script() {
          @Override
          protected void setParameters() {
             getRequestParameterMap().put("taskId", taskId[0].toString());

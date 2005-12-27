@@ -5,11 +5,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.seam.annotations.CompleteTask;
+import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.ResumeTask;
+import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.core.Transition;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -37,14 +37,14 @@ public class DocumentTaskHandler implements DocumentTask
    @In
    private User user;
 
-   @ResumeTask
+   @BeginTask
    public String details()
    {
       document = entityManager.find( Document.class, documentId );
       return "review";
    }
 
-   @CompleteTask
+   @EndTask
    public String approve()
    {
       document.approve( user );
@@ -53,7 +53,7 @@ public class DocumentTaskHandler implements DocumentTask
       return "approved";
    }
 
-   @CompleteTask
+   @EndTask
    public String reject()
    {
       document.reject( user );
