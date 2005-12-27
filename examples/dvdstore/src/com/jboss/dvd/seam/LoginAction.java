@@ -11,6 +11,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.core.Actor;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
@@ -25,7 +26,10 @@ public class LoginAction
     private EntityManager em;
 
     @In
-    private Context sessionContext;
+    Context sessionContext;
+    
+    @In(create=true) 
+    Actor actor;
     
     String username = "";
     String password = "";
@@ -47,28 +51,28 @@ public class LoginAction
 
     @LoginIf(outcome={"admin","customer"})
     public String login() {
-        try { 
-            System.out.println("LOGIN!");
+        try {
             User found =  
-                (User) em.createQuery("from User c where c.userName = :userName and " + 
-                                      "c.password = :password")
+                (User) em.createQuery("from User u where u.userName = :userName and u.password = :password")
                 .setParameter("userName", username)
                 .setParameter("password", password)
                 .getSingleResult();
 
-            System.out.println("USER: " + found);
+            System.out.println("user: " + found);
 
             sessionContext.set("currentUser", found);
             
             if (found instanceof Admin) {
                 sessionContext.set("currentUserIsAdmin", true);
+                actor.setId("shipper");
                 return "admin";
-            } else {
+            } 
+            else {
                 return "customer";
             }
-        } catch (Exception e) {
-            Utils.warnUser("loginErrorPrompt", null);
-            
+        } 
+        catch (Exception e) {
+            Utils.warnUser("loginErrorPrompt", null);    
             return "notok";
         }
     }

@@ -45,20 +45,16 @@ public class EditCustomerAction
     SessionContext ctx;
 
     @In
-    private Context sessionContext;
+    Context sessionContext;
 
     @In(create=true)
     @Out
     @Valid
     Customer customer;
 
-    String password = null;    
-
-    public EditCustomerAction() {
-
-    }
+    String password = null;
     
-    public void   setPasswordVerify(String password) {
+    public void setPasswordVerify(String password) {
         this.password = password;
     }
     public String getPasswordVerify() {
@@ -99,14 +95,14 @@ public class EditCustomerAction
 
             if (existing.size()>1) {
                 Utils.warnUser("createCustomerExistingError", null);
-
                 return null;
             }
 
             em.persist(customer);
             sessionContext.set("currentUser", customer);
             return "ok";
-        }  catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             System.out.println("not created");
             ctx.setRollbackOnly();
 

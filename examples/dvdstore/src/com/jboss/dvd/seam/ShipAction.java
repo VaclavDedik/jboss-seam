@@ -15,15 +15,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.CompleteTask;
+import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.ResumeTask;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -56,19 +54,13 @@ public class ShipAction
         this.track=track;
     }
 
-
-    @ResumeTask
-    @Begin
+    @BeginTask
     public String viewTask() {
-        order = (Order) em.createQuery("from Order o JOIN FETCH o.orderLines where o.orderId = :orderId")
-            .setParameter("orderId", orderId.longValue())
-            .getSingleResult();
-
+        order = (Order) em.find(Order.class, orderId);
         return "ship";
     }
 
-    @CompleteTask
-    @End
+    @EndTask
     public String ship() {
         if (track == null || track.length()==0) {
             // invalid message
@@ -82,6 +74,5 @@ public class ShipAction
 
     @Destroy 
     @Remove
-    public void destroy() {
-    }
+    public void destroy() {}
 }

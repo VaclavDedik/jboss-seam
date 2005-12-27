@@ -43,7 +43,8 @@ public class Utils {
             try { 
                 summary = bundle.getString(messageId); 
                 detail = bundle.getString(messageId + "_detail"); 
-            } catch (MissingResourceException e) {
+            } 
+            catch (MissingResourceException e) {
             } 
 
             if (summary != null) { 

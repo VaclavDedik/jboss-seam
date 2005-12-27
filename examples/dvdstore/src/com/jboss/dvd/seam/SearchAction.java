@@ -19,15 +19,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.datamodel.DataModel;
-
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("search")
 @LoggedIn
-@Conversational(ifNotBegunOutcome="browse")
 @Interceptor(SeamInterceptor.class)
 public class SearchAction
     implements Search,
@@ -51,13 +54,9 @@ public class SearchAction
 
     List<Category>      categories;
     Map<String,Integer> categoryMap;
-
-    @DataModel
+    
+    @Out(scope=ScopeType.CONVERSATION, required=false)
     List<SelectableItem<Product>> searchResults;    
-
- 
-    public SearchAction() {
-    }
 
     public void setCategory(Integer category) {
         this.category = category ; 
@@ -157,7 +156,8 @@ public class SearchAction
         if (items.size() > pageSize) { 
             searchResults = new ArrayList(items.subList(0,pageSize));
             hasMore = true;
-        } else {
+        } 
+        else {
             searchResults = items;
             hasMore = false;
         }
@@ -169,13 +169,14 @@ public class SearchAction
         actor = (actor == null) ? "%" : "%" + actor.toLowerCase() + "%";
 
         if (category == null) {
-            return em.createQuery("from Product p where lower(p.title) LIKE :title " + 
+            return em.createQuery("from Product p where lower(p.title) like :title " + 
                                   "and lower(p.actor) LIKE :actor")
                 .setParameter("title", title)
                 .setParameter("actor", actor);
-        } else { 
-            return em.createQuery("from Product p where lower(p.title) LIKE :title " + 
-                                  "and lower(p.actor) LIKE :actor " + 
+        } 
+        else { 
+            return em.createQuery("from Product p where lower(p.title) like :title " + 
+                                  "and lower(p.actor) like :actor " + 
                                   "and p.category = :category")
                 .setParameter("title", title)
                 .setParameter("actor", actor)
@@ -204,6 +205,6 @@ public class SearchAction
 
     @Destroy 
     @Remove
-    public void destroy() {
-    }
+    public void destroy() {}
+    
 }

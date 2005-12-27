@@ -22,9 +22,6 @@
 
     <lifecycle>
         <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-        <!-- 
-        <phase-listener>org.jboss.seam.jsf.SeamTransactionManagedPersistencePhaseListener</phase-listener>
-        -->
     </lifecycle>
 
     <navigation-rule>

@@ -1,3 +1,9 @@
+delete from ORDERLINES
+delete from ORDERS
+delete from USERS
+delete from INVENTORY
+delete from PRODUCTS
+delete from CATEGORIES
 insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (1, 'Action');
 insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (2, 'Foreign');
 insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (3, 'Children');

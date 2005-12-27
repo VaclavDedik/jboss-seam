@@ -7,22 +7,22 @@
     <c:if test="${currentUserIsAdmin}">
     <dl>
         <dt class="menuHeader">Admin Options</dt>
-        <dd> 
-            <dl class="menuSection">
+        <dd class="menuForm"> 
+          <h:form>
+            <dl>
                 <dt>Process Management</dt>
                 <dd>
-                    <h:commandLink action="#{jbpmHelper.loadProcess1}" 
-                                   value="Load Order Process 1"/>
+                    <h:selectOneMenu value="#{processDefinitionSwitcher.currentProcessDefinition}" size="16">
+                        <f:selectItems value="#{processDefinitionSwitcher.processDefinitions}"/>
+                    </h:selectOneMenu>
                 </dd>
                 <dd>
-                    <h:commandLink action="#{jbpmHelper.loadProcess2}" 
-                                   value="Load Order Process 2"/>
-                </dd>
-                <dd>
-                    <h:commandLink action="#{jbpmHelper.loadProcess3}" 
-                                   value="Load Order Process 3"/>
+                    <h:commandButton action="#{processDefinitionSwitcher.switchProcess}" 
+                                   value="Switch Order Process"
+                                   class="formButton" style="width: 166px;"/>
                 </dd>
             </dl>
+          </h:form>
         </dd>
     </dl>
     </c:if>

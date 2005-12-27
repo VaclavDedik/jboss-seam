@@ -9,13 +9,13 @@ import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.interceptors.BijectionInterceptor;
+import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 
-@Around({BijectionInterceptor.class, 
-         ValidationInterceptor.class, 
-         ConversationInterceptor.class})
+@Around({BijectionInterceptor.class, ValidationInterceptor.class, 
+   ConversationInterceptor.class, BusinessProcessInterceptor.class})
 @Within(RemoveInterceptor.class)
 public class LoginIfInterceptor
 {

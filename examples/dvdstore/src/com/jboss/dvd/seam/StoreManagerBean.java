@@ -30,16 +30,17 @@ public class StoreManagerBean
 
     public int getNumberOrders() {
         return (Integer) em.createQuery("select count(o) from Order o where o.status != :status")
-            .setParameter("status", Order.Status.CANCELLED.ordinal())
+            .setParameter("status", Order.Status.CANCELLED)
             .getSingleResult();
     }
 
     public double getTotalSales() {
         try {
             return (Float) em.createQuery("select sum(o.totalAmount) from Order o where o.status != :status")
-                .setParameter("status", Order.Status.CANCELLED.ordinal())
+                .setParameter("status", Order.Status.CANCELLED)
                 .getSingleResult();
-        } catch (EntityNotFoundException e) {
+        } 
+        catch (EntityNotFoundException e) {
             return 0.0;
         }
     }
@@ -47,7 +48,8 @@ public class StoreManagerBean
     public int getUnitsSold() {
         try {
             return (Integer) em.createQuery("select sum(i.sales) from Inventory i").getSingleResult();
-        } catch (EntityNotFoundException e) {
+        } 
+        catch (EntityNotFoundException e) {
             return 0;
         }
     }
@@ -55,7 +57,8 @@ public class StoreManagerBean
     public int getTotalInventory() {
         try {
             return (Integer) em.createQuery("select sum(i.quantity) from Inventory i").getSingleResult();
-        } catch (EntityNotFoundException e) {
+        } 
+        catch (EntityNotFoundException e) {
             return 0;
         }
     }

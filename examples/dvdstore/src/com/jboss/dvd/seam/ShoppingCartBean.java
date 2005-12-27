@@ -61,9 +61,6 @@ public class ShoppingCartBean
     @Out(value="customer",scope=ScopeType.PROCESS, required=false)
     String customerName;
 
-    public ShoppingCartBean() {
-    }
-
     public boolean getIsEmpty() {
         return cart.size() == 0;
     }
@@ -150,7 +147,8 @@ public class ShoppingCartBean
             customerName = order.getCustomer().getUserName();
 
             return "complete";
-        } catch (InsufficientQuantityException e) {
+        } 
+        catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {
                 Utils.warnUser("checkoutInsufficientQuantity", 
                     new Object[] {product.getTitle()});
@@ -198,8 +196,6 @@ public class ShoppingCartBean
 
     @Destroy
     @Remove
-    public void destroy() {
-    }
-
+    public void destroy() {}
 
 }

@@ -49,11 +49,11 @@
 
             <h2>Order Acceptance</h2>
             <c:choose>
-                <c:when test="${empty(jbpmHelper.approveTasks)}">
+                <c:when test="${empty taskInstanceListForType['approve']}">
                     <p>There are no orders to be accepted.</p>
                 </c:when>
                 <c:otherwise>      
-                    <h:dataTable value="#{jbpmHelper.approveTasks}"
+                    <h:dataTable value="#{taskInstanceListForType['approve']}"
                                  var="task" 
                                  styleClass="dvdtable" 
                                  headerClass="dvdtablehead"
@@ -82,7 +82,7 @@
                         <h:column>
                             <h:commandLink action="#{accept.viewTask}"> 
                                 <h:commandButton value="Review"/>
-                                <f:param name="jbpmTaskId" value="#{task.id}"/>
+                                <f:param name="taskId" value="#{task.id}"/>
                             </h:commandLink>
                         </h:column>
                
@@ -93,11 +93,11 @@
 
             <h2>Shipping</h2>
             <c:choose>
-                <c:when test="${empty(jbpmHelper.shipperTasks)}">
+                <c:when test="${empty taskInstanceListForType['ship']}">
                     <p>There are no orders to be shipped.</p>
                 </c:when>
-                <c:otherwise>      
-                    <h:dataTable value="#{jbpmHelper.shipperTasks}"
+                <c:otherwise>
+                    <h:dataTable value="#{taskInstanceListForType['ship']}"
                                  var="task" 
                                  styleClass="dvdtable" 
                                  headerClass="dvdtablehead"
@@ -127,7 +127,7 @@
                         <h:column>
                             <h:commandLink action="#{ship.viewTask}"> 
                                 <h:commandButton value="Ship"/>
-                                <f:param name="jbpmTaskId" value="#{task.id}"/>
+                                <f:param name="taskId" value="#{task.id}"/>
                             </h:commandLink>
                         </h:column>               
                     </h:dataTable>
