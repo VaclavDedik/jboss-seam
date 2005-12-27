@@ -87,6 +87,6 @@ public class Hotel implements Serializable
 
    public String toString()
    {
-      return "Hotel(" + address + "," + city + "," + zip + ")";
+      return "Hotel(" + name + "," + address + "," + city + "," + state + "," + zip + ")";
    }
 }

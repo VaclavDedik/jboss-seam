@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.example.noejb.test;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -142,12 +144,15 @@ public class BookingTest extends SeamTest
          {
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
             booking.setCreditCard("1234567891021234");
+            Date now = new Date();
+            booking.setCheckinDate(now);
+            booking.setCheckoutDate(now);
          }
 
          @Override
          protected void invokeApplication()
          {
-        	 HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
+        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.setBookingDetails();
             assert outcome==null;
          }
@@ -170,14 +175,15 @@ public class BookingTest extends SeamTest
          protected void updateModelValues() throws Exception
          {
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
-            booking.getCheckinDate().setDate(10); 
-            booking.getCheckoutDate().setDate(12);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, 2);
+            booking.setCheckoutDate( cal.getTime() );
          }
 
          @Override
          protected void invokeApplication()
          {
-        	 HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
+        	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.setBookingDetails();
             assert "confirm".equals( outcome );
          }

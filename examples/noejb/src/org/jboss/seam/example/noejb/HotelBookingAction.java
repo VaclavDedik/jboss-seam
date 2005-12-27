@@ -5,8 +5,7 @@ import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -60,10 +59,10 @@ public class HotelBookingAction implements Serializable
    private transient FacesContext facesContext;
    
    @In(required=false)
-   private BookingListAction bookingList;
+   private transient BookingListAction bookingList;
    
    @In(create=true)
-   Conversation conversation;
+   private transient Conversation conversation;
    
    public String getSearchString()
    {
@@ -87,16 +86,13 @@ public class HotelBookingAction implements Serializable
       
       log.info(hotels.size() + " hotels found");
       
-      String description = "Find hotels: " + searchString;
-      return conversation.switchableOutcome("main", description);
+      return conversation.switchableOutcome("main", "Search hotels: " + searchString);
    }
    
    public String selectHotel()
    {
       if ( hotels==null ) return "main";
-      
       setHotel();
-      
       return conversation.switchableOutcome("selected");
    }
 
@@ -122,10 +118,9 @@ public class HotelBookingAction implements Serializable
 
    private void setHotel()
    {
+      log.info( "hotel selected: " + hotelIndex + "=>" + hotel );
       hotel = hotels.get(hotelIndex);
-      String description = "View hotel: " + hotel.getName();
-      conversation.setDescription(description);
-      log.info( hotelIndex + "=>" + hotel );
+      conversation.setDescription( "View hotel: " + hotel.getName() );
    }
    
    public String bookHotel()
@@ -133,11 +128,12 @@ public class HotelBookingAction implements Serializable
       if (hotel==null) return "main";
       
       booking = new Booking(hotel, user);
-      booking.setCheckinDate( new Date() );
-      booking.setCheckoutDate( new Date() );
+      Calendar calendar = Calendar.getInstance();
+      booking.setCheckinDate( calendar.getTime() );
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
+      booking.setCheckoutDate( calendar.getTime() );
       
-      String description = "Book hotel: " + hotel.getName();
-      return conversation.switchableOutcome("book", description);
+      return conversation.switchableOutcome( "book", "Book hotel: " + hotel.getName() );
    }
    
    @IfInvalid(outcome=REDISPLAY)
@@ -154,13 +150,8 @@ public class HotelBookingAction implements Serializable
       }
       else
       {
-         DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-         String description = "Book hotel: " + hotel.getName() + 
-               ", " + df.format( booking.getCheckinDate() ) + 
-               " to " + df.format( booking.getCheckoutDate() );
-         
-         log.info("valid booking: " + description);
-         return conversation.switchableOutcome("confirm", description);
+         log.info( "valid booking: " + booking.getDescription() );
+         return conversation.switchableOutcome( "confirm", "Confirm booking: " + booking.getDescription() );
       }
    }
       
@@ -173,6 +164,15 @@ public class HotelBookingAction implements Serializable
       if (bookingList!=null) bookingList.refresh();
       log.info("booking confirmed");
       return "confirmed";
+   }
+   
+   @End
+   public String clear()
+   {
+      hotels = null;
+      hotel = null;
+      booking = null;
+      return "main";
    }
 
 }

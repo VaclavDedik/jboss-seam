@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.example.noejb;
 
+import static org.jboss.seam.ScopeType.STATELESS;
+
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -10,9 +12,11 @@ import org.hibernate.Session;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Context;
 
 @Name("login")
+@Scope(STATELESS)
 public class LoginAction
 {
    
