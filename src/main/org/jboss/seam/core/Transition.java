@@ -33,6 +33,6 @@ public class Transition implements Serializable {
       {
          throw new IllegalStateException("No active application context");
       }
-      return (Transition) Component.getInstance(Transition.class, true);
+      return (Transition) Component.getInstance(Transition.class, ScopeType.CONVERSATION, true);
    }
 }

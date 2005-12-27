@@ -157,13 +157,21 @@ public class Contexts {
    
    public static void destroy(Context context)
    {
-      for ( String name: context.getNames() ) {
-         Component component = Component.forName(name);
-         log.debug("destroying: " + name);
-         if ( component!=null )
-         {
-            callDestroyMethod( component, context.get(name) );
+      Lifecycle.startDestroying();
+      try
+      {
+         for ( String name: context.getNames() ) {
+            Component component = Component.forName(name);
+            log.debug("destroying: " + name);
+            if ( component!=null )
+            {
+               callDestroyMethod( component, context.get(name) );
+            }
          }
+      }
+      finally
+      {
+         Lifecycle.stopDestroying();
       }
    }
 

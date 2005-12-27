@@ -3,8 +3,10 @@ package org.jboss.seam.interceptors;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
+import javax.faces.event.PhaseId;
 
 import org.jboss.seam.annotations.Outcome;
+import org.jboss.seam.contexts.Lifecycle;
 
 /**
  * Translates Outcome.RETRY to null for JSF
@@ -17,6 +19,8 @@ public class OutcomeInterceptor extends AbstractInterceptor
    public Object interceptOutcome(InvocationContext invocation) throws Exception
    {
       final Object result = invocation.proceed();
-      return Outcome.REDISPLAY.equals(result) ? null : result;
+      return Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION && 
+            Outcome.REDISPLAY.equals(result) ? 
+                  null : result;
    }
 }

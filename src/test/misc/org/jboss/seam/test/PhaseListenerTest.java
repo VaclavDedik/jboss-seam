@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
@@ -24,7 +23,6 @@ import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
-import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.mock.MockLifecycle;
 import org.jboss.seam.servlet.ServletSessionImpl;
 import org.testng.annotations.Test;
@@ -35,7 +33,6 @@ public class PhaseListenerTest
    public void testSeamPhaseListener()
    {
       ExternalContext externalContext = new MockExternalContext();
-      HttpServletRequest request = new MockHttpServletRequest(externalContext);
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       MockLifecycle lifecycle = new MockLifecycle();
       facesContext.setCurrent();

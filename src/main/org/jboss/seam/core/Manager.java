@@ -10,6 +10,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.ConversationContext;
+import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.contexts.Session;
 import org.jboss.seam.util.Id;
 
@@ -43,7 +44,6 @@ public class Manager
 
    private static final String NAME = Seam.getComponentName(Manager.class);
    public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdActivityMap";
-   public static final String CONVERSATION_OWNER_NAME = NAME + ".conversationOwnerName";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
 
       
@@ -56,6 +56,7 @@ public class Manager
    
    //The id of the current conversation
    private String currentConversationId;
+   private LinkedList<String> currentConversationIdStack;
    
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
@@ -96,41 +97,84 @@ public class Manager
       dirty = true;
    }
 
-   private void removeConversationId(String conversationId)
+   private ConversationEntry removeConversationEntry(String conversationId)
    {
-      Set<String> ids = getSessionConversationIds();
-      if ( ids.contains(conversationId) ) //might be a request-only conversationId, not yet existing in session
+      Map<String, ConversationEntry> entryMap = getConversationIdEntryMap();
+      if ( entryMap.containsKey(conversationId) ) //might be a request-only conversationId, not yet existing in session
       {
-         ids.remove(conversationId);
          dirty();
+         return entryMap.remove(conversationId);
+      }
+      else
+      {
+         return null; //does this ever occur??
       }
    }
 
-   private void updateConversationEntry(String conversationId)
+   private void touchConversationStack()
    {
-      getConversationEntry(conversationId).touch();
-      dirty();
+      if ( isLongRunningConversation() )
+      {
+         getCurrentConversationEntry().touch();
+      }
+      
+      LinkedList<String> stack = getCurrentConversationIdStack();
+      if ( stack!=null )
+      {
+         for ( String conversationId: stack )
+         {
+            ConversationEntry conversationEntry = getConversationEntry(conversationId);
+            if (conversationEntry!=null)
+            {
+               conversationEntry.touch();
+               dirty();
+            }
+         }
+      }
    }
 
    private ConversationEntry getConversationEntry(String conversationId) {
-      ConversationEntry ce = getConversationIdEntryMap().get(conversationId);
-      if (ce==null)
+      return getConversationIdEntryMap().get(conversationId);
+   }
+   
+   public Object getCurrentConversationOwnerName()
+   {
+      ConversationEntry ce = getCurrentConversationEntry();
+      if (ce!=null)
       {
-         ce = new ConversationEntry( getCurrentConversationId() );
-         getConversationIdEntryMap().put(conversationId, ce);
+         return ce.getOwnerComponentName();
       }
-      return ce;
+      else
+      {
+         return null;
+      }
+   }
+
+   public LinkedList<String> getCurrentConversationIdStack()
+   {
+      return currentConversationIdStack;
+   }
+   
+   private void setCurrentConversationIdStack(LinkedList<String> stack)
+   {
+      currentConversationIdStack = stack;
+   }
+   
+   private void setCurrentConversationIdStack(String id)
+   {
+      currentConversationIdStack = new LinkedList<String>();
+      currentConversationIdStack.add(id);
    }
    
    public void setCurrentConversationDescription(String description)
    {
-      getConversationEntry( getCurrentConversationId() ).setDescription(description);
+      getCurrentConversationEntry().setDescription(description);
       dirty();
    }
    
    public void setCurrentConversationOutcome(String outcome)
    {
-      getConversationEntry( getCurrentConversationId() ).setOutcome(outcome);
+      getCurrentConversationEntry().setOutcome(outcome);
       dirty();
    }
    
@@ -151,7 +195,7 @@ public class Manager
    }
    
    @Destroy
-   public void flush()
+   public void flushConversationIdMapToSession()
    {
       if (dirty)
       {
@@ -169,23 +213,13 @@ public class Manager
       this.isLongRunningConversation = isLongRunningConversation;
    }
 
-   public Object getConversationOwnerName()
-   {
-      return Contexts.getConversationContext().get(CONVERSATION_OWNER_NAME);
-   }
-
-   public void setConversationOwnerName(String name)
-   {
-      Contexts.getConversationContext().set(CONVERSATION_OWNER_NAME, name);
-   }
-
    public static Manager instance()
    {
       if ( !Contexts.isEventContextActive() )
       {
          throw new IllegalStateException("No active event context");
       }
-      Manager instance = (Manager) Component.getInstance(Manager.class, true);
+      Manager instance = (Manager) Component.getInstance(Manager.class, ScopeType.EVENT, true);
       if (instance==null)
       {
          throw new IllegalStateException("No Manager could be created, make sure the Component exists in application scope");
@@ -198,31 +232,39 @@ public class Manager
     */
    public void conversationTimeout(ExternalContext externalContext)
    {
+      touchConversationStack();
+      
       long currentTime = System.currentTimeMillis();
-      Map<String, ConversationEntry> ids = getConversationIdEntryMap();
-      Iterator<Map.Entry<String, ConversationEntry>> iter = ids.entrySet().iterator();
-      while ( iter.hasNext() )
+      Iterator<Map.Entry<String, ConversationEntry>> entries = getConversationIdEntryMap().entrySet().iterator();
+      while ( entries.hasNext() )
       {
-         Map.Entry<String, ConversationEntry> entry = iter.next();
+         Map.Entry<String, ConversationEntry> entry = entries.next();
          long delta = currentTime - entry.getValue().getLastRequestTime();
          if ( delta > Conversation.instance().getTimeout() )
          {
             String conversationId = entry.getKey();
             log.debug("conversation timeout for conversation: " + conversationId);
-            ConversationContext conversationContext = new ConversationContext( Session.getSession(externalContext, true), conversationId );
-            Contexts.destroy( conversationContext );
-            conversationContext.clear();
-            iter.remove();
-            dirty();
+            Session session = Session.getSession(externalContext, true);
+            destroyConversation(conversationId, session, entries);
          }
       }
    }
+
+   private void destroyConversation(String conversationId, Session session, Iterator iter) {
+      ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
+      Contexts.destroy( conversationContext );
+      conversationContext.clear();
+      conversationContext.flush();
+      iter.remove();
+      dirty();
+   }
    
-   public void store(Map attributes)
+   public void storeConversation(Map attributes, Session session)
    {
       if ( isLongRunningConversation() ) 
       {
          log.debug("Storing conversation state: " + currentConversationId);
+         Conversation.instance().flush();
          if ( !Seam.isSessionInvalid() ) 
          {
             //if the session is invalid, don't put the conversation id
@@ -232,21 +274,34 @@ public class Manager
          }
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
-         updateConversationEntry(currentConversationId);
       }
       else 
       {
          log.debug("Discarding conversation state: " + currentConversationId);
-         attributes.remove(CONVERSATION_ID);
-         removeConversationId(currentConversationId);
+                  
+         LinkedList<String> stack = Manager.instance().getCurrentConversationIdStack();
+         if ( stack.size()>1 )
+         {
+            String outerConversationId = stack.get(1);
+            attributes.put(CONVERSATION_ID, outerConversationId);
+         }
+         else
+         {
+            attributes.remove(CONVERSATION_ID);
+         }
+         
+         //now safe to remove the entry
+         removeCurrentConversationAndDestroyNestedContexts(session);
+
       }
    }
-   
-   public void store(HttpServletResponse response)
+
+   public void storeConversation(HttpServletResponse response, Session session)
    {
       if ( isLongRunningConversation() ) 
       {
          log.debug("Storing conversation state: " + currentConversationId);
+         Conversation.instance().flush();
          if ( !Seam.isSessionInvalid() ) 
          {
             //if the session is invalid, don't put the conversation id
@@ -256,20 +311,43 @@ public class Manager
          }
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
-         updateConversationEntry(currentConversationId);
       }
       else 
       {
          log.debug("Discarding conversation state: " + currentConversationId);
-         removeConversationId(currentConversationId);
+
+         LinkedList<String> stack = Manager.instance().getCurrentConversationIdStack();
+         if ( stack.size()>1 )
+         {
+            String outerConversationId = stack.get(1);
+            response.setHeader("conversationId", outerConversationId);
+         }
+         
+         //now safe to remove the entry
+         removeCurrentConversationAndDestroyNestedContexts(session);
       }
    }
    
-   public String restore(Map attributes, Map parameters)
+   private void removeCurrentConversationAndDestroyNestedContexts(Session session) {
+      removeConversationEntry(currentConversationId);
+      Iterator<ConversationEntry> entries = getConversationIdEntryMap().values().iterator();
+      while ( entries.hasNext() )
+      {
+         ConversationEntry ce = entries.next();
+         if ( ce.getConversationIdStack().contains(currentConversationId) )
+         {
+            String conversationId = ce.getId();
+            log.debug("destroying nested conversation: " + conversationId);
+            destroyConversation(conversationId, session, entries);
+         }
+      }
+   }
+   
+   public void restoreConversation(Map attributes, Map parameters)
    {
-      String storedConversationId;
+      
       //First, try to get the conversation id from a request parameter
-      storedConversationId = (String) parameters.get("conversationId");
+      String storedConversationId = (String) parameters.get("conversationId");
       if ( storedConversationId==null && attributes!=null )
       {
          //if it is not passed as a request parameter, try to get it from
@@ -294,17 +372,67 @@ public class Manager
          //we found an id, so restore the long-running conversation
          log.debug("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
-         currentConversationId = storedConversationId;
+         setCurrentConversationId(storedConversationId);
+         setCurrentConversationIdStack( getCurrentConversationEntry().getConversationIdStack() );
       }
       else
       {
          //there was no id in either place, so there is no
          //long-running conversation to restore
          log.debug("No stored conversation");
-         currentConversationId = Id.nextId();
-         setLongRunningConversation(false);
+         initializeTemporaryConversation();
       }
-      return currentConversationId;
+      
+   }
+   
+   public void initializeTemporaryConversation()
+   {
+      String id = Id.nextId();
+      setCurrentConversationId(id);
+      setCurrentConversationIdStack(id);
+      setLongRunningConversation(false);
+   }
+   
+   private ConversationEntry createConversationEntry()
+   {
+      ConversationEntry ce = new ConversationEntry( getCurrentConversationId(), getCurrentConversationIdStack() );
+      getConversationIdEntryMap().put( getCurrentConversationId() , ce );
+      dirty();
+      return ce;
+   }
+   
+   public void beginConversation(String ownerName)
+   {
+      setLongRunningConversation(true);
+      createConversationEntry().setOwnerComponentName(ownerName);
+      Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
+   }
+   
+   public void endConversation()
+   {
+      setLongRunningConversation(false);
+   }
+   
+   public void beginNestedConversation(String ownerName)
+   {
+      LinkedList<String> stack = getCurrentConversationIdStack();
+      String id = Id.nextId();
+      setCurrentConversationId(id);
+      setCurrentConversationIdStack(id);
+      getCurrentConversationIdStack().addAll(stack);
+      ConversationEntry conversationEntry = createConversationEntry();
+      conversationEntry.setOwnerComponentName(ownerName);
+   }
+
+   private ConversationEntry getCurrentConversationEntry() {
+      return getConversationEntry( getCurrentConversationId() );
+   }
+   
+   public void swapConversation(String id)
+   {
+      setCurrentConversationId(id);
+      setCurrentConversationIdStack( getCurrentConversationEntry().getConversationIdStack() );
+      setLongRunningConversation(true);
    }
    
 }

@@ -23,6 +23,8 @@ import org.jboss.seam.contexts.Contexts;
 public class Conversation implements Serializable {
    
    private int timeout = 600000; //10 minutes
+   private String description;
+   private String outcome;
 
    public int getTimeout() {
       return timeout;
@@ -39,17 +41,20 @@ public class Conversation implements Serializable {
    
    public String getDescription()
    {
-      return Manager.instance().getCurrentConversationDescription();
+      return description==null ? 
+            Manager.instance().getCurrentConversationDescription() : 
+            description;
    }
    
    public void setDescription(String description)
    {
-      Manager.instance().setCurrentConversationDescription(description);
+      this.description = description;
+      
    }
 
    public void setOutcome(String outcome)
    {
-      Manager.instance().setCurrentConversationOutcome(outcome);
+      this.outcome = outcome;
    }
 
    public static Conversation instance()
@@ -58,7 +63,7 @@ public class Conversation implements Serializable {
       {
          throw new IllegalStateException("No active conversation context");
       }
-      return (Conversation) Component.getInstance(Conversation.class, true);
+      return (Conversation) Component.getInstance(Conversation.class, ScopeType.CONVERSATION, true);
    }
    
    public String switchableOutcome(String outcome, String description)
@@ -71,6 +76,24 @@ public class Conversation implements Serializable {
    {
       setOutcome(outcome);
       return outcome;
+   }
+   
+   void flush()
+   {
+      //we need to flush this stuff asynchronously to handle 
+      //nested and temporary conversations nicely
+      if ( description!=null || outcome!=null )
+      {
+         Manager manager = Manager.instance();
+         if ( !manager.isLongRunningConversation() )
+         {
+            throw new IllegalStateException("only long-running conversation outcomes are switchable");
+         }
+         if (description!=null) manager.setCurrentConversationDescription(description);
+         if (outcome!=null) manager.setCurrentConversationOutcome(outcome);
+         description = null;
+         outcome = null;
+      }
    }
    
 }

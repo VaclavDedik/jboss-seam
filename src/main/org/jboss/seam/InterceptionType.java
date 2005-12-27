@@ -28,6 +28,11 @@ public enum InterceptionType
     */
    AFTER_RESTORE_VIEW,
    /**
+    * Seam intercepts any invocations that occur after the 
+    * update model values phase
+    */
+   AFTER_UPDATE_MODEL_VALUES,
+   /**
     * Seam intercepts invocations upon the component only during
     * the invoke application phase
     */
@@ -39,6 +44,7 @@ public enum InterceptionType
 
    public boolean isActive()
    {
+      if ( Lifecycle.isDestroying() ) return false;
       final PhaseId phaseId = Lifecycle.getPhaseId();
       switch(this)
       {
@@ -46,6 +52,8 @@ public enum InterceptionType
             return false;
          case AFTER_RESTORE_VIEW:
             return phaseId!=PhaseId.RESTORE_VIEW && phaseId!=null;
+         case AFTER_UPDATE_MODEL_VALUES:
+            return phaseId!=PhaseId.RESTORE_VIEW && phaseId!=PhaseId.UPDATE_MODEL_VALUES && phaseId!=null;
          case INVOKE_APPLICATION:
             return phaseId==PhaseId.INVOKE_APPLICATION;
          case ALWAYS:

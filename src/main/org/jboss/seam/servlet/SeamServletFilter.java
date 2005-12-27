@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.Session;
 import org.jboss.seam.core.Manager;
 
 public class SeamServletFilter implements Filter {
@@ -32,13 +33,13 @@ public class SeamServletFilter implements Filter {
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, session);
-      String conversationId = Manager.instance().restore( null, request.getParameterMap() );
-      Lifecycle.resumeConversation( session, conversationId );
+      Manager.instance().restoreConversation( null, request.getParameterMap() );
+      Lifecycle.resumeConversation(session);
       try
       {
          chain.doFilter(request, response);
          //TODO: conversation timeout
-         Manager.instance().store( (HttpServletResponse) response );
+         Manager.instance().storeConversation( (HttpServletResponse) response, Session.getSession(session) );
          Lifecycle.endRequest(session);
       }
       catch (Exception e)

@@ -11,12 +11,12 @@ import javax.faces.event.PhaseId;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.annotations.CompleteTask;
+import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.ResumeTask;
+import org.jboss.seam.annotations.BeginTask;
+import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 
@@ -39,7 +39,7 @@ public class ConversationInterceptor extends AbstractInterceptor
 
       if ( isNoConversationForConversationalBean(method) )
       {
-         log.debug("no long-running conversation for @Conversational bean: " + component.getName());
+         log.warn("no long-running conversation for @Conversational bean: " + component.getName());
          return component.getNoConversationOutcome();
       }
       
@@ -51,7 +51,6 @@ public class ConversationInterceptor extends AbstractInterceptor
    
    }
 
-
    private boolean isNoConversationForConversationalBean(Method method)
    {
       return component.isConversational() && 
@@ -59,33 +58,32 @@ public class ConversationInterceptor extends AbstractInterceptor
             ( !Manager.instance().isLongRunningConversation() || !componentIsConversationOwner() ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(StartTask.class) &&
+            !method.isAnnotationPresent(BeginTask.class) &&
             !method.isAnnotationPresent(Destroy.class) && 
             !method.isAnnotationPresent(Create.class); //probably superfluous
    }
 
-
    private boolean componentIsConversationOwner()
    {
-      return component.getName().equals( Manager.instance().getConversationOwnerName() );
-   }
-
-
-   private void setConversationOwnerName()
-   {
-      Manager.instance().setConversationOwnerName( component.getName() );
+      return component.getName().equals( Manager.instance().getCurrentConversationOwnerName() );
    }
 
    private void beginConversationIfNecessary(Method method, Object result)
    {
       boolean simpleBegin = 
             method.isAnnotationPresent(StartTask.class) || 
-            method.isAnnotationPresent(ResumeTask.class) ||
+            method.isAnnotationPresent(BeginTask.class) ||
             ( method.isAnnotationPresent(Begin.class) && method.getAnnotation(Begin.class).ifOutcome().length==0 );
       if ( simpleBegin )
       {
          if ( result!=null || method.getReturnType().equals(void.class) )
          {
-            beginConversation();
+            boolean nested = false;
+            if ( method.isAnnotationPresent(Begin.class) )
+            {
+               nested = method.getAnnotation(Begin.class).nested();
+            }
+            beginConversation(nested);
          }
       }
       else if ( method.isAnnotationPresent(Begin.class) )
@@ -93,24 +91,30 @@ public class ConversationInterceptor extends AbstractInterceptor
          String[] outcomes = method.getAnnotation(Begin.class).ifOutcome();
          if ( outcomes.length==0 || Arrays.asList(outcomes).contains(result) )
          {
-            beginConversation();
+            beginConversation( method.getAnnotation(Begin.class).nested() );
          }
       }
    }
 
-
-   private void beginConversation()
+   private void beginConversation(boolean nested)
    {
-      log.debug("Beginning long-running conversation");
-      Manager.instance().setLongRunningConversation(true);
-      setConversationOwnerName();
+      if ( !Manager.instance().isLongRunningConversation() )
+      {
+         log.debug("Beginning long-running conversation");
+         Manager.instance().beginConversation( component.getName() );
+      }
+      else if (nested)
+      {
+         log.debug("Beginning nested conversation");
+         Manager.instance().beginNestedConversation( component.getName() );
+      }
    }
 
    private void endConversationIfNecessary(Method method, Object result)
    {
       boolean simpleEnd = 
             ( method.isAnnotationPresent(End.class) && method.getAnnotation(End.class).ifOutcome().length==0 ) || 
-            method.isAnnotationPresent(CompleteTask.class);
+            method.isAnnotationPresent(EndTask.class);
       if ( simpleEnd )
       {
          if ( result!=null || method.getReturnType().equals(void.class) ) //null outcome interpreted as redisplay
@@ -121,7 +125,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       else if ( method.isAnnotationPresent(End.class) )
       {
          String[] outcomes = method.getAnnotation(End.class).ifOutcome();
-         if (Arrays.asList(outcomes).contains(result))
+         if ( Arrays.asList(outcomes).contains(result) )
          {
             endConversation();
          }
@@ -131,7 +135,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    private void endConversation()
    {
       log.debug("Ending long-running conversation");
-      Manager.instance().setLongRunningConversation(false);
+      Manager.instance().endConversation();
    }
 
 }

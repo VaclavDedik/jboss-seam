@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
  * to be marked as started.
  * <p/>
- * Note that both {@link ResumeTask} and {@link StartTask} have effect
+ * Note that both {@link BeginTask} and {@link StartTask} have effect
  * before invocation of the intercepted method in that they are both
  * about setting up appropriate {@link org.jbpm.context.exe.ContextInstance}
  * for the current {@link org.jboss.seam.contexts.BusinessProcessContext};

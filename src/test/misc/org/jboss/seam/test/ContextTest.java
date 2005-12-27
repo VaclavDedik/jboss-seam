@@ -8,7 +8,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.ConversationContext;
+import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.contexts.EventContext;
 import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.Lifecycle;
@@ -48,7 +48,8 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
       
-      Lifecycle.resumeConversation(externalContext, "3");
+      Manager.instance().setCurrentConversationId("3");
+      Lifecycle.resumeConversation(externalContext);
       Manager.instance().setLongRunningConversation(true);
       
       assert Contexts.isEventContextActive();
@@ -62,7 +63,7 @@ public class ContextTest
       assert Contexts.getApplicationContext()!=null;
       assert Contexts.getEventContext() instanceof EventContext;
       assert Contexts.getSessionContext() instanceof WebSessionContext;
-      assert Contexts.getConversationContext() instanceof ConversationContext;
+      assert Contexts.getConversationContext() instanceof ServerConversationContext;
       assert Contexts.getApplicationContext() instanceof FacesApplicationContext;
       
       Contexts.getSessionContext().set("foo", "bar");
@@ -85,7 +86,8 @@ public class ContextTest
       assert !Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
       
-      Lifecycle.resumeConversation(externalContext, "3");
+      Manager.instance().setCurrentConversationId("3");
+      Lifecycle.resumeConversation(externalContext);
       
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
@@ -98,7 +100,7 @@ public class ContextTest
       assert Contexts.getApplicationContext()!=null;
       assert Contexts.getEventContext() instanceof EventContext;
       assert Contexts.getSessionContext() instanceof WebSessionContext;
-      assert Contexts.getConversationContext() instanceof ConversationContext;
+      assert Contexts.getConversationContext() instanceof ServerConversationContext;
       assert Contexts.getApplicationContext() instanceof FacesApplicationContext;
       
       assert Contexts.getSessionContext().get("foo").equals("bar");
@@ -141,11 +143,11 @@ public class ContextTest
       testContext( new FacesApplicationContext(externalContext) );
       testContext( new WebSessionContext(session) );
       testContext( new EventContext() );
-      testContext( new ConversationContext(session, "1") );
-      testEquivalence( new ConversationContext(session, "1"), new ConversationContext(session, "1") );
+      testContext( new ServerConversationContext(session, "1") );
+      testEquivalence( new ServerConversationContext(session, "1"), new ServerConversationContext(session, "1") );
       testEquivalence( new WebSessionContext(session), new WebSessionContext(session) );
       testEquivalence( new FacesApplicationContext(externalContext), new FacesApplicationContext(externalContext) );
-      testIsolation( new ConversationContext(session, "1"), new ConversationContext(session, "2") );
+      testIsolation( new ServerConversationContext(session, "1"), new ServerConversationContext(session, "2") );
       // testIsolation( new WebSessionContext(externalContext), new WebSessionContext( new MockExternalContext()) );
       
       Lifecycle.endApplication(servletContext);

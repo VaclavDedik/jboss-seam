@@ -170,7 +170,10 @@ public class Component
       
       jndiName = getJndiName();
       
-      initInterceptors();
+      if ( interceptionType!=InterceptionType.NEVER) 
+      {
+         initInterceptors();
+      }
       
       initValidator();
 
@@ -892,16 +895,33 @@ public class Component
       return getInstance( Seam.getComponentName(clazz), create );
    }
 
+   public static Object getInstance(Class<?> clazz, ScopeType scope, boolean create)
+   {
+      return getInstance( Seam.getComponentName(clazz), scope, create );
+   }
+
    public static Object getInstance(String name, boolean create)
    {
       Object result = Contexts.lookupInStatefulContexts(name);
+      result = getInstance(name, create, result);
+      return result;
+   }
+   
+   public static Object getInstance(String name, ScopeType scope, boolean create)
+   {
+      Object result = scope.getContext().get(name);
+      result = getInstance(name, create, result);
+      return result;
+   }
+
+   private static Object getInstance(String name, boolean create, Object result) {
       if (result == null && create)
       {
-    	  result = getInstanceFromFactory(name);
-    	  if (result==null)
-    	  {
+        result = getInstanceFromFactory(name);
+        if (result==null)
+        {
              result = newInstance(name);
-    	  }
+        }
       }
       if (result!=null) 
       {
@@ -950,7 +970,7 @@ public class Component
       else
       {
          Object instance = component.newInstance();
-         if (component.getType()!=ComponentType.STATELESS_SESSION_BEAN)
+         if (component.getScope()!=ScopeType.STATELESS)
          {
             callCreateMethod(component, instance);
             component.getScope().getContext().set(name, instance);

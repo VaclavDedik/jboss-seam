@@ -127,8 +127,8 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    private void flushJbpm()
    {
       log.trace( "flushing jBPM session" );
-      String mjsName = Seam.getComponentName(ManagedJbpmSession.class);
-      ManagedJbpmSession managed = (ManagedJbpmSession) Contexts.getEventContext().get(mjsName);
+      ManagedJbpmSession managed = (ManagedJbpmSession) Contexts.getEventContext()
+            .get( Seam.getComponentName(ManagedJbpmSession.class) );
       if ( managed != null )
       {
          // need to make sure that the seam BusinessProcessContext gets flushed to

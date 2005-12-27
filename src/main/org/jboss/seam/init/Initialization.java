@@ -43,6 +43,7 @@ import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.Switcher;
 import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
+import org.jboss.seam.core.TaskInstanceListForType;
 import org.jboss.seam.core.Transition;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.NamingHelper;
@@ -196,6 +197,7 @@ public class Initialization
          addComponent( TaskInstance.class, context );
          addComponent( ProcessInstance.class, context );
          addComponent( TaskInstanceList.class, context );
+         addComponent( TaskInstanceListForType.class, context );
          addComponent( ManagedJbpmSession.class, context );
       }
       

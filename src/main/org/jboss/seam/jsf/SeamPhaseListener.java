@@ -16,17 +16,16 @@ import java.util.Map;
 import javax.faces.application.Application;
 import javax.faces.application.StateManager;
 import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.contexts.BusinessProcessContext;
-import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.Session;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 
 /**
@@ -37,8 +36,6 @@ import org.jboss.seam.core.Manager;
  */
 public class SeamPhaseListener implements PhaseListener
 {
-
-   private static final String JBPM_STATE_MAP = "org.jboss.seam.bpm.recoverableState";
 
    private static Logger log = Logger.getLogger( SeamPhaseListener.class );
    
@@ -86,13 +83,10 @@ public class SeamPhaseListener implements PhaseListener
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext( event );
-         restoreAnyBusinessProcessContext();
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         ExternalContext externalContext = event.getFacesContext().getExternalContext();
-         Manager.instance().conversationTimeout( externalContext );
-         Lifecycle.endRequest( externalContext );
+         Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
       }
    }
    
@@ -100,53 +94,34 @@ public class SeamPhaseListener implements PhaseListener
     * Called just before the StateManager serializes the component tree
     */
    private void beforeSaveState(FacesContext ctx) {
-      storeAnyBusinessProcessContext(); // needs to come *before* storing conversation!
+      if ( !Init.instance().isClientSideConversations() ) 
+      {
+         // difficult question: does this really need to happen before 
+         // storeAnyConversationContext, or could it be done later
+         Manager.instance().conversationTimeout( ctx.getExternalContext() );
+      }
       storeAnyConversationContext(ctx);
    }
 
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
-      String conversationId = Manager.instance().restore( getAttributes( event.getFacesContext() ), getParameters(event) );
-      Lifecycle.resumeConversation( event.getFacesContext().getExternalContext(), conversationId );
+      Manager.instance().restoreConversation( getAttributes( event.getFacesContext() ), getParameters(event) );
+      Lifecycle.resumeConversation( event.getFacesContext().getExternalContext() );
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }
 
    private static void storeAnyConversationContext(FacesContext ctx)
    {
       log.debug( "Before render response" );
-      Lifecycle.flushConversation();
+      Lifecycle.flushClientConversation();
       if ( !Contexts.isConversationContextActive() )
       {
          log.debug( "No active conversation context" );
       }
       else
       {
-         Manager.instance().store( getAttributes(ctx) );
-      }
-   }
-
-   private static void restoreAnyBusinessProcessContext()
-   {
-      Map state = (Map) Contexts.getConversationContext().get( JBPM_STATE_MAP );
-      Lifecycle.resumeBusinessProcess( state );
-      log.trace( "After restore view, business process context: " + Contexts.getBusinessProcessContext() );
-   }
-
-   private static void storeAnyBusinessProcessContext()
-   {
-      if ( !Contexts.isConversationContextActive() )
-      {
-         log.debug( "No active business process context" );
-      }
-      else
-      {
-         //Abstract this stuff and move to Manager (I don't like 
-         //the typecast to BusinessProcessContext
-         Context conversation = Contexts.getConversationContext();
-         BusinessProcessContext jbpmContext = (BusinessProcessContext) Contexts.getBusinessProcessContext();
-
-         log.trace( "Storing business process state" );
-         conversation.set( JBPM_STATE_MAP, jbpmContext.getRecoverableState() );
+         Session session = Session.getSession(ctx.getExternalContext(), true);
+         Manager.instance().storeConversation( getAttributes(ctx), session );
       }
    }
 

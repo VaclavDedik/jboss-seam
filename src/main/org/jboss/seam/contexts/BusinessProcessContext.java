@@ -12,203 +12,133 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ProcessInstance;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.db.JbpmSession;
 
 /**
  * Exposes a jbpm variable context instance for reading/writing.
  *
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @author Gavin King
  * @version $Revision$
  */
 public class BusinessProcessContext implements Context {
 
    private static final Logger log = Logger.getLogger(BusinessProcessContext.class);
 
-   private Map<String, Object> tempContext = new HashMap<String, Object>();
-   private Set<String> removed = new HashSet<String>();
-   private ContextInstance contextInstance;
-   private Init settings;
-   private boolean resolvingJbpmContext;
+   private final Map<String, Object> additions = new HashMap<String, Object>();
+   private final Set<String> removals = new HashSet<String>();
 
    public ScopeType getType()
    {
       return ScopeType.PROCESS;
    }
 
-   /**
-    * Constructs a new instance of BusinessProcessContext.
-    */
-   public BusinessProcessContext(Map<String, Object> previousState) {
-      if ( previousState != null )
-      {
-         if ( log.isTraceEnabled() )
-         {
-            log.trace( "recovering from state : " + previousState );
-         }
-         tempContext.putAll( previousState );
-      }
-      settings = Init.instance();
-      log.debug( "Created BusinessProcessContext" );
-   }
-
-   /**
-    * Retrieves a map of all data needed to recover the current state of this context
-    * upon a later request (within the same conversation).
-    *
-    * @return the recoverable (temp) state
-    */
-   public Map getRecoverableState() {
-      if ( log.isTraceEnabled() )
-      {
-         log.trace( "recoverable state : " + tempContext );
-      }
-      return tempContext;
-   }
-
-
-   // Context impl ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   public BusinessProcessContext() {}
 
    public Object get(String name) {
-      Object value = tempContext.get( name );
-      if ( value == null )
-      {
-         ContextInstance jbpmContext = getJbpmContext();
-         if ( jbpmContext != null )
-         {
-            value = jbpmContext.getVariable( name );
-         }
-      }
-      return value;
+      Object result = additions.get(name);
+      if (result!=null) return result;
+      if ( removals.contains(name) ) return null;
+      ContextInstance context = getContextInstance();
+      return context==null ? null : context.getVariable(name);
    }
 
    public void set(String name, Object value) {
       if (value==null)
       {
+         //yes, we need this
          remove(name);
       }
       else
       {
-         tempContext.put( name, value );
+         removals.remove(name);
+         additions.put(name, value);
       }
    }
 
    public boolean isSet(String name) {
-      if ( tempContext.containsKey( name ) )
-      {
-         return true;
-      }
-
-      ContextInstance jbpmContext = getJbpmContext();
-      if ( jbpmContext != null )
-      {
-         jbpmContext.hasVariable( name );
-      }
-
-      return false;
+      return get(name)!=null;
    }
-
+   
    public void remove(String name) {
-      tempContext.remove( name );
-      removed.add( name );
+      additions.remove(name);
+      removals.add(name);
    }
 
    public String[] getNames() {
-      Set<String> keys = new HashSet<String>();
-      keys.addAll( tempContext.keySet() );
+      Set<String> results = getNamesFromContext();
+      results.addAll( additions.keySet() ); //after, to override
+      return results.toArray(new String[]{});
+   }
 
-      ContextInstance jbpmContext = getJbpmContext();
-      if ( jbpmContext != null )
+   private Set<String> getNamesFromContext() {
+      HashSet<String> results = new HashSet<String>();
+      ContextInstance context = getContextInstance();
+      if ( context!=null ) 
       {
-         keys.addAll( jbpmContext.getVariables().keySet() );
+         results.addAll( context.getVariables().keySet() );
+         results.removeAll(removals);
       }
-
-      return keys.toArray( new String[] {} );
+      return results;
    }
 
-
-   public Object get(Class clazz) {
-      return get( Seam.getComponentName( clazz ) );
+   public Object get(Class clazz)
+   {
+      return get( Seam.getComponentName(clazz) );
    }
+   
+   public void clear()
+   {
+      additions.clear();
+      removals.addAll( getNamesFromContext() );
+   }
+   
 
    public void flush()
    {
-      if ( tempContext.isEmpty() && removed.isEmpty() )
+      ContextInstance context = getContextInstance();
+      if ( context==null )
       {
-         log.debug( "no in-memory state to flush to jBPM context" );
+         log.debug( "no process instance to persist business process state" );
       }
-
-      ContextInstance jbpmContext = getJbpmContext();
-
-      if ( jbpmContext == null )
+      else if ( !additions.isEmpty() || !removals.isEmpty() )
       {
-         log.debug( "no jBPM context to which to flush" );
-      }
-      else
-      {
-         log.debug( "flushing in-memory vars to jBPM context [" + jbpmContext.getProcessInstance().getId() + "]" );
+         log.debug( "flushing to process instance: " + context.getProcessInstance().getId() );
 
-         for ( Object entry1 : tempContext.entrySet() )
+         for ( Map.Entry<String, Object> entry: additions.entrySet() )
          {
-            final Map.Entry entry = ( Map.Entry ) entry1;
-            jbpmContext.setVariable( ( String ) entry.getKey(), entry.getValue() );
+            context.setVariable( entry.getKey(), entry.getValue() );
          }
+         additions.clear();
 
-         for ( String remove : removed )
+         for ( String name: removals )
          {
-            jbpmContext.deleteVariable( remove );
+            context.deleteVariable(name);
          }
- 
-         JbpmSession jbpmSession = (JbpmSession) Component.getInstance(ManagedJbpmSession.class, true);
-         if (jbpmSession!=null && jbpmSession.getSession() !=null) {
-             jbpmSession.getSession().flush();
-         }
-
-         tempContext.clear();
-         removed.clear();
+         removals.clear();
+         
+         ManagedJbpmSession.instance().getSession().flush();
       }
    }
 
-   private ContextInstance getJbpmContext()
+   private ContextInstance getContextInstance()
    {
-      if ( settings.getJbpmSessionFactoryName() == null ) return null;
-
-      if ( resolvingJbpmContext ) return null;
-      resolvingJbpmContext = true;
-
-      try
+      Init init = Init.instance(); //may be null in some tests
+      if ( init!=null && init.getJbpmSessionFactoryName()==null ) 
       {
-         if ( contextInstance == null )
-         {
-            log.trace( "trying to locate jBPM ContextInstance source (task/process)" );
-            org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
-            if (processInstance==null) 
-            {
-               return null;
-            }
-            else
-            {
-               contextInstance = processInstance.getContextInstance();
-               return contextInstance;
-            }
-         }
-         else
-         {
-            return contextInstance;
-         }
+         return null;
       }
-      finally
+      else
       {
-         resolvingJbpmContext = false;
+         org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
+         return processInstance==null ? null : processInstance.getContextInstance();
       }
-
    }
 
 }

@@ -3,7 +3,6 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,16 +24,16 @@ public class ConversationList {
    public List<ConversationEntry> getConversationList()
    {
       Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
-      Map temp;
-      if ( Manager.instance().isLongRunningConversation() )
+      List<ConversationEntry> list = new ArrayList<ConversationEntry>( map.size() );
+      String currentId = Manager.instance().getCurrentConversationId();
+      boolean isLongRunning = Manager.instance().isLongRunningConversation();
+      for ( ConversationEntry entry: map.values() )
       {
-         temp = map;
+         if ( isLongRunning || !entry.getId().equals(currentId) )
+         {
+            list.add(entry);
+         }
       }
-      else
-      {
-         temp = new HashMap<String, ConversationEntry>(map);
-         temp.remove( Manager.instance().getCurrentConversationId() );         
-      }
-      return new ArrayList<ConversationEntry>( temp.values() );
+      return list;
    }
 }

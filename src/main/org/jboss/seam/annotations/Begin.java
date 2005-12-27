@@ -26,4 +26,10 @@ public @interface Begin {
 	 * outcome except for the null (redisplay) outcome.
 	 */
 	String[] ifOutcome() default {};
+   /**
+    * If enabled, and if a conversation is already active,
+    * begin a nested conversation, instead of continuing
+    * in the context of the existing conversation. 
+    */
+   boolean nested() default false;
 }

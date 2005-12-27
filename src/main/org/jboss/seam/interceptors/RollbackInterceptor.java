@@ -52,7 +52,11 @@ public class RollbackInterceptor extends AbstractInterceptor
          //causes a transaction rollback
          if ( component.getType()==ComponentType.JAVA_BEAN )
          {
-            Transactions.getUserTransaction().setRollbackOnly();
+            try
+            {
+               Transactions.getUserTransaction().setRollbackOnly();
+            }
+            catch (Exception te) {} //swallow
          }
          throw e;
       }

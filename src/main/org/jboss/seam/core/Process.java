@@ -31,7 +31,7 @@ public class Process implements Serializable {
       {
          throw new IllegalStateException("No active conversation context");
       }
-      return (Process) Component.getInstance(Process.class, true);
+      return (Process) Component.getInstance(Process.class, ScopeType.CONVERSATION, true);
    }
 
    public Long getProcessId() {

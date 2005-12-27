@@ -16,7 +16,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
-import org.jbpm.db.JbpmSession;
 
 /**
  * @author Gavin King
@@ -37,9 +36,8 @@ public class ProcessInstance
       Long processId = Process.instance().getProcessId();
       if (processId!=null)
       {
-         //TODO: should we cache this lookup?
-         JbpmSession session = (JbpmSession) Component.getInstance( ManagedJbpmSession.class, true );
-         return session.getGraphSession().loadProcessInstance(processId);
+         //TODO: do we need to cache this??
+         return ManagedJbpmSession.instance().getGraphSession().loadProcessInstance(processId);
       }
       else
       {
@@ -53,6 +51,6 @@ public class ProcessInstance
       {
          throw new IllegalStateException("No active application context");
       }
-      return (org.jbpm.graph.exe.ProcessInstance) Component.getInstance(ProcessInstance.class, true);
+      return (org.jbpm.graph.exe.ProcessInstance) Component.getInstance(ProcessInstance.class, ScopeType.APPLICATION, true);
    }
 }

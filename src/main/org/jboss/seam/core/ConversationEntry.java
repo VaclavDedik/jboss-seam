@@ -5,6 +5,8 @@ package org.jboss.seam.core;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 
@@ -19,10 +21,23 @@ public final class ConversationEntry implements Serializable
    private Date startDatetime;
    private Date lastDatetime;
    private String outcome;
+   private LinkedList<String> conversationIdStack;
+   private String ownerComponentName;
    
-   public ConversationEntry(String id) {
+   public ConversationEntry(String id, LinkedList<String> stack) 
+   {
       super();
       this.id = id;
+      conversationIdStack = stack;
+      startDatetime = new Date();
+   }
+   
+   public ConversationEntry(String id) 
+   {
+      super();
+      this.id = id;
+      conversationIdStack = new LinkedList<String>();
+      conversationIdStack.add(id);
       startDatetime = new Date();
    }
 
@@ -78,5 +93,31 @@ public final class ConversationEntry implements Serializable
 
    public void setLastDatetime(Date lastDatetime) {
       this.lastDatetime = lastDatetime;
+   }
+
+   public LinkedList<String> getConversationIdStack() {
+      return conversationIdStack;
+   }
+
+   public String getOwnerComponentName() {
+      return ownerComponentName;
+   }
+
+   public void setOwnerComponentName(String ownerComponentName) {
+      this.ownerComponentName = ownerComponentName;
+   }
+   
+   public boolean isCurrent()
+   {
+      Manager manager = Manager.instance();
+      if ( manager.isLongRunningConversation() )
+      {
+         return id.equals( manager.getCurrentConversationId() );
+      }
+      else
+      {
+         List<String> stack = manager.getCurrentConversationIdStack();
+         return stack!=null && stack.size()>1 && stack.get(1).equals(id);
+      }
    }
 }

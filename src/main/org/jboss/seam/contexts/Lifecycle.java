@@ -6,7 +6,6 @@
  */
 package org.jboss.seam.contexts;
 
-import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.ExternalContext;
@@ -122,7 +121,7 @@ public class Lifecycle
       log.debug("destroying conversation contexts: " + ids);
       for (String conversationId: ids)
       {
-         Contexts.destroy( new ConversationContext( session, conversationId) );
+         Contexts.destroy( new ServerConversationContext(session, conversationId) );
       }
 
       log.debug("destroying session context");
@@ -136,7 +135,7 @@ public class Lifecycle
       Contexts.applicationContext.set(null);
    }
    
-   public static void flushConversation()
+   public static void flushClientConversation()
    {
       if ( Contexts.isConversationContextActive() )
       {
@@ -244,24 +243,20 @@ public class Lifecycle
       }
    }
 
-   public static void resumeConversation(ExternalContext externalContext, String id)
+   public static void resumeConversation(ExternalContext externalContext)
    {
       Init init = (Init) Component.getInstance(Init.class, false);
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
-            (Context) new ConversationContext( Session.getSession(externalContext, true), id );
+            (Context) new ServerConversationContext( Session.getSession(externalContext, true) );
       Contexts.conversationContext.set( conversationContext );
+      Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }
 
-   public static void resumeConversation(HttpSession session, String id)
+   public static void resumeConversation(HttpSession session)
    {
-      Context conversationContext = new ConversationContext( Session.getSession(session), id );
+      Context conversationContext = new ServerConversationContext( Session.getSession(session) );
       Contexts.conversationContext.set( conversationContext );
-   }
-
-   public static void resumeBusinessProcess(Map state)
-   {
-      Contexts.businessProcessContext.set( new BusinessProcessContext(state) );
    }
    
    private static ThreadLocal<PhaseId> phaseId = new ThreadLocal<PhaseId>();
@@ -284,6 +279,24 @@ public class Lifecycle
 
    public static void setServletRequest(ServletRequest servletRequest) {
       Lifecycle.servletRequest.set(servletRequest);
+   }
+   
+   private static ThreadLocal<Boolean> destroying = new ThreadLocal<Boolean>();
+   
+   public static void startDestroying()
+   {
+      destroying.set(true);
+   }
+   
+   public static void stopDestroying()
+   {
+      destroying.set(false);
+   }
+   
+   public static boolean isDestroying()
+   {
+      Boolean value = destroying.get();
+      return value!=null && value.booleanValue();
    }
    
 }

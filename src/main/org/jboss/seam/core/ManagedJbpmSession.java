@@ -20,6 +20,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.NamingHelper;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
@@ -63,6 +64,15 @@ public class ManagedJbpmSession
    {
       InitialContext ctx = NamingHelper.getInitialContext();
       return (JbpmSessionFactory) ctx.lookup( Init.instance().getJbpmSessionFactoryName() );
+   }
+   
+   public static JbpmSession instance()
+   {
+      if ( !Contexts.isEventContextActive() )
+      {
+         throw new IllegalStateException("no active event context");
+      }
+      return (JbpmSession) Component.getInstance(ManagedJbpmSession.class, ScopeType.EVENT, true);
    }
 
 }

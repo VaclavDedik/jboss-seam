@@ -14,7 +14,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.util.Id;
 
 /**
  * @author Gavin King
@@ -28,23 +27,52 @@ public class Switcher {
    public List<SelectItem> getSelectItems()
    {
       Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
-      List<SelectItem> selectItems = new ArrayList<SelectItem>();
+      List<SelectItem> selectItems = new ArrayList<SelectItem>( map.size() );
       String currentId = Manager.instance().getCurrentConversationId();
-      boolean isLongRunning = Manager.instance().isLongRunningConversation();
       for ( ConversationEntry entry: map.values() )
       {
-         if ( isLongRunning || !entry.getId().equals(currentId) )
+         if ( entry.getId().equals(currentId) )
          {
-            selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
+            if ( Manager.instance().isLongRunningConversation() )
+            {
+               Conversation conv = Conversation.instance();
+               if ( conv.getDescription()!=null )
+               {
+                  selectItems.add( new SelectItem( conv.getId(), conv.getDescription() ) );
+               }
+            }
+         }
+         else
+         {
+            if ( entry.getDescription()!=null )
+            {
+               selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
+            }
          }
       }
       return selectItems;
    }
+      
+   private String conversationIdOrOutcome;
+   private String resultingConversationIdOrOutcome;
    
-   private String conversationIdOrOutcome = "new";
+   private String getLongRunningConversationId()
+   {
+      if ( Manager.instance().isLongRunningConversation() )
+      {
+         return Manager.instance().getCurrentConversationId();
+      }
+      else
+      {
+         List<String> stack = Manager.instance().getCurrentConversationIdStack();
+         return stack.size()==1 ? null : stack.get(1); //TODO: is there any way to set it to the current outcome, instead of null?
+      }
+   }
 
    public String getConversationIdOrOutcome() {
-      return conversationIdOrOutcome;
+      return resultingConversationIdOrOutcome==null ? 
+            getLongRunningConversationId() :
+            resultingConversationIdOrOutcome;
    }
 
    public void setConversationIdOrOutcome(String selectedId) {
@@ -53,21 +81,23 @@ public class Switcher {
    
    public String select()
    {
+      Manager manager = Manager.instance();
       boolean isOutcome = conversationIdOrOutcome==null || !Character.isDigit( conversationIdOrOutcome.charAt(0) );
-      String id;
+      String actualOutcome;
       if (isOutcome)
       {
-         id = Id.nextId();
-         Manager.instance().setLongRunningConversation(false);
+         manager.initializeTemporaryConversation();
+         resultingConversationIdOrOutcome = conversationIdOrOutcome;
+         actualOutcome = conversationIdOrOutcome;
       }
       else
       {
-         id = conversationIdOrOutcome;
-         Manager.instance().setLongRunningConversation(true);
+         manager.swapConversation(conversationIdOrOutcome);
+         resultingConversationIdOrOutcome = manager.getCurrentConversationId();
+         actualOutcome = manager.getCurrentConversationOutcome();
       }
-      Manager.instance().setCurrentConversationId(id);
-      Lifecycle.resumeConversation( FacesContext.getCurrentInstance().getExternalContext(), id );
-      return isOutcome ? conversationIdOrOutcome : Manager.instance().getCurrentConversationOutcome();
+      Lifecycle.resumeConversation( FacesContext.getCurrentInstance().getExternalContext() );
+      return actualOutcome;
    }
   
 }

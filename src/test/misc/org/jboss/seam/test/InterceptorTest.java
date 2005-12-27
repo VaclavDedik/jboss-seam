@@ -52,7 +52,9 @@ public class InterceptorTest
          );
 
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation( externalContext, "1" );
+      Manager.instance().setCurrentConversationId("1");
+      Lifecycle.resumeConversation( externalContext );
+      Lifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
       
       final Bar bar = new Bar();
       final Foo foo = new Foo();
@@ -184,7 +186,8 @@ public class InterceptorTest
             new Component(Manager.class, appContext) 
          );
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation( externalContext, "1" );
+      Manager.instance().setCurrentConversationId("1");
+      Lifecycle.resumeConversation(externalContext);
 
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Foo.class, appContext) );
@@ -431,7 +434,8 @@ public class InterceptorTest
          );
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.beginRequest( externalContext );
-      Lifecycle.resumeConversation(externalContext, "1" );
+      Manager.instance().setCurrentConversationId("1");
+      Lifecycle.resumeConversation(externalContext);
       
       ConversationInterceptor ci = new ConversationInterceptor();
       ci.setComponent( new Component(Bar.class, appContext) );
@@ -591,6 +595,8 @@ public class InterceptorTest
    @Test
    public void testOutcomeInterceptor() throws Exception
    {
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      
       OutcomeInterceptor oi = new OutcomeInterceptor();
       
       String outcome = (String) oi.interceptOutcome( new MockInvocationContext() {
