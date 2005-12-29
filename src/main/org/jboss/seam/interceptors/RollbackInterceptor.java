@@ -34,7 +34,7 @@ public class RollbackInterceptor extends AbstractInterceptor
                if ( component.getType()==ComponentType.JAVA_BEAN )
                {
                   //For JavaBeans, we assume the UT is accessible
-                  Transactions.getUserTransaction().setRollbackOnly();
+                  Transactions.setUserTransactionRollbackOnly();
                }
                else
                {
@@ -54,7 +54,7 @@ public class RollbackInterceptor extends AbstractInterceptor
          {
             try
             {
-               Transactions.getUserTransaction().setRollbackOnly();
+               Transactions.setUserTransactionRollbackOnly();
             }
             catch (Exception te) {} //swallow
          }

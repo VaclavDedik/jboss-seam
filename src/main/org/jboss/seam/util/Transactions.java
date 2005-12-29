@@ -35,5 +35,13 @@ public class Transactions
    }
 
    private Transactions() {}
+
+   public static void setUserTransactionRollbackOnly() throws SystemException, NamingException {
+      UserTransaction userTransaction = getUserTransaction();
+      if ( userTransaction.getStatus()!=Status.STATUS_NO_TRANSACTION )
+      {
+         userTransaction.setRollbackOnly();         
+      }
+   }
    
 }
