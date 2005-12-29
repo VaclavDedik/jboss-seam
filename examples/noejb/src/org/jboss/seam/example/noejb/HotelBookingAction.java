@@ -74,7 +74,7 @@ public class HotelBookingAction implements Serializable
       this.searchString = searchString;
    }
 
-   @Begin
+   @Begin(join=true)
    public String find()
    {
       hotel = null;

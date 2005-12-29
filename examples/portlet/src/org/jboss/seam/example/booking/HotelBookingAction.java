@@ -66,7 +66,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In(required=false)
    private BookingList bookingList;
    
-   @Begin
+   @Begin(join=true)
    public String find()
    {
       hotel = null;

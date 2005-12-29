@@ -50,7 +50,7 @@ public class HotelSearchingAction implements HotelSearching, Serializable
    @In(create=true)
    private transient Conversation conversation;
    
-   @Begin
+   @Begin(join=true)
    public String find()
    {
       hotel = null;
