@@ -42,13 +42,30 @@ public class ConversationInterceptor extends AbstractInterceptor
          log.warn("no long-running conversation for @Conversational bean: " + component.getName());
          return component.getNoConversationOutcome();
       }
-      
+
+      if ( isMissingJoin(method) )
+      {
+         throw new IllegalStateException("begin method invoked from a long running conversation, try using @Begin(join=true)");
+      }
+
       Object result = invocation.proceed();
 
       beginConversationIfNecessary(method, result);
       endConversationIfNecessary(method, result);
       return result;
    
+   }
+
+   private boolean isMissingJoin(Method method) {
+      return Manager.instance().isLongRunningConversation() && ( 
+            ( 
+                  method.isAnnotationPresent(Begin.class) && 
+                  !method.getAnnotation(Begin.class).join() && 
+                  !method.getAnnotation(Begin.class).nested() 
+            ) ||
+            method.isAnnotationPresent(BeginTask.class) ||
+            method.isAnnotationPresent(StartTask.class) 
+         );
    }
 
    private boolean isNoConversationForConversationalBean(Method method)

@@ -32,4 +32,10 @@ public @interface Begin {
     * in the context of the existing conversation. 
     */
    boolean nested() default false;
+   /**
+    * If false (the default), invocation of the begin
+    * method in the scope of an existing conversation
+    * will cause an exception to be thrown.
+    */
+   boolean join() default false;
 }
