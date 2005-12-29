@@ -73,6 +73,11 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    public void setStartDatetime(Date created) {
       this.startDatetime = created;
    }
+   
+   public String destroy() {
+      Manager.instance().endConversation();
+      return null;
+   }
 
    public String outcome() {
       return outcome;
