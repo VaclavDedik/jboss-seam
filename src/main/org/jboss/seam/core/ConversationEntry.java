@@ -42,6 +42,11 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    public String getDescription() {
+      if ( isCurrent() )
+      {
+         String desc = Conversation.instance().description;
+         if (desc!=null) return desc;
+      }
       return description;
    }
 
@@ -80,7 +85,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    public String outcome() {
-      return outcome;
+      return getOutcome();
    }
 
    public void setOutcome(String outcome) {
@@ -89,6 +94,11 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    
    public String getOutcome()
    {
+      if ( isCurrent() )
+      {
+         String out = Conversation.instance().outcome;
+         if (out!=null) return out;
+      }
       return outcome;
    }
 
@@ -110,6 +120,12 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
 
    public void setOwnerComponentName(String ownerComponentName) {
       this.ownerComponentName = ownerComponentName;
+   }
+   
+   public boolean isDisplayable() {
+      Manager manager = Manager.instance();
+      return getDescription()!=null && 
+         ( manager.isLongRunningConversation() || !id.equals( manager.getCurrentConversationId() ) );
    }
    
    public boolean isCurrent()

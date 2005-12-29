@@ -23,8 +23,8 @@ import org.jboss.seam.contexts.Contexts;
 public class Conversation implements Serializable {
    
    private int timeout = 600000; //10 minutes
-   private String description;
-   private String outcome;
+   String description;
+   String outcome;
 
    public int getTimeout() {
       return timeout;
@@ -46,6 +46,13 @@ public class Conversation implements Serializable {
             description;
    }
    
+   public String getOutcome()
+   {
+      return outcome==null ? 
+            Manager.instance().getCurrentConversationOutcome() :
+            outcome;
+   }
+
    public void setDescription(String description)
    {
       this.description = description;
@@ -56,7 +63,7 @@ public class Conversation implements Serializable {
    {
       this.outcome = outcome;
    }
-
+   
    public static Conversation instance()
    {
       if ( !Contexts.isConversationContextActive() )

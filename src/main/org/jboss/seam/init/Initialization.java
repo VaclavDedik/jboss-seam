@@ -27,6 +27,7 @@ import org.jboss.seam.core.ApplicationContext;
 import org.jboss.seam.core.BusinessProcessContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationContext;
+import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.Init;
@@ -155,6 +156,7 @@ public class Initialization
       addComponent( Switcher.class, context );
       addComponent( Conversation.class, context );
       addComponent( ConversationList.class, context );
+      addComponent( ConversationStack.class, context );
       addComponent( FacesContext.class, context );
       addComponent( EventContext.class, context );
       addComponent( SessionContext.class, context );

@@ -354,7 +354,7 @@ public class Manager
       
       //First, try to get the conversation id from a request parameter
       String storedConversationId = (String) parameters.get("conversationId");
-      if ( storedConversationId==null && attributes!=null )
+      if ( isMissing(storedConversationId) && attributes!=null )
       {
          //if it is not passed as a request parameter, try to get it from
          //the JSF component tree
@@ -389,6 +389,10 @@ public class Manager
          initializeTemporaryConversation();
       }
       
+   }
+
+   private boolean isMissing(String storedConversationId) {
+      return storedConversationId==null || "".equals(storedConversationId);
    }
    
    public void initializeTemporaryConversation()
@@ -430,7 +434,7 @@ public class Manager
       conversationEntry.setOwnerComponentName(ownerName);
    }
 
-   private ConversationEntry getCurrentConversationEntry() {
+   public ConversationEntry getCurrentConversationEntry() {
       return getConversationEntry( getCurrentConversationId() );
    }
    

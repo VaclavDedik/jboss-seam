@@ -31,27 +31,12 @@ public class Switcher {
       Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
       Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
       orderedEntries.addAll( map.values() );
-      String currentId = Manager.instance().getCurrentConversationId();
       List<SelectItem> selectItems = new ArrayList<SelectItem>( map.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
-         if ( entry.getId().equals(currentId) )
+         if ( entry.isDisplayable() )
          {
-            if ( Manager.instance().isLongRunningConversation() )
-            {
-               Conversation conv = Conversation.instance();
-               if ( conv.getDescription()!=null )
-               {
-                  selectItems.add( new SelectItem( conv.getId(), conv.getDescription() ) );
-               }
-            }
-         }
-         else
-         {
-            if ( entry.getDescription()!=null )
-            {
-               selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
-            }
+            selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
          }
       }
       return selectItems;

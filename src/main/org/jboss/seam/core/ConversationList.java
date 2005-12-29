@@ -28,12 +28,10 @@ public class ConversationList {
       Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
       Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
       orderedEntries.addAll( map.values() );
-      String currentId = Manager.instance().getCurrentConversationId();
       List<ConversationEntry> list = new ArrayList<ConversationEntry>( map.size() );
-      boolean isLongRunning = Manager.instance().isLongRunningConversation();
       for ( ConversationEntry entry: orderedEntries )
       {
-         if ( isLongRunning || !entry.getId().equals(currentId) )
+         if ( entry.isDisplayable() )
          {
             list.add(entry);
          }
