@@ -113,11 +113,6 @@ public class Manager
 
    private void touchConversationStack()
    {
-      if ( isLongRunningConversation() )
-      {
-         getCurrentConversationEntry().touch();
-      }
-      
       LinkedList<String> stack = getCurrentConversationIdStack();
       if ( stack!=null )
       {
@@ -131,6 +126,13 @@ public class Manager
             }
          }
       }
+      
+      //do this last, to bring it to the top of the conversation list
+      if ( isLongRunningConversation() )
+      {
+         getCurrentConversationEntry().touch();
+      }
+      
    }
 
    private ConversationEntry getConversationEntry(String conversationId) {
@@ -330,15 +332,19 @@ public class Manager
    
    private void removeCurrentConversationAndDestroyNestedContexts(Session session) {
       removeConversationEntry(currentConversationId);
+      destroyNestedContexts(session, currentConversationId);
+   }
+      
+   private void destroyNestedContexts(Session session, String conversationId) {
       Iterator<ConversationEntry> entries = getConversationIdEntryMap().values().iterator();
       while ( entries.hasNext() )
       {
          ConversationEntry ce = entries.next();
-         if ( ce.getConversationIdStack().contains(currentConversationId) )
+         if ( ce.getConversationIdStack().contains(conversationId) )
          {
-            String conversationId = ce.getId();
-            log.debug("destroying nested conversation: " + conversationId);
-            destroyConversation(conversationId, session, entries);
+            String entryConversationId = ce.getId();
+            log.debug("destroying nested conversation: " + entryConversationId);
+            destroyConversation(entryConversationId, session, entries);
          }
       }
    }

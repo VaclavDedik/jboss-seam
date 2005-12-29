@@ -13,7 +13,7 @@ import java.util.List;
  * @author Gavin King
  *
  */
-public final class ConversationEntry implements Serializable
+public final class ConversationEntry implements Serializable, Comparable<ConversationEntry>
 {
    private long lastRequestTime;
    private String description;
@@ -119,5 +119,10 @@ public final class ConversationEntry implements Serializable
          List<String> stack = manager.getCurrentConversationIdStack();
          return stack!=null && stack.size()>1 && stack.get(1).equals(id);
       }
+   }
+
+   public int compareTo(ConversationEntry entry) {
+      int result = new Long ( getLastRequestTime() ).compareTo( entry.getLastRequestTime() );
+      return - ( result==0 ? getId().compareTo( entry.getId() ) : result );
    }
 }

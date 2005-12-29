@@ -5,6 +5,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -27,9 +29,11 @@ public class Switcher {
    public List<SelectItem> getSelectItems()
    {
       Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
-      List<SelectItem> selectItems = new ArrayList<SelectItem>( map.size() );
+      Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
+      orderedEntries.addAll( map.values() );
       String currentId = Manager.instance().getCurrentConversationId();
-      for ( ConversationEntry entry: map.values() )
+      List<SelectItem> selectItems = new ArrayList<SelectItem>( map.size() );
+      for ( ConversationEntry entry: orderedEntries )
       {
          if ( entry.getId().equals(currentId) )
          {

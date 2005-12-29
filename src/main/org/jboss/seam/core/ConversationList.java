@@ -5,6 +5,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
@@ -24,10 +26,12 @@ public class ConversationList {
    public List<ConversationEntry> getConversationList()
    {
       Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
-      List<ConversationEntry> list = new ArrayList<ConversationEntry>( map.size() );
+      Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
+      orderedEntries.addAll( map.values() );
       String currentId = Manager.instance().getCurrentConversationId();
+      List<ConversationEntry> list = new ArrayList<ConversationEntry>( map.size() );
       boolean isLongRunning = Manager.instance().isLongRunningConversation();
-      for ( ConversationEntry entry: map.values() )
+      for ( ConversationEntry entry: orderedEntries )
       {
          if ( isLongRunning || !entry.getId().equals(currentId) )
          {
