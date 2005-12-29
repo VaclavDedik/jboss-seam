@@ -6,7 +6,6 @@
  */ 
 package com.jboss.dvd.seam;
 
-import javax.faces.model.DataModel;
 
 public interface ShowOrders {
     public String findOrders();
@@ -15,9 +14,6 @@ public interface ShowOrders {
     public String cancelOrder();
 
     public String reset();
-
-
-    public DataModel getOrders();
 
     public void destroy();
 }

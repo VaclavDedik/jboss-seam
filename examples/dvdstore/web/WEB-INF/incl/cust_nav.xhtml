@@ -5,12 +5,12 @@
     xmlns:h="http://java.sun.com/jsf/html">
     <c:choose>
         <c:when test="${page=='orders'}">
-            <li><h:commandLink action="browse" value="Search for Movies"/></li>
-            <li id="current"><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
+            <li><a href="browse.faces">Search for Movies</a></li>
+            <li id="current"><a href="showorders.faces">My Orders</a></li>
         </c:when>
         <c:otherwise>
-            <li id="current"><h:commandLink action="browse" value="Search for Movies"/></li>
-            <li><h:commandLink action="#{showorders.findOrders}" value="My Orders"/></li>
+            <li id="current"><a href="browse.faces">Search for Movies</a></li>
+            <li><a href="showorders.faces">My Orders</a></li>
         </c:otherwise>
     </c:choose>
 </ul>

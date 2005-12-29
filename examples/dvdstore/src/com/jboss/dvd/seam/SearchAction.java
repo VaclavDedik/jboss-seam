@@ -26,10 +26,12 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("search")
+@Scope(ScopeType.SESSION)
 @LoggedIn
 @Interceptor(SeamInterceptor.class)
 public class SearchAction
@@ -55,7 +57,7 @@ public class SearchAction
     List<Category>      categories;
     Map<String,Integer> categoryMap;
     
-    @Out(scope=ScopeType.CONVERSATION, required=false)
+    @Out(scope=ScopeType.SESSION, required=false)
     List<SelectableItem<Product>> searchResults;    
 
     public void setCategory(Integer category) {
@@ -76,7 +78,7 @@ public class SearchAction
         return actor;
     }
 
-    @Begin
+    @Begin(join=true)
     public String doSearch() {
         currentPage=0;
         updateResults();

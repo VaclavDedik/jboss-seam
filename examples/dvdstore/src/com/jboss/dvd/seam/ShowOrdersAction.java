@@ -18,11 +18,13 @@ import javax.persistence.PersistenceContext;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.ejb.SeamInterceptor;
-import org.jboss.seam.jsf.ListDataModel;
 
 import com.jboss.dvd.seam.Order.Status;
 
@@ -41,27 +43,20 @@ public class ShowOrdersAction
     @PersistenceContext(unitName="dvd")
     EntityManager em;
 
-    ListDataModel model;
-    //@DataModel
+    @DataModel
     List<Order> orders;    
 
     @Out(value="myorder", required=false)
     Order order;
 
-    //@DataModelSelectionIndex
-    //int index;
+    @DataModelSelectionIndex
+    int index;
 
-    public ListDataModel getOrders() {
-        return model;
-    }
-
-
-    @Begin
+    @Begin @Factory("orders")
     public String findOrders() {
         orders = em.createQuery("from Order o where o.customer = :customer")
                    .setParameter("customer", customer)
                    .getResultList();
-        model = new ListDataModel(orders);
         order = null;
 
         return "showorders";
@@ -81,7 +76,6 @@ public class ShowOrdersAction
     }
 
     public String detailOrder() {
-        int index = model.getRowIndex();
         order = em.merge(orders.get(index));
         order.getOrderLines();
 
