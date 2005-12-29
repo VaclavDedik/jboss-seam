@@ -36,9 +36,4 @@ public @interface StartTask
     * the id of task to be started.
     */
    String taskIdParameter() default "taskId";
-   /**
-    * Should we push actor information onto the task, or allow any defined
-    * assigments/swimlanes take effect?
-    */
-   boolean pushActor() default false;
 }
