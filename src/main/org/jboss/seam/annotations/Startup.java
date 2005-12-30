@@ -19,5 +19,10 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 public @interface Startup {
+   /**
+    * A list of other application scope components
+    * that should be started before this one, if they
+    * are installed.
+    */
    String[] depends() default {};
 }

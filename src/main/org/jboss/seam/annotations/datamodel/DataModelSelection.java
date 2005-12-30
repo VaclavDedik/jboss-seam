@@ -9,10 +9,21 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * Injects the selected row data of a ListDataModel. Intended
+ * for use with @DataModel.
+ * 
+ * @author Gavin King
+ */
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
 @Documented
 public @interface DataModelSelection
 {
+   /**
+    * The context variable name of the DataModel. Defaults 
+    * to the name for the outjected @DataModel if there
+    * is exactly one @DataModel for the component.
+    */
    String value() default "";
 }

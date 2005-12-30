@@ -11,7 +11,8 @@ import java.lang.annotation.Target;
 /**
  * Specifies that the object returned by the annotated
  * getter method is to be injected instead of the
- * component itself.
+ * component itself. Supports use of the Seam "manager 
+ * component" pattern.
  * 
  * @author Gavin King
  */

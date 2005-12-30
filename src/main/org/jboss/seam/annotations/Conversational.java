@@ -21,5 +21,10 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Conversational
 {
+   /**
+    * The JSF outcome if the component is invoked outside
+    * of the scope of its conversation during the invoke
+    * application phase.
+    */
    String ifNotBegunOutcome();
 }
