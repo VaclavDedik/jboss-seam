@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.faces.application.Application;
 import javax.faces.application.StateManager;
 import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -60,6 +61,8 @@ public class SeamPhaseListener implements PhaseListener
       setStateManager( event.getFacesContext() );
       log.trace( "before phase: " + event.getPhaseId() );
       
+      Lifecycle.setPhaseId( event.getPhaseId() );
+
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
@@ -70,30 +73,31 @@ public class SeamPhaseListener implements PhaseListener
          Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
       }*/
 
-      Lifecycle.setPhaseId( event.getPhaseId() );
-
    }
 
    public void afterPhase(PhaseEvent event)
    {
       log.trace( "after phase: " + event.getPhaseId() );
 
-      Lifecycle.setPhaseId(null);
-
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
-         restoreAnyConversationContext( event );
+         restoreAnyConversationContext(event);
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
       }
+
+      Lifecycle.setPhaseId(null);
+      
    }
    
    /**
     * Called just before the StateManager serializes the component tree
     */
    private void beforeSaveState(FacesContext ctx) {
+      log.debug( "Before saving state" );
+
       if ( !Init.instance().isClientSideConversations() ) 
       {
          // difficult question: does this really need to happen before 
@@ -105,15 +109,19 @@ public class SeamPhaseListener implements PhaseListener
 
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
-      Manager.instance().restoreConversation( getAttributes( event.getFacesContext() ), getParameters(event) );
-      Lifecycle.resumeConversation( event.getFacesContext().getExternalContext() );
+      Map attributes = getAttributes( event.getFacesContext() );
+      ExternalContext externalContext = event.getFacesContext().getExternalContext();
+      Manager.instance().restoreConversation( attributes, getParameters(event) );
+      Lifecycle.resumePage();
+      Lifecycle.resumeConversation( externalContext );
+      
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }
 
    private static void storeAnyConversationContext(FacesContext ctx)
    {
-      log.debug( "Before render response" );
       Lifecycle.flushClientConversation();
+      Lifecycle.flushPage();
       if ( !Contexts.isConversationContextActive() )
       {
          log.debug( "No active conversation context" );

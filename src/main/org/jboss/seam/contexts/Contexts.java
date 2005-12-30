@@ -26,6 +26,7 @@ public class Contexts {
 
    static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
+   static final ThreadLocal<Context> pageContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
@@ -33,6 +34,10 @@ public class Contexts {
 	public static Context getEventContext() {
 		return eventContext.get();
 	}
+
+   public static Context getPageContext() {
+      return pageContext.get();
+   }
 
 	public static Context getSessionContext() {
 		return sessionContext.get();
@@ -61,6 +66,10 @@ public class Contexts {
 	public static boolean isEventContextActive() {
 		return eventContext.get() != null;
 	}
+
+   public static boolean isPageContextActive() {
+      return pageContext.get() != null;
+   }
 
 	public static boolean isSessionContextActive() {
 		return sessionContext.get() != null;
@@ -107,6 +116,16 @@ public class Contexts {
          if (result!=null)
          {
             log.debug("found in event context: " + name);
+            return result;
+         }
+      }
+      
+      if (isPageContextActive())
+      {
+         Object result = getPageContext().get(name);
+         if (result!=null)
+         {
+            log.debug("found in page context: " + name);
             return result;
          }
       }

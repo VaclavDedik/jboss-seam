@@ -18,6 +18,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * Support for the task list.
  * 
  * @see TaskInstanceListForType
+ * @see PooledTasks
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @author Gavin King
  */
@@ -40,7 +41,6 @@ public class TaskInstanceList
       JbpmSession jbpmSession = (JbpmSession) Component.getInstance(ManagedJbpmSession.class, true);
       List<TaskInstance> list = new ArrayList<TaskInstance>();
       list.addAll( jbpmSession.getTaskMgmtSession().findTaskInstances(actorId) );
-      //TODO: list.addAll( jbpmSession.getTaskMgmtSession().findPooledTaskInstances(actorId) );
       return list;
    }
    

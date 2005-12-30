@@ -169,7 +169,7 @@ public class PhaseListenerTest
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert facesContext.getViewRoot().getAttributes().size()==2;
       assert facesContext.getViewRoot().getAttributes().get(Manager.CONVERSATION_ID).equals("2");
 
       assert !Contexts.isEventContextActive();

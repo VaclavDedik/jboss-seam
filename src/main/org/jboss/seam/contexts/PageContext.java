@@ -13,7 +13,6 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.core.Manager;
 
 /**
  * A conversation context is a logical context that lasts longer than 
@@ -23,14 +22,16 @@ import org.jboss.seam.core.Manager;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class ClientConversationContext implements Context {
+public class PageContext implements Context {
 
-   private Map<String, Object> map;
+   private Map<String, Object> previousPageMap;
+   private Map<String, Object> nextPageMap;
    
-   public ClientConversationContext()
+   public PageContext()
    {
-      map = (Map<String, Object>) getAttributeMap().remove( ScopeType.CONVERSATION.getPrefix() );
-      if (map==null) map = new HashMap<String, Object>();
+      previousPageMap = (Map<String, Object>) getAttributeMap().remove( ScopeType.PAGE.getPrefix() );
+      if (previousPageMap==null) previousPageMap = new HashMap<String, Object>();
+      nextPageMap = new HashMap<String, Object>();
    }
 
    public ScopeType getType()
@@ -40,12 +41,20 @@ public class ClientConversationContext implements Context {
    
 	public Object get(String name) 
    {
-      return map.get(name);
+      Object next = nextPageMap.get(name);
+      if (next==null)
+      {
+         return previousPageMap.get(name);
+      }
+      else
+      {
+         return next;
+      }
 	}
 
 	public void set(String name, Object value) 
    {
-		map.put(name, value);
+		nextPageMap.put(name, value);
 	}
 
 	public boolean isSet(String name) 
@@ -55,16 +64,16 @@ public class ClientConversationContext implements Context {
    
 	public void remove(String name) 
    {
-      map.remove(name);
+      nextPageMap.remove(name);
 	}
 
    public String[] getNames() {
-      return map.keySet().toArray( new String[]{} );
+      return previousPageMap.keySet().toArray( new String[]{} );
    }
    
    public String toString()
    {
-      return "ClientConversationContext";
+      return "PageContext";
    }
 
    public Object get(Class clazz)
@@ -74,10 +83,7 @@ public class ClientConversationContext implements Context {
 
    public void flush()
    {
-      if ( Manager.instance().isLongRunningConversation() )
-      {
-         getAttributeMap().put( ScopeType.CONVERSATION.getPrefix(), map );
-      }
+      getAttributeMap().put( ScopeType.PAGE.getPrefix(), nextPageMap );
    }
 
    private Map getAttributeMap()

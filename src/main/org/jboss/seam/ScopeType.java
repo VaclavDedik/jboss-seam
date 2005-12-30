@@ -19,6 +19,7 @@ public enum ScopeType
 {
    STATELESS,
    EVENT,
+   PAGE,
    CONVERSATION,
    SESSION,
    APPLICATION,
@@ -36,6 +37,12 @@ public enum ScopeType
                throw new IllegalStateException("No event context active");
             }
             return Contexts.getEventContext();
+         case PAGE:
+            if ( !Contexts.isPageContextActive() )
+            {
+               throw new IllegalStateException("No page context active");
+            }
+            return Contexts.getPageContext();
          case CONVERSATION: 
             if ( !Contexts.isConversationContextActive() )
             {

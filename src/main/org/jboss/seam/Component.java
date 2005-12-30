@@ -194,6 +194,10 @@ public class Component
       {
          throw new IllegalArgumentException("Only stateless session beans and Java beans may be bound to the STATELESS context: " + name);
       }
+      if ( scope==ScopeType.PAGE && type==ComponentType.STATEFUL_SESSION_BEAN )
+      {
+         throw new IllegalArgumentException("Stateful session beans may not be bound to the PAGE context: " + name);
+      }
    }
 
    private void initValidator() {

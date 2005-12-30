@@ -45,7 +45,7 @@ public class Manager
    private static Logger log = Logger.getLogger(Manager.class);
 
    private static final String NAME = Seam.getComponentName(Manager.class);
-   public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdActivityMap";
+   public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdEntryMap";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
 
       
@@ -77,7 +77,7 @@ public class Manager
    {
       return getConversationIdEntryMap().keySet();
    }
-
+   
    public Map<String, ConversationEntry> getConversationIdEntryMap()
    {
       if (conversationIdEntryMap==null)
@@ -201,9 +201,12 @@ public class Manager
    @Destroy
    public void flushConversationIdMapToSession()
    {
-      if (dirty)
+      if ( Contexts.isSessionContextActive() ) // this method might be called from the session listener
       {
-         Contexts.getSessionContext().set(CONVERSATION_ID_MAP, conversationIdEntryMap);
+         if (dirty)
+         {
+            Contexts.getSessionContext().set(CONVERSATION_ID_MAP, conversationIdEntryMap);
+         }
       }
    }
    
@@ -254,7 +257,8 @@ public class Manager
       }
    }
 
-   private void destroyConversation(String conversationId, Session session, Iterator iter) {
+   private void destroyConversation(String conversationId, Session session, Iterator iter) 
+   {
       ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
       Contexts.destroy( conversationContext );
       conversationContext.clear();
@@ -267,10 +271,10 @@ public class Manager
    {
       if ( isLongRunningConversation() ) 
       {
-         log.debug("Storing conversation state: " + currentConversationId);
-         Conversation.instance().flush();
          if ( !Seam.isSessionInvalid() ) 
          {
+            log.debug("Storing conversation state: " + currentConversationId);
+            Conversation.instance().flush();
             //if the session is invalid, don't put the conversation id
             //in the view, 'cos we are expecting the conversation to
             //be destroyed by the servlet session listener

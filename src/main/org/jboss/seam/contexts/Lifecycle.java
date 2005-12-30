@@ -117,9 +117,9 @@ public class Lifecycle
       Context tempSessionContext = new WebSessionContext( session );
       Contexts.sessionContext.set(tempSessionContext);
 
-      Set<String> ids = Manager.instance().getSessionConversationIds();
-      log.debug("destroying conversation contexts: " + ids);
-      for (String conversationId: ids)
+      Set<String> conversationIds = Manager.instance().getSessionConversationIds();
+      log.debug("destroying conversation contexts: " + conversationIds);
+      for (String conversationId: conversationIds)
       {
          Contexts.destroy( new ServerConversationContext(session, conversationId) );
       }
@@ -144,7 +144,15 @@ public class Lifecycle
             log.debug("flushing client-side conversation context");
             Contexts.getConversationContext().flush();
          }
-      }   
+      }
+   }
+   
+   public static void flushPage()
+   {
+      if ( Contexts.isPageContextActive() )
+      {
+         Contexts.getPageContext().flush();
+      }
    }
 
    public static void endRequest(ExternalContext externalContext) {
@@ -209,6 +217,7 @@ public class Lifecycle
 
    private static void clearThreadlocals() {
       Contexts.eventContext.set( null );
+      Contexts.pageContext.set( null );
       Contexts.sessionContext.set( null );
       Contexts.conversationContext.set( null );
       Contexts.businessProcessContext.set( null );
@@ -218,7 +227,7 @@ public class Lifecycle
    private static void flushAndDestroyContexts() {
       if ( Contexts.isBusinessProcessContextActive() )
       {
-         log.debug("flushing busines process context");
+         log.debug("flushing business process context");
          Contexts.getBusinessProcessContext().flush();
       }
 
@@ -226,6 +235,12 @@ public class Lifecycle
       {
          log.debug("destroying event context");
          Contexts.destroy( Contexts.getEventContext() );
+      }
+      
+      if ( Contexts.isPageContextActive() )
+      {
+         log.debug("destroying page context");
+         Contexts.destroy( Contexts.getPageContext() );
       }
 
       if ( Contexts.isConversationContextActive() )
@@ -241,8 +256,14 @@ public class Lifecycle
             Contexts.getConversationContext().flush();
          }
       }
+      
    }
 
+   public static void resumePage()
+   {
+      Contexts.pageContext.set( new PageContext() );
+   }
+   
    public static void resumeConversation(ExternalContext externalContext)
    {
       Init init = (Init) Component.getInstance(Init.class, false);

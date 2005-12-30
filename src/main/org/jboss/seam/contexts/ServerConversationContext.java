@@ -6,7 +6,6 @@
  */
 package org.jboss.seam.contexts;
 
-import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,7 +25,7 @@ import org.jboss.seam.core.Manager;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class ServerConversationContext implements Context, Serializable {
+public class ServerConversationContext implements Context {
 
    private final Session session;
    private final Map<String, Object> additions = new HashMap<String, Object>();

@@ -9,6 +9,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.jboss.seam.ScopeType;
+
 /**
  * Outjects a List to the same scope as the owning component,
  * after wrapping as a ListDataModel. Note that the List
@@ -28,4 +30,14 @@ public @interface DataModel
     * the annotated field or getter method.
     */
    String value() default "";
+   
+   /**
+    * By default, the DataModel is outjected to the same
+    * scope as the owning component. If scope=ScopeType.PAGE
+    * is explicitly specified, the DataModel will be kept
+    * in the PAGE context instead.
+    * 
+    * @return ScopeType.UNSPECIFIED or ScopeType.PAGE
+    */
+   ScopeType scope() default ScopeType.UNSPECIFIED;
 }

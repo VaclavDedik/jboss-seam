@@ -76,7 +76,7 @@ public class ContextTest
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
-      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==2;
+      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==3;
       assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==3;
       
       Lifecycle.beginRequest(externalContext);
@@ -114,7 +114,7 @@ public class ContextTest
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
-      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==1;
+      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==2;
       assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==3;
       
       Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) );
