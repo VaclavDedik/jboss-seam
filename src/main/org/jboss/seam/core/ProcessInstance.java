@@ -18,6 +18,9 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
 
 /**
+ * A Seam component that allows injection of the current
+ * jBPM ProcessInstance.
+ * 
  * @author Gavin King
  * @version $Revision$
  */

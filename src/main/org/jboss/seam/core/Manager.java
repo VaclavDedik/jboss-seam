@@ -31,6 +31,8 @@ import org.jboss.seam.contexts.Session;
 import org.jboss.seam.util.Id;
 
 /**
+ * The Seam conversation manager.
+ * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$

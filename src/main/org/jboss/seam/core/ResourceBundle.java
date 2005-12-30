@@ -17,6 +17,8 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 
 /**
+ * Support for an application-global resource bundle
+ * 
  * @author Gavin King
  */
 @Scope(ScopeType.APPLICATION)
@@ -34,7 +36,7 @@ public class ResourceBundle {
    {
       return bundleName;
    }
-
+   
    public void setBundleName(String bundleName) 
    {
       this.bundleName = bundleName;

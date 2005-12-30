@@ -57,7 +57,13 @@ public class Jbpm
    public void setProcessDefinitions(String[] processDefinitions) {
       this.processDefinitions = processDefinitions;
    }
-
+   
+   /**
+    * Dynamically load a new jBPM process definition from a resource at runtime.
+    * 
+    * @param resourceName the name of a resource containing the process definition
+    * @param makeLatestVersion the loaded definition should be considered the latest version
+    */
    public void loadProcessDefinition(String resourceName, boolean makeLatestVersion) {
       JbpmSession jbpmSession = ManagedJbpmSession.instance();      
       ProcessDefinition processDefinition = getProcessDefinitionFromResource(resourceName);

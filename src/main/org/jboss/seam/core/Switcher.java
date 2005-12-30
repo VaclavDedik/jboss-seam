@@ -18,6 +18,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Lifecycle;
 
 /**
+ * Support for the conversation switcher drop-down menu.
+ * 
  * @author Gavin King
  * @version $Revision$
  */

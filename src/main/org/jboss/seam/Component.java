@@ -71,7 +71,7 @@ import org.jboss.seam.util.Strings;
 
 /**
  * A Seam component is any POJO managed by Seam.
- * A POJO is recognized as a Seam component if it is using the org.jboss.seam.annotations.Name annotation
+ * A POJO is recognized as a Seam component if it has a @Name annotation
  * 
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @author Gavin King
@@ -754,13 +754,12 @@ public class Component
    private void outjectDataModelList(String name, List list)
    {
       javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) getDataModelContext().get( name );
-      if ( existingDataModel == null || !existingDataModel.getWrappedData().equals( list ) )
+      if ( existingDataModel == null || !existingDataModel.getWrappedData().equals(list) )
       {
          if ( list != null )
          {
-            ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel( list );
+            ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel(list);
             getDataModelContext().set( name, dataModel );
-            log.info("Datamodeling out " + name + " with list size " + list.size());
          }
          else
          {

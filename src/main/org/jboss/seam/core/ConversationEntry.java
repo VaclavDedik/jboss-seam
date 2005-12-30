@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Metadata about an active conversation. Also used
+ * by the conversation list and breadcrumbs.
  * 
  * @author Gavin King
  *

@@ -17,6 +17,8 @@ import org.jbpm.db.JbpmSession;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
+ * Support for a list of tasks of a particular type.
+ * 
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @author Gavin King
  */

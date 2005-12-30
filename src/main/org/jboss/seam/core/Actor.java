@@ -11,6 +11,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
+/**
+ * Allows the application to specify the jBPM actorId
+ * during the login cycle.
+ * 
+ * @author Gavin King
+ */
 @Name("actor")
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)

@@ -11,6 +11,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
+/**
+ * Allows the application to set the jBPM transition to be used when
+ * @EndTask is encountered.
+ * 
+ * @author Gavin King
+ */
 @Name("transition")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
@@ -21,7 +27,10 @@ public class Transition implements Serializable {
    {
       return name;
    }
-
+   
+   /**
+    * Set the jBPM transition name
+    */
    public void setName(String id) 
    {
       this.name = id;

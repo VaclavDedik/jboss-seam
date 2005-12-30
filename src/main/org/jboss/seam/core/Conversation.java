@@ -12,7 +12,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
 /**
- * Allows the conversation timeout to be set per-conversation.
+ * Allows the conversation timeout to be set per-conversation,
+ * and the conversation description and switchable outcome to
+ * be set when the application requires workspace management
+ * functionality.
  * 
  * @author Gavin King
  *
@@ -26,14 +29,25 @@ public class Conversation implements Serializable {
    String description;
    String outcome;
 
+   /**
+    * Get the timeout for this converstaion instance.
+    * @return the timeout in millis
+    */
    public int getTimeout() {
       return timeout;
    }
-
+   
+   /**
+    * Set the timeout for this converstaion instance.
+    * @param timeout the timeout in millis
+    */
    public void setTimeout(int timeout) {
       this.timeout = timeout;
    }
    
+   /**
+    * Get the conversation id.
+    */
    public String getId()
    {
       return Manager.instance().getCurrentConversationId();
@@ -52,13 +66,23 @@ public class Conversation implements Serializable {
             Manager.instance().getCurrentConversationOutcome() :
             outcome;
    }
-
+   
+   /**
+    * Sets the description of this conversation, for use
+    * in the conversation list, breadcrumbs, or conversation
+    * switcher.
+    */
    public void setDescription(String description)
    {
       this.description = description;
       
    }
-
+   
+   /**
+    * Sets the JSF outcome to be used when we switch back to this
+    * conversation from the conversation list, breadcrumbs, or 
+    * conversation switcher.
+    */
    public void setOutcome(String outcome)
    {
       this.outcome = outcome;
@@ -73,12 +97,24 @@ public class Conversation implements Serializable {
       return (Conversation) Component.getInstance(Conversation.class, ScopeType.CONVERSATION, true);
    }
    
+   /**
+    * Convenience method to set both the outcome and description 
+    * and return the outcome in a single line of code.
+    * 
+    * @return the given outcome
+    */
    public String switchableOutcome(String outcome, String description)
    {
       setDescription(description);    
       return switchableOutcome(outcome);
    }
    
+   /**
+    * Convenience method to set both the outcome and return it in
+    * a single line of code.
+    * 
+    * @return the given outcome
+    */
    public String switchableOutcome(String outcome)
    {
       setOutcome(outcome);

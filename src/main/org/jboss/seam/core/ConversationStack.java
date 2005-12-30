@@ -15,6 +15,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 
 /**
+ * Support for "breadcrumbs".
+ * 
  * @author Gavin King
  * @version $Revision$
  */
