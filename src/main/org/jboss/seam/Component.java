@@ -111,12 +111,12 @@ public class Component
    private Set<Method> parameterSetters = new HashSet<Method>();
    private Map<Method, Object> initializers = new HashMap<Method, Object>();
    
-   private Method dataModelGetter;
-   private Method dataModelSelectionIndexSetter;
-   private Method dataModelSelectionSetter;
-   private Field dataModelField;
-   private Field dataModelSelectionIndexField;
-   private Field dataModelSelectionField;
+   private List<Method> dataModelGetters = new ArrayList<Method>();
+   private Map<String, Method> dataModelSelectionIndexSetters = new HashMap<String, Method>();
+   private Map<String, Method> dataModelSelectionSetters = new HashMap<String, Method>();
+   private List<Field> dataModelFields = new ArrayList<Field>();
+   private Map<String, Field> dataModelSelectionIndexFields = new HashMap<String, Field>();
+   private Map<String, Field> dataModelSelectionFields = new HashMap<String, Field>();
    
    
    private ClassValidator validator;
@@ -261,6 +261,11 @@ public class Component
 
    private void initMembers(Class<?> clazz, Context applicationContext)
    {
+      List<Method> selectionSetters = new ArrayList<Method>();
+      List<Method> selectionIndexSetters = new ArrayList<Method>();
+      List<Field> selectionFields = new ArrayList<Field>();
+      List<Field> selectionIndexFields = new ArrayList<Field>();
+
       for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
       
@@ -296,7 +301,7 @@ public class Component
             }
             if ( method.isAnnotationPresent(DataModel.class) )
             {
-               dataModelGetter = method;
+               dataModelGetters.add(method);
             }
             if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) ) 
             {
@@ -309,11 +314,11 @@ public class Component
             }
             if ( method.isAnnotationPresent(DataModelSelectionIndex.class) )
             {
-               dataModelSelectionIndexSetter = method;
+               selectionIndexSetters.add(method);
             }
             if ( method.isAnnotationPresent(DataModelSelection.class) )
             {
-               dataModelSelectionSetter = method;
+               selectionSetters.add(method);
             }
             if ( method.isAnnotationPresent(RequestParameter.class) )
             {
@@ -337,15 +342,15 @@ public class Component
             }
             if ( field.isAnnotationPresent(DataModel.class) )
             {
-               dataModelField = field;
+               dataModelFields.add(field);
             }
             if ( field.isAnnotationPresent(DataModelSelection.class) )
             {
-               dataModelSelectionField = field;
+               selectionFields.add(field);
             }
             if ( field.isAnnotationPresent(DataModelSelectionIndex.class) )
             {
-               dataModelSelectionIndexField = field;
+               selectionIndexFields.add(field);
             }
             if ( field.isAnnotationPresent(RequestParameter.class) )
             {
@@ -358,6 +363,85 @@ public class Component
          }
          
       }
+
+      final boolean hasMultipleDataModels = dataModelGetters.size() + dataModelFields.size() > 1;
+      String defaultDataModelName = null;
+      if ( !hasMultipleDataModels )
+      {
+         if ( !dataModelGetters.isEmpty() )
+         {
+            Method dataModelGetter = dataModelGetters.get(0);
+            defaultDataModelName = toName( dataModelGetter.getAnnotation(DataModel.class).value(), dataModelGetter );
+         }
+         else if ( !dataModelFields.isEmpty() )
+         {
+            Field dataModelField = dataModelFields.get(0);
+            defaultDataModelName = toName( dataModelField.getAnnotation(DataModel.class).value(), dataModelField );
+         }
+      }
+      
+      for (Method method : selectionSetters) {
+         String name = method.getAnnotation( DataModelSelection.class ).value();
+         if ( name.length() == 0 ) {
+            if ( hasMultipleDataModels ) 
+            {
+               throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
+            }
+            name = defaultDataModelName;
+         }
+         Method existing = dataModelSelectionSetters.put( name, method );
+         if (existing!=null) 
+         {
+            throw new IllegalStateException("Multiple @DataModelSelection setters for: " + name);
+         }
+      }
+      for (Field field : selectionFields) {
+         String name = field.getAnnotation( DataModelSelection.class ).value();
+         if ( name.length() == 0 ) {
+            if ( hasMultipleDataModels ) 
+            {
+               throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
+            }
+            name = defaultDataModelName;
+         }
+         Field existing = dataModelSelectionFields.put( name, field );
+         if (existing!=null) 
+         {
+            throw new IllegalStateException("Multiple @DataModelSelection fields for: " + name);
+         }
+      }
+      
+      for (Method method : selectionIndexSetters) {
+         String name = method.getAnnotation( DataModelSelectionIndex.class ).value();
+         if ( name.length() == 0 ) {
+            if ( hasMultipleDataModels ) 
+            {
+               throw new IllegalStateException( "Missing value() for @DataModelSelectionIndex with multiple @DataModels" );
+            }
+            name = defaultDataModelName;
+         }
+         Method existing = dataModelSelectionIndexSetters.put( name, method );
+         if (existing!=null) 
+         {
+            throw new IllegalStateException("Multiple @DataModelSelectionIndex setters for: " + name);
+         }
+      }
+      for (Field field : selectionIndexFields) {
+         String name = field.getAnnotation( DataModelSelectionIndex.class ).value();
+         if ( name.length() == 0 ) {
+            if ( hasMultipleDataModels ) 
+            {
+               throw new IllegalStateException( "Missing value() for @DataModelSelectionIndex with multiple @DataModels" );
+            }
+            name = defaultDataModelName;
+         }
+         Field existing = dataModelSelectionIndexFields.put( name, field );
+         if (existing!=null) 
+         {
+            throw new IllegalStateException("Multiple @DataModelSelectionIndex fields for: " + name);
+         }
+      }
+
    }
 
    private void initInterceptors()
@@ -503,19 +587,19 @@ public class Component
    }
 
     public boolean needsInjection() {
-        return (getInFields().size()>0) || 
+        return (getInFields().size()>0) ||
             (getInMethods().size()>0) ||
-            (dataModelSelectionSetter != null) ||
-            (dataModelSelectionSetter != null) ||
-            (dataModelSelectionField != null) ||
-            (dataModelSelectionIndexField != null);
+            (dataModelSelectionSetters.size() > 0) ||
+            (dataModelSelectionIndexSetters.size() > 0) ||
+            (dataModelSelectionFields.size() > 0) ||
+            (dataModelSelectionIndexFields.size() > 0);
    }
 
     public boolean needsOutjection() {
-        return (getOutFields().size()>0) || 
+        return (getOutFields().size()>0) ||
             (getOutMethods().size()>0) ||
-            (dataModelGetter != null) ||
-            (dataModelField != null);
+            (dataModelGetters.size() > 0) ||
+            (dataModelFields.size() > 0);
     }
 
     protected Object instantiate() throws Exception
@@ -592,45 +676,51 @@ public class Component
 
    private void injectDataModelSelection(Object bean)
    {
-      
-      final String name;
-      if (dataModelGetter!=null)
+      for ( Method dataModelGetter : dataModelGetters )
       {
-         name = toName( dataModelGetter.getAnnotation(DataModel.class).value(), dataModelGetter );
+         final String name = toName( dataModelGetter.getAnnotation( DataModel.class ).value(), dataModelGetter );
+         injectDataModelSelection( bean, name );
       }
-      else if (dataModelField!=null)
+      for ( Field dataModelGetter : dataModelFields )
       {
-         name = toName( dataModelField.getAnnotation(DataModel.class).value(), dataModelField );
+         final String name = toName( dataModelGetter.getAnnotation( DataModel.class ).value(), dataModelGetter );
+         injectDataModelSelection( bean, name );
       }
-      else {
-         return;
-      }
+   }
 
-      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) getDataModelContext().get(name);
-      if (dataModel!=null)
+   private void injectDataModelSelection(Object bean, String name)
+   {
+      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) getDataModelContext().get( name );
+      if ( dataModel != null )
       {
          int rowIndex = dataModel.getRowIndex();
-         
-         log.debug("selected row: " + rowIndex);
-         
-         if ( rowIndex>-1 ) 
+
+         log.debug( "selected row: " + rowIndex );
+
+         if ( rowIndex > -1 )
          {
-            if (dataModelSelectionIndexSetter!=null)
+            
+            Method setter = dataModelSelectionIndexSetters.get(name);
+            if (setter != null) 
             {
-               setPropertyValue(bean, dataModelSelectionIndexSetter, name, rowIndex );
+               setPropertyValue( bean, setter, name, rowIndex );
             }
-            if (dataModelSelectionSetter!=null)
+            Field field = dataModelSelectionIndexFields.get(name);
+            if (field != null) 
             {
-               setPropertyValue(bean, dataModelSelectionSetter, name, getSelectedRowData(dataModel));
+               setFieldValue( bean, field, name, rowIndex );
             }
-            if (dataModelSelectionIndexField!=null)
+            
+            setter = dataModelSelectionSetters.get(name);
+            if (setter != null) 
             {
-               setFieldValue(bean, dataModelSelectionIndexField, name, rowIndex );
+               setPropertyValue( bean, setter, name, getSelectedRowData(dataModel) );
             }
-            if (dataModelSelectionField!=null)
-            {
-               setFieldValue(bean, dataModelSelectionField, name, getSelectedRowData(dataModel));
+            field = dataModelSelectionFields.get(name);
+            if (field != null) {
+               setFieldValue( bean, field, name, getSelectedRowData(dataModel) );
             }
+            
          }
       }
    }
@@ -641,38 +731,43 @@ public class Component
 
    private void outjectDataModel(Object bean)
    {
-      
-      final List list;
-      final String name;
-      if (dataModelGetter!=null)
+      for ( Method dataModelGetter : dataModelGetters )
       {
-         name = toName(dataModelGetter.getAnnotation(DataModel.class).value(), dataModelGetter);
-         list = (List) getPropertyValue(bean, dataModelGetter, name);
+         final List list;
+         final String name;
+         name = toName( dataModelGetter.getAnnotation( DataModel.class ).value(), dataModelGetter );
+         list = (List) getPropertyValue( bean, dataModelGetter, name );
+         outjectDataModelList( name, list );
       }
-      else if (dataModelField!=null)
+
+      for ( Field dataModelGetter : dataModelFields )
       {
-         name = toName(dataModelField.getAnnotation(DataModel.class).value(), dataModelField);
-         list = (List) getFieldValue(bean, dataModelField, name);
+         final List list;
+         final String name;
+         name = toName( dataModelGetter.getAnnotation( DataModel.class ).value(), dataModelGetter );
+         list = (List) getFieldValue( bean, dataModelGetter, name );
+         outjectDataModelList( name, list );
       }
-      else {
-         return;
-      }
-      
-      javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) getDataModelContext().get(name);
-      if ( existingDataModel==null || !existingDataModel.getWrappedData().equals(list) ) {
-      
-         if ( list!=null )
-         {            
-            ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel(list);
+
+   }
+
+   private void outjectDataModelList(String name, List list)
+   {
+      javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) getDataModelContext().get( name );
+      if ( existingDataModel == null || !existingDataModel.getWrappedData().equals( list ) )
+      {
+         if ( list != null )
+         {
+            ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel( list );
             getDataModelContext().set( name, dataModel );
+            log.info("Datamodeling out " + name + " with list size " + list.size());
          }
          else
          {
-            getDataModelContext().remove(name);
+            getDataModelContext().remove( name );
          }
-         
+
       }
-      
    }
 
    private Context getDataModelContext() {
