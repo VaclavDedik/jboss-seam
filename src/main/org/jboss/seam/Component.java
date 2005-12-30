@@ -151,6 +151,9 @@ public class Component
       scope = Seam.getComponentScope(beanClass);
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
+      
+      checkScopeForComponentType();
+      
       startup = beanClass.isAnnotationPresent(Startup.class);
       if (startup)
       {
@@ -186,6 +189,13 @@ public class Component
       
    }
 
+   private void checkScopeForComponentType() {
+      if ( scope==ScopeType.STATELESS && (type==ComponentType.STATEFUL_SESSION_BEAN || type==ComponentType.ENTITY_BEAN) )
+      {
+         throw new IllegalArgumentException("Only stateless session beans and Java beans may be bound to the STATELESS context: " + name);
+      }
+   }
+
    private void initValidator() {
       if (interceptionType!=InterceptionType.NEVER)
       {
@@ -216,10 +226,10 @@ public class Component
                return null;
             default:
                if ( localInterfaces.size()==0 ) {
-            	   throw new IllegalArgumentException("session bean with no local interface must specify @JndiName");
+            	   throw new IllegalArgumentException("session bean with no local interface must specify @JndiName: " + name);
                }
                else if ( localInterfaces.size()>1 ) {
-                  throw new IllegalArgumentException("session beans with multiple business interfaces must specify @JndiName");
+                  throw new IllegalArgumentException("session beans with multiple business interfaces must specify @JndiName: " + name);
                }
                else {
                   return localInterfaces.iterator().next().getName();
@@ -301,6 +311,7 @@ public class Component
             }
             if ( method.isAnnotationPresent(DataModel.class) )
             {
+               checkDataModelScope( method.getAnnotation(DataModel.class) );
                dataModelGetters.add(method);
             }
             if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) ) 
@@ -342,6 +353,7 @@ public class Component
             }
             if ( field.isAnnotationPresent(DataModel.class) )
             {
+               checkDataModelScope( field.getAnnotation(DataModel.class) );
                dataModelFields.add(field);
             }
             if ( field.isAnnotationPresent(DataModelSelection.class) )
@@ -442,6 +454,14 @@ public class Component
          }
       }
 
+   }
+
+   private void checkDataModelScope(DataModel dataModel) {
+      ScopeType dataModelScope = dataModel.scope();
+      if ( dataModelScope!=ScopeType.PAGE && dataModelScope!=ScopeType.UNSPECIFIED )
+      {
+         throw new IllegalArgumentException("@DataModel scope must be ScopeType.UNSPECIFIED or ScopeType.PAGE: " + name);
+      }
    }
 
    private void initInterceptors()
@@ -678,19 +698,21 @@ public class Component
    {
       for ( Method dataModelGetter : dataModelGetters )
       {
-         final String name = toName( dataModelGetter.getAnnotation( DataModel.class ).value(), dataModelGetter );
-         injectDataModelSelection( bean, name );
+         DataModel dataModelAnn = dataModelGetter.getAnnotation( DataModel.class );
+         final String name = toName( dataModelAnn.value(), dataModelGetter );
+         injectDataModelSelection( bean, name, dataModelAnn.scope() );
       }
       for ( Field dataModelGetter : dataModelFields )
       {
-         final String name = toName( dataModelGetter.getAnnotation( DataModel.class ).value(), dataModelGetter );
-         injectDataModelSelection( bean, name );
+         DataModel dataModelAnn = dataModelGetter.getAnnotation( DataModel.class );
+         final String name = toName( dataModelAnn.value(), dataModelGetter );
+         injectDataModelSelection( bean, name, dataModelAnn.scope() );
       }
    }
 
-   private void injectDataModelSelection(Object bean, String name)
+   private void injectDataModelSelection(Object bean, String name, ScopeType scope)
    {
-      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) getDataModelContext().get( name );
+      javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) getDataModelContext(scope).get( name );
       if ( dataModel != null )
       {
          int rowIndex = dataModel.getRowIndex();
@@ -735,45 +757,52 @@ public class Component
       {
          final List list;
          final String name;
-         name = toName( dataModelGetter.getAnnotation( DataModel.class ).value(), dataModelGetter );
+         DataModel dataModelAnn = dataModelGetter.getAnnotation( DataModel.class );
+         name = toName( dataModelAnn.value(), dataModelGetter );
          list = (List) getPropertyValue( bean, dataModelGetter, name );
-         outjectDataModelList( name, list );
+         outjectDataModelList( name, list, dataModelAnn.scope() );
       }
 
       for ( Field dataModelGetter : dataModelFields )
       {
          final List list;
          final String name;
-         name = toName( dataModelGetter.getAnnotation( DataModel.class ).value(), dataModelGetter );
+         DataModel dataModelAnn = dataModelGetter.getAnnotation( DataModel.class );
+         name = toName( dataModelAnn.value(), dataModelGetter );
          list = (List) getFieldValue( bean, dataModelGetter, name );
-         outjectDataModelList( name, list );
+         outjectDataModelList( name, list, dataModelAnn.scope() );
       }
 
    }
 
-   private void outjectDataModelList(String name, List list)
+   private void outjectDataModelList(String name, List list, ScopeType scope)
    {
-      javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) getDataModelContext().get( name );
+      Context context = getDataModelContext(scope);
+      javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) context.get( name );
       if ( existingDataModel == null || !existingDataModel.getWrappedData().equals(list) )
       {
          if ( list != null )
          {
             ListDataModel dataModel = new org.jboss.seam.jsf.ListDataModel(list);
-            getDataModelContext().set( name, dataModel );
+            context.set( name, dataModel );
          }
          else
          {
-            getDataModelContext().remove( name );
+            context.remove( name );
          }
 
       }
    }
 
-   private Context getDataModelContext() {
+   private Context getDataModelContext(ScopeType specifiedScope) {
       ScopeType scope = this.scope;
       if (scope==ScopeType.STATELESS)
       {
-       scope = ScopeType.EVENT;
+         scope = ScopeType.EVENT;
+      }
+      if (specifiedScope!=ScopeType.UNSPECIFIED) 
+      {
+         scope = specifiedScope;
       }
       return scope.getContext();
    }
