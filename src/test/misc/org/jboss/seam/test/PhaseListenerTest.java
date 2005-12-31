@@ -226,7 +226,7 @@ public class PhaseListenerTest
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
-      Manager.instance().setLongRunningConversation(true);
+      Manager.instance().beginConversation(null);
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
       
@@ -241,7 +241,7 @@ public class PhaseListenerTest
       
       facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
       
-      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert facesContext.getViewRoot().getAttributes().size()==2;
 
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
 
