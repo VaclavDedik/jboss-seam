@@ -3,6 +3,8 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -22,6 +24,7 @@ import org.jboss.seam.contexts.Contexts;
 @Intercept(NEVER)
 public class Actor implements Serializable {
    private String id;
+   private Set<String> groupActorIds = new HashSet<String>();
 
    public String getId() {
       return id;
@@ -29,6 +32,11 @@ public class Actor implements Serializable {
 
    public void setId(String id) {
       this.id = id;
+   }
+   
+   public Set<String> getGroupActorIds()
+   {
+      return groupActorIds;
    }
 
    public static Actor instance()

@@ -18,7 +18,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * Support for the task list.
  * 
  * @see TaskInstanceListForType
- * @see PooledTasks
+ * @see PooledTask
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @author Gavin King
  */
