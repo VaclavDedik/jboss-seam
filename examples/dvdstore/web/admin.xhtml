@@ -46,6 +46,49 @@
                 for shipping.
                 </li>
             </ul>
+            
+            <h2>Task Assignment</h2>
+            <c:choose>
+                <c:when test="${empty pooledTaskInstanceList}">
+                    <p>There are no pooled tasks to be assigned.</p>
+                </c:when>
+                <c:otherwise>      
+                    <h:dataTable value="#{pooledTaskInstanceList}"
+                                 var="task" 
+                                 styleClass="dvdtable" 
+                                 headerClass="dvdtablehead"
+                                 rowClasses="dvdtableodd,dvdtableeven"
+                                 columnClasses="dvdtablecol">
+                        <h:column>
+                            <f:facet name="header">
+                                Order Id
+                            </f:facet>
+                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['orderId']}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Order Amount
+                            </f:facet>
+                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Customer
+                            </f:facet>
+                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}" />
+                        </h:column>
+                        <h:column>
+                            <h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
+                                <h:commandButton value="Assign"/>
+                                <f:param name="taskId" value="#{task.id}"/>
+                            </h:commandLink>
+                        </h:column>
+                        	
+                    </h:dataTable>
+                </c:otherwise>
+            </c:choose>
 
             <h2>Order Acceptance</h2>
             <c:choose>
