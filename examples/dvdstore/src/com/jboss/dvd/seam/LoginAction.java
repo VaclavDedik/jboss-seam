@@ -66,6 +66,7 @@ public class LoginAction
                 sessionContext.set("currentUserIsAdmin", true);
                 actor.setId("admin");
                 actor.getGroupActorIds().add("shipper");
+                actor.getGroupActorIds().add("reviewer");
                 return "admin";
             } 
             else {

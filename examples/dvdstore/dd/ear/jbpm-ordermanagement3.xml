@@ -12,7 +12,7 @@
 
     <task-node name="approval">
         <task name="approve">
-            <assignment class="com.jboss.dvd.seam.ShipperAssignment" />
+            <assignment class="com.jboss.dvd.seam.ReviewerAssignment" />
         </task>
         <transition name="approve" to="process"/>
         <transition name="reject"  to="complete"/>
