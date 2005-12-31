@@ -8,10 +8,10 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.contexts.EventContext;
 import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.contexts.Session;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Init;
@@ -56,6 +56,7 @@ public class ContextTest
       assert Contexts.isSessionContextActive();
       assert Contexts.isConversationContextActive();
       assert Contexts.isApplicationContextActive();
+      assert !Contexts.isPageContextActive();
       
       assert Contexts.getEventContext()!=null;
       assert Contexts.getSessionContext()!=null;
@@ -76,7 +77,7 @@ public class ContextTest
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
-      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==3;
+      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==2;
       assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==3;
       
       Lifecycle.beginRequest(externalContext);
@@ -114,7 +115,7 @@ public class ContextTest
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
-      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==2;
+      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==1;
       assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==3;
       
       Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) );

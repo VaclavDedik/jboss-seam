@@ -10,16 +10,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 
 /**
- * A conversation context is a logical context that lasts longer than 
- * a request but shorter than a login session
+ * The page context allows you to store state during a request that
+ * renders a page, and access that state from any postback request
+ * that originates from that page. The state is destroyed at the 
+ * end of the second request. During the RENDER_RESPONSE phase,
+ * the page context instance refers to the page that is about to
+ * be rendered. Prior to the INVOKE_APPLICATION phase, it refers
+ * to the page that was the source of the request. During the
+ * INVOKE_APPLICATION phase, set() and remove() manipulate the
+ * context of the page that is about to be rendered, while get()
+ * returns values from the page that was the source of the request.
  * 
  * @author Gavin King
- * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
 public class PageContext implements Context {
@@ -41,30 +49,34 @@ public class PageContext implements Context {
    
 	public Object get(String name) 
    {
-      Object next = nextPageMap.get(name);
-      if (next==null)
-      {
-         return previousPageMap.get(name);
-      }
-      else
-      {
-         return next;
-      }
+      return getCurrentReadableMap().get(name);
 	}
+   
+   public boolean isSet(String name) 
+   {
+      return get(name)!=null;
+   }
+   
+   private Map getCurrentReadableMap()
+   {
+      return Lifecycle.getPhaseId().compareTo(PhaseId.INVOKE_APPLICATION) > 0 ?
+            nextPageMap : previousPageMap;
+   }
+
+   private Map getCurrentWritableMap()
+   {
+      return Lifecycle.getPhaseId().compareTo(PhaseId.INVOKE_APPLICATION) < 0 ?
+            previousPageMap : nextPageMap;
+   }
 
 	public void set(String name, Object value) 
    {
-		nextPageMap.put(name, value);
+      getCurrentWritableMap().put(name, value);
 	}
 
-	public boolean isSet(String name) 
-   {
-		return get(name)!=null;
-	}
-   
 	public void remove(String name) 
    {
-      nextPageMap.remove(name);
+      getCurrentWritableMap().remove(name);
 	}
 
    public String[] getNames() {

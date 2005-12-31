@@ -82,11 +82,13 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
    
    public String destroy() {
+      Manager.instance().swapConversation( getId() );
       Manager.instance().endConversation();
       return null;
    }
 
    public String outcome() {
+      Manager.instance().swapConversation( getId() );
       return getOutcome();
    }
 

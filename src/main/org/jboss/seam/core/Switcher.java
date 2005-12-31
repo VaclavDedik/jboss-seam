@@ -2,6 +2,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -23,17 +25,20 @@ import org.jboss.seam.contexts.Lifecycle;
  * @author Gavin King
  * @version $Revision$
  */
-@Scope(ScopeType.EVENT)
+@Scope(ScopeType.PAGE)
 @Name("switcher")
 @Intercept(NEVER)
-public class Switcher {
+public class Switcher implements Serializable {
    
-   public List<SelectItem> getSelectItems()
+   private List<SelectItem> selectItems;
+   
+   @Create
+   public void createSelectItems()
    {
       Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
       Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
       orderedEntries.addAll( map.values() );
-      List<SelectItem> selectItems = new ArrayList<SelectItem>( map.size() );
+      selectItems = new ArrayList<SelectItem>( map.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
          if ( entry.isDisplayable() )
@@ -41,6 +46,10 @@ public class Switcher {
             selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
          }
       }
+   }
+   
+   public List<SelectItem> getSelectItems()
+   {
       return selectItems;
    }
       
