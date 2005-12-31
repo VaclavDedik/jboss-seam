@@ -62,9 +62,10 @@ public class LoginAction
 
             sessionContext.set("currentUser", found);
             
+            actor.setId( found.getUserName() );
+            
             if (found instanceof Admin) {
                 sessionContext.set("currentUserIsAdmin", true);
-                actor.setId("admin");
                 actor.getGroupActorIds().add("shipper");
                 actor.getGroupActorIds().add("reviewer");
                 return "admin";

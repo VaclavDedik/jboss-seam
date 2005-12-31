@@ -12,7 +12,9 @@
 
     <task-node name="approval">
         <task name="approve">
-            <assignment class="com.jboss.dvd.seam.ReviewerAssignment" />
+           <assignment class="org.jboss.seam.core.jbpm.SeamAssignmentHandler">
+              <pooledActors>reviewers</pooledActors>
+           </assignment>
         </task>
         <transition name="approve" to="process"/>
         <transition name="reject"  to="complete"/>
@@ -20,7 +22,9 @@
     
     <task-node name="process">
         <task name="ship">
-            <assignment class="com.jboss.dvd.seam.ShipperAssignment" />
+           <assignment class="org.jboss.seam.core.jbpm.SeamAssignmentHandler">
+              <pooledActors>#{shipperAssignment.pooledActor}</pooledActors>
+           </assignment>
         </task>
         <transition name="shipped"  to="complete"/>
     </task-node>
