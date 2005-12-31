@@ -15,9 +15,9 @@
         <a href="main.jsf">New workspace</a>
         <h:dataTable value="#{conversationList}" var="entry">
             <h:column>
-                <h:commandLink action="#{entry.outcome}" value="#{entry.description}">
-                    <f:param name="conversationId" value="#{entry.id}"/>
-                </h:commandLink>
+                <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
+                &nbsp;
+                <h:outputText value="[current]" rendered="#{entry.current}"/>
             </h:column>
             <h:column>
                 <h:outputText value="#{entry.startDatetime}">

@@ -195,7 +195,7 @@ public class Manager
       if ( conversationIdEntryMap==null ) return null;
       ConversationEntry ce = conversationIdEntryMap.get(currentConversationId);
       if ( ce==null ) return null;
-      return ce.outcome();
+      return ce.select();
    }
    
    @Destroy

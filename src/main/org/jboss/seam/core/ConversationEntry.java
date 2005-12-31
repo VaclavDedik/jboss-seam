@@ -87,7 +87,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return null;
    }
 
-   public String outcome() {
+   public String select() {
       Manager.instance().swapConversation( getId() );
       return getOutcome();
    }
