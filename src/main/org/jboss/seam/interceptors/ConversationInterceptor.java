@@ -131,7 +131,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       boolean simpleEnd = 
             ( method.isAnnotationPresent(End.class) && method.getAnnotation(End.class).ifOutcome().length==0 ) || 
-            method.isAnnotationPresent(EndTask.class);
+            ( method.isAnnotationPresent(EndTask.class) && method.getAnnotation(EndTask.class).ifOutcome().length==0 );
       if ( simpleEnd )
       {
          if ( result!=null || method.getReturnType().equals(void.class) ) //null outcome interpreted as redisplay
@@ -142,6 +142,15 @@ public class ConversationInterceptor extends AbstractInterceptor
       else if ( method.isAnnotationPresent(End.class) )
       {
          String[] outcomes = method.getAnnotation(End.class).ifOutcome();
+         if ( Arrays.asList(outcomes).contains(result) )
+         {
+            endConversation();
+         }
+      }
+      else if ( method.isAnnotationPresent(EndTask.class) )
+      {
+         //TODO: fix minor code duplication
+         String[] outcomes = method.getAnnotation(EndTask.class).ifOutcome();
          if ( Arrays.asList(outcomes).contains(result) )
          {
             endConversation();

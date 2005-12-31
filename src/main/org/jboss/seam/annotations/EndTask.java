@@ -15,7 +15,9 @@ import java.lang.annotation.Target;
 
 /**
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
- * to be ended.
+ * to be ended. The current conversation also ends. If a list of outcomes 
+ * is specified, the task ends only if the outcome is in the list. A null
+ * outcome never ends the task.
  *
  * @see org.jbpm.taskmgmt.exe.TaskInstance#end
  */
@@ -23,6 +25,13 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 public @interface EndTask {
+   
+   /**
+    * An empty outcome list is interpreted to mean any 
+    * outcome except for the null (redisplay) outcome.
+    */
+   String[] ifOutcome() default {};
+   
    /**
     * Specifies the transition that should be triggered by
     * completing the task. If the transition needs to be
@@ -32,4 +41,5 @@ public @interface EndTask {
     * @return a transition name
     */
    String transition() default "";
+   
 }

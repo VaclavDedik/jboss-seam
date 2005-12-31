@@ -15,7 +15,10 @@ import java.lang.annotation.Target;
 
 /**
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
- * to be marked as started.
+ * to be started. The jBPM {@link org.jbpm.context.exe.ContextInstance} 
+ * is associated with the PROCESS scope and the 
+ * {@link org.jbpm.taskmgmt.exe.TaskInstance} is associated with a new
+ * conversation.
  * <p/>
  * Note that both {@link BeginTask} and {@link StartTask} have effect
  * before invocation of the intercepted method in that they are both
