@@ -96,6 +96,46 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><literal>conversation</literal></term>
+                <listitem>
+                    <para>
+                        API for application control of the Seam conversation.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>actor</literal></term>
+                <listitem>
+                    <para>
+                        API for application control of the jBPM actor.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>transition</literal></term>
+                <listitem>
+                    <para>
+                        API for application control of the jBPM transition.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>taskInstance</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM TaskInstance.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>processInstance</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM ProcessInstance.
+                    </para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         
         <para>
@@ -155,22 +195,14 @@
                         Internal component for Seam context management. Always installed.
                     </para>
                 </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>org.jboss.seam.core.conversation</literal></term>
-                <listitem>
-                    <para>
-                        Internal component for Seam context management. Always installed.
-                    </para>
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.conversation.timeout</literal> &mdash; 
+                            <literal>org.jboss.seam.core.manager.conversationTimeout</literal> &mdash; 
                             the conversation context timeout in milliseconds.
                         </para>
                         </listitem>
                     </itemizedlist>
-                </listitem>
             </varlistentry>
             <varlistentry>
                 <term><literal>org.jboss.seam.core.ejb</literal></term>

@@ -63,6 +63,9 @@ public class Manager
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
    
+   
+   private int conversationTimeout = 600000; //10 mins
+   
    public String getCurrentConversationId()
    {
       return currentConversationId;
@@ -182,6 +185,12 @@ public class Manager
       dirty();
    }
    
+   public void setCurrentConversationTimeout(int timeout)
+   {
+      getCurrentConversationEntry().setTimeout(timeout);
+      dirty();
+   }
+   
    public String getCurrentConversationDescription()
    {
       if ( conversationIdEntryMap==null ) return null;
@@ -246,8 +255,9 @@ public class Manager
       while ( entries.hasNext() )
       {
          Map.Entry<String, ConversationEntry> entry = entries.next();
-         long delta = currentTime - entry.getValue().getLastRequestTime();
-         if ( delta > Conversation.instance().getTimeout() )
+         ConversationEntry conversationEntry = entry.getValue();
+         long delta = currentTime - conversationEntry.getLastRequestTime();
+         if ( delta > conversationEntry.getTimeout() )
          {
             String conversationId = entry.getKey();
             log.debug("conversation timeout for conversation: " + conversationId);
@@ -449,6 +459,14 @@ public class Manager
       setCurrentConversationId(id);
       setCurrentConversationIdStack( getCurrentConversationEntry().getConversationIdStack() );
       setLongRunningConversation(true);
+   }
+
+   public int getConversationTimeout() {
+      return conversationTimeout;
+   }
+
+   public void setConversationTimeout(int conversationTimeout) {
+      this.conversationTimeout = conversationTimeout;
    }
    
 }

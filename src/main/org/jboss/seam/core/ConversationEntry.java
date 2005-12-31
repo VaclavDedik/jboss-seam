@@ -25,6 +25,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private String outcome;
    private LinkedList<String> conversationIdStack;
    private String ownerComponentName;
+   private Integer timeout;
    
    public ConversationEntry(String id, LinkedList<String> stack) 
    {
@@ -52,7 +53,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return description;
    }
 
-   public void setDescription(String description) {
+   void setDescription(String description) {
       this.description = description;
    }
 
@@ -60,7 +61,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return lastRequestTime;
    }
 
-   public void touch() {
+   void touch() {
       this.lastRequestTime = System.currentTimeMillis();
       lastDatetime = new Date();
    }
@@ -69,15 +70,11 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return id;
    }
 
-   public void setId(String id) {
-      this.id = id;
-   }
-
    public Date getStartDatetime() {
       return startDatetime;
    }
 
-   public void setStartDatetime(Date created) {
+   void setStartDatetime(Date created) {
       this.startDatetime = created;
    }
    
@@ -92,7 +89,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return getOutcome();
    }
 
-   public void setOutcome(String outcome) {
+   void setOutcome(String outcome) {
       this.outcome = outcome;
    }
    
@@ -110,7 +107,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return lastDatetime;
    }
 
-   public void setLastDatetime(Date lastDatetime) {
+   void setLastDatetime(Date lastDatetime) {
       this.lastDatetime = lastDatetime;
    }
 
@@ -122,7 +119,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return ownerComponentName;
    }
 
-   public void setOwnerComponentName(String ownerComponentName) {
+   void setOwnerComponentName(String ownerComponentName) {
       this.ownerComponentName = ownerComponentName;
    }
    
@@ -149,5 +146,14 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    public int compareTo(ConversationEntry entry) {
       int result = new Long ( getLastRequestTime() ).compareTo( entry.getLastRequestTime() );
       return - ( result==0 ? getId().compareTo( entry.getId() ) : result );
+   }
+
+   public int getTimeout() {
+      return timeout==null ? 
+            Manager.instance().getConversationTimeout() : timeout;
+   }
+
+   void setTimeout(int conversationTimeout) {
+      this.timeout = conversationTimeout;
    }
 }

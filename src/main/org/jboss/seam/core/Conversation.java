@@ -25,7 +25,7 @@ import org.jboss.seam.contexts.Contexts;
 @Intercept(NEVER)
 public class Conversation implements Serializable {
    
-   private int timeout = 600000; //10 minutes
+   private Integer timeout;
    String description;
    String outcome;
 
@@ -33,7 +33,7 @@ public class Conversation implements Serializable {
     * Get the timeout for this converstaion instance.
     * @return the timeout in millis
     */
-   public int getTimeout() {
+   public Integer getTimeout() {
       return timeout;
    }
    
@@ -41,7 +41,7 @@ public class Conversation implements Serializable {
     * Set the timeout for this converstaion instance.
     * @param timeout the timeout in millis
     */
-   public void setTimeout(int timeout) {
+   public void setTimeout(Integer timeout) {
       this.timeout = timeout;
    }
    
@@ -134,6 +134,7 @@ public class Conversation implements Serializable {
          }
          if (description!=null) manager.setCurrentConversationDescription(description);
          if (outcome!=null) manager.setCurrentConversationOutcome(outcome);
+         if (timeout!=null) manager.setCurrentConversationTimeout(timeout);
          description = null;
          outcome = null;
       }

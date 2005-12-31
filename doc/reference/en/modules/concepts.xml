@@ -527,7 +527,7 @@ public class User {
             </para>
             <para>
                 The same mechanism is used to configure Seam itself. For example, to set the conversation
-                timeout, we provide a value for <literal>org.jboss.seam.core.conversation.timeout</literal>
+                timeout, we provide a value for <literal>org.jboss.seam.core.manager.conversationTimeout</literal>
                 in <literal>web.xml</literal> or <literal>seam.properties</literal>. (There is a built-in
                 Seam component named <literal>org.jboss.seam.core.manager</literal> with a setter method 
                 named <literal>setConversationTimeout()</literal>.)
