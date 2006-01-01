@@ -344,11 +344,50 @@
                     </para>
                 </listitem>
                 <listitem>
+                    <programlisting><![CDATA[@Begin(join=true)]]></programlisting>
+                    <para>
+                        Specifies that if a long-running conversation is already in progress,
+                        the conversation context is simply propagated.
+                    </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Begin(nested=true)]]></programlisting>
+                    <para>
+                        Specifies that if a long-running conversation is already in progress,
+                        a new <emphasis>nested</emphasis> conversation context begins. The
+                        nested conversation will end when the next <literal>@End</literal>
+                        is encountered, and the outer conversation will resume. It is
+                        perfectly legal for multiple nested conversations to exist 
+                        concurrently in the same outer conversation.
+                    </para>
+                </listitem>
+                <listitem>
                     <itemizedlist>
                         <listitem>
                         <para>
                             <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or 
                             outcomes that result in a new long-running conversation context.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>join</literal> &mdash; determines the behavior 
+                            when a long-running conversation is already in progress. If 
+                            <literal>true</literal>, the context is propagated. If 
+                            <literal>false</literal>, an exception is thrown. Default 
+                            to <literal>false</literal>. This setting is ignored when
+                            <literal>nested=true</literal> is specified
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>nested</literal> &mdash; specifies that a nested
+                            conversation should be started if a long-running conversation 
+                            is already in progress.
                         </para>
                         </listitem>
                     </itemizedlist>
