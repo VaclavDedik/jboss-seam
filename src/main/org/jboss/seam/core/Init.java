@@ -37,7 +37,6 @@ public class Init
    private String[] managedSessions = {};
    private String jbpmSessionFactoryName;
    private String[] componentClasses = {};
-   private String[] managedDataSources = {};
    private boolean isClientSideConversations = false;
    
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
@@ -94,16 +93,6 @@ public class Init
          throw new IllegalStateException("No Init exists");
       }*/
       return init;
-   }
-   
-   public String[] getManagedDataSources()
-   {
-      return managedDataSources;
-   }
-   
-   public void setManagedDataSources(String[] datasourceNames)
-   {
-      this.managedDataSources = datasourceNames;
    }
    
    public boolean isClientSideConversations()

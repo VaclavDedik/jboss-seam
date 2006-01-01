@@ -23,7 +23,7 @@ public enum ScopeType
    CONVERSATION,
    SESSION,
    APPLICATION,
-   PROCESS,
+   BUSINESS_PROCESS,
    UNSPECIFIED;
    
    public Context getContext() {
@@ -61,7 +61,7 @@ public enum ScopeType
                throw new IllegalStateException("No application context active");
             }
              return Contexts.getApplicationContext();
-         case PROCESS: 
+         case BUSINESS_PROCESS: 
             if ( !Contexts.isBusinessProcessContextActive() )
             {
                throw new IllegalStateException("No process context active");

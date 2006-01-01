@@ -22,8 +22,8 @@ import org.jbpm.context.exe.ContextInstance;
 /**
  * Exposes a jbpm variable context instance for reading/writing.
  *
- * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
- * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Gavin King
  * @version $Revision$
  */
@@ -36,7 +36,7 @@ public class BusinessProcessContext implements Context {
 
    public ScopeType getType()
    {
-      return ScopeType.PROCESS;
+      return ScopeType.BUSINESS_PROCESS;
    }
 
    public BusinessProcessContext() {}

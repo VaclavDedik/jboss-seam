@@ -6,12 +6,10 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jbpm.db.JbpmSession;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -38,9 +36,8 @@ public class TaskInstanceList
    {
       if ( actorId == null ) return null;
 
-      JbpmSession jbpmSession = (JbpmSession) Component.getInstance(ManagedJbpmSession.class, true);
       List<TaskInstance> list = new ArrayList<TaskInstance>();
-      list.addAll( jbpmSession.getTaskMgmtSession().findTaskInstances(actorId) );
+      list.addAll( ManagedJbpmSession.instance().getTaskMgmtSession().findTaskInstances(actorId) );
       return list;
    }
    

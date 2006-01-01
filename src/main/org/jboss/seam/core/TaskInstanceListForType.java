@@ -8,12 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jbpm.db.JbpmSession;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -40,8 +38,7 @@ public class TaskInstanceListForType
       if ( actorId == null ) return null;
 
       Map<String, List<TaskInstance>> map = new HashMap<String, List<TaskInstance>>();
-      JbpmSession jbpmSession = (JbpmSession) Component.getInstance(ManagedJbpmSession.class, true);
-      List<TaskInstance> taskInstances = (List<TaskInstance>) jbpmSession.getTaskMgmtSession().findTaskInstances(actorId);
+      List<TaskInstance> taskInstances = (List<TaskInstance>) ManagedJbpmSession.instance().getTaskMgmtSession().findTaskInstances(actorId);
       for ( TaskInstance task: taskInstances )
       {
          String name = task.getName();
