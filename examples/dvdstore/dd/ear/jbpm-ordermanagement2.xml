@@ -6,9 +6,16 @@
     <task-node name="approval">
         <task name="approve">
            <assignment class="org.jboss.seam.jbpm.SeamAssignmentHandler">
+              <pooledActors>reviewers</pooledActors>
+           </assignment>
+        </task>
+        <!--
+        <task name="approve">
+           <assignment class="org.jboss.seam.jbpm.SeamAssignmentHandler">
               <actorId>manager</actorId>
            </assignment>
         </task>
+        -->
         <transition name="approve" to="process"/>
         <transition name="reject"  to="complete"/>
     </task-node>
@@ -19,8 +26,11 @@
               <pooledActors>#{shipperAssignment.pooledActor}</pooledActors>
            </assignment>
         </task>
-        <transition name="shipped"  to="complete"/>
-        <!-- <transition name="reassign" to="approval"/> -->
+        <transition name="shipped" to="complete">
+            <action class="org.jboss.seam.jbpm.SeamActionHandler">
+                <action>#{afterShippedAction.log}</action>
+            </action>
+        </transition>
     </task-node>
 
     <end-state name="complete"/>

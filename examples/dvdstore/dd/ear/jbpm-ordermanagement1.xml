@@ -10,9 +10,9 @@
            </assignment>
         </task>
         <transition name="shipped" to="complete">
-        	<action class="org.jboss.seam.jbpm.SeamActionHandler">
-        		<action>#{afterShippedAction.log}</action>
-        	</action>
+            <action class="org.jboss.seam.jbpm.SeamActionHandler">
+                <action>#{afterShippedAction.log}</action>
+            </action>
         </transition>
     </task-node>
 

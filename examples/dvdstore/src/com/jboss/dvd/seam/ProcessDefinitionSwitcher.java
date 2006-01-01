@@ -50,9 +50,8 @@ public class ProcessDefinitionSwitcher
     }
 
     public String switchProcess() {
-       System.out.println("Switching to process definition: " + currentProcessDefinition); 
-       jbpm.loadProcessDefinition(currentProcessDefinition, true);
-       return "admin";
+        jbpm.loadProcessDefinition(currentProcessDefinition, true);
+        return "admin";
     }
     
 }

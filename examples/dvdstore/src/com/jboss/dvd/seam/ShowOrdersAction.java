@@ -30,7 +30,6 @@ import com.jboss.dvd.seam.Order.Status;
 
 @Stateful
 @Name("showorders")
-//@Conversational(ifNotBegunOutcome="showorders")
 @LoggedIn
 @Interceptors(SeamInterceptor.class)
 public class ShowOrdersAction
@@ -65,7 +64,6 @@ public class ShowOrdersAction
 
     public String cancelOrder() {
         if (order.getStatus() != Status.OPEN) {
-            System.out.println("Wrong state for CANCEL");
             return null;
         }
 

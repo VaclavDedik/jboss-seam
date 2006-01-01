@@ -42,7 +42,6 @@ public class CategoriesBean
 
     @Create
     public void loadData() {
-        System.out.println("CATBEAN CREATED " + this);
         categories = em.createQuery("from Category c").getResultList();
 
         Map<String,Category> results = new TreeMap<String,Category>();

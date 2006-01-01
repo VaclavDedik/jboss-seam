@@ -11,10 +11,10 @@ import org.jboss.seam.annotations.Name;
  */
 @Name("afterShippedAction")
 public class AfterShippedAction {
-   @In Long orderId;
-   
-   public void log()
-   {
-      System.out.println("We shipped: " + orderId);
-   }
+    @In Long orderId;
+    
+    public void log()
+    {
+        println("We shipped: " + orderId);
+    }
 }

@@ -1,3 +1,10 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */ 
+
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
@@ -58,11 +65,9 @@ public class LoginAction
                 .setParameter("password", password)
                 .getSingleResult();
 
-            System.out.println("user: " + found);
-
             sessionContext.set("currentUser", found);
             
-            actor.setId( found.getUserName() );
+            actor.setId(found.getUserName());
             
             if (found instanceof Admin) {
                 sessionContext.set("currentUserIsAdmin", true);

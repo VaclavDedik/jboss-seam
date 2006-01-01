@@ -99,9 +99,7 @@ public class EditCustomerAction
             em.persist(customer);
             sessionContext.set("currentUser", customer);
             return "ok";
-        }
-        catch (RuntimeException e) {
-            System.out.println("not created");
+        }  catch (RuntimeException e) {
             ctx.setRollbackOnly();
 
             Utils.warnUser("createCustomerError", null);

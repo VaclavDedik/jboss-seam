@@ -56,14 +56,12 @@ public class AcceptAction
 
     @EndTask(transition="approve")
     public String accept() {
-        System.out.println("approved order: " + orderId);
         order.process();
         return "admin";
     }
 
     @EndTask(transition="reject")
     public String reject() {
-        System.out.println("rejected order: " + orderId);
         order.cancel();
         return "admin";
     }

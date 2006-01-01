@@ -26,7 +26,11 @@
               <pooledActors>#{shipperAssignment.pooledActor}</pooledActors>
            </assignment>
         </task>
-        <transition name="shipped"  to="complete"/>
+        <transition name="shipped" to="complete">
+            <action class="org.jboss.seam.jbpm.SeamActionHandler">
+                <action>#{afterShippedAction.log}</action>
+            </action>
+        </transition>
     </task-node>
     
     <end-state name="complete"/>
