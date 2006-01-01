@@ -1,16 +1,23 @@
 JBoss Seam Changelog
 ====================
-Changes in version 1.0 beta 2 (December 2005)
+Changes in version 1.0 beta 2 (January 2005)
 ---------------------------------------------
 * Many bugfixes
+* Introduced nested conversation model @Begin(nested=true)
+* Introduced PAGE context
+* Redesigned and enhanced jBPM integration
+* Workspace management via conversation switcher, conversation list and breadcrumbs
+* Support for non-JSF invocation (Ajax/SOAP/etc)
 * Introduced @Factory for handling non-faces requests
+* Support multiple @DataModels per component
 * Booking and Hibernate3 examples now run smoothly on Tomcat
 * @BeginIf/@EndIf were merged into @Begin/@End
+* Added @Begin(join=true|false)
+* @ResumeTask/@CompleteTask were renamed to @BeginTask/@EndTask
 * Added @RequestParameter
+* Added @Rollback
 * Added resourceBundle component
-* Conversation timeout now settable via org.jboss.sean.core.conversation.timeout or programmatically
-* Redesigned jBPM support
-* Introduced @Rollback
+* Conversation timeout now settable programmatically
 
 Changes in version 1.0 beta 1 (September 2005)
 ----------------------------------------------

@@ -1,6 +1,6 @@
 JBoss Seam - Contextual Component framework for Java EE 5
 =========================================================
-version 1.0 beta 2, December 2005
+version 1.0 beta 2, January 2006
 
 This software is distributed under the terms of the FSF Lesser Gnu
 Public License (see lgpl.txt).
@@ -32,6 +32,22 @@ Running The TestNG Tests
 ------------------------
 
 In the jboss-seam-1.x directory, type "ant test"
+
+Running the TestNG Tests in Eclipse
+-----------------------------------
+
+1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
+
+2. Create the jboss-seam Eclipse project with the following directories
+   in your source path:
+   
+   src/main/
+   src/test/misc
+   
+   And all jar files from the lib/ directory in your classpath.
+   
+3. Run src/test/misc/org/jboss/seam/test/testng.xml using the TestNG 
+   plugin.
 
 Learn more
 ----------
