@@ -7,21 +7,24 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
-import java.util.*;
-import javax.naming.InitialContext;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-import javax.ejb.*;
-import javax.persistence.*;
-
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.ejb.SeamInterceptor;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.component.*;
+import javax.ejb.Interceptor;
+import javax.ejb.Stateful;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("catbean")

@@ -67,3 +67,24 @@ Running The TestNG Tests
 ------------------------
 
 In the "examples/noejb" directory, type "ant testexample"
+
+Running the TestNG Tests in Eclipse
+-----------------------------------
+
+1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
+
+2. Create the jboss-seam Eclipse project with the following directories
+   in your source path:
+   
+   src/main/
+   examples/booking/src/
+   examples/booking/resources/
+   embedded-ejb/conf/
+   
+   And all jar files from the following directories in your classpath:
+   
+   lib/
+   embedded-ejb/lib
+   
+3. Run examples/noejb/src/org/jboss/seam/example/booking/test/testng.xml
+   using the TestNG plugin.

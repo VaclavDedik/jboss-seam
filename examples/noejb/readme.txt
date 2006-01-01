@@ -58,9 +58,29 @@ How to Build and Deploy the Example on JBoss AS
 
    http://localhost:8080/jboss-seam-noejb/
 
-Running The TestNG Tests
+Running the TestNG Tests
 ------------------------
 
 In the "examples/noejb" directory, type "ant testexample"
 
+Running the TestNG Tests in Eclipse
+-----------------------------------
+
+1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
+
+2. Create the jboss-seam Eclipse project with the following directories
+   in your source path:
+   
+   src/main/
+   examples/noejb/src/
+   examples/noejb/resources/
+   microcontainer/conf/
+   
+   And all jar files from the following directories in your classpath:
+   
+   lib/
+   microcontainer/lib
+   
+3. Run examples/noejb/src/org/jboss/seam/example/noejb/test/testng.xml
+   using the TestNG plugin.
    

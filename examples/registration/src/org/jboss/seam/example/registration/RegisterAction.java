@@ -5,7 +5,7 @@ import static org.jboss.seam.ScopeType.EVENT;
 
 import java.util.List;
 
-import javax.ejb.Interceptor;
+import javax.ejb.Interceptors;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -23,7 +23,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateless
 @Scope(EVENT)
 @Name("register")
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class RegisterAction implements Register
 {
 
