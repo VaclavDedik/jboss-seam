@@ -315,7 +315,7 @@ public class User implements Serializable
             <programlisting><![CDATA[@Stateless
 @Scope(EVENT)
 @Name("register")
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class RegisterAction implements Register
 {
 
@@ -982,7 +982,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 @Conversational(ifNotBegunOutcome="main")
 @LoggedIn
 public class HotelBookingAction implements HotelBooking, Serializable

@@ -396,7 +396,7 @@
             </para>
 
             <programlisting><![CDATA[@Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     ... 
 }]]></programlisting>
@@ -412,7 +412,7 @@ public class LoginAction implements Login {
             
             <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     ... 
 }]]></programlisting>
@@ -445,7 +445,7 @@ public class LoginAction implements Login {
             
             <programlisting><![CDATA[@Name("com.jboss.myapp.loginAction")
 @Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     ... 
 }]]></programlisting>
@@ -605,7 +605,7 @@ public class User {
         
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     @In User user;
     ... 
@@ -617,7 +617,7 @@ public class LoginAction implements Login {
         
             <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     User user;
     
@@ -652,7 +652,7 @@ public class LoginAction implements Login {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     @Out User user;
     ... 
@@ -664,7 +664,7 @@ public class LoginAction implements Login {
         
             <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     User user;
     
@@ -682,7 +682,7 @@ public class LoginAction implements Login {
 
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     @In @Out User user;
     ... 
@@ -694,7 +694,7 @@ public class LoginAction implements Login {
         
         <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     User user;
     
@@ -719,7 +719,7 @@ public class LoginAction implements Login {
     		EJB 3.0 introduced a standard interceptor model for session bean components. To add an
     		interceptor to a bean, you need to write a class with a method annotated 
     		<literal>@AroundInvoke</literal> and annotate the bean with an
-    		<literal>@Interceptor</literal> annotation that specifies the name of the interceptor
+    		<literal>@Interceptors</literal> annotation that specifies the name of the interceptor
     		class. For example, the following interceptor checks that the user is logged in before
     		allowing invoking an action listener method:
     	</para>
@@ -744,15 +744,15 @@ public class LoginAction implements Login {
 
 		<para>
 		    To apply this interceptor to a session bean which acts as an action listener, we must
-		    annotate the session bean <literal>@Interceptor(LoggedInInterceptor.class)</literal>.
+		    annotate the session bean <literal>@Interceptors(LoggedInInterceptor.class)</literal>.
 		    This is a somewhat ugly annotation. Seam builds upon the interceptor framework in
-		    EJB3 by allowing you to use <literal>@Interceptor</literal> as a meta-annotation. In
+		    EJB3 by allowing you to use <literal>@Interceptors</literal> as a meta-annotation. In
 		    our example, we would create an <literal>@LoggedIn</literal> annotation, as follows:
 		</para>
     	
     	<programlisting><![CDATA[@Target(TYPE)
 @Retention(RUNTIME)
-@Interceptor(LoggedInInterceptor.class)
+@Interceptors(LoggedInInterceptor.class)
 public @interface LoggedIn {}]]></programlisting>
 
         <para>
@@ -763,7 +763,7 @@ public @interface LoggedIn {}]]></programlisting>
         <programlisting><![CDATA[@Stateless
 @Name("changePasswordAction")
 @LoggedIn
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class ChangePasswordAction implements ChangePassword { 
     
     ...

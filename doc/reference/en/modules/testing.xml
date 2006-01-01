@@ -27,7 +27,7 @@
         <programlisting><![CDATA[@Stateless
 @Scope(EVENT)
 @Name("register")
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class RegisterAction implements Register
 {
    private User user;
