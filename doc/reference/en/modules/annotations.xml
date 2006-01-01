@@ -39,7 +39,7 @@
                     <para>
                         Defines the default context of the component. The possible values
                         are defined by the <literal>ScopeType</literal> enumeration:
-                        <literal>EVENT, CONVERSATION, SESSION, PROCESS, APPLICATION,
+                        <literal>EVENT, PAGE, CONVERSATION, SESSION, PROCESS, APPLICATION,
                         STATELESS</literal>.
                     </para>
                     <para>
@@ -141,12 +141,18 @@
                         Specifies that a component attribute is to be injected from a context 
                         variable at the beginning of each component invocation.
                     </para>
+                    <programlisting><![CDATA[@In(value="#{customer.addresses['shipping']}")]]></programlisting>
+                    <para>
+                        Specifies that a component attribute is to be injected by evaluating 
+                        a JSF EL expression at the beginning of each component invocation.
+                    </para>
                     <itemizedlist>
                         <listitem>
                         <para>
                             <literal>value</literal> &mdash; specifies the name of the
                             context variable. Default to the name of the component
-                            attribute.
+                            attribute. Alternatively, specifies a JSF EL expression,
+                            surrounded by <literal>#{...}</literal>.
                         </para>
                         </listitem>
                         <listitem>
@@ -237,6 +243,32 @@
                     </para>
                 </listitem>
             </varlistentry>   
+        </variablelist>
+        
+        <para>
+            The last annotation lets you inject a request parameter value:
+        </para>
+        
+        <variablelist spacing="compact">
+            <varlistentry id="out-annotation">
+                <term><literal>@RequestParameter</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@RequestParameter("parameterName")]]></programlisting>
+                    <para>
+                        Specifies that a component attribute is to be injected with the value
+                        of a request parameter.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; specifies the name of the
+                            request parameter. Default to the name of the component
+                            attribute.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
         </variablelist>
         
     </section> 
@@ -366,9 +398,7 @@
                         request context variable named <literal>taskInstance</literal>.
                         The jPBM <literal>ProcessInstance</literal> will be available in
                         a request context variable named <literal>processInstance</literal>.
-                        The jPBM <literal>ContextInstance</literal> will be available in
-                        a request context variable named <literal> contextInstance</literal>.
-                        (Of course, any of these objects are available for injection via 
+                        (Of course, these objects are available for injection via 
                         <literal>@In</literal>.)
                     </para>
                     <itemizedlist>
@@ -376,17 +406,17 @@
                         <para>
                             <literal>taskIdParameter</literal> &mdash; the name of a request
                             parameter which holds the id of the task. Default to
-                            <literal>"jbpmTaskId"</literal>, which is also the default
+                            <literal>"taskId"</literal>, which is also the default
                             used by the Seam <literal>taskList</literal> JSF component.
                         </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
-            <varlistentry id="resumetask-annotation">
-                <term><literal>@ResumeTask</literal></term>
+            <varlistentry id="begintask-annotation">
+                <term><literal>@BeginTask</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@ResumeTask(taskIdParameter="taskId")]]></programlisting>
+                    <programlisting><![CDATA[@BeginTask(taskIdParameter="taskId")]]></programlisting>
                     <para>
                         Resumes work on an incomplete jBPM task. Specifies that a long-running 
                         conversation begins when this method returns a non-null outcome without 
@@ -400,41 +430,67 @@
                         request context variable named <literal>taskInstance</literal>.
                         The jPBM <literal>ProcessInstance</literal> will be available in
                         a request context variable named <literal>processInstance</literal>.
-                        The jPBM <literal>ContextInstance</literal> will be available in
-                        a request context variable named <literal> contextInstance</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>
                         <para>
                             <literal>taskIdParameter</literal> &mdash; the name of a request
                             parameter which holds the id of the task. Default to
-                            <literal>"jbpmTaskId"</literal>, which is also the default
+                            <literal>"taskId"</literal>, which is also the default
                             used by the Seam <literal>taskList</literal> JSF component.
                         </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
-            <varlistentry id="completetask-annotation">
-                <term><literal>@CompleteTask</literal></term>
+            <varlistentry id="endtask-annotation">
+                <term><literal>@EndTask</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@CompleteTask]]></programlisting>
+                    <programlisting><![CDATA[@EndTask]]></programlisting>
                     <para>
-                        Completes work on a jBPM task. Specifies that a long-running conversation 
+                        "Ends" a jBPM task. Specifies that a long-running conversation 
                         ends when this method returns a non-null outcome, and that the current task 
                         is complete. Triggers a jBPM transition. The actual transition triggered
-                        will be the default transition unless there is a <literal>@Transition</literal>
-                        getter method defined.
+                        will be the default transition unless the application has called
+                        <literal>Transition.setName()</literal> on the built-in component
+                        named <literal>transition</literal>.
                     </para>
                 </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@EndTask(transition="transitionName")]]></programlisting>
+                    <para>
+                        Triggers the given jBPM transition.
+                    </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@EndTask(ifOutcome={"success", "continue"})]]></programlisting>
+                    <para>
+                        Specifies that the task ends when this method returns one of the listed outcomes.
+                    </para>
+                </listitem>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>transition</literal> &mdash; the name of the jBPM transition to
+                            be triggered when ending the task. Defaults to the default transition.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or 
+                            outcomes that result in the end of the task.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
             </varlistentry>   
             <varlistentry id="createprocess-annotation">
                 <term><literal>@CreateProcess</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@CreateProcess(definition="ProcessDefinition")]]></programlisting>
                     <para>
-                        Creates a new JBPM process instance when the method returns a non-null
-                        outcome without exception.
+                        Creates a new jBPM process instance when the method returns a non-null
+                        outcome without exception. The <literal>ProcessInstance</literal> object
+                        will be available in a context variable named <literal>processInstance</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -446,9 +502,28 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
+            <varlistentry id="resumeprocess-annotation">
+                <term><literal>@ResumeProcess</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@ResumeProcess(processIdParameter="processId")]]></programlisting>
+                    <para>
+                        Re-enters the scope of an existing jBPM process instance when the method returns a 
+                        non-null outcome without exception. The <literal>ProcessInstance</literal> object
+                        will be available in a context variable named <literal>processInstance</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>processIdParameter</literal> &mdash; the name a request parameter
+                            holding the process id. Default to <literal>"processId"</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>   
         </variablelist>
         
-        <para>
+        <!-- para>
             Finally, this annotation appears on a string-valued getter method:
         </para>
         
@@ -459,12 +534,12 @@
                     <programlisting><![CDATA[@Transition]]></programlisting>
                     <para>
                         Returns the transition name to be used when a jBPM transition is triggered
-                        by <literal>@CompleteTask</literal>. A null return value indicates the
+                        by <literal>@EndTask</literal>. A null return value indicates the
                         default transition.
                     </para>
                 </listitem>
             </varlistentry>
-        </variablelist> 
+        </variablelist--> 
     </section> 
     
     <section>
@@ -621,31 +696,6 @@
             </varlistentry>
         </variablelist>
         
-        <para>
-            The last annotation lets you inject a request parameter value:
-        </para>
-        
-        <variablelist spacing="compact">
-            <varlistentry id="out-annotation">
-                <term><literal>@RequestParameter</literal></term>
-                <listitem>
-                    <programlisting><![CDATA[@RequestParameter("parameterName")]]></programlisting>
-                    <para>
-                        Specifies that a component attribute is to be injected with the value
-                        of a request parameter.
-                    </para>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; specifies the name of the
-                            request parameter. Default to the name of the component
-                            attribute.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-        </variablelist>
     </section> 
 
 </chapter>
