@@ -14,6 +14,6 @@ public class ShipperAssignment
 {
     public String getPooledActor()
     {
-       return "shipper";
+       return "shippers";
     }
 }

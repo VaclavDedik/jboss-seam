@@ -197,7 +197,7 @@ public class SearchAction
             }
         }
 
-        return null;
+        return "browse";
     }
 
     @End

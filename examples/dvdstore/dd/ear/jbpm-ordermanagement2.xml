@@ -5,7 +5,7 @@
 
     <task-node name="approval">
         <task name="approve">
-           <assignment class="org.jboss.seam.core.jbpm.SeamAssignmentHandler">
+           <assignment class="org.jboss.seam.jbpm.SeamAssignmentHandler">
               <actorId>manager</actorId>
            </assignment>
         </task>
@@ -15,7 +15,7 @@
 
     <task-node name="process">
         <task name="ship">
-           <assignment class="org.jboss.seam.core.jbpm.SeamAssignmentHandler">
+           <assignment class="org.jboss.seam.jbpm.SeamAssignmentHandler">
               <pooledActors>#{shipperAssignment.pooledActor}</pooledActors>
            </assignment>
         </task>

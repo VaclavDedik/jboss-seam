@@ -66,8 +66,8 @@ public class LoginAction
             
             if (found instanceof Admin) {
                 sessionContext.set("currentUserIsAdmin", true);
-                actor.getGroupActorIds().add("shipper");
-                actor.getGroupActorIds().add("reviewer");
+                actor.getGroupActorIds().add("shippers");
+                actor.getGroupActorIds().add("reviewers");
                 return "admin";
             } 
             else {

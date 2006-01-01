@@ -8,9 +8,14 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
-
-import org.jboss.seam.annotations.Name;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratorType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="USERS")

@@ -130,6 +130,16 @@
             <redirect />
         </navigation-case> 
     </navigation-rule>
+    
+    <!-- temp workaround for facelets/myfaces bug -->
+    
+    <navigation-rule>
+    	<navigation-case>
+    		<from-action>#{pooledTask.assignToCurrentActor}</from-action>
+    		<from-outcome>taskAssignedToActor</from-outcome>
+    		<to-view-id>/admin.xhtml</to-view-id>
+    	</navigation-case>
+    </navigation-rule>
 
 
 </faces-config>

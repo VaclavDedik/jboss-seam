@@ -80,6 +80,12 @@
                             <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}" />
                         </h:column>
                         <h:column>
+                            <f:facet name="header">
+                                Task
+                            </f:facet>
+                            <h:outputText value="#{task.name}" />
+                        </h:column>
+                        <h:column>
                             <h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
                                 <h:commandButton value="Assign"/>
                                 <f:param name="taskId" value="#{task.id}"/>
