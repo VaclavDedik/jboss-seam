@@ -1,6 +1,6 @@
 package org.jboss.seam.example.bpm;
 
-import static org.jboss.seam.ScopeType.PROCESS;
+import static org.jboss.seam.ScopeType.BUSINESS_PROCESS;
 
 import java.util.Date;
 
@@ -58,9 +58,9 @@ public class DocumentCreationHandler implements DocumentCreation
       return "detail";
    }
    
-   @Out(scope=PROCESS, required=false) private Long documentId;
-   @Out(scope=PROCESS, required=false) private String description;
-   @Out(scope=PROCESS, required=false) private String submitter;
+   @Out(scope=BUSINESS_PROCESS, required=false) private Long documentId;
+   @Out(scope=BUSINESS_PROCESS, required=false) private String description;
+   @Out(scope=BUSINESS_PROCESS, required=false) private String submitter;
 
    private void setProcessVars() {
       documentId = document.getId();

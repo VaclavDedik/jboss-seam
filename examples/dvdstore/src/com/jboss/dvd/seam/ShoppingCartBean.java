@@ -54,11 +54,11 @@ public class ShoppingCartBean
     Order order = null;
 
 
-    @Out(scope=ScopeType.PROCESS, required=false)
+    @Out(scope=ScopeType.BUSINESS_PROCESS, required=false)
     long orderId;
-    @Out(scope=ScopeType.PROCESS, required=false)
+    @Out(scope=ScopeType.BUSINESS_PROCESS, required=false)
     float amount;
-    @Out(value="customer",scope=ScopeType.PROCESS, required=false)
+    @Out(value="customer",scope=ScopeType.BUSINESS_PROCESS, required=false)
     String customerName;
 
     public boolean getIsEmpty() {
