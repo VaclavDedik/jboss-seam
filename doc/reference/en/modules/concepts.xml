@@ -98,6 +98,18 @@
         </sect2>
         
         <sect2>
+            <title>Page context</title>
+            <para>
+                The page context allows you to associate state with a particular instance of a rendered page.
+                You can initialize state in your event listener, or while actually rendering the page, and
+                then have access to it from any event that originates from that page. This is especially
+                useful for functionality like clickable lists, where the list is backed by changing data
+                on the server side. The state is actually serialized to the client, so this construct is 
+                extremely robust with respect to multi-window operation and the back button.
+            </para>
+        </sect2>
+        
+        <sect2>
             <title>Conversation context</title>
             <para>
                 The conversation context is a truly central concept in Seam. A <emphasis>conversation</emphasis> 
@@ -323,7 +335,8 @@
                 provide properties to JSF components for display or form submission.
             </para>
             <para>
-                By default, stateful session beans are bound to the conversation context.
+                By default, stateful session beans are bound to the conversation context. They may never
+                be bound to the page or stateless contexts.
             </para>
         </sect2>
 
@@ -346,7 +359,8 @@
                 session bean action listener to implement create/update/delete type functionality.
             </para>
             <para>
-                By default, entity beans are bound to the event context.
+                By default, entity beans are bound to the event context. They may never be bound to the
+                stateless context.
             </para>
         </sect2>
 

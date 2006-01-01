@@ -39,7 +39,7 @@
                     <para>
                         Defines the default context of the component. The possible values
                         are defined by the <literal>ScopeType</literal> enumeration:
-                        <literal>EVENT, PAGE, CONVERSATION, SESSION, PROCESS, APPLICATION,
+                        <literal>EVENT, PAGE, CONVERSATION, SESSION, BUSINESS_PROCESS, APPLICATION,
                         STATELESS</literal>.
                     </para>
                     <para>
@@ -250,7 +250,7 @@
         </para>
         
         <variablelist spacing="compact">
-            <varlistentry id="out-annotation">
+            <varlistentry id="requestparameter-annotation">
                 <term><literal>@RequestParameter</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@RequestParameter("parameterName")]]></programlisting>

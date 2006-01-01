@@ -26,6 +26,14 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><literal>pageContext</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the page context object
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><literal>conversationContext</literal></term>
                 <listitem>
                     <para>
@@ -100,39 +108,62 @@
                 <term><literal>conversation</literal></term>
                 <listitem>
                     <para>
-                        API for application control of the Seam conversation.
+                        API for application control of attributes of the current Seam conversation.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>setTimeout(int timeout)</literal> &mdash; sets the timeout
+                            for the current conversation
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>setOutcome(String outcome)</literal> &mdash; sets the outcome
+                            to be used when switching back to the current conversation 
+                            from the conversation switcher, conversation list, or 
+                            breadcrumbs.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>setDescription(String description)</literal> &mdash; sets the 
+                            description of the current conversation to be displayed
+                            in thec onversation switcher, conversation list, or 
+                            breadcrumbs.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>switchableOutcome(String outcome, String description)</literal> 
+                            &mdash; sets the outcome and description in one line of code, returning
+                            the outcome.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>conversationList</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the conversation list.
                     </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>actor</literal></term>
+                <term><literal>conversationStack</literal></term>
                 <listitem>
                     <para>
-                        API for application control of the jBPM actor.
+                        Manager component for the conversation stack (breadcrumbs).
                     </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>transition</literal></term>
+                <term><literal>switcher</literal></term>
                 <listitem>
                     <para>
-                        API for application control of the jBPM transition.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>taskInstance</literal></term>
-                <listitem>
-                    <para>
-                        Manager component for the jBPM TaskInstance.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>processInstance</literal></term>
-                <listitem>
-                    <para>
-                        Manager component for the jBPM ProcessInstance.
+                        The conversation switcher.
                     </para>
                 </listitem>
             </varlistentry>
@@ -140,6 +171,120 @@
         
         <para>
             All of these components are always installed.
+        </para>
+
+    </section>
+    
+    <section>
+        <title>jBPM-related components</title>
+        <para>
+            These components are for use with jBPM.
+        </para>
+        
+        <variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>actor</literal></term>
+                <listitem>
+                    <para>
+                        API for application control of attributes of the jBPM actor associated
+                        with the current session.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>setId(String actorId)</literal> &mdash; sets the jBPM
+                            actor id of the current user.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getGroupActorIds()</literal> &mdash; returns a 
+                            <literal>Set</literal> to which jBPM actor ids for the
+                            current users groups may be added.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>transition</literal></term>
+                <listitem>
+                    <para>
+                        API for application control of the jBPM transition for the current
+                        task.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>setName(String transitionName)</literal> &mdash; sets the 
+                            jBPM transition name to be used when the current task is ended
+                            via <literal>@EndTask</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>taskInstance</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM <literal>TaskInstance</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>processInstance</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM <literal>ProcessInstance</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>jbpmSession</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for an event-scoped <literal>JbpmSession</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>taskInstanceList</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM task list.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>pooledTaskInstanceList</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM pooled task list.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>taskInstanceListForType</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the jBPM task lists.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>pooledTask</literal></term>
+                <listitem>
+                    <para>
+                        Action handler for pooled task assignment.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+        <para>
+            All of these components are installed whenever a 
+            <literal>org.jboss.seam.core.init.jbpmSessionFactoryName</literal> is specified.
         </para>
         
     </section>
@@ -180,6 +325,12 @@
                         </listitem>
                         <listitem>
                         <para>
+                            <literal>org.jboss.seam.core.init.jbpmSessionFactoryName</literal> &mdash; the
+                            name of the jBPM session factory
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
                             <literal>org.jboss.seam.core.init.clientSideConversations</literal> &mdash; 
                             if set to <literal>true</literal>, Seam will save conversation context
                             variables in the client instead of in the <literal>HttpSession</literal>.
@@ -194,7 +345,6 @@
                     <para>
                         Internal component for Seam context management. Always installed.
                     </para>
-                </listitem>
                     <itemizedlist>
                         <listitem>
                         <para>
@@ -203,6 +353,17 @@
                         </para>
                         </listitem>
                     </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.process</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for Seam process management. Installed whenever
+                        <literal>org.jboss.seam.core.init.jbpmSessionFactoryName</literal> 
+                        is specified.
+                    </para>
+                </listitem>
             </varlistentry>
             <varlistentry>
                 <term><literal>org.jboss.seam.core.ejb</literal></term>
@@ -255,6 +416,23 @@
                         <para>
                             <literal>org.jboss.seam.core.hibernate.cfgResourceName</literal> &mdash; 
                             the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.jbpm</literal></term>
+                <listitem>
+                    <para>
+                        Bootstraps a <literal>JbpmFactory</literal>. Install as class 
+                        <literal>org.jboss.seam.core.Jbpm</literal>. 
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.jbpm.processDefinitions</literal> &mdash; 
+                            a list of resource names of jPDL files.
                         </para>
                         </listitem>
                     </itemizedlist>
