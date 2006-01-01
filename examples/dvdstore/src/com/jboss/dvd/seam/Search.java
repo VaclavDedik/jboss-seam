@@ -6,33 +6,23 @@
  */ 
 package com.jboss.dvd.seam;
 
-import java.util.Map;
-
 public interface Search
 {
-    //public List getSearchResults();
+    public String   getActor();
+    public void     setActor(String actor);
+    public String   getTitle();
+    public void     setTitle(String title);
+    public Category getCategory();
+    public void     setCategory(Category category);
 
-    public String getActor();
-    public void   setActor(String actor);
+    public String   nextPage();
+    public String   prevPage(); 
+    public boolean  isLastPage();
+    public boolean  isFirstPage();
 
-    public String getTitle();
-    public void   setTitle(String title);
+    public String   doSearch();
+    public String   addToCart();
 
-    public Integer getCategory();
-    public void    setCategory(Integer category);
-
-    //public boolean getHasResults();
-    public Map<String,Integer> getCategories();
-
-    public String nextPage();
-    public String prevPage(); 
-
-    public boolean isLastPage();
-    public boolean isFirstPage();
-
-    public String doSearch();
-    public String addToCart();
-
-    public String reset();
-    public void   destroy();
+    public String   reset();
+    public void     destroy();
 }

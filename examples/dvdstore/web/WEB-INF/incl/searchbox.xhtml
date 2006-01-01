@@ -17,8 +17,10 @@
                     
                     <dt><h:outputText value="#{msgs.searchCategory}" /></dt>
                     <dd>
-                        <h:selectOneMenu value="#{search.category}">
-                            <f:selectItems value="#{search.categories}" />
+                        <h:selectOneMenu value="#{search.category}"
+                                         converter="#{catbean.converter}">
+                            <f:selectItem itemLabel="Any" itemValue="#{catbean.nullCategory}"   /> 
+                            <f:selectItems value="#{catbean.categories}" />
                         </h:selectOneMenu>
                     </dd>
                     

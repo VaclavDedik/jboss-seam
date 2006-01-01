@@ -24,23 +24,33 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class Category
     implements Serializable
 {
-    int    category;  // should really be a byte
-    String categoryName;
+    int    id;
+    String name;
 
     @Id(generate=GeneratorType.AUTO)
     @Column(name="CATEGORY")
-    public int getCategory() {
-        return category;
+    public int getCategoryId() {
+        return id;
     }
-    public void setCategory(int category) {
-        this.category = category;
+    public void setCategoryId(int id) {
+        this.id = id;
     }
 
-    @Column(name="CATEGORYNAME",nullable=false,unique=true,length=50)
-    public String getCategoryName() {
-        return categoryName;
+    @Column(name="NAME",nullable=false,unique=true,length=50)
+    public String getName() {
+        return name;
     }
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public boolean equals(Object other) {
+        if (other == null || !(other instanceof Category)) {
+            return false;
+        }
+
+        Category otherCategory = (Category) other;
+        return (getCategoryId() == otherCategory.getCategoryId());
+    }
+
 }

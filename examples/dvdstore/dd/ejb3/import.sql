@@ -1,16 +1,17 @@
+
 delete from ORDERLINES
 delete from ORDERS
 delete from USERS
 delete from INVENTORY
 delete from PRODUCTS
 delete from CATEGORIES
-insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (1, 'Action');
-insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (2, 'Foreign');
-insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (3, 'Children');
-insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (4, 'Comedy');
-insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (5, 'Documentary');
-insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (6, 'Classics');
-insert into CATEGORIES (CATEGORY, CATEGORYNAME) values (7, 'Drama');
+insert into CATEGORIES (CATEGORY, NAME) values (1, 'Action');
+insert into CATEGORIES (CATEGORY, NAME) values (2, 'Foreign');
+insert into CATEGORIES (CATEGORY, NAME) values (3, 'Children');
+insert into CATEGORIES (CATEGORY, NAME) values (4, 'Comedy');
+insert into CATEGORIES (CATEGORY, NAME) values (5, 'Documentary');
+insert into CATEGORIES (CATEGORY, NAME) values (6, 'Classics');
+insert into CATEGORIES (CATEGORY, NAME) values (7, 'Drama');
 insert into PRODUCTS (PROD_ID, CATEGORY, TITLE, ACTOR, PRICE) values (1, 2, 'Life is Beautiful', 'Roberto Benini', 12.0);
 insert into PRODUCTS (PROD_ID, CATEGORY, TITLE, ACTOR, PRICE) values (2, 3, 'Finding Nemo', 'Albert Brooks', 22.49);
 insert into PRODUCTS (PROD_ID, CATEGORY, TITLE, ACTOR, PRICE) values (3, 5, 'March of the Penguins', 'Morgan Freeman', 16.98);

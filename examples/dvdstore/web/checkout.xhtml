@@ -44,26 +44,26 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.cartRemoveColumn}" />
                                 </f:facet>
-                                <h:selectBooleanCheckbox value="#{item.selected}"/>
+                                <h:selectBooleanCheckbox value="#{cart.cartSelection[item]}"/>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.cartTitleColumn}" />
                                 </f:facet>
-                                <h:outputText value="#{item.item.product.title}" />
+                                <h:outputText value="#{item.product.title}" />
                             </h:column>                        
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.cartActorColumn}" />
                                 </f:facet>
-                                <h:outputText value="#{item.item.product.actor}" />
+                                <h:outputText value="#{item.product.actor}" />
                             </h:column>                        
                             
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.cartPriceColumn}" />
                                 </f:facet>
-                                <h:outputText value="#{item.item.product.price}">
+                                <h:outputText value="#{item.product.price}">
                                     <f:convertNumber type="currency" currencySymbol="$" />
                                 </h:outputText>
                             </h:column>                        
@@ -71,7 +71,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.cartQuantityColumn}" />
                                 </f:facet>
-                                <h:inputText value="#{item.item.quantity}" size="6" />
+                                <h:inputText value="#{item.quantity}" size="6" />
                             </h:column>                        
                         </h:dataTable>
                         <h:commandButton action="#{cart.updateCart}" value="#{msgs.checkoutUpdateButton}" />

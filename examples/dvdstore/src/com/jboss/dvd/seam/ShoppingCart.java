@@ -7,16 +7,15 @@
 package com.jboss.dvd.seam;
 
 import java.util.List;
+import java.util.Map;
 
-import javax.ejb.Local;
-
-@Local
 public interface ShoppingCart
 {
     public boolean getIsEmpty();
 
     public void addProduct(Product product, int quantity);
-    public List<SelectableItem<OrderLine>> getCart();
+    public List<OrderLine> getCart();
+    public Map getCartSelection();
     public float getSubtotal();
     public float getTax();
     public float getTotal();

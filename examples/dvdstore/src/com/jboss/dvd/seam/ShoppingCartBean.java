@@ -7,33 +7,20 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import javax.ejb.Interceptor;
-import javax.ejb.Stateful;
-import javax.ejb.Remove;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
+import javax.ejb.*;
+import javax.persistence.*;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.InterceptionType;
-
-import org.jboss.seam.annotations.CreateProcess;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("cart")
 @Scope(ScopeType.SESSION)
-@Intercept(InterceptionType.ALWAYS)
+//@Intercept(InterceptionType.ALWAYS)
 @Interceptor(SeamInterceptor.class)
 public class ShoppingCartBean
     implements ShoppingCart,
@@ -46,9 +33,10 @@ public class ShoppingCartBean
 
     @PersistenceContext(unitName="dvd",type=PersistenceContextType.EXTENDED)
     EntityManager em;
-
-    List<SelectableItem<OrderLine>> cart = 
-        new ArrayList<SelectableItem<OrderLine>>();
+    
+    Order cartOrder = new Order();
+    //List<OrderLine> cart = new ArrayList<OrderLine>();
+    Map<Product,Boolean> cartSelection  = new HashMap<Product,Boolean>();
 
     @Out(required=false)
     Order order = null;
@@ -61,94 +49,73 @@ public class ShoppingCartBean
     @Out(value="customer",scope=ScopeType.BUSINESS_PROCESS, required=false)
     String customerName;
 
+    public List<OrderLine> getCart() {
+        //resetCartNumbers();
+        return cartOrder.getOrderLines();
+    }
     public boolean getIsEmpty() {
-        return cart.size() == 0;
+        return cartOrder.isEmpty();
     }
 
     public void addProduct(Product product, int quantity) {
         product = em.find(Product.class, product.getProductId());
 
-        for (SelectableItem<OrderLine> item: cart) {
-            if (product.getProductId() == item.getItem().getProduct().getProductId()) {
-                item.getItem().addQuantity(quantity);
-                return;
-            }
-        }
-
-        OrderLine line = new OrderLine();
-        line.setProduct(product);
-        line.setQuantity(quantity);
-        cart.add(new SelectableItem<OrderLine>(line));
+        cartOrder.addProduct(product,quantity);
+        cartOrder.calculateTotals();
     }
 
-    public List<SelectableItem<OrderLine>> getCart() {
-        resetCartNumbers();
-        return cart;
+
+    public Map getCartSelection() {
+        return cartSelection;
     }
+
 
     public float getSubtotal() {
-        float total = 0;
-        
-        for (SelectableItem<OrderLine> item: cart) {
-            OrderLine line = item.getItem();
-            total +=  line.getProduct().getPrice() * line.getQuantity();
-        }
-        
-        return total;
+        return cartOrder.getNetAmount();
     }
 
     public float getTax() {
-        return (float) (getSubtotal() * .0825);
+        return cartOrder.getTax();
     }
 
     public float getTotal() {
-        return getSubtotal() + getTax();
+        return cartOrder.getTotalAmount();
     }
 
-
+    
     public String updateCart() {
-        List<SelectableItem<OrderLine>> newCart = 
-            new ArrayList<SelectableItem<OrderLine>>();
-        for(SelectableItem<OrderLine> item: cart) {
-            if (!item.getSelected() && (item.getItem().getQuantity()>0)) {
-                newCart.add(item);
+        List<OrderLine> newLines =  new ArrayList<OrderLine>();
+
+        for (OrderLine line: cartOrder.getOrderLines()) {
+            if (line.getQuantity() > 0) {
+                Boolean selected = (Boolean) cartSelection.get(line);
+                if ((selected==null) || (selected.booleanValue()==false)) {
+                    newLines.add(line);
+                    //newCartSelect.put(line, Boolean.FALSE);
+                }
             }
         }        
-        cart = newCart;
+        cartOrder.setOrderLines(newLines);
+        cartOrder.calculateTotals();
+
+        cartSelection = new HashMap<Product,Boolean>();
+         
         return null;
-    }
-
-
-    public void resetCartNumbers() {
-        if (cart !=null) {
-            int index=1;
-            for(SelectableItem<OrderLine> item: cart) {
-                item.getItem().setPosition(index++);
-            }
-        }
     }
 
 
     @CreateProcess(definition="OrderManagement")
     public String purchase() {
-        List<OrderLine> lines = new ArrayList<OrderLine>();
-
-        resetCartNumbers();
-        for(SelectableItem<OrderLine> item: cart) {
-            lines.add(item.getItem());
-        }
-
         try {
-            order = purchase(customer, lines);
-            cart  = new ArrayList<SelectableItem<OrderLine>>(); 
+            order = purchase(customer, cartOrder);
+            cartOrder = new Order();
 
             orderId  = order.getOrderId();
             amount   = order.getNetAmount();
             customerName = order.getCustomer().getUserName();
 
             return "complete";
-        } 
-        catch (InsufficientQuantityException e) {
+        } catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {
                 Utils.warnUser("checkoutInsufficientQuantity", 
                     new Object[] {product.getTitle()});
@@ -160,19 +127,14 @@ public class ShoppingCartBean
 
 
     
-    private Order purchase(Customer customer, List<OrderLine> lines) 
+    private Order purchase(Customer customer, Order order) 
         throws InsufficientQuantityException
     {
-        Order order = new Order();
         order.setCustomer(customer);
         order.setOrderDate(new Date());
 
         List<Product> errorProducts = new ArrayList<Product>();
-        float total = 0;
-        for (OrderLine line: lines) {
-            total += line.getQuantity() * line.getProduct().getPrice();
-            line.setOrder(order); 
-
+        for (OrderLine line: order.getOrderLines()) {
             Inventory inv = line.getProduct().getInventory();
             if (!inv.order(line.getQuantity())) {
                 errorProducts.add(line.getProduct());
@@ -183,12 +145,7 @@ public class ShoppingCartBean
             throw new InsufficientQuantityException(errorProducts);
         }
 
-        order.setOrderLines(lines);
-
-        order.setNetAmount(total);
-        order.setTax((float) (order.getNetAmount() * .0825));
-        order.setTotalAmount(order.getNetAmount() + order.getTax());
-
+        order.calculateTotals();
         em.persist(order);
 
         return order;

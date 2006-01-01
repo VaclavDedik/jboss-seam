@@ -1,3 +1,4 @@
+
 /*
  * JBoss, Home of Professional Open Source
  *
@@ -20,18 +21,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("search")
-@Scope(ScopeType.SESSION)
+@Conversational(ifNotBegunOutcome="browse")
+@Scope(ScopeType.CONVERSATION)
 @LoggedIn
 @Interceptor(SeamInterceptor.class)
 public class SearchAction
@@ -50,19 +46,23 @@ public class SearchAction
     int     currentPage = 0; 
     boolean hasMore     = false;
 
-    Integer category = new Integer(0);
-    String  title    = null;
-    String  actor    = null;
+    Category category = null;
+    String   title    = null;
+    String   actor    = null;
 
-    List<Category>      categories;
-    Map<String,Integer> categoryMap;
-    
-    @Out(scope=ScopeType.SESSION, required=false)
-    List<SelectableItem<Product>> searchResults;    
+    @Out(scope=ScopeType.CONVERSATION,required=false)
+    List<Product> searchResults;
 
-    public void setCategory(Integer category) {
+    @Out(scope=ScopeType.CONVERSATION,required=false)
+    Map searchSelections;
+
+    public void setCategory(Category category) {
         this.category = category ; 
     }
+    public Category getCategory() {
+        return category;
+    }
+
 
     public void setTitle(String title) {
         this.title = title;
@@ -82,40 +82,8 @@ public class SearchAction
     public String doSearch() {
         currentPage=0;
         updateResults();
+
         return "browse";
-    }
-
-    public Map<String,Integer> getCategories() {
-        if (categories == null) {
-            categories = em.createQuery("from Category c").getResultList();
-
-            Map<String,Integer> results = new HashMap<String, Integer>();
-            
-            results.put("Any", 0);
-            for (Category category: categories) {
-                results.put(category.getCategoryName(),category.getCategory());
-            }
-            categoryMap = results;
-        }
-        
-        return categoryMap;
-    }
-
-    private Category categoryForNum(int value) {
-        getCategories(); 
-        if (categories != null) {
-            for (Category category: categories) {
-                if (category.getCategory() == value) {
-                    return category;
-                }
-            }
-        }
-        return null;
-    }
-
-
-    public Integer getCategory() {
-        return category;
     }
 
     public String nextPage() {
@@ -142,26 +110,24 @@ public class SearchAction
     }
 
     private void updateResults() {
-        List<SelectableItem<Product>> items = new ArrayList<SelectableItem<Product>>();
-
-        List<Product> products = searchQuery(getTitle(),
-                                             getActor(),
-                                             categoryForNum(getCategory()))
+        List<Product> items = searchQuery(getTitle(),
+                                          getActor(),
+                                          getCategory())
             .setMaxResults(pageSize+1)
             .setFirstResult(pageSize*currentPage)
             .getResultList();
-        
-        for (Product product: products) {
-            items.add(new SelectableItem(product));
-        }
 
         if (items.size() > pageSize) { 
-            searchResults = new ArrayList(items.subList(0,pageSize));
+            searchResults    = new ArrayList(items.subList(0,pageSize));
             hasMore = true;
-        } 
-        else {
+        } else {
             searchResults = items;
             hasMore = false;
+        }
+
+        searchSelections = new HashMap();
+        for (Product item: searchResults) {
+            searchSelections.put(item, Boolean.FALSE);
         }
     }
 
@@ -189,11 +155,12 @@ public class SearchAction
 
 
     public String addToCart() {
-        for (SelectableItem<Product> item: searchResults) {
-            if (item.getSelected()) {
-                item.setSelected(false);
+        for (Product item: searchResults) {
+            Boolean selected = (Boolean) searchSelections.get(item);
+            if (selected!=null && selected.booleanValue()) {
+                searchSelections.put(item, Boolean.FALSE);
 
-                cart.addProduct(item.getItem(), 1);
+                cart.addProduct(item, 1);
             }
         }
 

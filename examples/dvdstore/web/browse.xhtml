@@ -76,27 +76,27 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.searchResultsAdd}" />
                                 </f:facet>
-                                <h:selectBooleanCheckbox value="#{product.selected}"/>
+                                <h:selectBooleanCheckbox value="#{searchSelections[product]}"/>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.searchResultsTitle}" />
                                 </f:facet>
-                                <h:outputText value="#{product.item.title}" />
+                                <h:outputText value="#{product.title}" />
                             </h:column>                        
                             
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.searchResultsActor}" />
                                 </f:facet>
-                                <h:outputText value="#{product.item.actor}" />
+                                <h:outputText value="#{product.actor}" />
                             </h:column>                        
                             
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.searchResultsPrice}" />
                                 </f:facet>
-                                <h:outputText value="#{product.item.price}">
+                                <h:outputText value="#{product.price}">
                                     <f:convertNumber type="currency" currencySymbol="$" />
                                 </h:outputText>
                             </h:column>                        

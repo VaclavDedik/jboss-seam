@@ -7,6 +7,7 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class Order
     float netAmount;
     float tax;
     float totalAmount;
-    List<OrderLine> orderLines;
+    List<OrderLine> orderLines = new ArrayList<OrderLine>();
     Status status = Status.OPEN;
     String trackingNumber;
 
@@ -46,6 +47,12 @@ public class Order
         this.orderDate = date;
     }
 
+    @Transient
+    public boolean isEmpty() {
+        return (orderLines == null) || (orderLines.size()==0);
+    }
+    
+
     @OneToMany(mappedBy="order", cascade=CascadeType.ALL)
     public List<OrderLine> getOrderLines() {
         return orderLines;
@@ -53,6 +60,35 @@ public class Order
     public void setOrderLines(List<OrderLine> lines) {
         this.orderLines = lines;
     }
+
+    public void addProduct(Product product, int quantity) {
+        for (OrderLine line: orderLines) {
+            if (product.getProductId() == line.getProduct().getProductId()) {
+                line.addQuantity(quantity);
+                return;
+            }
+        }
+
+        OrderLine line = new OrderLine();
+        line.setProduct(product);
+        line.setQuantity(quantity);
+        line.setOrder(this);
+
+        orderLines.add(line);
+    }
+
+
+    public void removeProduct(Product product) {
+        OrderLine toRemove = null;
+
+        for (OrderLine line: orderLines) {
+            if (product.getProductId() == line.getProduct().getProductId()) { 
+                orderLines.remove(toRemove);
+                return;
+            }
+        }
+    }
+
     
     @ManyToOne
     @JoinColumn(name="USERID")
@@ -108,6 +144,23 @@ public class Order
         return status.ordinal();
     }
 
+    public void calculateTotals() {
+        float total = 0;
+        
+        int index = 1;
+        for (OrderLine line: orderLines) {
+            line.setPosition(index++);
+            total +=  line.getProduct().getPrice() * line.getQuantity();
+        }
+        
+        setNetAmount(total);
+        setTax((float) (getNetAmount() * .0825));
+        setTotalAmount(getNetAmount() + getTax());
+    }
+
+
+
+
     public void cancel() {
         setStatus(Order.Status.CANCELLED);
     }
@@ -120,5 +173,8 @@ public class Order
         setStatus(Order.Status.SHIPPED);
         setTrackingNumber(tracking);
     }
+
+
+
 
 }
