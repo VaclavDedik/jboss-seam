@@ -8,4 +8,4 @@ booking/        The Seam Booking demo application for EJB 3.0
 bpm/            An example using jPBM (work in progress)
 noejb/          The Seam Booking demo ported to Hibernate3
 dvdstore/       The DVD Store example ported to Seam
-portlet/		Based on the booking exemple, this is a portlet working in JBoss Portal
+portlet/        Based on the booking exemple, this is a portlet working in JBoss Portal
