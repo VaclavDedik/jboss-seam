@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 /**
  * Marks a method as causing jBPM {@link org.jbpm.taskmgmt.exe.TaskInstance task}
  * to be resumed. The jBPM {@link org.jbpm.context.exe.ContextInstance} 
- * is associated with the PROCESS scope and the 
+ * is associated with the BUSINESS_PROCESS scope and the 
  * {@link org.jbpm.taskmgmt.exe.TaskInstance} is associated with a new
  * conversation.
  * <p/>

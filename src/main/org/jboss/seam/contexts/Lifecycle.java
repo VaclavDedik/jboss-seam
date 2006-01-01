@@ -237,11 +237,12 @@ public class Lifecycle
          Contexts.destroy( Contexts.getEventContext() );
       }
       
-      if ( Contexts.isPageContextActive() )
+      //the page context is never logically destroyed
+      /*if ( Contexts.isPageContextActive() )
       {
          log.debug("destroying page context");
          Contexts.destroy( Contexts.getPageContext() );
-      }
+      }*/
 
       if ( Contexts.isConversationContextActive() )
       {
