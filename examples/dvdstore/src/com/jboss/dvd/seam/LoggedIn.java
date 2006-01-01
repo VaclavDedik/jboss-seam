@@ -7,12 +7,12 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.ejb.Interceptor;
+import javax.ejb.Interceptors;
 
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-@Interceptor(LoggedInInterceptor.class)
+@Interceptors(LoggedInInterceptor.class)
 public @interface LoggedIn {
 }
 

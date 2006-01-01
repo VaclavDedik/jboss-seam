@@ -7,7 +7,7 @@ import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import javax.ejb.Interceptor;
+import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
@@ -30,7 +30,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("hotelBooking")
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 @Conversational(ifNotBegunOutcome="main")
 @LoggedIn
 public class HotelBookingAction implements HotelBooking, Serializable

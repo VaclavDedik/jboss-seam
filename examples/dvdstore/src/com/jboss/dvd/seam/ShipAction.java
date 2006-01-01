@@ -8,7 +8,7 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.ejb.Interceptor;
+import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -28,7 +28,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Name("ship")
 @Conversational(ifNotBegunOutcome="admin")
 @LoggedIn
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class ShipAction
     implements Ship,
                Serializable

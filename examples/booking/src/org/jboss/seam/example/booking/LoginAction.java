@@ -3,7 +3,7 @@ package org.jboss.seam.example.booking;
 
 import java.util.List;
 
-import javax.ejb.Interceptor;
+import javax.ejb.Interceptors;
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -18,7 +18,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("login")
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login
 {
    

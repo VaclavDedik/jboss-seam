@@ -6,7 +6,7 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.Interceptor;
+import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -27,7 +27,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("hotelSearching")
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 @Conversational(ifNotBegunOutcome="main")
 @LoggedIn
 public class HotelSearchingAction implements HotelSearching, Serializable

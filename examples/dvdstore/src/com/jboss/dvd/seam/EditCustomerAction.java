@@ -11,29 +11,27 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
-import javax.ejb.Interceptor;
+import javax.ejb.Interceptors;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
-import org.jboss.seam.contexts.Context;
+import org.hibernate.validator.Valid;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.IfInvalid;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.ejb.SeamInterceptor;
-
-import org.hibernate.validator.Valid;
 
 @Stateless
 @Name("editCustomer")
 @Scope(ScopeType.EVENT)
-@Interceptor(SeamInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 @LoginIf
 public class EditCustomerAction
     implements EditCustomer
