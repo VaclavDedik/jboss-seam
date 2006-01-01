@@ -58,7 +58,7 @@ public class PooledTask
          taskInstance.setActorId( actor.getId() );
          getJbpmSession().getSession().flush();
       }
-      return null;
+      return "taskAssignedToActor";
    }
    
    private TaskInstance getTaskInstance()

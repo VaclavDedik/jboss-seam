@@ -1,6 +1,5 @@
-package org.jboss.seam.core.jbpm;
+package org.jboss.seam.jbpm;
 
-import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.util.Strings;
@@ -18,9 +17,7 @@ public class SeamAssignmentHandler implements AssignmentHandler {
          String[] result;
          if ( pooledActors.startsWith("#") )
          {
-            FacesContext facesCtx = FacesContext.getCurrentInstance();
-            Application application = facesCtx.getApplication();
-            Object object = application.createValueBinding(pooledActors).getValue(facesCtx);
+            Object object = getValue(pooledActors);
             result = (object instanceof String) ?
                   new String[] { (String) object } :
                   (String[]) object;
@@ -36,9 +33,7 @@ public class SeamAssignmentHandler implements AssignmentHandler {
          String result;
          if ( actorId.startsWith("#") )
          {
-            FacesContext facesCtx = FacesContext.getCurrentInstance();
-            Application application = facesCtx.getApplication();
-            result = (String) application.createValueBinding(actorId).getValue(facesCtx);
+            result = (String) getValue(actorId);
          }
          else
          {
@@ -50,6 +45,13 @@ public class SeamAssignmentHandler implements AssignmentHandler {
       {
          throw new IllegalArgumentException();
       }
+   }
+
+   private Object getValue(String expression) {
+      FacesContext facesCtx = FacesContext.getCurrentInstance();
+      return facesCtx.getApplication()
+            .createValueBinding(expression)
+            .getValue(facesCtx);
    }
 
 }
