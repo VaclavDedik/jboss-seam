@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.ejb.Interceptors;
 import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.faces.application.Application;
@@ -240,6 +241,10 @@ public class Component
                }
          }
       }
+      /*else
+      {
+         return beanClass.getName() + "/local";
+      }*/
    }
 
    private void initInitializers(Context applicationContext)
@@ -474,7 +479,7 @@ public class Component
       
       for (Annotation annotation: beanClass.getAnnotations())
       {
-         if ( annotation.annotationType().isAnnotationPresent(javax.ejb.Interceptor.class) )
+         if ( annotation.annotationType().isAnnotationPresent(Interceptors.class) )
          {
             interceptors.add( new Interceptor(annotation, this) );
          }

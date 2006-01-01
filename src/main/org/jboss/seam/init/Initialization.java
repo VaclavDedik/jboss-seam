@@ -36,6 +36,7 @@ import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.PooledTask;
+import org.jboss.seam.core.PooledTaskInstanceList;
 import org.jboss.seam.core.Process;
 import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.ResourceBundle;
@@ -197,10 +198,11 @@ public class Initialization
          addComponent( Actor.class, context);
          addComponent( Process.class, context );
          addComponent( Transition.class, context);
+         addComponent( PooledTask.class, context );
          addComponent( TaskInstance.class, context );
          addComponent( ProcessInstance.class, context );
-         addComponent( PooledTask.class, context );
          addComponent( TaskInstanceList.class, context );
+         addComponent( PooledTaskInstanceList.class, context );
          addComponent( TaskInstanceListForType.class, context );
          addComponent( ManagedJbpmSession.class, context );
       }

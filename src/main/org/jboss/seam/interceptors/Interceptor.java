@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import javax.ejb.AroundInvoke;
+import javax.ejb.Interceptors;
 import javax.ejb.InvocationContext;
 
 import org.jboss.seam.Component;
@@ -38,11 +39,16 @@ public final class Interceptor extends Reflections
    
    public Interceptor(Annotation annotation, Component component) 
    {
-      javax.ejb.Interceptor interceptorAnnotation = annotation.annotationType()
-            .getAnnotation(javax.ejb.Interceptor.class);
+      Interceptors interceptorAnnotation = annotation.annotationType()
+            .getAnnotation(Interceptors.class);
       try
       {
-         userInterceptor = interceptorAnnotation.value().newInstance();
+         Class[] classes = interceptorAnnotation.value();
+         if (classes.length!=1)
+         {
+            throw new IllegalArgumentException("Must be exactly one inetrceptor when used as a meta-annotation");
+         }
+         userInterceptor = classes[0].newInstance();
       }
       catch (Exception e)
       {
