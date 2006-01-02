@@ -7,24 +7,17 @@
 <hibernate-configuration>
   <session-factory>
 
-    <!-- jdbc connection properties -->
-    <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+    <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+    <property name="connection.datasource">java:/DVDStoreDS</property>
     <!--
-    <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-    <property name="hibernate.connection.url">jdbc:hsqldb:mem:.;sql.enforce_strict_size=true</property>
-    <property name="hibernate.connection.username">sa</property>
-    <property name="hibernate.connection.password"></property>
+    <property name="transaction.flush_before_completion">true</property>
     -->
-    <property name="hibernate.connection.datasource">java:/DefaultDS</property>
-    <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
-    <property name="hibernate.transaction.flush_before_completion">true</property>
-    <!--property name="hibernate.transaction.auto_close_session">true</property-->
-    <property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
-    <property name="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
-    <property name="hibernate.hbm2ddl.auto">create-drop</property>
-        
-    <property name="hibernate.show_sql">true</property>
-    <!-- other hibernate properties 
+    <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+    <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+    <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
+    <property name="hbm2ddl.auto">create-drop</property>
+    <property name="show_sql">true</property>
+    <!-- 
     <property name="hibernate.format_sql">true</property>
     -->
     

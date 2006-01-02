@@ -32,7 +32,7 @@ import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedHibernateSession;
-import org.jboss.seam.core.ManagedJbpmSession;
+import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.PooledTask;
@@ -193,7 +193,7 @@ public class Initialization
          addComponent( sfName, ManagedHibernateSession.class, context );
       }
 
-      if ( init.getJbpmSessionFactoryName() != null )
+      if ( init.isJbpmInstalled() )
       {
          addComponent( Actor.class, context);
          addComponent( Process.class, context );
@@ -204,7 +204,7 @@ public class Initialization
          addComponent( TaskInstanceList.class, context );
          addComponent( PooledTaskInstanceList.class, context );
          addComponent( TaskInstanceListForType.class, context );
-         addComponent( ManagedJbpmSession.class, context );
+         addComponent( ManagedJbpmContext.class, context );
       }
       
       if (isScannerEnabled)

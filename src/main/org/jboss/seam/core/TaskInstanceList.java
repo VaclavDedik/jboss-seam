@@ -37,7 +37,7 @@ public class TaskInstanceList
       if ( actorId == null ) return null;
 
       List<TaskInstance> list = new ArrayList<TaskInstance>();
-      list.addAll( ManagedJbpmSession.instance().getTaskMgmtSession().findTaskInstances(actorId) );
+      list.addAll( ManagedJbpmContext.instance().getTaskMgmtSession().findTaskInstances(actorId) );
       return list;
    }
    

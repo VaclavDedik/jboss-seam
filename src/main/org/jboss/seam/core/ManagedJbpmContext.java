@@ -29,11 +29,11 @@ import org.jbpm.JbpmContext;
  * @version $Revision$
  */
 @Scope( ScopeType.EVENT )
-@Name( "jbpmSession" )
+@Name( "jbpmContext" )
 @Intercept( NEVER )
-public class ManagedJbpmSession
+public class ManagedJbpmContext
 {
-   private static final Logger log = Logger.getLogger(ManagedJbpmSession.class);
+   private static final Logger log = Logger.getLogger(ManagedJbpmContext.class);
 
    private JbpmContext jbpmContext;
 
@@ -53,8 +53,8 @@ public class ManagedJbpmSession
    @Destroy
    public void destroy()
    {
-      log.debug( "flushing seam managed jBPM session" );
-      jbpmContext.getSession().flush();
+      /*log.debug( "flushing seam managed jBPM session" );
+      jbpmContext.getSession().flush();*/
       log.debug( "destroying seam managed jBPM session" );
       jbpmContext.close();
    }
@@ -65,7 +65,7 @@ public class ManagedJbpmSession
       {
          throw new IllegalStateException("no active event context");
       }
-      return (JbpmContext) Component.getInstance(ManagedJbpmSession.class, ScopeType.EVENT, true);
+      return (JbpmContext) Component.getInstance(ManagedJbpmContext.class, ScopeType.EVENT, true);
    }
 
 }

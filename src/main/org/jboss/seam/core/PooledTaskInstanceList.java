@@ -31,7 +31,7 @@ public class PooledTaskInstanceList
       Set<String> actorIds = Actor.instance().getGroupActorIds();
       for (String actorId: actorIds )
       {
-         pooledTaskInstanceList.addAll( ManagedJbpmSession.instance().getTaskMgmtSession().findPooledTaskInstances(actorId) );
+         pooledTaskInstanceList.addAll( ManagedJbpmContext.instance().getTaskMgmtSession().findPooledTaskInstances(actorId) );
       }
       return pooledTaskInstanceList;
    }

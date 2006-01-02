@@ -31,13 +31,12 @@ public class Init
    public static final String MANAGED_PERSISTENCE_CONTEXTS = NAME + ".managedPersistenceContexts";
    public static final String MANAGED_SESSIONS = NAME + ".managedSessions";
    public static final String MANAGED_DATA_SOURCES = NAME + ".managedDataSources";
-   public static final String JBPM_SESSION_FACTORY_NAME = NAME + ".jbpmSessionFactoryName";
    
    private String[] managedPersistenceContexts = {};
    private String[] managedSessions = {};
-   private String jbpmSessionFactoryName;
    private String[] componentClasses = {};
    private boolean isClientSideConversations = false;
+   private boolean jbpmInstalled;
    
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
 
@@ -60,16 +59,6 @@ public class Init
       this.managedSessions = managedSessions;
    }
 
-   public String getJbpmSessionFactoryName()
-   {
-      return jbpmSessionFactoryName;
-   }
-
-   public void setJbpmSessionFactoryName(String jbpmSessionFactoryName)
-   {
-      this.jbpmSessionFactoryName = jbpmSessionFactoryName;
-   }
-
    public String[] getComponentClasses()
    {
       return componentClasses;
@@ -78,6 +67,14 @@ public class Init
    public void setComponentClasses(String[] componentClasses)
    {
       this.componentClasses = componentClasses;
+      jbpmInstalled = false;
+      for (String className: componentClasses)
+      {
+         if ( Jbpm.class.getName().equals(className) )
+         {
+            jbpmInstalled = true;
+         }
+      }
    }
    
    public static Init instance()
@@ -123,6 +120,11 @@ public class Init
    public void addFactoryMethod(String variable, Method method, Component component)
    {
 	   factories.put( variable, new FactoryMethod(method, component) );
+   }
+   
+   public boolean isJbpmInstalled()
+   {
+      return jbpmInstalled;
    }
 
 }

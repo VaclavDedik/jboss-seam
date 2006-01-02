@@ -50,7 +50,7 @@ public class ProcessDefinitionSwitcher
     }
 
     public String switchProcess() {
-        jbpm.loadProcessDefinition(currentProcessDefinition, true);
+        jbpm.deployProcessDefinition(currentProcessDefinition);
         return "admin";
     }
     

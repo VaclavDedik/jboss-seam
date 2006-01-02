@@ -16,7 +16,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedHibernateSession;
-import org.jboss.seam.core.ManagedJbpmSession;
+import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Transactions;
@@ -85,16 +85,16 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
             log.debug( "Flushing persistence contexts after INVOKE_APPLICATION phase" );
             if ( Transactions.isTransactionActive() )
             {
-               Init settings = Init.instance();
-               for (String unitName : settings.getManagedPersistenceContexts())
+               Init init = Init.instance();
+               for (String unitName : init.getManagedPersistenceContexts())
                {
                   flushEntityManager(unitName);
                }
-               for (String sfName : settings.getManagedSessions())
+               for (String sfName : init.getManagedSessions())
                {
                   flushSession(sfName);
                }
-               if ( settings.getJbpmSessionFactoryName() != null )
+               if ( init.isJbpmInstalled() )
                {
                   flushJbpm();
                }
@@ -127,8 +127,8 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    private void flushJbpm()
    {
       log.trace( "flushing jBPM session" );
-      ManagedJbpmSession managed = (ManagedJbpmSession) Contexts.getEventContext()
-            .get( Seam.getComponentName(ManagedJbpmSession.class) );
+      ManagedJbpmContext managed = (ManagedJbpmContext) Contexts.getEventContext()
+            .get( Seam.getComponentName(ManagedJbpmContext.class) );
       if ( managed != null )
       {
          // need to make sure that the seam BusinessProcessContext gets flushed to

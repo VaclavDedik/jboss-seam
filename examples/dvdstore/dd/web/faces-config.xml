@@ -36,11 +36,6 @@
         </navigation-case>
 
         <navigation-case>
-            <from-outcome>browse</from-outcome>
-            <to-view-id>/browse.xhtml</to-view-id>
-        </navigation-case>
-
-        <navigation-case>
             <from-outcome>admin</from-outcome>
             <to-view-id>/admin.xhtml</to-view-id>
         </navigation-case>
@@ -59,6 +54,13 @@
             <from-outcome>showorders</from-outcome>
             <to-view-id>/showorders.xhtml</to-view-id>
         </navigation-case>
+        
+        <!--
+        
+        <navigation-case>
+            <from-outcome>browse</from-outcome>
+            <to-view-id>/browse.xhtml</to-view-id>
+        </navigation-case>
 
         <navigation-case>
             <from-outcome>checkout</from-outcome>
@@ -70,6 +72,8 @@
             <from-outcome>complete</from-outcome>
             <to-view-id>/complete.xhtml</to-view-id>
         </navigation-case>
+        
+         -->
 
         <navigation-case> 
             <from-outcome>logout</from-outcome> 

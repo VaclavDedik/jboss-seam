@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
@@ -15,7 +16,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.microcontainer.JbpmFactory;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -33,9 +33,11 @@ import org.jbpm.graph.def.ProcessDefinition;
 @Name("org.jboss.seam.core.jbpm")
 public class Jbpm 
 {
+   private Logger log = Logger.getLogger( Jbpm.class );
+   
    public static final String PROCESS_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".processDefinitions";
-
-   private JbpmFactory jbpmFactory;
+   
+   private JbpmConfiguration jbpmConfiguration;
    private String[] processDefinitions;
    private String[] pageflowDefinitions;
    private Map<String, ProcessDefinition> pageflowProcessDefinitions;
@@ -43,23 +45,22 @@ public class Jbpm
    @Create
    public void startup() throws Exception
    {
-      jbpmFactory = new JbpmFactory();
-      jbpmFactory.setJndiName( Init.instance().getJbpmSessionFactoryName() );
-      jbpmFactory.setProcessDefinitionResources(processDefinitions);
-      jbpmFactory.initialize();
-      
-      pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>(pageflowDefinitions.length);
-      for (String pageflow: pageflowDefinitions)
-      {
-         ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
-         pageflowProcessDefinitions.put( pd.getName(), pd );
-      }
+      log.trace( "Starting initialization" );
+      jbpmConfiguration = JbpmConfiguration.getInstance();
+      installProcessDefinitions();
+      installPageflowDefinitions();
    }
-   
+
    @Destroy
    public void shutdown()
    {
-      jbpmFactory = null;
+      //TODO: don't I need to destroy it somehow???
+      jbpmConfiguration = null;
+   }
+   
+   public JbpmConfiguration getJbpmConfiguration()
+   {
+      return jbpmConfiguration;
    }
 
    public String[] getProcessDefinitions() {
@@ -76,13 +77,13 @@ public class Jbpm
     * @param resourceName the name of a resource containing the process definition
     * @param makeLatestVersion the loaded definition should be considered the latest version
     */
-   public void loadProcessDefinition(String resourceName, boolean makeLatestVersion) {
-      JbpmContext context = jbpmFactory.getJbpmConfiguration().createJbpmContext();
+   public void deployProcessDefinition(String resourceName) {
+      JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
       try
       {
          ProcessDefinition processDefinition = getProcessDefinitionFromResource(resourceName);
-         context.deployProcessDefinition(processDefinition);
-         context.getSession().flush(); //TODO: why???
+         jbpmContext.deployProcessDefinition(processDefinition);
+         jbpmContext.getSession().flush(); //need to flush so the managed session can see the effect immediately
       }
       catch (RuntimeException e)
       {
@@ -90,10 +91,19 @@ public class Jbpm
       }
       finally
       {
-         context.close();
+         jbpmContext.close();
       }
    }
 
+   private void installPageflowDefinitions() {
+      pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>(pageflowDefinitions.length);
+      for (String pageflow: pageflowDefinitions)
+      {
+         ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
+         pageflowProcessDefinitions.put( pd.getName(), pd );
+      }
+   }
+   
    private ProcessDefinition getProcessDefinitionFromResource(String resourceName) {
       InputStream resource = Thread.currentThread().getContextClassLoader()
             .getResourceAsStream(resourceName);
@@ -101,7 +111,6 @@ public class Jbpm
       {
          throw new IllegalArgumentException("resource not found: " + resourceName);
       }
-      
       return ProcessDefinition.parseXmlInputStream(resource);
    }
 
@@ -118,14 +127,34 @@ public class Jbpm
       return pageflowProcessDefinitions.get(pageflowName);
    }
    
+   private void installProcessDefinitions()
+   {
+      if ( processDefinitions != null )
+      {
+         JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+         try
+         {
+            for ( String definitionResource : processDefinitions )
+            {
+               ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource( definitionResource );
+               log.trace( "deploying process definition : " + processDefinition.getName() );
+               jbpmContext.deployProcessDefinition(processDefinition);
+            }
+         }
+         catch (RuntimeException e)
+         {
+            throw new RuntimeException("could not deploy a process definition", e);
+         }
+         finally
+         {
+            jbpmContext.close();
+         }
+      }
+   }
+   
    public static Jbpm instance()
    {
       return (Jbpm) Contexts.getApplicationContext().get(Jbpm.class);
    }
    
-   public JbpmConfiguration getJbpmConfiguration()
-   {
-      return jbpmFactory.getJbpmConfiguration();
-   }
-  
 }

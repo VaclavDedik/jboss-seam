@@ -25,7 +25,7 @@ import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Actor;
-import org.jboss.seam.core.ManagedJbpmSession;
+import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.Process;
 import org.jboss.seam.core.Transition;
 import org.jbpm.JbpmContext;
@@ -123,20 +123,21 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private void createProcess(String processDefinitionName)
    {
-      JbpmContext session = ManagedJbpmSession.instance();
+      JbpmContext jbpmContext = ManagedJbpmContext.instance();
       
-      ProcessDefinition pd = session.getGraphSession().findLatestProcessDefinition(processDefinitionName);
+      ProcessDefinition pd = jbpmContext.getGraphSession().findLatestProcessDefinition(processDefinitionName);
       if ( pd == null )
       {
          throw new IllegalArgumentException( "Unknown process definition: " + processDefinitionName );
       }
       
       ProcessInstance process = pd.createProcessInstance();
-      session.save(process);
+      jbpmContext.save(process);
       Process.instance().setProcessId( process.getId() );
       // need to set process variables before the signal
       Contexts.getBusinessProcessContext().flush();
       process.signal();
+      //ManagedJbpmContext.instance().getSession().flush();
    }
 
    private void startTask()
@@ -176,7 +177,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
       
       Process.instance().setTaskId(null);
-      ManagedJbpmSession.instance().getSession().flush();
+      //ManagedJbpmContext.instance().getSession().flush();
    }
 
     private Long getRequestParamValueAsLong(String paramName)
