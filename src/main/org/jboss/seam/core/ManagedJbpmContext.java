@@ -36,11 +36,13 @@ public class ManagedJbpmContext
    private static final Logger log = Logger.getLogger(ManagedJbpmContext.class);
 
    private JbpmContext jbpmContext;
+   //private int counter;
 
    @Create
-   public void create(Component component) throws NamingException
+   public void create() throws NamingException
    {
       jbpmContext = Jbpm.instance().getJbpmConfiguration().createJbpmContext();
+      //counter++;
       log.debug( "created seam managed jBPM context");
    }
 
@@ -59,6 +61,7 @@ public class ManagedJbpmContext
          jbpmContext.save( processInstance );
       }
       log.debug( "destroying seam managed jBPM context" );
+      //counter--;
       jbpmContext.close();
    }
    
