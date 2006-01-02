@@ -6,15 +6,13 @@
  */
 package org.jboss.seam.microcontainer;
 
-import org.hibernate.cfg.Configuration;
 import org.jboss.logging.Logger;
-import org.jboss.seam.util.NamingHelper;
-import org.jbpm.db.JbpmSession;
-import org.jbpm.db.JbpmSessionFactory;
+import org.jbpm.JbpmConfiguration;
+import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 
 /**
- * A factory to build/bootstrap a {@link JbpmSessionFactory}.
+ * A factory to build/bootstrap a {@link JbpmConfiguration}.
  *
  * @version $Revision$
  */
@@ -27,7 +25,7 @@ public class JbpmFactory
    private String[] processDefinitions;
    private String[] processDefinitionResources;
 
-   private JbpmSessionFactory factory;
+   private JbpmConfiguration jbpmConfiguration;
 
    public String getJndiName()
    {
@@ -69,64 +67,21 @@ public class JbpmFactory
       this.processDefinitionResources = processDefinitionResources;
    }
 
-   public JbpmSessionFactory getJbpmSessionFactory() throws Exception
+   public JbpmConfiguration getJbpmConfiguration()
    {
-//      JbpmSessionFactory factory = buildJbpmSessionFactory();
-//      installProcessDefinitions( factory );
-//      bind( factory );
-
-      return factory;
+      return jbpmConfiguration;
    }
 
    public void initialize() throws Exception
    {
       log.trace( "Starting initialization" );
-      factory = buildJbpmSessionFactory();
-      installProcessDefinitions( factory );
-      bind( factory );
+      jbpmConfiguration = JbpmConfiguration.getInstance();
+      installProcessDefinitions( jbpmConfiguration );
    }
 
-   public void cleanup()
+   private void installProcessDefinitions(JbpmConfiguration configuration)
    {
-      try
-      {
-         unbind();
-      }
-      catch( Throwable t )
-      {
-         log.debug( "Problem unbinding jBPM session factory from JNDI", t );
-      }
-
-      try
-      {
-         factory.getSessionFactory().close();
-      }
-      catch( Throwable t )
-      {
-         log.debug( "Problem cleaning up jBPM session factory", t );
-      }
-   }
-
-   private JbpmSessionFactory buildJbpmSessionFactory() throws Exception
-   {
-      Configuration cfg = new Configuration();
-      cfg.getProperties().clear();
-      if ( hibernateConfigResource == null )
-      {
-         log.trace( "Configuring Hibernate from default cfg" );
-         cfg.configure();
-      }
-      else
-      {
-         log.trace( "Configuring Hibernate from resource : " + hibernateConfigResource );
-         cfg.configure( hibernateConfigResource );
-      }
-      return JbpmSessionFactory.buildJbpmSessionFactory( cfg );
-   }
-
-   private void installProcessDefinitions(JbpmSessionFactory factory)
-   {
-      JbpmSession jbpmSession = factory.openJbpmSessionAndBeginTransaction();
+      JbpmContext jbpmContext = configuration.createJbpmContext();
       try
       {
          if ( processDefinitions != null )
@@ -135,7 +90,7 @@ public class JbpmFactory
             {
                ProcessDefinition processDefinition = ProcessDefinition.parseXmlString( definition );
                log.trace( "installing process definition : " + processDefinition.getName() );
-               jbpmSession.getGraphSession().saveProcessDefinition( processDefinition );
+               jbpmContext.deployProcessDefinition(processDefinition);
             }
          }
 
@@ -145,24 +100,18 @@ public class JbpmFactory
             {
                ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource( definitionResource );
                log.trace( "installing process definition : " + processDefinition.getName() );
-               jbpmSession.getGraphSession().saveProcessDefinition( processDefinition );
+               jbpmContext.deployProcessDefinition(processDefinition);
             }
          }
       }
+      catch (RuntimeException e)
+      {
+         throw new RuntimeException("could not deploy a process definition", e);
+      }
       finally
       {
-         jbpmSession.commitTransactionAndClose();
+         jbpmContext.close();
       }
    }
-
-   private void bind(JbpmSessionFactory factory) throws Exception
-   {
-      NamingHelper.getInitialContext().bind( jndiName, factory );
-   }
-
-   private void unbind() throws Exception
-   {
-      NamingHelper.getInitialContext().unbind( jndiName );
-
-   }
+   
 }

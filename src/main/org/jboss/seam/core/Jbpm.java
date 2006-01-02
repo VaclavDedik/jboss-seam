@@ -3,6 +3,8 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -12,8 +14,10 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.microcontainer.JbpmFactory;
-import org.jbpm.db.JbpmSession;
+import org.jbpm.JbpmConfiguration;
+import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 
 /**
@@ -33,6 +37,8 @@ public class Jbpm
 
    private JbpmFactory jbpmFactory;
    private String[] processDefinitions;
+   private String[] pageflowDefinitions;
+   private Map<String, ProcessDefinition> pageflowProcessDefinitions;
    
    @Create
    public void startup() throws Exception
@@ -41,12 +47,18 @@ public class Jbpm
       jbpmFactory.setJndiName( Init.instance().getJbpmSessionFactoryName() );
       jbpmFactory.setProcessDefinitionResources(processDefinitions);
       jbpmFactory.initialize();
+      
+      pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>(pageflowDefinitions.length);
+      for (String pageflow: pageflowDefinitions)
+      {
+         ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
+         pageflowProcessDefinitions.put( pd.getName(), pd );
+      }
    }
    
    @Destroy
    public void shutdown()
    {
-      jbpmFactory.cleanup();
       jbpmFactory = null;
    }
 
@@ -65,29 +77,21 @@ public class Jbpm
     * @param makeLatestVersion the loaded definition should be considered the latest version
     */
    public void loadProcessDefinition(String resourceName, boolean makeLatestVersion) {
-      JbpmSession jbpmSession = ManagedJbpmSession.instance();      
-      ProcessDefinition processDefinition = getProcessDefinitionFromResource(resourceName);
-      if (makeLatestVersion) makeProcessDefinitionLatestVersion(jbpmSession, processDefinition);
-      jbpmSession.getGraphSession().saveProcessDefinition(processDefinition);
-      jbpmSession.getSession().flush();
-   }
-
-   private void makeProcessDefinitionLatestVersion(JbpmSession jbpmSession, ProcessDefinition processDefinition) {
-      String processDefinitionName = processDefinition.getName();
-      if ( processDefinitionName!=null ) 
+      JbpmContext context = jbpmFactory.getJbpmConfiguration().createJbpmContext();
+      try
       {
-         ProcessDefinition previousLatestVersion = jbpmSession.getGraphSession()
-               .findLatestProcessDefinition(processDefinitionName);
-  
-         if (previousLatestVersion==null) 
-         {
-            processDefinition.setVersion(1);
-         } 
-         else 
-         {
-            processDefinition.setVersion( previousLatestVersion.getVersion()+1 );
-         }
-       }
+         ProcessDefinition processDefinition = getProcessDefinitionFromResource(resourceName);
+         context.deployProcessDefinition(processDefinition);
+         context.getSession().flush(); //TODO: why???
+      }
+      catch (RuntimeException e)
+      {
+         throw new RuntimeException("could not deploy process definition: " + resourceName, e);
+      }
+      finally
+      {
+         context.close();
+      }
    }
 
    private ProcessDefinition getProcessDefinitionFromResource(String resourceName) {
@@ -99,6 +103,29 @@ public class Jbpm
       }
       
       return ProcessDefinition.parseXmlInputStream(resource);
+   }
+
+   public String[] getPageflowDefinitions() {
+      return pageflowDefinitions;
+   }
+
+   public void setPageflowDefinitions(String[] pageflowDefinitions) {
+      this.pageflowDefinitions = pageflowDefinitions;
+   }
+   
+   public ProcessDefinition getPageflowDefinition(String pageflowName)
+   {
+      return pageflowProcessDefinitions.get(pageflowName);
+   }
+   
+   public static Jbpm instance()
+   {
+      return (Jbpm) Contexts.getApplicationContext().get(Jbpm.class);
+   }
+   
+   public JbpmConfiguration getJbpmConfiguration()
+   {
+      return jbpmFactory.getJbpmConfiguration();
    }
   
 }

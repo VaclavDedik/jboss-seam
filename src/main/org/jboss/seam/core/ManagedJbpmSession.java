@@ -8,7 +8,6 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.logging.Logger;
@@ -21,9 +20,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.util.NamingHelper;
-import org.jbpm.db.JbpmSession;
-import org.jbpm.db.JbpmSessionFactory;
+import org.jbpm.JbpmContext;
 
 /**
  * Manages a reference to a JbpmSession.
@@ -38,41 +35,37 @@ public class ManagedJbpmSession
 {
    private static final Logger log = Logger.getLogger(ManagedJbpmSession.class);
 
-   private JbpmSession jbpmSession;
+   private JbpmContext jbpmContext;
 
    @Create
    public void create(Component component) throws NamingException
    {
-      jbpmSession = getSessionFactory().openJbpmSession();
+      jbpmContext = Jbpm.instance().getJbpmConfiguration().createJbpmContext();
       log.debug( "created seam managed jBPM session" );
    }
 
    @Unwrap
-   public JbpmSession getJbpmSession()
+   public JbpmContext getJbpmContext()
    {
-      return jbpmSession;
+      return jbpmContext;
    }
 
    @Destroy
    public void destroy()
    {
+      log.debug( "flushing seam managed jBPM session" );
+      jbpmContext.getSession().flush();
       log.debug( "destroying seam managed jBPM session" );
-      jbpmSession.close();
-   }
-
-   private JbpmSessionFactory getSessionFactory() throws NamingException
-   {
-      InitialContext ctx = NamingHelper.getInitialContext();
-      return (JbpmSessionFactory) ctx.lookup( Init.instance().getJbpmSessionFactoryName() );
+      jbpmContext.close();
    }
    
-   public static JbpmSession instance()
+   public static JbpmContext instance()
    {
       if ( !Contexts.isEventContextActive() )
       {
          throw new IllegalStateException("no active event context");
       }
-      return (JbpmSession) Component.getInstance(ManagedJbpmSession.class, ScopeType.EVENT, true);
+      return (JbpmContext) Component.getInstance(ManagedJbpmSession.class, ScopeType.EVENT, true);
    }
 
 }

@@ -225,6 +225,8 @@ public class Lifecycle
    }
 
    private static void flushAndDestroyContexts() {
+      //must come before destroying event context, since 
+      //it uses an event-scoped jBPM session
       if ( Contexts.isBusinessProcessContextActive() )
       {
          log.debug("flushing business process context");

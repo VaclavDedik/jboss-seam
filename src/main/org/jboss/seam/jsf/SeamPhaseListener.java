@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.faces.application.Application;
+import javax.faces.application.NavigationHandler;
 import javax.faces.application.StateManager;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
@@ -48,6 +49,8 @@ public class SeamPhaseListener implements PhaseListener
       Application app = facesContext.getApplication();
       StateManager stateManager = new StateManagerInterceptor( app.getStateManager() );
       app.setStateManager( stateManager);
+      NavigationHandler navHandler = new SeamNavigationHandler( app.getNavigationHandler() );
+      app.setNavigationHandler( navHandler );
       setStateManager = true;
    }
 

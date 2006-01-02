@@ -17,6 +17,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.ProcessInstance;
+import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.ContextInstance;
 
 /**
@@ -123,7 +124,8 @@ public class BusinessProcessContext implements Context {
          }
          removals.clear();
          
-         ManagedJbpmSession.instance().getSession().flush();
+         JbpmContext jbpmSession = ManagedJbpmSession.instance();
+         jbpmSession.save( context.getProcessInstance() );
       }
    }
 

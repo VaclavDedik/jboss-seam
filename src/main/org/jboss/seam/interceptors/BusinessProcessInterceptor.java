@@ -18,18 +18,17 @@ import javax.faces.context.FacesContext;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Around;
-import org.jboss.seam.annotations.EndTask;
-import org.jboss.seam.annotations.CreateProcess;
-import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.BeginTask;
+import org.jboss.seam.annotations.CreateProcess;
+import org.jboss.seam.annotations.EndTask;
+import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.ManagedJbpmSession;
 import org.jboss.seam.core.Process;
 import org.jboss.seam.core.Transition;
-import org.jboss.seam.util.JbpmAuthentication;
-import org.jbpm.db.JbpmSession;
+import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
@@ -48,22 +47,22 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object manageBusinessProcessContext(InvocationContext invocation) throws Exception
    {
-      Actor actor = Actor.instance();
+      /*Actor actor = Actor.instance();
       boolean isActor = actor!=null && actor.getId()!=null;
       if (isActor) JbpmAuthentication.pushAuthenticatedActorId( actor.getId() );
       try
-      {
+      {*/
          String componentName = Seam.getComponentName( invocation.getBean().getClass() );
          Method method = invocation.getMethod();
          log.trace( "Starting bpm interception [component=" + componentName + ", method=" + method.getName() + "]" );
    
          beforeInvocation( invocation );
          return afterInvocation( invocation, invocation.proceed() );
-      }
+      /*}
       finally
       {
          if (isActor) JbpmAuthentication.popAuthenticatedActorId();
-      }
+      }*/
    }
 
    private void beforeInvocation(InvocationContext invocationContext) {
@@ -124,7 +123,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private void createProcess(String processDefinitionName)
    {
-      JbpmSession session = ManagedJbpmSession.instance();
+      JbpmContext session = ManagedJbpmSession.instance();
       
       ProcessDefinition pd = session.getGraphSession().findLatestProcessDefinition(processDefinitionName);
       if ( pd == null )
@@ -133,13 +132,12 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
       
       ProcessInstance process = pd.createProcessInstance();
+      session.save(process);
       Process.instance().setProcessId( process.getId() );
       // need to set process variables before the signal
       Contexts.getBusinessProcessContext().flush();
       process.signal();
-      session.getSession().flush();
    }
-
 
    private void startTask()
    {

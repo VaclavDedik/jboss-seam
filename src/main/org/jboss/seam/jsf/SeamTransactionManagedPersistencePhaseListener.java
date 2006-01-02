@@ -30,7 +30,7 @@ import org.jboss.seam.util.Transactions;
  * <li>After the {@link PhaseId#INVOKE_APPLICATION} pahse, managed persistence
  * contexts are flushed.  This includes EJB3 {@link EntityManager)s,
  * Hibernate {@link org.hibernate.Session}s, and the managed jBPM
- * {@link org.jbpm.db.JbpmSession} (if used).
+ * {@link org.jbpm.JbpmContext} (if used).
  * </ol>
  */
 public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseListener
@@ -134,7 +134,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
          // need to make sure that the seam BusinessProcessContext gets flushed to
          // the jBPM ContextInstance prior to flushing the jBPM session...
          Contexts.getBusinessProcessContext().flush();
-         managed.getJbpmSession().getSession().flush();
+         managed.getJbpmContext().getSession().flush();
       }
    }
 

@@ -38,4 +38,9 @@ public @interface Begin {
     * will cause an exception to be thrown.
     */
    boolean join() default false;
+   /**
+    * The name of the jBPM process definition defining 
+    * the page flow for this conversation.
+    */
+   String processDefinition() default "";
 }
