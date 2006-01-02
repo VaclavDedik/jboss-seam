@@ -80,7 +80,8 @@
         <navigation-case> 
             <from-outcome>logout</from-outcome> 
             <to-view-id>/logout.xhtml</to-view-id> 
-            <redirect />
+            <!-- known bug in Seam! -->
+            <!-- <redirect /> -->
         </navigation-case> 
 
         <navigation-case>
@@ -95,7 +96,8 @@
             <from-action>#{editCustomer.create}</from-action>   
             <from-outcome>ok</from-outcome> 
             <to-view-id>/browse.xhtml</to-view-id> 
-            <redirect />
+            <!-- known bug in Seam! -->
+            <!-- <redirect /> -->
         </navigation-case> 
     </navigation-rule>
 
@@ -105,13 +107,15 @@
             <from-action>#{login.login}</from-action>   
             <from-outcome>customer</from-outcome> 
             <to-view-id>/browse.xhtml</to-view-id> 
-            <redirect />
+            <!-- known bug in Seam! -->
+            <!-- <redirect /> -->
         </navigation-case> 
         <navigation-case> 
             <from-action>#{login.login}</from-action>   
             <from-outcome>admin</from-outcome> 
             <to-view-id>/admin.xhtml</to-view-id> 
-            <redirect />
+            <!-- known bug in Seam! -->
+            <!-- <redirect /> -->
         </navigation-case> 
 
         <navigation-case> 
