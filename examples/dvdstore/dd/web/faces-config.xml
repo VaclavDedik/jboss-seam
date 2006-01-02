@@ -13,9 +13,11 @@
             <supported-locale>en</supported-locale>
         </locale-config>
     </application>
+    
     <application>
         <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
     </application>
+    
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
@@ -122,7 +124,8 @@
             <from-action>#{login.logout}</from-action> 
             <from-outcome>done</from-outcome> 
             <to-view-id>/home.xhtml</to-view-id> 
-            <redirect />
+            <!-- known bug in Seam! -->
+            <!-- <redirect /> -->
         </navigation-case> 
     </navigation-rule>
     

@@ -5,15 +5,11 @@
 
     <task-node name="approval">
         <task name="approve">
-           <assignment class="org.jboss.seam.jbpm.SeamAssignmentHandler">
-              <pooledActors>reviewers</pooledActors>
-           </assignment>
+           <assignment pooled-actors="reviewers" />
         </task>
         <!--
         <task name="approve">
-           <assignment class="org.jboss.seam.jbpm.SeamAssignmentHandler">
-              <actorId>manager</actorId>
-           </assignment>
+           <assignment actor-id="manager"/>
         </task>
         -->
         <transition name="approve" to="process"/>
@@ -22,14 +18,11 @@
 
     <task-node name="process">
         <task name="ship">
-           <assignment class="org.jboss.seam.jbpm.SeamAssignmentHandler">
-              <pooledActors>#{shipperAssignment.pooledActor}</pooledActors>
+           <assignment pooled-actors="#{shipperAssignment.pooledActor}" />
            </assignment>
         </task>
         <transition name="shipped" to="complete">
-            <action class="org.jboss.seam.jbpm.SeamActionHandler">
-                <action>#{afterShippedAction.log}</action>
-            </action>
+            <action handler="#{afterShipping.log}" />
         </transition>
     </task-node>
 

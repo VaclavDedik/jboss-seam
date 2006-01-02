@@ -9,7 +9,7 @@ import org.jboss.seam.annotations.Name;
  * 
  * @author Gavin King
  */
-@Name("afterShippedAction")
+@Name("afterShipping")
 public class AfterShippedAction {
     @In Long orderId;
     
