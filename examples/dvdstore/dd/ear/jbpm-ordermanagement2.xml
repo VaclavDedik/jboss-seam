@@ -19,7 +19,6 @@
     <task-node name="process">
         <task name="ship">
            <assignment pooled-actors="#{shipperAssignment.pooledActor}" />
-           </assignment>
         </task>
         <transition name="shipped" to="complete">
             <action handler="#{afterShipping.log}" />
