@@ -9,22 +9,55 @@
 
     <!-- jdbc connection properties -->
     <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
-    <property name="hibernate.hbm2ddl.auto">create-drop</property>
-    <property name="hibernate.show_sql">false</property>
-
+    <!--
+    <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+    <property name="hibernate.connection.url">jdbc:hsqldb:mem:.;sql.enforce_strict_size=true</property>
+    <property name="hibernate.connection.username">sa</property>
+    <property name="hibernate.connection.password"></property>
+    -->
+    <property name="hibernate.connection.datasource">java:/DefaultDS</property>
+    <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+    <property name="hibernate.transaction.flush_before_completion">true</property>
+    <!--property name="hibernate.transaction.auto_close_session">true</property-->
+    <property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
     <property name="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
+    <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        
+    <property name="hibernate.show_sql">true</property>
+    <!-- other hibernate properties 
+    <property name="hibernate.format_sql">true</property>
+    -->
+    
+    <!-- ############################################ -->
+    <!-- # mapping files with external dependencies # -->
+    <!-- ############################################ -->
 
-    <property name="connection.datasource">java:DefaultDS</property>
-    <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
-    <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
-    <property name="jta.UserTransaction">java:comp/UserTransaction</property>
+    <!-- following mapping file has a dependendy on   -->
+    <!-- 'bsh-{version}.jar'.                         -->
+    <!-- uncomment this if you don't have bsh on your -->
+    <!-- classpath.  you won't be able to use the     -->
+    <!-- script element in process definition files   -->
+    <!-- 
+    <mapping resource="org/jbpm/graph/action/Script.hbm.xml"/>
+    -->
 
-
-<!--
+    <!-- following mapping files have a dependendy on  -->
+    <!-- 'jbpm-identity-{version}.jar', mapping files  -->
+    <!-- of the pluggable jbpm identity component.     -->
+    <!-- comment out the following 3 lines if you don't-->
+    <!-- want to use the default jBPM identity mgmgt   -->
+    <!-- component                                     -->
+    
+    <!-- 
     <mapping resource="org/jbpm/identity/User.hbm.xml"/>
     <mapping resource="org/jbpm/identity/Group.hbm.xml"/>
     <mapping resource="org/jbpm/identity/Membership.hbm.xml"/>
--->
+    -->
+
+    <!-- ###################### -->
+    <!-- # jbpm mapping files # -->
+    <!-- ###################### -->
+
     <!-- graph.def mapping files -->
     <mapping resource="org/jbpm/graph/def/ProcessDefinition.hbm.xml"/>
     <mapping resource="org/jbpm/graph/def/Node.hbm.xml"/>
@@ -44,9 +77,6 @@
     <mapping resource="org/jbpm/graph/node/Join.hbm.xml"/>
     <mapping resource="org/jbpm/graph/node/State.hbm.xml"/>
     <mapping resource="org/jbpm/graph/node/TaskNode.hbm.xml"/>
-
-    <!-- graph.action mapping files -->
-    <mapping resource="org/jbpm/graph/action/Script.hbm.xml"/>
 
     <!-- context.def mapping files -->
     <mapping resource="org/jbpm/context/def/ContextDefinition.hbm.xml"/>
@@ -91,6 +121,14 @@
     <mapping resource="org/jbpm/context/exe/variableinstance/HibernateStringInstance.hbm.xml"/>
     <mapping resource="org/jbpm/context/exe/variableinstance/LongInstance.hbm.xml"/>
     <mapping resource="org/jbpm/context/exe/variableinstance/StringInstance.hbm.xml"/>
+
+    <!-- msg.db mapping files -->
+    <mapping resource="org/jbpm/msg/Message.hbm.xml"/>
+    <mapping resource="org/jbpm/msg/db/TextMessage.hbm.xml"/>
+    <mapping resource="org/jbpm/command/ExecuteActionCommand.hbm.xml"/>
+    <mapping resource="org/jbpm/command/ExecuteNodeCommand.hbm.xml"/>
+    <mapping resource="org/jbpm/command/SignalCommand.hbm.xml"/>
+    <mapping resource="org/jbpm/command/TaskInstanceEndCommand.hbm.xml"/>
 
     <!-- taskmgmt.exe mapping files -->
     <mapping resource="org/jbpm/taskmgmt/exe/TaskMgmtInstance.hbm.xml"/>

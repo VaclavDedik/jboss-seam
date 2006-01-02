@@ -63,7 +63,7 @@
                 <include name="jboss-seam.jar"/>
             </fileset>
             <fileset dir="lib">
-                <include name="jbpm-3.0.1.jar" />
+                <include name="jbpm-3.1-alpha2.jar" />
                 <include name="ehcache-1.1.jar" />
             </fileset>
         </jar>
@@ -86,7 +86,8 @@
                 <include name="jboss-app.xml" />
             </metainf>                
             <fileset dir="dd/ear">
-                <include name="jbpm-*"/>
+                <include name="jbpm-*.xml"/>
+            	<include name="jbpm.cfg.xml"/>
             </fileset>
 
             <fileset dir="${build.dir}" 

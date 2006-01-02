@@ -1,4 +1,3 @@
-
 delete from ORDERLINES
 delete from ORDERS
 delete from USERS

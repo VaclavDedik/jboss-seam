@@ -1,0 +1,19 @@
+<process-definition name="shopping">
+
+   <start-state name="start">
+      <transition to="browse"/>
+   </start-state>
+   
+   <page name="browse" url="/browse.xhtml">
+      <transition name="browse" to="browse"/>
+      <transition name="checkout" to="checkout"/>
+   </page>
+   
+   <page name="checkout" url="/checkout.xhtml">
+      <transition name="checkout" to="checkout"/>
+      <transition name="complete" to="complete"/>
+   </page>
+   
+   <page name="complete" url="/complete.xhtml"/>
+   
+</process-definition>

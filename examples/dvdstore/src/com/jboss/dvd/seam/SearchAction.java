@@ -78,7 +78,7 @@ public class SearchAction
         return actor;
     }
 
-    @Begin(join=true)
+    @Begin(join=true, processDefinition="shopping")
     public String doSearch() {
         currentPage=0;
         updateResults();
@@ -151,8 +151,6 @@ public class SearchAction
                 .setParameter("category", category);
         }
     }
-
-
 
     public String addToCart() {
         for (Product item: searchResults) {

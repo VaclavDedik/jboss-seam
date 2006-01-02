@@ -13,7 +13,7 @@
    
     <context-param>
         <param-name>org.jboss.seam.core.init.jbpmSessionFactoryName</param-name>
-        <param-value>jbpmSessionFactory</param-value>
+        <param-value>java:/jbpmSessionFactory</param-value>
     </context-param>
     <context-param>
         <param-name>org.jboss.seam.core.init.componentClasses</param-name>
@@ -22,6 +22,10 @@
     <context-param>
         <param-name>org.jboss.seam.core.jbpm.processDefinitions</param-name>
         <param-value>jbpm-ordermanagement1.xml</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.jboss.seam.core.jbpm.pageflowDefinitions</param-name>
+        <param-value>jbpm-pageflow.xml</param-value>
     </context-param>
     <context-param>
         <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>

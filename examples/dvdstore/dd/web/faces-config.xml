@@ -121,15 +121,6 @@
             <redirect />
         </navigation-case> 
     </navigation-rule>
-
-    <navigation-rule>
-        <navigation-case> 
-            <from-action>#{cart.checkout}</from-action> 
-            <from-outcome>done</from-outcome> 
-            <to-view-id>/browse.xhtml</to-view-id> 
-            <redirect />
-        </navigation-case> 
-    </navigation-rule>
     
     <!-- temp workaround for facelets/myfaces bug -->
     
