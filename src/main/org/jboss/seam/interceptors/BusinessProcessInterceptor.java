@@ -177,7 +177,6 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
       
       Process.instance().setTaskId(null);
-      //ManagedJbpmContext.instance().getSession().flush();
    }
 
     private Long getRequestParamValueAsLong(String paramName)

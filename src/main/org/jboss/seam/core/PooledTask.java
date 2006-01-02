@@ -32,7 +32,6 @@ public class PooledTask
       if (taskInstance!=null)
       {
          taskInstance.setActorId( actor.getId() );
-         ManagedJbpmContext.instance().getSession().flush();
       }
       return "taskAssignedToActor";
    }

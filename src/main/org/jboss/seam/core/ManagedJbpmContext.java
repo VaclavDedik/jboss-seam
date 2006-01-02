@@ -55,6 +55,11 @@ public class ManagedJbpmContext
    {
       /*log.debug( "flushing seam managed jBPM session" );
       jbpmContext.getSession().flush();*/
+      org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
+      if (processInstance!=null) 
+      {
+         ManagedJbpmContext.instance().save( processInstance );
+      }
       log.debug( "destroying seam managed jBPM session" );
       jbpmContext.close();
    }
