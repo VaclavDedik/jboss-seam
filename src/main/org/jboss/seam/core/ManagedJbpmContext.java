@@ -41,7 +41,7 @@ public class ManagedJbpmContext
    public void create(Component component) throws NamingException
    {
       jbpmContext = Jbpm.instance().getJbpmConfiguration().createJbpmContext();
-      log.debug( "created seam managed jBPM session" );
+      log.debug( "created seam managed jBPM context");
    }
 
    @Unwrap
@@ -53,14 +53,12 @@ public class ManagedJbpmContext
    @Destroy
    public void destroy()
    {
-      /*log.debug( "flushing seam managed jBPM session" );
-      jbpmContext.getSession().flush();*/
       org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
       if (processInstance!=null) 
       {
-         ManagedJbpmContext.instance().save( processInstance );
+         jbpmContext.save( processInstance );
       }
-      log.debug( "destroying seam managed jBPM session" );
+      log.debug( "destroying seam managed jBPM context" );
       jbpmContext.close();
    }
    

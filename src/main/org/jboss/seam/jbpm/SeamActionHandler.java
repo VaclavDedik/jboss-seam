@@ -6,11 +6,11 @@ import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 
 public class SeamActionHandler implements ActionHandler {
-   public String action;
+   public String handler;
 
    public void execute(ExecutionContext context) throws Exception {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      facesContext.getApplication().createMethodBinding(action, null).invoke(facesContext, null);
+      facesContext.getApplication().createMethodBinding(handler, null).invoke(facesContext, null);
    }
 
 }
