@@ -220,7 +220,6 @@ public class DocumentLifecycleTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put( Init.COMPONENT_CLASSES, Ejb.class.getName() + ' ' + Jbpm.class.getName());
-      initParams.put( Init.JBPM_SESSION_FACTORY_NAME, "jbpmSessionFactory" );
       initParams.put( Jbpm.PROCESS_DEFINITIONS, "jbpm-DocumentSubmission.xml");
    }
    
