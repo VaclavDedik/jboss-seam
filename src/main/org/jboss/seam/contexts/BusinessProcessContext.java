@@ -39,6 +39,12 @@ public class BusinessProcessContext implements Context {
    }
 
    public BusinessProcessContext() {}
+   
+   private ContextInstance getContextInstance()
+   {
+      org.jbpm.graph.exe.ProcessInstance processInstance = getProcessInstance();
+      return processInstance==null ? null : processInstance.getContextInstance(); 
+   }
 
    public Object get(String name) {
       Object result = additions.get(name);
@@ -101,42 +107,41 @@ public class BusinessProcessContext implements Context {
 
    public void flush()
    {
-      ContextInstance context = getContextInstance();
-      if ( context==null )
+      org.jbpm.graph.exe.ProcessInstance processInstance = getProcessInstance();
+      if ( processInstance==null )
       {
          log.debug( "no process instance to persist business process state" );
       }
       else if ( !additions.isEmpty() || !removals.isEmpty() )
       {
-         log.debug( "flushing to process instance: " + context.getProcessInstance().getId() );
+         log.debug( "flushing to process instance: " + processInstance.getId() );
+
+         ContextInstance contextInstance = processInstance.getContextInstance();
 
          for ( Map.Entry<String, Object> entry: additions.entrySet() )
          {
-            context.setVariable( entry.getKey(), entry.getValue() );
+            contextInstance.setVariable( entry.getKey(), entry.getValue() );
          }
          additions.clear();
 
          for ( String name: removals )
          {
-            context.deleteVariable(name);
+            contextInstance.deleteVariable(name);
          }
          removals.clear();
-         
-         //ManagedJbpmContext.instance().save( context.getProcessInstance() );
       }
    }
 
-   private ContextInstance getContextInstance()
+   private org.jbpm.graph.exe.ProcessInstance getProcessInstance()
    {
       Init init = Init.instance(); //may be null in some tests
-      if ( init!=null && init.isJbpmInstalled() ) 
+      if ( init==null || !init.isJbpmInstalled() ) 
       {
          return null;
       }
       else
       {
-         org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
-         return processInstance==null ? null : processInstance.getContextInstance();
+          return ProcessInstance.instance();
       }
    }
 
