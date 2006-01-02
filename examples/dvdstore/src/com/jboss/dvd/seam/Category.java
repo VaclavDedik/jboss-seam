@@ -18,7 +18,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-//@Name("category")
 @Table(name="CATEGORIES")
 @Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 public class Category
@@ -51,6 +50,10 @@ public class Category
 
         Category otherCategory = (Category) other;
         return (getCategoryId() == otherCategory.getCategoryId());
+    }
+
+    public int hashcode() {
+        return 37*getCategoryId() + 97;
     }
 
 }

@@ -15,6 +15,6 @@ public class AfterShippedAction {
     
     public void log()
     {
-        println("We shipped: " + orderId);
+        System.out.println("We shipped: " + orderId);
     }
 }
