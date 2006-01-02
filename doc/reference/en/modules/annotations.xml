@@ -362,6 +362,13 @@
                     </para>
                 </listitem>
                 <listitem>
+                    <programlisting><![CDATA[@Begin(processDefinition="process definition name")]]></programlisting>
+                    <para>
+                        Specifies a jBPM process definition name that defines the pageflow
+                        for this conversation.
+                    </para>
+                </listitem>
+                <listitem>
                     <itemizedlist>
                         <listitem>
                         <para>
@@ -388,6 +395,15 @@
                             <literal>nested</literal> &mdash; specifies that a nested
                             conversation should be started if a long-running conversation 
                             is already in progress.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>processDefinition</literal> &mdash; a process
+                            definition name of a jBPM process definition deployed
+                            via <literal>org.jboss.seam.core.jbpm.pageflowDefinitions.</literal>
                         </para>
                         </listitem>
                     </itemizedlist>

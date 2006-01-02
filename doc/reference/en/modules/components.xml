@@ -241,10 +241,10 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>jbpmSession</literal></term>
+                <term><literal>jbpmContext</literal></term>
                 <listitem>
                     <para>
-                        Manager component for an event-scoped <literal>JbpmSession</literal>.
+                        Manager component for an event-scoped <literal>JbpmContext</literal>.
                     </para>
                 </listitem>
             </varlistentry>
@@ -283,8 +283,8 @@
         </variablelist>
         
         <para>
-            All of these components are installed whenever a 
-            <literal>org.jboss.seam.core.init.jbpmSessionFactoryName</literal> is specified.
+            All of these components are installed whenever the component
+            <literal>org.jboss.seam.core.jbpm</literal> is installed.
         </para>
         
     </section>
@@ -343,7 +343,8 @@
                 <term><literal>org.jboss.seam.core.manager</literal></term>
                 <listitem>
                     <para>
-                        Internal component for Seam context management. Always installed.
+                        Internal component for Seam page and conversation context management. 
+                        Always installed.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -360,8 +361,7 @@
                 <listitem>
                     <para>
                         Internal component for Seam process management. Installed whenever
-                        <literal>org.jboss.seam.core.init.jbpmSessionFactoryName</literal> 
-                        is specified.
+                        <literal>org.jboss.seam.core.jbpm</literal> is installed.
                     </para>
                 </listitem>
             </varlistentry>
@@ -392,7 +392,7 @@
                         This is useful when using Seam with Hibernate and no EJB
                         components outside the context of a Java EE application
                         server. The microcontainer can provide a partial EE 
-                        environment with JNDI, JTA, JCA datasource and Hibernate.
+                        environment with JNDI, JTA, a JCA datasource and Hibernate.
                     </para>
                     <para>
                         The microcontainer configuration may be specified by
@@ -419,6 +419,9 @@
                         </para>
                         </listitem>
                     </itemizedlist>
+                    <para>
+                        See the API JavaDoc for further configuration properties.
+                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -432,7 +435,15 @@
                         <listitem>
                         <para>
                             <literal>org.jboss.seam.core.jbpm.processDefinitions</literal> &mdash; 
-                            a list of resource names of jPDL files.
+                            a list of resource names of jPDL files to be used for orchestration
+                            of business processes.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.jbpm.pageflowDefinitions</literal> &mdash; 
+                            a list of resource names of jPDL files to be used for orchestration
+                            of conversation page flows.
                         </para>
                         </listitem>
                     </itemizedlist>
