@@ -21,7 +21,7 @@
            <assignment pooled-actors="#{shipperAssignment.pooledActor}" />
         </task>
         <transition name="shipped" to="complete">
-            <action handler="#{afterShipping.log}" />
+            <action expression="#{afterShipping.log}" />
         </transition>
     </task-node>
 
