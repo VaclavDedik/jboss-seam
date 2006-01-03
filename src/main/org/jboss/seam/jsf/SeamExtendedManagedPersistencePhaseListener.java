@@ -15,7 +15,8 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    @Override
    public void beforePhase(PhaseEvent event)
    {
-      boolean beginTran = event.getPhaseId()==PhaseId.UPDATE_MODEL_VALUES || 
+//      boolean beginTran = event.getPhaseId()==PhaseId.UPDATE_MODEL_VALUES || 
+      boolean beginTran = event.getPhaseId()==PhaseId.RESTORE_VIEW || 
             ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       
       if ( beginTran )
@@ -39,6 +40,8 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    public void afterPhase(PhaseEvent event)
    {
       boolean commitTran = event.getPhaseId()==PhaseId.INVOKE_APPLICATION || 
+            event.getFacesContext().getRenderResponse() ||
+            event.getFacesContext().getResponseComplete() ||
             ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() ); //call Init before ending the request by calling super
 
       super.afterPhase( event );

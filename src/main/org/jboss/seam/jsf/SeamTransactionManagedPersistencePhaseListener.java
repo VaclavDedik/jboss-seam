@@ -40,7 +40,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    @Override
    public void beforePhase(PhaseEvent event)
    {
-      if ( event.getPhaseId()==PhaseId.UPDATE_MODEL_VALUES )
+      if ( event.getPhaseId()==PhaseId.RESTORE_VIEW )
       {
          try
          {
@@ -62,7 +62,10 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
 
       super.afterPhase( event );
       
-      if ( event.getPhaseId()==PhaseId.RENDER_RESPONSE )
+      boolean commit = event.getPhaseId()==PhaseId.RENDER_RESPONSE || 
+            event.getFacesContext().getRenderResponse() || 
+            event.getFacesContext().getResponseComplete();
+      if ( commit )
       {
          try
          {
