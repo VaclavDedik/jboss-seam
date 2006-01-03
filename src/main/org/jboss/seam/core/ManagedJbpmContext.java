@@ -20,6 +20,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jbpm.JbpmContext;
 
 /**
@@ -55,10 +56,17 @@ public class ManagedJbpmContext
    @Destroy
    public void destroy()
    {
-      org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
-      if (processInstance!=null) 
+      if ( Lifecycle.isException() )
       {
-         jbpmContext.save( processInstance );
+         jbpmContext.setRollbackOnly();
+      }
+      else 
+      {
+         org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
+         if (processInstance!=null) 
+         {
+            jbpmContext.save( processInstance );
+         }
       }
       log.debug( "destroying seam managed jBPM context" );
       //counter--;

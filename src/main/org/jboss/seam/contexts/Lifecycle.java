@@ -306,6 +306,7 @@ public class Lifecycle
    }
    
    private static ThreadLocal<Boolean> destroying = new ThreadLocal<Boolean>();
+   private static ThreadLocal<Boolean> exception = new ThreadLocal<Boolean>();
    
    public static void startDestroying()
    {
@@ -321,6 +322,15 @@ public class Lifecycle
    {
       Boolean value = destroying.get();
       return value!=null && value.booleanValue();
+   }
+
+   public static boolean isException() {
+      Boolean value = exception.get();
+      return value!=null && value.booleanValue();
+   }
+
+   public static void setException(boolean ex) {
+      exception.set(ex);
    }
    
 }

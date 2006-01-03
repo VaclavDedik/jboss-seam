@@ -54,6 +54,7 @@ public class SeamExceptionFilter implements Filter
 
    private void endWebRequestAfterException(ServletRequest request)
    {
+      Lifecycle.setException(true);
       try 
       {
          Lifecycle.beginInitialization(context); //the faces ExternalContext is useless to us at this point
@@ -62,6 +63,10 @@ public class SeamExceptionFilter implements Filter
       catch (Exception ee)
       {
          log.error("could not destroy contexts", ee);
+      }
+      finally
+      {
+         Lifecycle.setException(false);
       }
    }
 
