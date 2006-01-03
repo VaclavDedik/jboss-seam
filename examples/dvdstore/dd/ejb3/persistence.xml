@@ -1,10 +1,10 @@
 <entity-manager>
     <name>dvd</name>
-    <jta-data-source>java:/DefaultDS</jta-data-source>
+    <jta-data-source>java:/DVDStoreDS</jta-data-source>
     <properties>
         <property name="hibernate.hbm2ddl.auto" 
                   value="create-drop" />
-       <property name="hibernate.dialect" 
+        <property name="hibernate.dialect" 
                   value="org.hibernate.dialect.HSQLDialect" />
         <property name="hibernate.transaction.factory_class"
                   value="org.hibernate.transaction.JTATransactionFactory" />
@@ -15,6 +15,6 @@
                   value="true" />
         <property name="hibernate.connection.release_mode"
                   value="after_transaction" />
-          -->
+        -->
     </properties>
 </entity-manager>
