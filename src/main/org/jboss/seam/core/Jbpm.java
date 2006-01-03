@@ -45,8 +45,7 @@ public class Jbpm
    @Create
    public void startup() throws Exception
    {
-      log.trace( "Starting initialization" );
-      jbpmConfiguration = JbpmConfiguration.getInstance();
+      log.trace( "Starting jBPM" );
       installProcessDefinitions();
       installPageflowDefinitions();
    }
@@ -105,8 +104,10 @@ public class Jbpm
    
    private void installProcessDefinitions()
    {
-      if ( processDefinitions != null )
+      if ( processDefinitions!=null && processDefinitions.length>0 )
       {
+         jbpmConfiguration = JbpmConfiguration.getInstance();
+         
          JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
          try
          {

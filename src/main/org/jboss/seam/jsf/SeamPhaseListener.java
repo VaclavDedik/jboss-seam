@@ -19,6 +19,7 @@ import javax.faces.application.StateManager;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.el.VariableResolver;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
@@ -41,17 +42,21 @@ public class SeamPhaseListener implements PhaseListener
 
    private static Logger log = Logger.getLogger( SeamPhaseListener.class );
    
-   private boolean setStateManager = false;
+   private boolean firstRequest = true;
    
-   private void setStateManager(FacesContext facesContext) 
+   private void setupCustomThingys(FacesContext facesContext) 
    {
-      if (setStateManager) return;
-      Application app = facesContext.getApplication();
-      StateManager stateManager = new StateManagerInterceptor( app.getStateManager() );
-      app.setStateManager( stateManager);
-      NavigationHandler navHandler = new SeamNavigationHandler( app.getNavigationHandler() );
-      app.setNavigationHandler( navHandler );
-      setStateManager = true;
+      if (firstRequest)
+      {
+         Application app = facesContext.getApplication();
+         StateManager stateManager = new StateManagerInterceptor( app.getStateManager() );
+         app.setStateManager( stateManager);
+         NavigationHandler navHandler = new SeamNavigationHandler( app.getNavigationHandler() );
+         app.setNavigationHandler( navHandler );
+         VariableResolver varResolver = new SeamVariableResolver( app.getVariableResolver() );
+         app.setVariableResolver( varResolver );
+         firstRequest = false;
+      }
    }
 
    public PhaseId getPhaseId()
@@ -61,7 +66,7 @@ public class SeamPhaseListener implements PhaseListener
 
    public void beforePhase(PhaseEvent event)
    {
-      setStateManager( event.getFacesContext() );
+      setupCustomThingys( event.getFacesContext() );
       log.trace( "before phase: " + event.getPhaseId() );
       
       Lifecycle.setPhaseId( event.getPhaseId() );

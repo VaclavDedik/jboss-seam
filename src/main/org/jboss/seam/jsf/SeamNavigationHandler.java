@@ -4,7 +4,8 @@ import javax.faces.application.NavigationHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Pageflow;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.node.Page;
@@ -20,34 +21,37 @@ public class SeamNavigationHandler extends NavigationHandler {
 
    @Override
    public void handleNavigation(FacesContext context, String fromAction, String outcome) {
-      ProcessInstance processInstance = Conversation.instance().getProcessInstance();
-      //Long processId = Conversation.instance().getProcessId();
-      //if (processId==null)
-      if (processInstance==null)
+      if ( Init.instance().isJbpmInstalled() )
       {
-         baseNavigationHandler.handleNavigation(context, fromAction, outcome);
-      }
-      else
-      {
-         //JbpmSession session = ManagedJbpmSession.instance();
-         //ProcessInstance processInstance = session.getGraphSession().loadProcessInstance(processId);
-         if ( outcome==null || "".equals(outcome) )
+         ProcessInstance processInstance = Pageflow.instance().getProcessInstance();
+         if (processInstance==null)
          {
-            //if it has a default transition defined, trigger it,
-            //otherwise just redisplay the page
-            boolean hasDefaultTransition = getPage(processInstance).getDefaultLeavingTransition()!=null;
-            if ( hasDefaultTransition )
-            {
-               processInstance.signal();
-               navigate(context, processInstance);
-            }
+            baseNavigationHandler.handleNavigation(context, fromAction, outcome);
          }
          else
          {
-            //trigger the named transition
-            processInstance.signal(outcome);
-            navigate(context, processInstance);
+            if ( outcome==null || "".equals(outcome) )
+            {
+               //if it has a default transition defined, trigger it,
+               //otherwise just redisplay the page
+               boolean hasDefaultTransition = getPage(processInstance).getDefaultLeavingTransition()!=null;
+               if ( hasDefaultTransition )
+               {
+                  processInstance.signal();
+                  navigate(context, processInstance);
+               }
+            }
+            else
+            {
+               //trigger the named transition
+               processInstance.signal(outcome);
+               navigate(context, processInstance);
+            }
          }
+      }
+      else
+      {
+         baseNavigationHandler.handleNavigation(context, fromAction, outcome);
       }
    }
 

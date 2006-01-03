@@ -18,9 +18,9 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pageflow;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
@@ -187,7 +187,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
       ProcessInstance pi = pd.createProcessInstance();
-      Conversation.instance().setProcessInstance(pi);
+      Pageflow.instance().setProcessInstance(pi);
       pi.signal();
    }
    

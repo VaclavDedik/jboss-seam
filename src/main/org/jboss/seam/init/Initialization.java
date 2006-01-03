@@ -35,6 +35,7 @@ import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
 import org.jboss.seam.core.Process;
@@ -197,6 +198,7 @@ public class Initialization
       {
          addComponent( Actor.class, context);
          addComponent( Process.class, context );
+         addComponent( Pageflow.class, context );
          addComponent( Transition.class, context);
          addComponent( PooledTask.class, context );
          addComponent( TaskInstance.class, context );

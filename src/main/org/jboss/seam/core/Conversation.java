@@ -10,7 +10,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * Allows the conversation timeout to be set per-conversation,
@@ -29,8 +28,6 @@ public class Conversation implements Serializable {
    private Integer timeout;
    String description;
    String outcome;
-   //private Long processId;
-   private ProcessInstance processInstance;
 
    /**
     * Get the timeout for this converstaion instance.
@@ -142,20 +139,4 @@ public class Conversation implements Serializable {
       }
    }
 
-   public ProcessInstance getProcessInstance() {
-      return processInstance;
-   }
-
-   public void setProcessInstance(ProcessInstance processInstance) {
-      this.processInstance = processInstance;
-   }
-
-   /*public Long getProcessId() {
-      return processId;
-   }
-
-   public void setProcessId(Long processId) {
-      this.processId = processId;
-   }*/
-   
 }
