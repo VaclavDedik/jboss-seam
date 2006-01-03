@@ -18,7 +18,7 @@
     <property name="classes.dir"        value="${build.dir}/classes"/>
 
     <property name="src.java.dir"       value="src"/>
-    <property name="lib.dir"            value="lib"/>
+    <property name="lib.dir"            value="../../lib"/>
 
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
 
@@ -48,7 +48,7 @@
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
     </fileset>
-    <fileset id="ejb3.lib" dir="lib">
+    <fileset id="ejb3.lib" dir="../..">
         <include name="jboss-seam.jar"/>
     </fileset>
   
@@ -74,6 +74,9 @@
     <path id="build.classpath">
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="../..">
+            <include name="jboss-seam.jar"/>
         </fileset>
     </path>
 
