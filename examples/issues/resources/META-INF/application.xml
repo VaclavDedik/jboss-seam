@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+	<display-name>Seam Issue Tracker</display-name>
+
+	<module>
+		<web>
+			<web-uri>jboss-seam-issues.war</web-uri>
+			<context-root>/seam-issues</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>jboss-seam-issues.ejb3</ejb>
+	</module>
+	
+</application>

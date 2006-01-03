@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config 
+PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+                            "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<faces-config>
+
+	<navigation-rule>
+        <navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/home.jsp</to-view-id>
+        </navigation-case>
+	</navigation-rule>
+
+	<!-- navigation rules for org.jboss.seam.example.issues.User -->
+	
+	<navigation-rule>
+        <navigation-case>
+			<from-outcome>editUser</from-outcome>
+			<to-view-id>/editUser.jsp</to-view-id>
+        </navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/editUser.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/login.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+    
+	<!-- navigation rules for org.jboss.seam.example.issues.Issue -->
+	
+	<navigation-rule>
+        <navigation-case>
+			<from-outcome>editIssue</from-outcome>
+			<to-view-id>/editIssue.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+			<from-outcome>selectIssue</from-outcome>
+			<to-view-id>/findIssue.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+			<from-outcome>findIssue</from-outcome>
+			<to-view-id>/findIssue.jsp</to-view-id>
+        </navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/editIssue.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>find</from-outcome>
+			<to-view-id>/findIssue.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+    
+	<!-- navigation rules for org.jboss.seam.example.issues.Comment -->
+	
+	<navigation-rule>
+        <navigation-case>
+			<from-outcome>editComment</from-outcome>
+			<to-view-id>/editComment.jsp</to-view-id>
+        </navigation-case>
+	</navigation-rule>
+	
+	<!-- navigation rules for org.jboss.seam.example.issues.Project -->
+	
+	<navigation-rule>
+        <navigation-case>
+			<from-outcome>editProject</from-outcome>
+			<to-view-id>/editProject.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+			<from-outcome>selectProject</from-outcome>
+			<to-view-id>/findProject.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+			<from-outcome>findProject</from-outcome>
+			<to-view-id>/findProject.jsp</to-view-id>
+        </navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/editProject.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>find</from-outcome>
+			<to-view-id>/findProject.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+    
+
+	<!-- Same for all Seam applications -->
+	
+	<lifecycle>
+		<phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+	</lifecycle>
+
+</faces-config>

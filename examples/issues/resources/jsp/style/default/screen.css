@@ -1,0 +1,29 @@
+body { font-family: Arial, Helvetica, sans-serif; font-size: small; }
+h2, h3, h4, h5 { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; line-height: 1em; }
+h1 { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; line-height: 1em; color: #ffffff; background-color: #004e98; }
+a:visited { color: blue; }
+a:hover { color: red; }
+.rvgInputs input { display: block; width: 17em; }
+.rvgInputs textarea { display: block; width: 17em; }
+.rvgInputs label { clear: both; float: left; display: block; margin: 4px 0; white-space: nowrap; }
+.rvgActions { display: block; clear: both; padding-top: 10px; float: left; text-align: right; width: 17em; }
+.rvgMessages { padding: 6px; background-color: #ffd; border: 1px solid #999; margin: 10px 0; display: block; list-style: none; }
+.rvgMessage { color: red; }
+.rvgResults { margin-left: 20em; padding-bottom: 40px; }
+.rvgResults thead, .rvgResultsNone { font-family:  "Trebuchet MS", Arial, Helvetica, sans-serif; font-weight: bold; font-size: 1.2em; }
+.rvgResults table { width: 99%; border-collapse: collapse; }
+.rvgResults thead th { border-bottom: 1px solid #ccc; text-align: left; }
+.rvgRowOne { background-color: #f0f0f0; }
+.rvgFind { float: left; width: 17em; }
+.rvgFind fieldset { float: left; width: 17em; }
+.rvgPage { float: left; display: block; padding-top: 10px; border-top: 1px solid #ccc; }
+.rvgOrder a { text-decoration: none; }
+.rvgOrder a:hover { text-decoration: underline; color: red; }
+.rvgMenu { background-color: #e0e0e0; width: 99% }
+.rvgSwitch { text-align: right; }
+.rvgLinks { text-align: left; }
+
+.rvgList thead, .rvgResultsNone { font-family:  "Trebuchet MS", Arial, Helvetica, sans-serif; font-weight: bold; font-size: 1.2em; }
+.rvgList { padding-bottom: 40px; }
+.rvgList table { width: 99%; border-collapse: collapse; }
+.rvgList thead th { border-bottom: 1px solid #ccc; text-align: left; }
