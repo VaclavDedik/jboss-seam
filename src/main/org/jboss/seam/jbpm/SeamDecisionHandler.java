@@ -6,11 +6,11 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.node.DecisionHandler;
 
 public class SeamDecisionHandler implements DecisionHandler {
-   public String handler;
+   public String expression;
 
    public String decide(ExecutionContext context) throws Exception {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return (String) facesContext.getApplication().createMethodBinding(handler, null).invoke(facesContext, null);
+      return (String) facesContext.getApplication().createMethodBinding(expression, null).invoke(facesContext, null);
    }
 
 }
