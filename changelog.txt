@@ -3,6 +3,7 @@ JBoss Seam Changelog
 Changes in version 1.0 beta 2 (January 2005)
 ---------------------------------------------
 * Many bugfixes
+* jPDL-based page flow language
 * Introduced nested conversation model @Begin(nested=true)
 * Introduced PAGE context
 * Redesigned and enhanced jBPM integration
@@ -18,6 +19,7 @@ Changes in version 1.0 beta 2 (January 2005)
 * Added @Rollback
 * Added resourceBundle component
 * Conversation timeout now settable programmatically
+* No longer need to specify SeamVariableResolver in faces-config.xml
 
 Changes in version 1.0 beta 1 (September 2005)
 ----------------------------------------------
