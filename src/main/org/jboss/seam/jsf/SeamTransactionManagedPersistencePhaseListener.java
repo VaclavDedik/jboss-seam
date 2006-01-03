@@ -62,8 +62,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
 
       super.afterPhase( event );
       
-      boolean commit = event.getPhaseId()==PhaseId.RENDER_RESPONSE || 
-            event.getFacesContext().getRenderResponse() || 
+      boolean commit = event.getPhaseId()==PhaseId.RENDER_RESPONSE ||
             event.getFacesContext().getResponseComplete();
       if ( commit )
       {
