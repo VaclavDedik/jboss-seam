@@ -6,9 +6,9 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.jbpm.Page;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
-import org.jbpm.graph.node.Page;
 
 public class SeamNavigationHandler extends NavigationHandler {
    
@@ -57,7 +57,7 @@ public class SeamNavigationHandler extends NavigationHandler {
 
    private void navigate(FacesContext context, ProcessInstance processInstance) {
       Page page = getPage(processInstance);
-      UIViewRoot viewRoot = context.getApplication().getViewHandler().createView( context, page.getUrl() );
+      UIViewRoot viewRoot = context.getApplication().getViewHandler().createView( context, page.getViewId() );
       context.setViewRoot(viewRoot);
       //context.getViewRoot().setViewId( page.getUrl() );
    }
