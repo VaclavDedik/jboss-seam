@@ -5,7 +5,7 @@
 
     <task-node name="process">
         <task name="ship">
-           <assignment pooled-actors="#{shipperAssignment.pooledActor}" />
+           <assignment pooled-actors="#{shipperAssignment.pooledActors}" />
         </task>
         <transition name="shipped" to="complete">
             <action expression="#{afterShipping.log}" />

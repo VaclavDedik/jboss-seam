@@ -1,19 +1,33 @@
+<!-- 
+
+   An example of pageflow in jPDL. This exemplifies the
+   approach where action handlers are still attached to
+   view components, but navigation is defined in jPDL. 
+   An alternative approach would be to attach all action 
+   handlers to transitions and decisions in the jPDL.
+   Then the view specifies only the logical transition 
+   names.
+   
+-->
+
 <process-definition name="shopping">
 
    <start-state name="start">
       <transition to="browse"/>
    </start-state>
    
-   <page name="browse" url="/browse.xhtml">
+   <page name="browse" view-id="/browse.xhtml">
       <transition name="browse" to="browse"/>
       <transition name="checkout" to="checkout"/>
    </page>
    
-   <page name="checkout" url="/checkout.xhtml">
+   <page name="checkout" view-id="/checkout.xhtml">
       <transition name="checkout" to="checkout"/>
       <transition name="complete" to="complete"/>
    </page>
    
-   <page name="complete" url="/complete.xhtml"/>
+   <page name="complete" view-id="/complete.xhtml">
+      <end-conversation />
+   </page>
    
 </process-definition>

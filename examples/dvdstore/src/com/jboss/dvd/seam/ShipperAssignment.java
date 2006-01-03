@@ -19,8 +19,8 @@ import org.jboss.seam.annotations.Name;
 @Name("shipperAssignment")
 public class ShipperAssignment
 {
-    public String getPooledActor()
+    public String[] getPooledActors()
     {
-       return "shippers";
+       return new String[] { "shippers", "admins" };
     }
 }

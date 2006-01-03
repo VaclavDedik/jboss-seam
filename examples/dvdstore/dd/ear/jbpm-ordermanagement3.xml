@@ -3,10 +3,8 @@
         <transition to="decide"/>
     </start-state>
     
-    <decision name="decide" handler="#{approvalRequired.orderType}">
-        <transition name="large order" to="approval">
-        <!-- <condition>amount &gt; 100.00</condition> -->
-        </transition>
+    <decision name="decide" expression="#{orderApproval.howLargeIsOrder}">
+        <transition name="large order" to="approval"/>
         <transition name="small order" to="process"/>
     </decision>
 
@@ -20,7 +18,7 @@
     
     <task-node name="process">
         <task name="ship">
-           <assignment pooled-actors="#{shipperAssignment.pooledActor}" />
+           <assignment pooled-actors="#{shipperAssignment.pooledActors}" />
         </task>
         <transition name="shipped" to="complete">
             <action expression="#{afterShipping.log}"/>

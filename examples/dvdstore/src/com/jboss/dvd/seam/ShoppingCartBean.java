@@ -139,7 +139,6 @@ public class ShoppingCartBean
         }
     }
 
-
     
     private Order purchase(Customer customer, Order order) 
         throws InsufficientQuantityException

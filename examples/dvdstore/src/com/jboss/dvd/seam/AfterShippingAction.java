@@ -1,5 +1,6 @@
 package com.jboss.dvd.seam;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 
@@ -10,11 +11,14 @@ import org.jboss.seam.annotations.Name;
  * @author Gavin King
  */
 @Name("afterShipping")
-public class AfterShippedAction {
+public class AfterShippingAction {
     @In Long orderId;
+    @In float amount;
+    @In(scope=ScopeType.BUSINESS_PROCESS) 
+    String customer;
     
     public void log()
     {
-        System.out.println("We shipped: " + orderId);
+        System.out.println( "We shipped: " + orderId + " to: " + customer + ", amount: " + amount );
     }
 }
