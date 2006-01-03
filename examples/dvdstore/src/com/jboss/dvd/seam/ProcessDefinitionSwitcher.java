@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Jbpm;
+import org.jbpm.JbpmContext;
 
 /**
  * Switches JBPM process definitions dynamically
@@ -26,6 +27,9 @@ public class ProcessDefinitionSwitcher
 
     @In(create=true, value="org.jboss.seam.core.jbpm")
     private Jbpm jbpm;
+    
+    @In(create=true)
+    private JbpmContext jbpmContext;
     
     public List<SelectItem> getProcessDefinitions()
     {
@@ -50,8 +54,9 @@ public class ProcessDefinitionSwitcher
     }
 
     public String switchProcess() {
-        jbpm.deployProcessDefinition(currentProcessDefinition);
-        return "admin";
+       jbpmContext.deployProcessDefinition( 
+             jbpm.getProcessDefinitionFromResource(currentProcessDefinition) );
+       return "admin";
     }
     
 }
