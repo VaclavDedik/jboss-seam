@@ -570,11 +570,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         </navigation-case>
     </navigation-rule>
 
-    <!-- Same for all Seam applications -->
-    
-    <application>
-        <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
-    </application>
+    <!-- A phase listener is needed by all Seam applications -->
     
     <lifecycle>
         <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
@@ -583,7 +579,6 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 </faces-config>]]></programlisting>
         </example>
         
-        <indexterm><primary>variable resolver</primary></indexterm>
         <indexterm><primary>phase listener</primary></indexterm>
         
         <para>
