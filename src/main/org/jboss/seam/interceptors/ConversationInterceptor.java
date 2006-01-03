@@ -185,7 +185,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    
    private void createProcess(String processDefinitionName)
    {
-      ProcessDefinition pd = Jbpm.instance().getPageflowDefinition(processDefinitionName);
+      ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
       ProcessInstance pi = pd.createProcessInstance();
       Conversation.instance().setProcessInstance(pi);
       pi.signal();

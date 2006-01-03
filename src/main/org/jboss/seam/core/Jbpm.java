@@ -63,48 +63,12 @@ public class Jbpm
       return jbpmConfiguration;
    }
 
-   public String[] getProcessDefinitions() {
-      return processDefinitions;
-   }
-
-   public void setProcessDefinitions(String[] processDefinitions) {
-      this.processDefinitions = processDefinitions;
+   public ProcessDefinition getPageflowProcessDefinition(String pageflowName)
+   {
+      return pageflowProcessDefinitions.get(pageflowName);
    }
    
-   /**
-    * Dynamically load a new jBPM process definition from a resource at runtime.
-    * 
-    * @param resourceName the name of a resource containing the process definition
-    * @param makeLatestVersion the loaded definition should be considered the latest version
-    */
-   public void deployProcessDefinition(String resourceName) {
-      JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
-      try
-      {
-         ProcessDefinition processDefinition = getProcessDefinitionFromResource(resourceName);
-         jbpmContext.deployProcessDefinition(processDefinition);
-         jbpmContext.getSession().flush(); //need to flush so the managed session can see the effect immediately
-      }
-      catch (RuntimeException e)
-      {
-         throw new RuntimeException("could not deploy process definition: " + resourceName, e);
-      }
-      finally
-      {
-         jbpmContext.close();
-      }
-   }
-
-   private void installPageflowDefinitions() {
-      pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>(pageflowDefinitions.length);
-      for (String pageflow: pageflowDefinitions)
-      {
-         ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
-         pageflowProcessDefinitions.put( pd.getName(), pd );
-      }
-   }
-   
-   private ProcessDefinition getProcessDefinitionFromResource(String resourceName) {
+   public ProcessDefinition getProcessDefinitionFromResource(String resourceName) {
       InputStream resource = Thread.currentThread().getContextClassLoader()
             .getResourceAsStream(resourceName);
       if (resource==null)
@@ -122,9 +86,21 @@ public class Jbpm
       this.pageflowDefinitions = pageflowDefinitions;
    }
    
-   public ProcessDefinition getPageflowDefinition(String pageflowName)
-   {
-      return pageflowProcessDefinitions.get(pageflowName);
+   public String[] getProcessDefinitions() {
+      return processDefinitions;
+   }
+
+   public void setProcessDefinitions(String[] processDefinitions) {
+      this.processDefinitions = processDefinitions;
+   }
+   
+   private void installPageflowDefinitions() {
+      pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>(pageflowDefinitions.length);
+      for (String pageflow: pageflowDefinitions)
+      {
+         ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
+         pageflowProcessDefinitions.put( pd.getName(), pd );
+      }
    }
    
    private void installProcessDefinitions()
