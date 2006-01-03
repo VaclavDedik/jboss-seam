@@ -15,10 +15,6 @@
     </application>
     
     <application>
-        <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
-    </application>
-    
-    <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
 

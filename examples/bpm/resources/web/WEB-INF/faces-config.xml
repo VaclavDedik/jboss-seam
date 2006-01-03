@@ -47,7 +47,6 @@
 
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-        <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
     </application>
 
     <lifecycle>

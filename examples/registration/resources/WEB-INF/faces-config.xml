@@ -11,11 +11,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 		</navigation-case>
 	</navigation-rule>
 
-	<!-- Same for all Seam applications -->
-	
-	<application>
-		<variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
-	</application>
+	<!-- Phase listener needed for all Seam applications -->
 	
 	<lifecycle>
 		<phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>

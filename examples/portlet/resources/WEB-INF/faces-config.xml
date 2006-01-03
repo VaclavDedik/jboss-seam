@@ -84,12 +84,6 @@
         </navigation-case>
 
     </navigation-rule>
-
-    <!-- Same for all Seam applications -->
-
-    <application>
-        <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
-    </application>
     
     <!-- Select one of the three standard persistence lifecycle models for the Seam application -->
 
