@@ -8,15 +8,14 @@
   <session-factory>
 
     <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
-    <property name="connection.datasource">java:/DVDStoreDS</property>
-    <!--
-    <property name="transaction.flush_before_completion">true</property>
-    -->
+    <property name="connection.datasource">java:/DefaultDS</property>
     <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
     <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
     <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
     <property name="hbm2ddl.auto">create-drop</property>
     <!-- 
+    <property name="transaction.flush_before_completion">true</property>
+    <property name="hibernate.connection.release_mode">after_transaction</property>
     <property name="show_sql">true</property>
     <property name="hibernate.format_sql">true</property>
     -->
