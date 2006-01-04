@@ -16,17 +16,17 @@
       <transition to="browse"/>
    </start-state>
    
-   <page name="browse" view-id="/browse.xhtml">
+   <page name="browse" view-id="/browse.xhtml" redirect="true">
       <transition name="browse" to="browse"/>
       <transition name="checkout" to="checkout"/>
    </page>
    
-   <page name="checkout" view-id="/checkout.xhtml">
+   <page name="checkout" view-id="/checkout.xhtml" redirect="true">
       <transition name="checkout" to="checkout"/>
       <transition name="complete" to="complete"/>
    </page>
    
-   <page name="complete" view-id="/complete.xhtml">
+   <page name="complete" view-id="/complete.xhtml" redirect="true">
       <end-conversation />
    </page>
    

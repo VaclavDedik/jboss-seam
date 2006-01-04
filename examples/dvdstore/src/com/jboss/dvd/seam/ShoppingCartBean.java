@@ -6,6 +6,10 @@
  */ 
 package com.jboss.dvd.seam;
 
+import static org.jboss.seam.ScopeType.BUSINESS_PROCESS;
+import static org.jboss.seam.ScopeType.CONVERSATION;
+import static org.jboss.seam.ScopeType.SESSION;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +24,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
@@ -32,7 +35,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("cart")
-@Scope(ScopeType.SESSION)
+@Scope(SESSION)
 @Interceptors(SeamInterceptor.class)
 //@Intercept(InterceptionType.ALWAYS)
 public class ShoppingCartBean
@@ -51,15 +54,15 @@ public class ShoppingCartBean
     //List<OrderLine> cart = new ArrayList<OrderLine>();
     Map<Product,Boolean> cartSelection  = new HashMap<Product,Boolean>();
 
-    @Out(required=false)
+    @Out(required=false, scope=CONVERSATION)
     Order order = null;
 
 
-    @Out(scope=ScopeType.BUSINESS_PROCESS, required=false)
+    @Out(scope=BUSINESS_PROCESS, required=false)
     long orderId;
-    @Out(scope=ScopeType.BUSINESS_PROCESS, required=false)
+    @Out(scope=BUSINESS_PROCESS, required=false)
     float amount;
-    @Out(value="customer",scope=ScopeType.BUSINESS_PROCESS, required=false)
+    @Out(value="customer",scope=BUSINESS_PROCESS, required=false)
     String customerName;
 
     public List<OrderLine> getCart() {
