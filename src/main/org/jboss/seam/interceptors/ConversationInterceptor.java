@@ -12,6 +12,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
+import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
@@ -43,8 +44,10 @@ public class ConversationInterceptor extends AbstractInterceptor
 
       if ( isNoConversationForConversationalBean(method) )
       {
-         log.warn("no long-running conversation for @Conversational bean: " + component.getName());
-         return component.getNoConversationOutcome();
+         log.info("no long-running conversation for @Conversational bean: " + component.getName());
+         return methodIsConversational(method) ?
+               method.getAnnotation(Conversational.class).ifNotBegunOutcome() :
+               component.getBeanClass().getAnnotation(Conversational.class).ifNotBegunOutcome();
       }
 
       if ( isMissingJoin(method) )
@@ -74,14 +77,39 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private boolean isNoConversationForConversationalBean(Method method)
    {
-      return component.isConversational() && 
+      boolean classlevelViolation = componentIsConversational() && 
             Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION &&
-            ( !Manager.instance().isLongRunningConversation() || !componentIsInitiator() ) &&
+            ( !Manager.instance().isLongRunningConversation() || ( componentShouldBeInitiator() && !componentIsInitiator() ) ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(StartTask.class) &&
             !method.isAnnotationPresent(BeginTask.class) &&
             !method.isAnnotationPresent(Destroy.class) && 
             !method.isAnnotationPresent(Create.class); //probably superfluous
+      
+      if (classlevelViolation) return true;
+      
+      boolean methodlevelViolation = methodIsConversational(method) &&
+            Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION &&
+            ( !Manager.instance().isLongRunningConversation() || ( componentShouldBeInitiator(method) && !componentIsInitiator() ) );
+      
+      return methodlevelViolation;
+      
+   }
+
+   private boolean methodIsConversational(Method method) {
+      return method.isAnnotationPresent(Conversational.class);
+   }
+
+   private boolean componentShouldBeInitiator(Method method) {
+      return method.getAnnotation(Conversational.class).initiator();
+   }
+
+   private boolean componentIsConversational() {
+      return component.getBeanClass().isAnnotationPresent(Conversational.class);
+   }
+
+   private boolean componentShouldBeInitiator() {
+      return component.getBeanClass().getAnnotation(Conversational.class).initiator();
    }
 
    private boolean componentIsInitiator()
@@ -142,7 +170,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       if ( !processDefinitionName.equals("") )
       {
-         createProcess(processDefinitionName);
+         beginPageflow(processDefinitionName);
       }
    }
 
@@ -183,7 +211,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       Manager.instance().endConversation();
    }
    
-   private void createProcess(String processDefinitionName)
+   private void beginPageflow(String processDefinitionName)
    {
       ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
       ProcessInstance pi = pd.createProcessInstance();

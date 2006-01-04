@@ -291,10 +291,13 @@ public class Manager
             //be destroyed by the servlet session listener
             attributes.put(CONVERSATION_ID, currentConversationId);
             
-            Pageflow pageflow = Pageflow.instance();
-            if ( pageflow.isInProcess() )
+            if ( Init.instance().isJbpmInstalled() )
             {
-               attributes.put( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+               Pageflow pageflow = Pageflow.instance();
+               if ( pageflow.isInProcess() )
+               {
+                  attributes.put( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+               }
             }
          }
          //even if the session is invalid, still put the id in the map,

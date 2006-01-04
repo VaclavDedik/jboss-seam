@@ -36,7 +36,6 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import org.hibernate.validator.ClassValidator;
 import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
-import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
@@ -126,8 +125,6 @@ public class Component
    
    private Set<Class> localInterfaces;
    
-   private String ifNoConversationOutcome;
-   
    private Class<Factory> factory;
 
    public Component(Class<?> clazz)
@@ -162,11 +159,6 @@ public class Component
       }
       
       log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType() + ", class: " + beanClass.getName());
-
-      if ( beanClass.isAnnotationPresent(Conversational.class) )
-      {
-         ifNoConversationOutcome = beanClass.getAnnotation(Conversational.class).ifNotBegunOutcome();
-      }
 
       initMembers(clazz, applicationContext);
       
@@ -1005,16 +997,6 @@ public class Component
       {
          throw new IllegalArgumentException("could not inject: " + getAttributeMessage(name), e);
       }
-   }
-   
-   public boolean isConversational()
-   {
-      return ifNoConversationOutcome!=null;
-   }
-   
-   public String getNoConversationOutcome()
-   {
-      return ifNoConversationOutcome;
    }
    
    public static Component forName(String name)

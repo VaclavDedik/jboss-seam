@@ -2,6 +2,7 @@
 package org.jboss.seam.annotations;
 
 import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -9,14 +10,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that a component is conversational, and
- * that its methods may only be called inside the 
- * scope of a long-running conversation that was
- * begun by a call to the component's @Begin method.
+ * Specifies that a component or method is conversational, 
+ * and may only be called inside the scope of a long-running 
+ * conversation.
  * 
  * @author Gavin King
  */
-@Target(TYPE)
+@Target({TYPE, METHOD})
 @Retention(RUNTIME)
 @Documented
 public @interface Conversational
@@ -27,4 +27,12 @@ public @interface Conversational
     * application phase.
     */
    String ifNotBegunOutcome();
+   /**
+    * If true, the component must be the initiator of the
+    * conversation. That is, the conversation must have
+    * begun by a call to some @Begin method of this
+    * component. If false, the component or method may be 
+    * called inside a conversation begun by any component.
+    */
+   boolean initiator() default false;
 }
