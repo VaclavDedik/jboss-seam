@@ -24,8 +24,9 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private Date lastDatetime;
    private String outcome;
    private LinkedList<String> conversationIdStack;
-   private String ownerComponentName;
+   private String initiatorComponentName;
    private Integer timeout;
+   private boolean removeAfterRedirect;
    
    public ConversationEntry(String id, LinkedList<String> stack) 
    {
@@ -115,12 +116,12 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return conversationIdStack;
    }
 
-   public String getOwnerComponentName() {
-      return ownerComponentName;
+   public String getInitiatorComponentName() {
+      return initiatorComponentName;
    }
 
-   void setOwnerComponentName(String ownerComponentName) {
-      this.ownerComponentName = ownerComponentName;
+   void setInitiatorComponentName(String ownerComponentName) {
+      this.initiatorComponentName = ownerComponentName;
    }
    
    public boolean isDisplayable() {
@@ -155,5 +156,13 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
 
    void setTimeout(int conversationTimeout) {
       this.timeout = conversationTimeout;
+   }
+
+   public boolean isRemoveAfterRedirect() {
+      return removeAfterRedirect;
+   }
+
+   public void setRemoveAfterRedirect(boolean removeAfterRedirect) {
+      this.removeAfterRedirect = removeAfterRedirect;
    }
 }

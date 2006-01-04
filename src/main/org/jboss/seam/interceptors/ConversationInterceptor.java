@@ -76,7 +76,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       return component.isConversational() && 
             Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION &&
-            ( !Manager.instance().isLongRunningConversation() || !componentIsConversationOwner() ) &&
+            ( !Manager.instance().isLongRunningConversation() || !componentIsInitiator() ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(StartTask.class) &&
             !method.isAnnotationPresent(BeginTask.class) &&
@@ -84,9 +84,9 @@ public class ConversationInterceptor extends AbstractInterceptor
             !method.isAnnotationPresent(Create.class); //probably superfluous
    }
 
-   private boolean componentIsConversationOwner()
+   private boolean componentIsInitiator()
    {
-      return component.getName().equals( Manager.instance().getCurrentConversationOwnerName() );
+      return component.getName().equals( Manager.instance().getCurrentConversationInitiator() );
    }
 
    private void beginConversationIfNecessary(Method method, Object result)

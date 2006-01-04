@@ -144,12 +144,12 @@ public class Manager
       return getConversationIdEntryMap().get(conversationId);
    }
    
-   public Object getCurrentConversationOwnerName()
+   public Object getCurrentConversationInitiator()
    {
       ConversationEntry ce = getCurrentConversationEntry();
       if (ce!=null)
       {
-         return ce.getOwnerComponentName();
+         return ce.getInitiatorComponentName();
       }
       else
       {
@@ -395,7 +395,12 @@ public class Manager
          log.debug("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          setCurrentConversationId(storedConversationId);
-         setCurrentConversationIdStack( getCurrentConversationEntry().getConversationIdStack() );
+         ConversationEntry ce = getCurrentConversationEntry();
+         setCurrentConversationIdStack( ce.getConversationIdStack() );
+         if ( ce.isRemoveAfterRedirect() ) 
+         {
+            setLongRunningConversation(false);
+         }
       }
       else
       {
@@ -427,10 +432,10 @@ public class Manager
       return ce;
    }
    
-   public void beginConversation(String ownerName)
+   public void beginConversation(String initiator)
    {
       setLongRunningConversation(true);
-      createConversationEntry().setOwnerComponentName(ownerName);
+      createConversationEntry().setInitiatorComponentName(initiator);
       Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
    }
    
@@ -447,7 +452,7 @@ public class Manager
       setCurrentConversationIdStack(id);
       getCurrentConversationIdStack().addAll(stack);
       ConversationEntry conversationEntry = createConversationEntry();
-      conversationEntry.setOwnerComponentName(ownerName);
+      conversationEntry.setInitiatorComponentName(ownerName);
    }
 
    public ConversationEntry getCurrentConversationEntry() {
@@ -467,6 +472,18 @@ public class Manager
 
    public void setConversationTimeout(int conversationTimeout) {
       this.conversationTimeout = conversationTimeout;
+   }
+   
+   public void beforeRedirect()
+   {
+      ConversationEntry ce = getConversationEntry(currentConversationId);
+      ce.setRemoveAfterRedirect (!isLongRunningConversation() );
+      //ups, we don't really want to destroy it on this request after all!
+      if (ce==null)
+      {
+         ce = createConversationEntry();
+      }
+      setLongRunningConversation(true);
    }
    
 }

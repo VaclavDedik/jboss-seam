@@ -95,6 +95,11 @@ public class SeamPhaseListener implements PhaseListener
       {
          Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
       }
+      else if ( event.getFacesContext().getResponseComplete() )
+      {
+         beforeSaveState( event.getFacesContext() );
+         Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
+      }
 
       Lifecycle.setPhaseId(null);
       

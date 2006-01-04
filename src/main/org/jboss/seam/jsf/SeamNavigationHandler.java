@@ -3,8 +3,10 @@ package org.jboss.seam.jsf;
 import javax.faces.application.NavigationHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.jbpm.Page;
 import org.jbpm.graph.exe.ProcessInstance;
@@ -57,9 +59,30 @@ public class SeamNavigationHandler extends NavigationHandler {
 
    private void navigate(FacesContext context, ProcessInstance processInstance) {
       Page page = getPage(processInstance);
-      UIViewRoot viewRoot = context.getApplication().getViewHandler().createView( context, page.getViewId() );
-      context.setViewRoot(viewRoot);
-      //context.getViewRoot().setViewId( page.getUrl() );
+      if ( page.getRedirect()==null || "".equals( page.getRedirect() ) )
+      {
+         UIViewRoot viewRoot = context.getApplication().getViewHandler().createView( context, page.getViewId() );
+         context.setViewRoot(viewRoot);
+      }
+      else
+      {
+         try
+         {
+            Manager manager = Manager.instance();
+            manager.beforeRedirect();
+            String url = page.getRedirect();
+            if ( manager.isLongRunningConversation() )
+            {
+               url += "?conversationId=" + manager.getCurrentConversationId();
+            }
+            ( (HttpServletResponse) context.getExternalContext().getResponse() ).sendRedirect(url);
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+         context.responseComplete();
+      }
    }
 
    private Page getPage(ProcessInstance processInstance) {
