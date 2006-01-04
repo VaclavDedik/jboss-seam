@@ -7,7 +7,6 @@ import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 import javax.faces.event.PhaseId;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
@@ -23,7 +22,6 @@ import org.jboss.seam.interceptors.ValidationInterceptor;
 @Within(RemoveInterceptor.class)
 public class LoggedInInterceptor
 {
-   private static final Logger log = Logger.getLogger(LoggedInInterceptor.class);
 
    @AroundInvoke
    public Object checkLoggedIn(InvocationContext invocation) throws Exception
@@ -33,12 +31,10 @@ public class LoggedInInterceptor
       {
          if (isLoggedIn) 
          {
-            log.info("User is already logged in");
             return invocation.proceed();
          }
          else 
          {
-            log.info("User is not logged in");
             return "login";
          }
       }

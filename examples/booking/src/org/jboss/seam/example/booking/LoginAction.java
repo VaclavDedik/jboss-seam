@@ -29,9 +29,9 @@ public class LoginAction implements Login
    private EntityManager em;
    
    @In
-   private Context sessionContext;
+   private transient Context sessionContext;
    @In
-   private FacesContext facesContext;
+   private transient FacesContext facesContext;
 
    public String login()
    {

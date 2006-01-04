@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -20,8 +19,6 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 @LoggedIn
 public class BookingListAction implements Serializable
 {
-   private static final Logger log = Logger.getLogger(BookingListAction.class);
-   
    @In(create=true)
    private Session bookingDatabase;
    
@@ -39,13 +36,10 @@ public class BookingListAction implements Serializable
       bookings = bookingDatabase.createQuery("from Booking b where b.user = :user order by b.checkinDate")
             .setParameter("user", user)
             .list();
-      
-      log.info(bookings.size() + " bookings found");  
    }
    
    public String cancel()
    {
-      log.info("cancelling: " + booking.getId());
       Booking cancelled = (Booking) bookingDatabase.get(Booking.class, booking.getId());
       if (cancelled!=null) bookingDatabase.delete( cancelled );
       refresh();

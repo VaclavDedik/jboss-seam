@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -21,8 +20,6 @@ import org.jboss.seam.annotations.Scope;
 @Name("register")
 public class RegisterAction
 {
-   
-   private static final Logger log = Logger.getLogger(RegisterAction.class);
 
    @In @Valid
    private User user;
@@ -40,7 +37,6 @@ public class RegisterAction
    {
       if ( user.getPassword().equals(verify) )
       {
-         log.info("registering user");
          List existing = bookingDatabase.createQuery("select username from User where username=:username")
             .setParameter("username", user.getUsername())
             .list();
@@ -57,7 +53,6 @@ public class RegisterAction
       }
       else 
       {
-         log.info("password not verified");
          facesContext.addMessage(null, new FacesMessage("re-enter your password"));
          verify=null;
          return null;

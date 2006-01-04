@@ -8,7 +8,6 @@ import javax.faces.context.FacesContext;
 
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -18,8 +17,6 @@ import org.jboss.seam.annotations.Out;
 @LoggedIn
 public class ChangePasswordAction
 {
-   
-   private static final Logger log = Logger.getLogger(ChangePasswordAction.class);
 
    @In @Out @Valid
    private User user;
@@ -37,13 +34,11 @@ public class ChangePasswordAction
    {
       if ( user.getPassword().equals(verify) )
       {
-         log.info("updating password to: " + verify);
          user = (User) bookingDatabase.merge(user);
          return "main";
       }
       else 
       {
-         log.info("password not verified");
          facesContext.addMessage(null, new FacesMessage("Re-enter new password"));
          bookingDatabase.refresh(user);
          verify=null;

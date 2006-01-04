@@ -14,7 +14,6 @@ import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
@@ -32,7 +31,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @TransactionAttribute(REQUIRES_NEW)
 public class BookingListAction implements BookingList, Serializable
 {
-   private static final Logger log = Logger.getLogger(BookingList.class);
    
    @PersistenceContext
    private EntityManager em;
@@ -51,13 +49,10 @@ public class BookingListAction implements BookingList, Serializable
       bookings = em.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
             .setParameter("username", user.getUsername())
             .getResultList();
-      
-      log.info(bookings.size() + " bookings found");  
    }
    
    public String cancel()
    {
-      log.info("cancelling: " + booking.getId());
       Booking cancelled = em.find(Booking.class, booking.getId());
       if (cancelled!=null) em.remove( cancelled );
       refresh();
@@ -71,8 +66,6 @@ public class BookingListAction implements BookingList, Serializable
    }
    
    @Destroy @Remove
-   public void destroy() {
-      log.info("destroyed");
-   }
+   public void destroy() {}
    
 }
