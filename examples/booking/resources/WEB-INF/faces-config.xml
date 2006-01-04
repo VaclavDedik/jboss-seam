@@ -82,6 +82,12 @@
         </navigation-case>
 
         <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+
+        <navigation-case>
             <to-view-id>/hotel.xhtml</to-view-id>
             <redirect />
         </navigation-case>
@@ -99,6 +105,7 @@
         </navigation-case>
 
         <navigation-case>
+            <from-outcome>main</from-outcome>
             <to-view-id>/main.xhtml</to-view-id>
             <redirect />
         </navigation-case>
@@ -112,11 +119,10 @@
         <navigation-case>
             <from-outcome>confirmed</from-outcome>
             <to-view-id>/confirmed.xhtml</to-view-id>
-            <redirect />
         </navigation-case>
 
         <navigation-case>
-            <from-outcome>back</from-outcome>
+            <from-outcome>book</from-outcome>
             <to-view-id>/book.xhtml</to-view-id>
             <redirect />
         </navigation-case>

@@ -20,7 +20,6 @@ import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.BookingList;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
-import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
@@ -34,7 +33,7 @@ public class BookingTest extends SeamTest
       
       String id = new Script() {
 
-         HotelSearching hotelSearching;
+         HotelBooking hotelBooking;
          
          @Override
          protected void applyRequestValues()
@@ -46,14 +45,14 @@ public class BookingTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            hotelSearching = (HotelSearching) Component.getInstance("hotelSearching", true);
-            hotelSearching.setSearchString("Union Square");
+            hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
+            hotelBooking.setSearchString("Union Square");
          }
 
          @Override
          protected void invokeApplication()
          {
-            String outcome = hotelSearching.find();
+            String outcome = hotelBooking.find();
             assert "main".equals( outcome );
          }
 
@@ -63,7 +62,7 @@ public class BookingTest extends SeamTest
             DataModel hotels = (DataModel) Contexts.getConversationContext().get("hotels");
             assert hotels.getRowCount()==1;
             assert ( (Hotel) hotels.getRowData() ).getCity().equals("NY");
-            assert "Union Square".equals( hotelSearching.getSearchString() );
+            assert "Union Square".equals( hotelBooking.getSearchString() );
             assert Manager.instance().isLongRunningConversation();
          }
          
@@ -74,7 +73,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            HotelSearching hotelSearching = (HotelSearching) Component.getInstance("hotelSearching", true);
+            HotelBooking hotelSearching = (HotelBooking) Component.getInstance("hotelBooking", true);
             String outcome = hotelSearching.selectHotel();
             assert "selected".equals( outcome );
          }

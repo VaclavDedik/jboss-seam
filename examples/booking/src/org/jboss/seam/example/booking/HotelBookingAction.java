@@ -6,6 +6,7 @@ import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.ejb.Interceptors;
 import javax.ejb.Remove;
@@ -16,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
@@ -25,6 +25,8 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -35,12 +37,19 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @LoggedIn
 public class HotelBookingAction implements HotelBooking, Serializable
 {
-   private static final Logger log = Logger.getLogger(HotelBooking.class);
    
    @PersistenceContext(type=EXTENDED)
    private EntityManager em;
    
-   @In @Out
+   private String searchString;
+   private int pageSize = 10;
+   
+   @DataModel
+   private List<Hotel> hotels;
+   @DataModelSelectionIndex
+   private int hotelIndex;
+   
+   @Out(required=false)
    private Hotel hotel;
    
    @In(required=false) 
@@ -53,14 +62,77 @@ public class HotelBookingAction implements HotelBooking, Serializable
    
    @In
    private transient FacesContext facesContext;
+      
+   @In(required=false)
+   private BookingList bookingList;
    
    @In(create=true)
    private transient Conversation conversation;
    
-   @In(required=false)
-   private BookingList bookingList;
+   @Begin(join=true)
+   public String find()
+   {
+      hotel = null;
+      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
+      hotels = em.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
+            .setParameter("search", searchPattern)
+            .setMaxResults(pageSize)
+            .getResultList();
+      
+      return searchResults();
+   }
    
-   @Begin(nested=true)
+   public int getPageSize() {
+      return pageSize;
+   }
+
+   public void setPageSize(int pageSize) {
+      this.pageSize = pageSize;
+   }
+
+   public String getSearchString()
+   {
+      return searchString;
+   }
+
+   public void setSearchString(String searchString)
+   {
+      this.searchString = searchString;
+   }
+
+   public String selectHotel()
+   {
+      if ( hotels==null ) return "main";
+      setHotel();
+      return conversation.switchableOutcome("selected");
+   }
+
+   public String nextHotel()
+   {
+      if ( hotelIndex<hotels.size()-1 )
+      {
+         ++hotelIndex;
+         setHotel();
+      }
+      return null;
+   }
+
+   public String lastHotel()
+   {
+      if (hotelIndex>0)
+      {
+         --hotelIndex;
+         setHotel();
+      }
+      return null;
+   }
+
+   private void setHotel()
+   {
+      hotel = hotels.get(hotelIndex);
+      conversation.setDescription( "View hotel: " + hotel.getName() );
+   }
+   
    public String bookHotel()
    {      
       booking = new Booking(hotel, user);
@@ -69,46 +141,60 @@ public class HotelBookingAction implements HotelBooking, Serializable
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate( calendar.getTime() );
       
-      return conversation.switchableOutcome( "book", "Book hotel: " + hotel.getName() );
+      return bookingPage();
    }
-   
+
    @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";
       if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
-         log.info("invalid booking dates");
          FacesMessage facesMessage = new FacesMessage("Check out date must be later than check in date");
          facesContext.addMessage(null, facesMessage);
          return null;
       }
       else
       {
-         log.info("valid booking");
-         return conversation.switchableOutcome( "confirm", "Confirm booking: " + booking.getDescription() );
+         return confirmationPage();
       }
    }
-      
+
    @End
    public String confirm()
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);
       if (bookingList!=null) bookingList.refresh();
-      log.info("booking confirmed");
       return "confirmed";
    }
-      
+   
    @End
-   public String cancel()
+   public String clear()
    {
+      hotels = null;
+      hotel = null;
       return "main";
    }
    
-   @Destroy @Remove
-   public void destroy() {
-      log.info("destroyed");
+   public String revise() {
+      return bookingPage();
    }
+
+   private String bookingPage() {
+      return conversation.switchableOutcome( "book", "Book hotel: " + hotel.getName() );
+   }
+   
+   private String confirmationPage() {
+      return conversation.switchableOutcome( "confirm", "Confirm: " + booking.getDescription() );
+   }
+      
+   public String searchResults()
+   {
+      return conversation.switchableOutcome("main", "Search hotels: " + searchString);
+   }
+   
+   @Destroy @Remove
+   public void destroy() {}
 
 }

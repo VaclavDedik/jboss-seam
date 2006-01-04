@@ -7,40 +7,26 @@
 
 <!-- content -->
 <ui:define name="content">
+<ui:include src="conversations.xhtml" />
 <div class="section">
-    <h1>Workspaces</h1>
-</div>
-<div class="section">
-    <h:form>
-        <a href="main.seam">New workspace</a>
-        <h:dataTable value="#{conversationList}" var="entry">
-            <h:column>
-                <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
-                &nbsp;
-                <h:outputText value="[current]" rendered="#{entry.current}"/>
-            </h:column>
-            <h:column>
-                <h:outputText value="#{entry.startDatetime}">
-                    <f:convertDateTime type="time" pattern="hh:mm"/>
-                </h:outputText>
-                -
-                <h:outputText value="#{entry.lastDatetime}">
-                    <f:convertDateTime type="time" pattern="hh:mm"/>
-                </h:outputText>
-            </h:column>
-        </h:dataTable>
-    </h:form>
-</div>
-<div class="section">
+<h:form>
 	<h1>Search Hotels</h1>
-	<h:form>
 	<fieldset> 
-		<h:inputText value="#{hotelSearching.searchString}" style="width: 165px;" />&nbsp;
-		<h:commandButton value="Find Hotels" action="#{hotelSearching.find}" styleClass="button" />&nbsp;
-        <h:commandButton value="Clear Results" action="#{hotelSearching.clear}" styleClass="button" />
+		<h:inputText value="#{hotelBooking.searchString}" style="width: 165px;" />&nbsp;
+		<h:commandButton value="Find Hotels" action="#{hotelBooking.find}" styleClass="button" />&nbsp;
+        <h:commandButton value="Clear Results" action="#{hotelBooking.clear}" styleClass="button" />&nbsp;
 	</fieldset>
-	</h:form>
+	<div style="text-align: right">
+    <h:outputLabel for="pageSize">Maximum results to display:</h:outputLabel>&nbsp;
+    <h:selectOneMenu value="#{hotelBooking.pageSize}" id="pageSize">
+        <f:selectItem itemLabel="5" itemValue="5"/>
+    	<f:selectItem itemLabel="10" itemValue="10"/>
+    	<f:selectItem itemLabel="20" itemValue="20"/>
+    </h:selectOneMenu>
+    </div>
+</h:form>
 </div>
+
 <div class="section">
 	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
 	<h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
@@ -62,10 +48,11 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<h:commandLink action="#{hotelSearching.selectHotel}">View Hotel</h:commandLink>
+			<h:commandLink action="#{hotelBooking.selectHotel}">View Hotel</h:commandLink>
 		</h:column>
-	</h:dataTable>
+	</h:dataTable>    
 </div>
+
 <div class="section">
 	<h1>Current Hotel Bookings</h1>
 </div>
