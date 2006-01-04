@@ -487,16 +487,24 @@ public class Manager
       this.conversationTimeout = conversationTimeout;
    }
    
-   public void beforeRedirect()
+   private void beforeRedirect()
    {
       ConversationEntry ce = getConversationEntry(currentConversationId);
-      ce.setRemoveAfterRedirect (!isLongRunningConversation() );
-      //ups, we don't really want to destroy it on this request after all!
       if (ce==null)
       {
          ce = createConversationEntry();
       }
+      //ups, we don't really want to destroy it on this request after all!
+      ce.setRemoveAfterRedirect( !isLongRunningConversation() );
       setLongRunningConversation(true);
+   }
+   
+   /**
+    * Beware of side-effect!
+    */
+   public String encodeConversationId(String url) {
+      beforeRedirect();
+      return url + "?conversationId=" + getCurrentConversationId();
    }
    
 }

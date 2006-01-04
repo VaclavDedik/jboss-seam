@@ -38,8 +38,6 @@ public class ComponentTest
       assert c.getDestroyMethod().getName().equals("destroy");
       assert c.getInFields().size()==2;
       assert c.getInMethods().size()==0;
-      assert c.isConversational();
-      assert c.getNoConversationOutcome().equals("error");
       assert c.getUnwrapMethod()==null;
       assert c.getOutFields().size()==1;
       assert c.getOutMethods().size()==0;
@@ -58,7 +56,6 @@ public class ComponentTest
       assert c.getDestroyMethod()==null;
       assert c.getInFields().size()==0;
       assert c.getInMethods().size()==0;
-      assert !c.isConversational();
       assert c.getUnwrapMethod()==null;
       assert c.getOutFields().size()==0;
       assert c.getOutMethods().size()==0;
@@ -77,7 +74,6 @@ public class ComponentTest
       assert c.getDestroyMethod()==null;
       assert c.getInFields().size()==0;
       assert c.getInMethods().size()==0;
-      assert !c.isConversational();
       assert c.getUnwrapMethod()==null;
       assert c.getOutFields().size()==0;
       assert c.getOutMethods().size()==0;
@@ -102,7 +98,6 @@ public class ComponentTest
       assert c.getDestroyMethod().getName().equals("destroy");
       assert c.getInFields().size()==0;
       assert c.getInMethods().size()==0;
-      assert !c.isConversational();
       assert c.getUnwrapMethod()==null;
       assert c.getOutFields().size()==0;
       assert c.getOutMethods().size()==0;
@@ -120,7 +115,6 @@ public class ComponentTest
       assert c.getDestroyMethod()==null;
       assert c.getInFields().size()==0;
       assert c.getInMethods().size()==0;
-      assert !c.isConversational();
       assert c.getUnwrapMethod()==null;
       assert c.getOutFields().size()==0;
       assert c.getOutMethods().size()==0;
@@ -138,7 +132,6 @@ public class ComponentTest
       assert c.getDestroyMethod().getName().equals("destroy");
       assert c.getInFields().size()==0;
       assert c.getInMethods().size()==0;
-      assert !c.isConversational();
       assert c.getUnwrapMethod().getName().equals("getEntityManager");
       assert c.getOutFields().size()==0;
       assert c.getOutMethods().size()==0;
@@ -156,7 +149,6 @@ public class ComponentTest
       assert c.getDestroyMethod().getName().equals("destroy");
       assert c.getInFields().size()==0;
       assert c.getInMethods().size()==0;
-      assert !c.isConversational();
       assert c.getUnwrapMethod().getName().equals("getSession");
       assert c.getOutFields().size()==0;
       assert c.getOutMethods().size()==0;

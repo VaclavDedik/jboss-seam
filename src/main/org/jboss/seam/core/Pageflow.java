@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.faces.component.UIViewRoot;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.Component;
@@ -85,16 +86,12 @@ public class Pageflow {
       }
       else
       {
-         Manager manager = Manager.instance();
-         manager.beforeRedirect();
          String url = context.getApplication().getViewHandler().getActionURL( context, page.getViewId() );
-         if ( manager.isLongRunningConversation() )
-         {
-            url += "?conversationId=" + manager.getCurrentConversationId();
-         }
+         url = Manager.instance().encodeConversationId(url);
+         ExternalContext externalContext = context.getExternalContext();
          try
          {
-            context.getExternalContext().redirect(url);
+            externalContext.redirect( externalContext.encodeActionURL(url) );
          }
          catch (IOException ioe)
          {
