@@ -30,6 +30,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.Session;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pageflow;
 
 /**
  * Manages the thread/context associations throught the
@@ -127,6 +128,7 @@ public class SeamPhaseListener implements PhaseListener
       Manager.instance().restoreConversation( attributes, getParameters(event) );
       Lifecycle.resumePage();
       Lifecycle.resumeConversation( externalContext );
+      Pageflow.instance().validatePageflow(attributes);
       
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }

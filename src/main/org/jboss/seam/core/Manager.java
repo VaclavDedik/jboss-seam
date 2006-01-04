@@ -47,6 +47,7 @@ public class Manager
    private static final String NAME = Seam.getComponentName(Manager.class);
    public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdEntryMap";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
+   public static final String PAGEFLOW_COUNTER = NAME + ".pageflowCounter";
 
       
    //A map of all conversations for the session,
@@ -289,6 +290,12 @@ public class Manager
             //in the view, 'cos we are expecting the conversation to
             //be destroyed by the servlet session listener
             attributes.put(CONVERSATION_ID, currentConversationId);
+            
+            Pageflow pageflow = Pageflow.instance();
+            if ( pageflow.isInProcess() )
+            {
+               attributes.put( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+            }
          }
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
@@ -391,16 +398,19 @@ public class Manager
             getSessionConversationIds().contains(storedConversationId);
       if ( isStoredConversation )
       {
+         
          //we found an id, so restore the long-running conversation
          log.debug("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          setCurrentConversationId(storedConversationId);
          ConversationEntry ce = getCurrentConversationEntry();
          setCurrentConversationIdStack( ce.getConversationIdStack() );
+         
          if ( ce.isRemoveAfterRedirect() ) 
          {
             setLongRunningConversation(false);
          }
+         
       }
       else
       {
