@@ -13,7 +13,6 @@ import javax.faces.context.FacesContext;
 
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
@@ -32,8 +31,7 @@ import org.jboss.seam.core.Conversation;
 @LoggedIn
 public class HotelBookingAction implements Serializable
 {
-   private static final Logger log = Logger.getLogger(HotelBookingAction.class);
-   
+
    @In(create=true)
    private Session bookingDatabase;
    
@@ -84,11 +82,9 @@ public class HotelBookingAction implements Serializable
             .setMaxResults(50)
             .list();
       
-      log.info(hotels.size() + " hotels found");
-      
-      return conversation.switchableOutcome("main", "Search hotels: " + searchString);
+      return searchResults();
    }
-   
+
    public String selectHotel()
    {
       if ( hotels==null ) return "main";
@@ -118,7 +114,6 @@ public class HotelBookingAction implements Serializable
 
    private void setHotel()
    {
-      log.info( "hotel selected: " + hotelIndex + "=>" + hotel );
       hotel = hotels.get(hotelIndex);
       conversation.setDescription( "View hotel: " + hotel.getName() );
    }
@@ -133,9 +128,9 @@ public class HotelBookingAction implements Serializable
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate( calendar.getTime() );
       
-      return conversation.switchableOutcome( "book", "Book hotel: " + hotel.getName() );
+      return bookingPage();
    }
-   
+
    @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
@@ -143,18 +138,16 @@ public class HotelBookingAction implements Serializable
       
       if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
-         log.info("invalid booking dates");
          FacesMessage facesMessage = new FacesMessage("Check out date must be later than check in date");
          facesContext.addMessage(null, facesMessage);
          return null;
       }
       else
       {
-         log.info( "valid booking: " + booking.getDescription() );
-         return conversation.switchableOutcome( "confirm", "Confirm booking: " + booking.getDescription() );
+         return confirmationPage();
       }
    }
-      
+
    @End
    public String confirm()
    {
@@ -162,7 +155,6 @@ public class HotelBookingAction implements Serializable
       
       bookingDatabase.persist(booking);
       if (bookingList!=null) bookingList.refresh();
-      log.info("booking confirmed");
       return "confirmed";
    }
    
@@ -175,4 +167,16 @@ public class HotelBookingAction implements Serializable
       return "main";
    }
 
+   private String bookingPage() {
+      return conversation.switchableOutcome( "book", "Book hotel: " + hotel.getName() );
+   }
+   
+   private String confirmationPage() {
+      return conversation.switchableOutcome( "confirm", "Confirm: " + booking.getDescription() );
+   }
+      
+   private String searchResults() {
+      return conversation.switchableOutcome("main", "Search hotels: " + searchString);
+   }
+   
 }
