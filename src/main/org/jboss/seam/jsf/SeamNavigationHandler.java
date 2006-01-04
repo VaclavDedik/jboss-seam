@@ -1,9 +1,10 @@
 package org.jboss.seam.jsf;
 
+import java.io.IOException;
+
 import javax.faces.application.NavigationHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -66,22 +67,22 @@ public class SeamNavigationHandler extends NavigationHandler {
       }
       else
       {
+         Manager manager = Manager.instance();
+         manager.beforeRedirect();
+         String url = context.getApplication().getViewHandler().getActionURL( context, page.getViewId() );
+         if ( manager.isLongRunningConversation() )
+         {
+            url += "?conversationId=" + manager.getCurrentConversationId();
+         }
          try
          {
-            Manager manager = Manager.instance();
-            manager.beforeRedirect();
-            String url = context.getApplication().getViewHandler().getActionURL( context, page.getViewId() );
-            if ( manager.isLongRunningConversation() )
-            {
-               url += "?conversationId=" + manager.getCurrentConversationId();
-            }
-            ( (HttpServletResponse) context.getExternalContext().getResponse() ).sendRedirect(url);
+            context.getExternalContext().redirect(url);
          }
-         catch (Exception e)
+         catch (IOException ioe)
          {
-            throw new RuntimeException(e);
+            throw new RuntimeException("could not redirect to: " + url, ioe);
          }
-         context.responseComplete();
+         context.responseComplete(); //work around MyFaces bug in 1.1.1
       }
    }
 
