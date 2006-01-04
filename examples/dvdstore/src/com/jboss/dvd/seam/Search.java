@@ -22,6 +22,9 @@ public interface Search
 
     public String   doSearch();
     public String   addToCart();
+    
+    public int      getPageSize();
+    public void     setPageSize(int pageSize);
 
     public String   reset();
     public void     destroy();

@@ -42,7 +42,7 @@ public class SearchAction
     @PersistenceContext(unitName="dvd")
     EntityManager em;
 
-    int     pageSize    = 10;
+    int     pageSize    = 20;
     int     currentPage = 0; 
     boolean hasMore     = false;
 
@@ -54,7 +54,7 @@ public class SearchAction
     List<Product> searchResults;
 
     @Out(scope=ScopeType.CONVERSATION,required=false)
-    Map searchSelections;
+    Map<Product, Boolean> searchSelections;
 
     public void setCategory(Category category) {
         this.category = category ; 
@@ -120,15 +120,14 @@ public class SearchAction
         if (items.size() > pageSize) { 
             searchResults    = new ArrayList(items.subList(0,pageSize));
             hasMore = true;
-        } else {
+        } 
+        else {
             searchResults = items;
             hasMore = false;
         }
 
-        searchSelections = new HashMap();
-        for (Product item: searchResults) {
-            searchSelections.put(item, Boolean.FALSE);
-        }
+        searchSelections = new HashMap<Product, Boolean>();
+
     }
 
 
@@ -154,15 +153,22 @@ public class SearchAction
 
     public String addToCart() {
         for (Product item: searchResults) {
-            Boolean selected = (Boolean) searchSelections.get(item);
-            if (selected!=null && selected.booleanValue()) {
-                searchSelections.put(item, Boolean.FALSE);
-
+            Boolean selected = searchSelections.get(item);
+            if ( selected!=null && selected ) {
+                searchSelections.put(item, false);
                 cart.addProduct(item, 1);
             }
         }
 
         return "browse";
+    }
+
+    public int getPageSize() {
+       return pageSize;
+    }
+    
+    public void setPageSize(int pageSize) {
+       this.pageSize = pageSize;
     }
 
     @End

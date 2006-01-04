@@ -51,7 +51,7 @@ public class ShoppingCartBean
     EntityManager em;
     
     Order cartOrder = new Order();
-    //List<OrderLine> cart = new ArrayList<OrderLine>();
+    
     Map<Product,Boolean> cartSelection  = new HashMap<Product,Boolean>();
 
     @Out(required=false, scope=CONVERSATION)
@@ -66,7 +66,6 @@ public class ShoppingCartBean
     String customerName;
 
     public List<OrderLine> getCart() {
-        //resetCartNumbers();
         return cartOrder.getOrderLines();
     }
     public boolean getIsEmpty() {
@@ -104,10 +103,9 @@ public class ShoppingCartBean
 
         for (OrderLine line: cartOrder.getOrderLines()) {
             if (line.getQuantity() > 0) {
-                Boolean selected = (Boolean) cartSelection.get(line);
-                if ((selected==null) || (selected.booleanValue()==false)) {
+                Boolean selected = cartSelection.get(line);
+                if ( selected==null || !selected ) {
                     newLines.add(line);
-                    //newCartSelect.put(line, Boolean.FALSE);
                 }
             }
         }        
