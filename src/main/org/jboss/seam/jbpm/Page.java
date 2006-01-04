@@ -26,7 +26,7 @@ public class Page extends Node implements Parsable
    private String viewId;
    private boolean isConversationEnd = false;
    private String transition;
-   private String redirect;
+   private boolean redirect;
 
    /**
     * parses the dom4j element that corresponds to this page.
@@ -40,7 +40,7 @@ public class Page extends Node implements Parsable
          isConversationEnd = true;
          transition = conversationEndElement.attributeValue("transition");
       }
-      redirect = pageElement.attributeValue("redirect");
+      redirect = "true".equals( pageElement.attributeValue("redirect") );
    }
 
    /**
@@ -91,7 +91,7 @@ public class Page extends Node implements Parsable
       return viewId;
    }
    
-   public String getRedirect()
+   public boolean isRedirect()
    {
       return redirect;
    }

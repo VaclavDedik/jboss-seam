@@ -59,7 +59,7 @@ public class SeamNavigationHandler extends NavigationHandler {
 
    private void navigate(FacesContext context, ProcessInstance processInstance) {
       Page page = getPage(processInstance);
-      if ( page.getRedirect()==null || "".equals( page.getRedirect() ) )
+      if ( !page.isRedirect() )
       {
          UIViewRoot viewRoot = context.getApplication().getViewHandler().createView( context, page.getViewId() );
          context.setViewRoot(viewRoot);
@@ -70,7 +70,7 @@ public class SeamNavigationHandler extends NavigationHandler {
          {
             Manager manager = Manager.instance();
             manager.beforeRedirect();
-            String url = page.getRedirect();
+            String url = context.getApplication().getViewHandler().getActionURL( context, page.getViewId() );
             if ( manager.isLongRunningConversation() )
             {
                url += "?conversationId=" + manager.getCurrentConversationId();
