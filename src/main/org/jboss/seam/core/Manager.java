@@ -550,12 +550,15 @@ public class Manager
             //handle stuff defined in pages.xml
             String viewId = event.getFacesContext().getViewRoot().getViewId();
             Pages pages = Pages.instance();
-            if ( pages.hasDescription(viewId) )
+            if (pages!=null) //for tests
             {
-               conversation.setDescription( pages.getDescription(viewId) );
-               conversation.setViewId(viewId);
+               if ( pages.hasDescription(viewId) )
+               {
+                  conversation.setDescription( pages.getDescription(viewId) );
+                  conversation.setViewId(viewId);
+               }
+               conversation.setTimeout( pages.getTimeout(viewId) );
             }
-            conversation.setTimeout( pages.getTimeout(viewId) );
          }
          
       }
