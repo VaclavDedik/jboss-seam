@@ -15,18 +15,17 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.logging.Logger;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup(depends="org.jboss.seam.core.microcontainer")
+//@Startup(depends="org.jboss.seam.core.microcontainer") //don't make it a startup component 'cos it needs a faces context
 @Name("org.jboss.seam.core.pages")
 public class Pages 
 {
@@ -39,7 +38,7 @@ public class Pages
    @Create
    public void initialize() throws DocumentException
    {
-      InputStream stream = Resources.getResourceAsStream("WEB-INF/pages.xml");
+      InputStream stream = Resources.getResourceAsStream("/WEB-INF/pages.xml");      
       if (stream==null)
       {
          log.info("no pages.xml file found");
@@ -108,6 +107,6 @@ public class Pages
    
    public static Pages instance()
    {
-      return (Pages) Contexts.getApplicationContext().get(Pages.class);
+      return (Pages) Component.getInstance(Pages.class, ScopeType.APPLICATION, true);
    }
 }

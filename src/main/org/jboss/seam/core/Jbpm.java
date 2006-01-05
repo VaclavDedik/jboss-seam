@@ -16,6 +16,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -68,8 +69,7 @@ public class Jbpm
    }
    
    public ProcessDefinition getProcessDefinitionFromResource(String resourceName) {
-      InputStream resource = Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream(resourceName);
+      InputStream resource = Resources.getResourceAsStream(resourceName);
       if (resource==null)
       {
          throw new IllegalArgumentException("resource not found: " + resourceName);

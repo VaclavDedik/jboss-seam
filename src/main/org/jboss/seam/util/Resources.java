@@ -2,6 +2,8 @@ package org.jboss.seam.util;
 
 import java.io.InputStream;
 
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.Seam;
 
 public class Resources {
@@ -21,6 +23,17 @@ public class Resources {
       if ( stream == null ) {
          stream = Seam.class.getClassLoader().getResourceAsStream( stripped );
       }
+      
+      if (stream==null) 
+      {
+         try
+         {
+            stream = FacesContext.getCurrentInstance().getExternalContext()
+                  .getResourceAsStream(resource);
+         }
+         catch (Exception e) {}
+      }
+      
       return stream;
    }
 
