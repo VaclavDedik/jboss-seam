@@ -218,23 +218,5 @@ public class ConversationInterceptor extends AbstractInterceptor
       Pageflow.instance().setProcessInstance(pi);
       pi.signal();
    }
-   
-   //TODO: copy/paste from BusinessProcessInterceptor
-   /*private void createProcess(String processDefinitionName)
-   {
-      JbpmSession session = ManagedJbpmSession.instance();
-      
-      ProcessDefinition pd = session.getGraphSession().findLatestProcessDefinition(processDefinitionName);
-      if ( pd == null )
-      {
-         throw new IllegalArgumentException( "Unknown process definition: " + processDefinitionName );
-      }
-      
-      ProcessInstance process = pd.createProcessInstance();
-      Conversation.instance().setProcessId( process.getId() );
-      process.signal();
-      //session.getSession().flush();
-   }*/
-
 
 }

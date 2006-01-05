@@ -26,7 +26,8 @@ import org.jbpm.graph.exe.Token;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.pageflow")
 @Intercept(NEVER)
-public class Pageflow {
+public class Pageflow 
+{
    
    private int counter;
    
@@ -59,7 +60,8 @@ public class Pageflow {
       return counter;
    }
    
-   public void validatePageflow(Map attributes) {
+   public void validatePageflow(Map attributes) 
+   {
       Integer counter = (Integer) attributes.get(Manager.PAGEFLOW_COUNTER);
       if ( counter!=null && getPageflowCounter()!=counter )
       {
@@ -69,14 +71,17 @@ public class Pageflow {
       }
    }
    
-   public Page getPage(ProcessInstance processInstance) {
+   public Page getPage() 
+   {
+      if (processInstance==null) return null;
       Token pageFlowToken = processInstance.getRootToken();
       Page page = (Page) pageFlowToken.getNode();
       return page;
    }
    
-   public void navigate(FacesContext context) {
-      Page page = getPage(processInstance);
+   public void navigate(FacesContext context) 
+   {
+      Page page = getPage();
       if ( !page.isRedirect() )
       {
          UIViewRoot viewRoot = context.getApplication().getViewHandler().createView( context, page.getViewId() );
@@ -92,7 +97,7 @@ public class Pageflow {
 
    public boolean hasDefaultTransition()
    {
-      return getPage(processInstance).getDefaultLeavingTransition()!=null;
+      return getPage().getDefaultLeavingTransition()!=null;
    }
    
 }

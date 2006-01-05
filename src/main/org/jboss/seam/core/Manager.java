@@ -17,6 +17,7 @@ import java.util.Set;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseEvent;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
@@ -30,6 +31,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.contexts.Session;
+import org.jboss.seam.jbpm.Page;
 import org.jboss.seam.util.Id;
 
 /**
@@ -525,4 +527,38 @@ public class Manager
       }
       context.responseComplete(); //work around MyFaces bug in 1.1.1
    }
+
+   public void prepareBackswitch(PhaseEvent event) {
+      if ( isLongRunningConversation() )
+      {
+         Conversation conversation = Conversation.instance();
+         
+         //stuff from jPDL takes precedence
+         Page page = Init.instance().isJbpmInstalled() ? 
+               Pageflow.instance().getPage() : null;
+         if (page!=null)
+         {
+            if ( page.hasDescription() ) 
+            {
+               conversation.setDescription( page.getDescription() );
+               conversation.setViewId( page.getViewId() );
+            }
+            conversation.setTimeout( page.getTimeout() );
+         }
+         else
+         {
+            //handle stuff defined in pages.xml
+            String viewId = event.getFacesContext().getViewRoot().getViewId();
+            Pages pages = Pages.instance();
+            if ( pages.hasDescription(viewId) )
+            {
+               conversation.setDescription( pages.getDescription(viewId) );
+               conversation.setViewId(viewId);
+            }
+            conversation.setTimeout( pages.getTimeout(viewId) );
+         }
+         
+      }
+   }
+   
 }

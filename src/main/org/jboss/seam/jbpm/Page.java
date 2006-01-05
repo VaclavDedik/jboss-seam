@@ -27,6 +27,8 @@ public class Page extends Node implements Parsable
    private boolean isConversationEnd = false;
    private String transition;
    private boolean redirect;
+   private String description;
+   private Integer timeout;
 
    /**
     * parses the dom4j element that corresponds to this page.
@@ -41,6 +43,16 @@ public class Page extends Node implements Parsable
          transition = conversationEndElement.attributeValue("transition");
       }
       redirect = "true".equals( pageElement.attributeValue("redirect") );
+      Element descriptionElement = pageElement.element("description");
+      if (descriptionElement!=null)
+      {
+         description = descriptionElement.getTextTrim();
+      }
+      String timeoutString = pageElement.attributeValue("timeout");
+      if ( timeoutString!=null )
+      {
+         timeout = Integer.parseInt(timeoutString);
+      }
    }
 
    /**
@@ -94,5 +106,18 @@ public class Page extends Node implements Parsable
    public boolean isRedirect()
    {
       return redirect;
+   }
+   
+   public boolean hasDescription()
+   {
+      return description!=null;
+   }
+
+   public String getDescription() {
+      return description;
+   }
+
+   public Integer getTimeout() {
+      return timeout;
    }
 }
