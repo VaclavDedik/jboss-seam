@@ -27,7 +27,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -66,9 +65,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In(required=false)
    private BookingList bookingList;
    
-   @In(create=true)
-   private transient Conversation conversation;
-   
    @Begin(join=true)
    public String find()
    {
@@ -79,7 +75,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
             .setMaxResults(pageSize)
             .getResultList();
       
-      return searchResults();
+      return "main";
    }
    
    public int getPageSize() {
@@ -104,7 +100,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
    {
       if ( hotels==null ) return "main";
       setHotel();
-      return conversation.switchableOutcome("selected");
+      return "selected";
    }
 
    public String nextHotel()
@@ -130,7 +126,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
    private void setHotel()
    {
       hotel = hotels.get(hotelIndex);
-      conversation.setDescription( "View hotel: " + hotel.getName() );
    }
    
    public String bookHotel()
@@ -141,7 +136,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate( calendar.getTime() );
       
-      return bookingPage();
+      return "book";
    }
 
    @IfInvalid(outcome=REDISPLAY)
@@ -156,7 +151,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       }
       else
       {
-         return confirmationPage();
+         return "confirm";
       }
    }
 
@@ -178,20 +173,12 @@ public class HotelBookingAction implements HotelBooking, Serializable
    }
    
    public String revise() {
-      return bookingPage();
-   }
-
-   private String bookingPage() {
-      return conversation.switchableOutcome( "book", "Book hotel: " + hotel.getName() );
+      return "book";
    }
    
-   private String confirmationPage() {
-      return conversation.switchableOutcome( "confirm", "Confirm: " + booking.getDescription() );
-   }
-      
    public String searchResults()
    {
-      return conversation.switchableOutcome("main", "Search hotels: " + searchString);
+      return "main";
    }
    
    @Destroy @Remove
