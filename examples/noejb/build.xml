@@ -75,6 +75,7 @@
         <copy todir="${build.dir}/resources/WEB-INF">
           <fileset dir="resources/WEB-INF">
             <include name="web.xml"/>
+          	<include name="pages.xml"/>
     	    <include name="jboss-web.xml"/>
     	    <include name="faces-config.xml"/>
     	    <include name="**/*.properties"/>

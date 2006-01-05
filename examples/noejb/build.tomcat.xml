@@ -15,6 +15,7 @@
                dir="resources/WEB-INF" >
       <patternset>
       	<include name="faces-config.xml"/>
+    	<include name="pages.xml"/>
       	<include name="**/*.properties"/>
       </patternset>
     </fileset>
