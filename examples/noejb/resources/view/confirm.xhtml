@@ -7,6 +7,7 @@
 
 <!-- content -->
 <ui:define name="content">
+<ui:include src="conversations.xhtml" />
 <div class="section">
 	<h1>Confirm Hotel Booking</h1>
 </div>
@@ -45,8 +46,7 @@
 			<div class="label">&nbsp;</div>
 			<div class="input">
 				<h:commandButton value="Confirm" action="#{hotelBooking.confirm}" class="button"/>&nbsp;
-    				<h:commandButton value="Cancel" action="main" class="button"/>&nbsp;
-    				<h:commandButton value="Back" action="back" class="button"/>
+    			<h:commandButton value="Revise" action="back" class="button"/>
 			</div>
 		</div>
 	</fieldset>
