@@ -23,6 +23,15 @@
                             <f:selectItems value="#{catbean.categories}" />
                         </h:selectOneMenu>
                     </dd>
+                    <dt><h:outputText value="#{msgs.searchPageSize}" /></dt>
+                    <dd>
+                        <h:selectOneMenu value="#{search.pageSize}">
+                            <f:selectItem itemLabel="10" itemValue="10" />
+                            <f:selectItem itemLabel="15" itemValue="15" />
+                            <f:selectItem itemLabel="20" itemValue="20" />
+                            <f:selectItem itemLabel="30" itemValue="30" />
+                        </h:selectOneMenu>
+                    </dd>
                     
                     <dd>
                         <h:commandButton action="#{search.doSearch}" 
