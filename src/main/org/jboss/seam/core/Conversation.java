@@ -27,7 +27,7 @@ public class Conversation implements Serializable {
    
    private Integer timeout;
    String description;
-   String outcome;
+   String viewId;
 
    /**
     * Get the timeout for this converstaion instance.
@@ -60,11 +60,11 @@ public class Conversation implements Serializable {
             description;
    }
    
-   public String getOutcome()
+   public String getViewId()
    {
-      return outcome==null ? 
-            Manager.instance().getCurrentConversationOutcome() :
-            outcome;
+      return viewId==null ? 
+            Manager.instance().getCurrentConversationViewId() :
+            viewId;
    }
    
    /**
@@ -82,9 +82,9 @@ public class Conversation implements Serializable {
     * conversation from the conversation list, breadcrumbs, or 
     * conversation switcher.
     */
-   public void setOutcome(String outcome)
+   public void setViewId(String outcome)
    {
-      this.outcome = outcome;
+      this.viewId = outcome;
    }
    
    public static Conversation instance()
@@ -96,35 +96,11 @@ public class Conversation implements Serializable {
       return (Conversation) Component.getInstance(Conversation.class, ScopeType.CONVERSATION, true);
    }
    
-   /**
-    * Convenience method to set both the outcome and description 
-    * and return the outcome in a single line of code.
-    * 
-    * @return the given outcome
-    */
-   public String switchableOutcome(String outcome, String description)
-   {
-      setDescription(description);    
-      return switchableOutcome(outcome);
-   }
-   
-   /**
-    * Convenience method to set both the outcome and return it in
-    * a single line of code.
-    * 
-    * @return the given outcome
-    */
-   public String switchableOutcome(String outcome)
-   {
-      setOutcome(outcome);
-      return outcome;
-   }
-   
    void flush()
    {
       //we need to flush this stuff asynchronously to handle 
       //nested and temporary conversations nicely
-      if ( description!=null || outcome!=null )
+      if ( description!=null || viewId!=null )
       {
          Manager manager = Manager.instance();
          if ( !manager.isLongRunningConversation() )
@@ -132,10 +108,10 @@ public class Conversation implements Serializable {
             throw new IllegalStateException("only long-running conversation outcomes are switchable");
          }
          if (description!=null) manager.setCurrentConversationDescription(description);
-         if (outcome!=null) manager.setCurrentConversationOutcome(outcome);
+         if (viewId!=null) manager.setCurrentConversationViewId(viewId);
          if (timeout!=null) manager.setCurrentConversationTimeout(timeout);
          description = null;
-         outcome = null;
+         viewId = null;
       }
    }
 

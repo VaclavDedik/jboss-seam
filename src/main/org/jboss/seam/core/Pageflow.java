@@ -2,11 +2,9 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.Component;
@@ -86,18 +84,7 @@ public class Pageflow {
       }
       else
       {
-         String url = context.getApplication().getViewHandler().getActionURL( context, page.getViewId() );
-         url = Manager.instance().encodeConversationId(url);
-         ExternalContext externalContext = context.getExternalContext();
-         try
-         {
-            externalContext.redirect( externalContext.encodeActionURL(url) );
-         }
-         catch (IOException ioe)
-         {
-            throw new RuntimeException("could not redirect to: " + url, ioe);
-         }
-         context.responseComplete(); //work around MyFaces bug in 1.1.1
+         Manager.instance().redirect( page.getViewId() );
       }
 
       counter++;

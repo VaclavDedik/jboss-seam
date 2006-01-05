@@ -36,6 +36,7 @@ import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
 import org.jboss.seam.core.Process;
@@ -52,6 +53,7 @@ import org.jboss.seam.core.Transition;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.util.Resources;
 
 /**
  * @author Gavin King
@@ -111,7 +113,7 @@ public class Initialization
    
    public static void loadFromResource(Map properties, String resource)
    {
-      InputStream stream = getResourceAsStream(resource);
+      InputStream stream = Resources.getResourceAsStream(resource);
       if (stream!=null)
       {
          log.info("reading properties from: " + resource);
@@ -132,29 +134,12 @@ public class Initialization
       }
    }
 
-   private static InputStream getResourceAsStream(String resource) {
-      String stripped = resource.startsWith("/") ? 
-            resource.substring(1) : resource;
-   
-      InputStream stream = null; 
-      ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-      if (classLoader!=null) {
-         stream = classLoader.getResourceAsStream( stripped );
-      }
-      if ( stream == null ) {
-         Seam.class.getResourceAsStream( resource );
-      }
-      if ( stream == null ) {
-         stream = Seam.class.getClassLoader().getResourceAsStream( stripped );
-      }
-      return stream;
-   }
-   
    protected void addComponents()
    {
       Context context = Contexts.getApplicationContext();
 
       addComponent( Init.class, context );
+      addComponent( Pages.class, context);
       addComponent( Manager.class, context );
       addComponent( Switcher.class, context );
       addComponent( Conversation.class, context );

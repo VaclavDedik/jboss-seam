@@ -94,9 +94,10 @@ public class Switcher implements Serializable {
       {
          manager.swapConversation(conversationIdOrOutcome);
          resultingConversationIdOrOutcome = manager.getCurrentConversationId();
-         actualOutcome = manager.getCurrentConversationOutcome();
+         Manager.instance().redirect( manager.getCurrentConversationViewId() );
+         actualOutcome = "org.jboss.seam.switch";
       }
-      Lifecycle.resumeConversation( FacesContext.getCurrentInstance().getExternalContext() );
+      Lifecycle.resumeConversation( FacesContext.getCurrentInstance().getExternalContext() ); //TODO: remove, unnecessary
       return actualOutcome;
    }
   

@@ -22,7 +22,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private String id;
    private Date startDatetime;
    private Date lastDatetime;
-   private String outcome;
+   private String viewId;
    private LinkedList<String> conversationIdStack;
    private String initiatorComponentName;
    private Integer timeout;
@@ -87,21 +87,22 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
 
    public String select() {
       Manager.instance().swapConversation( getId() );
-      return getOutcome();
+      Manager.instance().redirect( getViewId() );
+      return "org.jboss.seam.switch";
    }
 
-   void setOutcome(String outcome) {
-      this.outcome = outcome;
+   void setViewId(String viewId) {
+      this.viewId = viewId;
    }
    
-   public String getOutcome()
+   public String getViewId()
    {
       if ( isCurrent() )
       {
-         String out = Conversation.instance().outcome;
+         String out = Conversation.instance().viewId;
          if (out!=null) return out;
       }
-      return outcome;
+      return viewId;
    }
 
    public Date getLastDatetime() {

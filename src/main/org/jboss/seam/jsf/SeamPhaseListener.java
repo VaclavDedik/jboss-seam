@@ -28,9 +28,11 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.Session;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.core.Pages;
 
 /**
  * Manages the thread/context associations throught the
@@ -76,11 +78,23 @@ public class SeamPhaseListener implements PhaseListener
       {
          Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
       }
-      /*else if ( event.getPhaseId() == RENDER_RESPONSE )
+      else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         beforeSaveState();
-         Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
-      }*/
+         if ( Manager.instance().isLongRunningConversation() )
+         {
+            String viewId = event.getFacesContext().getViewRoot().getViewId();
+            Pages pages = Pages.instance();
+            if ( pages.hasDescription(viewId) )
+            {
+               Conversation conversation = Conversation.instance();
+               conversation.setDescription( pages.getDescription(viewId) );
+               conversation.setViewId(viewId);
+            }
+         }
+         
+         //beforeSaveState();
+         //Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
+      }
 
    }
 

@@ -8,6 +8,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
@@ -180,9 +182,9 @@ public class Manager
       dirty();
    }
    
-   public void setCurrentConversationOutcome(String outcome)
+   public void setCurrentConversationViewId(String viewId)
    {
-      getCurrentConversationEntry().setOutcome(outcome);
+      getCurrentConversationEntry().setViewId(viewId);
       dirty();
    }
    
@@ -200,12 +202,12 @@ public class Manager
       return ce.getDescription();
    }
    
-   public String getCurrentConversationOutcome()
+   public String getCurrentConversationViewId()
    {
       if ( conversationIdEntryMap==null ) return null;
       ConversationEntry ce = conversationIdEntryMap.get(currentConversationId);
       if ( ce==null ) return null;
-      return ce.select();
+      return ce.getViewId();
    }
    
    @Destroy
@@ -507,4 +509,20 @@ public class Manager
       return url + "?conversationId=" + getCurrentConversationId();
    }
    
+   public void redirect(String viewId)
+   {
+      FacesContext context = FacesContext.getCurrentInstance();
+      String url = context.getApplication().getViewHandler().getActionURL( context, viewId );
+      url = encodeConversationId(url);
+      ExternalContext externalContext = context.getExternalContext();
+      try
+      {
+         externalContext.redirect( externalContext.encodeActionURL(url) );
+      }
+      catch (IOException ioe)
+      {
+         throw new RuntimeException("could not redirect to: " + url, ioe);
+      }
+      context.responseComplete(); //work around MyFaces bug in 1.1.1
+   }
 }
