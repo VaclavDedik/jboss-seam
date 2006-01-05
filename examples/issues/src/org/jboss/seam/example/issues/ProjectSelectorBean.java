@@ -11,7 +11,6 @@ import javax.ejb.Stateless;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
@@ -23,9 +22,6 @@ public class ProjectSelectorBean implements ProjectSelector {
    private transient ResourceBundle resourceBundle;
 
    @In(create=true)
-   private transient Conversation conversation;
-
-   @In(create=true)
    private transient ProjectEditor projectEditor;
    
    @In(create=true)
@@ -34,11 +30,7 @@ public class ProjectSelectorBean implements ProjectSelector {
    @Begin
    public String select() {
       projectEditor.setInstance( projectFinder.getSelection() );
-      return conversation.switchableOutcome( "editProject", getDescription() );
-   }
-   
-   private String getDescription() {
-      return "Project [" + projectFinder.getSelection().getName() + "]";
+      return "editProject";
    }
    
    public String getButtonLabel() {

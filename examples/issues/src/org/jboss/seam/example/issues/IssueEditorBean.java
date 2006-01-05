@@ -27,7 +27,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 
@@ -72,14 +71,11 @@ public class IssueEditorBean implements IssueEditor {
 
     @In(required=false)
     private transient ProjectFinder projectFinder;
-
-    @In(create=true)
-    private transient Conversation conversation;
     
     @In
     private transient ResourceBundle resourceBundle;
 
-    @Begin(nested=true)
+    @Begin(join=true)
     @IfInvalid(outcome=Outcome.REDISPLAY)
     public String create() {
        entityManager.persist(issue);
@@ -89,15 +85,18 @@ public class IssueEditorBean implements IssueEditor {
        }
        refreshFinder();
        refreshProjectFinder();
-       return conversation.switchableOutcome( "editIssue", getDescription() );
+       return "editIssue";
     }
 
    private void refreshProjectFinder() {
       if (projectFinder!=null) projectFinder.refresh();
    }
     
-    private String getDescription() {
-       return "Issue [" + issue.getId() + "]";
+    public String getDescription() {
+       String projectName = issue.getProject().getName();
+       return issue.getId()==null ?
+             "New Issue for Project [" + projectName + "]" :
+             "Issue [" + issue.getId() + "] for Project [" + projectName + "]";
     }
 
     @IfInvalid(outcome=Outcome.REDISPLAY)
@@ -146,7 +145,7 @@ public class IssueEditorBean implements IssueEditor {
     public String select() {
        issue = issueFinder.getSelection();
        isNew = false;
-       return conversation.switchableOutcome( "editIssue", getDescription() );
+       return "editIssue";
     }
     
     @Begin(nested=true)
@@ -157,7 +156,7 @@ public class IssueEditorBean implements IssueEditor {
        issue.setSubmitted( new Date() );
        issue.setProject( projectEditor.getInstance() );
        doneOutcome = "editProject";
-       return conversation.switchableOutcome( "editIssue", getCreateDescription() );
+       return "editIssue";
     }
     
     @Begin(nested=true)
@@ -165,15 +164,7 @@ public class IssueEditorBean implements IssueEditor {
        isNew = false;
        issue = projectEditor.getSelectedIssue();
        doneOutcome = "editProject";
-       return conversation.switchableOutcome( "editIssue", getDescription() );
-    }
-    
-    private String getCreateDescription() {
-       return "Create new Issue for " + getProjectDescription();
-    }
-    
-    private String getProjectDescription() {
-       return "Project [" + projectEditor.getInstance().getName() + "]";
+       return "editIssue";
     }
     
     private String developer;

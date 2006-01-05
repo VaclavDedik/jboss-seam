@@ -25,7 +25,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 
@@ -61,9 +60,6 @@ public class ProjectEditorBean implements ProjectEditor {
 
     @In
     private transient ResourceBundle resourceBundle;
-
-    @In(create=true)
-    private transient Conversation conversation;
     
     @Begin
     @IfInvalid(outcome=Outcome.REDISPLAY)
@@ -81,10 +77,10 @@ public class ProjectEditorBean implements ProjectEditor {
        entityManager.persist(project);
        isNew = false;
        refreshFinder();
-       return conversation.switchableOutcome( "editProject", getDescription() );
+       return "editProject";
     }
     
-    private String getDescription() {
+    public String getDescription() {
        return "Project [" + project.getName() + "]";
     }
 

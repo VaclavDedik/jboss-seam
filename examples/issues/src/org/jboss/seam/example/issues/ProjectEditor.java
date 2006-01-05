@@ -27,5 +27,7 @@ public interface ProjectEditor {
    public void setDeveloper(String developer);
    public List<User> getDevelopers();
    
+   public String getDescription();
+   
    public void destroy();
 }

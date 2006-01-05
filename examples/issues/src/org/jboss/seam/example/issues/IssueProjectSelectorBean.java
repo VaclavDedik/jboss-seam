@@ -15,7 +15,6 @@ import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 
@@ -28,22 +27,19 @@ public class IssueProjectSelectorBean implements IssueProjectSelector {
    private transient ResourceBundle resourceBundle;
 
    @In(create=true)
-   private transient Conversation conversation;
-
-   @In(create=true)
    private transient ProjectFinder projectFinder;
 
    @In
    private transient IssueEditor issueEditor;
    
-   @Begin(nested=true)
+   @Begin(join=true)
    public String selectProject() {
       CONVERSATION.getContext().set("projectSelector",
             Component.getInstance("issueProjectSelector", true) );
-       return conversation.switchableOutcome("selectProject", getSelectProjectDescription() );
+       return "selectProject";
    }
    
-   private String getSelectProjectDescription() {
+   public String getDescription() {
        return "Select Project for " + getIssueDescription();
    }
    
@@ -54,10 +50,9 @@ public class IssueProjectSelectorBean implements IssueProjectSelector {
 
    private String completed() {
       CONVERSATION.getContext().remove("projectSelector");
-      return conversation.switchableOutcome("editIssue", getIssueDescription());
+      return "editIssue";
    }
    
-   @End
    public String select() {
       Issue issue = issueEditor.getInstance();
       issue.setProject( projectFinder.getSelection() );
@@ -65,7 +60,6 @@ public class IssueProjectSelectorBean implements IssueProjectSelector {
       return completed();
    }
    
-   @End
    public String cancel() {
       return completed();
    }

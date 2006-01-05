@@ -19,7 +19,6 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 
@@ -46,9 +45,6 @@ public class CommentEditorBean implements CommentEditor {
        return isNew;
     }
     
-    @In(create=true)
-    private transient Conversation conversation;
-    
     @In
     private Login login;
         
@@ -62,14 +58,14 @@ public class CommentEditorBean implements CommentEditor {
        comment.setIssue( issueEditor.getInstance() );
        comment.setUser( login.getInstance() );
        comment.setSubmitted( new Date() );
-       return conversation.switchableOutcome( "editComment", getCreateDescription() );
+       return "editComment";
     }
     
     @Begin(nested=true)
     public String selectComment() {
        isNew = false;
        comment = issueEditor.getSelectedComment();
-       return conversation.switchableOutcome( "editComment", getDescription() );
+       return "editComment";
     }
 
     @End
@@ -102,19 +98,12 @@ public class CommentEditorBean implements CommentEditor {
        return "editIssue";
     }
     
-    private String getDescription() {
-       return "Comment [" + comment.getId() + "]";
+    public String getDescription() {
+       return comment.getId()==null ?
+             "Comment on " + issueEditor.getDescription() :
+             "Comment [" + comment.getId() + "] for " + issueEditor.getDescription();
     }
     
-    public String getCreateDescription() {
-       return "Create new Comment for " + getIssueDescription();
-    }
-    
-    private String getIssueDescription()
-    {
-       return "Issue [" + issueEditor.getInstance().getId() + "]";
-    }
-
     @Destroy @Remove
     public void destroy() {} 
 

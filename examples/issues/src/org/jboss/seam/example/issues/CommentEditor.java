@@ -18,5 +18,7 @@ public interface CommentEditor {
     
    public String done();
    
+   public String getDescription();
+   
    public void destroy();
 }

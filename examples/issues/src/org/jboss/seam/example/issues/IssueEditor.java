@@ -32,5 +32,7 @@ public interface IssueEditor {
    
    public String done();
    
+   public String getDescription();
+   
    public void destroy();
 }
