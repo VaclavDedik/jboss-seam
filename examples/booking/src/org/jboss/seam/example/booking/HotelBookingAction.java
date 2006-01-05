@@ -172,15 +172,6 @@ public class HotelBookingAction implements HotelBooking, Serializable
       return "main";
    }
    
-   public String revise() {
-      return "book";
-   }
-   
-   public String searchResults()
-   {
-      return "main";
-   }
-   
    @Destroy @Remove
    public void destroy() {}
 

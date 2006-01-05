@@ -25,9 +25,6 @@ public interface HotelBooking
    public String setBookingDetails();
    
    public String confirm();
-   public String revise();
-   
-   public String searchResults();
    
    public void destroy();
    
