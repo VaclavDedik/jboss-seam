@@ -62,8 +62,8 @@
             <fileset dir="${imported.basedir}">
                 <include name="jboss-seam.jar"/>
             </fileset>
-            <fileset dir="lib">
-                <include name="jbpm-3.1-alpha2.jar" />
+            <fileset dir="${imported.basedir}/lib">
+                <include name="jbpm-3.1-beta1.jar" />
             </fileset>
         </jar>
     </target>
