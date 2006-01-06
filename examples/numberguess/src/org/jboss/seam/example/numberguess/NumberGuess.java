@@ -1,0 +1,95 @@
+package org.jboss.seam.example.numberguess;
+
+import java.util.Random;
+
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+
+@Name("numberGuess")
+@Scope(ScopeType.CONVERSATION)
+public class NumberGuess {
+   
+   private int randomNumber;
+   private Integer currentGuess;
+   private int biggest;
+   private int smallest;
+   private int guessCount;
+   private int maxGuesses;
+   
+   @Create 
+   @Begin(processDefinition="numberGuess")
+   public void begin()
+   {
+      randomNumber = new Random().nextInt(100);
+      guessCount = 0;
+      biggest = 100;
+      smallest = 1;
+   }
+   
+   public void setCurrentGuess(Integer guess)
+   {
+      this.currentGuess = guess;
+   }
+   
+   public Integer getCurrentGuess()
+   {
+      return currentGuess;
+   }
+   
+   public void guess()
+   {
+      if (currentGuess>randomNumber)
+      {
+         biggest = currentGuess - 1;
+      }
+      if (currentGuess<randomNumber)
+      {
+         smallest = currentGuess + 1;
+      }
+      guessCount ++;
+   }
+   
+   public boolean isCorrectGuess()
+   {
+      return currentGuess==randomNumber;
+   }
+   
+   public int getBiggest()
+   {
+      return biggest;
+   }
+   
+   public int getSmallest()
+   {
+      return smallest;
+   }
+   
+   public int getGuessCount()
+   {
+      return guessCount;
+   }
+   
+   public boolean isLastGuess()
+   {
+      return guessCount==maxGuesses;
+   }
+
+   public int getRemainingGuesses() {
+      return maxGuesses-guessCount;
+   }
+
+   public void setMaxGuesses(int maxGuesses) {
+      this.maxGuesses = maxGuesses;
+   }
+
+   public int getMaxGuesses() {
+      return maxGuesses;
+   }
+
+   public int getRandomNumber() {
+      return randomNumber;
+   }
+}

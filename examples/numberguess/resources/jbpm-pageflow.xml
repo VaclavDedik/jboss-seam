@@ -1,0 +1,31 @@
+<process-definition name="numberGuess">
+   
+   <start-state name="start">
+      <transition to="displayGuess"/>
+   </start-state>
+   
+   <page name="displayGuess" view-id="/numberGuess.jsp" redirect="true">
+      <transition name="guess" to="evaluateGuess">
+      	<action expression="#{numberGuess.guess}" />
+      </transition>
+   </page>
+   
+   <decision name="evaluateGuess" expression="#{numberGuess.isCorrectGuess}">
+      <transition name="true" to="win"/>
+      <transition name="false" to="evaluateRemainingGuesses"/>
+   </decision>
+   
+   <decision name="evaluateRemainingGuesses" expression="#{numberGuess.isLastGuess}">
+      <transition name="true" to="lose"/>
+      <transition name="false" to="displayGuess"/>
+   </decision>
+   
+   <page name="win" view-id="/win.jsp" redirect="true">
+      <end-conversation />
+   </page>
+   
+   <page name="lose" view-id="/lose.jsp" redirect="true">
+      <end-conversation />
+   </page>
+   
+</process-definition>
