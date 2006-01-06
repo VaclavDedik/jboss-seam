@@ -62,12 +62,15 @@ public class Pageflow
    
    public void validatePageflow(Map attributes) 
    {
-      Integer counter = (Integer) attributes.get(Manager.PAGEFLOW_COUNTER);
-      if ( counter!=null && getPageflowCounter()!=counter )
+      if ( processInstance!=null )
       {
-         FacesContext context = FacesContext.getCurrentInstance();
-         navigate(context);
-         context.renderResponse();
+         Integer counter = (Integer) attributes.get(Manager.PAGEFLOW_COUNTER);
+         if ( counter!=null && getPageflowCounter()!=counter )
+         {
+            FacesContext context = FacesContext.getCurrentInstance();
+            navigate(context);
+            context.renderResponse();
+         }
       }
    }
    
