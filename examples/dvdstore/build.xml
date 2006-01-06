@@ -64,7 +64,6 @@
             </fileset>
             <fileset dir="lib">
                 <include name="jbpm-3.1-alpha2.jar" />
-                <include name="ehcache-1.1.jar" />
             </fileset>
         </jar>
     </target>
@@ -73,13 +72,6 @@
 
     <target name="ear" depends="war,ejb3jar">
         <mkdir dir="${build.dir}"/>
-<!--
-        <jar destfile="${build.dir}/dvd.beans">
-            <metainf dir="dd/beans">
-                <include name="*" />
-            </metainf>                
-        </jar>
-    -->    
         <ear destfile="${build.dir}/dvd.ear" 
              appxml="dd/ear/application.xml">
             <metainf dir="dd/ear">
