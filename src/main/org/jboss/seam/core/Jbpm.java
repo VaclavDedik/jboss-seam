@@ -37,6 +37,7 @@ public class Jbpm
    private Logger log = Logger.getLogger( Jbpm.class );
    
    public static final String PROCESS_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".processDefinitions";
+   public static final String PAGEFLOW_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".pageflowDefinitions";
    
    private JbpmConfiguration jbpmConfiguration;
    private String[] processDefinitions;

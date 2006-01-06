@@ -79,7 +79,7 @@ public class Pageflow
       return page;
    }
    
-   public void navigate(FacesContext context) 
+   private void navigate(FacesContext context) 
    {
       Page page = getPage();
       if ( !page.isRedirect() )
@@ -98,6 +98,25 @@ public class Pageflow
    public boolean hasDefaultTransition()
    {
       return getPage().getDefaultLeavingTransition()!=null;
+   }
+
+   public void navigate(FacesContext context, String outcome) {
+      if ( outcome==null || "".equals(outcome) )
+      {
+         //if it has a default transition defined, trigger it,
+         //otherwise just redisplay the page
+         if ( hasDefaultTransition() )
+         {
+            processInstance.signal();
+            navigate(context);
+         }
+      }
+      else
+      {
+         //trigger the named transition
+         processInstance.signal(outcome);
+         navigate(context);
+      }
    }
    
 }

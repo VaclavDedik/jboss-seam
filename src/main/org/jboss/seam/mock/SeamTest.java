@@ -15,7 +15,9 @@ import javax.faces.event.PhaseId;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.servlet.ServletSessionImpl;
@@ -67,6 +69,7 @@ public class SeamTest
       protected void processValidations() throws Exception {}
       protected void updateModelValues() throws Exception {}
       protected void invokeApplication() throws Exception {}
+      protected String getInvokeApplicationOutcome() { return null; }
       protected void renderResponse() throws Exception {}
       protected void setParameters() {}
       
@@ -117,6 +120,13 @@ public class SeamTest
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
          
          invokeApplication();
+         
+         String outcome = getInvokeApplicationOutcome();
+         if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
+         {
+            //TODO: re-enable, once we get a way to mock the expression evaluation
+            //Pageflow.instance().navigate(facesContext, outcome);
+         }
    
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );

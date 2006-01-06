@@ -10,7 +10,8 @@ public class SeamActionHandler implements ActionHandler {
 
    public void execute(ExecutionContext context) throws Exception {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      facesContext.getApplication().createMethodBinding(expression, null).invoke(facesContext, null);
+      facesContext.getApplication().createMethodBinding(expression, null)
+            .invoke(facesContext, null);
    }
 
 }
