@@ -97,25 +97,24 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private Object afterInvocation(InvocationContext invocation, Object result)
    {
-      if (result!=null) //interpreted as "redisplay"
+      Method method = invocation.getMethod();
+      if ( result!=null || method.getReturnType().equals(void.class) ) //interpreted as "redisplay"
       {
-         Method method = invocation.getMethod();
          if ( method.isAnnotationPresent( CreateProcess.class ) )
          {
             log.trace( "encountered @CreateProcess" );
             CreateProcess tag = method.getAnnotation( CreateProcess.class );
             createProcess( tag.definition() );
          }
-         else if ( method.isAnnotationPresent( StartTask.class ) )
+         if ( method.isAnnotationPresent( StartTask.class ) )
          {
             log.trace( "encountered @StartTask" );
-            //StartTask tag = method.getAnnotation( StartTask.class );
             startTask();
          }
-         else if ( method.isAnnotationPresent( EndTask.class ) )
+         if ( method.isAnnotationPresent( EndTask.class ) )
          {
             log.trace( "encountered @EndTask" );
-            completeTask( method.getAnnotation(EndTask.class).transition() );
+            endTask( method.getAnnotation(EndTask.class).transition() );
          }
       }
       return result;
@@ -154,7 +153,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }
    }
 
-   private void completeTask(String transitionName)
+   private void endTask(String transitionName)
    {
       TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
       if ( task == null )

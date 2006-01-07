@@ -42,7 +42,7 @@ public class Jbpm
    private JbpmConfiguration jbpmConfiguration;
    private String[] processDefinitions;
    private String[] pageflowDefinitions;
-   private Map<String, ProcessDefinition> pageflowProcessDefinitions;
+   private Map<String, ProcessDefinition> pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>();
    
    @Create
    public void startup() throws Exception
@@ -95,11 +95,13 @@ public class Jbpm
    }
    
    private void installPageflowDefinitions() {
-      pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>(pageflowDefinitions.length);
-      for (String pageflow: pageflowDefinitions)
+      if ( pageflowDefinitions!=null )
       {
-         ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
-         pageflowProcessDefinitions.put( pd.getName(), pd );
+         for (String pageflow: pageflowDefinitions)
+         {
+            ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
+            pageflowProcessDefinitions.put( pd.getName(), pd );
+         }
       }
    }
    
