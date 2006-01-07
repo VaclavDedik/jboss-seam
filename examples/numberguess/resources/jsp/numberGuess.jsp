@@ -23,7 +23,7 @@
         </h:inputText>
 		<h:commandButton type="submit" value="Guess" action="guess" />
 		<br/>
-        <h:message for="guess"/>
+        <h:message for="guess" style="color: red"/>
 	</h:form>
 </f:view>
 </body>
