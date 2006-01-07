@@ -23,7 +23,7 @@ How to Build and Deploy the Example on JBoss AS
 
 7. Point your web browser to:
 
-   http://localhost:8080/seam-registration/
+   http://localhost:8080/seam-registration/register.jsf
 
    NOTE: The default build uses the HSQL database embedded in JBoss AS
 
@@ -50,6 +50,6 @@ Running the TestNG Tests in Eclipse
    lib/
    embedded-ejb/lib
    
-3. Run examples/noejb/src/org/jboss/seam/example/registration/test/testng.xml
+3. Run examples/registration/src/org/jboss/seam/example/registration/test/testng.xml
    using the TestNG plugin.
    

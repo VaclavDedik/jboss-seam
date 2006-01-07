@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.ejb.SeamInterceptor;

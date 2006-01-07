@@ -47,6 +47,6 @@ Running the TestNG Tests in Eclipse
    
    lib/
    
-3. Run examples/noejb/src/org/jboss/seam/example/numberguess/test/testng.xml
+3. Run examples/numberguess/src/org/jboss/seam/example/numberguess/test/testng.xml
    using the TestNG plugin.
    
