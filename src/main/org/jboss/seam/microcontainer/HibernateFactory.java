@@ -71,7 +71,8 @@ public class HibernateFactory {
         // hibernate.cfg.xml configuration
         if (cfgProperties == null && cfgResourceName == null) {
             acfg.configure();
-        } else if (cfgProperties == null && cfgResourceName != null) {
+        } 
+        else if (cfgProperties == null && cfgResourceName != null) {
             acfg.configure(cfgResourceName);
         }
 

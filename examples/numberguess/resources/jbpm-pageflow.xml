@@ -10,12 +10,12 @@
       </transition>
    </page>
    
-   <decision name="evaluateGuess" expression="#{numberGuess.isCorrectGuess}">
+   <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
       <transition name="true" to="win"/>
       <transition name="false" to="evaluateRemainingGuesses"/>
    </decision>
    
-   <decision name="evaluateRemainingGuesses" expression="#{numberGuess.isLastGuess}">
+   <decision name="evaluateRemainingGuesses" expression="#{numberGuess.lastGuess}">
       <transition name="true" to="lose"/>
       <transition name="false" to="displayGuess"/>
    </decision>

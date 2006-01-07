@@ -10,8 +10,8 @@ public class SeamDecisionHandler implements DecisionHandler {
 
    public String decide(ExecutionContext context) throws Exception {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext.getApplication().createMethodBinding(expression, null)
-            .invoke(facesContext, null).toString();
+      return facesContext.getApplication().createValueBinding(expression)
+            .getValue(facesContext).toString();
    }
 
 }
