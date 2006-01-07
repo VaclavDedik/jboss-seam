@@ -1,0 +1,16 @@
+<process-definition name="todo">
+   
+   <start-state name="start">
+      <transition to="todo"/>
+   </start-state>
+   
+   <task-node name="todo">
+      <task name="todo">
+         <assignment actor-id="#{actor.id}"/>
+      </task>
+      <transition to="done"/>
+   </task-node>
+   
+   <end-state name="done"/>
+   
+</process-definition>

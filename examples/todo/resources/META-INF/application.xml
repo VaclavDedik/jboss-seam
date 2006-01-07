@@ -1,0 +1,14 @@
+<application>
+	<display-name>Seam</display-name>
+
+	<module>
+		<web>
+			<web-uri>jboss-seam-todo.war</web-uri>
+			<context-root>/seam-todo</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>jboss-seam-todo.ejb3</ejb>
+	</module>
+	
+</application>
