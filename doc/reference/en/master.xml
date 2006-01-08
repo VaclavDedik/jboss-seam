@@ -104,7 +104,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><emphasis>Subversion of Control</emphasis></term>
+                <term><emphasis>Bijection</emphasis></term>
                 <listitem>
                     <para>
                         The notion of <emphasis>Inversion of Control</emphasis> or <emphasis>dependency injection</emphasis>
@@ -115,12 +115,23 @@
                         sufficient flexibility.
                     </para>
                     <para>
-                        <emphasis>Subversion of control</emphasis> (or bijection) differs from IoC in that it is
-                        <emphasis>dynamic</emphasis>, <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>.
+                        <emphasis>Bijection</emphasis> differs from IoC in that it is <emphasis>dynamic</emphasis>, 
+                        <emphasis>contextual</emphasis>, and <emphasis>bidirectional</emphasis>.
                         You can think of it as a mechanism for aliasing contextual variables (names in the various contexts
                         bound to the current thread) to attributes of the component. Bijection allows auto-assembly of stateful
                         components by the container. It even allows a component to safely and easily manipulate the
                         value of a context variable, just by assigning to an attribute of the component.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>Workspace Management</emphasis></term>
+                <listitem>
+                    <para>
+                        Optionally, Seam applications may take advantage of <emphasis>workspace management</emphasis>,
+                        allowing users to freely switch between different conversations (workspaces) in a single
+                        browser window. Seam provides not only correct multi-window operation, but also multi-window-like
+                        operation in a single window!
                     </para>
                 </listitem>
             </varlistentry>
@@ -132,8 +143,7 @@
                         how easy it is to implement complex workflows using jBPM and Seam.
                     </para>
                     <para>
-                        Eventually, Seam will also allow definition of presentation tier conversation flow by the
-                        same means.
+                        Seam even allows definition of presentation tier conversation flow by the same means.
                     </para>
                     <para>
                         JSF provides an incredibly rich event model for the presentation tier. Seam enhances this
