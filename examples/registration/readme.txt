@@ -23,7 +23,7 @@ How to Build and Deploy the Example on JBoss AS
 
 7. Point your web browser to:
 
-   http://localhost:8080/seam-registration/register.jsf
+   http://localhost:8080/seam-registration/
 
    NOTE: The default build uses the HSQL database embedded in JBoss AS
 
