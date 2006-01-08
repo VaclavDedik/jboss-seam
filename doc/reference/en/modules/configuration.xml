@@ -20,7 +20,7 @@
 </listener>]]></programlisting>
          
         <para>
-            This listener is responsible for bootstrapping seam, and for destroying
+            This listener is responsible for bootstrapping Seam, and for destroying
             session and application contexts.
         </para>
 
@@ -61,7 +61,28 @@
 
         <para>
             The actual listener class here varies depending upon how you want to
-            manage transaction demarcation (more on this later).
+            manage transaction demarcation (more on this below).
+        </para>
+        
+        <para>
+            If you want to use post-then-redirect in JSF, and you want Seam to
+            propagate the conversation context across the browser redirects,
+            you need to register a servlet filter:
+        </para>
+
+<programlisting><![CDATA[<filter>
+    <filter-name>Seam Redirect Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>Seam Redirect Filter</filter-name>
+    <url-pattern>*.jsf</url-pattern>
+</filter-mapping>]]></programlisting>
+
+        <para>
+            This filter intercepts any browser redirects and adds a request
+            parameter that specifies the Seam conversation id.
         </para>
 
     </sect1>
