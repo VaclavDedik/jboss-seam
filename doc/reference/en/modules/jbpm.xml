@@ -1,0 +1,349 @@
+<chapter id="jbpm">
+    <title>Seam and jBPM</title>
+    
+    <para>
+        JBoss jBPM is a business process management engine for any Java SE or EE
+        environment. jBPM lets you represent a business process or user 
+        interaction as a graph of nodes representing wait states, decisions,
+        tasks, web pages, etc. The graph is defined using a simple, very readable, 
+        XML dialect called jPDL, and may be edited and visualised graphically using
+        an eclipse plugin. jPDL is an extensible language, and is suitable for 
+        a range of problems, from defining web application page flow, to traditional
+        workflow management, all the way up to orchestration of services in a SOA
+        environment.
+    </para>
+    
+    <para>
+        Seam applications use jBPM for two different problems:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+        <para>
+            Defining the pageflow involved in complex user interactions. A jPDL
+            process definition defines the page flow for a single conversation.
+            A Seam conversation is considered to be a relatively short-running
+            interaction with a single user.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            Defining the overarching business process. The business process may span
+            multiple conversations with multiple users. Its state is persistent in
+            the jBPM database, so it is considered long-running. Coordination of
+            the activities of multiple users is a much more complex problem than
+            scripting an interaction with a single user, so jBPM offers sophisticated
+            facilities for task management and dealing with multiple concurrent paths 
+            of execution.
+        </para>
+        </listitem>
+    </itemizedlist>
+    
+    <para>
+        You don't have to know jDPL to use Seam. If you're perfectly happy defining
+        pageflow using JSF's navigation rules, and if your application is more 
+        data-driven that process-driven, you probably don't need jBPM. But we're
+        finding that thinking of user interaction in terms of a well-defined graphical 
+        representation is helping us build more robust applications.
+    </para>
+    
+    <section>
+        <title>Pageflow in Seam</title>
+        <para>
+            There are two ways to define pageflow in Seam:
+        </para>
+        
+	    <itemizedlist>
+	        <listitem>
+	        <para>
+	            Using JSF navigation rules - the <emphasis>stateless navigation 
+	            model</emphasis>
+	        </para>
+	        </listitem>
+	        <listitem>
+	        <para>
+	            Using jPDL - the <emphasis>stateful navigation model</emphasis>
+	        </para>
+	        </listitem>
+	    </itemizedlist>
+    
+        <para>
+            Very simple applications will only need the stateless navigation 
+            model. Very complex applications will use both models in different 
+            places. Each model has its strengths and weaknesses!
+        </para>
+        
+        <section>
+            <title>The two navigation models</title>
+        
+        <para>
+            The stateless model defines a mapping from a set of named, logical
+            outcomes of an event directly to the resulting page of the view.
+            The navigation rules are entirely oblivious to any state held by
+            the application other than what page was the source of the event.
+            This means that your action listener methods must sometimes make 
+            decisions about the page flow, since only they have access to the 
+            current state of the application. 
+        </para>
+        
+        <para>
+            Here is an example page flow definition using JSF navigation 
+            rules:
+        </para>
+        
+        <programlisting><![CDATA[<navigation-rule>
+    <from-view-id>/numberGuess.jsp</from-view-id>
+        
+    <navigation-case>
+        <from-outcome>guess</from-outcome>
+        <to-view-id>/numberGuess.jsp</to-view-id>
+        <redirect/>
+    </navigation-case>
+
+    <navigation-case>
+        <from-outcome>win</from-outcome>
+        <to-view-id>/win.jsp</to-view-id>
+        <redirect/>
+    </navigation-case>
+        
+    <navigation-case>
+        <from-outcome>lose</from-outcome>
+        <to-view-id>/lose.jsp</to-view-id>
+        <redirect/>
+    </navigation-case>
+
+</navigation-rule>]]></programlisting>
+        
+        <para>
+            The stateful model defines a set of transitions between a set of
+            named, logical application states. In this model, it is possible
+            to express the flow of any user interaction entirely in the jPDL
+            pageflow definition, and write action listener methods that are
+            completely unaware of the flow of the interaction.
+        </para>
+        
+        <para>
+            Here is an example page flow definition using jPDL:
+        </para>
+        
+        <programlisting><![CDATA[<process-definition name="numberGuess">
+   
+   <start-state name="start">
+      <transition to="displayGuess"/>
+   </start-state>
+   
+   <page name="displayGuess" view-id="/numberGuess.jsp" redirect="true">
+      <transition name="guess" to="evaluateGuess">
+      	<action expression="#{numberGuess.guess}" />
+      </transition>
+   </page>
+   
+   <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+      <transition name="true" to="win"/>
+      <transition name="false" to="evaluateRemainingGuesses"/>
+   </decision>
+   
+   <decision name="evaluateRemainingGuesses" expression="#{numberGuess.lastGuess}">
+      <transition name="true" to="lose"/>
+      <transition name="false" to="displayGuess"/>
+   </decision>
+   
+   <page name="win" view-id="/win.jsp" redirect="true">
+      <end-conversation />
+   </page>
+   
+   <page name="lose" view-id="/lose.jsp" redirect="true">
+      <end-conversation />
+   </page>
+   
+</process-definition>]]></programlisting>
+
+        <para>
+            There are two things we notice immediately here:
+        </para>
+	    
+	    <itemizedlist>
+	        <listitem>
+	        <para>
+	            The JSF navigation rules are <emphasis>much</emphasis> simpler.
+	            (However, this obscures the fact that the underlying Java code
+	            is more complex.)
+	        </para>
+	        </listitem>
+	        <listitem>
+	        <para>
+	            The jPDL makes the user interaction immediately understandable,
+	            without us needing to even look at the JSP or Java code.
+	        </para>
+	        </listitem>
+	    </itemizedlist>
+	    
+	    <para>
+	        In addition, the stateful model is more <emphasis>constrained</emphasis>.
+	        For each logical state (each step in the page flow), there are a 
+	        constrained set of possible transitions to other states. The stateless
+	        model is an <emphasis>ad hoc</emphasis> model which is suitable to 
+	        relatively unconstrained, freeform navigation where the user decides
+	        where he/she wants to go next, not the application.
+	    </para>
+	    
+	    <para>
+	        The stateful/stateless navigation distinction is quite similar to
+	        the traditional view of modal/modeless interaction. Now, Seam 
+	        applications are not usually modal in the simple sense of the 
+	        word - indeed, avoiding application modal behavior is one of the
+	        main reasons for having conversations! However, Seam applications
+	        can be, and often are, modal at the level of a particular 
+	        conversation. It is well-known that modal behavior is something
+	        to avoid as much as possible; it is very difficult to predict the
+	        order in which your users are going to want to do things! However,
+	        there is no doubt that the stateful model has its place.
+	    </para>
+	    
+	    <para>
+	        The biggest contrast between the two models is the back-button
+	        behavior.
+	    </para>
+	    
+	    </section>
+	    
+	    <section>
+	        <title>Seam and the back button</title>
+	    
+	    <para>
+	        When JSF navigation rules are used, Seam lets the user freely 
+	        navigate via the back, forward and refresh buttons. It is the
+	        responsibility of the application to ensure that conversational
+	        state remains internally consistent when this occurs. Experience
+	        with the combination of web application frameworks like Struts 
+	        or WebWork - that do not support a conversational model - and 
+	        stateless component models like EJB stateless session beans 
+	        or the Spring framework has taught many developers that this is
+	        close to impossible to do! However, our experience is that in 
+	        the context of Seam, where there is a well-defined conversational
+	        model, backed by stateful session beans, it is actually quite 
+	        straightforward. Usually it is as simply as combining the use 
+	        of the <literal>@Conversational</literal> annotation with null 
+	        checks at the beginning of action listener methods. We consider
+	        support for freeform navigation with the back button to be a
+	        <emphasis>feature</emphasis> of the stateless model.
+	    </para>
+	    
+	    <para>
+	        On the other hand, in the stateful model, backbuttoning is 
+	        interpreted as an undefined transition back to a previous state.
+	        Since the stateful model enforces a defined set of transitions
+	        from the current state, back buttoning must be disallowed in
+	        the stateful model! Seam transparently detects the use of the
+	        back button, and blocks any attempt to perform an action from
+	        a previous, "stale" page, and simply redirects the user to 
+	        the "current" page. Whether you consider this a feature or
+	        a limitation of the stateful model depends upon your point
+	        of view: as an application developer, it is a feature; as a
+	        user, it might be frustrating!
+	    </para>
+	    
+        </section>
+    
+	    <para>
+	        In practice, both navigation models have their place, and you'll 
+	        quickly learn to recognize when to prefer one model over the other.
+	    </para>
+        
+    </section>
+    
+    <section>
+        <title>Using jPDL pageflows</title>
+        <para>
+            We need to install the Seam jBPM-related components, and tell them
+            where to find our pageflow definition:
+        </para>
+        
+        <para>
+            We "start" a jPDL-based pageflow by specifying the name of the
+            process definition using a <literal>@Begin</literal>,
+            <literal>@BeginTask</literal> or <literal>@StartTask</literal> 
+            annotation:
+        </para>
+        
+        <para>
+            Each <literal>&lt;page&gt;</literal> node represents a state where
+            the system is waiting for user input.
+        </para>
+        
+        <para>
+            Usually, we don't need to use most of the more powerful features of 
+            jPDL. We do need the <literal>&lt;decision&gt;</literal>, however:
+        </para>
+        
+        <para>
+            We end the conversation using <literal>&lt;conversation-end&gt;</literal>.
+            Optionally, we can specify a <literal>transition</literal> name. In this
+            case, Seam will signal the end of the current task in the overarching
+            business process.
+        </para>
+        
+    </section>
+    
+    <section>
+        <title>Business process management in Seam</title>
+        <para>
+            A business process is a well-defined set of tasks that must
+            be performed by users or software systems according to 
+            well-defined rules about <emphasis>who</emphasis> can perform 
+            a task, and <emphasis>when</emphasis> it should be performed.
+            Seam's jBPM integration makes it easy to display lists of
+            tasks to users and let them manage their tasks. Seam also
+            lets the application store state associated with the business
+            process in the <literal>BUSINESS_PROCESS</literal> context,
+            and have that state made persistent via jBPM variables.
+        </para>
+        
+        <para>
+            We always need to know what user is currently logged in.
+            jBPM "knows" users by their <emphasis>actor id</emphasis>
+            and <emphasis>group actor ids</emphasis>. We specify the
+            current actor ids using the built in Seam component named
+            <literal>actor</literal>:
+        </para>
+        
+        <para>
+            To initiate a business process instance, we use the 
+            <literal>@CreateProcess</literal> annotation:
+        </para>
+        
+        <para>
+            When a process starts, task instances are created. These must be 
+            assigned to users or user groups. We can either hardcode an
+            actor ids, or delegate to a Seam component:
+        </para>
+        
+        <para>
+            Several built-in Seam components make it easy to display task
+            lists of pooled tasks that the user may assign to himself:
+        </para>
+        
+        <para>
+            Or of tasks that are currently assigned:
+        </para>
+        
+        <para>
+            To begin work on a task, we use either <literal>@StartTask</literal>
+            or <literal>@BeginTask</literal>. 
+        </para>
+        
+        <para>    
+            These annotations begin a special kind of conversation that has 
+            significance in terms of the overarching business process. Work done 
+            by this conversation has access to state held in the business
+            process context.
+        </para>
+        
+        <para>
+            If we end the conversation using <literal>@EndTask</literal>, Seam
+            will signal the completion of the task:
+        </para>
+        
+    </section>
+    
+</chapter>
