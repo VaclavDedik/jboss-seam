@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 
+/**
+ * Proxies the response object.
+ * 
+ * @author Gavin King
+ */
 public class ResponseInvocationHandler implements InvocationHandler {
    
    private static final Method SEND_REDIRECT;

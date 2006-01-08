@@ -33,6 +33,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 
 /**
+ * Manages the Seam contexts associated with a JSF request.
  * Manages the thread/context associations throught the
  * lifecycle of a JSF request.
  *

@@ -15,9 +15,9 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 
 /**
- * Variable resolving: first the method tries to return an object
- * stored in the hierarchical context. If the object does not exist,
- * it is instanciated, stored in the correct context then returned.
+ * Resolves a variable name in the Seam contexts, according to
+ * the context search priority, instantiating the component
+ * if necessary.
  * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>

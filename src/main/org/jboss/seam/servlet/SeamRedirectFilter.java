@@ -9,6 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ * Propagates the conversation context across a browser redirect
+ * 
+ * @author Gavin King
+ */
 public class SeamRedirectFilter implements Filter {
 
    public void init(FilterConfig config) throws ServletException {}

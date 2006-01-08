@@ -22,16 +22,11 @@ import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Transactions;
 
 /**
- * Adds extra semantics relating to transactions and various "persistence contexts"
- * during phase processing.  Specifically:<ol>
- * <li>Prior to the {@link PhaseId#UPDATE_MODEL_VALUES} phase, a JTA transaction is
- * begun.  The transaction is committed after the {@link PhaseId#RENDER_RESPONSE}
- * phase.
- * <li>After the {@link PhaseId#INVOKE_APPLICATION} pahse, managed persistence
- * contexts are flushed.  This includes EJB3 {@link EntityManager)s,
- * Hibernate {@link org.hibernate.Session}s, and the managed jBPM
- * {@link org.jbpm.JbpmContext} (if used).
- * </ol>
+ * Transaction management for transaction-scoped persistence contexts.
+ * A single transaction spans the entire JSF request.
+ * 
+ * @see SeamExtendedManagedPersistencePhaseListener
+ * @author Gavin King
  */
 public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseListener
 {

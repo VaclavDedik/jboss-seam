@@ -19,6 +19,12 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.Session;
 import org.jboss.seam.core.Manager;
 
+/**
+ * Manages the Seam contexts associated with a request
+ * to any servlet.
+ * 
+ * @author Gavin King
+ */
 public class SeamServletFilter implements Filter {
    
    private static Logger log = Logger.getLogger(SeamServletFilter.class);

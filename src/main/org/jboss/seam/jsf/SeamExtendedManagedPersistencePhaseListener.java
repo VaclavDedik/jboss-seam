@@ -8,6 +8,15 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.util.Transactions;
 
+/**
+ * Transaction management for extended persistence contexts.
+ * A transaction spans the restore view, apply request values, process validations,
+ * update model values and invoke application phases. It is committed when
+ * invoke application is complete, or renderResponse() or responseComplete() is
+ * called. A second transaction spans the render response phase.
+ * 
+ * @author Gavin King
+ */
 public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListener
 {
    private static Logger log = Logger.getLogger( SeamExtendedManagedPersistencePhaseListener.class );
