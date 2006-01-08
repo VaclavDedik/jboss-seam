@@ -256,7 +256,17 @@
         <title>Using jPDL pageflows</title>
         <para>
             We need to install the Seam jBPM-related components, and tell them
-            where to find our pageflow definition:
+            where to find our pageflow definition. As usual, we can specify
+            Seam configuration in either <literal>web.xml</literal> or
+            <literal>seam.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Jbpm
+org.jboss.seam.core.jbpm.pageflowDefinitions jbpm-pageflow.xml]]></programlisting>
+
+        <para>
+            The first line installs jBPM, the second points to a jPDL-based
+            pageflow definition.
         </para>
         
         <para>
@@ -266,23 +276,79 @@
             annotation:
         </para>
         
+        <programlisting><![CDATA[@Begin(processDefinition="numberguess")
+public void begin() { ... }]]></programlisting>
+        
         <para>
             Each <literal>&lt;page&gt;</literal> node represents a state where
-            the system is waiting for user input.
+            the system is waiting for user input:
+        </para>
+        
+        <programlisting><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp" redirect="true">
+    <transition name="guess" to="evaluateGuess">
+        <action expression="#{numberGuess.guess}" />
+    </transition>
+</page>]]></programlisting>
+        
+        <para>
+            The <literal>view-id</literal> is the JSF view id. The <literal>redirect</literal>
+            attribute has the same effect as <literal>&lt;redirect/&gt;</literal> in a 
+            JSF navigation rule: namely, a post-then-redirect behavior, to overcome problems
+            with the browser's refresh button. (Note that Seam propagates conversation contexts
+            over these browser redirects. So there is no need for a Ruby on Rails style "flash"
+            construct in Seam!)
         </para>
         
         <para>
-            Usually, we don't need to use most of the more powerful features of 
-            jPDL. We do need the <literal>&lt;decision&gt;</literal>, however:
+            The transition name is the name of a JSF outcome triggered by clicking
+            a command button or command link in <literal>numberGuess.jsp</literal>. 
         </para>
         
+        <programlisting><![CDATA[<h:commandButton type="submit" value="Guess" action="guess"/>]]></programlisting>
+        
+        <para>
+            When the transition is triggered by clicking this button, jBPM will activate the
+            transition action by calling the <literal>guess()</literal> method of the
+            <literal>numberGuess</literal> component. Notice that the syntax used for
+            specifying actions in the jPDL is just a familiar JSF EL expression, and that 
+            the transition action handler is just a method of a Seam component in the
+            current Seam contexts. So we have exactly the same event model for jBPM events 
+            that we already have for JSF events! (The <emphasis>One Kind of Stuff</emphasis> 
+            principle.)
+        </para>
+        
+        <para>
+            Usually, we don't need the more powerful features of jPDL when defining pageflows. 
+            We do need the <literal>&lt;decision&gt;</literal> node, however:
+        </para>
+        
+<programlisting><![CDATA[<decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+    <transition name="true" to="win"/>
+    <transition name="false" to="evaluateRemainingGuesses"/>
+</decision>]]></programlisting>
+
+        <para>
+            A decision is made by evaluating a JSF EL expression in the Seam contexts.
+        </para>
+   
         <para>
             We end the conversation using <literal>&lt;conversation-end&gt;</literal>.
+        </para>
+        
+<programlisting><![CDATA[<page name="win" view-id="/win.jsp" redirect="true">
+    <end-conversation/>
+</page>]]></programlisting>
+
+        <para>
             Optionally, we can specify a <literal>transition</literal> name. In this
             case, Seam will signal the end of the current task in the overarching
             business process.
         </para>
         
+<programlisting><![CDATA[<page name="win" view-id="/win.jsp" redirect="true">
+    <end-conversation transition="success"/>
+</page>]]></programlisting>
+
     </section>
     
     <section>
@@ -300,6 +366,53 @@
         </para>
         
         <para>
+            A simple business process definition looks much the same as a 
+            page flow definition (<emphasis>One Kind of Stuff</emphasis>), 
+            except that instead of <literal>&lt;page&gt;</literal> nodes,
+            we have <literal>&lt;task-node&gt;</literal> nodes. In a 
+            long-running business process, the wait states are where the
+            system is waiting for some user to log in and perform a task.
+        </para>
+        
+        <programlisting><![CDATA[<process-definition name="todo">
+   
+   <start-state name="start">
+      <transition to="todo"/>
+   </start-state>
+   
+   <task-node name="todo">
+      <task name="todo" description="#{todoList.description}">
+         <assignment actor-id="#{actor.id}"/>
+      </task>
+      <transition to="done"/>
+   </task-node>
+   
+   <end-state name="done"/>
+   
+</process-definition>]]></programlisting>
+        </section>
+        
+        <para>
+            It is perfectly possible that we might have both jPDL business 
+            process definitions and jPDL pageflow definitions in the
+            same project. If so, the relationship between the two is that
+            a single <literal>&lt;task&gt;</literal> in a business process
+            corresponds to a whole pageflow 
+            <literal>&lt;process-definition&gt;</literal>
+        </para>
+        
+        <section>
+            <title>Using jPDL business process definitions</title>
+        
+        <para>
+            We need to install jBPM, and tell it where to find the
+            business process definitions:
+        </para>
+        
+        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Jbpm
+org.jboss.seam.core.jbpm.processDefinitions jbpm-todo.xml]]></programlisting>
+
+        <para>
             We always need to know what user is currently logged in.
             jBPM "knows" users by their <emphasis>actor id</emphasis>
             and <emphasis>group actor ids</emphasis>. We specify the
@@ -307,10 +420,22 @@
             <literal>actor</literal>:
         </para>
         
+        <programlisting><![CDATA[@In(create=true) Actor actor;
+
+public String login() {
+    ...
+    actor.setId( user.getUserName() );
+    actor.setGroupActorIds( user.getGroupNames() );
+    ...
+}]]></programlisting>
+        
         <para>
             To initiate a business process instance, we use the 
             <literal>@CreateProcess</literal> annotation:
         </para>
+        
+        <programlisting><![CDATA[@CreateProcess(definition="todo")
+public void createTodo() { ... }]]></programlisting>
         
         <para>
             When a process starts, task instances are created. These must be 
@@ -318,19 +443,68 @@
             actor ids, or delegate to a Seam component:
         </para>
         
+        <programlisting><![CDATA[<task name="todo" description="#{todoList.description}">
+    <assignment actor-id="#{actor.id}"/>
+</task>]]></programlisting>
+
         <para>
-            Several built-in Seam components make it easy to display task
-            lists of pooled tasks that the user may assign to himself:
+            In this case, we have simply assigned the task to the current user. 
+            We can also assign tasks to a pool:
+        </para>
+
+        <programlisting><![CDATA[<task name="todo" description="#{todoList.description}">
+    <assignment pooled-actors="employees"/>
+</task>]]></programlisting>
+
+        <para>
+            Several built-in Seam components make it easy to display task lists. 
+            The <literal>pooledTaskInstanceList</literal> is a list of pooled tasks 
+            that users may assign to themselves:
+        </para>
+        
+        <programlisting><![CDATA[<h:dataTable value="#{pooledTaskInstanceList}" var="task">
+    <h:column>
+        <f:facet name="header">Description</f:facet>
+        <h:outputText value="#{task.description}"/>
+    </h:column>
+    <h:column>
+        <h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
+            <h:commandButton value="Assign"/>
+            <f:param name="taskId" value="#{task.id}"/>
+        </h:commandLink>
+    </h:column>            	
+</h:dataTable>]]></programlisting>
+
+        <para>
+            The <literal>pooledTask</literal> component is a built-in component that
+            simply assigns the task to the current user.
         </para>
         
         <para>
-            Or of tasks that are currently assigned:
+            The <literal>taskInstanceListByType</literal> component includes tasks of 
+            a particular type that are assigned to the current user:
         </para>
+        
+        <programlisting><![CDATA[<h:dataTable value="#{taskInstanceListByType['todo']}" var="task">
+    <h:column>
+        <f:facet name="header">Description</f:facet>
+        <h:outputText value="#{task.description}"/>
+    </h:column>
+    <h:column>
+        <h:commandLink action="#{todoList.start}"> 
+            <h:commandButton value="Start Work"/>
+            <f:param name="taskId" value="#{task.id}"/>
+        </h:commandLink>
+    </h:column>            	
+</h:dataTable>]]></programlisting>
         
         <para>
             To begin work on a task, we use either <literal>@StartTask</literal>
-            or <literal>@BeginTask</literal>. 
+            or <literal>@BeginTask</literal> on the listener method:
         </para>
+        
+        <programlisting><![CDATA[@StartTask
+public String start() { ... }]]></programlisting>
         
         <para>    
             These annotations begin a special kind of conversation that has 
@@ -344,6 +518,26 @@
             will signal the completion of the task:
         </para>
         
+        <programlisting><![CDATA[@EndTask(transition="completed")
+public String completed() { ... }]]></programlisting>
+
+        <para>
+            (Alternatively, we could have used <literal>&lt;conversation-end&gt;</literal>
+            as shown above.)
+        </para>
+
+        <para>
+            At this point, jBPM takes over and continues executing the business process
+            definition. (In more complex processes, several tasks might need to be
+            completed before process execution can resume.)
+        </para>
+        
+        <para>
+            Please refer to the jBPM documentation for a more thorough overview of 
+            the sophisticated features that jBPM provides for managing complex
+            business processes.
+        </para>
+
     </section>
     
 </chapter>
