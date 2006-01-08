@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 
-<suite name="Registration" verbose="2" parallel="false">
+<suite name="Messages" verbose="2" parallel="false">
 
-   <test name="Register">
+   <test name="MessageList">
      <classes>
        <class name="org.jboss.seam.example.messages.test.MessageListTest"/>
      </classes>
