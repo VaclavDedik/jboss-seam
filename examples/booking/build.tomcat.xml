@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="NoEJB" default="deploy" basedir=".">
+<project name="Booking" default="deploy" basedir=".">
 
     <!-- Naming -->
     <property name="Name"                   value="Seam on Tomcat Booking Example"/>

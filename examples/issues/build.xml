@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Seam Application" default="deploy" basedir=".">
+<project name="Issues" default="deploy" basedir=".">
 
 
     <!-- Allow this to be overriden by others importing this project. -->

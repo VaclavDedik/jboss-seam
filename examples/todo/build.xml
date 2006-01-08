@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Registration" default="deploy" basedir=".">
+<project name="Todo" default="deploy" basedir=".">
 
     <!-- Example name -->
     <property name="Name"                   value="Seam Todo List Example"/>
