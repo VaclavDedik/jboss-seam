@@ -60,8 +60,9 @@
         <listitem>
         <para>
             There is always a conversation context active during the
-            process validations, update model values, invoke application
-            and render response phases of the JSF request lifecycle.
+            apply request values, process validations, update model values, 
+            invoke application and render response phases of the JSF request 
+            lifecycle.
         </para>
         </listitem>
         <listitem>
@@ -96,6 +97,14 @@
         </listitem>
         <listitem>
         <para>
+            Any faces request (a JSF postback) will propagate the 
+            conversation context. By default, non-faces requests (GET 
+            requests, for example) do not propagate the conversation 
+            context, but see below for more information on this.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
             If the JSF request lifecycle is foreshortened by a redirect,
             Seam transparently stores and restores the current conversation 
             context.
@@ -103,6 +112,45 @@
         </listitem>
     </itemizedlist>
     
+        <para>
+            Seam transparently propagates the conversation context across JSF postbacks
+            and redirects. If you don't do anything special, a <emphasis>non-faces request</emphasis>
+            (a GET request for example) will not propagate the conversation context and
+            will be processed in a new temporary conversation. This is usually - but not
+            always - the desired behavior.
+        </para>
+        
+        <para>
+            If you want to propagate a Seam conversation across a non-faces request, you
+            need to explicitly code the Seam <emphasis>conversation id</emphasis> as a 
+            request parameter:
+        </para>
+        
+        <programlisting><![CDATA[<a href="main.jsf?conversationId=#{conversation.id}">Continue</a>]]></programlisting>
+        
+        <para>
+            Or, the more JSF-ish:
+        </para>
+        
+        <programlisting><![CDATA[<h:outputLink value="main.jsf">
+    <f:param name="conversationId" value="#{conversation.id}"/>
+    <h:outputText value="Continue"/>
+</h:outputLink>]]></programlisting>
+
+        <para>
+            If you wish to disable propagation of the conversation context for a
+            postback, a similar trick is used:
+        </para>
+
+        <programlisting><![CDATA[<h:commandLink action="main" value="Exit">
+    <f:param name="conversationId" value="new"/>
+</h:commandLink>]]></programlisting>
+
+        <para>
+            Note that disabling conversation context propagation is absolutely not the
+            same thing as ending the conversation.
+        </para>
+
     <para>
         This conversation model makes it easy to build applications which
         behave correctly with respect to multi-window operation. For many
@@ -393,4 +441,45 @@
         
     </section>
     
+    <section>
+        <title>Seam and AJAX</title>
+        
+        <para>
+            AJAX requests from a JSF page are not processed by the JSF servlet, so Seam
+            provides a servlet filter that can be applied to the servlet processing your 
+            AJAX calls (or, in fact, to any servlet at all).
+        </para>
+        
+        <programlisting><![CDATA[<filter>
+    <filter-name>Seam Servlet Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamServletFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>Seam Servlet Filter</filter-name>
+    <url-pattern>*.ajax</url-pattern>
+</filter-mapping>]]></programlisting>
+        
+        <para>
+            This servlet filter is responsible for initializing all Seam contexts before
+            passing control to the servlet. It expects to find the conversation id of any
+            conversation context in a request parameter named <literal>conversationId</literal>.
+            You are responsible for ensuring that it gets sent in the request.
+        </para>
+        
+        <para>
+            You are also responsible for ensuring propagation of any new conversation id back 
+            to the client. Seam exposes the conversation id as a property of the built in
+            component <literal>conversation</literal>.
+        </para>
+        
+    </section>
+    
+    <section>
+        <title>Seam and SOAP</title>
+        
+        <para>TODO</para>
+        
+    </section>
+        
 </chapter>

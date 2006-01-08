@@ -113,24 +113,27 @@
                     <itemizedlist>
                         <listitem>
                         <para>
+                            <literal>getId()</literal> &mdash; returns the current conversation id
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
                             <literal>setTimeout(int timeout)</literal> &mdash; sets the timeout
                             for the current conversation
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>setOutcome(String outcome)</literal> &mdash; sets the outcome
-                            to be used when switching back to the current conversation 
-                            from the conversation switcher, conversation list, or 
-                            breadcrumbs.
+                            <literal>setViewId(String outcome)</literal> &mdash; sets the view id
+                            to be used when switching back to the current conversation from the 
+                            conversation switcher, conversation list, or breadcrumbs.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
                             <literal>setDescription(String description)</literal> &mdash; sets the 
-                            description of the current conversation to be displayed
-                            in thec onversation switcher, conversation list, or 
-                            breadcrumbs.
+                            description of the current conversation to be displayed in the 
+                            conversation switcher, conversation list, or breadcrumbs.
                         </para>
                         </listitem>
                     </itemizedlist>

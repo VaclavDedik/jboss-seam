@@ -1,5 +1,5 @@
 <chapter id="concepts">
-    <title>Seam concepts</title>
+    <title>The contextual component model</title>
     <para>
         The two core concepts in Seam are the notion of a <emphasis>context</emphasis> and the
         notion of a <emphasis>component</emphasis>. Components are stateful objects, usually
