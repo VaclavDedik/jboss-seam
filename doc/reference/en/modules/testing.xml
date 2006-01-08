@@ -217,11 +217,22 @@ public class RegisterAction implements Register
             that JSF would make to our components. Then we've thrown in various 
             assertions.
         </para>
+        
         <para>
             You'll find plenty of integration tests for the Seam example applications
-            which demonstrate more complex cases.
+            which demonstrate more complex cases. There are instructions for running
+            these tests using Ant, or using the TestNG plugin for eclipse:
         </para>
 
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/plugin-testng.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/plugin-testng.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
     </section>
 	
 </chapter>

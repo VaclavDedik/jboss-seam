@@ -4,6 +4,8 @@
 [
 <!ENTITY tutorial               SYSTEM "modules/tutorial.xml">
 <!ENTITY concepts               SYSTEM "modules/concepts.xml">
+<!ENTITY conversations          SYSTEM "modules/conversations.xml">
+<!ENTITY jbpm                   SYSTEM "modules/jbpm.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
@@ -15,7 +17,7 @@
     <bookinfo>
         <title>SEAM - Contextual Components</title>
         <subtitle>A Framework for Java EE 5</subtitle>
-        <releaseinfo>1.0 beta 1</releaseinfo>
+        <releaseinfo>1.0 beta 2</releaseinfo>
     </bookinfo>
 
     <toc/>
@@ -206,6 +208,8 @@
 
     &tutorial;
     &concepts;
+    &conversations;
+    &jbpm;
     &configuration;
     &annotations;
     &components;

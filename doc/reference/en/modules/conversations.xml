@@ -1,0 +1,396 @@
+<chapter id="conversations">
+    <title>Conversations and workspace management</title>
+    
+    <para>
+        It's time to understand Seam's conversation model in more detail.
+    </para>
+    
+    <para>
+        Historically, the notion of a Seam "conversation" came about as
+        a merger of three different ideas:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+        <para>
+            The idea of a <emphasis>workspace</emphasis>, which I 
+            encountered in a project for the Victorian government in 
+            2002. In this project I was forced to implement workspace 
+            management on top of Struts, an experience I pray never
+            to repeat.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            The idea of an <emphasis>application transaction</emphasis>
+            with optimistic semantics, and the realization that existing
+            frameworks based around a stateless architecture could not
+            provide effective management of extended persistence contexts.
+            (The Hibernate team is truly fed up with copping the blame for
+            <literal>LazyInitializationException</literal>s, which are
+            not really Hibernate's fault, but rather the fault of the 
+            extremely limiting persistence context model supported by 
+            stateless architectures such as the Spring framework or the 
+            traditional <emphasis>stateless session facade</emphasis> 
+            (anti)pattern in J2EE.)
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            The idea of a workflow <emphasis>task</emphasis>.
+        </para>
+        </listitem>
+    </itemizedlist>
+    
+    <para>
+        By unifying these ideas and providing deep support in the framework, 
+        we have a powerful construct that lets us build richer and more efficient 
+        applications with less code than before.
+    </para>
+    
+    <section>
+        <title>Seam's conversation model</title>
+    
+    <para>
+        The examples we have seen so far make use of a very simple
+        conversation model that follows these rules:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+        <para>
+            There is always a conversation context active during the
+            process validations, update model values, invoke application
+            and render response phases of the JSF request lifecycle.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            At the end of the restore view phase of the JSF request 
+            lifecycle, Seam attempts to restore any previous long-running
+            conversation context. If none exists, Seam creates a new
+            temporary conversation context.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            When an <literal>@Begin</literal> method is encountered, 
+            the temporary conversation context is promoted to a long
+            running conversation.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            When an <literal>@End</literal> method is encountered, 
+            any long-running conversation context is demoted to a 
+            temporary conversation.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            At the end of the render response phase of the JSF request
+            lifecycle, Seam stores the contents of a long running
+            conversation context or destroys the contents of a temporary
+            conversation context.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            If the JSF request lifecycle is foreshortened by a redirect,
+            Seam transparently stores and restores the current conversation 
+            context.
+        </para>
+        </listitem>
+    </itemizedlist>
+    
+    <para>
+        This conversation model makes it easy to build applications which
+        behave correctly with respect to multi-window operation. For many
+        applications, this is all that is needed. Some complex applications
+        have either or both of the following additional requirements:
+    </para>
+    
+    <itemizedlist>
+        <listitem>
+        <para>
+            A conversation spans many smaller units of user interaction,
+            which execute serially or even concurrently. The smaller
+            <emphasis>nested conversations</emphasis> have their own
+            isolated set of conversation state, and also have access to
+            the state of the outer conversation.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            The user is able to switch between many conversations
+            within the same browser window. This feature is called
+            <emphasis>workspace management</emphasis>.
+        </para>
+        </listitem>
+    </itemizedlist>
+    
+    </section>
+    
+    <section>
+        <title>Nested conversations</title>
+        
+        <para>
+            A nested conversation is created by invoking a method marked
+            <literal>@Begin(nested=true)</literal> inside the scope of an
+            existing conversation. A nested conversation has its own
+            conversation context, and also has read-only access to the
+            context of the outer conversation. (It can read the outer
+            conversation's context variables, but not write to them.)
+            When an <literal>@End</literal> is subsequently encountered,
+            the nested conversation will be destroyed, and the outer
+            conversation will resume, by "popping" the conversation stack.
+            Conversations may be nested to any arbitrary depth.
+        </para>
+        
+        <para>
+            Certain user activity (workspace management, or the back button)
+            can cause the outer conversation to be resumed before the inner
+            conversation is ended. In this case it is possible to have 
+            multiple concurrent nested conversations belonging to the
+            same outer conversation. If the outer conversation ends before
+            a nested conversation ends, Seam destroys all nested conversation
+            contexts along with the outer context.
+        </para>
+        
+        <para>
+            A conversation may be thought of as a <emphasis>continuable state</emphasis>.
+            Nested conversations allow the application to capture a consistent
+            continuable state at various points in a user interaction, thus
+            insuring truly correct behavior in the face of backbuttoning and
+            workspace management.
+        </para>
+        
+        <para>
+            TODO: an example to show how a nested conversation prevents bad 
+            stuff happening when you backbutton.
+        </para>
+        
+    </section>
+    
+    <section>
+        <title>Workspace management</title>
+        
+        <para>
+            Workspace management is the ability to "switch" conversations in
+            a single window. Seam makes workspace management completely 
+            transparent at the level of the Java code. To enable workspace
+            management, all you need to so is:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+            <para>
+                Provide <emphasis>description</emphasis> text for each view id 
+                (when using JSF navigation rules) or page node (when using 
+                jPDL pageflows). This description text is displayed to the user 
+                by the workspace switchers.
+            </para>
+            </listitem>
+            <listitem>
+                Include one or more of the standard workspace switcher JSP
+                or facelets fragments in your pages. The standard fragments
+                support workspace management via a drop down menu, a list
+                of conversations, or breadcrumbs.
+            <para>
+            </para>
+            </listitem>
+        </itemizedlist>
+        
+        <section>
+            <title>Workspace management and JSF navigation</title>
+            <para>
+                When you use JSF navigation rules, Seam switches to a
+                conversation by restoring the current <literal>view-id</literal>
+                for that conversation. The descriptive text for the
+                conversation is defined in a file called <literal>pages.xml</literal>
+                that Seam expects to find in the <literal>WEB-INF</literal>
+                directory:
+            </para>
+            
+            <programlisting><![CDATA[<pages>
+    <page view-id="/main.xhtml">Search hotels: #{hotelBooking.searchString}</page>
+    <page view-id="/hotel.xhtml">View hotel: #{hotel.name}</page>
+    <page view-id="/book.xhtml">Book hotel: #{hotel.name}</page>
+    <page view-id="/confirm.xhtml">Confirm: #{booking.description}</page>
+</pages>]]></programlisting>
+
+           <para>
+               Note that if this file is missing, the Seam application will
+               continue to work perfectly! The only missing functionality
+               will be the ability to switch workspaces.
+           </para>
+
+        </section>
+        
+        <section>
+            <title>Workspace management and jPDL pageflow</title>
+            <para>
+                When you use a jPDL pageflow definition, Seam switches
+                to a conversation by restoring the current jBPM process
+                state. This is a more flexible model since it allows the
+                same <literal>view-id</literal> to have different
+                descriptions depending upon the current 
+                <literal>&lt;page&gt;</literal> node. The description
+                text is defined by the <literal>&lt;page&gt;</literal> node:
+            </para>
+            
+<programlisting><![CDATA[<process-definition name="shopping">
+
+   <start-state name="start">
+      <transition to="browse"/>
+   </start-state>
+   
+   <page name="browse" view-id="/browse.xhtml">
+      <description>DVD Search: #{search.searchPattern}</description>
+      <transition name="browse" to="browse"/>
+      <transition name="checkout" to="checkout"/>
+   </page>
+   
+   <page name="checkout" view-id="/checkout.xhtml">
+      <description>Purchase: $#{cart.total}</description>
+      <transition name="checkout" to="checkout"/>
+      <transition name="complete" to="complete"/>
+   </page>
+   
+   <page name="complete" view-id="/complete.xhtml">
+      <end-conversation />
+   </page>
+   
+</process-definition>]]></programlisting>
+
+        </section>
+        
+        <section>
+            <title>The conversation switcher</title>
+            
+            <para>
+                Include the following fragment in your JSP or facelets page
+                to get a drop-down menu that lets you switch to any
+                current conversation, or to any other page of the application:
+            </para>
+            
+            <programlisting><![CDATA[<h:selectOneMenu value="#{switcher.conversationIdOrOutcome}">
+    <f:selectItem itemLabel="Find Issues" itemValue="findIssue"/>
+    <f:selectItem itemLabel="Create Issue" itemValue="editIssue"/>
+    <f:selectItems value="#{switcher.selectItems}"/>
+</h:selectOneMenu>
+<h:commandButton action="#{switcher.select}" value="Switch"/>]]></programlisting>
+       
+            <para>
+                In this example, we have a menu that includes an item for each
+                conversation, together with two additional items that let the
+                user begin a new conversation.
+            </para>
+       
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/switcher.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/switcher.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+
+        </section>
+        
+        <section>
+            <title>The conversation list</title>
+            
+            <para>
+                The conversation list is very similar to the conversation switcher,
+                except that it is displayed as a table:
+            </para>
+            
+            <programlisting><![CDATA[<h:dataTable value="#{conversationList}" var="entry"
+        rendered="#{not empty conversationList}">
+    <h:column>
+        <f:facet name="header">Workspace</f:facet>
+        <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
+        <h:outputText value="[current]" rendered="#{entry.current}"/>
+    </h:column>
+    <h:column>
+        <f:facet name="header">Activity</f:facet>
+        <h:outputText value="#{entry.startDatetime}">
+            <f:convertDateTime type="time" pattern="hh:mm a"/>
+        </h:outputText>
+        <h:outputText value=" - "/>
+        <h:outputText value="#{entry.lastDatetime}">
+            <f:convertDateTime type="time" pattern="hh:mm a"/>
+        </h:outputText>
+    </h:column>
+    <h:column>
+        <f:facet name="header">Action</f:facet>
+        <h:commandButton action="#{entry.select}" value="#{msg.Switch}"/>
+        <h:commandButton action="#{entry.destroy}" value="#{msg.Destroy}"/>
+    </h:column>
+</h:dataTable>]]></programlisting>
+
+            <para>
+                We imagine that you will want to customize this for your own application.
+            </para>
+            
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/list.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/list.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
+            <para>
+                The conversation list is nice, but it takes up a lot of space on 
+                the page, so you probably don't want to put it on <emphasis>every</emphasis>
+                page.
+            </para>
+            
+            <para>
+                Notice that the conversation list lets the user destroy workspaces.
+            </para>
+
+        </section>
+        
+        <section>
+            <title>Breadcrumbs</title>
+            
+            <para>
+                Breadcrumbs are useful in applications which use a nested conversation
+                model. The breadcrumbs are a list of links to conversations in the
+                current conversation stack:
+            </para>
+            
+            <programlisting><![CDATA[<t:dataList value="#{conversationStack}" var="entry">
+    <h:outputText value=" | "/> 
+    <h:commandLink value="#{entry.description}" action="#{entry.select}"/>
+</t:dataList>]]></programlisting>
+
+            <para>
+                Notice that here we are using the MyFaces <literal>&lt;t:dataList&gt;</literal>
+                component, since JSF amazingly does not provide any standard component
+                for looping.
+            </para>
+            
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/breadcrumbs.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/breadcrumbs.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
+        </section>
+        
+        <para>
+            Please refer to the Seam Issue Tracker demo to see all this functionality 
+            in action!
+        </para>
+        
+    </section>
+    
+</chapter>
