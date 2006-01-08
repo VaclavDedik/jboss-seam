@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config 
+PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+                            "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+<faces-config>
+
+	<!-- Phase listener needed for all Seam applications -->
+	
+	<lifecycle>
+		<phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+	</lifecycle>
+	
+</faces-config>
