@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 
-<suite name="Registration" verbose="2" parallel="false">
+<suite name="NumberGuess" verbose="2" parallel="false">
 
-   <test name="Register">
+   <test name="NumberGuess">
      <classes>
        <class name="org.jboss.seam.example.numberguess.test.NumberGuessTest"/>
      </classes>
