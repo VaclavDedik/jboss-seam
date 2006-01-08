@@ -133,13 +133,6 @@
                             breadcrumbs.
                         </para>
                         </listitem>
-                        <listitem>
-                        <para>
-                            <literal>switchableOutcome(String outcome, String description)</literal> 
-                            &mdash; sets the outcome and description in one line of code, returning
-                            the outcome.
-                        </para>
-                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
@@ -366,6 +359,23 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><literal>org.jboss.seam.core.pageflow</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for Seam pageflow management. Installed whenever
+                        <literal>org.jboss.seam.core.jbpm</literal> is installed.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.pages</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for Seam workspace management. Always installed.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><literal>org.jboss.seam.core.ejb</literal></term>
                 <listitem>
                     <para>
@@ -428,7 +438,7 @@
                 <term><literal>org.jboss.seam.core.jbpm</literal></term>
                 <listitem>
                     <para>
-                        Bootstraps a <literal>JbpmFactory</literal>. Install as class 
+                        Bootstraps a <literal>JbpmConfiguration</literal>. Install as class 
                         <literal>org.jboss.seam.core.Jbpm</literal>. 
                     </para>
                     <itemizedlist>

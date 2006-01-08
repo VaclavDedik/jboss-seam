@@ -425,7 +425,7 @@ org.jboss.seam.core.jbpm.processDefinitions jbpm-todo.xml]]></programlisting>
 public String login() {
     ...
     actor.setId( user.getUserName() );
-    actor.setGroupActorIds( user.getGroupNames() );
+    actor.getGroupActorIds().addAll( user.getGroupNames() );
     ...
 }]]></programlisting>
         
