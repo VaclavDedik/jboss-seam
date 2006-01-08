@@ -36,7 +36,7 @@ import org.jboss.seam.util.Id;
 
 /**
  * The Seam conversation manager.
- * 
+ *
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
@@ -53,39 +53,39 @@ public class Manager
    public static final String CONVERSATION_ID = NAME + ".conversationId";
    public static final String PAGEFLOW_COUNTER = NAME + ".pageflowCounter";
 
-      
+
    //A map of all conversations for the session,
    //to the last activity time, which is flushed
    //stored in the session context at the end
    //of each request
    private Map<String, ConversationEntry> conversationIdEntryMap;
    private boolean dirty = false;
-   
+
    //The id of the current conversation
    private String currentConversationId;
    private LinkedList<String> currentConversationIdStack;
-   
+
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
-   
-   
+
+
    private int conversationTimeout = 600000; //10 mins
-   
+
    public String getCurrentConversationId()
    {
       return currentConversationId;
    }
-   
+
    public void setCurrentConversationId(String id)
    {
       currentConversationId = id;
    }
-   
+
    public Set<String> getSessionConversationIds()
    {
       return getConversationIdEntryMap().keySet();
    }
-   
+
    public Map<String, ConversationEntry> getConversationIdEntryMap()
    {
       if (conversationIdEntryMap==null)
@@ -98,7 +98,7 @@ public class Manager
       }
       return conversationIdEntryMap;
    }
-   
+
    /**
     * Make sure the session notices that we changed something
     */
@@ -136,19 +136,19 @@ public class Manager
             }
          }
       }
-      
+
       //do this last, to bring it to the top of the conversation list
       if ( isLongRunningConversation() )
       {
          getCurrentConversationEntry().touch();
       }
-      
+
    }
 
    private ConversationEntry getConversationEntry(String conversationId) {
       return getConversationIdEntryMap().get(conversationId);
    }
-   
+
    public Object getCurrentConversationInitiator()
    {
       ConversationEntry ce = getCurrentConversationEntry();
@@ -166,36 +166,36 @@ public class Manager
    {
       return currentConversationIdStack;
    }
-   
+
    private void setCurrentConversationIdStack(LinkedList<String> stack)
    {
       currentConversationIdStack = stack;
    }
-   
+
    private void setCurrentConversationIdStack(String id)
    {
       currentConversationIdStack = new LinkedList<String>();
       currentConversationIdStack.add(id);
    }
-   
+
    public void setCurrentConversationDescription(String description)
    {
       getCurrentConversationEntry().setDescription(description);
       dirty();
    }
-   
+
    public void setCurrentConversationViewId(String viewId)
    {
       getCurrentConversationEntry().setViewId(viewId);
       dirty();
    }
-   
+
    public void setCurrentConversationTimeout(int timeout)
    {
       getCurrentConversationEntry().setTimeout(timeout);
       dirty();
    }
-   
+
    public String getCurrentConversationDescription()
    {
       if ( conversationIdEntryMap==null ) return null;
@@ -203,7 +203,7 @@ public class Manager
       if ( ce==null ) return null;
       return ce.getDescription();
    }
-   
+
    public String getCurrentConversationViewId()
    {
       if ( conversationIdEntryMap==null ) return null;
@@ -211,7 +211,7 @@ public class Manager
       if ( ce==null ) return null;
       return ce.getViewId();
    }
-   
+
    @Destroy
    public void flushConversationIdMapToSession()
    {
@@ -223,7 +223,7 @@ public class Manager
          }
       }
    }
-   
+
    public boolean isLongRunningConversation()
    {
       return isLongRunningConversation;
@@ -254,7 +254,7 @@ public class Manager
    public void conversationTimeout(ExternalContext externalContext)
    {
       touchConversationStack();
-      
+
       long currentTime = System.currentTimeMillis();
       Iterator<Map.Entry<String, ConversationEntry>> entries = getConversationIdEntryMap().entrySet().iterator();
       while ( entries.hasNext() )
@@ -272,7 +272,7 @@ public class Manager
       }
    }
 
-   private void destroyConversation(String conversationId, Session session, Iterator iter) 
+   private void destroyConversation(String conversationId, Session session, Iterator iter)
    {
       ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
       Contexts.destroy( conversationContext );
@@ -281,12 +281,12 @@ public class Manager
       iter.remove();
       dirty();
    }
-   
+
    public void storeConversation(Map attributes, Session session)
    {
-      if ( isLongRunningConversation() ) 
+      if ( isLongRunningConversation() )
       {
-         if ( !Seam.isSessionInvalid() ) 
+         if ( !Seam.isSessionInvalid() )
          {
             log.debug("Storing conversation state: " + currentConversationId);
             Conversation.instance().flush();
@@ -294,7 +294,7 @@ public class Manager
             //in the view, 'cos we are expecting the conversation to
             //be destroyed by the servlet session listener
             attributes.put(CONVERSATION_ID, currentConversationId);
-            
+
             if ( Init.instance().isJbpmInstalled() )
             {
                Pageflow pageflow = Pageflow.instance();
@@ -307,10 +307,10 @@ public class Manager
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
       }
-      else 
+      else
       {
          log.debug("Discarding conversation state: " + currentConversationId);
-                  
+
          LinkedList<String> stack = Manager.instance().getCurrentConversationIdStack();
          if ( stack.size()>1 )
          {
@@ -321,7 +321,7 @@ public class Manager
          {
             attributes.remove(CONVERSATION_ID);
          }
-         
+
          //now safe to remove the entry
          removeCurrentConversationAndDestroyNestedContexts(session);
 
@@ -330,11 +330,11 @@ public class Manager
 
    public void storeConversation(HttpServletResponse response, Session session)
    {
-      if ( isLongRunningConversation() ) 
+      if ( isLongRunningConversation() )
       {
          log.debug("Storing conversation state: " + currentConversationId);
          Conversation.instance().flush();
-         if ( !Seam.isSessionInvalid() ) 
+         if ( !Seam.isSessionInvalid() )
          {
             //if the session is invalid, don't put the conversation id
             //in the view, 'cos we are expecting the conversation to
@@ -344,7 +344,7 @@ public class Manager
          //even if the session is invalid, still put the id in the map,
          //so it can be cleaned up along with all the other conversations
       }
-      else 
+      else
       {
          log.debug("Discarding conversation state: " + currentConversationId);
 
@@ -354,17 +354,17 @@ public class Manager
             String outerConversationId = stack.get(1);
             response.setHeader("conversationId", outerConversationId);
          }
-         
+
          //now safe to remove the entry
          removeCurrentConversationAndDestroyNestedContexts(session);
       }
    }
-   
+
    private void removeCurrentConversationAndDestroyNestedContexts(Session session) {
       removeConversationEntry(currentConversationId);
       destroyNestedContexts(session, currentConversationId);
    }
-      
+
    private void destroyNestedContexts(Session session, String conversationId) {
       Iterator<ConversationEntry> entries = getConversationIdEntryMap().values().iterator();
       while ( entries.hasNext() )
@@ -378,10 +378,10 @@ public class Manager
          }
       }
    }
-   
+
    public void restoreConversation(Map attributes, Map parameters)
    {
-      
+
       //First, try to get the conversation id from a request parameter
       String storedConversationId = (String) parameters.get("conversationId");
       if ( isMissing(storedConversationId) && attributes!=null )
@@ -390,34 +390,34 @@ public class Manager
          //the JSF component tree
          storedConversationId = (String) attributes.get(CONVERSATION_ID);
       }
-      
-      else if (storedConversationId!=null) 
+
+      else if (storedConversationId!=null)
       {
          log.debug("Found conversation id in request parameter: " + storedConversationId);
       }
-      
+
       if ( "new".equals(storedConversationId) )
       {
          storedConversationId = null;
       }
-      
-      boolean isStoredConversation = storedConversationId!=null && 
+
+      boolean isStoredConversation = storedConversationId!=null &&
             getSessionConversationIds().contains(storedConversationId);
       if ( isStoredConversation )
       {
-         
+
          //we found an id, so restore the long-running conversation
          log.debug("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          setCurrentConversationId(storedConversationId);
          ConversationEntry ce = getCurrentConversationEntry();
          setCurrentConversationIdStack( ce.getConversationIdStack() );
-         
-         if ( ce.isRemoveAfterRedirect() ) 
+
+         if ( ce.isRemoveAfterRedirect() )
          {
             setLongRunningConversation(false);
          }
-         
+
       }
       else
       {
@@ -426,13 +426,13 @@ public class Manager
          log.debug("No stored conversation");
          initializeTemporaryConversation();
       }
-      
+
    }
 
    private boolean isMissing(String storedConversationId) {
       return storedConversationId==null || "".equals(storedConversationId);
    }
-   
+
    public void initializeTemporaryConversation()
    {
       String id = Id.nextId();
@@ -440,7 +440,7 @@ public class Manager
       setCurrentConversationIdStack(id);
       setLongRunningConversation(false);
    }
-   
+
    private ConversationEntry createConversationEntry()
    {
       ConversationEntry ce = new ConversationEntry( getCurrentConversationId(), getCurrentConversationIdStack() );
@@ -448,19 +448,19 @@ public class Manager
       dirty();
       return ce;
    }
-   
+
    public void beginConversation(String initiator)
    {
       setLongRunningConversation(true);
       createConversationEntry().setInitiatorComponentName(initiator);
       Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
    }
-   
+
    public void endConversation()
    {
       setLongRunningConversation(false);
    }
-   
+
    public void beginNestedConversation(String ownerName)
    {
       LinkedList<String> stack = getCurrentConversationIdStack();
@@ -475,12 +475,21 @@ public class Manager
    public ConversationEntry getCurrentConversationEntry() {
       return getConversationEntry( getCurrentConversationId() );
    }
-   
-   public void swapConversation(String id)
+
+   public boolean swapConversation(String id)
    {
-      setCurrentConversationId(id);
-      setCurrentConversationIdStack( getCurrentConversationEntry().getConversationIdStack() );
-      setLongRunningConversation(true);
+      ConversationEntry ce = getConversationEntry(id);
+      if (ce!=null)
+      {
+         setCurrentConversationId(id);
+         setCurrentConversationIdStack( ce.getConversationIdStack() );
+         setLongRunningConversation(true);
+         return true;
+      }
+      else
+      {
+         return false;
+      }
    }
 
    public int getConversationTimeout() {
@@ -490,7 +499,7 @@ public class Manager
    public void setConversationTimeout(int conversationTimeout) {
       this.conversationTimeout = conversationTimeout;
    }
-   
+
    private void beforeRedirect()
    {
       ConversationEntry ce = getConversationEntry(currentConversationId);
@@ -502,7 +511,7 @@ public class Manager
       ce.setRemoveAfterRedirect( !isLongRunningConversation() );
       setLongRunningConversation(true);
    }
-   
+
    /**
     * Beware of side-effect!
     */
@@ -510,7 +519,7 @@ public class Manager
       beforeRedirect();
       return url + "?conversationId=" + getCurrentConversationId();
    }
-   
+
    public void redirect(String viewId)
    {
       FacesContext context = FacesContext.getCurrentInstance();
@@ -532,13 +541,13 @@ public class Manager
       if ( isLongRunningConversation() )
       {
          Conversation conversation = Conversation.instance();
-         
+
          //stuff from jPDL takes precedence
-         Page page = Init.instance().isJbpmInstalled() ? 
+         Page page = Init.instance().isJbpmInstalled() ?
                Pageflow.instance().getPage() : null;
          if (page!=null)
          {
-            if ( page.hasDescription() ) 
+            if ( page.hasDescription() )
             {
                conversation.setDescription( page.getDescription() );
                conversation.setViewId( page.getViewId() );
@@ -560,8 +569,8 @@ public class Manager
                conversation.setTimeout( pages.getTimeout(viewId) );
             }
          }
-         
+
       }
    }
-   
+
 }

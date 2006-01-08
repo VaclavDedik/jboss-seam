@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.jboss.seam.core;
 
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Metadata about an active conversation. Also used
  * by the conversation list and breadcrumbs.
- * 
+ *
  * @author Gavin King
  *
  */
@@ -27,16 +27,16 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private String initiatorComponentName;
    private Integer timeout;
    private boolean removeAfterRedirect;
-   
-   public ConversationEntry(String id, LinkedList<String> stack) 
+
+   public ConversationEntry(String id, LinkedList<String> stack)
    {
       super();
       this.id = id;
       conversationIdStack = stack;
       startDatetime = new Date();
    }
-   
-   public ConversationEntry(String id) 
+
+   public ConversationEntry(String id)
    {
       super();
       this.id = id;
@@ -78,23 +78,30 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    void setStartDatetime(Date created) {
       this.startDatetime = created;
    }
-   
+
    public String destroy() {
-      Manager.instance().swapConversation( getId() );
-      Manager.instance().endConversation();
+      boolean success = Manager.instance().swapConversation( getId() );
+      if (success) Manager.instance().endConversation();
       return null;
    }
 
    public String select() {
-      Manager.instance().swapConversation( getId() );
-      Manager.instance().redirect( getViewId() );
-      return "org.jboss.seam.switch";
+      boolean success = Manager.instance().swapConversation( getId() );
+      if (success)
+      {
+         Manager.instance().redirect( getViewId() );
+         return "org.jboss.seam.switch";
+      }
+      else
+      {
+         return null;
+      }
    }
 
    void setViewId(String viewId) {
       this.viewId = viewId;
    }
-   
+
    public String getViewId()
    {
       if ( isCurrent() )
@@ -124,13 +131,13 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    void setInitiatorComponentName(String ownerComponentName) {
       this.initiatorComponentName = ownerComponentName;
    }
-   
+
    public boolean isDisplayable() {
       Manager manager = Manager.instance();
-      return getDescription()!=null && 
+      return getDescription()!=null &&
          ( manager.isLongRunningConversation() || !id.equals( manager.getCurrentConversationId() ) );
    }
-   
+
    public boolean isCurrent()
    {
       Manager manager = Manager.instance();
@@ -151,7 +158,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    public int getTimeout() {
-      return timeout==null ? 
+      return timeout==null ?
             Manager.instance().getConversationTimeout() : timeout;
    }
 
