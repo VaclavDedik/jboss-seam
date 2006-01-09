@@ -541,7 +541,7 @@
             <varlistentry id="createprocess-annotation">
                 <term><literal>@CreateProcess</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@CreateProcess(definition="ProcessDefinition")]]></programlisting>
+                    <programlisting><![CDATA[@CreateProcess(definition="process definition name")]]></programlisting>
                     <para>
                         Creates a new jBPM process instance when the method returns a non-null
                         outcome without exception. The <literal>ProcessInstance</literal> object
@@ -550,8 +550,8 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>definition</literal> &mdash; the name of the jBPM
-                            process definition.
+                            <literal>definition</literal> &mdash; the name of the jBPM process definition 
+                            deployed via <literal>org.jboss.seam.core.jbpm.processDefinitions</literal>.
                         </para>
                         </listitem>
                     </itemizedlist>

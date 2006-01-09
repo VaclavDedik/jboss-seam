@@ -158,6 +158,15 @@
    
 </process-definition>]]></programlisting>
 
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/plugin-jbpm-numguess.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/plugin-jbpm-numguess.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
         <para>
             There are two things we notice immediately here:
         </para>
