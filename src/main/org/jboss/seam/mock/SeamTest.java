@@ -14,6 +14,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -24,6 +25,8 @@ import org.jboss.seam.servlet.ServletSessionImpl;
 import org.testng.annotations.Configuration;
 
 /**
+ * Superclass for TestNG integration tests for JSF/Seam applications.
+ * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
@@ -54,23 +57,85 @@ public class SeamTest
       return facesContext;
    }
    
+   /**
+    * Script is an abstract superclass for usually anonymous  
+    * inner classes that test JSF interactions.
+    * 
+    * @author Gavin King
+    */
    public abstract class Script
    {
       private String conversationId;
       
+      /**
+       * A script for a JSF interaction with
+       * no existing long-running conversation.
+       */
       protected Script() {}
       
+      /**
+       * A script for a JSF interaction in the
+       * scope of an existing long-running
+       * conversation.
+       */
       protected Script(String id)
       {
          conversationId = id;
       }
+      
+      /**
+       * Helper method for resolving components in
+       * the test script.
+       */
+      protected Object getInstance(Class clazz)
+      {
+         return Component.getInstance(clazz, true);
+      }
 
+      /**
+       * Helper method for resolving components in
+       * the test script.
+       */
+      protected Object getInstance(String name)
+      {
+         return Component.getInstance(name, true);
+      }
+      
+      /**
+       * Override to implement the interactions between
+       * the JSF page and your components that occurs
+       * during the apply request values phase.
+       */
       protected void applyRequestValues() throws Exception {}
+      /**
+       * Override to implement the interactions between
+       * the JSF page and your components that occurs
+       * during the process validations phase.
+       */
       protected void processValidations() throws Exception {}
+      /**
+       * Override to implement the interactions between
+       * the JSF page and your components that occurs
+       * during the update model values phase.
+       */
       protected void updateModelValues() throws Exception {}
+      /**
+       * Override to implement the interactions between
+       * the JSF page and your components that occurs
+       * during the invoke application phase.
+       */
       protected void invokeApplication() throws Exception {}
       protected String getInvokeApplicationOutcome() { return null; }
+      /**
+       * Override to implement the interactions between
+       * the JSF page and your components that occurs
+       * during the render response phase.
+       */
       protected void renderResponse() throws Exception {}
+      /**
+       * Override to set up any request parameters for
+       * the request.
+       */
       protected void setParameters() {}
       
       public Map getRequestParameterMap()
@@ -160,6 +225,10 @@ public class SeamTest
       Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) facesContext.getExternalContext().getSession(true) ) );
    }
    
+   /**
+    * Create a SeamPhaseListener by default. Override to use 
+    * one of the other standard Seam phase listeners.
+    */
    protected SeamPhaseListener createPhaseListener()
    {
 	  return new SeamPhaseListener();
@@ -188,7 +257,10 @@ public class SeamTest
       conversationStates.clear();
       conversationStates = null;
    }
-
+   
+   /**
+    * Override to set up any servlet context attributes.
+    */
    public void initServletContext(Map initParams) {}
 
    private class ConversationState
