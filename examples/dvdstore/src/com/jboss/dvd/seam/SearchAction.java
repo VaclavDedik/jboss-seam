@@ -78,7 +78,7 @@ public class SearchAction
         return actor;
     }
 
-    @Begin(join=true, processDefinition="shopping")
+    @Begin(join=true, pageflow="shopping")
     public String doSearch() {
         currentPage=0;
         updateResults();

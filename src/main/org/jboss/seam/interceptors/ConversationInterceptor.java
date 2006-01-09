@@ -153,15 +153,15 @@ public class ConversationInterceptor extends AbstractInterceptor
    private String getProcessDefinitionName(Method method) {
       if ( method.isAnnotationPresent(Begin.class) )
       {
-         return method.getAnnotation(Begin.class).processDefinition();
+         return method.getAnnotation(Begin.class).pageflow();
       }
       if ( method.isAnnotationPresent(BeginTask.class) )
       {
-         return method.getAnnotation(BeginTask.class).processDefinition();
+         return method.getAnnotation(BeginTask.class).pageflow();
       }
       if ( method.isAnnotationPresent(StartTask.class) )
       {
-         return method.getAnnotation(StartTask.class).processDefinition();
+         return method.getAnnotation(StartTask.class).pageflow();
       }
       return "";
    }

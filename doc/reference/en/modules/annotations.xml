@@ -362,7 +362,7 @@
                     </para>
                 </listitem>
                 <listitem>
-                    <programlisting><![CDATA[@Begin(processDefinition="process definition name")]]></programlisting>
+                    <programlisting><![CDATA[@Begin(pageflow="process definition name")]]></programlisting>
                     <para>
                         Specifies a jBPM process definition name that defines the pageflow
                         for this conversation.
@@ -401,7 +401,7 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>processDefinition</literal> &mdash; a process
+                            <literal>pageflow</literal> &mdash; a process
                             definition name of a jBPM process definition deployed
                             via <literal>org.jboss.seam.core.jbpm.pageflowDefinitions.</literal>
                         </para>

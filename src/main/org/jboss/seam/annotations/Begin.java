@@ -42,5 +42,5 @@ public @interface Begin {
     * The name of the jBPM process definition defining 
     * the page flow for this conversation.
     */
-   String processDefinition() default "";
+   String pageflow() default "";
 }

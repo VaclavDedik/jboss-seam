@@ -20,7 +20,7 @@ public class NumberGuess {
    private int maxGuesses;
    
    @Create 
-   @Begin(processDefinition="numberGuess")
+   @Begin(pageflow="numberGuess")
    public void begin()
    {
       randomNumber = new Random().nextInt(100);

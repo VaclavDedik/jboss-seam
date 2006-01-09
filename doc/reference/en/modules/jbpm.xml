@@ -276,7 +276,7 @@ org.jboss.seam.core.jbpm.pageflowDefinitions jbpm-pageflow.xml]]></programlistin
             annotation:
         </para>
         
-        <programlisting><![CDATA[@Begin(processDefinition="numberguess")
+        <programlisting><![CDATA[@Begin(pageflow="numberguess")
 public void begin() { ... }]]></programlisting>
         
         <para>
