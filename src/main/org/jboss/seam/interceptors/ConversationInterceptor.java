@@ -120,9 +120,6 @@ public class ConversationInterceptor extends AbstractInterceptor
    private void beginConversationIfNecessary(Method method, Object result)
    {
       
-      String processDefinitionName = method.isAnnotationPresent(Begin.class) ? 
-            method.getAnnotation(Begin.class).processDefinition() : "";
-      
       boolean simpleBegin = 
             method.isAnnotationPresent(StartTask.class) || 
             method.isAnnotationPresent(BeginTask.class) ||
@@ -136,7 +133,7 @@ public class ConversationInterceptor extends AbstractInterceptor
             {
                nested = method.getAnnotation(Begin.class).nested();
             }
-            beginConversation(nested, processDefinitionName);
+            beginConversation( nested, getProcessDefinitionName(method) );
          }
       }
       else if ( method.isAnnotationPresent(Begin.class) )
@@ -144,10 +141,29 @@ public class ConversationInterceptor extends AbstractInterceptor
          String[] outcomes = method.getAnnotation(Begin.class).ifOutcome();
          if ( outcomes.length==0 || Arrays.asList(outcomes).contains(result) )
          {
-            beginConversation( method.getAnnotation(Begin.class).nested(), processDefinitionName );
+            beginConversation( 
+                  method.getAnnotation(Begin.class).nested(), 
+                  getProcessDefinitionName(method) 
+               );
          }
       }
       
+   }
+
+   private String getProcessDefinitionName(Method method) {
+      if ( method.isAnnotationPresent(Begin.class) )
+      {
+         return method.getAnnotation(Begin.class).processDefinition();
+      }
+      if ( method.isAnnotationPresent(BeginTask.class) )
+      {
+         return method.getAnnotation(BeginTask.class).processDefinition();
+      }
+      if ( method.isAnnotationPresent(StartTask.class) )
+      {
+         return method.getAnnotation(StartTask.class).processDefinition();
+      }
+      return "";
    }
 
    private void beginConversation(boolean nested, String processDefinitionName)

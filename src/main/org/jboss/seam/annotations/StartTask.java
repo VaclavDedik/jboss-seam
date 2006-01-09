@@ -39,4 +39,9 @@ public @interface StartTask
     * the id of task to be started.
     */
    String taskIdParameter() default "taskId";
+   /**
+    * The name of the jBPM process definition defining 
+    * the page flow for this conversation.
+    */
+   String processDefinition() default "";
 }
