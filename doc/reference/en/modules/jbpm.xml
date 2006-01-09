@@ -392,6 +392,15 @@ public void begin() { ... }]]></programlisting>
 </process-definition>]]></programlisting>
         </section>
         
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/plugin-jbpm-todo.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/plugin-jbpm-todo.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
         <para>
             It is perfectly possible that we might have both jPDL business 
             process definitions and jPDL pageflow definitions in the
