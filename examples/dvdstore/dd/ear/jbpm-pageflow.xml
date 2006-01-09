@@ -12,9 +12,9 @@
    
 -->
 
-<process-definition xmlns="urn:jbpm.org:jpdl-3.1" 
+<process-definition xmlns="urn:jbpm.org:seam-pageflow-1.0" 
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:schemaLocation="urn:jbpm.org:jpdl-3.1 http://jbpm.org/jpdl-3.1.xsd"
+                    xsi:schemaLocation="urn:jbpm.org:seam-pageflow-1.0 http://www.jboss.com/products/seam/seam-pageflow.xsd"
                     name="shopping">
 
    <start-state name="start">
