@@ -53,8 +53,8 @@
         </para>
         <para>
             Assuming that all is well, the example application will now be deployed to JBoss.
-            Browse it by accessing 
-            <ulink url="http://localhost:8080/seam-registration/register.jsf"><literal>http://localhost:8080/seam-registration/register.jsf</literal></ulink>
+            Try it out by accessing 
+            <ulink url="http://localhost:8080/seam-registration/"><literal>http://localhost:8080/seam-registration/</literal></ulink>
             with your web browser.
         </para>
         
