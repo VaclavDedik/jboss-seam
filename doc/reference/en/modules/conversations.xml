@@ -255,9 +255,9 @@
                 When you use JSF navigation rules, Seam switches to a
                 conversation by restoring the current <literal>view-id</literal>
                 for that conversation. The descriptive text for the
-                conversation is defined in a file called <literal>pages.xml</literal>
+                workspace is defined in a file called <literal>pages.xml</literal>
                 that Seam expects to find in the <literal>WEB-INF</literal>
-                directory:
+                directory, right next to <literal>faces-config.xml</literal>:
             </para>
             
             <programlisting><![CDATA[<pages>
@@ -284,7 +284,8 @@
                 same <literal>view-id</literal> to have different
                 descriptions depending upon the current 
                 <literal>&lt;page&gt;</literal> node. The description
-                text is defined by the <literal>&lt;page&gt;</literal> node:
+                text is defined by the <literal>&lt;page&gt;</literal> 
+                node:
             </para>
             
 <programlisting><![CDATA[<process-definition name="shopping">
