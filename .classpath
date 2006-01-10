@@ -28,7 +28,6 @@
 	<classpathentry kind="lib" path="lib/jboss-microcontainer.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-system.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-transaction.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-3.1-alpha2.jar"/>
 	<classpathentry kind="lib" path="lib/jnpserver.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-api.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-impl.jar"/>
@@ -36,5 +35,7 @@
 	<classpathentry kind="lib" path="lib/testng-2.5.3-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/tomahawk.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-3.1-beta1.jar"/>
+	<classpathentry kind="lib" path="microcontainer/lib/commons-logging.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
