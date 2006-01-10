@@ -1,9 +1,9 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
-@Remote
+@Local
 public interface HotelBooking
 {
    public int getPageSize();
