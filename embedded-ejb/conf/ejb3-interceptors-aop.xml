@@ -71,18 +71,19 @@
    <interceptor class="org.jboss.ejb3.entity.ExtendedPersistenceContextPropagationInterceptor" scope="PER_VM"/>
    <interceptor class="org.jboss.ejb3.stateless.StatelessInstanceInterceptor" scope="PER_VM"/>
    <interceptor class="org.jboss.ejb3.stateful.StatefulInstanceInterceptor" scope="PER_VM"/>
+   <interceptor class="org.jboss.ejb3.stateful.SessionSynchronizationInterceptor" scope="PER_VM"/>
    <interceptor class="org.jboss.ejb3.service.ServiceSingletonInterceptor" scope="PER_VM"/>
    <interceptor class="org.jboss.ejb3.cache.StatefulReplicationInterceptor" scope="PER_VM"/>
-   <interceptor class="org.jboss.ejb3.entity.BeforeTxFlushModeInterceptor" scope="PER_VM"/>
-   <interceptor factory="org.jboss.ejb3.entity.FlushModeInterceptorFactory" scope="PER_CLASS_JOINPOINT"/>
    <interceptor factory="org.jboss.ejb3.stateful.StatefulRemoveFactory" scope="PER_CLASS_JOINPOINT"/>
    <interceptor factory="org.jboss.ejb3.tx.TxInterceptorFactory" scope="PER_CLASS_JOINPOINT"/>
-   <interceptor factory="org.jboss.ejb3.interceptor.EJB3InterceptorsFactory" scope="PER_CLASS"/>
+   <interceptor factory="org.jboss.ejb3.interceptor.EJB3InterceptorsFactory" scope="PER_CLASS_JOINPOINT"/>
    <interceptor factory="org.jboss.ejb3.remoting.ReplicantsManagerInterceptorFactory" scope="PER_CLASS"/>
    <interceptor class="org.jboss.ejb3.AllowedOperationsInterceptor" scope="PER_VM"/>
+   <interceptor factory="org.jboss.ejb3.mdb.CurrentMessageInjectorInterceptorFactory" scope="PER_CLASS"/>
 
-   <typedef name="ejb3intercepted" expr="class(@javax.ejb.Interceptors) OR class(@javax.ejb.Interceptor) OR has(* *->@javax.ejb.AroundInvoke(..))"/>
-
+	<!--<typedef name="ejb3intercepted" expr="$typedef{classInterceptorAnnotated} OR $typedef{methodInterceptorAnnotated}"/>-->
+	<typedef name="ejb3intercepted" expr="class(@javax.ejb.Interceptors) OR class(@javax.ejb.ExcludeDefaultInterceptors) OR class(@org.jboss.annotation.internal.DefaultInterceptorMarker) OR has(* *->@javax.ejb.AroundInvoke(..)) OR has(* *->@javax.ejb.PostConstruct(..)) OR has(* *->@javax.ejb.PreDestroy(..)) OR has(* *->@javax.ejb.PrePassivate(..)) OR has(* *->@javax.ejb.PostActivate(..)) OR has(* *->@javax.ejb.ExcludeDefaultInterceptors(..)) OR has(* *->@javax.ejb.ExcludeClassInterceptors(..))"/> 
+	
    <domain name="Stateless Bean">
       <bind pointcut="execution(* *->*(..))">
          <interceptor-ref name="org.jboss.ejb3.asynchronous.AsynchronousInterceptor"/>
@@ -98,17 +99,11 @@
       <bind pointcut="execution(* @org.jboss.annotation.ejb.Clustered->*(..))">
          <interceptor-ref name="org.jboss.ejb3.remoting.ReplicantsManagerInterceptorFactory"/>
       </bind>
-      <bind pointcut="execution(* *->@javax.persistence.FlushMode(..))">
-         <interceptor-ref name="org.jboss.ejb3.entity.BeforeTxFlushModeInterceptor"/>
-      </bind>
       <bind pointcut="execution(* *->*(..))">
          <interceptor-ref name="org.jboss.ejb3.stateless.StatelessInstanceInterceptor"/>
          <interceptor-ref name="org.jboss.aspects.tx.TxPropagationInterceptor"/>
          <interceptor-ref name="org.jboss.ejb3.tx.TxInterceptorFactory"/>
          <interceptor-ref name="org.jboss.ejb3.AllowedOperationsInterceptor"/>
-      </bind>
-      <bind pointcut="execution(* *->@javax.persistence.FlushMode(..))">
-         <interceptor-ref name="org.jboss.ejb3.entity.FlushModeInterceptorFactory"/>
       </bind>
       <bind pointcut="execution(* $typedef{ejb3intercepted}->*(..))">
          <interceptor-ref name="org.jboss.ejb3.interceptor.EJB3InterceptorsFactory"/>
@@ -136,17 +131,14 @@
       <bind pointcut="execution(* *->@javax.ejb.Remove(..))">
          <interceptor-ref name="org.jboss.ejb3.stateful.StatefulRemoveFactory"/>
       </bind>
-      <bind pointcut="execution(* *->@javax.persistence.FlushMode(..))">
-         <interceptor-ref name="org.jboss.ejb3.entity.BeforeTxFlushModeInterceptor"/>
-      </bind>
       <bind pointcut="execution(* *->*(..))">
+         <interceptor-ref name="org.jboss.ejb3.stateful.StatefulInstanceInterceptor"/>
          <interceptor-ref name="org.jboss.aspects.tx.TxPropagationInterceptor"/>
          <interceptor-ref name="org.jboss.ejb3.tx.TxInterceptorFactory"/>
-         <interceptor-ref name="org.jboss.ejb3.stateful.StatefulInstanceInterceptor"/>
          <interceptor-ref name="org.jboss.ejb3.AllowedOperationsInterceptor"/>
       </bind>
-      <bind pointcut="execution(* *->@javax.persistence.FlushMode(..))">
-         <interceptor-ref name="org.jboss.ejb3.entity.FlushModeInterceptorFactory"/>
+      <bind pointcut="execution(* $instanceof{javax.ejb.SessionSynchronization}->*(..))">
+         <interceptor-ref name="org.jboss.ejb3.stateful.SessionSynchronizationInterceptor"/>
       </bind>
       <bind pointcut="execution(* *->*(..))">
          <interceptor-ref name="org.jboss.ejb3.entity.ExtendedPersistenceContextPropagationInterceptor"/>
@@ -209,6 +201,43 @@
       </annotation>
    </domain>
 
+   <domain name="Message Inflow Driven Bean">
+      <bind pointcut="execution(* @javax.annotation.security.RunAs->*(..))">
+         <interceptor-ref name="org.jboss.ejb3.security.RunAsSecurityInterceptorFactory"/>
+      </bind>
+      <bind pointcut="execution(* *->*(..))">
+         <interceptor-ref name="org.jboss.ejb3.stateless.StatelessInstanceInterceptor"/>
+         <interceptor-ref name="org.jboss.ejb3.tx.TxInterceptorFactory"/>
+         <interceptor-ref name="org.jboss.ejb3.AllowedOperationsInterceptor"/>
+      </bind>
+      <bind pointcut="execution(* $typedef{ejb3intercepted}->*(..))">
+         <interceptor-ref name="org.jboss.ejb3.interceptor.EJB3InterceptorsFactory"/>
+      </bind>
+      <annotation expr="!class(@org.jboss.annotation.ejb.PoolClass)">
+         @org.jboss.annotation.ejb.PoolClass (value=org.jboss.ejb3.ThreadlocalPool.class, maxSize=30, timeout=10000)
+      </annotation>
+   </domain>
+
+   <domain name="Consumer Bean">
+      <bind pointcut="execution(* @javax.annotation.security.RunAs->*(..))">
+         <interceptor-ref name="org.jboss.ejb3.security.RunAsSecurityInterceptorFactory"/>
+      </bind>
+      <bind pointcut="execution(* *->*(..))">
+         <interceptor-ref name="org.jboss.ejb3.stateless.StatelessInstanceInterceptor"/>
+         <interceptor-ref name="org.jboss.ejb3.tx.TxInterceptorFactory"/>
+         <interceptor-ref name="org.jboss.ejb3.AllowedOperationsInterceptor"/>
+      </bind>
+      <bind pointcut="execution(* *->*(..)) AND (has(* *->@org.jboss.annotation.ejb.CurrentMessage(..)) OR hasfield(* *->@org.jboss.annotation.ejb.CurrentMessage))">
+         <interceptor-ref name="org.jboss.ejb3.mdb.CurrentMessageInjectorInterceptorFactory"/>
+      </bind>
+      <bind pointcut="execution(* $typedef{ejb3intercepted}->*(..))">
+         <interceptor-ref name="org.jboss.ejb3.interceptor.EJB3InterceptorsFactory"/>
+      </bind>
+      <annotation expr="!class(@org.jboss.annotation.ejb.PoolClass)">
+         @org.jboss.annotation.ejb.PoolClass (value=org.jboss.ejb3.ThreadlocalPool.class, maxSize=30, timeout=10000)
+      </annotation>
+   </domain>
+
    <domain name="Service Bean">
       <bind pointcut="execution(* *->*(..))">
          <interceptor-ref name="org.jboss.ejb3.asynchronous.AsynchronousInterceptor"/>
@@ -220,9 +249,6 @@
       </bind>
       <bind pointcut="execution(* @javax.annotation.security.RunAs->*(..))">
          <interceptor-ref name="org.jboss.ejb3.security.RunAsSecurityInterceptorFactory"/>
-      </bind>
-      <bind pointcut="execution(* *->@javax.persistence.FlushMode(..))">
-         <interceptor-ref name="org.jboss.ejb3.entity.BeforeTxFlushModeInterceptor"/>
       </bind>
       <bind pointcut="execution(* *->*(..))">
          <interceptor-ref name="org.jboss.aspects.tx.TxPropagationInterceptor"/>

@@ -34,11 +34,11 @@ public class MockRenderKit extends RenderKit {
       // TODO Auto-generated method stub
       return null;
    }
-
+   
    @Override
    public ResponseStream createResponseStream(OutputStream arg0) {
       // TODO Auto-generated method stub
       return null;
    }
-
+   
 }

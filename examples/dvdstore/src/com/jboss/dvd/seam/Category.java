@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratorType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -26,7 +26,7 @@ public class Category
     int    id;
     String name;
 
-    @Id(generate=GeneratorType.AUTO)
+    @Id @GeneratedValue
     @Column(name="CATEGORY")
     public int getCategoryId() {
         return id;

@@ -20,7 +20,7 @@ public class Inventory
     long    inventoryId;
     Product product;
 
-    @Id(generate=GeneratorType.AUTO)
+    @Id @GeneratedValue
     @Column(name="INV_ID")
     public long getInventoryId() {
         return inventoryId;

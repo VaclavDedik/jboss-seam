@@ -22,7 +22,7 @@ public class Product
     Category  category;
     Inventory inventory;
 
-    @Id(generate=GeneratorType.AUTO)
+    @Id @GeneratedValue
     @Column(name="PROD_ID")
     public long getProductId() {
         return productId;

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratorType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -21,7 +21,7 @@ public class Comment implements Serializable {
     private String text;
     private Date submitted;
 
-    @Id(generate=GeneratorType.AUTO)
+    @Id @GeneratedValue
     public Integer getId() {
         return this.id;
     }

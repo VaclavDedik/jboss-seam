@@ -23,7 +23,7 @@ public class OrderLine
     Date    orderDate;
     Order   order;
 
-    @Id(generate=GeneratorType.AUTO)
+    @Id @GeneratedValue
     @Column(name="ORDERLINEID")
     public long getLineId() {
         return lineId;

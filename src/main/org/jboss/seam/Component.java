@@ -215,7 +215,7 @@ public class Component
       {
          return beanClass.getAnnotation(JndiName.class).value();
       }
-      else
+      /* else
       {
          switch (type) {
             case ENTITY_BEAN:
@@ -232,11 +232,12 @@ public class Component
                   return localInterfaces.iterator().next().getName();
                }
          }
-      }
-      /*else
-      {
-         return beanClass.getName() + "/local";
       }*/
+      else
+      {
+         String className = beanClass.getName();
+         return beanClass.getName().substring( className.lastIndexOf('.')+1, beanClass.getName().length() ) + "/local";
+      }
    }
 
    private void initInitializers(Context applicationContext)
@@ -641,7 +642,7 @@ public class Component
               return beanClass.newInstance();
            case STATELESS_SESSION_BEAN : 
            case STATEFUL_SESSION_BEAN :
-              return (NamingHelper.getInitialContext()).lookup(jndiName);
+              return NamingHelper.getInitialContext().lookup(jndiName);
            default:
               throw new IllegalStateException();
         }

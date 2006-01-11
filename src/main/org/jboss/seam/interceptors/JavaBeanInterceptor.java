@@ -6,13 +6,12 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ejb.EJBContext;
 import javax.ejb.InvocationContext;
-
-import org.jboss.seam.ejb.SeamInterceptor;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+
+import org.jboss.seam.ejb.SeamInterceptor;
 
 /**
  * Adapts from CGLIB interception to Seam component interception
@@ -62,11 +61,6 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
          public Map getContextData()
          {
             return contextData;
-         }
-
-         public EJBContext getEJBContext()
-         {
-            throw new UnsupportedOperationException("Not an EJB");
          }
 
          public Method getMethod()

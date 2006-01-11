@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.EJBContext;
 import javax.ejb.InvocationContext;
 
 import org.jboss.seam.Component;
@@ -36,11 +35,6 @@ public class SeamInvocationContext implements InvocationContext
    public Map getContextData()
    {
       return ejbInvocationContext.getContextData();
-   }
-
-   public EJBContext getEJBContext()
-   {
-      return ejbInvocationContext.getEJBContext();
    }
 
    public Method getMethod()

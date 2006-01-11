@@ -22,7 +22,7 @@
       </constructor>
    </bean>
 
-   <bean name="JavaCompInitializer" class="org.jboss.ejb3.embedded.JavaCompInitializer">
+   <bean name="java:comp/Initializer" class="org.jboss.ejb3.embedded.JavaCompInitializer">
       <property name="jndiProperties"><inject bean="InitialContextProperties"/></property>
    </bean>
 

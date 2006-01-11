@@ -8,7 +8,7 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratorType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.LobType;
@@ -30,7 +30,7 @@ public class Message implements Serializable
    private boolean read;
    private Date datetime;
    
-   @Id(generate=GeneratorType.AUTO)
+   @Id @GeneratedValue
    public Long getId() {
       return id;
    }

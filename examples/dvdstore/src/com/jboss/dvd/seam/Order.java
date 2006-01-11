@@ -30,7 +30,7 @@ public class Order
     Status status = Status.OPEN;
     String trackingNumber;
 
-    @Id(generate=GeneratorType.AUTO)
+    @Id @GeneratedValue
     @Column(name="ORDERID")
     public long getOrderId() {
         return orderId;

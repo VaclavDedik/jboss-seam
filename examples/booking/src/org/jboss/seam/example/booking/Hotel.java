@@ -1,11 +1,10 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
-import static javax.persistence.GeneratorType.AUTO;
-
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.validator.Length;
@@ -24,7 +23,7 @@ public class Hotel implements Serializable
    private String state;
    private String zip;
    
-   @Id(generate=AUTO)
+   @Id @GeneratedValue
    public Long getId()
    {
       return id;

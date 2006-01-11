@@ -1,5 +1,5 @@
-<entity-manager>
-    <name>dvd</name>
+<persistence>
+   <persistence-unit name="">
     <jta-data-source>java:/DVDStoreDS</jta-data-source>
     <properties>
         <property name="hibernate.hbm2ddl.auto" 
@@ -17,4 +17,5 @@
                   value="after_transaction" />
         -->
     </properties>
-</entity-manager>
+    </persistence-unit>
+</persistence>

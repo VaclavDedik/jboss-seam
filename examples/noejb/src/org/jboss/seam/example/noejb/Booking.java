@@ -7,7 +7,7 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratorType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.TemporalType;
@@ -37,7 +37,7 @@ public class Booking implements Serializable
       this.user = user;
    }
 
-   @Id(generate=GeneratorType.AUTO)
+   @Id @GeneratedValue
    public Long getId()
    {
       return id;
