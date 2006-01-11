@@ -6,7 +6,7 @@ import org.jboss.seam.annotations.Name;
 @Name("orderApproval")
 public class OrderApprovalDecision {
    @In float amount;
-   public String howLargeIsOrder()
+   public String getHowLargeIsOrder()
    {
       return amount > 100 ? "large order" : "small order";
    }

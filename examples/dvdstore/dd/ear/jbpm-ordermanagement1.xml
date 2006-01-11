@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 
-<process-definition xmlns ="urn:jbpm.org:jpdl-3.1" 
-                    xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:schemaLocation="urn:jbpm.org:jpdl-3.1 http://jbpm.org/jpdl-3.1.xsd"
-                    name="OrderManagement">
+<process-definition name="OrderManagement">
 
     <start-state>
         <transition to="process"/>
