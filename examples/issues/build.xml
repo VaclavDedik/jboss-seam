@@ -37,7 +37,7 @@
      </zipfileset>
     <zipfileset id="war.webinf.lib"
             prefix="WEB-INF/lib"
-               dir="resources/WEB-INF/lib">
+               dir="resources/WEB-INF">
         <include name="*.jar"/>
     </zipfileset>
 
