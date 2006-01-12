@@ -15,7 +15,7 @@
                 <f:facet name="header">
                     <h:outputText value="Description"/>
                 </f:facet>
-                <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['description']}"/>
+                <h:inputText value="#{task.description}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">

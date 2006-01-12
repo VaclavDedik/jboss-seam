@@ -5,7 +5,7 @@
    </start-state>
    
    <task-node name="todo">
-      <task name="todo">
+      <task name="todo" description="#{todoList.description}">
          <assignment actor-id="#{actor.id}"/>
       </task>
       <transition to="done"/>

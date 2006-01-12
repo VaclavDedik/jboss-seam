@@ -21,9 +21,7 @@ public class TodoList {
    }
    
    @CreateProcess(definition="todo")
-   public void createTodo() {
-      Contexts.getBusinessProcessContext().set("description", description);
-   }
+   public void createTodo() {}
    
    @StartTask @EndTask
    public void done() {}
