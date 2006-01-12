@@ -35,6 +35,7 @@ public class ManagedPersistenceContext implements Serializable
    
    private EntityManager entityManager;
    private String persistenceUnitName;
+   private String jndiName;
    
    @Create
    public void create(Component component)
@@ -74,8 +75,15 @@ public class ManagedPersistenceContext implements Serializable
    private EntityManagerFactory getEntityManagerFactory(String persistenceUnit)
          throws NamingException
    {
-      return (EntityManagerFactory) NamingHelper.getInitialContext()
-            .lookup("java:/EntityManagerFactories/" + persistenceUnit);
+      if (jndiName==null)
+      {
+          return (EntityManagerFactory) NamingHelper.getInitialContext()
+                .lookup("java:/EntityManagerFactories/" + persistenceUnit);
+      }
+      else
+      {
+          return (EntityManagerFactory) NamingHelper.getInitialContext().lookup(jndiName);
+      }
    }
    
    public String toString()
@@ -91,5 +99,15 @@ public class ManagedPersistenceContext implements Serializable
    public void setPersistenceUnitName(String persistenceUnitName)
    {
       this.persistenceUnitName = persistenceUnitName;
+   }
+
+   public String getJndiName() 
+   {
+       return jndiName;
+   }
+    
+   public void setJndiName(String jndiName) 
+   {
+       this.jndiName = jndiName;
    }
 }
