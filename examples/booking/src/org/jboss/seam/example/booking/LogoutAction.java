@@ -17,6 +17,6 @@ public class LogoutAction implements Logout
    public String logout()
    {
       Seam.invalidateSession();
-      return "home";
+      return "login";
    }
 }

@@ -110,7 +110,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
          ++hotelIndex;
          setHotel();
       }
-      return null;
+      return "browse";
    }
 
    public String lastHotel()
@@ -120,7 +120,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
          --hotelIndex;
          setHotel();
       }
-      return null;
+      return "browse";
    }
 
    private void setHotel()

@@ -54,10 +54,12 @@
 	<property name="src.test.dir" value="src"/>
 
     <import file="../../build.xml"/>
-
+    
+    <!--
 	<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask"/>
 	<taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask"/>
 	<taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask"/>
+	-->
 	
 	<!-- Redefine targets -->
     <target name="war" depends="compile">
@@ -119,12 +121,14 @@
     <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
   </target>
   
+  <!--
   <target name="redeploy" depends="deploy">
      <reload url="http://localhost:8080/manager" 
         username="admin" 
         password="" 
         path="/${example.name}"/>
   </target>
+  -->
 	
   <target name="undeploy">
      <delete file="${tomcat.home}/webapps/${example.name}.war"/>

@@ -32,12 +32,6 @@
             <to-view-id>/main.xhtml</to-view-id>
             <redirect />
         </navigation-case>
-        
-        <navigation-case>
-            <from-outcome>home</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
 
     </navigation-rule>
 
@@ -88,6 +82,7 @@
         </navigation-case>
 
         <navigation-case>
+            <from-outcome>browse</from-outcome>
             <to-view-id>/hotel.xhtml</to-view-id>
             <redirect />
         </navigation-case>
