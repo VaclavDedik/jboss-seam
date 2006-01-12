@@ -1,26 +1,50 @@
-JBoss Seam Application 
-======================
-Created by Hibernate Tools, Dec 27, 2005 10:28:29 AM.
+Seam Issue Tracker Example
+==========================
+This example demonstrates Seam's nested conversations and workspace
+management.
 
-Instructions
-------------
-(1) Copy jboss-seam.jar, jboss-ejb3x.jar, ejb3-persistence.jar, myfaces-api.jar, jboss-annotations-ejb3.jar, hibernate-annotations.jar to the lib/ directory
-(2) Edit build.properties to point to your JBoss 4.0.3 home directory
-(3) Run build.xml using Ant
-(4) Start JBoss from Eclipse or command line
-(5) Go to http://localhost:8080/seamapp
+How to Build and Deploy the Example on JBoss AS
+-----------------------------------------------
 
-Support
--------
-Latest Documentation:
+1. Download and install JBoss AS 4.0.3, with the EJB 3.0 profile
 
-   http://tools.hibernate.org
-   http://jboss.com/products/seam
+   NOTE: Due to a bug, the demo database content is not loaded 
+   properly in AS 4.0.3SP1. If you use 4.0.3SP1, you should
+   populate the database by running "resources/import.sql"
 
-Bug Reports:
+2. Download the JBoss Seam distribution from:
+
+   http://www.jboss.com/products/list/downloads#seam
+
+3. Install the MyFaces tomahawk components in JBoss AS by copying
+   tomahawk.jar from lib to:
+     
+   server/default/deploy/jbossweb-tomcat55.sar/jsf-libs
    
-   Hibernate JIRA
+   and then editing:
+   
+   server/default/deploy/jbossweb-tomcat55.sar/conf/web.xml
+   
+   adding the following <init-param> to the JSP servlet:
 
-Free Technical Support:
+   <init-param>
+      <description>Tomahawk tlds</description>
+      <param-name>tagLibJar1</param-name>
+      <param-value>jsf-libs/tomahawk.jar</param-value>
+   </init-param> 	
 
-   http://jboss.com/index.html?module=bb&op=viewforum&f=231
+4. Edit the "examples/issues/build.properties" file and change 
+   jboss.home to your JBoss AS installation directory
+
+5. Build Seam by running "ant" the Seam root directory
+
+6. Build and deploy the example by running "ant" in the Seam
+   "examples/issues" directory
+
+7. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
+
+8. Point your web browser to:
+
+   http://localhost:8080/seam-issues/
+
+   NOTE: The default build uses the HSQL database embedded in JBoss AS
