@@ -16,10 +16,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.jpdl.el.JbpmExpressionEvaluator;
 
 /**
  * A seam component that boostraps a JBPM SessionFactory
@@ -50,6 +52,7 @@ public class Jbpm
       log.trace( "Starting jBPM" );
       installProcessDefinitions();
       installPageflowDefinitions();
+      JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
    }
 
    @Destroy
