@@ -3,6 +3,13 @@
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="embedded-ejb/conf"/>
 	<classpathentry kind="src" path="src/test/misc"/>
+	<classpathentry kind="src" path="examples/todo/src"/>
+	<classpathentry kind="src" path="examples/booking/src"/>
+	<classpathentry kind="src" path="examples/dvdstore/src"/>
+	<classpathentry kind="src" path="examples/noejb/src"/>
+	<classpathentry kind="src" path="examples/messages/src"/>
+	<classpathentry kind="src" path="examples/registration/src"/>
+	<classpathentry kind="src" path="examples/issues/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/cglib-2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/concurrent.jar"/>
@@ -25,20 +32,14 @@
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
 	<classpathentry kind="lib" path="lib/testng-2.5.3-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-3.1-beta1.jar"/>
-	<classpathentry kind="src" path="examples/booking/src"/>
-	<classpathentry kind="src" path="examples/dvdstore/src"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/commons-logging-api.jar"/>
-	<classpathentry kind="src" path="examples/registration/src"/>
-	<classpathentry kind="src" path="examples/todo/src"/>
-	<classpathentry kind="src" path="examples/noejb/src"/>
-	<classpathentry kind="src" path="examples/messages/src"/>
-	<classpathentry kind="src" path="examples/issues/src"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/jboss-container.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/jboss-dependency.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-xml-binding.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-api.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-3.1-beta2pre.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
