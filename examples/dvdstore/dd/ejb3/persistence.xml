@@ -1,5 +1,5 @@
 <persistence>
-   <persistence-unit name="">
+   <persistence-unit name="dvd">
     <jta-data-source>java:/DVDStoreDS</jta-data-source>
     <properties>
         <property name="hibernate.hbm2ddl.auto" 
