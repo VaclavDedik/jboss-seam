@@ -742,6 +742,404 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
     </section>
 
   </section>
+  
+  <section id="todo">
+    <title>Seam and jBPM: the todo list example</title>
+    
+    <para>
+        jBPM provides sophisticated functionality for workflow and task management.
+        To get a small taste of how jBPM integrates with Seam, we'll show you a
+        simple "todo list" application. Since managing lists of tasks is such core 
+        functionality for jBPM, there is hardly any Java code at all in this example.
+    </para>
+    
+    <section>
+        <title>Understanding the code</title>
+        <para>
+            The center of this example is the jBPM process definition. There are also
+            two JSPs and two trivial JavaBeans (There was no reason to use session beans,
+            since they do not access the database, or have any other transactional 
+            behavior). Let's start with the process definition:
+        </para>
+        
+        <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="todo-startstate" coords="3"/>
+                    <area id="todo-tasknode" coords="7"/>
+                    <area id="todo-task" coords="8"/>
+                    <area id="todo-assignment" coords="9"/>
+                    <area id="todo-endstate" coords="14"/>
+                </areaspec>    
+        <programlisting><![CDATA[<process-definition name="todo">
+   
+   <start-state name="start">
+      <transition to="todo"/>
+   </start-state>
+   
+   <task-node name="todo">
+      <task name="todo" description="#{todoList.description}">
+         <assignment actor-id="#{actor.id}"/>
+      </task>
+      <transition to="done"/>
+   </task-node>
+   
+   <end-state name="done"/>
+   
+</process-definition>]]></programlisting>
+            <calloutlist>
+                <callout arearefs="todo-startstate">
+                    <para>
+                        The <literal>&lt;start-state&gt;</literal> node represents the
+                        logical start of the process. When the process starts, it
+                        immediately transitions to the <literal>todo</literal> node.
+                    </para>
+                </callout>
+                <callout arearefs="todo-tasknode">
+                    <para>
+                        The <literal>&lt;task-node&gt;</literal> node represents a
+                        <emphasis>wait state</emphasis>, where business process execution
+                        pauses, waiting for one or more tasks to be performed.
+                    </para>
+                </callout>
+                <callout arearefs="todo-task">
+                    <para>
+                        The <literal>&lt;task&gt;</literal> element defines a task
+                        to be performed by a user. Since there is only one task
+                        defined on this node, when it is complete, execution
+                        resumes, and we transition to the end state. The task gets 
+                        its description from a Seam component named 
+                        <literal>todoList</literal> (one of the JavaBeans).
+                    </para>
+                </callout>
+                <callout arearefs="todo-task">
+                    <para>
+                        Tasks need to be assigned to a user or group of users when 
+                        they are created. In this case, the task is assigned to the 
+                        current user, which we get from a built-in Seam component 
+                        named <literal>actor</literal>. Any Seam component may be
+                        used to perform task assignment.
+                    </para>
+                </callout>
+                <callout arearefs="todo-endstate">
+                    <para>
+                        The <literal>&lt;end-state&gt;</literal> node defines the logical
+                        end of the business process. When execution reaches this node,
+                        the process instance is destoryed.
+                    </para>
+                </callout>
+           </calloutlist>
+           </programlistingco>
+        </example>
+
+        <para>
+            This document defines our <emphasis>business process</emphasis> as a graph
+            of nodes. This is the most trivial possible business process: there is one
+            <emphasis>task</emphasis> to be performed, and when that task is complete,
+            the business process ends.  
+        </para>
+        
+        <para>
+            The first JavaBean handles the login screen <literal>login.jsp</literal>. 
+            Its job is just to initialize the jBPM actor id using the 
+            <literal>actor</literal> component. (In a real application, it would also 
+            need to authenticate the user.)
+        </para>
+        
+        <example>
+        <programlisting><![CDATA[@Name("login")
+public class Login {
+   
+   @In(create=true) 
+   private Actor actor;
+   
+   private String user;
+
+   public String getUser() {
+      return user;
+   }
+
+   public void setUser(String user) {
+      this.user = user;
+   }
+   
+   public String login()
+   {
+      actor.setId(user);
+      return "success";
+   }
+}]]></programlisting>
+        </example>
+
+        <para>
+            Here we see the use of <literal>@In(create=true)</literal>, which tells
+            Seam to create an instance of a component, in this case the component
+            named <literal>actor</literal>, if none currently exists in the context.
+        </para>
+        
+        <para>
+            The JSP itself is trivial:
+        </para>
+        
+        <example>
+        <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<html>
+<head>
+<title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<f:view>
+	<h:form>
+	  <div>
+	    <h:inputText value="#{login.user}"/>
+	    <h:commandButton value="Login" action="#{login.login}"/>
+	  </div>
+	</h:form>
+</f:view>
+</body>
+</html>]]></programlisting>
+        
+        </example>
+        
+        <para>
+            The second JavaBean is responsible for starting business process instances,
+            and ending tasks.
+        </para>
+        
+        <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="todo-description" coords="6"/>
+                    <area id="todo-createprocess-annotation" coords="15"/>
+                    <area id="todo-task-annotations" coords="18"/>
+                </areaspec>    
+          <programlisting><![CDATA[@Name("todoList")
+public class TodoList {
+   
+   private String description;
+   
+   public String getDescription()
+   {
+      return description;
+   }
+
+   public void setDescription(String description) {
+      this.description = description;
+   }
+   
+   @CreateProcess(definition="todo")
+   public void createTodo() {}
+   
+   @StartTask @EndTask
+   public void done() {}
+
+}]]></programlisting>
+            <calloutlist>
+                <callout arearefs="todo-description">
+                    <para>
+                        The description property accepts user input form the JSP page, and 
+                        exposes it to the process definition, allowing the task description
+                        to be set.
+                    </para>
+                </callout>
+                <callout arearefs="todo-createprocess-annotation">
+                    <para>
+                        The Seam <literal>@CreateProcess</literal> annotation creates a new
+                        jBPM process instance for the named process definition.
+                    </para>
+                </callout>
+                <callout arearefs="todo-task-annotations">
+                    <para>
+                        The Seam <literal>@StartTask</literal> annotation starts work on
+                        a task. The <literal>@EndTask</literal> ends the task, and allows
+                        the business process execution to resume.
+                    </para>
+                </callout>
+           </calloutlist>
+         </programlistingco>
+       </example>        
+       
+       <para>
+           In a more realistic example, <literal>@StartTask</literal> and <literal>@EndTask</literal>
+           would not appear on the same method, because there is usually work to be done using the 
+           application in order to complete the task.
+       </para>
+       
+       <para>
+           Finally, the meat of the application is in <literal>todo.jsp</literal>:
+       </para>
+       
+       <example>
+       <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<html>
+<head>
+<title>Todo List</title>
+</head>
+<body>
+<h1>Todo List</h1>
+<f:view>
+   <h:form id="list">
+      <div>
+         <h:outputText value="There are no todo items." rendered="#{empty taskInstanceList}"/>
+         <h:dataTable value="#{taskInstanceList}" var="task" rendered="#{not empty taskInstanceList}">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Description"/>
+                </f:facet>
+                <h:inputText value="#{task.description}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Created"/>
+                </f:facet>
+                <h:outputText value="#{task.taskMgmtInstance.processInstance.start}">
+                    <f:convertDateTime type="date"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Priority"/>
+                </f:facet>
+                <h:inputText value="#{task.priority}" style="width: 30"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Due Date"/>
+                </f:facet>
+                <h:inputText value="#{task.dueDate}" style="width: 100">
+                    <f:convertDateTime type="date" dateStyle="short"/>
+                </h:inputText>
+            </h:column>
+            <h:column>
+                <h:commandLink action="#{todoList.done}"> 
+                    <h:commandButton value="Done"/>
+                    <f:param name="taskId" value="#{task.id}"/>
+                </h:commandLink>
+            </h:column>
+         </h:dataTable>
+      </div>
+      <div>
+      <h:messages/>
+      </div>
+      <div>
+         <h:commandButton value="Update Items" action="update"/>
+      </div>
+   </h:form>
+   <h:form id="new">
+      <div>
+         <h:inputText value="#{todoList.description}"/>
+         <h:commandButton value="Create New Item" action="#{todoList.createTodo}"/>
+      </div>
+   </h:form>
+</f:view>
+</body>
+</html>]]></programlisting>
+       </example>
+       
+       <para>
+           Let's take this one piece at a time.
+       </para>
+       
+       <para>
+           The page renders a list of tasks, which it gets from a built-in Seam component named
+           <literal>taskInstanceList</literal>. The list is defined inside a JSF form.
+       </para>
+       
+       <programlisting><![CDATA[<h:form id="list">
+   <div>
+      <h:outputText value="There are no todo items." rendered="#{empty taskInstanceList}"/>
+      <h:dataTable value="#{taskInstanceList}" var="task" rendered="#{not empty taskInstanceList}">
+         ...
+      </h:dataTable>
+   </div>
+</h:form>]]></programlisting>
+
+        <para>
+            Each element of the list is an instance of the jBPM class <literal>TaskInstance</literal>.
+            The following code simply displays the interesting properties of each task in the list. For the
+            description, priority and due date, we use input controls, to allow the user to update
+            these values.
+        </para>
+        
+<programlisting><![CDATA[<h:column>
+    <f:facet name="header">
+       <h:outputText value="Description"/>
+    </f:facet>
+    <h:inputText value="#{task.description}"/>
+</h:column>
+<h:column>
+    <f:facet name="header">
+        <h:outputText value="Created"/>
+    </f:facet>
+    <h:outputText value="#{task.taskMgmtInstance.processInstance.start}">
+        <f:convertDateTime type="date"/>
+    </h:outputText>
+</h:column>
+<h:column>
+    <f:facet name="header">
+        <h:outputText value="Priority"/>
+    </f:facet>
+    <h:inputText value="#{task.priority}" style="width: 30"/>
+</h:column>
+<h:column>
+    <f:facet name="header">
+        <h:outputText value="Due Date"/>
+    </f:facet>
+    <h:inputText value="#{task.dueDate}" style="width: 100">
+        <f:convertDateTime type="date" dateStyle="short"/>
+    </h:inputText>
+</h:column>]]></programlisting>
+
+
+        <para>
+            This button ends the task by calling the action method annotated 
+            <literal>@StartTask @EndTask</literal>. It passes the task id to
+            Seam as a request parameter.
+        </para>
+
+        <programlisting><![CDATA[<h:column>
+    <h:commandLink action="#{todoList.done}"> 
+        <h:commandButton value="Done"/>
+        <f:param name="taskId" value="#{task.id}"/>
+    </h:commandLink>
+</h:column>]]></programlisting>
+
+        
+        <para>
+            This button is used to update the properties of the tasks. When the form is
+            submitted, Seam and jBPM will make any changes to the tasks persistent.
+            There is no need for any action listener method.
+        </para>
+        
+        <programlisting><![CDATA[<h:commandButton value="Update Items" action="update"/>]]></programlisting>
+        
+        <para>
+            A second form on the page is used to create new items, by calling the
+            action method annotated <literal>@CreateProcess</literal>.
+        </para>
+       
+        <programlisting><![CDATA[<h:form id="new">
+    <div>
+        <h:inputText value="#{todoList.description}"/>
+        <h:commandButton value="Create New Item" action="#{todoList.createTodo}"/>
+    </div>
+</h:form>]]></programlisting>
+        
+        <para>
+            There are several other files needed for the example, but they are just
+            standard jBPM and Seam configuration and not very interesting.
+        </para>
+    </section>
+    
+    <section>
+        <title>How it works</title>
+        <para>TODO</para>
+    </section>
+    
+  </section>
 
   <section id="booking">
     <title>A complete Seam application: the booking example</title>
