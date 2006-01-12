@@ -10,6 +10,15 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
     
+    <!-- Install the Embeddable EJB3 container -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
+        <param-value>org.jboss.seam.core.Ejb</param-value>
+    </context-param>
+
+    <!-- Propagate conversations across redirects -->
+
     <filter>
         <filter-name>Seam Redirect Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
@@ -21,20 +30,10 @@
     </filter-mapping>
 
     <!-- 120 second conversation timeout -->
+    
     <context-param>
         <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
         <param-value>120000</param-value>
-    </context-param>
-
-    <!-- TODO: Not working yet unless you disable repository scoped classloading by deleting jboss-app.xml -->
-    <!-- context-param>
-        <param-name>org.jboss.seam.core.init.clientSideConversations</param-name>
-        <param-value>true</param-value>
-    </context-param-->
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-        <param-value>org.jboss.seam.core.Ejb</param-value>
     </context-param>
 
     <!-- MyFaces -->
@@ -63,8 +62,6 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-    <!-- Faces Servlet Mapping -->
 
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>

@@ -101,6 +101,7 @@
               <include name="ejb3-interceptors-aop.xml"/>
               <include name="embedded-jboss-beans.xml"/>
               <include name="default.persistence.properties"/>
+              <include name="log4j.xml"/>
             </fileset>
     	</jar>
         <copy todir="${build.dir}/${example.name}/WEB-INF">

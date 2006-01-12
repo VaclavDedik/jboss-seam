@@ -1,5 +1,5 @@
 <persistence>
-   <persistence-unit name="">
+   <persistence-unit name="bookingDatabase">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/bookingDatasource</jta-data-source>
       <properties>
