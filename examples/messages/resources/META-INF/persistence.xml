@@ -1,5 +1,5 @@
 <persistence>
-	<persistence-unit name="">
+	<persistence-unit name="messageDatabase">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/DefaultDS</jta-data-source>
       <properties>
