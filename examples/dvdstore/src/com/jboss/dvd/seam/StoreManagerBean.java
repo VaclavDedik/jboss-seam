@@ -24,7 +24,7 @@ public class StoreManagerBean
     implements StoreManager,
                Serializable
 {  
-    @PersistenceContext(unitName="dvd")
+    @PersistenceContext
     EntityManager em;
 
     public int getNumberOrders() {

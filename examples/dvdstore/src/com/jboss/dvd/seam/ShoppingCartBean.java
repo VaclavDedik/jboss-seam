@@ -47,7 +47,7 @@ public class ShoppingCartBean
     @In(value="currentUser",required=false)
     Customer customer;
 
-    @PersistenceContext(unitName="dvd",type=PersistenceContextType.EXTENDED)
+    @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
     
     Order cartOrder = new Order();

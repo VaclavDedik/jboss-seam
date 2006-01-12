@@ -29,7 +29,7 @@ public class LoginAction
     implements Login,
                Serializable
 {
-    @PersistenceContext(unitName="dvd")
+    @PersistenceContext
     private EntityManager em;
 
     @In

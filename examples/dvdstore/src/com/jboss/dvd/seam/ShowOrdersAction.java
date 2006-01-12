@@ -39,7 +39,7 @@ public class ShowOrdersAction
     @In(value="currentUser",required=false)
     Customer customer;
 
-    @PersistenceContext(unitName="dvd")
+    @PersistenceContext
     EntityManager em;
 
     @DataModel

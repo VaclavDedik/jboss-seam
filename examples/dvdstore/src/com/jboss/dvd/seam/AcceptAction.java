@@ -37,7 +37,7 @@ public class AcceptAction
     @In(value="currentUser")
     Admin admin;
 
-    @PersistenceContext(unitName="dvd", type=PersistenceContextType.EXTENDED)
+    @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
 
     @Out

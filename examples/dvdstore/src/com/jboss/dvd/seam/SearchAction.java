@@ -39,7 +39,7 @@ public class SearchAction
     @In(create=true)
     ShoppingCart cart;
 
-    @PersistenceContext(unitName="dvd")
+    @PersistenceContext
     EntityManager em;
 
     int     pageSize    = 20;

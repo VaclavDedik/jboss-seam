@@ -36,7 +36,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 public class EditCustomerAction
     implements EditCustomer
 {
-    @PersistenceContext(unitName="dvd")
+    @PersistenceContext
     EntityManager em;
     
     @Resource
