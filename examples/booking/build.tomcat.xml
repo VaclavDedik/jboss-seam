@@ -70,6 +70,9 @@
           <fileset dir="resources">
           	<include name="seam.properties"/>
           </fileset>
+          <fileset dir="resources">
+            <include name="META-INF/persistence.xml"/>
+          </fileset>
         </jar>
         <copy file="${imported.basedir}/${name}.jar" todir="${build.dir}/${example.name}/WEB-INF/lib/"/>
         <copy todir="${build.dir}/${example.name}">
@@ -89,12 +92,9 @@
             <include name="import.sql"/>
             <include name="seam-jndi.properties"/>
           </fileset>
-        </copy>
-        <copy todir="${build.dir}/${example.name}/WEB-INF/classes/META-INF">
-          <fileset dir="resources/META-INF">
-            <include name="jboss-beans.xml"/>
-          	<include name="persistence.xml"/>
-          </fileset>
+            <fileset dir="resources/META-INF">
+              <include name="jboss-beans.xml"/>
+            </fileset>
         </copy>
     	<jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/embedded-ejb-conf.jar">
             <fileset dir="../../embedded-ejb/conf">
