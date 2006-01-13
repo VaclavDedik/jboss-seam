@@ -46,8 +46,8 @@ public class SeamExceptionFilter implements Filter
       catch (Exception e)
       {
          log.error("uncaught exception handled by Seam", e);
-         endWebRequestAfterException(request);
          rollbackAfterException();
+         endWebRequestAfterException(request);
          throw new ServletException(e);
       }
    }

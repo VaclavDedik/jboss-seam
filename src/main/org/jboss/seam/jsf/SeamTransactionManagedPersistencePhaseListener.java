@@ -37,16 +37,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    {
       if ( event.getPhaseId()==PhaseId.RESTORE_VIEW )
       {
-         try
-         {
-            log.debug( "Starting transaction prior to UPDATE_MODEL_VALUES phase" );
-            Transactions.getUserTransaction().begin();
-         }
-         catch (Exception e)
-         {
-            //TODO: what should we *really* do here??
-            throw new IllegalStateException("Could not start transaction", e);
-         }
+         begin();
       }
       super.beforePhase( event );
    }
@@ -55,53 +46,75 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    public void afterPhase(PhaseEvent event)
    {
 
-      super.afterPhase( event );
-      
       boolean commit = event.getPhaseId()==PhaseId.RENDER_RESPONSE ||
             event.getFacesContext().getResponseComplete();
       if ( commit )
       {
-         try
-         {
-            if ( Transactions.isTransactionActive() )
-            {
-               log.debug( "Commiting transaction after RENDER_RESPONSE phase" );
-               Transactions.getUserTransaction().commit();
-            }
-         }
-         catch (Exception e)
-         {
-            //TODO: what should we *really* do here??
-            throw new IllegalStateException("Could not commit transaction", e);
-         }
+         commit();
       }
       else if ( event.getPhaseId()==PhaseId.INVOKE_APPLICATION )
       {
-         try
+         flush();
+      }
+
+      super.afterPhase( event );
+      
+   }
+
+   private void begin() {
+      try
+      {
+         log.debug( "Starting transaction prior to UPDATE_MODEL_VALUES phase" );
+         Transactions.getUserTransaction().begin();
+      }
+      catch (Exception e)
+      {
+         //TODO: what should we *really* do here??
+         throw new IllegalStateException("Could not start transaction", e);
+      }
+   }
+
+   private void commit() {
+      try
+      {
+         if ( Transactions.isTransactionActive() )
          {
-            log.debug( "Flushing persistence contexts after INVOKE_APPLICATION phase" );
-            if ( Transactions.isTransactionActive() )
+            log.debug( "Commiting transaction after RENDER_RESPONSE phase" );
+            Transactions.getUserTransaction().commit();
+         }
+      }
+      catch (Exception e)
+      {
+         //TODO: what should we *really* do here??
+         throw new IllegalStateException("Could not commit transaction", e);
+      }
+   }
+
+   private void flush() {
+      try
+      {
+         log.debug( "Flushing persistence contexts after INVOKE_APPLICATION phase" );
+         if ( Transactions.isTransactionActive() )
+         {
+            Init init = Init.instance();
+            for (String unitName : init.getManagedPersistenceContexts())
             {
-               Init init = Init.instance();
-               for (String unitName : init.getManagedPersistenceContexts())
-               {
-                  flushEntityManager(unitName);
-               }
-               for (String sfName : init.getManagedSessions())
-               {
-                  flushSession(sfName);
-               }
-               if ( init.isJbpmInstalled() )
-               {
-                  flushJbpm();
-               }
+               flushEntityManager(unitName);
+            }
+            for (String sfName : init.getManagedSessions())
+            {
+               flushSession(sfName);
+            }
+            if ( init.isJbpmInstalled() )
+            {
+               flushJbpm();
             }
          }
-         catch (Exception e)
-         {
-            //TODO: what should we *really* do here??
-            throw new IllegalStateException("Could not flush to database", e);
-         }
+      }
+      catch (Exception e)
+      {
+         //TODO: what should we *really* do here??
+         throw new IllegalStateException("Could not flush to database", e);
       }
    }
 

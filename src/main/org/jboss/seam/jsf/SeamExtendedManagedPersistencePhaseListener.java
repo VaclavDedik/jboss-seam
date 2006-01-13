@@ -28,19 +28,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       boolean beginTran = event.getPhaseId()==PhaseId.RESTORE_VIEW || 
             ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       
-      if ( beginTran )
-      {
-         try 
-         {
-            log.debug("beginning transaction");
-            Transactions.getUserTransaction().begin();
-         }
-         catch (Exception e)
-         {
-            //TODO: what should we *really* do here??
-            throw new IllegalStateException("Could not start transaction", e);
-         }
-      }
+      if ( beginTran ) begin();
       
       super.beforePhase( event );
    }
@@ -51,25 +39,39 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       boolean commitTran = event.getPhaseId()==PhaseId.INVOKE_APPLICATION || 
             event.getFacesContext().getRenderResponse() ||
             event.getFacesContext().getResponseComplete() ||
-            ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() ); //call Init before ending the request by calling super
-
-      super.afterPhase( event );
+            ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       
-      if ( commitTran )
+      if (commitTran) commit(); //we commit before destroying contexts, cos the contexts have the PC in them
+
+      super.afterPhase( event );      
+   }
+
+   private void begin() {
+      try 
       {
-         try 
+         log.debug("beginning transaction");
+         Transactions.getUserTransaction().begin();
+      }
+      catch (Exception e)
+      {
+         //TODO: what should we *really* do here??
+         throw new IllegalStateException("Could not start transaction", e);
+      }
+   }
+
+   private void commit() {
+      try 
+      {
+         if ( Transactions.isTransactionActive() )
          {
-            if ( Transactions.isTransactionActive() )
-            {
-               log.debug("committing transaction");
-               Transactions.getUserTransaction().commit();
-            }
+            log.debug("committing transaction");
+            Transactions.getUserTransaction().commit();
          }
-         catch (Exception e)
-         {
-            //TODO: what should we *really* do here??
-            throw new IllegalStateException("Could not commit transaction", e);
-         }
+      }
+      catch (Exception e)
+      {
+         //TODO: what should we *really* do here??
+         throw new IllegalStateException("Could not commit transaction", e);
       }
    }
 
