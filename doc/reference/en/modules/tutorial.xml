@@ -1140,6 +1140,314 @@ public class TodoList {
     </section>
     
   </section>
+  
+  <section id="numberguess">
+      <title>Seam pageflow: the numberguess example</title>
+      
+      <para>
+          For Seam applications with relatively freeform (ad hoc) navigation, JSF
+          navigation rules are a perfectly good way to define the page flow.
+          For applications with a more constrained style of navigation, especially
+          for user interfaces which are more stateful, navigation rules make it
+          difficult to really understand the flow of the system. To understand
+          the flow, you need to piece it together from the view pages, the actions
+          and the navigation rules.
+      </para>
+      
+      <para>
+          Seam allows you to use a jPDL process definition to define pageflow. The
+          simple number guessing example shows how this is done.
+      </para>
+      
+      <section>
+          <title>Understanding the code</title>
+          <para>
+              The example is implemented using one JavaBean, three JSP pages and
+              a jPDL pageflow definition. Let's begin with the pageflow:
+          </para>
+          
+          <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="numberguess-page" coords="7"/>
+                    <area id="numberguess-transition" coords="8"/>
+                    <area id="numberguess-action" coords="9"/>
+                    <area id="numberguess-decision" coords="13"/>
+                </areaspec>    
+              <programlisting><![CDATA[<process-definition name="numberGuess">
+   
+   <start-state name="start">
+      <transition to="displayGuess"/>
+   </start-state>
+   
+   <page name="displayGuess" view-id="/numberGuess.jsp" redirect="true">
+      <transition name="guess" to="evaluateGuess">
+      	<action expression="#{numberGuess.guess}" />
+      </transition>
+   </page>
+   
+   <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+      <transition name="true" to="win"/>
+      <transition name="false" to="evaluateRemainingGuesses"/>
+   </decision>
+   
+   <decision name="evaluateRemainingGuesses" expression="#{numberGuess.lastGuess}">
+      <transition name="true" to="lose"/>
+      <transition name="false" to="displayGuess"/>
+   </decision>
+   
+   <page name="win" view-id="/win.jsp" redirect="true">
+      <end-conversation />
+   </page>
+   
+   <page name="lose" view-id="/lose.jsp" redirect="true">
+      <end-conversation />
+   </page>
+   
+</process-definition>]]></programlisting>
+            <calloutlist>
+                <callout arearefs="numberguess-page">
+                    <para>
+                        The <literal>&lt;page&gt;</literal> element defines
+                        a wait state where the system displays a particular
+                        JSF view and waits for user input. The 
+                        <literal>view-id</literal> is the same JSF view id 
+                        used in plain JSF navigation rules. The 
+                        <literal>redirect</literal> attribute tells Seam to
+                        use post-then-redirect when navigating to the page.
+                        (This results in friendly browser URLs.)
+                    </para>
+                </callout>
+                <callout arearefs="numberguess-transition">
+                    <para>
+                        The <literal>&lt;transition&gt;</literal> element
+                        names a JSF outcome. The transition is triggered
+                        when a JSF action results in that outcome. Execution
+                        will then proceed to the next node of the pageflow
+                        graph, after invocation of any jBPM transition 
+                        actions.
+                    </para>
+                </callout>
+                <callout arearefs="numberguess-action">
+                    <para>
+                        A transition <literal>&lt;action&gt;</literal> is just
+                        like a JSF action, except that it occurs when a jBPM
+                        transition occurs. The transition action can invoke 
+                        any Seam component.
+                    </para>
+                </callout>
+                <callout arearefs="numberguess-decision">
+                    <para>
+                        A <literal>&lt;decision&gt;</literal> node branches 
+                        the pageflow, and determines the next node to execute
+                        by evaluating a JSF EL expression.
+                    </para>
+                </callout>
+            </calloutlist>
+            </programlistingco>
+          </example>
+          
+          <para>
+              Now that we have seen the pageflow, it is very, very easy to 
+              understand the rest of the application!
+          </para>
+          
+          <para>
+              Here is the main page of the application, 
+              <literal>numberGuess.jsp</literal>:
+          </para>
+          
+          <example>
+          <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<html>
+<head>
+<title>Guess a number...</title>
+</head>
+<body>
+<h1>Guess a number...</h1>
+<f:view>
+	<h:form>
+	    <h:outputText value="Higher!" rendered="#{numberGuess.randomNumber>numberGuess.currentGuess}" />
+	    <h:outputText value="Lower!" rendered="#{numberGuess.randomNumber<numberGuess.currentGuess}" />
+		<br />
+        I'm thinking of a number between <h:outputText value="#{numberGuess.smallest}" /> and 
+        <h:outputText value="#{numberGuess.biggest}" />. You have 
+        <h:outputText value="#{numberGuess.remainingGuesses}" /> guesses.
+        <br />
+        Your guess: 
+        <h:inputText value="#{numberGuess.currentGuess}" id="guess" required="true">
+            <f:validateLongRange
+                maximum="#{numberGuess.biggest}" 
+                minimum="#{numberGuess.smallest}"/>
+        </h:inputText>
+		<h:commandButton type="submit" value="Guess" action="guess" />
+		<br/>
+        <h:message for="guess" style="color: red"/>
+	</h:form>
+</f:view>
+</body>
+</html>]]></programlisting>
+          </example>
+          
+          <para>
+              Notice how the command button names the <literal>guess</literal> transition
+              instead of calling an action directly.
+          </para>
+          
+          <para>
+              The <literal>win.jsp</literal> page is predictable:
+          </para>
+          
+          <example>
+          <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<html>
+<head>
+<title>You won!</title>
+</head>
+<body>
+<h1>You won!</h1>
+<f:view>
+    Yes, the answer was <h:outputText value="#{numberGuess.currentGuess}" />.
+    It took you <h:outputText value="#{numberGuess.guessCount}" /> guesses.
+    Would you like to <a href="numberGuess.seam">play again</a>?
+  </f:view>
+</body>
+</html>]]></programlisting>
+          </example>
+          
+          <para>
+              As is <literal>lose.jsp</literal> (which I can't be bothered copy/pasting).
+              Finally, the JavaBean Seam component:
+          </para>
+          
+          <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="numberguess-create" coords="12"/>
+                    <area id="numberguess-begin" coords="13"/>
+                 </areaspec>
+          <programlisting><![CDATA[@Name("numberGuess")
+@Scope(ScopeType.CONVERSATION)
+public class NumberGuess {
+   
+   private int randomNumber;
+   private Integer currentGuess;
+   private int biggest;
+   private int smallest;
+   private int guessCount;
+   private int maxGuesses;
+   
+   @Create 
+   @Begin(pageflow="numberGuess")
+   public void begin()
+   {
+      randomNumber = new Random().nextInt(100);
+      guessCount = 0;
+      biggest = 100;
+      smallest = 1;
+   }
+   
+   public void setCurrentGuess(Integer guess)
+   {
+      this.currentGuess = guess;
+   }
+   
+   public Integer getCurrentGuess()
+   {
+      return currentGuess;
+   }
+   
+   public void guess()
+   {
+      if (currentGuess>randomNumber)
+      {
+         biggest = currentGuess - 1;
+      }
+      if (currentGuess<randomNumber)
+      {
+         smallest = currentGuess + 1;
+      }
+      guessCount ++;
+   }
+   
+   public boolean isCorrectGuess()
+   {
+      return currentGuess==randomNumber;
+   }
+   
+   public int getBiggest()
+   {
+      return biggest;
+   }
+   
+   public int getSmallest()
+   {
+      return smallest;
+   }
+   
+   public int getGuessCount()
+   {
+      return guessCount;
+   }
+   
+   public boolean isLastGuess()
+   {
+      return guessCount==maxGuesses;
+   }
+
+   public int getRemainingGuesses() {
+      return maxGuesses-guessCount;
+   }
+
+   public void setMaxGuesses(int maxGuesses) {
+      this.maxGuesses = maxGuesses;
+   }
+
+   public int getMaxGuesses() {
+      return maxGuesses;
+   }
+
+   public int getRandomNumber() {
+      return randomNumber;
+   }
+}]]></programlisting>
+            <calloutlist>
+                <callout arearefs="numberguess-create">
+                    <para>
+                        The first time a JSP page asks for a <literal>numberGuess</literal>
+                        component, Seam will create a new one for it, and the 
+                        <literal>@Create</literal> method will be invoked, allowing
+                        the component to initialize itself.
+                    </para>
+                </callout>
+                <callout arearefs="numberguess-begin">
+                    <para>
+                        The <literal>@Begin</literal> annotation starts a Seam
+                        <emphasis>conversation</emphasis> (much more about that
+                        later), and specifies the pageflow definition to use for
+                        the conversation's page flow.
+                    </para>
+                </callout>
+            </calloutlist>
+            </programlistingco>
+          </example>
+          
+          <para>
+              As you can see, this Seam component is pure business logic! It
+              doesn't need to know anything at all about the user interaction
+              flow. This makes the component potentially more reuseable.
+          </para>
+          
+      </section>
+      
+      <section>
+        <title>How it works</title>
+        <para>TODO</para>
+      </section>
+      
+  </section>
 
   <section id="booking">
     <title>A complete Seam application: the booking example</title>
