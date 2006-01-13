@@ -81,6 +81,15 @@
         in and then submitting the form. This will save a user object in the database.
     </para>
 
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/registration.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/registration.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
     <section>
       <title>Understanding the code</title>
       
@@ -753,6 +762,15 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         functionality for jBPM, there is hardly any Java code at all in this example.
     </para>
     
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/todo.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/todo.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
     <section>
         <title>Understanding the code</title>
         <para>
@@ -1159,6 +1177,15 @@ public class TodoList {
           simple number guessing example shows how this is done.
       </para>
       
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/numberguess.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/numberguess.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
       <section>
           <title>Understanding the code</title>
           <para>
