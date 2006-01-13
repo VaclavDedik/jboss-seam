@@ -158,7 +158,7 @@ public class Component
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
       
-      jndiName = getJndiName();
+      jndiName = getJndiName(applicationContext);
       
       log.info(
             "Component: " + getName() + 
@@ -215,7 +215,7 @@ public class Component
       }
    }
 
-   private String getJndiName()
+   private String getJndiName(Context applicationContext)
    {
       if ( beanClass.isAnnotationPresent(JndiName.class) )
       {
@@ -228,6 +228,7 @@ public class Component
             case JAVA_BEAN:
                return null;
             default:
+               if (applicationContext==null) return null; //TODO: Yew!!!
                String jndiPattern = Init.instance().getJndiPattern();
                if (jndiPattern==null)
                {

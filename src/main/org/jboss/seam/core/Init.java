@@ -31,6 +31,7 @@ public class Init
    public static final String MANAGED_PERSISTENCE_CONTEXTS = NAME + ".managedPersistenceContexts";
    public static final String MANAGED_SESSIONS = NAME + ".managedSessions";
    public static final String MANAGED_DATA_SOURCES = NAME + ".managedDataSources";
+   public static final String JNDI_PATTERN = NAME + ".jndiPattern";
    
    private String[] managedPersistenceContexts = {};
    private String[] managedSessions = {};
