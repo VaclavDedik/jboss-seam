@@ -65,6 +65,44 @@
         </para>
         
         <para>
+            Seam needs to know where to go to find session beans in JNDI.
+            One way to do this is specify the <literal>@JndiName</literal>
+            annotation on every session bean Seam component. However, this
+            is quite tedious. A better approach is to specify a pattern
+            that Seam can use to calculate the JNDI name from the EJB name.
+            Unfortunately, there is no standard mapping to global JNDI
+            defined in the EJB3 specification, so this mapping is 
+            vendor-specific. We must specify a pattern using the configuration
+            property named <literal>org.jboss.seam.core.init.jndiPattern</literal>.
+        </para>
+        
+        <para>
+            For JBoss AS, the following pattern is correct:
+        </para>
+        
+        <programlisting><![CDATA[<context-param>
+    <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
+    <param-value>myEarName/#{ejbName}/local</param-value>
+</context-param>]]></programlisting>
+
+        <para>
+            Where <literal>myEarName</literal> is the name of the EAR in which
+            the bean is deployed. Outside the context of an EAR (when using
+            the JBoss Embeddable EJB3 container), the following pattern is
+            the one to use:
+        </para>
+        
+        <programlisting><![CDATA[<context-param>
+    <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
+    <param-value>#{ejbName}/local</param-value>
+</context-param>]]></programlisting>
+
+        <para>
+            Note that this configuration setting may be specified in either
+            <literal>web.xml</literal> or in <literal>seam.properties</literal>.
+        </para>
+
+        <para>
             If you want to use post-then-redirect in JSF, and you want Seam to
             propagate the conversation context across the browser redirects,
             you need to register a servlet filter:

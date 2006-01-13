@@ -519,6 +519,12 @@ public interface Register
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
 
+    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
+    <context-param>
+        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
+        <param-value>jboss-seam-registration/#{ejbName}/local</param-value>
+    </context-param>
+
     <!-- MyFaces -->
 
     <listener>
@@ -541,7 +547,7 @@ public interface Register
     <!-- Faces Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>*.seam</url-pattern>
     </servlet-mapping>
 
 </web-app>]]></programlisting>
