@@ -83,7 +83,7 @@
           </fileset>
           <fileset dir="../../lib">
             <include name="**/*.jar"/>
-          	<exclude name="javax.servlet.jsp.jar"/>
+            <exclude name="javax.servlet.jsp.jar"/>
           </fileset>
         </copy>
         <copy todir="${build.dir}/${example.name}/WEB-INF/classes">
