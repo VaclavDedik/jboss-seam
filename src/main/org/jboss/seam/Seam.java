@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.Strings;
 
 /**
  * Convenience methods for accessing annotated information
@@ -67,6 +68,28 @@ public class Seam
    {
       Name name = clazz.getAnnotation(Name.class);
       return name==null ? null : name.value();
+   }
+   
+   public static String getEjbName(Class<?> clazz)
+   {
+      switch ( getComponentType(clazz) )
+      {
+         case ENTITY_BEAN:
+         case JAVA_BEAN:
+            return null;
+         case STATEFUL_SESSION_BEAN:
+            Stateful stateful = clazz.getAnnotation(Stateful.class);
+            return stateful.name().equals("") ? 
+                  Strings.unqualify(clazz.getName()) :
+                  stateful.name();
+         case STATELESS_SESSION_BEAN:
+            Stateless stateless = clazz.getAnnotation(Stateless.class);
+            return stateless.name().equals("") ? 
+                  Strings.unqualify(clazz.getName()) :
+                     stateless.name();
+         default:
+            throw new IllegalArgumentException();
+      }
    }
    
    public static InterceptionType getInterceptionType(Class<?> clazz)

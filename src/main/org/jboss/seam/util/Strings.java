@@ -17,6 +17,12 @@ import java.util.StringTokenizer;
  */
 public class Strings
 {
+   
+   public static String unqualify(String name)
+   {
+      return name.substring( name.lastIndexOf('.')+1, name.length() );
+   }
+   
    public static boolean isEmptyOrNull(String string)
    {
       return string == null || string.trim().length() == 0; 

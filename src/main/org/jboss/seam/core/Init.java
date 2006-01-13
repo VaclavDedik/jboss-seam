@@ -37,6 +37,7 @@ public class Init
    private String[] componentClasses = {};
    private boolean isClientSideConversations = false;
    private boolean jbpmInstalled;
+   private String jndiPattern;
    
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
 
@@ -125,6 +126,16 @@ public class Init
    public boolean isJbpmInstalled()
    {
       return jbpmInstalled;
+   }
+   
+   public String getJndiPattern() 
+   {
+      return jndiPattern;
+   }
+    
+   public void setJndiPattern(String jndiPattern) 
+   {
+	   this.jndiPattern = jndiPattern;
    }
 
 }

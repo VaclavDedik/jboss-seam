@@ -158,13 +158,19 @@ public class Component
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
       
-      log.info("Component: " + getName() + ", scope: " + getScope() + ", type: " + getType() + ", class: " + beanClass.getName());
+      jndiName = getJndiName();
+      
+      log.info(
+            "Component: " + getName() + 
+            ", scope: " + getScope() + 
+            ", type: " + getType() + 
+            ", class: " + beanClass.getName() + 
+            ( jndiName==null ? "" : ", JNDI: " + jndiName ) 
+         );
 
       initMembers(clazz, applicationContext);
       
       localInterfaces = getLocalInterfaces(beanClass);
-      
-      jndiName = getJndiName();
       
       if ( interceptionType!=InterceptionType.NEVER) 
       {
@@ -215,28 +221,20 @@ public class Component
       {
          return beanClass.getAnnotation(JndiName.class).value();
       }
-      /* else
+      else
       {
          switch (type) {
             case ENTITY_BEAN:
             case JAVA_BEAN:
                return null;
             default:
-               if ( localInterfaces.size()==0 ) {
-            	   throw new IllegalArgumentException("session bean with no local interface must specify @JndiName: " + name);
+               String jndiPattern = Init.instance().getJndiPattern();
+               if (jndiPattern==null)
+               {
+                  throw new IllegalArgumentException("You must specify org.jboss.seam.core.init.jndiPattern or use @JndiName: " + name);
                }
-               else if ( localInterfaces.size()>1 ) {
-                  throw new IllegalArgumentException("session beans with multiple business interfaces must specify @JndiName: " + name);
-               }
-               else {
-                  return localInterfaces.iterator().next().getName();
-               }
+               return jndiPattern.replace( "#{ejbName}", Seam.getEjbName(beanClass) );
          }
-      }*/
-      else
-      {
-         String className = beanClass.getName();
-         return beanClass.getName().substring( className.lastIndexOf('.')+1, beanClass.getName().length() ) + "/local";
       }
    }
 
