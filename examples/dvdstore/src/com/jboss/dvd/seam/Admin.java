@@ -8,10 +8,13 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
 
 @Entity
 @Inheritance
+@DiscriminatorValue("admin")
 public class Admin
     extends User
     implements Serializable

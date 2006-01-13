@@ -9,6 +9,7 @@ package com.jboss.dvd.seam;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.Transient;
@@ -18,6 +19,7 @@ import org.jboss.seam.annotations.Name;
 @Entity
 @Name("customer")
 @Inheritance
+@DiscriminatorValue("customer")
 public class Customer
     extends User
     implements Serializable
