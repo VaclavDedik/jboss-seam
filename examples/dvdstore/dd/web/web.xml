@@ -7,22 +7,32 @@
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
+    
     <listener>
         <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
     </listener>
    
+    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
+    <context-param>
+        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
+        <param-value>dvd/#{ejbName}/local</param-value>
+    </context-param>
+
     <context-param>
         <param-name>org.jboss.seam.core.init.componentClasses</param-name>
         <param-value>org.jboss.seam.core.Jbpm</param-value>
     </context-param>
+    
     <context-param>
         <param-name>org.jboss.seam.core.jbpm.processDefinitions</param-name>
         <param-value>jbpm-ordermanagement1.xml</param-value>
     </context-param>
+    
     <context-param>
         <param-name>org.jboss.seam.core.jbpm.pageflowDefinitions</param-name>
         <param-value>jbpm-pageflow.xml</param-value>
     </context-param>
+    
     <context-param>
         <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
         <param-value>30000</param-value>
@@ -32,10 +42,12 @@
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>client</param-value>
     </context-param>
+    
     <context-param>
         <param-name>facelets.DEVELOPMENT</param-name>
         <param-value>true</param-value>
     </context-param>
+    
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
         <param-value>.xhtml</param-value>

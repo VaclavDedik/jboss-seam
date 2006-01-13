@@ -10,18 +10,28 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
     
+    <filter>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
+
+    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
+    <context-param>
+        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
+        <param-value>jboss-seam-booking/#{ejbName}/local</param-value>
+    </context-param>
+
     <!-- 120 second conversation timeout -->
     <context-param>
         <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
         <param-value>120000</param-value>
     </context-param>
-
-    <!-- TODO: Not working yet unless you disable repository scoped classloading by deleting jboss-app.xml -->
-    <!-- context-param>
-        <param-name>org.jboss.seam.core.init.clientSideConversations</param-name>
-        <param-value>true</param-value>
-    </context-param-->
-
+    
     <!-- MyFaces -->
 
     <listener>

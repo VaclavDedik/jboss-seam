@@ -100,6 +100,7 @@ public class MessageListTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Ejb");
+      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
    }
    
 }

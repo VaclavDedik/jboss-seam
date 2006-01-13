@@ -21,6 +21,12 @@
     </filter-mapping>
 
 
+    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
+    <context-param>
+        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
+        <param-value>jboss-seam-issues/#{ejbName}/local</param-value>
+    </context-param>
+
     <!-- MyFaces -->
     
     <listener>

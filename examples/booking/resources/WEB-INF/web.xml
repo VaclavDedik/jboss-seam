@@ -27,12 +27,12 @@
         <param-value>120000</param-value>
     </context-param>
 
-    <!-- TODO: Not working yet unless you disable repository scoped classloading by deleting jboss-app.xml -->
-    <!-- context-param>
-        <param-name>org.jboss.seam.core.init.clientSideConversations</param-name>
-        <param-value>true</param-value>
-    </context-param-->
-
+    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
+    <context-param>
+        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
+        <param-value>jboss-seam-booking/#{ejbName}/local</param-value>
+    </context-param>
+    
     <!-- MyFaces -->
 
     <listener>
