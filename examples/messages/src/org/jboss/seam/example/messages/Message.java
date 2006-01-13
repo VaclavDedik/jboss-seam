@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.LobType;
+import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.validator.Length;
@@ -46,7 +46,7 @@ public class Message implements Serializable
       this.title = title;
    }
    
-   @NotNull @Lob(type=LobType.CLOB)
+   @NotNull @Lob
    public String getText() {
       return text;
    }
@@ -63,7 +63,7 @@ public class Message implements Serializable
    }
    
    @NotNull 
-   @Basic(temporalType=TemporalType.TIMESTAMP)
+   @Basic @Temporal(TemporalType.TIMESTAMP)
    public Date getDatetime() {
       return datetime;
    }

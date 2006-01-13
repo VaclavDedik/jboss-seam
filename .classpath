@@ -10,6 +10,7 @@
 	<classpathentry kind="src" path="examples/messages/src"/>
 	<classpathentry kind="src" path="examples/registration/src"/>
 	<classpathentry kind="src" path="examples/issues/src"/>
+	<classpathentry kind="src" path="examples/numberguess/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/cglib-2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/concurrent.jar"/>
@@ -41,5 +42,6 @@
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.1-beta2pre.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
+	<classpathentry kind="lib" path="embedded-ejb/lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>

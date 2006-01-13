@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Name;
 
 @Entity
 @Name("customer")
-@Inheritance(discriminatorValue="customer")
+@Inheritance
 public class Customer
     extends User
     implements Serializable

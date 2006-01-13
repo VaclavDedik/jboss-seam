@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
@@ -48,7 +49,7 @@ public class Booking implements Serializable
    }
    
    @NotNull
-   @Basic(temporalType=TemporalType.DATE) 
+   @Basic @Temporal(TemporalType.DATE) 
    public Date getCheckinDate()
    {
       return checkinDate;
@@ -78,7 +79,7 @@ public class Booking implements Serializable
       this.user = user;
    }
    
-   @Basic(temporalType=TemporalType.DATE) 
+   @Basic @Temporal(TemporalType.DATE) 
    @NotNull
    public Date getCheckoutDate()
    {
