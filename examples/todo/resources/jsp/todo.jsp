@@ -7,15 +7,15 @@
 <body>
 <h1>Todo List</h1>
 <f:view>
-	<h:form id="list">
-	  <div>
-	    <h:outputText value="There are no todo items." rendered="#{empty taskInstanceList}"/>
-        <h:dataTable value="#{taskInstanceList}" var="task" rendered="#{not empty taskInstanceList}">
+   <h:form id="list">
+      <div>
+         <h:outputText value="There are no todo items." rendered="#{empty taskInstanceList}"/>
+         <h:dataTable value="#{taskInstanceList}" var="task" rendered="#{not empty taskInstanceList}">
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Description"/>
                 </f:facet>
-                <h:inputText value="#{task.description}"/>
+                <h:inputText value="#{task.description}" style="width: 400"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -45,7 +45,7 @@
                     <f:param name="taskId" value="#{task.id}"/>
                 </h:commandLink>
             </h:column>
-        </h:dataTable>
+         </h:dataTable>
       </div>
       <div>
       <h:messages/>
@@ -55,11 +55,11 @@
       </div>
    </h:form>
    <h:form id="new">
-	  <div>
-	    <h:inputText value="#{todoList.description}"/>
-	    <h:commandButton value="Create New Item" action="#{todoList.createTodo}"/>
-	  </div>
-	</h:form>
+      <div>
+         <h:inputText value="#{todoList.description}" style="width: 400"/>
+         <h:commandButton value="Create New Item" action="#{todoList.createTodo}"/>
+      </div>
+   </h:form>
 </f:view>
 </body>
 </html>

@@ -26,16 +26,15 @@
     <fileset id="example.ejb3.root"
             dir="resources">
         <include name="seam.properties"/>
-    	<include name="jbpm-todo.xml"/>
-    	<include name="jbpm.cfg.xml"/>
     	<include name="hibernate.cfg.xml"/>
     </fileset>
 
     <!-- EAR -->
     <zipfileset id="example.ear.resources"
-            prefix="META-INF"
-               dir="resources/META-INF">
-        <include name="*"/>
+    	    dir="resources">
+    	<include name="jbpm-todo.xml"/>
+    	<include name="jbpm.cfg.xml"/>
+        <include name="META-INF/*"/>
     </zipfileset>
 
     <fileset id="example.ejb3.lib" dir="../../lib">
