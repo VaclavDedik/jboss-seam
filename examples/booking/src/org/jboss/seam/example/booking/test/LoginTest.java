@@ -105,7 +105,7 @@ public class LoginTest extends SeamTest
             assert Manager.instance().isLongRunningConversation();
             Logout logout = (Logout) Component.getInstance("logout", true);
             String outcome = logout.logout();
-            assert "home".equals( outcome );
+            assert "login".equals( outcome );
             assert Seam.isSessionInvalid();
          }
 
