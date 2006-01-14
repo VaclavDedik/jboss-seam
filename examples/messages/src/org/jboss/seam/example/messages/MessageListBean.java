@@ -2,15 +2,18 @@
 package org.jboss.seam.example.messages;
 
 import static org.jboss.seam.ScopeType.SESSION;
+import static javax.persistence.PersistenceContextType.EXTENDED;
 
 import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Interceptors;
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -33,7 +36,7 @@ public class MessageListBean implements Serializable, MessageList
    @DataModelSelection
    private Message message;
    
-   @PersistenceContext
+   @PersistenceContext(type=EXTENDED)
    private EntityManager em;
    
    @Factory("messages")
@@ -55,5 +58,8 @@ public class MessageListBean implements Serializable, MessageList
       message=null;
       return "deleted";
    }
+   
+   @Remove @Destroy
+   public void destroy() {}
 
 }

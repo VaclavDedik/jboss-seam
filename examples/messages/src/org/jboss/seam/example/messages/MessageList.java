@@ -9,4 +9,5 @@ public interface MessageList
    public void findMessages();
    public String select();
    public String delete();
+   public void destroy();
 }
