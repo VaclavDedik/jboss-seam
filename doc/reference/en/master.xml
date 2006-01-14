@@ -10,6 +10,7 @@
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
 <!ENTITY testing                SYSTEM "modules/testing.xml">
+<!ENTITY tools                  SYSTEM "modules/tools.xml">
 ]>
 
 <book lang="en">
@@ -224,6 +225,7 @@
     &annotations;
     &components;
     &testing;
+    &tools;
 
 </book>
 
