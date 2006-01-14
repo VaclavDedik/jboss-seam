@@ -25,6 +25,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Name("commentEditor")
 @Stateful
 @Interceptors(SeamInterceptor.class)
+@CheckLoggedIn
 public class CommentEditorBean implements CommentEditor {
 
     @In(create=true)
@@ -52,6 +53,7 @@ public class CommentEditorBean implements CommentEditor {
     private IssueEditor issueEditor;
 
     @Begin(nested=true)
+    @LoggedIn
     public String createComment() {
        isNew = true;
        comment = new Comment();

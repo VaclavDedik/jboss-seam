@@ -33,6 +33,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Name("issueEditor")
 @Stateful
 @Interceptors(SeamInterceptor.class)
+@CheckLoggedIn
 public class IssueEditorBean implements IssueEditor {
 
     @In(create=true)
@@ -50,6 +51,7 @@ public class IssueEditorBean implements IssueEditor {
     private Login login;
         
     @Create
+    @LoggedIn
     public void initialize()
     {
        issue = new Issue();
@@ -149,6 +151,7 @@ public class IssueEditorBean implements IssueEditor {
     }
     
     @Begin(nested=true)
+    @LoggedIn
     public String createIssue() {
        isNew = true;
        issue = new Issue();

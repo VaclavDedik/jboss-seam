@@ -14,6 +14,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Name("login")
@@ -47,6 +48,7 @@ public class LoginBean implements Login {
        }
        else
        {
+          Contexts.getSessionContext().set("loggedIn", true);
           instance = (User) results.get(0);
           return "home";
        }
