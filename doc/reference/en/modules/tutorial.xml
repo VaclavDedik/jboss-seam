@@ -275,8 +275,8 @@ public class User implements Serializable
             </programlistingco>
             <para>
                 The most important things to notice in this example are the <literal>@Name</literal>
-                and <literal>@Scope</literal> annotations. This annotations establish that this class
-                as a Seam component.
+                and <literal>@Scope</literal> annotations. Thes annotations establish that this class
+                is a Seam component.
             </para>
             <para>
                 We'll see below that the properties of our <literal>User</literal> class are bound 
@@ -313,16 +313,15 @@ public class User implements Serializable
             <programlistingco>
                 <areaspec>
                     <area id="registration-stateless-annotation" coords="1"/>
-                    <area id="registration-interceptor-annotation" coords="4"/>
-                    <area id="registration-in-annotation" coords="8"/>
-                    <area id="registration-valid-annotation" coords="8"/>
-                    <area id="registration-persistencecontext-annotation" coords="11"/>
-                    <area id="registration-facescontext" coords="15"/>
-                    <area id="registration-ifinvalid-annotation" coords="17"/>
-                    <area id="registration-action-listener" coords="18"/>
+                    <area id="registration-interceptor-annotation" coords="3"/>
+                    <area id="registration-in-annotation" coords="7"/>
+                    <area id="registration-valid-annotation" coords="7"/>
+                    <area id="registration-persistencecontext-annotation" coords="10"/>
+                    <area id="registration-facescontext" coords="14"/>
+                    <area id="registration-ifinvalid-annotation" coords="18"/>
+                    <area id="registration-action-listener" coords="17"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateless
-@Scope(EVENT)
 @Name("register")
 @Interceptors(SeamInterceptor.class)
 public class RegisterAction implements Register
@@ -615,6 +614,29 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
       </section>
       
       <section>
+        <title>The EJB persistence deployment descriptor: <literal>persistence.xml</literal></title>
+        
+        <para>
+            The <literal>persistence.xml</literal> file tells the EJB persistence provider where
+            to find the datasource, and contains some vendor-specific settings. In this case,
+            it tells Hibernate what database is being used, and enables automatic schema export
+            at startup time.
+        </para>
+
+        <programlisting><![CDATA[<persistence>
+    <persistence-unit name="userDatabase">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>java:/DefaultDS</jta-data-source>
+      <properties>
+         <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      </properties>
+    </persistence-unit>
+</persistence>]]></programlisting>
+
+      </section>
+      
+      <section>
         <title>The view: <literal>register.jsp</literal> and <literal>registered.jsp</literal></title>
         
         <para>
@@ -709,8 +731,8 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         </example>
         
         <para>
-            This deployment descriptor links modules in the enterprise archive and binds the web application 
-            to the context root <literal>/seam-registration</literal>.
+            This deployment descriptor links modules in the enterprise archive and binds 
+            the web application to the context root <literal>/seam-registration</literal>.
         </para>
         
       </section>
@@ -756,6 +778,390 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 
     </section>
 
+  </section>
+  
+  <section id="messages">
+    <title>Clickable lists in Seam: the messages example</title>
+    
+    <para>
+        Clickable lists of database search results are such an important part of any 
+        online application that Seam provides special functionality on top of JSF to
+        make it easier to query data using EJB-QL or HQL and display it as a clickable 
+        list using a JSF <literal>&lt;h:dataTable&gt;</literal>. The messages example 
+        demonstrates this functionality.
+    </para>  
+    
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/messages.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/messages.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
+    <section>
+       <title>Understanding the code</title>
+       <para>
+           The message list example has one entity bean, <literal>Message</literal>, 
+           one session bean, <literal>MessageListBean</literal> and one JSP.
+       </para>
+       
+       <section>
+       <title>The entity bean: <literal>Message.java</literal></title>
+       
+       <para>
+           The <literal>Message</literal> entity defines the title, text, date and time
+           of a message, and a flag indicating whether the message has been read:
+       </para>
+       
+       <example>
+          <programlisting><![CDATA[@Entity
+@Name("message")
+@Scope(EVENT)
+public class Message implements Serializable
+{
+   private Long id;
+   private String title;
+   private String text;
+   private boolean read;
+   private Date datetime;
+   
+   @Id @GeneratedValue
+   public Long getId() {
+      return id;
+   }
+   public void setId(Long id) {
+      this.id = id;
+   }
+   
+   @NotNull @Length(max=100)
+   public String getTitle() {
+      return title;
+   }
+   public void setTitle(String title) {
+      this.title = title;
+   }
+   
+   @NotNull @Lob
+   public String getText() {
+      return text;
+   }
+   public void setText(String text) {
+      this.text = text;
+   }
+   
+   @NotNull
+   public boolean isRead() {
+      return read;
+   }
+   public void setRead(boolean read) {
+      this.read = read;
+   }
+   
+   @NotNull 
+   @Basic @Temporal(TemporalType.TIMESTAMP)
+   public Date getDatetime() {
+      return datetime;
+   }
+   public void setDatetime(Date datetime) {
+      this.datetime = datetime;
+   }
+   
+}]]></programlisting>
+       </example>
+       
+       </section>
+       
+       <section>
+       <title>The stateful session bean: <literal>MessageListBean.java</literal></title>
+       
+       <para>
+           Just like in the previous example, we have a session bean,
+           <literal>MessageListBean</literal>, which defines the action
+           listener methods for the two buttons on our form. One of the 
+           buttons selects a message from the list, and displays that
+           message. The other button deletes a message. So far, this
+           is not so different to the previous example.
+       </para>
+       
+       <para>
+           But <literal>MessageListBean</literal> is also responsible 
+           for fetching the list of messages the first time we navigate
+           to the message list page. There are various ways the user
+           could navigate to the page, and not all of them are preceded
+           by a JSF action&mdash;the user might have bookmarked the page,
+           for example. So the job of fetching the message list takes
+           place in a Seam <emphasis>factory method</emphasis>, instead
+           of in an action listener method.
+       </para>
+       
+       <para>
+           We want cache the list of messages in memory between server
+           requests, so we will make this a stateful session bean.
+       </para>
+       
+       <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="messages-datamodel" coords="8"/>
+                    <area id="messages-datamodelselection" coords="11"/>
+                    <area id="messages-out" coords="12"/>
+                    <area id="messages-persistencecontext" coords="15"/>
+                    <area id="messages-factory" coords="18"/>
+                    <area id="messages-select" coords="24"/>
+                    <area id="messages-delete" coords="30"/>
+                    <area id="messages-remove" coords="38"/>
+                </areaspec>    
+          <programlisting><![CDATA[@Stateful
+@Scope(SESSION)
+@Name("messageList")
+@Interceptors(SeamInterceptor.class)
+public class MessageListBean implements Serializable, MessageList
+{
+
+   @DataModel
+   private List<Message> messages;
+   
+   @DataModelSelection
+   @Out(required=false)
+   private Message message;
+   
+   @PersistenceContext(type=EXTENDED)
+   private EntityManager em;
+   
+   @Factory("messages")
+   public void findMessages()
+   {
+      messages = em.createQuery("from Message msg order by msg.datetime desc").getResultList();
+   }
+   
+   public String select()
+   {
+      message.setRead(true);
+      return "selected";
+   }
+   
+   public String delete()
+   {
+      messages.remove(message);
+      em.remove(message);
+      message=null;
+      return "deleted";
+   }
+   
+   @Remove @Destory
+   public void destroy() {}
+
+}]]></programlisting>
+            <calloutlist>
+                <callout arearefs="messages-datamodel">
+                    <para>
+                        The <literal>@DataModel</literal> annotation exposes an attibute of 
+                        type <literal>java.util.List</literal> to the JSF page as an instance 
+                        of <literal>javax.faces.model.DataModel</literal>. This allows us to
+                        use the list in a JSF <literal>&lt;h:dataTable&gt;</literal> with
+                        clickable links for each row. In this case, the <literal>DataModel</literal>
+                        is made available in a session context variable named 
+                        <literal>messages</literal>.
+                    </para>
+                </callout>
+                <callout arearefs="messages-datamodelselection">
+                    <para>
+                        The <literal>@DataModelSelection</literal> annotation tells Seam to
+                        inject the <literal>List</literal> element that corresponded to the
+                        clicked link.
+                    </para>
+                </callout>
+                <callout arearefs="messages-out">
+                    <para>
+                        The <literal>@Out</literal> annotation then exposes the selected value
+                        directly to the page. So ever time a row of the clickable list is
+                        selected, the <literal>Message</literal> is injected to the attribute
+                        of the stateful bean, and the subsequently <emphasis>outjected</emphasis>
+                        to the event context variable named <literal>message</literal>.
+                    </para>
+                </callout>
+                <callout arearefs="messages-persistencecontext">
+                    <para>
+                        This stateful bean has an EJB3 <emphasis>extended persistence context</emphasis>.
+                        The messages retrieved in the query remain in the managed state as long
+                        as the bean exists, so any subsequent method calls to the stateful bean 
+                        can update them without needing to make any explicit call to the
+                        <literal>EntityManager</literal>.
+                    </para>
+                </callout>
+                <callout arearefs="messages-factory">
+                    <para>
+                        The first time we navigate to the JSP page, there will be no value in
+                        the <literal>messages</literal> context variable. The <literal>@Factory</literal>
+                        annotation tells Seam to create an instance of <literal>MessageListBean</literal> 
+                        and invoke the <literal>findMessages()</literal> method to initialize the 
+                        value. We call <literal>findMessages()</literal> a <emphasis>factory 
+                        method</emphasis> for <literal>messages</literal>.
+                    </para>
+                </callout>
+                <callout arearefs="messages-select">
+                    <para>
+                        The <literal>select()</literal> action listener method marks the 
+                        selected <literal>Message</literal> as read, and updates it in the
+                        database.
+                    </para>
+                </callout>
+                <callout arearefs="messages-delete">
+                    <para>
+                        The <literal>delete()</literal> action listener method removes the 
+                        selected <literal>Message</literal> from the database.
+                    </para>
+                </callout>
+                <callout arearefs="messages-remove">
+                    <para>
+                        All stateful session bean Seam components <emphasis>must</emphasis>
+                        have a method marked <literal>@Remove @Destroy</literal> to ensure that
+                        Seam will remove the stateful bean when the Seam context ends, and
+                        clean up any server-side state.
+                    </para>
+                </callout>
+            </calloutlist>
+          </programlistingco>
+       </example>
+       
+       <para>
+           Note that this is a session-scoped Seam component. It is associated 
+           with the user login session, and all requests from a login session 
+           share the same instance of the component. (In Seam applications, 
+           we usually use session-scoped components sparingly.)
+       </para>
+       
+       </section>
+       
+       <section>
+       <title>The session bean local interface: <literal>MessageList.java</literal></title>
+       
+       <para>
+           All session beans have a business interface, of course.
+       </para>
+       
+       <programlisting><![CDATA[@Local
+public interface MessageList
+{
+   public void findMessages();
+   public String select();
+   public String delete();
+   public void destroy();
+}]]></programlisting>
+       
+       <para>
+           From now on, we won't show local interfaces in our code examples. 
+       </para>
+       
+       <para>
+           Let's skip over <literal>persistence.xml</literal>, <literal>web.xml</literal>,
+           <literal>faces-config.xml</literal> and <literal>application.xml</literal> since
+           they are much the same as the previous example, and go straight to the JSP.
+       </para>
+       
+       </section>
+       
+       <section>
+       <title>The view: <literal>messages.jsp</literal></title>
+       
+       <para>
+           The JSP page is a straightforward use of the JSF <literal>&lt;h:dataTable&gt;</literal>
+           component. Again, nothing specific to Seam.
+       </para>
+       
+       <example>
+           <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<html>
+ <head>
+  <title>Messages</title>
+ </head>
+ <body>
+  <f:view>
+   <h:form>
+     <h2>Message List</h2>
+     <h:outputText value="No messages to display" rendered="#{messages.rowCount==0}"/>
+     <h:dataTable var="msg" value="#{messages}" rendered="#{messages.rowCount>0}">
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Read"/>
+           </f:facet>
+           <h:selectBooleanCheckbox value="#{msg.read}" disabled="true"/>
+        </h:column>
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Title"/>
+           </f:facet>
+           <h:commandLink value="#{msg.title}" action="#{messageList.select}"/>
+        </h:column>
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Date/Time"/>
+           </f:facet>
+           <h:outputText value="#{msg.datetime}">
+              <f:convertDateTime type="both" dateStyle="medium" timeStyle="short"/>
+           </h:outputText>
+        </h:column>
+        <h:column>
+           <h:commandButton value="Delete" action="#{messageList.delete}"/>
+        </h:column>
+     </h:dataTable>
+     <h3><h:outputText value="#{message.title}"/></h3>
+     <div><h:outputText value="#{message.text}"/></div>
+   </h:form>
+  </f:view>
+ </body>
+</html>]]></programlisting>
+       </example>
+       
+       </section>
+       
+     </section>
+     
+     <section>
+         <title>How it works</title>
+         
+         <para>
+             The first time we navigate to the <literal>messages.jsp</literal> page, whether
+             by a JSF postback (faces request) or a direct browser GET request (non-faces
+             request), the page will try to resolve the <literal>messages</literal> context
+             variable. Since this context variable is not initialized, Seam will call the
+             factory method <literal>findMessages()</literal>, which performs a query against
+             the database and results in a <literal>DataModel</literal> being outjected.
+             This <literal>DataModel</literal> provides the row data needed for rendering
+             the <literal>&lt;h:dataTable&gt;</literal>.
+         </para>
+         
+         <para>
+             When the user clicks the <literal>&lt;h:commandLink&gt;</literal>, JSF calls the 
+             <literal>select()</literal> action listener. Seam intercepts this call and injects
+             the selected row data into the <literal>message</literal> attribute of the
+             <literal>messageList</literal> component. The action listener fires, marking
+             the selected <literal>Message</literal> as read. At the end of the call, Seam
+             outjects the selected <literal>Message</literal> to the context variable named 
+             <literal>message</literal>. Next, the EJB container commits the transaction, and 
+             the change to the <literal>Message</literal> is flushed to the database. Finally,
+             the page is re-rendered, redisplaying the message list, and displaying the selected
+             message below it.
+         </para>
+         
+         <para>
+             If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls the 
+             <literal>delete()</literal> action listener. Seam intercepts this call and injects
+             the selected row data into the <literal>message</literal> attribute of the
+             <literal>messageList</literal> component. The action listener fires, removing
+             the selected <literal>Message</literal> from the list, and also calling
+             <literal>remove()</literal> on the <literal>EntityManager</literal>. At the end 
+             of the call, Seam refreshes the <literal>messages</literal> context variable and
+             clears the context variable named <literal>message</literal>. The EJB container 
+             commits the transaction, and deletes the <literal>Message</literal> from the 
+             database. Finally, the page is re-rendered, redisplaying the message list.
+         </para>
+         
+     </section>
+     
   </section>
   
   <section id="todo">
@@ -915,12 +1321,12 @@ public class Login {
 <body>
 <h1>Login</h1>
 <f:view>
-	<h:form>
-	  <div>
-	    <h:inputText value="#{login.user}"/>
-	    <h:commandButton value="Login" action="#{login.login}"/>
-	  </div>
-	</h:form>
+    <h:form>
+      <div>
+        <h:inputText value="#{login.user}"/>
+        <h:commandButton value="Login" action="#{login.login}"/>
+      </div>
+    </h:form>
 </f:view>
 </body>
 </html>]]></programlisting>
@@ -1215,7 +1621,7 @@ public class TodoList {
    
    <page name="displayGuess" view-id="/numberGuess.jsp" redirect="true">
       <transition name="guess" to="evaluateGuess">
-      	<action expression="#{numberGuess.guess}" />
+          <action expression="#{numberGuess.guess}" />
       </transition>
    </page>
    
@@ -1300,10 +1706,10 @@ public class TodoList {
 <body>
 <h1>Guess a number...</h1>
 <f:view>
-	<h:form>
-	    <h:outputText value="Higher!" rendered="#{numberGuess.randomNumber>numberGuess.currentGuess}" />
-	    <h:outputText value="Lower!" rendered="#{numberGuess.randomNumber<numberGuess.currentGuess}" />
-		<br />
+    <h:form>
+        <h:outputText value="Higher!" rendered="#{numberGuess.randomNumber>numberGuess.currentGuess}" />
+        <h:outputText value="Lower!" rendered="#{numberGuess.randomNumber<numberGuess.currentGuess}" />
+        <br />
         I'm thinking of a number between <h:outputText value="#{numberGuess.smallest}" /> and 
         <h:outputText value="#{numberGuess.biggest}" />. You have 
         <h:outputText value="#{numberGuess.remainingGuesses}" /> guesses.
@@ -1314,10 +1720,10 @@ public class TodoList {
                 maximum="#{numberGuess.biggest}" 
                 minimum="#{numberGuess.smallest}"/>
         </h:inputText>
-		<h:commandButton type="submit" value="Guess" action="guess" />
-		<br/>
+        <h:commandButton type="submit" value="Guess" action="guess" />
+        <br/>
         <h:message for="guess" style="color: red"/>
-	</h:form>
+    </h:form>
 </f:view>
 </body>
 </html>]]></programlisting>
@@ -1483,7 +1889,7 @@ public class NumberGuess {
   </section>
 
   <section id="booking">
-    <title>A complete Seam application: the booking example</title>
+    <title>A complete Seam application: the Hotel Booking example</title>
     
     <section>
       <title>Introduction</title>
@@ -1960,11 +2366,76 @@ public class HotelBookingAction implements HotelBooking, Serializable
 
   </section>
 
-  <!--section id="dvdstore">
-      <title>A complete Seam application: the DVD store example</title>
+  <section id="dvdstore">
+      <title>A complete application featuring Seam and jBPM: the DVD Store example</title>
+      
+      <para>
+          The DVD Store demo application shows the practical usage of jBPM for 
+          both task management and pageflow.
+      </para>
+      
+      <para>
+          The user screens take advantage of a jPDL pageflow to implement searching
+          and shopping cart functionality.
+      </para>
+
+      <screenshot>
+        <screeninfo>DVD Store example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/dvdsearch.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/dvdsearch.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+      
+      <para>
+          The administration screens take use jBPM to manage the approval and
+          shipping cycle for orders. The business process may even be changed 
+          dynamically, by selecting a different process definition!
+      </para>
+
+      <screenshot>
+        <screeninfo>DVD Store example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/dvdtasks.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/dvdtasks.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
       <para>TODO</para>
       <para>Look in the <literal>dvdstore</literal> directory.</para>
-  </section-->
+  </section>
+  
+  <section id="issues">
+      <title>A complete application featuring Seam workspace management: the Issue Tracker example</title>
+      
+      <para>
+          The Issue Tracker demo shows off Seam's workspace management functionality:
+          the conversation switcher, conversation list and breadcrumbs.
+      </para>
+      
+      <screenshot>
+        <screeninfo>DVD Store example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/issues.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/issues.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+      <para>TODO</para>
+      <para>Look in the <literal>issues</literal> directory.</para>
+  </section>
   
   <section id="noejb">
       <title>An example of Seam with Hibernate: the Hibernate booking example</title>
