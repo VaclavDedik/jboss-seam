@@ -1,8 +1,6 @@
 //$Id$
 package org.jboss.seam.example.registration;
 
-import static org.jboss.seam.ScopeType.EVENT;
-
 import java.util.List;
 
 import javax.ejb.Interceptors;
@@ -17,11 +15,9 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
-import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
-@Scope(EVENT)
 @Name("register")
 @Interceptors(SeamInterceptor.class)
 public class RegisterAction implements Register
