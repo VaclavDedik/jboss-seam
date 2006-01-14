@@ -1,9 +1,8 @@
 package org.jboss.seam.jbpm;
 
-import javax.servlet.jsp.el.ELException;
-import javax.servlet.jsp.el.VariableResolver;
-
 import org.jboss.seam.Component;
+import org.jbpm.jpdl.el.ELException;
+import org.jbpm.jpdl.el.VariableResolver;
 
 public class SeamVariableResolver implements VariableResolver {
 

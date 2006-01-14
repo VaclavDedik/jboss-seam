@@ -21,7 +21,7 @@ import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.jpdl.el.JbpmExpressionEvaluator;
+import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 
 /**
  * A seam component that boostraps a JBPM SessionFactory
