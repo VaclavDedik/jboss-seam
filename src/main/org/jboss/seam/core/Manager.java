@@ -475,6 +475,11 @@ public class Manager
    public ConversationEntry getCurrentConversationEntry() {
       return getConversationEntry( getCurrentConversationId() );
    }
+   
+   public void leaveConversation()
+   {
+      initializeTemporaryConversation();
+   }
 
    public boolean swapConversation(String id)
    {
