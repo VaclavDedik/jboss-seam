@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -35,7 +36,8 @@ public class LoginBean implements Login {
     @In
     private transient ResourceBundle resourceBundle;
  
-    public String login() {
+    public String login() 
+    {
        List results = entityManager.createQuery("from User where username=:username and password=:password")
           .setParameter("username", instance.getUsername())
           .setParameter("password", instance.getPassword())
@@ -52,6 +54,12 @@ public class LoginBean implements Login {
           instance = (User) results.get(0);
           return "home";
        }
+    }
+    
+    public String logout()
+    {
+       Seam.invalidateSession();
+       return "login";
     }
 
 }

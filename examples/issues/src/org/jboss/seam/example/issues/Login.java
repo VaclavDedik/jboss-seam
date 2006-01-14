@@ -7,4 +7,5 @@ import javax.ejb.Local;
 public interface Login {
    public User getInstance();
    public String login();
+   public String logout();
 }
