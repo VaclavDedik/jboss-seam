@@ -5,9 +5,9 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            elementFormDefault="qualified">
 
-  <!--  PROCESS-DEFINITION -->
-  <!--  ################## -->
-  <xs:element name="process-definition">
+  <!--  PAGEFLOW-DEFINITION -->
+  <!--  ################### -->
+  <xs:element name="pageflow-definition">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:group   ref="node-elements" />
