@@ -1,4 +1,15 @@
-<process-definition xmlns="urn:jboss.org:seam-pageflow-1.0" 
+<!-- 
+
+   An example of pageflow in jPDL. This exemplifies the
+   approach where action handlers are attached transitions
+   and decision nodes, instead of view components. 
+   An alternative approach would be to attach all action 
+   handlers to view components, and let the jPDL define
+   only the navigation rules.
+   
+-->
+
+<pageflow-definition xmlns="urn:jboss.org:seam-pageflow-1.0" 
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="urn:jboss.org:seam-pageflow-1.0 http://www.jboss.com/products/seam/seam-pageflow-1.0.xsd"
                     name="numberGuess">
@@ -31,4 +42,4 @@
       <end-conversation />
    </page>
    
-</process-definition>
+</pageflow-definition>
