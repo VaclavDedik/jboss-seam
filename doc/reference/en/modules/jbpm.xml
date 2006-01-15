@@ -126,7 +126,7 @@
             Here is an example page flow definition using jPDL:
         </para>
         
-        <programlisting><![CDATA[<process-definition name="numberGuess">
+        <programlisting><![CDATA[<pageflow-definition name="numberGuess">
    
    <start-state name="start">
       <transition to="displayGuess"/>
@@ -156,7 +156,7 @@
       <end-conversation />
    </page>
    
-</process-definition>]]></programlisting>
+</pageflow-definition>]]></programlisting>
 
         <mediaobject>
           <imageobject role="fo">

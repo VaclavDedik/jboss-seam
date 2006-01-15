@@ -288,7 +288,7 @@
                 node:
             </para>
             
-<programlisting><![CDATA[<process-definition name="shopping">
+<programlisting><![CDATA[<pageflow-definition name="shopping">
 
    <start-state name="start">
       <transition to="browse"/>
@@ -310,7 +310,7 @@
       <end-conversation />
    </page>
    
-</process-definition>]]></programlisting>
+</pageflow-definition>]]></programlisting>
 
         </section>
         

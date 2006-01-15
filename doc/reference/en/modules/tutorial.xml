@@ -724,7 +724,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         </web>
     </module>
     <module>
-        <ejb>jboss-seam-registration.ejb3</ejb>
+        <ejb>jboss-seam-registration.jar</ejb>
     </module>
     
 </application>]]></programlisting>
@@ -1613,7 +1613,7 @@ public class TodoList {
                     <area id="numberguess-action" coords="9"/>
                     <area id="numberguess-decision" coords="13"/>
                 </areaspec>    
-              <programlisting><![CDATA[<process-definition name="numberGuess">
+              <programlisting><![CDATA[<pageflow-definition name="numberGuess">
    
    <start-state name="start">
       <transition to="displayGuess"/>
@@ -1643,7 +1643,7 @@ public class TodoList {
       <end-conversation />
    </page>
    
-</process-definition>]]></programlisting>
+</pageflow-definition>]]></programlisting>
             <calloutlist>
                 <callout arearefs="numberguess-page">
                     <para>
