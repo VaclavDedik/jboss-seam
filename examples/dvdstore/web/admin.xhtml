@@ -60,29 +60,21 @@
                                  rowClasses="dvdtableodd,dvdtableeven"
                                  columnClasses="dvdtablecol">
                         <h:column>
-                            <f:facet name="header">
-                                Order Id
-                            </f:facet>
-                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['orderId']}
+                            <f:facet name="header">Order Id</f:facet>
+                            #{task.variables['orderId']}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">
-                                Order Amount
-                            </f:facet>
-                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}">
+                            <f:facet name="header">Order Amount</f:facet>
+                            <h:outputText value="#{task.variables['amount']}">
                                 <f:convertNumber type="currency" currencySymbol="$" />
                             </h:outputText>
                         </h:column>
                         <h:column>
-                            <f:facet name="header">
-                                Customer
-                            </f:facet>
-                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}" />
+                            <f:facet name="header">Customer</f:facet>
+                            <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <f:facet name="header">
-                                Task
-                            </f:facet>
+                            <f:facet name="header">Task</f:facet>
                             <h:outputText value="#{task.name}" />
                         </h:column>
                         <h:column>
@@ -109,24 +101,18 @@
                                  rowClasses="dvdtableodd,dvdtableeven"
                                  columnClasses="dvdtablecol">
                         <h:column>
-                            <f:facet name="header">
-                                Order Id
-                            </f:facet>
-                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['orderId']}
+                            <f:facet name="header">Order Id</f:facet>
+                            #{task.variables['orderId']}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">
-                                Order Amount
-                            </f:facet>
-                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}">
+                            <f:facet name="header">Order Amount</f:facet>
+                            <h:outputText value="#{task.variables['amount']}">
                                 <f:convertNumber type="currency" currencySymbol="$" />
                             </h:outputText>
                         </h:column>
                         <h:column>
-                            <f:facet name="header">
-                                Customer
-                            </f:facet>
-                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}" />
+                            <f:facet name="header">Customer</f:facet>
+                            <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
                             <h:commandLink action="#{accept.viewTask}"> 
@@ -154,24 +140,18 @@
                                  columnClasses="dvdtablecol">
                         
                         <h:column>
-                            <f:facet name="header">
-                                Order Id
-                            </f:facet>
-                            #{task.taskMgmtInstance.processInstance.contextInstance.variables['orderId']}
+                            <f:facet name="header">Order Id</f:facet>
+                            #{task.variables['orderId']}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">
-                                Order Amount
-                            </f:facet>
-                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['amount']}">
+                            <f:facet name="header">Order Amount</f:facet>
+                            <h:outputText value="#{task.variables['amount']}">
                                 <f:convertNumber type="currency" currencySymbol="$" />
                             </h:outputText>
                         </h:column>
                         <h:column>
-                            <f:facet name="header">
-                                Customer
-                            </f:facet>
-                            <h:outputText value="#{task.taskMgmtInstance.processInstance.contextInstance.variables['customer']}" />
+                            <f:facet name="header">Customer</f:facet>
+                            <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
                             <h:commandLink action="#{ship.viewTask}"> 

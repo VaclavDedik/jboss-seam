@@ -37,7 +37,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Name("cart")
 @Scope(SESSION)
 @Interceptors(SeamInterceptor.class)
-//@Intercept(InterceptionType.ALWAYS)
 public class ShoppingCartBean
     implements ShoppingCart,
                Serializable
@@ -51,7 +50,6 @@ public class ShoppingCartBean
     EntityManager em;
     
     Order cartOrder = new Order();
-    
     Map<Product,Boolean> cartSelection  = new HashMap<Product,Boolean>();
 
     @Out(required=false, scope=CONVERSATION)

@@ -1,16 +1,25 @@
-<ul xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:c="http://java.sun.com/jstl/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html">
-    <c:choose>
-        <c:when test="${page=='orders'}">
+<c:choose test="${currentUserIsAdmin}"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:c="http://java.sun.com/jstl/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html"> 
+    <c:when test="#{currentUser==null}">
+        <ul>
+            <li id="current"><h:commandLink action="login" value="Login"/></li>
+        </ul>
+    </c:when>
+    <c:when test="${page=='orders'}">
+        <ul>
             <li><a href="browse.faces">Search for Movies</a></li>
             <li id="current"><a href="showorders.faces">My Orders</a></li>
-        </c:when>
-        <c:otherwise>
+        </ul>
+    </c:when>
+    <c:otherwise>
+        <ul>
             <li id="current"><a href="browse.faces">Search for Movies</a></li>
             <li><a href="showorders.faces">My Orders</a></li>
-        </c:otherwise>
-    </c:choose>
-</ul>
+        </ul>
+    </c:otherwise>
+</c:choose>
+

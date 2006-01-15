@@ -5,7 +5,7 @@
     <property name="example.name" value="dvd"/>
     
     <property name="src.java.dir" location="src" />
-	<property name="src.test.dir" value="src"/>
+    <property name="src.test.dir" location="src"/>
 
     <property name="dd.dir"       location="dd" />
 
@@ -34,10 +34,11 @@
                 <include name="el-*.jar" />
                 <include name="jsf-facelets.jar" />
             </lib>
-
+            <!--
             <classes dir="${classes.dir}">
                 <include name="**/web/**/*.class" />
             </classes>
+            -->           
             <fileset dir="${web.dir}"/>
         </war>
     </target>
