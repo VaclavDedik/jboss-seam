@@ -131,7 +131,7 @@
     </target>
 
     <target name="ejb3" depends="compile">
-        <jar jarfile="${build.dir}/${name}.ejb3">
+        <jar jarfile="${build.dir}/${name}.jar">
             <fileset dir="${imported.basedir}">
                 <include name="${name}.jar"/>
             </fileset>
@@ -147,7 +147,7 @@
     <target name="ear" depends="ejb3, war">
         <jar destfile="${build.dir}/${name}.ear">
             <zipfileset dir="${build.dir}">
-                <include name="${name}.ejb3"/>
+                <include name="${name}.jar"/>
             </zipfileset>
             <zipfileset dir="${build.dir}">
                 <include name="${name}.war"/>

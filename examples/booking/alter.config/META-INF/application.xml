@@ -8,7 +8,7 @@
 		</web>
 	</module>
 	<module>
-		<ejb>jboss-seam-booking.ejb3</ejb>
+		<ejb>jboss-seam-booking.jar</ejb>
 	</module>
 	
 </application>

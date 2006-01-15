@@ -325,7 +325,7 @@
     </target>
 
     <target name="ejb3" depends="compile">
-        <jar jarfile="${build.dir}/${example.name}.ejb3">
+        <jar jarfile="${build.dir}/${example.name}.jar">
             <fileset dir="${imported.basedir}">
                 <include name="${name}.jar"/>
             </fileset>
@@ -341,7 +341,7 @@
     <target name="ear" depends="ejb3, war">
         <jar destfile="${build.dir}/${example.name}.ear">
             <zipfileset dir="${build.dir}">
-                <include name="${example.name}.ejb3"/>
+                <include name="${example.name}.jar"/>
             </zipfileset>
             <zipfileset dir="${build.dir}">
                 <include name="${example.name}.war"/>

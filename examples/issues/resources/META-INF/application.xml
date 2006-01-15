@@ -9,7 +9,7 @@
 		</web>
 	</module>
 	<module>
-		<ejb>jboss-seam-issues.ejb3</ejb>
+		<ejb>jboss-seam-issues.jar</ejb>
 	</module>
 	
 </application>
