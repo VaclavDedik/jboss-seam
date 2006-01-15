@@ -46,7 +46,7 @@
     <target name="ejb3jar" depends="compile">
         <mkdir dir="${build.dir}"/>
         
-        <jar destfile="${build.dir}/dvd.ejb3" >
+        <jar destfile="${build.dir}/dvd.jar" >
             <metainf dir="dd/ejb3">
                 <include name="persistence.xml" />
             </metainf>
@@ -84,7 +84,7 @@
             </fileset>
 
             <fileset dir="${build.dir}" 
-                     includes="*.ejb3, *.par, *.war, *.sar, *.beans"/>
+                     includes="*.jar, *.par, *.war, *.sar, *.beans"/>
             <fileset dir="dd/ear"
                      includes="dvd-*.xml" />
         </ear>

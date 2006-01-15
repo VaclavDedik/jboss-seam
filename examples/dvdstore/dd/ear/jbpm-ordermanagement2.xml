@@ -7,7 +7,7 @@
     </start-state>
 
     <task-node name="approval">
-        <task name="approve">
+        <task name="approve" description="Review order">
            <assignment pooled-actors="reviewers" />
         </task>
         <!--
@@ -20,7 +20,7 @@
     </task-node>
 
     <task-node name="process">
-        <task name="ship">
+        <task name="ship" description="Ship order">
            <assignment pooled-actors="#{shipperAssignment.pooledActors}" />
         </task>
         <transition name="shipped" to="complete">

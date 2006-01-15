@@ -7,7 +7,7 @@
     </start-state>
 
     <task-node name="process">
-        <task name="ship">
+        <task name="ship" description="Ship order">
            <assignment pooled-actors="#{shipperAssignment.pooledActors}" />
         </task>
         <transition name="shipped" to="complete">

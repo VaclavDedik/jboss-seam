@@ -5,7 +5,7 @@
     <display-name>DVD Store</display-name>
     <description>DVD Store</description>
     <module>
-        <ejb>dvd.ejb3</ejb>
+        <ejb>dvd.jar</ejb>
     </module>
     <module>
         <web>

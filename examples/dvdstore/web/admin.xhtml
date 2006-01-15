@@ -64,6 +64,10 @@
                             #{task.variables['orderId']}
                         </h:column>
                         <h:column>
+                            <f:facet name="header">Task</f:facet>
+                            <h:outputText value="#{task.description}" />
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">Order Amount</f:facet>
                             <h:outputText value="#{task.variables['amount']}">
                                 <f:convertNumber type="currency" currencySymbol="$" />
@@ -72,10 +76,6 @@
                         <h:column>
                             <f:facet name="header">Customer</f:facet>
                             <h:outputText value="#{task.variables['customer']}" />
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Task</f:facet>
-                            <h:outputText value="#{task.name}" />
                         </h:column>
                         <h:column>
                             <h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
