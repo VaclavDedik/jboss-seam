@@ -176,6 +176,7 @@
 		
 		<testng>
 			<classpath path="${build.dir}/test"/>
+			<classpath path="${mc.conf.dir}"/>
 			<classpath refid="${test.classpath}"/>
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
 		</testng>

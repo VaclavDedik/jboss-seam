@@ -18,7 +18,6 @@
 	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-annotations.jar"/>
 	<classpathentry kind="lib" path="lib/hsqldb.jar"/>
-	<classpathentry kind="lib" path="lib/jboss-common.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-common-jdbc-wrapper.jar"/>
 	<classpathentry sourcepath="/jboss-4.x" kind="lib" path="lib/jboss-ejb3.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-ejb3x.jar"/>
@@ -26,7 +25,6 @@
 	<classpathentry kind="lib" path="lib/jboss-j2se.jar"/>
 	<classpathentry sourcepath="/jboss-4.x" kind="lib" path="lib/jboss-jca.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-local-jdbc.jar"/>
-	<classpathentry sourcepath="/jboss-4.x" kind="lib" path="lib/jboss-microcontainer.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-system.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-transaction.jar"/>
 	<classpathentry kind="lib" path="lib/jnpserver.jar"/>
@@ -40,8 +38,9 @@
 	<classpathentry kind="lib" path="embedded-ejb/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-api.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-3.1-beta2pre.jar"/>
-	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/hibernate-entitymanager.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-3.1-beta2.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-common.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-microcontainer.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
