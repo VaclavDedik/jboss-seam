@@ -1,5 +1,5 @@
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-numberguess
+      seam.jboss.org:loader=seam-todo
       </loader-repository> 
 </jboss-app> 
