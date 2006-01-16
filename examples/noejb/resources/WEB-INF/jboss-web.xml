@@ -1,4 +1,5 @@
 <jboss-web>
+   <context-root>seam-noejb</context-root>
    <class-loading> 
       <loader-repository> 
       seam.jboss.org:loader=seam-noejb
