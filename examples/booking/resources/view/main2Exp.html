@@ -14,11 +14,13 @@
 
 <div id="main">
   <div class="trail">
-    <div class="numbox">4</div>
+    <div class="numbox">5</div>
     <h2>Contextual conversations</h2>
     <img src="img/header_line.gif" />
     
     <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+
+<p>Seam can maintain multiple conversations with the same user. Each conversation has its own set of states and is independent of other conversations. In this sample application, you can use the "New Workspace" link to create a new contextual conversation. As you move between conversations, you can see that Seam remembers the state for each one.</p>
 
 <p>As we have seen before, the hotel search action (<code>find()</code> method) starts the conversation in the stateful <code>HotelBookingAction</code> bean.
 
@@ -39,7 +41,26 @@ public class HotelBookingAction implements HotelBooking, Serializable {
 }
 </code>
 
-<p>Without any additional code, SEAM knows to automatically tie the conversation with the current browser window. So, if you open another window to search for hotels in another city, the application in the new window would appear entirely independent from the one in the old window. You can search, view, and book hotels in the one window without affecting the conversational state in the other. This behavior helps to eliminate a whole class of browser related bugs. For instance, if the user abort the booking process in the middle of a conversation and closes the window (hence leaving an orphaned conversation), she or he will be start anew later with a new conversation and no residue states left from the orphaned conversation.</p>
+<p>To start another conversation, you simply load the <code>main.xhtml</code> page, which invokes the above code. You can load <code>main.xhtml</code> either in the current window or in a new browser window / tab. The result is that a new conversation is initiated and all the available conversations are stored in the Seam <code>#{conversationList}</code> variable. The code snippet in the <code>conversations.xhtml</code> file, which displays all available conversations for this user, is as follows.</p>
+
+<code class="block">
+&lt;h:dataTable value="#{conversationList}" var="entry">
+  &lt;h:column>
+    &lt;h:commandLink action="#{entry.select}" value="#{entry.description}"/>
+    &nbsp;
+    &lt;h:outputText value="[current]" rendered="#{entry.current}"/>
+  &lt;/h:column>
+  &lt;h:column>
+    &lt;h:outputText value="#{entry.startDatetime}">
+      &lt;f:convertDateTime type="time" pattern="hh:mm"/>
+    &lt;/h:outputText>
+    -
+    &lt;h:outputText value="#{entry.lastDatetime}">
+      &lt;f:convertDateTime type="time" pattern="hh:mm"/>
+    &lt;/h:outputText>
+  &lt;/h:column>
+&lt;/h:dataTable>
+</code>
 
 
 <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>

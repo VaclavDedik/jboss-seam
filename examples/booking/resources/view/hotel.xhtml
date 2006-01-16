@@ -48,9 +48,10 @@
 <!-- sidebar -->
 <ui:define name="sidebar">
 
-<h1>Guided tour: Step 4</h1>
+<h1>Stateful and contextual components</h1>
+<p>Now, you go through a series of pages to complete a booking transaction. Seam maintains the application state for you and only commits to the database when the transaction is successful.</p>
 
-<p>As we already knew, the conversational state of this searching / booking operation is managed in the <code>HotelBookingAction</code> bean. So here, you can just <b>press the "Book Hotel" button</b>. The <code>HotelBookingAction</code> bean would create a new <code>Booking</code> object with the selected hotel and the current date. The <code>Booking</code> object is also managed in the conversation by the <code>HotelBookingAction</code> bean.</p>
+<p><b><a href="#" onClick="window.open('mainExp.html','exp','width=752,height=500,scrollbars=yes');">How Seam manages states?</a></b></p>
 
 <h1>Don't kill your database</h1>
 <p>
@@ -66,7 +67,6 @@
     caching to achieve the best performance for your application.
 </p>
 
-<p><h:commandLink action="#{logout.logout}">Restart Guided Tour</h:commandLink></p>
 
 </ui:define>
 

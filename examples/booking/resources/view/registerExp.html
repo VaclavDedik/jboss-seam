@@ -14,7 +14,7 @@
 
 <div id="main">
   <div class="trail">
-    <div class="numbox">1</div>
+    <div class="numbox">3</div>
     <h2>What happens in the registration process?</h2>
     <img src="img/header_line.gif" />
     
@@ -54,7 +54,7 @@
 
 <p>As you can see the fields in the form are mapped to the properties in the <code>user</code> bean (e.g., the <code>#{user.username}</code> property is mapped to the Username field in the form). The form action is mapped to the <code>register()</code> method in the <code>register</code> bean (i.e., the <code>#{register.register}</code> action.</p>
 
-<p>So, let's check out the <code>User</code> entity bean. EJB 3.0 maps the entity bean to the <code>User</code> SQL table by default, with each bean property corresponding to one data column. And SEAM maps the <code>User</code> bean to the <code>#{user}</code> bean in JSF / Facelets via the <code>@Name</code> annotation.</p>
+<p>So, let's check out the <code>User</code> entity bean. EJB 3.0 maps the entity bean to the <code>User</code> SQL table by default, with each bean property corresponding to one data column. And Seam maps the <code>User</code> bean to the <code>#{user}</code> bean in JSF / Facelets via the <code>@Name</code> annotation. It is important to notice the validation constraint annotations, such as <code>@NotNull</code>, <code>@Length</code>. They are automatically validated by Seam. If the user enters invalid data in the JSF form, Seam would redirect back to the registration page with error messages.</p>
 
 <code class="block">
 @Entity
@@ -70,13 +70,28 @@ public class User implements Serializable {
    public String getName() {
       return name;
    }
-   public void setName(String name) {
-      this.name = name;
-   }
 
     // ... ...
+    
+   @NotNull
+   @Length(min=5, max=15)
+   public String getPassword() {
+      return password;
+   }
+   
+   // ... ...
+   
+   @Id
+   @Length(min=5, max=15)
+   public String getUsername() {
+      return username;
+   }
+   
+   // ... ...
 }
 </code>
+
+<p></p>
 
 <p>The <code>RegisterAction</code> is an EJB 3.0 session bean and it is mapped to the <code>#{register}</code> bean in the JSF / Facelets page via the <code>@Name</code> annotation by SEAM. So, the <code>RegisterAction.register()</code> method is invoked when the "register" button is clicked.</p>
 

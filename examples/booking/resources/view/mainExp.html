@@ -14,13 +14,13 @@
 
 <div id="main">
   <div class="trail">
-    <div class="numbox">3</div>
+    <div class="numbox">4</div>
     <h2>Stateful conversations</h2>
     <img src="img/header_line.gif" />
     
     <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
 
-<p>The hotel search form uses the <code>#{hotelBooking}</code> bean, which is mapped from the <code>HotelBookingAction</code> session bean via the SEAM <code>@Name</code> annotation.</p>
+<p>The hotel search form uses the <code>#{hotelBooking}</code> bean, which is mapped from the <code>HotelBookingAction</code> session bean via the Seam <code>@Name</code> annotation.</p>
 
 <code class="block">
 &lt;h:inputText value="#{hotelBooking.searchString}" />
@@ -86,7 +86,7 @@ public class HotelBookingAction implements HotelBooking, Serializable {
 
 <p>What you see here is that the <code>HotelBookingAction.find()</code> method takes the <code>searchString</code> property collected from the form and find a list of hotels in the database. The <code>EntityManager</code> in this class must have <code>EXTENDED</code> scope since it needs to manage entity objects across multiple threads (i.e., multiple page requests to the bean methods). This is generally true for <code>EntityManager</code> objects in all stateful session  beans. Now, let's look at how the conversation is constructed.</p>
 
-<p>The SEAM <code>@Conversational</code> annotation declares this as a conversational component that cannot be invoked outside of a long-running conversation that was started by a call to its <code>@Begin</code> method. If such an invocation does occur, Seam returns the <code>ifNotBegunOutcome</code> to JSF. The <code>@Begin</code> annotation specifies that the annotated method begins a long-running conversation, so the current conversation context will not be destroyed at the end of the request. Instead, it will be reassociated with every request from the current window, and destroyed either by timeout due to conversation inactivity or invocation of a matching <code>@End</code> method, which happens after you finished the booking.</p>
+<p>The Seam <code>@Conversational</code> annotation declares this as a conversational component that cannot be invoked outside of a long-running conversation that was started by a call to its <code>@Begin</code> method. If such an invocation does occur, Seam returns the <code>ifNotBegunOutcome</code> to JSF. The <code>@Begin</code> annotation specifies that the annotated method begins a long-running conversation, so the current conversation context will not be destroyed at the end of the request. Instead, it will be reassociated with every request from the current window, and destroyed either by timeout due to conversation inactivity or invocation of a matching <code>@End</code> method, which happens after you finished the booking.</p>
 
 <p>After the <code>find()</code> method finds the hotels from the database, it populates them into a <code>List</code> object <code>hotels</code>. The <code>hotels</code> property is marked with the <code>@DataModel</code> annotation, which tells SEAM to convert it to a JSF <code>ListDataModel</code>. This makes it easy to implement clickable lists for search screens. The <code>@DataModelSelectionIndex</code> annotation defines a field or get/set pair as holding the row index for the corresponding <code>@DataModel</code> property. Therefore, in the <code>main.xhtml</code> page, it is trivial to display the hotel search results with no JSF display data conversion needed.</p>
 

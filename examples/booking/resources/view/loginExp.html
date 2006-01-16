@@ -20,7 +20,7 @@
     
     <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
     
-    <p>The login form maps the user-entered username and password to the appropriate properties in the <code>#{user}</code> bean, which is mapped to the <code>User</code> entity bean by SEAM. The JSF runtime invokes the <code>#{login.login}</code> action when the login button is clicked.</p>
+    <p>The login page is formated as a regular XHTML form. The form uses the <code>#{user}</code> symbol to represent the <code>User</code> entity bean and the <code>#{login}</code> symbol to represent the <code>LoginAction</code> session bean. Both beans are EJB 3.0 POJOs managed by Seam.</p>
 
 <code class="block">
 &lt;div>
@@ -40,7 +40,7 @@
 &lt;/div>
 </code>
 
-<p>The <code>User</code> bean is mapped to the <code>#{user}</code> bean in JSF / Facelets via the <code>@Name</code> annotation. And the <code>username</code> and <code>password</code> properties are used here.</p>
+<p>The <code>User</code> bean is mapped to the <code>#{user}</code> bean in JSF via the <code>@Name</code> annotation. The <code>username</code> and <code>password</code> bean properties are mapped to the user input fields in the XHTML form.</p>
 
 <code class="block">
 @Entity
@@ -73,7 +73,7 @@ public class User implements Serializable {
 }
 </code>
 
-<p>The <code>LoginAction</code> is an EJB 3.0 session bean and it is mapped to the <code>#{login}</code> bean in the JSF / Facelets page via the <code>@Name</code> annotation by SEAM. So, the <code>LoginAction.login()</code> method is invoked when the "login" button is clicked. This bean is "stateless" since it only has one-time transactional methods.</p>
+<p>The <code>LoginAction</code> is an EJB 3.0 session bean and it is mapped to the <code>#{login}</code> symbol in the JSF page via the <code>@Name</code> annotation by Seam. So, the <code>LoginAction.login()</code> method is invoked when the "login" button is clicked. This bean is "stateless" since it only has one-time transactional methods.</p>
 
 <code class="block">
 @Stateless
@@ -111,7 +111,7 @@ public class LoginAction implements Login {
 }
 </code>
 
-<p>The <code>@In</code> annotation in the <code>LoginAction</code> session bean injects the <code>User</code> entity bean and the HTTP session <code>Context</code> / <code>FacesContext</code> system objects. The <code>@Out</code> annotation indicates the <code>LoginAction</code> bean can also modify the <code>User</code> object managed by SEAM and make the altered instance available to other session beans / JSF pages.</p>
+<p>The <code>@In</code> annotation in the <code>LoginAction</code> session bean injects the <code>User</code> entity bean and the HTTP session <code>Context</code> / <code>FacesContext</code> system objects. The <code>@Out</code> annotation indicates the <code>LoginAction</code> bean can also modify the <code>User</code> object managed by Seam and make the altered instance available to other session beans / JSF pages.</p>
 
 <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
 

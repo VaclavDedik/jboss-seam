@@ -66,12 +66,13 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-<h1>Guided tour: Step 5</h1>
-<p>Now, <b>fill in a checkout date</b> that is later than the check in date, and <b>fill in a 16 digit credit card number</b>. For example, you can use 0123456789123456 as the credit card number. <b>Click on the Proceed button</b> to finish booking.</p>
 
-<p>The action method for the Proceed button validates the checkout date and credit card number. If those numbers are invalid, this page will be re-displayed with the error message. We have discussed validation in the registration page.</p>
+<h1>Stateful and contextual components</h1>
+<p>Now, you go through a series of pages to complete a booking transaction. Seam maintains the application state for you and only commits to the database when the transaction is successful.</p>
 
-<p><h:commandLink action="#{logout.logout}">Restart Guided Tour</h:commandLink></p>
+<p><b><a href="#" onClick="window.open('mainExp.html','exp','width=752,height=500,scrollbars=yes');">How Seam manages states?</a></b></p>
+
+<p>Furthermore, Seam also supports multiple workspaces. You can open multiple browser windows (or tabs) and have Seam maintaining the application state independently in each window. The "workspace" section in the main panel showcases this feature.</p>
 
 </ui:define>
 
