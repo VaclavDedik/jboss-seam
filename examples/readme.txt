@@ -1,7 +1,7 @@
 Seam Example Applications
 =========================
 This directory contains the Seam example applications, which
-have been tested in JBoss 4.0.3.
+have been tested in JBoss 4.0.4.
 
 registration/   A simple example for the tutorial
 
@@ -14,6 +14,11 @@ dvdstore/       The Seam DVD Store example demonstrating jBPM
                 
 issues/         The Seam Issue Tracker example, demonstrating 
                 nested conversations and workspage management
+
+numberguess/    The Seam Guess a number example, demonstrating
+                jBPM pageflow utilisation
+
+todo/           Simple example demonstrating the use of
+                jBPM-based business process management
                 
-portlet/        The Seam Booking example, deployed as a portlet 
-                in JBoss Portal
+messages/       Simple example showing how to use @DataModel
