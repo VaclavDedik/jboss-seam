@@ -2,12 +2,14 @@
 package org.jboss.seam.interceptors;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.annotations.Around;
+import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.util.Transactions;
 
@@ -29,7 +31,11 @@ public class RollbackInterceptor extends AbstractInterceptor
          if (invocation.getMethod().isAnnotationPresent(Rollback.class)) 
          {
             String[] outcomes = invocation.getMethod().getAnnotation(Rollback.class).ifOutcome();
-            if ( outcomes.length==0 || Arrays.asList(outcomes).contains(result) )
+            List<String> outcomeList = Arrays.asList(outcomes);
+            boolean isRollback = outcomes.length==0 || 
+                  ( result==null && outcomeList.contains(Outcome.REDISPLAY) ) || 
+                  outcomeList.contains(result);
+            if ( isRollback )
             {
                if ( component.getType()==ComponentType.JAVA_BEAN )
                {

@@ -9,9 +9,13 @@ import javax.ejb.InvocationContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 
+import org.hibernate.Session;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.logging.Logger;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.Within;
 
@@ -47,6 +51,10 @@ public class ValidationInterceptor extends AbstractInterceptor
             log.debug("invalid component state: " + component.getName());
             for (InvalidValue iv : invalidValues)
             {
+               if ( ifInvalid.refreshEntities() && iv.getBeanClass().isAnnotationPresent(Entity.class) )
+               {
+                  refreshInvalidEntity( ifInvalid, iv.getBean() );
+               }
                addMessageToFacesContext(iv);
             }
             return ifInvalid.outcome();
@@ -55,6 +63,26 @@ public class ValidationInterceptor extends AbstractInterceptor
       else
       {
          return invocation.proceed();
+      }
+   }
+
+   private void refreshInvalidEntity(IfInvalid ifInvalid, Object entity) {
+      Object persistenceContext = Component.getInstance( ifInvalid.persistenceContext(), false );
+      if (persistenceContext!=null) //TODO: throw an exception if em is null?
+      {
+         EntityManager em = (EntityManager) persistenceContext;
+         if ( em.contains(entity) )
+         {
+            em.refresh(entity);
+         }
+      }
+      else
+      {
+         Session session = (Session) persistenceContext;
+         if ( session.contains(entity) )
+         {
+            session.refresh(entity);
+         }
       }
    }
 

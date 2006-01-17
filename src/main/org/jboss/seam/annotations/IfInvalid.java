@@ -28,4 +28,15 @@ public @interface IfInvalid
     * in an invalid state.
     */
    String outcome();
+   /**
+    * Should we refresh any entity instance that violates
+    * its constraints?
+    */
+   boolean refreshEntities() default false;
+   /**
+    * The name of a Seam-managed persistence context to
+    * use for refreshing entities when contstraints are
+    * violated.
+    */
+   String persistenceContext() default "entityManager";
 }
