@@ -253,8 +253,6 @@ public class Manager
     */
    public void conversationTimeout(ExternalContext externalContext)
    {
-      touchConversationStack();
-
       long currentTime = System.currentTimeMillis();
       Iterator<Map.Entry<String, ConversationEntry>> entries = getConversationIdEntryMap().entrySet().iterator();
       while ( entries.hasNext() )
@@ -286,6 +284,8 @@ public class Manager
    {
       if ( isLongRunningConversation() )
       {
+         touchConversationStack();
+
          if ( !Seam.isSessionInvalid() )
          {
             log.debug("Storing conversation state: " + currentConversationId);
@@ -332,6 +332,8 @@ public class Manager
    {
       if ( isLongRunningConversation() )
       {
+         touchConversationStack();
+
          log.debug("Storing conversation state: " + currentConversationId);
          Conversation.instance().flush();
          if ( !Seam.isSessionInvalid() )

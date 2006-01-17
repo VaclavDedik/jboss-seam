@@ -96,6 +96,14 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
+         if ( !Init.instance().isClientSideConversations() ) 
+         {
+            // difficult question: is it really safe to do this here?
+            // right now we do have to do it after committing the Seam
+            // transaction because we can't close EMs inside a txn
+            // (this might be a bug in HEM)
+            Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
+         }
          Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
       }
       else if ( event.getFacesContext().getResponseComplete() )
@@ -114,12 +122,12 @@ public class SeamPhaseListener implements PhaseListener
    private void beforeSaveState(FacesContext ctx) {
       log.debug( "Before saving state" );
 
-      if ( !Init.instance().isClientSideConversations() ) 
+      /*if ( !Init.instance().isClientSideConversations() ) 
       {
          // difficult question: does this really need to happen before 
          // storeAnyConversationContext, or could it be done later
          Manager.instance().conversationTimeout( ctx.getExternalContext() );
-      }
+      }*/
       storeAnyConversationContext(ctx);
    }
 
