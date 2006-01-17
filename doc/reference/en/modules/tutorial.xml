@@ -897,7 +897,7 @@ public class Message implements Serializable
        </para>
        
        <para>
-           We want cache the list of messages in memory between server
+           We want to cache the list of messages in memory between server
            requests, so we will make this a stateful session bean.
        </para>
        
@@ -1242,7 +1242,7 @@ public interface MessageList
                         <literal>todoList</literal> (one of the JavaBeans).
                     </para>
                 </callout>
-                <callout arearefs="todo-task">
+                <callout arearefs="todo-assignment">
                     <para>
                         Tasks need to be assigned to a user or group of users when 
                         they are created. In this case, the task is assigned to the 
