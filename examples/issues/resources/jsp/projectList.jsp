@@ -31,7 +31,7 @@
 	 </h:dataTable>
 
 	 <span class="rvgPage">
-	   <h:commandButton action="editProject" value="#{msg.Create}" rendered="#{projectSelector.createEnabled}"/>
+	   <h:commandButton action="#{projectSelector.select}" value="#{msg.Create}" rendered="#{projectSelector.createEnabled}"/>
 	   <h:commandButton action="#{projectSelector.cancel}" value="#{msg.Cancel}" rendered="#{!projectSelector.createEnabled}"/>
 	 </span>
 	 

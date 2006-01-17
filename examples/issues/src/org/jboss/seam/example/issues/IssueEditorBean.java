@@ -47,16 +47,18 @@ public class IssueEditorBean implements IssueEditor {
        return issue;
     }
     
-    @In
+    @In(required=false)
     private Login login;
         
     @Create
-    @LoggedIn
     public void initialize()
     {
        issue = new Issue();
        issue.setSubmitted( new Date() );
-       issue.setUser( login.getInstance() );
+       if ( login!=null )
+       {
+          issue.setUser( login.getInstance() );
+       }
     }
 
     private boolean isNew = true;
@@ -76,7 +78,8 @@ public class IssueEditorBean implements IssueEditor {
     
     @In
     private transient ResourceBundle resourceBundle;
-
+    
+    @LoggedIn
     @Begin(join=true)
     @IfInvalid(outcome=Outcome.REDISPLAY)
     public String create() {
@@ -102,6 +105,7 @@ public class IssueEditorBean implements IssueEditor {
              "Issue [" + issue.getId() + "] for Project [" + projectName + "]";
     }
     
+    @LoggedIn
     @IfInvalid(outcome=Outcome.REDISPLAY, refreshEntities=true)
     public String update() 
     {
@@ -110,6 +114,7 @@ public class IssueEditorBean implements IssueEditor {
     }
     
     @End
+    @LoggedIn
     public String delete() {
        entityManager.remove(issue);
        issue.getProject().getIssues().remove(issue);
@@ -152,8 +157,8 @@ public class IssueEditorBean implements IssueEditor {
        return "editIssue";
     }
     
-    @Begin(nested=true)
     @LoggedIn
+    @Begin(nested=true)
     public String createIssue() {
        isNew = true;
        issue = new Issue();

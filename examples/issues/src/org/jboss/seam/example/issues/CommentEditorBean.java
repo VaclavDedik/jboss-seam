@@ -46,14 +46,14 @@ public class CommentEditorBean implements CommentEditor {
        return isNew;
     }
     
-    @In
+    @In(required=false)
     private Login login;
         
     @In 
     private IssueEditor issueEditor;
 
-    @Begin(nested=true)
     @LoggedIn
+    @Begin(nested=true)
     public String createComment() {
        isNew = true;
        comment = new Comment();
@@ -71,6 +71,7 @@ public class CommentEditorBean implements CommentEditor {
     }
 
     @End
+    @LoggedIn
     @IfInvalid(outcome=Outcome.REDISPLAY)
     public String create() {
        entityManager.persist(comment);
@@ -82,12 +83,14 @@ public class CommentEditorBean implements CommentEditor {
     }
 
     @End
-    @IfInvalid(outcome=Outcome.REDISPLAY)
+    @LoggedIn
+    @IfInvalid(outcome=Outcome.REDISPLAY, refreshEntities=true)
     public String update() {
        return "editIssue";
     }
 
     @End
+    @LoggedIn
     public String delete() {
        entityManager.remove(comment);
        comment.getIssue().getComments().remove(comment);
@@ -100,6 +103,7 @@ public class CommentEditorBean implements CommentEditor {
        return "editIssue";
     }
     
+    @TransactionAttribute(NOT_SUPPORTED)
     public String getDescription() {
        return comment.getId()==null ?
              "Comment on " + issueEditor.getDescription() :

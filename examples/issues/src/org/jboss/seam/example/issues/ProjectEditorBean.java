@@ -62,6 +62,7 @@ public class ProjectEditorBean implements ProjectEditor {
     private transient ResourceBundle resourceBundle;
     
     @Begin
+    @LoggedIn
     @IfInvalid(outcome=Outcome.REDISPLAY)
     public String create() {
        if ( entityManager.find(Project.class, project.getName())!=null )
@@ -80,17 +81,20 @@ public class ProjectEditorBean implements ProjectEditor {
        return "editProject";
     }
     
+    @TransactionAttribute(NOT_SUPPORTED)
     public String getDescription() {
        return "Project [" + project.getName() + "]";
     }
 
-    @IfInvalid(outcome=Outcome.REDISPLAY)
+    @LoggedIn
+    @IfInvalid(outcome=Outcome.REDISPLAY, refreshEntities=true)
     public String update() {
        refreshFinder();
        return null;
     }
 
     @End
+    @LoggedIn
     public String delete() {
        entityManager.remove(project);
        refreshFinder();
@@ -128,11 +132,13 @@ public class ProjectEditorBean implements ProjectEditor {
        return project.getDevelopers()==null ? null : new ArrayList<User>( project.getDevelopers() );
     }
     
+    @TransactionAttribute(NOT_SUPPORTED)
     public void setDeveloper(String developer)
     {
        this.developer = developer;
     }
     
+    @TransactionAttribute(NOT_SUPPORTED)
     public String getDeveloper()
     {
        return developer;
