@@ -63,12 +63,12 @@
     <!-- Deploy -->
     <fileset id="deploy"
             dir="resources">
-        <include name="_NONE_"/>
+        <include name="issues-ds.xml"/>
     </fileset>
 
     <!-- Undeploy -->
     <patternset id="undeploy">
-        <include name="_NONE_"/>
+        <include name="issues-ds.xml"/>
     </patternset>
 
     <path id="build.classpath">

@@ -90,23 +90,25 @@ public class IssueEditorBean implements IssueEditor {
        return "editIssue";
     }
 
-   private void refreshProjectFinder() {
-      if (projectFinder!=null) projectFinder.refresh();
-   }
+    private void refreshProjectFinder() {
+       if (projectFinder!=null) projectFinder.refresh();
+    }
     
+    @TransactionAttribute(NOT_SUPPORTED)
     public String getDescription() {
        String projectName = issue.getProject().getName();
        return issue.getId()==null ?
              "New Issue for Project [" + projectName + "]" :
              "Issue [" + issue.getId() + "] for Project [" + projectName + "]";
     }
-
-    @IfInvalid(outcome=Outcome.REDISPLAY)
-    public String update() {
+    
+    @IfInvalid(outcome=Outcome.REDISPLAY, refreshEntities=true)
+    public String update() 
+    {
        refreshFinder();
        return null;
     }
-
+    
     @End
     public String delete() {
        entityManager.remove(issue);
@@ -172,11 +174,13 @@ public class IssueEditorBean implements IssueEditor {
     
     private String developer;
     
+    @TransactionAttribute(NOT_SUPPORTED)
     public void setDeveloper(String developer)
     {
        this.developer = developer;
     }
     
+    @TransactionAttribute(NOT_SUPPORTED)
     public String getDeveloper()
     {
        return developer;
@@ -225,6 +229,7 @@ public class IssueEditorBean implements IssueEditor {
        return null;
     }
     
+    @TransactionAttribute(NOT_SUPPORTED)
     public boolean isOpen()
     {
        return issue.getStatus()!=IssueStatus.RESOLVED;

@@ -5,12 +5,14 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 
 @Entity
+@Table(name="Person")
 public class User implements Serializable {
 
     private String username;
