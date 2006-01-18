@@ -42,7 +42,7 @@ public class SearchAction
     @PersistenceContext
     EntityManager em;
 
-    int     pageSize    = 10;
+    int     pageSize    = 15;
     int     currentPage = 0; 
     boolean hasMore     = false;
 

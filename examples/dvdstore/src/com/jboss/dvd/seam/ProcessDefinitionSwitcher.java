@@ -56,7 +56,7 @@ public class ProcessDefinitionSwitcher
     public String switchProcess() {
        jbpmContext.deployProcessDefinition( 
              jbpm.getProcessDefinitionFromResource(currentProcessDefinition) );
-       return "admin";
+       return null;
     }
     
 }
