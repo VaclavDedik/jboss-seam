@@ -2,7 +2,7 @@
 
 <process-definition name="OrderManagement">
 
-    <start-state>
+    <start-state name="start">
         <transition to="process"/>
     </start-state>
 

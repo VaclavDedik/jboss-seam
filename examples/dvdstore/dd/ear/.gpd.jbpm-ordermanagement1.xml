@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-diagram name="OrderManagement" width="804" height="705">
+  <node x="154" y="38" width="140" height="40" name="start">
+    <transition>
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="process" x="273" y="234" width="140" height="40">
+    <transition name="shipped">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="complete" x="273" y="463" width="140" height="40"/>
+</process-diagram>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pageflow-diagram name="numberGuess" width="804" height="705">
+  <node name="start" x="213" y="18" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="displayGuess" x="210" y="94" width="140" height="40">
+    <transition name="guess">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="evaluateGuess" x="64" y="179" width="140" height="40">
+    <transition name="true">
+      <label x="5" y="-10"/>
+    </transition>
+    <transition name="false">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="evaluateRemainingGuesses" x="385" y="178" width="140" height="40">
+    <transition name="true">
+      <label x="5" y="-10"/>
+    </transition>
+    <transition name="false">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="win" x="63" y="326" width="140" height="40"/>
+  <node name="lose" x="393" y="326" width="140" height="40"/>
+</pageflow-diagram>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pageflow-diagram name="shopping" width="804" height="705">
+  <node name="start" x="220" y="24" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="browse" x="229" y="134" width="140" height="40">
+    <transition name="browse">
+      <label x="5" y="-10"/>
+      <bendpoint w1="-37" h1="-44" w2="-37" h2="-44"/>
+      <bendpoint w1="-50" h1="-20" w2="-50" h2="-10"/>
+    </transition>
+    <transition name="checkout">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="checkout" x="241" y="306" width="140" height="40">
+    <transition name="checkout">
+      <label x="5" y="-10"/>
+      <bendpoint w1="-37" h1="-53" w2="-37" h2="-53"/>
+      <bendpoint w1="-50" h1="-20" w2="-50" h2="-10"/>
+    </transition>
+    <transition name="complete">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="complete" x="261" y="499" width="140" height="40"/>
+</pageflow-diagram>
