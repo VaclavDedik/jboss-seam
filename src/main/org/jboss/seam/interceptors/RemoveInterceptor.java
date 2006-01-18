@@ -2,12 +2,15 @@
 package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
+import java.rmi.RemoteException;
 
+import javax.ejb.ApplicationException;
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 import javax.ejb.Remove;
 
 import org.jboss.logging.Logger;
+import org.jboss.seam.ComponentType;
 import org.jboss.seam.annotations.Around;
 
 /**
@@ -19,6 +22,9 @@ import org.jboss.seam.annotations.Around;
 @Around({ValidationInterceptor.class, BijectionInterceptor.class, ConversationInterceptor.class})
 public class RemoveInterceptor extends AbstractInterceptor
 {
+    
+   //TODO: note that this implementation is a bit broken, since it assumes that
+   //      the thing is always bound to its component name and scope
    
    private static final Logger log = Logger.getLogger(RemoveInterceptor.class);
 
@@ -32,25 +38,46 @@ public class RemoveInterceptor extends AbstractInterceptor
       }
       catch (Exception exception)
       {
-         removeIfNecessary( invocation.getBean(), invocation.getMethod(), true );
+         removeIfNecessary( invocation.getMethod(), exception );
          throw exception;
       }
 
-      removeIfNecessary( invocation.getBean(), invocation.getMethod(), false );
+      removeIfNecessary( invocation.getMethod() );
       return result;
    }
 
-   private void removeIfNecessary(Object bean, Method method, boolean exception)
-   {
-      boolean wasRemoved = method.isAnnotationPresent(Remove.class) &&
-            ( !exception || !method.getAnnotation(Remove.class).retainIfException() );
-      if ( wasRemoved )
+   private void removeIfNecessary(Method method, Exception exception) {
+      if ( exception instanceof RuntimeException || exception instanceof RemoteException )
       {
-         component.getScope().getContext().remove( component.getName() );
-         log.debug("Stateful component was removed: " + component.getName());
+         if ( !exception.getClass().isAnnotationPresent(ApplicationException.class) ) 
+         {
+            //it is a "system exception"
+            if ( component.getType()==ComponentType.STATEFUL_SESSION_BEAN )
+            {
+               remove();
+            }
+         }
+      }
+      else if ( method.isAnnotationPresent(Remove.class) )
+      {
+         if ( !method.getAnnotation(Remove.class).retainIfException() ) 
+         {
+            remove();
+         }
       }
    }
 
- 
+   private void removeIfNecessary(Method method)
+   {
+      if ( method.isAnnotationPresent(Remove.class) ) 
+      {
+         remove();
+      }
+   }
+
+   private void remove() {
+      component.getScope().getContext().remove( component.getName() );
+      log.debug("Stateful component was removed: " + component.getName());
+   }
 
 }

@@ -22,6 +22,8 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jbpm.JbpmContext;
+import org.jbpm.persistence.db.DbPersistenceServiceFactory;
+import org.jbpm.svc.Services;
 
 /**
  * Manages a reference to a JbpmSession.
@@ -58,7 +60,12 @@ public class ManagedJbpmContext
    {
       if ( Lifecycle.isException() )
       {
-         jbpmContext.setRollbackOnly();
+         DbPersistenceServiceFactory dpsf = (DbPersistenceServiceFactory) jbpmContext.getJbpmConfiguration()
+               .getServiceFactory(Services.SERVICENAME_PERSISTENCE);
+         if ( dpsf.isTransactionEnabled() )
+         {
+            jbpmContext.setRollbackOnly();
+         }
       }
       else 
       {
