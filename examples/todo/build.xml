@@ -26,7 +26,6 @@
     <fileset id="example.ejb3.root"
             dir="resources">
         <include name="seam.properties"/>
-    	<include name="hibernate.cfg.xml"/>
     </fileset>
 
     <!-- EAR -->
@@ -34,6 +33,7 @@
     	    dir="resources">
     	<include name="todo.jpdl.xml"/>
     	<include name="jbpm.cfg.xml"/>
+    	<include name="hibernate.cfg.xml"/>
         <include name="META-INF/*"/>
     </zipfileset>
 
