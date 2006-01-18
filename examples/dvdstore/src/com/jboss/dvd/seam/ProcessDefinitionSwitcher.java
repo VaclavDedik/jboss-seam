@@ -36,7 +36,7 @@ public class ProcessDefinitionSwitcher
        List<SelectItem> result = new ArrayList<SelectItem>();
        for (String def: ORDER_DEFS)
        {
-          result.add( new SelectItem(def, def.substring(5, def.length()-4)) );
+          result.add( new SelectItem(def, def.substring(0, def.length()-9)) );
        }
        return result;
     }
