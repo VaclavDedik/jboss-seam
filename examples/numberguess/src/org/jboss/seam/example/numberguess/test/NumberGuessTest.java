@@ -210,7 +210,7 @@ public class NumberGuessTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Jbpm");
-      initParams.put(Jbpm.PAGEFLOW_DEFINITIONS, "jbpm-pageflow.xml");
+      initParams.put(Jbpm.PAGEFLOW_DEFINITIONS, "pageflow.jpdl.xml");
    }
    
 }

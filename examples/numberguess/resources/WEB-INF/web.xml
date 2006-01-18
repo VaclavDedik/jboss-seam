@@ -27,7 +27,7 @@
 
     <context-param>
         <param-name>org.jboss.seam.core.jbpm.pageflowDefinitions</param-name>
-        <param-value>jbpm-pageflow.xml</param-value>
+        <param-value>pageflow.jpdl.xml</param-value>
     </context-param>
     
     <!-- MyFaces -->

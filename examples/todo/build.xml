@@ -32,7 +32,7 @@
     <!-- EAR -->
     <zipfileset id="example.ear.resources"
     	    dir="resources">
-    	<include name="jbpm-todo.xml"/>
+    	<include name="todo.jpdl.xml"/>
     	<include name="jbpm.cfg.xml"/>
         <include name="META-INF/*"/>
     </zipfileset>

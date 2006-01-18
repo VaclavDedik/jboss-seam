@@ -27,7 +27,7 @@
 
     <context-param>
         <param-name>org.jboss.seam.core.jbpm.processDefinitions</param-name>
-        <param-value>jbpm-todo.xml</param-value>
+        <param-value>todo.jpdl.xml</param-value>
     </context-param>
     
     <!-- MyFaces -->

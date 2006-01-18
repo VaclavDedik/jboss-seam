@@ -79,7 +79,7 @@
                 <include name="jboss-app.xml" />
             </metainf>                
             <fileset dir="dd/ear">
-                <include name="jbpm-*.xml"/>
+                <include name="*.jpdl.xml"/>
             	<include name="jbpm.cfg.xml"/>
             </fileset>
 

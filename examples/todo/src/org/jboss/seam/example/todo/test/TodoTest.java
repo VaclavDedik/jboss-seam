@@ -14,7 +14,7 @@ public class TodoTest extends SeamTest
    public void initServletContext(Map initParams)
    {
       initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Jbpm");
-      initParams.put(Jbpm.PROCESS_DEFINITIONS, "jbpm-todo.xml");
+      initParams.put(Jbpm.PROCESS_DEFINITIONS, "todo.jpdl.xml");
    }
    
 }

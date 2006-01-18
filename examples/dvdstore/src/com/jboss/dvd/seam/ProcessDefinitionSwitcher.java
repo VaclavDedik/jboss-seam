@@ -20,9 +20,9 @@ import org.jbpm.JbpmContext;
 public class ProcessDefinitionSwitcher
 {
     static final String[] ORDER_DEFS = { 
-          "jbpm-ordermanagement1.xml", 
-          "jbpm-ordermanagement2.xml", 
-          "jbpm-ordermanagement3.xml" 
+          "ordermanagement1.jpdl.xml", 
+          "ordermanagement2.jpdl.xml", 
+          "ordermanagement3.jpdl.xml" 
        };
 
     @In(create=true, value="org.jboss.seam.core.jbpm")
