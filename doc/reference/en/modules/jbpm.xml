@@ -271,7 +271,7 @@
         </para>
         
         <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Jbpm
-org.jboss.seam.core.jbpm.pageflowDefinitions jbpm-pageflow.xml]]></programlisting>
+org.jboss.seam.core.jbpm.pageflowDefinitions pageflow.jpdl.xml]]></programlisting>
 
         <para>
             The first line installs jBPM, the second points to a jPDL-based
@@ -428,7 +428,7 @@ public void begin() { ... }]]></programlisting>
         </para>
         
         <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Jbpm
-org.jboss.seam.core.jbpm.processDefinitions jbpm-todo.xml]]></programlisting>
+org.jboss.seam.core.jbpm.processDefinitions todo.jpdl.xml]]></programlisting>
 
         <para>
             We always need to know what user is currently logged in.
