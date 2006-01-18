@@ -79,17 +79,17 @@ public class Seam
             return null;
          case STATEFUL_SESSION_BEAN:
             Stateful stateful = clazz.getAnnotation(Stateful.class);
-            return stateful.name().equals("") ? 
-                  Strings.unqualify(clazz.getName()) :
-                  stateful.name();
+            return stateful.name().equals("") ? unqualifyClassName(clazz) : stateful.name();
          case STATELESS_SESSION_BEAN:
             Stateless stateless = clazz.getAnnotation(Stateless.class);
-            return stateless.name().equals("") ? 
-                  Strings.unqualify(clazz.getName()) :
-                     stateless.name();
+            return stateless.name().equals("") ? unqualifyClassName(clazz) : stateless.name();
          default:
             throw new IllegalArgumentException();
       }
+   }
+
+   private static String unqualifyClassName(Class<?> clazz) {
+      return Strings.unqualify( Strings.unqualify( clazz.getName() ), '$' );
    }
    
    public static InterceptionType getInterceptionType(Class<?> clazz)

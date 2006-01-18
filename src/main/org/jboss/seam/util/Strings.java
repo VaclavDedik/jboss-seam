@@ -20,7 +20,12 @@ public class Strings
    
    public static String unqualify(String name)
    {
-      return name.substring( name.lastIndexOf('.')+1, name.length() );
+      return unqualify(name, '.');
+   }
+   
+   public static String unqualify(String name, char sep)
+   {
+      return name.substring( name.lastIndexOf(sep)+1, name.length() );
    }
    
    public static boolean isEmptyOrNull(String string)
