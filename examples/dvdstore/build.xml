@@ -34,11 +34,6 @@
                 <include name="el-*.jar" />
                 <include name="jsf-facelets.jar" />
             </lib>
-            <!--
-            <classes dir="${classes.dir}">
-                <include name="**/web/**/*.class" />
-            </classes>
-            -->           
             <fileset dir="${web.dir}"/>
         </war>
     </target>
@@ -54,7 +49,6 @@
             <fileset dir="dd/ejb3">
                 <include name="import.sql"/>
                 <include name="seam.properties"/>
-                <include name="hibernate.cfg.xml" />
             </fileset>
 
             <fileset dir="${classes.dir}">
@@ -81,6 +75,7 @@
             <fileset dir="dd/ear">
                 <include name="*.jpdl.xml"/>
             	<include name="jbpm.cfg.xml"/>
+            	<include name="hibernate.cfg.xml"/>
             </fileset>
 
             <fileset dir="${build.dir}" 
