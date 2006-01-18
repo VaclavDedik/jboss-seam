@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process-diagram name="OrderManagement" width="804" height="704">
-  <node name="start" x="214" y="32" width="140" height="40">
+<process-diagram name="OrderManagement" width="831" height="794">
+  <node name="start" x="52" y="34" width="140" height="40">
     <transition>
       <label x="5" y="-10"/>
     </transition>
   </node>
-  <node name="decide" x="215" y="129" width="140" height="40">
+  <node name="decide" x="53" y="131" width="140" height="40">
     <transition name="large order">
-      <label x="5" y="-10"/>
+      <label x="-6" y="-28"/>
     </transition>
     <transition name="small order">
-      <label x="5" y="-10"/>
+      <label x="-73" y="-59"/>
     </transition>
   </node>
-  <node name="approval" x="99" y="270" width="140" height="40">
+  <node name="approval" x="255" y="238" width="159" height="40">
     <transition name="approve">
-      <label x="5" y="-10"/>
+      <label x="-46" y="-28"/>
     </transition>
     <transition name="reject">
-      <label x="5" y="-10"/>
+      <label x="71" y="-85"/>
     </transition>
   </node>
-  <node name="process" x="327" y="376" width="140" height="40">
+  <node name="process" x="50" y="370" width="148" height="40">
     <transition name="shipped">
-      <label x="5" y="-10"/>
+      <label x="-60" y="4"/>
     </transition>
   </node>
-  <node name="complete" x="216" y="534" width="140" height="40"/>
+  <node name="complete" x="53" y="561" width="140" height="40"/>
 </process-diagram>
