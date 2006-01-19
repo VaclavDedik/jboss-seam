@@ -136,6 +136,18 @@
                             conversation switcher, conversation list, or breadcrumbs.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>redirect()</literal> &mdash; redirect to the last well-defined
+                            view id for this conversation (useful after login challenges).
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>leave()</literal> &mdash; exit the scope of this conversation,
+                            without actually ending the conversation.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
