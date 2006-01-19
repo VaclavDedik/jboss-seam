@@ -61,12 +61,12 @@ How to Build and Deploy the Example on Tomcat
 
 7. Point your web browser to:
 
-   http://localhost:8080/tomcat-seam-booking/
+   http://localhost:8080/jboss-seam-booking/
 
 Running The TestNG Tests
 ------------------------
 
-In the "examples/noejb" directory, type "ant testexample"
+In the "examples/booking" directory, type "ant testexample"
 
 Running the TestNG Tests in Eclipse
 -----------------------------------

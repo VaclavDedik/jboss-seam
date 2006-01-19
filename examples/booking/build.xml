@@ -11,12 +11,14 @@
                dir="resources/view">
         <include name="**/*"/>
     </zipfileset>
+	
     <zipfileset id="example.war.webinf"
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
         <patternset refid="meta.files"/>
-     </zipfileset>
-    <zipfileset id="example.war.webinf.lib"
+    </zipfileset>
+    
+	<zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
                dir="resources/WEB-INF/lib">
         <include name="*.jar"/>
@@ -49,16 +51,37 @@
         <include name="booking-ds.xml"/>
     </fileset>
 	
-	<!-- Test -->
-	<fileset id="example.resources" dir="resources">
-		<include name="**/*.*"/>
-	</fileset>
-
     <!-- Undeploy -->
     <patternset id="example.undeploy">
         <include name="booking-ds.xml"/>
     </patternset>
 
+	<!-- Test -->
+	<fileset id="example.resources" dir="resources">
+		<include name="**/*.*"/>
+	</fileset>
+
+    <!-- Tomcat build -->
+    <fileset id="example.tomcat.war.webinf"
+            dir="resources/WEB-INF" >
+        <include name="faces-config.xml"/>
+    	<include name="pages.xml"/>
+    </fileset>
+    
+    <fileset id="example.tomcat.war.webinf.extra"
+            dir="resources/conf.tomcat">
+        <include name="web.xml"/>
+    </fileset>
+    
+    <fileset id="example.tomcat.jar"
+            dir="resources">
+     	<include name="seam.properties"/>
+        <include name="META-INF/persistence.xml"/>
+        <include name="import.sql"/>
+        <include name="seam-jndi.properties"/>
+        <include name="META-INF/jboss-beans.xml"/> <!-- TODO: move out of META-INF -->
+    </fileset>
+    
     <!-- Overrides -->
     <property name="src.java.dir" value="src"/>
 	<property name="src.test.dir" value="src"/>
@@ -70,5 +93,5 @@
     <target name="deploy" depends="ear">
         <antcall target="Seam.deploy"/>
     </target>
-    
+	
 </project>
