@@ -52,7 +52,7 @@
     </fileset>
     
     <fileset id="example.tomcat.war.webinf.extra"
-            dir="resources/conf.tomcat">
+            dir="resources/tomcat">
         <include name="web.xml"/>
     </fileset>
     
