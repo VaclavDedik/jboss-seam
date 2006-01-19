@@ -44,6 +44,28 @@
         <exclude name="persistence.xml"/>
     </zipfileset>
 
+    <!-- Tomcat build -->
+    <fileset id="example.tomcat.war.webinf"
+            dir="resources/WEB-INF" >
+        <include name="faces-config.xml"/>
+        <include name="pages.xml"/>
+    	<include name="classes/messages.properties"/>
+    </fileset>
+    
+    <fileset id="example.tomcat.war.webinf.extra"
+            dir="resources/tomcat">
+        <include name="web.xml"/>
+    </fileset>
+    
+    <fileset id="example.tomcat.jar"
+            dir="resources">
+        <include name="seam.properties"/>
+        <include name="META-INF/persistence.xml"/>
+        <include name="import.sql"/>
+        <include name="seam-jndi.properties"/>
+        <include name="META-INF/jboss-beans.xml"/> <!-- TODO: move out of META-INF -->
+    </fileset>
+    
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
@@ -58,13 +80,10 @@
     <!-- Overrides -->
     <property name="src.java.dir" value="src"/>
 	<property name="src.test.dir" value="src"/>
+    <property name="tomcat.conf" value="eejb.conf"/>
+    <property name="tomcat.lib" value="eejb.lib"/>
 	
     <import file="../../build.xml"/>
-
-    <!-- Redefine targets -->
-    <target name="deploy" depends="ear">
-        <antcall target="Seam.deploy"/>
-    </target>
     
 </project>
 

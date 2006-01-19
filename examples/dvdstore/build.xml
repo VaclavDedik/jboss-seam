@@ -63,8 +63,6 @@
         </jar>
     </target>
 
-
-
     <target name="ear" depends="war,ejb3jar">
         <mkdir dir="${build.dir}"/>
         <ear destfile="${build.dir}/dvd.ear" 
@@ -85,20 +83,11 @@
         </ear>
     </target>
 
-    <target name="deploy" depends="ear">
-        <antcall target="Seam.deploy"/>
-    </target>
-
-    <target name="undeploy">
-        <antcall target="Seam.undeploy"/>
-    </target>
-
-
     <target name="deploy.par">
         <taskdef name="deploypar" classname="org.jbpm.jpdl.par.ProcessArchiveDeployer">
             <classpath> 
                 <path refid="build.classpath" />
-                <fileset dir="/Users/orb/proj/jboss/jboss-head/build/output/jboss-5.0.0alpha/lib/">
+                <fileset dir="${jboss.home}/lib/">
                     <include name="commons-logging.jar" />
                 </fileset>
             </classpath>

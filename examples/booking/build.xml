@@ -90,10 +90,5 @@
     <property name="tomcat.lib" value="eejb.lib"/>
 
     <import file="../../build.xml"/>
-
-    <!-- Redefine targets -->
-    <target name="deploy" depends="ear">
-        <antcall target="Seam.deploy"/>
-    </target>
     
 </project>

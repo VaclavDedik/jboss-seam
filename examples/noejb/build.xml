@@ -124,11 +124,13 @@
         <antcall target="Seam.war"/>
     </target>
     
-    <target name="deploy" depends="war">
+    <target name="deploy" depends="war"
+            description="Deploy the example war to JBoss">
         <antcall target="Seam.deploy"><param name="unit.ext" value="war"/></antcall>
     </target>
 
-    <target name="undeploy">
+    <target name="undeploy"
+    	    description="Undeploy the example war from JBoss">
         <antcall target="Seam.undeploy"><param name="unit.ext" value="war"/></antcall>
     </target>
 
