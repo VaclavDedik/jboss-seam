@@ -140,8 +140,23 @@
     </target>
 
     <target name="cleandist"
-            description="Cleans up the dist and directory">
+            description="Cleans up the dist directory">
         <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="cleanall"
+            depends="clean,cleandist"
+            description="Cleans up everything">
+
+        <ant dir="examples/booking" target="clean" inheritall="false"/>
+        <ant dir="examples/noejb" target="clean" inheritall="false"/>
+        <ant dir="examples/issues" target="clean" inheritall="false"/>
+        <ant dir="examples/dvdstore" target="clean" inheritall="false"/>
+        <ant dir="examples/messages" target="clean" inheritall="false"/>
+        <ant dir="examples/numberguess" target="clean" inheritall="false"/>
+        <ant dir="examples/registration" target="clean" inheritall="false"/>
+        <ant dir="examples/todo" target="clean" inheritall="false"/>
+
     </target>
 
     <target name="init"
@@ -197,7 +212,7 @@
     <ant dir="examples/messages" target="testexample" inheritall="false"/>
     <ant dir="examples/numberguess" target="testexample" inheritall="false"/>
     <ant dir="examples/registration" target="testexample" inheritall="false"/>
-    <ant dir="examples/todo" target="testexample" inheritall="false"/>
+    <!--ant dir="examples/todo" target="testexample" inheritall="false"/-->
     
 
     <junitreport>
