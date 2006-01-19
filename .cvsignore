@@ -5,3 +5,4 @@ build
 output
 jboss-seam.jar
 test-output
+report
