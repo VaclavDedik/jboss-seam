@@ -33,8 +33,8 @@ How to Build and Deploy the Example on JBoss AS
       <param-value>jsf-libs/tomahawk.jar</param-value>
    </init-param> 	
 
-4. Edit the "examples/issues/build.properties" file and change 
-   jboss.home to your JBoss AS installation directory
+4. Edit the "build.properties" file and change jboss.home to 
+   your JBoss AS installation directory
 
 5. Build Seam by running "ant" the Seam root directory
 

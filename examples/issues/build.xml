@@ -2,58 +2,42 @@
 
 <project name="Issues" default="deploy" basedir=".">
 
-
-    <!-- Allow this to be overriden by others importing this project. -->
-    <dirname property="imported.basedir" file="${ant.file.Seam}"/>
-
-    <!-- Give user a chance to override without editing this file or typing -D -->
-    <property file="${imported.basedir}/build.properties"/>
-
-    <!-- Name of project and version, used to create filenames -->
-    <property name="Name"               value="Seam Issue Tracker"/>
-    <property name="name"               value="jboss-seam-issues"/>
-
-    <!-- set global properties for this build -->
-    <property name="build.dir"          value="build"/>
-    <property name="classes.dir"        value="${build.dir}/classes"/>
-
-    <property name="src.java.dir"       value="src"/>
-    <property name="lib.dir"            value="../../lib"/>
-
-    <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
-
-    <property name="javac.debug"        value="true"/>
-    <property name="javac.deprecation"  value="false"/>
+    <!-- Naming -->
+    <property name="Name"               value="Seam Issue Tracker Example"/>
+    <property name="example.name"       value="jboss-seam-issues"/>
 
     <!-- WAR -->
-    <zipfileset id="war.docroot"
+    <zipfileset id="example.war.docroot"
                dir="resources/jsp">
         <include name="**/*"/>
     </zipfileset>
-    <zipfileset id="war.webinf"
+	
+    <zipfileset id="example.war.webinf"
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
         <patternset refid="meta.files"/>
-     </zipfileset>
-    <zipfileset id="war.webinf.lib"
+    </zipfileset>
+	
+    <zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
                dir="resources/WEB-INF/lib">
         <include name="*.jar"/>
     </zipfileset>
 
     <!-- EJB3 -->
-    <fileset id="ejb3.root"
+    <fileset id="example.ejb3.root"
             dir="resources">
         <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
     </fileset>
-    <fileset id="ejb3.lib" dir="../..">
-        <include name="jboss-seam.jar"/>
+	
+    <fileset id="example.ejb3.lib" dir="../../lib">
+        <include name="_NONE_"/>
     </fileset>
   
     <!-- EAR -->
-    <zipfileset id="ear.resources"
+    <zipfileset id="example.ear.resources"
             prefix="META-INF"
                dir="resources/META-INF">
         <include name="*"/>
@@ -61,124 +45,26 @@
     </zipfileset>
 
     <!-- Deploy -->
-    <fileset id="deploy"
+    <fileset id="example.deploy"
             dir="resources">
         <include name="issues-ds.xml"/>
     </fileset>
 
     <!-- Undeploy -->
-    <patternset id="undeploy">
+    <patternset id="example.undeploy">
         <include name="issues-ds.xml"/>
     </patternset>
 
-    <path id="build.classpath">
-        <fileset dir="${lib.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="../..">
-            <include name="jboss-seam.jar"/>
-        </fileset>
-    </path>
+    <!-- Overrides -->
+    <property name="src.java.dir" value="src"/>
+	<property name="src.test.dir" value="src"/>
+	
+    <import file="../../build.xml"/>
 
-    <patternset id="meta.files">
-        <include name="**/*.dtd"/>
-        <include name="**/*.xml"/>
-        <include name="**/*.xslt"/>
-        <include name="**/*.properties"/>
-    </patternset>
-
-    <patternset id="src.files">
-        <!-- include everything we want in the src directory
-            that we didn't want in the jar itself -->
-        <include name="**/*.java"/>
-    </patternset>
-
-    <target name="clean"
-            description="Cleans up the build directory">
-        <delete dir="${build.dir}"/>
-    </target>
-
-    <target name="init"
-            description="Initialize the build">
-        <echo message="Build ${Name}"/>
-        <mkdir dir="${classes.dir}"/>
-        <copy todir="${classes.dir}">
-            <fileset dir="${src.java.dir}">
-                <patternset refid="meta.files"/>
-            </fileset>
-        </copy>
-    </target>
-
-    <target name="compile" depends="init"
-            description="Compile the Java source code">
-        <javac
-            destdir="${classes.dir}"
-            classpathref="build.classpath"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            nowarn="on">
-            <src path="${src.java.dir}"/>
-        </javac>
-
-    </target>
-
-    <target name="war" depends="compile">
-        <jar destfile="${build.dir}/${name}.war">
-            <zipfileset refid="war.docroot"/>
-            <zipfileset refid="war.webinf"/>
-            <zipfileset refid="war.webinf.lib"/>
-        </jar>
-    </target>
-
-    <target name="ejb3" depends="compile">
-        <jar jarfile="${build.dir}/${name}.jar">
-            <fileset dir="${imported.basedir}">
-                <include name="${name}.jar"/>
-            </fileset>
-            <fileset dir="${classes.dir}">
-                <include name="**/*.class"/>
-            	<exclude name="**/test/*.class"/>
-            </fileset>
-            <fileset refid="ejb3.root"/>
-            <fileset refid="ejb3.lib"/>
-        </jar>
-    </target>
-
-    <target name="ear" depends="ejb3, war">
-        <jar destfile="${build.dir}/${name}.ear">
-            <zipfileset dir="${build.dir}">
-                <include name="${name}.jar"/>
-            </zipfileset>
-            <zipfileset dir="${build.dir}">
-                <include name="${name}.war"/>
-            </zipfileset>
-            <zipfileset refid="ear.resources"/>
-        </jar>
-    </target>
-
+    <!-- Redefine targets -->
     <target name="deploy" depends="ear">
-        <property name="unit.ext" value="ear"/>
-        <fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
-        <copy todir="${deploy.dir}">
-            <fileset refid="deploy"/>
-        </copy>
-        <copy file="${build.dir}/${name}.${unit.ext}" todir="${deploy.dir}"/>
+        <antcall target="Seam.deploy"/>
     </target>
-
-    <target name="undeploy">
-        <property name="unit.ext" value="ear"/>
-        <delete file="${deploy.dir}/${name}.${unit.ext}"/>
-        <delete>
-            <fileset dir="${deploy.dir}">
-                <patternset refid="undeploy"/>
-            </fileset>
-        </delete>
-    </target>
-
-    <target name="cleandb">
-        <delete dir="${deploy.dir}/../data/hypersonic"/>
-    </target>
-
-
+    
 </project>
 
