@@ -31,6 +31,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Name("projectEditor")
 @Stateful
 @Interceptors(SeamInterceptor.class)
+@CheckLoggedIn
 public class ProjectEditorBean implements ProjectEditor {
 
     @In(create=true)
@@ -61,8 +62,8 @@ public class ProjectEditorBean implements ProjectEditor {
     @In
     private transient ResourceBundle resourceBundle;
     
-    @Begin
     @LoggedIn
+    @Begin(join=true)
     @IfInvalid(outcome=Outcome.REDISPLAY)
     public String create() {
        if ( entityManager.find(Project.class, project.getName())!=null )
@@ -81,9 +82,18 @@ public class ProjectEditorBean implements ProjectEditor {
        return "editProject";
     }
     
+    @LoggedIn
+    @Begin
+    public String createProject() {
+       isNew = true;
+       project = new Project();
+       return "editProject";
+    }
+    
     @TransactionAttribute(NOT_SUPPORTED)
     public String getDescription() {
-       return "Project [" + project.getName() + "]";
+       return project.getName()==null ? 
+             "New Project" : "Project [" + project.getName() + "]";
     }
 
     @LoggedIn
@@ -96,9 +106,22 @@ public class ProjectEditorBean implements ProjectEditor {
     @End
     @LoggedIn
     public String delete() {
-       entityManager.remove(project);
-       refreshFinder();
-       return "home";
+       if ( project.getIssues().isEmpty() )
+       {
+          entityManager.remove(project);
+          refreshFinder();
+          return "home";
+       }
+       else
+       {
+          FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(
+                      resourceBundle.getString("Project_name") + " " +
+                      resourceBundle.getString("HasIssues")
+                   )
+             );
+          return null;
+       }
     }
 
     @End

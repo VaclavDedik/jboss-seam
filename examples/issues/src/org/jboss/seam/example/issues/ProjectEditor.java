@@ -17,6 +17,8 @@ public interface ProjectEditor {
    public String update();
    public String delete();
    public String create();
+   
+   public String createProject();
 
    public Issue getSelectedIssue();
    

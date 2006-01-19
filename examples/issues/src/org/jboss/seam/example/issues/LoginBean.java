@@ -58,8 +58,9 @@ public class LoginBean implements Login {
     
     public String logout()
     {
+       Contexts.getSessionContext().remove("loggedIn");
        Seam.invalidateSession();
-       return "login";
+       return "home";
     }
 
 }
