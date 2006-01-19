@@ -309,6 +309,10 @@
             	<include name="todo/**/*"/>
             	<include name="numberguess/**/*"/>
                 <include name="readme.txt"/>
+            	<exclude name="*/build"/>
+            	<exclude name="*/build/**/*"/>
+            	<exclude name="*/test-output"/>
+            	<exclude name="*/test-output/**/*"/>
             </fileset>
         </copy>
     </target>
