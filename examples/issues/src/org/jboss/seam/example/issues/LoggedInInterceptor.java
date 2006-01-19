@@ -11,7 +11,6 @@ import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
@@ -37,7 +36,7 @@ public class LoggedInInterceptor
          }
          else 
          {
-            Manager.instance().leaveConversation();
+            //Conversation.instance().leave();
             return "login";
          }
       }

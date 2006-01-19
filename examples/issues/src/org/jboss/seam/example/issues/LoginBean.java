@@ -16,6 +16,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Name("login")
@@ -26,6 +27,9 @@ public class LoginBean implements Login {
 
     @In(create=true)
     private EntityManager entityManager;
+    
+    @In(create=true)
+    private Conversation conversation;
 
     private User instance = new User();
     
@@ -52,7 +56,8 @@ public class LoginBean implements Login {
        {
           Contexts.getSessionContext().set("loggedIn", true);
           instance = (User) results.get(0);
-          return "home";
+          String outcome = conversation.redirect();
+          return outcome==null ? "home" : outcome;
        }
     }
     
