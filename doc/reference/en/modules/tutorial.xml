@@ -17,7 +17,13 @@
     <itemizedlist>
         <listitem>
           <para>
-              Resources, such as deployment descriptors and web pages may be found in
+              Web pages, images and stylesheets may be found in
+              <filename>examples/<replaceable>registration</replaceable>/view</filename>
+           </para>
+        </listitem>
+        <listitem>
+          <para>
+              Resources such as deployment descriptors and data import scripts may be found in
               <filename>examples/<replaceable>registration</replaceable>/resources</filename>
            </para>
         </listitem>
@@ -2363,6 +2369,20 @@ public class HotelBookingAction implements HotelBooking, Serializable
             and destroy its state.
         </para>
     </section>
+    
+    <section>
+        <title>Tomcat deployment</title>
+        <para>
+            This example may be deployed to Tomcat by setting <literal>tomcat.home</literal> to point
+            to your Tomcat installation directory and typing <literal>ant deploy.tomcat</literal> in
+            the <literal>examples/booking</literal> directory. Then, start Tomcat and point your
+            browser at <ulink url="http://localhost:8080/jboss-seam-booking/"><literal>http://localhost:8080/jboss-seam-booking/</literal></ulink>.
+        </para>
+        <para>
+            When you deploy the application to Tomcat, the EJB3 components will run inside the JBoss 
+            Embeddable EJB3 container, a complete standalone EJB3 container environment.
+        </para>
+    </section>
 
   </section>
 
@@ -2438,7 +2458,14 @@ public class HotelBookingAction implements HotelBooking, Serializable
   </section>
   
   <section id="noejb">
-      <title>An example of Seam with Hibernate: the Hibernate booking example</title>
+      <title>An example of Seam with Hibernate: the Hibernate Booking example</title>
+      
+      <para>
+          The Hibernate Booking demo is a straight port of the Booking demo to an
+          alternative architecture that uses Hibernate for persistence and JavaBeans
+          instead of session beans.
+      </para>
+      
       <para>TODO</para>
       <para>Look in the <literal>noejb</literal> directory.</para>
   </section>
