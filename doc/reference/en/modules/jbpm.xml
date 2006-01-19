@@ -40,6 +40,14 @@
     </itemizedlist>
     
     <para>
+        Don't get these two things confused! They operate at very different levels
+        or granularity. "Pageflow", "conversation" and "task" all refer to a single
+        interaction with a single user. A business process spans many tasks.
+        Futhermore, the two applications of jBPM are totally orthogonal. You can
+        use them together or independently or not at all.
+    </para>
+    
+    <para>
         You don't have to know jDPL to use Seam. If you're perfectly happy defining
         pageflow using JSF's navigation rules, and if your application is more 
         data-driven that process-driven, you probably don't need jBPM. But we're
@@ -231,7 +239,7 @@
 	        close to impossible to do! However, our experience is that in 
 	        the context of Seam, where there is a well-defined conversational
 	        model, backed by stateful session beans, it is actually quite 
-	        straightforward. Usually it is as simply as combining the use 
+	        straightforward. Usually it is as simple as combining the use 
 	        of the <literal>@Conversational</literal> annotation with null 
 	        checks at the beginning of action listener methods. We consider
 	        support for freeform navigation with the back button to be a
