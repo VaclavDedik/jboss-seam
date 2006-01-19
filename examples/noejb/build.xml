@@ -5,24 +5,26 @@
     <!-- Naming -->
     <property name="Name"                   value="Seam on JBoss Hibernate3 Example"/>
     <property name="example.name"           value="jboss-seam-noejb"/>
-	
+    
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="resources/view">
         <include name="**/*"/>
     </zipfileset>
+	
     <zipfileset id="example.war.webinf"
             prefix="WEB-INF"
-               dir="${build.dir}/resources/WEB-INF" >
-    	<include name="**/*"/>
-    	<exclude name="lib/**/*"/>
-    </zipfileset>
-    <zipfileset id="example.war.webinf.lib"
-            prefix="WEB-INF/lib"
-               dir="${build.dir}/resources/WEB-INF/lib/">
-        <include name="*.jar"/>
+               dir="resources/WEB-INF" >
+        <include name="**/*"/>
+        <exclude name="lib/**/*"/>
     </zipfileset>
 	
+    <zipfileset id="example.war.webinf.lib"
+            prefix="WEB-INF/lib"
+               dir="resources/WEB-INF/lib/">
+        <include name="*.jar"/>
+    </zipfileset>
+    
     <!-- EJB3 -->
     <fileset id="example.ejb3.root" dir=".">
         <include name="_NONE_"/>
@@ -37,16 +39,37 @@
         <include name="_NONE_"/>
     </zipfileset>
 
+    <!-- Test -->
+    <fileset id="example.resources" dir="resources">
+        <include name="**/*.*"/>
+    </fileset>
+
+    <!-- Tomcat build -->
+    <fileset id="example.tomcat.war.webinf"
+            dir="resources/WEB-INF" >
+        <include name="faces-config.xml"/>
+        <include name="pages.xml"/>
+    </fileset>
+    
+    <fileset id="example.tomcat.war.webinf.extra"
+            dir="resources/conf.tomcat">
+        <include name="web.xml"/>
+    </fileset>
+    
+    <fileset id="example.tomcat.jar"
+            dir="resources">
+        <include name="seam.properties"/>
+        <include name="hibernate.cfg.xml"/>
+        <include name="import.sql"/>
+        <include name="seam-jndi.properties"/>
+        <include name="jboss-beans.xml"/>
+    </fileset>
+    
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
         <include name="noejb-ds.xml"/>
     </fileset>
-
-	<!-- Test -->
-	<fileset id="example.resources" dir="resources">
-		<include name="**/*.*"/>
-	</fileset>
 
     <!-- Undeploy -->
     <patternset id="example.undeploy">
@@ -55,47 +78,52 @@
 
     <!-- Overrides -->
     <property name="src.java.dir" value="src"/>
-	<property name="src.test.dir" value="src"/>
-	<property name="test.classpath" value="test.mc.classpath"/>
+    <property name="src.test.dir" value="src"/>
+    <property name="test.classpath" value="test.mc.classpath"/>
+    <property name="tomcat.conf" value="mc.conf"/>
+    <property name="tomcat.lib" value="mc.lib"/>
 
     <import file="../../build.xml"/>
 
     <!-- Redefine targets -->
     <target name="war" depends="compile">
-    	<mkdir dir="${build.dir}/resources/WEB-INF/lib/"/>
-        <jar jarfile="${build.dir}/resources/WEB-INF/lib/${example.name}.jar">
-          <fileset dir="${classes.dir}">
-            <include name="**/*.class"/>
-          	<exclude name="**/test/*.class"/>
-          </fileset>
+        <mkdir dir="${build.dir}/resources/WEB-INF/lib/"/>
+        
+    	<jar jarfile="${build.dir}/resources/WEB-INF/lib/${example.name}.jar">
+          <fileset refid="example.classes"/>
           <fileset dir="resources">
             <include name="seam.properties"/>
           </fileset>
         </jar>
+    	
         <copy todir="${build.dir}/resources/WEB-INF">
           <fileset dir="resources/WEB-INF">
             <include name="web.xml"/>
-          	<include name="pages.xml"/>
-    	    <include name="jboss-web.xml"/>
-    	    <include name="faces-config.xml"/>
-    	    <include name="**/*.properties"/>
+            <include name="pages.xml"/>
+            <include name="jboss-web.xml"/>
+            <include name="faces-config.xml"/>
           </fileset>
         </copy>
+    	
         <copy todir="${build.dir}/resources/WEB-INF/classes">
           <fileset dir="resources">
             <include name="import.sql"/>
             <include name="hibernate.cfg.xml"/>
           </fileset>
         </copy>
-        <copy file="${imported.basedir}/${name}.jar" todir="${build.dir}/resources/WEB-INF/lib/"/>
-    	<copy todir="${build.dir}/resources/WEB-INF/lib/">
-    		<fileset dir="resources/WEB-INF/lib/">
-    			<include name="*.jar"/>
-    		</fileset>
-    	</copy>
+    	
+        <copy file="${imported.basedir}/${name}.jar" 
+             todir="${build.dir}/resources/WEB-INF/lib/"/>
+    	
+        <copy todir="${build.dir}/resources/WEB-INF/lib/">
+            <fileset dir="resources/WEB-INF/lib/">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+    	
         <antcall target="Seam.war"/>
     </target>
-	
+    
     <target name="deploy" depends="war">
         <antcall target="Seam.deploy"><param name="unit.ext" value="war"/></antcall>
     </target>

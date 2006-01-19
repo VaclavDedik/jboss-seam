@@ -29,7 +29,7 @@ How to Build and Deploy the Example on Tomcat
 
 7. Point your web browser to:
 
-   http://localhost:8080/tomcat-seam-noejb/
+   http://localhost:8080/jboss-seam-noejb/
 
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------

@@ -85,9 +85,6 @@
         </ear>
     </target>
 
-
-
-
     <target name="deploy" depends="ear">
         <antcall target="Seam.deploy"/>
     </target>
