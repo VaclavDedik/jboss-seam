@@ -11,8 +11,8 @@
 </div>
 <div class="section">
     <h:form>
-        <a href="main.seam">New workspace</a>
-        (<a href="#" onClick="window.open('main2Exp.html','exp','width=752,height=500,scrollbars=yes');">What is it?</a>)
+        <a href="main.seam">New workspace</a> | <a href="main.seam" target="_new">New window</a> |
+        <a href="#" onClick="window.open('main2Exp.html','exp','width=752,height=500,scrollbars=yes');">What is it?</a>
         <h:dataTable value="#{conversationList}" var="entry">
             <h:column>
                 <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
