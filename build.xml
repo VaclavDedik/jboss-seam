@@ -19,7 +19,7 @@
     <property name="classes.dir"        value="${build.dir}/classes"/>
 
     <property name="src.java.dir"       value="src/main"/>
-	<property name="src.test.dir"       value="src/test"/>
+    <property name="src.test.dir"       value="src/test"/>
 
     <property name="lib.dir"            value="${imported.basedir}/lib"/>
     <property name="eejb.lib.dir"       value="${imported.basedir}/embedded-ejb/lib"/>
@@ -44,56 +44,80 @@
     <property name="dist.mc.conf.dir"   value="${dist.dir}/microcontainer/conf"/>
 
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
-	
-	<property name="testng.jar"         value="${imported.basedir}/lib/testng-2.5.3-jdk15.jar"/>
+    
+    <property name="testng.jar"         value="${imported.basedir}/lib/testng-2.5.3-jdk15.jar"/>
 
     <property name="javac.debug"        value="true"/>
     <property name="javac.deprecation"  value="false"/>
 
     <path id="example.path" />
+    
+    <fileset id="lib" 
+            dir="${lib.dir}">
+        <include name="**/*.jar"/>
+    </fileset>
+    
+    <fileset id="seam.jar" 
+            dir="${imported.basedir}">
+        <include name="${name}.jar" />
+    </fileset>
+    
 
     <path id="build.classpath">
         <path refid="example.path"/>
-        <fileset dir="${lib.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${imported.basedir}">
-            <include name="${name}.jar" />
-        </fileset>
+        <fileset refid="lib"/>
+        <fileset refid="seam.jar"/>
     </path>
-	
-	<property name="test.classpath" value="test.classpath"/>
+    
+    <property name="test.classpath" value="test.classpath"/>
 
+    <fileset id="eejb.lib"
+            dir="${eejb.lib.dir}">
+      <include name="**/*.jar"/>
+    </fileset>
+    
+    <fileset id="mc.lib"
+            dir="${mc.lib.dir}">
+      <include name="**/*.jar"/>
+    </fileset>
+    
     <path id="test.classpath">
         <path refid="build.classpath"/>
-        <fileset dir="${mc.lib.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
+        <fileset refid="mc.lib"/>
      </path>
-
-	<path id="test.mc.classpath">
+    
+    <path id="test.mc.classpath">
         <path refid="build.classpath"/>
-    	<path path="${mc.conf.dir}"/>
-        <fileset dir="${mc.lib.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
+        <path path="${mc.conf.dir}"/>
+        <fileset refid="mc.lib"/>
      </path>
 
-	<path id="test.eejb.classpath">
+    <path id="test.eejb.classpath">
         <path refid="build.classpath"/>
-    	<path path="${eejb.conf.dir}"/>
-        <fileset dir="${eejb.lib.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
+        <path path="${eejb.conf.dir}"/>
+        <fileset refid="eejb.lib"/>
      </path>
 
+    <fileset id="eejb.conf" 
+            dir="${eejb.conf.dir}">
+        <include name="ejb3-interceptors-aop.xml"/>
+        <include name="embedded-jboss-beans.xml"/>
+        <include name="default.persistence.properties"/>
+        <include name="log4j.xml"/>
+    </fileset>
+    
+    <fileset id="mc.conf" 
+            dir="${mc.conf.dir}">
+        <include name="log4j.xml"/>
+    </fileset>
+    
     <patternset id="meta.files">
         <include name="**/*.dtd"/>
         <include name="**/*.xml"/>
         <include name="**/*.xslt"/>
         <include name="**/*.properties"/>
     </patternset>
-		
+        
     <patternset id="src.files">
         <!-- include everything we want in the src directory
             that we didn't want in the jar itself -->
@@ -112,7 +136,7 @@
     <target name="clean"
             description="Cleans up the build directory">
         <delete dir="${build.dir}"/>
-    	<delete dir="test-output"/>
+        <delete dir="test-output"/>
     </target>
 
     <target name="cleandist"
@@ -140,48 +164,48 @@
             deprecation="${javac.deprecation}"
             nowarn="on">
             <src path="${src.java.dir}"/>
-        	<src path="${src.test.dir}"/>
+            <src path="${src.test.dir}"/>
         </javac>
 
     </target>
-	
-	<target name="test" depends="compile"
-	        description="Run the tests">
-		
-		<taskdef resource="testngtasks"
-		         classpath="${testng.jar}"/>
-		
-		<copy todir="${build.dir}/test" >
-			<fileset dir="${classes.dir}" includes="**/*.*"/>
-		</copy>
-		
-		<testng>
-			<classpath path="${build.dir}/test"/>
-			<classpath refid="test.classpath"/>
-			<xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
-		</testng>
-			
-	</target>
+    
+    <target name="test" depends="compile"
+            description="Run the tests">
+        
+        <taskdef resource="testngtasks"
+                 classpath="${testng.jar}"/>
+        
+        <copy todir="${build.dir}/test" >
+            <fileset dir="${classes.dir}" includes="**/*.*"/>
+        </copy>
+        
+        <testng>
+            <classpath path="${build.dir}/test"/>
+            <classpath refid="test.classpath"/>
+            <xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
+        </testng>
+            
+    </target>
 
-	<target name="testexample" depends="compile"
-	        description="Run the example tests">
-		
-		<taskdef resource="testngtasks"
-		         classpath="${testng.jar}"/>
-		
-		<copy todir="${build.dir}/test" >
-			<fileset dir="${classes.dir}" includes="**/*.*"/>
-			<fileset refid="example.resources"/>
-		</copy>
-		
-		<testng>
-			<classpath path="${build.dir}/test"/>
-			<classpath path="${mc.conf.dir}"/>
-			<classpath refid="${test.classpath}"/>
-			<xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
-		</testng>
-			
-	</target>
+    <target name="testexample" depends="compile"
+            description="Run the example tests">
+        
+        <taskdef resource="testngtasks"
+                 classpath="${testng.jar}"/>
+        
+        <copy todir="${build.dir}/test" >
+            <fileset dir="${classes.dir}" includes="**/*.*"/>
+            <fileset refid="example.resources"/>
+        </copy>
+        
+        <testng>
+            <classpath path="${build.dir}/test"/>
+            <classpath path="${mc.conf.dir}"/>
+            <classpath refid="${test.classpath}"/>
+            <xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
+        </testng>
+            
+    </target>
 
     <target name="copysource" description="Copy sources to dist dir">
         <mkdir dir="${dist.src.java.dir}"/>
@@ -245,7 +269,7 @@
         <mkdir dir="${dist.dir}"/>
         <jar jarfile="${basedir}/${name}.jar" basedir="${classes.dir}">
             <include name="org/jboss/seam/**/*.class"/>
-        	<exclude name="**/test/*.class"/>
+            <exclude name="**/test/*.class"/>
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
@@ -316,6 +340,12 @@
     </target>
 
     <!-- ############################ Examples #############################-->
+    
+    <fileset id="example.classes"
+             dir="${classes.dir}">
+        <include name="**/*.class"/>
+        <exclude name="**/test/*.class"/>
+    </fileset>
 
     <target name="war" depends="compile">
         <jar destfile="${build.dir}/${example.name}.war">
@@ -327,13 +357,8 @@
 
     <target name="ejb3" depends="compile">
         <jar jarfile="${build.dir}/${example.name}.jar">
-            <fileset dir="${imported.basedir}">
-                <include name="${name}.jar"/>
-            </fileset>
-            <fileset dir="${classes.dir}">
-                <include name="**/*.class"/>
-            	<exclude name="**/test/*.class"/>
-            </fileset>
+            <fileset refid="seam.jar"/>
+            <fileset refid="example.classes"/>
             <fileset refid="example.ejb3.root"/>
             <fileset refid="example.ejb3.lib"/>
         </jar>
@@ -374,4 +399,55 @@
         <delete dir="${deploy.dir}/../data/hypersonic"/>
     </target>
 
+    <!-- ############################ Tomcat! #############################-->
+
+     <target name="war.tomcat" depends="compile">
+        <mkdir dir="${build.dir}/${example.name}/WEB-INF/lib"/>
+        
+        <jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/${example.name}.jar">
+            <fileset refid="example.classes"/>
+            <fileset refid="example.tomcat.jar"/>
+        </jar>
+        
+        <jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/mc-conf.jar">
+            <fileset refid="${tomcat.conf}"/>
+        </jar>
+        
+        <copy todir="${build.dir}/${example.name}">
+          <fileset refid="example.war.docroot"/>
+        </copy>
+        
+        <copy todir="${build.dir}/${example.name}/WEB-INF/lib">
+          <fileset refid="lib"/> <!-- TODO: lotta things we don't need -->
+          <fileset refid="seam.jar"/>
+          <fileset refid="${tomcat.lib}"/>
+          <fileset refid="example.war.webinf.lib"/>
+        </copy>
+        
+        <copy todir="${build.dir}/${example.name}/WEB-INF">
+           <fileset refid="example.tomcat.war.webinf"/>
+           <fileset refid="example.tomcat.war.webinf.extra"/>
+        </copy>
+        
+        <!--
+        <copy todir="${build.dir}/${example.name}/WEB-INF/classes">
+          <fileset refid="${example.tomcat.war.webinf.classes}"
+        </copy>
+        -->
+        
+        <jar basedir="${build.dir}/${example.name}" 
+            destfile="${build.dir}/${example.name}.war"/>
+    </target>
+
+    <target name="deploy.tomcat" depends="undeploy.tomcat,war.tomcat">
+        <echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
+        <copy file="${build.dir}/${example.name}.war" todir="${tomcat.home}/webapps"/>
+        <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
+    </target>
+  
+    <target name="undeploy.tomcat">
+        <delete file="${tomcat.home}/webapps/${example.name}.war"/>
+          <delete dir="${tomcat.home}/webapps/${example.name}"/>
+    </target>
+    
 </project>
