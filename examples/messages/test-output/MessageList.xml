@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite errors="0" failures="0" name="MessageList" tests="1" time="0.52"><properties/><testcase classname="org.jboss.seam.example.messages.test.MessageListTest" name="testMessageList" time="-1.137674488824E9"/></testsuite>

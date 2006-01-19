@@ -8,8 +8,8 @@
 
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
-               dir="resources/jsp">
-        <include name="*"/>
+               dir="view">
+        <include name="**/*"/>
     </zipfileset>
     <zipfileset id="example.war.webinf"
             prefix="WEB-INF"

@@ -8,7 +8,7 @@
 
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
-               dir="resources/view">
+               dir="view">
         <include name="**/*"/>
     </zipfileset>
     
