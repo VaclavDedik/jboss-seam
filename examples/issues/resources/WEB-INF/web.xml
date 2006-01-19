@@ -22,9 +22,29 @@
 
 
     <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
+    
     <context-param>
         <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
         <param-value>jboss-seam-issues/#{ejbName}/local</param-value>
+    </context-param>
+    
+    <!-- Seam managed persistence context -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.init.managedPersistenceContexts</param-name>
+        <param-value>entityManager</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>entityManager.jndiName</param-name>
+        <param-value>IssuesEntityManager</param-value>
+    </context-param>
+
+    <!-- 120 second conversation timeout -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
+        <param-value>120000</param-value>
     </context-param>
 
     <!-- MyFaces -->

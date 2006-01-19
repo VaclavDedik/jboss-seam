@@ -11,6 +11,7 @@
     </listener>
     
     <!-- Global JNDI name pattern for Embeddable EJB3 -->
+    
     <context-param>
         <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
         <param-value>#{ejbName}/local</param-value>

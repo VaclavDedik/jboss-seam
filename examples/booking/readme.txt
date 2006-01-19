@@ -54,7 +54,7 @@ How to Build and Deploy the Example on Tomcat
 
 4. Build Seam by running "ant" the Seam root directory
 
-5. Build and deploy the example by running "ant -f build.tomcat.xml" 
+5. Build and deploy the example by running "ant deploy.tomcat" 
    in the Seam "examples/booking" directory
 
 6. Start Tomcat

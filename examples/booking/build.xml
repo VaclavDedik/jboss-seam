@@ -75,7 +75,7 @@
     
     <fileset id="example.tomcat.jar"
             dir="resources">
-         <include name="seam.properties"/>
+        <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
         <include name="import.sql"/>
         <include name="seam-jndi.properties"/>
