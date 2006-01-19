@@ -179,6 +179,8 @@
             <fileset dir="${classes.dir}" includes="**/*.*"/>
         </copy>
         
+        <delete dir="test-output"/>
+        
         <testng>
             <classpath path="${build.dir}/test"/>
             <classpath refid="test.classpath"/>
@@ -187,7 +189,30 @@
             
     </target>
 
-    <target name="testexample" depends="compile"
+  <target name="testall" depends="test"
+    description="Run the tests">
+
+    <ant dir="examples/booking" target="testexample" inheritall="false"/>
+    <ant dir="examples/noejb" target="testexample" inheritall="false"/>
+    <ant dir="examples/messages" target="testexample" inheritall="false"/>
+    <ant dir="examples/numberguess" target="testexample" inheritall="false"/>
+    <ant dir="examples/registration" target="testexample" inheritall="false"/>
+    <ant dir="examples/todo" target="testexample" inheritall="false"/>
+    
+
+    <junitreport>
+      <fileset dir=".">
+        <include name="**/test-output/*.xml"/>
+        <exclude name="**/testng-failures.xml"/>
+      </fileset>
+      <report format="frames" todir="./report/html"/>
+    </junitreport>
+
+    <echo>Report available at ${basedir}/report/html/index.html</echo>
+    
+  </target>
+
+  <target name="testexample" depends="compile"
             description="Run the example tests">
         
         <taskdef resource="testngtasks"
@@ -198,7 +223,9 @@
             <fileset refid="example.resources"/>
         </copy>
         
-        <testng>
+        <delete dir="test-output"/>
+        
+        <testng outputdir="test-output">
             <classpath path="${build.dir}/test"/>
             <classpath path="${mc.conf.dir}"/>
             <classpath refid="${test.classpath}"/>
