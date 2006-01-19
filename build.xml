@@ -456,12 +456,6 @@
            <fileset refid="example.tomcat.war.webinf.extra"/>
         </copy>
         
-        <!--
-        <copy todir="${build.dir}/${example.name}/WEB-INF/classes">
-          <fileset refid="${example.tomcat.war.webinf.classes}"
-        </copy>
-        -->
-        
         <jar basedir="${build.dir}/${example.name}" 
             destfile="${build.dir}/${example.name}.war"/>
     </target>
