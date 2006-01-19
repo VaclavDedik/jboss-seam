@@ -205,7 +205,7 @@
     </target>
 
   <target name="testall" depends="test"
-    description="Run the tests">
+    description="Run the tests and all example tests">
 
     <ant dir="examples/booking" target="testexample" inheritall="false"/>
     <ant dir="examples/noejb" target="testexample" inheritall="false"/>
@@ -418,7 +418,8 @@
         </jar>
     </target>
 
-    <target name="deploy">
+    <target name="deploy" depends="ear"
+            description="Deploy the example to JBoss">
         <property name="unit.ext" value="ear"/>
         <fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
         <copy todir="${deploy.dir}">
@@ -427,7 +428,8 @@
         <copy file="${build.dir}/${example.name}.${unit.ext}" todir="${deploy.dir}"/>
     </target>
 
-    <target name="undeploy">
+    <target name="undeploy"
+            description="Undeploy the example from JBoss">
         <property name="unit.ext" value="ear"/>
         <delete file="${deploy.dir}/${example.name}.${unit.ext}"/>
         <delete>
@@ -436,11 +438,7 @@
             </fileset>
         </delete>
     </target>
-
-    <target name="cleandb">
-        <delete dir="${deploy.dir}/../data/hypersonic"/>
-    </target>
-
+	
     <!-- ############################ Tomcat! #############################-->
 
      <target name="war.tomcat" depends="compile">
@@ -475,13 +473,15 @@
             destfile="${build.dir}/${example.name}.war"/>
     </target>
 
-    <target name="deploy.tomcat" depends="undeploy.tomcat,war.tomcat">
+    <target name="deploy.tomcat" depends="undeploy.tomcat,war.tomcat" 
+            description="Deploy the example to Tomcat">
         <echo>Don't forget to set the path of tomcat.home to Tomcat root directory !</echo>
         <copy file="${build.dir}/${example.name}.war" todir="${tomcat.home}/webapps"/>
         <echo>After you start Tomcat, the example will be available at: http://localhost:8080/${example.name}</echo>
     </target>
   
-    <target name="undeploy.tomcat">
+    <target name="undeploy.tomcat" 
+        description="Undeploy the example from Tomcat">
         <delete file="${tomcat.home}/webapps/${example.name}.war"/>
           <delete dir="${tomcat.home}/webapps/${example.name}"/>
     </target>
