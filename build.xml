@@ -216,7 +216,7 @@
     <!--ant dir="examples/todo" target="testexample" inheritall="false"/-->
     
 
-    <junitreport>
+    <junitreport todir="./report">
       <fileset dir=".">
         <include name="**/test-output/*.xml"/>
         <exclude name="**/testng-failures.xml"/>
