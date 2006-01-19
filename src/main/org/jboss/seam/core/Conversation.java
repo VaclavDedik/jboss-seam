@@ -114,5 +114,32 @@ public class Conversation implements Serializable {
          viewId = null;
       }
    }
+   
+   /**
+    * Switch back to the last defined view-id for the
+    * current conversation.
+    */
+   public String redirect()
+   {
+      Manager manager = Manager.instance();
+      String viewId = manager.getCurrentConversationViewId();
+      if (viewId!=null)
+      {
+         manager.redirect( viewId );
+         return "org.jboss.seam.switch";
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
+   /**
+    * Leave the scope of the current conversation
+    */
+   public void leave()
+   {
+      Manager.instance().leaveConversation();
+   }
 
 }

@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -36,7 +37,7 @@ public class ConversationList implements Serializable {
       conversationEntryList = new ArrayList<ConversationEntry>( map.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
-         if ( entry.isDisplayable() )
+         if ( entry.isDisplayable() && !Seam.isSessionInvalid() )
          {
             conversationEntryList.add(entry);
          }

@@ -10,6 +10,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -43,7 +44,10 @@ public class ConversationStack implements Serializable {
          while ( ids.hasPrevious() )
          {
             ConversationEntry entry = map.get( ids.previous() );
-            if ( entry.isDisplayable() ) conversationEntryStack.add(entry);
+            if ( entry.isDisplayable() && !Seam.isSessionInvalid() ) 
+            {
+               conversationEntryStack.add(entry);
+            }
          }
       }
    }

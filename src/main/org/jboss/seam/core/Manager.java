@@ -543,7 +543,7 @@ public class Manager
       }
       context.responseComplete(); //work around MyFaces bug in 1.1.1
    }
-
+   
    public void prepareBackswitch(PhaseEvent event) {
       if ( isLongRunningConversation() )
       {

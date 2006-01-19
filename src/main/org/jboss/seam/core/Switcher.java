@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -41,7 +42,7 @@ public class Switcher implements Serializable {
       selectItems = new ArrayList<SelectItem>( map.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
-         if ( entry.isDisplayable() )
+         if ( entry.isDisplayable() && !Seam.isSessionInvalid() )
          {
             selectItems.add( new SelectItem( entry.getId(), entry.getDescription() ) );
          }
