@@ -137,6 +137,7 @@
             description="Cleans up the build directory">
         <delete dir="${build.dir}"/>
         <delete dir="test-output"/>
+    	<delete dir="report"/>
     </target>
 
     <target name="cleandist"
@@ -297,10 +298,16 @@
         <copy todir="${dist.dir}/examples">
             <fileset dir="${imported.basedir}/examples">
                 <include name="booking/**/*"/>
-                <include name="bpm/**/*"/>
+                <exclude name="booking/alter.config"/>
+                <exclude name="booking/alter.config/**/*"/>
+                <exclude name="booking/build.alter.xml"/>
                 <include name="noejb/**/*"/>
+            	<include name="issues/**/*"/>
                 <include name="registration/**/*"/>
-                <!--include name="dvdstore/**/*"/-->
+                <include name="dvdstore/**/*"/>
+            	<include name="messages/**/*"/>
+            	<include name="todo/**/*"/>
+            	<include name="numberguess/**/*"/>
                 <include name="readme.txt"/>
             </fileset>
         </copy>
