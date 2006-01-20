@@ -12,8 +12,12 @@
    <f:view>
    
     <h2>Component</h2>
-    Attributes for: #{param['name']}
+    <h:outputText value="Select a component from one of the contexts below"
+                  rendered="#{org$jboss$seam$debug$introspector.attributes==null}"/>
+    <h:outputText value="Attributes for: #{param['name']}" 
+                  rendered="#{org$jboss$seam$debug$introspector.attributes!=null}"/>
     <h:dataTable value="#{org$jboss$seam$debug$introspector.attributes}"
+                 rendered="#{org$jboss$seam$debug$introspector.attributes!=null}"
                  var="attribute">
       <h:column>
         #{attribute.name}
@@ -24,7 +28,10 @@
     </h:dataTable>      
    
     <h2>Conversations</h2>
+    <h:outputText value="No long-running conversations exist"
+                  rendered="#{empty org$jboss$seam$debug$contexts.conversationEntries}"/>
     <h:dataTable value="#{org$jboss$seam$debug$contexts.conversationEntries}" 
+                 rendered="#{not empty org$jboss$seam$debug$contexts.conversationEntries}"
                  var="entry">
       <h:column>
         <f:facet name="header">conversation id</f:facet>
@@ -49,32 +56,38 @@
         #{entry.viewId}
       </h:column>
       <h:column>
-        <h:commandLink action="org.jboss.seam.switchConversation" 
-                       value="Show">
+        <h:outputLink>
+          Show conversation context
           <f:param name="conversationId" value="#{entry.id}"/>
-        </h:commandLink>
+        </h:outputLink>
       </h:column>
     </h:dataTable>
 
     <h2>Conversation Context</h2>
+    <h:outputText value="Empty conversation context"
+                  rendered="#{empty org$jboss$seam$debug$contexts.conversation}"/>
     <h:dataTable value="#{org$jboss$seam$debug$contexts.conversation}" 
                  var="name">
       <h:column>
-        <h:commandLink action="org.jboss.seam.showAttributes" value="#{name}">
+        <h:outputLink>
+          #{name}
           <f:param name="name" value="#{name}"/>
           <f:param name="conversationId" value="#{conversation.id}"/>
-        </h:commandLink>
+        </h:outputLink>
       </h:column>
     </h:dataTable>
 
     <h2>Session Context</h2>
+    <h:outputText value="Empty session context"
+                  rendered="#{empty org$jboss$seam$debug$contexts.session}"/>
     <h:dataTable value="#{org$jboss$seam$debug$contexts.session}" 
                  var="name">
       <h:column>
-        <h:commandLink action="org.jboss.seam.showAttributes" value="#{name}">
+        <h:outputLink>
+          #{name}
           <f:param name="name" value="#{name}"/>
           <f:param name="conversationId" value="#{conversation.id}"/>
-        </h:commandLink>
+        </h:outputLink>
       </h:column>
     </h:dataTable>
 
@@ -82,10 +95,11 @@
     <h:dataTable value="#{org$jboss$seam$debug$contexts.application}" 
                  var="name">
       <h:column>
-        <h:commandLink action="org.jboss.seam.showAttributes" value="#{name}">
+        <h:outputLink>
+          #{name}
           <f:param name="name" value="#{name}"/>
           <f:param name="conversationId" value="#{conversation.id}"/>
-        </h:commandLink>
+        </h:outputLink>
       </h:column>
     </h:dataTable>
 
