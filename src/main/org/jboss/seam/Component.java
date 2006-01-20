@@ -608,19 +608,21 @@ public class Component
    }
 
     public boolean needsInjection() {
-        return (getInFields().size()>0) ||
-            (getInMethods().size()>0) ||
-            (dataModelSelectionSetters.size() > 0) ||
-            (dataModelSelectionIndexSetters.size() > 0) ||
-            (dataModelSelectionFields.size() > 0) ||
-            (dataModelSelectionIndexFields.size() > 0);
+        return !getInFields().isEmpty() ||
+            !getInMethods().isEmpty() ||
+            !dataModelSelectionSetters.isEmpty() ||
+            !dataModelSelectionIndexSetters.isEmpty() ||
+            !dataModelSelectionFields.isEmpty() ||
+            !dataModelSelectionIndexFields.isEmpty() ||
+            !parameterFields.isEmpty() ||
+            !parameterSetters.isEmpty();
    }
 
     public boolean needsOutjection() {
-        return (getOutFields().size()>0) ||
-            (getOutMethods().size()>0) ||
-            (dataModelGetters.size() > 0) ||
-            (dataModelFields.size() > 0);
+        return !getOutFields().isEmpty() ||
+            !getOutMethods().isEmpty() ||
+            !dataModelGetters.isEmpty() ||
+            !dataModelFields.isEmpty();
     }
 
     protected Object instantiate() throws Exception
