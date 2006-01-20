@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+  <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+   <title>Seam Debug Page</title>
+  </head>
+  <body>
+   <h1>Seam Debug Page</h1>
+   <f:view>
+   
+    <h2>Component</h2>
+    Attributes for: #{param['name']}
+    <h:dataTable value="#{org$jboss$seam$debug$introspector.attributes}"
+                 var="attribute">
+      <h:column>
+        #{attribute.name}
+      </h:column>
+      <h:column>
+        #{attribute.value}
+      </h:column>
+    </h:dataTable>      
+   
+    <h2>Conversations</h2>
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.conversationEntries}" 
+                 var="entry">
+      <h:column>
+        <f:facet name="header">conversation id</f:facet>
+        #{entry.id}
+      </h:column>
+      <h:column>
+        <f:facet name="header">activity</f:facet>
+        <h:outputText value="#{entry.startDatetime}">
+          <f:convertDateTime type="time"/>
+        </h:outputText>
+        - 
+        <h:outputText value="#{entry.lastDatetime}">
+          <f:convertDateTime type="time"/>
+        </h:outputText>
+      </h:column>
+      <h:column>
+        <f:facet name="header">description</f:facet>
+        #{entry.description}
+      </h:column>
+      <h:column>
+        <f:facet name="header">view id</f:facet>
+        #{entry.viewId}
+      </h:column>
+      <h:column>
+        <h:commandLink action="org.jboss.seam.switchConversation" 
+                       value="Show">
+          <f:param name="conversationId" value="#{entry.id}"/>
+        </h:commandLink>
+      </h:column>
+    </h:dataTable>
+
+    <h2>Conversation Context</h2>
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.conversation}" 
+                 var="name">
+      <h:column>
+        <h:commandLink action="org.jboss.seam.showAttributes" value="#{name}">
+          <f:param name="name" value="#{name}"/>
+          <f:param name="conversationId" value="#{conversation.id}"/>
+        </h:commandLink>
+      </h:column>
+    </h:dataTable>
+
+    <h2>Session Context</h2>
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.session}" 
+                 var="name">
+      <h:column>
+        <h:commandLink action="org.jboss.seam.showAttributes" value="#{name}">
+          <f:param name="name" value="#{name}"/>
+          <f:param name="conversationId" value="#{conversation.id}"/>
+        </h:commandLink>
+      </h:column>
+    </h:dataTable>
+
+    <h2>Application Context</h2>
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.application}" 
+                 var="name">
+      <h:column>
+        <h:commandLink action="org.jboss.seam.showAttributes" value="#{name}">
+          <f:param name="name" value="#{name}"/>
+          <f:param name="conversationId" value="#{conversation.id}"/>
+        </h:commandLink>
+      </h:column>
+    </h:dataTable>
+
+   </f:view>
+  </body>
+</html>
