@@ -64,6 +64,7 @@
     </h:dataTable>
 
     <h2>Conversation Context</h2>
+    Conversation id: #{conversation.id}<br/>
     <h:outputText value="Empty conversation context"
                   rendered="#{empty org$jboss$seam$debug$contexts.conversation}"/>
     <h:dataTable value="#{org$jboss$seam$debug$contexts.conversation}" 
