@@ -56,7 +56,7 @@ How to Build and Deploy the Example on JBoss AS
 
 7. Point your web browser to:
 
-   http://localhost:8080/jboss-seam-noejb/
+   http://localhost:8080/seam-noejb/
 
 Running the TestNG Tests
 ------------------------

@@ -45,17 +45,19 @@
     </zipfileset>
 
     <!-- Tomcat build -->
-    <fileset id="example.tomcat.war.webinf"
-            dir="resources/WEB-INF" >
+    <zipfileset id="example.tomcat.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
     	<include name="classes/messages.properties"/>
-    </fileset>
+    </zipfileset>
     
-    <fileset id="example.tomcat.war.webinf.extra"
-            dir="resources/tomcat">
+    <zipfileset id="example.tomcat.war.webinf.extra"
+            prefix="WEB-INF"
+               dir="resources/tomcat">
         <include name="web.xml"/>
-    </fileset>
+    </zipfileset>
     
     <fileset id="example.tomcat.jar"
             dir="resources">
