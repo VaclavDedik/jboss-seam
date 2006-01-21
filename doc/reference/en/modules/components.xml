@@ -474,6 +474,22 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.debug.introspector</literal></term>
+                <listitem>
+                    <para>
+                        Support for the Seam Debug Page.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.debug.contexts</literal></term>
+                <listitem>
+                    <para>
+                        Support for the Seam Debug Page.
+                    </para>
+                </listitem>
+            </varlistentry>
        </variablelist>
    </section>
 

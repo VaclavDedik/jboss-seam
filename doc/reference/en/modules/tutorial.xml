@@ -2371,7 +2371,33 @@ public class HotelBookingAction implements HotelBooking, Serializable
     </section>
     
     <section>
+        <title>The Seam Debug Page</title>
+        
+        <para>
+            In the <literal>examples/booking/view</literal> directory you will find a facelets page
+            called <literal>debug.xhtml</literal>. This page lets you browse and inspect the Seam 
+            components in any of the Seam contexts associated with your current login session. Just
+            point your browser at <ulink url="http://localhost:8080/seam-booking/debug.seam"><literal>http://localhost:8080/seam-booking/debug.seam</literal></ulink>.
+        </para>
+        
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/debug.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/debug.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
+        <para>
+            You can include this page in your own applications.
+        </para>
+        
+    </section>
+
+    <section>
         <title>Tomcat deployment</title>
+        
         <para>
             This example may be deployed to Tomcat by setting <literal>tomcat.home</literal> to point
             to your Tomcat installation directory and typing <literal>ant deploy.tomcat</literal> in
@@ -2383,7 +2409,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
             Embeddable EJB3 container, a complete standalone EJB3 container environment.
         </para>
     </section>
-
+    
   </section>
 
   <section id="dvdstore">
