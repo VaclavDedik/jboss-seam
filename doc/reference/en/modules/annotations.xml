@@ -647,7 +647,7 @@
             <varlistentry id="ifinvalid-annotation">
                 <term><literal>@IfInvalid</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@IfInvalid(outcome="invalid")]]></programlisting>
+                    <programlisting><![CDATA[@IfInvalid(outcome="invalid", refreshEntities=true)]]></programlisting>
                     <para>
                         Specifies that Hibernate Validator should validate the component before
                         the method is invoked. If the invocation fails, the specified outcome
@@ -660,6 +660,14 @@
                         <para>
                             <literal>outcome</literal> &mdash; the JSF outcome when validation
                             fails.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>refreshEntities</literal> &mdash; specifies that any invalid
+                            entity in the managed state should be refreshed from the database when 
+                            validation fails. Default to <literal>false</literal>. (Useful with
+                            extended persistence contexts.)
                         </para>
                         </listitem>
                     </itemizedlist>
