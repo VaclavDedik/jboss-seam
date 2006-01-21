@@ -33,6 +33,20 @@ public class Contexts
       return names;
    }
    
+   public String[] getBusinessProcess()
+   {
+      if ( org.jboss.seam.contexts.Contexts.isBusinessProcessContextActive() )
+      {
+         String[] names = org.jboss.seam.contexts.Contexts.getBusinessProcessContext().getNames();
+         Arrays.sort(names);
+         return names;
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
    public ConversationEntry[] getConversationEntries()
    {
       return Manager.instance().getConversationIdEntryMap().values().toArray( new ConversationEntry[0] );
