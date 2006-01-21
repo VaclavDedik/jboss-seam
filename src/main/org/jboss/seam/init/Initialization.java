@@ -27,6 +27,7 @@ import org.jboss.seam.core.ApplicationContext;
 import org.jboss.seam.core.BusinessProcessContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationContext;
+import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.FacesContext;
@@ -44,12 +45,12 @@ import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
-import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.Switcher;
 import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.TaskInstanceListForType;
 import org.jboss.seam.core.Transition;
+import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Reflections;
@@ -153,6 +154,8 @@ public class Initialization
       addComponent( ConversationContext.class, context );
       addComponent( BusinessProcessContext.class, context );
       addComponent( ResourceBundle.class, context );
+      addComponent( Introspector.class, context );
+      addComponent( org.jboss.seam.debug.Contexts.class, context );
 
       Init init = (Init) Component.getInstance(Init.class, true);
       
