@@ -65,7 +65,7 @@ public class Introspector {
       BeanInfo bi = java.beans.Introspector.getBeanInfo( component.getClass() );
       //MethodDescriptor[] methods = bi.getMethodDescriptors();
       PropertyDescriptor[] properties = bi.getPropertyDescriptors();
-      Attribute[] attributes = new Attribute[properties.length];
+      Attribute[] attributes = new Attribute[properties.length+1];
       for (int i=0; i<properties.length; i++)
       {
          Object value;
@@ -89,6 +89,7 @@ public class Introspector {
          
          attributes[i] = new Attribute( properties[i].getDisplayName(), value );
       }
+      attributes[properties.length] = new Attribute( "toString()", component.toString() );
       return attributes;
    }
    
