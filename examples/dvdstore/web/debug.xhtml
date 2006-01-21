@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html">
+<f:view>
+  <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+   <title>JBoss Seam Debug Page</title>
+   <style type="text/css">
+      body, div, span, td, th, caption { font-family: 'Trebuchet MS', Verdana, Arial, Sans-Serif; font-size: small; }
+      ul, li, pre { padding: 0; margin: 0; }
+      h1 { color: #090; }
+      h2, h2 span { font-size: large; color: #339; }
+      h2 a { text-decoration: none; color: #339; }
+      .grayBox { padding: 8px; margin: 10px 0; border: 1px solid #CCC; background-color: #f9f9f9;  }
+      #sessionContext, #applicationContext { display: none; }
+      #conversationContext, #attributes, #processContext { display: block; }
+      code { font-size: medium; }
+      table { border: 1px solid #CCC; border-collapse: collapse; border-spacing: 0px; width: 100%; text-align: left; }
+      td { border: 1px solid #CCC; }
+      thead tr th { padding: 2px; color: #030; background-color: #F9F9F9; }
+      tbody tr td { padding: 5px 3px; }
+      table caption { text-align: left; padding: 5px 0; font-size: large; }
+   </style>
+   <style type="text/css" media="print">
+      #sessionContext, #conversationContext, #applicationContext, #attributes, #processContext { display: block; }
+   </style>
+   <script language="javascript" type="text/javascript">
+      function toggle(id) {
+         var style = document.getElementById(id).style;
+         if ("block" == style.display) {
+            style.display = "none";
+            document.getElementById(id+"Off").style.display = "inline";
+            document.getElementById(id+"On").style.display = "none";
+         } 
+         else {
+            style.display = "block";
+            document.getElementById(id+"Off").style.display = "none";
+            document.getElementById(id+"On").style.display = "inline";
+         }
+      }
+      function show(id) {
+         var style = document.getElementById(id).style;
+         if ("none" == style.display) {
+            style.display = "block";
+            document.getElementById(id+"Off").style.display = "none";
+            document.getElementById(id+"On").style.display = "inline";
+         }
+      }
+   </script>
+  </head>
+  <body>
+    <h1>JBoss Seam Debug Page</h1>
+    <div>
+      This page allows you to view and inspect any component in any Seam context
+      associated with the current session.
+    </div>
+   
+    <h2>Conversations</h2>
+    <h:outputText value="No long-running conversations exist"
+                  rendered="#{empty org$jboss$seam$debug$contexts.conversationEntries}"/>
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.conversationEntries}" 
+                 rendered="#{not empty org$jboss$seam$debug$contexts.conversationEntries}"
+                 var="entry">
+      <h:column>
+        <f:facet name="header">conversation id</f:facet>
+        #{entry.id}
+      </h:column>
+      <h:column>
+        <f:facet name="header">activity</f:facet>
+        <h:outputText value="#{entry.startDatetime}">
+          <f:convertDateTime type="time"/>
+        </h:outputText>
+        - 
+        <h:outputText value="#{entry.lastDatetime}">
+          <f:convertDateTime type="time"/>
+        </h:outputText>
+      </h:column>
+      <h:column>
+        <f:facet name="header">description</f:facet>
+        #{entry.description}
+      </h:column>
+      <h:column>
+        <f:facet name="header">view id</f:facet>
+        #{entry.viewId}
+      </h:column>
+      <h:column>
+        <h:outputLink>
+          Select conversation context
+          <f:param name="conversationId" value="#{entry.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+
+    <h2>
+      <a href="#" onclick="toggle('attributes'); return false;">
+        <span id="attributesOff" style="display: none;">+</span>
+        <span id="attributesOn">-</span>
+        &nbsp;Component&nbsp;
+        <h:outputText value="(#{param['name']})" 
+                      rendered="#{org$jboss$seam$debug$introspector.attributes!=null}"/>
+        <h:outputText value="(None selected)" 
+                      rendered="#{org$jboss$seam$debug$introspector.attributes==null}"/>
+      </a>
+    </h2>
+    <div id="attributes">
+    <h:outputText value="Select a component from one of the contexts below"
+                  rendered="#{org$jboss$seam$debug$introspector.attributes==null}"/>
+    <h:dataTable value="#{org$jboss$seam$debug$introspector.attributes}"
+                 rendered="#{org$jboss$seam$debug$introspector.attributes!=null}"
+                 var="attribute">
+      <h:column>
+        #{attribute.name}
+      </h:column>
+      <h:column>
+        #{attribute.value}
+      </h:column>
+    </h:dataTable>
+    </div>
+   
+    <h2>
+      <a href="#" onclick="toggle('conversationContext'); return false;">
+        <span id="conversationContextOff" style="display: none;">+</span>
+        <span id="conversationContextOn">-</span>
+        &nbsp;Conversation Context&nbsp;
+        <h:outputText value="(#{org$jboss$seam$core$manager.currentConversationId})"
+                      rendered="#{org$jboss$seam$core$manager.longRunningConversation}"/>
+        <h:outputText value="(None selected)"
+                      rendered="#{!org$jboss$seam$core$manager.longRunningConversation}"/>
+      </a>
+    </h2>
+    <div id="conversationContext">
+    <h:outputText value="Empty conversation context"
+                  rendered="#{empty org$jboss$seam$debug$contexts.conversation}"/>
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.conversation}" 
+                 var="name">
+      <h:column>
+        <h:outputLink>
+          #{name}
+          <f:param name="name" value="#{name}"/>
+          <f:param name="conversationId" value="#{conversation.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+    </div>
+    
+    <h2>
+      <a href="#" onclick="toggle('processContext'); return false;">
+        <span id="processContextOff" style="display: none;">+</span>
+        <span id="processContextOn">-</span>
+        &nbsp;Business Process Context
+      </a>
+    </h2>
+    <div id="processContext">
+    <h:outputText value="Empty business process context"
+                  rendered="#{empty org$jboss$seam$debug$contexts.businessProcess}"/>
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.businessProcess}" 
+                 var="name">
+      <h:column>
+        <h:outputLink>
+          #{name}
+          <f:param name="name" value="#{name}"/>
+          <f:param name="conversationId" value="#{conversation.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+    </div>
+
+    <h2>
+      <a href="#" onclick="toggle('sessionContext'); return false;">
+        <span id="sessionContextOff">+</span>
+        <span id="sessionContextOn" style="display: none;">-</span>
+        &nbsp;Session Context
+      </a>
+    </h2>
+    <div id="sessionContext">
+    <h:outputText value="Empty session context"
+                  rendered="#{empty org$jboss$seam$debug$contexts.session}"/>
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.session}" 
+                 var="name">
+      <h:column>
+        <h:outputLink>
+          #{name}
+          <f:param name="name" value="#{name}"/>
+          <f:param name="conversationId" value="#{conversation.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+    </div>
+
+    <h2>
+      <a href="#" onclick="toggle('applicationContext'); return false;">
+        <span id="applicationContextOff">+</span>
+        <span id="applicationContextOn" style="display: none;">-</span>
+        &nbsp;Application Context
+      </a>
+    </h2>
+    <div id="applicationContext">
+    <h:dataTable value="#{org$jboss$seam$debug$contexts.application}" 
+                 var="name">
+      <h:column>
+        <h:outputLink>
+          #{name}
+          <f:param name="name" value="#{name}"/>
+          <f:param name="conversationId" value="#{conversation.id}"/>
+        </h:outputLink>
+      </h:column>
+    </h:dataTable>
+    </div>
+
+  </body>
+</f:view>
+</html>
