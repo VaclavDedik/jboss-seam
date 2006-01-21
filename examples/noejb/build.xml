@@ -87,41 +87,28 @@
 
     <!-- Redefine targets -->
     <target name="war" depends="compile">
-        <mkdir dir="${build.dir}/resources/WEB-INF/lib/"/>
-        
-    	<jar jarfile="${build.dir}/resources/WEB-INF/lib/${example.name}.jar">
+
+    	<jar jarfile="${build.dir}/${example.name}.jar">
           <fileset refid="example.classes"/>
           <fileset dir="resources">
             <include name="seam.properties"/>
-          </fileset>
-        </jar>
-    	
-        <copy todir="${build.dir}/resources/WEB-INF">
-          <fileset dir="resources/WEB-INF">
-            <include name="web.xml"/>
-            <include name="pages.xml"/>
-            <include name="jboss-web.xml"/>
-            <include name="faces-config.xml"/>
-          </fileset>
-        </copy>
-    	
-        <copy todir="${build.dir}/resources/WEB-INF/classes">
-          <fileset dir="resources">
             <include name="import.sql"/>
             <include name="hibernate.cfg.xml"/>
           </fileset>
-        </copy>
+        </jar>
     	
-        <copy file="${imported.basedir}/${name}.jar" 
-             todir="${build.dir}/resources/WEB-INF/lib/"/>
+        <jar destfile="${build.dir}/${example.name}.war">
+            <zipfileset refid="example.war.docroot"/>
+        	<zipfileset refid="example.war.webinf"/>
+            <zipfileset refid="example.war.webinf.lib"/>
+            <zipfileset dir="${imported.basedir}" prefix="WEB-INF/lib">
+                <include name="${name}.jar"/>
+            </zipfileset>
+            <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
+                <include name="${example.name}.jar"/>
+            </zipfileset>
+        </jar>
     	
-        <copy todir="${build.dir}/resources/WEB-INF/lib/">
-            <fileset dir="resources/WEB-INF/lib/">
-                <include name="*.jar"/>
-            </fileset>
-        </copy>
-    	
-        <antcall target="Seam.war"/>
     </target>
     
     <target name="deploy" depends="war"
