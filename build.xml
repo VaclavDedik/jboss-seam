@@ -52,17 +52,23 @@
 
     <path id="example.path" />
     
-    <fileset id="lib" 
-            dir="${lib.dir}">
+    <zipfileset id="lib" 
+    	    prefix="WEB-INF/lib"
+               dir="${lib.dir}">
         <include name="**/*.jar"/>
-    </fileset>
+    </zipfileset>
     
     <fileset id="seam.jar" 
             dir="${imported.basedir}">
         <include name="${name}.jar" />
     </fileset>
     
-
+    <zipfileset id="tomcat.seam.jar" 
+            prefix="WEB-INF/lib"
+            dir="${imported.basedir}">
+        <include name="${name}.jar" />
+    </zipfileset>
+    
     <path id="build.classpath">
         <path refid="example.path"/>
         <fileset refid="lib"/>
@@ -71,15 +77,17 @@
     
     <property name="test.classpath" value="test.classpath"/>
 
-    <fileset id="eejb.lib"
-            dir="${eejb.lib.dir}">
+    <zipfileset id="eejb.lib"
+            prefix="WEB-INF/lib"
+               dir="${eejb.lib.dir}">
       <include name="**/*.jar"/>
-    </fileset>
+    </zipfileset>
     
-    <fileset id="mc.lib"
-            dir="${mc.lib.dir}">
+    <zipfileset id="mc.lib"
+            prefix="WEB-INF/lib"
+               dir="${mc.lib.dir}">
       <include name="**/*.jar"/>
-    </fileset>
+    </zipfileset>
     
     <path id="test.classpath">
         <path refid="build.classpath"/>
@@ -455,33 +463,29 @@
      <target name="war.tomcat" depends="compile">
         <mkdir dir="${build.dir}/${example.name}/WEB-INF/lib"/>
         
-        <jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/${example.name}.jar">
+        <jar jarfile="${build.dir}/${example.name}.jar">
             <fileset refid="example.classes"/>
             <fileset refid="example.tomcat.jar"/>
         </jar>
         
-        <jar jarfile="${build.dir}/${example.name}/WEB-INF/lib/mc-conf.jar">
+        <jar jarfile="${build.dir}/mc-conf.jar">
             <fileset refid="${tomcat.conf}"/>
         </jar>
         
-        <copy todir="${build.dir}/${example.name}">
-          <fileset refid="example.war.docroot"/>
-        </copy>
-        
-        <copy todir="${build.dir}/${example.name}/WEB-INF/lib">
-          <fileset refid="lib"/> <!-- TODO: lotta things we don't need -->
-          <fileset refid="seam.jar"/>
-          <fileset refid="${tomcat.lib}"/>
-          <fileset refid="example.war.webinf.lib"/>
-        </copy>
-        
-        <copy todir="${build.dir}/${example.name}/WEB-INF">
-           <fileset refid="example.tomcat.war.webinf"/>
-           <fileset refid="example.tomcat.war.webinf.extra"/>
-        </copy>
-        
-        <jar basedir="${build.dir}/${example.name}" 
-            destfile="${build.dir}/${example.name}.war"/>
+        <jar destfile="${build.dir}/${example.name}.war">
+            <zipfileset refid="lib"/> <!-- TODO: lotta things we don't need -->
+            <zipfileset refid="example.war.docroot"/>
+            <zipfileset refid="example.war.webinf.lib"/>
+            <zipfileset refid="example.tomcat.war.webinf"/>
+            <zipfileset refid="example.tomcat.war.webinf.extra"/>
+        	<zipfileset refid="tomcat.seam.jar"/>
+            <zipfileset refid="${tomcat.lib}"/>
+            <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
+                <include name="${example.name}.jar"/>
+            	<include name="mc-conf.jar"/>
+            </zipfileset>
+        </jar>
+
     </target>
 
     <target name="deploy.tomcat" depends="undeploy.tomcat,war.tomcat" 
