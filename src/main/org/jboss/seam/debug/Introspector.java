@@ -89,7 +89,18 @@ public class Introspector {
          
          attributes[i] = new Attribute( properties[i].getDisplayName(), value );
       }
-      attributes[properties.length] = new Attribute( "toString()", component.toString() );
+      
+      String toString;
+      try
+      {
+          toString = component.toString();
+      }
+      catch (Exception e)
+      {
+          toString = e.getClass().getName() + '[' + e.getMessage() + ']';
+      }
+      attributes[properties.length] = new Attribute("toString()", toString);
+      
       return attributes;
    }
    
