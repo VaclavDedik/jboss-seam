@@ -3,7 +3,7 @@ This directory contains all jars needed to compile Seam.
 The only jars required to run Seam in a full Java EE 5 
 environment are:
 
-  jbpm-3.0.jar
+  jbpm-3.1beta2.jar
   cglib-2.1.1.jar
   asm.jar
   jboss-common.jar (for JBoss logging only)
@@ -18,10 +18,9 @@ Hibernate3:
 
 MyFaces:
   myfaces-impl.jar
-  myfaces-jsf-api.jar
-  myfaces.jar
+  myfaces-api.jar
 
-(Or use your preferred JSF 1.1 implementation.)
+(Or use your preferred JSF 1.1/1.2 implementation.)
 
 To use Seam in with JBoss Embeddable EJB 3.0 or
 JBoss Microcontainer, see embedded-ejb/readme.txt
