@@ -59,7 +59,7 @@
         <include name="web.xml"/>
     </zipfileset>
     
-    <fileset id="example.tomcat.jar"
+    <fileset id="example.tomcat.resources"
             dir="resources">
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>

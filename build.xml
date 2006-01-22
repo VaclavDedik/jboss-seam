@@ -52,18 +52,25 @@
 
     <path id="example.path" />
     
-    <zipfileset id="lib" 
-    	    prefix="WEB-INF/lib"
+    <fileset id="lib" 
                dir="${lib.dir}">
-        <include name="**/*.jar"/>
-    </zipfileset>
+        <include name="*.jar"/>
+    </fileset>
     
     <fileset id="seam.jar" 
             dir="${imported.basedir}">
         <include name="${name}.jar" />
     </fileset>
     
-    <zipfileset id="tomcat.seam.jar" 
+    <zipfileset id="example.tomcat.lib" 
+    	    prefix="WEB-INF/lib"
+               dir="${lib.dir}">
+        <include name="*.jar"/>
+    	<exclude name="servlet-api.jar"/>
+    	<exclude name="testng-*.jar"/>    	
+    </zipfileset>
+    
+    <zipfileset id="example.tomcat.seam.jar" 
             prefix="WEB-INF/lib"
             dir="${imported.basedir}">
         <include name="${name}.jar" />
@@ -465,7 +472,7 @@
         
         <jar jarfile="${build.dir}/${example.name}.jar">
             <fileset refid="example.classes"/>
-            <fileset refid="example.tomcat.jar"/>
+            <fileset refid="example.tomcat.resources"/>
         </jar>
         
         <jar jarfile="${build.dir}/mc-conf.jar">
@@ -473,12 +480,12 @@
         </jar>
         
         <jar destfile="${build.dir}/${example.name}.war">
-            <zipfileset refid="lib"/> <!-- TODO: lotta things we don't need -->
+            <zipfileset refid="example.tomcat.lib"/>
+        	<zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset refid="example.tomcat.war.webinf"/>
             <zipfileset refid="example.tomcat.war.webinf.extra"/>
-        	<zipfileset refid="tomcat.seam.jar"/>
             <zipfileset refid="${tomcat.lib}"/>
             <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
                 <include name="${example.name}.jar"/>
