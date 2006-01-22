@@ -15,11 +15,17 @@ Changes in version 1.0 beta 2 (January 2005)
 * @BeginIf/@EndIf were merged into @Begin/@End
 * Added @Begin(join=true|false)
 * @ResumeTask/@CompleteTask were renamed to @BeginTask/@EndTask
+* Conversations now propagate across redirects
 * Added @RequestParameter
 * Added @Rollback
+* Added @IfInvalid(refreshEntities=true)
 * Added resourceBundle component
 * Conversation timeout now settable programmatically
+* Support for login by challenge
 * No longer need to specify SeamVariableResolver in faces-config.xml
+* Added Seam Debug Page
+* Migrated to JBoss 4.0.4
+* New examples
 
 Changes in version 1.0 beta 1 (September 2005)
 ----------------------------------------------
