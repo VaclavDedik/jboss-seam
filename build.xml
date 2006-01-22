@@ -98,7 +98,6 @@
     
     <path id="test.classpath">
         <path refid="build.classpath"/>
-        <fileset refid="mc.lib"/>
      </path>
     
     <path id="test.mc.classpath">
