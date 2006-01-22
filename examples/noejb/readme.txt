@@ -29,7 +29,7 @@ How to Build and Deploy the Example on Tomcat
 
 7. Point your web browser to:
 
-   http://localhost:8080/jboss-seam-noejb/
+   http://localhost:8080/jboss-seam-hibernate/
 
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------
@@ -52,7 +52,7 @@ How to Build and Deploy the Example on JBoss AS
 
 7. Point your web browser to:
 
-   http://localhost:8080/seam-noejb/
+   http://localhost:8080/seam-hibernate/
 
 Running the TestNG Tests
 ------------------------

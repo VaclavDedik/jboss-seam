@@ -2,7 +2,7 @@
 
 <datasources>
     <local-tx-datasource>
-        <jndi-name>noejbDatasource</jndi-name>
+        <jndi-name>hibernateDatasource</jndi-name>
         <connection-url>jdbc:hsqldb:.</connection-url>
         <driver-class>org.hsqldb.jdbcDriver</driver-class>
         <user-name>sa</user-name>

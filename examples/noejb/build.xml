@@ -4,7 +4,7 @@
 
     <!-- Naming -->
     <property name="Name"                   value="Seam on JBoss Hibernate3 Example"/>
-    <property name="example.name"           value="jboss-seam-noejb"/>
+    <property name="example.name"           value="jboss-seam-hibernate"/>
     
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
@@ -70,12 +70,12 @@
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
-        <include name="noejb-ds.xml"/>
+        <include name="hibernate-ds.xml"/>
     </fileset>
 
     <!-- Undeploy -->
     <patternset id="example.undeploy">
-        <include name="noejb-ds.xml"/>
+        <include name="hibernate-ds.xml"/>
     </patternset>
 
     <!-- Overrides -->
@@ -103,7 +103,7 @@
             <zipfileset refid="example.war.docroot"/>
         	<zipfileset refid="example.war.webinf"/>
             <zipfileset refid="example.war.webinf.lib"/>
-            <zipfileset refid="tomcat.seam.jar"/>
+            <zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
                 <include name="${example.name}.jar"/>
             </zipfileset>
