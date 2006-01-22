@@ -34,11 +34,7 @@ How to Build and Deploy the Example on Tomcat
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------
 
-1. Download and install JBoss AS 4.0.3
-
-   NOTE: Due to a bug, the demo database content is not loaded 
-   properly in AS 4.0.3SP1. If you use 4.0.3SP1, you should
-   populate the database by running "resources/import.sql"
+1. Download and install JBoss AS 4.0.4
 
 2. Download the JBoss Seam distribution from:
 
