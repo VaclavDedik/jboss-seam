@@ -8,11 +8,11 @@ Public License (see lgpl.txt).
 Get Up And Running Quick
 ------------------------
 
-1. Download JBoss AS 4.0.3 or later
+1. Download JBoss AS 4.0.4 or later
 
    http://www.jboss.com/products/jbossas/downloads
    
-2. Install JBoss AS 4.0.3 with the EJB 3.0 profile selected
+2. Install JBoss AS 4.0.4 with the EJB 3.0 profile selected
 
 3. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS installation directory
