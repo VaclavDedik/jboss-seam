@@ -221,6 +221,8 @@
 
   <target name="testall" depends="test"
     description="Run the tests and all example tests">
+  	
+  	<mkdir dir="report"/>
 
     <ant dir="examples/booking" target="testexample" inheritall="false"/>
     <ant dir="examples/noejb" target="testexample" inheritall="false"/>
