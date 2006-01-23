@@ -9,7 +9,15 @@
     </para>
     
     <sect1>
-        <title>Integrating Seam with JSF and your servlet container</title>
+        <title>Basic Seam configuration</title>
+        
+        <para>
+            First, let's look at the basic configuration that is needed whenever 
+            we use Seam with JSF.
+        </para>
+        
+        <sect2>
+            <title>Integrating Seam with JSF and your servlet container</title>
         <para>
             Seam requires the following entry in your <literal>web.xml</literal>
             file:
@@ -64,6 +72,11 @@
             manage transaction demarcation (more on this below).
         </para>
         
+        </sect2>
+        
+        <sect2>
+            <title>Configuring the EJB JNDI name pattern</title>
+        
         <para>
             Seam needs to know where to go to find session beans in JNDI.
             One way to do this is specify the <literal>@JndiName</literal>
@@ -101,6 +114,13 @@
             Note that this configuration setting may be specified in either
             <literal>web.xml</literal> or in <literal>seam.properties</literal>.
         </para>
+        
+        <programlisting><![CDATA[org.jboss.seam.core.init.jndiPattern #{ejbName}/local</param-value>]]></programlisting>
+
+        </sect2>
+        
+        <sect2>
+            <title>Enabling conversation propagation with redirects</title>
 
         <para>
             If you want to use post-then-redirect in JSF, and you want Seam to
@@ -122,6 +142,8 @@
             This filter intercepts any browser redirects and adds a request
             parameter that specifies the Seam conversation id.
         </para>
+        
+        </sect2>
 
     </sect1>
     
@@ -169,7 +191,25 @@
             of the Java EE 5 application server. This is especially, but not only, useful for testing. 
         </para>
         
+        <para>
+            The Seam booking example application includes a TestNG integration test suite that runs on
+            the Embeddable EJB3 container.
+        </para>
+
         <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/testng.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/testng.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
+        <para>
+            The booking example application may even be deployed to Tomcat.
+        </para>
+        
+          <mediaobject>
           <imageobject role="fo">
             <imagedata fileref="images/e-ejb3.png" align="center"/>
           </imageobject>
@@ -177,6 +217,9 @@
             <imagedata fileref="../shared/images/e-ejb3.png" align="center"/>
           </imageobject>
         </mediaobject>
+        
+      <sect2>
+            <title>Installing the Embeddable EJB3 container</title>
         
         <para>
             Seam ships with a build of the Embeddable EJB3 container in the <literal>embedded-ejb</literal>
@@ -202,6 +245,11 @@
             This component is responsible for bootstrapping the EJB container when Seam is started,
             and shutting it down when the web application is undeployed.
         </para>
+        
+        </sect2>
+        
+        <sect2>
+            <title>Configuring a datasource with the Embeddable EJB3 container</title>
         
         <para>
             You should refer to the Embeddable EJB3 container documentation for more information about
@@ -245,20 +293,11 @@
    </bean>
 
 </deployment>]]></programlisting>
-        
-        <para>
-            The Seam booking example application includes a TestNG integration test suite that runs on
-            the Embeddable EJB3 container.
-        </para>
 
-        <mediaobject>
-          <imageobject role="fo">
-            <imagedata fileref="images/testng.png" align="center"/>
-          </imageobject>
-          <imageobject role="html">
-            <imagedata fileref="../shared/images/testng.png" align="center"/>
-          </imageobject>
-        </mediaobject>
+        </sect2>
+        
+        <sect2>
+            <title>Workaround for the Tomcat read-only JNDI context</title>
         
         <para>
             Some Java SE environments include a JNDI server. This is a major problem particularly in the case 
@@ -273,6 +312,8 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
         <para>
             This is not necessary when using Seam in TestNG.
         </para>
+        
+        </sect2>
 
     </sect1>
     
@@ -324,6 +365,9 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
     		</listitem>
     	</itemizedlist>
     	
+    	<sect2>
+    	    <title>Enabling Seam-managed transactions</title>
+    	
     	<para>
     	    To make use of <emphasis>Seam managed transactions</emphasis>, you need to use 
     	    <literal>SeamExtendedManagedPersistencePhaseListener</literal> in place of
@@ -337,8 +381,8 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
 </lifecycle>]]></programlisting>
 
         <para>
-            It's also a good idea to add a servlet filter to rollback uncommitted transaction when 
-            uncaught exceptions occur.
+            It's also a good idea to add a servlet filter to rollback uncommitted transactions 
+            when uncaught exceptions occur.
         </para>
         
 <programlisting><![CDATA[<filter>
@@ -351,6 +395,11 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
     <url-pattern>*.jsf</url-pattern>
 </filter-mapping>]]></programlisting>
 
+        </sect2>
+        
+        <sect2>
+            <title>Using a Seam-managed persistence context</title>
+
         <para>
             You'll need to use a <emphasis>managed persistence context</emphasis> (for EJB3) or
             <emphasis>managed session</emphasis> (for Hibernate) in your components. We'll see how to 
@@ -359,7 +408,7 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
         </para>
 
         <programlisting><![CDATA[org.jboss.seam.core.init.managedPersistenceContexts bookingDatabase
-bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]></programlisting>
+bookingDatabase.persistenceUnitJndiName java:/EntityManagerFactories/bookingData]]></programlisting>
         
         <para>
             Or, in <literal>web.xml</literal>:
@@ -371,7 +420,7 @@ bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]><
 </context-param>
 
 <context-param>
-    <param-name>bookingDatabase.persistenceUnitName</param-name>
+    <param-name>bookingDatabase.persistenceUnitJndiName</param-name>
     <param-value>java:/EntityManagerFactories/bookingData</param-value>
 </context-param>]]></programlisting>
 
@@ -383,10 +432,21 @@ bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]><
         </para>
         
         <para>
+            Of course, you need to make sure that you have bound the <literal>EntityManagerFactory</literal> 
+            into JNDI. In JBoss, you can do this by adding the following property setting to 
+            <literal>persistence.xml</literal>.
+        </para>
+        
+        <programlisting><![CDATA[<property name="jboss.entity.manager.factory.jndi.name" 
+          value="java:/EntityManagerFactories/bookingData"/>]]></programlisting>
+        
+        <para>
             Now we can have our <literal>EntityManager</literal> injected using:
         </para>
 
         <programlisting><![CDATA[@In(create=true) EntityManager bookingDatabase;]]></programlisting>
+        
+        </sect2>
                 
     </sect1>
     
@@ -420,10 +480,24 @@ bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]><
         </para>
         
         <para>
+            The Seam distribution includes a version of the booking example application that 
+            uses Hibernate and JavaBeans instead of EJB3. This example application is ready to 
+            deploy into any J2EE application server.
+        </para>
+        
+        <sect2>
+            <title>Boostrapping Hibernate in Seam</title>
+        
+        <para>
             Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
             <literal>hibernate.cfg.xml</literal> file if you install the built-in component
             named <literal>org.jboss.seam.core.hibernate</literal>. 
         </para>
+        
+        </sect2>
+        
+        <sect2>
+            <title>Using a Seam-managed Hibernate Session</title>
         
         <para>
             We will also need to configure a <emphasis>managed session</emphasis> if we want a Seam 
@@ -438,21 +512,29 @@ bookingDatabase.persistenceUnitName java:/EntityManagerFactories/bookingData]]><
         
         <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Hibernate
 org.jboss.seam.core.init.managedSessions bookingDatabase
-bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlisting>
+bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programlisting>
 
         <para>
             Where <literal>java:/bookingSessionFactory</literal> is the name of the session factory 
-            specified in <literal>hibernate.cfg.xml</literal>. We can now have a managed Hibernate 
-            <literal>Session</literal> injected into a JavaBean using the following code:
+            specified in <literal>hibernate.cfg.xml</literal>. 
+        </para>
+        
+        <programlisting><![CDATA[<session-factory name="java:/bookingSessionFactory">
+    ...
+</session-factory>]]></programlisting>
+        
+        <para>
+            We can now have a managed Hibernate <literal>Session</literal> injected into our
+            JavaBean components using the following code:
         </para>
         
         <programlisting><![CDATA[@In(create=true) Session bookingDatabase;]]></programlisting>
 
+        </sect2>
+        
         <para>
-            The Seam distribution includes a version of the booking example application that 
-            uses Hibernate and JavaBeans instead of EJB3. This example application is ready to 
-            deploy into any J2EE application server. If we want to deploy in a non-J2EE environment
-            like Tomcat or TestNG, we need to do a little bit more work.
+            If we want to deploy Hibernate in a non-J2EE environment like Tomcat or TestNG, we 
+            need to do a little bit more work.
         </para>
 
     </sect1>
@@ -463,6 +545,10 @@ bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlistin
             The Seam support for Hibernate requires JTA and a JCA datasource. If you are running in
             a non-EE environment like Tomcat or TestNG, you can run these services, and Hibernate 
             itself, in the JBoss Microcontainer. 
+        </para>
+        
+        <para>
+            You can even deploy the Hibernate version of the booking example in Tomcat.
         </para>
         
         <mediaobject>
@@ -485,6 +571,9 @@ bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlistin
             the JBoss Microcontainer for more information.
         </para>
         
+        <sect2>
+            <title>Using Hibernate and the JBoss Microcontainer</title>
+        
         <para>
             The built-in Seam component named <literal>org.jboss.seam.core.microcontainer</literal>
             bootstraps the microcontainer. As before, we probably want to use a Seam managed session.
@@ -492,7 +581,7 @@ bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlistin
 
         <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Microcontainer
 org.jboss.seam.core.init.managedSessions bookingDatabase
-bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlisting>
+bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programlisting>
 
         <para>
             Where <literal>java:/bookingSessionFactory</literal> is the name of the Hibernate session
@@ -506,6 +595,8 @@ bookingDatabase.sessionFactoryName java:/bookingSessionFactory]]></programlistin
         
         <programlisting><![CDATA[java.naming.factory.initial org.jnp.interfaces.LocalOnlyContextFactory
 java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlisting>
+
+        </sect2>
 
     </sect1>    	
     

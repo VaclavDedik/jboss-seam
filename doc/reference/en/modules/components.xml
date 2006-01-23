@@ -502,8 +502,8 @@
         </para>
         
         <programlisting><![CDATA[org.jboss.seam.core.init.managedPersistenceContexts bookingDatabase, userDatabase
-bookingDatabase.persistenceUnitName java:/comp/emf/bookingPersistence
-userDatabase.persistenceUnitName java:/comp/emf/userPersistence]]></programlisting>
+bookingDatabase.persistenceUnitJndiName java:/comp/emf/bookingPersistence
+userDatabase.persistenceUnitJndiName java:/comp/emf/userPersistence]]></programlisting>
         
         <para>
             The Seam component names are <literal>bookingDatabase</literal> and 
@@ -522,8 +522,9 @@ userDatabase.persistenceUnitName java:/comp/emf/userPersistence]]></programlisti
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal><emphasis>&lt;managedPersistenceContext&gt;</emphasis>.persistenceUnitName</literal> 
-                            &mdash; the JNDI name of the entity manager factory, defaults to the component name.
+                            <literal><emphasis>&lt;managedPersistenceContext&gt;</emphasis>.persistenceUnitJndiName</literal> 
+                            &mdash; the JNDI name of the entity manager factory, default to 
+                            <literal>java:/<emphasis>&lt;managedPersistenceContext&gt;</emphasis></literal>.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -539,8 +540,9 @@ userDatabase.persistenceUnitName java:/comp/emf/userPersistence]]></programlisti
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal><emphasis>&lt;managedSession&gt;</emphasis>.sessionFactoryName</literal> 
-                            &mdash; the JNDI name of the session factory, defaults to to the component name.
+                            <literal><emphasis>&lt;managedSession&gt;</emphasis>.sessionFactoryJndiName</literal> 
+                            &mdash; the JNDI name of the session factory, default to 
+                            <literal>java:/<emphasis>&lt;managedSession&gt;</emphasis></literal>.
                         </para>
                         </listitem>
                     </itemizedlist>
