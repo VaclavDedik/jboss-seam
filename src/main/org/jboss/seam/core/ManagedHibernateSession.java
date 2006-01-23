@@ -3,9 +3,6 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import javax.naming.NamingException;
@@ -39,25 +36,27 @@ public class ManagedHibernateSession implements Serializable
    private static final Logger log = Logger.getLogger(ManagedHibernateSession.class);
    
    private Session session;
-   private String sessionFactoryName;
+   private String sessionFactoryJndiName;
+   private String componentName;
    
    @Create
    public void create(Component component)
    {
-      if (sessionFactoryName==null)
+      this.componentName = component.getName();
+      if (sessionFactoryJndiName==null)
       {
-         sessionFactoryName = component.getName();
+         sessionFactoryJndiName = "java:/" + componentName;
       }
       try
       {
-         session = getSessionFactory(sessionFactoryName).openSession();
+         session = getSessionFactory().openSession();
       }
       catch (NamingException ne)
       {
          throw new IllegalArgumentException("SessionFactory not found", ne);
       }
       
-      log.debug("created seam managed session for session factory: "+ sessionFactoryName);
+      log.debug("created seam managed session for session factory: "+ sessionFactoryJndiName);
    }
    
    @Unwrap
@@ -70,32 +69,36 @@ public class ManagedHibernateSession implements Serializable
    @Destroy
    public void destroy()
    {
-      log.debug("destroying seam managed session for session factory: " + sessionFactoryName);
+      log.debug("destroying seam managed session for session factory: " + sessionFactoryJndiName);
       session.close();
    }
    
-   private SessionFactory getSessionFactory(String persistenceUnit)
+   private SessionFactory getSessionFactory()
          throws NamingException
    {
-      return (SessionFactory) NamingHelper.getInitialContext().lookup(sessionFactoryName);
+      return (SessionFactory) NamingHelper.getInitialContext().lookup(sessionFactoryJndiName);
    }
    
    public String toString()
    {
-      return "ManagedHibernateSession(" + sessionFactoryName + ")";
+      return "ManagedHibernateSession(" + sessionFactoryJndiName + ")";
    }
 
-   public String getSessionFactoryName()
+   public String getSessionFactoryJndiName()
    {
-      return sessionFactoryName;
+      return sessionFactoryJndiName;
    }
 
-   public void setSessionFactoryName(String sessionFactoryName)
+   public void setSessionFactoryJndiName(String sessionFactoryName)
    {
-      this.sessionFactoryName = sessionFactoryName;
+      this.sessionFactoryJndiName = sessionFactoryName;
+   }
+
+   public String getComponentName() {
+      return componentName;
    }
    
-   private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException
+   /*private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException
    {
       //TODO: this is just noise! We should deprecate disconnect/reconnect in HB core.
       ois.defaultReadObject();
@@ -107,5 +110,5 @@ public class ManagedHibernateSession implements Serializable
       //TODO: this is just noise! We should deprecate disconnect/reconnect in HB core.
       if (session!=null && session.isConnected() ) session.disconnect();
       oos.defaultWriteObject();
-   }
+   }*/
 }

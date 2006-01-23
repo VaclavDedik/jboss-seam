@@ -36,8 +36,8 @@
     </context-param>
     
     <context-param>
-        <param-name>entityManager.jndiName</param-name>
-        <param-value>IssuesEntityManager</param-value>
+        <param-name>entityManager.persistenceUnitJndiName</param-name>
+        <param-value>java:/issuesEntityManagerFactory</param-value>
     </context-param>
 
     <!-- 120 second conversation timeout -->

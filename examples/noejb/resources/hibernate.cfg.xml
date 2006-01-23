@@ -3,9 +3,9 @@
 	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-	<session-factory name="bookingDatabase">
+	<session-factory name="java:/bookingDatabase">
 		<property name="show_sql">false</property>
-		<property name="connection.datasource">java:hibernateDatasource</property>
+		<property name="connection.datasource">java:/hibernateDatasource</property>
 		<property name="dialect">org.hibernate.dialect.HSQLDialect</property>
 		<property name="hbm2ddl.auto">create-drop</property>
 		<property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>

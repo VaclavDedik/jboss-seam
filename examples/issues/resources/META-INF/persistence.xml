@@ -8,7 +8,7 @@
          <property name="hibernate.transaction.flush_before_completion" value="true"/>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>
-         <property name="jboss.entity.manager.factory.jndi.name" value="IssuesEntityManager"/>
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/issuesEntityManagerFactory"/>
       </properties>
    </persistence-unit>
 </persistence>

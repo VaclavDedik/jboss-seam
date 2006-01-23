@@ -34,28 +34,28 @@ public class ManagedPersistenceContext implements Serializable
    private static final Logger log = Logger.getLogger(ManagedPersistenceContext.class);
    
    private EntityManager entityManager;
-   private String persistenceUnitName;
-   private String jndiName;
+   private String persistenceUnitJndiName;
+   private String componentName;
    
    @Create
    public void create(Component component)
    {
-      if (persistenceUnitName==null)
+      this.componentName = component.getName();
+      if (persistenceUnitJndiName==null)
       {
-         persistenceUnitName = component.getName();
+         persistenceUnitJndiName = "java:/" + componentName;
       }
       
       try
       {
-         entityManager = getEntityManagerFactory(persistenceUnitName)
-               .createEntityManager(PersistenceContextType.EXTENDED);
+         entityManager = getEntityManagerFactory().createEntityManager(PersistenceContextType.EXTENDED);
       }
       catch (NamingException ne)
       {
          throw new IllegalArgumentException("EntityManagerFactory not found", ne);
       }
       
-      log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitName);
+      log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitJndiName);
    }
    
    @Unwrap
@@ -68,46 +68,35 @@ public class ManagedPersistenceContext implements Serializable
    @Destroy
    public void destroy()
    {
-      log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitName);
+      log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitJndiName);
       entityManager.close();
    }
    
-   private EntityManagerFactory getEntityManagerFactory(String persistenceUnit)
+   private EntityManagerFactory getEntityManagerFactory()
          throws NamingException
    {
-      if (jndiName==null)
-      {
-          return (EntityManagerFactory) NamingHelper.getInitialContext()
-                .lookup("java:/EntityManagerFactories/" + persistenceUnit);
-      }
-      else
-      {
-          return (EntityManagerFactory) NamingHelper.getInitialContext().lookup(jndiName);
-      }
+      return (EntityManagerFactory) NamingHelper.getInitialContext().lookup(persistenceUnitJndiName);
    }
    
    public String toString()
    {
-      return "ManagedPersistenceContext(" + persistenceUnitName + ")";
+      return "ManagedPersistenceContext(" + persistenceUnitJndiName + ")";
+   }
+   
+   /**
+    * The JNDI name of the EntityManagerFactory
+    */
+   public String getPersistenceUnitJndiName()
+   {
+      return persistenceUnitJndiName;
    }
 
-   public String getPersistenceUnitName()
+   public void setPersistenceUnitJndiName(String persistenceUnitName)
    {
-      return persistenceUnitName;
+      this.persistenceUnitJndiName = persistenceUnitName;
    }
 
-   public void setPersistenceUnitName(String persistenceUnitName)
-   {
-      this.persistenceUnitName = persistenceUnitName;
-   }
-
-   public String getJndiName() 
-   {
-       return jndiName;
-   }
-    
-   public void setJndiName(String jndiName) 
-   {
-       this.jndiName = jndiName;
+   public String getComponentName() {
+      return componentName;
    }
 }

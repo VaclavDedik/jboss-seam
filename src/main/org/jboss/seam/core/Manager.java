@@ -547,6 +547,10 @@ public class Manager
    public void prepareBackswitch(PhaseEvent event) {
       if ( isLongRunningConversation() )
       {
+         //important: only do this stuff when a long-running
+         //           conversation exists, otherwise we would
+         //           force creation of a conversation entry
+         
          Conversation conversation = Conversation.instance();
 
          //stuff from jPDL takes precedence
