@@ -164,7 +164,7 @@
             description="Cleans up everything">
 
         <ant dir="examples/booking" target="clean" inheritall="false"/>
-        <ant dir="examples/noejb" target="clean" inheritall="false"/>
+        <ant dir="examples/hibernate" target="clean" inheritall="false"/>
         <ant dir="examples/issues" target="clean" inheritall="false"/>
         <ant dir="examples/dvdstore" target="clean" inheritall="false"/>
         <ant dir="examples/messages" target="clean" inheritall="false"/>
@@ -225,7 +225,7 @@
   	<mkdir dir="report"/>
 
     <ant dir="examples/booking" target="testexample" inheritall="false"/>
-    <ant dir="examples/noejb" target="testexample" inheritall="false"/>
+    <ant dir="examples/hibernate" target="testexample" inheritall="false"/>
     <ant dir="examples/messages" target="testexample" inheritall="false"/>
     <ant dir="examples/numberguess" target="testexample" inheritall="false"/>
     <ant dir="examples/registration" target="testexample" inheritall="false"/>
@@ -317,7 +317,7 @@
                 <exclude name="booking/alter.config"/>
                 <exclude name="booking/alter.config/**/*"/>
                 <exclude name="booking/build.alter.xml"/>
-                <include name="noejb/**/*"/>
+                <include name="hibernate/**/*"/>
             	<include name="issues/**/*"/>
                 <include name="registration/**/*"/>
                 <include name="dvdstore/**/*"/>

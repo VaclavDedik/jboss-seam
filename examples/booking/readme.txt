@@ -82,5 +82,5 @@ Running the TestNG Tests in Eclipse
    lib/
    embedded-ejb/lib
    
-3. Run examples/noejb/src/org/jboss/seam/example/booking/test/testng.xml
+3. Run examples/booking/src/org/jboss/seam/example/booking/test/testng.xml
    using the TestNG plugin.

@@ -2493,7 +2493,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       <para>Look in the <literal>issues</literal> directory.</para>
   </section>
   
-  <section id="noejb">
+  <section id="hibernate">
       <title>An example of Seam with Hibernate: the Hibernate Booking example</title>
       
       <para>
@@ -2503,7 +2503,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       </para>
       
       <para>TODO</para>
-      <para>Look in the <literal>noejb</literal> directory.</para>
+      <para>Look in the <literal>hibernate</literal> directory.</para>
   </section>
   
 </chapter>

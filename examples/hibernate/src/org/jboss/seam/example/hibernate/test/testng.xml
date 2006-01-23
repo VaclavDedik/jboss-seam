@@ -4,19 +4,19 @@
 
    <test name="Login">
      <classes>
-       <class name="org.jboss.seam.example.noejb.test.LoginTest"/>
+       <class name="org.jboss.seam.example.hibernate.test.LoginTest"/>
      </classes>
    </test>
  
    <test name="Booking">
      <classes>
-       <class name="org.jboss.seam.example.noejb.test.BookingTest"/>
+       <class name="org.jboss.seam.example.hibernate.test.BookingTest"/>
      </classes>
    </test>
 	
    <test name="ChangePassword">
      <classes>
-       <class name="org.jboss.seam.example.noejb.test.ChangePasswordTest"/>
+       <class name="org.jboss.seam.example.hibernate.test.ChangePasswordTest"/>
      </classes>
    </test>
 

@@ -23,7 +23,7 @@ How to Build and Deploy the Example on Tomcat
 4. Build Seam by running "ant" the Seam root directory
 
 5. Build and deploy the example by running "ant deploy.tomcat" 
-   in the Seam "examples/noejb" directory
+   in the Seam "examples/hibernate" directory
 
 6. Start Tomcat
 
@@ -46,7 +46,7 @@ How to Build and Deploy the Example on JBoss AS
 4. Build Seam by running "ant" the Seam root directory
 
 5. Build and deploy the example by running "ant" in the Seam
-   "examples/noejb" directory
+   "examples/hibernate" directory
 
 6. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
 
@@ -57,7 +57,7 @@ How to Build and Deploy the Example on JBoss AS
 Running the TestNG Tests
 ------------------------
 
-In the "examples/noejb" directory, type "ant testexample"
+In the "examples/hibernate" directory, type "ant testexample"
 
 Running the TestNG Tests in Eclipse
 -----------------------------------
@@ -68,8 +68,8 @@ Running the TestNG Tests in Eclipse
    in your source path:
    
    src/main/
-   examples/noejb/src/
-   examples/noejb/resources/
+   examples/hibernate/src/
+   examples/hibernate/resources/
    microcontainer/conf/
    
    And all jar files from the following directories in your classpath:
@@ -77,6 +77,6 @@ Running the TestNG Tests in Eclipse
    lib/
    microcontainer/lib
    
-3. Run examples/noejb/src/org/jboss/seam/example/noejb/test/testng.xml
+3. Run examples/hibernate/src/org/jboss/seam/example/hibernate/test/testng.xml
    using the TestNG plugin.
    

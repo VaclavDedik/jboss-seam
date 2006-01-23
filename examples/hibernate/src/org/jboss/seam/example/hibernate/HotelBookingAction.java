@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.example.noejb;
+package org.jboss.seam.example.hibernate;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;

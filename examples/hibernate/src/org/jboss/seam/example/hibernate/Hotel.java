@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.example.noejb;
+package org.jboss.seam.example.hibernate;
 
 import java.io.Serializable;
 

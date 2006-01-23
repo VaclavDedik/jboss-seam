@@ -13,8 +13,8 @@
 		<property name="connection.release_mode">after_statement</property>
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
-		<mapping class="org.jboss.seam.example.noejb.Hotel"/>
-		<mapping class="org.jboss.seam.example.noejb.User"/>
-		<mapping class="org.jboss.seam.example.noejb.Booking"/>
+		<mapping class="org.jboss.seam.example.hibernate.Hotel"/>
+		<mapping class="org.jboss.seam.example.hibernate.User"/>
+		<mapping class="org.jboss.seam.example.hibernate.Booking"/>
 	</session-factory>
 </hibernate-configuration>

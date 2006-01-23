@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.example.noejb.test;
+package org.jboss.seam.example.hibernate.test;
 
 import java.util.Map;
 
@@ -8,8 +8,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Microcontainer;
-import org.jboss.seam.example.noejb.ChangePasswordAction;
-import org.jboss.seam.example.noejb.User;
+import org.jboss.seam.example.hibernate.ChangePasswordAction;
+import org.jboss.seam.example.hibernate.User;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
