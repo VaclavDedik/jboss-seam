@@ -9,6 +9,17 @@
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
+    
+    <!-- Propagate conversations across redirects -->
+    <filter>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <url-pattern>*.jsf</url-pattern>
+    </filter-mapping>
 
     <!-- 120 second conversation timeout -->
     <context-param>
