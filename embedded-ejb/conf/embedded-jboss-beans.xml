@@ -46,6 +46,18 @@
          <factory bean="TransactionManagerInitializer"/>
       </constructor>
    </bean>
+
+   <bean name="UserTransaction" class="org.jboss.ejb3.embedded.UserTransactionImpl">
+      <demand>TransactionManagerInitializer</demand>
+   </bean>
+
+   <bean name="UserTransactionBinding" class="org.jboss.ejb3.embedded.JndiBinder">
+      <property name="jndiProperties"><inject bean="InitialContextProperties"/></property>
+      <property name="target"><inject bean="UserTransaction"/></property>
+      <property name="bindTo">java:comp/UserTransaction</property>
+      <property name="serializable">false</property>
+   </bean>
+
    <bean name="CachedConnectionManager" class="org.jboss.resource.connectionmanager.CachedConnectionManagerReference">
       <property name="transactionManager"><inject bean="TransactionManager"/></property>
    </bean>
