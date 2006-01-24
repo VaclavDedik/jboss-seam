@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <!-- Seam -->
+    
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+    </listener>
+    
+    <!--
+    <filter>
+        <filter-name>Seam Exception Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Seam Exception Filter</filter-name>
+        <url-pattern>*.jsf</url-pattern>
+    </filter-mapping>
+    -->
+
+    <!-- Global JNDI name pattern for Embeddable EJB3 -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
+        <param-value>#{ejbName}/local</param-value>
+    </context-param>
+
+    <!-- Install the Embeddable EJB3 container -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
+        <param-value>org.jboss.seam.core.Ejb</param-value>
+    </context-param>
+    
+    <!-- Seam managed persistence context -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.init.managedPersistenceContexts</param-name>
+        <param-value>entityManager</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>entityManager.persistenceUnitJndiName</param-name>
+        <param-value>java:/issuesEntityManagerFactory</param-value>
+    </context-param>
+
+    <!-- 120 second conversation timeout -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
+        <param-value>120000</param-value>
+    </context-param>
+
+    <!-- MyFaces -->
+    
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+    
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
