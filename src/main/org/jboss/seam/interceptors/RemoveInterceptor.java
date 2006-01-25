@@ -25,6 +25,7 @@ public class RemoveInterceptor extends AbstractInterceptor
     
    //TODO: note that this implementation is a bit broken, since it assumes that
    //      the thing is always bound to its component name and scope
+   //      (We are waiting for getInvokedBusinessObject() in EJB3)
    
    private static final Logger log = Logger.getLogger(RemoveInterceptor.class);
 
@@ -76,6 +77,8 @@ public class RemoveInterceptor extends AbstractInterceptor
    }
 
    private void remove() {
+      //TODO: account for roles, by checking which role the component
+      //      is actually bound to (need getInvokedBusinessObject())
       component.getScope().getContext().remove( component.getName() );
       log.debug("Stateful component was removed: " + component.getName());
    }

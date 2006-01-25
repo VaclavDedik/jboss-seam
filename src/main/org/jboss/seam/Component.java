@@ -134,19 +134,24 @@ public class Component
    
    public Component(Class<?> clazz, String componentName)
    {
-      this(clazz, componentName, Contexts.getApplicationContext());
+      this(clazz, componentName, Seam.getComponentScope(clazz));
+   }
+
+   public Component(Class<?> clazz, String componentName, ScopeType componentScope)
+   {
+      this(clazz, componentName, componentScope, Contexts.getApplicationContext());
    }
 
    public Component(Class<?> clazz, Context applicationContext)
    {
-      this( clazz, Seam.getComponentName(clazz), applicationContext );
+      this( clazz, Seam.getComponentName(clazz), Seam.getComponentScope(clazz), applicationContext );
    }
    
-   public Component(Class<?> clazz, String componentName, Context applicationContext)
+   public Component(Class<?> clazz, String componentName, ScopeType componentScope, Context applicationContext)
    {
       beanClass = clazz;
       name = componentName;
-      scope = Seam.getComponentScope(beanClass);
+      scope = componentScope;
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
       

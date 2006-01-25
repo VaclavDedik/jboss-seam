@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Strings;
@@ -36,6 +37,17 @@ public class Seam
       return clazz.isAnnotationPresent(Scope.class) ?
             clazz.getAnnotation(Scope.class).value() :
             getComponentType(clazz).getDefaultScope();
+   }
+   
+   /**
+    * Get the scope for a role
+    * @see Scope
+    */
+   public static ScopeType getComponentRoleScope(Class clazz, Role role)
+   {
+      return role.scope()==null ?
+            getComponentType(clazz).getDefaultScope() :
+            role.scope();
    }
    
    /**

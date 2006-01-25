@@ -17,8 +17,11 @@ import javax.servlet.ServletContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Role;
+import org.jboss.seam.annotations.Roles;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -164,7 +167,23 @@ public class Initialization
       {
          try
          {
-            addComponent( Reflections.classForName(className), context );
+            Class<Object> componentClass = Reflections.classForName(className);
+            addComponent( componentClass, context );
+            if ( componentClass.isAnnotationPresent(Role.class) )
+            {
+               Role role = componentClass.getAnnotation(Role.class);
+               ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
+               addComponent( role.name(), scope, componentClass, context );
+            }
+            if ( componentClass.isAnnotationPresent(Roles.class) )
+            {
+               Role[] roles =componentClass.getAnnotation(Roles.class).value();
+               for (Role role: roles)
+               {
+                  ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
+                  addComponent( role.name(), scope, componentClass, context );
+               }
+            }
          }
          catch (ClassNotFoundException cnfe)
          {
@@ -210,6 +229,11 @@ public class Initialization
       
    }
    
+   protected void addComponent(String name, ScopeType scope, Class clazz, Context context)
+   {
+      context.set( name + ".component", new Component(clazz, name, scope) );
+   }
+
    protected void addComponent(String name, Class clazz, Context context)
    {
       context.set( name + ".component", new Component(clazz, name) );

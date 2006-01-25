@@ -16,7 +16,6 @@ import javax.ejb.InvocationContext;
 import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.CreateProcess;
@@ -52,9 +51,8 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       if (isActor) JbpmAuthentication.pushAuthenticatedActorId( actor.getId() );
       try
       {*/
-         String componentName = Seam.getComponentName( invocation.getBean().getClass() );
          Method method = invocation.getMethod();
-         log.trace( "Starting bpm interception [component=" + componentName + ", method=" + method.getName() + "]" );
+         log.trace( "Starting bpm interception [component=" + component.getName() + ", method=" + method.getName() + "]" );
    
          beforeInvocation( invocation );
          return afterInvocation( invocation, invocation.proceed() );
