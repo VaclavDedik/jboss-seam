@@ -5,6 +5,13 @@
         configuration properties.
     </para>
     
+    <para>
+        Note that you can replace any of the built in components with
+        your own implementations simply by specifying the name of one 
+        of the built in components on your own class using 
+        <literal>@Name</literal>.
+    </para>
+    
     <section>
         <title>Context injection components</title>
         <para>
