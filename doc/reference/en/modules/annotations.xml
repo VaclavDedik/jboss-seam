@@ -47,7 +47,7 @@
                         the component type. For stateless session beans, the default
                         is <literal>STATELESS</literal>. For entity beans and stateful
                         session beans, the default is <literal>CONVERSATION</literal>.
-                        For java beans, the default is <literal>EVENT</literal>.
+                        For JavaBeans, the default is <literal>EVENT</literal>.
                     </para>
                 </listitem>
             </varlistentry>   
@@ -61,6 +61,20 @@
                         define a "default role". Each <literal>@Role</literal> annotation
                         defines an additional role.
                     </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>name</literal> &mdash; the context variable name.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>scope</literal> &mdash; the context variable scope.
+                            When no scope is explicitly specified, the default depends upon
+                            the component type, as above.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
                 </listitem>
             </varlistentry>   
             <varlistentry id="name-roles">
