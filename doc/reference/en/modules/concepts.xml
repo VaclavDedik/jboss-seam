@@ -545,7 +545,7 @@ public class User {
             </para>
             <para>
                 For example, you can run your EJB3 components in Tomcat or an integration test suite 
-                just by installing the built-in component <literal>org.jboss.seam.ejb</literal>,
+                just by installing the built-in component <literal>org.jboss.seam.core.ejb</literal>,
                 which automatically bootstraps the JBoss Embeddable EJB3 container and deploys your
                 EJB components.
             </para>
@@ -553,10 +553,10 @@ public class User {
                 Or, if you're not quite ready for the Brave New World of EJB 3.0, you can write
                 a Seam application that uses only JavaBean components, together with Hibernate3
                 for persistence, by installing the built-in component 
-                <literal>org.jboss.seam.hibernate</literal>. When using Hibernate outside of a 
+                <literal>org.jboss.seam.core.hibernate</literal>. When using Hibernate outside of a 
                 J2EE environment, you will also probably need a JTA transaction manager and JNDI 
-                server, which are available via the built-in components 
-                <literal>org.jboss.seam.jta</literal> and <literal>org.jboss.seam.jndi</literal>. 
+                server, which are available via the built-in component
+                <literal>org.jboss.seam.core.microcontainer</literal>. 
                 This lets you use the bulletproof JTA/JCA pooling datasource from JBoss application 
                 server in an SE environment like Tomcat!
             </para>
