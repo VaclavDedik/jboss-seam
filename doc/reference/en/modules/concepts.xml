@@ -488,6 +488,43 @@ public class User {
         </sect2>
         
         <sect2>
+            <title>Components with multiple roles</title>
+            <para>
+                Some Seam component classes can fulfill more than one role in the system. For example,
+                we often have a <literal>User</literal> class which is usually used as a session-scoped 
+                component representing the current user but is used in user administration screens as a 
+                conversation-scoped component. The <literal>@Role</literal> annotation lets us define
+                an additional named role for a component, with a different scope&mdash;it lets us bind
+                the same component class to different context variables. (Any Seam component 
+                <emphasis>instance</emphasis> may be bound to multiple context variables, but this
+                lets us do it at the class level, and take advantage of auto-instantiation.)
+            </para>
+            
+            <programlisting><![CDATA[@Name("user")
+@Entity
+@Scope(CONVERSATION)
+@Role(name="currentUser", scope=SESSION)
+public class User { 
+    ... 
+}]]></programlisting>
+
+            <para>
+                The <literal>@Roles</literal> annotation lets us specify as many additional roles
+                as we like.
+            </para>
+
+            <programlisting><![CDATA[@Name("user")
+@Entity
+@Scope(CONVERSATION)
+@Roles({@Role(name="currentUser", scope=SESSION)
+   @Role(name="tempUser", scope=EVENT)})
+public class User { 
+    ... 
+}]]></programlisting>
+
+        </sect2>
+        
+        <sect2>
             <title>Built-in components</title>
             <para>
                 Like many good frameworks, Seam eats its own dogfood and is implemented mostly as

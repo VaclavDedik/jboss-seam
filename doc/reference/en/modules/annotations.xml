@@ -51,6 +51,30 @@
                     </para>
                 </listitem>
             </varlistentry>   
+            <varlistentry id="name-role">
+                <term><literal>@Role</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Role(name="roleName", scope=ScopeType.SESSION)]]></programlisting>
+                    <para>
+                        Allows a Seam component to be bound to multiple contexts variables.
+                        The <literal>@Name</literal>/<literal>@Scope</literal> annotations
+                        define a "default role". Each <literal>@Role</literal> annotation
+                        defines an additional role.
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry id="name-roles">
+                <term><literal>@Roles</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Roles({
+        @Role(name="user", scope=ScopeType.CONVERSATION),
+        @Role(name="currentUser", scope=ScopeType.SESSION)
+    })]]></programlisting>
+                    <para>
+                        Allows specification of multiple additional roles.
+                    </para>
+                </listitem>
+            </varlistentry>   
             <varlistentry>
                 <term><literal>@Intercept</literal></term>
                 <listitem>
