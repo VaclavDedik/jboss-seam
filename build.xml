@@ -62,11 +62,17 @@
         <include name="${name}.jar" />
     </fileset>
     
+    <fileset id="seam-ui.jar" 
+            dir="${imported.basedir}">
+        <include name="${name}-ui.jar" />
+    </fileset>
+    
     <zipfileset id="example.tomcat.lib" 
     	    prefix="WEB-INF/lib"
                dir="${lib.dir}">
         <include name="*.jar"/>
     	<exclude name="servlet-api.jar"/>
+    	<exclude name="javax.servlet.jsp.jar"/>
     	<exclude name="testng-*.jar"/>    	
     </zipfileset>
     
@@ -128,6 +134,7 @@
     <patternset id="meta.files">
         <include name="**/*.dtd"/>
         <include name="**/*.xml"/>
+    	<include name="**/*.tld"/>
         <include name="**/*.xslt"/>
         <include name="**/*.properties"/>
     </patternset>
@@ -336,15 +343,27 @@
     <target name="jar" depends="compile"
             description="Build the distribution .jar file">
         <mkdir dir="${dist.dir}"/>
+    	
         <jar jarfile="${basedir}/${name}.jar" basedir="${classes.dir}">
             <include name="org/jboss/seam/**/*.class"/>
             <exclude name="**/test/*.class"/>
-            <patternset refid="meta.files"/>
+        	<exclude name="org/jboss/seam/ui/*.class"/>
+            <!--patternset refid="meta.files"/-->
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}.jar" todir="${dist.dir}"/>
+    	
+        <jar jarfile="${basedir}/${name}-ui.jar" basedir="${classes.dir}">
+        	<include name="org/jboss/seam/ui/*.class"/>
+            <patternset refid="meta.files"/>
+            <manifest>
+                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+            </manifest>
+        </jar>
+        <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
+    	
     </target>
 
     <target name="javadoc"
@@ -421,20 +440,26 @@
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf"/>
             <zipfileset refid="example.war.webinf.lib"/>
+        	<manifest>
+        		<attribute name="Class-Path" value="${name}.jar"/>
+        	</manifest>
         </jar>
     </target>
 
     <target name="ejb3" depends="compile">
         <jar jarfile="${build.dir}/${example.name}.jar">
-            <fileset refid="seam.jar"/>
             <fileset refid="example.classes"/>
             <fileset refid="example.ejb3.root"/>
             <fileset refid="example.ejb3.lib"/>
+        	<manifest>
+        		<attribute name="Class-Path" value="${name}.jar"/>
+        	</manifest>
         </jar>
     </target>
 
     <target name="ear" depends="ejb3, war">
         <jar destfile="${build.dir}/${example.name}.ear">
+            <fileset refid="seam.jar"/>
             <zipfileset dir="${build.dir}">
                 <include name="${example.name}.jar"/>
             </zipfileset>
