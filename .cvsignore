@@ -4,5 +4,8 @@ build
 *.iml
 output
 jboss-seam.jar
+jboss-seam-ui.jar
 test-output
+testng-failures.xml
 report
+output
