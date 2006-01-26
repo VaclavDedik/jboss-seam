@@ -40,8 +40,9 @@
     </itemizedlist>
     
     <para>
-        Don't get these two things confused! They operate at very different levels
-        or granularity. "Pageflow", "conversation" and "task" all refer to a single
+        Don't get these two things confused ! They operate at very different levels
+        or granularity. <emphasis>Pageflow</emphasis>, <emphasis>conversation</emphasis>
+        and <emphasis>task</emphasis> all refer to a single
         interaction with a single user. A business process spans many tasks.
         Futhermore, the two applications of jBPM are totally orthogonal. You can
         use them together or independently or not at all.
