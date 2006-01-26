@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<faces-config>
+  <component>
+    <component-class>org.jboss.seam.ui.HtmlQueryTable</component-class>
+    <base-class>javax.faces.component.html.HtmlDataTable</base-class>
+    <component-type>org.jboss.seam.ui.HtmlQueryTable</component-type>
+    <renderer-type>javax.faces.Table</renderer-type>
+    <field>
+        <name>ejbql</name>
+        <type>java.lang.String</type>
+    </field>
+    <field>
+        <name>firstResult</name>
+        <type>java.lang.Integer</type>
+    </field>
+    <field>
+        <name>maxResults</name>
+        <type>java.lang.integer</type>
+    </field>
+  </component>
+</faces-config>
