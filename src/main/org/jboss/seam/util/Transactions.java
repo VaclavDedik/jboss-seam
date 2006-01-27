@@ -11,6 +11,9 @@ import org.jboss.logging.Logger;
 
 public class Transactions
 {
+   public static final String EJBCONTEXT_NAME = "java:comp/EJBContext";
+   public static final String USER_TRANSACTION_NAME = "java:comp/UserTransaction";
+   
    public static Logger log = Logger.getLogger(Transactions.class);
    
    public static boolean isTransactionActive() throws SystemException, NamingException
@@ -26,12 +29,12 @@ public class Transactions
 
    public static UserTransaction getUserTransaction() throws NamingException
    {
-      return (UserTransaction) NamingHelper.getInitialContext().lookup("java:comp/UserTransaction");
+      return (UserTransaction) NamingHelper.getInitialContext().lookup(USER_TRANSACTION_NAME);
    }
 
    public static EJBContext getEJBContext() throws NamingException
    {
-      return (EJBContext) NamingHelper.getInitialContext().lookup("java:comp/EJBContext");
+      return (EJBContext) NamingHelper.getInitialContext().lookup(EJBCONTEXT_NAME);
    }
 
    private Transactions() {}

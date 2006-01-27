@@ -16,6 +16,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Transactions;
 import org.jboss.tm.TransactionManagerInitializer;
 
 /**
@@ -70,6 +71,7 @@ public class Ejb
       ctx.unbind(TransactionManagerInitializer.JNDI_NAME);
       ctx.unbind(TransactionManagerInitializer.JNDI_IMPORTER);
       ctx.unbind(TransactionManagerInitializer.JNDI_EXPORTER);
+      ctx.unbind(Transactions.USER_TRANSACTION_NAME);
       deployer.destroy();
       deployer = null;
       //EJB3StandaloneBootstrap.shutdown();

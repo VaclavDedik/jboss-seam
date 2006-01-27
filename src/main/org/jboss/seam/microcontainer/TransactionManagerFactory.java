@@ -7,6 +7,7 @@ import javax.transaction.TransactionManager;
 import org.jboss.logging.Logger;
 import org.jboss.resource.connectionmanager.TransactionSynchronizer;
 import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Transactions;
 import org.jboss.tm.TxManager;
 import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;
 import org.jboss.util.naming.NonSerializableFactory;
@@ -36,7 +37,7 @@ public class TransactionManagerFactory
       //create a UserTransaction and bind to JNDI
       ServerVMClientUserTransaction ut = new ServerVMClientUserTransaction(transactionManager);
       Util.createSubcontext(initialContext, "java:/comp");
-      NonSerializableFactory.rebind( initialContext, "java:comp/UserTransaction", ut );
+      NonSerializableFactory.rebind( initialContext, Transactions.USER_TRANSACTION_NAME, ut );
       
       return transactionManager;
 
