@@ -4,8 +4,11 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
+import java.util.Properties;
 
+import org.hibernate.cfg.Environment;
 import org.jboss.logging.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -17,11 +20,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.jbpm.SeamVariableResolver;
+import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
+import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 
 /**
  * A seam component that boostraps a JBPM SessionFactory
@@ -113,6 +118,19 @@ public class Jbpm
       if ( processDefinitions!=null && processDefinitions.length>0 )
       {
          jbpmConfiguration = JbpmConfiguration.getInstance();
+         DbPersistenceServiceFactory dbpsf = (DbPersistenceServiceFactory) jbpmConfiguration.getServiceFactory("persistence");
+         if (NamingHelper.getInitialContextProperties()!=null)
+         {
+            // Prefix regular JNDI properties for Hibernate
+            Hashtable<String, String> hash = NamingHelper.getInitialContextProperties();
+            Properties prefixed = new Properties();
+            for (Map.Entry<String, String> entry: hash.entrySet() )
+            {
+               prefixed.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
+            }
+
+            dbpsf.getConfiguration().getProperties().putAll(prefixed);
+         }
          
          JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
          try

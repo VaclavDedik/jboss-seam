@@ -16,6 +16,7 @@ import org.jboss.logging.Logger;
 public final class NamingHelper {
    
     private static final Logger log = Logger.getLogger(NamingHelper.class);
+    private static Hashtable initialContextProperties;
 
     public static InitialContext getInitialContext(Hashtable<String, String> props) throws NamingException {
 
@@ -37,7 +38,13 @@ public final class NamingHelper {
 
     private NamingHelper() {}
     
-    public static Hashtable initialContextProperties;
+    public static void setInitialContextProperties(Hashtable initialContextProperties) {
+       NamingHelper.initialContextProperties = initialContextProperties;
+    }
+
+    public static Hashtable getInitialContextProperties() {
+       return initialContextProperties;
+    }
 
 }
 

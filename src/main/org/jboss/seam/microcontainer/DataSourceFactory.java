@@ -60,7 +60,7 @@ public class DataSourceFactory
       ds.setTransactionManager(transactionManager);
       ds.setJndiName(jndiName);
       ds.setCachedConnectionManager(ccmr);
-      ds.setInitialContextProperties(NamingHelper.initialContextProperties);
+      ds.setInitialContextProperties(NamingHelper.getInitialContextProperties());
       ds.start();
       
       return ds;

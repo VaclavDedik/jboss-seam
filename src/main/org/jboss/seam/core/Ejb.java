@@ -47,7 +47,7 @@ public class Ejb
       
       // need to set the InitialContext properties that deployer will use
       // to initial EJB containers
-      deployer.setJndiProperties(NamingHelper.initialContextProperties);
+      deployer.setJndiProperties(NamingHelper.getInitialContextProperties());
       
       deployer.create();
       deployer.start();

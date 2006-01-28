@@ -112,7 +112,7 @@ public class Initialization
       
       Properties jndiProperties = new Properties();
       loadFromResource( jndiProperties, "/seam-jndi.properties" );
-      NamingHelper.initialContextProperties = jndiProperties;
+      NamingHelper.setInitialContextProperties(jndiProperties);
    }
    
    public static void loadFromResource(Map properties, String resource)

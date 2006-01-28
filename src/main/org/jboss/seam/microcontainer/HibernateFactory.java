@@ -60,12 +60,15 @@ public class HibernateFactory {
         if (cfgProperties != null) {
             acfg.setProperties(cfgProperties);
         }
-
-        // Prefix regular JNDI properties for Hibernate
-        Hashtable<String, String> hash = NamingHelper.initialContextProperties;
-        for (Map.Entry<String, String> entry: hash.entrySet() )
+        
+        if ( NamingHelper.getInitialContextProperties()!=null )
         {
-            acfg.setProperty(Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
+           // Prefix regular JNDI properties for Hibernate
+           Hashtable<String, String> hash = NamingHelper.getInitialContextProperties();
+           for (Map.Entry<String, String> entry: hash.entrySet() )
+           {
+               acfg.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
+           }
         }
 
         // hibernate.cfg.xml configuration
