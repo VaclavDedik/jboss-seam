@@ -9,10 +9,7 @@
    
 -->
 
-<pageflow-definition xmlns="urn:jboss.org:seam-pageflow-1.0" 
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:schemaLocation="urn:jboss.org:seam-pageflow-1.0 http://www.jboss.com/products/seam/seam-pageflow-1.0.xsd"
-                    name="numberGuess">
+<pageflow-definition name="numberGuess">
    
    <start-state name="start">
       <transition to="displayGuess"/>
