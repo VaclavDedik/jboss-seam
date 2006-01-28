@@ -32,7 +32,7 @@ import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup(depends="org.jboss.seam.core.microcontainer")
+@Startup(depends={"org.jboss.seam.core.microcontainer", "org.jboss.seam.core.ejb"})
 @Name("org.jboss.seam.core.jbpm")
 public class Jbpm 
 {
