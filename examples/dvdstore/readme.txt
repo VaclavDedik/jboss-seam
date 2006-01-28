@@ -24,7 +24,7 @@ How to Build and Deploy the Example on JBoss AS
 
 7. Point your web browser to:
 
-   http://localhost:8080/dvd/
+   http://localhost:8080/seam-dvd/
 
    NOTE: The default build uses the HSQL database embedded in JBoss AS
 
