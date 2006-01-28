@@ -1,5 +1,5 @@
 <jbpm-configuration>
-
+  
   <jbpm-context>
     <service name="persistence">
        <factory>
