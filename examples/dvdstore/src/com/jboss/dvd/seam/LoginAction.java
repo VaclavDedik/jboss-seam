@@ -19,7 +19,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.core.Actor;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
@@ -86,11 +85,7 @@ public class LoginAction
         }
     }
     
-    @In(required=false)
-    Conversation conversation;
-    
     public String logout() {
-        if (conversation!=null) conversation.leave();
         Seam.invalidateSession();
         sessionContext.set("currentUser", null);
         sessionContext.set("loggedIn",    null);
