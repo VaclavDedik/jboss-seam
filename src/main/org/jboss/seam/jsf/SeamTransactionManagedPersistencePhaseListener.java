@@ -66,8 +66,11 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    private void begin() {
       try
       {
-         log.debug( "Starting transaction prior to RESTORE_VIEW phase" );
-         Transactions.getUserTransaction().begin();
+         if ( !Transactions.isTransactionActive() )
+         {
+            log.debug( "Starting transaction prior to RESTORE_VIEW phase" );
+            Transactions.getUserTransaction().begin();
+         }
       }
       catch (Exception e)
       {
