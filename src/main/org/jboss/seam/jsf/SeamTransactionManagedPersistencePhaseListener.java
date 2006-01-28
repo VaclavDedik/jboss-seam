@@ -48,11 +48,13 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
 
       boolean commit = event.getPhaseId()==PhaseId.RENDER_RESPONSE ||
             event.getFacesContext().getResponseComplete();
+      boolean flush = event.getPhaseId()==PhaseId.INVOKE_APPLICATION || 
+            event.getFacesContext().getRenderResponse();
       if ( commit )
       {
          commit();
       }
-      else if ( event.getPhaseId()==PhaseId.INVOKE_APPLICATION )
+      else if ( flush )
       {
          flush();
       }

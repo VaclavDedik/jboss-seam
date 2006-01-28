@@ -28,7 +28,10 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       boolean beginTran = event.getPhaseId()==PhaseId.RESTORE_VIEW || 
             ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       
-      if ( beginTran ) begin();
+      if ( beginTran ) 
+      {
+         begin();
+      }
       
       super.beforePhase( event );
    }
@@ -41,7 +44,10 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
             event.getFacesContext().getResponseComplete() ||
             ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       
-      if (commitTran) commit(); //we commit before destroying contexts, cos the contexts have the PC in them
+      if (commitTran)
+      { 
+         commit(); //we commit before destroying contexts, cos the contexts have the PC in them
+      }
 
       super.afterPhase( event );      
    }
