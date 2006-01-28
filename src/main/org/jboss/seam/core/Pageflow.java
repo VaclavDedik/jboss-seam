@@ -102,6 +102,13 @@ public class Pageflow
    {
       return getPage().getDefaultLeavingTransition()!=null;
    }
+   
+   public boolean hasTransition(String outcome)
+   {
+      return outcome==null ? 
+            hasDefaultTransition() : 
+            getPage().getLeavingTransition(outcome)!=null;
+   }
 
    public void navigate(FacesContext context, String outcome) {
       if ( outcome==null || "".equals(outcome) )

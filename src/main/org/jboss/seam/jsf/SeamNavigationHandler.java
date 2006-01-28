@@ -20,7 +20,7 @@ public class SeamNavigationHandler extends NavigationHandler {
    public void handleNavigation(FacesContext context, String fromAction, String outcome) {
 	  if ( !"org.jboss.seam.switch".equals(outcome) ) //TODO: is if ( !context.getResponseComplete() ) better?
 	  {
-	      if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
+	      if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() && Pageflow.instance().hasTransition(outcome) )
 	      {
 	         Pageflow.instance().navigate(context, outcome);
 	      }
