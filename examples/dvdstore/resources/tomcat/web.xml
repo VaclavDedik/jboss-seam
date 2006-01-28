@@ -15,12 +15,12 @@
     <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
     <context-param>
         <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>jboss-seam-dvd/#{ejbName}/local</param-value>
+        <param-value>#{ejbName}/local</param-value>
     </context-param>
 
     <context-param>
         <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-        <param-value>org.jboss.seam.core.Jbpm</param-value>
+        <param-value>org.jboss.seam.core.Jbpm org.jboss.seam.core.Ejb</param-value>
     </context-param>
     
     <context-param>

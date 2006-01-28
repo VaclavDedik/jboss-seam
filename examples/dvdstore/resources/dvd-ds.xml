@@ -2,7 +2,7 @@
 
 <datasources>
     <local-tx-datasource>
-        <jndi-name>DVDStoreDS</jndi-name>
+        <jndi-name>dvdDatasource</jndi-name>
         <connection-url>jdbc:hsqldb:.</connection-url>
         <driver-class>org.hsqldb.jdbcDriver</driver-class>
         <user-name>sa</user-name>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<pageflow-diagram name="shopping" width="831" height="794">
+<pageflow-diagram name="shopping" width="839" height="750">
   <node name="start" x="86" y="49" width="140" height="40">
     <transition>
       <label x="5" y="-10"/>
