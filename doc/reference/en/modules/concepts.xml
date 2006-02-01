@@ -36,6 +36,11 @@
             </listitem>
             <listitem>
                 <para>
+                    Page context
+                </para>
+            </listitem>
+            <listitem>
+                <para>
                     Conversation context
                 </para>
             </listitem>
