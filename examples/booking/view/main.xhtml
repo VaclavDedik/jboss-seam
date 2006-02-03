@@ -11,6 +11,7 @@
 <div class="section">
 <h:form>
 	<h1>Search Hotels</h1>
+        <h:outputText value="(e.g., enter word atlanta as the search string)"/>
 	<fieldset> 
 		<h:inputText value="#{hotelBooking.searchString}" style="width: 165px;" />&nbsp;
 		<h:commandButton value="Find Hotels" action="#{hotelBooking.find}" styleClass="button" />&nbsp;

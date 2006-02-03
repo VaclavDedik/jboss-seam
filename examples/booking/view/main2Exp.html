@@ -41,7 +41,7 @@ public class HotelBookingAction implements HotelBooking, Serializable {
 }
 </code>
 
-<p>To start another conversation, you simply load the <code>main.xhtml</code> page, which invokes the above code. You can load <code>main.xhtml</code> either in the current window or in a new browser window / tab. The result is that a new conversation is initiated and all the available conversations are stored in the Seam <code>#{conversationList}</code> variable. The code snippet in the <code>conversations.xhtml</code> file, which displays all available conversations for this user, is as follows.</p>
+<p>To start another conversation, you simply load the <code>main.xhtml</code> page, which invokes the above code. You can load <code>main.xhtml</code> either in the current window or in a new browser window / tab. The result is that a new conversation is initiated and all the available conversations are stored in a Seam built-in component named <code>#{conversationList}</code>. You can retrieve  information about each workspace, including the link to make it current, from entries in the <code>#{conversationList}</code> component. The code snippet in the <code>conversations.xhtml</code> file, which displays all available conversations for this user, is as follows.</p>
 
 <code class="block">
 &lt;h:dataTable value="#{conversationList}" var="entry">
@@ -62,6 +62,26 @@ public class HotelBookingAction implements HotelBooking, Serializable {
 &lt;/h:dataTable>
 </code>
 
+<p>However, for the above code to work, you have to specify the <code>#{entry.description}</code> for each page in the conversation. This is done in the <code>pages.xml</code> file in the <code>WEB-INF</code> directory in the <code>.war</code> archive. Below is the <code>pages.xml</code> for the booking example.</p>
+
+<code class="block">
+&lt;pages>
+  &lt;page view-id="/main.xhtml" timeout="300000">
+    Search hotels: #{hotelBooking.searchString}
+  &lt;/page>
+  &lt;page view-id="/hotel.xhtml" timeout="300000">
+    View hotel: #{hotel.name}
+  &lt;/page>
+  &lt;page view-id="/book.xhtml" timeout="600000">
+    Book hotel: #{hotel.name}
+  &lt;/page>
+  &lt;page view-id="/confirm.xhtml" timeout="600000">
+    Confirm: #{booking.description}
+  &lt;/page>
+&lt;/pages>
+</code>
+
+<p>Note that you do not need the <code>pages.xml</code> file if you do not provide workspace switching functionalities in your application.</p>
 
 <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
 
