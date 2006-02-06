@@ -385,7 +385,8 @@ public class Manager
    {
 
       //First, try to get the conversation id from a request parameter
-      String storedConversationId = (String) parameters.get("conversationId");
+      String storedConversationId = getConversationIdFromRequestParameter(parameters);
+      
       if ( isMissing(storedConversationId) && attributes!=null )
       {
          //if it is not passed as a request parameter, try to get it from
@@ -429,6 +430,32 @@ public class Manager
          initializeTemporaryConversation();
       }
 
+   }
+
+   private String getConversationIdFromRequestParameter(Map parameters) {
+      Object object = parameters.get("conversationId");
+      if (object==null)
+      {
+         return null;
+      }
+      else
+      {
+         if ( object instanceof String )
+         {
+            //when it comes from JSF it is (usually?) a plain string
+            return (String) object;
+         }
+         else
+         {
+            //in a servlet it is a string array
+            String[] values = (String[]) object;
+            if (values.length!=1)
+            {
+               throw new IllegalArgumentException("expected exactly one value for conversationId request parameter");
+            }
+            return values[0];
+         }
+      }
    }
 
    private boolean isMissing(String storedConversationId) {
