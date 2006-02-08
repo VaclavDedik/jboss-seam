@@ -3,19 +3,21 @@
 <project name="Booking" default="jbossdemo" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="Seam Booking Example"/>
+    <property name="Name"                   value="Seam on JBoss Booking Example"/>
     <property name="example.name"           value="jboss-seam-booking"/>
 
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
-               dir="build/resources/view">
+               dir="view">
         <include name="**/*"/>
     </zipfileset>
+    
     <zipfileset id="example.war.webinf"
             prefix="WEB-INF"
                dir="build/resources/WEB-INF" >
         <patternset refid="meta.files"/>
-     </zipfileset>
+    </zipfileset>
+    
     <zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
                dir="build/resources/WEB-INF/lib">
@@ -25,6 +27,7 @@
     <!-- EJB3 -->
     <fileset id="example.ejb3.root"
             dir="build/resources">
+        <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
     </fileset>
@@ -39,6 +42,7 @@
                dir="build/resources/META-INF">
         <include name="*"/>
         <exclude name="persistence.xml"/>
+        <exclude name="jboss-beans.xml"/>
     </zipfileset>
 
     <!-- Deploy -->
@@ -46,14 +50,18 @@
             dir="build/resources">
         <include name="booking-ds.xml"/>
     </fileset>
-
+    
     <!-- Undeploy -->
     <patternset id="example.undeploy">
         <include name="booking-ds.xml"/>
     </patternset>
 
     <!-- Overrides -->
-    <property name="src.java.dir"           value="src"/>
+    <property name="src.java.dir" value="src"/>
+    <property name="src.test.dir" value="src"/>
+    <property name="test.classpath" value="test.eejb.classpath"/>
+    <property name="tomcat.conf" value="eejb.conf"/>
+    <property name="tomcat.lib" value="eejb.lib"/>
 
     <import file="../../build.xml"/>
 
