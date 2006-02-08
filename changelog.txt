@@ -19,6 +19,7 @@ Changes in version 1.0 beta 2 (January 2005)
 * Added @RequestParameter
 * Added @Rollback
 * Added @IfInvalid(refreshEntities=true)
+* Added @Role/@Roles
 * Added resourceBundle component
 * Conversation timeout now settable programmatically
 * Support for login by challenge
