@@ -279,7 +279,7 @@
             <literal>seam.properties</literal>:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Jbpm
+        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Jbpm
 org.jboss.seam.core.jbpm.pageflowDefinitions pageflow.jpdl.xml]]></programlisting>
 
         <para>
