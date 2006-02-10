@@ -45,7 +45,7 @@
 
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
     
-    <property name="testng.jar"         value="${imported.basedir}/lib/testng-4.4.7-jdk15.jar"/>
+    <property name="testng.jar"         value="${imported.basedir}/lib/testng-4.5.1-jdk15.jar"/>
 
     <property name="javac.debug"        value="true"/>
     <property name="javac.deprecation"  value="false"/>
