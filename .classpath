@@ -26,7 +26,6 @@
 	<classpathentry kind="lib" path="lib/jboss-transaction.jar"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j.jar"/>
-	<classpathentry kind="lib" path="embedded-ejb/lib/commons-logging-api.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/jboss-container.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/jboss-dependency.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/lib/xercesImpl.jar"/>
@@ -35,10 +34,10 @@
 	<classpathentry kind="lib" path="embedded-ejb/lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-common.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-microcontainer.jar"/>
-	<classpathentry kind="lib" path="lib/testng-4.4.7-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-impl.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.1-beta3.jar"/>
-	<classpathentry kind="lib" path="lib/cglib-2.1_2jboss.jar"/>
+	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-2.1.1.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
