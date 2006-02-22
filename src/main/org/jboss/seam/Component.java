@@ -72,7 +72,7 @@ import org.jboss.seam.util.Strings;
 /**
  * A Seam component is any POJO managed by Seam.
  * A POJO is recognized as a Seam component if it has a @Name annotation
- * 
+ *
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @author Gavin King
  * @version $Revision$
@@ -81,12 +81,12 @@ import org.jboss.seam.util.Strings;
 public class Component
 {
    public static final String PROPERTIES = "org.jboss.seam.properties";
-   
+
    //static
    {
       PropertyEditorManager.registerEditor(String[].class, StringArrayPropertyEditor.class);
    }
-   
+
    private static final Logger log = Logger.getLogger(Component.class);
 
    private ComponentType type;
@@ -97,7 +97,7 @@ public class Component
    private InterceptionType interceptionType;
    private boolean startup;
    private String[] dependencies;
-   
+
    private Method destroyMethod;
    private Method createMethod;
    private Method unwrapMethod;
@@ -110,28 +110,28 @@ public class Component
    private Set<Field> parameterFields = new HashSet<Field>();
    private Set<Method> parameterSetters = new HashSet<Method>();
    private Map<Method, Object> initializers = new HashMap<Method, Object>();
-   
+
    private List<Method> dataModelGetters = new ArrayList<Method>();
    private Map<String, Method> dataModelSelectionIndexSetters = new HashMap<String, Method>();
    private Map<String, Method> dataModelSelectionSetters = new HashMap<String, Method>();
    private List<Field> dataModelFields = new ArrayList<Field>();
    private Map<String, Field> dataModelSelectionIndexFields = new HashMap<String, Field>();
    private Map<String, Field> dataModelSelectionFields = new HashMap<String, Field>();
-   
-   
+
+
    private ClassValidator validator;
-   
+
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
-   
+
    private Set<Class> localInterfaces;
-   
+
    private Class<Factory> factory;
 
    public Component(Class<?> clazz)
    {
       this( clazz, Seam.getComponentName(clazz) );
    }
-   
+
    public Component(Class<?> clazz, String componentName)
    {
       this(clazz, componentName, Seam.getComponentScope(clazz));
@@ -146,7 +146,7 @@ public class Component
    {
       this( clazz, Seam.getComponentName(clazz), Seam.getComponentScope(clazz), applicationContext );
    }
-   
+
    public Component(Class<?> clazz, String componentName, ScopeType componentScope, Context applicationContext)
    {
       beanClass = clazz;
@@ -154,43 +154,43 @@ public class Component
       scope = componentScope;
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
-      
+
       checkScopeForComponentType();
-      
+
       startup = beanClass.isAnnotationPresent(Startup.class);
       if (startup)
       {
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
-      
+
       jndiName = getJndiName(applicationContext);
-      
+
       log.info(
-            "Component: " + getName() + 
-            ", scope: " + getScope() + 
-            ", type: " + getType() + 
-            ", class: " + beanClass.getName() + 
-            ( jndiName==null ? "" : ", JNDI: " + jndiName ) 
+            "Component: " + getName() +
+            ", scope: " + getScope() +
+            ", type: " + getType() +
+            ", class: " + beanClass.getName() +
+            ( jndiName==null ? "" : ", JNDI: " + jndiName )
          );
 
       initMembers(clazz, applicationContext);
-      
+
       localInterfaces = getLocalInterfaces(beanClass);
-      
-      if ( interceptionType!=InterceptionType.NEVER) 
+
+      if ( interceptionType!=InterceptionType.NEVER)
       {
          initInterceptors();
       }
-      
+
       initValidator();
 
       initInitializers(applicationContext);
-      
+
       if (type==ComponentType.JAVA_BEAN)
       {
          factory = createProxyFactory();
       }
-      
+
    }
 
    private void checkScopeForComponentType() {
@@ -253,7 +253,7 @@ public class Component
       {
          String key = me.getKey();
          String value = me.getValue();
-          
+
          if ( key.startsWith(name) && key.charAt( name.length() )=='.' )
          {
             String propertyName = key.substring( name.length()+1, key.length() );
@@ -271,7 +271,7 @@ public class Component
             initializers.put( propertyDescriptor.getWriteMethod(), propertyEditor.getValue() );
             log.debug( key + "=" + value );
         }
-         
+
       }
    }
 
@@ -284,16 +284,16 @@ public class Component
 
       for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
-      
+
          for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
          {
             if ( method.isAnnotationPresent(IfInvalid.class) )
             {
-               validateMethods.add(method);  
+               validateMethods.add(method);
             }
             if ( method.isAnnotationPresent(Remove.class) )
             {
-               removeMethods.add(method);  
+               removeMethods.add(method);
             }
             if ( method.isAnnotationPresent(Destroy.class) )
             {
@@ -320,12 +320,12 @@ public class Component
                checkDataModelScope( method.getAnnotation(DataModel.class) );
                dataModelGetters.add(method);
             }
-            if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) ) 
+            if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
             {
                Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) );
-               init.addFactoryMethod( 
-            			method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), 
-            			method, 
+               init.addFactoryMethod(
+            			method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(),
+            			method,
             			this
             		);
             }
@@ -346,7 +346,7 @@ public class Component
                method.setAccessible(true);
             }
          }
-         
+
          for (Field field: clazz.getDeclaredFields()) //TODO: inheritance!
          {
             if ( field.isAnnotationPresent(In.class) )
@@ -379,7 +379,7 @@ public class Component
                field.setAccessible(true);
             }
          }
-         
+
       }
 
       final boolean hasMultipleDataModels = dataModelGetters.size() + dataModelFields.size() > 1;
@@ -397,18 +397,18 @@ public class Component
             defaultDataModelName = toName( dataModelField.getAnnotation(DataModel.class).value(), dataModelField );
          }
       }
-      
+
       for (Method method : selectionSetters) {
          String name = method.getAnnotation( DataModelSelection.class ).value();
          if ( name.length() == 0 ) {
-            if ( hasMultipleDataModels ) 
+            if ( hasMultipleDataModels )
             {
                throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
             }
             name = defaultDataModelName;
          }
          Method existing = dataModelSelectionSetters.put( name, method );
-         if (existing!=null) 
+         if (existing!=null)
          {
             throw new IllegalStateException("Multiple @DataModelSelection setters for: " + name);
          }
@@ -416,30 +416,30 @@ public class Component
       for (Field field : selectionFields) {
          String name = field.getAnnotation( DataModelSelection.class ).value();
          if ( name.length() == 0 ) {
-            if ( hasMultipleDataModels ) 
+            if ( hasMultipleDataModels )
             {
                throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
             }
             name = defaultDataModelName;
          }
          Field existing = dataModelSelectionFields.put( name, field );
-         if (existing!=null) 
+         if (existing!=null)
          {
             throw new IllegalStateException("Multiple @DataModelSelection fields for: " + name);
          }
       }
-      
+
       for (Method method : selectionIndexSetters) {
          String name = method.getAnnotation( DataModelSelectionIndex.class ).value();
          if ( name.length() == 0 ) {
-            if ( hasMultipleDataModels ) 
+            if ( hasMultipleDataModels )
             {
                throw new IllegalStateException( "Missing value() for @DataModelSelectionIndex with multiple @DataModels" );
             }
             name = defaultDataModelName;
          }
          Method existing = dataModelSelectionIndexSetters.put( name, method );
-         if (existing!=null) 
+         if (existing!=null)
          {
             throw new IllegalStateException("Multiple @DataModelSelectionIndex setters for: " + name);
          }
@@ -447,14 +447,14 @@ public class Component
       for (Field field : selectionIndexFields) {
          String name = field.getAnnotation( DataModelSelectionIndex.class ).value();
          if ( name.length() == 0 ) {
-            if ( hasMultipleDataModels ) 
+            if ( hasMultipleDataModels )
             {
                throw new IllegalStateException( "Missing value() for @DataModelSelectionIndex with multiple @DataModels" );
             }
             name = defaultDataModelName;
          }
          Field existing = dataModelSelectionIndexFields.put( name, field );
-         if (existing!=null) 
+         if (existing!=null)
          {
             throw new IllegalStateException("Multiple @DataModelSelectionIndex fields for: " + name);
          }
@@ -473,7 +473,7 @@ public class Component
    private void initInterceptors()
    {
       initDefaultInterceptors();
-      
+
       for (Annotation annotation: beanClass.getAnnotations())
       {
          if ( annotation.annotationType().isAnnotationPresent(Interceptors.class) )
@@ -481,7 +481,7 @@ public class Component
             interceptors.add( new Interceptor(annotation, this) );
          }
       }
-      
+
       new Sorter<Interceptor>() {
          protected boolean isOrderViolated(Interceptor outside, Interceptor inside)
          {
@@ -493,7 +493,7 @@ public class Component
                   ( within!=null && Arrays.asList( within.value() ).contains( insideClass ) );
          }
       }.sort(interceptors);
-      
+
       log.trace("interceptor stack: " + interceptors);
    }
 
@@ -517,7 +517,7 @@ public class Component
    {
       return name;
    }
-   
+
    public ComponentType getType()
    {
       return type;
@@ -527,17 +527,17 @@ public class Component
    {
       return scope;
    }
-   
-   public ClassValidator getValidator() 
+
+   public ClassValidator getValidator()
    {
       return validator;
    }
-   
+
    public List<Interceptor> getInterceptors()
    {
       return interceptors;
    }
-   
+
    public Method getDestroyMethod()
    {
       return destroyMethod;
@@ -547,18 +547,18 @@ public class Component
    {
       return removeMethods;
    }
-   
+
    public Set<Method> getValidateMethods()
    {
       return validateMethods;
    }
-   
-   public boolean hasDestroyMethod() 
+
+   public boolean hasDestroyMethod()
    {
       return destroyMethod!=null;
    }
 
-   public boolean hasCreateMethod() 
+   public boolean hasCreateMethod()
    {
       return createMethod!=null;
    }
@@ -568,7 +568,7 @@ public class Component
       return createMethod;
    }
 
-   public boolean hasUnwrapMethod() 
+   public boolean hasUnwrapMethod()
    {
       return unwrapMethod!=null;
    }
@@ -602,7 +602,7 @@ public class Component
    {
       log.debug("instantiating Seam component: " + name);
 
-      try 
+      try
       {
          return initialize( instantiate() );
       }
@@ -633,7 +633,7 @@ public class Component
     protected Object instantiate() throws Exception
     {
         switch(type) {
-           case JAVA_BEAN: 
+           case JAVA_BEAN:
               if (interceptionType==InterceptionType.NEVER)
               {
                  return beanClass.newInstance();
@@ -646,14 +646,14 @@ public class Component
               }
            case ENTITY_BEAN:
               return beanClass.newInstance();
-           case STATELESS_SESSION_BEAN : 
+           case STATELESS_SESSION_BEAN :
            case STATEFUL_SESSION_BEAN :
               return NamingHelper.getInitialContext().lookup(jndiName);
            default:
               throw new IllegalStateException();
         }
     }
-   
+
    protected Object initialize(Object bean) throws Exception
    {
       for (Map.Entry<Method, Object> me: initializers.entrySet())
@@ -662,7 +662,7 @@ public class Component
       }
       return bean;
    }
-   
+
    public void inject(Object bean/*, boolean isActionInvocation*/)
    {
       injectMethods(bean/*, isActionInvocation*/);
@@ -670,7 +670,7 @@ public class Component
       injectDataModelSelection(bean);
       injectParameters(bean);
    }
-   
+
    private void injectParameters(Object bean)
    {
       Map requestParameters = null;
@@ -682,7 +682,7 @@ public class Component
       {
          requestParameters = Lifecycle.getServletRequest().getParameterMap();
       }
-      
+
       for (Method setter: parameterSetters)
       {
          String name = toName( setter.getAnnotation(RequestParameter.class).value(), setter );
@@ -729,20 +729,20 @@ public class Component
 
          if ( rowIndex > -1 )
          {
-            
+
             Method setter = dataModelSelectionIndexSetters.get(name);
-            if (setter != null) 
+            if (setter != null)
             {
                setPropertyValue( bean, setter, name, rowIndex );
             }
             Field field = dataModelSelectionIndexFields.get(name);
-            if (field != null) 
+            if (field != null)
             {
                setFieldValue( bean, field, name, rowIndex );
             }
-            
+
             setter = dataModelSelectionSetters.get(name);
-            if (setter != null) 
+            if (setter != null)
             {
                setPropertyValue( bean, setter, name, getSelectedRowData(dataModel) );
             }
@@ -750,7 +750,7 @@ public class Component
             if (field != null) {
                setFieldValue( bean, field, name, getSelectedRowData(dataModel) );
             }
-            
+
          }
       }
    }
@@ -808,7 +808,7 @@ public class Component
       {
          scope = ScopeType.EVENT;
       }
-      if (specifiedScope!=ScopeType.UNSPECIFIED) 
+      if (specifiedScope!=ScopeType.UNSPECIFIED)
       {
          scope = specifiedScope;
       }
@@ -873,7 +873,7 @@ public class Component
       {
          throw new RequiredException( "Out attribute requires value for component: " + getAttributeMessage(name) );
       }
-      else 
+      else
       {
          ScopeType scope;
          if (out.scope()==ScopeType.UNSPECIFIED)
@@ -902,7 +902,7 @@ public class Component
          }
       }
    }
-   
+
    public boolean isInstance(Object bean)
    {
       switch(type)
@@ -922,7 +922,7 @@ public class Component
             return false;
       }
    }
-   
+
    private static Set<Class> getLocalInterfaces(Class clazz)
    {
        Set<Class> result = new HashSet<Class>();
@@ -951,6 +951,10 @@ public class Component
        return result;
    }
 
+   public Set<Class> getLocalInterfaces()
+   {
+     return getLocalInterfaces(beanClass);
+   }
 
     private static boolean isExcludedLocalInterfaceName(String name) {
         return name.equals("java.io.Serializable") ||
@@ -967,7 +971,7 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not outject: " + getAttributeMessage(name), e);         
+         throw new IllegalArgumentException("could not outject: " + getAttributeMessage(name), e);
       }
    }
 
@@ -978,16 +982,16 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not outject: " + getAttributeMessage(name), e);         
+         throw new IllegalArgumentException("could not outject: " + getAttributeMessage(name), e);
       }
    }
 
    private void setPropertyValue(Object bean, Method method, String name, Object value)
-   {  
+   {
       try
       {
          Reflections.invoke(method, bean, value );
-      } 
+      }
       catch (Exception e)
       {
          throw new IllegalArgumentException("could not inject: " + getAttributeMessage(name), e);
@@ -995,17 +999,17 @@ public class Component
    }
 
    private void setFieldValue(Object bean, Field field, String name, Object value)
-   {  
+   {
       try
       {
          field.set(bean, value);
-      } 
+      }
       catch (Exception e)
       {
          throw new IllegalArgumentException("could not inject: " + getAttributeMessage(name), e);
       }
    }
-   
+
    public static Component forName(String name)
    {
       return (Component) Contexts.getApplicationContext().get( name + ".component" );
@@ -1027,7 +1031,7 @@ public class Component
       result = getInstance(name, create, result);
       return result;
    }
-   
+
    public static Object getInstance(String name, ScopeType scope, boolean create)
    {
       Object result = scope.getContext().get(name);
@@ -1044,7 +1048,7 @@ public class Component
              result = newInstance(name);
         }
       }
-      if (result!=null) 
+      if (result!=null)
       {
          Component component = Component.forName(name);
          if (component!=null)
@@ -1055,20 +1059,20 @@ public class Component
             }
          }
          result = unwrap( component, result );
-         if ( log.isTraceEnabled() ) 
+         if ( log.isTraceEnabled() )
          {
             log.trace( Strings.toString(result) );
          }
       }
       return result;
    }
-   
+
    public static Object getInstanceFromFactory(String name)
    {
       Init init = Init.instance();
-      Init.FactoryMethod factoryMethod = init==null ? 
+      Init.FactoryMethod factoryMethod = init==null ?
             null : init.getFactory(name);
-      if (factoryMethod==null) 
+      if (factoryMethod==null)
       {
          return null;
       }
@@ -1111,7 +1115,7 @@ public class Component
    private static Object callComponentMethod(Component component, Object instance, Method method) {
       Class[] paramTypes = method.getParameterTypes();
       String createMethodName = method.getName();
-      try 
+      try
       {
          Method interfaceMethod = instance.getClass().getMethod(createMethodName, paramTypes);
          if ( paramTypes.length==0 )
@@ -1158,7 +1162,7 @@ public class Component
          }
          result = in.scope().getContext().get(name);
       }
-      
+
       if (result==null && in.required())
       {
          throw new RequiredException( "In attribute requires value for component: " +  getAttributeMessage(name) );
@@ -1168,12 +1172,12 @@ public class Component
          return result;
       }
    }
-   
+
    private String getAttributeMessage(String attributeName)
    {
       return getName() + '.' + attributeName;
    }
-   
+
    private static String toName(String name, Method method)
    {
       //TODO: does not handle "isFoo"
@@ -1193,12 +1197,12 @@ public class Component
       }
       return name;
    }
-   
+
    public String toString()
    {
       return "Component(" + name + ")";
    }
-   
+
    private Class<Factory> createProxyFactory()
    {
       Enhancer en = new Enhancer();
@@ -1222,5 +1226,5 @@ public class Component
    {
       return dependencies;
    }
-   
+
 }

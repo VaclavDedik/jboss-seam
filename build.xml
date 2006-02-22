@@ -348,6 +348,9 @@
             <include name="org/jboss/seam/**/*.class"/>
             <exclude name="**/test/*.class"/>
         	<exclude name="org/jboss/seam/ui/*.class"/>
+            <fileset dir="${src.java.dir}">
+              <include name="**/*.js"/>
+            </fileset>        	
             <!--patternset refid="meta.files"/-->
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
