@@ -19,6 +19,7 @@ import java.util.Set;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Remotable;
 
 /**
  * Generates JavaScript interface code.
@@ -145,6 +146,9 @@ public class InterfaceGenerator
 
     for (Method m : type.getDeclaredMethods())
     {
+      if (m.getAnnotation(Remotable.class) == null)
+        continue;
+
       // Append the return type to the source block
       appendTypeSource(out, m.getGenericReturnType(), types);
 

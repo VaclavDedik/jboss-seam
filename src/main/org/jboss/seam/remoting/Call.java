@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.annotations.Remotable;
 import org.jboss.seam.remoting.wrapper.ConversionException;
 import org.jboss.seam.remoting.wrapper.ConversionScore;
 import org.jboss.seam.remoting.wrapper.Wrapper;
@@ -158,6 +159,9 @@ public class Call
     Map<Method, Integer> candidates = new HashMap<Method, Integer> ();
 
     for (Method m : cls.getDeclaredMethods()) {
+      if (m.getAnnotation(Remotable.class) == null)
+        continue;
+
       if (name.equals(m.getName()) &&
           m.getParameterTypes().length == params.size()) {
         int score = 0;
