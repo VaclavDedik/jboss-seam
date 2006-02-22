@@ -1,0 +1,187 @@
+<chapter id="remoting">
+    <title>Remoting</title>
+    <para>
+        Seam provides a convenient method of remotely accessing components from a web page, using
+        AJAX (Asynchronous Javascript and XML).  The framework for this functionality is
+        provided with almost no up-front development effort - your components only require simple annotating
+        to become accessible via AJAX.  This chapter describes the steps required to build an AJAX-enabled web page.
+    </para>
+
+    <sect1>
+        <title>Configuration</title>
+        <para>
+            To use remoting, the Seam Remoting servlet must first be configured in your
+            <literal>web.xml</literal> file:
+        </para>
+
+        <programlisting>
+          <![CDATA[
+  <servlet>
+    <servlet-name>Seam Remoting</servlet-name>
+    <servlet-class>org.jboss.seam.remoting.SeamRemotingServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Seam Remoting</servlet-name>
+    <url-pattern>/seam/remoting/*</url-pattern>
+  </servlet-mapping>
+        ]]>
+        </programlisting>
+
+        <para>
+          The next step is to import the necessary Javascript into your web page.  There are a minimum
+          of two scripts that must be imported.  The first one contains all the client-side framework
+          code that enables remoting functionality:
+        </para>
+
+        <programlisting>
+          <![CDATA[
+  <script type="text/javascript" src="seam/remoting/resource/remote.js">
+    <!--
+    // This space intentionally left blank
+    //-->
+  </script>
+            ]]>
+        </programlisting>
+
+        <para>
+          The second script contains the stubs and type definitions for the components you wish to call.
+          It is generated dynamically based on the local interface of your components, and includes 
+          type definitions for all of the classes that can be used to call the remotable methods of the interface.
+          The name of the script reflects the name of your component. For example, if you have a stateless
+          session bean annotated with <literal>@Name("customerAction")</literal>, then your script tag 
+          should look like this:
+        </para>
+
+        <programlisting>
+          <![CDATA[
+  <script type="text/javascript" src="seam/remoting/interface.js?customerAction">
+    <!--
+    // This space intentionally left blank
+    //-->
+  </script>
+        ]]>
+        </programlisting>
+        
+        <para>
+          If you wish to access more than one component from the same page, then include them all as parameters of your script tag:
+        </para>
+
+        <programlisting>
+          <![CDATA[
+  <script type="text/javascript" src="seam/remoting/interface.js?customerAction&accountAction">
+    <!--
+    // This space intentionally left blank
+    //-->
+  </script>
+        ]]>
+        </programlisting>
+
+    </sect1>
+
+    <sect1>
+      <title>The SeamRemote object</title>
+
+      <para>
+        Client-side interaction with your components is all performed via the <literal>SeamRemote</literal> 
+        Javascript object. This object is defined in <literal>remote.js</literal>, and you'll be using it to
+        make asynchronous calls against your component.
+      </para>
+
+      <sect2>
+        <title>A Hello World example</title>
+
+        <para>
+          Let's step through a simple example to see how the <literal>SeamRemote</literal> object works.
+          First of all, let's create a new Seam component called <literal>helloAction</literal>.
+        </para>
+
+        <programlisting>
+          <![CDATA[
+  @Stateless
+  @Name("helloAction")
+  @Scope(SESSION)
+  @Interceptors(SeamInterceptor.class)
+  public class HelloAction implements HelloLocal {
+    public String sayHello(String name) {
+      return "Hello, " + name;
+    }
+  }
+          ]]>
+        </programlisting>
+
+        <para>You also need to create a local interface for our new component:</para>
+
+        <programlisting>
+          <![CDATA[
+  @Local
+  public interface HelloLocal {
+    public String sayHello(String name);
+  }
+          ]]>
+        </programlisting>
+
+        <para>
+          That's all the server-side code we need to write.  Now for our web page - create a new page and
+          import the following scripts:
+        </para>
+
+        <programlisting>
+          <![CDATA[
+  <script type="text/javascript" src="seam/remoting/resource/remote.js">
+    <!--
+    // This space intentionally left blank
+    //-->
+  </script>
+
+  <script type="text/javascript" src="seam/remoting/interface.js?helloAction.js">
+    <!--
+    // This space intentionally left blank
+    //-->
+  </script>
+          ]]>
+        </programlisting>
+
+        <para>
+          To make this a fully interactive user experience, let's add a button to our page:
+        </para>
+
+        <programlisting>
+          <![CDATA[
+  <button onclick="javascript:sayHello()">Say Hello</button>
+          ]]>
+        </programlisting>
+
+        <para>
+          We'll also need to add some more script to make our button actually do something when it's clicked:
+        </para>
+
+        <programlisting>
+          <![CDATA[
+  <script type="text/javascript">
+    //<![CDATA[
+
+    function sayHello() {
+      var name = prompt("What is your name?");
+      SeamRemote.create("helloAction").sayHello(name, sayHelloCallback);
+    }
+
+    function sayHelloCallback(result) {
+      alert(result);
+    }
+
+    // ]]>]]&gt;<![CDATA[
+  </script>
+          ]]>
+        </programlisting>
+
+        <para>
+          We're done!  Deploy your application and browse to your page.  Click the button, and enter
+          a name when prompted.  A message box will display the hello message confirming that the call
+          was successful.
+        </para>
+
+      </sect2>
+    </sect1>
+
+</chapter>

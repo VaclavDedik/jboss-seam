@@ -11,6 +11,7 @@
 <!ENTITY components             SYSTEM "modules/components.xml">
 <!ENTITY testing                SYSTEM "modules/testing.xml">
 <!ENTITY tools                  SYSTEM "modules/tools.xml">
+<!ENTITY remoting               SYSTEM "modules/remoting.xml">
 ]>
 
 <book lang="en">
@@ -226,6 +227,7 @@
     &components;
     &testing;
     &tools;
+    &remoting;
 
 </book>
 
