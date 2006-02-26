@@ -1,0 +1,14 @@
+<application>
+	<display-name>Seam Remoting HelloWorld</display-name>
+
+	<module>
+		<web>
+			<web-uri>remoting-helloworld.war</web-uri>
+			<context-root>/helloworld</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>remoting-helloworld.jar</ejb>
+	</module>
+	
+</application>

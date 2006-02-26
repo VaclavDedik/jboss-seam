@@ -136,7 +136,7 @@
     //-->
   </script>
 
-  <script type="text/javascript" src="seam/remoting/interface.js?helloAction.js">
+  <script type="text/javascript" src="seam/remoting/interface.js?helloAction">
     <!--
     // This space intentionally left blank
     //-->

@@ -84,8 +84,16 @@ public class SeamRemotingServlet extends HttpServlet
       {
         String[] componentNames = request.getQueryString().split("&");
         Component[] components = new Component[componentNames.length];
+
         for (int i = 0; i < componentNames.length; i++)
+        {
           components[i] = Component.forName(componentNames[i]);
+          if (components[i] == null)
+          {
+            log.error(String.format("Component not found: [%s]", componentNames[i]));
+            throw new ServletException("Invalid request - component not found.");
+          }
+        }
 
         generator.generateComponentInterface(components, response.getOutputStream());
       }
@@ -137,16 +145,20 @@ public class SeamRemotingServlet extends HttpServlet
     if (resourceName.endsWith(".js"))
     {
       InputStream in = this.getClass().getClassLoader().getResourceAsStream(
-          "org/jboss/seam/servlet/ajax/" + resourceName);
+          "org/jboss/seam/remoting/" + resourceName);
 
-      byte[] buffer = new byte[1024];
-      int read = in.read(buffer);
-      while (read != -1)
+      if (in != null)
       {
-        out.write(buffer, 0, read);
-        read = in.read(buffer);
-        out.flush();
+        byte[] buffer = new byte[1024];
+        int read = in.read(buffer);
+        while (read != -1) {
+          out.write(buffer, 0, read);
+          read = in.read(buffer);
+          out.flush();
+        }
       }
+      else
+        log.error(String.format("Resource [%s] not found.", resourceName));
     }
   }
 
