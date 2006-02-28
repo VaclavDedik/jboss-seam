@@ -65,6 +65,8 @@ public class ExecutionHandler
       call.execute();
     }
 
+    response.setContentType("text/xml");
+
     // Package up the response
     marshalResponse(calls, response.getOutputStream());
   }
