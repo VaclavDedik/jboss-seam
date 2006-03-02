@@ -169,21 +169,7 @@ public class Initialization
          {
             Class<Object> componentClass = Reflections.classForName(className);
             addComponent( componentClass, context );
-            if ( componentClass.isAnnotationPresent(Role.class) )
-            {
-               Role role = componentClass.getAnnotation(Role.class);
-               ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
-               addComponent( role.name(), scope, componentClass, context );
-            }
-            if ( componentClass.isAnnotationPresent(Roles.class) )
-            {
-               Role[] roles =componentClass.getAnnotation(Roles.class).value();
-               for (Role role: roles)
-               {
-                  ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
-                  addComponent( role.name(), scope, componentClass, context );
-               }
-            }
+            addComponentRoles(context, componentClass);
          }
          catch (ClassNotFoundException cnfe)
          {
@@ -223,10 +209,29 @@ public class Initialization
             if ( clazz.isAnnotationPresent(Name.class) )
             {
                addComponent(clazz, context);
+               addComponentRoles(context, clazz);
             }
          }
       }
       
+   }
+
+   private void addComponentRoles(Context context, Class<Object> componentClass) {
+      if ( componentClass.isAnnotationPresent(Role.class) )
+      {
+         Role role = componentClass.getAnnotation(Role.class);
+         ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
+         addComponent( role.name(), scope, componentClass, context );
+      }
+      if ( componentClass.isAnnotationPresent(Roles.class) )
+      {
+         Role[] roles =componentClass.getAnnotation(Roles.class).value();
+         for (Role role: roles)
+         {
+            ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
+            addComponent( role.name(), scope, componentClass, context );
+         }
+      }
    }
    
    protected void addComponent(String name, ScopeType scope, Class clazz, Context context)
