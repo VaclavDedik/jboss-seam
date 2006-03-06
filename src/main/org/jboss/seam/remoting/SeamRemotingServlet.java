@@ -44,9 +44,6 @@ public class SeamRemotingServlet extends HttpServlet
 
   private ExecutionHandler executor;
 
-  /** @todo Implement caching */
-  private Map<String,String> resourceCache = new HashMap<String,String>();
-
   public SeamRemotingServlet()
   {
     generator = new InterfaceGenerator();
@@ -160,19 +157,5 @@ public class SeamRemotingServlet extends HttpServlet
       else
         log.error(String.format("Resource [%s] not found.", resourceName));
     }
-  }
-
-  /**
-   * Writes a cached response to the output stream
-   *
-   * @param path String
-   * @param out OutputStream
-   */
-  private void writeCachedResponse(String path, OutputStream out)
-      throws IOException
-  {
-    OutputStreamWriter writer = new OutputStreamWriter(out);
-    writer.write(resourceCache.get(path));
-    writer.flush();
   }
 }

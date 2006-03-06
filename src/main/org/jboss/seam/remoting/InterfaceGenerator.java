@@ -1,5 +1,6 @@
 package org.jboss.seam.remoting;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
@@ -34,21 +35,43 @@ public class InterfaceGenerator
   private static Map<Class,List<Field>> accessibleFields = new HashMap<Class,List<Field>>();
 
   /**
+   * A cache of component interfaces, keyed by component name.
+   */
+  private Map<String,byte[]> interfaceCache = new HashMap<String,byte[]>();
+
+  /**
+   * Generates the JavaScript code required to invoke the methods of a component/s.
    *
-   * @param component Object
-   * @return String
+   * @param components Component[] The components to generate javascript for
+   * @param out OutputStream The OutputStream to write the generated javascript to
+   * @throws IOException Thrown if there is an error writing to the OutputStream
    */
   public void generateComponentInterface(Component[] components, OutputStream out)
       throws IOException
   {
     Set<Type> types = new HashSet<Type>();
     for (Component c : components)
-      appendComponentSource(out, c, types);
+    {
+      if (!interfaceCache.containsKey(c.getName()))
+      {
+        synchronized(interfaceCache)
+        {
+          if (!interfaceCache.containsKey(c.getName()))
+          {
+            ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+            appendComponentSource(bOut, c, types);
+            interfaceCache.put(c.getName(), bOut.toByteArray());
+          }
+        }
+      }
+      out.write(interfaceCache.get(c.getName()));
+    }
   }
 
   /**
    * A helper method, used internally by InterfaceGenerator and also when
-   * serializing responses.
+   * serializing responses.  Returns a list of the fields for the specified type
+   * which should be included in the generated interface for the type.
    *
    * @param cls Class
    * @return List
@@ -112,10 +135,14 @@ public class InterfaceGenerator
   }
 
   /**
+   * Appends component interface code to an outputstream for a specified component.
    *
-   * @param source StringBuilder
-   * @param component Component
-   * @param types Set
+   * @param out OutputStream The OutputStream to write to
+   * @param component Component The component to generate an interface for
+   * @param types Set A list of types that have already been generated for this
+   * request.  If this component has already been generated (i.e. it is in the list)
+   * then it won't be generated again
+   * @throws IOException If there is an error writing to the OutputStream.
    */
   private void appendComponentSource(OutputStream out, Component component, Set<Type> types)
       throws IOException
@@ -244,10 +271,12 @@ public class InterfaceGenerator
   }
 
   /**
+   * Appends the interface code for a non-component class to an OutputStream.
    *
-   * @param source StringBuilder
+   * @param out OutputStream
    * @param classType Class
    * @param types Set
+   * @throws IOException
    */
   private void appendClassSource(OutputStream out, Class classType, Set<Type> types)
       throws IOException
@@ -389,6 +418,7 @@ public class InterfaceGenerator
   }
 
   /**
+   * Returns the remoting "type" for a specified class.
    *
    * @param type Class
    * @return String
