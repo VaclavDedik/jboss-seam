@@ -103,15 +103,19 @@ public class Pageflow
       return getPage().getDefaultLeavingTransition()!=null;
    }
    
+   private boolean isNullOutcome(String outcome) {
+      return outcome==null || "".equals(outcome);
+   }
+
    public boolean hasTransition(String outcome)
    {
-      return outcome==null ? 
+      return isNullOutcome(outcome) ? 
             hasDefaultTransition() : 
             getPage().getLeavingTransition(outcome)!=null;
    }
 
    public void navigate(FacesContext context, String outcome) {
-      if ( outcome==null || "".equals(outcome) )
+      if ( isNullOutcome(outcome) )
       {
          //if it has a default transition defined, trigger it,
          //otherwise just redisplay the page
