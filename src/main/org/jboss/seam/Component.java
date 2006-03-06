@@ -686,13 +686,26 @@ public class Component
       for (Method setter: parameterSetters)
       {
          String name = toName( setter.getAnnotation(RequestParameter.class).value(), setter );
-         setPropertyValue( bean, setter, name, requestParameters.get(name) );
+         Object convertedValue = convertRequestParameter( requestParameters.get(name), setter.getParameterTypes()[0] );
+         setPropertyValue( bean, setter, name, convertedValue );
       }
       for (Field field: parameterFields)
       {
          String name = toName( field.getAnnotation(RequestParameter.class).value(), field );
-         setFieldValue( bean, field, name, requestParameters.get(name) );
+         Object convertedValue = convertRequestParameter( requestParameters.get(name), field.getType() );
+         setFieldValue( bean, field, name, convertedValue );
       }
+   }
+   
+   private Object convertRequestParameter(Object requestParameter, Class type)
+   {
+      if ( String.class.equals(type) ) return requestParameter;
+      
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      return facesContext
+            .getApplication()
+            .createConverter(type)
+            .getAsObject( facesContext, facesContext.getViewRoot(), (String) requestParameter );
    }
 
    public void outject(Object bean)
