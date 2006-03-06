@@ -9,24 +9,24 @@
 <ui:define name="content">
 <ui:include src="conversations.xhtml" />
 <div class="section">
-<h:form>
+  <h:form>
     <span class="errors"><h:messages globalOnly="true"/></span>
 	<h1>Search Hotels</h1>
-        <h:outputText value="(e.g., enter word atlanta as the search string)"/>
+    <h:outputText value="(e.g., enter word atlanta as the search string)"/>
 	<fieldset> 
 		<h:inputText value="#{hotelBooking.searchString}" style="width: 165px;" />&nbsp;
 		<h:commandButton value="Find Hotels" action="#{hotelBooking.find}" styleClass="button" />&nbsp;
         <h:commandButton value="Clear Results" action="#{hotelBooking.clear}" styleClass="button" />&nbsp;
 	</fieldset>
 	<div style="text-align: right">
-    <h:outputLabel for="pageSize">Maximum results to display:</h:outputLabel>&nbsp;
-    <h:selectOneMenu value="#{hotelBooking.pageSize}" id="pageSize">
+      <h:outputLabel for="pageSize">Maximum results to display:</h:outputLabel>&nbsp;
+      <h:selectOneMenu value="#{hotelBooking.pageSize}" id="pageSize">
         <f:selectItem itemLabel="5" itemValue="5"/>
     	<f:selectItem itemLabel="10" itemValue="10"/>
     	<f:selectItem itemLabel="20" itemValue="20"/>
-    </h:selectOneMenu>
+      </h:selectOneMenu>
     </div>
-</h:form>
+  </h:form>
 </div>
 
 <div class="section">

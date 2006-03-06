@@ -9,14 +9,15 @@
 <ui:define name="content">
 <ui:include src="conversations.xhtml" />
 <div class="section">
+  <h:form>
+    <span class="errors"><h:messages globalOnly="true"/></span>
     <h1>Search Hotels</h1>
-    <h:form>
     <fieldset> 
         <h:inputText value="#{hotelBooking.searchString}" style="width: 165px;" />&nbsp;
         <h:commandButton value="Find Hotels" action="#{hotelBooking.find}" styleClass="button" />&nbsp;
         <h:commandButton value="Clear Results" action="#{hotelBooking.clear}" styleClass="button" />
     </fieldset>
-    </h:form>
+  </h:form>
 </div>
 <div class="section">
     <h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
