@@ -17,8 +17,10 @@
     <!-- set global properties for this build -->
     <property name="build.dir"          value="build"/>
     <property name="classes.dir"        value="${build.dir}/classes"/>
+	<property name="uiclasses.dir"     value="${build.dir}/uiclasses"/>
 
     <property name="src.java.dir"       value="src/main"/>
+	<property name="src.ui.dir"         value="src/ui"/>
     <property name="src.test.dir"       value="src/test"/>
 
     <property name="lib.dir"            value="${imported.basedir}/lib"/>
@@ -137,6 +139,7 @@
     	<include name="**/*.tld"/>
         <include name="**/*.xslt"/>
         <include name="**/*.properties"/>
+    	<include name="**/*.js"/>
     </patternset>
         
     <patternset id="src.files">
@@ -184,16 +187,28 @@
     <target name="init"
             description="Initialize the build">
         <echo message="Build ${Name} ${version}"/>
+    	
         <mkdir dir="${classes.dir}"/>
         <copy todir="${classes.dir}">
             <fileset dir="${src.java.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
+    	
+    	<!--
+    	<mkdir dir="${uiclasses.dir}"/>
+        <copy todir="${uiclasses.dir}">
+            <fileset dir="${src.ui.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        -->
+    	
     </target>
 
     <target name="compile" depends="init"
             description="Compile the Java source code">
+    	
         <javac
             destdir="${classes.dir}"
             classpathref="build.classpath"
@@ -203,6 +218,17 @@
             <src path="${src.java.dir}"/>
             <src path="${src.test.dir}"/>
         </javac>
+        
+    	<!--
+        <javac
+            destdir="${uiclasses.dir}"
+            classpathref="build.classpath"
+            debug="${javac.debug}"
+            deprecation="${javac.deprecation}"
+            nowarn="on">
+            <src path="${src.ui.dir}"/>
+        </javac>
+        -->
 
     </target>
     
@@ -345,27 +371,25 @@
         <mkdir dir="${dist.dir}"/>
     	
         <jar jarfile="${basedir}/${name}.jar" basedir="${classes.dir}">
-            <include name="org/jboss/seam/**/*.class"/>
+            <include name="**/*.class"/>
             <exclude name="**/test/*.class"/>
-        	<exclude name="org/jboss/seam/ui/*.class"/>
-            <fileset dir="${src.java.dir}">
-              <include name="**/*.js"/>
-            </fileset>        	
-            <!--patternset refid="meta.files"/-->
+            <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}.jar" todir="${dist.dir}"/>
     	
-        <jar jarfile="${basedir}/${name}-ui.jar" basedir="${classes.dir}">
-        	<include name="org/jboss/seam/ui/*.class"/>
+    	<!--
+        <jar jarfile="${basedir}/${name}-ui.jar" basedir="${uiclasses.dir}">
+        	<include name="**/*.class"/>
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
+    	-->
     	
     </target>
 

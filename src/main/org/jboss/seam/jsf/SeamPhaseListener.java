@@ -10,16 +10,10 @@ import static javax.faces.event.PhaseId.ANY_PHASE;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
 
-import java.io.IOException;
 import java.util.Map;
 
-import javax.faces.application.Application;
-import javax.faces.application.NavigationHandler;
-import javax.faces.application.StateManager;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.el.VariableResolver;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
@@ -44,23 +38,6 @@ public class SeamPhaseListener implements PhaseListener
 {
 
    private static Logger log = Logger.getLogger( SeamPhaseListener.class );
-   
-   private boolean firstRequest = true;
-   
-   private void setupCustomThingys(FacesContext facesContext) 
-   {
-      if (firstRequest)
-      {
-         Application app = facesContext.getApplication();
-         StateManager stateManager = new StateManagerInterceptor( app.getStateManager() );
-         app.setStateManager( stateManager);
-         NavigationHandler navHandler = new SeamNavigationHandler( app.getNavigationHandler() );
-         app.setNavigationHandler( navHandler );
-         VariableResolver varResolver = new SeamVariableResolver( app.getVariableResolver() );
-         app.setVariableResolver( varResolver );
-         firstRequest = false;
-      }
-   }
 
    public PhaseId getPhaseId()
    {
@@ -69,7 +46,6 @@ public class SeamPhaseListener implements PhaseListener
 
    public void beforePhase(PhaseEvent event)
    {
-      setupCustomThingys( event.getFacesContext() );
       log.trace( "before phase: " + event.getPhaseId() );
       
       Lifecycle.setPhaseId( event.getPhaseId() );
@@ -121,7 +97,7 @@ public class SeamPhaseListener implements PhaseListener
    /**
     * Called just before the StateManager serializes the component tree
     */
-   private void beforeSaveState(FacesContext ctx) {
+   static void beforeSaveState(FacesContext ctx) {
       log.debug( "Before saving state" );
 
       /*if ( !Init.instance().isClientSideConversations() ) 
@@ -170,55 +146,6 @@ public class SeamPhaseListener implements PhaseListener
    private static Map getAttributes(FacesContext facesContext)
    {
       return facesContext.getViewRoot().getAttributes();
-   }
-   
-   /**
-    * A wrapper for the JSF implementation's StateManager that allows
-    * us to intercept saving of the serialized component tree. This
-    * is quite ugly but was needed in order to allow conversations to
-    * be started and manipulated during the RENDER_RESPONSE phase.
-    * 
-    * @author Gavin King
-    */
-   private final class StateManagerInterceptor extends StateManager {
-      private final StateManager stateManager;
-
-      private StateManagerInterceptor(StateManager sm) {
-         this.stateManager = sm;
-      }
-
-      protected Object getComponentStateToSave(FacesContext ctx) {
-         throw new UnsupportedOperationException();
-      }
-
-      protected Object getTreeStructureToSave(FacesContext ctx) {
-         throw new UnsupportedOperationException();
-      }
-
-      protected void restoreComponentState(FacesContext ctx, UIViewRoot viewRoot, String str) {
-         throw new UnsupportedOperationException();
-      }
-
-      protected UIViewRoot restoreTreeStructure(FacesContext ctx, String str1, String str2) {
-         throw new UnsupportedOperationException();
-      }
-
-      public UIViewRoot restoreView(FacesContext ctx, String str1, String str2) {
-         return stateManager.restoreView(ctx, str1, str2);
-      }
-
-      public SerializedView saveSerializedView(FacesContext ctx) {
-         beforeSaveState(ctx);
-         return stateManager.saveSerializedView(ctx);
-      }
-
-      public void writeState(FacesContext ctx, SerializedView sv) throws IOException {
-         stateManager.writeState(ctx, sv);
-      }
-
-      public boolean isSavingStateInClient(FacesContext ctx) {
-         return stateManager.isSavingStateInClient(ctx);
-      }
    }
 
 }
