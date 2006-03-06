@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  *
  * @author Shane Bryzak
  */
-@Target({METHOD})
+@Target(METHOD)
 @Retention(RUNTIME)
 public @interface Remotable {
 }
