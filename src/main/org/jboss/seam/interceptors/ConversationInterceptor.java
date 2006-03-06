@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
+import javax.faces.application.FacesMessage;
 import javax.faces.event.PhaseId;
 
 import org.jboss.logging.Logger;
@@ -19,6 +20,7 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
@@ -45,6 +47,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       if ( isNoConversationForConversationalBean(method) )
       {
          log.info("no long-running conversation for @Conversational bean: " + component.getName());
+         FacesMessages.instance().add( new FacesMessage("No conversation") );
          return methodIsConversational(method) ?
                method.getAnnotation(Conversational.class).ifNotBegunOutcome() :
                component.getBeanClass().getAnnotation(Conversational.class).ifNotBegunOutcome();

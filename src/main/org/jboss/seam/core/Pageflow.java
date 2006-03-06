@@ -4,6 +4,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
@@ -69,6 +70,7 @@ public class Pageflow
          {
             FacesContext context = FacesContext.getCurrentInstance();
             navigate(context);
+            FacesMessages.instance().add( new FacesMessage("Illegal navigation") );
             context.renderResponse();
          }
       }
@@ -87,7 +89,8 @@ public class Pageflow
       Page page = getPage();
       if ( !page.isRedirect() )
       {
-         UIViewRoot viewRoot = context.getApplication().getViewHandler().createView( context, page.getViewId() );
+         UIViewRoot viewRoot = context.getApplication().getViewHandler()
+               .createView( context, page.getViewId() );
          context.setViewRoot(viewRoot);
       }
       else

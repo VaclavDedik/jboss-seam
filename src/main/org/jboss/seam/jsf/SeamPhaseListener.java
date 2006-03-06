@@ -28,6 +28,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.Session;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
@@ -79,6 +80,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
+         FacesMessages.instance().beforeRenderResponse();
          Manager.instance().prepareBackswitch(event);
          //beforeSaveState();
          //Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );

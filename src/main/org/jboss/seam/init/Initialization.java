@@ -34,6 +34,7 @@ import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.FacesContext;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmContext;
@@ -157,6 +158,7 @@ public class Initialization
       addComponent( ConversationContext.class, context );
       addComponent( BusinessProcessContext.class, context );
       addComponent( ResourceBundle.class, context );
+      addComponent( FacesMessages.class, context);
       addComponent( Introspector.class, context );
       addComponent( org.jboss.seam.debug.Contexts.class, context );
 
