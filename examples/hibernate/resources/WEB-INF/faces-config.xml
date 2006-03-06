@@ -45,6 +45,12 @@
             <redirect />
         </navigation-case>
 
+        <navigation-case>
+            <from-outcome>cancelled</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+
     </navigation-rule>
 
     <navigation-rule>
