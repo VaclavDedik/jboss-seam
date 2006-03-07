@@ -246,7 +246,7 @@ public class EditDocumentBean implements EditDocument {
     
     public String update() {
         em.merge(document);
-        facesMessages.add( new FacesMessage("Document updated") );
+        facesMessages.add("Document updated");
     }
 }]]></programlisting>
         
@@ -256,6 +256,23 @@ public class EditDocumentBean implements EditDocument {
             conversation. This even works when there is no long-running
             conversation since Seam preserves even temporary conversation
             contexts across redirects.
+        </para>
+        
+        <para>
+            You can even include JSF EL expressions in a faces message summary:
+        </para>
+        
+        <programlisting><![CDATA[facesMessages.add("Document #{document.title} was updated");]]></programlisting>
+        
+        <para>
+            Or, use an internationalized message:
+        </para>
+        
+        <programlisting><![CDATA[facesMessages.addFromResourceBundle("success.DocumentUpdated");]]></programlisting>
+        
+        <para>
+            (Where <literal>success.DocumentUpdated</literal> is a key in the <literal>messages</literal>
+            resource bundle.)
         </para>
         
         <para>
