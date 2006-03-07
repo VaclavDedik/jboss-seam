@@ -264,7 +264,7 @@ public class Component
             }
             catch (IntrospectionException ie)
             {
-               throw new IllegalArgumentException(ie);
+               throw new IllegalArgumentException("no property for configuration setting: " + key, ie);
             }
             PropertyEditor propertyEditor = PropertyEditorManager.findEditor( propertyDescriptor.getPropertyType() );
             propertyEditor.setAsText( value );
