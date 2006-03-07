@@ -87,7 +87,7 @@ public class FacesMessages
     */
    public void addFromResourceBundle(String key)
    {
-      addFromResourceBundle(key, null);
+      addFromResourceBundle(key, "missing message: " + key);
    }
    
    /**
@@ -103,10 +103,6 @@ public class FacesMessages
       {
          String bundleMessage = resourceBundle.getString(key);
          if (bundleMessage!=null) messageTemplate = bundleMessage;
-      }
-      if (messageTemplate==null) 
-      {
-         throw new IllegalArgumentException("Missing message: " + key);
       }
       add(messageTemplate);
    }
