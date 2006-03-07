@@ -34,25 +34,21 @@
         <param-value>jboss-seam-booking/#{ejbName}/local</param-value>
     </context-param>
     
-    <!-- MyFaces -->
-
-    <listener>
-        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-    </listener>
-
+    <!-- JSF -->
+    
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>client</param-value>
     </context-param>
 
     <context-param>
-        <param-name>facelets.DEVELOPMENT</param-name>
-        <param-value>true</param-value>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
     </context-param>
 
     <context-param>
-        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-        <param-value>.xhtml</param-value>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value>
     </context-param>
 
     <servlet>
@@ -62,10 +58,21 @@
     </servlet>
 
     <!-- Faces Servlet Mapping -->
-
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.seam</url-pattern>
     </servlet-mapping>
 
+    <!-- MyFaces -->
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+ 
+    <!-- JSF RI -->
+    <!--
+    <listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener> 
+    -->
+    
 </web-app>
