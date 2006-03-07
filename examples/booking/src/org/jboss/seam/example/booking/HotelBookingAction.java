@@ -27,6 +27,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -59,8 +60,8 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In
    private User user;
    
-   @In
-   private transient FacesContext facesContext;
+   @In(create=true)
+   private transient FacesMessages facesMessages;
       
    @In(required=false)
    private BookingList bookingList;
@@ -145,8 +146,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       if (booking==null || hotel==null) return "main";
       if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
-         FacesMessage facesMessage = new FacesMessage("Check out date must be later than check in date");
-         facesContext.addMessage(null, facesMessage);
+         facesMessages.add("Check out date must be later than check in date");
          return null;
       }
       else
@@ -161,6 +161,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       if (booking==null || hotel==null) return "main";
       em.persist(booking);
       if (bookingList!=null) bookingList.refresh();
+      facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       return "confirmed";
    }
    

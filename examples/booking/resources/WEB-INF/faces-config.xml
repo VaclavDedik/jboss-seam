@@ -89,7 +89,7 @@
 
         <navigation-case>
             <from-outcome>confirmed</from-outcome>
-            <to-view-id>/confirmed.xhtml</to-view-id>
+            <to-view-id>/main.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
 

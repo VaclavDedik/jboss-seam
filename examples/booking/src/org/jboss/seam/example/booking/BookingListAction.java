@@ -21,6 +21,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -56,6 +57,7 @@ public class BookingListAction implements BookingList, Serializable
       Booking cancelled = em.find(Booking.class, booking.getId());
       if (cancelled!=null) em.remove( cancelled );
       refresh();
+      FacesMessages.instance().add("Booking cancelled for confirmation number #{bookings.rowData.id}");
       return "cancelled";
    }
    
