@@ -89,11 +89,49 @@
                     </para>
                 </listitem>
             </varlistentry>
+        </variablelist>
+        
+        <para>
+            All of these components are always installed.
+        </para>
+
+    </section>
+    
+    <section>
+        <title>User interface related components</title>
+        <para>
+            The next group of components make it easy to build rich user interfaces
+            using Seam.
+        </para>
+        
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>facesMessages</literal></term>
+                <listitem>
+                    <para>
+                        Allows faces success messages to propagate across a browser redirect.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>add(FacesMessage facesMessage)</literal> &mdash; add 
+                            a faces message, which will be displayed during the next render
+                            response phase that occurs in the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>clear()</literal> &mdash; clear all messages.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
             <varlistentry>
                 <term><literal>resourceBundle</literal></term>
                 <listitem>
                     <para>
-                        Manager component for an injectable resource bundle
+                        Manager component for an injectable resource bundle.
                     </para>
                     <itemizedlist>
                         <listitem>

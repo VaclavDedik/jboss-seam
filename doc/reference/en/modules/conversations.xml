@@ -221,6 +221,52 @@
     </section>
     
     <section>
+        <title>Success messages</title>
+        <para>
+            It is quite common to display a message to the user indicating 
+            success or failure of an action. It is convenient to use a JSF
+            <literal>FacesMessage</literal> for this. Unfortunately, a
+            successful action often requires a browser redirect, and JSF 
+            does not propagate faces messages across redirects. This makes
+            it quite difficult to display success messages in plain JSF.
+        </para>
+        
+        <para>
+            The built in conversation-scoped Seam component named 
+            <literal>facesMessages</literal> solves this problem.
+            (You must have the Seam redirect filter installed.)
+        </para>
+        
+        <programlisting><![CDATA[@Name("editDocumentAction")
+@Stateless
+public class EditDocumentBean implements EditDocument {
+    @In(create=true) EntityManager em;
+    @In Document document;
+    @In(create=true) FacesMessages facesMessages;
+    
+    public String update() {
+        em.merge(document);
+        facesMessages.add( new FacesMessage("Document updated") );
+    }
+}]]></programlisting>
+        
+        <para>
+            Any message added to <literal>facesMessages</literal> is
+            used in the very next render response phase for the current
+            conversation. This even works when there is no long-running
+            conversation since Seam preserves even temporary conversation
+            contexts across redirects.
+        </para>
+        
+        <para>
+            You may display the messages in the usual way, for example:
+        </para>
+        
+        <programlisting><![CDATA[<h:messages globalOnly="true"/>]]></programlisting>
+
+    </section>
+    
+    <section>
         <title>Workspace management</title>
         
         <para>
@@ -472,6 +518,13 @@
             You are also responsible for ensuring propagation of any new conversation id back 
             to the client. Seam exposes the conversation id as a property of the built in
             component <literal>conversation</literal>.
+        </para>
+        
+        <para>
+            Seam also provides the Seam Remoting framework, a simple way to expose any method
+            of a Seam component for invocation by an asynchronous JavaScript request simply
+            by annotating the methods that should be accessible in the client. See the Seam
+            Remoting chapter for further information.
         </para>
         
     </section>
