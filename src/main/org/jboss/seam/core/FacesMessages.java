@@ -85,6 +85,16 @@ public class FacesMessages
     * Add a templated FacesMessage by looking for the message
     * template in the resource bundle. 
     */
+   public void addFromResourceBundle(String key)
+   {
+      addFromResourceBundle(key, null);
+   }
+   
+   /**
+    * Add a templated FacesMessage by looking for the message
+    * template in the resource bundle. If it is missing, use
+    * the given message template.
+    */
    public void addFromResourceBundle(String key, String defaultMessageTemplate)
    {
       String messageTemplate = defaultMessageTemplate;
@@ -93,6 +103,10 @@ public class FacesMessages
       {
          String bundleMessage = resourceBundle.getString(key);
          if (bundleMessage!=null) messageTemplate = bundleMessage;
+      }
+      if (messageTemplate==null) 
+      {
+         throw new IllegalArgumentException("Missing message: " + key);
       }
       add(messageTemplate);
    }
