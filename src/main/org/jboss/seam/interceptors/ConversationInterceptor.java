@@ -47,7 +47,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       if ( isNoConversationForConversationalBean(method) )
       {
          log.info("no long-running conversation for @Conversational bean: " + component.getName());
-         FacesMessages.instance().add( new FacesMessage("No conversation") );
+         FacesMessages.instance().addFromResourceBundle( "org.jboss.seam.NoConversation", "No conversation" );
          return methodIsConversational(method) ?
                method.getAnnotation(Conversational.class).ifNotBegunOutcome() :
                component.getBeanClass().getAnnotation(Conversational.class).ifNotBegunOutcome();

@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
-import javax.faces.context.FacesContext;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -22,6 +20,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.Template;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
@@ -70,36 +69,9 @@ public class Pages
    
    public String getDescription(String viewId)
    {
-      FacesContext context = FacesContext.getCurrentInstance();
-      String description = descriptionByViewId.get(viewId);
-      StringTokenizer tokens = new StringTokenizer(description, "#{}", true);
-      StringBuilder builder = new StringBuilder(description.length());
-      while ( tokens.hasMoreTokens() )
-      {
-         String tok = tokens.nextToken();
-         if ( "#".equals(tok) )
-         {
-            tokens.nextToken();
-            String expression = "#{" + tokens.nextToken() + "}";
-            tokens.nextToken();
-            try
-            {
-               Object value = context.getApplication().createValueBinding(expression).getValue(context);
-               if (value!=null) builder.append(value);
-            }
-            catch (Exception e)
-            {
-               log.warn("exception evaluating description: " + description, e);
-            }
-         }
-         else
-         {
-            builder.append(tok);
-         }
-      }
-      return builder.toString();
+      return Template.render( descriptionByViewId.get(viewId) );
    }
-   
+
    public Integer getTimeout(String viewId)
    {
       return timeoutsByViewId.get(viewId);

@@ -37,7 +37,7 @@ import org.jboss.seam.core.Pageflow;
 public class SeamPhaseListener implements PhaseListener
 {
 
-   private static Logger log = Logger.getLogger( SeamPhaseListener.class );
+   private static final Logger log = Logger.getLogger( SeamPhaseListener.class );
 
    public PhaseId getPhaseId()
    {
@@ -99,7 +99,7 @@ public class SeamPhaseListener implements PhaseListener
     */
    static void beforeSaveState(FacesContext ctx) {
       log.debug( "Before saving state" );
-
+   
       /*if ( !Init.instance().isClientSideConversations() ) 
       {
          // difficult question: does this really need to happen before 
@@ -124,7 +124,7 @@ public class SeamPhaseListener implements PhaseListener
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }
 
-   private static void storeAnyConversationContext(FacesContext ctx)
+   static void storeAnyConversationContext(FacesContext ctx)
    {
       Lifecycle.flushClientConversation();
       Lifecycle.flushPage();

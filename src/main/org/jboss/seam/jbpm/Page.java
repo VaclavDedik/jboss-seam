@@ -4,6 +4,7 @@ import org.dom4j.Element;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Process;
 import org.jboss.seam.core.Transition;
+import org.jboss.seam.util.Template;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
@@ -114,7 +115,7 @@ public class Page extends Node implements Parsable
    }
 
    public String getDescription() {
-      return description;
+      return Template.render(description);
    }
 
    public Integer getTimeout() {

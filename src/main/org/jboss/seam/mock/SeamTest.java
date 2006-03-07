@@ -21,6 +21,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.servlet.ServletSessionImpl;
 import org.testng.annotations.Configuration;
 
@@ -238,6 +239,9 @@ public class SeamTest
    public void init() throws Exception
    {
       application = new MockApplication();
+      application.setStateManager( new SeamStateManager( application.getStateManager() ) );
+      //don't need a SeamNavigationHandler, because we don't test navigation
+      //don't need a SeamVariableResolver, because we don't test the view 
       phases = createPhaseListener();
       servletContext = new MockServletContext();
       

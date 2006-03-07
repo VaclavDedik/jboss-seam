@@ -17,9 +17,11 @@ import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntry;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
@@ -46,6 +48,10 @@ public class PhaseListenerTest
       appContext.set( 
             Seam.getComponentName(Conversation.class) + ".component", 
             new Component(Conversation.class) 
+         );
+      appContext.set( 
+            Seam.getComponentName(FacesMessages.class) + ".component", 
+            new Component(FacesMessages.class) 
          );
       
       SeamPhaseListener phases = new SeamPhaseListener();
@@ -104,6 +110,7 @@ public class PhaseListenerTest
       ExternalContext externalContext = new MockExternalContext();
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       MockLifecycle lifecycle = new MockLifecycle();
+      facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
       facesContext.setCurrent();
       
       Context appContext = new FacesApplicationContext(externalContext);
@@ -116,6 +123,10 @@ public class PhaseListenerTest
             Seam.getComponentName(Conversation.class) + ".component", 
             new Component(Conversation.class) 
          );
+      appContext.set( 
+            Seam.getComponentName(FacesMessages.class) + ".component", 
+            new Component(FacesMessages.class) 
+         );      
       
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
@@ -185,6 +196,7 @@ public class PhaseListenerTest
       
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       MockLifecycle lifecycle = new MockLifecycle();
+      facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
       facesContext.setCurrent();
       
       Context appContext = new FacesApplicationContext(externalContext);
@@ -196,6 +208,10 @@ public class PhaseListenerTest
       appContext.set( 
             Seam.getComponentName(Conversation.class) + ".component", 
             new Component(Conversation.class) 
+         );
+      appContext.set( 
+            Seam.getComponentName(FacesMessages.class) + ".component", 
+            new Component(FacesMessages.class) 
          );
 
       SeamPhaseListener phases = new SeamPhaseListener();
