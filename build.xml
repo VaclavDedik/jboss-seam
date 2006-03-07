@@ -196,20 +196,23 @@
             </fileset>
         </copy>
     	
-    	<!--
+    </target>
+
+    <target name="initui"
+            description="Initialize the build for the UI package">
+        <echo message="Build ${Name} UI ${version}"/>
+
     	<mkdir dir="${uiclasses.dir}"/>
         <copy todir="${uiclasses.dir}">
             <fileset dir="${src.ui.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
-        -->
     	
     </target>
 
     <target name="compile" depends="init"
             description="Compile the Java source code">
-    	
         <javac
             destdir="${classes.dir}"
             classpathref="build.classpath"
@@ -219,8 +222,10 @@
             <src path="${src.java.dir}"/>
             <src path="${src.test.dir}"/>
         </javac>
-        
-    	<!--
+    </target>
+    
+    <target name="compileui" depends="initui"
+            description="Compile the Java source code for the UI package">
         <javac
             destdir="${uiclasses.dir}"
             classpathref="build.classpath"
@@ -229,8 +234,6 @@
             nowarn="on">
             <src path="${src.ui.dir}"/>
         </javac>
-        -->
-
     </target>
     
     <target name="test" depends="compile"
@@ -381,7 +384,12 @@
         </jar>
         <copy file="${basedir}/${name}.jar" todir="${dist.dir}"/>
     	
-    	<!--
+    </target>
+
+    <target name="jarui" depends="compileui"
+            description="Build the distribution .jar file for the UI package">
+        <mkdir dir="${dist.dir}"/>
+    	
         <jar jarfile="${basedir}/${name}-ui.jar" basedir="${uiclasses.dir}">
         	<include name="**/*.class"/>
             <patternset refid="meta.files"/>
@@ -390,7 +398,6 @@
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
-    	-->
     	
     </target>
 

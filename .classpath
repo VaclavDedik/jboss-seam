@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/ui"/>
 	<classpathentry kind="src" path="embedded-ejb/conf"/>
 	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="examples/todo/src"/>
@@ -36,8 +37,10 @@
 	<classpathentry kind="lib" path="lib/jboss-microcontainer.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-impl.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-3.1-beta3.jar"/>
 	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-2.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/asm.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
