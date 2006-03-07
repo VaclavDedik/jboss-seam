@@ -49,6 +49,9 @@
     <!-- # jbpm mapping files # -->
     <!-- ###################### -->
 
+    <!-- hql queries and type defs -->
+    <mapping resource="org/jbpm/db/hibernate.queries.hbm.xml" />
+    
     <!-- graph.def mapping files -->
     <mapping resource="org/jbpm/graph/def/ProcessDefinition.hbm.xml"/>
     <mapping resource="org/jbpm/graph/def/Node.hbm.xml"/>
@@ -111,6 +114,7 @@
     <mapping resource="org/jbpm/context/exe/variableinstance/HibernateLongInstance.hbm.xml"/>
     <mapping resource="org/jbpm/context/exe/variableinstance/HibernateStringInstance.hbm.xml"/>
     <mapping resource="org/jbpm/context/exe/variableinstance/LongInstance.hbm.xml"/>
+    <mapping resource="org/jbpm/context/exe/variableinstance/NullInstance.hbm.xml"/>
     <mapping resource="org/jbpm/context/exe/variableinstance/StringInstance.hbm.xml"/>
 
     <!-- msg.db mapping files -->
@@ -160,6 +164,6 @@
     <mapping resource="org/jbpm/taskmgmt/log/SwimlaneLog.hbm.xml"/>
     <mapping resource="org/jbpm/taskmgmt/log/SwimlaneCreateLog.hbm.xml"/>
     <mapping resource="org/jbpm/taskmgmt/log/SwimlaneAssignLog.hbm.xml"/>
-
+    
   </session-factory>
 </hibernate-configuration>
