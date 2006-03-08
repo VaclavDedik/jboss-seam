@@ -10,8 +10,11 @@ import java.lang.annotation.Target;
 
 /**
  * Specifies that an instance of this component is
- * created at system initialization time. May only
- * be applied to APPLICATION scoped components.
+ * created at system initialization time for an
+ * application scoped component, or when a session
+ * is started for a session scoped component. May only
+ * be applied to APPLICATION or SESSION scoped 
+ * components.
  * 
  * @author Gavin King
  */

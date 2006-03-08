@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -56,19 +57,21 @@ public class Lifecycle
 
    public static void endInitialization()
    {
-	  //instantiate @Startup components
+	   //instantiate all application-scoped @Startup components
       Context context = Contexts.getApplicationContext();
-      for ( String name: context.getNames() ) {
-    	  Object object = context.get(name);
-    	  if ( object instanceof Component )
-    	  {
-	        Component component = (Component) object;
-	        if ( component.isStartup() )
-	        {
-              startup(component);
-	        }
-    	  }
-       }
+      for ( String name: context.getNames() ) 
+      {
+    	   Object object = context.get(name);
+    	   if ( object instanceof Component )
+    	   {
+	         Component component = (Component) object;
+	         if ( component.isStartup() && component.getScope()==ScopeType.APPLICATION )
+	         {
+               startup(component);
+	         }
+    	   }
+      }
+      
       Contexts.applicationContext.set(null);
    }
 
@@ -99,6 +102,36 @@ public class Lifecycle
       Contexts.eventContext.set(null);
       Contexts.sessionContext.set(null);
       Contexts.conversationContext.set(null);
+   }
+
+   /***
+    * Instantiate @Startup components for session scoped component
+    */
+   public static void beginSession(ServletContext servletContext, Session session) 
+   {
+      log.debug("Session started");
+      
+      Context context = new WebApplicationContext(servletContext);
+      Contexts.applicationContext.set(context);
+
+      Context tempSessionContext = new WebSessionContext( session );
+      Contexts.sessionContext.set(tempSessionContext);
+      
+      //instantiate all session-scoped @Startup components
+      for ( String name : context.getNames() ) 
+      {
+         Object object = context.get(name);
+         if (object instanceof Component) {
+            Component component = (Component) object;
+            if ( component.isStartup() && component.getScope() == ScopeType.SESSION ) 
+            {
+               startup(component);
+            }
+         }
+      }
+      
+      Contexts.sessionContext.set(null);
+      Contexts.applicationContext.set(null);
    }
 
    public static void endSession(ServletContext servletContext, Session session)

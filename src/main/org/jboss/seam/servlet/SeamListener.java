@@ -16,7 +16,8 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.init.Initialization;
 
 /**
- * Destroys Seam components when the app is undeployed
+ * Drives certain Seam functionality such as initialization and cleanup
+ * of application and session contexts from the web application lifecycle.
  * 
  * @author Gavin King
  */
@@ -34,7 +35,9 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
       Lifecycle.endApplication( event.getServletContext() );
    }
 
-   public void sessionCreated(HttpSessionEvent event) {}
+   public void sessionCreated(HttpSessionEvent event) {
+      Lifecycle.beginSession( event.getSession().getServletContext(), new ServletSessionImpl( event.getSession() ) );
+   }
 
    public void sessionDestroyed(HttpSessionEvent event) {
       Lifecycle.endSession( event.getSession().getServletContext(), new ServletSessionImpl( event.getSession() ) );
