@@ -311,7 +311,7 @@ public class Manager
       {
          log.debug("Discarding conversation state: " + currentConversationId);
 
-         LinkedList<String> stack = Manager.instance().getCurrentConversationIdStack();
+         LinkedList<String> stack = getCurrentConversationIdStack();
          if ( stack.size()>1 )
          {
             String outerConversationId = stack.get(1);
@@ -350,7 +350,7 @@ public class Manager
       {
          log.debug("Discarding conversation state: " + currentConversationId);
 
-         LinkedList<String> stack = Manager.instance().getCurrentConversationIdStack();
+         LinkedList<String> stack = getCurrentConversationIdStack();
          if ( stack.size()>1 )
          {
             String outerConversationId = stack.get(1);
@@ -404,6 +404,11 @@ public class Manager
          storedConversationId = null;
       }
 
+      restoreConversation(storedConversationId);
+
+   }
+
+   public void restoreConversation(String storedConversationId) {
       boolean isStoredConversation = storedConversationId!=null &&
             getSessionConversationIds().contains(storedConversationId);
       if ( isStoredConversation )
@@ -429,7 +434,6 @@ public class Manager
          log.debug("No stored conversation");
          initializeTemporaryConversation();
       }
-
    }
 
    private String getConversationIdFromRequestParameter(Map parameters) {
