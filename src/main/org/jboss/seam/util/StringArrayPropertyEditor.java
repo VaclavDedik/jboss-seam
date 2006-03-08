@@ -13,7 +13,7 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport
    @Override
    public void setAsText(String text) throws IllegalArgumentException
    {
-      setValue( Strings.split(text, ", ") );
+      setValue( Strings.split(text, ", \r\n\f\t") );
    }
    @Override
    public String getAsText()
