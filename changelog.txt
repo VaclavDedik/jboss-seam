@@ -2,11 +2,13 @@ JBoss Seam Changelog
 ====================
 Changes in version 1.0 beta 3 (March 2006)
 ------------------------------------------
+* Seam Remoting framework (Shane Bryzak)
 * Added facesMessages core component for templated success messages
 * Support @Startup for session-scoped components
 * Display faces messages for illegal navigation or no conversation
 * Now working with JSF 1.2 RI
 * @RequestParameter now does type conversions
+* resourceBundle component now uses the client locale
 * Fixed bug where pageflows did not start
 
 Changes in version 1.0 beta 2 (February 2006)
