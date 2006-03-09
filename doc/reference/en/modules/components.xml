@@ -131,19 +131,15 @@
                 <term><literal>resourceBundle</literal></term>
                 <listitem>
                     <para>
-                        Manager component for an injectable resource bundle.
+                        Manager component for an injectable resource bundle. The resource
+                        bundle is session scoped, and the locale is chosen as the request 
+                        locale, JSF default locale or server default locale, in that priority.
                     </para>
                     <itemizedlist>
                         <listitem>
                         <para>
                             <literal>resourceBundle.bundleName</literal> &mdash; the name of 
                             the bundle. Default to <literal>messages</literal>.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>resourceBundle.language</literal> &mdash; the language.
-                            If missing, use the default locale.
                         </para>
                         </listitem>
                     </itemizedlist>
