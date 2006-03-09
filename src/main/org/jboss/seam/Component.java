@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.ejb.Interceptors;
@@ -54,6 +55,7 @@ import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
@@ -118,8 +120,7 @@ public class Component
    private Map<String, Field> dataModelSelectionIndexFields = new HashMap<String, Field>();
    private Map<String, Field> dataModelSelectionFields = new HashMap<String, Field>();
 
-
-   private ClassValidator validator;
+   private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
 
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
 
@@ -182,8 +183,6 @@ public class Component
          initInterceptors();
       }
 
-      initValidator();
-
       initInitializers(applicationContext);
 
       if (type==ComponentType.JAVA_BEAN)
@@ -201,22 +200,6 @@ public class Component
       if ( scope==ScopeType.PAGE && type==ComponentType.STATEFUL_SESSION_BEAN )
       {
          throw new IllegalArgumentException("Stateful session beans may not be bound to the PAGE context: " + name);
-      }
-   }
-
-   private void initValidator() {
-      if (interceptionType!=InterceptionType.NEVER)
-      {
-         ResourceBundle messages = Contexts.isApplicationContextActive() ? //YEW!!!!!!!! (for testing only)
-               org.jboss.seam.core.ResourceBundle.instance() : null;
-         if (messages==null)
-         {
-            validator = new ClassValidator(beanClass);
-         }
-         else
-         {
-            validator = new ClassValidator(beanClass, messages);
-         }
       }
    }
 
@@ -530,6 +513,21 @@ public class Component
 
    public ClassValidator getValidator()
    {
+      java.util.ResourceBundle currentBundle = ResourceBundle.instance();
+      Locale currentLocale = currentBundle==null ? Locale.getDefault() : currentBundle.getLocale();
+      ClassValidator validator = validators.get(currentLocale);
+      if (validator==null)
+      {
+         if (currentBundle==null)
+         {
+            validator = new ClassValidator(beanClass);
+         }
+         else
+         {
+            validator = new ClassValidator(beanClass, currentBundle);
+         }
+         validators.put(currentLocale, validator);
+      }
       return validator;
    }
 
