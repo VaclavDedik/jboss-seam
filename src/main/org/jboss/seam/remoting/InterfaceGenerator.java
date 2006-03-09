@@ -16,19 +16,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Remotable;
+import org.jboss.seam.contexts.Lifecycle;
+import javax.faces.event.PhaseId;
+import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContext;
 
 /**
  * Generates JavaScript interface code.
  *
  * @author Shane Bryzak
  */
-public class InterfaceGenerator
+public class InterfaceGenerator extends BaseRequestHandler implements RequestHandler
 {
+  private static Logger log = Logger.getLogger(InterfaceGenerator.class);
+
   /**
    * Maintain a cache of the accessible fields
    */
@@ -38,6 +48,49 @@ public class InterfaceGenerator
    * A cache of component interfaces, keyed by component name.
    */
   private Map<String,byte[]> interfaceCache = new HashMap<String,byte[]>();
+
+  private ServletContext servletContext;
+
+  public void setServletContext(ServletContext ctx)
+  {
+    this.servletContext = ctx;
+  }
+
+  /**
+   *
+   * @param request HttpServletRequest
+   * @param response HttpServletResponse
+   * @throws Exception
+   */
+  public void handle(HttpServletRequest request, HttpServletResponse response)
+      throws Exception
+  {
+    try
+    {
+      HttpSession session = ( (HttpServletRequest) request).getSession(true);
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      Lifecycle.setServletRequest(request);
+      Lifecycle.beginRequest(servletContext, session);
+
+      String[] componentNames = request.getQueryString().split("&");
+      Component[] components = new Component[componentNames.length];
+
+      for (int i = 0; i < componentNames.length; i++) {
+        components[i] = Component.forName(componentNames[i]);
+        if (components[i] == null) {
+          log.error(String.format("Component not found: [%s]", componentNames[i]));
+          throw new ServletException("Invalid request - component not found.");
+        }
+      }
+
+      generateComponentInterface(components, response.getOutputStream());
+    }
+    finally
+    {
+      Lifecycle.setServletRequest(null);
+      Lifecycle.setPhaseId(null);
+    }
+  }
 
   /**
    * Generates the JavaScript code required to invoke the methods of a component/s.
@@ -157,6 +210,12 @@ public class InterfaceGenerator
     {
       type = component.getLocalInterfaces().iterator().next();
     }
+    else if (component.getType().equals(ComponentType.ENTITY_BEAN) ||
+             component.getType().equals(ComponentType.JAVA_BEAN))
+    {
+      appendTypeSource(out, component.getBeanClass(), types);
+      return;
+    }
     else
       type = component.getBeanClass();
 
@@ -169,7 +228,6 @@ public class InterfaceGenerator
     componentSrc.append(component.getName());
     componentSrc.append("() {\n");
     componentSrc.append("  this.__callback = new Object();\n");
-    componentSrc.append("  this.__context = new __SeamContext();\n");
 
     for (Method m : type.getDeclaredMethods())
     {

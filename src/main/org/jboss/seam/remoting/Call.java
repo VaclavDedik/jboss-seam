@@ -112,20 +112,8 @@ public class Call
     if (m == null)
       throw new RuntimeException("No compatible method found.");
 
-    /** @todo Gavin can you please fill in the following blanks? */
-
-
-    /** @todo Reinstate the conversation using context.getConversationId() */
-
-
-
     // Invoke!
     result = m.invoke(instance, convertParams(m.getGenericParameterTypes()));
-
-    /** @todo Store the conversation ID using context.setConversationId() */
-
-
-
   }
 
   /**

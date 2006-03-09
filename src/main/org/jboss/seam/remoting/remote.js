@@ -1,18 +1,8 @@
-function __SeamContext() {
-  this.conversationId = null;
-
-  __SeamContext.prototype.setConversationId = function(conversationId)
-  {
-    this.conversationId = conversationId;
-  }
-
-  __SeamContext.prototype.getConversationId = function()
-  {
-    return this.conversationId;
-  }
-}
-
 function SeamRemote() { }
+
+SeamRemote.PATH_EXECUTE = "/execute";
+SeamRemote.PATH_SUBSCRIBE = "/subscribe";
+SeamRemote.PATH_POLL = "/poll";
 
 SeamRemote.types = new Array();
 SeamRemote.debug = false;
@@ -46,6 +36,27 @@ SeamRemote.log = function(msg)
     msg = msg.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     SeamRemote.debugWindow.document.write("<pre>" + (new Date()) + ": " + msg + "</pre><br/>");
   }
+}
+
+SeamRemote.__Context = function() {
+  this.conversationId = null;
+
+  SeamRemote.__Context.prototype.setConversationId = function(conversationId)
+  {
+    this.conversationId = conversationId;
+  }
+
+  SeamRemote.__Context.prototype.getConversationId = function()
+  {
+    return this.conversationId;
+  }
+}
+
+SeamRemote.context = new SeamRemote.__Context();
+
+SeamRemote.getContext = function()
+{
+  return SeamRemote.context;
 }
 
 SeamRemote.__Map = function()
@@ -128,11 +139,6 @@ SeamRemote.__Map = function()
   }
 }
 
-SeamRemote.getContext = function(obj)
-{
-  return obj.__context;
-}
-
 SeamRemote.register = function(type)
 {
   for (var i = 0; i < SeamRemote.types.length; i++)
@@ -204,7 +210,7 @@ SeamRemote.serializeValue = function(value, type, refs)
   {
     switch (type) {
       // Boolean
-      case "boolean": return "<bool>" + (value ? 1 : 0) + "</bool>";
+      case "bool": return "<bool>" + (value ? "true" : "false") + "</bool>";
 
       // Numerical types
       case "int": return "<int>" + value + "</int>";
@@ -231,7 +237,7 @@ SeamRemote.serializeValue = function(value, type, refs)
 
     switch (typeof(value)) {
       case "number": return "<int>" + value + "</int>";
-      case "boolean": return "<bool>" + (value ? 1 : 0) + "</bool>";
+      case "boolean": return "<bool>" + (value ? "true" : "false") + "</bool>";
       case "object":
         if (value.constructor == Array)
           return SeamRemote.serializeBag(value, refs);
@@ -350,10 +356,6 @@ SeamRemote.createCall = function(obj, methodName, params, callback)
   data += callId;
   data += "\">\n";
 
-  // Add the context
-  if (obj.__context)
-    data += SeamRemote.serializeContext(obj);
-
   // Add parameters
   data += "<params>";
 
@@ -383,9 +385,32 @@ SeamRemote.createCall = function(obj, methodName, params, callback)
   return {data: data, id: callId, callback: callback};
 }
 
-SeamRemote.createEnvelope = function(body)
+SeamRemote.createHeader = function()
+{
+  var header = "";
+
+  header += "<context>";
+  if (SeamRemote.getContext().getConversationId())
+  {
+    header += "<conversationId>";
+    header += SeamRemote.getContext().getConversationId();
+    header += "</conversationId>";
+  }
+  header += "</context>";
+
+  return header;
+}
+
+SeamRemote.createEnvelope = function(header, body)
 {
   var data = "<envelope>";
+
+  if (header)
+  {
+    data += "<header>";
+    data += header;
+    data += "</header>";
+  }
 
   if (body)
   {
@@ -421,8 +446,8 @@ SeamRemote.executeBatch = function()
     data += SeamRemote.batchedCalls[i].data;
   }
 
-  var envelope = SeamRemote.createEnvelope(data);
-  SeamRemote.sendAjaxRequest(envelope);
+  var envelope = SeamRemote.createEnvelope(SeamRemote.createHeader(), data);
+  SeamRemote.sendAjaxRequest(envelope, SeamRemote.PATH_EXECUTE, SeamRemote.processResponse, false);
   SeamRemote.inBatch = false;
 }
 
@@ -443,16 +468,18 @@ SeamRemote.execute = function(component, methodName, params, callback)
   else
   {
     // Marshal the request
-    var envelope = SeamRemote.createEnvelope(call.data);
+    var envelope = SeamRemote.createEnvelope(SeamRemote.createHeader(), call.data);
     SeamRemote.pendingCalls.put(call.id, call);
-    SeamRemote.sendAjaxRequest(envelope);
+    SeamRemote.sendAjaxRequest(envelope, SeamRemote.PATH_EXECUTE, SeamRemote.processResponse, false);
   }
 }
 
-SeamRemote.sendAjaxRequest = function(envelope)
+SeamRemote.sendAjaxRequest = function(envelope, path, callback, silent)
 {
   SeamRemote.log("Request packet:\n" + envelope);
-  SeamRemote.displayLoadingMessage();
+
+  if (!silent)
+    SeamRemote.displayLoadingMessage();
 
   var asyncReq;
 
@@ -464,8 +491,8 @@ SeamRemote.sendAjaxRequest = function(envelope)
   else
     asyncReq = new ActiveXObject("Microsoft.XMLHTTP");
 
-  asyncReq.onreadystatechange = function() {SeamRemote.requestCallback(asyncReq); }
-  asyncReq.open("POST", SeamRemote.contextPath + "/seam/remoting/execute", true);
+  asyncReq.onreadystatechange = function() {SeamRemote.requestCallback(asyncReq, callback); }
+  asyncReq.open("POST", SeamRemote.contextPath + "/seam/remoting" + path, true);
   asyncReq.send(envelope);
 }
 
@@ -474,7 +501,7 @@ SeamRemote.setCallback = function(component, methodName, callback)
   component.__callback[methodName] = callback;
 }
 
-SeamRemote.requestCallback = function(req)
+SeamRemote.requestCallback = function(req, callback)
 {
   if (req.readyState == 4)
   {
@@ -484,7 +511,7 @@ SeamRemote.requestCallback = function(req)
     {
       SeamRemote.log("Response packet:\n" + req.responseText);
 
-      SeamRemote.processResponse(req.responseXML);
+      callback(req.responseXML);
     }
     else
       alert("There was an error processing your request.  Error code: " + req.status);
@@ -493,16 +520,47 @@ SeamRemote.requestCallback = function(req)
 
 SeamRemote.processResponse = function(doc)
 {
-  var body = doc.documentElement.firstChild;
+  var headerNode;
+  var bodyNode;
+  var context = new SeamRemote.__Context;
 
-  for (var i = 0; i < body.childNodes.length; i++)
+  for (var i = 0; i < doc.documentElement.childNodes.length; i++)
   {
-    if (body.childNodes.item(i).tagName == "result")
-      SeamRemote.processResult(body.childNodes.item(i));
+    var node = doc.documentElement.childNodes.item(i);
+    if (node.tagName == "header")
+      headerNode = node;
+    else if (node.tagName == "body")
+      bodyNode = node;
+  }
+
+  if (headerNode)
+  {
+    var contextNode;
+    for (var i = 0; i < headerNode.childNodes.length; i++)
+    {
+      var node = headerNode.childNodes.item(i);
+      if (node.tagName == "context")
+      {
+        contextNode = node;
+        break;
+      }
+    }
+    if (contextNode)
+      SeamRemote.unmarshalContext(contextNode, context);
+  }
+
+  if (bodyNode)
+  {
+    for (var i = 0; i < bodyNode.childNodes.length; i++)
+    {
+      var node = bodyNode.childNodes.item(i);
+      if (node.tagName == "result")
+      SeamRemote.processResult(node, context);
+    }
   }
 }
 
-SeamRemote.processResult = function(result)
+SeamRemote.processResult = function(result, context)
 {
   var callId = result.getAttribute("id");
   var call = SeamRemote.pendingCalls.get(callId);
@@ -510,7 +568,6 @@ SeamRemote.processResult = function(result)
 
   if (call && call.callback)
   {
-    var contextNode = null;
     var valueNode = null;
     var refsNode = null;
 
@@ -518,18 +575,11 @@ SeamRemote.processResult = function(result)
     for (var i = 0; i < children.length; i++)
     {
       var tag = children.item(i).tagName;
-      if (tag == "context")
-        contextNode = children.item(i);
-      else if (tag == "value")
+      if (tag == "value")
         valueNode = children.item(i);
       else if (tag == "refs")
         refsNode = children.item(i);
     }
-
-    var context = new __SeamContext();
-
-    if (contextNode)
-      SeamRemote.unmarshalContext(contextNode, context);
 
     var refs = new Array();
     if (refsNode)
@@ -597,6 +647,7 @@ SeamRemote.unmarshalValue = function(element, refs)
 
   switch (tag)
   {
+    case "bool": return element.firstChild.nodeValue == "true";
     case "int": return parseInt(element.firstChild.nodeValue);
     case "str": return element.firstChild.nodeValue;
     case "ref": return refs[parseInt(element.getAttribute("id"))];
@@ -686,4 +737,182 @@ SeamRemote.displayLoadingMessage = function(message)
 SeamRemote.hideLoadingMessage = function()
 {
   SeamRemote.loadingMsgDiv.style.visibility = 'hidden';
+}
+
+/* Messaging API */
+
+SeamRemote.pollInterval = 10; // Default poll interval of 10 seconds
+SeamRemote.pollTimeout = 0; // Default timeout of 0 seconds
+
+SeamRemote.setPollInterval = function(interval)
+{
+  SeamRemote.pollInterval = interval;
+}
+
+SeamRemote.setPollTimeout = function(timeout)
+{
+  SeamRemote.pollTimeout = timeout;
+}
+
+SeamRemote.subscriptionRegistry = new Array();
+
+SeamRemote.subscribe = function(topicName, callback)
+{
+  var body = "<subscribe topic=\"" + topicName + "\"/>";
+  var env = SeamRemote.createEnvelope(null, body);
+  SeamRemote.subscriptionRegistry.push({topic:topicName, callback:callback});
+  SeamRemote.sendAjaxRequest(env, SeamRemote.PATH_SUBSCRIBE, SeamRemote.subscriptionCallback, false);
+}
+
+SeamRemote.subscriptionCallback = function(doc)
+{
+  var body = doc.documentElement.firstChild;
+  for (var i = 0; i < body.childNodes.length; i++)
+  {
+    var node = body.childNodes.item(i);
+    if (node.tagName == "subscription")
+    {
+      var topic = node.getAttribute("topic");
+      var token = node.getAttribute("token");
+      for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+      {
+        if (SeamRemote.subscriptionRegistry[i].topic == topic)
+        {
+          SeamRemote.subscriptionRegistry[i].token = token;
+          SeamRemote.poll();
+          break;
+        }
+      }
+    }
+  }
+}
+
+SeamRemote.pollTimeoutFunction = null;
+
+SeamRemote.poll = function()
+{
+  clearTimeout(SeamRemote.pollTimeoutFunction);
+
+  var body = "";
+
+  if (SeamRemote.subscriptionRegistry.length == 0)
+    return;
+
+  for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+  {
+    body += "<poll token=\"" + SeamRemote.subscriptionRegistry[i].token + "\" ";
+    body += "timeout=\"" + SeamRemote.pollTimeout + "\"/>";
+  }
+
+  var env = SeamRemote.createEnvelope(null, body);
+  SeamRemote.sendAjaxRequest(env, SeamRemote.PATH_POLL, SeamRemote.pollCallback, true);
+}
+
+SeamRemote.pollCallback = function(doc)
+{
+  var body = doc.documentElement.firstChild;
+  for (var i = 0; i < body.childNodes.length; i++)
+  {
+    var node = body.childNodes.item(i);
+    if (node.tagName == "messages")
+      SeamRemote.processMessages(node);
+  }
+
+  SeamRemote.pollTimeoutFunction = setTimeout("SeamRemote.poll()", Math.max(SeamRemote.pollInterval * 1000, 1000));
+}
+
+SeamRemote.processMessages = function(messages)
+{
+  var token = messages.getAttribute("token");
+
+  var callback = null;
+  for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+  {
+    if (SeamRemote.subscriptionRegistry[i].token == token)
+    {
+      callback = SeamRemote.subscriptionRegistry[i].callback;
+      break;
+    }
+  }
+
+  if (callback != null)
+  {
+    var messageNode = null;
+
+    var children = messages.childNodes;
+    for (var i = 0; i < children.length; i++)
+    {
+      if (children.item(i).tagName == "message")
+      {
+        messageNode = children.item(i);
+        var messageType = messageNode.getAttribute("type");
+
+        var valueNode = null;
+        var refsNode = null;
+        for (var j = 0; j < messageNode.childNodes.length; j++)
+        {
+          var node = messageNode.childNodes.item(j);
+          if (node.tagName == "value")
+            valueNode = node;
+          else if (node.tagName == "refs")
+            refsNode = node;
+        }
+
+        var refs = new Array();
+        if (refsNode)
+          SeamRemote.unmarshalRefs(refsNode, refs);
+
+        var value = SeamRemote.unmarshalValue(valueNode.firstChild, refs);
+
+        callback(SeamRemote.createMessage(messageType, value));
+      }
+    }
+  }
+}
+
+SeamRemote.__ObjectMessage = function()
+{
+  this.value = null;
+
+  SeamRemote.__ObjectMessage.prototype.getValue = function()
+  {
+    return this.value;
+  }
+
+  SeamRemote.__ObjectMessage.prototype.setValue = function(value)
+  {
+    this.value = value;
+  }
+}
+
+SeamRemote.__TextMessage = function()
+{
+  this.text = null;
+
+  SeamRemote.__TextMessage.prototype.getText = function()
+  {
+    return this.text;
+  }
+
+  SeamRemote.__TextMessage.prototype.setText = function(text)
+  {
+    this.text = text;
+  }
+}
+
+SeamRemote.createMessage = function(messageType, value)
+{
+
+  switch (messageType)
+  {
+    case "object":
+      var msg = new SeamRemote.__ObjectMessage();
+      msg.setValue(value);
+      return msg;
+    case "text":
+      var msg = new SeamRemote.__TextMessage();
+      msg.setText(value);
+      return msg;
+  }
+  return null;
 }

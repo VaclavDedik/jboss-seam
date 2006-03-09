@@ -1,12 +1,10 @@
 package org.jboss.seam.remoting;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +12,14 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.logging.Logger;
+import org.jboss.seam.remoting.messaging.PollRequest;
 import org.jboss.seam.remoting.wrapper.Wrapper;
+import javax.faces.event.PhaseId;
+import javax.servlet.http.HttpSession;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.contexts.Lifecycle;
+import javax.servlet.ServletContext;
+import org.jboss.seam.contexts.Session;
 
 /**
  * Unmarshals the calls from an HttpServletRequest, executes them in order and
@@ -22,30 +27,30 @@ import org.jboss.seam.remoting.wrapper.Wrapper;
  *
  * @author Shane Bryzak
  */
-public class ExecutionHandler
+public class ExecutionHandler extends BaseRequestHandler implements RequestHandler
 {
   private static Logger log = Logger.getLogger(ExecutionHandler.class);
 
-  private static final byte[] CONTEXT_TAG_OPEN = "<context>".getBytes();
-  private static final byte[] CONTEXT_TAG_CLOSE = "</context>".getBytes();
+  private static final byte[] HEADER_OPEN = "<header>".getBytes();
+  private static final byte[] HEADER_CLOSE = "</header>".getBytes();
   private static final byte[] CONVERSATION_ID_TAG_OPEN = "<conversationId>".getBytes();
   private static final byte[] CONVERSATION_ID_TAG_CLOSE = "</conversationId>".getBytes();
+
+  private static final byte[] CONTEXT_TAG_OPEN = "<context>".getBytes();
+  private static final byte[] CONTEXT_TAG_CLOSE = "</context>".getBytes();
   private static final byte[] VALUE_TAG_OPEN = "<value>".getBytes();
   private static final byte[] VALUE_TAG_CLOSE = "</value>".getBytes();
-  private static final byte[] ENVELOPE_TAG_OPEN = "<envelope>".getBytes();
-  private static final byte[] ENVELOPE_TAG_CLOSE = "</envelope>".getBytes();
-  private static final byte[] BODY_TAG_OPEN = "<body>".getBytes();
-  private static final byte[] BODY_TAG_CLOSE = "</body>".getBytes();
-  private static final byte[] REFS_TAG_OPEN = "<refs>".getBytes();
-  private static final byte[] REFS_TAG_CLOSE = "</refs>".getBytes();
-
-  private static final byte[] REF_TAG_OPEN_START = "<ref id=\"".getBytes();
-  private static final byte[] REF_TAG_OPEN_END = "\">".getBytes();
-  private static final byte[] REF_TAG_CLOSE = "</ref>".getBytes();
 
   private static final byte[] RESULT_TAG_OPEN_START = "<result id=\"".getBytes();
   private static final byte[] RESULT_TAG_OPEN_END = "\">".getBytes();
   private static final byte[] RESULT_TAG_CLOSE = "</result>".getBytes();
+
+  private ServletContext servletContext;
+
+  public void setServletContext(ServletContext ctx)
+  {
+    this.servletContext = ctx;
+  }
 
   /**
    * The entry point for handling a request.
@@ -57,35 +62,94 @@ public class ExecutionHandler
   public void handle(HttpServletRequest request, HttpServletResponse response)
       throws Exception
   {
-    // Extract the calls from the request
-    List<Call> calls = unmarshalRequest(request.getInputStream());
+    try
+    {
+      // We're sending an XML response, so set the response content type to text/xml
+      response.setContentType("text/xml");
 
-    // Execute each of the calls
-    for (Call call : calls) {
-      call.execute();
+      // Parse the incoming request as XML
+      SAXReader xmlReader = new SAXReader();
+      Document doc = xmlReader.read(request.getInputStream());
+      Element env = doc.getRootElement();
+
+      RequestContext ctx = unmarshalContext(env);
+
+      // Extract the calls from the request
+      List<Call> calls = unmarshalCalls(env);
+
+      // Reinstate the Seam conversation
+      HttpSession session = ( (HttpServletRequest) request).getSession(true);
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      Lifecycle.setServletRequest(request);
+      Lifecycle.beginRequest(servletContext, session);
+
+      Manager.instance().restoreConversation(ctx.getConversationId());
+      Lifecycle.resumeConversation(session);
+
+      System.out.println("Conversation ID: " + Manager.instance().getCurrentConversationId());
+
+      // Execute each of the calls
+      for (Call call : calls) {
+        call.execute();
+      }
+
+      // Store the conversation ID in the outgoing context
+      ctx.setConversationId((Manager.instance().getCurrentConversationId()));
+      Manager.instance().storeConversation(response, Session.getSession(session));
+      Lifecycle.endRequest();
+
+      // Package up the response
+      marshalResponse(calls, ctx, response.getOutputStream());
+    }
+    catch (Exception ex)
+    {
+      Lifecycle.endRequest();
+    }
+    finally
+    {
+      Lifecycle.setServletRequest(null);
+      Lifecycle.setPhaseId(null);
+      log.debug("ended request");
+    }
+  }
+
+  /**
+   * Unmarshals the context from the request envelope header.
+   *
+   * @param env Element
+   * @return RequestContext
+   */
+  private RequestContext unmarshalContext(Element env)
+  {
+    RequestContext ctx = new RequestContext();
+
+    Element header = env.element("header");
+    if (header != null)
+    {
+      Element context = header.element("context");
+      if (context != null)
+      {
+
+        Element convId = context.element("conversationId");
+        if (convId != null)
+          ctx.setConversationId(convId.getText());
+      }
     }
 
-    response.setContentType("text/xml");
-
-    // Package up the response
-    marshalResponse(calls, response.getOutputStream());
+    return ctx;
   }
 
   /**
    * Unmarshal the request into a list of Calls.
    *
-   * @param in InputStream
+   * @param env Element
    * @throws Exception
    */
-  private List<Call> unmarshalRequest(InputStream in) throws Exception
+  private List<Call> unmarshalCalls(Element env)
+      throws Exception
   {
     try {
       List<Call> calls = new ArrayList<Call>();
-
-      SAXReader xmlReader = new SAXReader();
-      Document doc = xmlReader.read(in);
-
-      Element env = doc.getRootElement();
 
       List<Element> callElements = env.element("body").elements("call");
 
@@ -124,7 +188,7 @@ public class ExecutionHandler
       return calls;
     }
     catch (Exception ex) {
-      log.error("Error unmarshalling request", ex);
+      log.error("Error unmarshalling calls from request", ex);
       throw ex;
     }
   }
@@ -136,10 +200,22 @@ public class ExecutionHandler
    * @param out OutputStream The stream to write to
    * @throws IOException
    */
-  private void marshalResponse(List<Call> calls, OutputStream out)
+  private void marshalResponse(List<Call> calls, RequestContext ctx, OutputStream out)
       throws IOException
   {
     out.write(ENVELOPE_TAG_OPEN);
+
+    if (ctx.getConversationId() != null)
+    {
+      out.write(HEADER_OPEN);
+      out.write(CONTEXT_TAG_OPEN);
+      out.write(CONVERSATION_ID_TAG_OPEN);
+      out.write(ctx.getConversationId().getBytes());
+      out.write(CONVERSATION_ID_TAG_CLOSE);
+      out.write(CONTEXT_TAG_CLOSE);
+      out.write(HEADER_CLOSE);
+    }
+
     out.write(BODY_TAG_OPEN);
 
     for (Call call : calls)
@@ -147,16 +223,6 @@ public class ExecutionHandler
       out.write(RESULT_TAG_OPEN_START);
       out.write(call.getId().getBytes());
       out.write(RESULT_TAG_OPEN_END);
-
-      out.write(CONTEXT_TAG_OPEN);
-
-      if (call.getContext().getConversationId() != null)
-      {
-        out.write(CONVERSATION_ID_TAG_OPEN);
-        out.write(call.getContext().getConversationId().getBytes());
-        out.write(CONVERSATION_ID_TAG_CLOSE);
-      }
-      out.write(CONTEXT_TAG_CLOSE);
 
       out.write(VALUE_TAG_OPEN);
       call.getContext().createWrapperFromObject(call.getResult()).marshal(out);

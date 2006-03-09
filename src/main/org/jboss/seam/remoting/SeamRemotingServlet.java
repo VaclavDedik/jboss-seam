@@ -3,12 +3,8 @@ package org.jboss.seam.remoting;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -19,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.servlet.SeamServletFilter;
@@ -35,20 +30,9 @@ public class SeamRemotingServlet extends HttpServlet
 
   private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 
-  private static final String INTERFACE_PATH = "interface";
   private static final String RESOURCE_PATH = "resource";
 
   private ServletContext servletContext;
-
-  private InterfaceGenerator generator;
-
-  private ExecutionHandler executor;
-
-  public SeamRemotingServlet()
-  {
-    generator = new InterfaceGenerator();
-    executor = new ExecutionHandler();
-  }
 
   public void init(ServletConfig config) throws ServletException
   {
@@ -66,33 +50,11 @@ public class SeamRemotingServlet extends HttpServlet
   {
     try
     {
-      HttpSession session = ( (HttpServletRequest) request ).getSession(true);
-      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-      Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session);
-      Manager.instance().restoreConversation( null, request.getParameterMap() );
-      Lifecycle.resumeConversation(session);
-
-      if ("/execute".equals(request.getPathInfo()))
+      RequestHandler handler = RequestHandlerFactory.getInstance().getRequestHandler(request.getPathInfo());
+      if (handler != null)
       {
-        executor.handle(request, response);
-      }
-      else if ("/interface.js".equals(request.getPathInfo()))
-      {
-        String[] componentNames = request.getQueryString().split("&");
-        Component[] components = new Component[componentNames.length];
-
-        for (int i = 0; i < componentNames.length; i++)
-        {
-          components[i] = Component.forName(componentNames[i]);
-          if (components[i] == null)
-          {
-            log.error(String.format("Component not found: [%s]", componentNames[i]));
-            throw new ServletException("Invalid request - component not found.");
-          }
-        }
-
-        generator.generateComponentInterface(components, response.getOutputStream());
+        handler.setServletContext(servletContext);
+        handler.handle(request, response);
       }
       else
       {
@@ -103,10 +65,11 @@ public class SeamRemotingServlet extends HttpServlet
 
           if (RESOURCE_PATH.equals(path)) {
             writeResource(resource, response.getOutputStream());
-            if ("remote.js".equals(resource))
-            {
-              response.getOutputStream().write("\nSeamRemote.contextPath = \"".getBytes());
-              response.getOutputStream().write(request.getContextPath().getBytes());
+            if ("remote.js".equals(resource)) {
+              response.getOutputStream().write("\nSeamRemote.contextPath = \"".
+                                               getBytes());
+              response.getOutputStream().write(request.getContextPath().
+                                               getBytes());
               response.getOutputStream().write("\";".getBytes());
               response.getOutputStream().flush();
             }
@@ -114,19 +77,9 @@ public class SeamRemotingServlet extends HttpServlet
         }
       }
     }
-    catch (RuntimeException ex)
-    {
-      throw ex;
-    }
     catch (Exception ex)
     {
       log.error("Error", ex);
-    }
-    finally
-    {
-      Lifecycle.setServletRequest(null);
-      Lifecycle.setPhaseId(null);
-      log.debug("ended request");
     }
   }
 

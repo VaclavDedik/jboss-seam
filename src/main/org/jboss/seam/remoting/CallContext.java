@@ -27,11 +27,6 @@ public class CallContext
   private List<Wrapper> outRefs = new ArrayList<Wrapper>();
 
   /**
-   * The conversation ID
-   */
-  private String conversationId;
-
-  /**
    *
    * @param element Element
    * @return Wrapper
@@ -109,25 +104,5 @@ public class CallContext
   {
     if (!outRefs.contains(w))
       outRefs.add(w);
-  }
-
-  /**
-   * Returns the conversation ID for this individual call
-   *
-   * @return String
-   */
-  public String getConversationId()
-  {
-    return conversationId;
-  }
-
-  /**
-   * Sets the conversation ID for this individual call
-   *
-   * @param conversationId String
-   */
-  public void setConversationId(String conversationId)
-  {
-    this.conversationId = conversationId;
   }
 }
