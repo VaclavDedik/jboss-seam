@@ -41,7 +41,6 @@ public class ProjectFinderBean implements ProjectFinder {
     }
 
     private void executeQuery() {
-       System.out.println("querying: " + Lifecycle.getPhaseId());
        projectList = (List<Project>) entityManager.createQuery("from Project order by name")
             .getResultList();
     }
