@@ -513,20 +513,16 @@ public class Component
 
    public ClassValidator getValidator()
    {
-      java.util.ResourceBundle currentBundle = ResourceBundle.instance();
-      Locale currentLocale = currentBundle==null ? Locale.getDefault() : currentBundle.getLocale();
-      ClassValidator validator = validators.get(currentLocale);
+      java.util.ResourceBundle bundle = ResourceBundle.instance();
+      Locale locale = bundle==null ? 
+            new Locale("DUMMY") : bundle.getLocale();
+      ClassValidator validator = validators.get(locale);
       if (validator==null)
       {
-         if (currentBundle==null)
-         {
-            validator = new ClassValidator(beanClass);
-         }
-         else
-         {
-            validator = new ClassValidator(beanClass, currentBundle);
-         }
-         validators.put(currentLocale, validator);
+         validator = bundle==null ?
+               new ClassValidator(beanClass) :
+               new ClassValidator(beanClass, bundle);
+         validators.put(locale, validator);
       }
       return validator;
    }
