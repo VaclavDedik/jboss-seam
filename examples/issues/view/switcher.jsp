@@ -21,6 +21,14 @@
       </td>
       
       <td class="rvgSwitch">
+      
+       <h:selectOneMenu value="#{localeSelector.language}">
+         <f:selectItem itemLabel="English" itemValue="en"/>
+         <f:selectItem itemLabel="Deutsch" itemValue="de"/>
+         <f:selectItem itemLabel="French" itemValue="fr"/>
+       </h:selectOneMenu>
+       <h:commandButton action="#{localeSelector.select}" value="#{messages.Switch}"/>
+       
        <h:selectOneMenu value="#{switcher.conversationIdOrOutcome}">
          <f:selectItem itemLabel="#{messages.Find} #{messages.Issues}" itemValue="findIssue"/>
          <f:selectItem itemLabel="#{messages.Create} #{messages.Issue}" itemValue="editIssue" itemDisabled="#{loggedIn==null}"/>
