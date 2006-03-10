@@ -32,7 +32,7 @@ public class UserEditorBean implements UserEditor {
        return user;
     }
 
-    @In
+    @In(create=true)
     private transient ResourceBundle resourceBundle;
  
     @IfInvalid(outcome=Outcome.REDISPLAY)

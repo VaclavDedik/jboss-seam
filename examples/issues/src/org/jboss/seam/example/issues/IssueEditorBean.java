@@ -76,7 +76,7 @@ public class IssueEditorBean implements IssueEditor {
     @In(required=false)
     private transient ProjectFinder projectFinder;
     
-    @In
+    @In(create=true)
     private transient ResourceBundle resourceBundle;
     
     @LoggedIn

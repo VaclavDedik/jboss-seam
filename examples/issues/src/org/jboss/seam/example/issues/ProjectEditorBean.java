@@ -59,7 +59,7 @@ public class ProjectEditorBean implements ProjectEditor {
     @In(required=false)
     private transient ProjectFinder projectFinder;
 
-    @In
+    @In(create=true)
     private transient ResourceBundle resourceBundle;
     
     @LoggedIn

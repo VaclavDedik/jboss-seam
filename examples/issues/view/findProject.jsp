@@ -4,10 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <f:view>
-<f:loadBundle basename="messages" var="msg"/>
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-  <title><h:outputText value="#{msg.Select} #{msg.Project} #{msg.For} #{msg.Issue}"/></title>
+  <title><h:outputText value="#{messages.Select} #{messages.Project} #{messages.For} #{messages.Issue}"/></title>
   <style type="text/css" media="all">
 	@import "style/default/screen.css";
   </style>
@@ -16,7 +15,7 @@
  
    <h:form>
 
-     <h1><h:outputText value="#{msg.Select} #{msg.Project} #{msg.For} #{msg.Issue}"/></h1>
+     <h1><h:outputText value="#{messages.Select} #{messages.Project} #{messages.For} #{messages.Issue}"/></h1>
 
      <%@ include file="switcher.jsp" %> 
      <%@ include file="projectList.jsp" %>

@@ -18,7 +18,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Interceptors(SeamInterceptor.class)
 public class ProjectSelectorBean implements ProjectSelector {
 
-   @In
+   @In(create=true)
    private transient ResourceBundle resourceBundle;
 
    @In(create=true)

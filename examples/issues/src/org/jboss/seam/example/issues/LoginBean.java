@@ -37,7 +37,7 @@ public class LoginBean implements Login {
        return instance;
     }
 
-    @In
+    @In(create=true)
     private transient ResourceBundle resourceBundle;
  
     public String login() 
