@@ -73,9 +73,6 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       RequestContext ctx = unmarshalContext(env);
 
-      // Extract the calls from the request
-      List<Call> calls = unmarshalCalls(env);
-
       // Reinstate the Seam conversation
       HttpSession session = ( (HttpServletRequest) request).getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
@@ -84,6 +81,9 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       Manager.instance().restoreConversation(ctx.getConversationId());
       Lifecycle.resumeConversation(session);
+
+      // Extract the calls from the request
+      List<Call> calls = unmarshalCalls(env);
 
       // Execute each of the calls
       for (Call call : calls) {
