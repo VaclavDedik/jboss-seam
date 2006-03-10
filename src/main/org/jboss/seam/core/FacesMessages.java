@@ -4,7 +4,6 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -15,6 +14,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Template;
 
@@ -26,6 +26,7 @@ import org.jboss.seam.util.Template;
 @Scope(ScopeType.CONVERSATION)
 @Name("facesMessages")
 @Intercept(NEVER)
+@Startup
 public class FacesMessages 
 {
    
@@ -87,7 +88,7 @@ public class FacesMessages
     */
    public void addFromResourceBundle(String key)
    {
-      addFromResourceBundle(key, "missing message: " + key);
+      addFromResourceBundle(key, key);
    }
    
    /**

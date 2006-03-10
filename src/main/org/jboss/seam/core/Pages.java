@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Template;
 
@@ -79,6 +80,10 @@ public class Pages
    
    public static Pages instance()
    {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("No active application context");
+      }
       return (Pages) Component.getInstance(Pages.class, ScopeType.APPLICATION, true);
    }
 }

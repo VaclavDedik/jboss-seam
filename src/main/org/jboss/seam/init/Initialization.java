@@ -36,10 +36,12 @@ import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Messages;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.PooledTask;
@@ -157,8 +159,10 @@ public class Initialization
       addComponent( ApplicationContext.class, context );
       addComponent( ConversationContext.class, context );
       addComponent( BusinessProcessContext.class, context );
-      addComponent( ResourceBundle.class, context );
+      addComponent( Locale.class, context );
+      addComponent( Messages.class, context );
       addComponent( FacesMessages.class, context);
+      addComponent( ResourceBundle.class, context );
       addComponent( Introspector.class, context );
       addComponent( org.jboss.seam.debug.Contexts.class, context );
 
