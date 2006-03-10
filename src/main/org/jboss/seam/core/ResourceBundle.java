@@ -45,7 +45,7 @@ public class ResourceBundle {
       {
          bundle = java.util.ResourceBundle.getBundle( 
                bundleName, 
-               Locale.instance().getLocale(), 
+               Locale.instance(), 
                Thread.currentThread().getContextClassLoader() 
             );
          log.debug("loaded resource bundle: " + bundleName);

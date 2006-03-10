@@ -98,13 +98,88 @@
     </section>
     
     <section>
-        <title>User interface related components</title>
+        <title>Components for internationalization</title>
         <para>
-            The next group of components make it easy to build rich user interfaces
+            The next group of components make it easy to build internationalized user interfaces
             using Seam.
         </para>
         
     	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>locale</literal></term>
+                <listitem>
+                    <para>
+                        The Seam locale. The locale is session scoped.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>resourceBundle</literal></term>
+                <listitem>
+                    <para>
+                        The Seam resource bundle. The resource bundle is session scoped.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>resourceBundle.bundleName</literal> &mdash; the name of 
+                            the bundle. Default to <literal>messages</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>localeSelector</literal></term>
+                <listitem>
+                    <para>
+                        Selects the Seam locale. The locale is chosen as the <emphasis>specified 
+                        locale</emphasis>, the request locale, the JSF default locale or the server 
+                        default locale, in that priority. Supports selection of the specified locale 
+                        either at configuration time, or by the user at runtime.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>getLocale()</literal> &mdash; return the actual
+                            <literal>java.util.Locale</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>select()</literal> &mdash; select the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.language</literal> &mdash; the language for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.country</literal> &mdash; the country for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.variant</literal> &mdash; the variant for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>messages</literal></term>
+                <listitem>
+                    <para>
+                        A map containing internationalized messages rendered from message
+                        templates defined in the Seam resource bundle.
+                    </para>
+                </listitem>
+            </varlistentry>
             <varlistentry>
                 <term><literal>facesMessages</literal></term>
                 <listitem>
@@ -121,30 +196,55 @@
                         </listitem>
                         <listitem>
                         <para>
+                            <literal>add(String messageTemplate)</literal> &mdash; add 
+                            a faces message, rendered from the given message template
+                            which may contain EL expressions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>add(Severity severity, String messageTemplate)</literal> &mdash; 
+                            add a faces message, rendered from the given message template
+                            which may contain EL expressions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>addFromResourceBundle(String key)</literal> &mdash; 
+                            add a faces message, rendered from a message template defined
+                            in the Seam resource bundle which may contain EL expressions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>addFromResourceBundle(Severity severity, String key)</literal> &mdash; 
+                            add a faces message, rendered from a message template defined
+                            in the Seam resource bundle which may contain EL expressions.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
                             <literal>clear()</literal> &mdash; clear all messages.
                         </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
-            <varlistentry>
-                <term><literal>resourceBundle</literal></term>
-                <listitem>
-                    <para>
-                        Manager component for an injectable resource bundle. The resource
-                        bundle is session scoped, and the locale is chosen as the request 
-                        locale, JSF default locale or server default locale, in that priority.
-                    </para>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal>resourceBundle.bundleName</literal> &mdash; the name of 
-                            the bundle. Default to <literal>messages</literal>.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
+        </variablelist>
+        
+        <para>
+            All of these components are always installed.
+        </para>
+    </section>
+    
+    <section>
+        <title>Components for controlling conversations</title>
+        <para>
+            The next group of components allow control of conversations by the application or 
+            user interface.
+        </para>
+        
+    	<variablelist spacing="compact">
             <varlistentry>
                 <term><literal>conversation</literal></term>
                 <listitem>

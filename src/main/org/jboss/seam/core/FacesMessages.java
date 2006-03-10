@@ -70,7 +70,7 @@ public class FacesMessages
     */
    public void add(String messageTemplate)
    {
-      add( new FacesMessage( Template.render(messageTemplate) ) );
+      add(FacesMessage.SEVERITY_INFO, messageTemplate);
    }
    
    /**
@@ -88,7 +88,16 @@ public class FacesMessages
     */
    public void addFromResourceBundle(String key)
    {
-      addFromResourceBundle(key, key);
+      addFromResourceBundle(FacesMessage.SEVERITY_INFO, key);
+   }
+   
+   /**
+    * Add a templated FacesMessage by looking for the message
+    * template in the resource bundle. 
+    */
+   public void addFromResourceBundle(Severity severity, String key)
+   {
+      addFromResourceBundle(severity, key, key);
    }
    
    /**
@@ -96,7 +105,7 @@ public class FacesMessages
     * template in the resource bundle. If it is missing, use
     * the given message template.
     */
-   public void addFromResourceBundle(String key, String defaultMessageTemplate)
+   public void addFromResourceBundle(Severity severity, String key, String defaultMessageTemplate)
    {
       String messageTemplate = defaultMessageTemplate;
       java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
@@ -105,7 +114,7 @@ public class FacesMessages
          String bundleMessage = resourceBundle.getString(key);
          if (bundleMessage!=null) messageTemplate = bundleMessage;
       }
-      add(messageTemplate);
+      add(severity, messageTemplate);
    }
   
 }

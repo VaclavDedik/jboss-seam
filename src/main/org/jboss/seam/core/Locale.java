@@ -2,113 +2,32 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import javax.faces.context.FacesContext;
-
-import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.annotations.Unwrap;
 
 /**
- * Defines the current user's locale
+ * Manager component for the current user's locale
  * 
  * @author Gavin King
  */
-@Scope(ScopeType.SESSION)
-@Intercept(NEVER)
+@Scope(ScopeType.STATELESS)
 @Name("locale")
+@Intercept(NEVER)
 public class Locale {
-   private static final Logger log = Logger.getLogger(Locale.class);
 
-   private String language;
-   private String country;
-   private String variant;
-   
-   private java.util.Locale locale;
-   
-   @Create
-   public void init()
-   {
-      setLocale();
-      log.debug( "initial locale: " + locale );
-   }
-   
-   public void select()
-   {
-      setLocale();
-      log.debug( "selected locale: " + locale );
-      //force the resource bundle to reload
-      Contexts.removeFromAllContexts( Seam.getComponentName(ResourceBundle.class) );
-      Contexts.removeFromAllContexts( Seam.getComponentName(Messages.class) );
-   }
-
-   private void setLocale() {
-      if (variant!=null)
-      {
-         locale = new java.util.Locale(country, language, variant);
-      }
-      else if (language!=null)
-      {
-         locale = new java.util.Locale(country, language);
-      }
-      else if (country!=null)
-      {
-         locale = new java.util.Locale(country);
-      }
-      else
-      {
-         locale = java.util.Locale.getDefault();
-         FacesContext facesContext = FacesContext.getCurrentInstance();
-         if (facesContext!=null)
-         {
-            java.util.Locale defaultLocale = facesContext.getApplication().getDefaultLocale();
-            if (defaultLocale!=null) locale = defaultLocale;
-            java.util.Locale requestLocale = facesContext.getExternalContext().getRequestLocale();
-            if (requestLocale!=null) locale = requestLocale;
-         }
-      }
-   }
-   
+   @Unwrap
    public java.util.Locale getLocale()
    {
-      return locale;
+      return LocaleSelector.instance().getLocale();
    }
    
-   public static Locale instance()
+   public static java.util.Locale instance()
    {
-      if ( !Contexts.isSessionContextActive() )
-      {
-         throw new IllegalStateException("No active session context");
-      }
-      return (Locale) Component.getInstance( Seam.getComponentName(Locale.class), ScopeType.SESSION, true );
+      return (java.util.Locale) Component.getInstance(Locale.class, ScopeType.STATELESS, true);
    }
-
-   public String getCountry() {
-      return country;
-   }
-
-   public void setCountry(String country) {
-      this.country = country;
-   }
-
-   public String getLanguage() {
-      return language;
-   }
-
-   public void setLanguage(String language) {
-      this.language = language;
-   }
-
-   public String getVariant() {
-      return variant;
-   }
-
-   public void setVariant(String variant) {
-      this.variant = variant;
-   }
+   
 }

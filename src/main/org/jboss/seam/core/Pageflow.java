@@ -70,7 +70,7 @@ public class Pageflow
          {
             FacesContext context = FacesContext.getCurrentInstance();
             navigate(context);
-            FacesMessages.instance().addFromResourceBundle( "org.jboss.seam.IllegalNavigation", "Illegal navigation" );
+            FacesMessages.instance().addFromResourceBundle( FacesMessage.SEVERITY_WARN, "org.jboss.seam.IllegalNavigation", "Illegal navigation" );
             context.renderResponse();
          }
       }

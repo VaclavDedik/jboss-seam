@@ -37,6 +37,7 @@ import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Locale;
+import org.jboss.seam.core.LocaleSelector;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
@@ -163,6 +164,7 @@ public class Initialization
       addComponent( Messages.class, context );
       addComponent( FacesMessages.class, context);
       addComponent( ResourceBundle.class, context );
+      addComponent( LocaleSelector.class, context );
       addComponent( Introspector.class, context );
       addComponent( org.jboss.seam.debug.Contexts.class, context );
 
