@@ -52,15 +52,15 @@ public class LocaleSelector {
    private void setLocale() {
       if (variant!=null)
       {
-         locale = new java.util.Locale(country, language, variant);
-      }
-      else if (language!=null)
-      {
-         locale = new java.util.Locale(country, language);
+         locale = new java.util.Locale(language, country, variant);
       }
       else if (country!=null)
       {
-         locale = new java.util.Locale(country);
+         locale = new java.util.Locale(language, country);
+      }
+      else if (language!=null)
+      {
+         locale = new java.util.Locale(language);
       }
       else
       {
