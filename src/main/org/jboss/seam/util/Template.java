@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.core.ResourceBundle;
 
 public class Template {
 
@@ -31,15 +30,6 @@ public class Template {
             {
                log.warn("exception rendering template: " + template, e);
             }
-            tokens.nextToken();
-         }
-         else if ( "$".equals(tok) )
-         {
-            tokens.nextToken();
-            String key = tokens.nextToken();
-            java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
-            String value = resourceBundle==null ? null : resourceBundle.getString(key);
-            if (value!=null) builder.append(value);
             tokens.nextToken();
          }
          else
