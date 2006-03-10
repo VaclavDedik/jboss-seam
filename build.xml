@@ -182,6 +182,7 @@
         <ant dir="examples/registration" target="clean" inheritall="false"/>
         <ant dir="examples/todo" target="clean" inheritall="false"/>
     	<ant dir="examples/remoting/helloworld" target="clean" inheritall="false"/>
+    	<ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
 
     </target>
 
