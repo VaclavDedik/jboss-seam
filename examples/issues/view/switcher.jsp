@@ -25,7 +25,7 @@
        <h:selectOneMenu value="#{localeSelector.language}">
          <f:selectItem itemLabel="English" itemValue="en"/>
          <f:selectItem itemLabel="Deutsch" itemValue="de"/>
-         <f:selectItem itemLabel="French" itemValue="fr"/>
+         <f:selectItem itemLabel="Francais" itemValue="fr"/>
        </h:selectOneMenu>
        <h:commandButton action="#{localeSelector.select}" value="#{messages.Switch}"/>
        
