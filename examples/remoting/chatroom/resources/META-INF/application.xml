@@ -1,0 +1,14 @@
+<application>
+	<display-name>Seam Remoting Chat Room</display-name>
+
+	<module>
+		<web>
+			<web-uri>chatroom.war</web-uri>
+			<context-root>/chatroom</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>chatroom.jar</ejb>
+	</module>
+	
+</application>

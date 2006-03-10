@@ -111,14 +111,14 @@
           ]]>
         </programlisting>
 
-        <para>You also need to create a local interface for our new component - take special note of the @Remotable
+        <para>You also need to create a local interface for our new component - take special note of the @WebRemote
         annotation, as it's required to make our method accessible via remoting:</para>
 
         <programlisting>
           <![CDATA[
   @Local
   public interface HelloLocal {
-    @Remotable
+    @WebRemote
     public String sayHello(String name);
   }
           ]]>

@@ -1,11 +1,11 @@
 package org.jboss.seam.example.remoting;
 
 import javax.ejb.Local;
-import org.jboss.seam.annotations.Remotable;
+import org.jboss.seam.annotations.WebRemote;
 
 @Local
 public interface HelloLocal {
-  @Remotable
+  @WebRemote
   public String sayHello(String name);
 }
-   
+

@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Remotable;
+import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.Lifecycle;
 import javax.faces.event.PhaseId;
 import javax.servlet.http.HttpSession;
@@ -231,7 +231,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     for (Method m : type.getDeclaredMethods())
     {
-      if (m.getAnnotation(Remotable.class) == null)
+      if (m.getAnnotation(WebRemote.class) == null)
         continue;
 
       // Append the return type to the source block

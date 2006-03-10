@@ -31,9 +31,8 @@ public class PollRequest
 
   public void poll()
   {
-    if (timeout > 0)
-      messages = SubscriptionRegistry.getInstance().poll(token, timeout);
-    else
-      messages = SubscriptionRegistry.getInstance().pollNoWait(token);
+    RemoteSubscriber subscriber = SubscriptionRegistry.getInstance().getSubscription(token);
+    if (subscriber != null)
+      messages = subscriber.poll(timeout);
   }
 }

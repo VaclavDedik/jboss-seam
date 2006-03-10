@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
  */
 @Target(METHOD)
 @Retention(RUNTIME)
-public @interface Remotable {
+public @interface WebRemote {
 }

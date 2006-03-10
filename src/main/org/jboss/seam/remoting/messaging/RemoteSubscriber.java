@@ -1,5 +1,12 @@
 package org.jboss.seam.remoting.messaging;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Topic;
+import javax.jms.TopicConnection;
+import javax.jms.TopicSession;
 import javax.jms.TopicSubscriber;
 
 /**
@@ -11,6 +18,8 @@ public class RemoteSubscriber
   private String token;
   private String topicName;
 
+  private Topic topic;
+  private TopicSession topicSession;
   private TopicSubscriber subscriber;
 
   public RemoteSubscriber(String token, String topicName)
@@ -29,6 +38,27 @@ public class RemoteSubscriber
     return topicName;
   }
 
+  public void subscribe(TopicConnection conn)
+      throws JMSException
+  {
+    topicSession = conn.createTopicSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
+    topic = topicSession.createTopic(topicName);
+    subscriber = topicSession.createSubscriber(topic);
+  }
+
+  public void unsubscribe()
+  {
+    try {
+      subscriber.close();
+    }
+    catch (JMSException ex) { }
+
+    try {
+      topicSession.close();
+    }
+    catch (JMSException ex) { }
+  }
+
   public void setTopicSubscriber(TopicSubscriber subscriber)
   {
     this.subscriber = subscriber;
@@ -37,5 +67,36 @@ public class RemoteSubscriber
   public TopicSubscriber getTopicSubscriber()
   {
     return subscriber;
+  }
+
+  public List<Message> poll(int timeout)
+  {
+    List<Message> messages = null;
+
+    Message m = null;
+
+    synchronized(subscriber)
+    {
+      do {
+        try {
+          // Only timeout for the first message.. subsequent messages should be nowait
+          if (messages == null && timeout > 0)
+            m = subscriber.receive(timeout * 1000);
+          else
+            m = subscriber.receiveNoWait();
+        }
+        catch (JMSException ex) {
+          ex.printStackTrace();
+        }
+        if (m != null) {
+          if (messages == null)
+            messages = new ArrayList<Message> ();
+          messages.add(m);
+        }
+      }
+      while (m != null);
+    }
+
+    return messages;
   }
 }

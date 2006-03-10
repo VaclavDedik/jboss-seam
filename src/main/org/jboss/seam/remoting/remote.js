@@ -1,7 +1,7 @@
 function SeamRemote() { }
 
 SeamRemote.PATH_EXECUTE = "/execute";
-SeamRemote.PATH_SUBSCRIBE = "/subscribe";
+SeamRemote.PATH_SUBSCRIPTION = "/subscription";
 SeamRemote.PATH_POLL = "/poll";
 
 SeamRemote.types = new Array();
@@ -511,7 +511,8 @@ SeamRemote.requestCallback = function(req, callback)
     {
       SeamRemote.log("Response packet:\n" + req.responseText);
 
-      callback(req.responseXML);
+      if (callback)
+        callback(req.responseXML);
     }
     else
       alert("There was an error processing your request.  Error code: " + req.status);
@@ -649,7 +650,7 @@ SeamRemote.unmarshalValue = function(element, refs)
   {
     case "bool": return element.firstChild.nodeValue == "true";
     case "int": return parseInt(element.firstChild.nodeValue);
-    case "str": return element.firstChild.nodeValue;
+    case "str": return element.firstChild ? element.firstChild.nodeValue : "";
     case "ref": return refs[parseInt(element.getAttribute("id"))];
     case "bag":
       var value = new Array();
@@ -743,6 +744,7 @@ SeamRemote.hideLoadingMessage = function()
 
 SeamRemote.pollInterval = 10; // Default poll interval of 10 seconds
 SeamRemote.pollTimeout = 0; // Default timeout of 0 seconds
+SeamRemote.polling = false;
 
 SeamRemote.setPollInterval = function(interval)
 {
@@ -758,10 +760,43 @@ SeamRemote.subscriptionRegistry = new Array();
 
 SeamRemote.subscribe = function(topicName, callback)
 {
+  for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+  {
+    if (SeamRemote.subscriptionRegistry[i].topic == topicName)
+      return;
+  }
+
   var body = "<subscribe topic=\"" + topicName + "\"/>";
   var env = SeamRemote.createEnvelope(null, body);
   SeamRemote.subscriptionRegistry.push({topic:topicName, callback:callback});
-  SeamRemote.sendAjaxRequest(env, SeamRemote.PATH_SUBSCRIBE, SeamRemote.subscriptionCallback, false);
+  SeamRemote.sendAjaxRequest(env, SeamRemote.PATH_SUBSCRIPTION, SeamRemote.subscriptionCallback, false);
+}
+
+SeamRemote.unsubscribe = function(topicName)
+{
+  var token = null;
+
+  var tokenFound = false;
+
+  for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+  {
+    if (!tokenFound && SeamRemote.subscriptionRegistry[i].topic == topicName)
+    {
+      token = SeamRemote.subscriptionRegistry[i].token;
+      tokenFound = true;
+    }
+
+    if (tokenFound && i < SeamRemote.subscriptionRegistry.length - 1)
+      SeamRemote.subscriptionRegistry[i] = SeamRemote.subscriptionRegistry[i + 1];
+  }
+
+  if (tokenFound)
+  {
+    SeamRemote.subscriptionRegistry.length = SeamRemote.subscriptionRegistry.length - 1;
+    var body = "<unsubscribe token=\"" + token + "\"/>";
+    var env = SeamRemote.createEnvelope(null, body);
+    SeamRemote.sendAjaxRequest(env, SeamRemote.PATH_SUBSCRIPTION, null, false);
+  }
 }
 
 SeamRemote.subscriptionCallback = function(doc)
@@ -791,12 +826,19 @@ SeamRemote.pollTimeoutFunction = null;
 
 SeamRemote.poll = function()
 {
+  if (SeamRemote.polling)
+    return;
+
+  SeamRemote.polling = true;
   clearTimeout(SeamRemote.pollTimeoutFunction);
 
   var body = "";
 
   if (SeamRemote.subscriptionRegistry.length == 0)
+  {
+    SeamRemote.polling = false;
     return;
+  }
 
   for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
   {
@@ -810,6 +852,8 @@ SeamRemote.poll = function()
 
 SeamRemote.pollCallback = function(doc)
 {
+  SeamRemote.polling = false;
+
   var body = doc.documentElement.firstChild;
   for (var i = 0; i < body.childNodes.length; i++)
   {

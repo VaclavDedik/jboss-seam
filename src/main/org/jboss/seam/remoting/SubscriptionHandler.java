@@ -12,6 +12,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.logging.Logger;
 import org.jboss.seam.remoting.messaging.SubscriptionRequest;
+import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
+import org.jboss.seam.remoting.messaging.RemoteSubscriber;
 
 /**
  *
@@ -39,40 +41,38 @@ public class SubscriptionHandler extends BaseRequestHandler implements RequestHa
     Document doc = xmlReader.read(request.getInputStream());
     Element env = doc.getRootElement();
 
-    // Extract the subscriptions from the request
-    List<SubscriptionRequest> subscriptions = unmarshalRequest(env);
-    for (SubscriptionRequest req : subscriptions)
+    Element body = env.element("body");
+
+    // First handle any new subscriptions
+    List<SubscriptionRequest> requests = new ArrayList<SubscriptionRequest>();
+
+    List<Element> elements = body.elements("subscribe");
+    for (Element e : elements)
+    {
+      requests.add(new SubscriptionRequest(e.attributeValue("topic")));
+    }
+
+    for (SubscriptionRequest req : requests)
       req.subscribe();
 
+    // Then handle any unsubscriptions
+    List<String> unsubscribeTokens = new ArrayList<String>();
+
+    elements = body.elements("unsubscribe");
+    for (Element e : elements)
+    {
+      unsubscribeTokens.add(e.attributeValue("token"));
+    }
+
+    for (String token : unsubscribeTokens)
+    {
+      RemoteSubscriber subscriber = SubscriptionRegistry.getInstance().getSubscription(token);
+      if (subscriber != null)
+        subscriber.unsubscribe();
+    }
+
     // Package up the response
-    marshalResponse(subscriptions, response.getOutputStream());
-  }
-
-  /**
-   *
-   * @param env Element
-   * @return List
-   */
-  private List<SubscriptionRequest> unmarshalRequest(Element env)
-      throws Exception
-  {
-    try
-    {
-      List<SubscriptionRequest> requests = new ArrayList<SubscriptionRequest>();
-
-      List<Element> requestElements = env.element("body").elements("subscribe");
-      for (Element e : requestElements)
-      {
-        requests.add(new SubscriptionRequest(e.attributeValue("topic")));
-      }
-
-      return requests;
-    }
-    catch (Exception ex)
-    {
-      log.error("Error unmarshalling subscriptions from request", ex);
-      throw ex;
-    }
+    marshalResponse(requests, response.getOutputStream());
   }
 
   private void marshalResponse(List<SubscriptionRequest> requests, OutputStream out)

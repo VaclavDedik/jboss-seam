@@ -5,21 +5,20 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.event.PhaseId;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.logging.Logger;
-import org.jboss.seam.remoting.messaging.PollRequest;
-import org.jboss.seam.remoting.wrapper.Wrapper;
-import javax.faces.event.PhaseId;
-import javax.servlet.http.HttpSession;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.contexts.Lifecycle;
-import javax.servlet.ServletContext;
 import org.jboss.seam.contexts.Session;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.remoting.wrapper.Wrapper;
 
 /**
  * Unmarshals the calls from an HttpServletRequest, executes them in order and
@@ -85,8 +84,6 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       Manager.instance().restoreConversation(ctx.getConversationId());
       Lifecycle.resumeConversation(session);
-
-      System.out.println("Conversation ID: " + Manager.instance().getCurrentConversationId());
 
       // Execute each of the calls
       for (Call call : calls) {
