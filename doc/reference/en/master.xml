@@ -6,12 +6,13 @@
 <!ENTITY concepts               SYSTEM "modules/concepts.xml">
 <!ENTITY conversations          SYSTEM "modules/conversations.xml">
 <!ENTITY jbpm                   SYSTEM "modules/jbpm.xml">
+<!ENTITY i18n                   SYSTEM "modules/i18n.xml">
+<!ENTITY remoting               SYSTEM "modules/remoting.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
 <!ENTITY testing                SYSTEM "modules/testing.xml">
 <!ENTITY tools                  SYSTEM "modules/tools.xml">
-<!ENTITY remoting               SYSTEM "modules/remoting.xml">
 ]>
 
 <book lang="en">
@@ -222,6 +223,7 @@
     &concepts;
     &conversations;
     &jbpm;
+    &i18n;
     &remoting;
     &configuration;
     &annotations;

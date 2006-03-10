@@ -242,7 +242,7 @@
 public class EditDocumentBean implements EditDocument {
     @In(create=true) EntityManager em;
     @In Document document;
-    @In(create=true) FacesMessages facesMessages;
+    @In FacesMessages facesMessages;
     
     public String update() {
         em.merge(document);
@@ -263,18 +263,7 @@ public class EditDocumentBean implements EditDocument {
         </para>
         
         <programlisting><![CDATA[facesMessages.add("Document #{document.title} was updated");]]></programlisting>
-        
-        <para>
-            Or, use an internationalized message:
-        </para>
-        
-        <programlisting><![CDATA[facesMessages.addFromResourceBundle("success.DocumentUpdated");]]></programlisting>
-        
-        <para>
-            (Where <literal>success.DocumentUpdated</literal> is a key in the <literal>messages</literal>
-            resource bundle.)
-        </para>
-        
+                
         <para>
             You may display the messages in the usual way, for example:
         </para>

@@ -1,0 +1,162 @@
+<chapter id="i18n">
+    <title>Internationalization</title>
+    <para>
+        Seam makes it easy to build internationalized applications by
+        providing several built-in components for handling multi-language
+        UI messages.
+    </para>
+    
+    <section>
+        <title>Locales</title>
+        <para>
+            Each user login session has an associated instance of
+            <literal>java.util.Locale</literal> (available to the 
+            application as a session-scoped component named 
+            <literal>locale</literal>). Under normal circumstances,
+            you won't need to do any special configuration to set
+            the locale. Seam uses the following algorithm to
+            determine the user's locale automatically:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                If there is a locale associated with the HTTP request
+                (the browser locale), use that locale for the rest of
+                the session.
+            </listitem>
+            <listitem>
+                Otherwise, if a default locale was specified in the
+                JSF configuration, use that locale for the rest of
+                the session.
+            </listitem>
+            <listitem>
+                Otherwise, use the default locale of the server.
+            </listitem>
+        </itemizedlist>
+        
+        <para>
+            It is <emphasis>possible</emphasis> to set the locale
+            manually via the Seam configuration properties
+            <literal>localeSelector.language</literal>,
+            <literal>localeSelector.country</literal> and
+            <literal>localeSelector.variant</literal>, but we
+            can't think of any good reason to ever do this.
+        </para>
+        
+        <para>
+            It is, however, useful to allow the user to set the
+            locale manually via the application user interface.
+            Seam provides built-in functionality for overriding
+            the locale determined by the algorithm above. All
+            you have to do is add the following fragment to a 
+            form in your JSP or Facelets page:
+        </para>
+        
+        <programlisting><![CDATA[<h:selectOneMenu value="#{localeSelector.language}">
+    <f:selectItem itemLabel="English" itemValue="en"/>
+    <f:selectItem itemLabel="Deutsch" itemValue="de"/>
+    <f:selectItem itemLabel="Francais" itemValue="fr"/>
+</h:selectOneMenu>
+<h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/>]]></programlisting>
+        
+    </section>
+    
+    <section>
+        <title>Labels</title>
+        <para>
+            JSF supports internationalization of user interface labels and
+            descriptive text via the use of <literal>&lt;f:loadBundle /&gt;</literal>.
+            You can use this approach in Seam applications. Alternatively, you can
+            take advantage of the Seam <literal>messages</literal> component to 
+            display templated labels with embedded EL expressions.
+        </para>
+        
+        <para>
+            Each login session has an associated instance of 
+            <literal>java.util.ResourceBundle</literal> (available to the 
+            application as a session-scoped component named 
+            <literal>resourceBundle</literal>). You'll need to make your 
+            internationalized labels available via this special resource bundle. 
+            By default, the resource bundle used by Seam is named 
+            <literal>messages</literal> and so you'll need to define your labels 
+            in files named <literal>messages.properties</literal>, 
+            <literal>messages_en.properties</literal>,
+            <literal>messages_en_AU.properties</literal>, etc. These
+            files usually belong in the <literal>WEB-INF/classes</literal> 
+            directory.
+        </para>
+        
+        <para>
+            So, in <literal>messages_en.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[Hello=Hello]]></programlisting>
+
+        <para>
+            And in <literal>messages_en_AU.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[Hello=G'day]]></programlisting>
+        
+        <para>
+            You can select a different name for the resource bundle by setting
+            the Seam configuration property named
+            <literal>resourceBundle.bundleName</literal>.
+        </para>
+
+        <para>
+            If you define your labels in this special resource bundle, you'll
+            be able to use them without having to type <literal>&lt;f:loadBundle ... /&gt;</literal>
+            on every page. Instead, you can simply type:
+        </para>
+        
+        <programlisting><![CDATA[<h:outputText value="#{messages['Hello']}"/>]]></programlisting>
+        
+        <para>
+            or:
+        </para>
+        
+        <programlisting><![CDATA[<h:outputText value="#{messages.Hello}"/>]]></programlisting>
+        
+        <para>
+            Even better, the messages themselves may contain EL expressions:
+        </para>
+
+        <programlisting><![CDATA[Hello=Hello, #{user.firstName} #{user.lastName}]]></programlisting>
+        <programlisting><![CDATA[Hello=G'day, #{user.firstName}]]></programlisting>
+        
+        <para>
+            You can even use the messages in your code:
+        </para>
+
+        <programlisting><![CDATA[@In private Map<String, String> messages;]]></programlisting>
+        <programlisting><![CDATA[@In("#{messages['Hello']}") private String helloMessage;]]></programlisting>
+
+    </section>
+    
+    <section>
+        <title>Faces messages</title>
+        <para>
+            The <literal>facesMessages</literal> component is a super-convenient 
+            way to display success or failure messages to the user. The functionality 
+            we just described also works for faces messages:
+        </para>
+
+        <programlisting><![CDATA[@Name("hello")
+@Stateless
+public class HelloBean implements Hello {
+    @In FacesMessages facesMessages;
+    
+    public String sayIt() {
+        facesMessages.addFromResourceBundle("Hello");
+    }
+}]]></programlisting>
+
+        <para>
+            This will display <literal>Hello, Gavin King</literal> or <literal>G'day, Gavin</literal>,
+            depending upon the user's locale.
+        </para>
+
+    </section>
+    
+</chapter>
