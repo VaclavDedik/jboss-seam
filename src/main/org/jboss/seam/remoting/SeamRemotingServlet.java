@@ -5,18 +5,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.faces.event.PhaseId;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
-import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.servlet.SeamServletFilter;
 
 /**

@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.logging.Logger;
-import org.jboss.seam.remoting.messaging.SubscriptionRequest;
-import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.remoting.messaging.RemoteSubscriber;
+import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
+import org.jboss.seam.remoting.messaging.SubscriptionRequest;
 
 /**
  *
@@ -21,7 +21,6 @@ import org.jboss.seam.remoting.messaging.RemoteSubscriber;
  */
 public class SubscriptionHandler extends BaseRequestHandler implements RequestHandler
 {
-  private static Logger log = Logger.getLogger(SubscriptionHandler.class);
 
   /**
    * The entry point for handling a request.
