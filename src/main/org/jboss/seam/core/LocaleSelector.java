@@ -49,7 +49,7 @@ public class LocaleSelector {
       Contexts.removeFromAllContexts( Seam.getComponentName(Messages.class) );
    }
 
-   private void setLocale() {
+   protected void setLocale() {
       if (variant!=null)
       {
          locale = new java.util.Locale(language, country, variant);
@@ -74,6 +74,9 @@ public class LocaleSelector {
             if (requestLocale!=null) locale = requestLocale;
          }
       }
+      language = locale.getLanguage();
+      country = locale.getCountry();
+      variant = locale.getVariant();
    }
    
    public static LocaleSelector instance()
