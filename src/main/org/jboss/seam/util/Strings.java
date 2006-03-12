@@ -28,7 +28,7 @@ public class Strings
       return name.substring( name.lastIndexOf(sep)+1, name.length() );
    }
    
-   public static boolean isEmptyOrNull(String string)
+   public static boolean isEmpty(String string)
    {
       return string == null || string.trim().length() == 0; 
    }

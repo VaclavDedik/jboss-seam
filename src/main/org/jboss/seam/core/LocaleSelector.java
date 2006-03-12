@@ -6,15 +6,14 @@ import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.Strings;
 
 /**
  * Selects the current user's locale
@@ -25,60 +24,54 @@ import org.jboss.seam.contexts.Contexts;
 @Name("localeSelector")
 @Intercept(NEVER)
 public class LocaleSelector {
-   private static final Logger log = Logger.getLogger(LocaleSelector.class);
 
    private String language;
    private String country;
    private String variant;
    
-   private Locale locale;
-   
-   @Create
-   public void init()
-   {
-      setLocale();
-      log.debug( "initial locale: " + locale );
-   }
-   
+   /**
+    * Force the resource bundle to reload, using the current locale
+    */
    public void select()
    {
-      setLocale();
-      log.debug( "selected locale: " + locale );
-      //force the resource bundle to reload
+      FacesContext.getCurrentInstance().getViewRoot().setLocale( getLocale() );
       Contexts.removeFromAllContexts( Seam.getComponentName(ResourceBundle.class) );
       Contexts.removeFromAllContexts( Seam.getComponentName(Messages.class) );
    }
-
-   protected void setLocale() {
-      if (variant!=null)
+   
+   public Locale calculateLocale(Locale jsfLocale)
+   {
+      if ( !Strings.isEmpty(variant) )
       {
-         locale = new java.util.Locale(language, country, variant);
+         return new java.util.Locale(language, country, variant );
       }
-      else if (country!=null)
+      else if ( !Strings.isEmpty(country) )
       {
-         locale = new java.util.Locale(language, country);
+         return new java.util.Locale(language, country);
       }
-      else if (language!=null)
+      else if ( !Strings.isEmpty(language) )
       {
-         locale = new java.util.Locale(language);
+         return new java.util.Locale(language);
       }
       else
       {
-         locale = java.util.Locale.getDefault();
-         FacesContext facesContext = FacesContext.getCurrentInstance();
-         if (facesContext!=null)
-         {
-            java.util.Locale defaultLocale = facesContext.getApplication().getDefaultLocale();
-            if (defaultLocale!=null) locale = defaultLocale;
-            java.util.Locale requestLocale = facesContext.getExternalContext().getRequestLocale();
-            if (requestLocale!=null) locale = requestLocale;
-         }
+         return jsfLocale;
       }
-      language = locale.getLanguage();
-      country = locale.getCountry();
-      variant = locale.getVariant();
    }
-   
+
+   public Locale getLocale() 
+   {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if (facesContext==null)
+      {
+         return calculateLocale( Locale.getDefault() );
+      }
+      else
+      {
+         return facesContext.getApplication().getViewHandler().calculateLocale( facesContext );
+      }
+   }
+
    public static LocaleSelector instance()
    {
       if ( !Contexts.isSessionContextActive() )
@@ -89,6 +82,7 @@ public class LocaleSelector {
    }
 
    public String getCountry() {
+      if (country==null) return getLocale().getCountry();
       return country;
    }
 
@@ -97,6 +91,7 @@ public class LocaleSelector {
    }
 
    public String getLanguage() {
+      if (language==null) return getLocale().getLanguage();
       return language;
    }
 
@@ -105,14 +100,12 @@ public class LocaleSelector {
    }
 
    public String getVariant() {
+      if (variant==null) return getLocale().getVariant();
       return variant;
    }
 
    public void setVariant(String variant) {
       this.variant = variant;
    }
-
-   public Locale getLocale() {
-      return locale;
-   }
+   
 }

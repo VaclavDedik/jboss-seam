@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <faces-config>
   <application>
-     <navigation-handler>org.jboss.seam.jsf.SeamNavigationHandler</navigation-handler>
      <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
+     <navigation-handler>org.jboss.seam.jsf.SeamNavigationHandler</navigation-handler>
      <state-manager>org.jboss.seam.jsf.SeamStateManager</state-manager>
+     <view-handler>org.jboss.seam.jsf.SeamViewHandler</view-handler>
   </application>
 </faces-config>
