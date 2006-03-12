@@ -49,6 +49,24 @@ public class Lifecycle
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
 
+   public static void beginCall()
+   {
+      Contexts.eventContext.set( new EventContext() );
+      Contexts.applicationContext.set( new WebApplicationContext( getServletContext() ) );
+   }
+   
+   public static void endCall()
+   {
+      try
+      {
+         flushAndDestroyContexts();
+      }
+      finally
+      {
+         clearThreadlocals();
+      }
+   }
+
    public static void beginInitialization(ServletContext servletContext)
    {
       Context context = new WebApplicationContext(servletContext);
@@ -329,7 +347,16 @@ public class Lifecycle
    }
    
    private static ThreadLocal<ServletRequest> servletRequest = new ThreadLocal<ServletRequest>();
+   private static ServletContext servletContext;
+   
+   public static ServletContext getServletContext() {
+      return servletContext;
+   }
 
+   public static void setServletContext(ServletContext servletContext) {
+      Lifecycle.servletContext = servletContext;
+   }
+   
    public static ServletRequest getServletRequest() {
       return servletRequest.get();
    }
@@ -365,5 +392,5 @@ public class Lifecycle
    public static void setException(boolean ex) {
       exception.set(ex);
    }
-   
+
 }

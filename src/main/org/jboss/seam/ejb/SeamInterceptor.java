@@ -14,6 +14,8 @@ import javax.ejb.InvocationContext;
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.SeamInvocationContext;
 
 /**
@@ -30,6 +32,29 @@ public class SeamInterceptor implements Serializable
    
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
+   {
+      if ( Contexts.isEventContextActive() )
+      {
+         return aroundInvokeInContexts(invocation);
+      }
+      else
+      {
+         //if invoked outside of a set of Seam contexts,
+         //set up temporary Seam EVENT and APPLICATION
+         //contexts just for this call
+         Lifecycle.beginCall();
+         try
+         {
+            return aroundInvokeInContexts(invocation);
+         }
+         finally
+         {
+            Lifecycle.endCall();
+         }
+      }
+   }
+   
+   public Object aroundInvokeInContexts(InvocationContext invocation) throws Exception
    {
       final Component component = getSeamComponent( invocation.getBean() );
       if ( isProcessInterceptors(component) )

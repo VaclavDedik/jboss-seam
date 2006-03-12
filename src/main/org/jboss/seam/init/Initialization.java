@@ -76,9 +76,9 @@ public class Initialization
    private ServletContext servletContext;
    private boolean isScannerEnabled = true;
 
-   public Initialization(ServletContext externalContext)
+   public Initialization(ServletContext servletContext)
    {
-      this.servletContext = externalContext;
+      this.servletContext = servletContext;
       initPropertiesFromServletContext();
       initPropertiesFromResource();
    }
