@@ -14,20 +14,21 @@
             application as a session-scoped component named 
             <literal>locale</literal>). Under normal circumstances,
             you won't need to do any special configuration to set
-            the locale. Seam uses the following algorithm to
-            determine the user's locale automatically:
+            the locale. Seam just delegates to JSF to determine
+            the active locale:
         </para>
         
         <itemizedlist>
             <listitem>
                 If there is a locale associated with the HTTP request
-                (the browser locale), use that locale for the rest of
-                the session.
+                (the browser locale), and that locale is in the list
+                of supported locales from <literal>faces-config.xml</literal>, 
+                use that locale for the rest of the session.
             </listitem>
             <listitem>
                 Otherwise, if a default locale was specified in the
-                JSF configuration, use that locale for the rest of
-                the session.
+                <literal>faces-config.xml</literal>, use that locale 
+                for the rest of the session.
             </listitem>
             <listitem>
                 Otherwise, use the default locale of the server.
@@ -58,6 +59,11 @@
     <f:selectItem itemLabel="Francais" itemValue="fr"/>
 </h:selectOneMenu>
 <h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/>]]></programlisting>
+
+        <para>
+            The Seam and JSF locales will be overridden for the rest 
+            of the session.
+        </para>
         
     </section>
     

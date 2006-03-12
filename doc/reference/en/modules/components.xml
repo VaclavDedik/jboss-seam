@@ -133,15 +133,13 @@
                 <term><literal>localeSelector</literal></term>
                 <listitem>
                     <para>
-                        Selects the Seam locale. The locale is chosen as the <emphasis>specified 
-                        locale</emphasis>, the request locale, the JSF default locale or the server 
-                        default locale, in that priority. Supports selection of the specified locale 
-                        either at configuration time, or by the user at runtime.
+                        Supports selection of the locale either at configuration time, 
+                        or by the user at runtime.
                     </para>
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>getLocale()</literal> &mdash; return the actual
+                            <literal>getLocale()</literal> &mdash; return the selected
                             <literal>java.util.Locale</literal>.
                         </para>
                         </listitem>
