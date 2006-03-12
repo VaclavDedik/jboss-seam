@@ -1,0 +1,64 @@
+package org.jboss.seam.jsf;
+
+import java.io.IOException;
+import java.util.Locale;
+
+import javax.faces.FacesException;
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
+
+import org.jboss.seam.core.LocaleSelector;
+
+public class SeamViewHandler extends ViewHandler {
+   
+   private ViewHandler viewHandler;
+   
+   public SeamViewHandler(ViewHandler viewHandler)
+   {
+      this.viewHandler = viewHandler;
+   }
+
+   @Override
+   public Locale calculateLocale(FacesContext facesContext) {
+      return LocaleSelector.instance()
+            .calculateLocale( viewHandler.calculateLocale(facesContext) );
+   }
+
+   @Override
+   public String calculateRenderKitId(FacesContext ctx) {
+      return viewHandler.calculateRenderKitId(ctx);
+   }
+
+   @Override
+   public UIViewRoot createView(FacesContext ctx, String viewId) {
+      return viewHandler.createView(ctx, viewId);
+   }
+
+   @Override
+   public String getActionURL(FacesContext ctx, String viewId) {
+      return viewHandler.getActionURL(ctx, viewId);
+   }
+
+   @Override
+   public String getResourceURL(FacesContext ctx, String path) {
+      return viewHandler.getResourceURL(ctx, path);
+   }
+
+   @Override
+   public void renderView(FacesContext ctx, UIViewRoot viewRoot)
+         throws IOException, FacesException {
+      viewHandler.renderView(ctx, viewRoot);
+   }
+
+   @Override
+   public UIViewRoot restoreView(FacesContext ctx, String viewId) {
+      return viewHandler.restoreView(ctx, viewId);
+   }
+
+   @Override
+   public void writeState(FacesContext ctx) throws IOException {
+      viewHandler.writeState(ctx);
+   }
+
+}
