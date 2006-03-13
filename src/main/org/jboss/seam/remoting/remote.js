@@ -486,7 +486,8 @@ SeamRemote.sendAjaxRequest = function(envelope, path, callback, silent)
   if (window.XMLHttpRequest)
   {
     asyncReq = new XMLHttpRequest();
-    asyncReq.overrideMimeType('text/xml');
+    if (asyncReq.overrideMimeType)
+      asyncReq.overrideMimeType('text/xml');
   }
   else
     asyncReq = new ActiveXObject("Microsoft.XMLHTTP");
