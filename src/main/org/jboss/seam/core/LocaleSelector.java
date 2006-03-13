@@ -2,9 +2,14 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -57,6 +62,41 @@ public class LocaleSelector {
       {
          return jsfLocale;
       }
+   }
+   
+   public void setLocale(Locale locale)
+   {
+      language = Strings.nullIfEmpty( locale.getLanguage() );
+      country = Strings.nullIfEmpty( locale.getCountry() );
+      variant = Strings.nullIfEmpty( locale.getVariant() );
+   }
+   
+   public String getLocaleString()
+   {
+      return getLocale().toString();
+   }
+   
+   public void setLocaleString(String localeString)
+   {
+      StringTokenizer tokens = new StringTokenizer(localeString, "-_");
+      language = tokens.hasMoreTokens() ? tokens.nextToken() : null;
+      country =  tokens.hasMoreTokens() ? tokens.nextToken() : null;
+      variant =  tokens.hasMoreTokens() ? tokens.nextToken() : null;
+   }
+   
+   public List<SelectItem> getSupportedLocales()
+   {
+      List<SelectItem> selectItems = new ArrayList<SelectItem>();
+      Iterator<Locale> locales = FacesContext.getCurrentInstance().getApplication().getSupportedLocales();
+      while ( locales.hasNext() )
+      {
+         Locale locale = locales.next();
+         if ( !Strings.isEmpty( locale.getLanguage() ) )
+         {
+            selectItems.add( new SelectItem( locale.toString(), locale.getDisplayName(locale) ) );
+         }
+      }
+      return selectItems;
    }
 
    public Locale getLocale() 

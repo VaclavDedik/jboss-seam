@@ -32,6 +32,11 @@ public class Strings
    {
       return string == null || string.trim().length() == 0; 
    }
+   
+   public static String nullIfEmpty(String string)
+   {
+      return isEmpty(string) ? null : string;
+   }
 
    public static String toString(Object component)
    {
