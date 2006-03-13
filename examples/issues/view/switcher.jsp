@@ -22,10 +22,8 @@
       
       <td class="rvgSwitch">
       
-       <h:selectOneMenu value="#{localeSelector.language}">
-         <f:selectItem itemLabel="English" itemValue="en"/>
-         <f:selectItem itemLabel="Deutsch" itemValue="de"/>
-         <f:selectItem itemLabel="Francais" itemValue="fr"/>
+       <h:selectOneMenu value="#{localeSelector.localeString}">
+         <f:selectItems value="#{localeSelector.supportedLocales}"/>
        </h:selectOneMenu>
        <h:commandButton action="#{localeSelector.select}" value="#{messages.Switch}"/>
        
