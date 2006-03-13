@@ -139,13 +139,19 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>getLocale()</literal> &mdash; return the selected
+                            <literal>select()</literal> &mdash; select the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.locale</literal> &mdash; the actual
                             <literal>java.util.Locale</literal>.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>select()</literal> &mdash; select the specified locale.
+                            <literal>localeSelector.localeString</literal> &mdash; the 
+                            stringified representation of the locale.
                         </para>
                         </listitem>
                         <listitem>
@@ -164,6 +170,13 @@
                         <para>
                             <literal>localeSelector.variant</literal> &mdash; the variant for
                             the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.supportedLocales</literal> &mdash; a list
+                            of <literal>SelectItem</literal>s representing the supported locales 
+                            listed in <literal>jsf-config.xml</literal>.
                         </para>
                         </listitem>
                     </itemizedlist>

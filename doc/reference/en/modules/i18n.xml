@@ -61,8 +61,19 @@
 <h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/>]]></programlisting>
 
         <para>
-            The Seam and JSF locales will be overridden for the rest 
-            of the session.
+            Or, if you want a list of all supported locales from 
+            <literal>jsf-config.xml</literal>, just use:
+        </para>
+
+        <programlisting><![CDATA[<h:selectOneMenu value="#{localeSelector.localeString}">
+    <f:selectItems value="#{localeSelector.supportedLocales}"/>
+</h:selectOneMenu>
+<h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/>]]></programlisting>
+
+        <para>
+            When this use selects an item from the drop-down, and 
+            clicks the button, the Seam and JSF locales will be 
+            overridden for the rest of the session.
         </para>
         
     </section>
