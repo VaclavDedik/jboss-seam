@@ -12,7 +12,9 @@ import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
+import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.PropertyResolver;
 import javax.faces.el.ReferenceSyntaxException;
 import javax.faces.el.ValueBinding;
@@ -105,17 +107,17 @@ public class MockApplication extends Application {
       // TODO Auto-generated method stub
 
    }
+   
+   private ViewHandler viewHandler = new MockViewHandler();
 
    @Override
    public ViewHandler getViewHandler() {
-      // TODO Auto-generated method stub
-      return null;
+      return viewHandler;
    }
 
    @Override
-   public void setViewHandler(ViewHandler arg0) {
-      // TODO Auto-generated method stub
-
+   public void setViewHandler(ViewHandler viewHandler) {
+      this.viewHandler = viewHandler;
    }
    
    private StateManager stateManager = new MockStateManager();
@@ -229,10 +231,31 @@ public class MockApplication extends Application {
    }
 
    @Override
-   public ValueBinding createValueBinding(String arg0)
+   public ValueBinding createValueBinding(final String valueExpression)
          throws ReferenceSyntaxException {
-      // TODO Auto-generated method stub
-      return null;
+      return new ValueBinding() {
+
+		@Override
+		public Class getType(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Object getValue(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
+			return valueExpression;
+		}
+
+		@Override
+		public boolean isReadOnly(FacesContext arg0) throws EvaluationException, PropertyNotFoundException {
+			return false;
+		}
+
+		@Override
+		public void setValue(FacesContext arg0, Object arg1) throws EvaluationException, PropertyNotFoundException {
+		}
+    	  
+      };
    }
 
 }
