@@ -170,10 +170,54 @@
             the configuration property named <literal>org.jboss.seam.core.init.componentClasses</literal>.
         </para>
         
+        <sect2>
+            <title>Packaging</title>
+        
+        <para>
+            Once you've packaged all this stuff together into an EAR, the archive structure
+            will look something like this:
+        </para>
+        
+        <programlisting><![CDATA[my-application.ear/
+    jboss-seam.jar
+    META-INF/
+        MANIFEST.MF
+        application.xml
+    my-application.war/
+        META-INF/
+            MANIFEST.MF
+        WEB-INF/
+            web.xml
+            faces-config.xml
+        login.jsp
+        register.jsp
+        ...
+    my-application.jar/
+        META-INF/
+            MANIFEST.MF
+            persistence.xml
+        seam.properties
+        org/
+            jboss/
+                myapplication/
+                    User.class
+                    Login.class
+                    LoginBean.class
+                    Register.class
+                    RegisterBean.class
+                    ...]]></programlisting>
+        
+        <para>
+            Make sure you reference <literal>jboss-seam.jar</literal> from manifests of the
+            EAR and WAR.
+        </para>
+        
         <para>
             Seam ships with several example applications that are deployable in any Java EE 
             container that supports EJB 3.0.
         </para>
+        
+        </sect2>
         
         <para>
             I really wish that was all there was to say on the topic of configuration but 
@@ -300,9 +344,9 @@
             <title>Workaround for the Tomcat read-only JNDI context</title>
         
         <para>
-            Some Java SE environments include a JNDI server. This is a major problem particularly in the case 
-            of Tomcat, since Tomcat's JNDI implementation is read-only. To use Seam in Tomcat, you must
-            specify the JBoss JNDI <literal>InitialContext</literal> properties in a resource named 
+            Some Java SE environments include a JNDI server. This is a major problem particularly in the 
+            case of Tomcat, since Tomcat's JNDI implementation is read-only. To use Seam in Tomcat, you 
+            must specify the JBoss JNDI <literal>InitialContext</literal> properties in a resource named 
             <literal>seam-jndi.properties</literal>, as follows:
         </para>
         
@@ -314,66 +358,126 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
         </para>
         
         </sect2>
+        
+        <sect2>
+            <title>Packaging</title>
+        
+        <para>
+            The archive structure of a WAR-based deployment on an servlet engine like Tomcat 
+            will look something like this:
+        </para>
+        
+        <programlisting><![CDATA[my-application.war/
+    META-INF/
+        MANIFEST.MF
+    WEB-INF/
+        web.xml
+        faces-config.xml
+        lib/
+            jboss-seam.jar
+            myfaces-api.jar
+            myfaces-impl.jar
+            jboss-ejb3.jar
+            jboss-jca.jar
+            jboss-j2ee.jar
+            ...
+            mc-conf.jar/
+                ejb3-interceptors-aop.xml
+                embedded-jboss-beans.xml
+                default.persistence.properties
+            my-application.jar/
+                META-INF/
+                    MANIFEST.MF
+                    persistence.xml
+                    jboss-beans.xml
+                log4j.xml
+                seam.properties
+                seam-jndi.properties
+                org/
+                    jboss/
+                        myapplication/
+                            User.class
+                            Login.class
+                            LoginBean.class
+                            Register.class
+                            RegisterBean.class
+                            ...
+    login.jsp
+    register.jsp
+    ...]]></programlisting>
+    
+        <para>
+            The <literal>mc-conf.jar</literal> just contains the standard
+            JBoss Microcontainer configuration files for Embeddable EJB3.
+            You won't usually need to edit these files yourself.
+        </para>
+        
+        <para>
+            Most of the Seam example applications may be deployed to Tomcat by running
+            <literal>ant deploy.tomcat</literal>.
+        </para>
+        
+        </sect2>
 
     </sect1>
     
     <sect1>
-    	<title>Seam managed transactions</title>
-    	<para>
-    	    EJB session beans feature declarative transaction management. The EJB container is able
-    	    to start a transaction transparently when the bean is invoked, and end it when the
-    	    invocation ends. If we write a session bean method that acts as a JSF action listener, 
-    	    we can do all the work associated with that action in one transaction, and be sure that
-    	    it is committed or rolled back when we finish processing the action. This is a great feature, 
-    	    and all that is needed by many Seam applications.
-    	</para>
-    	
-    	<para>
-    	    There is just one problem with this approach. ORM solutions like Hibernate and EJB 3.0
-    	    persistence support lazy fetching of entity associations inside a transaction context, 
-    	    but throw <literal>LazyInitializationException</literal>s if you try to access an unfetched
-    	    association outside the context of a transaction. This is a problem if your view page
-    	    tries to access data that was not fetched during the transaction. Hibernate users developed 
-    	    the <emphasis>open session in view</emphasis> pattern to work around this problem. This
-    	    pattern is usually implemented as a transaction which spans the entire request. There are
-    	    several problems with this idea, the most serious being that we can't be sure that a
-    	    transaction has been successful until we commit it, but by the time we commit the transaction,
-    	    we have already rendered the view. Furthermore, this is at best a partial solution to the
-    	    problem, because we can still meet the dreaded <literal>LazyInitializationException</literal>
-    	    if we try to re-use the entity object in the next request.
-    	</para>
-    	
-    	<para>
-    	    Seam <emphasis>completely solves</emphasis> the problem of unwanted
-    	    <literal>LazyInitializationException</literal>s, while working around the biggest problem
-    	    in the <emphasis>open session in view</emphasis> pattern. The solution comes in two parts:
-    	</para>
-    	
-    	<itemizedlist>
-    		<listitem>
-    			<para>
-    			    use an extended persistence context that is scoped to the conversation, 
-    			    instead of to the request
-    			</para>
-    		</listitem>
-    		<listitem>
-    			<para>
-    			    use two transactions per request; the first spans the beginning of the update model
-    			    values phase until the end of the invoke application phase; the second spans the
-    			    render response phase
-    			</para>
-    		</listitem>
-    	</itemizedlist>
-    	
-    	<sect2>
-    	    <title>Enabling Seam-managed transactions</title>
-    	
-    	<para>
-    	    To make use of <emphasis>Seam managed transactions</emphasis>, you need to use 
-    	    <literal>SeamExtendedManagedPersistencePhaseListener</literal> in place of
-    	    <literal>SeamPhaseListener</literal>.
-    	</para>
-    	
+        <title>Seam managed transactions</title>
+        <para>
+            EJB session beans feature declarative transaction management. The EJB container is able
+            to start a transaction transparently when the bean is invoked, and end it when the
+            invocation ends. If we write a session bean method that acts as a JSF action listener, 
+            we can do all the work associated with that action in one transaction, and be sure that
+            it is committed or rolled back when we finish processing the action. This is a great feature, 
+            and all that is needed by many Seam applications.
+        </para>
+        
+        <para>
+            There is just one problem with this approach. ORM solutions like Hibernate and EJB 3.0
+            persistence support lazy fetching of entity associations inside a transaction context, 
+            but throw <literal>LazyInitializationException</literal>s if you try to access an unfetched
+            association outside the context of a transaction. This is a problem if your view page
+            tries to access data that was not fetched during the transaction. Hibernate users developed 
+            the <emphasis>open session in view</emphasis> pattern to work around this problem. This
+            pattern is usually implemented as a transaction which spans the entire request. There are
+            several problems with this idea, the most serious being that we can't be sure that a
+            transaction has been successful until we commit it, but by the time we commit the transaction,
+            we have already rendered the view. Furthermore, this is at best a partial solution to the
+            problem, because we can still meet the dreaded <literal>LazyInitializationException</literal>
+            if we try to re-use the entity object in the next request.
+        </para>
+        
+        <para>
+            Seam <emphasis>completely solves</emphasis> the problem of unwanted
+            <literal>LazyInitializationException</literal>s, while working around the biggest problem
+            in the <emphasis>open session in view</emphasis> pattern. The solution comes in two parts:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>
+                    use an extended persistence context that is scoped to the conversation, 
+                    instead of to the request
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    use two transactions per request; the first spans the beginning of the update model
+                    values phase until the end of the invoke application phase; the second spans the
+                    render response phase
+                </para>
+            </listitem>
+        </itemizedlist>
+        
+        <sect2>
+            <title>Enabling Seam-managed transactions</title>
+        
+        <para>
+            To make use of <emphasis>Seam managed transactions</emphasis>, you need to use 
+            <literal>SeamExtendedManagedPersistencePhaseListener</literal> in place of
+            <literal>SeamPhaseListener</literal>.
+        </para>
+        
         <programlisting><![CDATA[<lifecycle>
      <phase-listener>
         org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener
@@ -532,6 +636,41 @@ bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programli
 
         </sect2>
         
+        <sect2>
+            <title>Packaging</title>
+            
+        <para>
+            We can package our application as a WAR, in the following structure:
+        </para>
+            
+        <programlisting><![CDATA[my-application.war/
+    META-INF/
+        MANIFEST.MF
+    WEB-INF/
+        web.xml
+        faces-config.xml
+        lib/
+            jboss-seam.jar
+            hibernate3.jar
+            ...
+            my-application.jar/
+                META-INF/
+                   MANIFEST.MF
+                seam.properties
+                hibernate.cfg.xml
+                org/
+                    jboss/
+                        myapplication/
+                            User.class
+                            Login.class
+                            Register.class
+                            ...
+    login.jsp
+    register.jsp
+    ...]]></programlisting>
+    
+        </sect2>
+        
         <para>
             If we want to deploy Hibernate in a non-J2EE environment like Tomcat or TestNG, we 
             need to do a little bit more work.
@@ -598,6 +737,48 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
 
         </sect2>
 
-    </sect1>    	
+        <sect2>
+            <title>Packaging</title>
+            
+        <para>
+            The WAR could have the following structure:
+        </para>
+            
+        <programlisting><![CDATA[my-application.war/
+    META-INF/
+        MANIFEST.MF
+    WEB-INF/
+        web.xml
+        faces-config.xml
+        lib/
+            jboss-seam.jar
+            hibernate3.jar
+            ...
+            jboss-microcontainer.jar
+            jboss-jca.jar
+            ...
+            myfaces-api.jar
+            myfaces-impl.jar
+            my-application.jar/
+                META-INF/
+                    MANIFEST.MF
+                    jboss-beans.xml
+                seam.properties
+                hibernate.cfg.xml
+                log4j.xml
+                org/
+                    jboss/
+                        myapplication/
+                            User.class
+                            Login.class
+                            Register.class
+                            ...
+    login.jsp
+    register.jsp
+    ...]]></programlisting>
+    
+        </sect2>
+        
+    </sect1>
     
 </chapter>
