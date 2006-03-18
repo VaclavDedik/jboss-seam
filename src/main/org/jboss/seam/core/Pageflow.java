@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.jbpm.Page;
+import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
@@ -76,12 +77,16 @@ public class Pageflow
       }
    }
    
-   public Page getPage() 
+   public Node getNode() 
    {
       if (processInstance==null) return null;
       Token pageFlowToken = processInstance.getRootToken();
-      Page page = (Page) pageFlowToken.getNode();
-      return page;
+      return pageFlowToken.getNode();
+   }
+   
+   public Page getPage() 
+   {
+      return (Page) getNode();
    }
    
    private void navigate(FacesContext context) 
@@ -103,7 +108,7 @@ public class Pageflow
 
    public boolean hasDefaultTransition()
    {
-      return getPage().getDefaultLeavingTransition()!=null;
+      return getNode().getDefaultLeavingTransition()!=null;
    }
    
    private boolean isNullOutcome(String outcome) {
@@ -114,7 +119,7 @@ public class Pageflow
    {
       return isNullOutcome(outcome) ? 
             hasDefaultTransition() : 
-            getPage().getLeavingTransition(outcome)!=null;
+            getNode().getLeavingTransition(outcome)!=null;
    }
 
    public void navigate(FacesContext context, String outcome) {

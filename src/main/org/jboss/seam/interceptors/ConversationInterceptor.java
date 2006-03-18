@@ -235,7 +235,14 @@ public class ConversationInterceptor extends AbstractInterceptor
       ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
       ProcessInstance pi = pd.createProcessInstance();
       Pageflow.instance().setProcessInstance(pi);
-      pi.signal();
+      if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
+      {
+    	  //if a pageflow starts during the render response phase
+    	  //(as a result of a @Create method), we know the navigation
+    	  //handler will not get called, so we should force the
+    	  //pageflow out of the start state immediately
+    	  pi.signal();
+      }
    }
 
 }

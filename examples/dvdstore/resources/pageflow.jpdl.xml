@@ -15,7 +15,7 @@
 <pageflow-definition name="shopping">
 
    <start-state name="start">
-      <transition to="browse"/>
+      <transition name="browse" to="browse"/>
    </start-state>
    
    <page name="browse" view-id="/browse.xhtml" redirect="true">
