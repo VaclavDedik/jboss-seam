@@ -11,7 +11,7 @@ Changes in version 1.0 beta 3 (March 2006)
 * @RequestParameter now does type conversions
 * resourceBundle component now uses the client locale
 * Allow locale to be selected from the UI
-* Fixed bug where pageflows did not start
+* Fixed some bugs in pageflow begin
 
 Changes in version 1.0 beta 2 (February 2006)
 ---------------------------------------------
