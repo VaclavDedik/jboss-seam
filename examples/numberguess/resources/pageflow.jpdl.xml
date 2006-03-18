@@ -17,7 +17,7 @@
    
    <page name="displayGuess" view-id="/numberGuess.jsp" redirect="true">
       <transition name="guess" to="evaluateGuess">
-      	<action expression="#{numberGuess.guess}" />
+         <action expression="#{numberGuess.guess}" />
       </transition>
    </page>
    
