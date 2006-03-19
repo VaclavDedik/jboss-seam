@@ -4,7 +4,7 @@
 
     <!-- Example name -->
     <property name="Name"                   value="Seam Remoting HelloWorld Example"/>
-    <property name="example.name"           value="remoting-helloworld"/>
+    <property name="example.name"           value="seam-remoting-helloworld"/>
 
     <!-- WAR -->
     <zipfileset id="example.war.docroot"

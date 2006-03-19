@@ -3,12 +3,12 @@
 
 	<module>
 		<web>
-			<web-uri>chatroom.war</web-uri>
-			<context-root>/chatroom</context-root>
+			<web-uri>seam-chatroom.war</web-uri>
+			<context-root>/seam-chatroom</context-root>
 		</web>
 	</module>
 	<module>
-		<ejb>chatroom.jar</ejb>
+		<ejb>seam-chatroom.jar</ejb>
 	</module>
 	
 </application>
