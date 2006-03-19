@@ -7,8 +7,8 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.example.messages.Message;
-import org.jboss.seam.example.messages.MessageList;
-import org.jboss.seam.example.messages.MessageListBean;
+import org.jboss.seam.example.messages.MessageManager;
+import org.jboss.seam.example.messages.MessageManagerBean;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -22,7 +22,7 @@ public class MessageListTest extends SeamTest
 
          @Override
          protected void renderResponse() throws Exception {
-            DataModel list = (DataModel) Component.getInstance("messages", true);
+            DataModel list = (DataModel) Component.getInstance("messageList", true);
             assert list.getRowCount()==2;
          }
          
@@ -33,7 +33,7 @@ public class MessageListTest extends SeamTest
 
          @Override
          protected void updateModelValues() throws Exception {
-            DataModel list = (DataModel) Component.getInstance("messages", true);
+            DataModel list = (DataModel) Component.getInstance("messageList", true);
             assert list.getRowCount()==2;
             list.setRowIndex(1);
          }
@@ -41,14 +41,14 @@ public class MessageListTest extends SeamTest
          
          @Override
          protected void invokeApplication() throws Exception {
-            MessageList ml = (MessageList) Component.getInstance(MessageListBean.class, true);
+            MessageManager ml = (MessageManager) Component.getInstance(MessageManagerBean.class, true);
             assert ml.select().equals("selected");
          }
 
 
          @Override
          protected void renderResponse() throws Exception {
-            DataModel list = (DataModel) Component.getInstance("messages", true);
+            DataModel list = (DataModel) Component.getInstance("messageList", true);
             assert list.getRowCount()==2;
             Message message = (Message) Component.getInstance(Message.class, false);
             assert message.getTitle().equals("Hello World");
@@ -62,7 +62,7 @@ public class MessageListTest extends SeamTest
 
          @Override
          protected void updateModelValues() throws Exception {
-            DataModel list = (DataModel) Component.getInstance("messages", true);
+            DataModel list = (DataModel) Component.getInstance("messageList", true);
             assert list.getRowCount()==2;
             list.setRowIndex(0);
          }
@@ -70,14 +70,14 @@ public class MessageListTest extends SeamTest
          
          @Override
          protected void invokeApplication() throws Exception {
-            MessageList ml = (MessageList) Component.getInstance(MessageListBean.class, true);
+            MessageManager ml = (MessageManager) Component.getInstance(MessageManagerBean.class, true);
             assert ml.delete().equals("deleted");
          }
 
 
          @Override
          protected void renderResponse() throws Exception {
-            DataModel list = (DataModel) Component.getInstance("messages", true);
+            DataModel list = (DataModel) Component.getInstance("messageList", true);
             assert list.getRowCount()==1;
          }
          
@@ -88,7 +88,7 @@ public class MessageListTest extends SeamTest
 
          @Override
          protected void renderResponse() throws Exception {
-            DataModel list = (DataModel) Component.getInstance("messages", true);
+            DataModel list = (DataModel) Component.getInstance("messageList", true);
             assert list.getRowCount()==1;
          }
          

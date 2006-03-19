@@ -24,13 +24,13 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Scope(SESSION)
-@Name("messageList")
+@Name("messageManager")
 @Interceptors(SeamInterceptor.class)
-public class MessageListBean implements Serializable, MessageList
+public class MessageManagerBean implements Serializable, MessageManager
 {
 
    @DataModel
-   private List<Message> messages;
+   private List<Message> messageList;
    
    @Out(required=false)
    @DataModelSelection
@@ -39,10 +39,10 @@ public class MessageListBean implements Serializable, MessageList
    @PersistenceContext(type=EXTENDED)
    private EntityManager em;
    
-   @Factory("messages")
+   @Factory("messageList")
    public void findMessages()
    {
-      messages = em.createQuery("from Message msg order by msg.datetime desc").getResultList();
+      messageList = em.createQuery("from Message msg order by msg.datetime desc").getResultList();
    }
    
    public String select()
@@ -53,7 +53,7 @@ public class MessageListBean implements Serializable, MessageList
    
    public String delete()
    {
-      messages.remove(message);
+      messageList.remove(message);
       em.remove(message);
       message=null;
       return "deleted";

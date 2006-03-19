@@ -8,8 +8,8 @@
   <f:view>
    <h:form>
      <h2>Message List</h2>
-     <h:outputText value="No messages to display" rendered="#{messages.rowCount==0}"/>
-     <h:dataTable var="msg" value="#{messages}" rendered="#{messages.rowCount>0}">
+     <h:outputText value="No messages to display" rendered="#{messageList.rowCount==0}"/>
+     <h:dataTable var="msg" value="#{messageList}" rendered="#{messageList.rowCount>0}">
         <h:column>
            <f:facet name="header">
               <h:outputText value="Read"/>
@@ -20,7 +20,7 @@
            <f:facet name="header">
               <h:outputText value="Title"/>
            </f:facet>
-           <h:commandLink value="#{msg.title}" action="#{messageList.select}"/>
+           <h:commandLink value="#{msg.title}" action="#{messageManager.select}"/>
         </h:column>
         <h:column>
            <f:facet name="header">
@@ -31,7 +31,7 @@
            </h:outputText>
         </h:column>
         <h:column>
-           <h:commandButton value="Delete" action="#{messageList.delete}"/>
+           <h:commandButton value="Delete" action="#{messageManager.delete}"/>
         </h:column>
      </h:dataTable>
      <h3><h:outputText value="#{message.title}"/></h3>
