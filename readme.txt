@@ -31,7 +31,7 @@ Get Up And Running Quick
 Running The TestNG Tests
 ------------------------
 
-In the jboss-seam-1.x directory, type "ant test"
+In the jboss-seam-1.x directory, type "ant testcore" or "ant testall"
 
 Running the TestNG Tests in Eclipse
 -----------------------------------
