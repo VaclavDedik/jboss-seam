@@ -46,6 +46,7 @@
     <property name="dist.mc.conf.dir"   value="${dist.dir}/microcontainer/conf"/>
 
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
+	<property name="webroot.dir"        value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
     
     <property name="testng.jar"         value="${imported.basedir}/lib/testng-4.5.1-jdk15.jar"/>
 
@@ -207,6 +208,8 @@
         <ant dir="examples/issues" target="deploy" inheritall="false"/>
         <ant dir="examples/dvdstore" target="deploy" inheritall="false"/>
     	<ant dir="examples/remoting/chatroom" target="deploy" inheritall="false"/>
+		<copy file="examples/seam-examples.html" todir="${webroot.dir}"/>
+		<replace file="${webroot.dir}/seam-examples.html" token="http://localhost:8080" value=""/>
 	</target>
 
     <target name="init"
