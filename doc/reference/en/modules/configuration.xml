@@ -209,7 +209,7 @@
         
         <para>
             Make sure you reference <literal>jboss-seam.jar</literal> from manifests of the
-            EAR and WAR.
+            EJB-JAR and WAR.
         </para>
         
         <para>
@@ -269,8 +269,8 @@
             Seam ships with a build of the Embeddable EJB3 container in the <literal>embedded-ejb</literal>
             directory. To use the Embeddable EJB3 container with Seam, add the 
             <literal>embedded-ejb/conf</literal> directory, and all jars in the <literal>lib</literal> 
-            and <literal>embedded-ejb/lib</literal> directories to your classpath. Then, add the following 
-            line to <literal>seam.properties</literal>:
+            and <literal>embedded-ejb/lib</literal> directories to your classpath. Then, add the 
+            following line to <literal>seam.properties</literal>:
         </para>
         
         <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Ejb]]></programlisting>
@@ -779,6 +779,115 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
     
         </sect2>
         
+    </sect1>
+    
+    <sect1>
+        <title>Configuring jBPM in Seam</title>
+        <para>
+            Seam's jBPM integration is not installed by default, so you'll need
+            to enable jBPM by adding a built-in component to the list of 
+            installed components. In <literal>seam.properties</literal>:
+        </para>
+
+        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Jbpm]]></programlisting>
+        
+        <para>
+            Or in <literal>web.xml</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<context-param>
+    <param-name>org.jboss.seam.core.init.componentClasses</param-name>
+    <param-value>org.jboss.seam.core.Jbpm</param-value>
+</context-param>]]></programlisting>
+
+        <para>
+            You'll also need to explicitly list your process and pageflow definitions:
+        </para>
+        
+        <programlisting><![CDATA[<context-param>
+    <param-name>org.jboss.seam.core.jbpm.pageflowDefinitions</param-name>
+    <param-value>
+        createDocument.jpdl.xml 
+        editDocument.jpdl.xml 
+        approveDocument.jpdl.xml
+    </param-value>
+</context-param>
+
+<context-param>
+    <param-name>org.jboss.seam.core.jbpm.processDefinitions</param-name>
+    <param-value>
+        documentLifecycle.jpdl.xml
+    </param-value>
+</context-param>]]></programlisting>
+        
+        <para>
+            Or:
+        </para>
+        
+        <programlisting><![CDATA[org.jboss.seam.core.jbpm.pageflowDefinitions createDocument.jpdl.xml editDocument.jpdl.xml approveDocument.jpdl.xml
+org.jboss.seam.core.jbpm.processDefinitions documentLifecycle.jpdl.xml]]></programlisting>
+
+        <para>
+            No further special configuration is needed if you only have pageflows.
+            If you do have business process definitions, you need to provide
+            jBPM configuration and O/R mappings. The Seam DVD Store demo includes example
+            <literal>jbpm.cfg.xml</literal> and <literal>hibernate.cfg.xml</literal>
+            files that will work with Seam.
+        </para>
+        
+        <sect2>
+            <title>Packaging</title>
+            <para>
+                There is not yet any well-defined packaging format for jBPM configuration
+                and process/pageflow definition files. In the Seam examples we've decided
+                to simply package all these files into the root of the EAR. In future, we
+                will probably design some other standard packaging format. So the EAR looks
+                something like this:
+            </para>
+            
+        <programlisting><![CDATA[my-application.ear/
+    jboss-seam.jar
+    jbpm-3.1.jar
+    META-INF/
+        MANIFEST.MF
+        application.xml
+    my-application.war/
+        META-INF/
+            MANIFEST.MF
+        WEB-INF/
+            web.xml
+            faces-config.xml
+        login.jsp
+        register.jsp
+        ...
+    my-application.jar/
+        META-INF/
+            MANIFEST.MF
+            persistence.xml
+        seam.properties
+        org/
+            jboss/
+                myapplication/
+                    User.class
+                    Login.class
+                    LoginBean.class
+                    Register.class
+                    RegisterBean.class
+                    ...
+    jbpm.cfg.xml
+    hibernate.cfg.xml
+    createDocument.jpdl.xml 
+    editDocument.jpdl.xml 
+    approveDocument.jpdl.xml
+    documentLifecycle.jpdl.xml]]></programlisting>
+    
+            <para>
+                Remember to add <literal>jbpm-3.1.jar</literal> to the manifest of your 
+                EJB-JAR and WAR. 
+            </para>
+            
+        </sect2>
+
     </sect1>
     
 </chapter>
