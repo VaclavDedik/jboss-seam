@@ -173,6 +173,12 @@ SeamRemote.getType = function(obj)
   }
 }
 
+SeamRemote.getTypeName = function(obj)
+{
+  var type = SeamRemote.getType(obj);
+  return type ? type.__name : null;
+}
+
 SeamRemote.getMetadata = function(obj)
 {
   for (var i = 0; i < SeamRemote.types.length; i++)
