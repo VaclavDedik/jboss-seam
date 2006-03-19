@@ -513,7 +513,8 @@ public class Component
 
    public ClassValidator getValidator()
    {
-      java.util.ResourceBundle bundle = ResourceBundle.instance();
+      java.util.ResourceBundle bundle = Contexts.isApplicationContextActive() ? //yew, just for testing!
+    		  ResourceBundle.instance() : null;
       Locale locale = bundle==null ? 
             new Locale("DUMMY") : bundle.getLocale();
       ClassValidator validator = validators.get(locale);
