@@ -26,6 +26,7 @@ import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.core.Pages;
 
 /**
  * Manages the Seam contexts associated with a JSF request.
@@ -58,6 +59,7 @@ public class SeamPhaseListener implements PhaseListener
       {
          FacesMessages.instance().beforeRenderResponse();
          Manager.instance().prepareBackswitch(event);
+         Pages.instance().callAction(); //TODO: probably move into the prepareBackswitch() method
          //beforeSaveState();
          //Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
       }

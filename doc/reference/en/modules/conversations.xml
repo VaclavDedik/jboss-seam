@@ -221,6 +221,96 @@
     </section>
     
     <section>
+        <title>Starting conversations with GET requests</title>
+        <para>
+            JSF does not define any kind of action listener that is triggered
+            when a page is accessed via a non-faces request (for example, a
+            HTTP GET request). This can occur if the user bookmarks the page,
+            or if we navigate to the page via an <literal>&lt;h:outputLink&gt;</literal>.
+        </para>
+        
+        <para>
+            Sometimes we want to begin a conversation immediately the page is
+            accessed. Since there is no JSF action method, we can't solve the problem
+            in the usual way, by annotating the action with <literal>@Begin</literal>.
+        </para>
+        
+        <para>
+            A further problem arises if the page needs some state to be fetched
+            into a context variable. We've already seen two ways to solve this 
+            problem. If that state is held in a Seam component, we can fetch the 
+            state in a <literal>@Create</literal> method. If not, we can define a
+            <literal>@Factory</literal> method for the context variable.
+        </para>
+        
+        <para>
+            If neither of these options works for you, Seam lets you define a
+            <emphasis>page action</emphasis> in the <literal>pages.xml</literal>
+            file.
+        </para>
+        
+        <programlisting><![CDATA[<pages>
+    <page view-id="/messageList.jsp" action="#{messageManager.list}"/>
+    ...
+</pages>]]></programlisting>
+
+        <para>
+            This action method is called at the beginning of the render response
+            phase, any time the page is about to be rendered. It does not return
+            an outcome.
+        </para>
+        
+        <para>
+            If <emphasis>all</emphasis> you want to do before rendering the page
+            is begin a conversation, you can use a built-in action method that
+            does just that:
+        </para>
+        
+        <programlisting><![CDATA[<pages>
+    <page view-id="/messageList.jsp" action="#{conversation.begin}"/>
+    ...
+</pages>]]></programlisting>
+
+        <para>
+            Note that you can also call this built-in action from a JSF
+            control, and, similarly, you can use 
+            <literal>#{conversation.end}</literal> to end conversations.
+        </para>
+
+        <para>
+            To solve the first problem, we now have four options:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+            <para>
+                Annotate the <literal>@Create</literal> method with
+                <literal>@Begin</literal>
+            </para>
+            </listitem>
+            <listitem>
+            <para>
+                Annotate the <literal>@Factory</literal> method with
+                <literal>@Begin</literal>
+            </para>
+            </listitem>
+            <listitem>
+            <para>
+                Annotate the Seam page action method with
+                <literal>@Begin</literal>
+            </para>
+            </listitem>
+            <listitem>
+            <para>
+                Use <literal>#{conversation.begin}</literal> as
+                the Seam page action method
+            </para>
+            </listitem>
+        </itemizedlist>
+        
+    </section>
+    
+    <section>
         <title>Success messages</title>
         <para>
             It is quite common to display a message to the user indicating 

@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -140,6 +141,26 @@ public class Conversation implements Serializable {
    public void leave()
    {
       Manager.instance().leaveConversation();
+   }
+   
+   /**
+    * Start a long-running conversation
+    */
+   public void begin()
+   {
+      if ( !Manager.instance().isLongRunningConversation() )
+      {
+         Manager.instance().beginConversation( Seam.getComponentName(Conversation.class) );
+      }
+      //TODO: let them pass a pageflow name as a request parameter
+   }
+   
+   /**
+    * End a long-runnning conversation
+    */
+   public void end()
+   {
+      Manager.instance().endConversation();   
    }
 
 }

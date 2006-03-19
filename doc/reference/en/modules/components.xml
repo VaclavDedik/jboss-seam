@@ -300,6 +300,18 @@
                             without actually ending the conversation.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>begin()</literal> &mdash; begin a long-running conversation
+                            (equivalent to <literal>@Begin</literal>).
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>end()</literal> &mdash; end a long-running conversation
+                            (equivalent to <literal>@End</literal>).
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>

@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
+
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -32,8 +35,10 @@ public class Pages
    
    private static final Logger log = Logger.getLogger(Pages.class);
    
+   //TODO: move into a single map:
    private Map<String, String> descriptionByViewId = new HashMap<String, String>();
    private Map<String, Integer> timeoutsByViewId = new HashMap<String, Integer>();
+   private Map<String, MethodBinding> actionsByViewId = new HashMap<String, MethodBinding>();
    
    @Create
    public void initialize() throws DocumentException
@@ -53,11 +58,21 @@ public class Pages
          for (Element page: elements)
          {
             String viewId = page.attributeValue("view-id");
-            descriptionByViewId.put( viewId, page.getTextTrim() );
+            String description = page.getTextTrim();
+			if (description!=null && description.length()>0)
+			{
+				descriptionByViewId.put( viewId, description );
+			}
             String timeoutString = page.attributeValue("timeout");
             if (timeoutString!=null)
             {
                timeoutsByViewId.put( viewId, Integer.parseInt(timeoutString) );
+            }
+            String action = page.attributeValue("action");
+            if (action!=null)
+            {
+            	MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(action, null);
+            	actionsByViewId.put(viewId, methodBinding);
             }
          }
       }
@@ -76,6 +91,14 @@ public class Pages
    public Integer getTimeout(String viewId)
    {
       return timeoutsByViewId.get(viewId);
+   }
+   
+   public void callAction()
+   {
+      FacesContext currentInstance = FacesContext.getCurrentInstance();
+      String viewId = currentInstance.getViewRoot().getViewId();
+      MethodBinding methodBinding = actionsByViewId.get(viewId);
+      if (methodBinding!=null) methodBinding.invoke(currentInstance, null);
    }
    
    public static Pages instance()
