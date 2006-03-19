@@ -185,6 +185,29 @@
     	<ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
 
     </target>
+	
+	<target name="undeployall" 
+		    description="Undeploy all examples">
+        <ant dir="examples/booking" target="undeploy" inheritall="false"/>
+        <ant dir="examples/hibernate" target="undeploy" inheritall="false"/>
+        <ant dir="examples/issues" target="undeploy" inheritall="false"/>
+        <ant dir="examples/dvdstore" target="undeploy" inheritall="false"/>
+        <ant dir="examples/messages" target="undeploy" inheritall="false"/>
+        <ant dir="examples/numberguess" target="undeploy" inheritall="false"/>
+        <ant dir="examples/registration" target="undeploy" inheritall="false"/>
+        <ant dir="examples/todo" target="undeploy" inheritall="false"/>
+    	<ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false"/>
+    	<ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false"/>
+	</target>
+
+	<target name="deploypresentation" 
+		    depends="jar"
+		    description="Deploy all examples used in Seam presentations">
+        <ant dir="examples/booking" target="deploy" inheritall="false"/>
+        <ant dir="examples/issues" target="deploy" inheritall="false"/>
+        <ant dir="examples/dvdstore" target="deploy" inheritall="false"/>
+    	<ant dir="examples/remoting/chatroom" target="deploy" inheritall="false"/>
+	</target>
 
     <target name="init"
             description="Initialize the build">
@@ -237,8 +260,8 @@
         </javac>
     </target>
     
-    <target name="test" depends="compile"
-            description="Run the tests">
+    <target name="testcore" depends="compile"
+            description="Run the core unit tests">
         
         <taskdef resource="testngtasks"
                  classpath="${testng.jar}"/>
@@ -257,8 +280,8 @@
             
     </target>
 
-  <target name="testall" depends="test"
-    description="Run the tests and all example tests">
+  <target name="testall" depends="testcore"
+          description="Run the core unit tests and all example tests">
   	
   	<mkdir dir="report"/>
 
@@ -283,7 +306,7 @@
   </target>
 
   <target name="testexample" depends="compile"
-            description="Run the example tests">
+          description="Run the example tests">
         
         <taskdef resource="testngtasks"
                  classpath="${testng.jar}"/>
