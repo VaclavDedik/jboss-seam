@@ -1,0 +1,34 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="template.xhtml">
+
+<ui:define name="content">
+   <h:dataTable value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
+      <h:column>
+         <div class="blogEntry">
+            <h3>#{blogEntry.title}</h3>
+            <div>
+               #{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}
+            </div>
+            <p>
+               <h:outputLink value="entry.seam" rendered="#{blogEntry.excerpt!=null}">
+                  <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+                  Read more
+               </h:outputLink>
+            </p>
+            <p>
+               Posted on 
+		       <h:outputText value="#{blogEntry.date}">
+		           <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+		       </h:outputText>
+            </p>
+         </div>
+      </h:column>
+   </h:dataTable>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,3 @@
+<pages>
+   <page view-id="/entry.xhtml" action="#{entryAction.getBlogEntry}"/>
+</pages>
