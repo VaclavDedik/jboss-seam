@@ -21,6 +21,10 @@ public class StringWrapper extends BaseWrapper implements Wrapper
   {
     if (type.equals(String.class))
       value = element.getStringValue();
+    else if (type.equals(StringBuilder.class))
+      value = new StringBuilder(element.getStringValue());
+    else if (type.equals(StringBuffer.class))
+      value = new StringBuffer(element.getStringValue());
     else if (type.equals(Integer.class))
       value = Integer.valueOf(element.getStringValue());
     else if (type.equals(Integer.TYPE))

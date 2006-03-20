@@ -25,6 +25,10 @@ public class IntWrapper extends BaseWrapper implements Wrapper
       value = !"".equals(val) ? Integer.valueOf(val) : null;
     else if (type.equals(Integer.TYPE))
       value = Integer.parseInt(val);
+    else if (type.equals(Long.class))
+      value = !"".equals(val) ? Long.valueOf(val) : null;
+    else if (type.equals(Long.TYPE))
+      value = Long.parseLong(val);
     else if (type.equals(String.class))
       value = val;
     else

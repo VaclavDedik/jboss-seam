@@ -40,8 +40,10 @@ public class WrapperFactory
     registerWrapper("map", MapWrapper.class);
 
     registerWrapperClass(String.class, StringWrapper.class);
+    registerWrapperClass(StringBuilder.class, StringWrapper.class);
+    registerWrapperClass(StringBuffer.class, StringWrapper.class);
     registerWrapperClass(Integer.class, IntWrapper.class);
-
+    registerWrapperClass(Long.class, IntWrapper.class);
   }
 
   /**
