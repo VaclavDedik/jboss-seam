@@ -95,10 +95,18 @@ public class Pages
    
    public void callAction()
    {
-      FacesContext currentInstance = FacesContext.getCurrentInstance();
-      String viewId = currentInstance.getViewRoot().getViewId();
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      String viewId = facesContext.getViewRoot().getViewId();
       MethodBinding methodBinding = actionsByViewId.get(viewId);
-      if (methodBinding!=null) methodBinding.invoke(currentInstance, null);
+      if (methodBinding!=null) 
+      {
+         String outcome = (String) methodBinding.invoke(facesContext, null);
+         if (outcome!=null)
+         {
+            facesContext.getApplication().getNavigationHandler()
+                  .handleNavigation(facesContext, methodBinding.getExpressionString(), outcome);
+         }
+      }
    }
    
    public static Pages instance()
