@@ -256,8 +256,10 @@
 
         <para>
             This action method is called at the beginning of the render response
-            phase, any time the page is about to be rendered. It does not return
-            an outcome.
+            phase, any time the page is about to be rendered. If a page action
+            returns a non-null outcome, Seam will process any appropriat JSF 
+            navigation rules, possibly resulting in a completely different page 
+            being rendered.
         </para>
         
         <para>
