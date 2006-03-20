@@ -33,7 +33,7 @@ public class SeamInterceptor implements Serializable
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if ( Contexts.isEventContextActive() )
+      if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) //not sure about the second bit (only needed at init time!)
       {
          return aroundInvokeInContexts(invocation);
       }
@@ -82,7 +82,9 @@ public class SeamInterceptor implements Serializable
 
    private Component getSeamComponent(Object bean)
    {
-      String componentName = Seam.getComponentName( bean.getClass() );
+      Class clazz = bean.getClass();
+      if ( clazz.getName().contains("CGLIB") ) clazz = clazz.getSuperclass();
+      String componentName = Seam.getComponentName( clazz );
       return Component.forName( componentName );
    }
    
