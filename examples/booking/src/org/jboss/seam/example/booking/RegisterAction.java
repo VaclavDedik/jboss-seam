@@ -9,8 +9,6 @@ import java.util.List;
 import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -20,6 +18,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -35,8 +34,8 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
-   @In
-   private transient FacesContext facesContext;
+   @In(create=true)
+   private transient FacesMessages facesMessages;
    
    private String verify;
    
@@ -55,13 +54,13 @@ public class RegisterAction implements Register
          }
          else
          {
-            facesContext.addMessage(null, new FacesMessage("username already exists"));
+            facesMessages.add("username already exists");
             return null;
          }
       }
       else 
       {
-         facesContext.addMessage(null, new FacesMessage("re-enter your password"));
+         facesMessages.add("re-enter your password");
          verify=null;
          return null;
       }

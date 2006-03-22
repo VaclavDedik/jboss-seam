@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.ejb.Interceptors;
 import javax.ejb.Stateless;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -14,6 +12,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
@@ -30,8 +29,6 @@ public class LoginAction implements Login
    
    @In
    private transient Context sessionContext;
-   @In
-   private transient FacesContext facesContext;
 
    public String login()
    {
@@ -42,7 +39,7 @@ public class LoginAction implements Login
       
       if ( results.size()==0 )
       {
-         facesContext.addMessage(null, new FacesMessage("Invalid login"));
+         FacesMessages.instance().add("Invalid login");
          return "login";
       }
       else

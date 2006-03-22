@@ -7,8 +7,6 @@ import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -19,6 +17,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -35,9 +34,6 @@ public class ChangePasswordAction implements ChangePassword
    @PersistenceContext
    private EntityManager em;
    
-   @In
-   private transient FacesContext facesContext;
-   
    private String verify;
    
    @IfInvalid(outcome=REDISPLAY)
@@ -50,7 +46,7 @@ public class ChangePasswordAction implements ChangePassword
       }
       else 
       {
-         facesContext.addMessage(null, new FacesMessage("Re-enter new password"));
+         FacesMessages.instance().add("Re-enter new password");
          revertUser();
          verify=null;
          return null;
