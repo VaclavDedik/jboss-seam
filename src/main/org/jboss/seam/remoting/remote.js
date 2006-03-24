@@ -38,6 +38,59 @@ SeamRemote.log = function(msg)
   }
 }
 
+SeamRemote.URLDecode = function(value)
+{
+  var decoded = '';
+  for(var i = 0;i < value.length; i++)
+  {
+    var chr = value.charAt(i);
+    if ((chr == '%') && ((i + 2) <= value.length))
+      decoded += String.fromCharCode(parseInt(value.substring((i+ 1 ), ((i += 2) + 1)), 16));
+    else if(chr == '+')
+      decoded += ' ';
+    else
+      decoded += chr;
+  }
+  return decoded;
+}
+
+SeamRemote.URLEncode = function(value)
+{
+  var encoded = '';
+  for(var i = 0; i < value.length; i++)
+  {
+    var charCode = value.charCodeAt(i);
+    if (((charCode > 47)&&(charCode < 58)) ||
+        ((charCode > 64)&&(charCode < 91)) ||
+        ((charCode > 96)&&(charCode < 123)))
+    {
+      encoded += value.charAt(i);
+    }
+    else if (charCode == 32)
+      encoded += '+';
+    else
+    {
+      var hex = charCode.toString(16);
+      var len = hex.length;
+      switch(len)
+      {
+        case 0:
+          hex = '00';
+          break;
+        case 1:
+          hex = '0'+hex;
+        case 2:
+          break;
+        defalt:
+          hex = hex.substring((len-2), len);
+          break;
+      }
+      encoded += '%' + hex;
+    }
+  }
+  return encoded;
+}
+
 SeamRemote.__Context = function() {
   this.conversationId = null;
 
@@ -190,24 +243,6 @@ SeamRemote.getMetadata = function(obj)
   }
 }
 
-SeamRemote.serializeContext = function(obj)
-{
-  var ctx = obj.__context;
-
-  var data = "<context>";
-
-  if (ctx.getConversationId())
-  {
-    data += "<conversationId>";
-    data += ctx.getConversationId();
-    data += "</conversationId>";
-  }
-
-  data += "</context>";
-
-  return data;
-}
-
 SeamRemote.serializeValue = function(value, type, refs)
 {
   if (value == null)
@@ -233,7 +268,7 @@ SeamRemote.serializeValue = function(value, type, refs)
       case "bag": return SeamRemote.serializeBag(value, refs);
       case "map": return SeamRemote.serializeMap(value, refs);
 
-      default: return "<str>" + value + "</str>";
+      default: return "<str>" + SeamRemote.URLEncode(value) + "</str>";
     }
   }
   else // We don't know the type.. try to guess
@@ -249,7 +284,7 @@ SeamRemote.serializeValue = function(value, type, refs)
           return SeamRemote.serializeBag(value, refs);
         else
           return SeamRemote.getTypeRef(value, refs);
-      default: return "<str>" + value + "</str>"; // Default to String
+      default: return "<str>" + SeamRemote.URLEncode(value) + "</str>"; // Default to String
     }
   }
 }
@@ -657,7 +692,7 @@ SeamRemote.unmarshalValue = function(element, refs)
   {
     case "bool": return element.firstChild.nodeValue == "true";
     case "int": return parseInt(element.firstChild.nodeValue);
-    case "str": return element.firstChild ? element.firstChild.nodeValue : "";
+    case "str": return element.firstChild ? SeamRemote.URLDecode(element.firstChild.nodeValue) : "";
     case "ref": return refs[parseInt(element.getAttribute("id"))];
     case "bag":
       var value = new Array();

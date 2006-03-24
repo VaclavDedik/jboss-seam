@@ -2,7 +2,10 @@ package org.jboss.seam.remoting.wrapper;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * String wrapper class.
@@ -11,6 +14,8 @@ import java.lang.reflect.Type;
  */
 public class StringWrapper extends BaseWrapper implements Wrapper
 {
+  private static final String DEFAULT_ENCODING = "ISO-8859-1";
+
   /**
    *
    * @param targetClass Class
@@ -19,51 +24,59 @@ public class StringWrapper extends BaseWrapper implements Wrapper
   public Object convert(Type type)
       throws ConversionException
   {
+    String elementValue = null;
+    try {
+      elementValue = URLDecoder.decode(element.getStringValue(),
+                                              DEFAULT_ENCODING);
+    }
+    catch (UnsupportedEncodingException ex) {
+      throw new ConversionException("Error converting value - encoding not supported.");
+    }
+
     if (type.equals(String.class))
-      value = element.getStringValue();
+      value = elementValue;
     else if (type.equals(StringBuilder.class))
-      value = new StringBuilder(element.getStringValue());
+      value = new StringBuilder(elementValue);
     else if (type.equals(StringBuffer.class))
-      value = new StringBuffer(element.getStringValue());
+      value = new StringBuffer(elementValue);
     else if (type.equals(Integer.class))
-      value = Integer.valueOf(element.getStringValue());
+      value = Integer.valueOf(elementValue);
     else if (type.equals(Integer.TYPE))
-      value = Integer.parseInt(element.getStringValue());
+      value = Integer.parseInt(elementValue);
     else if (type.equals(Long.class))
-      value =  Long.valueOf(element.getStringValue());
+      value =  Long.valueOf(elementValue);
     else if (type.equals(Long.TYPE))
-      value =  Long.parseLong(element.getStringValue());
+      value =  Long.parseLong(elementValue);
     else if (type.equals(Short.class))
-      value =  Short.valueOf(element.getStringValue());
+      value =  Short.valueOf(elementValue);
     else if (type.equals(Short.TYPE))
-      value =  Short.parseShort(element.getStringValue());
+      value =  Short.parseShort(elementValue);
     else if (type.equals(Boolean.class))
-      value =  Boolean.valueOf(element.getStringValue());
+      value =  Boolean.valueOf(elementValue);
     else if (type.equals(Boolean.TYPE))
-      value =  Boolean.parseBoolean(element.getStringValue());
+      value =  Boolean.parseBoolean(elementValue);
     else if (type.equals(Double.class))
-      value =  Double.valueOf(element.getStringValue());
+      value =  Double.valueOf(elementValue);
     else if (type.equals(Double.TYPE))
-      value =  Double.parseDouble(element.getStringValue());
+      value =  Double.parseDouble(elementValue);
     else if (type.equals(Float.class))
-      value =  Float.valueOf(element.getStringValue());
+      value =  Float.valueOf(elementValue);
     else if (type.equals(Float.TYPE))
-      value =  Float.parseFloat(element.getStringValue());
+      value =  Float.parseFloat(elementValue);
     else if (type.equals(Character.class))
-      value =  Character.valueOf(element.getStringValue().charAt(0));
+      value =  Character.valueOf(elementValue.charAt(0));
     else if (type.equals(Character.TYPE))
-      value =  element.getStringValue().charAt(0);
+      value =  elementValue.charAt(0);
     else if (type.equals(Byte.class))
-      value =  Byte.valueOf(element.getStringValue());
+      value =  Byte.valueOf(elementValue);
     else if (type.equals(Byte.TYPE))
-      value =  Byte.parseByte(element.getStringValue());
+      value =  Byte.parseByte(elementValue);
     else if (type instanceof Class && ((Class) type).isEnum())
-      value =  Enum.valueOf((Class) type, element.getStringValue());
+      value =  Enum.valueOf((Class) type, elementValue);
     else
       // Should never reach this line - calcConverstionScore should guarantee this.
       throw new ConversionException(String.format(
-          "Value [%s] cannot be converted to type [%s].",
-          element.getStringValue(), type));
+          "Value [%s] cannot be converted to type [%s].", elementValue, type));
 
     return value;
   }
@@ -106,12 +119,7 @@ public class StringWrapper extends BaseWrapper implements Wrapper
     throws IOException
   {
     out.write("<str>".getBytes());
-
-    if (value.getClass().isEnum())
-      out.write(((Enum) value).toString().getBytes());
-    else
-      out.write(((String) value).getBytes());
-
+    out.write(URLEncoder.encode(value.toString(), DEFAULT_ENCODING).getBytes());
     out.write("</str>".getBytes());
   }
 }

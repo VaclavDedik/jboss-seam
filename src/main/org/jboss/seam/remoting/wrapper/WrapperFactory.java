@@ -1,6 +1,7 @@
 package org.jboss.seam.remoting.wrapper;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,6 +119,8 @@ public class WrapperFactory
       w = new BooleanWrapper();
     else if (obj.getClass().isEnum())
       w = new StringWrapper();
+    else if (Date.class.isAssignableFrom(obj.getClass()))
+      w = new DateWrapper();
     else if (classRegistry.containsKey(obj.getClass()))
     {
       try
