@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <faces-config>
+
   <component>
     <component-class>org.jboss.seam.ui.HtmlQueryTable</component-class>
     <base-class>javax.faces.component.html.HtmlDataTable</base-class>
@@ -18,4 +19,5 @@
         <type>java.lang.integer</type>
     </field>
   </component>
+  
 </faces-config>

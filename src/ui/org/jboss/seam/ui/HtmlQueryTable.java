@@ -22,8 +22,16 @@ public class HtmlQueryTable extends HtmlDataTable {
       {
          EntityManager em = (EntityManager) Component.getInstance(persistenceContext, true);
          Query query = em.createQuery(ejbql);
-         if (maxResults>=0) query.setMaxResults(maxResults);
-         if (firstResult>=0) query.setFirstResult(firstResult);
+         Object pageParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("page");
+         int page = pageParam==null ? 0 : Integer.parseInt( pageParam.toString() );
+         int first = 0;
+         if (maxResults>=0) 
+         {
+            query.setMaxResults(maxResults);
+            first += page*maxResults;
+         }
+         if (firstResult>=0) first+=firstResult;
+         if (first>0) query.setFirstResult(first);
          super.setValue( query.getResultList() );
       }
       return super.getValue();
