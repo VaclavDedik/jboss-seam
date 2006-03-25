@@ -555,7 +555,8 @@ public class Manager
     */
    public String encodeConversationId(String url) {
       beforeRedirect();
-      return url + "?conversationId=" + getCurrentConversationId();
+      char sep = url.contains("?") ? '&' : '?';
+      return url + sep + "conversationId=" + getCurrentConversationId();
    }
 
    public void redirect(String viewId)

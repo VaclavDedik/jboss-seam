@@ -18,17 +18,18 @@ public class SeamNavigationHandler extends NavigationHandler {
 
    @Override
    public void handleNavigation(FacesContext context, String fromAction, String outcome) {
-	  if ( !"org.jboss.seam.switch".equals(outcome) ) //TODO: is if ( !context.getResponseComplete() ) better?
-	  {
-	      if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() && Pageflow.instance().hasTransition(outcome) )
-	      {
-	         Pageflow.instance().navigate(context, outcome);
-	      }
-	      else
-	      {
-	         baseNavigationHandler.handleNavigation(context, fromAction, outcome);
-	      }
-	  }
+     //if ( !"org.jboss.seam.switch".equals(outcome) ) 
+     if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces
+     {
+         if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() && Pageflow.instance().hasTransition(outcome) )
+         {
+            Pageflow.instance().navigate(context, outcome);
+         }
+         else
+         {
+            baseNavigationHandler.handleNavigation(context, fromAction, outcome);
+         }
+     }
    }
 
 }
