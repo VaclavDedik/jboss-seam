@@ -176,6 +176,7 @@
 
         <ant dir="examples/booking" target="clean" inheritall="false"/>
         <ant dir="examples/hibernate" target="clean" inheritall="false"/>
+    	<ant dir="examples/blog" target="clean" inheritall="false"/>
         <ant dir="examples/issues" target="clean" inheritall="false"/>
         <ant dir="examples/dvdstore" target="clean" inheritall="false"/>
         <ant dir="examples/messages" target="clean" inheritall="false"/>
@@ -191,6 +192,7 @@
 		    description="Undeploy all examples">
         <ant dir="examples/booking" target="undeploy" inheritall="false"/>
         <ant dir="examples/hibernate" target="undeploy" inheritall="false"/>
+		<ant dir="examples/blog" target="undeploy" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy" inheritall="false"/>
         <ant dir="examples/dvdstore" target="undeploy" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy" inheritall="false"/>
