@@ -1,6 +1,7 @@
 package org.jboss.seam.remoting.messaging;
 
 import java.util.List;
+
 import javax.jms.Message;
 
 /**
@@ -31,7 +32,7 @@ public class PollRequest
 
   public void poll()
   {
-    RemoteSubscriber subscriber = SubscriptionRegistry.getInstance().getSubscription(token);
+    RemoteSubscriber subscriber = SubscriptionRegistry.instance().getSubscription(token);
     if (subscriber != null)
       messages = subscriber.poll(timeout);
   }

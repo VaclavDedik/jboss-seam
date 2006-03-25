@@ -5,12 +5,17 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.event.PhaseId;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.remoting.messaging.RemoteSubscriber;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.remoting.messaging.SubscriptionRequest;
@@ -21,6 +26,13 @@ import org.jboss.seam.remoting.messaging.SubscriptionRequest;
  */
 public class SubscriptionHandler extends BaseRequestHandler implements RequestHandler
 {
+
+  private ServletContext servletContext;
+
+  public void setServletContext(ServletContext ctx)
+  {
+    this.servletContext = ctx;
+  }
 
   /**
    * The entry point for handling a request.
@@ -51,23 +63,39 @@ public class SubscriptionHandler extends BaseRequestHandler implements RequestHa
       requests.add(new SubscriptionRequest(e.attributeValue("topic")));
     }
 
-    for (SubscriptionRequest req : requests)
-      req.subscribe();
-
-    // Then handle any unsubscriptions
-    List<String> unsubscribeTokens = new ArrayList<String>();
-
-    elements = body.elements("unsubscribe");
-    for (Element e : elements)
+    try
     {
-      unsubscribeTokens.add(e.attributeValue("token"));
+      HttpSession session = ((HttpServletRequest) request).getSession(true);
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      Lifecycle.setServletRequest(request);
+      Lifecycle.beginRequest(servletContext, session);
+
+      Manager.instance().restoreConversation(null);
+      Lifecycle.resumeConversation(session);
+
+      for (SubscriptionRequest req : requests)
+        req.subscribe();
+
+      // Then handle any unsubscriptions
+      List<String> unsubscribeTokens = new ArrayList<String>();
+
+      elements = body.elements("unsubscribe");
+      for (Element e : elements) {
+        unsubscribeTokens.add(e.attributeValue("token"));
+      }
+
+      for (String token : unsubscribeTokens) {
+        RemoteSubscriber subscriber = SubscriptionRegistry.instance().
+                                      getSubscription(token);
+        if (subscriber != null)
+          subscriber.unsubscribe();
+      }
     }
-
-    for (String token : unsubscribeTokens)
+    finally
     {
-      RemoteSubscriber subscriber = SubscriptionRegistry.getInstance().getSubscription(token);
-      if (subscriber != null)
-        subscriber.unsubscribe();
+      Lifecycle.endRequest();
+      Lifecycle.setServletRequest(null);
+      Lifecycle.setPhaseId(null);
     }
 
     // Package up the response

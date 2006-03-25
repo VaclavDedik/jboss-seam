@@ -62,6 +62,7 @@ import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 
 /**
  * @author Gavin King
@@ -71,7 +72,7 @@ import org.jboss.seam.util.Resources;
 public class Initialization
 {
    private static final Logger log = Logger.getLogger(Initialization.class);
-   
+
    private Map<String, String> properties = new HashMap<String, String>();
    private ServletContext servletContext;
    private boolean isScannerEnabled = true;
@@ -113,12 +114,12 @@ public class Initialization
    private void initPropertiesFromResource()
    {
       loadFromResource( properties, "/seam.properties" );
-      
+
       Properties jndiProperties = new Properties();
       loadFromResource( jndiProperties, "/seam-jndi.properties" );
       NamingHelper.setInitialContextProperties(jndiProperties);
    }
-   
+
    public static void loadFromResource(Map properties, String resource)
    {
       InputStream stream = Resources.getResourceAsStream(resource);
@@ -136,7 +137,7 @@ public class Initialization
          }
          properties.putAll(props);
       }
-      else 
+      else
       {
          log.debug("not found: " + resource);
       }
@@ -167,9 +168,10 @@ public class Initialization
       addComponent( LocaleSelector.class, context );
       addComponent( Introspector.class, context );
       addComponent( org.jboss.seam.debug.Contexts.class, context );
+      addComponent( SubscriptionRegistry.class, context);
 
       Init init = (Init) Component.getInstance(Init.class, true);
-      
+
       //TODO: move all this stuff into Init component?
       for ( String className : init.getComponentClasses() )
       {
@@ -209,7 +211,7 @@ public class Initialization
          addComponent( TaskInstanceListForType.class, context );
          addComponent( ManagedJbpmContext.class, context );
       }
-      
+
       if (isScannerEnabled)
       {
          for ( Class clazz: new Scanner().getClasses() )
@@ -221,7 +223,7 @@ public class Initialization
             }
          }
       }
-      
+
    }
 
    private void addComponentRoles(Context context, Class<Object> componentClass) {
@@ -241,7 +243,7 @@ public class Initialization
          }
       }
    }
-   
+
    protected void addComponent(String name, ScopeType scope, Class clazz, Context context)
    {
       context.set( name + ".component", new Component(clazz, name, scope) );

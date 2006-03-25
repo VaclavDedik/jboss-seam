@@ -28,7 +28,7 @@ import org.jboss.seam.remoting.wrapper.Wrapper;
  */
 public class ExecutionHandler extends BaseRequestHandler implements RequestHandler
 {
-  private static Logger log = Logger.getLogger(ExecutionHandler.class);
+  private Logger log = Logger.getLogger(ExecutionHandler.class);
 
   private static final byte[] HEADER_OPEN = "<header>".getBytes();
   private static final byte[] HEADER_CLOSE = "</header>".getBytes();

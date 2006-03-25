@@ -4,17 +4,22 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.event.PhaseId;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.logging.Logger;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.remoting.messaging.PollRequest;
 import org.jboss.seam.remoting.wrapper.Wrapper;
 
@@ -24,7 +29,14 @@ import org.jboss.seam.remoting.wrapper.Wrapper;
  */
 public class PollHandler extends BaseRequestHandler implements RequestHandler
 {
-  private static Logger log = Logger.getLogger(SubscriptionHandler.class);
+  private Logger log = Logger.getLogger(SubscriptionHandler.class);
+
+  private ServletContext servletContext;
+
+  public void setServletContext(ServletContext ctx)
+  {
+    this.servletContext = ctx;
+  }
 
   public void handle(HttpServletRequest request, HttpServletResponse response)
       throws Exception
@@ -38,8 +50,24 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
     Element env = doc.getRootElement();
 
     List<PollRequest> polls = unmarshalRequests(env);
-    for (PollRequest req : polls)
-      req.poll();
+
+    try
+    {
+      HttpSession session = ((HttpServletRequest) request).getSession(true);
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      Lifecycle.setServletRequest(request);
+      Lifecycle.beginRequest(servletContext, session);
+
+      for (PollRequest req : polls)
+        req.poll();
+    }
+    finally
+    {
+      Lifecycle.endRequest();
+      Lifecycle.setServletRequest(null);
+      Lifecycle.setPhaseId(null);
+    }
+
 
     // Package up the response
     marshalResponse(polls, response.getOutputStream());

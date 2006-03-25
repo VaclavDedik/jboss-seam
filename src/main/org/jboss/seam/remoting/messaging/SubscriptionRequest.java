@@ -1,7 +1,7 @@
 package org.jboss.seam.remoting.messaging;
 
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  *
@@ -19,7 +19,7 @@ public class SubscriptionRequest
 
   public void subscribe()
   {
-    subscriber = SubscriptionRegistry.getInstance().subscribe(topicName);
+    subscriber = SubscriptionRegistry.instance().subscribe(topicName);
   }
 
   public void marshal(OutputStream out)

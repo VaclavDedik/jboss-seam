@@ -2,6 +2,7 @@ package org.jboss.seam.remoting.messaging;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Topic;
