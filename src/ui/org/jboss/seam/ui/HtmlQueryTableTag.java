@@ -16,8 +16,6 @@
 package org.jboss.seam.ui;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
 import org.apache.myfaces.taglib.html.HtmlDataTableTagBase;
 
