@@ -16,10 +16,22 @@
    </head>
 
    <body>
+      <div id="search">
+         <h:form>
+            <h:inputText value="#{searchAction.searchPattern}"/>
+            <h:commandButton value="Search" action="#{searchAction.search}"/>
+         </h:form>
+      </div>
       <div id="container">
          <h1>#{blog.name}</h1>
          <h2>#{blog.description}</h2>
          <ui:insert name="content"/>
+         <div class="blogEntry">
+            #{blog.name}: 
+            <h:outputLink value="archive.seam">[All posts]</h:outputLink>
+            <h:outputLink value="index.seam">[Recent posts]</h:outputLink>
+            <h:outputLink value="post.seam">[Write new post]</h:outputLink>
+         </div>
       </div>
    </body>
 </f:view>

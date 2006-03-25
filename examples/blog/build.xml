@@ -48,12 +48,12 @@
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
-        <include name="booking-ds.xml"/>
+        <include name="blog-ds.xml"/>
     </fileset>
     
     <!-- Undeploy -->
     <patternset id="example.undeploy">
-        <include name="booking-ds.xml"/>
+        <include name="blog-ds.xml"/>
     </patternset>
 
     <!-- Test -->

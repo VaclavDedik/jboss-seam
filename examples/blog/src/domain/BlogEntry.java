@@ -2,26 +2,47 @@ package domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
+
 /**
  * Represents a blog entry.
  *
  * @author    Simon Brown
  */
+@Entity
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class BlogEntry {
 
+  @Id @Length(min=1, max=20)
   private String id;
+  
+  @NotNull @Length(max=70)
   private String title;
+  
+  @Length(max=200)
   private String excerpt;
+  
+  @NotNull @Length(max=1400)
   private String body;
-  private Date date;
+  
+  @NotNull
+  private Date date = new Date();
+  
+  @ManyToOne @NotNull 
+  private Blog blog;
 
-  public BlogEntry(String id, String title, String excerpt, String body, Date date) {
-    this.id = id;
-    this.title = title;
-    this.excerpt = excerpt;
-    this.body = body;
-    this.date = date;
+  public BlogEntry(Blog blog) {
+    this.blog = blog;
   }
+  
+  BlogEntry() {}
 
   public String getId() {
     return id;
@@ -42,5 +63,31 @@ public class BlogEntry {
   public Date getDate() {
     return date;
   }
+
+   public void setBody(String body)
+   {
+      this.body = body;
+   }
+   
+   public void setDate(Date date)
+   {
+      this.date = date;
+   }
+   
+   public void setExcerpt(String excerpt)
+   {
+      if ( "".equals(excerpt) ) excerpt=null;
+      this.excerpt = excerpt;
+   }
+   
+   public void setId(String id)
+   {
+      this.id = id;
+   }
+   
+   public void setTitle(String title)
+   {
+      this.title = title;
+   }
 
 }

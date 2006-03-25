@@ -11,10 +11,10 @@
       <h3>#{blogEntry.title}</h3>
       <div>#{blogEntry.body}</div>
       <p>
-         Posted on 
+         [Posted on 
          <h:outputText value="#{blogEntry.date}">
             <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
-         </h:outputText>
+         </h:outputText>]
       </p>
    </div>
 </ui:define>

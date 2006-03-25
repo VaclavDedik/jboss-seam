@@ -17,6 +17,28 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
     
+    <filter>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
+    
+    <!-- Seam managed persistence context -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.init.managedPersistenceContexts</param-name>
+        <param-value>entityManager</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>entityManager.persistenceUnitJndiName</param-name>
+        <param-value>java:/blogEntityManagerFactory</param-value>
+    </context-param>
+
     <!-- JSF -->
     
     <context-param>

@@ -10,14 +10,16 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.annotations.Scope;
 
 import domain.Blog;
 import domain.BlogEntry;
 
 @Name("entryAction")
+@Scope(ScopeType.STATELESS)
 public class EntryAction
 {
-   @In private Blog blog;
+   @In(create=true) private Blog blog;
    @In private FacesContext facesContext;
    
    @RequestParameter
@@ -37,5 +39,5 @@ public class EntryAction
          facesContext.responseComplete();
       }
    }
-
+   
 }

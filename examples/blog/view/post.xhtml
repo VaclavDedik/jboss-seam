@@ -1,0 +1,53 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="template.xhtml">
+
+<ui:define name="content">
+   <div class="blogEntry">
+      <h:form>
+         <div>
+            <h:outputLabel for="id">Id: </h:outputLabel>
+         </div>
+         <div>
+            <h:inputText id="id" value="#{newBlogEntry.id}" size="20" maxlength="20"/>
+            <span class="errors"><h:message for="id"/></span>
+         </div>
+         <div>
+            <h:outputLabel for="title">Title: </h:outputLabel>
+         </div>
+         <div>
+            <h:inputText id="title" value="#{newBlogEntry.title}" size="70" maxlength="70"/>
+            <span class="errors"><h:message for="title"/></span>
+         </div>
+         <div>
+            <h:outputLabel for="excerpt">Excerpt (optional): </h:outputLabel>
+         </div>
+         <div>
+            <h:inputTextarea id="excerpt" value="#{newBlogEntry.excerpt}" cols="68" rows="3"/>
+            <span class="errors"><h:message for="excerpt"/></span>
+         </div>
+         <div>
+            <h:outputLabel for="body">Body text: </h:outputLabel>
+         </div>
+         <div>
+            <h:inputTextarea id="body" value="#{newBlogEntry.body}" cols="68" rows="20"/>
+            <span class="errors"><h:message for="body"/></span>
+         </div>
+         <div>
+            <h:outputLabel for="password">Password: </h:outputLabel>
+         </div>
+         <div>
+            <h:inputSecret id="password" value="#{postAction.password}" size="15" maxlength="15"/>
+            <h:commandButton value="Post" action="#{postAction.post}"/>
+            <span class="errors"><h:message for="password"/></span>
+            <span class="errors"><h:messages globalOnly="true"/></span>
+         </div>
+      </h:form>
+   </div>
+</ui:define>
+
+</ui:composition>

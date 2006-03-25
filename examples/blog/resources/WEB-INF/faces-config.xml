@@ -5,6 +5,23 @@
     
 <faces-config>
 
+    <navigation-rule>
+      <navigation-case>
+        <from-action>#{postAction.post}</from-action>
+        <from-outcome>success</from-outcome>
+        <to-view-id>/index.xhtml</to-view-id>
+        <redirect/>
+      </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+      <navigation-case>
+        <from-action>#{searchAction.search}</from-action>
+        <to-view-id>/search.xhtml</to-view-id>
+        <redirect/>
+      </navigation-case>
+    </navigation-rule>
+
     <!-- Facelets support -->
 
     <application>
@@ -14,7 +31,7 @@
     <!-- Select one of the three standard persistence lifecycle models for the Seam application -->
 
     <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+        <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
     </lifecycle>
 
 </faces-config>

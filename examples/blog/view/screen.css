@@ -8,6 +8,12 @@ td {
   font-size: 0.75em;
   line-height: 1.4em;
 }
+#search {
+  width: 600px;
+  text-align: right;
+  margin-left: auto;
+  margin-right: auto;
+}
 #container {
   background: transparent url(header.png) no-repeat top center;
   width: 600px;

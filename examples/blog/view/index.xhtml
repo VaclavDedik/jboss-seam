@@ -17,14 +17,18 @@
             <p>
                <h:outputLink value="entry.seam" rendered="#{blogEntry.excerpt!=null}">
                   <f:param name="blogEntryId" value="#{blogEntry.id}"/>
-                  Read more
+                  Read more...
                </h:outputLink>
             </p>
             <p>
-               Posted on 
+               [Posted on 
 		       <h:outputText value="#{blogEntry.date}">
 		           <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
-		       </h:outputText>
+		       </h:outputText>]
+		       &nbsp;
+               <h:outputLink value="entry.seam">[Link]
+                  <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+               </h:outputLink>
             </p>
          </div>
       </h:column>
