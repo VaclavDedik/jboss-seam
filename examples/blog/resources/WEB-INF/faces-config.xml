@@ -14,14 +14,6 @@
       </navigation-case>
     </navigation-rule>
 
-    <navigation-rule>
-      <navigation-case>
-        <from-action>#{searchAction.search}</from-action>
-        <to-view-id>/search.xhtml</to-view-id>
-        <redirect/>
-      </navigation-case>
-    </navigation-rule>
-
     <!-- Facelets support -->
 
     <application>

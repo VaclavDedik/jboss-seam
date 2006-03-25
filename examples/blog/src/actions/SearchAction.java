@@ -1,44 +1,33 @@
 package actions;
 
-import java.util.List;
+import java.io.IOException;
 
-import javax.persistence.EntityManager;
+import javax.faces.context.FacesContext;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-
-import domain.BlogEntry;
 
 /**
  * Provides access to blogs.
  *
- * @author    Gavin King
+ * @author Gavin King
  */
 @Name("searchAction")
-@Scope(ScopeType.CONVERSATION)
 public class SearchAction 
 {
    
-   @In(create=true)
-   private EntityManager entityManager;
-
    private String searchPattern;
    
-   private List<BlogEntry> searchResults;
+   @In private FacesContext facesContext;
    
-   public void search()
+   public void search() throws IOException
    {
-      searchResults = entityManager.createQuery("from BlogEntry be where lower(be.title) like :searchPattern or lower(be.body) like :searchPattern order by be.date desc")
-            .setParameter( "searchPattern", getSqlSearchPattern() )
-            .setMaxResults(100)
-            .getResultList();
-   }
-
-   private String getSqlSearchPattern()
-   {
-      return '%' + searchPattern.toLowerCase().replace('*', '%').replace('?', '_') + '%';
+      String searchUrl = facesContext.getApplication().getViewHandler()
+            .getActionURL( facesContext, "/search.xhtml" ) 
+                  + "?searchPattern=" 
+                  + searchPattern;
+      facesContext.getExternalContext().redirect( facesContext.getExternalContext().encodeActionURL(searchUrl) );
+      facesContext.responseComplete();
    }
 
    public String getSearchPattern()
@@ -49,11 +38,6 @@ public class SearchAction
    public void setSearchPattern(String searchPattern)
    {
       this.searchPattern = searchPattern;
-   }
-
-   public List<BlogEntry> getSearchResults()
-   {
-      return searchResults;
    }
 
 }

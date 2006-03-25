@@ -28,7 +28,10 @@
          <ui:insert name="content"/>
          <div class="blogEntry">
             #{blog.name}: 
-            <h:outputLink value="archive.seam">[All posts]</h:outputLink>
+            <h:outputLink value="search.seam">
+               [All posts]
+               <f:param name="searchPattern" value=""/>
+            </h:outputLink>
             <h:outputLink value="index.seam">[Recent posts]</h:outputLink>
             <h:outputLink value="post.seam">[Write new post]</h:outputLink>
          </div>
