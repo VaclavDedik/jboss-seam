@@ -764,13 +764,23 @@
                     <programlisting><![CDATA[@DataModel("variableName")]]></programlisting>
                     <para>
                         Exposes an attribute of type <literal>List</literal> as a JSF
-                        <literal>DataModel</literal> into the conversation scope.
+                        <literal>DataModel</literal> into the scope of the owning 
+                        component (or the <literal>EVENT</literal> scope if the
+                        owning component is <literal>STATELESS</literal>).
                     </para>
                     <itemizedlist>
                         <listitem>
                         <para>
                             <literal>value</literal> &mdash; name of the conversation
                             context variable. Default to the attribute name.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>scope</literal> &mdash; if 
+                            <literal>scope=ScopeType.PAGE</literal> is explicitly specified, 
+                            the <literal>DataModel</literal> will be kept in the 
+                            <literal>PAGE</literal> context.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -783,6 +793,15 @@
                     <para>
                         Injects the selected value from the JSF <literal>DataModel</literal>.
                     </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; name of the conversation
+                            context variable. Not needed if there is exactly one
+                            <literal>@DataModel</literal> in the component.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry id="datamodelselectionindex-annotation">
@@ -793,6 +812,15 @@
                         Exposes the selection index of the JSF <literal>DataModel</literal>
                         as an attribute of the component.
                     </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; name of the conversation
+                            context variable. Not needed if there is exactly one
+                            <literal>@DataModel</literal> in the component.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
                 </listitem>
             </varlistentry>
         </variablelist>
