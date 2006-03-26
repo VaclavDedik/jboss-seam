@@ -6,15 +6,13 @@ import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.core.FacesMessages;
 
 @Scope(EVENT)
 @Name("register")
@@ -27,8 +25,8 @@ public class RegisterAction
    @In(create=true)
    private Session bookingDatabase;
    
-   @In
-   private FacesContext facesContext;
+   @In(create=true)
+   private FacesMessages facesMessages;
    
    private String verify;
    
@@ -47,13 +45,13 @@ public class RegisterAction
          }
          else
          {
-            facesContext.addMessage(null, new FacesMessage("username already exists"));
+            facesMessages.add("username already exists");
             return null;
          }
       }
       else 
       {
-         facesContext.addMessage(null, new FacesMessage("re-enter your password"));
+         facesMessages.add("re-enter your password");
          verify=null;
          return null;
       }

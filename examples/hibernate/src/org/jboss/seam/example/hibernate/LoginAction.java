@@ -5,15 +5,13 @@ import static org.jboss.seam.ScopeType.STATELESS;
 
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import org.hibernate.Session;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.core.FacesMessages;
 
 @Name("login")
 @Scope(STATELESS)
@@ -29,8 +27,8 @@ public class LoginAction
    @In
    private Context sessionContext;
    
-   @In
-   private FacesContext facesContext;
+   @In(create=true)
+   private FacesMessages facesMessages;
 
    public String login()
    {
@@ -41,7 +39,7 @@ public class LoginAction
       
       if ( results.size()==0 )
       {
-         facesContext.addMessage(null, new FacesMessage("Invalid login"));
+         facesMessages.add("Invalid login");
          return "login";
       }
       else

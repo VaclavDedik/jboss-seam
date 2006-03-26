@@ -8,9 +8,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
 import org.jboss.seam.annotations.Begin;
@@ -23,6 +20,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
+import org.jboss.seam.core.FacesMessages;
 
 @Name("hotelBooking")
 @Scope(CONVERSATION)
@@ -51,13 +49,13 @@ public class HotelBookingAction implements Serializable
    
    @In
    private User user;
-      
-   @In
-   private transient FacesContext facesContext;
    
    @In(required=false)
    private transient BookingListAction bookingList;
    
+   @In(create=true)
+   private transient FacesMessages facesMessages;
+
    public String getSearchString()
    {
       return searchString;
@@ -133,8 +131,7 @@ public class HotelBookingAction implements Serializable
       
       if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
-         FacesMessage facesMessage = new FacesMessage("Check out date must be later than check in date");
-         facesContext.addMessage(null, facesMessage);
+         facesMessages.add("Check out date must be later than check in date");
          return null;
       }
       else

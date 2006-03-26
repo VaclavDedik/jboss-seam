@@ -3,15 +3,13 @@ package org.jboss.seam.example.hibernate;
 
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.core.FacesMessages;
 
 @Name("changePassword")
 @LoggedIn
@@ -23,9 +21,6 @@ public class ChangePasswordAction
    
    @In(create=true)
    private Session bookingDatabase;
-   
-   @In
-   private FacesContext facesContext;
    
    private String verify;
    
@@ -39,7 +34,7 @@ public class ChangePasswordAction
       }
       else 
       {
-         facesContext.addMessage(null, new FacesMessage("Re-enter new password"));
+         FacesMessages.instance().add("Re-enter new password");
          bookingDatabase.refresh(user);
          verify=null;
          return null;
