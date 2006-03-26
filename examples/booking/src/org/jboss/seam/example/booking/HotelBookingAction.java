@@ -11,8 +11,6 @@ import java.util.List;
 import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -162,6 +160,7 @@ public class HotelBookingAction implements HotelBooking, Serializable
       em.persist(booking);
       if (bookingList!=null) bookingList.refresh();
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      hotels=null;
       return "confirmed";
    }
    

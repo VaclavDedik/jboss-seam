@@ -41,7 +41,7 @@ public class BookingListAction implements BookingList, Serializable
    
    @DataModel
    private List<Booking> bookings;
-   @DataModelSelection 
+   @DataModelSelection
    private Booking booking;
    
    @Factory("bookings")
