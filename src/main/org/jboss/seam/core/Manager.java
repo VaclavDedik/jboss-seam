@@ -9,6 +9,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -561,9 +562,35 @@ public class Manager
 
    public void redirect(String viewId)
    {
+      redirect(viewId, null, true);
+   }
+   
+   public String encodeParameters(String url, Map<String, Object> parameters)
+   {
+      StringBuilder builder = new StringBuilder(url);
+      for ( Map.Entry<String, Object> param: parameters.entrySet() )
+      {
+         builder.append('&')
+               .append( param.getKey() )
+               .append('=')
+               .append( param.getValue() );
+      }
+      builder.setCharAt( url.length() ,'?' );
+      return builder.toString();
+   }
+   
+   public void redirect(String viewId, Map<String, Object> parameters, boolean includeConversationId)
+   {
       FacesContext context = FacesContext.getCurrentInstance();
       String url = context.getApplication().getViewHandler().getActionURL( context, viewId );
-      url = encodeConversationId(url);
+      if (parameters!=null) 
+      {
+         url = encodeParameters(url, parameters);
+      }
+      if (includeConversationId)
+      {
+         url = encodeConversationId(url);
+      }
       ExternalContext externalContext = context.getExternalContext();
       try
       {

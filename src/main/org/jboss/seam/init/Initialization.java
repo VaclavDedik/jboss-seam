@@ -49,6 +49,7 @@ import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
 import org.jboss.seam.core.Process;
 import org.jboss.seam.core.ProcessInstance;
+import org.jboss.seam.core.Redirect;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
@@ -152,6 +153,7 @@ public class Initialization
       addComponent( Pages.class, context);
       addComponent( Manager.class, context );
       addComponent( Switcher.class, context );
+      addComponent( Redirect.class, context );
       addComponent( Conversation.class, context );
       addComponent( ConversationList.class, context );
       addComponent( ConversationStack.class, context );
