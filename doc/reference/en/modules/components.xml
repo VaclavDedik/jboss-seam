@@ -89,6 +89,16 @@
                     </para>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><literal>uiComponent</literal></term>
+                <listitem>
+                    <para>
+                        Allows access to a JSF <literal>UIComponent</literal> by its id
+                        from the EL. For example, we can write 
+                        <literal>#{uiComponent['myForm:address'].value}</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         
         <para>
