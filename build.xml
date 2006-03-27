@@ -384,13 +384,16 @@
                 <exclude name="booking/alter.config/**/*"/>
                 <exclude name="booking/build.alter.xml"/>
                 <include name="hibernate/**/*"/>
+            	<include name="blog/**/*"/>
             	<include name="issues/**/*"/>
                 <include name="registration/**/*"/>
                 <include name="dvdstore/**/*"/>
             	<include name="messages/**/*"/>
             	<include name="todo/**/*"/>
             	<include name="numberguess/**/*"/>
+            	<include name="remoting/**/*"/>
                 <include name="readme.txt"/>
+            	<include name="seam-examples.html"/>
             	<exclude name="*/build"/>
             	<exclude name="*/build/**/*"/>
             	<exclude name="*/test-output"/>
