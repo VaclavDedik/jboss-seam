@@ -57,6 +57,7 @@ import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.TaskInstanceListForType;
 import org.jboss.seam.core.Transition;
+import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.util.NamingHelper;
@@ -166,6 +167,7 @@ public class Initialization
       addComponent( FacesMessages.class, context);
       addComponent( ResourceBundle.class, context );
       addComponent( LocaleSelector.class, context );
+      addComponent( UiComponent.class, context );
       addComponent( Introspector.class, context );
       addComponent( org.jboss.seam.debug.Contexts.class, context );
       addComponent( SubscriptionRegistry.class, context);
