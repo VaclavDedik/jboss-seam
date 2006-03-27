@@ -20,6 +20,7 @@ import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.mock.MockApplication;
@@ -52,6 +53,10 @@ public class PhaseListenerTest
       appContext.set( 
             Seam.getComponentName(FacesMessages.class) + ".component", 
             new Component(FacesMessages.class) 
+         );
+      appContext.set( 
+            Seam.getComponentName(Pages.class) + ".component", 
+            new Component(Pages.class) 
          );
       
       SeamPhaseListener phases = new SeamPhaseListener();
@@ -127,6 +132,10 @@ public class PhaseListenerTest
             Seam.getComponentName(FacesMessages.class) + ".component", 
             new Component(FacesMessages.class) 
          );      
+      appContext.set( 
+            Seam.getComponentName(Pages.class) + ".component", 
+            new Component(Pages.class) 
+         );
       
       facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
       Map ids = new HashMap();
@@ -212,6 +221,10 @@ public class PhaseListenerTest
       appContext.set( 
             Seam.getComponentName(FacesMessages.class) + ".component", 
             new Component(FacesMessages.class) 
+         );
+      appContext.set( 
+            Seam.getComponentName(Pages.class) + ".component", 
+            new Component(Pages.class) 
          );
 
       SeamPhaseListener phases = new SeamPhaseListener();
