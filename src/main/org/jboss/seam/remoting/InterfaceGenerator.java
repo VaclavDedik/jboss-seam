@@ -131,6 +131,11 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
    */
   public static List<Field> getAccessibleFields(Class cls)
   {
+    /** @todo This is a hack to get the "real" class - find out if there is
+              an API method in CGLIB that can be used instead */
+    if (cls.getName().contains("EnhancerByCGLIB"))
+      cls = cls.getSuperclass();
+
     if (!accessibleFields.containsKey(cls))
     {
       synchronized(accessibleFields)

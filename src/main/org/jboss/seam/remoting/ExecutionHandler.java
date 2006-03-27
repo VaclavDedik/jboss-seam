@@ -100,6 +100,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
     }
     catch (Exception ex)
     {
+      log.error("Error during remote request", ex);
       Lifecycle.endRequest();
     }
     finally

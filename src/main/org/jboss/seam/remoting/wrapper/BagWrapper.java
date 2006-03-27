@@ -14,7 +14,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.dom4j.Element;
-import org.hibernate.collection.PersistentBag;
+import org.hibernate.collection.PersistentCollection;
 
 /**
  * Wrapper for collections, arrays, etc.
@@ -33,9 +33,9 @@ public class BagWrapper extends BaseWrapper implements Wrapper
   {
     out.write(BAG_TAG_OPEN);
 
-    if (value instanceof PersistentBag)
+    if (value instanceof PersistentCollection)
     {
-      if (!((PersistentBag) value).wasInitialized())
+      if (!((PersistentCollection) value).wasInitialized())
       {
         out.write(BAG_TAG_CLOSE);
         return;
