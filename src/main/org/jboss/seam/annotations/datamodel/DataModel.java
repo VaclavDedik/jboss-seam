@@ -12,7 +12,8 @@ import java.lang.annotation.Target;
 import org.jboss.seam.ScopeType;
 
 /**
- * Outjects a List to the same scope as the owning component,
+ * Outjects a List to the same scope as the owning component
+ * (or to the EVENT scope in the case of a stateless component),
  * after wrapping as a ListDataModel. Note that the List
  * will be re-wrapped and re-outjected each time the current
  * component value is different to the value held by the
@@ -33,7 +34,8 @@ public @interface DataModel
    
    /**
     * By default, the DataModel is outjected to the same
-    * scope as the owning component. If scope=ScopeType.PAGE
+    * scope as the owning component, or to the EVENT scope
+    * in the case of a stateless component. If scope=ScopeType.PAGE
     * is explicitly specified, the DataModel will be kept
     * in the PAGE context instead.
     * 

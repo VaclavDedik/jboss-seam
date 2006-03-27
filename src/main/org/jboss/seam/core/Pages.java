@@ -3,13 +3,15 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.InputStream;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
-
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -40,6 +42,17 @@ public class Pages
    private Map<String, Integer> timeoutsByViewId = new HashMap<String, Integer>();
    private Map<String, MethodBinding> actionsByViewId = new HashMap<String, MethodBinding>();
    
+   private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
+         new Comparator<String>() {
+            public int compare(String x, String y)
+            {
+               if ( x.length()<y.length() ) return -1;
+               if ( x.length()> y.length() ) return 1;
+               return x.compareTo(y);
+            }
+         } 
+      );
+   
    @Create
    public void initialize() throws DocumentException
    {
@@ -58,11 +71,15 @@ public class Pages
          for (Element page: elements)
          {
             String viewId = page.attributeValue("view-id");
+            if ( viewId.endsWith("*") )
+            {
+               wildcardViewIds.add(viewId);
+            }
             String description = page.getTextTrim();
-			if (description!=null && description.length()>0)
-			{
-				descriptionByViewId.put( viewId, description );
-			}
+            if (description!=null && description.length()>0)
+            {
+               descriptionByViewId.put( viewId, description );
+            }
             String timeoutString = page.attributeValue("timeout");
             if (timeoutString!=null)
             {
@@ -97,6 +114,18 @@ public class Pages
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       String viewId = facesContext.getViewRoot().getViewId();
+      for (String wildcard: wildcardViewIds)
+      {
+         if ( viewId.startsWith( wildcard.substring(0, wildcard.length()-1) ) )
+         {
+            callAction(facesContext, wildcard);
+         }
+      }
+      callAction(facesContext, viewId);
+   }
+
+   private void callAction(FacesContext facesContext, String viewId)
+   {
       MethodBinding methodBinding = actionsByViewId.get(viewId);
       if (methodBinding!=null) 
       {
