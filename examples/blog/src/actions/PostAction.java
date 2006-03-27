@@ -18,6 +18,11 @@ import org.jboss.seam.annotations.Scope;
 import domain.Blog;
 import domain.BlogEntry;
 
+/**
+ * Handles submission of a new blog entry
+ * 
+ * @author Gavin King
+ */
 @Name("postAction")
 @Scope(ScopeType.STATELESS)
 public class PostAction

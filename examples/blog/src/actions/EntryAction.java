@@ -15,6 +15,12 @@ import org.jboss.seam.annotations.Scope;
 import domain.Blog;
 import domain.BlogEntry;
 
+/**
+ * Processes a request for a particular entry,
+ * and sends a 404 if none is found.
+ * 
+ * @author Gavin King
+ */
 @Name("entryAction")
 @Scope(ScopeType.STATELESS)
 public class EntryAction

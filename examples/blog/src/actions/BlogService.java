@@ -11,9 +11,9 @@ import org.jboss.seam.annotations.Unwrap;
 import domain.Blog;
 
 /**
- * Provides access to blogs.
+ * Singleton for the blog instance.
  *
- * @author    Simon Brown
+ * @author Gavin King
  */
 @Name("blog")
 @Scope(ScopeType.STATELESS)

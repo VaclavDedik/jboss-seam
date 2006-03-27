@@ -13,7 +13,7 @@ import org.jboss.seam.annotations.Unwrap;
 import domain.BlogEntry;
 
 /**
- * Provides access to blogs.
+ * Pulls the search results
  *
  * @author Gavin King
  */

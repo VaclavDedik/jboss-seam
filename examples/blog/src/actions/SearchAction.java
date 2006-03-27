@@ -2,13 +2,13 @@ package actions;
 
 import java.io.IOException;
 
-import javax.faces.context.FacesContext;
-
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.core.Redirect;
 
 /**
- * Provides access to blogs.
+ * Handles submission of the search box,
+ * and redirect to the results page.
  *
  * @author Gavin King
  */
@@ -16,18 +16,16 @@ import org.jboss.seam.annotations.Name;
 public class SearchAction 
 {
    
-   private String searchPattern;
+   @In(create=true) 
+   private Redirect redirect;
    
-   @In private FacesContext facesContext;
+   private String searchPattern;
    
    public void search() throws IOException
    {
-      String searchUrl = facesContext.getApplication().getViewHandler()
-            .getActionURL( facesContext, "/search.xhtml" ) 
-                  + "?searchPattern=" 
-                  + searchPattern;
-      facesContext.getExternalContext().redirect( facesContext.getExternalContext().encodeActionURL(searchUrl) );
-      facesContext.responseComplete();
+      redirect.setViewId("/search.xhtml");
+      redirect.setParameter("searchPattern", searchPattern);
+      redirect.execute();
    }
 
    public String getSearchPattern()
