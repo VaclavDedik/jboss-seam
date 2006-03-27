@@ -6,12 +6,28 @@
 <faces-config>
 
     <navigation-rule>
+
       <navigation-case>
         <from-action>#{postAction.post}</from-action>
         <from-outcome>success</from-outcome>
         <to-view-id>/index.xhtml</to-view-id>
         <redirect/>
       </navigation-case>
+
+      <navigation-case>
+        <from-action>#{loginAction.login}</from-action>
+        <from-outcome>success</from-outcome>
+        <to-view-id>/post.xhtml</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-action>#{loginAction.challenge}</from-action>
+        <from-outcome>login</from-outcome>
+        <to-view-id>/login.xhtml</to-view-id>
+        <redirect/>
+      </navigation-case>
+
     </navigation-rule>
 
     <!-- Facelets support -->

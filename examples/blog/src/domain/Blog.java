@@ -8,6 +8,7 @@ import java.util.TimeZone;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.Cache;
@@ -42,6 +43,9 @@ public class Blog {
   
   @Length(min=5, max=10) @NotNull
   private String password;
+  
+  @OneToOne(optional=false, mappedBy="blog")
+  private HitCount hitCount;
 
   /** the list of blog entries, in reverse chronological order */
   @OneToMany(mappedBy="blog") 
@@ -120,6 +124,11 @@ public class Blog {
    public String getPassword()
    {
       return password;
+   }
+
+   public HitCount getHitCount()
+   {
+      return hitCount;
    }
 
 }

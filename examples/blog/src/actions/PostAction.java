@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Valid;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
@@ -15,13 +13,13 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.annotations.Scope;
 
 import domain.Blog;
 import domain.BlogEntry;
 
 @Name("postAction")
-//@Scope(ScopeType.STATELESS)
+@Scope(ScopeType.STATELESS)
 public class PostAction
 {
    @In(create=true) private Blog blog;
@@ -32,11 +30,6 @@ public class PostAction
    @Valid
    private BlogEntry newBlogEntry;
    
-   @NotNull @Length(min=5, max=50)
-   private String password;
-   
-   @In(create=true) FacesMessages facesMessages;
-   
    @Factory("newBlogEntry")
    public void createBlogEntry()
    {
@@ -46,28 +39,10 @@ public class PostAction
    @IfInvalid(outcome=Outcome.REDISPLAY)
    public String post() throws IOException
    {
-      if ( blog.getPassword().equals(password) )
-      {
-         newBlogEntry.setDate( new Date() );
-         blog.getBlogEntries().add(newBlogEntry);
-         entityManager.persist(newBlogEntry);
-         return "success";
-      }
-      else
-      {
-         facesMessages.add("incorrect password");
-         return null;
-      }
-   }
-
-   public String getPassword()
-   {
-      return password;
-   }
-
-   public void setPassword(String password)
-   {
-      this.password = password;
+      newBlogEntry.setDate( new Date() );
+      blog.getBlogEntries().add(newBlogEntry);
+      entityManager.persist(newBlogEntry);
+      return "success";
    }
    
 }
