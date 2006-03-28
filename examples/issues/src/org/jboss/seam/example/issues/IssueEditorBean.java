@@ -6,17 +6,15 @@ import static javax.ejb.TransactionAttributeType.NOT_SUPPORTED;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 
 import org.hibernate.validator.Valid;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -24,9 +22,11 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 
@@ -75,9 +75,6 @@ public class IssueEditorBean implements IssueEditor {
 
     @In(required=false)
     private transient ProjectFinder projectFinder;
-    
-    @In(create=true)
-    private transient ResourceBundle resourceBundle;
     
     @LoggedIn
     @Begin(join=true)
@@ -177,6 +174,7 @@ public class IssueEditorBean implements IssueEditor {
        return "editIssue";
     }
     
+    @Out(scope=ScopeType.EVENT, required=false)
     private String developer;
     
     @TransactionAttribute(NOT_SUPPORTED)
@@ -202,23 +200,11 @@ public class IssueEditorBean implements IssueEditor {
        User user = entityManager.find(User.class, developer);
        if (user==null)
        {
-          FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(
-                      resourceBundle.getString("User_username") + " " +
-                      developer + " " +
-                      resourceBundle.getString("NotFound")
-                   )
-             );
+          FacesMessages.instance().addFromResourceBundle("UserNotFound");
        }
        else if ( !issue.getProject().getDevelopers().contains(user) )
        {
-          FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(
-                      resourceBundle.getString("User") + " " +
-                      developer + " " +
-                      resourceBundle.getString("NotADeveloper")
-                   )
-             );
+          FacesMessages.instance().addFromResourceBundle("UserNotADeveloper");
        }
        else
        {

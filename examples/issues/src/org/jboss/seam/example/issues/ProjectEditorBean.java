@@ -5,26 +5,26 @@ import static javax.ejb.TransactionAttributeType.NOT_SUPPORTED;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 
 import org.hibernate.validator.Valid;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 
@@ -58,9 +58,6 @@ public class ProjectEditorBean implements ProjectEditor {
     
     @In(required=false)
     private transient ProjectFinder projectFinder;
-
-    @In(create=true)
-    private transient ResourceBundle resourceBundle;
     
     @LoggedIn
     @Begin(join=true)
@@ -68,12 +65,7 @@ public class ProjectEditorBean implements ProjectEditor {
     public String create() {
        if ( entityManager.find(Project.class, project.getName())!=null )
        {
-          FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(
-                      resourceBundle.getString("Project_name") + " " +
-                      resourceBundle.getString("AlreadyExists")
-                   )
-             );
+          FacesMessages.instance().addFromResourceBundle("ProjectAlreadyExists");
           return null;
        }
        entityManager.persist(project);
@@ -114,12 +106,7 @@ public class ProjectEditorBean implements ProjectEditor {
        }
        else
        {
-          FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(
-                      resourceBundle.getString("Project_name") + " " +
-                      resourceBundle.getString("HasIssues")
-                   )
-             );
+          FacesMessages.instance().addFromResourceBundle("ProjectHasIssues");
           return null;
        }
     }
@@ -148,6 +135,7 @@ public class ProjectEditorBean implements ProjectEditor {
        return selectedIssue;
     }
     
+    @Out(scope=ScopeType.EVENT, required=false)
     private String developer;
     
     public List<User> getDevelopers()
@@ -172,12 +160,7 @@ public class ProjectEditorBean implements ProjectEditor {
        User user = entityManager.find(User.class, developer);
        if (user==null)
        {
-          FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(
-                      resourceBundle.getString("User_username") + " " +
-                      resourceBundle.getString("NotFound")
-                   )
-             );
+          FacesMessages.instance().addFromResourceBundle("UserNotFound");
        }
        else
        {
