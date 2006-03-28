@@ -716,21 +716,27 @@ public class Component
       {
          DataModel dataModelAnn = dataModelGetter.getAnnotation( DataModel.class );
          final String name = toName( dataModelAnn.value(), dataModelGetter );
-         injectDataModelSelection( bean, name, dataModelAnn.scope() );
+         injectDataModelSelection( bean, name, dataModelAnn.scope(), null );
       }
-      for ( Field dataModelGetter : dataModelFields )
+      for ( Field dataModelField : dataModelFields )
       {
-         DataModel dataModelAnn = dataModelGetter.getAnnotation( DataModel.class );
-         final String name = toName( dataModelAnn.value(), dataModelGetter );
-         injectDataModelSelection( bean, name, dataModelAnn.scope() );
+         DataModel dataModelAnn = dataModelField.getAnnotation( DataModel.class );
+         final String name = toName( dataModelAnn.value(), dataModelField );
+         injectDataModelSelection( bean, name, dataModelAnn.scope(), dataModelField );
       }
    }
 
-   private void injectDataModelSelection(Object bean, String name, ScopeType scope)
+   private void injectDataModelSelection(Object bean, String name, ScopeType scope, Field dataModelField)
    {
       javax.faces.model.DataModel dataModel = (javax.faces.model.DataModel) getDataModelContext(scope).get( name );
       if ( dataModel != null )
       {
+         
+         if (dataModelField!=null)
+         {
+            setFieldValue( bean, dataModelField, name, dataModel.getWrappedData() ); //for PAGE scope datamodels (does not work for properties!)
+         }
+         
          int rowIndex = dataModel.getRowIndex();
 
          log.debug( "selected row: " + rowIndex );
@@ -793,9 +799,14 @@ public class Component
 
    private void outjectDataModelList(String name, List list, ScopeType scope)
    {
+      
       Context context = getDataModelContext(scope);
-      javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) context.get( name );
-      if ( existingDataModel == null || !existingDataModel.getWrappedData().equals(list) )
+      javax.faces.model.DataModel existingDataModel = (javax.faces.model.DataModel) context.get(name);
+      boolean dirty = existingDataModel == null || 
+            scope==ScopeType.PAGE ||
+            !existingDataModel.getWrappedData().equals(list);
+      
+      if ( dirty )
       {
          if ( list != null )
          {
@@ -806,8 +817,8 @@ public class Component
          {
             context.remove( name );
          }
-
       }
+      
    }
 
    private Context getDataModelContext(ScopeType specifiedScope) {
