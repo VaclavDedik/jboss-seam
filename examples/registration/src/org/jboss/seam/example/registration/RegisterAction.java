@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
@@ -29,9 +30,6 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
-   @In
-   private FacesContext facesContext;
-   
    @IfInvalid(outcome=Outcome.REDISPLAY)
    public String register()
    {
@@ -45,7 +43,7 @@ public class RegisterAction implements Register
       }
       else
       {
-         facesContext.addMessage(null, new FacesMessage("username already exists"));
+         FacesMessages.instance().add("User #{user.username} already exists");
          return null;
       }
    }
