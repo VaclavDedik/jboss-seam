@@ -2,7 +2,6 @@ package actions;
 
 import java.io.IOException;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.ScopeType;
@@ -11,6 +10,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.core.HttpError;
 
 import domain.Blog;
 import domain.BlogEntry;
@@ -25,8 +25,8 @@ import domain.BlogEntry;
 @Scope(ScopeType.STATELESS)
 public class EntryAction
 {
-   @In(create=true) private Blog blog;
-   @In private FacesContext facesContext;
+   @In(create=true) 
+   private Blog blog;
    
    @RequestParameter
    private String blogEntryId;
@@ -40,9 +40,7 @@ public class EntryAction
       blogEntry = blog.getBlogEntry(blogEntryId);
       if (blogEntry==null)
       {
-         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-         response.sendError(HttpServletResponse.SC_NOT_FOUND, "Blog entry not found");
-         facesContext.responseComplete();
+         HttpError.instance().send(HttpServletResponse.SC_NOT_FOUND);
       }
    }
    
