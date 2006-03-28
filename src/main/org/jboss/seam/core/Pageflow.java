@@ -2,7 +2,6 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
@@ -62,19 +61,46 @@ public class Pageflow
       return counter;
    }
    
-   public void validatePageflow(Map attributes) 
+   public void validatePageflow() 
    {
       if ( processInstance!=null )
       {
-         Integer counter = (Integer) attributes.get(Manager.PAGEFLOW_COUNTER);
-         if ( counter!=null && getPageflowCounter()!=counter )
+         
+         if ( getPage().isBackable() )
          {
-            FacesContext context = FacesContext.getCurrentInstance();
-            navigate(context);
-            FacesMessages.instance().addFromResourceBundle( FacesMessage.SEVERITY_WARN, "org.jboss.seam.IllegalNavigation", "Illegal navigation" );
-            context.renderResponse();
+            //check the node name to make sure we are still on the same node
+            //String pageNodeName = (String) attributes.get(Manager.PAGEFLOW_NODE_NAME);
+            String pageNodeName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NODE_NAME);
+            if ( pageNodeName!=null && !pageNodeName.equals( getNode().getName() ) )
+            {
+               //legal use of back/forward button, so reposition
+               reposition(pageNodeName);
+            }
          }
+         else
+         {
+            //check the counter to detect illegal use of backbutton
+            //Integer counter = (Integer) attributes.get(Manager.PAGEFLOW_COUNTER);
+            Integer counter = (Integer) Contexts.getPageContext().get(Manager.PAGEFLOW_COUNTER);
+            if ( counter!=null && getPageflowCounter()!=counter )
+            {
+               illegalNavigationError();
+            }
+         }
+         
       }
+   }
+
+   private void illegalNavigationError()
+   {
+      FacesContext context = FacesContext.getCurrentInstance();
+      navigate(context);
+      FacesMessages.instance().addFromResourceBundle( 
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.IllegalNavigation", 
+            "Illegal navigation" 
+         );
+      context.renderResponse();
    }
    
    public Node getNode() 
@@ -82,6 +108,12 @@ public class Pageflow
       if (processInstance==null) return null;
       Token pageFlowToken = processInstance.getRootToken();
       return pageFlowToken.getNode();
+   }
+   
+   public void reposition(String nodeName)
+   {
+      Node node = processInstance.getProcessDefinition().getNode(nodeName);
+      processInstance.getRootToken().setNode(node);
    }
    
    public Page getPage() 

@@ -9,7 +9,6 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -53,7 +52,7 @@ public class Manager
    public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdEntryMap";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
    public static final String PAGEFLOW_COUNTER = NAME + ".pageflowCounter";
-
+   public static final String PAGEFLOW_NODE_NAME = NAME + ".pageflowNodeName";
 
    //A map of all conversations for the session,
    //to the last activity time, which is flushed
@@ -281,7 +280,7 @@ public class Manager
       dirty();
    }
 
-   public void storeConversation(Map attributes, Session session)
+   public void storeConversation(Session session)
    {
       if ( isLongRunningConversation() )
       {
@@ -294,14 +293,18 @@ public class Manager
             //if the session is invalid, don't put the conversation id
             //in the view, 'cos we are expecting the conversation to
             //be destroyed by the servlet session listener
-            attributes.put(CONVERSATION_ID, currentConversationId);
+            //attributes.put(CONVERSATION_ID, currentConversationId);
+            Contexts.getPageContext().set(CONVERSATION_ID, currentConversationId);
 
             if ( Init.instance().isJbpmInstalled() )
             {
                Pageflow pageflow = Pageflow.instance();
                if ( pageflow.isInProcess() )
                {
-                  attributes.put( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+                  Contexts.getPageContext().set( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+                  Contexts.getPageContext().set( PAGEFLOW_NODE_NAME, pageflow.getNode().getName() );
+                  //attributes.put( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+                  //attributes.put( PAGEFLOW_NODE_NAME, pageflow.getNode().getName() );
                }
             }
          }
@@ -316,11 +319,13 @@ public class Manager
          if ( stack.size()>1 )
          {
             String outerConversationId = stack.get(1);
-            attributes.put(CONVERSATION_ID, outerConversationId);
+            //attributes.put(CONVERSATION_ID, outerConversationId);
+            Contexts.getPageContext().set(CONVERSATION_ID, outerConversationId);
          }
          else
          {
-            attributes.remove(CONVERSATION_ID);
+            //attributes.remove(CONVERSATION_ID);
+            Contexts.getPageContext().remove(CONVERSATION_ID);
          }
 
          //now safe to remove the entry
@@ -382,17 +387,18 @@ public class Manager
       }
    }
 
-   public void restoreConversation(Map attributes, Map parameters)
+   public void restoreConversation(Map parameters)
    {
 
       //First, try to get the conversation id from a request parameter
       String storedConversationId = getConversationIdFromRequestParameter(parameters);
       
-      if ( isMissing(storedConversationId) && attributes!=null )
+      if ( isMissing(storedConversationId) && Contexts.isPageContextActive() )
       {
          //if it is not passed as a request parameter, try to get it from
          //the JSF component tree
-         storedConversationId = (String) attributes.get(CONVERSATION_ID);
+         //storedConversationId = (String) attributes.get(CONVERSATION_ID);
+         storedConversationId = (String) Contexts.getPageContext().get(CONVERSATION_ID);
       }
 
       else if (storedConversationId!=null)

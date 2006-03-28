@@ -113,14 +113,13 @@ public class SeamPhaseListener implements PhaseListener
 
    private static void restoreAnyConversationContext(PhaseEvent event)
    {
-      Map attributes = getAttributes( event.getFacesContext() );
-      ExternalContext externalContext = event.getFacesContext().getExternalContext();
-      Manager.instance().restoreConversation( attributes, getParameters(event) );
       Lifecycle.resumePage();
+      ExternalContext externalContext = event.getFacesContext().getExternalContext();
+      Manager.instance().restoreConversation( getParameters(event) );
       Lifecycle.resumeConversation( externalContext );
       if ( Init.instance().isJbpmInstalled() )
       {
-         Pageflow.instance().validatePageflow(attributes);
+         Pageflow.instance().validatePageflow();
       }
       
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
@@ -129,7 +128,6 @@ public class SeamPhaseListener implements PhaseListener
    static void storeAnyConversationContext(FacesContext ctx)
    {
       Lifecycle.flushClientConversation();
-      Lifecycle.flushPage();
       if ( !Contexts.isConversationContextActive() )
       {
          log.debug( "No active conversation context" );
@@ -137,8 +135,9 @@ public class SeamPhaseListener implements PhaseListener
       else
       {
          Session session = Session.getSession(ctx.getExternalContext(), true);
-         Manager.instance().storeConversation( getAttributes(ctx), session );
+         Manager.instance().storeConversation( session );
       }
+      Lifecycle.flushPage();
    }
 
    private static Map getParameters(PhaseEvent event) {

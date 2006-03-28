@@ -70,7 +70,7 @@ public class SubscriptionHandler extends BaseRequestHandler implements RequestHa
       Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, session);
 
-      Manager.instance().restoreConversation(null);
+      Manager.instance().restoreConversation( (String) null );
       Lifecycle.resumeConversation(session);
 
       for (SubscriptionRequest req : requests)

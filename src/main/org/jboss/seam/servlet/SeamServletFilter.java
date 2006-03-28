@@ -39,7 +39,7 @@ public class SeamServletFilter implements Filter {
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, session);
-      Manager.instance().restoreConversation( null, request.getParameterMap() );
+      Manager.instance().restoreConversation( request.getParameterMap() );
       Lifecycle.resumeConversation(session);
       try
       {

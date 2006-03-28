@@ -243,24 +243,37 @@
 	        straightforward. Usually it is as simple as combining the use 
 	        of the <literal>@Conversational</literal> annotation with null 
 	        checks at the beginning of action listener methods. We consider
-	        support for freeform navigation with the back button to be a
-	        <emphasis>feature</emphasis> of the stateless model.
+	        support for freeform navigation to be almost always desirable.
 	    </para>
 	    
 	    <para>
 	        On the other hand, in the stateful model, backbuttoning is 
 	        interpreted as an undefined transition back to a previous state.
 	        Since the stateful model enforces a defined set of transitions
-	        from the current state, back buttoning must be disallowed in
-	        the stateful model! Seam transparently detects the use of the
+	        from the current state, back buttoning is be default disallowed 
+	        in the stateful model! Seam transparently detects the use of the
 	        back button, and blocks any attempt to perform an action from
 	        a previous, "stale" page, and simply redirects the user to 
-	        the "current" page. Whether you consider this a feature or
-	        a limitation of the stateful model depends upon your point
-	        of view: as an application developer, it is a feature; as a
-	        user, it might be frustrating!
+	        the "current" page (and displays a faces message). Whether you 
+	        consider this a feature or a limitation of the stateful model 
+	        depends upon your point of view: as an application developer, 
+	        it is a feature; as a user, it might be frustrating! You can
+	        enable backbutton navigation from a particular page node by
+	        setting <literal>backable="true"</literal>.
 	    </para>
 	    
+<programlisting><![CDATA[<page name="checkout" view-id="/checkout.xhtml" 
+        redirect="true" backable="true">
+    <transition name="checkout" to="checkout"/>
+    <transition name="complete" to="complete"/>
+</page>]]></programlisting>
+
+        <para>
+            This allows backbuttoning <emphasis>from</emphasis> the
+            <literal>checkout</literal> state to <emphasis>any previous
+            state!</emphasis>
+        </para>
+
         </section>
     
 	    <para>

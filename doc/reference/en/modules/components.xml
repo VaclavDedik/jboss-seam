@@ -251,6 +251,44 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><literal>redirect</literal></term>
+                <listitem>
+                    <para>
+                        A convenient API for performing redirects with paramaters (this
+                        is especially useful for bookmarkable search results screens).
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>redirect.viewId</literal> &mdash; the JSF view id
+                            to redirect to.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>redirect.parameters</literal> &mdash; a map of
+                            request parameter name to value, to be passed in the redirect
+                            request.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>execute()</literal> &mdash; perform the redirect
+                            immediately.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>captureCurrentRequest()</literal> &mdash; stores 
+                            the view id and request parameters of the current GET 
+                            request (in the conversation context), for later use
+                            by calling <literal>execute()</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
         </variablelist>
         
         <para>
