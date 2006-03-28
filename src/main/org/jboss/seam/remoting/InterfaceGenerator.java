@@ -229,9 +229,9 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     types.add(type);
 
-    componentSrc.append("function __");
+    componentSrc.append("SeamRemote.type.");
     componentSrc.append(component.getName());
-    componentSrc.append("() {\n");
+    componentSrc.append(" = function() {\n");
     componentSrc.append("  this.__callback = new Object();\n");
 
     for (Method m : type.getDeclaredMethods())
@@ -242,7 +242,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
       // Append the return type to the source block
       appendTypeSource(out, m.getGenericReturnType(), types);
 
-      componentSrc.append("  __");
+      componentSrc.append("  SeamRemote.type.");
       componentSrc.append(component.getName());
       componentSrc.append(".prototype.");
       componentSrc.append(m.getName());
@@ -283,14 +283,14 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     componentSrc.append("}\n");
 
     // Set the component name
-    componentSrc.append("__");
+    componentSrc.append("SeamRemote.type.");
     componentSrc.append(component.getName());
     componentSrc.append(".__name = \"");
     componentSrc.append(component.getName());
     componentSrc.append("\";\n\n");
 
     // Register the component
-    componentSrc.append("SeamRemote.register(__");
+    componentSrc.append("SeamRemote.register(SeamRemote.type.");
     componentSrc.append(component.getName());
     componentSrc.append(");\n\n");
 
@@ -344,6 +344,10 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
   private void appendClassSource(OutputStream out, Class classType, Set<Type> types)
       throws IOException
   {
+    // Don't generate interfaces for enums
+    if (classType.isEnum())
+      return;
+
     StringBuilder typeSource = new StringBuilder();
 
     // Determine whether this class is a component; if so, use its name
@@ -354,9 +358,9 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     String typeName = componentName.replace('.', '$');
 
-    typeSource.append("function __");
+    typeSource.append("SeamRemote.type.");
     typeSource.append(typeName);
-    typeSource.append("() {\n");
+    typeSource.append(" = function() {\n");
 
     StringBuilder fields = new StringBuilder();
     StringBuilder accessors = new StringBuilder();
@@ -417,7 +421,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
         if (getMethod != null)
         {
-          accessors.append("  __");
+          accessors.append("  SeamRemote.type.");
           accessors.append(typeName);
           accessors.append(".prototype.");
           accessors.append(getMethod.getName());
@@ -428,7 +432,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
         if (setMethod != null)
         {
-          mutators.append("  __");
+          mutators.append("  SeamRemote.type.");
           mutators.append(typeName);
           mutators.append(".prototype.");
           mutators.append(setMethod.getName());
@@ -450,14 +454,14 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     typeSource.append("}\n\n");
 
     // Append the type name
-    typeSource.append("__");
+    typeSource.append("SeamRemote.type.");
     typeSource.append(typeName);
     typeSource.append(".__name = \"");
     typeSource.append(componentName);
     typeSource.append("\";\n");
 
     // Append the metadata
-    typeSource.append("__");
+    typeSource.append("SeamRemote.type.");
     typeSource.append(typeName);
     typeSource.append(".__metadata = [\n");
 
@@ -473,7 +477,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     typeSource.append("];\n\n");
 
     // Register the type with SeamRemote
-    typeSource.append("SeamRemote.register(__");
+    typeSource.append("SeamRemote.register(SeamRemote.type.");
     typeSource.append(typeName);
     typeSource.append(");\n\n");
 

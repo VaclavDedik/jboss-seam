@@ -4,6 +4,9 @@ SeamRemote.PATH_EXECUTE = "/execute";
 SeamRemote.PATH_SUBSCRIPTION = "/subscription";
 SeamRemote.PATH_POLL = "/poll";
 
+// Type declarations will live in this namespace
+SeamRemote.type = new Object();
+
 SeamRemote.types = new Array();
 SeamRemote.debug = false;
 SeamRemote.debugWindow = null;
@@ -162,7 +165,7 @@ SeamRemote.__Map = function()
         return;
       }
     }
-    this.elements[this.elements.length] = {key:key,value:value};
+    this.elements.push({key:key,value:value});
   }
 
   SeamRemote.__Map.prototype.remove = function(key)
@@ -202,7 +205,7 @@ SeamRemote.register = function(type)
       return;
     }
   }
-  SeamRemote.types[SeamRemote.types.length] = type;
+  SeamRemote.types.push(type);
 }
 
 SeamRemote.create = function(name)
