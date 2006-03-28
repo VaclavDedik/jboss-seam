@@ -6,6 +6,7 @@ import java.util.AbstractMap;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.Set;
 
 import org.jboss.seam.Component;
@@ -46,7 +47,15 @@ public class Messages {
                String cachedValue = cache.get(key);
                if (cachedValue==null)
                {
-                  String resource = bundle.getString(resourceKey);
+                  String resource;
+                  try
+                  {
+                     resource = bundle.getString(resourceKey);
+                  }
+                  catch (MissingResourceException mre)
+                  {
+                     return null;
+                  }
                   if (resource==null)
                   {
                      return resourceKey;

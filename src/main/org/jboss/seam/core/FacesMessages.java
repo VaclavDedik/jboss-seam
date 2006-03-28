@@ -4,6 +4,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingResourceException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -14,7 +15,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Template;
 
@@ -26,7 +26,6 @@ import org.jboss.seam.util.Template;
 @Scope(ScopeType.CONVERSATION)
 @Name("facesMessages")
 @Intercept(NEVER)
-@Startup
 public class FacesMessages 
 {
    
@@ -111,8 +110,12 @@ public class FacesMessages
       java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
       if (resourceBundle!=null) 
       {
-         String bundleMessage = resourceBundle.getString(key);
-         if (bundleMessage!=null) messageTemplate = bundleMessage;
+         try
+         {
+            String bundleMessage = resourceBundle.getString(key);
+            if (bundleMessage!=null) messageTemplate = bundleMessage;
+         }
+         catch (MissingResourceException mre) {} //swallow
       }
       add(severity, messageTemplate);
    }
