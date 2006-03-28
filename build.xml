@@ -185,6 +185,7 @@
         <ant dir="examples/todo" target="clean" inheritall="false"/>
     	<ant dir="examples/remoting/helloworld" target="clean" inheritall="false"/>
     	<ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
+    	<ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
 
     </target>
 	
@@ -201,6 +202,7 @@
         <ant dir="examples/todo" target="undeploy" inheritall="false"/>
     	<ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false"/>
     	<ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false"/>
+		<ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false"/>
 	</target>
 
 	<target name="deploypresentation" 
@@ -209,6 +211,7 @@
         <ant dir="examples/booking" target="deploy" inheritall="false"/>
         <ant dir="examples/issues" target="deploy" inheritall="false"/>
         <ant dir="examples/dvdstore" target="deploy" inheritall="false"/>
+		<ant dir="examples/remoting/progressbar" target="deploy" inheritall="false"/>
     	<ant dir="examples/remoting/chatroom" target="deploy" inheritall="false"/>
 		<copy file="examples/seam-examples.html" todir="${webroot.dir}"/>
 		<replace file="${webroot.dir}/seam-examples.html" token="http://localhost:8080" value=""/>
