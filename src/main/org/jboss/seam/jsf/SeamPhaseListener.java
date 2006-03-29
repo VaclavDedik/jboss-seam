@@ -57,9 +57,9 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
+         Pages.instance().callAction();
          FacesMessages.instance().beforeRenderResponse();
          Manager.instance().prepareBackswitch(event);
-         Pages.instance().callAction(); //TODO: probably move into the prepareBackswitch() method
          //beforeSaveState();
          //Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
       }
