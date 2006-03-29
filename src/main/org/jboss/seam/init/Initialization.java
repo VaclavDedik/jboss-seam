@@ -43,6 +43,7 @@ import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Messages;
+import org.jboss.seam.core.PageContext;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.PooledTask;
@@ -158,6 +159,7 @@ public class Initialization
       addComponent( ConversationList.class, context );
       addComponent( ConversationStack.class, context );
       addComponent( FacesContext.class, context );
+      addComponent( PageContext.class, context );
       addComponent( EventContext.class, context );
       addComponent( SessionContext.class, context );
       addComponent( StatelessContext.class, context );
