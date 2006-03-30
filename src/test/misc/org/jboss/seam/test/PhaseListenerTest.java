@@ -10,6 +10,7 @@ import javax.faces.event.PhaseId;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -137,7 +138,9 @@ public class PhaseListenerTest
             new Component(Pages.class) 
          );
       
-      facesContext.getViewRoot().getAttributes().put(Manager.CONVERSATION_ID, "2");
+      setupPageMap(facesContext);
+      getPageMap(facesContext).put(Manager.CONVERSATION_ID, "2");
+      
       Map ids = new HashMap();
       ConversationEntry ce = new ConversationEntry("2");
       ce.getLastRequestTime();
@@ -189,13 +192,22 @@ public class PhaseListenerTest
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
       
-      assert facesContext.getViewRoot().getAttributes().size()==2;
-      assert facesContext.getViewRoot().getAttributes().get(Manager.CONVERSATION_ID).equals("2");
+      assert getPageMap(facesContext).get(Manager.CONVERSATION_ID).equals("2");
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isApplicationContextActive();
       assert !Contexts.isConversationContextActive();
+   }
+
+   private void setupPageMap(MockFacesContext facesContext)
+   {
+      facesContext.getViewRoot().getAttributes().put(ScopeType.PAGE.getPrefix(), new HashMap());
+   }
+
+   private Map getPageMap(MockFacesContext facesContext)
+   {
+      return ( (Map) facesContext.getViewRoot().getAttributes().get(ScopeType.PAGE.getPrefix()) );
    }
 
    @Test
@@ -270,7 +282,7 @@ public class PhaseListenerTest
       
       facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
       
-      assert facesContext.getViewRoot().getAttributes().size()==2;
+      assert facesContext.getViewRoot().getAttributes().size()==1;
 
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
 
