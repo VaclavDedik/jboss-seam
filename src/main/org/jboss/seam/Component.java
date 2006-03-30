@@ -28,6 +28,7 @@ import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 import javax.faces.model.ListDataModel;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -697,10 +698,9 @@ public class Component
       if ( String.class.equals(type) ) return requestParameter;
       
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext
-            .getApplication()
-            .createConverter(type)
-            .getAsObject( facesContext, facesContext.getViewRoot(), (String) requestParameter );
+      Converter converter = facesContext.getApplication().createConverter(type);
+      if (converter==null) throw new IllegalArgumentException("no converter for type: " + type);
+      return converter.getAsObject( facesContext, facesContext.getViewRoot(), (String) requestParameter );
    }
 
    public void outject(Object bean)

@@ -11,7 +11,12 @@ import javax.faces.application.StateManager;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.BooleanConverter;
 import javax.faces.convert.Converter;
+import javax.faces.convert.DoubleConverter;
+import javax.faces.convert.FloatConverter;
+import javax.faces.convert.IntegerConverter;
+import javax.faces.convert.LongConverter;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.PropertyNotFoundException;
@@ -176,8 +181,12 @@ public class MockApplication extends Application {
    }
 
    @Override
-   public Converter createConverter(Class arg0) {
-      // TODO Auto-generated method stub
+   public Converter createConverter(Class clazz) {
+      if ( clazz==Integer.class ) return new IntegerConverter();
+      if ( clazz==Long.class ) return new LongConverter();
+      if ( clazz==Float.class ) return new FloatConverter();
+      if ( clazz==Double.class ) return new DoubleConverter();
+      if ( clazz==Boolean.class ) return new BooleanConverter();
       return null;
    }
 
