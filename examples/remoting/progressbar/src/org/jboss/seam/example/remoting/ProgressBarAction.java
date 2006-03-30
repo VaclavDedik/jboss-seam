@@ -18,7 +18,7 @@ import java.util.Random;
 @Interceptors(SeamInterceptor.class)
 public class ProgressBarAction implements ProgressBarLocal {
 
-  @In(create = true) @Out(scope = ScopeType.SESSION)
+  @In(create = true)
   Progress progress;
 
   public String doSomething() {
