@@ -7,7 +7,6 @@
 
 <!-- content -->
 <ui:define name="content">
-<ui:include src="conversations.xhtml" />
 <div class="section">
 	<h1>View Hotel</h1>
 </div>
@@ -36,10 +35,8 @@
 <div class="section">
 	<h:form>
 	<fieldset class="buttonBox">
-		<h:commandButton action="#{hotelBooking.lastHotel}" value="Previous Hotel" class="button"/>&nbsp;
-		<h:commandButton action="#{hotelBooking.nextHotel}" value="Next Hotel" class="button"/>&nbsp;
 		<h:commandButton action="#{hotelBooking.bookHotel}" value="Book Hotel" class="button"/>&nbsp;
-		<h:commandButton action="main" value="Back to Search" class="button"/>
+		<h:commandButton action="#{hotelBooking.cancel}" value="Back to Search" class="button"/>
 	</fieldset>
 	</h:form>
 </div>

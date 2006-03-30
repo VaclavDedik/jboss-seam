@@ -4,9 +4,7 @@ package org.jboss.seam.example.booking;
 import static javax.persistence.PersistenceContextType.EXTENDED;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
-import java.io.Serializable;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.ejb.Interceptors;
 import javax.ejb.Remove;
@@ -23,8 +21,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
+import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -33,21 +30,13 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Interceptors(SeamInterceptor.class)
 @Conversational(ifNotBegunOutcome="main")
 @LoggedIn
-public class HotelBookingAction implements HotelBooking, Serializable
+public class HotelBookingAction implements HotelBooking
 {
    
    @PersistenceContext(type=EXTENDED)
    private EntityManager em;
    
-   private String searchString;
-   private int pageSize = 10;
-   
-   @DataModel
-   private List<Hotel> hotels;
-   @DataModelSelectionIndex
-   private int hotelIndex;
-   
-   @Out(required=false)
+   @In(required=false) @Out
    private Hotel hotel;
    
    @In(required=false) 
@@ -64,67 +53,21 @@ public class HotelBookingAction implements HotelBooking, Serializable
    @In(required=false)
    private BookingList bookingList;
    
-   @Begin(join=true)
-   public String find()
-   {
-      hotel = null;
-      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      hotels = em.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
-            .setParameter("search", searchPattern)
-            .setMaxResults(pageSize)
-            .getResultList();
-      
-      return "main";
-   }
+   @RequestParameter
+   private Long hotelId; 
    
-   public int getPageSize() {
-      return pageSize;
-   }
-
-   public void setPageSize(int pageSize) {
-      this.pageSize = pageSize;
-   }
-
-   public String getSearchString()
-   {
-      return searchString;
-   }
-
-   public void setSearchString(String searchString)
-   {
-      this.searchString = searchString;
-   }
-
+   @Begin
    public String selectHotel()
    {
-      if ( hotels==null ) return "main";
-      setHotel();
-      return "selected";
-   }
-
-   public String nextHotel()
-   {
-      if ( hotelIndex<hotels.size()-1 )
+      if (hotelId!=null)
       {
-         ++hotelIndex;
-         setHotel();
+         hotel = em.find(Hotel.class, hotelId);
+         return "hotel";
       }
-      return "browse";
-   }
-
-   public String lastHotel()
-   {
-      if (hotelIndex>0)
+      else
       {
-         --hotelIndex;
-         setHotel();
+         return null;
       }
-      return "browse";
-   }
-
-   private void setHotel()
-   {
-      hotel = hotels.get(hotelIndex);
    }
    
    public String bookHotel()
@@ -160,15 +103,13 @@ public class HotelBookingAction implements HotelBooking, Serializable
       em.persist(booking);
       if (bookingList!=null) bookingList.refresh();
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
-      hotels=null;
+      //hotels=null;
       return "confirmed";
    }
    
    @End
-   public String clear()
+   public String cancel()
    {
-      hotels = null;
-      hotel = null;
       return "main";
    }
    

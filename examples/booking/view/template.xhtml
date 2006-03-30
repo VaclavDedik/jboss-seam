@@ -15,6 +15,7 @@
 		<div id="status">
 		<h:form>
 			Welcome #{user.name}
+			| <h:commandLink action="main">Search</h:commandLink>
 			| <h:commandLink action="password">Settings</h:commandLink>
 			| <h:commandLink action="#{logout.logout}">Logout</h:commandLink>
 		</h:form>
@@ -26,6 +27,7 @@
 		</div>
 		<div id="content">
 			<ui:insert name="content"/>
+		    <ui:include src="conversations.xhtml" />
 		</div>
 	</div>
 	<div id="footer">Created with JBoss EJB 3.0, Seam, MyFaces, and Facelets</div>

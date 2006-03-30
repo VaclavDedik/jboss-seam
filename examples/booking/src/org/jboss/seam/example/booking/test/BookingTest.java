@@ -20,6 +20,7 @@ import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.BookingList;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
+import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
@@ -31,9 +32,9 @@ public class BookingTest extends SeamTest
    public void testBookHotel() throws Exception
    {
       
-      String id = new Script() {
+      new Script() {
 
-         HotelBooking hotelBooking;
+         HotelSearching hotelSearch;
          
          @Override
          protected void applyRequestValues()
@@ -45,37 +46,43 @@ public class BookingTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
-            hotelBooking.setSearchString("Union Square");
+            hotelSearch = (HotelSearching) Component.getInstance("hotelSearch", true);
+            hotelSearch.setSearchString("Union Square");
          }
 
          @Override
          protected void invokeApplication()
          {
-            String outcome = hotelBooking.find();
+            String outcome = hotelSearch.find();
             assert "main".equals( outcome );
          }
 
          @Override
          protected void renderResponse()
          {
-            DataModel hotels = (DataModel) Contexts.getConversationContext().get("hotels");
+            DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
             assert hotels.getRowCount()==1;
             assert ( (Hotel) hotels.getRowData() ).getCity().equals("NY");
-            assert "Union Square".equals( hotelBooking.getSearchString() );
-            assert Manager.instance().isLongRunningConversation();
+            assert "Union Square".equals( hotelSearch.getSearchString() );
+            assert !Manager.instance().isLongRunningConversation();
          }
          
       }.run();
       
-      new Script(id) {
+      String id = new Script() {
 
+         @Override
+         protected void setParameters()
+         {
+            getRequestParameterMap().put("hotelId", "3");
+         }
+         
          @Override
          protected void invokeApplication()
          {
-            HotelBooking hotelSearching = (HotelBooking) Component.getInstance("hotelBooking", true);
-            String outcome = hotelSearching.selectHotel();
-            assert "selected".equals( outcome );
+            HotelBooking hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
+            String outcome = hotelBooking.selectHotel();
+            assert "hotel".equals( outcome );
          }
 
          @Override
@@ -236,7 +243,7 @@ public class BookingTest extends SeamTest
             bookings.setRowIndex(0);
             BookingList bookingList = (BookingList) Component.getInstance("bookingList", true);
             String outcome = bookingList.cancel();
-            assert "cancelled".equals( outcome );
+            assert "main".equals( outcome );
          }
 
          @Override

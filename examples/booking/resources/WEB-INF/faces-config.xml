@@ -33,21 +33,9 @@
             <redirect />
         </navigation-case>
 
-    </navigation-rule>
-
-    <navigation-rule>
-
-        <from-view-id>/main.xhtml</from-view-id>
-
         <navigation-case>
-            <from-outcome>selected</from-outcome>
+            <from-outcome>hotel</from-outcome>
             <to-view-id>/hotel.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>cancelled</from-outcome>
-            <to-view-id>/main.xhtml</to-view-id>
             <redirect />
         </navigation-case>
 
@@ -60,12 +48,6 @@
         <navigation-case>
             <from-outcome>book</from-outcome>
             <to-view-id>/book.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>browse</from-outcome>
-            <to-view-id>/hotel.xhtml</to-view-id>
             <redirect />
         </navigation-case>
 

@@ -10,6 +10,7 @@ import org.jboss.seam.core.Ejb;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.HotelBooking;
+import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.Login;
 import org.jboss.seam.example.booking.Logout;
 import org.jboss.seam.example.booking.User;
@@ -29,7 +30,7 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            HotelBooking hb = (HotelBooking) Component.getInstance("hotelBooking", true);
+            HotelSearching hb = (HotelSearching) Component.getInstance("hotelSearch", true);
             String outcome = hb.find();
             assert "login".equals( outcome );
          }
@@ -77,12 +78,12 @@ public class LoginTest extends SeamTest
          
       }.run();
       
-      String id = new Script() {
+      new Script() {
 
          @Override
          protected void invokeApplication()
          {
-            HotelBooking hb = (HotelBooking) Component.getInstance("hotelBooking", true);
+            HotelSearching hb = (HotelSearching) Component.getInstance("hotelSearch", true);
             String outcome = hb.find();
             assert "main".equals( outcome );
          }
@@ -90,19 +91,19 @@ public class LoginTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            assert Manager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 
          }
          
       }.run();
       
-      new Script(id) {
+      new Script() {
 
          @Override
          protected void invokeApplication()
          {
-            assert Manager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
             Logout logout = (Logout) Component.getInstance("logout", true);
             String outcome = logout.logout();
             assert "login".equals( outcome );

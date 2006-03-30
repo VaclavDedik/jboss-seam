@@ -58,7 +58,7 @@ public class BookingListAction implements BookingList, Serializable
       if (cancelled!=null) em.remove( cancelled );
       refresh();
       FacesMessages.instance().add("Booking cancelled for confirmation number #{bookings.rowData.id}");
-      return "cancelled";
+      return "main";
    }
    
    public void refresh()
