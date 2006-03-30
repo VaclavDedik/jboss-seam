@@ -41,6 +41,7 @@ public class Pages
    private Map<String, String> descriptionByViewId = new HashMap<String, String>();
    private Map<String, Integer> timeoutsByViewId = new HashMap<String, Integer>();
    private Map<String, MethodBinding> actionsByViewId = new HashMap<String, MethodBinding>();
+   private Map<String, String> outcomesByViewId = new HashMap<String, String>();
    
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
@@ -88,8 +89,15 @@ public class Pages
             String action = page.attributeValue("action");
             if (action!=null)
             {
-            	MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(action, null);
-            	actionsByViewId.put(viewId, methodBinding);
+               if ( action.startsWith("#{") )
+               {
+                  MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(action, null);
+                  actionsByViewId.put(viewId, methodBinding);
+               }
+               else
+               {
+                  outcomesByViewId.put(viewId, action);
+               }
             }
          }
       }
@@ -126,16 +134,25 @@ public class Pages
 
    private void callAction(FacesContext facesContext, String viewId)
    {
-      MethodBinding methodBinding = actionsByViewId.get(viewId);
-      if (methodBinding!=null) 
+      String outcome = outcomesByViewId.get(viewId);
+      String fromAction = outcome;
+      
+      if (outcome==null)
       {
-         String outcome = (String) methodBinding.invoke(facesContext, null);
-         if (outcome!=null)
+         MethodBinding methodBinding = actionsByViewId.get(viewId);
+         if (methodBinding!=null) 
          {
-            facesContext.getApplication().getNavigationHandler()
-                  .handleNavigation(facesContext, methodBinding.getExpressionString(), outcome);
+            fromAction = methodBinding.getExpressionString();
+            outcome = (String) methodBinding.invoke(facesContext, null);
          }
       }
+      
+      if (outcome!=null)
+      {
+         facesContext.getApplication().getNavigationHandler()
+               .handleNavigation(facesContext, fromAction, outcome);
+      }
+
    }
    
    public static Pages instance()

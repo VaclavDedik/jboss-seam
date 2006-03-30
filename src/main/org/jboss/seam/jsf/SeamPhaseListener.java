@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
@@ -57,13 +58,46 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
+         callAction( event.getFacesContext() );
          Pages.instance().callAction();
          FacesMessages.instance().beforeRenderResponse();
          Manager.instance().prepareBackswitch(event);
-         //beforeSaveState();
-         //Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
+         
+         //if the page actions called responseComplete(),
+         //we need to call beforeSaveState(), since the
+         //component tree will not get rendered
+         if ( event.getFacesContext().getResponseComplete() )
+         {
+            beforeSaveState( event.getFacesContext() );
+            //MyFaces bug: ?
+            Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
+         }
       }
 
+   }
+
+   private void callAction(FacesContext facesContext)
+   {
+      //TODO: refactor with Pages.callAction!!
+      
+      String outcome = (String) facesContext.getExternalContext().getRequestParameterMap().get("actionOutcome");
+      String fromAction = outcome;
+      
+      if (outcome==null)
+      {
+         String action = (String) facesContext.getExternalContext().getRequestParameterMap().get("actionMethod");
+         if (action!=null)
+         {
+            MethodBinding actionBinding = facesContext.getApplication().createMethodBinding("#{" + action + "}", null);
+            fromAction = actionBinding.getExpressionString();
+            outcome = (String) actionBinding.invoke( facesContext, null );
+         }
+      }
+      
+      if (outcome!=null)
+      {
+         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, fromAction, outcome);
+      }
    }
 
    public void afterPhase(PhaseEvent event)
@@ -88,6 +122,9 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getFacesContext().getResponseComplete() )
       {
+         //responseComplete() was called by one of the other
+         //phases, so we will never get to the RENDER_RESPONSE
+         //phase
          beforeSaveState( event.getFacesContext() );
          Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
       }
