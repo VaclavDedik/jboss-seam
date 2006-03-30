@@ -1,123 +1,20 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
-                 "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
-<taglib>
-   <tlib-version>1.0</tlib-version>
-   <jsp-version>1.2</jsp-version>
-   <short-name>s</short-name>
-   <uri>http://jboss.com/products/seam/taglib</uri>
-   
-   <tag>
-    <name>queryTable</name>
-    <tag-class>org.jboss.seam.ui.HtmlQueryTableTag</tag-class>
-    <body-content>JSP</body-content>
-    
-    <attribute>
-     <name>ejbql</name>
-     <required>true</required>
-     <rtexprvalue>false</rtexprvalue>
-    </attribute>
-    
-    <attribute>
-     <name>firstResult</name>
-     <required>false</required>
-     <rtexprvalue>false</rtexprvalue>
-    </attribute>
-    
-    <attribute>
-     <name>maxResults</name>
-     <required>false</required>
-     <rtexprvalue>false</rtexprvalue>
-    </attribute>
-    
-    <attribute>
-     <name>var</name>
-     <required>true</required>
-     <rtexprvalue>false</rtexprvalue>
-    </attribute>
-    
-        <!-- UIComponent attributes -->
-        <attribute>
-            <name>id</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <type>java.lang.String</type>
-            <description>Every component may have an unique id. Automatically created if omitted.</description>
-        </attribute>
-        <attribute>
-            <name>rendered</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <type>java.lang.String</type>
-            <description>If false, this component will not be rendered.</description>
-        </attribute>
-        <attribute>
-            <name>binding</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <type>java.lang.String</type>
-            <description>Component binding.</description>
-        </attribute>
-
-        <!-- HTML 4.0 universal attributes -->
-        <attribute><name>dir</name>     <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>lang</name>    <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>style</name>   <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>title</name>   <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute>
-            <name>styleClass</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <description>Corresponds to the HTML class attribute.</description>
-        </attribute>
-
-        <!-- HTML 4.0 event-handler attributes -->
-        <attribute><name>onclick</name>    <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>ondblclick</name> <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>onmousedown</name><required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>onmouseup</name>  <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>onmouseover</name><required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>onmousemove</name><required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>onmouseout</name> <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>onkeypress</name> <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>onkeydown</name>  <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>onkeyup</name>    <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-
-        <!-- HTML 4.0 table attributes -->
-        <attribute><name>align</name>           <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>border</name>          <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>bgcolor</name>         <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>cellpadding</name>     <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>cellspacing</name>     <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>datafld</name>         <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>datasrc</name>         <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>dataformatas</name>    <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>frame</name>           <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>rules</name>           <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>summary</name>         <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-        <attribute><name>width</name>           <required>false</required>  <rtexprvalue>false</rtexprvalue></attribute>
-
-        <!-- TableRenderer attributes -->
-        <attribute>
-            <name>columnClasses</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>footerClass</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>headerClass</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-        </attribute>
-        <attribute>
-            <name>rowClasses</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-        </attribute>
-   </tag>
-   
-</taglib>
+<?xml version="1.0"?>
+<!DOCTYPE facelet-taglib PUBLIC
+  "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+  "facelet-taglib_1_0.dtd">
+<facelet-taglib>
+	<namespace>http://jboss.com/products/seam/taglib</namespace>
+	<tag>
+		<tag-name>queryTable</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.HtmlQueryTable</component-type>
+			<renderer-type>javax.faces.Table</renderer-type>
+		</component>
+	</tag>
+	<tag>
+		<tag-name>action</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIAction</component-type>
+		</component>
+	</tag>
+</facelet-taglib>

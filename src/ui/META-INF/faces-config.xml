@@ -20,4 +20,15 @@
     </field>
   </component>
   
+  <component>
+    <component-class>org.jboss.seam.ui.UIAction</component-class>
+    <base-class>javax.faces.component.UIParameter</base-class>
+    <component-type>org.jboss.seam.ui.UIAction</component-type>
+    <component-family>javax.faces.Parameter</component-family>
+    <field>
+        <name>action</name>
+        <type>java.lang.String</type>
+    </field>
+  </component>
+  
 </faces-config>
