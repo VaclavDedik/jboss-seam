@@ -141,6 +141,7 @@
         <include name="**/*.xslt"/>
         <include name="**/*.properties"/>
     	<include name="**/*.js"/>
+    	<include name="**/*.html"/>
     </patternset>
         
     <patternset id="src.files">
