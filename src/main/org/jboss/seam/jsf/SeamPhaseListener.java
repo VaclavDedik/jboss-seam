@@ -11,6 +11,7 @@ import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
 
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -88,15 +89,28 @@ public class SeamPhaseListener implements PhaseListener
          String action = (String) facesContext.getExternalContext().getRequestParameterMap().get("actionMethod");
          if (action!=null)
          {
-            MethodBinding actionBinding = facesContext.getApplication().createMethodBinding("#{" + action + "}", null);
-            fromAction = actionBinding.getExpressionString();
+            String expression = "#{" + action + "}";
+            if ( !isActionAllowed(facesContext, expression) ) return;
+            MethodBinding actionBinding = facesContext.getApplication().createMethodBinding(expression, null);
             outcome = (String) actionBinding.invoke( facesContext, null );
+            fromAction = expression;
          }
       }
       
       if (outcome!=null)
       {
          facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, fromAction, outcome);
+      }
+   }
+
+   private boolean isActionAllowed(FacesContext facesContext, String expression)
+   {
+      Map applicationMap = facesContext.getExternalContext().getApplicationMap();
+      Set actions = (Set) applicationMap.get("org.jboss.seam.actions");
+      if (actions==null) return false;
+      synchronized (actions)
+      {
+         return actions.contains(expression);
       }
    }
 

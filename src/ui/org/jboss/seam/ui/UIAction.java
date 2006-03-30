@@ -1,5 +1,9 @@
 package org.jboss.seam.ui;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
@@ -42,11 +46,31 @@ public class UIAction extends UIParameter
       if ( isMethodBinding() )
       {
          String expression = getMethodBindingExpression();
+         allowAction(expression);
          return expression.substring( 2, expression.length()-1 ); 
       }
       else
       {
          return outcome;
+      }
+   }
+
+   private void allowAction(String expression)
+   {
+      Map applicationMap = getFacesContext().getExternalContext().getApplicationMap();
+      Set actions;
+      synchronized (UIAction.class)
+      {
+         actions = (Set) applicationMap.get("org.jboss.seam.actions");
+         if (actions==null)
+         {
+            actions = new HashSet();
+            applicationMap.put("org.jboss.seam.actions", actions);
+         }
+      }
+      synchronized (actions)
+      {
+         actions.add(expression);
       }
    }
    
