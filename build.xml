@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Seam" default="jar" basedir=".">
+<project name="Seam" default="build" basedir=".">
 
     <!-- Allow this to be overriden by others importing this project. -->
     <dirname property="imported.basedir" file="${ant.file.Seam}"/>
@@ -405,6 +405,9 @@
             </fileset>
         </copy>
     </target>
+	
+	<target name="build" depends="jar,jarui"
+		description="Build both distribution .jar files"/>
 
     <target name="jar" depends="compile"
             description="Build the distribution .jar file">
@@ -511,6 +514,7 @@
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf"/>
             <zipfileset refid="example.war.webinf.lib"/>
+        	<zipfileset refid="example.war.webinf.lib.extra"/>
         	<manifest>
         		<attribute name="Class-Path" value="${name}.jar"/>
         	</manifest>
@@ -581,6 +585,7 @@
         	<zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
+        	<zipfileset refid="example.war.webinf.lib.extra"/>
             <zipfileset refid="example.tomcat.war.webinf"/>
             <zipfileset refid="example.tomcat.war.webinf.extra"/>
             <zipfileset refid="${tomcat.lib}"/>
