@@ -14,8 +14,8 @@
     <span class="errors"><h:messages globalOnly="true"/></span>
 	<h1>Search Hotels</h1>
 	<fieldset> 
-	   <h:inputText value="#{hotelSearch.searchString}" style="width: 165px;" />&nbsp;
-	   <h:commandButton value="Find Hotels" action="#{hotelSearch.find}" styleClass="button" />
+	   <h:inputText value="#{hotelSearch.searchString}" style="width: 165px;"/>&nbsp;
+	   <h:commandButton value="Find Hotels" action="#{hotelSearch.find}" styleClass="button"/>
 	   <br/>
        <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&nbsp;
        <h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
@@ -48,7 +48,8 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<s:actionLink action="#{hotelBooking.selectHotel}">View Hotel
+			<s:actionLink action="#{hotelBooking.selectHotel}">
+			   View Hotel
 			   <f:param name="hotelId" value="#{hot.id}"/>
 			</s:actionLink>
 		</h:column>
