@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -26,9 +27,6 @@ public class LoginAction implements Login
    
    @PersistenceContext
    private EntityManager em;
-   
-   @In
-   private transient Context sessionContext;
 
    public String login()
    {
@@ -45,7 +43,7 @@ public class LoginAction implements Login
       else
       {
          user = results.get(0);
-         sessionContext.set("loggedIn", true);         
+         Contexts.getSessionContext().set("loggedIn", true);         
          return "main";
       }
       
