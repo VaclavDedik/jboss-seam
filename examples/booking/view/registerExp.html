@@ -18,10 +18,20 @@
     <h2>What happens in the registration process?</h2>
     <img src="img/header_line.gif" />
     
-    <p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+    <p>
+       <center>
+       <form>
+          <INPUT type="button" value="Close Window" onClick="window.close()">
+       </form>
+       </center>
+    </p>
 
-<p>The registration page is formated as a regular XHTML form.</p>
-
+    <p>
+       This JSF form includes <code>&lt;h:message></code> tags that
+       will display the results of any JSF validation failures that
+       occur during the form submission cycle.
+    </p>
+    
 <code class="block">
 &lt;div class="entry">
     &lt;div class="label">
@@ -52,55 +62,95 @@
     &lt;/div>
 </code>
 
-<p>As you can see the fields in the form are mapped to the properties in the <code>user</code> bean (e.g., the <code>#{user.username}</code> property is mapped to the Username field in the form). The form action is mapped to the <code>register()</code> method in the <code>register</code> bean (i.e., the <code>#{register.register}</code> action.</p>
+   <p>
+      The form fields are bound to properties of a Seam component named
+      <code>user</code> via JSF EL value binding expressions such as
+      <code>#{user.username}</code>. The form submit button is bound
+      to the <code>register()</code> method of the Seam component named
+      <code>register</code> using the JSF method binding expression 
+      <code>#{register.register}</code>.
+   </p>
 
-<p>So, let's check out the <code>User</code> entity bean. EJB 3.0 maps the entity bean to the <code>User</code> SQL table by default, with each bean property corresponding to one data column. And Seam maps the <code>User</code> bean to the <code>#{user}</code> bean in JSF / Facelets via the <code>@Name</code> annotation. It is important to notice the validation constraint annotations, such as <code>@NotNull</code>, <code>@Length</code>. They are automatically validated by Seam. If the user enters invalid data in the JSF form, Seam would redirect back to the registration page with error messages.</p>
+   <p>
+      The <code>User</code> class is an EJB 3.0 entity bean with a 
+      <code>@Name</code> annotation that binds the bean instance to a
+      context variable named <code>user</code>. In addition to the standard 
+      EJB 3.0 O/R mapping metadata, this bean features several Hibernate 
+      Validator annotations such as 
+      <code>@NotNull</code>, <code>@Length</code>. These constraints are 
+      automatically validated by Seam when the form is submitted. If the user 
+      enters invalid data in the JSF form, the form will be redisplayed with 
+      error messages.
+   </p>
 
 <code class="block">
 @Entity
 @Name("user")
 @Scope(SESSION)
-public class User implements Serializable {
+public class User implements Serializable
+{
    private String username;
    private String password;
    private String name;
+   
+   public User(String name, String password, String username)
+   {
+      this.name = name;
+      this.password = password;
+      this.username = username;
+   }
+   
+   public User() {}
 
    @NotNull
    @Length(max=100)
-   public String getName() {
+   public String getName()
+   {
       return name;
    }
-
-    // ... ...
-    
-   @NotNull
-   @Length(min=5, max=15)
-   public String getPassword() {
-      return password;
+   public void setName(String name)
+   {
+      this.name = name;
    }
    
-   // ... ...
+   @NotNull
+   @Length(min=5, max=15)
+   public String getPassword()
+   {
+      return password;
+   }
+   public void setPassword(String password)
+   {
+      this.password = password;
+   }
    
    @Id
    @Length(min=5, max=15)
-   public String getUsername() {
+   public String getUsername()
+   {
       return username;
    }
+   public void setUsername(String username)
+   {
+      this.username = username;
+   }
    
-   // ... ...
-}
-</code>
+}</code>
 
-<p></p>
-
-<p>The <code>RegisterAction</code> is an EJB 3.0 session bean and it is mapped to the <code>#{register}</code> bean in the JSF / Facelets page via the <code>@Name</code> annotation by SEAM. So, the <code>RegisterAction.register()</code> method is invoked when the "register" button is clicked.</p>
+    <p>
+       <code>RegisterAction</code> is an EJB 3.0 stateful session bean 
+       bound to the Seam context variable named <code>register</code>. 
+       The <code>register()</code> method is invoked  when the form is 
+       submitted.
+    </p>
 
 <code class="block">
 @Stateful
 @Scope(EVENT)
 @Name("register")
-@Interceptor(SeamInterceptor.class)
-public class RegisterAction implements Register {
+@Interceptors(SeamInterceptor.class)
+public class RegisterAction implements Register
+{
 
    @In @Valid
    private User user;
@@ -108,39 +158,70 @@ public class RegisterAction implements Register {
    @PersistenceContext
    private EntityManager em;
    
-   @In
-   private FacesContext facesContext;
+   @In(create=true)
+   private transient FacesMessages facesMessages;
+   
+   private String verify;
    
    @IfInvalid(outcome=REDISPLAY)
-   public String register() {
-      if ( user.getPassword().equals(verify) ) {
-         List existing = em.createQuery(
-            "select username from User where username=:username")
+   public String register()
+   {
+      if ( user.getPassword().equals(verify) )
+      {
+         List existing = em.createQuery("select username from User where username=:username")
             .setParameter("username", user.getUsername())
             .getResultList();
-         if (existing.size()==0) {
+         if (existing.size()==0)
+         {
             em.persist(user);
             return "login";
-         } else {
-            facesContext.addMessage(null, 
-                new FacesMessage("username already exists"));
+         }
+         else
+         {
+            facesMessages.add("username #{user.username} already exists");
             return null;
          }
-      } else {
-         facesContext.addMessage(null, 
-            new FacesMessage("re-enter your password"));
+      }
+      else 
+      {
+         facesMessages.add("re-enter your password");
          verify=null;
          return null;
       }
    }
 
-   // ... ...
-}
-</code>
+   public String getVerify()
+   {
+      return verify;
+   }
 
-<p>The <code>@In</code> annotation in the <code>RegisterAction()</code> session bean injects the <code>User</code> entity bean and the <code>FacesContext</code> system object. The form input is validated by the server to match the data schema, if it is not valid the <code>@IfInValid</code> annotation tells the JSF to re-display the form with error messages.</p>
+   public void setVerify(String verify)
+   {
+      this.verify = verify;
+   }
+   
+   @Destroy @Remove
+   public void destroy() {}
+}</code>
 
-<p><center><form><INPUT type="button" value="Close Window" onClick="window.close()"></form></center></p>
+    <p>
+       The <code>@In</code> annotations inject Seam components into the <code>RegisterAction</code>
+       bean. The <code>user</code> component is our entity bean, of course. The <code>facesMessages</code> 
+       component is a built-in Seam component that makes it very easy to display templated and localized
+       messages to the user, even when redirect after post is used.
+    </p>
+    <p>
+       The <code>@IfInValid</code> annotation tells the Seam to apply the Hibernate Validator constraints
+       and redisplay the form with error messages if the constraints are violated.
+    </p>
+
+    <p>
+       <center>
+       <form>
+          <INPUT type="button" value="Close Window" onClick="window.close()">
+       </form>
+       </center>
+    </p>
 
   </div>
 </div>

@@ -26,7 +26,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 public class HotelSearchingAction implements HotelSearching
 {
    
-   @PersistenceContext(type=EXTENDED)
+   @PersistenceContext
    private EntityManager em;
    
    private String searchString;
