@@ -1,30 +1,46 @@
-//$Id$
-package org.jboss.seam.example.booking;
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
-import static javax.persistence.PersistenceContextType.EXTENDED;
-import static org.jboss.seam.annotations.Outcome.REDISPLAY;
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>In-depth Explanation</title>
+	<link href="../css/trailblazer_main.css" rel="stylesheet" type="text/css" />
+</head>
 
-import java.util.Calendar;
+<body>
 
-import javax.ejb.Interceptors;
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+<div id="main">
+  <div class="trail">
+    <div class="numbox">5</div>
+    <h2>Conversations</h2>
+    <img src="../img/header_line.gif" />
+    
+    <p>
+       <center>
+       <form>
+          <INPUT type="button" value="Close Window" onClick="window.close()">
+       </form>
+       </center>
+    </p>
 
-import org.hibernate.validator.Valid;
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Conversational;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.IfInvalid;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.RequestParameter;
-import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
-
+    <p>
+       The hotel booking "wizard" is implemented by a conversation-scoped
+       stateful session bean. The <code>HotelBookingAction</code> maintains
+       state associated with the booking process in the Seam conversation
+       scope. This ensures that if the user is working in multiple brower
+       tabs or multiple brower windows, the various conversations are
+       completely isolated from each other.
+    </p>
+    <p>
+       To see this working in practice, right click on the "View Hotel" button 
+       in the search screen and select "open in new tab" or "open in new window",
+       and try working on multiple hotel bookings simultaneously.
+    </p>
+    
+<code class="block">
 @Stateful
 @Name("hotelBooking")
 @Interceptors(SeamInterceptor.class)
@@ -103,6 +119,7 @@ public class HotelBookingAction implements HotelBooking
       em.persist(booking);
       if (bookingList!=null) bookingList.refresh();
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      //hotels=null;
       return "confirmed";
    }
    
@@ -115,4 +132,23 @@ public class HotelBookingAction implements HotelBooking
    @Destroy @Remove
    public void destroy() {}
 
-}
+}</code>
+
+    <p>
+       The conversation begins when <code>selectHotel()</code> is called, and ends when 
+       <code>confirm()</code> or <code>cancel()</code> is called.
+    </p>
+
+    <p>
+       <center>
+       <form>
+          <INPUT type="button" value="Close Window" onClick="window.close()">
+       </form>
+       </center>
+    </p>
+
+  </div>
+</div>
+
+</body>
+</html>

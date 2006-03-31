@@ -50,18 +50,18 @@ public class RegisterAction implements Register
          if (existing.size()==0)
          {
             em.persist(user);
-            facesMessages.add("successfully registered as #{user.username}");
+            facesMessages.add("Successfully registered as #{user.username}");
             return "login";
          }
          else
          {
-            facesMessages.add("username #{user.username} already exists");
+            facesMessages.add("Username #{user.username} already exists");
             return null;
          }
       }
       else 
       {
-         facesMessages.add("re-enter your password");
+         facesMessages.add("Re-enter your password");
          verify=null;
          return null;
       }
