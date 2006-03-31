@@ -1,27 +1,21 @@
 package org.jboss.seam.ui;
 
 import javax.faces.component.html.HtmlOutputLink;
-import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
 public class HtmlActionLink extends HtmlOutputLink
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlActionLink";
-   
-   private UIAction uiAction;
-   
-   public HtmlActionLink()
-   {
-      uiAction = new UIAction();
-      getChildren().add(uiAction);
-      getChildren().add( new UIConversationId() );
-   }
+
+   private UIConversationPropagation uiConversationPropagation; 
 
    @Override
    public void setValueBinding(String name, ValueBinding binding)
    {
-      if ("action".equals(name) )
+      if ( "action".equals(name) )
       {
+         UIAction uiAction = new UIAction();
+         getChildren().add(uiAction);
          uiAction.setValueBinding(name, binding);
       }
       else
@@ -30,18 +24,35 @@ public class HtmlActionLink extends HtmlOutputLink
       }
    }
    
-   @Override
-   public void restoreState(FacesContext context, Object state) {
-      super.restoreState(context, state);
-      uiAction = (UIAction) getChildren().get(0);
-   }
-
-   @Override
-   public void processRestoreState(FacesContext context, Object state)
+   private void initUiConversationPropagation()
    {
-      getChildren().remove(0);
-      getChildren().remove(0);
-      super.processRestoreState(context, state);
+      if (uiConversationPropagation==null)
+      {
+         uiConversationPropagation = new UIConversationPropagation();
+         getChildren().add(uiConversationPropagation);
+      }
+   }
+   
+   public void setPropagation(String type)
+   {
+      if ( !"none".equals(type) )
+      {
+         if ( !"begin".equals(type) )
+         {
+            getChildren().add( new UIConversationId() );
+         }
+         if ( !"continue".equals(type) )
+         {
+            initUiConversationPropagation();
+            uiConversationPropagation.setType(type);
+         }
+      }
+   }
+   
+   public void setPageflow(String type)
+   {
+      initUiConversationPropagation();
+      uiConversationPropagation.setPageflow(type);
    }
 
 }

@@ -24,6 +24,12 @@
 		</component>
 	</tag>
 	<tag>
+		<tag-name>conversationPropagation</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIConversationPropagation</component-type>
+		</component>
+	</tag>
+	<tag>
 		<tag-name>actionLink</tag-name>
 		<component>
 			<component-type>org.jboss.seam.ui.HtmlActionLink</component-type>

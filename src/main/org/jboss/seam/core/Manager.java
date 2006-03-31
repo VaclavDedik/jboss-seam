@@ -387,9 +387,26 @@ public class Manager
       }
    }
 
+   private String getPropagationFromRequestParameter(Map parameters)
+   {
+      Object type = parameters.get("conversationPropagation");
+      if (type==null)
+      {
+         return null;
+      }
+      else if (type instanceof String)
+      {
+         return (String) type;
+      }
+      else
+      {
+         return ( (String[]) type )[0];
+      }
+   }
+   
    public void restoreConversation(Map parameters)
    {
-
+      
       //First, try to get the conversation id from a request parameter
       String storedConversationId = getConversationIdFromRequestParameter(parameters);
       
@@ -405,13 +422,59 @@ public class Manager
       {
          log.debug("Found conversation id in request parameter: " + storedConversationId);
       }
-
+      
+      //deprecated?
       if ( "new".equals(storedConversationId) )
       {
          storedConversationId = null;
       }
 
+      String propagation = getPropagationFromRequestParameter(parameters);
+      if ( "none".equals(propagation) )
+      {
+         storedConversationId = null;
+      }
+
       restoreConversation(storedConversationId);
+      
+   }
+
+   public void handleConversationPropagation(Map parameters)
+   {
+      
+      String propagation = getPropagationFromRequestParameter(parameters);
+      
+      if ( propagation!=null && propagation.startsWith("begin") )
+      {
+         if ( isLongRunningConversation )
+         {
+            throw new IllegalStateException();
+         }
+         beginConversation(null);
+         if (propagation.length()>6)
+         {
+            Pageflow.instance().begin( propagation.substring(6) );
+         }
+      }
+      if ( propagation!=null && propagation.startsWith("join") )
+      {
+         if ( !isLongRunningConversation )
+         {
+            beginConversation(null);
+            if (propagation.length()>5)
+            {
+               Pageflow.instance().begin( propagation.substring(5) );
+            }
+         }
+      }
+      else if ( propagation!=null && propagation.startsWith("nest") )
+      {
+         beginNestedConversation(null);
+         if (propagation.length()>5)
+         {
+            Pageflow.instance().begin( propagation.substring(5) );
+         }
+      }
 
    }
 

@@ -39,12 +39,35 @@
   </component>
   
   <component>
+    <component-class>org.jboss.seam.ui.UIConversationPropagation</component-class>
+    <base-class>javax.faces.component.UIParameter</base-class>
+    <component-type>org.jboss.seam.ui.UIConversationPropagation</component-type>
+    <component-family>javax.faces.Parameter</component-family>
+    <field>
+        <name>type</name>
+        <type>java.lang.String</type>
+    </field>
+    <field>
+        <name>pageflow</name>
+        <type>java.lang.String</type>
+    </field>
+  </component>
+  
+  <component>
     <component-class>org.jboss.seam.ui.HtmlActionLink</component-class>
     <base-class>javax.faces.component.html.HtmlOutputLink</base-class>
     <component-type>org.jboss.seam.ui.HtmlActionLink</component-type>
     <component-family>javax.faces.Parameter</component-family>
     <field>
         <name>action</name>
+        <type>java.lang.String</type>
+    </field>
+    <field>
+        <name>propagation</name>
+        <type>java.lang.String</type>
+    </field>
+    <field>
+        <name>pageflow</name>
         <type>java.lang.String</type>
     </field>
   </component>

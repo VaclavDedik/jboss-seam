@@ -21,11 +21,8 @@ import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
-import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.graph.exe.ProcessInstance;
 
 /**
  * After the end of the invocation, begin or end a long running
@@ -190,7 +187,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       if ( !processDefinitionName.equals("") )
       {
-         beginPageflow(processDefinitionName);
+         Pageflow.instance().begin(processDefinitionName);
       }
    }
 
@@ -229,21 +226,6 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       log.debug("Ending long-running conversation");
       Manager.instance().endConversation();
-   }
-   
-   private void beginPageflow(String processDefinitionName)
-   {
-      ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
-      ProcessInstance pi = pd.createProcessInstance();
-      Pageflow.instance().setProcessInstance(pi);
-      if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
-      {
-    	  //if a pageflow starts during the render response phase
-    	  //(as a result of a @Create method), we know the navigation
-    	  //handler will not get called, so we should force the
-    	  //pageflow out of the start state immediately
-    	  pi.signal();
-      }
    }
 
 }

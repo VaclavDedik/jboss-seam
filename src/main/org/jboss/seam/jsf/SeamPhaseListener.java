@@ -166,12 +166,14 @@ public class SeamPhaseListener implements PhaseListener
    {
       Lifecycle.resumePage();
       ExternalContext externalContext = event.getFacesContext().getExternalContext();
-      Manager.instance().restoreConversation( getParameters(event) );
+      Map parameters = getParameters(event);
+      Manager.instance().restoreConversation( parameters );
       Lifecycle.resumeConversation( externalContext );
       if ( Init.instance().isJbpmInstalled() )
       {
          Pageflow.instance().validatePageflow();
       }
+      Manager.instance().handleConversationPropagation(parameters);
       
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
    }

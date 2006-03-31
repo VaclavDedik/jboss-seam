@@ -41,6 +41,7 @@ public class SeamServletFilter implements Filter {
       Lifecycle.beginRequest(servletContext, session);
       Manager.instance().restoreConversation( request.getParameterMap() );
       Lifecycle.resumeConversation(session);
+      Manager.instance().handleConversationPropagation( request.getParameterMap() );
       try
       {
          chain.doFilter(request, response);
