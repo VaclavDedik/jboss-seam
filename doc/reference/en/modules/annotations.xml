@@ -112,9 +112,9 @@
                 <listitem>
                     <programlisting><![CDATA[@JndiName("my/jndi/name")]]></programlisting>
                     <para>
-                        Defines the JNDI name of an EJB component. If no JNDI name is explicitly
-                        specified, the fully qualified class name of the local interface is
-                        used.
+                        Specifies the JNDI name that Seam will use to look up the EJB component. 
+                        If no JNDI name is explicitly specified, Seam will use the JNDI
+                        pattern specified by <literal>org.jboss.seam.core.init.jndiPattern</literal>.
                     </para>
                 </listitem>
             </varlistentry>   
