@@ -29,7 +29,6 @@
 </div>
 
 <div class="section">
-  <h:form>
 	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
 	<h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
 		<h:column>
@@ -55,7 +54,6 @@
 			</s:actionLink>
 		</h:column>
 	</h:dataTable>
-  </h:form>  
 </div>
 
 <div class="section">
