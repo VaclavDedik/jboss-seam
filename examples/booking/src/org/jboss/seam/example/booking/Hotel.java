@@ -22,6 +22,7 @@ public class Hotel implements Serializable
    private String city;
    private String state;
    private String zip;
+   private String country;
    
    @Id @GeneratedValue
    public Long getId()
@@ -74,7 +75,7 @@ public class Hotel implements Serializable
       this.zip = zip;
    }
    
-   @Length(min=2, max=2) @NotNull
+   @Length(min=2, max=3) @NotNull
    public String getState()
    {
       return state;
@@ -82,6 +83,17 @@ public class Hotel implements Serializable
    public void setState(String state)
    {
       this.state = state;
+   }
+   
+   @Length(min=2, max=40) @NotNull
+   public String getCountry()
+   {
+      return country;
+   }
+   
+   public void setCountry(String country)
+   {
+      this.country = country;
    }
 
    public String toString()
