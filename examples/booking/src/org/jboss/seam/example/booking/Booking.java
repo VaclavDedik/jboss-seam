@@ -29,6 +29,11 @@ public class Booking implements Serializable
    private Date checkinDate;
    private Date checkoutDate;
    private String creditCard;
+   private String creditCardName;
+   private int creditCardExpiryMonth;
+   private int creditCardExpiryYear;
+   private boolean smoking;
+   private int beds;
    
    public Booking() {}
    
@@ -111,9 +116,61 @@ public class Booking implements Serializable
             ", " + df.format( getCheckinDate() ) + 
             " to " + df.format( getCheckoutDate() );
    }
+
+   public boolean isSmoking()
+   {
+      return smoking;
+   }
+
+   public void setSmoking(boolean smoking)
+   {
+      this.smoking = smoking;
+   }
+   
+   public int getBeds()
+   {
+      return beds;
+   }
+
+   public void setBeds(int beds)
+   {
+      this.beds = beds;
+   }
+   @NotNull(message="Credit card name is required")
+   @Length(min=3, max=70, message="Credit card name is required")
+   public String getCreditCardName()
+   {
+      return creditCardName;
+   }
+
+   public void setCreditCardName(String creditCardName)
+   {
+      this.creditCardName = creditCardName;
+   }
+
+   public int getCreditCardExpiryMonth()
+   {
+      return creditCardExpiryMonth;
+   }
+
+   public void setCreditCardExpiryMonth(int creditCardExpiryMonth)
+   {
+      this.creditCardExpiryMonth = creditCardExpiryMonth;
+   }
+
+   public int getCreditCardExpiryYear()
+   {
+      return creditCardExpiryYear;
+   }
+
+   public void setCreditCardExpiryYear(int creditCardExpiryYear)
+   {
+      this.creditCardExpiryYear = creditCardExpiryYear;
+   }
    
    public String toString()
    {
       return "Booking(" + user + ","+ hotel + ")";
    }
+
 }

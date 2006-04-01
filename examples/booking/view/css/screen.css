@@ -34,7 +34,12 @@ input {
 	margin: 5px 0;
 	background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
 }
-ol, ul {
+select {
+	border: 1px solid #C3BBB6;
+	padding: 4px;
+	margin: 5px 0;
+	background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
+}ol, ul {
 	margin: 10px 0px 10px 6px;
 }
 li {
@@ -212,6 +217,14 @@ fieldset {
 	padding-left: 10px;
 	float: left;
 	width: 66%;
+}
+#radio table {
+	border: 0px;
+}
+#radio table tr td {
+	border: 0px;
+	border-left: 0px;
+	border-bottom: 0px;
 }
 /* Header
 ----------------------------------------------- */
