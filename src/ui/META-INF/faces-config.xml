@@ -1,75 +1,91 @@
 <?xml version="1.0"?>
+<!DOCTYPE faces-config PUBLIC
+   "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+   "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
 <faces-config>
 
   <component>
-    <component-class>org.jboss.seam.ui.HtmlQueryTable</component-class>
-    <base-class>javax.faces.component.html.HtmlDataTable</base-class>
     <component-type>org.jboss.seam.ui.HtmlQueryTable</component-type>
-    <renderer-type>javax.faces.Table</renderer-type>
-    <field>
-        <name>ejbql</name>
-        <type>java.lang.String</type>
-    </field>
-    <field>
-        <name>firstResult</name>
-        <type>java.lang.Integer</type>
-    </field>
-    <field>
-        <name>maxResults</name>
-        <type>java.lang.integer</type>
-    </field>
+    <component-class>org.jboss.seam.ui.HtmlQueryTable</component-class>
+    <property>
+        <property-name>ejbql</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+    <property>
+        <property-name>firstResult</property-name>
+        <property-class>java.lang.Integer</property-class>
+    </property>
+    <property>
+        <property-name>maxResults</property-name>
+        <property-class>java.lang.integer</property-class>
+    </property>
   </component>
   
   <component>
-    <component-class>org.jboss.seam.ui.UIAction</component-class>
-    <base-class>javax.faces.component.UIParameter</base-class>
     <component-type>org.jboss.seam.ui.UIAction</component-type>
-    <component-family>javax.faces.Parameter</component-family>
-    <field>
-        <name>action</name>
-        <type>java.lang.String</type>
-    </field>
+    <component-class>org.jboss.seam.ui.UIAction</component-class>
+    <property>
+        <property-name>action</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
   </component>
   
   <component>
-    <component-class>org.jboss.seam.ui.UIConversationId</component-class>
-    <base-class>javax.faces.component.UIParameter</base-class>
     <component-type>org.jboss.seam.ui.UIConversationId</component-type>
-    <component-family>javax.faces.Parameter</component-family>
+    <component-class>org.jboss.seam.ui.UIConversationId</component-class>
   </component>
   
   <component>
-    <component-class>org.jboss.seam.ui.UIConversationPropagation</component-class>
-    <base-class>javax.faces.component.UIParameter</base-class>
     <component-type>org.jboss.seam.ui.UIConversationPropagation</component-type>
-    <component-family>javax.faces.Parameter</component-family>
-    <field>
-        <name>type</name>
-        <type>java.lang.String</type>
-    </field>
-    <field>
-        <name>pageflow</name>
-        <type>java.lang.String</type>
-    </field>
+    <component-class>org.jboss.seam.ui.UIConversationPropagation</component-class>
+    <property>
+        <property-name>type</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+    <property>
+        <property-name>pageflow</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
   </component>
   
   <component>
-    <component-class>org.jboss.seam.ui.HtmlActionLink</component-class>
-    <base-class>javax.faces.component.html.HtmlOutputLink</base-class>
-    <component-type>org.jboss.seam.ui.HtmlActionLink</component-type>
-    <component-family>javax.faces.Parameter</component-family>
-    <field>
-        <name>action</name>
-        <type>java.lang.String</type>
-    </field>
-    <field>
-        <name>propagation</name>
-        <type>java.lang.String</type>
-    </field>
-    <field>
-        <name>pageflow</name>
-        <type>java.lang.String</type>
-    </field>
+    <component-type>org.jboss.seam.ui.UISelection</component-type>
+    <component-class>org.jboss.seam.ui.UISelection</component-class>
+    <property>
+        <property-name>dataModel</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+  </component>
+  
+  <component>
+    <component-type>org.jboss.seam.ui.UITaskId</component-type>
+    <component-class>org.jboss.seam.ui.UITaskId</component-class>
+    <property>
+        <property-name>task</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+  </component>
+  
+  <component>
+    <component-type>org.jboss.seam.ui.HtmlLink</component-type>
+    <component-class>org.jboss.seam.ui.HtmlLink</component-class>
+    <property>
+        <property-name>action</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+    <property>
+        <property-name>view</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+    <property>
+        <property-name>propagation</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+    <property>
+        <property-name>pageflow</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
   </component>
   
 </faces-config>

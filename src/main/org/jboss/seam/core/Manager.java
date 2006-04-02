@@ -456,7 +456,7 @@ public class Manager
             Pageflow.instance().begin( propagation.substring(6) );
          }
       }
-      if ( propagation!=null && propagation.startsWith("join") )
+      else if ( propagation!=null && propagation.startsWith("join") )
       {
          if ( !isLongRunningConversation )
          {
@@ -474,6 +474,10 @@ public class Manager
          {
             Pageflow.instance().begin( propagation.substring(5) );
          }
+      }
+      else if ( "end".equals(propagation) )
+      {
+         endConversation();
       }
 
    }

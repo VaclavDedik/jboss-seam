@@ -19,6 +19,7 @@ import javax.faces.el.MethodBinding;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.faces.model.DataModel;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.contexts.Contexts;
@@ -174,8 +175,25 @@ public class SeamPhaseListener implements PhaseListener
          Pageflow.instance().validatePageflow();
       }
       Manager.instance().handleConversationPropagation(parameters);
+      selectDataModelRow(parameters);
       
       log.debug( "After restore view, conversation context: " + Contexts.getConversationContext() );
+   }
+   
+   private static void selectDataModelRow(Map parameters)
+   {
+      String dataModelSelection = (String) parameters.get("dataModelSelection");
+      if (dataModelSelection!=null)
+      {
+         int loc = dataModelSelection.indexOf('[');
+         String name = dataModelSelection.substring(0, loc);
+         int index = Integer.parseInt( dataModelSelection.substring( loc+1, dataModelSelection.length()-1 ) );
+         Object value = Contexts.lookupInStatefulContexts(name);
+         if (value!=null)
+         {
+            ( (DataModel) value ).setRowIndex(index);
+         }
+      }
    }
 
    static void storeAnyConversationContext(FacesContext ctx)
