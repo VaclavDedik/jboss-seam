@@ -48,10 +48,7 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<s:actionLink action="#{hotelBooking.selectHotel}">
-			   View Hotel
-			   <f:param name="hotelId" value="#{hot.id}"/>
-			</s:actionLink>
+			<s:link value="View Hotel" action="#{hotelBooking.selectHotel}"/>
 		</h:column>
 	</h:dataTable>
 </div>
@@ -93,7 +90,7 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<h:commandLink action="#{bookingList.cancel}">Cancel</h:commandLink>
+			<h:commandLink value="Cancel" action="#{bookingList.cancel}"/>
 		</h:column>
 	</h:dataTable>
   </h:form>

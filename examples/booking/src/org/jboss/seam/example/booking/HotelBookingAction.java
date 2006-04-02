@@ -21,7 +21,6 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -53,21 +52,18 @@ public class HotelBookingAction implements HotelBooking
    @In(required=false)
    private BookingList bookingList;
    
-   @RequestParameter
-   private Long hotelId; 
+   /*@RequestParameter
+   private Long hotelId;*/
+   
+   @In 
+   private HotelSearching hotelSearch;
    
    @Begin
    public String selectHotel()
    {
-      if (hotelId!=null)
-      {
-         hotel = em.find(Hotel.class, hotelId);
-         return "hotel";
-      }
-      else
-      {
-         return null;
-      }
+      hotel = em.merge( hotelSearch.getSelectedHotel() );
+      //hotel = em.find(Hotel.class, hotelId);
+      return "hotel";
    }
    
    public String bookHotel()

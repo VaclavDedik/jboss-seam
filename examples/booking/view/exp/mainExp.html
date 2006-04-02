@@ -136,9 +136,7 @@ public class HotelSearchingAction implements HotelSearching
 	&lt;/h:column>
 	&lt;h:column>
 		&lt;f:facet name="header">Action&lt;/f:facet>
-		&lt;s:actionLink action="#{hotelBooking.selectHotel}">View Hotel
-		   &lt;f:param name="hotelId" value="#{hot.id}"/>
-		&lt;/s:actionLink>
+		&lt;s:link value="View Hotel" action="#{hotelBooking.selectHotel}"/>
 	&lt;/h:column>
 &lt;/h:dataTable>
 </code>

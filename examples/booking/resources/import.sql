@@ -15,6 +15,6 @@ insert into Hotel (id, name, address, city, state, zip, country) values (13, 'Hi
 insert into Hotel (id, name, address, city, state, zip, country) values (14, 'InterContinental Tokyo Bay', 'Takeshiba Pier', 'Tokyo', '', '', 'Japan')
 insert into Hotel (id, name, address, city, state, zip, country) values (15, 'Hotel Beaulac', '', 'Neuchatel', '', '', 'Switzerland')
 insert into Hotel (id, name, address, city, state, zip, country) values (16, 'Conrad Treasury Place', '', 'Brisbane', 'QLD', '', 'Australia')
-insert into Hotel (id, name, address, city, state, zip, country) values (17, 'Ritz Carlton', 'Sherbrooke Ave', 'Montreal', 'Quebec', '', Canada)
+insert into Hotel (id, name, address, city, state, zip, country) values (17, 'Ritz Carlton', 'Sherbrooke Ave', 'Montreal', 'Quebec', '', 'Canada')
 insert into Hotel (id, name, address, city, state, zip, country) values (18, 'Ritz Carlton', 'Peachtree Rd, Buckhead', 'Atlanta', 'GA', '30326', 'USA')
 insert into Hotel (id, name, address, city, state, zip, country) values (19, 'Swissotel', '', 'Sydney', 'NSW', '', 'Australia')

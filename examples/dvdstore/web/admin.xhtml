@@ -4,7 +4,8 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:c="http://java.sun.com/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
@@ -84,10 +85,9 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
+                            <s:link action="#{pooledTask.assignToCurrentActor}" taskInstance="#{task}"> 
                                 <h:commandButton value="Assign"/>
-                                <f:param name="taskId" value="#{task.id}"/>
-                            </h:commandLink>
+                            </s:link>
                         </h:column>
                         	
                     </h:dataTable>
@@ -121,10 +121,9 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <h:commandLink action="#{accept.viewTask}"> 
+                            <s:link action="#{accept.viewTask}" taskInstance="#{task}">
                                 <h:commandButton value="Review"/>
-                                <f:param name="taskId" value="#{task.id}"/>
-                            </h:commandLink>
+                            </s:link>
                         </h:column>
                
                     </h:dataTable>
@@ -160,10 +159,9 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <h:commandLink action="#{ship.viewTask}"> 
+                            <s:link action="#{ship.viewTask}" taskInstance="#{task}"> 
                                 <h:commandButton value="Ship"/>
-                                <f:param name="taskId" value="#{task.id}"/>
-                            </h:commandLink>
+                            </s:link>
                         </h:column>               
                     </h:dataTable>
                 </c:otherwise>
