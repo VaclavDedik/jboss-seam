@@ -36,6 +36,7 @@ import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.IsUserInRole;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.LocaleSelector;
 import org.jboss.seam.core.ManagedHibernateSession;
@@ -62,10 +63,10 @@ import org.jboss.seam.core.Transition;
 import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.Scanner;
+import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.util.NamingHelper;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
-import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 
 /**
  * @author Gavin King
@@ -155,6 +156,7 @@ public class Initialization
       addComponent( Manager.class, context );
       addComponent( Switcher.class, context );
       addComponent( Redirect.class, context );
+      addComponent( IsUserInRole.class, context );
       addComponent( Conversation.class, context );
       addComponent( ConversationList.class, context );
       addComponent( ConversationStack.class, context );
