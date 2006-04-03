@@ -20,10 +20,6 @@ import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ResponseWriter;
 
-import org.apache.myfaces.renderkit.RendererUtils;
-import org.apache.myfaces.util.ArrayUtils;
-
-
 /**
  * Constant declarations for HTML rendering.
  * @author Manfred Geiler
@@ -32,6 +28,22 @@ import org.apache.myfaces.util.ArrayUtils;
  */
 public final class HTML
 {
+   
+   private static String[] concat(String[]... x)
+   {
+      int len = 0;
+      for (String[] y: x) len+=y.length;
+      String[] result = new String[len];
+      int i=0;
+      for (String[] y: x) 
+      {
+         for (String s: y)
+         {
+            result[i++] = s;
+         }
+      }
+      return result;
+   }
 
    /**
     * @return true, if an attribute was written
@@ -68,7 +80,7 @@ public final class HTML
    public static boolean renderHTMLAttribute(ResponseWriter writer,
            String componentProperty, String attrName, Object value)
            throws IOException {
-       if (!RendererUtils.isDefaultAttributeValue(value)) {
+       if (!isDefaultAttributeValue(value)) {
            // render JSF "styleClass" attribute as "class"
            String htmlAttrName = attrName.equals(HTML.STYLE_CLASS_ATTR) ? HTML.CLASS_ATTR
                    : attrName;
@@ -76,6 +88,51 @@ public final class HTML
            return true;
        }
 
+       return false;
+   }
+
+   /**
+    * See JSF Spec. 8.5 Table 8-1
+    * @param value
+    * @return boolean
+    */
+   public static boolean isDefaultAttributeValue(Object value)
+   {
+       if (value == null)
+       {
+           return true;
+       }
+       else if (value instanceof Boolean)
+       {
+           return ((Boolean)value).booleanValue() == false;
+       }
+       else if (value instanceof Number)
+       {
+           if (value instanceof Integer)
+           {
+               return ((Number)value).intValue() == Integer.MIN_VALUE;
+           }
+           else if (value instanceof Double)
+           {
+               return ((Number)value).doubleValue() == Double.MIN_VALUE;
+           }
+           else if (value instanceof Long)
+           {
+               return ((Number)value).longValue() == Long.MIN_VALUE;
+           }
+           else if (value instanceof Byte)
+           {
+               return ((Number)value).byteValue() == Byte.MIN_VALUE;
+           }
+           else if (value instanceof Float)
+           {
+               return ((Number)value).floatValue() == Float.MIN_VALUE;
+           }
+           else if (value instanceof Short)
+           {
+               return ((Number)value).shortValue() == Short.MIN_VALUE;
+           }
+       }
        return false;
    }
 
@@ -118,7 +175,7 @@ public final class HTML
         ONKEYUP_ATTR
     };
     public static final String[] EVENT_HANDLER_ATTRIBUTES =
-            (String[]) ArrayUtils.concat(
+            concat(
                 EVENT_HANDLER_ATTRIBUTES_WITHOUT_ONCLICK,
                 new String[] {ONCLICK_ATTR});
 
@@ -157,7 +214,7 @@ public final class HTML
         //NOTE: if changed, please verify universal attributes in HtmlMessageRenderer !
     };
     public static final String[] UNIVERSAL_ATTRIBUTES =
-            (String[]) ArrayUtils.concat(
+            concat(
                 UNIVERSAL_ATTRIBUTES_WITHOUT_STYLE,
                 new String[] {STYLE_ATTR, STYLE_CLASS_ATTR});
 
@@ -175,44 +232,44 @@ public final class HTML
         TABINDEX_ATTR
     };
     public static final String[] COMMON_FIELD_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
             COMMON_FIELD_ATTRIBUTES_WITHOUT_DISABLED,
             new String[] {DISABLED_ATTR});
 
     // Common Attributes
     public static final String[] COMMON_PASSTROUGH_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
             EVENT_HANDLER_ATTRIBUTES,
             UNIVERSAL_ATTRIBUTES);
     public static final String[] COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_STYLE =
-        (String[]) ArrayUtils.concat(
+        concat(
             EVENT_HANDLER_ATTRIBUTES,
             UNIVERSAL_ATTRIBUTES_WITHOUT_STYLE);
     public static final String[] COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_ONCLICK =
-        (String[]) ArrayUtils.concat(
+        concat(
             EVENT_HANDLER_ATTRIBUTES_WITHOUT_ONCLICK,
             UNIVERSAL_ATTRIBUTES);
     public static final String[] COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_ONCLICK_WITHOUT_STYLE =
-        (String[]) ArrayUtils.concat(
+        concat(
             EVENT_HANDLER_ATTRIBUTES_WITHOUT_ONCLICK,
             UNIVERSAL_ATTRIBUTES_WITHOUT_STYLE);
     public static final String[] COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED =
-        (String[]) ArrayUtils.concat(
+        concat(
             COMMON_PASSTROUGH_ATTRIBUTES,
             COMMON_FIELD_ATTRIBUTES_WITHOUT_DISABLED,
             COMMON_FIELD_EVENT_ATTRIBUTES);
     public static final String[] COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONFOCUS =
-        (String[]) ArrayUtils.concat(
+        concat(
             COMMON_PASSTROUGH_ATTRIBUTES,
             COMMON_FIELD_ATTRIBUTES_WITHOUT_DISABLED,
             COMMON_FIELD_EVENT_ATTRIBUTES_WITHOUT_ONFOCUS);
     public static final String[] COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONFOCUS_AND_ONCLICK =
-        (String[]) ArrayUtils.concat(
+        concat(
             COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_ONCLICK,
             COMMON_FIELD_ATTRIBUTES_WITHOUT_DISABLED,
             COMMON_FIELD_EVENT_ATTRIBUTES_WITHOUT_ONFOCUS);
     public static final String[] COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONCLICK =
-        (String[]) ArrayUtils.concat(
+        concat(
             COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_ONCLICK,
             COMMON_FIELD_ATTRIBUTES_WITHOUT_DISABLED,
             COMMON_FIELD_EVENT_ATTRIBUTES);
@@ -241,15 +298,15 @@ public final class HTML
         TYPE_ATTR
     };
     public static final String[] ANCHOR_PASSTHROUGH_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
             ANCHOR_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
     public static final String[] ANCHOR_PASSTHROUGH_ATTRIBUTES_WITHOUT_STYLE =
-        (String[]) ArrayUtils.concat(
+        concat(
             ANCHOR_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_STYLE);
     public static final String[] ANCHOR_PASSTHROUGH_ATTRIBUTES_WITHOUT_ONCLICK_WITHOUT_STYLE =
-        (String[]) ArrayUtils.concat(
+        concat(
             ANCHOR_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES_WITHOUT_ONCLICK_WITHOUT_STYLE);
 
@@ -268,7 +325,7 @@ public final class HTML
         TARGET_ATTR,
     };
     public static final String[] FORM_PASSTHROUGH_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
             FORM_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
 
@@ -296,7 +353,7 @@ public final class HTML
         WIDTH_ATTR
     };
     public static final String[] IMG_PASSTHROUGH_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
            IMG_ATTRIBUTES,
            COMMON_PASSTROUGH_ATTRIBUTES);
 
@@ -319,12 +376,12 @@ public final class HTML
         AUTOCOMPLETE_ATTR
     };
     public static final String[] INPUT_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED =
-        (String[]) ArrayUtils.concat(
+        concat(
                 INPUT_ATTRIBUTES,
                 COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED);
 
     public static final String[] INPUT_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONFOCUS_AND_ONCLICK =
-        (String[]) ArrayUtils.concat(
+        concat(
                 INPUT_ATTRIBUTES,
                 COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONFOCUS_AND_ONCLICK);
 
@@ -348,11 +405,11 @@ public final class HTML
         DATAFORMATAS_ATTR,
     };
     public static final String[] BUTTON_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED =
-        (String[]) ArrayUtils.concat(
+        concat(
             BUTTON_ATTRIBUTES,
             COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED);
     public static final String[] BUTTON_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONCLICK =
-        (String[]) ArrayUtils.concat(
+        concat(
             BUTTON_ATTRIBUTES,
             COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONCLICK);
 
@@ -370,7 +427,7 @@ public final class HTML
         //FOR_ATTR is no pass through !
     };
     public static final String[] LABEL_PASSTHROUGH_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
             LABEL_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
 
@@ -384,7 +441,7 @@ public final class HTML
         DATAFORMATAS_ATTR,
     };
     public static final String[] SELECT_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED =
-        (String[]) ArrayUtils.concat(
+        concat(
             SELECT_ATTRIBUTES,
             COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED);
 
@@ -410,7 +467,7 @@ public final class HTML
         WIDTH_ATTR
     };
     public static final String[] TABLE_PASSTHROUGH_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
             TABLE_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
 
@@ -427,7 +484,7 @@ public final class HTML
         ROWS_ATTR,
     };
     public static final String[] TEXTAREA_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED =
-        (String[]) ArrayUtils.concat(
+        concat(
             TEXTAREA_ATTRIBUTES,
             COMMON_FIELD_PASSTROUGH_ATTRIBUTES_WITHOUT_DISABLED);
 
@@ -437,20 +494,20 @@ public final class HTML
         ACCEPT_ATTR
     };
     public static final String[] INPUT_FILE_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED =
-        (String[]) ArrayUtils.concat(
+        concat(
             INPUT_FILE_UPLOAD_ATTRIBUTES,
             INPUT_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED);
 
 
     /*
     public static final String[] MESSAGE_PASSTHROUGH_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
             new String[] {DIR_ATTR, LANG_ATTR, TITLE_ATTR, STYLE_ATTR, STYLE_CLASS_ATTR},
             EVENT_HANDLER_ATTRIBUTES);
             */
 
     public static final String[] MESSAGE_PASSTHROUGH_ATTRIBUTES_WITHOUT_TITLE_STYLE_AND_STYLE_CLASS =
-        (String[]) ArrayUtils.concat(
+        concat(
             new String[] {DIR_ATTR, LANG_ATTR},
             EVENT_HANDLER_ATTRIBUTES);
 
@@ -465,7 +522,7 @@ public final class HTML
         TYPE_ATTR
     };
     public static final String[] UL_PASSTHROUGH_ATTRIBUTES =
-        (String[]) ArrayUtils.concat(
+        concat(
             UL_ATTRIBUTES,
             COMMON_PASSTROUGH_ATTRIBUTES);
 
