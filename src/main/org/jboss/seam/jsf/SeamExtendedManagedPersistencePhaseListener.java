@@ -55,7 +55,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    private void begin() {
       try 
       {
-         if ( !Transactions.isTransactionActive() )
+         if ( !Transactions.isTransactionActiveOrMarkedRollback() )
          {
             log.debug("beginning transaction");
             Transactions.getUserTransaction().begin();

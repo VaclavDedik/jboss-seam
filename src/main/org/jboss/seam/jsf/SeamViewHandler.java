@@ -8,6 +8,7 @@ import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.LocaleSelector;
 
 public class SeamViewHandler extends ViewHandler {
@@ -21,8 +22,15 @@ public class SeamViewHandler extends ViewHandler {
 
    @Override
    public Locale calculateLocale(FacesContext facesContext) {
-      return LocaleSelector.instance()
-            .calculateLocale( viewHandler.calculateLocale(facesContext) );
+      Locale jsfLocale = viewHandler.calculateLocale(facesContext);
+      if ( !Contexts.isSessionContextActive() )
+      {
+         return jsfLocale;
+      }
+      else
+      {
+         return LocaleSelector.instance().calculateLocale(jsfLocale);
+      }
    }
 
    @Override

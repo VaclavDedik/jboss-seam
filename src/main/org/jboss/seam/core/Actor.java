@@ -26,11 +26,13 @@ public class Actor implements Serializable {
    private String id;
    private Set<String> groupActorIds = new HashSet<String>();
 
-   public String getId() {
+   public String getId() 
+   {
       return id;
    }
 
-   public void setId(String id) {
+   public void setId(String id) 
+   {
       this.id = id;
    }
    
