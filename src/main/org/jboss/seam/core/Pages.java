@@ -118,22 +118,26 @@ public class Pages
       return timeoutsByViewId.get(viewId);
    }
    
-   public void callAction()
+   public boolean callAction()
    {
+      boolean result = false;
       FacesContext facesContext = FacesContext.getCurrentInstance();
       String viewId = facesContext.getViewRoot().getViewId();
       for (String wildcard: wildcardViewIds)
       {
          if ( viewId.startsWith( wildcard.substring(0, wildcard.length()-1) ) )
          {
-            callAction(facesContext, wildcard);
+            result = callAction(facesContext, wildcard) || result;
          }
       }
-      callAction(facesContext, viewId);
+      result = callAction(facesContext, viewId) || result;
+      return result;
    }
 
-   private void callAction(FacesContext facesContext, String viewId)
+   private boolean callAction(FacesContext facesContext, String viewId)
    {
+      boolean result = false;
+      
       String outcome = outcomesByViewId.get(viewId);
       String fromAction = outcome;
       
@@ -143,6 +147,7 @@ public class Pages
          if (methodBinding!=null) 
          {
             fromAction = methodBinding.getExpressionString();
+            result = true;
             outcome = (String) methodBinding.invoke(facesContext, null);
          }
       }
@@ -152,6 +157,8 @@ public class Pages
          facesContext.getApplication().getNavigationHandler()
                .handleNavigation(facesContext, fromAction, outcome);
       }
+      
+      return result;
 
    }
    

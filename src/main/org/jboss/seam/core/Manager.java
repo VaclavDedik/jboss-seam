@@ -293,6 +293,7 @@ public class Manager
             //if the session is invalid, don't put the conversation id
             //in the view, 'cos we are expecting the conversation to
             //be destroyed by the servlet session listener
+            //Map attributes = FacesContext.getCurrentInstance().getViewRoot().getAttributes();
             //attributes.put(CONVERSATION_ID, currentConversationId);
             Contexts.getPageContext().set(CONVERSATION_ID, currentConversationId);
 
@@ -410,7 +411,8 @@ public class Manager
       //First, try to get the conversation id from a request parameter
       String storedConversationId = getConversationIdFromRequestParameter(parameters);
       
-      if ( isMissing(storedConversationId) && Contexts.isPageContextActive() )
+      //Map attributes = FacesContext.getCurrentInstance().getViewRoot().getAttributes();
+      if ( isMissing(storedConversationId) && /*attributes!=null*/Contexts.isPageContextActive() )
       {
          //if it is not passed as a request parameter, try to get it from
          //the JSF component tree

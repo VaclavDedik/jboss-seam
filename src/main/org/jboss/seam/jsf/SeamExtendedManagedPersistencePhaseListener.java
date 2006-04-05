@@ -51,6 +51,15 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
 
       super.afterPhase( event );      
    }
+   
+   
+
+   @Override
+   protected void afterPageActions()
+   {
+      commit();
+      begin();
+   }
 
    private void begin() {
       try 

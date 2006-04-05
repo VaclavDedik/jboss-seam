@@ -60,8 +60,7 @@ public class SeamPhaseListener implements PhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         callAction( event.getFacesContext() );
-         Pages.instance().callAction();
+         callPageActions(event);
          FacesMessages.instance().beforeRenderResponse();
          Manager.instance().prepareBackswitch(event);
          
@@ -78,9 +77,21 @@ public class SeamPhaseListener implements PhaseListener
 
    }
 
-   private void callAction(FacesContext facesContext)
+   private void callPageActions(PhaseEvent event)
+   {
+      boolean actionsWereCalled = false;
+      actionsWereCalled = callAction( event.getFacesContext() ) || actionsWereCalled;
+      actionsWereCalled = Pages.instance().callAction() || actionsWereCalled;
+      if (actionsWereCalled) afterPageActions();
+   }
+   
+   protected void afterPageActions() {}
+
+   private boolean callAction(FacesContext facesContext)
    {
       //TODO: refactor with Pages.callAction!!
+      
+      boolean result = false;
       
       String outcome = (String) facesContext.getExternalContext().getRequestParameterMap().get("actionOutcome");
       String fromAction = outcome;
@@ -91,7 +102,8 @@ public class SeamPhaseListener implements PhaseListener
          if (action!=null)
          {
             String expression = "#{" + action + "}";
-            if ( !isActionAllowed(facesContext, expression) ) return;
+            if ( !isActionAllowed(facesContext, expression) ) return result;
+            result = true;
             MethodBinding actionBinding = facesContext.getApplication().createMethodBinding(expression, null);
             outcome = (String) actionBinding.invoke( facesContext, null );
             fromAction = expression;
@@ -102,6 +114,8 @@ public class SeamPhaseListener implements PhaseListener
       {
          facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, fromAction, outcome);
       }
+      
+      return result;
    }
 
    private boolean isActionAllowed(FacesContext facesContext, String expression)
