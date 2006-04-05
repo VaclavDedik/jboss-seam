@@ -31,6 +31,8 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
@@ -130,8 +132,8 @@ public class ShoppingCartBean
             return "complete";
         } catch (InsufficientQuantityException e) {
             for (Product product: e.getProducts()) {
-                Utils.warnUser("checkoutInsufficientQuantity", 
-                    new Object[] {product.getTitle()});
+                Contexts.getEventContext().set("prod", product);
+                FacesMessages.instance().addFromResourceBundle("checkoutInsufficientQuantity");
             }
             
             return null;

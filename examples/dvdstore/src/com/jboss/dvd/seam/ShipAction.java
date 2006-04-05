@@ -27,7 +27,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Name("ship")
 @Conversational(ifNotBegunOutcome="admin")
-@LoggedIn
 @Interceptors(SeamInterceptor.class)
 public class ShipAction
     implements Ship,

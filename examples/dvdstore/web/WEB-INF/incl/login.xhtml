@@ -1,9 +1,10 @@
 <c:choose xmlns="http://www.w3.org/1999/xhtml"
-          xmlns:c="http://java.sun.com/jstl/core"
           xmlns:ui="http://java.sun.com/jsf/facelets"
           xmlns:f="http://java.sun.com/jsf/core"
-          xmlns:h="http://java.sun.com/jsf/html"> 
-    <c:when test="${currentUser == null}">
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:c="http://java.sun.com/jstl/core"> 
+    
+    <c:when test="#{currentUser==null}">
         <div class="menu">
             <dl>
                 <dt class="menuHeader">#{msgs.loginPagePrompt}</dt>
@@ -24,9 +25,14 @@
                     </h:form>
                 </dd>
             </dl>
-            <dl><dt class="menuFooter"><h:commandLink action="newcustomer" value="Create Account" /></dt></dl>
+            <dl>
+                <dt class="menuFooter">
+                    <h:commandLink value="Create Account" action="newcustomer"/>
+                </dt>
+            </dl>
         </div>
     </c:when>
+    
     <c:otherwise>
         <div class="menu">
             <dl>
@@ -45,4 +51,5 @@
             </dl>
         </div>
     </c:otherwise>
+    
 </c:choose>

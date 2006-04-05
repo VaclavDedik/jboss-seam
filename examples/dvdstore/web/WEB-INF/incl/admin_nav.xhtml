@@ -1,15 +1,5 @@
-<c:choose test="${currentUserIsAdmin}"
-          xmlns="http://www.w3.org/1999/xhtml"
-          xmlns:c="http://java.sun.com/jstl/core"
-          xmlns:ui="http://java.sun.com/jsf/facelets"
-          xmlns:f="http://java.sun.com/jsf/core"
-          xmlns:h="http://java.sun.com/jsf/html"> 
-    <c:when test="${currentUserIsAdmin}">        
-        <ul>
-            <li id="current"><a href="admin.faces">Manage Orders</a></li>
-        </ul>
-    </c:when>
-    <c:otherwise>
-        <ui:include src="/WEB-INF/incl/cust_nav.xhtml" />
-    </c:otherwise>
-</c:choose>
+<div xmlns="http://www.w3.org/1999/xhtml">
+    <ul>
+        <li id="current"><a href="admin.faces">Manage Orders</a></li>
+    </ul>
+</div>

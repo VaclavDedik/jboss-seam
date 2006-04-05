@@ -2,10 +2,10 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:s="http://jboss.com/products/seam/taglib">
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:c="http://java.sun.com/jstl/core">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
@@ -19,7 +19,6 @@
         </ui:define>
         
         <ui:define name="body">
-            <c:if test="${currentUserIsAdmin}">
             <h1>Order Management</h1>
             
             <p>
@@ -56,10 +55,10 @@
             
             <h2>Task Assignment</h2>
             <c:choose>
-                <c:when test="${empty pooledTaskInstanceList}">
+                <c:when test="#{empty pooledTaskInstanceList}">
                     <p>There are no pooled tasks to be assigned.</p>
                 </c:when>
-                <c:otherwise>      
+                <c:otherwise>
                     <h:dataTable value="#{pooledTaskInstanceList}"
                                  var="task" 
                                  styleClass="dvdtable" 
@@ -85,21 +84,23 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <s:link action="#{pooledTask.assignToCurrentActor}" taskInstance="#{task}"> 
+                            <!--<h:commandLink action="#{pooledTask.assignToCurrentActor}">
+                                <f:param name="taskId" value="#{task.id}"/>
                                 <h:commandButton value="Assign"/>
-                            </s:link>
+                            </h:commandLink>-->
+                            <s:link action="#{pooledTask.assignToCurrentActor}" taskInstance="#{task}"
+                                value="Assign" linkStyle="button"/>
                         </h:column>
-                        	
                     </h:dataTable>
                 </c:otherwise>
             </c:choose>
-
+            
             <h2>Order Acceptance</h2>
             <c:choose>
-                <c:when test="${empty taskInstanceListForType['approve']}">
+                <c:when test="#{empty taskInstanceListForType['approve']}">
                     <p>There are no orders to be accepted.</p>
                 </c:when>
-                <c:otherwise>      
+                <c:otherwise> 
                     <h:dataTable value="#{taskInstanceListForType['approve']}"
                                  var="task" 
                                  styleClass="dvdtable" 
@@ -121,19 +122,20 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <s:link action="#{accept.viewTask}" taskInstance="#{task}">
+                            <!--<h:commandLink action="#{accept.viewTask}">
+                                <f:param name="taskId" value="#{task.id}"/>
                                 <h:commandButton value="Review"/>
-                            </s:link>
+                            </h:commandLink>-->
+                            <s:link action="#{accept.viewTask}" taskInstance="#{task}" 
+                                    value="Review" linkStyle="button"/>
                         </h:column>
-               
                     </h:dataTable>
                 </c:otherwise>
             </c:choose>
 
-
             <h2>Shipping</h2>
             <c:choose>
-                <c:when test="${empty taskInstanceListForType['ship']}">
+                <c:when test="#{empty taskInstanceListForType['ship']}">
                     <p>There are no orders to be shipped.</p>
                 </c:when>
                 <c:otherwise>
@@ -143,7 +145,6 @@
                                  headerClass="dvdtablehead"
                                  rowClasses="dvdtableodd,dvdtableeven"
                                  columnClasses="dvdtablecol">
-                        
                         <h:column>
                             <f:facet name="header">Order Id</f:facet>
                             #{task.variables['orderId']}
@@ -159,14 +160,17 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <s:link action="#{ship.viewTask}" taskInstance="#{task}"> 
+                            <!--<h:commandLink action="#{ship.viewTask}">
+                                <f:param name="taskId" value="#{task.id}"/>
                                 <h:commandButton value="Ship"/>
-                            </s:link>
+                            </h:commandLink>-->
+                            <s:link action="#{ship.viewTask}" taskInstance="#{task}" 
+                                    value="Ship" linkStyle="button"/>
                         </h:column>               
                     </h:dataTable>
                 </c:otherwise>
             </c:choose>
-        </c:if>
+            
         </ui:define>
     </ui:composition>
 </body>

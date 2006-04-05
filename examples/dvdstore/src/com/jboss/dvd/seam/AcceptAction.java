@@ -28,7 +28,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Name("accept")
 @Conversational(ifNotBegunOutcome="admin")
-@LoggedIn
 @Interceptors(SeamInterceptor.class)
 public class AcceptAction
     implements Accept,

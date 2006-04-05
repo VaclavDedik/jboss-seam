@@ -30,7 +30,6 @@ import com.jboss.dvd.seam.Order.Status;
 
 @Stateful
 @Name("showorders")
-@LoggedIn
 @Interceptors(SeamInterceptor.class)
 public class ShowOrdersAction
     implements ShowOrders,

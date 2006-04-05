@@ -2,12 +2,7 @@
           PUBLIC "-//JBoss//DTD J2EE Application 1.4//EN"
           "http://www.jboss.org/j2ee/dtd/jboss-app_4_0.dtd">
 <jboss-app>
-    <loader-repository> 
+    <loader-repository>
         seam.jboss.org:loader=seam-dvd
-    </loader-repository> 
-<!--
-    <module>
-        <service>dvd.beans</service>
-    </module>
--->
+    </loader-repository>
 </jboss-app>

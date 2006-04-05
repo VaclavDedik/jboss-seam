@@ -7,7 +7,7 @@
 
 <faces-config>
     <application>
-        <message-bundle>com.jboss.dvd.web.store</message-bundle>
+        <message-bundle>messages</message-bundle>
         <locale-config>
             <default-locale>en_US</default-locale>
             <supported-locale>en</supported-locale>
@@ -23,15 +23,11 @@
     </lifecycle>
 
     <navigation-rule>
-        <navigation-case>
-            <from-outcome>login</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
 
         <navigation-case>
             <from-outcome>main</from-outcome>
             <to-view-id>/home.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
@@ -53,11 +49,6 @@
             <from-outcome>showorders</from-outcome>
             <to-view-id>/showorders.xhtml</to-view-id>
         </navigation-case>
-        <navigation-case> 
-            <from-outcome>logout</from-outcome> 
-            <to-view-id>/logout.xhtml</to-view-id>
-            <redirect />
-        </navigation-case> 
 
         <navigation-case>
             <from-outcome>newcustomer</from-outcome>
@@ -65,16 +56,6 @@
         </navigation-case>
 
     </navigation-rule>
-
-    <navigation-rule>
-        <navigation-case> 
-            <from-action>#{editCustomer.create}</from-action>   
-            <from-outcome>ok</from-outcome> 
-            <to-view-id>/browse.xhtml</to-view-id> 
-            <redirect />
-        </navigation-case> 
-    </navigation-rule>
-
 
     <navigation-rule>
         
@@ -93,17 +74,12 @@
         </navigation-case> 
 
         <navigation-case> 
-            <from-action>#{login.login}</from-action>   
-            <from-outcome>notok</from-outcome> 
-            <to-view-id>/home.xhtml</to-view-id> 
-        </navigation-case> 
-
-        <navigation-case> 
-            <from-action>#{login.logout}</from-action> 
-            <from-outcome>done</from-outcome> 
-            <to-view-id>/home.xhtml</to-view-id> 
+            <from-action>#{editCustomer.create}</from-action>   
+            <from-outcome>success</from-outcome> 
+            <to-view-id>/browse.xhtml</to-view-id>
             <redirect />
         </navigation-case> 
+
     </navigation-rule>
 
     <!-- temp workaround for facelets/myfaces bug -->

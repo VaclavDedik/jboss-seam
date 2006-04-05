@@ -2,15 +2,13 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jstl/core">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ui:include src="/WEB-INF/incl/cust_nav.xhtml">
-                <ui:param name="page" value="browse"/>
-            </ui:include>
+            <ui:include src="/WEB-INF/incl/browse_nav.xhtml" />
         </ui:define>
 
         <ui:define name="sidebar">
@@ -27,13 +25,12 @@
                     Shopping Cart
                 </div>
             </div>
-
+            
             <c:choose>
-                <c:when test="#{empty(cart.cart)}">
+                <c:when test="#{empty cart.cart}">
                     <p>Your cart is empty.</p>
                 </c:when>
                 <c:otherwise>
-
                     <h:form>
                         <h:dataTable value="#{cart.cart}" var="item"
                                      styleClass="dvdtable" 
@@ -74,7 +71,8 @@
                                 <h:inputText value="#{item.quantity}" size="6" />
                             </h:column>                        
                         </h:dataTable>
-                        <h:commandButton action="#{cart.updateCart}" value="#{msgs.checkoutUpdateButton}" />
+                        <h:commandButton action="#{cart.updateCart}" 
+                                         value="#{msgs.checkoutUpdateButton}" />
                     </h:form>
 
                     <div style="width: 100%;">
@@ -104,6 +102,7 @@
                     </div>
                 </c:otherwise>
             </c:choose>
+            
         </ui:define>
     </ui:composition>
 </body>

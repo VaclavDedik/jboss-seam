@@ -2,15 +2,12 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ui:include src="/WEB-INF/incl/cust_nav.xhtml">
-                <ui:param name="page" value="browse"/>
-            </ui:include>
+            <ui:include src="/WEB-INF/incl/browse_nav.xhtml" />
         </ui:define>
 
         <ui:define name="sidebar">

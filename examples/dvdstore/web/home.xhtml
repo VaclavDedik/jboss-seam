@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:c="http://java.sun.com/jstl/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf"
       xmlns:h="http://java.sun.com/jsf/html">
@@ -9,7 +8,7 @@
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
             <ul>
-                <li id="current"><h:commandLink action="login" value="Login"/></li>
+                <li id="current"><h:commandLink action="main" value="Login"/></li>
             </ul>
         </ui:define>
             

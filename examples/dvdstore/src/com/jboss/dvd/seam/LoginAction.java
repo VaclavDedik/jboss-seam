@@ -19,12 +19,12 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.core.Actor;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("login")
 @Interceptors(SeamInterceptor.class)
-@LoginIf
 public class LoginAction 
     implements Login,
                Serializable
@@ -55,9 +55,8 @@ public class LoginAction
         this.password = password;
     }
     
-
-    @LoginIf(outcome={"admin","customer"})
     public String login() {
+
         try {
             User found =  
                 (User) em.createQuery("from User u where u.userName = :userName and u.password = :password")
@@ -67,10 +66,9 @@ public class LoginAction
 
             sessionContext.set("currentUser", found);
             
-            actor.setId(found.getUserName());
+            actor.setId(username);
             
             if (found instanceof Admin) {
-                sessionContext.set("currentUserIsAdmin", true);
                 actor.getGroupActorIds().add("shippers");
                 actor.getGroupActorIds().add("reviewers");
                 return "admin";
@@ -80,16 +78,17 @@ public class LoginAction
             }
         } 
         catch (Exception e) {
-            Utils.warnUser("loginErrorPrompt", null);    
-            return "notok";
+            FacesMessages.instance().addFromResourceBundle("loginErrorPrompt");
+            Seam.invalidateSession();
+            return null;
         }
     }
-    
+
     public String logout() {
         Seam.invalidateSession();
         sessionContext.set("currentUser", null);
-        sessionContext.set("loggedIn",    null);
-        return "done";
+        sessionContext.set("loggedIn", null);
+        return "main";
     }
 
 }

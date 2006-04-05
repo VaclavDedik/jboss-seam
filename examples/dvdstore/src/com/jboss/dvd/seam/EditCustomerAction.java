@@ -22,17 +22,17 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.core.Actor;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("editCustomer")
 @Scope(ScopeType.EVENT)
 @Interceptors(SeamInterceptor.class)
-@LoginIf
 public class EditCustomerAction
     implements EditCustomer
 {
@@ -46,9 +46,11 @@ public class EditCustomerAction
     Context sessionContext;
 
     @In(create=true)
-    @Out
     @Valid
     Customer customer;
+    
+    @In(create=true)
+    FacesMessages facesMessages;
 
     String password = null;
     
@@ -77,10 +79,9 @@ public class EditCustomerAction
 
 
     @IfInvalid(outcome=Outcome.REDISPLAY)
-    @LoginIf(outcome="ok")
     public String create() {
         if (!passwordsMatch()) {
-                Utils.warnUser("createCustomerPasswordError", null);
+                facesMessages.addFromResourceBundle("createCustomerPasswordError");
                 return null;
         }
 
@@ -91,22 +92,24 @@ public class EditCustomerAction
                 .getResultList();
 
 
-            if (existing.size()>1) {
-                Utils.warnUser("createCustomerExistingError", null);
+            if (existing.size()>0) {
+                facesMessages.addFromResourceBundle("createCustomerExistingError");
                 return null;
             }
 
             em.persist(customer);
             sessionContext.set("currentUser", customer);
-            return "ok";
-        }  catch (RuntimeException e) {
+            Actor.instance().setId(customer.getUserName());
+            
+            facesMessages.addFromResourceBundle("createCustomerSuccess");
+            return "success";
+        }  
+        catch (RuntimeException e) {
             ctx.setRollbackOnly();
 
-            Utils.warnUser("createCustomerError", null);
+            facesMessages.addFromResourceBundle("createCustomerError");
             return null;
         }
     }
-
-
 
 }

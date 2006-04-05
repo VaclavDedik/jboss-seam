@@ -34,6 +34,8 @@
         <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
+    	<include name="META-INF/ejb-jar.xml"/>
+    	<include name="META-INF/jboss.xml"/>
     </fileset>
 	
     <fileset id="example.ejb3.lib" dir="../../lib">
@@ -78,11 +80,13 @@
     <fileset id="example.deploy"
             dir="resources">
         <include name="dvd-ds.xml"/>
+    	<include name="login-service.xml"/>
     </fileset>
 
     <!-- Undeploy -->
     <patternset id="example.undeploy">
         <include name="dvd-ds.xml"/>
+    	<include name="login-service.xml"/>
     </patternset>
 
     <!-- Overrides -->

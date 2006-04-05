@@ -2,15 +2,13 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jstl/core">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ui:include src="/WEB-INF/incl/cust_nav.xhtml">
-                <ui:param name="page" value="browse"/>
-            </ui:include>
+            <ui:include src="/WEB-INF/incl/browse_nav.xhtml" />
         </ui:define>
 
         <ui:define name="sidebar">
@@ -21,7 +19,8 @@
         
         <ui:define name="body">
             <c:choose>
-                <c:when test="${searchResults==null}">
+            
+                <c:when test="#{searchResults==null}">
                     <p>
                         This is the DVD search screen.  Use the search
                         box to the right to search for DVDs.  The
@@ -37,31 +36,28 @@
                         <a onclick="window.open('img/pageflow.jpg','img','height=630,width=350,toolbar=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no'); return false;"
                            href="img/pageflow.jpg">jBPM pageflow definition</a>.
                     </p>
-                    
                 </c:when>
-                <c:when test="${empty(searchResults)}">
+                
+                <c:when test="#{empty searchResults}">
                     <h2>
                         <h:outputText value="#{msgs.noSearchResultsHeader}" />
                     </h2>
                 </c:when>
+                
                 <c:otherwise>
                     <h:form>
                         <div class="controlBar">
                             <div class="buttonbox">
                                 <div class="button">
-                                    <c:if test="${!search.lastPage}">
-                                        <h:commandLink action="#{search.nextPage}">
-                                            <img src="img/arrow-r.png" />
-                                        </h:commandLink>
-                                    </c:if>
+                                    <h:commandLink action="#{search.nextPage}" rendered="#{!search.lastPage}">
+                                        <img src="img/arrow-r.png" />
+                                    </h:commandLink>
                                     &nbsp;
                                 </div>
                                 <div class="button">
-                                    <c:if test="${!search.firstPage}">
-                                        <h:commandLink action="#{search.prevPage}">
-                                            <img src="img/arrow-l.png" />
-                                        </h:commandLink>
-                                    </c:if>
+                                    <h:commandLink action="#{search.prevPage}" rendered="#{!search.firstPage}">
+                                        <img src="img/arrow-l.png" />
+                                    </h:commandLink>
                                     &nbsp;
                                 </div>
                             </div>
@@ -112,8 +108,8 @@
                         
                     </h:form>        
                 </c:otherwise>
+                
             </c:choose>
-            
         </ui:define>
     </ui:composition>
 </body>
