@@ -22,6 +22,7 @@ public class HtmlLink extends HtmlOutputLink
    private String view;
    private String action;
    private String pageflow;
+   private String style;
    private String propagation = "default";
 
    private UISelection getSelection()
@@ -73,7 +74,15 @@ public class HtmlLink extends HtmlOutputLink
    public void encodeBegin(FacesContext context) throws IOException
    {
       ResponseWriter writer = context.getResponseWriter();
-      writer.startElement("a", this);
+      if ( "button".equals(style) )
+      {
+         writer.startElement("input", this);
+         writer.writeAttribute("type", "button", null);
+      }
+      else
+      {
+         writer.startElement("a", this);
+      }
       writer.writeAttribute("id", getClientId(context), null);
       String viewId = view==null ? context.getViewRoot().getViewId() : view;
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
@@ -133,12 +142,34 @@ public class HtmlLink extends HtmlOutputLink
          first = false;
       }
       
-      writer.writeAttribute("href", encodedUrl, null);
-      HTML.renderHTMLAttributes(writer, this, HTML.ANCHOR_PASSTHROUGH_ATTRIBUTES);
-      writer.flush();
+      if ( "button".equals(style) )
+      {
+         writer.writeAttribute("onclick", "location.href='" + encodedUrl + "'", null);
+      }
+      else
+      {
+         writer.writeAttribute("href", encodedUrl, null);
+         HTML.renderHTMLAttributes(writer, this, HTML.ANCHOR_PASSTHROUGH_ATTRIBUTES);
+      }
       
       Object label = getValue();
-      if (label!=null) writer.writeText( label, null );
+      if (label!=null) 
+      {
+         if ( "button".equals(style) )
+         {
+            writer.writeAttribute("value", label, null);
+            writer.flush();
+         }
+         else
+         {
+            writer.flush();
+            writer.writeText( label, null );
+         }
+      }
+      else
+      {
+         writer.flush();
+      }
    }
    
    
@@ -170,16 +201,18 @@ public class HtmlLink extends HtmlOutputLink
       pageflow = (String) values[2];
       propagation = (String) values[3];
       action =  (String) values[4];
+      style = (String) values[5];
    }
 
    @Override
    public Object saveState(FacesContext context) {
-      Object[] values = new Object[5];
+      Object[] values = new Object[6];
       values[0] = super.saveState(context);
       values[1] = view;
       values[2] = pageflow;
       values[3] = propagation;
       values[4] = action;
+      values[5] = style;
       return values;
    }
 
@@ -211,6 +244,16 @@ public class HtmlLink extends HtmlOutputLink
    public void setAction(String action)
    {
       this.action = action;
+   }
+
+   public String getLinkStyle()
+   {
+      return style;
+   }
+
+   public void setLinkStyle(String style)
+   {
+      this.style = style;
    }
 
 }
