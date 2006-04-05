@@ -68,20 +68,27 @@ public class ValidationInterceptor extends AbstractInterceptor
 
    private void refreshInvalidEntity(IfInvalid ifInvalid, Object entity) {
       Object persistenceContext = Component.getInstance( ifInvalid.persistenceContext(), false );
-      if (persistenceContext!=null) //TODO: throw an exception if em is null?
+      if (persistenceContext==null) 
       {
-         EntityManager em = (EntityManager) persistenceContext;
-         if ( em.contains(entity) )
-         {
-            em.refresh(entity);
-         }
+         throw new IllegalStateException("Seam-managed persistence context not found: " + ifInvalid.persistenceContext());
       }
       else
       {
-         Session session = (Session) persistenceContext;
-         if ( session.contains(entity) )
+         if (persistenceContext instanceof EntityManager)
          {
-            session.refresh(entity);
+            EntityManager em = (EntityManager) persistenceContext;
+            if ( em.contains(entity) )
+            {
+               em.refresh(entity);
+            }
+         }
+         else
+         {
+            Session session = (Session) persistenceContext;
+            if ( session.contains(entity) )
+            {
+               session.refresh(entity);
+            }
          }
       }
    }
