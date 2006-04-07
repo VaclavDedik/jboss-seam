@@ -18,7 +18,9 @@ import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletResponse;
+import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
@@ -340,9 +342,9 @@ public class Manager
    
    private void writeConversationIdToResponse(Object response, String conversationId)
    {
-      if (response instanceof PortletResponse)
+      if (response instanceof ActionResponse)
       {
-         ( (PortletResponse) response ).setProperty("conversationId", conversationId);
+         ( (ActionResponse) response ).setRenderParameter("conversationId", conversationId);
       }
       else if (response instanceof HttpServletResponse)
       {
