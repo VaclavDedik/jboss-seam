@@ -580,7 +580,7 @@
             <fileset refid="${tomcat.conf}"/>
         </jar>
         
-        <jar destfile="${build.dir}/${example.name}.war">
+        <jar destfile="${build.dir}/${example.name}.war" duplicate="preserve">
             <zipfileset refid="example.tomcat.lib"/>
         	<zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset refid="example.war.docroot"/>
