@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+
+<project name="Hibernate + Portal + Seam" default="deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam on JBoss Hibernate3 Example"/>
+    <property name="example.name"           value="jboss-seam-hibernate"/>
+    
+    <!-- WAR -->
+    <zipfileset id="example.war.docroot"
+               dir="view">
+        <include name="**/*"/>
+    </zipfileset>
+	
+    <zipfileset id="example.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <include name="**/*"/>
+        <exclude name="lib/**/*"/>
+    </zipfileset>
+	
+    <zipfileset id="example.war.webinf.lib"
+            prefix="WEB-INF/lib"
+               dir="resources/WEB-INF/lib/">
+        <include name="*.jar"/>
+    </zipfileset>
+            <zipfileset id="example.war.webinf.lib.extra" 
+                    prefix="WEB-INF/lib"
+                       dir=".">
+                <include name="_NONE_"/>
+            </zipfileset>
+    
+    <!-- EJB3 -->
+    <fileset id="example.ejb3.root" dir=".">
+        <include name="_NONE_"/>
+    </fileset>
+
+    <fileset id="example.ejb3.lib" dir="../../lib">
+        <include name="_NONE_"/>
+    </fileset>
+  
+    <!-- EAR -->
+    <zipfileset id="example.ear.resources" dir=".">
+        <include name="_NONE_"/>
+    </zipfileset>
+
+    <!-- Test -->
+    <fileset id="example.resources" dir="resources">
+        <include name="**/*.*"/>
+    </fileset>
+
+    <!-- Tomcat build -->
+    <zipfileset id="example.tomcat.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <include name="faces-config.xml"/>
+        <include name="pages.xml"/>
+    </zipfileset>
+    
+    <zipfileset id="example.tomcat.war.webinf.extra"
+            prefix="WEB-INF"
+               dir="resources/tomcat">
+        <include name="web.xml"/>
+    </zipfileset>
+    
+    <fileset id="example.tomcat.resources"
+            dir="resources">
+        <include name="seam.properties"/>
+        <include name="hibernate.cfg.xml"/>
+        <include name="import.sql"/>
+        <include name="seam-jndi.properties"/>
+        <include name="jboss-beans.xml"/>
+    </fileset>
+    
+    <!-- Deploy -->
+    <fileset id="example.deploy"
+            dir="resources">
+        <include name="hibernate-ds.xml"/>
+    </fileset>
+
+    <!-- Undeploy -->
+    <patternset id="example.undeploy">
+        <include name="hibernate-ds.xml"/>
+    </patternset>
+
+    <!-- Overrides -->
+    <property name="src.java.dir" value="src"/>
+    <property name="src.test.dir" value="src"/>
+    <property name="test.classpath" value="test.mc.classpath"/>
+    <property name="tomcat.conf" value="mc.conf"/>
+    <property name="tomcat.lib" value="mc.lib"/>
+
+    <import file="../../build.xml"/>
+
+    <!-- Redefine targets -->
+    <target name="war" depends="compile">
+
+    	<jar jarfile="${build.dir}/${example.name}.jar">
+          <fileset refid="example.classes"/>
+          <fileset dir="resources">
+            <include name="seam.properties"/>
+            <include name="import.sql"/>
+            <include name="hibernate.cfg.xml"/>
+          </fileset>
+        </jar>
+    	
+        <jar destfile="${build.dir}/${example.name}.war">
+            <zipfileset refid="example.war.docroot"/>
+        	<zipfileset refid="example.war.webinf"/>
+            <zipfileset refid="example.war.webinf.lib"/>
+            <zipfileset refid="example.tomcat.seam.jar"/>
+            <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
+                <include name="${example.name}.jar"/>
+            </zipfileset>
+        </jar>
+    	
+    </target>
+    
+    <target name="deploy" depends="war"
+            description="Deploy the example war to JBoss">
+        <fail unless="jboss.home">jboss.home MUST be set. Update build.properties to point to a valid JBoss installation.</fail>
+        <copy todir="${deploy.dir}">
+            <fileset refid="example.deploy"/>
+        </copy>
+        <copy file="${build.dir}/${example.name}.war" todir="${deploy.dir}"/>
+    </target>
+
+    <target name="undeploy"
+    	    description="Undeploy the example war from JBoss">
+        <antcall target="Seam.undeploy"><param name="unit.ext" value="war"/></antcall>
+    </target>
+
+</project>

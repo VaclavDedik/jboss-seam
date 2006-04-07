@@ -1,0 +1,82 @@
+Seam Hibernate3 Example
+=======================
+This is a port of the Booking example to Hibernate3 with JavaBeans
+for the actions. Seam handles the JTA transaction demarcation and
+Hibernate session management. 
+
+This example can run in a J2EE environment, a Java EE 5 environment, 
+or in a servlet container with the JBoss Microcontainer for JTA/JCA 
+support.
+
+How to Build and Deploy the Example on Tomcat
+-----------------------------------------------
+
+1. Download and install Tomcat
+   
+2. Download the JBoss Seam distribution from:
+
+   http://www.jboss.com/products/list/downloads#seam
+
+3. Edit the "build.properties" file and change tomcat.home to your 
+   Tomcat installation directory
+
+4. Build Seam by running "ant" the Seam root directory
+
+5. Build and deploy the example by running "ant deploy.tomcat" 
+   in the Seam "examples/hibernate" directory
+
+6. Start Tomcat
+
+7. Point your web browser to:
+
+   http://localhost:8080/jboss-seam-hibernate/
+
+How to Build and Deploy the Example on JBoss AS
+-----------------------------------------------
+
+1. Download and install JBoss AS 4.0.4
+
+2. Download the JBoss Seam distribution from:
+
+   http://www.jboss.com/products/list/downloads#seam
+
+3. Edit the "build.properties" file and change jboss.home to your 
+   JBoss AS installation directory
+
+4. Build Seam by running "ant" the Seam root directory
+
+5. Build and deploy the example by running "ant" in the Seam
+   "examples/hibernate" directory
+
+6. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
+
+7. Point your web browser to:
+
+   http://localhost:8080/seam-hibernate/
+
+Running the TestNG Tests
+------------------------
+
+In the "examples/hibernate" directory, type "ant testexample"
+
+Running the TestNG Tests in Eclipse
+-----------------------------------
+
+1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
+
+2. Create the jboss-seam Eclipse project with the following directories
+   in your source path:
+   
+   src/main/
+   examples/hibernate/src/
+   examples/hibernate/resources/
+   microcontainer/conf/
+   
+   And all jar files from the following directories in your classpath:
+   
+   lib/
+   microcontainer/lib
+   
+3. Run examples/hibernate/src/org/jboss/seam/example/hibernate/test/testng.xml
+   using the TestNG plugin.
+   

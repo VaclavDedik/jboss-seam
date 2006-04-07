@@ -1,0 +1,8 @@
+<portlet-app>
+   <portlet>
+      <portlet-name>SeamHibPortlet</portlet-name>
+      <header-content>
+         <link rel="stylesheet" type="text/css" href="/css/screen.css" title="" media="screen"/>
+      </header-content>
+   </portlet>
+</portlet-app>

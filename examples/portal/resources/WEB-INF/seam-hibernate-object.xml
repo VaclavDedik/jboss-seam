@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployments>
+   <deployment>
+      <if-exists>overwrite</if-exists>
+      <parent-ref>default</parent-ref>
+      <page>
+         <page-name>SeamHibernate</page-name>
+         <window>
+            <window-name>SeamHibPortletWindow</window-name>
+            <instance-ref>SeamHibPortletInstance</instance-ref>
+            <region>left</region>
+            <height>0</height>
+         </window>
+       </page>
+   </deployment>
+   <deployment>
+      <if-exists>overwrite</if-exists>
+      <instance>
+         <instance-name>SeamHibPortletInstance</instance-name>
+         <component-ref>seam-hibernate.SeamHibPortlet</component-ref>
+      </instance>
+   </deployment>
+</deployments>
+
+

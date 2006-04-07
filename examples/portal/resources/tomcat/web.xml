@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+    xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    
+    <!-- Seam -->
+   
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+    </listener>
+    
+    <!-- Propagate conversations across redirects -->
+    <filter>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <url-pattern>*.jsf</url-pattern>
+    </filter-mapping>
+
+    <!-- Bootstrap Datasource/Hibernate outside Java EE -->
+    <context-param>
+        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
+        <param-value>org.jboss.seam.core.Microcontainer</param-value>
+    </context-param>
+    
+    <!-- Defines a Seam-managed Hibernate session -->
+    <context-param>
+        <param-name>org.jboss.seam.core.init.managedSessions</param-name>
+        <param-value>bookingDatabase</param-value>
+    </context-param>
+    
+    <!-- Needed to ensure safe tx cleanup when using Seam-managed sessions/persistence contexts -->
+    <filter>
+        <filter-name>Seam Exception Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Seam Exception Filter</filter-name>
+        <url-pattern>*.jsf</url-pattern>
+    </filter-mapping> 
+    
+    <!-- 120 second conversation timeout -->
+    <context-param>
+        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
+        <param-value>120000</param-value>
+    </context-param>
+
+    <!-- MyFaces -->
+    
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+    
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+
+</web-app>
