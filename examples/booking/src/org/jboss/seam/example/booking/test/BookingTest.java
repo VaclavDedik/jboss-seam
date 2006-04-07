@@ -122,6 +122,16 @@ public class BookingTest extends SeamTest
       new Script(id) {
 
          @Override
+         protected void updateModelValues() throws Exception
+         {
+            Booking booking = (Booking) Contexts.getConversationContext().get("booking");
+            booking.setBeds(2);
+            booking.setCreditCardName("GAVIN KING");
+            booking.setCreditCardExpiryMonth(2);
+            booking.setCreditCardExpiryYear(2007);
+         }
+
+         @Override
          protected void invokeApplication()
          {
             HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
