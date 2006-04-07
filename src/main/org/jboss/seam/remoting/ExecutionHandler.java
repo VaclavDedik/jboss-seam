@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -91,8 +92,8 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       }
 
       // Store the conversation ID in the outgoing context
-      ctx.setConversationId((Manager.instance().getCurrentConversationId()));
-      Manager.instance().storeConversation(response, Session.getSession(session));
+      ctx.setConversationId( Manager.instance().getCurrentConversationId() );
+      Manager.instance().storeConversation(Session.getSession(session), response);
       Lifecycle.endRequest();
 
       // Package up the response

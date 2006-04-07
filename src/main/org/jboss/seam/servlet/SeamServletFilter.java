@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
@@ -46,7 +45,7 @@ public class SeamServletFilter implements Filter {
       {
          chain.doFilter(request, response);
          //TODO: conversation timeout
-         Manager.instance().storeConversation( (HttpServletResponse) response, Session.getSession(session) );
+         Manager.instance().storeConversation( Session.getSession(session), response );
          Lifecycle.endRequest(session);
       }
       catch (Exception e)

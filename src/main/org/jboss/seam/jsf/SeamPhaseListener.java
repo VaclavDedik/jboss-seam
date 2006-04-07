@@ -136,6 +136,18 @@ public class SeamPhaseListener implements PhaseListener
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(event);
+         /*if ( "/debug.xhtml".equals( event.getFacesContext().getViewRoot().getViewId() ) )
+         {
+            try
+            {
+               URL url = getClass().getClassLoader().getResource("/meta-inf/debug.xhtml");
+               Facelet f = FaceletFactory.getInstance().getFacelet(url.toString());
+            }
+            catch (IOException ioe)
+            {
+               ioe.printStackTrace();
+            }
+         }*/
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
@@ -220,7 +232,7 @@ public class SeamPhaseListener implements PhaseListener
       else
       {
          Session session = Session.getSession(ctx.getExternalContext(), true);
-         Manager.instance().storeConversation( session );
+         Manager.instance().storeConversation( session, ctx.getExternalContext().getResponse() );
       }
       Lifecycle.flushPage();
    }

@@ -18,6 +18,7 @@ import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
+import javax.portlet.PortletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
@@ -280,7 +281,7 @@ public class Manager
       dirty();
    }
 
-   public void storeConversation(Session session)
+   public void storeConversation(Session session, Object response)
    {
       if ( isLongRunningConversation() )
       {
@@ -296,7 +297,8 @@ public class Manager
             //Map attributes = FacesContext.getCurrentInstance().getViewRoot().getAttributes();
             //attributes.put(CONVERSATION_ID, currentConversationId);
             Contexts.getPageContext().set(CONVERSATION_ID, currentConversationId);
-
+            writeConversationIdToResponse(response, currentConversationId);
+            
             if ( Init.instance().isJbpmInstalled() )
             {
                Pageflow pageflow = Pageflow.instance();
@@ -322,6 +324,7 @@ public class Manager
             String outerConversationId = stack.get(1);
             //attributes.put(CONVERSATION_ID, outerConversationId);
             Contexts.getPageContext().set(CONVERSATION_ID, outerConversationId);
+            writeConversationIdToResponse(response, outerConversationId);
          }
          else
          {
@@ -334,38 +337,16 @@ public class Manager
 
       }
    }
-
-   public void storeConversation(HttpServletResponse response, Session session)
+   
+   private void writeConversationIdToResponse(Object response, String conversationId)
    {
-      if ( isLongRunningConversation() )
+      if (response instanceof PortletResponse)
       {
-         touchConversationStack();
-
-         log.debug("Storing conversation state: " + currentConversationId);
-         Conversation.instance().flush();
-         if ( !Seam.isSessionInvalid() )
-         {
-            //if the session is invalid, don't put the conversation id
-            //in the view, 'cos we are expecting the conversation to
-            //be destroyed by the servlet session listener
-            response.setHeader("conversationId", currentConversationId);
-         }
-         //even if the session is invalid, still put the id in the map,
-         //so it can be cleaned up along with all the other conversations
+         ( (PortletResponse) response ).setProperty("conversationId", conversationId);
       }
-      else
+      else if (response instanceof HttpServletResponse)
       {
-         log.debug("Discarding conversation state: " + currentConversationId);
-
-         LinkedList<String> stack = getCurrentConversationIdStack();
-         if ( stack.size()>1 )
-         {
-            String outerConversationId = stack.get(1);
-            response.setHeader("conversationId", outerConversationId);
-         }
-
-         //now safe to remove the entry
-         removeCurrentConversationAndDestroyNestedContexts(session);
+         ( (HttpServletResponse) response ).setHeader("conversationId", conversationId);
       }
    }
 

@@ -18,9 +18,9 @@ public class SeamNavigationHandler extends NavigationHandler {
 
    @Override
    public void handleNavigation(FacesContext context, String fromAction, String outcome) {
-     //if ( !"org.jboss.seam.switch".equals(outcome) ) 
-     if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces
-     {
+      //if ( !"org.jboss.seam.switch".equals(outcome) ) 
+      if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces
+      {
          if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() && Pageflow.instance().hasTransition(outcome) )
          {
             Pageflow.instance().navigate(context, outcome);
@@ -29,7 +29,7 @@ public class SeamNavigationHandler extends NavigationHandler {
          {
             baseNavigationHandler.handleNavigation(context, fromAction, outcome);
          }
-     }
+      }
    }
 
 }
