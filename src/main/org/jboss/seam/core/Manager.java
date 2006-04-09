@@ -601,7 +601,7 @@ public class Manager
       this.conversationTimeout = conversationTimeout;
    }
 
-   private void beforeRedirect()
+   public void beforeRedirect()
    {
       ConversationEntry ce = getConversationEntry(currentConversationId);
       if (ce==null)
