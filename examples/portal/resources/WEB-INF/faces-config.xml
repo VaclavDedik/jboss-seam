@@ -106,7 +106,7 @@
     <lifecycle>
         <!--phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener-->
         <!--phase-listener>org.jboss.seam.jsf.SeamTransactionManagedPersistencePhaseListener</phase-listener-->
-        <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+        <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePortletPhaseListener</phase-listener>
     </lifecycle>
 
 </faces-config>
