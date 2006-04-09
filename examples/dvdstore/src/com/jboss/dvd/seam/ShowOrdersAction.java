@@ -15,6 +15,7 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
@@ -44,7 +45,7 @@ public class ShowOrdersAction
     @DataModel
     List<Order> orders;    
 
-    @Out(value="myorder", required=false)
+    @Out(value="myorder", required=false, scope=ScopeType.CONVERSATION)
     Order order;
 
     @DataModelSelectionIndex

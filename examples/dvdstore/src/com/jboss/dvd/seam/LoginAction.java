@@ -88,7 +88,7 @@ public class LoginAction
         Seam.invalidateSession();
         sessionContext.set("currentUser", null);
         sessionContext.set("loggedIn", null);
-        return "main";
+        return "logout";
     }
 
 }

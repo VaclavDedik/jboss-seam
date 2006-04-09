@@ -80,13 +80,11 @@
     <fileset id="example.deploy"
             dir="resources">
         <include name="dvd-ds.xml"/>
-    	<include name="login-service.xml"/>
     </fileset>
 
     <!-- Undeploy -->
     <patternset id="example.undeploy">
         <include name="dvd-ds.xml"/>
-    	<include name="login-service.xml"/>
     </patternset>
 
     <!-- Overrides -->

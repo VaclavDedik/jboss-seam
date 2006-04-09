@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
@@ -38,7 +39,7 @@ public class ShipAction
     @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
 
-    @Out
+    @Out(scope=ScopeType.CONVERSATION)
     Order order;
 
     @In

@@ -25,49 +25,42 @@
     <navigation-rule>
 
         <navigation-case>
-            <from-outcome>main</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>admin</from-outcome>
-            <to-view-id>/admin.xhtml</to-view-id>
-        </navigation-case>
-
-        <navigation-case>
             <from-outcome>ship</from-outcome>
             <to-view-id>/ship.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
             <from-outcome>accept</from-outcome>
             <to-view-id>/accept.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
             <from-outcome>showorders</from-outcome>
             <to-view-id>/showorders.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
         <navigation-case>
             <from-outcome>newcustomer</from-outcome>
             <to-view-id>/newcustomer.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
 
-    </navigation-rule>
-
-    <navigation-rule>
-        
-        <navigation-case> 
-            <from-action>#{login.login}</from-action>   
+        <navigation-case>  
             <from-outcome>customer</from-outcome> 
             <to-view-id>/browse.xhtml</to-view-id>
             <redirect />
         </navigation-case> 
         
-        <navigation-case> 
-            <from-action>#{login.login}</from-action>   
+        <navigation-case>  
             <from-outcome>admin</from-outcome> 
             <to-view-id>/admin.xhtml</to-view-id>
             <redirect />
