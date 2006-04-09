@@ -19,8 +19,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletResponse;
-import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
@@ -325,13 +323,19 @@ public class Manager
          {
             String outerConversationId = stack.get(1);
             //attributes.put(CONVERSATION_ID, outerConversationId);
-            Contexts.getPageContext().set(CONVERSATION_ID, outerConversationId);
+            if ( Contexts.isPageContextActive() )
+            {
+               Contexts.getPageContext().set(CONVERSATION_ID, outerConversationId);
+            }
             writeConversationIdToResponse(response, outerConversationId);
          }
          else
          {
             //attributes.remove(CONVERSATION_ID);
-            Contexts.getPageContext().remove(CONVERSATION_ID);
+            if ( Contexts.isPageContextActive() )
+            {
+               Contexts.getPageContext().remove(CONVERSATION_ID);
+            }
          }
 
          //now safe to remove the entry
@@ -342,13 +346,13 @@ public class Manager
    
    private void writeConversationIdToResponse(Object response, String conversationId)
    {
-      if (response instanceof ActionResponse)
-      {
-         ( (ActionResponse) response ).setRenderParameter("conversationId", conversationId);
-      }
-      else if (response instanceof HttpServletResponse)
+      if (response instanceof HttpServletResponse)
       {
          ( (HttpServletResponse) response ).setHeader("conversationId", conversationId);
+      }
+      else if (response instanceof ActionResponse)
+      {
+         ( (ActionResponse) response ).setRenderParameter("conversationId", conversationId);
       }
    }
 
