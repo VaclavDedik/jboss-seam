@@ -28,7 +28,7 @@ import org.jboss.seam.core.FacesMessages;
 public class ValidationInterceptor extends AbstractInterceptor
 {
 
-   static public final Logger log = Logger.getLogger(ValidationInterceptor.class);
+   private static final Logger log = Logger.getLogger(ValidationInterceptor.class);
 
    @AroundInvoke
    public Object validateTargetComponent(InvocationContext invocation) throws Exception
@@ -48,6 +48,7 @@ public class ValidationInterceptor extends AbstractInterceptor
             log.debug("invalid component state: " + component.getName());
             for (InvalidValue iv : invalidValues)
             {
+               log.debug("invalid value: " + iv);
                if ( ifInvalid.refreshEntities() && iv.getBeanClass().isAnnotationPresent(Entity.class) )
                {
                   refreshInvalidEntity( ifInvalid, iv.getBean() );

@@ -21,7 +21,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Template;
 
 /**
@@ -43,6 +42,13 @@ public class FacesMessages
       for (FacesMessage facesMessage: facesMessages)
       {
          FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+      }
+      for ( Map.Entry<String, List<FacesMessage>> entry: keyedFacesMessages.entrySet() )
+      {
+         for ( FacesMessage msg: entry.getValue() )
+         {
+            FacesContext.getCurrentInstance().addMessage( entry.getKey(), msg );
+         }
       }
       clear();
    }
@@ -163,9 +169,7 @@ public class FacesMessages
 
    public void add(InvalidValue iv)
    {
-      String clientId = getClientId( iv.getPropertyName() );
-      ValidationInterceptor.log.debug("invalid value:" + iv + ", clientId: " + clientId);
-      add( clientId, new FacesMessage( iv.getMessage() ) );
+      add( iv.getPropertyName(), new FacesMessage( iv.getMessage() ) );
    }
    
    private FacesMessage createFacesMessage(Severity severity, String messageTemplate)
