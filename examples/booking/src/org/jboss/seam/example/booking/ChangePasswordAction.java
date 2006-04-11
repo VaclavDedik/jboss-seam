@@ -46,7 +46,7 @@ public class ChangePasswordAction implements ChangePassword
       }
       else 
       {
-         FacesMessages.instance().add("Re-enter new password");
+         FacesMessages.instance().add("verify", "Re-enter new password");
          revertUser();
          verify=null;
          return null;

@@ -61,7 +61,7 @@ public class RegisterAction implements Register
       }
       else 
       {
-         facesMessages.add("Re-enter your password");
+         facesMessages.add("verify", "Re-enter your password");
          verify=null;
          return null;
       }
