@@ -3,19 +3,25 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.MissingResourceException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Template;
 
 /**
@@ -30,6 +36,7 @@ public class FacesMessages
 {
    
    private List<FacesMessage> facesMessages = new ArrayList<FacesMessage>();
+   private Map<String, List<FacesMessage>> keyedFacesMessages = new HashMap<String, List<FacesMessage>>();
 
    public void beforeRenderResponse() 
    {
@@ -54,6 +61,40 @@ public class FacesMessages
       facesMessages.add(facesMessage);
    }
    
+   /**
+    * Add a FacesMessage instance to a particular component id
+    * @param id a JSF component id
+    */
+   public void add(String id, FacesMessage facesMessage)
+   {
+      String clientId = getClientId(id);
+      List<FacesMessage> list = keyedFacesMessages.get(clientId);
+      if (list==null)
+      {
+         list = new ArrayList<FacesMessage>();
+         keyedFacesMessages.put(clientId, list);
+      }
+      list.add(facesMessage);
+   }
+   
+   /**
+    * Add a templated FacesMessage to a particular component id
+    * @param id a JSF component id
+    */
+   public void add(String id, String messageTemplate)
+   {
+      add(id, FacesMessage.SEVERITY_INFO, messageTemplate);
+   }
+   
+   /**
+    * Add a templated FacesMessage to a particular component id
+    * @param id a JSF component id
+    */
+   public void add(String id, Severity severity, String messageTemplate)
+   {
+      add( id, createFacesMessage(severity, messageTemplate) );
+   }
+
    public static FacesMessages instance()
    {
       if ( !Contexts.isConversationContextActive() )
@@ -78,7 +119,7 @@ public class FacesMessages
     */
    public void add(Severity severity, String messageTemplate)
    {
-      add( new FacesMessage( severity, Template.render(messageTemplate), null ) );
+      add( createFacesMessage(severity, messageTemplate) );
    }
    
    /**
@@ -118,6 +159,44 @@ public class FacesMessages
          catch (MissingResourceException mre) {} //swallow
       }
       add(severity, messageTemplate);
+   }
+
+   public void add(InvalidValue iv)
+   {
+      String clientId = getClientId( iv.getPropertyName() );
+      ValidationInterceptor.log.debug("invalid value:" + iv + ", clientId: " + clientId);
+      add( clientId, new FacesMessage( iv.getMessage() ) );
+   }
+   
+   private FacesMessage createFacesMessage(Severity severity, String messageTemplate)
+   {
+      return new FacesMessage( severity, Template.render(messageTemplate), null );
+   }
+   
+   private String getClientId(String id)
+   {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      return getClientId( facesContext.getViewRoot(), id, facesContext);
+   }
+
+   private static String getClientId(UIComponent component, String id, FacesContext facesContext)
+   {
+      String componentId = component.getId();
+      if (componentId!=null && componentId.equals(id))
+      {
+         return component.getClientId(facesContext);
+      }
+      else
+      {
+         Iterator iter = component.getFacetsAndChildren();
+         while ( iter.hasNext() )
+         {
+            UIComponent child = (UIComponent) iter.next();
+            String clientId = getClientId(child, id, facesContext);
+            if (clientId!=null) return clientId;
+         }
+         return null;
+      }
    }
   
 }

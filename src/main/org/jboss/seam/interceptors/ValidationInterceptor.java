@@ -2,13 +2,9 @@
 package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
-import java.util.Iterator;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 
@@ -18,6 +14,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.Within;
+import org.jboss.seam.core.FacesMessages;
 
 /**
  * Validate the method receiver using Hibernate validator before
@@ -31,7 +28,7 @@ import org.jboss.seam.annotations.Within;
 public class ValidationInterceptor extends AbstractInterceptor
 {
 
-   private static final Logger log = Logger.getLogger(ValidationInterceptor.class);
+   static public final Logger log = Logger.getLogger(ValidationInterceptor.class);
 
    @AroundInvoke
    public Object validateTargetComponent(InvocationContext invocation) throws Exception
@@ -55,7 +52,7 @@ public class ValidationInterceptor extends AbstractInterceptor
                {
                   refreshInvalidEntity( ifInvalid, iv.getBean() );
                }
-               addMessageToFacesContext(iv);
+               FacesMessages.instance().add(iv);
             }
             return ifInvalid.outcome();
          }
@@ -90,34 +87,6 @@ public class ValidationInterceptor extends AbstractInterceptor
                session.refresh(entity);
             }
          }
-      }
-   }
-
-   private void addMessageToFacesContext(InvalidValue iv)
-   {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      String clientId = getClientId( facesContext.getViewRoot(), iv.getPropertyName(), facesContext);     
-      log.debug("invalid value:" + iv + ", clientId: " + clientId);
-      facesContext.addMessage( clientId, new FacesMessage( iv.getMessage() ) );
-   }
-   
-   private static String getClientId(UIComponent component, String id, FacesContext facesContext)
-   {
-      String componentId = component.getId();
-      if (componentId!=null && componentId.equals(id))
-      {
-         return component.getClientId(facesContext);
-      }
-      else
-      {
-         Iterator iter = component.getFacetsAndChildren();
-         while ( iter.hasNext() )
-         {
-            UIComponent child = (UIComponent) iter.next();
-            String clientId = getClientId(child, id, facesContext);
-            if (clientId!=null) return clientId;
-         }
-         return null;
       }
    }
    
