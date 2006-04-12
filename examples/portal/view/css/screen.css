@@ -13,6 +13,13 @@
 img {
 	border: 0;
 }
+h1 {
+	font-family: "Trebuchet MS", Arial, sans-serif;
+	line-height: normal;
+	font-weight: normal;
+	font-size: large;
+}
+
 /*body {*/
 	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
 	/*font-size: small;*/

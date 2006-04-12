@@ -1,40 +1,12 @@
-Seam Hibernate3 Example
+Seam Hibernate Portlet Example
 =======================
 This is a port of the Booking example to Hibernate3 with JavaBeans
-for the actions. Seam handles the JTA transaction demarcation and
-Hibernate session management. 
-
-This example can run in a J2EE environment, a Java EE 5 environment, 
-or in a servlet container with the JBoss Microcontainer for JTA/JCA 
-support.
-
-How to Build and Deploy the Example on Tomcat
------------------------------------------------
-
-1. Download and install Tomcat
-   
-2. Download the JBoss Seam distribution from:
-
-   http://www.jboss.com/products/list/downloads#seam
-
-3. Edit the "build.properties" file and change tomcat.home to your 
-   Tomcat installation directory
-
-4. Build Seam by running "ant" the Seam root directory
-
-5. Build and deploy the example by running "ant deploy.tomcat" 
-   in the Seam "examples/hibernate" directory
-
-6. Start Tomcat
-
-7. Point your web browser to:
-
-   http://localhost:8080/jboss-seam-hibernate/
+for the actions. This example is preconfigured to work as a portlet in JBoss Portal 2.4+
 
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------
 
-1. Download and install JBoss AS 4.0.4
+1. Download and install JBoss AS 4.0.4+
 
 2. Download the JBoss Seam distribution from:
 
@@ -46,37 +18,28 @@ How to Build and Deploy the Example on JBoss AS
 4. Build Seam by running "ant" the Seam root directory
 
 5. Build and deploy the example by running "ant" in the Seam
-   "examples/hibernate" directory
+   "examples/portal" directory
 
-6. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
+6. Deploy JBoss Portal as per the documentation:
+http://docs.jboss.com/jbportal/v2.2/user-guide/en/html/installation.html
+
+7. You must move some libraries and services that Portal depends on in to the /default/deploy directory now:
+   a. For this, you will need to download the JBoss AS 4.0.4+ ZIP distribution.
+   b. Unpack it in some temporary location.
+   c. From JBOSS_HOME/server/default/deploy, copy:
+      jboss-bean.deployer, bsh-deployer.xml, mail-service.xml
+   d. From JBOSS_HOME/server/default/lib, copy:
+      bsh-1.3.jar, bsh-deployer.jar, mail.jar, activation.jar
+
+*** Copy these files to their corresponding destinations in the AS version you installed for Seam***
+
+8. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
 
 7. Point your web browser to:
 
-   http://localhost:8080/seam-hibernate/
+   http://localhost:8080/portal
 
-Running the TestNG Tests
-------------------------
-
-In the "examples/hibernate" directory, type "ant testexample"
-
-Running the TestNG Tests in Eclipse
------------------------------------
-
-1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
-
-2. Create the jboss-seam Eclipse project with the following directories
-   in your source path:
-   
-   src/main/
-   examples/hibernate/src/
-   examples/hibernate/resources/
-   microcontainer/conf/
-   
-   And all jar files from the following directories in your classpath:
-   
-   lib/
-   microcontainer/lib
-   
-3. Run examples/hibernate/src/org/jboss/seam/example/hibernate/test/testng.xml
-   using the TestNG plugin.
-   
+Known Issues
+-----------------------------------------------
+* Works with JBoss Portal 2.4+, Do not attempt to use 2.2 Branch!
+* Hot deployment and redeployment of the portal will result in a JDBC error. You can ignore it, as it is being addressed.
