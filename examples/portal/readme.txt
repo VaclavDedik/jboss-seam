@@ -35,7 +35,7 @@ http://docs.jboss.com/jbportal/v2.2/user-guide/en/html/installation.html
 
 8. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
 
-7. Point your web browser to:
+9. Point your web browser to:
 
    http://localhost:8080/portal
 
