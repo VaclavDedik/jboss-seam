@@ -14,7 +14,6 @@ import java.util.Random;
 
 @Stateless
 @Name("progressBarAction")
-@Scope(SESSION)
 @Interceptors(SeamInterceptor.class)
 public class ProgressBarAction implements ProgressBarLocal {
 
