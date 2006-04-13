@@ -9,7 +9,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("helloAction")
-@Scope(SESSION)
 @Interceptors(SeamInterceptor.class)
 public class HelloAction implements HelloLocal {
   public String sayHello(String name) {
