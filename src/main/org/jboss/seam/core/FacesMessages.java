@@ -56,6 +56,7 @@ public class FacesMessages
    public void clear()
    {
       facesMessages.clear();
+      keyedFacesMessages.clear();
    }
    
    /**
