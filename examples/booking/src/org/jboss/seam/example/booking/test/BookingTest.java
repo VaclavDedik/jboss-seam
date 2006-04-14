@@ -155,7 +155,7 @@ public class BookingTest extends SeamTest
          
          @Override @SuppressWarnings("deprecation")
          protected void updateModelValues() throws Exception
-         {
+         {  
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
             booking.setCreditCard("1234567891021234");
             Date now = new Date();
@@ -176,7 +176,8 @@ public class BookingTest extends SeamTest
          {
             Iterator messages = FacesContext.getCurrentInstance().getMessages();
             assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Check out date must be later than check in date");
+            FacesMessage message = (FacesMessage) messages.next();
+            assert message.getSummary().equals("Check out date must be later than check in date");
             assert !messages.hasNext();
             assert Manager.instance().isLongRunningConversation();
          }
