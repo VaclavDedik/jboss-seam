@@ -296,7 +296,10 @@ public class Manager
             //be destroyed by the servlet session listener
             //Map attributes = FacesContext.getCurrentInstance().getViewRoot().getAttributes();
             //attributes.put(CONVERSATION_ID, currentConversationId);
-            Contexts.getPageContext().set(CONVERSATION_ID, currentConversationId);
+            if ( Contexts.isPageContextActive() )
+            {
+               Contexts.getPageContext().set(CONVERSATION_ID, currentConversationId);
+            }
             writeConversationIdToResponse(response, currentConversationId);
             
             if ( Init.instance().isJbpmInstalled() )
