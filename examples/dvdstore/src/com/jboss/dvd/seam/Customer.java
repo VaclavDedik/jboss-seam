@@ -18,7 +18,6 @@ import org.jboss.seam.annotations.Name;
 
 @Entity
 @Name("customer")
-@Inheritance
 @DiscriminatorValue("customer")
 public class Customer
     extends User

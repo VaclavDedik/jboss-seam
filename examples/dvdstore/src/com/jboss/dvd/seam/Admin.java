@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 
 @Entity
-@Inheritance
 @DiscriminatorValue("admin")
 public class Admin
     extends User

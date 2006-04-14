@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Booking" default="deploy" basedir=".">
+<project name="Blog" default="deploy" basedir=".">
 
     <!-- Naming -->
     <property name="Name"                   value="Seam Blog Example"/>

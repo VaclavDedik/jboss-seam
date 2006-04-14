@@ -18,7 +18,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="USERS")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class User
     implements Serializable
 {
