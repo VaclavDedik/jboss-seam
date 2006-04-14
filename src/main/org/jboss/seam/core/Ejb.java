@@ -67,14 +67,9 @@ public class Ejb
    {
       log.info("stopping the embedded EJB container");
       deployer.stop();
-      InitialContext ctx = NamingHelper.getInitialContext();
-      ctx.unbind(TransactionManagerInitializer.JNDI_NAME);
-      ctx.unbind(TransactionManagerInitializer.JNDI_IMPORTER);
-      ctx.unbind(TransactionManagerInitializer.JNDI_EXPORTER);
-      ctx.unbind(Transactions.USER_TRANSACTION_NAME);
       deployer.destroy();
       deployer = null;
-      //EJB3StandaloneBootstrap.shutdown();
+      EJB3StandaloneBootstrap.shutdown();
    }
    
 }

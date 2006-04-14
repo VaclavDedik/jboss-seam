@@ -8,7 +8,6 @@ import java.io.Serializable;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContextType;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -48,7 +47,7 @@ public class ManagedPersistenceContext implements Serializable
       
       try
       {
-         entityManager = getEntityManagerFactory().createEntityManager(PersistenceContextType.EXTENDED);
+         entityManager = getEntityManagerFactory().createEntityManager();
       }
       catch (NamingException ne)
       {
