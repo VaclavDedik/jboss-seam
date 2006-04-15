@@ -306,8 +306,7 @@ public class Component
             }
             if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
             {
-               Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) );
-               init.addFactoryMethod(
+               Init.instance().addFactoryMethod(
             			method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(),
             			method,
             			this
