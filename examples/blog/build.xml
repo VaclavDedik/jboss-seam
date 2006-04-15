@@ -94,7 +94,6 @@
     <property name="src.test.dir" value="src"/>
     <property name="test.classpath" value="test.eejb.classpath"/>
     <property name="tomcat.conf" value="eejb.conf"/>
-    <property name="tomcat.lib" value="eejb.lib"/>
 
     <import file="../../build.xml"/>
     

@@ -88,8 +88,7 @@
     <property name="src.java.dir" value="src"/>
 	<property name="src.test.dir" value="src"/>
 	<property name="test.classpath" value="test.eejb.classpath"/>
-  <property name="tomcat.conf" value="eejb.conf"/>
-  <property name="tomcat.lib" value="eejb.lib"/>
+	<property name="tomcat.conf" value="eejb.conf"/>
   
 
     <import file="../../build.xml"/>
