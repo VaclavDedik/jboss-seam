@@ -6,7 +6,6 @@ import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.util.Calendar;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -22,11 +21,9 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("hotelBooking")
-@Interceptors(SeamInterceptor.class)
 @Conversational(ifNotBegunOutcome="main")
 @LoggedIn
 public class HotelBookingAction implements HotelBooking

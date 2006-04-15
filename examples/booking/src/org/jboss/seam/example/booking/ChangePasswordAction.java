@@ -4,7 +4,6 @@ package org.jboss.seam.example.booking;
 import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -18,12 +17,10 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Scope(EVENT)
 @Name("changePassword")
-@Interceptors(SeamInterceptor.class)
 @LoggedIn
 public class ChangePasswordAction implements ChangePassword
 {

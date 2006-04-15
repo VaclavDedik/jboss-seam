@@ -7,7 +7,6 @@ import static org.jboss.seam.ScopeType.SESSION;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -22,12 +21,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Scope(SESSION)
 @Name("bookingList")
-@Interceptors(SeamInterceptor.class)
 @LoggedIn
 @TransactionAttribute(REQUIRES_NEW)
 public class BookingListAction implements BookingList, Serializable

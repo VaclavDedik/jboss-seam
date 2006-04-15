@@ -3,7 +3,6 @@ package org.jboss.seam.example.booking;
 
 import java.util.List;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -15,12 +14,10 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
-@Interceptors(SeamInterceptor.class)
 @LoggedIn
 public class HotelSearchingAction implements HotelSearching
 {

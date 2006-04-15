@@ -6,7 +6,6 @@ import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.util.List;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -19,12 +18,10 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Scope(EVENT)
 @Name("register")
-@Interceptors(SeamInterceptor.class)
 public class RegisterAction implements Register
 {
 

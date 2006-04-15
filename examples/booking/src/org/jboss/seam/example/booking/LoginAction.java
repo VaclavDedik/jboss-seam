@@ -3,7 +3,6 @@ package org.jboss.seam.example.booking;
 
 import java.util.List;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,11 +12,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("login")
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login
 {
    
