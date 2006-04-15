@@ -17,7 +17,6 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name( "pooledTask" )
 @Scope( ScopeType.APPLICATION )
-@Intercept(InterceptionType.NEVER)
 public class PooledTask
 {
    
