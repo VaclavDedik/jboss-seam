@@ -8,6 +8,8 @@ package org.jboss.seam.util;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.StringTokenizer;
 
 
@@ -103,6 +105,17 @@ public class Strings
       }
       return builder.toString();
    }
+   
+   public static String toString(InputStream in) throws IOException {
+      StringBuffer out = new StringBuffer();
+      byte[] b = new byte[4096];
+      for ( int n; (n = in.read(b)) != -1; ) 
+      {
+         out.append(new String(b, 0, n));
+      }
+      return out.toString();
+  }
+
 }
 
 
