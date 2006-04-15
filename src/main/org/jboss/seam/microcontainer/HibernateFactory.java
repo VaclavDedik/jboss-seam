@@ -10,7 +10,7 @@ import java.util.Properties;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.util.ReflectHelper;
-import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Naming;
 
 /**
  * A factory that bootstraps a Hibernate SessionFactory.
@@ -61,10 +61,10 @@ public class HibernateFactory {
             acfg.setProperties(cfgProperties);
         }
         
-        if ( NamingHelper.getInitialContextProperties()!=null )
+        if ( Naming.getInitialContextProperties()!=null )
         {
            // Prefix regular JNDI properties for Hibernate
-           Hashtable<String, String> hash = NamingHelper.getInitialContextProperties();
+           Hashtable<String, String> hash = Naming.getInitialContextProperties();
            for (Map.Entry<String, String> entry: hash.entrySet() )
            {
                acfg.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );

@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.jbpm.SeamVariableResolver;
-import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
@@ -119,10 +119,10 @@ public class Jbpm
       {
          jbpmConfiguration = JbpmConfiguration.getInstance();
          DbPersistenceServiceFactory dbpsf = (DbPersistenceServiceFactory) jbpmConfiguration.getServiceFactory("persistence");
-         if (NamingHelper.getInitialContextProperties()!=null)
+         if (Naming.getInitialContextProperties()!=null)
          {
             // Prefix regular JNDI properties for Hibernate
-            Hashtable<String, String> hash = NamingHelper.getInitialContextProperties();
+            Hashtable<String, String> hash = Naming.getInitialContextProperties();
             Properties prefixed = new Properties();
             for (Map.Entry<String, String> entry: hash.entrySet() )
             {

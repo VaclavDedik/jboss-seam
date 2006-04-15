@@ -64,9 +64,10 @@ import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
-import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.Transactions;
 
 /**
  * @author Gavin King
@@ -121,7 +122,13 @@ public class Initialization
 
       Properties jndiProperties = new Properties();
       loadFromResource( jndiProperties, "/seam-jndi.properties" );
-      NamingHelper.setInitialContextProperties(jndiProperties);
+      Naming.setInitialContextProperties(jndiProperties);
+   }
+
+   private static void initUserTransactionName(Properties properties)
+   {
+      String userTransactionName = properties.getProperty("jta.UserTransaction");
+      if (userTransactionName!=null) Transactions.setUserTransactionName( userTransactionName );
    }
 
    public static void loadFromResource(Map properties, String resource)
@@ -140,6 +147,7 @@ public class Initialization
             log.error("could not read " + resource, ioe);
          }
          properties.putAll(props);
+         initUserTransactionName(props); //TODO: this is very fragile!!!
       }
       else
       {

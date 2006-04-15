@@ -3,8 +3,6 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import javax.naming.InitialContext;
-
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
 import org.jboss.logging.Logger;
@@ -15,9 +13,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.util.NamingHelper;
-import org.jboss.seam.util.Transactions;
-import org.jboss.tm.TransactionManagerInitializer;
+import org.jboss.seam.util.Naming;
 
 /**
  * A seam component that bootstraps the embedded EJB container
@@ -47,7 +43,7 @@ public class Ejb
       
       // need to set the InitialContext properties that deployer will use
       // to initial EJB containers
-      deployer.setJndiProperties(NamingHelper.getInitialContextProperties());
+      deployer.setJndiProperties(Naming.getInitialContextProperties());
       
       deployer.create();
       deployer.start();

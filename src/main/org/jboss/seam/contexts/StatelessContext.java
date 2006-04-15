@@ -11,7 +11,7 @@ import javax.naming.NamingException;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Naming;
 
 /**
  * For stateless objects
@@ -29,7 +29,7 @@ public class StatelessContext implements Context {
 
 	public Object get(String name) {
 		try {
-			return NamingHelper.getInitialContext().lookup(name);
+			return Naming.getInitialContext().lookup(name);
 		}
 		catch (NamingException ne) {
 			return null;
@@ -38,7 +38,7 @@ public class StatelessContext implements Context {
 
 	public void set(String name, Object value) {
 		try {
-		   InitialContext initialContext = NamingHelper.getInitialContext();
+		   InitialContext initialContext = Naming.getInitialContext();
            initialContext.bind(name, value);
 		}
 		catch (NamingException ne) {
@@ -52,7 +52,7 @@ public class StatelessContext implements Context {
 
 	public void remove(String name) {
 		try {
-           NamingHelper.getInitialContext().unbind(name);
+           Naming.getInitialContext().unbind(name);
 		}
 		catch (NamingException ne) {
 			throw new IllegalArgumentException("could not unbind: " + name, ne);

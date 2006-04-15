@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Naming;
 
 /**
  * A Seam component that manages a conversation-scoped extended
@@ -76,7 +76,7 @@ public class ManagedHibernateSession implements Serializable
    private SessionFactory getSessionFactory()
          throws NamingException
    {
-      return (SessionFactory) NamingHelper.getInitialContext().lookup(sessionFactoryJndiName);
+      return (SessionFactory) Naming.getInitialContext().lookup(sessionFactoryJndiName);
    }
    
    public String toString()

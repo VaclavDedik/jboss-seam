@@ -18,7 +18,7 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
-import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -128,7 +128,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       log.trace( "flushing EntityManager [" + unitName + "]" );
       ManagedPersistenceContext managedContext = (ManagedPersistenceContext) Contexts.getConversationContext().get(unitName);
       if ( managedContext!=null ) managedContext.getEntityManager().flush();
-      EntityManager em = (EntityManager) NamingHelper.getInitialContext().lookup("java:/EntityManagers/" + unitName);
+      EntityManager em = (EntityManager) Naming.getInitialContext().lookup("java:/EntityManagers/" + unitName);
       if ( em!=null ) em.flush();
    }
 

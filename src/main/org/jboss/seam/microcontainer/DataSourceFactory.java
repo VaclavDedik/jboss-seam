@@ -7,7 +7,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
 import org.jboss.resource.connectionmanager.CachedConnectionManager;
 import org.jboss.resource.connectionmanager.CachedConnectionManagerReference;
-import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Naming;
 
 /**
  * A factory that configures and creates a JCA datasource
@@ -60,7 +60,7 @@ public class DataSourceFactory
       ds.setTransactionManager(transactionManager);
       ds.setJndiName(jndiName);
       ds.setCachedConnectionManager(ccmr);
-      ds.setInitialContextProperties(NamingHelper.getInitialContextProperties());
+      ds.setInitialContextProperties(Naming.getInitialContextProperties());
       ds.start();
       
       return ds;

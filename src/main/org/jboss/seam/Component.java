@@ -66,7 +66,7 @@ import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
-import org.jboss.seam.util.NamingHelper;
+import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Sorter;
 import org.jboss.seam.util.StringArrayPropertyEditor;
@@ -644,7 +644,7 @@ public class Component
               return beanClass.newInstance();
            case STATELESS_SESSION_BEAN :
            case STATEFUL_SESSION_BEAN :
-              return NamingHelper.getInitialContext().lookup(jndiName);
+              return Naming.getInitialContext().lookup(jndiName);
            default:
               throw new IllegalStateException();
         }

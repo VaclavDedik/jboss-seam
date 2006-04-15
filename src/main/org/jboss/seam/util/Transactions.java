@@ -12,7 +12,8 @@ import org.jboss.logging.Logger;
 public class Transactions
 {
    public static final String EJBCONTEXT_NAME = "java:comp/EJBContext";
-   public static final String USER_TRANSACTION_NAME = "java:comp/UserTransaction";
+   
+   private static String userTransactionName = "java:comp/UserTransaction";
    
    public static Logger log = Logger.getLogger(Transactions.class);
    
@@ -29,15 +30,13 @@ public class Transactions
 
    public static UserTransaction getUserTransaction() throws NamingException
    {
-      return (UserTransaction) NamingHelper.getInitialContext().lookup(USER_TRANSACTION_NAME);
+      return (UserTransaction) Naming.getInitialContext().lookup(userTransactionName);
    }
 
    public static EJBContext getEJBContext() throws NamingException
    {
-      return (EJBContext) NamingHelper.getInitialContext().lookup(EJBCONTEXT_NAME);
+      return (EJBContext) Naming.getInitialContext().lookup(EJBCONTEXT_NAME);
    }
-
-   private Transactions() {}
 
    public static void setUserTransactionRollbackOnly() throws SystemException, NamingException {
       UserTransaction userTransaction = getUserTransaction();
@@ -45,6 +44,18 @@ public class Transactions
       {
          userTransaction.setRollbackOnly();         
       }
+   }
+
+   private Transactions() {}
+
+   public static void setUserTransactionName(String userTransactionName)
+   {
+      Transactions.userTransactionName = userTransactionName;
+   }
+
+   public static String getUserTransactionName()
+   {
+      return userTransactionName;
    }
    
 }
