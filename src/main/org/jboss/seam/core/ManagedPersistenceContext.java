@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.transaction.SystemException;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -18,6 +19,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
+import org.jboss.seam.util.Transactions;
 
 /**
  * A Seam component that manages a conversation-scoped extended
@@ -58,9 +60,12 @@ public class ManagedPersistenceContext implements Serializable
    }
    
    @Unwrap
-   public EntityManager getEntityManager()
+   public EntityManager getEntityManager() throws NamingException, SystemException
    {
-      entityManager.joinTransaction();
+      if ( Transactions.isTransactionActive() ) 
+      {
+         entityManager.joinTransaction();
+      }
       return entityManager;
    }
    
