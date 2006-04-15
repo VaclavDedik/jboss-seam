@@ -47,6 +47,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       if (commitTran)
       { 
          commit(); //we commit before destroying contexts, cos the contexts have the PC in them
+         //problem: ManagedJbpmContext.destroy() flushes the context!!!
       }
 
       super.afterPhase( event );      

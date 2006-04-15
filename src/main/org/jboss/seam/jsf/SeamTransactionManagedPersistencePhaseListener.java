@@ -139,7 +139,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       if ( managedSession!=null ) managedSession.getSession().flush();
    }
 
-   private void flushJbpm()
+   private void flushJbpm() throws Exception
    {
       log.trace( "flushing jBPM session" );
       ManagedJbpmContext managed = (ManagedJbpmContext) Contexts.getEventContext()

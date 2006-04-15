@@ -9,6 +9,9 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import javax.naming.NamingException;
+import javax.transaction.RollbackException;
+import javax.transaction.Synchronization;
+import javax.transaction.SystemException;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
@@ -20,7 +23,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.util.Transactions;
 import org.jbpm.JbpmContext;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.jbpm.svc.Services;
@@ -34,52 +37,67 @@ import org.jbpm.svc.Services;
 @Scope( ScopeType.EVENT )
 @Name( "jbpmContext" )
 @Intercept( NEVER )
-public class ManagedJbpmContext
+public class ManagedJbpmContext implements Synchronization
 {
    private static final Logger log = Logger.getLogger(ManagedJbpmContext.class);
 
    private JbpmContext jbpmContext;
-   //private int counter;
+   private boolean synchronizationRegistered;
 
    @Create
-   public void create() throws NamingException
+   public void create() throws NamingException, RollbackException, SystemException
    {
       jbpmContext = Jbpm.instance().getJbpmConfiguration().createJbpmContext();
-      //counter++;
+      assertNoTransactionManagement();
       log.debug( "created seam managed jBPM context");
    }
 
-   @Unwrap
-   public JbpmContext getJbpmContext()
+   private void assertNoTransactionManagement()
    {
+      DbPersistenceServiceFactory dpsf = (DbPersistenceServiceFactory) jbpmContext.getJbpmConfiguration()
+            .getServiceFactory(Services.SERVICENAME_PERSISTENCE);
+      if ( dpsf.isTransactionEnabled() )
+      {
+         throw new IllegalStateException("jBPM transaction is management enabled, disable in jbpm.cfg.xml");
+      }
+   }
+
+   @Unwrap
+   public JbpmContext getJbpmContext() throws NamingException, RollbackException, SystemException
+   {
+      if ( !synchronizationRegistered )
+      {
+         Transactions.registerSynchronization(this);
+         synchronizationRegistered = true;
+      }
       return jbpmContext;
+   }
+   
+   public void beforeCompletion()
+   {
+      log.debug( "flushing seam managed jBPM context" );
+      org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
+      if (processInstance!=null) 
+      {
+         jbpmContext.save( processInstance );
+      }
+      Contexts.getBusinessProcessContext().flush();
+      jbpmContext.getSession().flush();
+   }
+   
+   public void afterCompletion(int status) {
+      synchronizationRegistered = false;
    }
 
    @Destroy
    public void destroy()
    {
-      if ( Lifecycle.isException() )
-      {
-         DbPersistenceServiceFactory dpsf = (DbPersistenceServiceFactory) jbpmContext.getJbpmConfiguration()
-               .getServiceFactory(Services.SERVICENAME_PERSISTENCE);
-         if ( dpsf.isTransactionEnabled() )
-         {
-            jbpmContext.setRollbackOnly();
-         }
-      }
-      else 
-      {
-         org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
-         if (processInstance!=null) 
-         {
-            jbpmContext.save( processInstance );
-         }
-      }
       log.debug( "destroying seam managed jBPM context" );
-      //counter--;
+      //jbpmContext.setRollbackOnly(); //TODO: this currently has no effect (bug in jBPM)
+      jbpmContext.getSession().clear(); //WORKAROUND for jBPM bug, prevent flushing of session!
       jbpmContext.close();
    }
-   
+      
    public static JbpmContext instance()
    {
       if ( !Contexts.isEventContextActive() )

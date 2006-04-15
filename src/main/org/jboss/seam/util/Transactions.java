@@ -2,9 +2,13 @@
 package org.jboss.seam.util;
 
 import javax.ejb.EJBContext;
+import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
+import javax.transaction.RollbackException;
 import javax.transaction.Status;
+import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
+import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 import org.jboss.logging.Logger;
@@ -14,6 +18,9 @@ public class Transactions
    public static final String EJBCONTEXT_NAME = "java:comp/EJBContext";
    
    private static String userTransactionName = "java:comp/UserTransaction";
+   private static String userTransactionName2 = "UserTransaction";
+   
+   private static String transactionManagerName = "java:/TransactionManager";
    
    public static Logger log = Logger.getLogger(Transactions.class);
    
@@ -27,10 +34,22 @@ public class Transactions
       int status = getUserTransaction().getStatus();
       return status==Status.STATUS_ACTIVE || status == Status.STATUS_MARKED_ROLLBACK;
    }
+   
+   public static TransactionManager getTransactionManager() throws NamingException
+   {
+      return (TransactionManager) Naming.getInitialContext().lookup(transactionManagerName);
+   }
 
    public static UserTransaction getUserTransaction() throws NamingException
    {
-      return (UserTransaction) Naming.getInitialContext().lookup(userTransactionName);
+      try
+      {
+         return (UserTransaction) Naming.getInitialContext().lookup(userTransactionName);
+      }
+      catch (NameNotFoundException nnfe)
+      {
+         return (UserTransaction) Naming.getInitialContext().lookup(userTransactionName2);
+      }
    }
 
    public static EJBContext getEJBContext() throws NamingException
@@ -43,6 +62,18 @@ public class Transactions
       if ( userTransaction.getStatus()!=Status.STATUS_NO_TRANSACTION )
       {
          userTransaction.setRollbackOnly();         
+      }
+   }
+   
+   public static void registerSynchronization(Synchronization sync) throws SystemException, RollbackException, NamingException
+   {
+      if ( isTransactionActive() )
+      {
+         getTransactionManager().getTransaction().registerSynchronization(sync);
+      }
+      if ( !isTransactionActiveOrMarkedRollback() )
+      {
+         throw new IllegalStateException("No active transaction");
       }
    }
 

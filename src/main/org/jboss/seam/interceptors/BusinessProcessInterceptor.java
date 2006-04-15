@@ -134,7 +134,6 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       // need to set process variables before the signal
       Contexts.getBusinessProcessContext().flush();
       process.signal();
-      //ManagedJbpmContext.instance().getSession().flush();
    }
 
    private void startTask()
