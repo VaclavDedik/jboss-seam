@@ -1,7 +1,6 @@
 package org.jboss.seam.example.issues;
 // Generated Dec 27, 2005 10:28:30 AM by Hibernate Tools 3.1.0 beta3
 
-import javax.ejb.Interceptors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
@@ -11,12 +10,10 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 
 @Name("userEditor")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class UserEditorBean implements UserEditor {
 
     @In(create=true)

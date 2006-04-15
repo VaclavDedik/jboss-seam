@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Stateful;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,12 +23,10 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("catbean")
 @Scope(ScopeType.APPLICATION)
-@Interceptors(SeamInterceptor.class)
 public class CategoriesBean
     implements Categories,
                Serializable 

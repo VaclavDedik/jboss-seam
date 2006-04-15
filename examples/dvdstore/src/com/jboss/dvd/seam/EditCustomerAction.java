@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
-import javax.ejb.Interceptors;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,12 +26,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("editCustomer")
 @Scope(ScopeType.EVENT)
-@Interceptors(SeamInterceptor.class)
 public class EditCustomerAction
     implements EditCustomer
 {

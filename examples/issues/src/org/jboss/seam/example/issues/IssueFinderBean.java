@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -20,13 +19,11 @@ import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 
 @Name("issueFinder")
 @Stateful
 @Scope(ScopeType.SESSION)
-@Interceptors(SeamInterceptor.class)
 public class IssueFinderBean implements IssueFinder {
     
     private Issue example = new Issue();

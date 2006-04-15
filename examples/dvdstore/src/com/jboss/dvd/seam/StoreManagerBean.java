@@ -8,18 +8,15 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("stats")
-@Interceptors(SeamInterceptor.class)
 public class StoreManagerBean
     implements StoreManager,
                Serializable

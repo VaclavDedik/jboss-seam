@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -29,13 +28,11 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("search")
 @Conversational(ifNotBegunOutcome="browse")
 @Scope(ScopeType.CONVERSATION)
-@Interceptors(SeamInterceptor.class)
 public class SearchAction
     implements Search,
                Serializable

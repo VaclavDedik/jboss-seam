@@ -9,7 +9,6 @@ package com.jboss.dvd.seam;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -25,13 +24,11 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 import com.jboss.dvd.seam.Order.Status;
 
 @Stateful
 @Name("showorders")
-@Interceptors(SeamInterceptor.class)
 public class ShowOrdersAction
     implements ShowOrders,
                Serializable

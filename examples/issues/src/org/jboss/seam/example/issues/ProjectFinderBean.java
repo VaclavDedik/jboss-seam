@@ -3,7 +3,6 @@ package org.jboss.seam.example.issues;
 
 import java.util.List;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -16,14 +15,11 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 
 @Name("projectFinder")
 @Stateful
 @Scope(ScopeType.EVENT)
-@Interceptors(SeamInterceptor.class)
 public class ProjectFinderBean implements ProjectFinder {
     
     @DataModel(scope=ScopeType.PAGE)

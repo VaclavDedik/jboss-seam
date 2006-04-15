@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -33,12 +32,10 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Name("cart")
 @Scope(SESSION)
-@Interceptors(SeamInterceptor.class)
 public class ShoppingCartBean
     implements ShoppingCart,
                Serializable

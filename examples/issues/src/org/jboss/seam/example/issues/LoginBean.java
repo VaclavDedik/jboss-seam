@@ -3,7 +3,6 @@ package org.jboss.seam.example.issues;
 
 import java.util.List;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 
@@ -15,12 +14,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Name("login")
 @Stateful
 @Scope(ScopeType.SESSION)
-@Interceptors(SeamInterceptor.class)
 public class LoginBean implements Login {
 
     @In(create=true)

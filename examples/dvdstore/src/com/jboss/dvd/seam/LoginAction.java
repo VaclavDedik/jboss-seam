@@ -9,7 +9,6 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,11 +19,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("login")
-@Interceptors(SeamInterceptor.class)
 public class LoginAction 
     implements Login,
                Serializable

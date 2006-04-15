@@ -5,7 +5,6 @@ import static javax.ejb.TransactionAttributeType.NOT_SUPPORTED;
 
 import java.util.Date;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -19,12 +18,10 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 
 @Name("commentEditor")
 @Stateful
-@Interceptors(SeamInterceptor.class)
 @CheckLoggedIn
 public class CommentEditorBean implements CommentEditor {
 

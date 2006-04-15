@@ -7,19 +7,16 @@ import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.util.ResourceBundle;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Stateless;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 
 @Stateless
 @Name("issueProjectSelector")
-@Interceptors(SeamInterceptor.class)
 public class IssueProjectSelectorBean implements IssueProjectSelector {
    
    @In(create=true)
