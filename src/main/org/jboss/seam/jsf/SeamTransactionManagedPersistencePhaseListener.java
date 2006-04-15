@@ -96,6 +96,12 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       }
    }
 
+   @Override
+   protected void afterPageActions()
+   {
+      flush();
+   }
+
    private void flush() {
       try
       {

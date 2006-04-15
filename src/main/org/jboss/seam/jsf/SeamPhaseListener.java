@@ -54,9 +54,11 @@ public class SeamPhaseListener implements PhaseListener
       
       Lifecycle.setPhaseId( event.getPhaseId() );
 
+      FacesContext facesContext = event.getFacesContext();
+      
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
-         Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
+         Lifecycle.beginRequest( facesContext.getExternalContext() );
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
@@ -67,11 +69,11 @@ public class SeamPhaseListener implements PhaseListener
          //if the page actions called responseComplete(),
          //we need to call beforeSaveState(), since the
          //component tree will not get rendered
-         if ( event.getFacesContext().getResponseComplete() )
+         if ( facesContext.getResponseComplete() )
          {
-            beforeSaveState( event.getFacesContext() );
+            beforeSaveState( facesContext );
             //MyFaces bug: ?
-            Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
+            Lifecycle.endRequest( facesContext.getExternalContext() );
          }
       }
 
@@ -79,10 +81,18 @@ public class SeamPhaseListener implements PhaseListener
 
    private void callPageActions(PhaseEvent event)
    {
+      Lifecycle.setPhaseId( PhaseId.INVOKE_APPLICATION );
       boolean actionsWereCalled = false;
-      actionsWereCalled = callAction( event.getFacesContext() ) || actionsWereCalled;
-      actionsWereCalled = Pages.instance().callAction() || actionsWereCalled;
-      if (actionsWereCalled) afterPageActions();
+      try
+      {
+         actionsWereCalled = callAction( event.getFacesContext() ) || actionsWereCalled;
+         actionsWereCalled = Pages.instance().callAction() || actionsWereCalled;
+      }
+      finally
+      {
+         Lifecycle.setPhaseId( PhaseId.RENDER_RESPONSE );
+         if (actionsWereCalled) afterPageActions();
+      }
    }
    
    protected void afterPageActions() {}
@@ -133,21 +143,12 @@ public class SeamPhaseListener implements PhaseListener
    {
       log.trace( "after phase: " + event.getPhaseId() );
 
+      FacesContext facesContext = event.getFacesContext();
+      
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(event);
-         /*if ( "/debug.xhtml".equals( event.getFacesContext().getViewRoot().getViewId() ) )
-         {
-            try
-            {
-               URL url = getClass().getClassLoader().getResource("/meta-inf/debug.xhtml");
-               Facelet f = FaceletFactory.getInstance().getFacelet(url.toString());
-            }
-            catch (IOException ioe)
-            {
-               ioe.printStackTrace();
-            }
-         }*/
+         //renderDebugPage(facesContext);
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
@@ -157,22 +158,41 @@ public class SeamPhaseListener implements PhaseListener
             // right now we do have to do it after committing the Seam
             // transaction because we can't close EMs inside a txn
             // (this might be a bug in HEM)
-            Manager.instance().conversationTimeout( event.getFacesContext().getExternalContext() );
+            Manager.instance().conversationTimeout( facesContext.getExternalContext() );
          }
-         Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
+         Lifecycle.endRequest( facesContext.getExternalContext() );
       }
-      else if ( event.getFacesContext().getResponseComplete() )
+      else if ( facesContext.getResponseComplete() )
       {
          //responseComplete() was called by one of the other
          //phases, so we will never get to the RENDER_RESPONSE
          //phase
-         beforeSaveState( event.getFacesContext() );
-         Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
+         beforeSaveState( facesContext );
+         Lifecycle.endRequest( facesContext.getExternalContext() );
       }
       
       Lifecycle.setPhaseId(null);
       
    }
+
+   /*private void renderDebugPage(FacesContext facesContext)
+   {
+      String viewId = facesContext.getViewRoot().getViewId();
+      if ( viewId!=null && viewId.startsWith("/debug.") )
+      {
+         try
+         {
+            InputStream in = getClass().getClassLoader().getResourceAsStream("/meta-inf/debug.xhtml");
+            Facelet f = FaceletFactory.getInstance().getFacelet( Strings.toString(in) );
+            f.apply( facesContext, facesContext.getViewRoot() );
+            facesContext.responseComplete();
+         }
+         catch (IOException ioe)
+         {
+            ioe.printStackTrace();
+         }
+      }
+   }*/
    
    /**
     * Called just before the StateManager serializes the component tree
