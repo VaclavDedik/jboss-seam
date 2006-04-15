@@ -270,7 +270,7 @@ public class Component
       for (;clazz!=Object.class; clazz = clazz.getSuperclass())
       {
 
-         for (Method method: clazz.getDeclaredMethods()) //TODO: inheritance!
+         for (Method method: clazz.getDeclaredMethods())
          {
             if ( method.isAnnotationPresent(IfInvalid.class) )
             {
@@ -332,7 +332,7 @@ public class Component
             }
          }
 
-         for (Field field: clazz.getDeclaredFields()) //TODO: inheritance!
+         for (Field field: clazz.getDeclaredFields())
          {
             if ( field.isAnnotationPresent(In.class) )
             {
