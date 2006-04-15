@@ -10,6 +10,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
+import javax.transaction.SystemException;
 
 import org.jboss.logging.Logger;
 import org.jboss.seam.Seam;
@@ -123,7 +124,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       }
    }
 
-   private void flushEntityManager(String unitName) throws NamingException
+   private void flushEntityManager(String unitName) throws NamingException, SystemException
    {
       log.trace( "flushing EntityManager [" + unitName + "]" );
       ManagedPersistenceContext managedContext = (ManagedPersistenceContext) Contexts.getConversationContext().get(unitName);
