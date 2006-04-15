@@ -3,7 +3,8 @@ package org.jboss.seam.microcontainer;
 
 import javax.transaction.TransactionManager;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.resource.adapter.jdbc.local.LocalTxDataSource;
 import org.jboss.resource.connectionmanager.CachedConnectionManager;
 import org.jboss.resource.connectionmanager.CachedConnectionManagerReference;
@@ -16,7 +17,7 @@ import org.jboss.seam.util.Naming;
  */
 public class DataSourceFactory
 {
-   private static final Logger log = Logger.getLogger(DataSourceFactory.class);
+   private static final Log log = LogFactory.getLog(DataSourceFactory.class);
    
    private LocalTxDataSource ds;
    

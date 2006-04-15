@@ -4,11 +4,12 @@ import java.util.StringTokenizer;
 
 import javax.faces.context.FacesContext;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class Template {
 
-   private static final Logger log = Logger.getLogger(Template.class);
+   private static final Log log = LogFactory.getLog(Template.class);
 
    public static String render(String template) {
       FacesContext context = FacesContext.getCurrentInstance();

@@ -8,8 +8,9 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.cfg.Environment;
-import org.jboss.logging.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
@@ -41,7 +42,7 @@ import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 @Name("org.jboss.seam.core.jbpm")
 public class Jbpm 
 {
-   private Logger log = Logger.getLogger( Jbpm.class );
+   private static final Log log = LogFactory.getLog( Jbpm.class );
    
    public static final String PROCESS_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".processDefinitions";
    public static final String PAGEFLOW_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".pageflowDefinitions";

@@ -4,7 +4,8 @@ package org.jboss.seam.microcontainer;
 import javax.naming.InitialContext;
 import javax.transaction.TransactionManager;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.resource.connectionmanager.TransactionSynchronizer;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
@@ -21,7 +22,7 @@ import org.jboss.util.naming.Util;
 public class TransactionManagerFactory
 {
    
-   private static final Logger log = Logger.getLogger(TransactionManagerFactory.class);
+   private static final Log log = LogFactory.getLog(TransactionManagerFactory.class);
 
    public TransactionManager getTransactionManager() throws Exception
    {

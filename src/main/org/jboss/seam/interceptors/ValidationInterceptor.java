@@ -8,9 +8,10 @@ import javax.ejb.InvocationContext;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.validator.InvalidValue;
-import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.Within;
@@ -28,7 +29,7 @@ import org.jboss.seam.core.FacesMessages;
 public class ValidationInterceptor extends AbstractInterceptor
 {
 
-   private static final Logger log = Logger.getLogger(ValidationInterceptor.class);
+   private static final Log log = LogFactory.getLog(ValidationInterceptor.class);
 
    @AroundInvoke
    public Object validateTargetComponent(InvocationContext invocation) throws Exception

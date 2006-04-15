@@ -4,7 +4,8 @@ package org.jboss.seam.interceptors;
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Before invoking the component, inject all dependencies. After
@@ -15,7 +16,7 @@ import org.jboss.logging.Logger;
 public class BijectionInterceptor extends AbstractInterceptor
 {
    
-   private static final Logger log = Logger.getLogger(BijectionInterceptor.class);
+   private static final Log log = LogFactory.getLog(BijectionInterceptor.class);
 
    @AroundInvoke
    public Object bijectTargetComponent(InvocationContext invocation) throws Exception

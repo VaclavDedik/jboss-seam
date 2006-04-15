@@ -4,7 +4,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.util.MissingResourceException;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -23,7 +24,8 @@ import org.jboss.seam.annotations.Unwrap;
 @Intercept(NEVER)
 @Name("resourceBundle")
 public class ResourceBundle {
-   private static final Logger log = Logger.getLogger(ResourceBundle.class);
+   
+   private static final Log log = LogFactory.getLog(ResourceBundle.class);
 
    private String bundleName = "messages";
    private java.util.ResourceBundle bundle;

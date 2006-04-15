@@ -4,7 +4,8 @@ package org.jboss.seam.jsf;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -18,7 +19,7 @@ import org.jboss.seam.util.Transactions;
  */
 public class SeamExtendedManagedPersistencePortletPhaseListener extends SeamPortletPhaseListener
 {
-   private static Logger log = Logger.getLogger( SeamExtendedManagedPersistencePortletPhaseListener.class );
+   private static final Log log = LogFactory.getLog( SeamExtendedManagedPersistencePortletPhaseListener.class );
    
    @Override
    public void beforePhase(PhaseEvent event)

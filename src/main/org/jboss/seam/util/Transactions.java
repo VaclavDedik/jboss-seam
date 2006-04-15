@@ -11,7 +11,8 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class Transactions
 {
@@ -22,7 +23,7 @@ public class Transactions
    
    private static String transactionManagerName = "java:/TransactionManager";
    
-   public static Logger log = Logger.getLogger(Transactions.class);
+   private static final Log log = LogFactory.getLog(Transactions.class);
    
    public static boolean isTransactionActive() throws SystemException, NamingException
    {

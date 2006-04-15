@@ -12,7 +12,8 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.transaction.SystemException;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
@@ -31,7 +32,7 @@ import org.jboss.seam.util.Transactions;
  */
 public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseListener
 {
-   private static final Logger log = Logger.getLogger( SeamTransactionManagedPersistencePhaseListener.class );
+   private static final Log log = LogFactory.getLog( SeamTransactionManagedPersistencePhaseListener.class );
 
    @Override
    public void beforePhase(PhaseEvent event)

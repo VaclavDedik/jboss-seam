@@ -11,7 +11,8 @@ import java.io.Serializable;
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
@@ -28,7 +29,7 @@ import org.jboss.seam.interceptors.SeamInvocationContext;
 public class SeamInterceptor implements Serializable
 {
    
-   private static final Logger log = Logger.getLogger(SeamInterceptor.class);
+   private static final Log log = LogFactory.getLog(SeamInterceptor.class);
    
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception

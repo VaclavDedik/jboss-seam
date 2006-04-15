@@ -35,8 +35,9 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.validator.ClassValidator;
-import org.jboss.logging.Logger;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -90,7 +91,7 @@ public class Component
       PropertyEditorManager.registerEditor(String[].class, StringArrayPropertyEditor.class);
    }
 
-   private static final Logger log = Logger.getLogger(Component.class);
+   private static final Log log = LogFactory.getLog(Component.class);
 
    private ComponentType type;
    private String name;

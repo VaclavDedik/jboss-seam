@@ -12,12 +12,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class Scanner
 {
 
-   private static final Logger log = Logger.getLogger(Scanner.class);
+   private static final Log log = LogFactory.getLog(Scanner.class);
 
    private String resourceName;
    private ClassLoader classLoader;

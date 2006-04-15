@@ -3,9 +3,10 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
-import org.jboss.logging.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -26,7 +27,7 @@ import org.jboss.seam.util.Naming;
 @Name("org.jboss.seam.core.ejb")
 public class Ejb
 {
-   private static final Logger log = Logger.getLogger(Ejb.class);
+   private static final Log log = LogFactory.getLog(Ejb.class);
    
    private EJB3StandaloneDeployer deployer;
    

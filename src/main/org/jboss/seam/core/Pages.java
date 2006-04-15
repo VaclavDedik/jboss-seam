@@ -13,11 +13,12 @@ import java.util.TreeSet;
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -35,7 +36,7 @@ import org.jboss.seam.util.Template;
 public class Pages 
 {
    
-   private static final Logger log = Logger.getLogger(Pages.class);
+   private static final Log log = LogFactory.getLog(Pages.class);
    
    //TODO: move into a single map:
    private Map<String, String> descriptionByViewId = new HashMap<String, String>();

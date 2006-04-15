@@ -21,7 +21,8 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.faces.model.DataModel;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.Session;
@@ -41,7 +42,7 @@ import org.jboss.seam.core.Pages;
 public class SeamPhaseListener implements PhaseListener
 {
 
-   private static final Logger log = Logger.getLogger( SeamPhaseListener.class );
+   private static final Log log = LogFactory.getLog( SeamPhaseListener.class );
 
    public PhaseId getPhaseId()
    {

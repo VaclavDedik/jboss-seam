@@ -9,7 +9,8 @@ import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 import javax.ejb.Remove;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.annotations.Around;
 
@@ -27,7 +28,7 @@ public class RemoveInterceptor extends AbstractInterceptor
    //      the thing is always bound to its component name and scope
    //      (We are waiting for getInvokedBusinessObject() in EJB3)
    
-   private static final Logger log = Logger.getLogger(RemoveInterceptor.class);
+   private static final Log log = LogFactory.getLog(RemoveInterceptor.class);
 
    @AroundInvoke
    public Object removeIfNecessary(InvocationContext invocation) throws Exception

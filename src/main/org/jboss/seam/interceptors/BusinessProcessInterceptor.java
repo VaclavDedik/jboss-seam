@@ -15,7 +15,8 @@ import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
 import javax.faces.context.FacesContext;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.CreateProcess;
@@ -41,7 +42,8 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 @Around({ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class})
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
-   private static final Logger log = Logger.getLogger( BusinessProcessInterceptor.class );
+   
+   private static final Log log = LogFactory.getLog( BusinessProcessInterceptor.class );
 
    @AroundInvoke
    public Object manageBusinessProcessContext(InvocationContext invocation) throws Exception

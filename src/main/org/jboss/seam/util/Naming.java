@@ -11,11 +11,12 @@ import java.util.Hashtable;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public final class Naming {
    
-    private static final Logger log = Logger.getLogger(Naming.class);
+   private static final Log log = LogFactory.getLog(Naming.class);
     private static Hashtable initialContextProperties;
 
     public static InitialContext getInitialContext(Hashtable<String, String> props) throws NamingException {

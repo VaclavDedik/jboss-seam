@@ -15,7 +15,8 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -76,7 +77,8 @@ import org.jboss.seam.util.Transactions;
  */
 public class Initialization
 {
-   private static final Logger log = Logger.getLogger(Initialization.class);
+   
+   private static final Log log = LogFactory.getLog(Initialization.class);
 
    private Map<String, String> properties = new HashMap<String, String>();
    private ServletContext servletContext;

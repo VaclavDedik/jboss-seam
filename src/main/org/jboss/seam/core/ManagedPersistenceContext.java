@@ -10,7 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.SystemException;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -32,7 +33,7 @@ import org.jboss.seam.util.Transactions;
 @Intercept(NEVER)
 public class ManagedPersistenceContext implements Serializable
 {
-   private static final Logger log = Logger.getLogger(ManagedPersistenceContext.class);
+   private static final Log log = LogFactory.getLog(ManagedPersistenceContext.class);
    
    private EntityManager entityManager;
    private String persistenceUnitJndiName;

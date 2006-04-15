@@ -11,7 +11,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.VariableResolver;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 
 /**
@@ -26,7 +27,7 @@ import org.jboss.seam.Component;
 public class SeamVariableResolver extends VariableResolver
 {
 
-   private static final Logger log = Logger.getLogger(SeamVariableResolver.class);
+   private static final Log log = LogFactory.getLog(SeamVariableResolver.class);
 
    private VariableResolver jsfVariableResolver;
    

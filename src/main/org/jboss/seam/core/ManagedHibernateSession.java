@@ -7,9 +7,10 @@ import java.io.Serializable;
 
 import javax.naming.NamingException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.jboss.logging.Logger;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -33,7 +34,7 @@ public class ManagedHibernateSession implements Serializable
    /** The serialVersionUID */
    private static final long serialVersionUID = 3130309555079841107L;
 
-   private static final Logger log = Logger.getLogger(ManagedHibernateSession.class);
+   private static final Log log = LogFactory.getLog(ManagedHibernateSession.class);
    
    private Session session;
    private String sessionFactoryJndiName;

@@ -1,13 +1,15 @@
 package org.jboss.seam.remoting.messaging;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.jms.TopicConnection;
 
-import org.jboss.logging.Logger;
-import static org.jboss.seam.InterceptionType.NEVER;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
@@ -27,7 +29,7 @@ public class SubscriptionRegistry
   private static final String DEFAULT_CONNECTION_PROVIDER =
     "org.jboss.seam.remoting.messaging.JBossConnectionProvider";
 
-  private Logger log = Logger.getLogger(SubscriptionRegistry.class);
+  private static final Log log = LogFactory.getLog(SubscriptionRegistry.class);
 
   private String connectionProvider;
 

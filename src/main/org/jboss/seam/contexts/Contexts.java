@@ -8,8 +8,8 @@ package org.jboss.seam.contexts;
 
 import java.lang.reflect.Method;
 
-
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.util.Reflections;
 
@@ -22,7 +22,7 @@ import org.jboss.seam.util.Reflections;
  */
 public class Contexts {
 
-   private static final Logger log = Logger.getLogger( Contexts.class );
+   private static final Log log = LogFactory.getLog( Contexts.class );
 
    static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();

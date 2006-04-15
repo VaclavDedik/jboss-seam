@@ -16,19 +16,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.faces.event.PhaseId;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.Lifecycle;
-import javax.faces.event.PhaseId;
-import javax.servlet.http.HttpSession;
-import javax.servlet.ServletContext;
 
 /**
  * Generates JavaScript interface code.
@@ -37,7 +39,7 @@ import javax.servlet.ServletContext;
  */
 public class InterfaceGenerator extends BaseRequestHandler implements RequestHandler
 {
-  private static Logger log = Logger.getLogger(InterfaceGenerator.class);
+   private static final Log log = LogFactory.getLog(InterfaceGenerator.class);
 
   /**
    * Maintain a cache of the accessible fields

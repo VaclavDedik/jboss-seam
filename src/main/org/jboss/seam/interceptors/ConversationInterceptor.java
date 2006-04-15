@@ -9,7 +9,8 @@ import javax.ejb.InvocationContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.PhaseId;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
@@ -34,7 +35,7 @@ import org.jboss.seam.core.Pageflow;
 public class ConversationInterceptor extends AbstractInterceptor
 {
 
-   private static final Logger log = Logger.getLogger(ConversationInterceptor.class);
+   private static final Log log = LogFactory.getLog(ConversationInterceptor.class);
 
    @AroundInvoke
    public Object endOrBeginLongRunningConversation(InvocationContext invocation) throws Exception

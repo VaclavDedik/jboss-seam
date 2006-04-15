@@ -21,7 +21,8 @@ import javax.faces.event.PhaseEvent;
 import javax.portlet.ActionResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -47,7 +48,7 @@ import org.jboss.seam.util.Id;
 @Intercept(NEVER)
 public class Manager
 {
-   private static Logger log = Logger.getLogger(Manager.class);
+   private static final Log log = LogFactory.getLog(Manager.class);
 
    private static final String NAME = Seam.getComponentName(Manager.class);
    public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdEntryMap";

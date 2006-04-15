@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.servlet.SeamServletFilter;
 
 /**
@@ -23,7 +24,7 @@ import org.jboss.seam.servlet.SeamServletFilter;
  */
 public class SeamRemotingServlet extends HttpServlet
 {
-  private static Logger log = Logger.getLogger(SeamServletFilter.class);
+  private static final Log log = LogFactory.getLog(SeamServletFilter.class);
 
   private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 
