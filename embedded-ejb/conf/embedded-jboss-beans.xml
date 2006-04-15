@@ -52,7 +52,6 @@
       <property name="serializable">false</property>
    </bean>
 
-
    <bean name="TransactionManager" class="java.lang.Object">
       <constructor factoryMethod="getTransactionManager">
          <factory bean="TransactionManagerInitializer"/>
