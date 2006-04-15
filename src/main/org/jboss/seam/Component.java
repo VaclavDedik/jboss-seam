@@ -306,7 +306,8 @@ public class Component
             }
             if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
             {
-               Init.instance().addFactoryMethod(
+               Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
+               init.addFactoryMethod(
             			method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(),
             			method,
             			this
