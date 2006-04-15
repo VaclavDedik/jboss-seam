@@ -58,7 +58,7 @@ public class ManagedJbpmContext implements Synchronization
             .getServiceFactory(Services.SERVICENAME_PERSISTENCE);
       if ( dpsf.isTransactionEnabled() )
       {
-         throw new IllegalStateException("jBPM transaction is management enabled, disable in jbpm.cfg.xml");
+         throw new IllegalStateException("jBPM transaction management is enabled, disable in jbpm.cfg.xml");
       }
    }
 
