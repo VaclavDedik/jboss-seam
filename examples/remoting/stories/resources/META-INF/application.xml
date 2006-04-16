@@ -1,0 +1,14 @@
+<application>
+	<display-name>Seam Stories</display-name>
+
+	<module>
+		<web>
+			<web-uri>seam-stories.war</web-uri>
+			<context-root>/seam-stories</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>seam-stories.jar</ejb>
+	</module>
+	
+</application>

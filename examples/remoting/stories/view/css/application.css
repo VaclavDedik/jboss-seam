@@ -1,0 +1,146 @@
+BODY {
+  margin: 0px;
+  padding: 0px;
+  background: url('/images/statusbg.jpg') fixed;
+}
+
+BODY, H1, H2, H3, DIV, SPAN {
+  color: #333;
+  font-family: Helvetica;
+  font-size: 14px
+}
+
+A { text-decoration: none }
+H1 { font-size: 1.2em; margin-top: 4px }
+H2 { font-size: 1.1em; margin-top: 4px }
+P { margin:	0px 0px 16px 0px }
+P.Help { font-size: .8em }
+IMG { border: none }
+TD { vertical-align: top }
+
+#header {
+  background: #e7eeee url('/images/logo.gif') center right no-repeat;
+  border-bottom: 2px solid #003832;
+  padding: 4px;
+  opacity: .9;
+  position: fixed;
+  height: 70px;
+  width: 100%;
+  z-index: 1000;
+}
+
+#project_heading {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+#footer {
+  background: #e7eeee;
+  border-top: 2px solid #003832;
+  bottom: 0px;
+  font-size: 12px;
+  height: 20px;
+  left: 0px;
+  opacity: .9;
+  position: fixed;
+  text-align:left;
+  width: 100%;
+  z-index: 1000;
+}
+
+#footer IMG { vertical-align: middle }
+#footer SPAN { vertical-align: middle }
+
+.Help {
+
+}
+
+DIV.Content {
+  padding: 90px 16px 35px 16px;
+}
+
+DIV.Project {
+  margin: 12px;
+}
+
+DIV.ProjectList {
+  float: left;
+  margin: 12px;
+  width: 500px;
+}
+
+DIV.ProjectList A {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.Heading {
+  font-size: 1.05em;
+  font-weight: bold;
+}
+
+.Indented {
+  margin-left: 12px;
+}
+
+DIV.Navigation {
+  position: absolute;
+  top: 53px;
+  left: 0px;
+}
+
+DIV.Navigation SPAN {
+  background: white;
+  border-top: 2px solid #003832;
+  border-right: 2px solid #003832;
+  border-bottom: 2px solid white;
+  display: block;
+  font-size: .9em;
+  float: left;
+  font-weight: bold;
+  padding: 4px 6px 3px 6px;
+}
+
+DIV.Navigation A {
+  position: relative;
+  left: -1px;
+}
+
+DIV.Navigation > A > SPAN {
+  background: #cca;
+  border-bottom: 2px solid #003832;
+  cursor: pointer;
+}
+
+DIV.Navigation .Action {
+  background: transparent;
+  border: 0px;
+  font-size: .8em;
+  padding: 6px 2px 0px 8px;
+}
+
+DIV#login {
+  background: #e2eaea;
+  border: 2px solid #92b6b2;
+  position: relative;
+  left: 25%;
+  margin-top: 10%;
+  padding-left: 20px;
+  width: 30%;
+  text-align: left;
+}
+
+.Item DIV p {
+  width: 450px;
+}
+
+.Handle {
+  cursor: move;
+}
+
+.velocity_chart {
+  position: fixed;
+  height: 70px;
+  width: 300px;
+  float: right;
+}

@@ -1,0 +1,19 @@
+      <div class="Story Item Row Draggable" id="story_#{story.id}">
+        <div class="Points"><input type="text" value="#{story.points}"/></div>
+        <div class="Actions">
+          <a href="javascript:planning.createChild(#{story.id})">
+             <img src="img/new_child.png" width="15" height="15"/>
+             New Child
+          </a>
+          <a href="javascript:planning.deleteStory(#{story.id})">
+             <img src="img/delete.gif" width="15" height="15"/>
+             Delete
+          </a>
+        </div>
+        <div class="Name">
+          <div onmouseover="addEditor(this, function (val, elem, cb){SeamRemote.create('stories').setName(#{story.id}, val, cb)})">#{story.name}</div>
+        </div>
+        <div class="Body">
+          <div onmouseover="addEditor(this, function (val, elem, cb){SeamRemote.create('stories').setBody(#{story.id}, val, cb)})">#{story.body}</div>
+        </div>
+      </div>

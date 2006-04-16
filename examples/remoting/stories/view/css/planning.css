@@ -1,0 +1,95 @@
+TABLE { width: 100% }
+TD.List { width: 48%; }
+.Row { position: relative; width: 95%; }
+
+.Story.Row {
+  font-size: .9em;
+  background : #feffE7;
+  border: 1px solid silver;
+  margin-bottom: 6px;
+  margin-left: 12px;
+}
+
+.Stories { margin-top: 3px }
+
+.Less > .Story {
+  max-height: 25px;
+  overflow: hidden
+}
+
+.Less > .Story > DIV.Name { width: 50% }
+.Less > .Story > DIV.Name INPUT[type='text'] { width: 50% }
+.Less > .Story > DIV.Body { display: none }
+
+.More > .Row {
+  margin-bottom: 4px;
+  overflow: visible;
+}
+
+.Row > DIV {
+  margin: 2px;
+  padding: 2px;
+}
+
+.Row DIV TEXTAREA {
+  height: 180px;
+  margin: 4px
+}
+
+.Row DIV INPUT[type='text'], DIV.Row DIV TEXTAREA {
+  border-width: 1px;
+  width: 100%;
+}
+
+.Row DIV.Name {
+  font-weight: bold;
+  height: 27px;
+  width: 55%;
+}
+
+.Row DIV.Body {
+  clear: both;
+  max-height: 500px;
+  width: 80%
+}
+
+.Row DIV.Actions {
+  position: absolute;
+  font-size: .8em;
+  top: 1px;
+  right: 40px;
+  width: 160px;
+}
+
+.Actions A { opacity: .3; padding: 4px; }
+.Actions A:hover { opacity: 1 }
+
+.Row DIV.Name INPUT[type='text'] { width: 55% }
+
+
+.Row .Body DIV { min-height: 25px }
+.Row .Body TEXTAREA { width: 100%  }
+.Row .Body INPUT[type='text'] { width: 100% }
+
+
+.Row .Points {
+  position: absolute;
+  font-weight: bold;
+  right: 0px;
+  top: 0px;
+  width: 34px;
+}
+
+.Row .Points INPUT[type='text'] {
+  font-weight: bold;
+  text-align: center;
+  margin: 1px;
+  width: 30px;
+}
+
+.Stories { padding: 10px }
+.Iteration { margin-bottom: 8px }
+.Iteration > .Name { font-weight:bold }
+.Iteration > .Description { font-size: 12px }
+.Iteration .Story > .Actions { display: none }
+.Story.Row.Parent { background: pink }
