@@ -37,6 +37,7 @@ import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.HttpError;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.IsUserInRole;
 import org.jboss.seam.core.Locale;
@@ -168,6 +169,7 @@ public class Initialization
       addComponent( Manager.class, context );
       addComponent( Switcher.class, context );
       addComponent( Redirect.class, context );
+      addComponent( HttpError.class, context );
       addComponent( IsUserInRole.class, context );
       addComponent( Conversation.class, context );
       addComponent( ConversationList.class, context );
