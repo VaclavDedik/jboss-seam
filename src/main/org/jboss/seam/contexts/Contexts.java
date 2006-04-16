@@ -184,7 +184,14 @@ public class Contexts {
             log.debug("destroying: " + name);
             if ( component!=null )
             {
-               callDestroyMethod( component, context.get(name) );
+               try
+               {
+                  callDestroyMethod( component, context.get(name) );
+               }
+               catch (Exception e)
+               {
+                  log.warn("Could not destroy component: " + name, e);
+               }
             }
          }
       }
