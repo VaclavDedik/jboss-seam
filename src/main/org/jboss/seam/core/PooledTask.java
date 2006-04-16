@@ -2,9 +2,7 @@ package org.jboss.seam.core;
 
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jbpm.taskmgmt.exe.TaskInstance;
