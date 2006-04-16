@@ -34,6 +34,7 @@ import org.jboss.seam.core.ConversationContext;
 import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.EventContext;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
@@ -163,6 +164,7 @@ public class Initialization
 
       addComponent( Init.class, context );
       addComponent( Pages.class, context);
+      addComponent( Events.class, context);
       addComponent( Manager.class, context );
       addComponent( Switcher.class, context );
       addComponent( Redirect.class, context );
