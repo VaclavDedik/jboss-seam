@@ -73,15 +73,25 @@ public class Events
    {
       MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication()
             .createMethodBinding(methodBindingExpression, null);
-      listeners.get(type).add(methodBinding);
+      List<MethodBinding> list = listeners.get(type);
+      if (list==null)
+      {
+         list = new ArrayList<MethodBinding>();
+         listeners.put(type, list);
+      }
+      list.add(methodBinding);
    }
    
    public void raiseEvent(String type)
    {
       log.debug("Processing event:" + type);
-      for (MethodBinding listener: listeners.get(type) )
+      List<MethodBinding> list = listeners.get(type);
+      if (list!=null)
       {
-         listener.invoke( FacesContext.getCurrentInstance(), null );
+         for (MethodBinding listener: list )
+         {
+            listener.invoke( FacesContext.getCurrentInstance(), null );
+         }
       }
    }
    
