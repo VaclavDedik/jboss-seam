@@ -30,6 +30,13 @@
         <param-value>java:/blogEntityManagerFactory</param-value>
     </context-param>
 
+    <!-- Install the Embeddable EJB3 container -->
+    
+    <context-param>
+        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
+        <param-value>org.jboss.seam.core.Ejb</param-value>
+    </context-param>
+
     <!-- JSF -->
     
     <context-param>
