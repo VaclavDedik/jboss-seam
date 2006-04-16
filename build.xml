@@ -378,6 +378,8 @@
             	<include name="todo/**/*"/>
             	<include name="numberguess/**/*"/>
             	<include name="remoting/**/*"/>
+            	<exclude name="remoting/stories"/>
+            	<exclude name="remoting/stories/**/*"/>
                 <include name="readme.txt"/>
             	<include name="seam-examples.html"/>
             	<exclude name="*/build"/>
