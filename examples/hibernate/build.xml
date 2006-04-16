@@ -21,14 +21,15 @@
 	
     <zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
-               dir="resources/WEB-INF/lib/">
+               dir="../../facelets/lib">
         <include name="*.jar"/>
     </zipfileset>
-            <zipfileset id="example.war.webinf.lib.extra" 
-                    prefix="WEB-INF/lib"
-                       dir=".">
-                <include name="_NONE_"/>
-            </zipfileset>
+
+    <zipfileset id="example.war.webinf.lib.extra" 
+            prefix="WEB-INF/lib"
+               dir=".">
+        <include name="_NONE_"/>
+    </zipfileset>
     
     <!-- EJB3 -->
     <fileset id="example.ejb3.root" dir=".">

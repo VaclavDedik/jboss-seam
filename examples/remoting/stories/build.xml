@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="ProgressBar" default="deploy" basedir=".">
+<project name="Stories" default="deploy" basedir=".">
 
     <!-- Example name -->
-    <property name="Name"                   value="Seam Remoting Progress Bar Example"/>
-    <property name="example.name"           value="seam-progressbar"/>
+    <property name="Name"                   value="Seam Stories Example"/>
+    <property name="example.name"           value="seam-stories"/>
 
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
@@ -31,6 +31,8 @@
     <fileset id="example.ejb3.root"
             dir="resources">
         <include name="seam.properties"/>
+    	<include name="META-INF/persistence.xml"/>
+    	<include name="import.sql"/>
     </fileset>
 
     <!-- EAR -->
@@ -53,20 +55,20 @@
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
-        <include name="_NONE_"/>
+        <include name="stories-ds.xml"/>
     </fileset>
 
     <!-- Undeploy -->
     <patternset id="example.undeploy">
-        <include name="_NONE_"/>
+        <include name="stories-ds.xml"/>
     </patternset>
 
     <!-- Overrides -->
     <property name="src.java.dir" value="src"/>
-	<property name="src.test.dir" value="src"/>
-	<property name="test.classpath" value="test.eejb.classpath"/>
+    <property name="src.test.dir" value="src"/>
+    <property name="test.classpath" value="test.eejb.classpath"/>
 
-    <import file="../../../build.xml"/>
+  <import file="../../../build.xml"/>
 
 </project>
 

@@ -24,6 +24,7 @@
     <property name="src.test.dir"       value="src/test"/>
 
     <property name="lib.dir"            value="${imported.basedir}/lib"/>
+	<property name="facelets.lib.dir"   value="${imported.basedir}/facelets/lib"/>
     <property name="eejb.conf.dir"      value="${imported.basedir}/embedded-ejb/conf"/>
     <property name="mc.conf.dir"        value="${imported.basedir}/microcontainer/conf"/>
 

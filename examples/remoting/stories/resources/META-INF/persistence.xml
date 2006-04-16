@@ -1,0 +1,10 @@
+<persistence>
+   <persistence-unit name="storiesDatabase">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>java:/storiesDatasource</jta-data-source>
+      <properties>
+         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+         <property name="hibernate.show_sql" value="true"/>
+      </properties>
+   </persistence-unit>
+</persistence>

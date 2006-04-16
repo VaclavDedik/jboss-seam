@@ -25,7 +25,7 @@
 		       <h:outputText value="#{blogEntry.date}">
 		           <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
 		       </h:outputText>]
-		       &nbsp;
+		       &#160;
                <h:outputLink value="entry.seam">[Link]
                   <f:param name="blogEntryId" value="#{blogEntry.id}"/>
                </h:outputLink>

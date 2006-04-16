@@ -30,6 +30,7 @@
         <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
+    	<include name="META-INF/ejb-jar.xml"/>
     </fileset>
     
     <fileset id="example.ejb3.lib" dir="../../lib">
@@ -43,6 +44,7 @@
         <include name="*"/>
         <exclude name="persistence.xml"/>
         <exclude name="jboss-beans.xml"/>
+    	<exclude name="ejb-jar.xml"/>
     </zipfileset>
 
     <!-- Deploy -->

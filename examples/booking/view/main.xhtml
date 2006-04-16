@@ -14,10 +14,10 @@
     <span class="errors"><h:messages globalOnly="true"/></span>
 	<h1>Search Hotels</h1>
 	<fieldset> 
-	   <h:inputText value="#{hotelSearch.searchString}" style="width: 165px;"/>&nbsp;
+	   <h:inputText value="#{hotelSearch.searchString}" style="width: 165px;"/>&#160;
 	   <h:commandButton value="Find Hotels" action="#{hotelSearch.find}" styleClass="button"/>
 	   <br/>
-       <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&nbsp;
+       <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
        <h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
           <f:selectItem itemLabel="5" itemValue="5"/>
           <f:selectItem itemLabel="10" itemValue="10"/>

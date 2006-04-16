@@ -13,7 +13,7 @@
         <h:dataTable value="#{conversationList}" var="entry">
             <h:column>
                 <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
-                &nbsp;
+                &#160;
                 <h:outputText value="[current]" rendered="#{entry.current}"/>
             </h:column>
             <h:column>
