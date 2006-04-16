@@ -3,8 +3,6 @@
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/bookingDatasource</jta-data-source>
       <properties> 
-         <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-         <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
          <property name="hibernate.hbm2ddl.auto" value="none"/>
       </properties>
    </persistence-unit>
