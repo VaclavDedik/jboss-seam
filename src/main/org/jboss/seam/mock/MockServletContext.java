@@ -149,5 +149,9 @@ public class MockServletContext implements ServletContext
    {
       return "Mock";
    }
+   
+   public String getContextPath() {
+      return null;
+   }
 
 }
