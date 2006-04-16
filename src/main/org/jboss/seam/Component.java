@@ -605,7 +605,7 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new InstantiationException("Could not instantiate Seam component", e);
+         throw new InstantiationException("Could not instantiate Seam component: " + name, e);
       }
    }
 
