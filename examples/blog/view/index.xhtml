@@ -12,7 +12,8 @@
          <div class="blogEntry">
             <h3>#{blogEntry.title}</h3>
             <div>
-               #{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}
+               <h:outputText escape="false" 
+                     value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
             </div>
             <p>
                <h:outputLink value="entry.seam" rendered="#{blogEntry.excerpt!=null}">

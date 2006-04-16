@@ -9,7 +9,9 @@
 <ui:define name="content">
    <div class="blogEntry">
       <h3>#{blogEntry.title}</h3>
-      <div>#{blogEntry.body}</div>
+      <div>
+         <h:outputText escape="false" value="#{blogEntry.body}"/>
+      </div>
       <p>
          [Posted on 
          <h:outputText value="#{blogEntry.date}">
