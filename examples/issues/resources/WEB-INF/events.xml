@@ -1,0 +1,9 @@
+<events>
+   <event type="issueUpdate">
+      <action expression="#{issueFinder.refresh}"/>
+      <action expression="#{projectFinder.refresh}"/>
+   </event>
+   <event type="projectUpdate">
+      <action expression="#{projectFinder.refresh}"/>
+   </event>
+</events>

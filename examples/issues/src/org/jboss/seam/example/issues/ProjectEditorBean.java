@@ -23,6 +23,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 
 
@@ -52,9 +53,6 @@ public class ProjectEditorBean implements ProjectEditor {
     public boolean isNew() {
        return isNew;
     }
-    
-    @In(required=false)
-    private transient ProjectFinder projectFinder;
     
     @LoggedIn
     @Begin(join=true)
@@ -115,7 +113,7 @@ public class ProjectEditorBean implements ProjectEditor {
     }
     
     private void refreshFinder() {
-       if (projectFinder!=null) projectFinder.refresh();
+       Events.instance().raiseEvent("projectUpdate");
     }
 
     @DataModel

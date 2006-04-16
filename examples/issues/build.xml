@@ -57,6 +57,7 @@
                dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
+    	<include name="events.xml"/>
     	<include name="classes/messages.properties"/>
     </zipfileset>
     

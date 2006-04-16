@@ -25,6 +25,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 
 
@@ -69,9 +70,6 @@ public class IssueEditorBean implements IssueEditor {
 
     @In(required=false)
     private transient IssueFinder issueFinder;
-
-    @In(required=false)
-    private transient ProjectFinder projectFinder;
     
     @LoggedIn
     @Begin(join=true)
@@ -83,12 +81,7 @@ public class IssueEditorBean implements IssueEditor {
           issue.getProject().getIssues().add(issue);
        }
        refreshFinder();
-       refreshProjectFinder();
        return "editIssue";
-    }
-
-    private void refreshProjectFinder() {
-       if (projectFinder!=null) projectFinder.refresh();
     }
     
     @TransactionAttribute(NOT_SUPPORTED)
@@ -113,7 +106,6 @@ public class IssueEditorBean implements IssueEditor {
        entityManager.remove(issue);
        issue.getProject().getIssues().remove(issue);
        refreshFinder();
-       refreshProjectFinder();
        return doneOutcome;
     }
 
@@ -124,7 +116,7 @@ public class IssueEditorBean implements IssueEditor {
     }
     
     private void refreshFinder() {
-       if (issueFinder!=null) issueFinder.refresh();
+       Events.instance().raiseEvent("issueUpdate");
     }
 
     @In(create=true)
