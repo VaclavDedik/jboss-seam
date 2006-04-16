@@ -84,10 +84,6 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <!--<h:commandLink action="#{pooledTask.assignToCurrentActor}">
-                                <f:param name="taskId" value="#{task.id}"/>
-                                <h:commandButton value="Assign"/>
-                            </h:commandLink>-->
                             <s:link action="#{pooledTask.assignToCurrentActor}" taskInstance="#{task}"
                                 value="Assign" linkStyle="button"/>
                         </h:column>
@@ -122,10 +118,6 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <!--<h:commandLink action="#{accept.viewTask}">
-                                <f:param name="taskId" value="#{task.id}"/>
-                                <h:commandButton value="Review"/>
-                            </h:commandLink>-->
                             <s:link action="#{accept.viewTask}" taskInstance="#{task}" 
                                     value="Review" linkStyle="button"/>
                         </h:column>
@@ -160,10 +152,6 @@
                             <h:outputText value="#{task.variables['customer']}" />
                         </h:column>
                         <h:column>
-                            <!--<h:commandLink action="#{ship.viewTask}">
-                                <f:param name="taskId" value="#{task.id}"/>
-                                <h:commandButton value="Ship"/>
-                            </h:commandLink>-->
                             <s:link action="#{ship.viewTask}" taskInstance="#{task}" 
                                     value="Ship" linkStyle="button"/>
                         </h:column>               
