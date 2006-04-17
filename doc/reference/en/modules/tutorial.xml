@@ -819,7 +819,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
        <title>Understanding the code</title>
        <para>
            The message list example has one entity bean, <literal>Message</literal>, 
-           one session bean, <literal>MessageListBean</literal> and one JSP.
+           one session bean, <literal>MessageManagerBean</literal> and one JSP.
        </para>
        
        <section>
@@ -893,7 +893,7 @@ public class Message implements Serializable
        
        <para>
            Just like in the previous example, we have a session bean,
-           <literal>MessageListBean</literal>, which defines the action
+           <literal>MessageManagerBean</literal>, which defines the action
            listener methods for the two buttons on our form. One of the 
            buttons selects a message from the list, and displays that
            message. The other button deletes a message. So far, this
@@ -901,7 +901,7 @@ public class Message implements Serializable
        </para>
        
        <para>
-           But <literal>MessageListBean</literal> is also responsible 
+           But <literal>MessageManagerBean</literal> is also responsible 
            for fetching the list of messages the first time we navigate
            to the message list page. There are various ways the user
            could navigate to the page, and not all of them are preceded
@@ -930,12 +930,12 @@ public class Message implements Serializable
                 </areaspec>    
           <programlisting><![CDATA[@Stateful
 @Scope(SESSION)
-@Name("messageList")
-public class MessageListBean implements Serializable, MessageList
+@Name("messageManager")
+public class MessageManagerBean implements Serializable, MessageManager
 {
 
    @DataModel
-   private List<Message> messages;
+   private List<Message> messageList;
    
    @DataModelSelection
    @Out(required=false)
@@ -944,10 +944,10 @@ public class MessageListBean implements Serializable, MessageList
    @PersistenceContext(type=EXTENDED)
    private EntityManager em;
    
-   @Factory("messages")
+   @Factory("messageList")
    public void findMessages()
    {
-      messages = em.createQuery("from Message msg order by msg.datetime desc").getResultList();
+      messageList = em.createQuery("from Message msg order by msg.datetime desc").getResultList();
    }
    
    public String select()
@@ -958,13 +958,13 @@ public class MessageListBean implements Serializable, MessageList
    
    public String delete()
    {
-      messages.remove(message);
+      messageList.remove(message);
       em.remove(message);
       message=null;
       return "deleted";
    }
    
-   @Remove @Destory
+   @Remove @Destroy
    public void destroy() {}
 
 }]]></programlisting>
@@ -977,7 +977,7 @@ public class MessageListBean implements Serializable, MessageList
                         use the list in a JSF <literal>&lt;h:dataTable&gt;</literal> with
                         clickable links for each row. In this case, the <literal>DataModel</literal>
                         is made available in a session context variable named 
-                        <literal>messages</literal>.
+                        <literal>messageList</literal>.
                     </para>
                 </callout>
                 <callout arearefs="messages-datamodelselection">
@@ -1012,7 +1012,7 @@ public class MessageListBean implements Serializable, MessageList
                         annotation tells Seam to create an instance of <literal>MessageListBean</literal> 
                         and invoke the <literal>findMessages()</literal> method to initialize the 
                         value. We call <literal>findMessages()</literal> a <emphasis>factory 
-                        method</emphasis> for <literal>messages</literal>.
+                        method</emphasis> for <literal>messageList</literal>.
                     </para>
                 </callout>
                 <callout arearefs="messages-select">
@@ -1050,14 +1050,14 @@ public class MessageListBean implements Serializable, MessageList
        </section>
        
        <section>
-       <title>The session bean local interface: <literal>MessageList.java</literal></title>
+       <title>The session bean local interface: <literal>MessageManager.java</literal></title>
        
        <para>
            All session beans have a business interface, of course.
        </para>
        
        <programlisting><![CDATA[@Local
-public interface MessageList
+public interface MessageManager
 {
    public void findMessages();
    public String select();
@@ -1096,8 +1096,8 @@ public interface MessageList
   <f:view>
    <h:form>
      <h2>Message List</h2>
-     <h:outputText value="No messages to display" rendered="#{messages.rowCount==0}"/>
-     <h:dataTable var="msg" value="#{messages}" rendered="#{messages.rowCount>0}">
+     <h:outputText value="No messages to display" rendered="#{messageList.rowCount==0}"/>
+     <h:dataTable var="msg" value="#{messageList}" rendered="#{messageList.rowCount>0}">
         <h:column>
            <f:facet name="header">
               <h:outputText value="Read"/>
@@ -1108,7 +1108,7 @@ public interface MessageList
            <f:facet name="header">
               <h:outputText value="Title"/>
            </f:facet>
-           <h:commandLink value="#{msg.title}" action="#{messageList.select}"/>
+           <h:commandLink value="#{msg.title}" action="#{messageManager.select}"/>
         </h:column>
         <h:column>
            <f:facet name="header">
@@ -1119,7 +1119,7 @@ public interface MessageList
            </h:outputText>
         </h:column>
         <h:column>
-           <h:commandButton value="Delete" action="#{messageList.delete}"/>
+           <h:commandButton value="Delete" action="#{messageManager.delete}"/>
         </h:column>
      </h:dataTable>
      <h3><h:outputText value="#{message.title}"/></h3>
@@ -1140,7 +1140,7 @@ public interface MessageList
          <para>
              The first time we navigate to the <literal>messages.jsp</literal> page, whether
              by a JSF postback (faces request) or a direct browser GET request (non-faces
-             request), the page will try to resolve the <literal>messages</literal> context
+             request), the page will try to resolve the <literal>messageList</literal> context
              variable. Since this context variable is not initialized, Seam will call the
              factory method <literal>findMessages()</literal>, which performs a query against
              the database and results in a <literal>DataModel</literal> being outjected.
@@ -1152,7 +1152,7 @@ public interface MessageList
              When the user clicks the <literal>&lt;h:commandLink&gt;</literal>, JSF calls the 
              <literal>select()</literal> action listener. Seam intercepts this call and injects
              the selected row data into the <literal>message</literal> attribute of the
-             <literal>messageList</literal> component. The action listener fires, marking
+             <literal>messageManager</literal> component. The action listener fires, marking
              the selected <literal>Message</literal> as read. At the end of the call, Seam
              outjects the selected <literal>Message</literal> to the context variable named 
              <literal>message</literal>. Next, the EJB container commits the transaction, and 
@@ -1165,10 +1165,10 @@ public interface MessageList
              If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls the 
              <literal>delete()</literal> action listener. Seam intercepts this call and injects
              the selected row data into the <literal>message</literal> attribute of the
-             <literal>messageList</literal> component. The action listener fires, removing
+             <literal>messageManager</literal> component. The action listener fires, removing
              the selected <literal>Message</literal> from the list, and also calling
              <literal>remove()</literal> on the <literal>EntityManager</literal>. At the end 
-             of the call, Seam refreshes the <literal>messages</literal> context variable and
+             of the call, Seam refreshes the <literal>messageList</literal> context variable and
              clears the context variable named <literal>message</literal>. The EJB container 
              commits the transaction, and deletes the <literal>Message</literal> from the 
              database. Finally, the page is re-rendered, redisplaying the message list.
