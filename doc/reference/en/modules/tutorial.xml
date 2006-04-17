@@ -205,20 +205,12 @@ public class User implements Serializable
 }]]></programlisting>
                 <calloutlist>
                     <callout arearefs="registration-entity-annotation">
-                        <!-- indexterm>
-                            <primary>Annotation</primary>
-                            <secondary>@javax.persistence.Entity</secondary>
-                        </indexterm-->
                         <para>
                             The EJB3 standard <literal>@Entity</literal> annotation indicates that the
                             <literal>User</literal> class is an entity bean.
                         </para>
                     </callout>
                     <callout arearefs="registration-name-annotation">
-                        <!-- indexterm>
-                            <primary>Annotation</primary>
-                            <secondary>@org.jboss.seam.annotation.Name</secondary>
-                        </indexterm-->
                         <para>
                             A Seam component needs a <emphasis>component name</emphasis> specified by the 
                             <link linkend="name-annotation"><literal>@Name</literal></link> annotation. This 
@@ -231,10 +223,6 @@ public class User implements Serializable
                         </para>
                     </callout>
                     <callout arearefs="registration-scope-annotation">
-                        <!-- indexterm>
-                            <primary>Annotation</primary>
-                            <secondary>@org.jboss.seam.annotation.Scope</secondary>
-                        </indexterm-->
                         <para>
                             Whenever Seam instantiates a component, it binds the new instance to a context
                             variable in the component's <emphasis>default context</emphasis>. The default 
@@ -244,10 +232,6 @@ public class User implements Serializable
                         </para>
                     </callout>
                     <callout arearefs="registration-table-annotation">
-                        <!--indexterm>
-                            <primary>Annotation</primary>
-                            <secondary>@javax.persistence.Table</secondary>
-                        </indexterm-->
                         <para>
                             The EJB standard <literal>@Table</literal> annotation indicates that 
                             the <literal>User</literal> class is mapped to the <literal>users</literal>
@@ -278,10 +262,6 @@ public class User implements Serializable
                         </para>
                     </callout>
                     <callout arearefs="registration-id-annotation">
-                        <!--indexterm>
-                            <primary>Annotation</primary>
-                            <secondary>@javax.persistence.Id</secondary>
-                        </indexterm-->
                         <para>
                             The EJB standard <literal>@Id</literal> annotation indicates the 
                             primary key attribute of the entity bean.
@@ -329,13 +309,13 @@ public class User implements Serializable
             <programlistingco>
                 <areaspec>
                     <area id="registration-stateless-annotation" coords="1"/>
-                    <area id="registration-interceptor-annotation" coords="3"/>
-                    <area id="registration-in-annotation" coords="7"/>
-                    <area id="registration-valid-annotation" coords="7"/>
-                    <area id="registration-persistencecontext-annotation" coords="10"/>
-                    <area id="registration-facescontext" coords="14"/>
-                    <area id="registration-ifinvalid-annotation" coords="18"/>
-                    <area id="registration-action-listener" coords="17"/>
+                    <area id="registration-in-annotation" coords="6"/>
+                    <area id="registration-valid-annotation" coords="6"/>
+                    <area id="registration-persistencecontext-annotation" coords="9"/>
+                    <area id="registration-ifinvalid-annotation" coords="12"/>
+                    <area id="registration-action-listener" coords="13"/>
+                    <area id="registration-outcome" coords="22"/>
+                    <area id="registration-builtin" coords="26"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateless
 @Name("register")
@@ -347,9 +327,6 @@ public class RegisterAction implements Register
    
    @PersistenceContext
    private EntityManager em;
-   
-   @In
-   private FacesContext facesContext;
    
    @IfInvalid(outcome=Outcome.REDISPLAY)
    public String register()
@@ -365,7 +342,7 @@ public class RegisterAction implements Register
       }
       else
       {
-         facesContext.addMessage(null, new FacesMessage("username already exists"));
+         FacesMessages.instance().add("User #{user.username} already exists");
          return null;
       }
    }
@@ -374,30 +351,18 @@ public class RegisterAction implements Register
                     
             <calloutlist>
                 <callout arearefs="registration-stateless-annotation">
-                    <!--indexterm>
-                        <primary>Annotation</primary>
-                        <secondary>@javax.ejb.Stateful</secondary>
-                    </indexterm-->
                     <para>
                         The EJB standard <literal>@Stateless</literal> annotation marks this class 
                         as stateless session bean.
                     </para>
                 </callout>
                 <callout arearefs="registration-interceptor-annotation">
-                    <!--indexterm>
-                        <primary>Annotation</primary>
-                        <secondary>@javax.ejb.Interceptor</secondary>
-                    </indexterm-->
                     <para>
                         The <literal>SeamInterceptor</literal> EJB interceptor must be enabled for 
                         all session beans which are Seam components.
                     </para>
                 </callout>
                 <callout arearefs="registration-in-annotation">
-                    <!--indexterm>
-                        <primary>Annotation</primary>
-                        <secondary>@org.jboss.seam.annotations.In</secondary>
-                    </indexterm-->
                     <para>
                         The <link linkend="in-annotation"><literal>@In</literal></link> annotation 
                         marks an attribute of the bean as injected by Seam. In this case, the
@@ -412,32 +377,12 @@ public class RegisterAction implements Register
                     </para>
                 </callout>
                 <callout arearefs="registration-persistencecontext-annotation">
-                    <!--indexterm>
-                        <primary>Annotation</primary>
-                        <secondary>@javax.persistence.PersistenceContext</secondary>
-                    </indexterm-->
                     <para>
                         The EJB standard <literal>@PersistenceContext</literal> annotation is used to 
                         inject the EJB3 entity manager.
                     </para>
                 </callout>
-                <callout arearefs="registration-facescontext">
-                    <!--indexterm>
-                        <primary>Annotation</primary>
-                        <secondary>@javax.persistence.PersistenceContext</secondary>
-                    </indexterm-->
-                    <para>
-                        Seam also allows various JSF, Seam and jBPM context objects to be injected.
-                        To get the current <literal>FacesContext</literal> instance injected to
-                        a Seam component, just mark an instance variable named 
-                        <literal>facesContext</literal> with the <literal>@In</literal> annotation.
-                    </para>
-                </callout>
                 <callout arearefs="registration-ifinvalid-annotation">
-                    <!--indexterm>
-                        <primary>Annotation</primary>
-                        <secondary>@org.jboss.seam.annotations.IfInvalid</secondary>
-                    </indexterm-->
                     <para>
                         The <link linkend="ifinvalid-annotation"><literal>@IfInvalid</literal></link> 
                         annotation tells Seam to validate the component state using Hibernate Validator 
@@ -453,6 +398,21 @@ public class RegisterAction implements Register
                         API to interact with the database, and returns the JSF outcome. Note that, since
                         this is a sesson bean, a transaction is automatically begun when the 
                         <literal>register()</literal> method is called, and committed when it completes.
+                    </para>
+                </callout>
+                <callout arearefs="registration-outcome">
+                    <para>
+                        JSF action listener methods return a string-valued outcome that determines what
+                        page will be displayed next. A null outcome (or a void action listener method)
+                        redisplays the previous page.
+                    </para>
+                </callout>
+                <callout arearefs="registration-builtin">
+                    <para>
+                        Seam provides a number of <emphasis>built-in components</emphasis> to help solve
+                        common problems. The <literal>FacesMessages</literal> component makes it easy to
+                        display templated error or success messages. Built-in Seam components may be
+                        obtained by injection, or by calling an <literal>instance()</literal> method.
                     </para>
                 </callout>
             </calloutlist>
@@ -475,8 +435,8 @@ public class RegisterAction implements Register
         
         <para>
             Furthermore, notice that our session bean has simultaneous access to context associated
-            with the web request (the <literal>FacesContext</literal> object, for example), and
-            state held in transactional resources (the <literal>EntityManager</literal> object).
+            with the web request (the form values in the <literal>User</literal> object, for example), 
+            and state held in transactional resources (the <literal>EntityManager</literal> object).
             This is a break from traditional J2EE architectures. Again, if you are more comfortable
             with the traditional J2EE layering, you can certainly implement that in a Seam application.
             But for many applications, it's simply not very useful.
@@ -629,13 +589,32 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
       </section>
       
       <section>
+        <title>The EJB deployment descriptor: <literal>ejb-jar.xml</literal></title>
+        
+        <para>
+            The <literal>ejb-jar.xml</literal> file integrates Seam with EJB3, by
+            attaching the <literal>SeamInterceptor</literal> to all session beans
+            in the archive.
+        </para>
+
+        <programlisting><![CDATA[<ejb-jar>
+   <assembly-descriptor>
+      <interceptor-binding>
+         <ejb-name>*</ejb-name>
+         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+      </interceptor-binding>
+   </assembly-descriptor>
+</ejb-jar>]]></programlisting>
+
+      </section>
+      
+      <section>
         <title>The EJB persistence deployment descriptor: <literal>persistence.xml</literal></title>
         
         <para>
             The <literal>persistence.xml</literal> file tells the EJB persistence provider where
             to find the datasource, and contains some vendor-specific settings. In this case,
-            it tells Hibernate what database is being used, and enables automatic schema export
-            at startup time.
+            enables automatic schema export at startup time.
         </para>
 
         <programlisting><![CDATA[<persistence>
@@ -643,7 +622,6 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/DefaultDS</jta-data-source>
       <properties>
-         <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       </properties>
     </persistence-unit>
@@ -741,6 +719,9 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
     <module>
         <ejb>jboss-seam-registration.jar</ejb>
     </module>
+	<module>
+	    <java>jboss-seam.jar</java>
+	</module>
     
 </application>]]></programlisting>
         </example>
@@ -778,10 +759,9 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
       </para>
       <para>
           Seam intercepts the method call, injects the <literal>User</literal> entity
-          from the session context, and the current <literal>FacesContext</literal> 
-          instance, before asking Hibernate Validator to validate the session bean 
-          instance (and, recursively, the <literal>User</literal> entity bean instance).
-          If the state is valid, the invocation proceeds and the 
+          from the session context, before asking Hibernate Validator to validate the 
+          session bean instance (and, recursively, the <literal>User</literal> entity 
+          bean instance). If the state is valid, the invocation proceeds and the 
           <literal>register()</literal> method is called. If not, Seam returns a 
           <literal>null</literal> outcome and JSF redisplays the page.
       </para>
@@ -819,7 +799,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
        <title>Understanding the code</title>
        <para>
            The message list example has one entity bean, <literal>Message</literal>, 
-           one session bean, <literal>MessageManagerBean</literal> and one JSP.
+           one session bean, <literal>MessageListBean</literal> and one JSP.
        </para>
        
        <section>
@@ -889,7 +869,7 @@ public class Message implements Serializable
        </section>
        
        <section>
-       <title>The stateful session bean: <literal>MessageListBean.java</literal></title>
+       <title>The stateful session bean: <literal>MessageManagerBean.java</literal></title>
        
        <para>
            Just like in the previous example, we have a session bean,
@@ -919,14 +899,14 @@ public class Message implements Serializable
        <example>
             <programlistingco>
                 <areaspec>
-                    <area id="messages-datamodel" coords="8"/>
-                    <area id="messages-datamodelselection" coords="11"/>
-                    <area id="messages-out" coords="12"/>
-                    <area id="messages-persistencecontext" coords="15"/>
-                    <area id="messages-factory" coords="18"/>
-                    <area id="messages-select" coords="24"/>
-                    <area id="messages-delete" coords="30"/>
-                    <area id="messages-remove" coords="38"/>
+                    <area id="messages-datamodel" coords="7"/>
+                    <area id="messages-datamodelselection" coords="10"/>
+                    <area id="messages-out" coords="11"/>
+                    <area id="messages-persistencecontext" coords="14"/>
+                    <area id="messages-factory" coords="17"/>
+                    <area id="messages-select" coords="23"/>
+                    <area id="messages-delete" coords="29"/>
+                    <area id="messages-remove" coords="37"/>
                 </areaspec>    
           <programlisting><![CDATA[@Stateful
 @Scope(SESSION)
@@ -964,7 +944,7 @@ public class MessageManagerBean implements Serializable, MessageManager
       return "deleted";
    }
    
-   @Remove @Destroy
+   @Remove @Destory
    public void destroy() {}
 
 }]]></programlisting>
@@ -1008,11 +988,11 @@ public class MessageManagerBean implements Serializable, MessageManager
                 <callout arearefs="messages-factory">
                     <para>
                         The first time we navigate to the JSP page, there will be no value in
-                        the <literal>messages</literal> context variable. The <literal>@Factory</literal>
-                        annotation tells Seam to create an instance of <literal>MessageListBean</literal> 
+                        the <literal>messageList</literal> context variable. The <literal>@Factory</literal>
+                        annotation tells Seam to create an instance of <literal>MessageManagerBean</literal> 
                         and invoke the <literal>findMessages()</literal> method to initialize the 
                         value. We call <literal>findMessages()</literal> a <emphasis>factory 
-                        method</emphasis> for <literal>messageList</literal>.
+                        method</emphasis> for <literal>messages</literal>.
                     </para>
                 </callout>
                 <callout arearefs="messages-select">
@@ -1071,8 +1051,9 @@ public interface MessageManager
        
        <para>
            Let's skip over <literal>persistence.xml</literal>, <literal>web.xml</literal>,
-           <literal>faces-config.xml</literal> and <literal>application.xml</literal> since
-           they are much the same as the previous example, and go straight to the JSP.
+           <literal>ejb-jar.xml</literal>, <literal>faces-config.xml</literal> and 
+           <literal>application.xml</literal> since they are much the same as the previous 
+           example, and go straight to the JSP.
        </para>
        
        </section>
@@ -1165,10 +1146,10 @@ public interface MessageManager
              If the user clicks the <literal>&lt;h:commandButton&gt;</literal>, JSF calls the 
              <literal>delete()</literal> action listener. Seam intercepts this call and injects
              the selected row data into the <literal>message</literal> attribute of the
-             <literal>messageManager</literal> component. The action listener fires, removing
+             <literal>messageList</literal> component. The action listener fires, removing
              the selected <literal>Message</literal> from the list, and also calling
              <literal>remove()</literal> on the <literal>EntityManager</literal>. At the end 
-             of the call, Seam refreshes the <literal>messageList</literal> context variable and
+             of the call, Seam refreshes the <literal>messages</literal> context variable and
              clears the context variable named <literal>message</literal>. The EJB container 
              commits the transaction, and deletes the <literal>Message</literal> from the 
              database. Finally, the page is re-rendered, redisplaying the message list.
@@ -1275,7 +1256,21 @@ public interface MessageManager
            </calloutlist>
            </programlistingco>
         </example>
-
+        
+        <para>
+            If we view this process definition using the process definition editor provided 
+            by JBossIDE, this is what it looks like: 
+        </para>
+        
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/todo-process.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/todo-process.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
         <para>
             This document defines our <emphasis>business process</emphasis> as a graph
             of nodes. This is the most trivial possible business process: there is one
@@ -1700,6 +1695,20 @@ public class TodoList {
             </programlistingco>
           </example>
           
+          <para>
+              Here is what the pageflow looks like in the JBossIDE pageflow
+              editor:
+          </para>
+          
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/numberguess-pageflow.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/numberguess-pageflow.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+        
           <para>
               Now that we have seen the pageflow, it is very, very easy to 
               understand the rest of the application!
