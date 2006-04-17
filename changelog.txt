@@ -14,10 +14,13 @@ Changes in version 1.0 rc1 (April 2006)
 * Support @Startup for session-scoped components
 * Display faces messages for illegal navigation or no conversation
 * Now working with JSF 1.2 RI
+* Added events component and events.xml
+* Seam components may now be called via RMI (with some restrictions)
 * @RequestParameter now does type conversions
 * resourceBundle component now uses the client locale
 * Allow locale to be selected from the UI
 * Fixed some bugs in pageflow begin
+* pageflows may now allow backbuttoning
 * migrated to commons-logging
 * configurable JNDI name for UserTransaction
 
