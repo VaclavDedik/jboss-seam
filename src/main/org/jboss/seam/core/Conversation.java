@@ -3,6 +3,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -161,6 +162,48 @@ public class Conversation implements Serializable {
    public void end()
    {
       Manager.instance().endConversation();   
+   }
+   
+   /**
+    * Get the id of the immediate parent of a nested conversation
+    */
+   public String getParentId()
+   {
+      LinkedList<String> conversationIdStack = Manager.instance().getCurrentConversationIdStack();
+      return conversationIdStack.size()>1 ? conversationIdStack.get(1) : null;
+   }
+   
+   /**
+    * Get the id of root conversation of a nested conversation
+    */
+   public String getRootId()
+   {
+      LinkedList<String> conversationIdStack = Manager.instance().getCurrentConversationIdStack();
+      return conversationIdStack.get( conversationIdStack.size()-1 );
+   }
+   
+   /**
+    * "Pop" the conversation stack, switching to the parent conversation
+    */
+   public void pop()
+   {
+      String parentId = getParentId();
+      if (parentId!=null)
+      {
+         Manager.instance().swapConversation(parentId);
+      }
+   }
+   
+   /**
+    * Switch to the root conversation
+    */
+   public void root()
+   {
+      String rootId = getRootId();
+      if (rootId!=null)
+      {
+         Manager.instance().swapConversation(rootId);
+      }
    }
 
 }
