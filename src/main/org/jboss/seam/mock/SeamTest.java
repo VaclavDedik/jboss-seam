@@ -249,6 +249,7 @@ public class SeamTest
       //Contexts.beginApplication(servletContext);
       lifecycle = new MockLifecycle();
       new Initialization(servletContext).init();
+      Lifecycle.setServletContext(servletContext);
 
       conversationStates = new HashMap<String, ConversationState>();
    }
