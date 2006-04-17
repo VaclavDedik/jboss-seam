@@ -70,7 +70,29 @@ public class Jbpm
    
    public JbpmConfiguration getJbpmConfiguration()
    {
+      if (jbpmConfiguration==null)
+      {
+         initJbpmConfiguration();
+      }
       return jbpmConfiguration;
+   }
+
+   private void initJbpmConfiguration()
+   {
+      jbpmConfiguration = JbpmConfiguration.getInstance();
+      DbPersistenceServiceFactory dbpsf = (DbPersistenceServiceFactory) jbpmConfiguration.getServiceFactory("persistence");
+      if (Naming.getInitialContextProperties()!=null)
+      {
+         // Prefix regular JNDI properties for Hibernate
+         Hashtable<String, String> hash = Naming.getInitialContextProperties();
+         Properties prefixed = new Properties();
+         for (Map.Entry<String, String> entry: hash.entrySet() )
+         {
+            prefixed.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
+         }
+  
+         dbpsf.getConfiguration().getProperties().putAll(prefixed);
+      }
    }
 
    public ProcessDefinition getPageflowProcessDefinition(String pageflowName)
@@ -118,22 +140,7 @@ public class Jbpm
    {
       if ( processDefinitions!=null && processDefinitions.length>0 )
       {
-         jbpmConfiguration = JbpmConfiguration.getInstance();
-         DbPersistenceServiceFactory dbpsf = (DbPersistenceServiceFactory) jbpmConfiguration.getServiceFactory("persistence");
-         if (Naming.getInitialContextProperties()!=null)
-         {
-            // Prefix regular JNDI properties for Hibernate
-            Hashtable<String, String> hash = Naming.getInitialContextProperties();
-            Properties prefixed = new Properties();
-            for (Map.Entry<String, String> entry: hash.entrySet() )
-            {
-               prefixed.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
-            }
-
-            dbpsf.getConfiguration().getProperties().putAll(prefixed);
-         }
-         
-         JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+         JbpmContext jbpmContext = getJbpmConfiguration().createJbpmContext();
          try
          {
             for ( String definitionResource : processDefinitions )
