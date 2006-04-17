@@ -71,11 +71,11 @@ public class BookingTest extends SeamTest
       
       String id = new Script() {
 
-         @Override
+         /*@Override
          protected void setParameters()
          {
             getRequestParameterMap().put("hotelId", "3");
-         }
+         }*/
          
          @Override
          protected void invokeApplication()
