@@ -10,4 +10,7 @@
 	<module>
 		<ejb>jboss-seam-blog.jar</ejb>
 	</module>
+	<module>
+	    <java>jboss-seam.jar</java>
+	</module>
 </application>

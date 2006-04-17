@@ -10,5 +10,8 @@
 	<module>
 		<ejb>jboss-seam-messages.jar</ejb>
 	</module>
-	
+	<module>
+	    <java>jboss-seam.jar</java>
+	</module>
+
 </application>
