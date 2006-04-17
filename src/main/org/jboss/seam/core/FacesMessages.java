@@ -170,7 +170,7 @@ public class FacesMessages
 
    public void add(InvalidValue iv)
    {
-      add( iv.getPropertyName(), new FacesMessage( iv.getMessage() ) );
+      add( iv.getPropertyName(), createFacesMessage( FacesMessage.SEVERITY_WARN, iv.getMessage() ) );
    }
    
    private FacesMessage createFacesMessage(Severity severity, String messageTemplate)
