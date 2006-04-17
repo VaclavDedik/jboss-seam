@@ -30,7 +30,7 @@ public class Page extends Node implements Parsable
    private boolean redirect;
    private String description;
    private Integer timeout;
-   private boolean backable;
+   private boolean backEnabled;
 
    /**
     * parses the dom4j element that corresponds to this page.
@@ -38,7 +38,7 @@ public class Page extends Node implements Parsable
    public void read(Element pageElement, JpdlXmlReader jpdlXmlReader) 
    {
       viewId = pageElement.attributeValue("view-id");
-      backable = "true".equals( pageElement.attributeValue("backable") );
+      backEnabled = "enabled".equals( pageElement.attributeValue("back") );
       Element conversationEndElement = pageElement.element("end-conversation");
       if (conversationEndElement!=null) 
       {
@@ -124,8 +124,8 @@ public class Page extends Node implements Parsable
       return timeout;
    }
 
-   public boolean isBackable()
+   public boolean isBackEnabled()
    {
-      return backable;
+      return backEnabled;
    }
 }

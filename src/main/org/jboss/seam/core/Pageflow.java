@@ -69,7 +69,7 @@ public class Pageflow
       if ( processInstance!=null )
       {
          
-         if ( getPage().isBackable() )
+         if ( getPage().isBackEnabled() )
          {
             //check the node name to make sure we are still on the same node
             //String pageNodeName = (String) attributes.get(Manager.PAGEFLOW_NODE_NAME);
