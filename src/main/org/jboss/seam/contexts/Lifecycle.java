@@ -53,7 +53,12 @@ public class Lifecycle
    public static void beginCall()
    {
       Contexts.eventContext.set( new EventContext() );
-      Contexts.applicationContext.set( new WebApplicationContext( getServletContext() ) );
+      ServletContext theServletContext = getServletContext();
+      if (theServletContext==null)
+      {
+         throw new IllegalStateException("Attempted to invoke a Seam component outside the context of a web application");
+      }
+      Contexts.applicationContext.set( new WebApplicationContext(theServletContext) );
    }
    
    public static void endCall()
