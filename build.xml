@@ -499,9 +499,11 @@
             <zipfileset refid="example.war.webinf"/>
             <zipfileset refid="example.war.webinf.lib"/>
         	<zipfileset refid="example.war.webinf.lib.extra"/>
+        	<!--
         	<manifest>
         		<attribute name="Class-Path" value="${name}.jar"/>
         	</manifest>
+        	-->
         </jar>
     </target>
 
@@ -510,9 +512,11 @@
             <fileset refid="example.classes"/>
             <fileset refid="example.ejb3.root"/>
             <fileset refid="example.ejb3.lib"/>
+        	<!--
         	<manifest>
         		<attribute name="Class-Path" value="${name}.jar"/>
         	</manifest>
+        	-->
         </jar>
     </target>
 
