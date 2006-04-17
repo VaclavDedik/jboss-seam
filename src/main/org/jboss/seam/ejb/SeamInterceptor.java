@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.SeamInvocationContext;
@@ -34,7 +35,12 @@ public class SeamInterceptor implements Serializable
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) //not sure about the second bit (only needed at init time!)
+      if ( !invocation.getBean().getClass().isAnnotationPresent(Name.class) )
+      {
+         //not a Seam component
+         return invocation.proceed();
+      }
+      else if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) //not sure about the second bit (only needed at init time!)
       {
          return aroundInvokeInContexts(invocation);
       }
