@@ -31,8 +31,8 @@ public class MessageManagerBean implements Serializable, MessageManager
    @DataModel
    private List<Message> messageList;
    
-   @Out(required=false)
    @DataModelSelection
+   @Out(required=false)
    private Message message;
    
    @PersistenceContext(type=EXTENDED)
