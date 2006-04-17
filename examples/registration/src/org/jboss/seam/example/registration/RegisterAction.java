@@ -20,7 +20,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("register")
-@Interceptors(SeamInterceptor.class)
 public class RegisterAction implements Register
 {
 
