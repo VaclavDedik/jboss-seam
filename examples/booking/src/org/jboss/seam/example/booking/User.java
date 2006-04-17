@@ -10,6 +10,7 @@ import javax.persistence.Id;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
@@ -55,6 +56,7 @@ public class User implements Serializable
    
    @Id
    @Length(min=5, max=15)
+   @Pattern(regex="^\\w*$", message="not a valid username")
    public String getUsername()
    {
       return username;
