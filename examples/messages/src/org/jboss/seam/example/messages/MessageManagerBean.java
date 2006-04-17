@@ -25,7 +25,6 @@ import org.jboss.seam.ejb.SeamInterceptor;
 @Stateful
 @Scope(SESSION)
 @Name("messageManager")
-@Interceptors(SeamInterceptor.class)
 public class MessageManagerBean implements Serializable, MessageManager
 {
 
