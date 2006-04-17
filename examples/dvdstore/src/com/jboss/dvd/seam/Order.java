@@ -79,11 +79,9 @@ public class Order
 
 
     public void removeProduct(Product product) {
-        OrderLine toRemove = null;
-
         for (OrderLine line: orderLines) {
             if (product.getProductId() == line.getProduct().getProductId()) { 
-                orderLines.remove(toRemove);
+                orderLines.remove(line);
                 return;
             }
         }
