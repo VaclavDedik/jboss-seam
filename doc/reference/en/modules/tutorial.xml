@@ -2074,8 +2074,8 @@ public class NumberGuess {
             upon one particular piece of functionality: hotel search, selection, booking and confirmation.
             From the point of view of the user, everything from selecting a hotel to confirming a booking 
             is one continuous unit of work, a <emphasis>conversation</emphasis>. Searching, however, is
-            <emphasis>not</emphasis> part of the conversation. The user like to be free to select multiple
-            hotels from the same search results page, in different browser tabs.
+            <emphasis>not</emphasis> part of the conversation. The user can select multiple hotels from 
+            the same search results page, in different browser tabs.
         </para>
         <para>
             Most web application architectures have no first class construct to represent a conversation. 
