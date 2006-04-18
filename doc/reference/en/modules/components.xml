@@ -84,8 +84,8 @@
                 <term><literal>facesContext</literal></term>
                 <listitem>
                     <para>
-                        Manager component for the <literal>FacesContext</literal> context object
-                        (not a true Seam context)
+                        Manager component for the <literal>FacesContext</literal> context 
+                        object (not a true Seam context)
                     </para>
                 </listitem>
             </varlistentry>
@@ -95,7 +95,7 @@
                     <para>
                         Allows access to a JSF <literal>UIComponent</literal> by its id
                         from the EL. For example, we can write 
-                        <literal>#{uiComponent['myForm:address'].value}</literal>.
+                        <literal>@In("#{uiComponent['myForm:address'].value}")</literal>.
                     </para>
                 </listitem>
             </varlistentry>
@@ -289,6 +289,14 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>
+            <varlistentry>
+                <term><literal>httpError</literal></term>
+                <listitem>
+                    <para>
+                        A convenient API for sending HTTP errors.
+                    </para>
+                </listitem>
+             </varlistentry>
         </variablelist>
         
         <para>
@@ -314,6 +322,18 @@
                         <listitem>
                         <para>
                             <literal>getId()</literal> &mdash; returns the current conversation id
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getParentId()</literal> &mdash; returns the conversation id
+                            of the parent conversation
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getRootId()</literal> &mdash; returns the conversation id
+                            of the root conversation
                         </para>
                         </listitem>
                         <listitem>
@@ -358,6 +378,18 @@
                         <para>
                             <literal>end()</literal> &mdash; end a long-running conversation
                             (equivalent to <literal>@End</literal>).
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>pop()</literal> &mdash; pop the conversation stack, returning
+                            to the parent conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>root()</literal> &mdash; return to the root conversation of 
+                            the conversation stack.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -705,6 +737,31 @@
        </variablelist>
    </section>
 
+    <section>
+        <title>Security-related components</title>
+        <para>
+            These components relate to web-tier security.
+        </para>
+            <varlistentry>
+                <term><literal>userPrincipal</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the current user <literal>Principal</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>isUserInRole</literal></term>
+                <listitem>
+                    <para>
+                        Allows JSF pages to choose to render a control, depending upon
+                        the roles available to the current principal.
+                        <literal>&lt;h:commandButton value="edit" rendered="#{isUserInRole['admin']}"/&gt;</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+    </section>
+    
     <section>
         <title>Special components</title>
         <para>

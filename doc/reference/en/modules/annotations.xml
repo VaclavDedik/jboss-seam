@@ -149,6 +149,11 @@
                         components that bootstrap critical infrastructure such as JNDI,
                         datasources, etc.
                     </para>
+                    <programlisting><![CDATA[@Startup]]></programlisting>
+                    <para>
+                        Specifies that a session scope component is started immediately
+                        at session creation time.
+                    </para>
                     <itemizedlist>
                         <listitem>
                         <para>
@@ -174,10 +179,28 @@
             <varlistentry id="in-annotation">
                 <term><literal>@In</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@In(value="contextVariableName", create=false, required=false)]]></programlisting>
+                    <programlisting><![CDATA[@In]]></programlisting>
                     <para>
                         Specifies that a component attribute is to be injected from a context 
-                        variable at the beginning of each component invocation.
+                        variable at the beginning of each component invocation. If the context
+                        variable is null, an exception will be thrown.
+                    </para>
+                    <programlisting><![CDATA[@In(required=false)]]></programlisting>
+                    <para>
+                        Specifies that a component attribute is to be injected from a context 
+                        variable at the beginning of each component invocation. The context
+                        variable may be null.
+                    </para>
+                    <programlisting><![CDATA[@In(create=true)]]></programlisting>
+                    <para>
+                        Specifies that a component attribute is to be injected from a context 
+                        variable at the beginning of each component invocation. If the context
+                        variable is null, an instance of the component is instantiated by Seam.
+                    </para>
+                    <programlisting><![CDATA[@In(value="contextVariableName")]]></programlisting>
+                    <para>
+                        Specifies the name of the context variable explicitly, instead of using
+                        the annotated instance variable name.
                     </para>
                     <programlisting><![CDATA[@In(value="#{customer.addresses['shipping']}")]]></programlisting>
                     <para>
@@ -213,10 +236,27 @@
             <varlistentry id="out-annotation">
                 <term><literal>@Out</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@Out(value="contextVariableName", required=false)]]></programlisting>
+                   <programlisting><![CDATA[@Out]]></programlisting>
                     <para>
-                        Specifies that a component attribute is to be outjected to a context 
-                        variable at the end of a component invocation.
+                        Specifies that a component attribute that is a Seam component is to be 
+                        outjected to a context variable at the end of the invocation. If the
+                        attribute is null, an exception is thrown.
+                    </para>
+                    <programlisting><![CDATA[@Out(required=false)]]></programlisting>
+                    <para>
+                        Specifies that a component attribute that is a Seam component is to be 
+                        outjected to a context variable at the end of the invocation. The
+                        attribute may be null.
+                    </para>
+                    <programlisting><![CDATA[@Out(scope=ScopeType.SESSION)]]></programlisting>
+                    <para>
+                        Specifies that a component attribute that is not a Seam component is to 
+                        be outjected to a specific scope at the end of the invocation.
+                    </para>
+                   <programlisting><![CDATA[@Out(value="contextVariableName")]]></programlisting>
+                    <para>
+                        Specifies the name of the context variable explicitly, instead of using
+                        the annotated instance variable name.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -294,7 +334,7 @@
                     <programlisting><![CDATA[@RequestParameter("parameterName")]]></programlisting>
                     <para>
                         Specifies that a component attribute is to be injected with the value
-                        of a request parameter.
+                        of a request parameter. Basic type conversions are performed automatically.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -342,6 +382,11 @@
                         Note that all stateful session bean components <emphasis>must</emphasis>
                         define a method annotated <literal>@Destroy @Remove</literal> in order
                         to guarantee destruction of the stateful bean when a context ends.
+                    </para>
+                    <para>
+                        Destroy methods should be used only for cleanup. <emphasis>Seam catches, 
+                        logs and swallows any exception that propagates out of a destroy 
+                        method.</emphasis>
                     </para>
                 </listitem>
             </varlistentry>
@@ -709,6 +754,28 @@
                         </para>
                         </listitem>
                     </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+    </section> 
+
+    <section>
+    	<title>Annotations for Seam Remoting</title>
+    	<para>
+    	    Seam Remoting requires that the local interface of a session bean be annotated
+    	    with the following annotation:
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry id="ifinvalid-annotation">
+                <term><literal>@WebRemote</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@WebRemote]]></programlisting>
+                    <para>
+                        Indicates that the annotated method may be called from client-side 
+                        JavaScript.
+                    </para>
                 </listitem>
             </varlistentry>
         </variablelist>
