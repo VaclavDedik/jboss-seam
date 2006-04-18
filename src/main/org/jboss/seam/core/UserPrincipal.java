@@ -20,8 +20,9 @@ import org.jboss.seam.annotations.Unwrap;
 public class UserPrincipal
 {
    @Unwrap
-   public Principal getMap()
+   public Principal getUserPrincipal()
    {
-      return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      return facesContext==null ? null : facesContext.getExternalContext().getUserPrincipal();
    }
 }
