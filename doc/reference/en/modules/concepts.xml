@@ -51,11 +51,6 @@
             </listitem>
             <listitem>
                 <para>
-                    Portlet context
-                </para>
-            </listitem>
-            <listitem>
-                <para>
                     Business process context
                 </para>
             </listitem>
@@ -99,6 +94,10 @@
                 you will work with most often. Components associated with the event context are destroyed at the 
                 end of the request, but their state is available and well-defined for at least the lifecycle of 
                 the request.
+            </para>
+            <para>
+                When you invoke a Seam component via RMI, or Seam Remoting, the event context is created and
+                distroyed just for the invocation.
             </para>
         </sect2>
         
@@ -146,6 +145,10 @@
                  demarcation.
             </para>
             <para>
+                 Conversations may be <emphasis>nested</emphasis>, with one conversation taking place "inside" a 
+                 wider conversation. This is an advanced feature.
+            </para>
+            <para>
                  Usually, conversation state is actually held by Seam in the servlet session between requests.
                  Seam implements configurable <emphasis>conversation timeout</emphasis>, automatically destroying 
                  inactive conversations, and thus ensuring that the state held by a single user login session does not 
@@ -163,13 +166,8 @@
                 is useful to share state between several conversations, we generally frown on the use of session context 
                 for holding components other than global information about the logged in user.
             </para>
-        </sect2>
-        
-        <sect2>
-            <title>Portlet context</title>
             <para>
-                NYI: A future release of Seam will provide a context associated with the portlet instance for applications 
-                running inside a JSR-168 compliant portal engine such as JBoss Portal.
+                In a JSR-168 portal environment, the session context represents the portlet session.
             </para>
         </sect2>
         
@@ -194,14 +192,6 @@
             </para>
         </sect2>
 
-        <sect2>
-            <title>Hierarchical conversation contexts</title>
-            <para>
-                NYI: Seam does not currently support hierarchical conversations (conversations within "wider" conversations). 
-                This will be provided in a future release.
-            </para>
-        </sect2>
-        
         <sect2>
             <title>Context variables</title>
             <para>
@@ -363,14 +353,14 @@
                 invocation of an entity bean trigger validation.
             </para>
             <para>
-                Entity beans are not usually used as JSF action listener, but do often function as backing 
+                Entity beans are not usually used as JSF action listeners, but do often function as backing 
                 beans that provide properties to JSF components for display or form submission. In 
                 particular, it is common to use an entity as a backing bean, together with a stateless
                 session bean action listener to implement create/update/delete type functionality.
             </para>
             <para>
-                By default, entity beans are bound to the event context. They may never be bound to the
-                stateless context.
+                By default, entity beans are bound to the conversation context. They may never be bound to 
+                the stateless context.
             </para>
         </sect2>
 
@@ -399,10 +389,7 @@
                 control of instantiation of the component, and no special configuration is needed.
                 For entity beans, interception is not required since bijection and context
                 demarcation are not defined. For session beans, we must register an EJB 
-                interceptor for the session bean component. The current draft of the EJB spec
-                provides only one way to do this, using an annotation (the next revision of
-                EJB 3.0 will fix this problem). So, for now, all session beans must be
-                annotated as follows, if they are to be used as Seam components:
+                interceptor for the session bean component. We could use an annotation, as follows:
             </para>
 
             <programlisting><![CDATA[@Stateless
@@ -410,6 +397,10 @@
 public class LoginAction implements Login { 
     ... 
 }]]></programlisting>
+
+            <para>
+                But a much better way is to define the interceptor in <literal>ejb-jar.xml</literal>.
+            </para>
 
         </sect2>
         
@@ -422,7 +413,6 @@ public class LoginAction implements Login {
             
             <programlisting><![CDATA[@Name("loginAction")
 @Stateless
-@Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     ... 
 }]]></programlisting>
@@ -467,7 +457,7 @@ public class LoginAction implements Login {
             </para>
             
             <programlisting><![CDATA[<h:commandButton type="submit" value="Login"
-               action="#{com$jboss$myapp$loginAction.login}"/>]]></programlisting>
+                 action="#{com$jboss$myapp$loginAction.login}"/>]]></programlisting>
 
         </sect2>
         
@@ -676,6 +666,7 @@ public class LoginAction implements Login {
     ... 
 }]]></programlisting>
 
+       
         <para>
             By default, Seam will do a priority search of all contexts, using the name of the property
             or instance variable that is being injected. You may wish to specify the context variable
@@ -688,6 +679,18 @@ public class LoginAction implements Login {
             If the value is optional (it can be null), specify <literal>@In(required=false)</literal>. 
         </para>
         
+        <para>
+            You can even inject the value of an expression:
+        </para>
+        
+        <programlisting><![CDATA[@Name("loginAction")
+@Stateless
+@Interceptors(SeamInterceptor.class)
+public class LoginAction implements Login { 
+    @In("#{user.username}") String username;
+    ... 
+}]]></programlisting>
+
         <para>
             (There is much more information about component lifecycle and injection in the next chapter.)
         </para>
