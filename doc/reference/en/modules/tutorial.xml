@@ -2265,7 +2265,7 @@ public class HotelSearchingAction implements HotelSearching
         </example>
         
         <para>
-            Now let's see how the booking example application uses a conversation-scoped stateful session
+            Now lets see how the booking example application uses a conversation-scoped stateful session
             bean to achieve a natural cache of persistent data related to the conversation. The following
             code example is pretty long. But if you think of it as a list of scripted actions that
             implement the various steps of the conversation, it's understandable. Read the class from top 
