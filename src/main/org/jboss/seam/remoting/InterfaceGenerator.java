@@ -218,11 +218,29 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     {
       type = component.getLocalInterfaces().iterator().next();
     }
-    else if (component.getType().equals(ComponentType.ENTITY_BEAN) ||
-             component.getType().equals(ComponentType.JAVA_BEAN))
+    else if (component.getType().equals(ComponentType.ENTITY_BEAN))
     {
       appendTypeSource(out, component.getBeanClass(), types);
       return;
+    }
+    else if (component.getType().equals(ComponentType.JAVA_BEAN))
+    {
+      // Check if any of the methods are annotated with @WebRemote, and if so
+      // treat it as an "action" component instead of a type component
+      for (Method m : component.getBeanClass().getDeclaredMethods())
+      {
+        if (m.getAnnotation(WebRemote.class) != null)
+        {
+          type = component.getBeanClass();
+          break;
+        }
+      }
+
+      if (type == null)
+      {
+        appendTypeSource(out, component.getBeanClass(), types);
+        return;
+      }
     }
     else
       type = component.getBeanClass();
