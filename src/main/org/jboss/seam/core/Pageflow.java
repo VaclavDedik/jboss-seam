@@ -18,6 +18,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.jbpm.Page;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
@@ -143,7 +144,9 @@ public class Pageflow
 
    public boolean hasDefaultTransition()
    {
-      return getNode().getDefaultLeavingTransition()!=null;
+      //we don't use jBPM's default transition,
+      //instead we use the "anonymous" transition
+      return getNode().getLeavingTransition(null)!=null;
    }
    
    private boolean isNullOutcome(String outcome) {
@@ -164,7 +167,9 @@ public class Pageflow
          //otherwise just redisplay the page
          if ( hasDefaultTransition() )
          {
-            processInstance.signal();
+            //we don't use jBPM's default transition,
+            //instead we use the "anonymous" transition
+            processInstance.signal( (String) null );
             navigate(context);
          }
       }

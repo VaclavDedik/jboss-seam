@@ -46,6 +46,10 @@ public class Page extends Node implements Parsable
          transition = conversationEndElement.attributeValue("transition");
       }
       redirect = "true".equals( pageElement.attributeValue("redirect") );
+      if ( pageElement.element("redirect")!=null )
+      {
+         redirect = true;
+      }
       Element descriptionElement = pageElement.element("description");
       if (descriptionElement!=null)
       {
