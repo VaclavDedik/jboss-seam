@@ -2133,76 +2133,70 @@ public class NumberGuess {
         <para>
             OK, I'll stop ranting now, and get back to the tutorial.
         </para>
+        
         <para>
-            Let's see how the booking example application uses a conversation-scoped stateful session
-            bean to achieve a natural cache of persistent data related to the conversation. The following
-            code example is pretty long. But if you think of it as a list of scripted actions that
-            implement the various steps of the conversation, it's pretty understandable. Read the class
-            from top to bottom, as a if it were a story.
+            The booking example application shows how stateful components with different scopes can
+            collaborate together to achieve complex behaviors. The main page of the booking application
+            allows the user to search for hotels. The search results are kept in the Seam session scope.
+            When the user navigates to one of these hotels, a conversation begins, and a conversation
+            scoped component calls back to the session scoped component to retrieve the selected
+            hotel. 
+        </para>
+        
+        <para>
+            The search functionality is implemented using a session-scope stateful session bean, 
+            similar to the one we saw in the message list example above.
         </para>
         
         <example>
-            <programlistingco>
+           <programlistingco>
                 <areaspec>
-                    <area id="registration-stateful-annotation" coords="1"/>
-                    <area id="registration-conversational-annotation" coords="4"/>
-                    <area id="registration-custom-annotation" coords="5"/>
-                    <area id="registration-extendedpersistencecontext-annotation" coords="10"/>
-                    <area id="registration-datamodel-annotation" coords="15"/>
-                    <area id="registration-datamodelselectionindex-annotation" coords="17"/>
-                    <area id="registration-out-annotation" coords="20"/>
-                    <area id="registration-begin-annotation" coords="34"/>
-                    <area id="registration-end-annotation" coords="119"/>
-                    <area id="registration-destroy-annotation" coords="128"/>
+                    <area id="booking-stateful-annotation" coords="1"/>
+                    <area id="booking-custom-annotation" coords="4"/>
+                    <area id="booking-datamodel-annotation" coords="14"/>
+                    <area id="booking-datamodelselection-annotation" coords="16"/>
+                    <area id="booking-destroy-annotation" coords="53"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
-@Name("hotelBooking")
-@Conversational(ifNotBegunOutcome="main")
+@Name("hotelSearch")
+@Scope(ScopeType.SESSION)
 @LoggedIn
-public class HotelBookingAction implements HotelBooking, Serializable
+public class HotelSearchingAction implements HotelSearching
 {
-   private static final Logger log = Logger.getLogger(HotelBooking.class);
-
-   @PersistenceContext(type=EXTENDED)
-   private EntityManager bookingDatabase;
-
+   
+   @PersistenceContext
+   private EntityManager em;
+   
    private String searchString;
-
+   private int pageSize = 10;
+   
    @DataModel
    private List<Hotel> hotels;
-   @DataModelSelectionIndex
-   private int hotelIndex;
-
-   @Out(required=false)
-   private Hotel hotel;
-
-   @In(required=false)
-   @Out(required=false)
-   @Valid
-   private Booking booking;
-
-   @In
-   private User user;
-
-   @In
-   private transient FacesContext facesContext;
-
-   @Begin
+   @DataModelSelection
+   private Hotel selectedHotel;
+   
    public String find()
    {
-      hotel = null;
       String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      String searchQuery = "from Hotel where lower(city) like :search" +
-                           " or lower(zip) like :search" +
-                           " or lower(address) like :search";
-      hotels = bookingDatabase.createQuery(searchQuery)
+      hotels = em.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
             .setParameter("search", searchPattern)
-            .setMaxResults(50)
+            .setMaxResults(pageSize)
             .getResultList();
-
-      log.info(hotels.size() + " hotels found");
-
+      
       return "main";
+   }
+   
+   public Hotel getSelectedHotel()
+   {
+      return selectedHotel;
+   }
+      
+   public int getPageSize() {
+      return pageSize;
+   }
+
+   public void setPageSize(int pageSize) {
+      this.pageSize = pageSize;
    }
 
    public String getSearchString()
@@ -2214,115 +2208,27 @@ public class HotelBookingAction implements HotelBooking, Serializable
    {
       this.searchString = searchString;
    }
-
-   public String selectHotel()
-   {
-      if ( hotels==null ) return "main";
-      setHotel();
-      return "selected";
-   }
-
-   public String nextHotel()
-   {
-      if ( hotelIndex<hotels.size()-1 )
-      {
-         ++hotelIndex;
-         setHotel();
-      }
-      return null;
-   }
-
-   public String lastHotel()
-   {
-      if (hotelIndex>0)
-      {
-         --hotelIndex;
-         setHotel();
-      }
-      return null;
-   }
-
-   private void setHotel()
-   {
-      hotel = hotels.get(hotelIndex);
-      log.info( hotelIndex + "=>" + hotel );
-   }
-
-   public String bookHotel()
-   {
-      if (hotel==null) return "main";
-      booking = new Booking(hotel, user);
-      booking.setCheckinDate( new Date() );
-      booking.setCheckoutDate( new Date() );
-      return "book";
-   }
-
-   @IfInvalid(outcome=REDISPLAY)
-   public String setBookingDetails()
-   {
-      if (booking==null || hotel==null) return "main";
-      if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
-      {
-         log.info("invalid booking dates");
-         FacesMessage facesMessage =
-           new FacesMessage("Check out date must be later than check in date");
-         facesContext.addMessage(null, facesMessage);
-         return null;
-      }
-      else
-      {
-         log.info("valid booking");
-         return "success";
-      }
-   }
-
-   @End
-   public String confirm()
-   {
-      if (booking==null || hotel==null) return "main";
-      bookingDatabase.persist(booking);
-      log.info("booking confirmed");
-      return "confirmed";
-   }
-
+   
    @Destroy @Remove
-   public void destroy() {
-      log.info("destroyed");
-   }
+   public void destroy() {}
 
 }]]></programlisting>
             <calloutlist>
-                <callout arearefs="registration-stateful-annotation">
+                <callout arearefs="booking-stateful-annotation">
                     <para>
                         The EJB standard <literal>@Stateful</literal> annotation identifies
                         this class as a stateful session bean. Stateful session beans are
                         scoped to the conversation context by default.
                     </para>
                 </callout>
-                <callout arearefs="registration-conversational-annotation">
-                    <para>
-                        The Seam <link linkend="conversational-annotation"><literal>@Conversational</literal></link> 
-                        annotation declares this as a <emphasis>conversational</emphasis> component that cannot 
-                        be invoked outside of a long-running conversation that was started by a call to its 
-                        <literal>@Begin</literal> method. If such an invocation does occur, Seam returns the
-                        <literal>ifNotBegunOutcome</literal> to JSF.
-                    </para>
-                </callout>
-                <callout arearefs="registration-custom-annotation">
+                <callout arearefs="booking-custom-annotation">
                     <para>
                         The <literal>@LoggedIn</literal> annotation applies a custom Seam interceptor
                         to the component. This works because <literal>@LoggedIn</literal> is marked
                         with an <literal>@Interceptor</literal> meta-annotation.
                     </para>
                 </callout>
-                <callout arearefs="registration-extendedpersistencecontext-annotation">
-                    <para>
-                        This bean uses an EJB3 <emphasis>extended persistence context</emphasis>, so that
-                        any entity instances remain managed for the whole lifecycle of the stateful
-                        session bean.
-                    </para>
-                </callout>
-                <callout arearefs="registration-datamodel-annotation">
+                <callout arearefs="booking-datamodel-annotation">
                     <para>
                         The <link linkend="datamodel-annotation"><literal>@DataModel</literal></link> 
                         annotation exposes a <literal>List</literal> as a JSF <literal>ListDataModel</literal>.
@@ -2331,47 +2237,20 @@ public class HotelBookingAction implements HotelBooking, Serializable
                         in the conversation variable named <literal>hotels</literal>.
                     </para>
                 </callout>
-                <callout arearefs="registration-datamodelselectionindex-annotation">
+                <callout arearefs="booking-datamodelselection-annotation">
                     <para>
-                        The <link linkend="datamodelselectionindex-annotation"><literal>@DataModelSelectionIndex</literal></link> 
-                        annotation defines a field or get/set pair as holding the row index for the
+                        The <link linkend="datamodelselection-annotation"><literal>@DataModelSelection</literal></link> 
+                        annotation defines a field or setter as holding the selected row for the
                         corresponding <literal>@DataModel</literal> property.
                     </para>
                 </callout>
-                <callout arearefs="registration-out-annotation">
-                    <para>
-                        The <link linkend="out-annotation"><literal>@Out</literal></link> annotation
-                        declares that an attribute value is <emphasis>outjected</emphasis> to a
-                        context variable after method invocations. In this case, the context variable
-                        named <literal>hotel</literal> will be set to the value of the 
-                        <literal>hotel</literal> instance variable after every action listener
-                        invocation completes.
-                    </para>
-                </callout>
-                <callout arearefs="registration-begin-annotation">
-                    <para>
-                        The <link linkend="begin-annotation"><literal>@Begin</literal></link> annotation
-                        specifies that the annotated method begins a 
-                        <emphasis>long-running conversation</emphasis>, so the current conversation context
-                        will not be destroyed at the end of the request. Instead, it will be reassociated
-                        with every request from the current window, and destroyed either by timeout due to
-                        conversation inactivity or invocation of a matching <literal>@End</literal> method.
-                    </para>
-                </callout>
-                <callout arearefs="registration-end-annotation">
-                    <para>
-                        The <link linkend="end-annotation"><literal>@End</literal></link> annotation
-                        specifies that the annotated method ends the current long-running conversation, 
-                        so the current conversation context will be destroyed at the end of the request.
-                    </para>
-                </callout>
-                <callout arearefs="registration-destroy-annotation">
+                <callout arearefs="booking-destroy-annotation">
                     <para>
                         The EJB standard <literal>@Remove</literal> annotation specifies that a stateful
                         session bean should be removed and its state destroyed after invocation of the
                         annotated method. In Seam, all stateful session beans should define a method 
                         marked <literal>@Destroy @Remove</literal>. This is the EJB remove method that 
-                        will be called when Seam destroys the conversation context. Actually, the
+                        will be called when Seam destroys the session context. Actually, the
                         <link linkend="destroy-annotation"><literal>@Destroy</literal></link> 
                         annotation is of more general usefulness, since it can be used for any 
                         kind of cleanup that should happen when any Seam context ends. If you don't
@@ -2384,18 +2263,179 @@ public class HotelBookingAction implements HotelBooking, Serializable
         </example>
         
         <para>
-            <literal>HotelBookingAction</literal> contains all the action listener methods that implement 
-            hotel searching, selection, booking and booking confirmation, and holds state related to
-            this work in its instance variables. We think you'll agree that this code is much cleaner
-            and simpler than getting and setting <literal>HttpSession</literal> attributes.
+            Now let's see how the booking example application uses a conversation-scoped stateful session
+            bean to achieve a natural cache of persistent data related to the conversation. The following
+            code example is pretty long. But if you think of it as a list of scripted actions that
+            implement the various steps of the conversation, it's understandable. Read the class from top 
+            to bottom, as if it were a story.
+            
         </para>
+        
+        <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="booking-conversational-annotation" coords="3"/>
+                    <area id="booking-extendedpersistencecontext-annotation" coords="8"/>
+                    <area id="booking-out-annotation" coords="11"/>
+                    <area id="booking-begin-annotation" coords="31"/>
+                    <area id="booking-end-annotation" coords="65"/>
+                    <area id="booking-destroy-annotation" coords="81"/>
+                </areaspec>    
+            <programlisting><![CDATA[@Stateful
+@Name("hotelBooking")
+@Conversational(ifNotBegunOutcome="main")
+@LoggedIn
+public class HotelBookingAction implements HotelBooking
+{
+   
+   @PersistenceContext(type=EXTENDED)
+   private EntityManager em;
+   
+   @In(required=false) @Out
+   private Hotel hotel;
+   
+   @In(required=false) 
+   @Out(required=false)
+   @Valid
+   private Booking booking;
+   
+   @In
+   private User user;
+   
+   @In(create=true)
+   private transient FacesMessages facesMessages;
+      
+   @In(required=false)
+   private BookingList bookingList;
+   
+   @In 
+   private HotelSearching hotelSearch;
+   
+   @Begin
+   public String selectHotel()
+   {
+      hotel = em.merge( hotelSearch.getSelectedHotel() );
+      //hotel = em.find(Hotel.class, hotelId);
+      return "hotel";
+   }
+   
+   public String bookHotel()
+   {      
+      booking = new Booking(hotel, user);
+      Calendar calendar = Calendar.getInstance();
+      booking.setCheckinDate( calendar.getTime() );
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
+      booking.setCheckoutDate( calendar.getTime() );
+      
+      return "book";
+   }
+
+   @IfInvalid(outcome=REDISPLAY)
+   public String setBookingDetails()
+   {
+      if (booking==null || hotel==null) return "main";
+      if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
+      {
+         facesMessages.add("Check out date must be later than check in date");
+         return null;
+      }
+      else
+      {
+         return "confirm";
+      }
+   }
+
+   @End
+   public String confirm()
+   {
+      if (booking==null || hotel==null) return "main";
+      em.persist(booking);
+      if (bookingList!=null) bookingList.refresh();
+      facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      return "confirmed";
+   }
+   
+   @End
+   public String cancel()
+   {
+      return "main";
+   }
+   
+   @Destroy @Remove
+   public void destroy() {}
+
+}]]></programlisting>
+            <calloutlist>
+                <callout arearefs="booking-conversational-annotation">
+                    <para>
+                        The Seam <link linkend="conversational-annotation"><literal>@Conversational</literal></link> 
+                        annotation declares this as a <emphasis>conversational</emphasis> component that cannot 
+                        be invoked outside of a long-running conversation that was started by a call to its 
+                        <literal>@Begin</literal> method. If such an invocation does occur, Seam returns the
+                        <literal>ifNotBegunOutcome</literal> to JSF.
+                    </para>
+                </callout>
+                <callout arearefs="booking-extendedpersistencecontext-annotation">
+                    <para>
+                        This bean uses an EJB3 <emphasis>extended persistence context</emphasis>, so that
+                        any entity instances remain managed for the whole lifecycle of the stateful
+                        session bean.
+                    </para>
+                </callout>
+                <callout arearefs="booking-out-annotation">
+                    <para>
+                        The <link linkend="out-annotation"><literal>@Out</literal></link> annotation
+                        declares that an attribute value is <emphasis>outjected</emphasis> to a
+                        context variable after method invocations. In this case, the context variable
+                        named <literal>hotel</literal> will be set to the value of the 
+                        <literal>hotel</literal> instance variable after every action listener
+                        invocation completes.
+                    </para>
+                </callout>
+                <callout arearefs="booking-begin-annotation">
+                    <para>
+                        The <link linkend="begin-annotation"><literal>@Begin</literal></link> annotation
+                        specifies that the annotated method begins a 
+                        <emphasis>long-running conversation</emphasis>, so the current conversation context
+                        will not be destroyed at the end of the request. Instead, it will be reassociated
+                        with every request from the current window, and destroyed either by timeout due to
+                        conversation inactivity or invocation of a matching <literal>@End</literal> method.
+                    </para>
+                </callout>
+                <callout arearefs="booking-end-annotation">
+                    <para>
+                        The <link linkend="end-annotation"><literal>@End</literal></link> annotation
+                        specifies that the annotated method ends the current long-running conversation, 
+                        so the current conversation context will be destroyed at the end of the request.
+                    </para>
+                </callout>
+                <callout arearefs="booking-destroy-annotation">
+                    <para>
+                        This EJB remove method will be called when Seam destroys the conversation context.
+                        Don't ever forget to define this method!
+                    </para>
+                </callout>
+            </calloutlist>
+            </programlistingco>
+        </example>
+        
+        <para>
+            <literal>HotelBookingAction</literal> contains all the action listener methods that implement 
+            selection, booking and booking confirmation, and holds state related to this work in its instance 
+            variables. We think you'll agree that this code is much cleaner and simpler than getting and 
+            setting <literal>HttpSession</literal> attributes.
+        </para>
+        
         <para>
             Even better, a user can have multiple isolated conversations per login session. Try it!
-            Log in, and open the hotel search page in multiple browser tabs. You'll be able to work
-            on creating two different hotel reservations at the same time. If you leave any one
-            conversation inactive for long enough, Seam will eventually time out that conversation
-            and destroy its state.
+            Log in, run a search, and navigate to different hotel pages in multiple browser tabs. 
+            You'll be able to work on creating two different hotel reservations at the same time. 
+            If you leave any one conversation inactive for long enough, Seam will eventually time 
+            out that conversation and destroy its state. If, after ending a conversation, you 
+            backbutton to a page of that conversation and try to perform an action, Seam will
+            detect that the conversation was already ended, and redirect you to the search page.
         </para>
+        
     </section>
     
     <section>
