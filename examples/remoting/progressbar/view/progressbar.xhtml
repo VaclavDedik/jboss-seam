@@ -55,13 +55,13 @@
   <script type="text/javascript">
     //<![CDATA[
     
-//    SeamRemote.setDebug(true);
+//    Seam.Remoting.setDebug(true);
     
     // don't display the loading indicator
-    SeamRemote.displayLoadingMessage = function(message) {};
-    SeamRemote.hideLoadingMessage = function() {};
+    Seam.Remoting.displayLoadingMessage = function(message) {};
+    Seam.Remoting.hideLoadingMessage = function() {};
     
-    var progressBarAction = SeamRemote.create("progressBarAction");
+    var progressBarAction = Seam.Component.getInstance("progressBarAction");
     
     function queryProgress() {
       setTimeout("getProgress()", 250);

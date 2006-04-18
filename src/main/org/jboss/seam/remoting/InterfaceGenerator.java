@@ -31,6 +31,7 @@ import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.annotations.Name;
 
 /**
  * Generates JavaScript interface code.
@@ -231,7 +232,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     types.add(type);
 
-    componentSrc.append("SeamRemote.type.");
+    componentSrc.append("Seam.Remoting.type.");
     componentSrc.append(component.getName());
     componentSrc.append(" = function() {\n");
     componentSrc.append("  this.__callback = new Object();\n");
@@ -244,7 +245,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
       // Append the return type to the source block
       appendTypeSource(out, m.getGenericReturnType(), types);
 
-      componentSrc.append("  SeamRemote.type.");
+      componentSrc.append("  Seam.Remoting.type.");
       componentSrc.append(component.getName());
       componentSrc.append(".prototype.");
       componentSrc.append(m.getName());
@@ -265,7 +266,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         componentSrc.append(", ");
       componentSrc.append("callback) {\n");
 
-      componentSrc.append("    SeamRemote.execute(this, \"");
+      componentSrc.append("    Seam.Remoting.execute(this, \"");
       componentSrc.append(m.getName());
       componentSrc.append("\", [");
 
@@ -285,14 +286,14 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     componentSrc.append("}\n");
 
     // Set the component name
-    componentSrc.append("SeamRemote.type.");
+    componentSrc.append("Seam.Remoting.type.");
     componentSrc.append(component.getName());
     componentSrc.append(".__name = \"");
     componentSrc.append(component.getName());
     componentSrc.append("\";\n\n");
 
     // Register the component
-    componentSrc.append("SeamRemote.register(SeamRemote.type.");
+    componentSrc.append("Seam.Component.register(Seam.Remoting.type.");
     componentSrc.append(component.getName());
     componentSrc.append(");\n\n");
 
@@ -360,7 +361,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     String typeName = componentName.replace('.', '$');
 
-    typeSource.append("SeamRemote.type.");
+    typeSource.append("Seam.Remoting.type.");
     typeSource.append(typeName);
     typeSource.append(" = function() {\n");
 
@@ -423,7 +424,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
         if (getMethod != null)
         {
-          accessors.append("  SeamRemote.type.");
+          accessors.append("  Seam.Remoting.type.");
           accessors.append(typeName);
           accessors.append(".prototype.");
           accessors.append(getMethod.getName());
@@ -434,7 +435,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
         if (setMethod != null)
         {
-          mutators.append("  SeamRemote.type.");
+          mutators.append("  Seam.Remoting.type.");
           mutators.append(typeName);
           mutators.append(".prototype.");
           mutators.append(setMethod.getName());
@@ -456,14 +457,14 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     typeSource.append("}\n\n");
 
     // Append the type name
-    typeSource.append("SeamRemote.type.");
+    typeSource.append("Seam.Remoting.type.");
     typeSource.append(typeName);
     typeSource.append(".__name = \"");
     typeSource.append(componentName);
     typeSource.append("\";\n");
 
     // Append the metadata
-    typeSource.append("SeamRemote.type.");
+    typeSource.append("Seam.Remoting.type.");
     typeSource.append(typeName);
     typeSource.append(".__metadata = [\n");
 
@@ -478,8 +479,14 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     typeSource.append("];\n\n");
 
-    // Register the type with SeamRemote
-    typeSource.append("SeamRemote.register(SeamRemote.type.");
+    // Register the type under Seam.Component if it is a component, otherwise
+    // register it under Seam.Remoting
+
+    if (classType.isAnnotationPresent(Name.class))
+      typeSource.append("Seam.Component.register(Seam.Remoting.type.");
+    else
+      typeSource.append("Seam.Remoting.registerType(Seam.Remoting.type.");
+
     typeSource.append(typeName);
     typeSource.append(");\n\n");
 

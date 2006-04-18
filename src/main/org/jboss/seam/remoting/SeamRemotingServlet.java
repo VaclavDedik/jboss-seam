@@ -64,7 +64,7 @@ public class SeamRemotingServlet extends HttpServlet
           if (RESOURCE_PATH.equals(path)) {
             writeResource(resource, response.getOutputStream());
             if ("remote.js".equals(resource)) {
-              response.getOutputStream().write("\nSeamRemote.contextPath = \"".
+              response.getOutputStream().write("\nSeam.Remoting.contextPath = \"".
                                                getBytes());
               response.getOutputStream().write(request.getContextPath().
                                                getBytes());

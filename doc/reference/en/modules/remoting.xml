@@ -81,19 +81,23 @@
     </sect1>
 
     <sect1>
-      <title>The SeamRemote object</title>
+      <title>The "Seam" object</title>
 
       <para>
-        Client-side interaction with your components is all performed via the <literal>SeamRemote</literal> 
+        Client-side interaction with your components is all performed via the <literal>Seam</literal> 
         Javascript object. This object is defined in <literal>remote.js</literal>, and you'll be using it to
-        make asynchronous calls against your component.
+        make asynchronous calls against your component.  It is split into two areas of functionality; 
+        <literal>Seam.Component</literal> contains methods for working with components and 
+        <literal>Seam.Remoting</literal> contains methods for
+        executing remote requests.  The easiest way to become familiar with this object is to start with a 
+        simple example.
       </para>
 
       <sect2>
         <title>A Hello World example</title>
 
         <para>
-          Let's step through a simple example to see how the <literal>SeamRemote</literal> object works.
+          Let's step through a simple example to see how the <literal>Seam</literal> object works.
           First of all, let's create a new Seam component called <literal>helloAction</literal>.
         </para>
 
@@ -111,8 +115,8 @@
           ]]>
         </programlisting>
 
-        <para>You also need to create a local interface for our new component - take special note of the @WebRemote
-        annotation, as it's required to make our method accessible via remoting:</para>
+        <para>You also need to create a local interface for our new component - take special note of the 
+        <literal>@WebRemote</literal> annotation, as it's required to make our method accessible via remoting:</para>
 
         <programlisting>
           <![CDATA[
@@ -166,7 +170,7 @@
 
     function sayHello() {
       var name = prompt("What is your name?");
-      SeamRemote.create("helloAction").sayHello(name, sayHelloCallback);
+      Seam.Component.getInstance("helloAction").sayHello(name, sayHelloCallback);
     }
 
     function sayHelloCallback(result) {
@@ -181,7 +185,39 @@
         <para>
           We're done!  Deploy your application and browse to your page.  Click the button, and enter
           a name when prompted.  A message box will display the hello message confirming that the call
-          was successful.
+          was successful.  If you want to save some time, you'll find the full source code for this
+          Hello World example in Seam's <literal>/examples/remoting/helloworld</literal> directory.
+        </para>
+        
+        <para>
+          So what does the code of our script actually do?  Let's break it down into smaller pieces.  To start with,
+          you can see from the Javascript code listing that we have implemented two methods - the first method is
+          responsible for prompting the user for their name and then making a remote request.  Take a look at the
+          following line:
+        </para>
+        
+        <programlisting>
+          Seam.Component.getInstance("helloAction").sayHello(name, sayHelloCallback);
+        </programlisting>
+        
+        <para>
+          The first section of this line, <literal>Seam.Component.getInstance("helloAction")</literal> returns a
+          proxy, or "stub" for our <literal>helloAction</literal> component.  We can invoke the methods of our
+          component against this stub, which is exactly what happens with the remainder of the line:
+          <literal>sayHello(name, sayHelloCallback);</literal>.
+        </para>
+        
+        <para>
+          What this line of code in its completeness does, is invoke the <literal>sayHello</literal> method of our 
+          component, passing in <literal>name</literal> as a parameter.  The second parameter, 
+          <literal>sayHelloCallback</literal> isn't a parameter of our component's <literal>sayHello</literal> 
+          method, instead it tells the Seam Remoting framework that once it receives the response to our request, 
+          it should pass it to the <literal>sayHelloCallback</literal> Javascript method.
+        </para>
+        
+        <para>
+          The <literal>sayHelloCallback</literal> method, once receiving the response to our remote request
+          then pops up an alert message displaying the result of our method call.
         </para>
 
       </sect2>

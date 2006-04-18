@@ -14,12 +14,12 @@ function getObject(objectId) {
 //SeamRemote.setDebug(true);
 
 // Try adjusting the following values
-SeamRemote.setPollTimeout(5);   // 3 seconds
-SeamRemote.setPollInterval(3); // 10 seconds
+Seam.Remoting.setPollTimeout(5);   // 3 seconds
+Seam.Remoting.setPollInterval(3); // 10 seconds
 
 var username = null;
 var chatJMSTopic = null;
-var chatroom = SeamRemote.create("chatroomAction");
+var chatroom = Seam.Component.getInstance("chatroomAction");
 
 function connect() {
   var nameCtl = getObject("username");
@@ -28,12 +28,12 @@ function connect() {
   var connectCallback = function(connected, context) {
     setInterfaceState(connected);
     getObject("username").value = username;
-    SeamRemote.getContext().setConversationId(context.getConversationId());
+    Seam.Remoting.getContext().setConversationId(context.getConversationId());
   };
 
   var chatTopicCallback = function(topicName) {
     chatJMSTopic = topicName;
-    SeamRemote.subscribe(topicName, channelMessageCallback);
+    Seam.Remoting.subscribe(topicName, channelMessageCallback);
   };
 
   var listUsersCallback = function(users) {
@@ -41,15 +41,15 @@ function connect() {
       addUser(users[i]);
   };
 
-  SeamRemote.startBatch();
+  Seam.Remoting.startBatch();
   chatroom.connect(username, connectCallback);
   chatroom.getChatTopicName(chatTopicCallback);
   chatroom.listUsers(listUsersCallback);
-  SeamRemote.executeBatch();
+  Seam.Remoting.executeBatch();
 }
 
 function disconnect() {
-  SeamRemote.unsubscribe(chatJMSTopic);
+  Seam.Remoting.unsubscribe(chatJMSTopic);
   setInterfaceState(false);
   chatroom.disconnect();
   getObject("userList").options.length = 0;
@@ -112,7 +112,7 @@ function sendMessage() {
   chatroom.sendMessage(ctl.value);
   ctl.value = "";
   // Force a poll so that we see our new message straight away
-  SeamRemote.poll();
+  Seam.Remoting.poll();
 }
 
 function checkEnterPressed(e) {

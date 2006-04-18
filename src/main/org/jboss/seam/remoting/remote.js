@@ -1,47 +1,125 @@
-function SeamRemote() { }
+// Init base-level objects
+var Seam = new Object();
+Seam.Remoting = new Object();
+Seam.Component = new Object();
 
-SeamRemote.PATH_EXECUTE = "/execute";
-SeamRemote.PATH_SUBSCRIPTION = "/subscription";
-SeamRemote.PATH_POLL = "/poll";
+// Components registered here
+Seam.Component.components = new Array();
+Seam.Component.instances = new Array();
 
-// Type declarations will live in this namespace
-SeamRemote.type = new Object();
-
-SeamRemote.types = new Array();
-SeamRemote.debug = false;
-SeamRemote.debugWindow = null;
-
-SeamRemote.setDebug = function(val)
+Seam.Component.newInstance = function(name)
 {
-  SeamRemote.debug = val;
+  for (var i = 0; i < Seam.Component.components.length; i++)
+  {
+    if (Seam.Component.components[i].__name == name)
+      return new Seam.Component.components[i];
+  }
 }
 
-SeamRemote.log = function(msg)
+Seam.Component.getInstance = function(name)
 {
-  if (!SeamRemote.debug)
+  for (var i = 0; i < Seam.Component.components.length; i++)
+  {
+    if (Seam.Component.components[i].__name == name)
+    {
+      if (Seam.Component.components[i].__instance == null)
+        Seam.Component.components[i].__instance = new Seam.Component.components[i]();
+      return Seam.Component.components[i].__instance;
+    }
+  }
+  return null;
+}
+
+Seam.Component.getComponentType = function(obj)
+{
+  for (var i = 0; i < Seam.Component.components.length; i++)
+  {
+    if (obj instanceof Seam.Component.components[i])
+      return Seam.Component.components[i];
+  }
+  return null;
+}
+
+Seam.Component.register = function(component)
+{
+  for (var i = 0; i < Seam.Component.components.length; i++)
+  {
+    if (Seam.Component.components[i].__name == component.__name)
+    {
+      // Replace the existing component with the new one
+      Seam.Component.components[i] = component;
+      return;
+    }
+  }
+  Seam.Component.components.push(component);
+  component.__instance = null;
+}
+
+Seam.Component.isRegistered = function(name)
+{
+  for (var i = 0; i < Seam.Component.components.length; i++)
+  {
+    if (Seam.Component.components[i].__name == name)
+      return true;
+  }
+  return false;
+}
+
+Seam.Component.getMetadata = function(obj)
+{
+  for (var i = 0; i < Seam.Component.components.length; i++)
+  {
+    if (obj instanceof Seam.Component.components[i])
+      return Seam.Component.components[i].__metadata;
+  }
+  return null;
+}
+
+Seam.Remoting.PATH_EXECUTE = "/execute";
+Seam.Remoting.PATH_SUBSCRIPTION = "/subscription";
+Seam.Remoting.PATH_POLL = "/poll";
+
+// Type declarations will live in this namespace
+Seam.Remoting.type = new Object();
+
+// Types are registered in an array
+Seam.Remoting.types = new Array();
+
+Seam.Remoting.debug = false;
+Seam.Remoting.debugWindow = null;
+
+Seam.Remoting.setDebug = function(val)
+{
+  Seam.Remoting.debug = val;
+}
+
+// Log a message to a popup debug window
+Seam.Remoting.log = function(msg)
+{
+  if (!Seam.Remoting.debug)
     return;
 
-  if (!SeamRemote.debugWindow || SeamRemote.debugWindow.document == null)
+  if (!Seam.Remoting.debugWindow || Seam.Remoting.debugWindow.document == null)
   {
     var attr = "left=400,top=400,resizable=yes,scrollbars=yes,width=400,height=400";
-    SeamRemote.debugWindow = window.open("", "__seamDebugWindow", attr);
-    if (SeamRemote.debugWindow)
+    Seam.Remoting.debugWindow = window.open("", "__seamDebugWindow", attr);
+    if (Seam.Remoting.debugWindow)
     {
-      SeamRemote.debugWindow.document.write("<html><head><title>Seam Debug Window</title></head><body></body></html>");
-      var bodyTag = SeamRemote.debugWindow.document.getElementsByTagName("body").item(0);
+      Seam.Remoting.debugWindow.document.write("<html><head><title>Seam Debug Window</title></head><body></body></html>");
+      var bodyTag = Seam.Remoting.debugWindow.document.getElementsByTagName("body").item(0);
       bodyTag.style.fontFamily = "arial";
       bodyTag.style.fontSize = "8pt";
     }
   }
 
-  if (SeamRemote.debugWindow)
+  if (Seam.Remoting.debugWindow)
   {
     msg = msg.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    SeamRemote.debugWindow.document.write("<pre>" + (new Date()) + ": " + msg + "</pre><br/>");
+    Seam.Remoting.debugWindow.document.write("<pre>" + (new Date()) + ": " + msg + "</pre><br/>");
   }
 }
 
-SeamRemote.URLDecode = function(value)
+Seam.Remoting.URLDecode = function(value)
 {
   var decoded = '';
   for(var i = 0;i < value.length; i++)
@@ -57,7 +135,7 @@ SeamRemote.URLDecode = function(value)
   return decoded;
 }
 
-SeamRemote.URLEncode = function(value)
+Seam.Remoting.URLEncode = function(value)
 {
   var encoded = '';
   for(var i = 0; i < value.length; i++)
@@ -94,42 +172,42 @@ SeamRemote.URLEncode = function(value)
   return encoded;
 }
 
-SeamRemote.__Context = function() {
+Seam.Remoting.__Context = function() {
   this.conversationId = null;
 
-  SeamRemote.__Context.prototype.setConversationId = function(conversationId)
+  Seam.Remoting.__Context.prototype.setConversationId = function(conversationId)
   {
     this.conversationId = conversationId;
   }
 
-  SeamRemote.__Context.prototype.getConversationId = function()
+  Seam.Remoting.__Context.prototype.getConversationId = function()
   {
     return this.conversationId;
   }
 }
 
-SeamRemote.context = new SeamRemote.__Context();
+Seam.Remoting.context = new Seam.Remoting.__Context();
 
-SeamRemote.getContext = function()
+Seam.Remoting.getContext = function()
 {
-  return SeamRemote.context;
+  return Seam.Remoting.context;
 }
 
-SeamRemote.__Map = function()
+Seam.Remoting.Map = function()
 {
   this.elements = new Array();
 
-  SeamRemote.__Map.prototype.size = function()
+  Seam.Remoting.Map.prototype.size = function()
   {
     return elements.length;
   }
 
-  SeamRemote.__Map.prototype.isEmpty = function()
+  Seam.Remoting.Map.prototype.isEmpty = function()
   {
     return elements.length == 0;
   }
 
-  SeamRemote.__Map.prototype.keySet = function()
+  Seam.Remoting.Map.prototype.keySet = function()
   {
     var keySet = new Array();
     for (var i = 0; i < this.elements.length; i++)
@@ -137,7 +215,7 @@ SeamRemote.__Map = function()
     return keySet;
   }
 
-  SeamRemote.__Map.prototype.values = function()
+  Seam.Remoting.Map.prototype.values = function()
   {
     var values = new Array();
     for (var i = 0; i < this.elements.length; i++)
@@ -145,7 +223,7 @@ SeamRemote.__Map = function()
     return values;
   }
 
-  SeamRemote.__Map.prototype.get = function(key)
+  Seam.Remoting.Map.prototype.get = function(key)
   {
     for (var i = 0; i < this.elements.length; i++)
     {
@@ -155,7 +233,7 @@ SeamRemote.__Map = function()
     return null;
   }
 
-  SeamRemote.__Map.prototype.put = function(key, value)
+  Seam.Remoting.Map.prototype.put = function(key, value)
   {
     for (var i = 0; i < this.elements.length; i++)
     {
@@ -168,23 +246,16 @@ SeamRemote.__Map = function()
     this.elements.push({key:key,value:value});
   }
 
-  SeamRemote.__Map.prototype.remove = function(key)
+  Seam.Remoting.Map.prototype.remove = function(key)
   {
-    var found = false;
-
     for (var i = 0; i < this.elements.length; i++)
     {
-      if (!found && this.elements[i].key == key)
-        found = true;
-
-      if (found && i < this.elements.length)
-        this.elements[i] = this.elements[i + 1];
+      if (this.elements[i].key == key)
+        this.elements.splice(i, 1);
     }
-    if (found)
-      this.elements.length = this.elements.length - 1;
   }
 
-  SeamRemote.__Map.prototype.contains = function(key)
+  Seam.Remoting.Map.prototype.contains = function(key)
   {
     for (var i = 0; i < this.elements.length; i++)
     {
@@ -195,58 +266,55 @@ SeamRemote.__Map = function()
   }
 }
 
-SeamRemote.register = function(type)
+Seam.Remoting.registerType = function(type)
 {
-  for (var i = 0; i < SeamRemote.types.length; i++)
+  for (var i = 0; i < Seam.Remoting.types.length; i++)
   {
-    if (SeamRemote.types[i].__name == type.__name)
+    if (Seam.Remoting.types[i].__name == type.__name)
     {
-      SeamRemote.types[i] = type;
+      Seam.Remoting.types[i] = type;
       return;
     }
   }
-  SeamRemote.types.push(type);
+  Seam.Remoting.types.push(type);
 }
 
-SeamRemote.create = function(name)
+Seam.Remoting.createType = function(name)
 {
-  if (name == "Map")
-    return new SeamRemote.__Map();
-
-  for (var i = 0; i < SeamRemote.types.length; i++)
+  for (var i = 0; i < Seam.Remoting.types.length; i++)
   {
-    if (SeamRemote.types[i].__name == name)
-      return new SeamRemote.types[i];
+    if (Seam.Remoting.types[i].__name == name)
+      return new Seam.Remoting.types[i];
   }
 }
 
-SeamRemote.getType = function(obj)
+Seam.Remoting.getType = function(obj)
 {
-  for (var i = 0; i < SeamRemote.types.length; i++)
+  for (var i = 0; i < Seam.Remoting.types.length; i++)
   {
-    if (obj instanceof SeamRemote.types[i])
-      return SeamRemote.types[i];
+    if (obj instanceof Seam.Remoting.types[i])
+      return Seam.Remoting.types[i];
   }
+  return null;
 }
 
-SeamRemote.getTypeName = function(obj)
+Seam.Remoting.getTypeName = function(obj)
 {
-  var type = SeamRemote.getType(obj);
+  var type = Seam.Remoting.getType(obj);
   return type ? type.__name : null;
 }
 
-SeamRemote.getMetadata = function(obj)
+Seam.Remoting.getMetadata = function(obj)
 {
-  for (var i = 0; i < SeamRemote.types.length; i++)
+  for (var i = 0; i < Seam.Remoting.types.length; i++)
   {
-    if (obj instanceof SeamRemote.types[i])
-    {
-      return SeamRemote.types[i].__metadata;
-    }
+    if (obj instanceof Seam.Remoting.types[i])
+      return Seam.Remoting.types[i].__metadata;
   }
+  return null;
 }
 
-SeamRemote.serializeValue = function(value, type, refs)
+Seam.Remoting.serializeValue = function(value, type, refs)
 {
   if (value == null)
     return "<null/>";
@@ -263,43 +331,43 @@ SeamRemote.serializeValue = function(value, type, refs)
       case "double": return "<double>" + value + "</double>";
 
       // Date
-      case "date": return SeamRemote.serializeDate(value);
+      case "date": return Seam.Remoting.serializeDate(value);
       // Beans
-      case "bean": return SeamRemote.getTypeRef(value, refs);
+      case "bean": return Seam.Remoting.getTypeRef(value, refs);
 
       // Collections
-      case "bag": return SeamRemote.serializeBag(value, refs);
-      case "map": return SeamRemote.serializeMap(value, refs);
+      case "bag": return Seam.Remoting.serializeBag(value, refs);
+      case "map": return Seam.Remoting.serializeMap(value, refs);
 
-      default: return "<str>" + SeamRemote.URLEncode(value) + "</str>";
+      default: return "<str>" + Seam.Remoting.URLEncode(value) + "</str>";
     }
   }
   else // We don't know the type.. try to guess
   {
-    if (value instanceof SeamRemote.__Map)
-      return SeamRemote.serializeMap(value, refs);
+    if (value instanceof Seam.Remoting.Map)
+      return Seam.Remoting.serializeMap(value, refs);
 
     switch (typeof(value)) {
       case "number": return "<int>" + value + "</int>";
       case "boolean": return "<bool>" + (value ? "true" : "false") + "</bool>";
       case "object":
         if (value.constructor == Array)
-          return SeamRemote.serializeBag(value, refs);
+          return Seam.Remoting.serializeBag(value, refs);
         else
-          return SeamRemote.getTypeRef(value, refs);
-      default: return "<str>" + SeamRemote.URLEncode(value) + "</str>"; // Default to String
+          return Seam.Remoting.getTypeRef(value, refs);
+      default: return "<str>" + Seam.Remoting.URLEncode(value) + "</str>"; // Default to String
     }
   }
 }
 
-SeamRemote.serializeBag = function(value, refs)
+Seam.Remoting.serializeBag = function(value, refs)
 {
   var data = "<bag>";
 
   for (var i = 0; i < value.length; i++)
   {
     data += "<element>";
-    data += SeamRemote.serializeValue(value[i], null, refs);
+    data += Seam.Remoting.serializeValue(value[i], null, refs);
     data += "</element>";
   }
 
@@ -307,7 +375,7 @@ SeamRemote.serializeBag = function(value, refs)
   return data;
 }
 
-SeamRemote.serializeMap = function(value, refs)
+Seam.Remoting.serializeMap = function(value, refs)
 {
   var data = "<map>";
 
@@ -315,9 +383,9 @@ SeamRemote.serializeMap = function(value, refs)
   for (var i = 0; i < keyset.length; i++)
   {
     data += "<element><k>";
-    data += SeamRemote.serializeValue(keyset[i], null, refs);
+    data += Seam.Remoting.serializeValue(keyset[i], null, refs);
     data += "</k><v>";
-    data += SeamRemote.serializeValue(value.get(keyset[i]), null, refs);
+    data += Seam.Remoting.serializeValue(value.get(keyset[i]), null, refs);
     data += "</v></element>";
   }
 
@@ -325,7 +393,7 @@ SeamRemote.serializeMap = function(value, refs)
   return data;
 }
 
-SeamRemote.serializeDate = function(value)
+Seam.Remoting.serializeDate = function(value)
 {
   var zeroPad = function(val, digits) { while (("" + val).length < digits) val = "0" + val; };
 
@@ -341,7 +409,7 @@ SeamRemote.serializeDate = function(value)
   return data;
 }
 
-SeamRemote.getTypeRef = function(obj, refs)
+Seam.Remoting.getTypeRef = function(obj, refs)
 {
   var refId = -1;
 
@@ -363,19 +431,32 @@ SeamRemote.getTypeRef = function(obj, refs)
   return "<ref id=\"" + refId + "\"/>";
 }
 
-SeamRemote.serializeType = function(obj, refs)
+Seam.Remoting.serializeType = function(obj, refs)
 {
   var data = "<bean type=\"";
-  data += SeamRemote.getType(obj).__name;
+
+  var objType = Seam.Component.getComponentType(obj);
+  var isComponent = objType != null;
+
+  if (!isComponent)
+    objType = Seam.Remoting.getType(obj);
+
+  if (!objType)
+  {
+    alert("Unknown Type error.");
+    return null;
+  }
+
+  data += objType.__name;
   data += "\">\n";
 
-  var meta = SeamRemote.getMetadata(obj);
+  var meta = isComponent ? Seam.Component.getMetadata(obj) : Seam.Remoting.getMetadata(obj);
   for (var i = 0; i < meta.length; i++)
   {
     data += "<member name=\"";
     data += meta[i].field;
     data += "\">";
-    data += SeamRemote.serializeValue(obj[meta[i].field], meta[i].type, refs);
+    data += Seam.Remoting.serializeValue(obj[meta[i].field], meta[i].type, refs);
     data += "</member>\n";
   }
 
@@ -384,16 +465,16 @@ SeamRemote.serializeType = function(obj, refs)
   return data;
 }
 
-SeamRemote.__callId = 0;
+Seam.Remoting.__callId = 0;
 
-SeamRemote.createCall = function(obj, methodName, params, callback)
+Seam.Remoting.createCall = function(component, methodName, params, callback)
 {
-  var callId = "" + SeamRemote.__callId++;
+  var callId = "" + Seam.Remoting.__callId++;
   if (!callback)
-    callback = obj.__callback[methodName];
+    callback = component.__callback[methodName];
 
   var data = "<call component=\"";
-  data += SeamRemote.getType(obj).__name;
+  data += Seam.Component.getComponentType(component).__name;
   data += "\" method=\"";
   data += methodName;
   data += "\" id=\"";
@@ -408,7 +489,7 @@ SeamRemote.createCall = function(obj, methodName, params, callback)
   for (var i = 0; i < params.length; i++)
   {
     data += "<param>";
-    data += SeamRemote.serializeValue(params[i], null, refs);
+    data += Seam.Remoting.serializeValue(params[i], null, refs);
     data += "</param>";
   }
 
@@ -419,7 +500,7 @@ SeamRemote.createCall = function(obj, methodName, params, callback)
   for (var i = 0; i < refs.length; i++)
   {
     data += "<ref id=\"" + i + "\">";
-    data += SeamRemote.serializeType(refs[i], refs);
+    data += Seam.Remoting.serializeType(refs[i], refs);
     data += "</ref>";
   }
   data += "</refs>";
@@ -429,15 +510,15 @@ SeamRemote.createCall = function(obj, methodName, params, callback)
   return {data: data, id: callId, callback: callback};
 }
 
-SeamRemote.createHeader = function()
+Seam.Remoting.createHeader = function()
 {
   var header = "";
 
   header += "<context>";
-  if (SeamRemote.getContext().getConversationId())
+  if (Seam.Remoting.getContext().getConversationId())
   {
     header += "<conversationId>";
-    header += SeamRemote.getContext().getConversationId();
+    header += Seam.Remoting.getContext().getConversationId();
     header += "</conversationId>";
   }
   header += "</context>";
@@ -445,7 +526,7 @@ SeamRemote.createHeader = function()
   return header;
 }
 
-SeamRemote.createEnvelope = function(header, body)
+Seam.Remoting.createEnvelope = function(header, body)
 {
   var data = "<envelope>";
 
@@ -468,62 +549,62 @@ SeamRemote.createEnvelope = function(header, body)
   return data;
 }
 
-SeamRemote.pendingCalls = new SeamRemote.__Map();
-SeamRemote.inBatch = false;
-SeamRemote.batchedCalls = new Array();
+Seam.Remoting.pendingCalls = new Seam.Remoting.Map();
+Seam.Remoting.inBatch = false;
+Seam.Remoting.batchedCalls = new Array();
 
-SeamRemote.startBatch = function()
+Seam.Remoting.startBatch = function()
 {
-  SeamRemote.inBatch = true;
-  SeamRemote.batchedCalls.length = 0;
+  Seam.Remoting.inBatch = true;
+  Seam.Remoting.batchedCalls.length = 0;
 }
 
-SeamRemote.executeBatch = function()
+Seam.Remoting.executeBatch = function()
 {
-  if (!SeamRemote.inBatch)
+  if (!Seam.Remoting.inBatch)
     return;
 
   var data = "";
-  for (var i = 0; i < SeamRemote.batchedCalls.length; i++)
+  for (var i = 0; i < Seam.Remoting.batchedCalls.length; i++)
   {
-    SeamRemote.pendingCalls.put(SeamRemote.batchedCalls[i].id, SeamRemote.batchedCalls[i]);
-    data += SeamRemote.batchedCalls[i].data;
+    Seam.Remoting.pendingCalls.put(Seam.Remoting.batchedCalls[i].id, Seam.Remoting.batchedCalls[i]);
+    data += Seam.Remoting.batchedCalls[i].data;
   }
 
-  var envelope = SeamRemote.createEnvelope(SeamRemote.createHeader(), data);
-  SeamRemote.sendAjaxRequest(envelope, SeamRemote.PATH_EXECUTE, SeamRemote.processResponse, false);
-  SeamRemote.inBatch = false;
+  var envelope = Seam.Remoting.createEnvelope(Seam.Remoting.createHeader(), data);
+  Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
+  Seam.Remoting.inBatch = false;
 }
 
-SeamRemote.cancelBatch = function()
+Seam.Remoting.cancelBatch = function()
 {
-  SeamRemote.inBatch = false;
+  Seam.Remoting.inBatch = false;
   // Todo - unregister the callbacks for the calls in the batch
 }
 
-SeamRemote.execute = function(component, methodName, params, callback)
+Seam.Remoting.execute = function(component, methodName, params, callback)
 {
-  var call = SeamRemote.createCall(component, methodName, params, callback);
+  var call = Seam.Remoting.createCall(component, methodName, params, callback);
 
-  if (SeamRemote.inBatch)
+  if (Seam.Remoting.inBatch)
   {
-    SeamRemote.batchedCalls[SeamRemote.batchedCalls.length] = call;
+    Seam.Remoting.batchedCalls[Seam.Remoting.batchedCalls.length] = call;
   }
   else
   {
     // Marshal the request
-    var envelope = SeamRemote.createEnvelope(SeamRemote.createHeader(), call.data);
-    SeamRemote.pendingCalls.put(call.id, call);
-    SeamRemote.sendAjaxRequest(envelope, SeamRemote.PATH_EXECUTE, SeamRemote.processResponse, false);
+    var envelope = Seam.Remoting.createEnvelope(Seam.Remoting.createHeader(), call.data);
+    Seam.Remoting.pendingCalls.put(call.id, call);
+    Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
   }
 }
 
-SeamRemote.sendAjaxRequest = function(envelope, path, callback, silent)
+Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
 {
-  SeamRemote.log("Request packet:\n" + envelope);
+  Seam.Remoting.log("Request packet:\n" + envelope);
 
   if (!silent)
-    SeamRemote.displayLoadingMessage();
+    Seam.Remoting.displayLoadingMessage();
 
   var asyncReq;
 
@@ -536,25 +617,25 @@ SeamRemote.sendAjaxRequest = function(envelope, path, callback, silent)
   else
     asyncReq = new ActiveXObject("Microsoft.XMLHTTP");
 
-  asyncReq.onreadystatechange = function() {SeamRemote.requestCallback(asyncReq, callback); }
-  asyncReq.open("POST", SeamRemote.contextPath + "/seam/remoting" + path, true);
+  asyncReq.onreadystatechange = function() {Seam.Remoting.requestCallback(asyncReq, callback); }
+  asyncReq.open("POST", Seam.Remoting.contextPath + "/seam/remoting" + path, true);
   asyncReq.send(envelope);
 }
 
-SeamRemote.setCallback = function(component, methodName, callback)
+Seam.Remoting.setCallback = function(component, methodName, callback)
 {
   component.__callback[methodName] = callback;
 }
 
-SeamRemote.requestCallback = function(req, callback)
+Seam.Remoting.requestCallback = function(req, callback)
 {
   if (req.readyState == 4)
   {
-    SeamRemote.hideLoadingMessage();
+    Seam.Remoting.hideLoadingMessage();
 
     if (req.status == 200)
     {
-      SeamRemote.log("Response packet:\n" + req.responseText);
+      Seam.Remoting.log("Response packet:\n" + req.responseText);
 
       if (callback)
         callback(req.responseXML);
@@ -564,11 +645,11 @@ SeamRemote.requestCallback = function(req, callback)
   }
 }
 
-SeamRemote.processResponse = function(doc)
+Seam.Remoting.processResponse = function(doc)
 {
   var headerNode;
   var bodyNode;
-  var context = new SeamRemote.__Context;
+  var context = new Seam.Remoting.__Context;
 
   for (var i = 0; i < doc.documentElement.childNodes.length; i++)
   {
@@ -592,7 +673,7 @@ SeamRemote.processResponse = function(doc)
       }
     }
     if (contextNode)
-      SeamRemote.unmarshalContext(contextNode, context);
+      Seam.Remoting.unmarshalContext(contextNode, context);
   }
 
   if (bodyNode)
@@ -601,16 +682,16 @@ SeamRemote.processResponse = function(doc)
     {
       var node = bodyNode.childNodes.item(i);
       if (node.tagName == "result")
-      SeamRemote.processResult(node, context);
+      Seam.Remoting.processResult(node, context);
     }
   }
 }
 
-SeamRemote.processResult = function(result, context)
+Seam.Remoting.processResult = function(result, context)
 {
   var callId = result.getAttribute("id");
-  var call = SeamRemote.pendingCalls.get(callId);
-  SeamRemote.pendingCalls.remove(callId);
+  var call = Seam.Remoting.pendingCalls.get(callId);
+  Seam.Remoting.pendingCalls.remove(callId);
 
   if (call && call.callback)
   {
@@ -629,15 +710,15 @@ SeamRemote.processResult = function(result, context)
 
     var refs = new Array();
     if (refsNode)
-      SeamRemote.unmarshalRefs(refsNode, refs);
+      Seam.Remoting.unmarshalRefs(refsNode, refs);
 
-    var value = SeamRemote.unmarshalValue(valueNode.firstChild, refs);
+    var value = Seam.Remoting.unmarshalValue(valueNode.firstChild, refs);
 
     call.callback(value, context);
   }
 }
 
-SeamRemote.unmarshalContext = function(ctxNode, context)
+Seam.Remoting.unmarshalContext = function(ctxNode, context)
 {
   for (var i = 0; i < ctxNode.childNodes.length; i++)
   {
@@ -647,7 +728,7 @@ SeamRemote.unmarshalContext = function(ctxNode, context)
   }
 }
 
-SeamRemote.unmarshalRefs = function(refsNode, refs)
+Seam.Remoting.unmarshalRefs = function(refsNode, refs)
 {
   var objs = new Array();
 
@@ -662,7 +743,12 @@ SeamRemote.unmarshalRefs = function(refsNode, refs)
       var valueNode = refNode.firstChild;
       if (valueNode.tagName == "bean")
       {
-        var obj = SeamRemote.create(valueNode.getAttribute("type"));
+        var obj = null;
+        var typeName = valueNode.getAttribute("type");
+        if (Seam.Component.isRegistered(typeName))
+          obj = Seam.Component.newInstance(typeName);
+        else
+          obj = Seam.Remoting.createType(typeName);
         if (obj)
         {
           refs[refId] = obj;
@@ -681,13 +767,13 @@ SeamRemote.unmarshalRefs = function(refsNode, refs)
       if (child.tagName == "member")
       {
         var name = child.getAttribute("name");
-        objs[i].obj[name] = SeamRemote.unmarshalValue(child.firstChild, refs);
+        objs[i].obj[name] = Seam.Remoting.unmarshalValue(child.firstChild, refs);
       }
     }
   }
 }
 
-SeamRemote.unmarshalValue = function(element, refs)
+Seam.Remoting.unmarshalValue = function(element, refs)
 {
   var tag = element.tagName;
 
@@ -695,18 +781,18 @@ SeamRemote.unmarshalValue = function(element, refs)
   {
     case "bool": return element.firstChild.nodeValue == "true";
     case "int": return parseInt(element.firstChild.nodeValue);
-    case "str": return element.firstChild ? SeamRemote.URLDecode(element.firstChild.nodeValue) : "";
+    case "str": return element.firstChild ? Seam.Remoting.URLDecode(element.firstChild.nodeValue) : "";
     case "ref": return refs[parseInt(element.getAttribute("id"))];
     case "bag":
       var value = new Array();
       for (var i = 0; i < element.childNodes.length; i++)
       {
         if (element.childNodes.item(i).tagName == "element")
-          value[value.length] = SeamRemote.unmarshalValue(element.childNodes.item(i).firstChild, refs);
+          value[value.length] = Seam.Remoting.unmarshalValue(element.childNodes.item(i).firstChild, refs);
       }
       return value;
     case "map":
-      var map = new SeamRemote.__Map();
+      var map = new Seam.Remoting.Map();
       for (var i = 0; i < element.childNodes.length; i++)
       {
         var childNode = element.childNodes.item(i);
@@ -718,9 +804,9 @@ SeamRemote.unmarshalValue = function(element, refs)
           for (var j = 0; j < childNode.childNodes.length; j++)
           {
             if (key == null && childNode.childNodes.item(j).tagName == "k")
-              key = SeamRemote.unmarshalValue(childNode.childNodes.item(j).firstChild, refs);
+              key = Seam.Remoting.unmarshalValue(childNode.childNodes.item(j).firstChild, refs);
             else if (value == null && childNode.childNodes.item(j).tagName == "v")
-              value = SeamRemote.unmarshalValue(childNode.childNodes.item(j).firstChild, refs);
+              value = Seam.Remoting.unmarshalValue(childNode.childNodes.item(j).firstChild, refs);
           }
 
           if (key != null)
@@ -728,12 +814,12 @@ SeamRemote.unmarshalValue = function(element, refs)
         }
       }
       return map;
-    case "date": return SeamRemote.deserializeDate(element.firstChild.nodeValue);
+    case "date": return Seam.Remoting.deserializeDate(element.firstChild.nodeValue);
     default: return null;
   }
 }
 
-SeamRemote.deserializeDate = function(val)
+Seam.Remoting.deserializeDate = function(val)
 {
   var dte = new Date();
   dte.setFullYear(parseInt(val.substring(0,4), 10));
@@ -746,16 +832,16 @@ SeamRemote.deserializeDate = function(val)
   return dte;
 }
 
-SeamRemote.loadingMsgDiv = null;
+Seam.Remoting.loadingMsgDiv = null;
 
-SeamRemote.displayLoadingMessage = function(message)
+Seam.Remoting.displayLoadingMessage = function(message)
 {
   var loadingMessage = "Please wait...";
 
-  if (!SeamRemote.loadingMsgDiv)
+  if (!Seam.Remoting.loadingMsgDiv)
   {
-    SeamRemote.loadingMsgDiv = document.createElement('div');
-    var msgDiv = SeamRemote.loadingMsgDiv;
+    Seam.Remoting.loadingMsgDiv = document.createElement('div');
+    var msgDiv = Seam.Remoting.loadingMsgDiv;
     msgDiv.setAttribute('id', 'loadingMsg');
 
     msgDiv.style.position = "absolute";
@@ -775,76 +861,70 @@ SeamRemote.displayLoadingMessage = function(message)
   }
   else
   {
-    SeamRemote.loadingMsgDiv.innerHTML = loadingMessage;
-    SeamRemote.loadingMsgDiv.style.visibility = 'visible';
+    Seam.Remoting.loadingMsgDiv.innerHTML = loadingMessage;
+    Seam.Remoting.loadingMsgDiv.style.visibility = 'visible';
   }
 }
 
-SeamRemote.hideLoadingMessage = function()
+Seam.Remoting.hideLoadingMessage = function()
 {
-  SeamRemote.loadingMsgDiv.style.visibility = 'hidden';
+  Seam.Remoting.loadingMsgDiv.style.visibility = 'hidden';
 }
 
 /* Messaging API */
 
-SeamRemote.pollInterval = 10; // Default poll interval of 10 seconds
-SeamRemote.pollTimeout = 0; // Default timeout of 0 seconds
-SeamRemote.polling = false;
+Seam.Remoting.pollInterval = 10; // Default poll interval of 10 seconds
+Seam.Remoting.pollTimeout = 0; // Default timeout of 0 seconds
+Seam.Remoting.polling = false;
 
-SeamRemote.setPollInterval = function(interval)
+Seam.Remoting.setPollInterval = function(interval)
 {
-  SeamRemote.pollInterval = interval;
+  Seam.Remoting.pollInterval = interval;
 }
 
-SeamRemote.setPollTimeout = function(timeout)
+Seam.Remoting.setPollTimeout = function(timeout)
 {
-  SeamRemote.pollTimeout = timeout;
+  Seam.Remoting.pollTimeout = timeout;
 }
 
-SeamRemote.subscriptionRegistry = new Array();
+Seam.Remoting.subscriptionRegistry = new Array();
 
-SeamRemote.subscribe = function(topicName, callback)
+Seam.Remoting.subscribe = function(topicName, callback)
 {
-  for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+  for (var i = 0; i < Seam.Remoting.subscriptionRegistry.length; i++)
   {
-    if (SeamRemote.subscriptionRegistry[i].topic == topicName)
+    if (Seam.Remoting.subscriptionRegistry[i].topic == topicName)
       return;
   }
 
   var body = "<subscribe topic=\"" + topicName + "\"/>";
-  var env = SeamRemote.createEnvelope(null, body);
-  SeamRemote.subscriptionRegistry.push({topic:topicName, callback:callback});
-  SeamRemote.sendAjaxRequest(env, SeamRemote.PATH_SUBSCRIPTION, SeamRemote.subscriptionCallback, false);
+  var env = Seam.Remoting.createEnvelope(null, body);
+  Seam.Remoting.subscriptionRegistry.push({topic:topicName, callback:callback});
+  Seam.Remoting.sendAjaxRequest(env, Seam.Remoting.PATH_SUBSCRIPTION, Seam.Remoting.subscriptionCallback, false);
 }
 
-SeamRemote.unsubscribe = function(topicName)
+Seam.Remoting.unsubscribe = function(topicName)
 {
   var token = null;
 
-  var tokenFound = false;
-
-  for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+  for (var i = 0; i < Seam.Remoting.subscriptionRegistry.length; i++)
   {
-    if (!tokenFound && SeamRemote.subscriptionRegistry[i].topic == topicName)
+    if (Seam.Remoting.subscriptionRegistry[i].topic == topicName)
     {
-      token = SeamRemote.subscriptionRegistry[i].token;
-      tokenFound = true;
+      token = Seam.Remoting.subscriptionRegistry[i].token;
+      Seam.Remoting.subscriptionRegistry.splice(i, 1);
     }
-
-    if (tokenFound && i < SeamRemote.subscriptionRegistry.length - 1)
-      SeamRemote.subscriptionRegistry[i] = SeamRemote.subscriptionRegistry[i + 1];
   }
 
-  if (tokenFound)
+  if (token)
   {
-    SeamRemote.subscriptionRegistry.length = SeamRemote.subscriptionRegistry.length - 1;
     var body = "<unsubscribe token=\"" + token + "\"/>";
-    var env = SeamRemote.createEnvelope(null, body);
-    SeamRemote.sendAjaxRequest(env, SeamRemote.PATH_SUBSCRIPTION, null, false);
+    var env = Seam.Remoting.createEnvelope(null, body);
+    Seam.Remoting.sendAjaxRequest(env, Seam.Remoting.PATH_SUBSCRIPTION, null, false);
   }
 }
 
-SeamRemote.subscriptionCallback = function(doc)
+Seam.Remoting.subscriptionCallback = function(doc)
 {
   var body = doc.documentElement.firstChild;
   for (var i = 0; i < body.childNodes.length; i++)
@@ -854,12 +934,12 @@ SeamRemote.subscriptionCallback = function(doc)
     {
       var topic = node.getAttribute("topic");
       var token = node.getAttribute("token");
-      for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+      for (var i = 0; i < Seam.Remoting.subscriptionRegistry.length; i++)
       {
-        if (SeamRemote.subscriptionRegistry[i].topic == topic)
+        if (Seam.Remoting.subscriptionRegistry[i].topic == topic)
         {
-          SeamRemote.subscriptionRegistry[i].token = token;
-          SeamRemote.poll();
+          Seam.Remoting.subscriptionRegistry[i].token = token;
+          Seam.Remoting.poll();
           break;
         }
       }
@@ -867,59 +947,59 @@ SeamRemote.subscriptionCallback = function(doc)
   }
 }
 
-SeamRemote.pollTimeoutFunction = null;
+Seam.Remoting.pollTimeoutFunction = null;
 
-SeamRemote.poll = function()
+Seam.Remoting.poll = function()
 {
-  if (SeamRemote.polling)
+  if (Seam.Remoting.polling)
     return;
 
-  SeamRemote.polling = true;
-  clearTimeout(SeamRemote.pollTimeoutFunction);
+  Seam.Remoting.polling = true;
+  clearTimeout(Seam.Remoting.pollTimeoutFunction);
 
   var body = "";
 
-  if (SeamRemote.subscriptionRegistry.length == 0)
+  if (Seam.Remoting.subscriptionRegistry.length == 0)
   {
-    SeamRemote.polling = false;
+    Seam.Remoting.polling = false;
     return;
   }
 
-  for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+  for (var i = 0; i < Seam.Remoting.subscriptionRegistry.length; i++)
   {
-    body += "<poll token=\"" + SeamRemote.subscriptionRegistry[i].token + "\" ";
-    body += "timeout=\"" + SeamRemote.pollTimeout + "\"/>";
+    body += "<poll token=\"" + Seam.Remoting.subscriptionRegistry[i].token + "\" ";
+    body += "timeout=\"" + Seam.Remoting.pollTimeout + "\"/>";
   }
 
-  var env = SeamRemote.createEnvelope(null, body);
-  SeamRemote.sendAjaxRequest(env, SeamRemote.PATH_POLL, SeamRemote.pollCallback, true);
+  var env = Seam.Remoting.createEnvelope(null, body);
+  Seam.Remoting.sendAjaxRequest(env, Seam.Remoting.PATH_POLL, Seam.Remoting.pollCallback, true);
 }
 
-SeamRemote.pollCallback = function(doc)
+Seam.Remoting.pollCallback = function(doc)
 {
-  SeamRemote.polling = false;
+  Seam.Remoting.polling = false;
 
   var body = doc.documentElement.firstChild;
   for (var i = 0; i < body.childNodes.length; i++)
   {
     var node = body.childNodes.item(i);
     if (node.tagName == "messages")
-      SeamRemote.processMessages(node);
+      Seam.Remoting.processMessages(node);
   }
 
-  SeamRemote.pollTimeoutFunction = setTimeout("SeamRemote.poll()", Math.max(SeamRemote.pollInterval * 1000, 1000));
+  Seam.Remoting.pollTimeoutFunction = setTimeout("Seam.Remoting.poll()", Math.max(Seam.Remoting.pollInterval * 1000, 1000));
 }
 
-SeamRemote.processMessages = function(messages)
+Seam.Remoting.processMessages = function(messages)
 {
   var token = messages.getAttribute("token");
 
   var callback = null;
-  for (var i = 0; i < SeamRemote.subscriptionRegistry.length; i++)
+  for (var i = 0; i < Seam.Remoting.subscriptionRegistry.length; i++)
   {
-    if (SeamRemote.subscriptionRegistry[i].token == token)
+    if (Seam.Remoting.subscriptionRegistry[i].token == token)
     {
-      callback = SeamRemote.subscriptionRegistry[i].callback;
+      callback = Seam.Remoting.subscriptionRegistry[i].callback;
       break;
     }
   }
@@ -949,57 +1029,56 @@ SeamRemote.processMessages = function(messages)
 
         var refs = new Array();
         if (refsNode)
-          SeamRemote.unmarshalRefs(refsNode, refs);
+          Seam.Remoting.unmarshalRefs(refsNode, refs);
 
-        var value = SeamRemote.unmarshalValue(valueNode.firstChild, refs);
+        var value = Seam.Remoting.unmarshalValue(valueNode.firstChild, refs);
 
-        callback(SeamRemote.createMessage(messageType, value));
+        callback(Seam.Remoting.createMessage(messageType, value));
       }
     }
   }
 }
 
-SeamRemote.__ObjectMessage = function()
+Seam.Remoting.__ObjectMessage = function()
 {
   this.value = null;
 
-  SeamRemote.__ObjectMessage.prototype.getValue = function()
+  Seam.Remoting.__ObjectMessage.prototype.getValue = function()
   {
     return this.value;
   }
 
-  SeamRemote.__ObjectMessage.prototype.setValue = function(value)
+  Seam.Remoting.__ObjectMessage.prototype.setValue = function(value)
   {
     this.value = value;
   }
 }
 
-SeamRemote.__TextMessage = function()
+Seam.Remoting.__TextMessage = function()
 {
   this.text = null;
 
-  SeamRemote.__TextMessage.prototype.getText = function()
+  Seam.Remoting.__TextMessage.prototype.getText = function()
   {
     return this.text;
   }
 
-  SeamRemote.__TextMessage.prototype.setText = function(text)
+  Seam.Remoting.__TextMessage.prototype.setText = function(text)
   {
     this.text = text;
   }
 }
 
-SeamRemote.createMessage = function(messageType, value)
+Seam.Remoting.createMessage = function(messageType, value)
 {
-
   switch (messageType)
   {
     case "object":
-      var msg = new SeamRemote.__ObjectMessage();
+      var msg = new Seam.Remoting.__ObjectMessage();
       msg.setValue(value);
       return msg;
     case "text":
-      var msg = new SeamRemote.__TextMessage();
+      var msg = new Seam.Remoting.__TextMessage();
       msg.setText(value);
       return msg;
   }
