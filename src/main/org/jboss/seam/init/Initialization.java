@@ -64,6 +64,7 @@ import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.TaskInstanceListForType;
 import org.jboss.seam.core.Transition;
 import org.jboss.seam.core.UiComponent;
+import org.jboss.seam.core.UserPrincipal;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
@@ -170,6 +171,7 @@ public class Initialization
       addComponent( Switcher.class, context );
       addComponent( Redirect.class, context );
       addComponent( HttpError.class, context );
+      addComponent( UserPrincipal.class, context );
       addComponent( IsUserInRole.class, context );
       addComponent( Conversation.class, context );
       addComponent( ConversationList.class, context );
