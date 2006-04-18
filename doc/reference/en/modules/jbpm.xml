@@ -315,15 +315,16 @@ public void begin() { ... }]]></programlisting>
             the system is waiting for user input:
         </para>
         
-        <programlisting><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp" redirect="true">
+        <programlisting><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp">
+    <redirect/>
     <transition name="guess" to="evaluateGuess">
         <action expression="#{numberGuess.guess}" />
     </transition>
 </page>]]></programlisting>
         
         <para>
-            The <literal>view-id</literal> is the JSF view id. The <literal>redirect</literal>
-            attribute has the same effect as <literal>&lt;redirect/&gt;</literal> in a 
+            The <literal>view-id</literal> is the JSF view id. The <literal>&lt;redirect/&gt;</literal>
+            element has the same effect as <literal>&lt;redirect/&gt;</literal> in a 
             JSF navigation rule: namely, a post-then-redirect behavior, to overcome problems
             with the browser's refresh button. (Note that Seam propagates conversation contexts
             over these browser redirects. So there is no need for a Ruby on Rails style "flash"
@@ -479,7 +480,7 @@ public void createTodo() { ... }]]></programlisting>
         
         <para>
             When a process starts, task instances are created. These must be 
-            assigned to users or user groups. We can either hardcode an
+            assigned to users or user groups. We can either hardcode our
             actor ids, or delegate to a Seam component:
         </para>
         
