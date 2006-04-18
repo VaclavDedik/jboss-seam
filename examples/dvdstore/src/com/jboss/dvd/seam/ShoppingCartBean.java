@@ -95,7 +95,7 @@ public class ShoppingCartBean
     }
 
     
-    public String updateCart() {
+    public void updateCart() {
         List<OrderLine> newLines =  new ArrayList<OrderLine>();
 
         for (OrderLine line: cartOrder.getOrderLines()) {
@@ -110,8 +110,6 @@ public class ShoppingCartBean
         cartOrder.calculateTotals();
 
         cartSelection = new HashMap<Product,Boolean>();
-         
-        return null;
     }
 
 

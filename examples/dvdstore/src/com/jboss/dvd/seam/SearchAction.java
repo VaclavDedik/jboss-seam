@@ -31,7 +31,7 @@ import org.jboss.seam.annotations.Scope;
 
 @Stateful
 @Name("search")
-@Conversational(ifNotBegunOutcome="browse")
+@Conversational(ifNotBegunOutcome="customer")
 @Scope(ScopeType.CONVERSATION)
 public class SearchAction
     implements Search,
@@ -82,27 +82,23 @@ public class SearchAction
     }
 
     @Begin(join=true, pageflow="shopping")
-    public String doSearch() {
+    public void doSearch() {
         currentPage=0;
         updateResults();
-
-        return "browse";
     }
 
-    public String nextPage() {
+    public void nextPage() {
         if (!isLastPage()) {
             currentPage++;
             updateResults();
         }
-        return null;
     }
 
-    public String prevPage() {
+    public void prevPage() {
         if (!isFirstPage()) {
             currentPage--;
             updateResults();
         }
-        return null;
     }
 
     public boolean isLastPage() {
@@ -154,7 +150,7 @@ public class SearchAction
         }
     }
 
-    public String addToCart() {
+    public void addToCart() {
         for (Product item: searchResults) {
             Boolean selected = searchSelections.get(item);
             if ( selected!=null && selected ) {
@@ -162,8 +158,6 @@ public class SearchAction
                 cart.addProduct(item, 1);
             }
         }
-
-        return "browse";
     }
 
     public int getPageSize() {
@@ -175,9 +169,7 @@ public class SearchAction
     }
 
     @End
-    public String reset() {
-        return "browse";
-    }
+    public void reset() {}
 
     @Destroy 
     @Remove

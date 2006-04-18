@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<pageflow-diagram name="shopping" width="817" height="654">
+<pageflow-diagram name="shopping" width="804" height="667">
   <node name="start" x="86" y="49" width="140" height="40">
-    <transition name="browse">
+    <transition>
       <label x="5" y="-10"/>
     </transition>
   </node>
   <node name="browse" x="85" y="169" width="140" height="40">
-    <transition name="browse">
+    <transition>
       <label x="-53" y="-20"/>
-      <bendpoint w1="-37" h1="-44" w2="-37" h2="-44"/>
-      <bendpoint w1="-50" h1="-20" w2="-50" h2="-10"/>
+      <bendpoint w1="-76" h1="-60" w2="-76" h2="-60"/>
+      <bendpoint w1="-98" h1="-30" w2="-98" h2="-30"/>
     </transition>
     <transition name="checkout">
       <label x="5" y="-10"/>
     </transition>
   </node>
   <node name="checkout" x="86" y="342" width="140" height="40">
-    <transition name="checkout">
-      <label x="-62" y="-16"/>
-      <bendpoint w1="-37" h1="-53" w2="-37" h2="-53"/>
-      <bendpoint w1="-50" h1="-20" w2="-50" h2="-10"/>
+    <transition>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-83" h1="-56" w2="-83" h2="-56"/>
+      <bendpoint w1="-103" h1="-29" w2="-103" h2="-29"/>
     </transition>
     <transition name="complete">
       <label x="5" y="-10"/>

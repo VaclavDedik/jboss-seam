@@ -15,17 +15,17 @@ public interface Search
     public Category getCategory();
     public void     setCategory(Category category);
 
-    public String   nextPage();
-    public String   prevPage(); 
+    public void   nextPage();
+    public void   prevPage(); 
     public boolean  isLastPage();
     public boolean  isFirstPage();
 
-    public String   doSearch();
-    public String   addToCart();
+    public void   doSearch();
+    public void   addToCart();
     
     public int      getPageSize();
     public void     setPageSize(int pageSize);
 
-    public String   reset();
+    public void   reset();
     public void     destroy();
 }

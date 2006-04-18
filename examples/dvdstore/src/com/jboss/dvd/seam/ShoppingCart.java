@@ -19,7 +19,7 @@ public interface ShoppingCart
     public float getSubtotal();
     public float getTax();
     public float getTotal();
-    public String updateCart();
+    public void updateCart();
     public String purchase();
 
     public void destroy();

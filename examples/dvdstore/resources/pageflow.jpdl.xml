@@ -15,20 +15,23 @@
 <pageflow-definition name="shopping">
 
    <start-state name="start">
-      <transition name="browse" to="browse"/>
+      <transition to="browse"/>
    </start-state>
    
-   <page name="browse" view-id="/browse.xhtml" redirect="true">
-      <transition name="browse" to="browse"/>
+   <page name="browse" view-id="/browse.xhtml">
+      <redirect/>
+      <transition to="browse"/>
       <transition name="checkout" to="checkout"/>
    </page>
    
-   <page name="checkout" view-id="/checkout.xhtml" redirect="true">
-      <transition name="checkout" to="checkout"/>
+   <page name="checkout" view-id="/checkout.xhtml">
+      <redirect/>
+      <transition to="checkout" />
       <transition name="complete" to="complete"/>
    </page>
    
-   <page name="complete" view-id="/complete.xhtml" redirect="true">
+   <page name="complete" view-id="/complete.xhtml">
+      <redirect/>
       <end-conversation />
    </page>
    
