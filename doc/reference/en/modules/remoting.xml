@@ -197,7 +197,7 @@
         </para>
         
         <programlisting>
-          Seam.Component.getInstance("helloAction").sayHello(name, sayHelloCallback);
+  Seam.Component.getInstance("helloAction").sayHello(name, sayHelloCallback);
         </programlisting>
         
         <para>
@@ -212,7 +212,9 @@
           component, passing in <literal>name</literal> as a parameter.  The second parameter, 
           <literal>sayHelloCallback</literal> isn't a parameter of our component's <literal>sayHello</literal> 
           method, instead it tells the Seam Remoting framework that once it receives the response to our request, 
-          it should pass it to the <literal>sayHelloCallback</literal> Javascript method.
+          it should pass it to the <literal>sayHelloCallback</literal> Javascript method.  This callback parameter
+          is entirely optional, so feel free to leave it out if you're calling a method with a <literal>void</literal>
+          return type or if you don't care about the result.
         </para>
         
         <para>
@@ -221,6 +223,48 @@
         </para>
 
       </sect2>
+    </sect1>
+    
+    <sect1>
+      <title>Client Interfaces</title>
+      
+      <para>
+        In the configuration section above, the interface, or "stub" for our component is imported into our
+        page via <literal>seam/remoting/interface.js</literal>:
+      </para>
+        
+      <programlisting>
+        <![CDATA[
+  <script type="text/javascript" src="seam/remoting/interface.js?customerAction">
+    <!--
+    // This space intentionally left blank
+    //-->
+  </script>
+        ]]>
+      </programlisting>
+      
+      <para>
+        By including this script in our page, the interface definitions for our component, plus any other
+        components or types that are required to execute the methods of our component are generated and 
+        made available for the remoting framework to use.
+      </para>
+      
+      <para>
+        There are two types of client stub that can be generated, "executable" stubs and "type" stubs. 
+        Executable stubs are behavioural, and are used to execute methods against your session bean components, 
+        while type stubs contain state and represent the types that can be passed in as parameters or returned 
+        as a result.
+      </para>
+      
+      <para>
+        The type of client stub that is generated depends on the type of your Seam component. If the component is 
+        a session bean, then an executable stub will be generated, otherwise if it's an entity or JavaBean, then 
+        a type stub will be generated. There is one exception to this rule; if your component is a JavaBean (ie it
+        is not a session bean nor an entity bean) and any of its methods are annotated with @WebRemote, then
+        an executable stub will be generated for it instead of a type stub.  This allows you to use remoting to
+        call methods of your JavaBean components in a non-EJB environment where you don't have access to session beans.
+      </para>
+      
     </sect1>
 
 </chapter>
