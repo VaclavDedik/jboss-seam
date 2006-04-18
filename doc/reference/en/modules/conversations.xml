@@ -138,18 +138,58 @@
 </h:outputLink>]]></programlisting>
 
         <para>
+            If you use the Seam tag library, this is equivalent:
+        </para>
+
+        <programlisting><![CDATA[<h:outputLink value="main.jsf">
+    <s:conversationId/>
+    <h:outputText value="Continue"/>
+</h:outputLink>]]></programlisting>
+
+        <para>
             If you wish to disable propagation of the conversation context for a
             postback, a similar trick is used:
         </para>
 
         <programlisting><![CDATA[<h:commandLink action="main" value="Exit">
-    <f:param name="conversationId" value="new"/>
+    <f:param name="conversationPropagation" value="none"/>
+</h:commandLink>]]></programlisting>
+
+        <para>
+            If you use the Seam tag library, this is equivalent:
+        </para>
+
+        <programlisting><![CDATA[<h:commandLink action="main" value="Exit">
+    <s:conversationPropagation type="none"/>
 </h:commandLink>]]></programlisting>
 
         <para>
             Note that disabling conversation context propagation is absolutely not the
             same thing as ending the conversation.
         </para>
+        
+        <para>
+            The <literal>conversationPropagation</literal> request parameter, or 
+            the <literal>&lt;s:conversationPropagation&gt;</literal> tag may even
+            be used to begin and end conversation, or begin a nested 
+            conversation.
+        </para>
+
+        <programlisting><![CDATA[<h:commandLink action="main" value="Exit">
+    <s:conversationPropagation type="end"/>
+</h:commandLink>]]></programlisting>
+
+        <programlisting><![CDATA[<h:commandLink action="main" value="Select Child">
+    <s:conversationPropagation type="nested"/>
+</h:commandLink>]]></programlisting>
+
+        <programlisting><![CDATA[<h:commandLink action="main" value="Select Hotel">
+    <s:conversationPropagation type="begin"/>
+</h:commandLink>]]></programlisting>
+
+        <programlisting><![CDATA[<h:commandLink action="main" value="Select Hotel">
+    <s:conversationPropagation type="join"/>
+</h:commandLink>]]></programlisting>
 
     <para>
         This conversation model makes it easy to build applications which
@@ -244,7 +284,7 @@
         </para>
         
         <para>
-            If neither of these options works for you, Seam lets you define a
+            If none of these options works for you, Seam lets you define a
             <emphasis>page action</emphasis> in the <literal>pages.xml</literal>
             file.
         </para>
@@ -309,6 +349,116 @@
             </para>
             </listitem>
         </itemizedlist>
+        
+    </section>
+    
+    <section>
+        <title>Using <literal>&lt;s:link&gt;</literal></title>
+        
+        <para>
+            JSF command links always perform a form submission via JavaScript, 
+            which breaks the web browser's "open in new window" or "open in new tab"
+            feature. In plain JSF, you need to use an <literal>&lt;h:outputLink&gt;</literal>
+            if you need this functionality. But there are two major limitations to 
+            <literal>&lt;h:outputLink&gt;</literal>.
+        </para>
+        
+    <itemizedlist>
+        <listitem>
+        <para>
+            JSF provides no way to attach an action listener to an 
+            <literal>&lt;h:outputLink&gt;</literal>.
+        </para>
+        </listitem>
+        <listitem>
+        <para>
+            JSF does not propagate the selected row of a <literal>DataModel</literal> 
+            since there is no actual form submission.
+        </para>
+        </listitem>
+    </itemizedlist>
+    
+        <para>
+            Seam provides the notion of a <emphasis>page action</emphasis> to help 
+            solve the first problem, but this does nothing to help us with the second 
+            problem. We <emphasis>could</emphasis> work around this by using the
+            RESTful approach of passing a request parameter and requerying
+            for the selected object on the server side. In some cases&mdash;such as the 
+            Seam blog example application&mdash;this is indeed the best approach. The 
+            RESTful style supports bookmarking, since it does not require server-side state. 
+            In other cases, where we don't care about bookmarks, the use of 
+            <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> is 
+            just so convenient and transparent!
+        </para>
+        
+        <para>
+            To fill in this missing functionality, and to make conversation propagation
+            even simpler to manage, Seam provides the <literal>&lt;s:link&gt;</literal>
+            JSF tag.
+        </para>
+        
+        <para>
+            The link may specify just the JSF view id:
+        </para>
+        
+        <programlisting><![CDATA[<s:link view-id=“/login.xhtml” value=“Login”/>]]></programlisting>
+        
+        <para>
+            Or, it may specify an action method (in which case the action outcome determines
+            the page that results):
+        </para>
+        
+        <programlisting><![CDATA[<s:link action=“#{login.logout}” value=“Logout”/>]]></programlisting>
+        
+        <para>
+            If you specify <emphasis>both</emphasis> a JSF view id and an action method, the
+            view-id will be used <emphasis>unless</emphasis> the action method returns a
+            non-null outcome:
+        </para>
+        
+        <programlisting><![CDATA[<s:link view-id="/loggedOut.xhtml"  action=“#{login.logout}” value=“Logout”/>]]></programlisting>
+        
+        <para>
+            The link may be rendered as a button:
+        </para>
+        
+        <programlisting><![CDATA[<s:link action=“#{login.logout}” value=“Logout” style=“button”/>]]></programlisting>
+        
+        <para>
+            The link automatically propagates the selected row of a <literal>DataModel</literal>
+            using inside <literal>&lt;h:dataTable&gt;</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<s:link view-id=“/hotel.xhtml” action=“#{hotelSearch.selectHotel}” value=“#{hotel.name}”/>]]></programlisting>
+        
+        <para>
+            You can leave the scope of an existing conversation:
+        </para>
+        
+        <programlisting><![CDATA[<s:link view-id=“/main.xhtml” propagation=“none”/>]]></programlisting>
+        
+        <para>
+            You can begin, end, or nest conversations:
+        </para>
+        
+        <programlisting><![CDATA[<s:link action=“#{issueEditor.viewComment}” propagation=“nest”/>]]></programlisting>
+        
+        <para>
+            If the link begins a conversation, you can even specify a pageflow to be used:
+        </para>
+        
+        <programlisting><![CDATA[<s:link action=“#{documentEditor.getDocument}” propagation=“begin” 
+        pageflow=“EditDocument”/>]]></programlisting>
+        
+        <para>
+            The <literal>taskInstance</literal> attribute if for use in jBPM task lists:
+        </para>
+        
+        <programlisting><![CDATA[<s:link action=“#{documentApproval.approveOrReject}” taskInstance=“#{task}”/>]]></programlisting>
+        
+        <para>
+            (See the DVD Store demo application for examples of this.)
+        </para>
         
     </section>
     
@@ -440,13 +590,13 @@ public class EditDocumentBean implements EditDocument {
    
    <page name="browse" view-id="/browse.xhtml">
       <description>DVD Search: #{search.searchPattern}</description>
-      <transition name="browse" to="browse"/>
+      <transition to="browse"/>
       <transition name="checkout" to="checkout"/>
    </page>
    
    <page name="checkout" view-id="/checkout.xhtml">
       <description>Purchase: $#{cart.total}</description>
-      <transition name="checkout" to="checkout"/>
+      <transition to="checkout"/>
       <transition name="complete" to="complete"/>
    </page>
    

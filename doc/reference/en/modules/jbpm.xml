@@ -259,12 +259,12 @@
 	        depends upon your point of view: as an application developer, 
 	        it is a feature; as a user, it might be frustrating! You can
 	        enable backbutton navigation from a particular page node by
-	        setting <literal>backable="true"</literal>.
+	        setting <literal>back="enabled"</literal>.
 	    </para>
 	    
 <programlisting><![CDATA[<page name="checkout" view-id="/checkout.xhtml" 
-        redirect="true" backable="true">
-    <transition name="checkout" to="checkout"/>
+        redirect="true" back="enabled">
+    <transition to="checkout"/>
     <transition name="complete" to="complete"/>
 </page>]]></programlisting>
 
