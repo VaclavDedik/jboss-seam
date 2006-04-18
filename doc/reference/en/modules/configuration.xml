@@ -58,7 +58,7 @@
          -->
 
         <para>
-            To integrate with the JSF request lifecycle, we also needs a JSF
+            To integrate with the JSF request lifecycle, we also need a JSF
             <literal>PhaseListener</literal> registered in in the 
             <literal>faces-config.xml</literal> file:
         </para>
@@ -75,8 +75,20 @@
         </sect2>
         
         <sect2>
-            <title>Configuring the EJB JNDI name pattern</title>
-        
+            <title>Integrating Seam with your EJB container</title>
+            
+        <para>
+            We need to apply the <literal>SeamInterceptor</literal> to our Seam 
+            components. The simplest way to do this is to add the 
+            following interceptor binding to the <literal>&lt;assembly-descriptor&gt;</literal>
+            in <literal>ejb-jar.xml</literal>:
+        </para>
+
+<programlisting><![CDATA[<interceptor-binding>
+    <ejb-name>*</ejb-name>
+    <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+</interceptor-binding>]]></programlisting>
+
         <para>
             Seam needs to know where to go to find session beans in JNDI.
             One way to do this is specify the <literal>@JndiName</literal>
