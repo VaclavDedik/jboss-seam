@@ -2583,4 +2583,337 @@ public class HotelBookingAction implements HotelBooking
       <para>Look in the <literal>hibernate</literal> directory.</para>
   </section>
   
+  <section id="blog">
+      <title>A RESTful Seam application: the Blog example</title>
+      
+      <para>
+          Seam makes it very easy to implement applications which keep state on the
+          server-side. However, server-side state is not always appropriate, especially
+          in for functionality that serves up <emphasis>content</emphasis>. For this
+          kind of problem we often need to let the user bookmark pages and have a 
+          relatively stateless server, so that any page can be accessed at any time,
+          via the bookmark. The Blog example shows how to a implement RESTful 
+          application using Seam. Every page of the application can be bookmarked,
+          including the search results page.
+      </para>
+
+      <screenshot>
+        <screeninfo>Blog example</screeninfo>
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/blog.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/blog.png" align="center"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+      <para>
+          The Blog example demonstrates the use of "pull"-style MVC,  where instead of using
+          action listener methods to retrieve data and prepare the data for the view, the view 
+          pulls data from components as it is being rendered.
+      </para>
+      
+      <section>
+          <title>Using "pull"-style MVC</title>
+      
+      <para>
+          This snippet from the <literal>index.xhtml</literal> facelets page displays a 
+          list of recent blog entries:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[<h:dataTable value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
+   <h:column>
+      <div class="blogEntry">
+         <h3>#{blogEntry.title}</h3>
+         <div>
+            <h:outputText escape="false" 
+                  value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
+         </div>
+         <p>
+            <h:outputLink value="entry.seam" rendered="#{blogEntry.excerpt!=null}">
+               <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+               Read more...
+            </h:outputLink>
+         </p>
+         <p>
+            [Posted on 
+            <h:outputText value="#{blogEntry.date}">
+               <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+            </h:outputText>]
+            &#160;
+            <h:outputLink value="entry.seam">[Link]
+               <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+            </h:outputLink>
+         </p>
+      </div>
+   </h:column>
+</h:dataTable>]]></programlisting>
+      </example>
+
+      <para>
+          If we navigate to this page from a bookmark, how does the data used by the 
+          <literal>&lt;h:dataTable&gt;</literal> actually get initialized? Well, what
+          happens is that the <literal>Blog</literal> is retrieved 
+          lazily&mdash;"pulled"&mdash;when needed, by a Seam component named
+          <literal>blog</literal>. This is the opposite flow of control that is 
+          usual in traditional web action-based frameworks like Struts.
+      </para>
+      
+        <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="blog-seampc" coords="6"/>
+                    <area id="blog-unwrap" coords="9"/>
+                </areaspec>    
+            <programlisting><![CDATA[@Name("blog")
+@Scope(ScopeType.STATELESS)
+public class BlogService 
+{
+   
+   @In(create=true)
+   private EntityManager entityManager;
+  
+   @Unwrap
+   public Blog getBlog()
+   {
+      return (Blog) entityManager.createQuery("from Blog b left join fetch b.blogEntries")
+            .setHint("org.hibernate.cacheable", true)
+            .getSingleResult();
+   }
+
+}]]></programlisting>
+            <calloutlist>
+                <callout arearefs="blog-seampc">
+                    <para>
+                        This component uses a <emphasis>seam-managed persistence context</emphasis>.
+                        Unlike the other examples we've seen, this persistence context is managed
+                        by Seam, instead of by the EJB3 container. The persistence context spans
+                        the entire web request, allowing us to avoid any exceptions that occur
+                        when accessing unfetched associations in the view.
+                    </para>
+                </callout>
+                <callout arearefs="blog-unwrap">
+                    <para>
+                        The <literal>@Unwrap</literal> annotation tells Seam to provide the return
+                        value of the method&mdash;the <literal>Blog</literal>&mdash;instead of the
+                        actual <literal>BlogService</literal> component to clients. This is the 
+                        Seam <emphasis>manager component pattern</emphasis>.
+                    </para>
+                </callout>
+            </calloutlist>
+            </programlistingco>
+        </example>
+        
+      <para>
+          This is good so far, but what about bookmarking the result of form submissions, such
+          as a search results page?
+      </para>
+        
+      </section>
+      
+      <section>
+          <title>Bookmarkable search results page</title>
+          
+      <para>
+          The blog example has a tiny form in the top right of each page that
+          allows the user to search for blog entries. This is defined in the 
+          facelets template, <literal>template.xhtml</literal>:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[<div id="search">
+   <h:form>
+      <h:inputText value="#{searchAction.searchPattern}"/>
+      <h:commandButton value="Search" action="#{searchAction.search}"/>
+   </h:form>
+</div>]]></programlisting>
+      </example>
+        
+      <para>
+          To implement a bookmarkable search results page, we need to perform a browser redirect
+          after processing the search form submission. Seam provides a built-in component
+          named <literal>redirect</literal> that makes it very easy to perform redirects with
+          request parameters.
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[@Name("searchAction")
+public class SearchAction 
+{
+   
+   @In(create=true) 
+   private Redirect redirect;
+   
+   private String searchPattern;
+   
+   public void search() throws IOException
+   {
+      redirect.setViewId("/search.xhtml");
+      redirect.setParameter("searchPattern", searchPattern);
+      redirect.execute();
+   }
+
+   public String getSearchPattern()
+   {
+      return searchPattern;
+   }
+
+   public void setSearchPattern(String searchPattern)
+   {
+      this.searchPattern = searchPattern;
+   }
+
+}]]></programlisting>
+      </example>
+      
+      <para>
+          The redirect takes us to the <literal>search.xhtml</literal> page:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[<h:dataTable value="#{searchResults}" var="blogEntry">
+   <h:column>
+      <div>
+         <h:outputLink value="entry.seam">
+            <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+            #{blogEntry.title}
+         </h:outputLink>
+         posted on 
+         <h:outputText value="#{blogEntry.date}">
+            <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+         </h:outputText>
+      </div>
+   </h:column>
+</h:dataTable>]]></programlisting>
+      </example>
+      
+      <para>
+          Which again uses "pull"-style MVC to retrieve the actual search results:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[@Name("searchResults")
+public class SearchService 
+{
+   
+   @In(create=true)
+   private EntityManager entityManager;
+   
+   @RequestParameter
+   private String searchPattern;
+   
+   private List<BlogEntry> searchResults;
+   
+   @Create
+   public void initSearchResults()
+   {
+      searchResults = entityManager.createQuery("from BlogEntry be where lower(be.title) like :searchPattern or lower(be.body) like :searchPattern order by be.date desc")
+            .setParameter( "searchPattern", getSqlSearchPattern() )
+            .setMaxResults(100)
+            .getResultList();
+   }
+
+   private String getSqlSearchPattern()
+   {
+      return searchPattern==null ? "" : '%' + searchPattern.toLowerCase().replace('*', '%').replace('?', '_') + '%';
+   }
+
+   @Unwrap
+   public List<BlogEntry> getSearchResults()
+   {
+      return searchResults;
+   }
+
+}]]></programlisting>
+      </example>
+      
+      </section>
+      
+      <section>
+          <title>Using "push"-style MVC in a RESTful application</title>
+      
+      <para>
+          Very occasionally, it makes more sense to use push-style MVC for processing RESTful pages,
+          and so Seam provides the notion of a <emphasis>page action</emphasis>. The Blog example uses
+          a page action for the blog entry page, <literal>entry.xhtml</literal>. Note that this is a
+          little bit contrived, it would have been easier to use pull-style MVC here as well.
+      </para>
+      
+      <para>
+          The <literal>entryAction</literal> component works much like an action class in a traditional
+          push-MVC action-oriented framework like Struts:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[@Name("entryAction")
+@Scope(ScopeType.STATELESS)
+public class EntryAction
+{
+   @In(create=true) 
+   private Blog blog;
+   
+   @RequestParameter
+   private String blogEntryId;
+   
+   @Out(scope=ScopeType.EVENT, required=false)
+   private BlogEntry blogEntry;
+
+   
+   public void getBlogEntry() throws IOException
+   {
+      blogEntry = blog.getBlogEntry(blogEntryId);
+      if (blogEntry==null)
+      {
+         HttpError.instance().send(HttpServletResponse.SC_NOT_FOUND);
+      }
+   }
+   
+}]]></programlisting>
+      </example>
+      
+      <para>
+          The page action must be declared a file called <literal>pages.xml</literal>:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[<pages>
+   <page view-id="/entry.xhtml" action="#{entryAction.getBlogEntry}"/>
+   <page view-id="/post.xhtml" action="#{loginAction.challenge}"/>
+   <page view-id="*" action="#{blog.hitCount.hit}"/>
+</pages>]]></programlisting>
+      </example>
+      
+      <para>
+          (Notice that the example is using page actions for some other functionality&mdash;the
+          login challenge, and the page counter.)
+      </para>
+      
+      <para>
+          When the <literal>entry.xhtml</literal> page is requested, Seam first runs the page
+          action, which retrieves the needed data&mdash;the <literal>blogEntry</literal>&mdash;and 
+          places it in the Seam event context. Next, the following is rendered:          
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[<div class="blogEntry">
+   <h3>#{blogEntry.title}</h3>
+   <div>
+      <h:outputText escape="false" value="#{blogEntry.body}"/>
+   </div>
+   <p>
+      [Posted on 
+      <h:outputText value="#{blogEntry.date}">
+         <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+      </h:outputText>]
+   </p>
+</div>]]></programlisting>
+      </example>
+      
+      </section>
+            
+  </section>
+  
 </chapter>
