@@ -63,6 +63,7 @@
     <fileset id="example.tomcat.resources"
             dir="resources">
         <include name="seam.properties"/>
+    	<include name="jbpm.cfg.xml"/>
     	<include name="pageflow.jpdl.xml"/>
     </fileset>
     
