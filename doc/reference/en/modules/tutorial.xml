@@ -42,7 +42,7 @@
     </itemizedlist>
 
     <section>
-       <title>Running the examples</title>
+       <title>Running the examples on JBoss AS</title>
        
        <para>
            First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal>
@@ -57,11 +57,43 @@
             Now, build and deploy the example by typing <literal>ant deploy</literal> in the
             <filename>examples/<replaceable>registration</replaceable></filename> directory.
         </para>
+        
         <para>
-            Assuming that all is well, the example application will now be deployed to JBoss.
             Try it out by accessing 
             <ulink url="http://localhost:8080/seam-registration/"><literal>http://localhost:8080/seam-registration/</literal></ulink>
             with your web browser.
+        </para>
+        
+    </section>
+        
+    <section>
+       <title>Running the examples on Tomcat</title>
+       
+       <para>
+           First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal>
+           and <literal>$JAVA_HOME</literal> set correctly. Next, make sure you set the
+           location of your Tomcat 5.5 installation in the <literal>build.properties</literal>
+           file in the root folder of your Seam installation.
+       </para>
+       
+       <para>
+            Now, build and deploy the example by typing <literal>ant deploy.tomcat</literal> in the
+            <filename>examples/<replaceable>registration</replaceable></filename> directory.
+        </para>
+        
+        <para>
+            Finally, start Tomcat.
+        </para>
+        
+        <para>
+            Try it out by accessing 
+            <ulink url="http://localhost:8080/jboss-seam-registration/"><literal>http://localhost:8080/jboss-seam-registration/</literal></ulink>
+            with your web browser.
+        </para>
+        
+        <para>
+            When you deploy the example to Tomcat, any EJB3 components will run inside the JBoss 
+            Embeddable EJB3 container, a complete standalone EJB3 container environment.
         </para>
         
     </section>
@@ -2463,21 +2495,6 @@ public class HotelBookingAction implements HotelBooking
             You can include this page in your own applications.
         </para>
         
-    </section>
-
-    <section>
-        <title>Tomcat deployment</title>
-        
-        <para>
-            This example may be deployed to Tomcat by setting <literal>tomcat.home</literal> to point
-            to your Tomcat installation directory and typing <literal>ant deploy.tomcat</literal> in
-            the <literal>examples/booking</literal> directory. Then, start Tomcat and point your
-            browser at <ulink url="http://localhost:8080/jboss-seam-booking/"><literal>http://localhost:8080/jboss-seam-booking/</literal></ulink>.
-        </para>
-        <para>
-            When you deploy the application to Tomcat, the EJB3 components will run inside the JBoss 
-            Embeddable EJB3 container, a complete standalone EJB3 container environment.
-        </para>
     </section>
     
   </section>
