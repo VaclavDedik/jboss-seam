@@ -68,6 +68,7 @@ public class RegisterAction implements Register
 
         <programlisting><![CDATA[public class RegisterActionTest
 {
+
     @Test
     public testRegisterAction()
     {
@@ -88,6 +89,27 @@ public class RegisterAction implements Register
         em.getTransaction().commit();
         em.close();
     }
+    
+    
+    private EntityManagerFactory emf;
+    
+    public EntityManagerFactory getEntityManagerFactory()
+    {
+        return emf;
+    }
+    
+    @Configuration(beforeTestClass=true)
+    public void init() 
+    {
+        emf = Persistence.createEntityManagerFactory("myResourceLocalEntityManager");
+    }
+    
+    @Configuration(afterTestClass=true)
+    public void destroy()
+    {
+        emf.close();
+    }
+    
 }
 ]]></programlisting>
 
@@ -166,7 +188,7 @@ public class RegisterAction implements Register
 {
    
    @Test
-   public void testLogin() throws Exception
+   public void testRegister() throws Exception
    {
             
       new Script() {
