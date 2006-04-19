@@ -20,6 +20,7 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.init.Initialization;
+import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.servlet.ServletSessionImpl;
@@ -67,6 +68,8 @@ public class SeamTest
    public abstract class Script
    {
       private String conversationId;
+      private String outcome;
+      private boolean isGetRequest;
       
       /**
        * A script for a JSF interaction with
@@ -82,6 +85,11 @@ public class SeamTest
       protected Script(String id)
       {
          conversationId = id;
+      }
+      
+      protected Script(boolean isGetRequest)
+      {
+         this.isGetRequest = isGetRequest;
       }
       
       /**
@@ -126,7 +134,8 @@ public class SeamTest
        * during the invoke application phase.
        */
       protected void invokeApplication() throws Exception {}
-      protected String getInvokeApplicationOutcome() { return null; }
+      protected void setOutcome(String outcome) { this.outcome = outcome; }
+      protected String getInvokeApplicationOutcome() { return outcome; }
       /**
        * Override to implement the interactions between
        * the JSF page and your components that occurs
@@ -168,33 +177,35 @@ public class SeamTest
          
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
-         phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
-         
-         applyRequestValues();
-   
-         phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
-         phases.beforePhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, lifecycle ) );
-         
-         processValidations();
-   
-         phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, lifecycle ) );
-         phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
-         
-         updateModelValues();
-   
-         phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
-         phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
-         
-         invokeApplication();
-         
-         String outcome = getInvokeApplicationOutcome();
-         if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
+
+         if (!isGetRequest)
          {
-            //TODO: re-enable, once we get a way to mock the expression evaluation
-            //Pageflow.instance().navigate(facesContext, outcome);
+         
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
+            
+            applyRequestValues();
+      
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, lifecycle ) );
+            
+            processValidations();
+      
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, lifecycle ) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
+            
+            updateModelValues();
+      
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
+            
+            invokeApplication();
+            
+            String outcome = getInvokeApplicationOutcome();
+            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+      
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
          }
-   
-         phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
+            
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
          
          renderResponse();
@@ -240,6 +251,7 @@ public class SeamTest
    {
       application = new MockApplication();
       application.setStateManager( new SeamStateManager( application.getStateManager() ) );
+      application.setNavigationHandler( new SeamNavigationHandler( application.getNavigationHandler() ) );
       //don't need a SeamNavigationHandler, because we don't test navigation
       //don't need a SeamVariableResolver, because we don't test the view 
       phases = createPhaseListener();

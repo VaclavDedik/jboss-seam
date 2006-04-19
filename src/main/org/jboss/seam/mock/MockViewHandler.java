@@ -16,22 +16,22 @@ public class MockViewHandler extends ViewHandler {
 	}
 
 	@Override
-	public String calculateRenderKitId(FacesContext arg0) {
+	public String calculateRenderKitId(FacesContext ctx) {
 		return null;
 	}
 
 	@Override
-	public UIViewRoot createView(FacesContext arg0, String arg1) {
+	public UIViewRoot createView(FacesContext ctx, String viewId) {
 		return null;
 	}
 
 	@Override
-	public String getActionURL(FacesContext arg0, String arg1) {
-		return null;
+	public String getActionURL(FacesContext ctx, String viewId) {
+		return viewId;
 	}
 
 	@Override
-	public String getResourceURL(FacesContext arg0, String arg1) {
+	public String getResourceURL(FacesContext ctx, String url) {
 		return null;
 	}
 

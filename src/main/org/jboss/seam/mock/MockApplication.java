@@ -76,17 +76,17 @@ public class MockApplication extends Application {
       // TODO Auto-generated method stub
 
    }
+   
+   private NavigationHandler navigationHandler = new MockNavigationHandler();
 
    @Override
    public NavigationHandler getNavigationHandler() {
-      // TODO Auto-generated method stub
-      return null;
+      return navigationHandler;
    }
 
    @Override
-   public void setNavigationHandler(NavigationHandler arg0) {
-      // TODO Auto-generated method stub
-
+   public void setNavigationHandler(NavigationHandler navigationHandler) {
+      this.navigationHandler = navigationHandler;
    }
 
    @Override
