@@ -48,6 +48,30 @@
         <include name="jbpm*.jar"/>
     </fileset>
   
+    <!-- Tomcat build -->
+    <zipfileset id="example.tomcat.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <include name="faces-config.xml"/>
+        <include name="pages.xml"/>
+    </zipfileset>
+    
+    <zipfileset id="example.tomcat.war.webinf.extra"
+            prefix="WEB-INF"
+               dir="resources/tomcat">
+        <include name="web.xml"/>
+    </zipfileset>
+    
+    <fileset id="example.tomcat.resources"
+            dir="resources">
+        <include name="seam.properties"/>
+        <include name="seam-jndi.properties"/>
+    	<include name="jbpm.cfg.xml"/>
+        <include name="hibernate.cfg.xml"/>
+    	<include name="todo.jpdl.xml"/>
+        <include name="META-INF/jboss-beans.xml"/> <!-- TODO: move out of META-INF -->
+    </fileset>
+    
 	<!-- Test -->
 	<fileset id="example.resources" dir="resources">
 		<include name="**/*.*"/>

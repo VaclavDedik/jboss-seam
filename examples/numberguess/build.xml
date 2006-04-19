@@ -45,6 +45,28 @@
         <include name="jbpm*.jar"/>
     </fileset>
   
+    <!-- Tomcat build -->
+    <zipfileset id="example.tomcat.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <include name="faces-config.xml"/>
+        <include name="pages.xml"/>
+    	<include name="web.xml"/>
+    </zipfileset>
+    
+    <zipfileset id="example.tomcat.war.webinf.extra"
+            prefix="WEB-INF"
+               dir="resources">
+        <include name="_NONE_"/>
+    </zipfileset>
+    
+    <fileset id="example.tomcat.resources"
+            dir="resources">
+        <include name="seam.properties"/>
+        <include name="seam-jndi.properties"/>
+    	<include name="pageflow.jpdl.xml"/>
+    </fileset>
+    
 	<!-- Test -->
 	<fileset id="example.resources" dir="resources">
 		<include name="**/*.*"/>
@@ -64,7 +86,8 @@
     <!-- Overrides -->
     <property name="src.java.dir" value="src"/>
 	<property name="src.test.dir" value="src"/>
-	<property name="test.classpath" value="test.eejb.classpath"/>
+	<property name="test.classpath" value="test.mc.classpath"/>
+	<property name="tomcat.conf" value="mc.conf"/>
 
     <import file="../../build.xml"/>
 
