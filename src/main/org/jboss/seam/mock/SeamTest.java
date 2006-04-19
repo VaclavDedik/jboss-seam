@@ -202,8 +202,15 @@ public class SeamTest
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
       
             phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
-         }
             
+            //TODO: this is the hack solution to redirects, would be much better to 
+            //      actually really go ahead and emulate a redirect!
+            if ( Manager.instance().getCurrentConversationEntry().isRemoveAfterRedirect() )
+            {
+               Manager.instance().setLongRunningConversation(false);
+            }
+         }
+         
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
          
          renderResponse();
