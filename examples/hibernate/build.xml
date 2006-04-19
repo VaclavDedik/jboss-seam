@@ -67,9 +67,8 @@
     <fileset id="example.tomcat.resources"
             dir="resources">
         <include name="seam.properties"/>
-        <include name="hibernate.cfg.xml"/>
         <include name="import.sql"/>
-        <include name="seam-jndi.properties"/>
+        <include name="hibernate.cfg.xml"/>
         <include name="jboss-beans.xml"/>
     </fileset>
     

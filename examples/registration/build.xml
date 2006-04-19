@@ -72,7 +72,6 @@
     <include name="seam.properties"/>
     <include name="META-INF/persistence.xml"/>
   	<include name="META-INF/ejb-jar.xml"/>
-    <include name="seam-jndi.properties"/>
   </fileset>
   
 

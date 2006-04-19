@@ -65,7 +65,6 @@
     <fileset id="example.tomcat.resources"
             dir="resources">
         <include name="seam.properties"/>
-        <include name="seam-jndi.properties"/>
     	<include name="jbpm.cfg.xml"/>
         <include name="hibernate.cfg.xml"/>
     	<include name="todo.jpdl.xml"/>

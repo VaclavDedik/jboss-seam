@@ -69,10 +69,9 @@
     <fileset id="example.tomcat.resources"
             dir="resources">
         <include name="seam.properties"/>
-        <include name="seam-jndi.properties"/>
+        <include name="import.sql"/>
         <include name="META-INF/persistence.xml"/>
     	<include name="META-INF/ejb-jar.xml"/>
-        <include name="import.sql"/>
         <include name="META-INF/jboss-beans.xml"/> <!-- TODO: move out of META-INF -->
     	<include name="*.jpdl.xml"/>
     	<include name="*.cfg.xml"/>
