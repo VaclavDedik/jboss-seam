@@ -1,0 +1,9 @@
+<jbpm-configuration>
+
+  <jbpm-context/>
+  
+  <bean name="jbpm.variable.resolver" 
+        class="org.jboss.seam.jbpm.SeamVariableResolver"
+        singleton="true"/>
+
+</jbpm-configuration>
