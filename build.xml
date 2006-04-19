@@ -293,7 +293,7 @@
     <ant dir="examples/messages" target="testexample" inheritall="false"/>
     <ant dir="examples/numberguess" target="testexample" inheritall="false"/>
     <ant dir="examples/registration" target="testexample" inheritall="false"/>
-    <!--ant dir="examples/todo" target="testexample" inheritall="false"/-->
+    <ant dir="examples/todo" target="testexample" inheritall="false"/>
     
 
     <junitreport todir="./report">
