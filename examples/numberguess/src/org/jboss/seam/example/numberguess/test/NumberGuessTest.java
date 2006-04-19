@@ -18,8 +18,14 @@ public class NumberGuessTest extends SeamTest
    @Test
    public void testNumberGuessWin() throws Exception
    {
-      String id = new Script(true)
+      String id = new Script()
       {
+
+         @Override
+         protected boolean isGetRequest()
+         {
+            return true;
+         }
 
          @Override
          protected void renderResponse() throws Exception {
@@ -107,8 +113,14 @@ public class NumberGuessTest extends SeamTest
    @Test
    public void testNumberGuessLose() throws Exception
    {
-      String id = new Script(true)
+      String id = new Script()
       {
+
+         @Override
+         protected boolean isGetRequest()
+         {
+            return true;
+         }
 
          @Override
          protected void renderResponse() throws Exception {
