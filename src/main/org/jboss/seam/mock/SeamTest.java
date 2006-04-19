@@ -16,6 +16,7 @@ import javax.faces.event.PhaseId;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Lifecycle;
@@ -27,6 +28,7 @@ import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.servlet.ServletSessionImpl;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.util.Transactions;
 import org.testng.annotations.Configuration;
 
 /**
@@ -309,6 +311,11 @@ public class SeamTest
    
    protected InitialContext getInitialContext() throws NamingException {
       return Naming.getInitialContext();
+   }
+   
+   protected UserTransaction getUserTransaction() throws NamingException
+   {
+      return Transactions.getUserTransaction();
    }
    
    protected Object getField(Object object, String fieldName)

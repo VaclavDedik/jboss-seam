@@ -38,9 +38,9 @@ public class PageflowParser extends JpdlXmlReader {
         }
       }
       if (startPageName!=null) {
-        Node startPage = processDefinition.getNode(startPageName);
+        Node startPage = getProcessDefinition().getNode(startPageName);
         if (startPage!=null) {
-          processDefinition.setStartState(startPage);
+          getProcessDefinition().setStartState(startPage);
         }
       }
     }
