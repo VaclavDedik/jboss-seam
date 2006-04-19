@@ -29,6 +29,7 @@ import javax.faces.convert.LongConverter;
 import javax.faces.convert.ShortConverter;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
+import javax.faces.el.MethodNotFoundException;
 import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.PropertyResolver;
 import javax.faces.el.ReferenceSyntaxException;
@@ -216,9 +217,29 @@ public class MockApplication extends Application {
    }
 
    @Override
-   public MethodBinding createMethodBinding(String arg0, Class[] arg1)
+   public MethodBinding createMethodBinding(final String methodExpression, Class[] args)
          throws ReferenceSyntaxException {
-      throw new UnsupportedOperationException(); //TODO!!!
+      return new MethodBinding() {
+
+         @Override
+         public String getExpressionString()
+         {
+            return methodExpression;
+         }
+
+         @Override
+         public Class getType(FacesContext ctx) throws MethodNotFoundException
+         {
+            throw new UnsupportedOperationException();
+         }
+
+         @Override
+         public Object invoke(FacesContext ctx, Object[] args) throws EvaluationException, MethodNotFoundException
+         {
+            return null; //TODO: big big todo!!
+         }
+         
+      };
    }
 
    @Override
@@ -252,13 +273,19 @@ public class MockApplication extends Application {
       return new ValueBinding() {
 
    		@Override
+         public String getExpressionString()
+         {
+            return valueExpression;
+         }
+
+         @Override
    		public Class getType(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
             throw new UnsupportedOperationException();
    		}
    
    		@Override
    		public Object getValue(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-   			return valueExpression;
+   			return valueExpression; //TODO: big todo!
    		}
    
    		@Override
@@ -268,6 +295,7 @@ public class MockApplication extends Application {
    
    		@Override
    		public void setValue(FacesContext ctx, Object value) throws EvaluationException, PropertyNotFoundException {
+            //TODO: big todo!
    		}
     	  
       };

@@ -285,7 +285,7 @@
             
     </target>
 
-  <target name="testall" depends="testcore"
+  <target name="testall" depends="testcore,jar"
           description="Run the core unit tests and all example tests">
   	
   	<mkdir dir="report"/>
