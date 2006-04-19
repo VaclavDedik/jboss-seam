@@ -126,6 +126,7 @@ public class Initialization
       loadFromResource( properties, "/seam.properties" );
 
       Properties jndiProperties = new Properties();
+      loadFromResource( jndiProperties, "/jndi.properties" );
       loadFromResource( jndiProperties, "/seam-jndi.properties" );
       Naming.setInitialContextProperties(jndiProperties);
    }
