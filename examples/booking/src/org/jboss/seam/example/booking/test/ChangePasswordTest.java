@@ -169,7 +169,6 @@ public class ChangePasswordTest extends SeamTest
    @Override
    public void initServletContext(Map initParams)
    {
-      initParams.put(Init.MANAGED_PERSISTENCE_CONTEXTS, "bookingDatabase");
       initParams.put(Init.COMPONENT_CLASSES, Ejb.class.getName());
       initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
    }
