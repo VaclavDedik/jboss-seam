@@ -20,6 +20,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.jbpm.PageflowParser;
 import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Resources;
@@ -28,6 +29,7 @@ import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
+import org.xml.sax.InputSource;
 
 /**
  * A seam component that boostraps a JBPM SessionFactory
@@ -46,12 +48,12 @@ public class Jbpm
    
    public static final String PROCESS_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".processDefinitions";
    public static final String PAGEFLOW_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".pageflowDefinitions";
-   
+
    private JbpmConfiguration jbpmConfiguration;
    private String[] processDefinitions;
    private String[] pageflowDefinitions;
    private Map<String, ProcessDefinition> pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>();
-   
+
    @Create
    public void startup() throws Exception
    {
@@ -130,12 +132,19 @@ public class Jbpm
       {
          for (String pageflow: pageflowDefinitions)
          {
-            ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
+            InputStream resource = Resources.getResourceAsStream(pageflow);
+            if (resource==null)
+            {
+               throw new IllegalArgumentException("resource not found: " + pageflow);
+            }
+            InputSource inputSource = new InputSource(resource);
+            PageflowParser pageflowParser = new PageflowParser(inputSource);
+            ProcessDefinition pd = pageflowParser.readProcessDefinition();
             pageflowProcessDefinitions.put( pd.getName(), pd );
          }
       }
    }
-   
+
    private void installProcessDefinitions()
    {
       if ( processDefinitions!=null && processDefinitions.length>0 )
