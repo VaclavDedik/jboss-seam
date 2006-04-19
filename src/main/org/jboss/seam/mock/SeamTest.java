@@ -205,7 +205,9 @@ public class SeamTest
             
             //TODO: this is the hack solution to redirects, would be much better to 
             //      actually really go ahead and emulate a redirect!
-            if ( Manager.instance().getCurrentConversationEntry().isRemoveAfterRedirect() )
+            boolean isRedirectScheduled = Manager.instance().isLongRunningConversation() && 
+                  Manager.instance().getCurrentConversationEntry().isRemoveAfterRedirect();
+            if ( isRedirectScheduled )
             {
                Manager.instance().setLongRunningConversation(false);
             }
@@ -257,7 +259,6 @@ public class SeamTest
       application = new MockApplication();
       application.setStateManager( new SeamStateManager( application.getStateManager() ) );
       application.setNavigationHandler( new SeamNavigationHandler( application.getNavigationHandler() ) );
-      //don't need a SeamNavigationHandler, because we don't test navigation
       //don't need a SeamVariableResolver, because we don't test the view 
       phases = createPhaseListener();
       servletContext = new MockServletContext();
