@@ -16,9 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamPhaseListener;
