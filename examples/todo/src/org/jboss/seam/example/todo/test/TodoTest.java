@@ -14,14 +14,18 @@ import org.jboss.seam.example.todo.TodoList;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.testng.annotations.Test;
 
 public class TodoTest extends SeamTest
 {
    
+   private long taskId;
+   
    @Test
    public void testTodo() throws Exception
    {
+      
       new Script() {
 
          @Override
@@ -63,13 +67,42 @@ public class TodoTest extends SeamTest
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ( (List) Component.getInstance(TaskInstanceList.class, true) ).size()==1;
+            List<TaskInstance> tasks = (List<TaskInstance>) Component.getInstance(TaskInstanceList.class, true);
+            assert tasks.size()==1;
+            TaskInstance taskInstance = tasks.get(0);
+            assert taskInstance.getDescription().equals("Kick Roy out of my office");
+            taskId = taskInstance.getId();
+         }
+                  
+         
+      }.run();
+
+   
+      new Script()
+      {
+   
+         @Override
+         protected void setParameters()
+         {
+            getRequestParameterMap().put("taskId", Long.toString(taskId));
+         }
+
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            ( (TodoList) Component.getInstance(TodoList.class, true) ).done();
+         }
+         
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            assert ( (List) Component.getInstance(TaskInstanceList.class, true) ).size()==0;
          }
                   
          
       }.run();
    }
-   
+
    @Override
    protected SeamPhaseListener createPhaseListener()
    {
