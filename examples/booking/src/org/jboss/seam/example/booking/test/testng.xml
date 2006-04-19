@@ -14,7 +14,7 @@
      </classes>
    </test>
 	
-   <test name="ChangePassword">
+   <test name="Change Password">
      <classes>
        <class name="org.jboss.seam.example.booking.test.ChangePasswordTest"/>
      </classes>
