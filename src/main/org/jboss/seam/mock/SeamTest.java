@@ -67,7 +67,6 @@ public class SeamTest
    {
       private String conversationId;
       private String outcome;
-      private boolean isGetRequest;
       
       /**
        * A script for a JSF interaction with
@@ -85,9 +84,14 @@ public class SeamTest
          conversationId = id;
       }
       
-      protected Script(boolean isGetRequest)
+      protected boolean isGetRequest()
       {
-         this.isGetRequest = isGetRequest;
+         return false;
+      }
+      
+      protected String getViewId()
+      {
+         return null;
       }
       
       /**
@@ -173,10 +177,12 @@ public class SeamTest
          
          setParameters();
          
+         facesContext.getViewRoot().setViewId( getViewId() );
+
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
 
-         if (!isGetRequest)
+         if ( !isGetRequest() )
          {
          
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
@@ -203,23 +209,28 @@ public class SeamTest
       
             phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
             
-            //TODO: this is the hack solution to redirects, would be much better to 
-            //      actually really go ahead and emulate a redirect!
-            boolean isRedirectScheduled = Manager.instance().isLongRunningConversation() && 
-                  Manager.instance().getCurrentConversationEntry().isRemoveAfterRedirect();
-            if ( isRedirectScheduled )
-            {
-               Manager.instance().setLongRunningConversation(false);
-            }
          }
          
-         phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
+         if ( !FacesContext.getCurrentInstance().getResponseComplete() )
+         {
          
-         renderResponse();
-         
-         facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
-         
-         phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
+            
+            //TODO: hackish workaround for the fact that page actions don't get called!
+            if ( isGetRequest() )
+            {
+               Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+               invokeApplication();
+               Lifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
+            }
+            
+            renderResponse();
+            
+            facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+            
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
+            
+         }
 
          conversationId = (String) attributes.get(Manager.CONVERSATION_ID);         
 

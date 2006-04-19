@@ -92,19 +92,21 @@ public class MockFacesContext extends FacesContext
    {
       return new MockRenderKit();
    }
+   
+   private boolean renderResponse;
 
    @Override
    public boolean getRenderResponse()
    {
-      //TODO
-      return false;
+      return renderResponse;
    }
+   
+   private boolean responseComplete;
 
    @Override
    public boolean getResponseComplete()
    {
-      //TODO
-      return false;
+      return responseComplete;
    }
 
    @Override
@@ -163,15 +165,13 @@ public class MockFacesContext extends FacesContext
    @Override
    public void renderResponse()
    {
-      //TODO
-
+      renderResponse = true;
    }
 
    @Override
    public void responseComplete()
    {
-      //TODO
-
+      responseComplete = true;
    }
    
    public void setCurrent()

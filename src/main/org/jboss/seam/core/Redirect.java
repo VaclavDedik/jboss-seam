@@ -56,7 +56,7 @@ public class Redirect implements Serializable
       Manager.instance().redirect(viewId, parameters, false);
    }
    
-   public Redirect instance()
+   public static Redirect instance()
    {
       if ( !Contexts.isConversationContextActive() )
       {
