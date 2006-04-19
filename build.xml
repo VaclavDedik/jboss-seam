@@ -113,11 +113,13 @@
     	<include name="login-config.xml"/>
         <include name="default.persistence.properties"/>
         <include name="log4j.xml"/>
+    	<include name="jndi.properties"/>
     </fileset>
     
     <fileset id="mc.conf" 
             dir="${mc.conf.dir}">
         <include name="log4j.xml"/>
+    	<include name="jndi.properties"/>
     </fileset>
     
     <patternset id="meta.files">
