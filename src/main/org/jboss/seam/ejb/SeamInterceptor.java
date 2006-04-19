@@ -35,7 +35,7 @@ public class SeamInterceptor implements Serializable
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if ( !invocation.getBean().getClass().isAnnotationPresent(Name.class) )
+      if ( !getUnproxiedClass( invocation.getBean() ).isAnnotationPresent(Name.class) )
       {
          //not a Seam component
          return invocation.proceed();
@@ -89,10 +89,18 @@ public class SeamInterceptor implements Serializable
 
    private Component getSeamComponent(Object bean)
    {
-      Class clazz = bean.getClass();
-      if ( clazz.getName().contains("CGLIB") ) clazz = clazz.getSuperclass();
-      String componentName = Seam.getComponentName( clazz );
+      String componentName = Seam.getComponentName( getUnproxiedClass(bean) );
       return Component.forName( componentName );
+   }
+
+   private Class getUnproxiedClass(Object bean)
+   {
+      Class clazz = bean.getClass();
+      if ( clazz.getName().contains("CGLIB") ) 
+      {
+         clazz = clazz.getSuperclass();
+      }
+      return clazz;
    }
    
 }
