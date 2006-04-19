@@ -124,11 +124,14 @@ public class Pages
       boolean result = false;
       FacesContext facesContext = FacesContext.getCurrentInstance();
       String viewId = facesContext.getViewRoot().getViewId();
-      for (String wildcard: wildcardViewIds)
+      if (viewId!=null)
       {
-         if ( viewId.startsWith( wildcard.substring(0, wildcard.length()-1) ) )
+         for (String wildcard: wildcardViewIds)
          {
-            result = callAction(facesContext, wildcard) || result;
+            if ( viewId.startsWith( wildcard.substring(0, wildcard.length()-1) ) )
+            {
+               result = callAction(facesContext, wildcard) || result;
+            }
          }
       }
       result = callAction(facesContext, viewId) || result;
