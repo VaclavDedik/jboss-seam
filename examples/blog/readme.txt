@@ -58,3 +58,29 @@ How to Build and Deploy the Example on Tomcat
 7. Point your web browser to:
 
    http://localhost:8080/jboss-seam-blog/
+
+Running The TestNG Tests
+------------------------
+
+In the "examples/blog" directory, type "ant testexample"
+
+Running the TestNG Tests in Eclipse
+-----------------------------------
+
+1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
+
+2. Create the jboss-seam Eclipse project with the following directories
+   in your source path:
+   
+   src/main/
+   examples/blog/src/
+   examples/blog/resources/
+   embedded-ejb/conf/
+   
+   And all jar files from the following directories in your classpath:
+   
+   lib/
+   embedded-ejb/lib
+   
+3. Run examples/blog/src/org/jboss/seam/example/blog/test/testng.xml
+   using the TestNG plugin.
