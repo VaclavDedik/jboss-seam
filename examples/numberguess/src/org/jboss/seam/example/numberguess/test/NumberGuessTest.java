@@ -18,7 +18,7 @@ public class NumberGuessTest extends SeamTest
    @Test
    public void testNumberGuessWin() throws Exception
    {
-      String id = new Script()
+      String id = new Script(true)
       {
 
          @Override
@@ -51,7 +51,8 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void invokeApplication() throws Exception {
-            ng.guess();
+            setOutcome("guess");
+            //ng.guess();
          }
 
          @Override
@@ -84,7 +85,8 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void invokeApplication() throws Exception {
-            ng.guess();
+            setOutcome("guess");
+            //ng.guess();
          }
 
          @Override
@@ -93,9 +95,9 @@ public class NumberGuessTest extends SeamTest
             assert ng.isCorrectGuess();
             assert ng.getCurrentGuess()==ng.getRandomNumber();
             assert ng.getGuessCount()==2;
-            /*assert Pageflow.instance().getProcessInstance().getRootToken()
-                  .getNode().getName().equals("win");*/
-            //assert !Manager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
+            assert Pageflow.instance().getProcessInstance().getRootToken()
+                  .getNode().getName().equals("win");
          }
          
       }.run();
@@ -105,7 +107,7 @@ public class NumberGuessTest extends SeamTest
    @Test
    public void testNumberGuessLose() throws Exception
    {
-      String id = new Script()
+      String id = new Script(true)
       {
 
          @Override
@@ -141,7 +143,8 @@ public class NumberGuessTest extends SeamTest
    
             @Override
             protected void invokeApplication() throws Exception {
-               ng.guess();
+               setOutcome("guess");
+               //ng.guess();
                assert Pageflow.instance().getProcessInstance().getRootToken()
                      .getNode().getName().equals("displayGuess");
             }
@@ -180,7 +183,8 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void invokeApplication() throws Exception {
-            ng.guess();
+            setOutcome("guess");
+            //ng.guess();
             assert Pageflow.instance().getProcessInstance().getRootToken()
                   .getNode().getName().equals("displayGuess");
          }
@@ -195,9 +199,9 @@ public class NumberGuessTest extends SeamTest
             assert ng.getCurrentGuess()==guess;
             assert ng.getGuessCount()==10;
             assert ng.getRemainingGuesses()==0;
-            /*assert Pageflow.instance().getProcessInstance().getRootToken()
-                  .getNode().getName().equals("lose");*/
-            //assert !Manager.instance().isLongRunningConversation();
+            assert !Manager.instance().isLongRunningConversation();
+            assert Pageflow.instance().getProcessInstance().getRootToken()
+                  .getNode().getName().equals("lose");
          }
          
       }.run();
@@ -211,6 +215,7 @@ public class NumberGuessTest extends SeamTest
    {
       initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Jbpm");
       initParams.put(Jbpm.PAGEFLOW_DEFINITIONS, "pageflow.jpdl.xml");
+      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
    }
    
 }
