@@ -112,7 +112,7 @@ public class Lifecycle
             }
          }
       }
-      Component.getInstance( component.getName(), true );
+      Component.getInstance( component.getName(), component.getScope(), true );
    }
 
    public static void endApplication(ServletContext servletContext)

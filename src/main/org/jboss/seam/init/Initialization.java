@@ -194,7 +194,7 @@ public class Initialization
       addComponent( org.jboss.seam.debug.Contexts.class, context );
       addComponent( SubscriptionRegistry.class, context);
 
-      Init init = (Init) Component.getInstance(Init.class, true);
+      Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
 
       //TODO: move all this stuff into Init component?
       for ( String className : init.getComponentClasses() )
