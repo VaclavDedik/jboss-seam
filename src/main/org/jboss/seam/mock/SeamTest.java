@@ -146,7 +146,7 @@ public class SeamTest
        */
       protected void setParameters() {}
       
-      public Map getRequestParameterMap()
+      public Map<String, String> getRequestParameterMap()
       {
          return externalContext.getRequestParameterMap();
       }
