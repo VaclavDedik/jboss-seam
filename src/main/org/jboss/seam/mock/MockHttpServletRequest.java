@@ -17,6 +17,7 @@ import java.util.Map;
 
 import javax.faces.context.ExternalContext;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -130,8 +131,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public boolean isUserInRole(String arg0)
    {
-      //TODO
-      return false;
+      return true;
    }
 
    public Principal getUserPrincipal()
@@ -168,7 +168,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    {
       if (create && session==null)
       {
-         session = new MockHttpSession();
+         session = new MockHttpSession( (ServletContext) externalContext.getContext() );
       }
       return session;
    }

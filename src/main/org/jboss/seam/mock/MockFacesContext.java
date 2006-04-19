@@ -63,8 +63,15 @@ public class MockFacesContext extends FacesContext
    @Override
    public Severity getMaximumSeverity()
    {
-      //TODO
-      return null;
+      Severity max = null;
+      for (FacesMessage msg: messages.keySet())
+      {
+         if (max==null || msg.getSeverity().compareTo(max)>0)
+         {
+            max = msg.getSeverity();
+         }
+      }
+      return max;
    }
 
    @Override
@@ -90,7 +97,7 @@ public class MockFacesContext extends FacesContext
    @Override
    public RenderKit getRenderKit()
    {
-      return new MockRenderKit();
+      return MockRenderKit.INSTANCE;
    }
    
    private boolean renderResponse;
@@ -112,29 +119,25 @@ public class MockFacesContext extends FacesContext
    @Override
    public ResponseStream getResponseStream()
    {
-      //TODO
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void setResponseStream(ResponseStream arg0)
+   public void setResponseStream(ResponseStream stream)
    {
-      //TODO
-
+      throw new UnsupportedOperationException();
    }
 
    @Override
    public ResponseWriter getResponseWriter()
    {
-      //TODO
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void setResponseWriter(ResponseWriter arg0)
+   public void setResponseWriter(ResponseWriter writer)
    {
-      //TODO
-
+      throw new UnsupportedOperationException();
    }
 
    @Override
@@ -156,11 +159,7 @@ public class MockFacesContext extends FacesContext
    }
 
    @Override
-   public void release()
-   {
-      //TODO
-
-   }
+   public void release() {}
 
    @Override
    public void renderResponse()

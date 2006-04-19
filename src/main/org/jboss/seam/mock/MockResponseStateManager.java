@@ -9,19 +9,17 @@ import javax.faces.render.ResponseStateManager;
 public class MockResponseStateManager extends ResponseStateManager {
 
    @Override
-   public Object getComponentStateToRestore(FacesContext arg0) {
+   public Object getComponentStateToRestore(FacesContext ctx) {
       return new Object();
    }
 
    @Override
-   public Object getTreeStructureToRestore(FacesContext arg0, String arg1) {
-      // TODO Auto-generated method stub
-      return null;
+   public Object getTreeStructureToRestore(FacesContext ctx, String x) {
+      return new Object();
    }
 
    @Override
-   public void writeState(FacesContext arg0, SerializedView arg1) throws IOException {
-      // TODO Auto-generated method stub
+   public void writeState(FacesContext ctx, SerializedView viewState) throws IOException {
       
    }
 

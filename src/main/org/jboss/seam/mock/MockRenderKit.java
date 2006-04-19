@@ -10,17 +10,17 @@ import javax.faces.render.Renderer;
 import javax.faces.render.ResponseStateManager;
 
 public class MockRenderKit extends RenderKit {
+   
+   public static final MockRenderKit INSTANCE = new MockRenderKit();
 
    @Override
-   public void addRenderer(String arg0, String arg1, Renderer arg2) {
-      // TODO Auto-generated method stub
-
+   public void addRenderer(String x, String y, Renderer renderer) {
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public Renderer getRenderer(String arg0, String arg1) {
-      // TODO Auto-generated method stub
-      return null;
+   public Renderer getRenderer(String x, String y) {
+      throw new UnsupportedOperationException();
    }
 
    @Override
@@ -29,16 +29,14 @@ public class MockRenderKit extends RenderKit {
    }
 
    @Override
-   public ResponseWriter createResponseWriter(Writer arg0, String arg1,
-         String arg2) {
-      // TODO Auto-generated method stub
-      return null;
+   public ResponseWriter createResponseWriter(Writer writer, String x,
+         String y) {
+      throw new UnsupportedOperationException();
    }
    
    @Override
-   public ResponseStream createResponseStream(OutputStream arg0) {
-      // TODO Auto-generated method stub
-      return null;
+   public ResponseStream createResponseStream(OutputStream stream) {
+      throw new UnsupportedOperationException();
    }
    
 }

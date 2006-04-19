@@ -36,7 +36,6 @@ public class SeamTest
 
    private MockExternalContext externalContext;
    private MockServletContext servletContext;
-   private MockLifecycle lifecycle;
    private MockApplication application;
    private SeamPhaseListener phases;
    private MockFacesContext facesContext;
@@ -179,42 +178,42 @@ public class SeamTest
          
          facesContext.getViewRoot().setViewId( getViewId() );
 
-         phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
-         phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, lifecycle ) );
+         phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
+         phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
 
          if ( !isGetRequest() )
          {
          
-            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE) );
             
             applyRequestValues();
       
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, lifecycle ) );
-            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, lifecycle ) );
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
             
             processValidations();
       
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, lifecycle ) );
-            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
             
             updateModelValues();
       
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, lifecycle ) );
-            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
             
             invokeApplication();
             
             String outcome = getInvokeApplicationOutcome();
             facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
       
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, lifecycle ) );
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
             
          }
          
          if ( !FacesContext.getCurrentInstance().getResponseComplete() )
          {
          
-            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
+            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE) );
             
             //TODO: hackish workaround for the fact that page actions don't get called!
             if ( isGetRequest() )
@@ -228,7 +227,7 @@ public class SeamTest
             
             facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
             
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, lifecycle ) );
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
             
          }
 
@@ -272,11 +271,9 @@ public class SeamTest
       application.setNavigationHandler( new SeamNavigationHandler( application.getNavigationHandler() ) );
       //don't need a SeamVariableResolver, because we don't test the view 
       phases = createPhaseListener();
-      servletContext = new MockServletContext();
       
+      servletContext = new MockServletContext();
       initServletContext( servletContext.getInitParameters() );
-      //Contexts.beginApplication(servletContext);
-      lifecycle = new MockLifecycle();
       new Initialization(servletContext).init();
       Lifecycle.setServletContext(servletContext);
 

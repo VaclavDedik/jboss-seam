@@ -1,8 +1,13 @@
 package org.jboss.seam.mock;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.faces.FacesException;
 import javax.faces.application.Application;
@@ -11,12 +16,17 @@ import javax.faces.application.StateManager;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.BigDecimalConverter;
+import javax.faces.convert.BigIntegerConverter;
 import javax.faces.convert.BooleanConverter;
+import javax.faces.convert.ByteConverter;
+import javax.faces.convert.CharacterConverter;
 import javax.faces.convert.Converter;
 import javax.faces.convert.DoubleConverter;
 import javax.faces.convert.FloatConverter;
 import javax.faces.convert.IntegerConverter;
 import javax.faces.convert.LongConverter;
+import javax.faces.convert.ShortConverter;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.PropertyNotFoundException;
@@ -27,54 +37,52 @@ import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.validator.Validator;
 
+import org.jboss.seam.util.Reflections;
+
 public class MockApplication extends Application {
 
    @Override
    public ActionListener getActionListener() {
-      // TODO Auto-generated method stub
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void setActionListener(ActionListener arg0) {
-      // TODO Auto-generated method stub
-
+   public void setActionListener(ActionListener listener) {
+      throw new UnsupportedOperationException();
    }
+   
+   private Locale defaultLocale = Locale.ENGLISH;
 
    @Override
    public Locale getDefaultLocale() {
-      // TODO Auto-generated method stub
-      return null;
+      return defaultLocale;
    }
 
    @Override
-   public void setDefaultLocale(Locale arg0) {
-      // TODO Auto-generated method stub
-
+   public void setDefaultLocale(Locale locale) {
+      defaultLocale = locale;
    }
 
    @Override
    public String getDefaultRenderKitId() {
-      // TODO Auto-generated method stub
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void setDefaultRenderKitId(String arg0) {
-      // TODO Auto-generated method stub
-
+   public void setDefaultRenderKitId(String rk) {
+      throw new UnsupportedOperationException();
    }
+   
+   private String msgBundleName;
 
    @Override
    public String getMessageBundle() {
-      // TODO Auto-generated method stub
-      return null;
+      return msgBundleName;
    }
 
    @Override
-   public void setMessageBundle(String arg0) {
-      // TODO Auto-generated method stub
-
+   public void setMessageBundle(String bundleName) {
+      this.msgBundleName = bundleName;
    }
    
    private NavigationHandler navigationHandler = new MockNavigationHandler();
@@ -91,26 +99,24 @@ public class MockApplication extends Application {
 
    @Override
    public PropertyResolver getPropertyResolver() {
-      // TODO Auto-generated method stub
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void setPropertyResolver(PropertyResolver arg0) {
-      // TODO Auto-generated method stub
-
+   public void setPropertyResolver(PropertyResolver pr) {
+      throw new UnsupportedOperationException();
    }
+   
+   private VariableResolver variableResolver = null; //TODO: big big todo!!!!!!!!!!
 
    @Override
    public VariableResolver getVariableResolver() {
-      // TODO Auto-generated method stub
-      return null;
+      return variableResolver;
    }
 
    @Override
-   public void setVariableResolver(VariableResolver arg0) {
-      // TODO Auto-generated method stub
-
+   public void setVariableResolver(VariableResolver variableResolver) {
+      this.variableResolver = variableResolver;
    }
    
    private ViewHandler viewHandler = new MockViewHandler();
@@ -138,105 +144,106 @@ public class MockApplication extends Application {
    }
 
    @Override
-   public void addComponent(String arg0, String arg1) {
-      // TODO Auto-generated method stub
-
+   public void addComponent(String name, String x) {
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public UIComponent createComponent(String arg0) throws FacesException {
-      // TODO Auto-generated method stub
-      return null;
+   public UIComponent createComponent(String name) throws FacesException {
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public UIComponent createComponent(ValueBinding arg0, FacesContext arg1,
-         String arg2) throws FacesException {
-      // TODO Auto-generated method stub
-      return null;
+   public UIComponent createComponent(ValueBinding vb, FacesContext fc,
+         String x) throws FacesException {
+      throw new UnsupportedOperationException();
    }
 
    @Override
    public Iterator getComponentTypes() {
-      // TODO Auto-generated method stub
-      return null;
+      throw new UnsupportedOperationException();
+   }
+   
+   private final Map<Class, Converter> converters = new HashMap<Class, Converter>();
+   {
+      converters.put(Integer.class, new IntegerConverter());
+      converters.put(Long.class, new LongConverter());
+      converters.put(Float.class, new FloatConverter());
+      converters.put(Double.class, new DoubleConverter());
+      converters.put(Boolean.class, new BooleanConverter());
+      converters.put(Short.class, new ShortConverter());
+      converters.put(Byte.class, new ByteConverter());
+      converters.put(Character.class, new CharacterConverter());
+      converters.put(BigDecimal.class, new BigDecimalConverter());
+      converters.put(BigInteger.class, new BigIntegerConverter());
    }
 
    @Override
-   public void addConverter(String arg0, String arg1) {
-      // TODO Auto-generated method stub
-
+   public void addConverter(String id, String converterClass) {
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void addConverter(Class arg0, String arg1) {
-      // TODO Auto-generated method stub
-
+   public void addConverter(Class type, String converterClass) {
+      try
+      {
+         converters.put( type, (Converter) Reflections.classForName(converterClass).newInstance() );
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
    }
 
    @Override
-   public Converter createConverter(String arg0) {
-      // TODO Auto-generated method stub
-      return null;
+   public Converter createConverter(String id) {
+      throw new UnsupportedOperationException();
    }
 
    @Override
    public Converter createConverter(Class clazz) {
-      if ( clazz==Integer.class ) return new IntegerConverter();
-      if ( clazz==Long.class ) return new LongConverter();
-      if ( clazz==Float.class ) return new FloatConverter();
-      if ( clazz==Double.class ) return new DoubleConverter();
-      if ( clazz==Boolean.class ) return new BooleanConverter();
-      return null;
+      return converters.get(clazz);
    }
 
    @Override
    public Iterator getConverterIds() {
-      // TODO Auto-generated method stub
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    @Override
    public Iterator getConverterTypes() {
-      // TODO Auto-generated method stub
-      return null;
+      return converters.keySet().iterator();
    }
 
    @Override
    public MethodBinding createMethodBinding(String arg0, Class[] arg1)
          throws ReferenceSyntaxException {
-      // TODO Auto-generated method stub
-      return null;
+      throw new UnsupportedOperationException(); //TODO!!!
    }
 
    @Override
    public Iterator getSupportedLocales() {
-      // TODO Auto-generated method stub
-      return null;
+      return Collections.singleton(defaultLocale).iterator();
    }
 
    @Override
-   public void setSupportedLocales(Collection arg0) {
-      // TODO Auto-generated method stub
-
+   public void setSupportedLocales(Collection locales) {
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void addValidator(String arg0, String arg1) {
-      // TODO Auto-generated method stub
-
+   public void addValidator(String id, String validator) {
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public Validator createValidator(String arg0) throws FacesException {
-      // TODO Auto-generated method stub
-      return null;
+   public Validator createValidator(String id) throws FacesException {
+      throw new UnsupportedOperationException();
    }
 
    @Override
    public Iterator getValidatorIds() {
-      // TODO Auto-generated method stub
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    @Override
@@ -244,25 +251,24 @@ public class MockApplication extends Application {
          throws ReferenceSyntaxException {
       return new ValueBinding() {
 
-		@Override
-		public Class getType(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public Object getValue(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-			return valueExpression;
-		}
-
-		@Override
-		public boolean isReadOnly(FacesContext arg0) throws EvaluationException, PropertyNotFoundException {
-			return false;
-		}
-
-		@Override
-		public void setValue(FacesContext arg0, Object arg1) throws EvaluationException, PropertyNotFoundException {
-		}
+   		@Override
+   		public Class getType(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
+            throw new UnsupportedOperationException();
+   		}
+   
+   		@Override
+   		public Object getValue(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
+   			return valueExpression;
+   		}
+   
+   		@Override
+   		public boolean isReadOnly(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
+   			return false;
+   		}
+   
+   		@Override
+   		public void setValue(FacesContext ctx, Object value) throws EvaluationException, PropertyNotFoundException {
+   		}
     	  
       };
    }

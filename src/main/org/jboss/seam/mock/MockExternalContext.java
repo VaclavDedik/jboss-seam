@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -49,31 +50,27 @@ public class MockExternalContext extends ExternalContext
    }
    
    @Override
-   public void dispatch(String arg0) throws IOException
+   public void dispatch(String url) throws IOException
    {
-      //TODO
       
    }
 
    @Override
-   public String encodeActionURL(String arg0)
+   public String encodeActionURL(String url)
    {
-      //TODO
-      return null;
+      return url;
    }
 
    @Override
-   public String encodeNamespace(String arg0)
+   public String encodeNamespace(String ns)
    {
-      //TODO
-      return null;
+      return ns;
    }
 
    @Override
-   public String encodeResourceURL(String arg0)
+   public String encodeResourceURL(String url)
    {
-      //TODO
-      return null;
+      return url;
    }
 
    @Override
@@ -85,8 +82,7 @@ public class MockExternalContext extends ExternalContext
    @Override
    public String getAuthType()
    {
-      //TODO
-      return null;
+      return request.getAuthType();
    }
 
    @Override
@@ -110,64 +106,55 @@ public class MockExternalContext extends ExternalContext
    @Override
    public String getRemoteUser()
    {
-      //TODO
-      return null;
+      return request.getRemoteUser();
    }
 
    @Override
    public Object getRequest()
    {
-      //TODO
       return request;
    }
 
    @Override
    public String getRequestContextPath()
    {
-      //TODO
-      return null;
+      return request.getContextPath();
    }
 
    @Override
    public Map getRequestCookieMap()
    {
-      //TODO
       return null;
    }
 
    @Override
    public Map getRequestHeaderMap()
    {
-      //TODO
       return null;
    }
 
    @Override
    public Map getRequestHeaderValuesMap()
    {
-      //TODO
       return null;
    }
 
    @Override
    public Locale getRequestLocale()
    {
-      //TODO
-      return null;
+      return Locale.ENGLISH;
    }
 
    @Override
    public Iterator getRequestLocales()
    {
-      //TODO
-      return null;
+      return Collections.singleton(Locale.ENGLISH).iterator();
    }
 
    @Override
    public Map getRequestMap()
    {
-      //TODO
-      return null;
+      return ( (MockHttpServletRequest) request ).getAttributes();
    }
 
    @Override
@@ -179,85 +166,73 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Iterator getRequestParameterNames()
    {
-      //TODO
-      return null;
+      return request.getParameterMap().keySet().iterator();
    }
 
    @Override
    public Map getRequestParameterValuesMap()
    {
-      //TODO
-      return null;
+      return request.getParameterMap();
    }
 
    @Override
    public String getRequestPathInfo()
    {
-      //TODO
-      return null;
+      return request.getPathInfo();
    }
 
    @Override
    public String getRequestServletPath()
    {
-      //TODO
-      return null;
+      return request.getServletPath();
    }
 
    @Override
-   public URL getResource(String arg0) throws MalformedURLException
+   public URL getResource(String name) throws MalformedURLException
    {
-      //TODO
-      return null;
+      return context.getResource(name);
    }
 
    @Override
-   public InputStream getResourceAsStream(String arg0)
+   public InputStream getResourceAsStream(String name)
    {
-      //TODO
-      return null;
+      return context.getResourceAsStream(name);
    }
 
    @Override
-   public Set getResourcePaths(String arg0)
+   public Set getResourcePaths(String name)
    {
-      //TODO
-      return null;
+      return context.getResourcePaths(name);
    }
 
    @Override
    public Object getResponse()
    {
-      //TODO
       return null;
    }
 
    @Override
    public Object getSession(boolean create)
    {
-      //TODO
       return request.getSession();
    }
 
    @Override
    public Map getSessionMap()
    {
-      //TODO
-      return null;
+      return ( (MockHttpSession) request.getSession() ).getAttributes();
    }
 
    @Override
    public Principal getUserPrincipal()
    {
-      //TODO
-      return null;
+      return request.getUserPrincipal();
    }
 
    @Override
-   public boolean isUserInRole(String arg0)
+   public boolean isUserInRole(String role)
    {
-      //TODO
-      return false;
+      return request.isUserInRole(role);
    }
 
    @Override
@@ -272,9 +247,8 @@ public class MockExternalContext extends ExternalContext
    }
 
    @Override
-   public void redirect(String arg0) throws IOException
+   public void redirect(String url) throws IOException
    {
-      //TODO
       
    }
 

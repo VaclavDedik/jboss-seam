@@ -32,21 +32,21 @@ public class MockViewHandler extends ViewHandler {
 
 	@Override
 	public String getResourceURL(FacesContext ctx, String url) {
-		return null;
+		return url;
 	}
 
 	@Override
-	public void renderView(FacesContext arg0, UIViewRoot arg1)
+	public void renderView(FacesContext ctx, UIViewRoot viewRoot)
 			throws IOException, FacesException {
 	}
 
 	@Override
-	public UIViewRoot restoreView(FacesContext arg0, String arg1) {
+	public UIViewRoot restoreView(FacesContext ctx, String id) {
 		return null;
 	}
 
 	@Override
-	public void writeState(FacesContext arg0) throws IOException {
+	public void writeState(FacesContext ctx) throws IOException {
 	}
 
 }

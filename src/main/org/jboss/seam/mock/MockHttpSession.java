@@ -24,6 +24,12 @@ public class MockHttpSession implements HttpSession
    
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private boolean isInvalid;
+   private ServletContext servletContext;
+   
+   public MockHttpSession(ServletContext servletContext) 
+   {
+      this.servletContext = servletContext;
+   }
    
    public boolean isInvalid()
    {
@@ -32,39 +38,35 @@ public class MockHttpSession implements HttpSession
 
    public long getCreationTime()
    {
-      //TODO
       return 0;
    }
 
    public String getId()
    {
-      //TODO
       return null;
    }
 
    public long getLastAccessedTime()
    {
-      //TODO
       return 0;
    }
+   
+   private int maxInactiveInterval;
 
-   public void setMaxInactiveInterval(int arg0)
+   public void setMaxInactiveInterval(int max)
    {
-      //TODO
-
+      maxInactiveInterval = max;
    }
 
    public int getMaxInactiveInterval()
    {
-      //TODO
-      return 0;
+      return maxInactiveInterval;
    }
    
    @SuppressWarnings("deprecation")
    public HttpSessionContext getSessionContext()
    {
-      //TODO
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    public Object getAttribute(String att)
@@ -125,8 +127,7 @@ public class MockHttpSession implements HttpSession
 
    public ServletContext getServletContext()
    {
-      // FIXME getServletContext
-      return null;
+      return servletContext;
    }
 
    /*public void clear() {

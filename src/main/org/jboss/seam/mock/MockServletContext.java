@@ -4,6 +4,7 @@ package org.jboss.seam.mock;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class MockServletContext implements ServletContext
       return attributes;
    }
 
-   public ServletContext getContext(String arg0)
+   public ServletContext getContext(String name)
    {
       return this;
    }
@@ -50,34 +51,34 @@ public class MockServletContext implements ServletContext
       return null;
    }
 
-   public Set getResourcePaths(String arg0)
+   public Set getResourcePaths(String name)
    {
-      return null;
+      throw new UnsupportedOperationException();
    }
 
-   public URL getResource(String arg0) throws MalformedURLException
+   public URL getResource(String name) throws MalformedURLException
    {
-      return null;
+      return getClass().getResource(name);
    }
 
-   public InputStream getResourceAsStream(String arg0)
+   public InputStream getResourceAsStream(String name)
    {
-      return null;
+      return getClass().getResourceAsStream(name);
    }
 
-   public RequestDispatcher getRequestDispatcher(String arg0)
+   public RequestDispatcher getRequestDispatcher(String url)
    {
-      return null;
+      throw new UnsupportedOperationException();
    }
 
-   public RequestDispatcher getNamedDispatcher(String arg0)
+   public RequestDispatcher getNamedDispatcher(String name)
    {
-      return null;
+      throw new UnsupportedOperationException();
    }
 
-   public Servlet getServlet(String arg0) throws ServletException
+   public Servlet getServlet(String name) throws ServletException
    {
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    public Enumeration getServlets()

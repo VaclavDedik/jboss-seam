@@ -9,48 +9,37 @@ import javax.faces.context.FacesContext;
 public class MockStateManager extends StateManager {
 
    @Override
-   public SerializedView saveSerializedView(FacesContext arg0) {
-      // TODO Auto-generated method stub
+   public SerializedView saveSerializedView(FacesContext ctx) {
       return null;
    }
 
    @Override
-   protected Object getTreeStructureToSave(FacesContext arg0) {
-      // TODO Auto-generated method stub
+   protected Object getTreeStructureToSave(FacesContext ctx) {
       return null;
    }
 
    @Override
-   protected Object getComponentStateToSave(FacesContext arg0) {
-      // TODO Auto-generated method stub
+   protected Object getComponentStateToSave(FacesContext ctx) {
       return null;
    }
 
    @Override
-   public void writeState(FacesContext arg0, SerializedView arg1)
+   public void writeState(FacesContext ctx, SerializedView sv)
          throws IOException {
-      // TODO Auto-generated method stub
-
    }
 
    @Override
-   public UIViewRoot restoreView(FacesContext arg0, String arg1, String arg2) {
-      // TODO Auto-generated method stub
+   public UIViewRoot restoreView(FacesContext ctx, String x, String y) {
       return null;
    }
 
    @Override
-   protected UIViewRoot restoreTreeStructure(FacesContext arg0, String arg1,
-         String arg2) {
-      // TODO Auto-generated method stub
+   protected UIViewRoot restoreTreeStructure(FacesContext ctx, String x, String y) {
       return null;
    }
 
    @Override
-   protected void restoreComponentState(FacesContext arg0, UIViewRoot arg1,
-         String arg2) {
-      // TODO Auto-generated method stub
-
+   protected void restoreComponentState(FacesContext ctx, UIViewRoot viewRoot, String x) {
    }
 
 }

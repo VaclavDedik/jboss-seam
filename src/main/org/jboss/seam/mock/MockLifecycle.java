@@ -8,40 +8,37 @@ import javax.faces.lifecycle.Lifecycle;
 
 public class MockLifecycle extends Lifecycle
 {
+   
+   public static final Lifecycle INSTANCE = new MockLifecycle();
 
    @Override
-   public void addPhaseListener(PhaseListener arg0)
+   public void addPhaseListener(PhaseListener pl)
    {
-      //TODO
-      
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void execute(FacesContext arg0) throws FacesException
+   public void execute(FacesContext ctx) throws FacesException
    {
-      //TODO
-      
+      throw new UnsupportedOperationException();
    }
 
    @Override
    public PhaseListener[] getPhaseListeners()
    {
-      //TODO
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void removePhaseListener(PhaseListener arg0)
+   public void removePhaseListener(PhaseListener pl)
    {
-      //TODO
-      
+      throw new UnsupportedOperationException();
    }
 
    @Override
-   public void render(FacesContext arg0) throws FacesException
+   public void render(FacesContext ctx) throws FacesException
    {
-      //TODO
-      
+      throw new UnsupportedOperationException();
    }
 
 }
