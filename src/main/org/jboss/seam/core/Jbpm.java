@@ -21,13 +21,11 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.jbpm.PageflowParser;
-import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.xml.sax.InputSource;
 
@@ -60,7 +58,7 @@ public class Jbpm
       log.trace( "Starting jBPM" );
       installProcessDefinitions();
       installPageflowDefinitions();
-      JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
+      //JbpmExpressionEvaluator.setVariableResolver( new SeamVariableResolver() );
    }
 
    @Destroy
@@ -102,14 +100,26 @@ public class Jbpm
       return pageflowProcessDefinitions.get(pageflowName);
    }
    
-   public ProcessDefinition getProcessDefinitionFromResource(String resourceName) {
+   private ProcessDefinition getPageflowDefinitionFromResource(String resourceName)
+   {
+      InputStream resource = Resources.getResourceAsStream(resourceName);
+      if (resource==null)
+      {
+         throw new IllegalArgumentException("resource not found: " + resourceName);
+      }
+      return new PageflowParser( new InputSource(resource) ).readProcessDefinition();
+   }
+
+   //TODO: remove, outofdate...
+   /*public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
+   {
       InputStream resource = Resources.getResourceAsStream(resourceName);
       if (resource==null)
       {
          throw new IllegalArgumentException("resource not found: " + resourceName);
       }
       return ProcessDefinition.parseXmlInputStream(resource);
-   }
+   }*/
 
    public String[] getPageflowDefinitions() {
       return pageflowDefinitions;
@@ -132,14 +142,8 @@ public class Jbpm
       {
          for (String pageflow: pageflowDefinitions)
          {
-            InputStream resource = Resources.getResourceAsStream(pageflow);
-            if (resource==null)
-            {
-               throw new IllegalArgumentException("resource not found: " + pageflow);
-            }
-            InputSource inputSource = new InputSource(resource);
-            PageflowParser pageflowParser = new PageflowParser(inputSource);
-            ProcessDefinition pd = pageflowParser.readProcessDefinition();
+            ProcessDefinition pd = getPageflowDefinitionFromResource(pageflow);
+            //ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
             pageflowProcessDefinitions.put( pd.getName(), pd );
          }
       }
