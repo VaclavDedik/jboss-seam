@@ -15,6 +15,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 
+/**
+ * Manager component for a map of roles assigned
+ * to the current user, as exposed via the JSF
+ * ExternalContext.
+ * 
+ * @author Gavin King
+ */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
