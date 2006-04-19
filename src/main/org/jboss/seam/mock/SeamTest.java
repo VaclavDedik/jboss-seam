@@ -6,12 +6,15 @@
  */
 package org.jboss.seam.mock;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
@@ -22,6 +25,8 @@ import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.servlet.ServletSessionImpl;
+import org.jboss.seam.util.Naming;
+import org.jboss.seam.util.Reflections;
 import org.testng.annotations.Configuration;
 
 /**
@@ -251,7 +256,10 @@ public class SeamTest
    @Configuration(afterTestMethod=true)
    public void end()
    {
-      Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) facesContext.getExternalContext().getSession(true) ) );
+      if ( facesContext!=null )
+      {
+         Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) facesContext.getExternalContext().getSession(true) ) );
+      }
    }
    
    /**
@@ -298,4 +306,37 @@ public class SeamTest
    {
       Map state = new HashMap();
    }
+   
+   protected InitialContext getInitialContext() throws NamingException {
+      return Naming.getInitialContext();
+   }
+   
+   protected Object getField(Object object, String fieldName)
+   {
+      try
+      {
+         Field declaredField = object.getClass().getDeclaredField(fieldName);
+         if ( !declaredField.isAccessible() ) declaredField.setAccessible(true);
+         return declaredField.get(object);
+      }
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException(e);
+      }
+   }
+
+   protected void setField(Object object, String fieldName, Object value)
+   {
+      try
+      {
+         Field declaredField = object.getClass().getDeclaredField(fieldName);
+         if ( !declaredField.isAccessible() ) declaredField.setAccessible(true);
+         declaredField.set(object, value);
+      }
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException(e);
+      }
+   }
+
 }
