@@ -27,7 +27,6 @@ import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.servlet.ServletSessionImpl;
 import org.jboss.seam.util.Naming;
-import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Transactions;
 import org.testng.annotations.Configuration;
 
