@@ -42,6 +42,7 @@ Running the TestNG Tests in Eclipse
    src/main/
    examples/todo/src/
    examples/todo/resources/
+   microcontainer/conf
    
    And all jar files from the following directories in your classpath:
    
