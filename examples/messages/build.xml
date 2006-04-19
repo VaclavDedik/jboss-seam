@@ -47,6 +47,28 @@
         <include name="_NONE_"/>
     </fileset>
   
+    <!-- Tomcat build -->
+    <zipfileset id="example.tomcat.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <include name="faces-config.xml"/>
+    </zipfileset>
+    
+    <zipfileset id="example.tomcat.war.webinf.extra"
+            prefix="WEB-INF"
+               dir="resources/tomcat">
+    	<include name="web.xml"/>
+    </zipfileset>
+    
+    <fileset id="example.tomcat.resources"
+            dir="resources">
+        <include name="seam.properties"/>
+        <include name="seam-jndi.properties"/>
+    	<include name="import.sql"/>
+    	<include name="META-INF/ejb-jar.xml"/>
+    	<include name="META-INF/persistence.xml"/>
+    </fileset>
+    
 	<!-- Test -->
 	<fileset id="example.resources" dir="resources">
 		<include name="**/*.*"/>
@@ -67,6 +89,7 @@
     <property name="src.java.dir" value="src"/>
 	<property name="src.test.dir" value="src"/>
 	<property name="test.classpath" value="test.eejb.classpath"/>
+	<property name="tomcat.conf" value="eejb.conf"/>
 
     <import file="../../build.xml"/>
 
