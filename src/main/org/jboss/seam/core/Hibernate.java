@@ -3,8 +3,13 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Environment;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -13,6 +18,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.Naming;
 
 /**
  * A seam component that boostraps a Hiberate SessionFactory
@@ -49,6 +55,16 @@ public class Hibernate
       {
          acfg.configure(cfgResourceName);
       }
+
+      // Prefix regular JNDI properties for Hibernate
+      Hashtable<String, String> hash = Naming.getInitialContextProperties();
+      Properties prefixed = new Properties();
+      for (Map.Entry<String, String> entry: hash.entrySet() )
+      {
+         prefixed.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
+      }
+
+      acfg.getProperties().putAll(prefixed);
       
       sessionFactory = acfg.buildSessionFactory();
       
