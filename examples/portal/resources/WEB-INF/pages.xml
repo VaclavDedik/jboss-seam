@@ -1,6 +1,0 @@
-<pages>
-	<page view-id="/main.xhtml" timeout="300000">Search hotels: #{hotelBooking.searchString}</page>
-	<page view-id="/hotel.xhtml" timeout="300000">View hotel: #{hotel.name}</page>
-	<page view-id="/book.xhtml" timeout="600000">Book hotel: #{hotel.name}</page>
-	<page view-id="/confirm.xhtml" timeout="600000">Confirm: #{booking.description}</page>
-</pages>
