@@ -29,7 +29,7 @@ public class PageflowParser extends JpdlXmlReader {
   public void readNodes(Element nodeCollectionElement, NodeCollection nodeCollection) {
     super.readNodes(nodeCollectionElement, nodeCollection);
     
-    if ("pageflow".equals(nodeCollectionElement.getName())) {
+    if ("pageflow-definition".equals(nodeCollectionElement.getName())) {
       String startPageName = nodeCollectionElement.attributeValue("start-page");
       if (startPageName==null) {
         Element startPageElement = nodeCollectionElement.element("start-page");
