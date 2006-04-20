@@ -173,6 +173,7 @@
         <ant dir="examples/numberguess" target="clean" inheritall="false"/>
         <ant dir="examples/registration" target="clean" inheritall="false"/>
         <ant dir="examples/todo" target="clean" inheritall="false"/>
+    	<ant dir="examples/portal" target="clean" inheritall="false"/>
     	<ant dir="examples/remoting/helloworld" target="clean" inheritall="false"/>
     	<ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
     	<ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
@@ -297,7 +298,7 @@
     <ant dir="examples/registration" target="testexample" inheritall="false"/>
     <ant dir="examples/todo" target="testexample" inheritall="false"/>
   	<ant dir="examples/blog" target="testexample" inheritall="false"/>
-    
+  	<ant dir="examples/portal" target="testexample" inheritall="false"/>
 
     <junitreport todir="./report">
       <fileset dir=".">
