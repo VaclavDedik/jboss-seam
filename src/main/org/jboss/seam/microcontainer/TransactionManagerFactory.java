@@ -12,7 +12,6 @@ import org.jboss.seam.util.Transactions;
 import org.jboss.tm.TxManager;
 import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;
 import org.jboss.util.naming.NonSerializableFactory;
-import org.jboss.util.naming.Util;
 
 /**
  * A factory that bootstraps a JTA TransactionManager
@@ -37,7 +36,7 @@ public class TransactionManagerFactory
       
       //create a UserTransaction and bind to JNDI
       ServerVMClientUserTransaction ut = new ServerVMClientUserTransaction(transactionManager);
-      Util.createSubcontext(initialContext, "java:/comp");
+      //TODO: parse the UserTransaction name and create subcontexts
       NonSerializableFactory.rebind( initialContext, Transactions.getUserTransactionName(), ut );
       
       return transactionManager;

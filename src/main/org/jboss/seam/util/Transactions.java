@@ -18,8 +18,8 @@ public class Transactions
 {
    public static final String EJBCONTEXT_NAME = "java:comp/EJBContext";
    
-   private static String userTransactionName = "java:comp/UserTransaction";
-   private static String userTransactionName2 = "UserTransaction";
+   private static String userTransactionName = "UserTransaction";
+   private static final String STANDARD_USER_TRANSACTION_NAME = "java:comp/UserTransaction";
    
    private static String transactionManagerName = "java:/TransactionManager";
    
@@ -49,7 +49,7 @@ public class Transactions
       }
       catch (NameNotFoundException nnfe)
       {
-         return (UserTransaction) Naming.getInitialContext().lookup(userTransactionName2);
+         return (UserTransaction) Naming.getInitialContext().lookup(STANDARD_USER_TRANSACTION_NAME);
       }
    }
 
