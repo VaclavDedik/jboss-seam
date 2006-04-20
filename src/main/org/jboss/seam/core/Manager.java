@@ -303,7 +303,7 @@ public class Manager
             }
             writeConversationIdToResponse(response, currentConversationId);
             
-            if ( Init.instance().isJbpmInstalled() )
+            if ( Contexts.isPageContextActive() && Init.instance().isJbpmInstalled() )
             {
                Pageflow pageflow = Pageflow.instance();
                if ( pageflow.isInProcess() )
