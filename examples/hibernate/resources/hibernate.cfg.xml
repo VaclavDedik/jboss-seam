@@ -12,7 +12,6 @@
 		<property name="connection.release_mode">after_statement</property>
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
-		<property name="jta.UserTransaction">java:comp/UserTransaction</property>
 		<mapping class="org.jboss.seam.example.hibernate.Hotel"/>
 		<mapping class="org.jboss.seam.example.hibernate.User"/>
 		<mapping class="org.jboss.seam.example.hibernate.Booking"/>

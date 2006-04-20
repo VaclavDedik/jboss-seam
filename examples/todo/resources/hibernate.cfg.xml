@@ -13,7 +13,6 @@
     <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
     <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
     <property name="hbm2ddl.auto">create-drop</property>
-    <property name="jta.UserTransaction">java:comp/UserTransaction</property>
     <!-- property name="transaction.flush_before_completion">true</property-->
     
     <!-- ############################################ -->
