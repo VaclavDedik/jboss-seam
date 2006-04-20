@@ -18,7 +18,6 @@ import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.HotelSearchingAction;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
-import org.jboss.seam.util.Transactions;
 import org.testng.annotations.Test;
 
 public class BookingUnitTest extends SeamTest
@@ -79,9 +78,9 @@ public class BookingUnitTest extends SeamTest
       
       assert hb.setBookingDetails().equals("confirm");
 
-      Transactions.getUserTransaction().begin();
+      getUserTransaction().begin();
       assert hb.confirm().equals("confirmed");
-      Transactions.getUserTransaction().commit();
+      getUserTransaction().commit();
       
       em.close();
    }
