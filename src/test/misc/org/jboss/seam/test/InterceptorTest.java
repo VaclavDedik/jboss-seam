@@ -519,13 +519,28 @@ public class InterceptorTest
    @Test
    public void testValidationInterceptor() throws Exception
    {
-      ExternalContext externalContext = new MockExternalContext();
+      MockServletContext servletContext = new MockServletContext();
+      ExternalContext externalContext = new MockExternalContext(servletContext);
       new MockFacesContext( externalContext, new MockApplication() ).setCurrent();
       
-      ValidationInterceptor vi = new ValidationInterceptor();
       Context appContext = new FacesApplicationContext(externalContext);
-      vi.setComponent( new Component(Foo.class, appContext) );
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class, appContext) 
+         );
+      appContext.set( 
+            Seam.getComponentName(FacesMessages.class) + ".component", 
+            new Component(FacesMessages.class, appContext) 
+         );
+      Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+      Lifecycle.beginRequest(externalContext);
+      Manager.instance().setCurrentConversationId("1");
+      Lifecycle.resumeConversation(externalContext);
       
+      ValidationInterceptor vi = new ValidationInterceptor();
+      vi.setComponent( new Component(Foo.class, appContext) );
+
       final Foo foo = new Foo();
       
       String result = (String) vi.validateTargetComponent( new MockInvocationContext() {
@@ -570,6 +585,8 @@ public class InterceptorTest
          }
       });
       
+      FacesMessages.instance().beforeRenderResponse();
+      
       assert "baz".equals(result);
       assert FacesContext.getCurrentInstance().getMessages().hasNext();      
 
@@ -595,6 +612,8 @@ public class InterceptorTest
       });
       
       assert "bar".equals(result);
+      
+      Lifecycle.endApplication(servletContext);
    }
    
    @Test
