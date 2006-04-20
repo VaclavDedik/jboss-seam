@@ -282,10 +282,18 @@ public class Component
             }
             if ( method.isAnnotationPresent(Destroy.class) )
             {
+               if (destroyMethod!=null)
+               {
+                  throw new IllegalStateException("component has two @Destroy methods: " + name);
+               }
                destroyMethod = method;
             }
             if ( method.isAnnotationPresent(Create.class) )
             {
+               if (createMethod!=null)
+               {
+                  throw new IllegalStateException("component has two @Create methods: " + name);
+               }
                createMethod = method;
             }
             if ( method.isAnnotationPresent(In.class) )
@@ -298,6 +306,10 @@ public class Component
             }
             if ( method.isAnnotationPresent(Unwrap.class) )
             {
+               if (unwrapMethod!=null)
+               {
+                  throw new IllegalStateException("component has two @Unwrap methods: " + name);
+               }
                unwrapMethod = method;
             }
             if ( method.isAnnotationPresent(DataModel.class) )
@@ -362,6 +374,14 @@ public class Component
             if ( !field.isAccessible() )
             {
                field.setAccessible(true);
+            }
+         }
+         
+         if ( getType()==ComponentType.STATEFUL_SESSION_BEAN )
+         {
+            if ( destroyMethod==null || !removeMethods.contains(destroyMethod) )
+            {
+               log.warn("stateful sessiopn bean component has no @Destroy @Remove method: " + name);
             }
          }
 
