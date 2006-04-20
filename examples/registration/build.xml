@@ -6,6 +6,9 @@
     <property name="Name"                   value="Seam Registration Example"/>
     <property name="example.name"           value="jboss-seam-registration"/>
 
+	<fileset id="web.xml.file"
+	       file="resources/WEB-INF/web.xml"/>
+
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">
@@ -59,12 +62,6 @@
           prefix="WEB-INF"
              dir="resources/WEB-INF" >
     <include name="faces-config.xml"/>
-  </zipfileset>
-  
-  <zipfileset id="example.tomcat.war.webinf.extra"
-          prefix="WEB-INF"
-             dir="resources/tomcat">
-    <include name="web.xml"/>
   </zipfileset>
   
   <fileset id="example.tomcat.resources"

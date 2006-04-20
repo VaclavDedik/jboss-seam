@@ -6,6 +6,9 @@
     <property name="Name"                   value="Seam Numberguess Example"/>
     <property name="example.name"           value="jboss-seam-numberguess"/>
 
+	<fileset id="web.xml.file"
+	       file="resources/WEB-INF/web.xml"/>
+
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">
@@ -52,12 +55,6 @@
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
     	<include name="web.xml"/>
-    </zipfileset>
-    
-    <zipfileset id="example.tomcat.war.webinf.extra"
-            prefix="WEB-INF"
-               dir="resources">
-        <include name="_NONE_"/>
     </zipfileset>
     
     <fileset id="example.tomcat.resources"

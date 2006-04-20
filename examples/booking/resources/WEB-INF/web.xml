@@ -31,9 +31,14 @@
     <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
     <context-param>
         <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>jboss-seam-booking/#{ejbName}/local</param-value>
+        <param-value>@jndiPattern@</param-value>
     </context-param>
     
+    <context-param>
+        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
+        <param-value>@embeddedEjb@</param-value>
+    </context-param>
+
     <!-- JSF -->
     
     <context-param>

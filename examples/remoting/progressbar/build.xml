@@ -6,6 +6,9 @@
     <property name="Name"                   value="Seam Remoting Progress Bar Example"/>
     <property name="example.name"           value="seam-progressbar"/>
 
+	<fileset id="web.xml.file"
+	       file="resources/WEB-INF/web.xml"/>
+
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">

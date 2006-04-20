@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
 
-<project name="Hibernate + Portal + Seam" default="deploy" basedir=".">
+<project name="Portal Booking" default="deploy" basedir=".">
 
     <!-- Naming -->
     <property name="Name"                   value="Seam on JBoss Hibernate3 Example"/>
     <property name="example.name"           value="jboss-seam-hibernate"/>
     
+	<fileset id="web.xml.file"
+	       file="resources/WEB-INF/web.xml"/>
+
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">
@@ -18,18 +21,7 @@
         <include name="**/*"/>
         <exclude name="lib/**/*"/>
     </zipfileset>
-<!--
-    <zipfileset id="example.war.webinf.lib"
-            prefix="WEB-INF/lib"
-               dir="resources/WEB-INF/lib/">
-        <include name="*.jar"/>
-    </zipfileset>
-            <zipfileset id="example.war.webinf.lib.extra" 
-                    prefix="WEB-INF/lib"
-                       dir=".">
-                <include name="_NONE_"/>
-            </zipfileset>
--->
+
     <!-- EJB3 -->
     <fileset id="example.ejb3.root" dir=".">
         <include name="_NONE_"/>
@@ -55,12 +47,6 @@
                dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
-    </zipfileset>
-    
-    <zipfileset id="example.tomcat.war.webinf.extra"
-            prefix="WEB-INF"
-               dir="resources/tomcat">
-        <include name="web.xml"/>
     </zipfileset>
     
     <fileset id="example.tomcat.resources"
@@ -105,7 +91,6 @@
         <jar destfile="${build.dir}/${example.name}.war">
             <zipfileset refid="example.war.docroot"/>
         	<zipfileset refid="example.war.webinf"/>
-            <!--<zipfileset refid="example.war.webinf.lib"/>-->
             <zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
                 <include name="${example.name}.jar"/>

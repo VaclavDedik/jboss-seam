@@ -6,6 +6,9 @@
     <property name="Name"                   value="Seam Stories Example"/>
     <property name="example.name"           value="seam-stories"/>
 
+	<fileset id="web.xml.file"
+	       file="resources/WEB-INF/web.xml"/>
+
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">

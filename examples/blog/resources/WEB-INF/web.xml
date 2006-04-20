@@ -18,6 +18,11 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
 
+    <context-param>
+        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
+        <param-value>@embeddedEjb@</param-value>
+    </context-param>
+
     <!-- Seam managed persistence context -->
     
     <context-param>

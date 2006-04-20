@@ -5,6 +5,9 @@
     <!-- Naming -->
     <property name="Name"                   value="Seam on JBoss Booking Example"/>
     <property name="example.name"           value="jboss-seam-booking"/>
+	
+	<fileset id="web.xml.file"
+	       file="resources/WEB-INF/web.xml"/>
 
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
@@ -16,6 +19,7 @@
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
         <patternset refid="meta.files"/>
+    	<exclude name="web.xml"/>
     </zipfileset>
     
     <zipfileset id="example.war.webinf.lib"
@@ -73,12 +77,6 @@
                dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
-    </zipfileset>
-    
-    <zipfileset id="example.tomcat.war.webinf.extra"
-            prefix="WEB-INF"
-               dir="resources/tomcat">
-        <include name="web.xml"/>
     </zipfileset>
     
     <fileset id="example.tomcat.resources"

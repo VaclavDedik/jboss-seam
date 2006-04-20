@@ -6,6 +6,9 @@
     <property name="Name"                   value="Seam Remoting Chat Room Example"/>
     <property name="example.name"           value="seam-chatroom"/>
 
+	<fileset id="web.xml.file"
+	       file="resources/WEB-INF/web.xml"/>
+
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">
