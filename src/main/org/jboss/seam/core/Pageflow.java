@@ -2,11 +2,9 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseId;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -14,11 +12,9 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.jbpm.Page;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
@@ -186,15 +182,15 @@ public class Pageflow
       ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
       ProcessInstance pi = pd.createProcessInstance();
       setProcessInstance(pi);
-      if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
-      {
+      //if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
+      //{
     	  //if a pageflow starts during the render response phase
     	  //(as a result of a @Create method), we know the navigation
     	  //handler will not get called, so we should force the
     	  //pageflow out of the start state immediately
         //TODO: this is not actually completely true, what about <s:actionLink/>
-    	  pi.signal();
-      }
+    	  //pi.signal();
+      //}
    }
    
 }
