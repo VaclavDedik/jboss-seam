@@ -11,16 +11,12 @@
 
 <pageflow-definition name="numberGuess">
    
-   <start-state name="start">
-      <transition to="displayGuess"/>
-   </start-state>
-   
-   <page name="displayGuess" view-id="/numberGuess.jsp">
+   <start-page name="displayGuess" view-id="/numberGuess.jsp">
       <redirect/>
       <transition name="guess" to="evaluateGuess">
          <action expression="#{numberGuess.guess}" />
       </transition>
-   </page>
+   </start-page>
    
    <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
       <transition name="true" to="win"/>
