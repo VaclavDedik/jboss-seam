@@ -20,4 +20,10 @@
      </classes>
    </test>
 	
+   <test name="Booking Unit">
+     <classes>
+       <class name="org.jboss.seam.example.booking.test.BookingUnitTest"/>
+     </classes>
+   </test>
+	
 </suite>
