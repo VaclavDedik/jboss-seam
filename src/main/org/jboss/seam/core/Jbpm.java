@@ -110,8 +110,7 @@ public class Jbpm
       return new PageflowParser( new InputSource(resource) ).readProcessDefinition();
    }
 
-   //TODO: remove, outofdate...
-   /*public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
+   public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
    {
       InputStream resource = Resources.getResourceAsStream(resourceName);
       if (resource==null)
@@ -119,7 +118,7 @@ public class Jbpm
          throw new IllegalArgumentException("resource not found: " + resourceName);
       }
       return ProcessDefinition.parseXmlInputStream(resource);
-   }*/
+   }
 
    public String[] getPageflowDefinitions() {
       return pageflowDefinitions;
@@ -143,7 +142,6 @@ public class Jbpm
          for (String pageflow: pageflowDefinitions)
          {
             ProcessDefinition pd = getPageflowDefinitionFromResource(pageflow);
-            //ProcessDefinition pd = getProcessDefinitionFromResource(pageflow);
             pageflowProcessDefinitions.put( pd.getName(), pd );
          }
       }
