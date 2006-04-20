@@ -866,9 +866,9 @@ org.jboss.seam.core.jbpm.processDefinitions documentLifecycle.jpdl.xml]]></progr
         <para>
             No further special configuration is needed if you only have pageflows.
             If you do have business process definitions, you need to provide a
-            jBPM configuration. The Seam DVD Store demo includes example
-            <literal>jbpm.cfg.xml</literal> and <literal>hibernate.cfg.xml</literal>
-            files that will work with Seam:
+            jBPM configuration, and a Hibernate configuration for jBPM. The Seam 
+            DVD Store demo includes example <literal>jbpm.cfg.xml</literal> and 
+            <literal>hibernate.cfg.xml</literal> files that will work with Seam:
         </para>
         
         <programlisting><![CDATA[<jbpm-configuration>
@@ -886,8 +886,6 @@ org.jboss.seam.core.jbpm.processDefinitions documentLifecycle.jpdl.xml]]></progr
     <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />
     <service name="authentication" factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
   </jbpm-context>
-
-  <bean name="jbpm.variable.resolver" class="org.jboss.seam.jbpm.SeamVariableResolver" singleton="true" />
 
 </jbpm-configuration>]]></programlisting>
 
