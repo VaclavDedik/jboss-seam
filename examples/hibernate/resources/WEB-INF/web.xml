@@ -27,11 +27,6 @@
         <param-value>120000</param-value>
     </context-param>
     
-    <context-param>
-        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-        <param-value>@microcontainer@</param-value>
-    </context-param>
-    
     <!-- Defines a Seam-managed Hibernate session -->
     <context-param>
         <param-name>org.jboss.seam.core.init.managedSessions</param-name>
@@ -41,7 +36,7 @@
     <!-- Bootstrap Hibernate inside Java EE -->
     <context-param>
         <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-        <param-value>org.jboss.seam.core.Hibernate</param-value>
+        <param-value>org.jboss.seam.core.Hibernate @microcontainer@</param-value>
     </context-param>
     
     <!-- Needed to ensure safe tx cleanup when using Seam-managed sessions/persistence contexts -->
