@@ -19,6 +19,7 @@
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
         <include name="**/*"/>
+    	<exclude name="web.xml"/>
         <exclude name="lib/**/*"/>
     </zipfileset>
 	
@@ -100,11 +101,23 @@
           </fileset>
         </jar>
     	
+        <copy todir="${build.dir}/resources/WEB-INF">
+            <fileset refid="web.xml.file"/>
+            <filterset>
+    	        <filter token="jndiPattern" value="${example.name}/#{ejbName}/local"/>
+                <filter token="embeddedEjb" value=""/>
+                <filter token="microcontainer" value=""/>
+    	    </filterset>
+        </copy>
+    	
         <jar destfile="${build.dir}/${example.name}.war">
             <zipfileset refid="example.war.docroot"/>
         	<zipfileset refid="example.war.webinf"/>
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset refid="example.tomcat.seam.jar"/>
+            <zipfileset dir="${build.dir}/resources">
+            	<include name="WEB-INF/web.xml"/>
+            </zipfileset>
             <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
                 <include name="${example.name}.jar"/>
             </zipfileset>
