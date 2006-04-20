@@ -768,7 +768,7 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry id="ifinvalid-annotation">
+            <varlistentry id="webremote-annotation">
                 <term><literal>@WebRemote</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@WebRemote]]></programlisting>

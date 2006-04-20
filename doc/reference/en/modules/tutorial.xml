@@ -388,12 +388,6 @@ public class RegisterAction implements Register
                         as stateless session bean.
                     </para>
                 </callout>
-                <callout arearefs="registration-interceptor-annotation">
-                    <para>
-                        The <literal>SeamInterceptor</literal> EJB interceptor must be enabled for 
-                        all session beans which are Seam components.
-                    </para>
-                </callout>
                 <callout arearefs="registration-in-annotation">
                     <para>
                         The <link linkend="in-annotation"><literal>@In</literal></link> annotation 
@@ -1668,15 +1662,12 @@ public class TodoList {
                 </areaspec>    
               <programlisting><![CDATA[<pageflow-definition name="numberGuess">
    
-   <start-state name="start">
-      <transition to="displayGuess"/>
-   </start-state>
-   
-   <page name="displayGuess" view-id="/numberGuess.jsp" redirect="true">
+   <start-page name="displayGuess" view-id="/numberGuess.jsp">
+      <redirect/>
       <transition name="guess" to="evaluateGuess">
           <action expression="#{numberGuess.guess}" />
       </transition>
-   </page>
+   </start-page>
    
    <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
       <transition name="true" to="win"/>
@@ -1688,11 +1679,13 @@ public class TodoList {
       <transition name="false" to="displayGuess"/>
    </decision>
    
-   <page name="win" view-id="/win.jsp" redirect="true">
+   <page name="win" view-id="/win.jsp">
+      <redirect/>
       <end-conversation />
    </page>
    
-   <page name="lose" view-id="/lose.jsp" redirect="true">
+   <page name="lose" view-id="/lose.jsp">
+      <redirect/>
       <end-conversation />
    </page>
    
@@ -2313,7 +2306,7 @@ public class HotelSearchingAction implements HotelSearching
                     <area id="booking-out-annotation" coords="11"/>
                     <area id="booking-begin-annotation" coords="31"/>
                     <area id="booking-end-annotation" coords="65"/>
-                    <area id="booking-destroy-annotation" coords="81"/>
+                    <area id="booking-dest-annotation" coords="81"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
@@ -2443,7 +2436,7 @@ public class HotelBookingAction implements HotelBooking
                         so the current conversation context will be destroyed at the end of the request.
                     </para>
                 </callout>
-                <callout arearefs="booking-destroy-annotation">
+                <callout arearefs="booking-dest-annotation">
                     <para>
                         This EJB remove method will be called when Seam destroys the conversation context.
                         Don't ever forget to define this method!

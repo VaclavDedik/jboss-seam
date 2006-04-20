@@ -351,26 +351,7 @@
 </deployment>]]></programlisting>
 
         </sect2>
-        
-        <sect2>
-            <title>Workaround for the Tomcat read-only JNDI context</title>
-        
-        <para>
-            Some Java SE environments include a JNDI server. This is a major problem particularly in the 
-            case of Tomcat, since Tomcat's JNDI implementation is read-only. To use Seam in Tomcat, you 
-            must specify the JBoss JNDI <literal>InitialContext</literal> properties in a resource named 
-            <literal>seam-jndi.properties</literal>, as follows:
-        </para>
-        
-        <programlisting><![CDATA[java.naming.factory.initial org.jnp.interfaces.LocalOnlyContextFactory
-java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlisting>
-
-        <para>
-            This is not necessary when using Seam in TestNG.
-        </para>
-        
-        </sect2>
-        
+                
         <sect2>
             <title>Packaging</title>
         
@@ -397,6 +378,10 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
                 ejb3-interceptors-aop.xml
                 embedded-jboss-beans.xml
                 default.persistence.properties
+                jndi.properties
+                login-config.xml
+                security-beans.xml
+                log4j.xml
             my-application.jar/
                 META-INF/
                     MANIFEST.MF
@@ -404,7 +389,6 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
                     jboss-beans.xml
                 log4j.xml
                 seam.properties
-                seam-jndi.properties
                 org/
                     jboss/
                         myapplication/
@@ -716,10 +700,8 @@ bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programli
             <literal>microcontainer/conf/jboss-beans.xml</literal> that provides all the things you
             need to run Seam with Hibernate in any non-EE environment. Just add the 
             <literal>microcontainer/conf</literal> directory, and all jars in the <literal>lib</literal>
-            and <literal>microcontainer/lib</literal> directories to your classpath. To rename or 
-            reconfigure the datasource, add a new datasource or reconfigure Hibernate, just edit 
-            <literal>microcontainer/conf/jboss-beans.xml</literal>. Refer to the documentation for
-            the JBoss Microcontainer for more information.
+            and <literal>microcontainer/lib</literal> directories to your classpath. Refer to 
+            the documentation for the JBoss Microcontainer for more information.
         </para>
         
         <sect2>
@@ -740,12 +722,51 @@ bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programli
         </para>
         
         <para>
-            As we mentioned above, to use Seam in Tomcat, you must specify the JBoss JNDI <literal>InitialContext</literal> 
-            properties in a resource named <literal>seam-jndi.properties</literal>.
+            You'll need to provide a <literal>jboss.beans.xml</literal> file that installs JNDI,
+            JTA, and your JCA datasource into the microcontainer:
         </para>
         
-        <programlisting><![CDATA[java.naming.factory.initial org.jnp.interfaces.LocalOnlyContextFactory
-java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlisting>
+<programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+
+<deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
+            xmlns="urn:jboss:bean-deployer">
+            
+   <bean name="Naming" class="org.jnp.server.SingletonNamingServer"/>
+
+   <bean name="TransactionManagerFactory" class="org.jboss.seam.microcontainer.TransactionManagerFactory"/>
+   <bean name="TransactionManager" class="java.lang.Object">
+      <constructor factoryMethod="getTransactionManager">
+         <factory bean="TransactionManagerFactory"/>
+      </constructor>
+   </bean>
+
+   <bean name="bookingDatasourceFactory" class="org.jboss.seam.microcontainer.DataSourceFactory">
+      <property name="driverClass">org.hsqldb.jdbcDriver</property>
+      <property name="connectionUrl">jdbc:hsqldb:.</property>
+      <property name="userName">sa</property>
+      <property name="jndiName">java:/hibernateDatasource</property>
+      <property name="minSize">0</property>
+      <property name="maxSize">10</property>
+      <property name="blockingTimeout">1000</property>
+      <property name="idleTimeout">100000</property>
+      <property name="transactionManager"><inject bean="TransactionManager"/></property>
+   </bean>
+   <bean name="bookingDatasource" class="java.lang.Object">
+      <constructor factoryMethod="getDataSource">
+         <factory bean="bookingDatasourceFactory"/>
+      </constructor>
+   </bean>
+   
+   <bean name="bookingDatabaseFactory" class="org.jboss.seam.microcontainer.HibernateFactory"/>
+   <bean name="bookingDatabase" class="java.lang.Object">
+      <constructor factoryMethod="getSessionFactory">
+         <factory bean="bookingDatabaseFactory"/>
+      </constructor>
+      <depends>bookingDatasource</depends>
+   </bean>
+
+</deployment>]]></programlisting>
 
         </sect2>
 
@@ -771,6 +792,9 @@ java.naming.factory.url.pkgs org.jboss.naming:org.jnp.interfaces]]></programlist
             ...
             myfaces-api.jar
             myfaces-impl.jar
+            mc-conf.jar/
+                jndi.properties
+                log4j.xml
             my-application.jar/
                 META-INF/
                     MANIFEST.MF
@@ -841,10 +865,35 @@ org.jboss.seam.core.jbpm.processDefinitions documentLifecycle.jpdl.xml]]></progr
 
         <para>
             No further special configuration is needed if you only have pageflows.
-            If you do have business process definitions, you need to provide
-            jBPM configuration and O/R mappings. The Seam DVD Store demo includes example
+            If you do have business process definitions, you need to provide a
+            jBPM configuration. The Seam DVD Store demo includes example
             <literal>jbpm.cfg.xml</literal> and <literal>hibernate.cfg.xml</literal>
-            files that will work with Seam.
+            files that will work with Seam:
+        </para>
+        
+        <programlisting><![CDATA[<jbpm-configuration>
+
+  <jbpm-context>
+    <service name="persistence">
+       <factory>
+          <bean class="org.jbpm.persistence.db.DbPersistenceServiceFactory">
+             <field name="isTransactionEnabled"><false/></field>
+          </bean>
+       </factory>
+    </service>
+    <service name="message" factory="org.jbpm.msg.db.DbMessageServiceFactory" />
+    <service name="scheduler" factory="org.jbpm.scheduler.db.DbSchedulerServiceFactory" />
+    <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />
+    <service name="authentication" factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
+  </jbpm-context>
+
+  <bean name="jbpm.variable.resolver" class="org.jboss.seam.jbpm.SeamVariableResolver" singleton="true" />
+
+</jbpm-configuration>]]></programlisting>
+
+        <para>
+            The most important thing to notice here is that jBPM transaction control is disabled.
+            Seam or EJB3 should control the JTA transactions.
         </para>
         
         <sect2>
@@ -900,6 +949,28 @@ org.jboss.seam.core.jbpm.processDefinitions documentLifecycle.jpdl.xml]]></progr
             
         </sect2>
 
+    </sect1>
+    
+    <sect1>
+        <title>Configuring Seam in a Portal</title>
+        
+        <para>
+            To run a Seam application as a portlet, you'll need to provide certain
+            portlet metadata (<literal>portlet.xml</literal>, etc) in addition to
+            the usual Java EE metadata. See the <literal>examples/portal</literal>
+            directory for an example of the booking demo preconfigured to run on
+            JBoss Portal.
+        </para>
+        
+        <para>
+            In addition, you'll need to use a portlet-specific phase listener
+            instead of <literal>SeamPhaseListener</literal> or 
+            <literal>SeamExtendedManagedPersistencePhaseListener</literal>.
+            The <literal>SeamPortletPhaseListener</literal> and
+            <literal>SeamExtendedManagedPersistencePortletPhaseListener</literal>
+            are adapted to the portlet lifecycle.
+        </para>
+        
     </sect1>
     
 </chapter>
