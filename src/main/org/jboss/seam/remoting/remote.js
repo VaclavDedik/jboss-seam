@@ -40,6 +40,12 @@ Seam.Component.getComponentType = function(obj)
   return null;
 }
 
+Seam.Component.getComponentName = function(obj)
+{
+  var componentType = Seam.Component.getComponentType(obj);
+  return componentType ? componentType.__name : null;
+}
+
 Seam.Component.register = function(component)
 {
   for (var i = 0; i < Seam.Component.components.length; i++)
@@ -348,7 +354,11 @@ Seam.Remoting.serializeValue = function(value, type, refs)
       return Seam.Remoting.serializeMap(value, refs);
 
     switch (typeof(value)) {
-      case "number": return "<int>" + value + "</int>";
+      case "number": 
+        if (("" + value).indexOf(".") == -1)
+          return "<int>" + value + "</int>";
+        else
+          return "<double>" + value + "</double>";
       case "boolean": return "<bool>" + (value ? "true" : "false") + "</bool>";
       case "object":
         if (value.constructor == Array)
@@ -780,7 +790,12 @@ Seam.Remoting.unmarshalValue = function(element, refs)
   switch (tag)
   {
     case "bool": return element.firstChild.nodeValue == "true";
-    case "int": return parseInt(element.firstChild.nodeValue);
+    case "int": 
+    case "long":
+      return parseInt(element.firstChild.nodeValue);
+    case "single":
+    case "double":
+      return parseFloat(element.firstChild.nodeValue);
     case "str": return element.firstChild ? Seam.Remoting.URLDecode(element.firstChild.nodeValue) : "";
     case "ref": return refs[parseInt(element.getAttribute("id"))];
     case "bag":

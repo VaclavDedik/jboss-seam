@@ -5,7 +5,8 @@
         AJAX (Asynchronous Javascript and XML). The framework for this functionality is provided 
         with almost no up-front development effort - your components only require simple annotating
         to become accessible via AJAX.  This chapter describes the steps required to build an 
-        AJAX-enabled web page.
+        AJAX-enabled web page, then goes on to explain the features of the Seam Remoting framework in
+        more detail.
     </para>
 
     <sect1>
@@ -106,7 +107,6 @@
   @Stateless
   @Name("helloAction")
   @Scope(SESSION)
-  @Interceptors(SeamInterceptor.class)
   public class HelloAction implements HelloLocal {
     public String sayHello(String name) {
       return "Hello, " + name;
@@ -223,6 +223,101 @@
         </para>
 
       </sect2>
+      
+      <sect2>
+        <title>Seam.Component</title>
+        
+        <para>
+          The <literal>Seam.Component</literal> Javascript object provides a number of client-side methods for working with 
+          your Seam components.
+        </para>
+        
+        <sect3>
+          <title>Seam.Component.newInstance()</title>
+          <para>
+            Use this method to create a new instance of an entity or Javabean component.  The object returned
+            by this method will have the same getter/setter methods as its server-side counterpart, or 
+            alternatively if you wish you can access its fields directly. 
+            Take the following Seam entity component for example:
+          </para>
+          
+          <programlisting>
+  @Name("customer")
+  @Entity
+  public class Customer implements Serializable
+  {
+    private Integer customerId;
+    private String firstName;
+    private String lastName;
+    
+    @Column public Integer getCustomerId() { 
+      return customerId; 
+    }
+    
+    public void setCustomerId(Integer customerId} { 
+      this.customerId = customerId; 
+    }
+    
+    @Column public String getFirstName() { 
+      return firstName; 
+    }
+    
+    public void setFirstName(String firstName) {
+      this.firstName = firstName; 
+    }
+    
+    @Column public String getLastName() {
+      return lastName;
+    }
+    
+    public void setLastName(String lastName) {
+      this.lastName = lastName;
+    }
+  }
+          </programlisting>
+          
+          <para>
+            To create a client-side Customer you would write the following code:
+          </para>
+          
+          <programlisting>
+  var customer = Seam.Component.newInstance("customer");
+          </programlisting>
+          
+          <para>
+            Then from here you can set the fields of the customer object:
+          </para>
+          
+          <programlisting>
+  customer.setFirstName("John");
+  // Or you can set the fields directly
+  customer.lastName = "Smith";
+          </programlisting>                  
+
+        </sect3>
+      
+        <sect3>
+          <title>Seam.Component.getInstance()</title>
+          
+          <para>
+            The <literal>getInstance()</literal> method is used to get a reference to a Seam session bean component stub.
+            
+          </para>
+          
+          <para>
+           To Do.
+          </para>          
+        </sect3>
+      
+      </sect2>
+      
+      <sect2>
+        <title>Seam.Remoting</title>
+
+        <para>
+         To Do
+        </para>          
+      </sect2>
     </sect1>
     
     <sect1>
@@ -264,6 +359,251 @@
         an executable stub will be generated for it instead of a type stub.  This allows you to use remoting to
         call methods of your JavaBean components in a non-EJB environment where you don't have access to session beans.
       </para>
+      
+    </sect1>
+    
+    <sect1>
+      <title>The Context</title>
+      
+      <para>
+        The Seam Remoting Context contains additional information which is sent and received as part of a remoting
+        request/response cycle.  At this stage it only contains the conversation ID but may be expanded in the future.       
+      </para>
+      
+      <sect2>
+        <title>Setting and reading the Conversation ID</title>
+      </sect2>
+      
+      <para>
+        If you intend on using remote calls within the scope of a conversation then you need to be able to read or 
+        set the conversation ID in the Seam Remoting Context.  To read the conversation ID after making a remote request
+        call <literal>Seam.Remoting.getContext().getConversationId()</literal>.  To set the conversation ID before
+        making a request, call <literal>Seam.Remoting.getContext().setConversationId()</literal>.
+      </para>
+    </sect1>
+    
+    <sect1>
+      <title>Batch Requests</title>
+      
+      <para>
+        Seam Remoting allows multiple component calls to be executed within a single request. It is recommended that
+        this feature is used wherever it is appropriate to reduce network traffic.
+      </para>
+      
+      <para>
+        The method <literal>Seam.Remoting.startBatch()</literal> will start a new batch, and any component calls 
+        executed after starting a batch are queued, rather than being sent immediately.  When all the desired component 
+        calls have been added to the batch, the <literal>Seam.Remoting.executeBatch()</literal> method will send a
+        single request containing all of the queued calls to the server, where they will be executed in order.  After the
+        calls have been executed, a single response containining all return values will be returned to the client and
+        the callback functions (if provided) triggered in the same order as execution.
+      </para>
+      
+      <para>
+        If you start a new batch via the <literal>startBatch()</literal> method but then decide you don't want to 
+        send it, the <literal>Seam.Remoting.cancelBatch()</literal> method will discard any calls that were queued 
+        and exit the batch mode.
+      </para>
+      
+      <para>
+        To see an example of a batch being used, take a look at <literal>/examples/remoting/chatroom</literal>.
+      </para>
+    </sect1>
+    
+    <sect1>
+      <title>Working with Data types</title>
+      
+      <sect2>
+        <title>Primitives</title>
+        
+        <sect3>
+          <title>String</title>
+          
+          <para>
+            Simply use Javascript String objects when setting String parameter values.
+          </para>
+        </sect3>
+        
+        <sect3>
+          <title>Number</title>
+          
+          <para>
+           To Do.
+          </para>          
+        </sect3>
+        
+        <sect3>
+          <title>Boolean</title>
+          
+          <para>
+           To Do.
+          </para>          
+        </sect3>
+      </sect2>
+      
+      <sect2>
+        <title>JavaBeans</title>
+        
+        <para>
+          In general these will be either Seam entity or JavaBean components, or some other non-component class. Use
+          the appropriate method (either <literal>Seam.Component.newInstance()</literal> for Seam components or 
+          <literal>Seam.Remoting.createType()</literal> for everything else) to create a new instance of the object.          
+        </para>
+        
+        <para>
+          It is important to note that only objects that are created by either of these two methods should be used
+          as parameter values, where the parameter is not one of the other valid types mentioned anywhere else in 
+          this section.  In some situations you may have a component method where the exact parameter type cannot 
+          be determined, such as:
+        </para>
+        
+        <programlisting>
+  @Name("myAction")
+  public class MyAction implements MyActionLocal {
+    public void doSomethingWithObject(Object obj) {
+      // code
+    }
+  }        
+        </programlisting>
+        
+        <para>
+          In this case you might want to pass in an instance of your <literal>myWidget</literal> component, however the
+          interface for <literal>myAction</literal> won't include <literal>myWidget</literal> as it is not 
+          directly referenced by any of its methods.  To get around this, <literal>MyWidget</literal> needs to 
+          be explicitly imported:
+        </para>
+        
+        <programlisting>
+          <![CDATA[        
+  <script type="text/javascript" src="seam/remoting/interface.js?myAction&myWidget">
+    <!--
+    // This space intentionally left blank
+    //-->
+  </script>        
+          ]]>
+        </programlisting>
+        
+        <para>
+          This will then allow a <literal>myWidget</literal> object to be created with 
+          <literal>Seam.Component.newInstance("myWidget")</literal>, which can then be passed to 
+          <literal>myAction.doSomethingWithObject()</literal>.
+        </para>
+        
+      </sect2>
+      
+      <sect2>
+        <title>Dates and Times</title>
+        
+        <para>
+         To Do.
+        </para>        
+      </sect2>
+      
+      <sect2>
+        <title>Enums</title>
+        
+        <para>
+          On the client-side, enums are treated the same as Strings.  When setting the value for an enum parameter,
+          simply use the String representation of the enum. Take the following component as an example:
+        </para>
+        
+        <programlisting>
+  @Name("paintAction")
+  public class paintAction implements paintLocal {
+    public enum Color {red, green, blue, yellow, orange, purple};
+
+    public void paint(Color color) {
+      // code
+    }    
+  }            
+        </programlisting>
+        
+        <para>
+          To call the <literal>paint()</literal> method with the color <literal>red</literal>, pass the parameter
+          value as a String literal:          
+        </para>
+        
+        <programlisting>
+  Seam.Component.getInstance("paintAction").paint("red");
+        </programlisting>
+        
+        <para>
+          The inverse is also true - that is, if a component method returns an enum parameter (or contains an enum
+          field anywhere in the returned object graph) then on the client-side it will be represented as a String.
+        </para>
+      </sect2>
+      
+      <sect2>
+        <title>Collections</title>
+        
+        <sect3>
+          <title>Bags</title>
+          
+          <para>
+            Bags cover all collection types including arrays, collections, lists, sets, (but excluding Maps - see the 
+            next section for those), 
+            and are implemented client-side as a Javascript array. When calling a component method that accepts one of 
+            these types as a parameter, your parameter should be a Javascript array.  If a component method
+            returns one of these types, then the return value will also be a Javascript array.  The remoting
+            framework is clever enough on the server side to convert the bag to an appropriate type for
+            the component method call.
+          </para>
+        </sect3>
+        
+        <sect3>
+          <title>Maps</title>
+          
+          <para>
+            As there is no native support for Maps within Javascript, a simple Map implementation is provided with
+            the Seam Remoting framework.  To create a Map which can be used as a parameter to a remote call,
+            create a new <literal>Seam.Remoting.Map</literal> object as follows:
+          </para>
+          
+          <programlisting>
+  var map = new Seam.Remoting.Map();          
+          </programlisting>
+          
+          <para>
+            This Javascript implementation provides basic methods for working with Maps:
+            <literal>size()</literal>, <literal>isEmpty()</literal>, <literal>keySet()</literal>,
+            <literal>values()</literal>, <literal>get(key)</literal>, <literal>put(key, value)</literal>,
+            <literal>remove(key)</literal> and <literal>contains(key)</literal>.  Each of these methods are
+            equivalent to their Java counterpart.  Where the method returns a collection, such as 
+            <literal>keySet()</literal> and <literal>values()</literal>, a Javascript Array object will be 
+            returned that contains the key or value objects (respectively).
+          </para>
+        </sect3>
+      </sect2>
+    </sect1>
+    
+    <sect1>
+      <title>Debugging</title>
+      
+      <para>
+       To Do.
+      </para>
+    </sect1>
+    
+    <sect1>
+      <title>The Loading Message</title>
+
+      <para>
+       To Do.
+      </para>      
+    </sect1>
+    
+    <sect1>
+      <title>JMS Messaging</title>
+      
+      <para>
+        Seam Remoting provides experimental support for JMS Messaging.  This section describes the JMS support
+        that is currently implemented, but please note that this may change in the future.  It is currently not
+        recommended to use this feature within a production environment.
+      </para>
+      
+      <para>
+       To Do.
+      </para>      
       
     </sect1>
 
