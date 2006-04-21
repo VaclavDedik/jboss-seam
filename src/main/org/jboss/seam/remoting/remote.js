@@ -331,10 +331,7 @@ Seam.Remoting.serializeValue = function(value, type, refs)
       case "bool": return "<bool>" + (value ? "true" : "false") + "</bool>";
 
       // Numerical types
-      case "int": return "<int>" + value + "</int>";
-      case "long": return "<long>" + value + "</long>";
-      case "single": return "<single>" + value + "</single>";
-      case "double": return "<double>" + value + "</double>";
+      case "number": return "<number>" + value + "</number>";
 
       // Date
       case "date": return Seam.Remoting.serializeDate(value);
@@ -355,10 +352,7 @@ Seam.Remoting.serializeValue = function(value, type, refs)
 
     switch (typeof(value)) {
       case "number": 
-        if (("" + value).indexOf(".") == -1)
-          return "<int>" + value + "</int>";
-        else
-          return "<double>" + value + "</double>";
+        return "<number>" + value + "</number>";
       case "boolean": return "<bool>" + (value ? "true" : "false") + "</bool>";
       case "object":
         if (value.constructor == Array)
@@ -848,11 +842,9 @@ Seam.Remoting.deserializeDate = function(val)
 }
 
 Seam.Remoting.loadingMsgDiv = null;
-
-Seam.Remoting.displayLoadingMessage = function(message)
+Seam.Remoting.loadingMessage = "Please wait...";
+Seam.Remoting.displayLoadingMessage = function()
 {
-  var loadingMessage = "Please wait...";
-
   if (!Seam.Remoting.loadingMsgDiv)
   {
     Seam.Remoting.loadingMsgDiv = document.createElement('div');
@@ -871,12 +863,12 @@ Seam.Remoting.displayLoadingMessage = function(message)
 
     document.body.appendChild(msgDiv);
 
-    var text = document.createTextNode(loadingMessage);
+    var text = document.createTextNode(Seam.Remoting.loadingMessage);
     msgDiv.appendChild(text);
   }
   else
   {
-    Seam.Remoting.loadingMsgDiv.innerHTML = loadingMessage;
+    Seam.Remoting.loadingMsgDiv.innerHTML = Seam.Remoting.loadingMessage;
     Seam.Remoting.loadingMsgDiv.style.visibility = 'visible';
   }
 }
@@ -1054,31 +1046,31 @@ Seam.Remoting.processMessages = function(messages)
   }
 }
 
-Seam.Remoting.__ObjectMessage = function()
+Seam.Remoting.ObjectMessage = function()
 {
   this.value = null;
 
-  Seam.Remoting.__ObjectMessage.prototype.getValue = function()
+  Seam.Remoting.ObjectMessage.prototype.getValue = function()
   {
     return this.value;
   }
 
-  Seam.Remoting.__ObjectMessage.prototype.setValue = function(value)
+  Seam.Remoting.ObjectMessage.prototype.setValue = function(value)
   {
     this.value = value;
   }
 }
 
-Seam.Remoting.__TextMessage = function()
+Seam.Remoting.TextMessage = function()
 {
   this.text = null;
 
-  Seam.Remoting.__TextMessage.prototype.getText = function()
+  Seam.Remoting.TextMessage.prototype.getText = function()
   {
     return this.text;
   }
 
-  Seam.Remoting.__TextMessage.prototype.setText = function(text)
+  Seam.Remoting.TextMessage.prototype.setText = function(text)
   {
     this.text = text;
   }
@@ -1089,11 +1081,11 @@ Seam.Remoting.createMessage = function(messageType, value)
   switch (messageType)
   {
     case "object":
-      var msg = new Seam.Remoting.__ObjectMessage();
+      var msg = new Seam.Remoting.ObjectMessage();
       msg.setValue(value);
       return msg;
     case "text":
-      var msg = new Seam.Remoting.__TextMessage();
+      var msg = new Seam.Remoting.TextMessage();
       msg.setText(value);
       return msg;
   }

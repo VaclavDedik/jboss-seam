@@ -35,7 +35,7 @@ public class WrapperFactory
     registerWrapper("str", StringWrapper.class);
     registerWrapper("bool", BooleanWrapper.class);
     registerWrapper("bean", BeanWrapper.class);
-    registerWrapper("int", IntWrapper.class);
+    registerWrapper("number", NumberWrapper.class);
     registerWrapper("null", NullWrapper.class);
     registerWrapper("bag", BagWrapper.class);
     registerWrapper("map", MapWrapper.class);
@@ -43,8 +43,8 @@ public class WrapperFactory
     registerWrapperClass(String.class, StringWrapper.class);
     registerWrapperClass(StringBuilder.class, StringWrapper.class);
     registerWrapperClass(StringBuffer.class, StringWrapper.class);
-    registerWrapperClass(Integer.class, IntWrapper.class);
-    registerWrapperClass(Long.class, IntWrapper.class);
+    registerWrapperClass(Integer.class, NumberWrapper.class);
+    registerWrapperClass(Long.class, NumberWrapper.class);
   }
 
   /**

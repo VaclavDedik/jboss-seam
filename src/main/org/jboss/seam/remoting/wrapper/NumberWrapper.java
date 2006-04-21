@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  *
  * @author Shane Bryzak
  */
-public class IntWrapper extends BaseWrapper implements Wrapper
+public class NumberWrapper extends BaseWrapper implements Wrapper
 {
   /**
    *
@@ -21,7 +21,11 @@ public class IntWrapper extends BaseWrapper implements Wrapper
   {
     String val = element.getStringValue().trim();
 
-    if (type.equals(Integer.class))
+    if (type.equals(Short.class))
+      value = !"".equals(val) ? Short.valueOf(val) : null;
+    else if (type.equals(Short.TYPE))
+      value = Short.parseShort(val);
+    else if (type.equals(Integer.class))
       value = !"".equals(val) ? Integer.valueOf(val) : null;
     else if (type.equals(Integer.TYPE))
       value = Integer.parseInt(val);
@@ -29,6 +33,19 @@ public class IntWrapper extends BaseWrapper implements Wrapper
       value = !"".equals(val) ? Long.valueOf(val) : null;
     else if (type.equals(Long.TYPE))
       value = Long.parseLong(val);
+    else if (type.equals(Float.class))
+      value = !"".equals(val) ? Float.valueOf(val) : null;
+    else if (type.equals(Float.TYPE))
+      value = Float.parseFloat(val);
+    else if (type.equals(Double.class))
+      value = !"".equals(val) ? Double.valueOf(val) : null;
+    else if (type.equals(Double.TYPE))
+      value = Double.parseDouble(val);
+    else if (type.equals(Byte.class))
+      value = !"".equals(val) ? Byte.valueOf(val) : null;
+    else if (type.equals(Byte.TYPE))
+      value = Byte.parseByte(val);
+
     else if (type.equals(String.class))
       value = val;
     else
@@ -47,9 +64,9 @@ public class IntWrapper extends BaseWrapper implements Wrapper
   public void marshal(OutputStream out)
     throws IOException
   {
-    out.write("<int>".getBytes());
+    out.write("<number>".getBytes());
     out.write(value.toString().getBytes());
-    out.write("</int>".getBytes());
+    out.write("</number>".getBytes());
   }
 
   /**

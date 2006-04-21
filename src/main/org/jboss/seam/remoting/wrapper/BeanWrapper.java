@@ -152,7 +152,16 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     if (componentName != null)
       out.write(componentName.getBytes());
     else
-      out.write(value.getClass().getName().getBytes());
+    {
+      Class cls = value.getClass();
+
+      /** @todo This is a hack to get the "real" class - find out if there is
+                an API method in CGLIB that can be used instead */
+      if (cls.getName().contains("EnhancerByCGLIB"))
+        cls = cls.getSuperclass();
+
+      out.write(cls.getName().getBytes());
+    }
 
     out.write(BEAN_START_TAG_CLOSE);
 
