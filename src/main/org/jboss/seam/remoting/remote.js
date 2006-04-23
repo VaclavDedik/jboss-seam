@@ -784,12 +784,11 @@ Seam.Remoting.unmarshalValue = function(element, refs)
   switch (tag)
   {
     case "bool": return element.firstChild.nodeValue == "true";
-    case "int": 
-    case "long":
-      return parseInt(element.firstChild.nodeValue);
-    case "single":
-    case "double":
-      return parseFloat(element.firstChild.nodeValue);
+    case "number": 
+      if (element.firstChild.nodeValue.indexOf(".") == -1)
+        return parseInt(element.firstChild.nodeValue);
+      else
+        return parseFloat(element.firstChild.nodeValue);
     case "str": return element.firstChild ? Seam.Remoting.URLDecode(element.firstChild.nodeValue) : "";
     case "ref": return refs[parseInt(element.getAttribute("id"))];
     case "bag":
