@@ -147,25 +147,23 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
   {
     out.write(BEAN_START_TAG_OPEN);
 
-    String componentName = Seam.getComponentName(value.getClass());
+    Class cls = value.getClass();
+
+    /** @todo This is a hack to get the "real" class - find out if there is
+              an API method in CGLIB that can be used instead */
+    if (cls.getName().contains("EnhancerByCGLIB"))
+      cls = cls.getSuperclass();
+
+    String componentName = Seam.getComponentName(cls);
 
     if (componentName != null)
       out.write(componentName.getBytes());
     else
-    {
-      Class cls = value.getClass();
-
-      /** @todo This is a hack to get the "real" class - find out if there is
-                an API method in CGLIB that can be used instead */
-      if (cls.getName().contains("EnhancerByCGLIB"))
-        cls = cls.getSuperclass();
-
       out.write(cls.getName().getBytes());
-    }
 
     out.write(BEAN_START_TAG_CLOSE);
 
-    for (Field f : InterfaceGenerator.getAccessibleFields(value.getClass()))
+    for (Field f : InterfaceGenerator.getAccessibleFields(cls))
     {
       out.write(MEMBER_START_TAG_OPEN);
       out.write(f.getName().getBytes());
