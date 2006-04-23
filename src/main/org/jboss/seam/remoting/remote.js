@@ -205,12 +205,12 @@ Seam.Remoting.Map = function()
 
   Seam.Remoting.Map.prototype.size = function()
   {
-    return elements.length;
+    return this.elements.length;
   }
 
   Seam.Remoting.Map.prototype.isEmpty = function()
   {
-    return elements.length == 0;
+    return this.elements.length == 0;
   }
 
   Seam.Remoting.Map.prototype.keySet = function()
@@ -353,13 +353,17 @@ Seam.Remoting.serializeValue = function(value, type, refs)
     switch (typeof(value)) {
       case "number": 
         return "<number>" + value + "</number>";
-      case "boolean": return "<bool>" + (value ? "true" : "false") + "</bool>";
+      case "boolean": 
+        return "<bool>" + (value ? "true" : "false") + "</bool>";
       case "object":
-        if (value.constructor == Array)
+        if (value instanceof Array)
           return Seam.Remoting.serializeBag(value, refs);
+        else if (value instanceof Date)
+          return Seam.Remoting.serializeDate(value);
         else
           return Seam.Remoting.getTypeRef(value, refs);
-      default: return "<str>" + Seam.Remoting.URLEncode(value) + "</str>"; // Default to String
+      default: 
+        return "<str>" + Seam.Remoting.URLEncode(value) + "</str>"; // Default to String
     }
   }
 }
@@ -399,7 +403,7 @@ Seam.Remoting.serializeMap = function(value, refs)
 
 Seam.Remoting.serializeDate = function(value)
 {
-  var zeroPad = function(val, digits) { while (("" + val).length < digits) val = "0" + val; };
+  var zeroPad = function(val, digits) { while (("" + val).length < digits) val = "0" + val; return val; };
 
   var data = "<date>";
   data += value.getFullYear();
