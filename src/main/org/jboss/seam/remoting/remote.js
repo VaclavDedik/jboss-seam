@@ -347,9 +347,6 @@ Seam.Remoting.serializeValue = function(value, type, refs)
   }
   else // We don't know the type.. try to guess
   {
-    if (value instanceof Seam.Remoting.Map)
-      return Seam.Remoting.serializeMap(value, refs);
-
     switch (typeof(value)) {
       case "number": 
         return "<number>" + value + "</number>";
@@ -360,6 +357,8 @@ Seam.Remoting.serializeValue = function(value, type, refs)
           return Seam.Remoting.serializeBag(value, refs);
         else if (value instanceof Date)
           return Seam.Remoting.serializeDate(value);
+        else if (value instanceof Seam.Remoting.Map)
+          return Seam.Remoting.serializeMap(value, refs);
         else
           return Seam.Remoting.getTypeRef(value, refs);
       default: 

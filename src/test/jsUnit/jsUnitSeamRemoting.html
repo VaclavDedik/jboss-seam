@@ -10,6 +10,13 @@
 <script language="JavaScript" type="text/javascript" src="../../main/org/jboss/seam/remoting/remote.js"></script>
 <script language="JavaScript" type="text/javascript">
 
+/** URL Encode/decode tests **/
+
+function testURLEncodeDecode() {
+  var val = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!@#$%^&*()_-;',./:\"<>?~`\|[]{}+= ";
+  assertEquals(val, Seam.Remoting.URLDecode(Seam.Remoting.URLEncode(val)));  
+}
+
 /** Seam.Remoting.Map tests **/
 
 function testMapGet() {
@@ -100,6 +107,64 @@ function testSerializeDate() {
   dte = new Date(2005, 10, 15, 12, 30, 9, 150);
   assertEquals("<date>20051115123009150</date>", Seam.Remoting.serializeValue(dte, "date"));
   assertEquals("<date>20051115123009150</date>", Seam.Remoting.serializeValue(dte));
+}
+
+function testSerializeString() {
+  var val = "abc";
+  assertEquals("<str>abc</str>", Seam.Remoting.serializeValue(val, "str"));
+  assertEquals("<str>abc</str>", Seam.Remoting.serializeValue(val));  
+}
+
+function testSerializeBag() {
+  var bag = new Array();
+  bag.push(1);
+  assertEquals("<bag><element><number>1</number></element></bag>", Seam.Remoting.serializeBag(bag, "bag"));
+  assertEquals("<bag><element><number>1</number></element></bag>", Seam.Remoting.serializeBag(bag));
+  bag.push("zzz");
+  assertEquals("<bag><element><number>1</number></element><element><str>zzz</str></element></bag>", 
+               Seam.Remoting.serializeBag(bag, "bag"));
+  assertEquals("<bag><element><number>1</number></element><element><str>zzz</str></element></bag>", 
+               Seam.Remoting.serializeBag(bag));               
+}
+
+function testSerializeMap() {
+  var map = new Seam.Remoting.Map();
+  map.put("1", "zzzz");
+  assertEquals("<map><element><k><str>1</str></k><v><str>zzzz</str></v></element></map>",
+               Seam.Remoting.serializeMap(map, "map"));
+  assertEquals("<map><element><k><str>1</str></k><v><str>zzzz</str></v></element></map>",
+               Seam.Remoting.serializeMap(map));
+                
+}
+
+function testSerializeNull() {
+  assertEquals("<null/>", Seam.Remoting.serializeValue(null)); 
+}
+
+function testComponent() {
+  var comp = function() { };
+  comp.__name = "testComponent";
+  
+  assertFalse(Seam.Component.isRegistered("testComponent"));
+  Seam.Component.register(comp);
+  assertTrue(Seam.Component.isRegistered("testComponent"));
+  
+  var instance = Seam.Component.getInstance("testComponent");
+  assertEquals(instance, Seam.Component.getInstance("testComponent"));
+  assertNotEquals(instance, Seam.Component.newInstance("testComponent"));
+  assertEquals("testComponent", Seam.Component.getComponentName(instance));
+  assertEquals(comp, Seam.Component.getComponentType(instance));
+}
+
+function testTypes() {
+  var t = function() { };
+  t.__name = "testType";
+  
+  Seam.Remoting.registerType(t);
+  
+  var instance = Seam.Remoting.createType("testType");
+  assertEquals("testType", Seam.Remoting.getTypeName(instance));
+  assertEquals(t, Seam.Remoting.getType(instance));
 }
 
 </script>

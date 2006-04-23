@@ -520,21 +520,20 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
   private String getFieldType(Class type)
   {
     if (type.equals(String.class) || type.isEnum())
-      return "string";
+      return "str";
     else if (type.equals(Boolean.class) || type.equals(Boolean.TYPE))
-      return "boolean";
-    else if (type.equals(Short.class) || type.equals(Short.TYPE))
-      return "short";
-    else if (type.equals(Integer.class) || type.equals(Integer.TYPE))
-      return "int";
-    else if (type.equals(Long.class) || type.equals(Long.TYPE))
-      return "long";
-    else if (type.equals(Float.class) || type.equals(Float.TYPE))
-      return "float";
-    else if (type.equals(Double.class) || type.equals(Double.TYPE))
-      return "double";
-    else if (type.equals(Date.class))
+      return "bool";
+    else if (type.equals(Short.class) || type.equals(Short.TYPE) ||
+             type.equals(Integer.class) || type.equals(Integer.TYPE) ||
+             type.equals(Long.class) || type.equals(Long.TYPE) ||
+             type.equals(Float.class) || type.equals(Float.TYPE) ||
+             type.equals(Double.class) || type.equals(Double.TYPE) ||
+             type.equals(Byte.class) || type.equals(Byte.TYPE))
+      return "number";
+    else if (Date.class.isAssignableFrom(type))
       return "date";
+    else if (Map.class.isAssignableFrom(type))
+      return "map";
     else if (type.isArray() || Collection.class.isAssignableFrom(type))
       return "bag";
     else
