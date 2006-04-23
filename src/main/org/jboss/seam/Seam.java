@@ -45,7 +45,7 @@ public class Seam
     */
    public static ScopeType getComponentRoleScope(Class clazz, Role role)
    {
-      return role.scope()==null ?
+      return role.scope()==ScopeType.UNSPECIFIED ?
             getComponentType(clazz).getDefaultScope() :
             role.scope();
    }
