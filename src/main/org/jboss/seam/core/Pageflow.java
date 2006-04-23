@@ -29,6 +29,7 @@ import org.jbpm.graph.exe.Token;
 @Intercept(NEVER)
 public class Pageflow 
 {
+   //TODO: a conversation-scope mutable component, could break in a cluster
    
    private int counter;
    

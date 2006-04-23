@@ -33,6 +33,8 @@ import org.jboss.seam.util.Transactions;
 @Intercept(NEVER)
 public class ManagedPersistenceContext implements Serializable
 {
+   //TODO: a conversation-scope mutable component, could break in a cluster
+
    private static final Log log = LogFactory.getLog(ManagedPersistenceContext.class);
    
    private EntityManager entityManager;

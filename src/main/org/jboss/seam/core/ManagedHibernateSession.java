@@ -31,6 +31,8 @@ import org.jboss.seam.util.Naming;
 @Intercept(NEVER)
 public class ManagedHibernateSession implements Serializable
 {
+   //TODO: a conversation-scope mutable component, could break in a cluster
+   
    /** The serialVersionUID */
    private static final long serialVersionUID = 3130309555079841107L;
 

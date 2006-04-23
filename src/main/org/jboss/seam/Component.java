@@ -720,7 +720,10 @@ public class Component
       
       FacesContext facesContext = FacesContext.getCurrentInstance();
       Converter converter = facesContext.getApplication().createConverter(type);
-      if (converter==null) throw new IllegalArgumentException("no converter for type: " + type);
+      if (converter==null) 
+      {
+         throw new IllegalArgumentException("no converter for type: " + type);
+      }
       return converter.getAsObject( facesContext, facesContext.getViewRoot(), (String) requestParameter );
    }
 
@@ -911,7 +914,10 @@ public class Component
    {
       if (value==null && out.required())
       {
-         throw new RequiredException( "Out attribute requires value for component: " + getAttributeMessage(name) );
+         throw new RequiredException( 
+               "Out attribute requires value for component: " + 
+               getAttributeMessage(name) 
+            );
       }
       else
       {
@@ -923,7 +929,10 @@ public class Component
             {
                if ( !component.isInstance(value) )
                {
-                  throw new IllegalArgumentException( "attempted to bind an Out attribute of the wrong type to: " + getAttributeMessage(name) );
+                  throw new IllegalArgumentException( 
+                        "attempted to bind an Out attribute of the wrong type to: " + 
+                        getAttributeMessage(name) 
+                     );
                }
             }
             scope = component==null ? ScopeType.EVENT : component.getScope();
@@ -1011,7 +1020,7 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not outject: " + getAttributeMessage(name), e);
+         throw new IllegalArgumentException("could not get field value: " + getAttributeMessage(name), e);
       }
    }
 
@@ -1022,7 +1031,7 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not outject: " + getAttributeMessage(name), e);
+         throw new IllegalArgumentException("could not get property value: " + getAttributeMessage(name), e);
       }
    }
 
@@ -1034,7 +1043,7 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not inject: " + getAttributeMessage(name), e);
+         throw new IllegalArgumentException("could not set property value: " + getAttributeMessage(name), e);
       }
    }
 
@@ -1046,7 +1055,7 @@ public class Component
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException("could not inject: " + getAttributeMessage(name), e);
+         throw new IllegalArgumentException("could not set field value: " + getAttributeMessage(name), e);
       }
    }
 
@@ -1198,14 +1207,20 @@ public class Component
       {
          if ( in.create() )
          {
-            throw new IllegalArgumentException( "cannot combine create=true with explicit scope on @In: " + getAttributeMessage(name) );
+            throw new IllegalArgumentException( 
+                  "cannot combine create=true with explicit scope on @In: " + 
+                  getAttributeMessage(name) 
+               );
          }
          result = in.scope().getContext().get(name);
       }
 
       if (result==null && in.required())
       {
-         throw new RequiredException( "In attribute requires value for component: " +  getAttributeMessage(name) );
+         throw new RequiredException( 
+               "In attribute requires value for component: " +  
+               getAttributeMessage(name) 
+            );
       }
       else
       {

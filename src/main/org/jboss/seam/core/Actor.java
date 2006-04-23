@@ -23,6 +23,8 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
 public class Actor implements Serializable {
+   //TODO: this is a mutable session-scope component, could break in a cluster
+   
    private String id;
    private Set<String> groupActorIds = new HashSet<String>();
 

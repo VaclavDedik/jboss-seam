@@ -29,6 +29,7 @@ import org.jboss.seam.util.Strings;
 @Name("localeSelector")
 @Intercept(NEVER)
 public class LocaleSelector {
+   //TODO: this is a mutable session-scope component, could break in a cluster
 
    private String language;
    private String country;

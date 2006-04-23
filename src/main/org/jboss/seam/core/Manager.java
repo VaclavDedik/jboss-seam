@@ -9,6 +9,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -95,7 +96,7 @@ public class Manager
          conversationIdEntryMap = (Map<String, ConversationEntry>) Contexts.getSessionContext().get(CONVERSATION_ID_MAP);
          if (conversationIdEntryMap==null)
          {
-            conversationIdEntryMap = new HashMap<String, ConversationEntry>();
+            conversationIdEntryMap = Collections.synchronizedMap( new HashMap<String, ConversationEntry>() );
          }
       }
       return conversationIdEntryMap;
@@ -441,7 +442,7 @@ public class Manager
       {
          if ( isLongRunningConversation )
          {
-            throw new IllegalStateException();
+            throw new IllegalStateException("long-running conversation already active");
          }
          beginConversation(null);
          if (propagation.length()>6)

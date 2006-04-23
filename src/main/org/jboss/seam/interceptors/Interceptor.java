@@ -46,13 +46,13 @@ public final class Interceptor extends Reflections
          Class[] classes = interceptorAnnotation.value();
          if (classes.length!=1)
          {
-            throw new IllegalArgumentException("Must be exactly one inetrceptor when used as a meta-annotation");
+            throw new IllegalArgumentException("Must be exactly one interceptor when used as a meta-annotation");
          }
          userInterceptor = classes[0].newInstance();
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException(e);
+         throw new IllegalArgumentException("could not instantiate interceptor", e);
       }
       init(annotation, component);
    }

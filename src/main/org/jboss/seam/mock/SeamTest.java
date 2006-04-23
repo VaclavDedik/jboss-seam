@@ -327,7 +327,7 @@ public class SeamTest
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException(e);
+         throw new IllegalArgumentException("could not get field value: " + fieldName, e);
       }
    }
 
@@ -341,7 +341,7 @@ public class SeamTest
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException(e);
+         throw new IllegalArgumentException("could not set field value: " + fieldName, e);
       }
    }
 

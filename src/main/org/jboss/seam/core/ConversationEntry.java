@@ -75,10 +75,6 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return startDatetime;
    }
 
-   void setStartDatetime(Date created) {
-      this.startDatetime = created;
-   }
-
    public String destroy() {
       boolean success = Manager.instance().swapConversation( getId() );
       if (success) Manager.instance().endConversation();
@@ -114,10 +110,6 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
 
    public Date getLastDatetime() {
       return lastDatetime;
-   }
-
-   void setLastDatetime(Date lastDatetime) {
-      this.lastDatetime = lastDatetime;
    }
 
    public LinkedList<String> getConversationIdStack() {

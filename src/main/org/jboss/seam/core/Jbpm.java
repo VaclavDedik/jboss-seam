@@ -107,7 +107,7 @@ public class Jbpm
       InputStream resource = Resources.getResourceAsStream(resourceName);
       if (resource==null)
       {
-         throw new IllegalArgumentException("resource not found: " + resourceName);
+         throw new IllegalArgumentException("pageflow resource not found: " + resourceName);
       }
       return new PageflowParser( new InputSource(resource) ).readProcessDefinition();
    }
@@ -117,7 +117,7 @@ public class Jbpm
       InputStream resource = Resources.getResourceAsStream(resourceName);
       if (resource==null)
       {
-         throw new IllegalArgumentException("resource not found: " + resourceName);
+         throw new IllegalArgumentException("process definition resource not found: " + resourceName);
       }
       return ProcessDefinition.parseXmlInputStream(resource);
    }

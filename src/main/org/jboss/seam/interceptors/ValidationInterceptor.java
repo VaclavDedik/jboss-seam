@@ -69,7 +69,10 @@ public class ValidationInterceptor extends AbstractInterceptor
       Object persistenceContext = Component.getInstance( ifInvalid.persistenceContext(), false );
       if (persistenceContext==null) 
       {
-         throw new IllegalStateException("Seam-managed persistence context not found: " + ifInvalid.persistenceContext());
+         throw new IllegalStateException(
+               "Seam-managed persistence context not found: " + 
+               ifInvalid.persistenceContext()
+            );
       }
       else
       {
