@@ -530,6 +530,11 @@ public class User {
                 <literal>org.jboss.seam.core</literal> and the Java package of the same name.
             </para>
             <para>
+                The built-in components may be injected, just like any Seam components, but
+                they also provide convenient static <literal>instance()</literal> methods:
+            </para>
+            <programlisting><![CDATA[FacesMessages.instance().add("Welcome back, #{user.name}!");]]></programlisting>
+            <para>
                 Seam was designed to integrate tightly in a Java EE 5 environment. However, 
                 we understand that there are many projects which are not running in a full EE
                 environment, and at the time of writing, Java EE 5 is not yet final. We also
@@ -839,14 +844,175 @@ public class LoggedInInterceptor
 
         <para>
             Much of the functionality of Seam is implemented as a set of built-in Seam interceptors,
-            including the interceptors named in the previous example. You don't have to explicitly specify 
-            these interceptors by annotating your components; they exist for all interceptable Seam components.
+            including the interceptors named in the previous example. You don't have to explicitly 
+            specify these interceptors by annotating your components; they exist for all interceptable 
+            Seam components.
         </para>
         
         <para>
             You can even use Seam interceptors with JavaBean components, not just EJB3 beans!
         </para>
 
+    </sect1>
+    
+    <sect1>
+        <title>Seam events</title>
+        <para>
+            The Seam component model was developed for use with <emphasis>event-driven 
+            applications</emphasis>, specifically to enable the development of fine-grained, 
+            loosely-coupled components in a fine-grained eventing model. Events in Seam come
+            in several types, most of which we have already seen:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>JSF events</para>
+            </listitem>
+            <listitem>
+                <para>jBPM transition events</para>
+            </listitem>
+            <listitem>
+                <para>Seam page actions</para>
+            </listitem>
+            <listitem>
+                <para>Seam component-driven events</para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>
+            All of these various kinds of events are mapped to Seam components via JSF EL
+            method binding expressions. For a JSF event, this is defined in the JSF template:
+        </para>
+        
+        <programlisting><![CDATA[<h:commandButton value="Click me!" action="#{helloWorld.sayHello}"/>]]></programlisting>
+        
+        <para>
+            For a jBPM transition event, it is specified in the jBPM process definition or
+            pageflow definition:
+        </para>
+        
+        <programlisting><![CDATA[<start-page name="hello" view-id="/hello.jsp">
+    <transition to="hello">
+        <action expression="#{helloWorld.sayHello}"/>
+    </trasition>
+</start-page>]]></programlisting>
+
+        <para>
+            You can find out more information about JSF events and jBPM events elsewhere. 
+            Lets concentrate for now upon the two additional kinds of events defined by Seam.
+        </para>
+        
+        <sect2>
+            <title>Page actions</title>
+
+        <para>
+            A Seam page action is an event that occurs just before we render a page. 
+            We declare page actions in <literal>WEB-INF/pages.xml</literal>. We
+            can define a page action for either a particular JSF view id:
+        </para>
+
+        <programlisting><![CDATA[<pages>
+    <page view-id="/hello.jsp" action="#{helloWorld.sayHello}"/>
+<pages>]]></programlisting>
+
+        <para>
+            Or we can use a wildcard to specify an action that applies to all 
+            view ids that match the pattern:
+        </para>
+
+        <programlisting><![CDATA[<pages>
+    <page view-id="/hello/*" action="#{helloWorld.sayHello}"/>
+<pages>]]></programlisting>
+
+        <para>
+            If multiple wildcarded page actions match the current view-id, Seam
+            will call all the actions, in order of least-specific to most-specific.
+        </para>
+
+        <para>
+            The page action method can return a JSF outcome. If the outcome is
+            non-null, Seam will delegate to the defined JSF navigation rules and
+            a different view may end up being rendered.
+        </para>
+        
+        <para>
+            Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal>
+            element need not correspond to a real JSP or Facelets page! So, we can
+            reproduce the functionality of a traditional action-oriented framework
+            like Struts or WebWork using page actions. For example:
+        </para>
+        
+        <programlisting><![CDATA[TODO: translate struts action into page action]]></programlisting>
+        
+        <para>
+            This is quite useful if you want to do complex things in response to non-faces
+            requests (for example, HTTP GET requests).
+        </para>
+
+        </sect2>
+        
+        <sect2>
+            <title>Component-driven events</title>
+            
+            <para>
+                Seam components can interact by simply calling each others methods.
+                Stateful components may even implement the observer/observable pattern.
+                But to enable components to interact in a more loosely-coupled fashion
+                than is possible when the components call each others methods directly,
+                Seam provides <emphasis>component-driven events</emphasis>.
+            </para>
+            
+            <para>
+                We specify event listeners (observers) in <literal>WEB-INF/events.xml</literal>.
+            </para>
+            
+        <programlisting><![CDATA[<events>
+    <event type="hello">
+        <action expression="#{helloListener.sayHelloBack}"/>
+        <action expression="#{logger.logHello}"/>
+    </event>
+<events>]]></programlisting>
+
+            <para>
+                Where the <emphasis>event type</emphasis> is just an arbitrary string.
+            </para>
+            
+            <para>
+                When an event occurs, the actions registered for that event will be called
+                in the order they appear in <literal>events.xml</literal>. How does a
+                component raise an event? Seam provides a built-in component for this.
+            </para>
+            
+            <programlisting><![CDATA[@Name("helloWorld")
+public class HelloWorld {
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World!");
+        Events.instance().raiseEvent("hello");
+    }
+}]]></programlisting>
+
+            <para>
+                Notice that this event producer has no dependency upon event consumers.
+                The event listener may now be implemented with absolutely no dependency
+                upon the producer:
+            </para>
+
+            <programlisting><![CDATA[@Name("helloListener")
+public class HelloListener {
+    public void sayHelloBack() {
+        FacesMessages.instance().add("Hello to you too!");
+    }
+}]]></programlisting>
+
+            <para>
+                You might wonder why I've not mentioned anything about event objects in
+                this discussion. In Seam, there is no need for an event object to propagate
+                state between event producer and listener. All state is held in the Seam
+                contexts, and is shared between components.
+            </para>
+            
+        </sect2>
+        
     </sect1>
     
 </chapter>
