@@ -26,8 +26,13 @@ todo/                 The Seam todo list example demonstrating
                       
 messages/             The Seam message list example demonstrating use 
                       of the @DataModel annotation
+                      
+portal/               A port of the Seam Hibernate demo to run on
+                      JBoss Portal
                 
 remoting/helloworld/  A trivial example using Ajax
 
 remoting/chatroom/    The Seam Chat Room example, demostrating Seam
                       Remoting
+                      
+remoting/progressbar/ An example of an Ajax progress bar
