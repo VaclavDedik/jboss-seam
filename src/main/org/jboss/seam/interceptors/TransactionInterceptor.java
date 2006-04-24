@@ -4,13 +4,12 @@ import java.lang.reflect.AnnotatedElement;
 
 import javax.ejb.AroundInvoke;
 import javax.ejb.InvocationContext;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.transaction.UserTransaction;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.Around;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.util.Transactions;
 
 @Around(RollbackInterceptor.class)
@@ -51,10 +50,9 @@ public class TransactionInterceptor extends AbstractInterceptor
       }
    }
 
-   private boolean isTransactional(AnnotatedElement element)
+   private static boolean isTransactional(AnnotatedElement element)
    {
-      return element.isAnnotationPresent(TransactionAttribute.class) &&
-            element.getAnnotation(TransactionAttribute.class).value()==TransactionAttributeType.REQUIRED;
+      return element.isAnnotationPresent(Transactional.class);
    }
 
 }
