@@ -15,8 +15,8 @@
 		<div id="status">
 		    <h:form>
 		    	Welcome #{user.name}
-			    | <h:commandLink action="main">Search</h:commandLink>
-			    | <h:commandLink action="password">Settings</h:commandLink>
+			    | <h:outputLink value="main.seam">Search</h:outputLink>
+			    | <h:outputLink value="password.seam">Settings</h:outputLink>
 			    | <h:commandLink action="#{logout.logout}">Logout</h:commandLink>
 		    </h:form>
 		</div>
