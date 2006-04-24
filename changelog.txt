@@ -1,7 +1,7 @@
 JBoss Seam Changelog
 ====================
-Changes in version 1.0 rc1 (April 2006)
----------------------------------------
+Changes in version 1.0.0.CR1 (April 2006)
+-----------------------------------------
 * Seam Remoting framework (Shane Bryzak)
 * Support for JSR-168 Portlet environment
 * Added page action support
