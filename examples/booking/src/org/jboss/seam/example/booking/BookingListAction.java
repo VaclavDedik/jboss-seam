@@ -17,6 +17,8 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
@@ -38,11 +40,13 @@ public class BookingListAction implements BookingList, Serializable
    
    @DataModel
    private List<Booking> bookings;
-   @DataModelSelection
+   @DataModelSelection 
+   @Out(required=false)
    private Booking booking;
    
    @Factory("bookings")
-   public void find()
+   @Observer("bookingConfirmed")
+   public void getBookings()
    {
       bookings = em.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
             .setParameter("username", user.getUsername())
@@ -53,15 +57,9 @@ public class BookingListAction implements BookingList, Serializable
    {
       Booking cancelled = em.find(Booking.class, booking.getId());
       if (cancelled!=null) em.remove( cancelled );
-      refresh();
-      FacesMessages.instance().add("Booking cancelled for confirmation number #{bookings.rowData.id}");
+      getBookings();
+      FacesMessages.instance().add("Booking cancelled for confirmation number #{booking.id}");
       return "main";
-   }
-   
-   public void refresh()
-   {
-      booking = null;
-      find();
    }
    
    @Destroy @Remove

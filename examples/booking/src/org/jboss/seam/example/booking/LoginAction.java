@@ -39,7 +39,8 @@ public class LoginAction implements Login
       else
       {
          user = results.get(0);
-         Contexts.getSessionContext().set("loggedIn", true);         
+         Contexts.getSessionContext().set("loggedIn", true);
+         FacesMessages.instance().add("Welcome, #{user.name}");
          return "main";
       }
       

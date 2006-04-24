@@ -20,6 +20,7 @@ import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 
 @Stateful
@@ -46,12 +47,6 @@ public class HotelBookingAction implements HotelBooking
    @In(create=true)
    private transient FacesMessages facesMessages;
       
-   @In(required=false)
-   private BookingList bookingList;
-   
-   /*@RequestParameter
-   private Long hotelId;*/
-   
    @In 
    private HotelSearching hotelSearch;
    
@@ -59,7 +54,6 @@ public class HotelBookingAction implements HotelBooking
    public String selectHotel()
    {
       hotel = em.merge( hotelSearch.getSelectedHotel() );
-      //hotel = em.find(Hotel.class, hotelId);
       return "hotel";
    }
    
@@ -94,8 +88,8 @@ public class HotelBookingAction implements HotelBooking
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);
-      if (bookingList!=null) bookingList.refresh();
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      Events.instance().raiseEvent("bookingConfirmed");
       return "confirmed";
    }
    
