@@ -563,6 +563,8 @@ public class InterceptorTest
       });
       
       assert "foo".equals(result);
+      FacesMessages.afterInvocation();
+      FacesMessages.instance().beforeRenderResponse();
       assert !FacesContext.getCurrentInstance().getMessages().hasNext();      
       
       result = (String) vi.validateTargetComponent( new MockInvocationContext() {
@@ -584,10 +586,10 @@ public class InterceptorTest
             return foo.bar();
          }
       });
-      
-      FacesMessages.instance().beforeRenderResponse();
-      
+            
       assert "baz".equals(result);
+      FacesMessages.afterInvocation();
+      FacesMessages.instance().beforeRenderResponse();
       assert FacesContext.getCurrentInstance().getMessages().hasNext();      
 
       foo.setValue("not null");
