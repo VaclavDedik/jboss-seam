@@ -23,6 +23,9 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 public @interface Name {
+   /**
+    * @return the component name
+    */
    String value();
 }
 

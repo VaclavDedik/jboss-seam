@@ -44,6 +44,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
@@ -326,6 +327,15 @@ public class Component
             			method,
             			this
             		);
+            }
+            if ( method.isAnnotationPresent(Observer.class) )
+            {
+               Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
+               init.addObserverMethod(
+                     method.getAnnotation(Observer.class).value(),
+                     method,
+                     this
+                  );
             }
             if ( method.isAnnotationPresent(DataModelSelectionIndex.class) )
             {
@@ -1166,7 +1176,7 @@ public class Component
       }
    }
 
-   private static Object callComponentMethod(Component component, Object instance, Method method) {
+   public static Object callComponentMethod(Component component, Object instance, Method method) {
       Class[] paramTypes = method.getParameterTypes();
       String createMethodName = method.getName();
       try

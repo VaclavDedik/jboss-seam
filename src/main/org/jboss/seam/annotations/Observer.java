@@ -1,4 +1,3 @@
-//$Id$
 package org.jboss.seam.annotations;
 
 import static java.lang.annotation.ElementType.METHOD;
@@ -9,20 +8,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a method as a factory method for a context variable,
- * meaning it is responsible for outjecting a value for the
- * named context variable when no value is bound to the
- * variable. Supports use of the Seam "factory component"
- * pattern.
+ * Marks a method as an observer of an event type.
  * 
  * @author Gavin King
  */
 @Target(METHOD)
 @Retention(RUNTIME)
 @Documented
-public @interface Factory {
+public @interface Observer
+{
    /**
-    * @return the name of the context variable
+    * @return the event type
     */
    String value();
 }

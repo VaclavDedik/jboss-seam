@@ -5,7 +5,9 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jboss.seam.Component;
@@ -41,6 +43,7 @@ public class Init
    private String jndiPattern;
    
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
+   private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
 
    public String[] getManagedPersistenceContexts()
    {
@@ -104,11 +107,6 @@ public class Init
       this.isClientSideConversations = isClientSideConversations;
    }
    
-   public FactoryMethod getFactory(String variable)
-   {
-	   return factories.get(variable);
-   }
-   
    public static class FactoryMethod {
 	   public Method method;
 	   public Component component;
@@ -119,9 +117,40 @@ public class Init
 	   }
    }
    
+   public FactoryMethod getFactory(String variable)
+   {
+      return factories.get(variable);
+   }
+   
    public void addFactoryMethod(String variable, Method method, Component component)
    {
 	   factories.put( variable, new FactoryMethod(method, component) );
+   }
+   
+   public static class ObserverMethod {
+      public Method method;
+      public Component component;
+      ObserverMethod(Method method, Component component)
+      {
+         this.method = method;
+         this.component = component;
+      }
+   }
+   
+   public List<ObserverMethod> getObservers(String eventType)
+   {
+      return observers.get(eventType);
+   }
+   
+   public void addObserverMethod(String eventType, Method method, Component component)
+   {
+      List<ObserverMethod> observerList = observers.get(eventType);
+      if (observerList==null)
+      {
+         observerList = new ArrayList<ObserverMethod>();
+         observers.put(eventType, observerList);
+      }
+      observerList.add( new ObserverMethod(method, component) );
    }
    
    public boolean isJbpmInstalled()
