@@ -51,7 +51,7 @@
                     </para>
                 </listitem>
             </varlistentry>   
-            <varlistentry id="name-role">
+            <varlistentry id="role-annotation">
                 <term><literal>@Role</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Role(name="roleName", scope=ScopeType.SESSION)]]></programlisting>
@@ -77,7 +77,7 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
-            <varlistentry id="name-roles">
+            <varlistentry id="roles-annotation">
                 <term><literal>@Roles</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Roles({
@@ -89,7 +89,7 @@
                     </para>
                 </listitem>
             </varlistentry>   
-            <varlistentry>
+            <varlistentry  id="intercept-annotation">
                 <term><literal>@Intercept</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Intercept(InterceptionType.ALWAYS)]]></programlisting>
@@ -107,7 +107,7 @@
                     </para>
                 </listitem>
             </varlistentry>   
-            <varlistentry>
+            <varlistentry  id="jndiname-annotation">
                 <term><literal>@JndiName</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@JndiName("my/jndi/name")]]></programlisting>
@@ -139,7 +139,7 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
-            <varlistentry>
+            <varlistentry  id="startup-annotation">
                 <term><literal>@Startup</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Startup(depends={"org.jboss.core.jndi", "org.jboss.core.jta"})]]></programlisting>
@@ -290,7 +290,7 @@
         </para>
         
     	<variablelist spacing="compact">
-            <varlistentry>
+            <varlistentry id="unwrap-annotation">
                 <term><literal>@Unwrap</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Unwrap]]></programlisting>
@@ -310,7 +310,7 @@
         </para>
         
     	<variablelist spacing="compact">
-            <varlistentry>
+            <varlistentry id="factory-annotation">
                 <term><literal>@Factory</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Factory("processInstance")]]></programlisting>
@@ -688,7 +688,7 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry id="transition-annotation">
+            <varlistentry id="rollback-annotation">
                 <term><literal>@Rollback</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Rollback(ifOutcome={"failure", "not-found"})]]></programlisting>
@@ -705,6 +705,20 @@
                         </para>
                         </listitem>
                     </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="transactional-annotation">
+                <term><literal>@Transactional</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Transactional]]></programlisting>
+                    <para>
+                        Specifies that a JavaBean component should have a similar transactional 
+                        behavior to the default behavior of a session bean component. ie. method
+                        invocations should take place in a transaction, and if no transaction
+                        exists when the method is called, a transaction will be started just
+                        for that method. This annotation may be applied at either class or
+                        method level.
+                    </para>
                 </listitem>
             </varlistentry>
         </variablelist> 
@@ -793,7 +807,7 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry>
+            <varlistentry  id="around-annotation">
                 <term><literal>@Around</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Around({SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
@@ -803,7 +817,7 @@
                     </para>
                 </listitem>
             </varlistentry>
-            <varlistentry>
+            <varlistentry  id="within-annotation">
                 <term><literal>@Within</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Within({SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
