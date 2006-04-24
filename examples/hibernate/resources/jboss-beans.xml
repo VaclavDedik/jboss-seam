@@ -3,7 +3,7 @@
 <deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
             xmlns="urn:jboss:bean-deployer">
-            
+
    <bean name="Naming" class="org.jnp.server.SingletonNamingServer"/>
 
    <bean name="TransactionManagerFactory" class="org.jboss.seam.microcontainer.TransactionManagerFactory"/>
