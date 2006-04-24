@@ -322,20 +322,15 @@ public class Component
             if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
             {
                Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
-               init.addFactoryMethod(
-            			method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(),
-            			method,
-            			this
-            		);
+               String contextVariable = toName( method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), method );
+               init.addFactoryMethod(contextVariable, method, this);
             }
             if ( method.isAnnotationPresent(Observer.class) )
             {
                Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
-               init.addObserverMethod(
-                     method.getAnnotation(Observer.class).value(),
-                     method,
-                     this
-                  );
+               String eventType = method.getAnnotation(Observer.class).value();
+               if ( eventType.length()==0 ) eventType = method.getName();
+               init.addObserverMethod(eventType, method, this);
             }
             if ( method.isAnnotationPresent(DataModelSelectionIndex.class) )
             {

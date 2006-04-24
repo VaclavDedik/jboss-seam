@@ -20,5 +20,5 @@ public @interface Observer
    /**
     * @return the event type
     */
-   String value();
+   String value() default "";
 }

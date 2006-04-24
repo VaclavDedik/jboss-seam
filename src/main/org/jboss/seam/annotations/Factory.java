@@ -24,5 +24,5 @@ public @interface Factory {
    /**
     * @return the name of the context variable
     */
-   String value();
+   String value() default "";
 }
