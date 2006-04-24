@@ -1005,6 +1005,19 @@ public class HelloListener {
 }]]></programlisting>
 
             <para>
+                If you don't like the <literal>events.xml</literal> file, we can use an
+                annotation instead:
+            </para>
+
+            <programlisting><![CDATA[@Name("helloListener")
+public class HelloListener {
+    @Observer("hello")
+    public void sayHelloBack() {
+        FacesMessages.instance().add("Hello to you too!");
+    }
+}]]></programlisting>
+
+            <para>
                 You might wonder why I've not mentioned anything about event objects in
                 this discussion. In Seam, there is no need for an event object to propagate
                 state between event producer and listener. All state is held in the Seam

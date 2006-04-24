@@ -390,6 +390,16 @@
                     </para>
                 </listitem>
             </varlistentry>
+            <varlistentry id="observer-annotation">
+                <term><literal>@Observer</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Observer("somethingChanged")]]></programlisting>
+                    <para>
+                        Specifies that the method should be called when a component-driven event 
+                        of the specified type occurs.
+                    </para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         
     </section> 
