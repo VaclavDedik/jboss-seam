@@ -44,7 +44,7 @@ public class BookingListAction implements BookingList, Serializable
    @Out(required=false)
    private Booking booking;
    
-   @Factory("bookings")
+   @Factory
    @Observer("bookingConfirmed")
    public void getBookings()
    {
