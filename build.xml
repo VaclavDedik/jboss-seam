@@ -38,6 +38,8 @@
     <property name="dist.api.dir"       value="${dist.dir}/doc/api"/>
     <property name="dist.ref.dir"       value="${dist.dir}/doc/reference"/>
     <property name="dist.src.java.dir"  value="${dist.dir}/src/main"/>
+	<property name="dist.src.ui.dir"    value="${dist.dir}/src/ui"/>
+	<property name="dist.src.test.dir"  value="${dist.dir}/src/test"/>
     <property name="dist.lib.dir"       value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir" value="${dist.dir}/embedded-ejb/conf"/>
     <property name="dist.mc.conf.dir"   value="${dist.dir}/microcontainer/conf"/>
@@ -347,6 +349,26 @@
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
+        
+    	<mkdir dir="${dist.src.ui.dir}"/>
+        <copy todir="${dist.src.ui.dir}">
+            <fileset dir="${src.ui.dir}">
+                <patternset refid="src.files"/>
+            </fileset>
+            <fileset dir="${src.ui.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+
+    	<mkdir dir="${dist.src.test.dir}"/>
+        <copy todir="${dist.src.test.dir}">
+            <fileset dir="${src.test.dir}">
+                <patternset refid="src.files"/>
+            </fileset>
+            <fileset dir="${src.test.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="copylib" description="Copy 3rd party libraries to dist dir">
@@ -384,6 +406,7 @@
             	<include name="messages/**/*"/>
             	<include name="todo/**/*"/>
             	<include name="numberguess/**/*"/>
+            	<include name="portal/**/*"/>
             	<include name="remoting/**/*"/>
             	<exclude name="remoting/stories"/>
             	<exclude name="remoting/stories/**/*"/>
@@ -482,7 +505,7 @@
     </target>
 
     <target name="dist"
-        depends="cleandist,jar,javadoc,copysource,copylib,copyexamples,extras,refdoc"
+        depends="cleandist,jar,jarui,javadoc,copysource,copylib,copyexamples,extras,refdoc"
         description="Build everything and package">
         <zip zipfile="${dist.dir}.zip">
           <zipfileset prefix="${name}-${version}${patchlevel}" dir="${dist.dir}"/>
