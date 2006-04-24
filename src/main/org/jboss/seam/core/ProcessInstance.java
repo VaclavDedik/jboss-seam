@@ -48,6 +48,8 @@ public class ProcessInstance
    
    public static org.jbpm.graph.exe.ProcessInstance instance()
    {
+      if ( Process.instance().getProcessId()==null ) return null; //so we don't start a txn
+      
       if ( !Contexts.isApplicationContextActive() )
       {
          throw new IllegalStateException("No active application context");

@@ -48,6 +48,8 @@ public class TaskInstance
    
    public static org.jbpm.taskmgmt.exe.TaskInstance instance()
    {
+      if ( Process.instance().getTaskId()==null ) return null; //so we don't start a txn
+      
       if ( !Contexts.isApplicationContextActive() )
       {
          throw new IllegalStateException("No active application context");
