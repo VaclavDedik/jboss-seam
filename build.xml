@@ -9,49 +9,50 @@
     <property file="${imported.basedir}/build.properties"/>
 
     <!-- Name of project and version, used to create filenames -->
-    <property name="Name"               value="JBoss Seam"/>
-    <property name="name"               value="jboss-seam"/>
-    <property name="version"            value="1.0"/>
-    <property name="patchlevel"         value="beta2"/>
+    <property name="Name"                 value="JBoss Seam"/>
+    <property name="name"                 value="jboss-seam"/>
+    <property name="version"              value="1.0"/>
+    <property name="patchlevel"           value="0.CR2"/>
 
     <!-- set global properties for this build -->
-    <property name="build.dir"          value="build"/>
-    <property name="classes.dir"        value="${build.dir}/classes"/>    
-	<property name="uiclasses.dir"     value="${build.dir}/uiclasses"/>
-	  <property name="coverage.dir"       value="${build.dir}/coverage"/>
+    <property name="build.dir"            value="build"/>
+    <property name="classes.dir"          value="${build.dir}/classes"/>    
+	<property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
+	<property name="coverage.dir"         value="${build.dir}/coverage"/>
+	<property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
 
-    <property name="src.java.dir"       value="src/main"/>
-	<property name="src.ui.dir"         value="src/ui"/>
-    <property name="src.test.dir"       value="src/test"/>
+    <property name="src.java.dir"         value="src/main"/>
+	<property name="src.ui.dir"           value="src/ui"/>
+    <property name="src.test.dir"         value="src/test"/>
 
-    <property name="lib.dir"            value="${imported.basedir}/lib"/>
-	<property name="facelets.lib.dir"   value="${imported.basedir}/facelets/lib"/>
-    <property name="eejb.conf.dir"      value="${imported.basedir}/embedded-ejb/conf"/>
-    <property name="mc.conf.dir"        value="${imported.basedir}/microcontainer/conf"/>
+    <property name="lib.dir"              value="${imported.basedir}/lib"/>
+	<property name="facelets.lib.dir"     value="${imported.basedir}/facelets/lib"/>
+    <property name="eejb.conf.dir"        value="${imported.basedir}/embedded-ejb/conf"/>
+    <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
 
-    <property name="doc.dir"            value="doc"/>
-    <property name="doc.api.dir"        value="${doc.dir}/api"/>
-    <property name="doc.ref.dir"        value="${doc.dir}/reference"/>
-    <property name="javadoc.link"       value="http://java.sun.com/j2se/5.0/docs/api"/>
+    <property name="doc.dir"              value="doc"/>
+    <property name="doc.api.dir"          value="${doc.dir}/api"/>
+    <property name="doc.ref.dir"          value="${doc.dir}/reference"/>
+    <property name="javadoc.link"         value="http://java.sun.com/j2se/5.0/docs/api"/>
 
-    <property name="dist.dir"           value="${imported.basedir}/../${name}-${version}${patchlevel}"/>
-    <property name="dist.doc.dir"       value="${dist.dir}/doc"/>
-    <property name="dist.api.dir"       value="${dist.dir}/doc/api"/>
-    <property name="dist.ref.dir"       value="${dist.dir}/doc/reference"/>
-    <property name="dist.src.java.dir"  value="${dist.dir}/src/main"/>
-	<property name="dist.src.ui.dir"    value="${dist.dir}/src/ui"/>
-	<property name="dist.src.test.dir"  value="${dist.dir}/src/test"/>
-    <property name="dist.lib.dir"       value="${dist.dir}/lib"/>
-    <property name="dist.eejb.conf.dir" value="${dist.dir}/embedded-ejb/conf"/>
-    <property name="dist.mc.conf.dir"   value="${dist.dir}/microcontainer/conf"/>
+    <property name="dist.dir"             value="${imported.basedir}/../${name}-${version}.${patchlevel}"/>
+    <property name="dist.doc.dir"         value="${dist.dir}/doc"/>
+    <property name="dist.api.dir"         value="${dist.dir}/doc/api"/>
+    <property name="dist.ref.dir"         value="${dist.dir}/doc/reference"/>
+    <property name="dist.src.java.dir"    value="${dist.dir}/src/main"/>
+	<property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
+	<property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
+    <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
+    <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
+    <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
 
-    <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
-	<property name="webroot.dir"        value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
+    <property name="deploy.dir"           value="${jboss.home}/server/default/deploy"/>
+	<property name="webroot.dir"          value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
     
-    <property name="testng.jar"         value="${imported.basedir}/lib/testng-4.5.1-jdk15.jar"/>
+    <property name="testng.jar"           value="${imported.basedir}/lib/testng-4.5.1-jdk15.jar"/>
 
-    <property name="javac.debug"        value="true"/>
-    <property name="javac.deprecation"  value="false"/>
+    <property name="javac.debug"          value="true"/>
+    <property name="javac.deprecation"    value="false"/>
 
     <path id="example.path" />
     
@@ -110,6 +111,11 @@
     <path id="classpath.emma">
       <pathelement location="${basedir}/extras/emma/emma.jar"/>
       <pathelement location="${basedir}/extras/emma/emma_ant.jar"/>
+    </path>      
+
+    <path id="example.classpath.emma">
+      <pathelement location="${imported.basedir}/extras/emma/emma.jar"/>
+      <pathelement location="${imported.basedir}/extras/emma/emma_ant.jar"/>
     </path>      
 
     <fileset id="eejb.conf" 
@@ -280,9 +286,6 @@
     <target name="testcore" depends="compile"
             description="Run the core unit tests">
 
-        <taskdef resource="emma_ant.properties" 
-                 classpathref="classpath.emma"/>
-
         <taskdef resource="testngtasks"
                  classpath="${testng.jar}"/>
         
@@ -290,23 +293,7 @@
             <fileset dir="${classes.dir}" includes="**/*.*"/>
         </copy>
         
-        <delete dir="test-output"/>
-        
-        <mkdir dir="${coverage.dir}/classes"/>
-        
-        <!-- Apply instrumentation to the classes -->
-        <emma>
-          <instr 
-            instrpath="${build.dir}/test" 
-            destdir="${coverage.dir}/classes"
-            mode="copy" 
-            metadatafile="${coverage.dir}/coverage.em">
-
-            <!-- Exclude packages we don't want coverage for -->
-            <filter excludes="org.jboss.seam.annotations.*"/>
-            <filter excludes="org.jboss.seam.test.*"/>
-          </instr>
-        </emma>                
+        <delete dir="test-output"/>             
        
         <testng>
             <classpath path="${coverage.dir}/classes"/>
@@ -316,20 +303,8 @@
             <xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
         </testng>
         
-        <!-- Move the runtime coverage metadata to the coverage dir -->
-        <move file="coverage.ec" todir="${coverage.dir}"/>        
-        
-        <!-- Generate code coverage report -->
-        <emma>     
-          <report sourcepath="${src.java.dir}" depth="method">
-            <infileset dir="${coverage.dir}" includes="coverage.em,coverage.ec" />
-            <html outfile="./report/coverage.html"/>
-          </report>
-        </emma>
-        
-        <echo>Code coverage report for core classes available at ${basedir}/report/coverage.html</echo>        
-            
     </target>
+	
 
   <target name="testall" depends="testcore,jar"
           description="Run the core unit tests and all example tests">
@@ -357,7 +332,7 @@
              
   </target>
 
-  <target name="testexample" depends="compile"
+    <target name="testexample" depends="compile"
           description="Run the example tests">
         
         <taskdef resource="testngtasks"
@@ -371,9 +346,11 @@
         <delete dir="test-output"/>
         
         <testng outputdir="test-output">
+        	<classpath path="${example.coverage.dir}/classes"/> <!-- TODO: ugly! -->
             <classpath path="${build.dir}/test"/>
             <classpath path="${mc.conf.dir}"/>
             <classpath refid="${test.classpath}"/>
+        	<classpath refid="example.classpath.emma"/>
             <xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
         </testng>
             
@@ -431,6 +408,51 @@
         </copy>
     </target>
 
+	<target name="instrument" depends="compile">
+	  	
+	    <taskdef resource="emma_ant.properties" 
+	             classpathref="classpath.emma"/>
+
+	    <copy todir="${build.dir}/test" >
+	        <fileset dir="${classes.dir}" includes="**/*.*"/>
+	    </copy>
+	    
+	    <mkdir dir="${coverage.dir}/classes"/>
+	    
+	    <!-- Apply instrumentation to the classes -->
+	    <emma>
+	      <instr 
+	        instrpath="${build.dir}/test" 
+	        destdir="${coverage.dir}/classes"
+	        mode="copy" 
+	        metadatafile="${coverage.dir}/coverage.em">
+
+	        <!-- Exclude packages we don't want coverage for -->
+	        <filter excludes="org.jboss.seam.annotations.*"/>
+	        <filter excludes="org.jboss.seam.test.*"/>
+	      </instr>
+	    </emma>
+	  	
+	</target>
+		
+	<target name="coverage" depends="instrument,testall" 
+	  	    description="Generate a test coverage report">
+	  	
+	    <!-- Move the runtime coverage metadata to the coverage dir -->
+	    <move file="coverage.ec" todir="${coverage.dir}"/>        
+	    
+	    <!-- Generate code coverage report -->
+	    <emma>     
+	      <report sourcepath="${src.java.dir}" depth="method">
+	        <infileset dir="${coverage.dir}" includes="coverage.em,coverage.ec" />
+	        <html outfile="./report/coverage.html"/>
+	      </report>
+	    </emma>
+	    
+	    <echo>Code coverage report for core classes available at ${basedir}/report/coverage.html</echo>        
+	        
+	</target>
+	
     <target name="copyexamples" description="Copy examples to dist dir">
         <copy todir="${dist.dir}/examples">
             <fileset dir="${imported.basedir}/examples">
@@ -548,10 +570,10 @@
         depends="cleandist,jar,jarui,javadoc,copysource,copylib,copyexamples,extras,refdoc"
         description="Build everything and package">
         <zip zipfile="${dist.dir}.zip">
-          <zipfileset prefix="${name}-${version}${patchlevel}" dir="${dist.dir}"/>
+          <zipfileset prefix="${name}-${version}.${patchlevel}" dir="${dist.dir}"/>
         </zip>
         <tar tarfile="${dist.dir}.tar.gz" compression="gzip">
-          <tarfileset prefix="${name}-${version}${patchlevel}" dir="${dist.dir}"/>
+          <tarfileset prefix="${name}-${version}.${patchlevel}" dir="${dist.dir}"/>
         </tar>
     </target>
 
