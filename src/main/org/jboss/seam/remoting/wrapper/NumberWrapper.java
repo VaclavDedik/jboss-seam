@@ -11,6 +11,9 @@ import java.lang.reflect.Type;
  */
 public class NumberWrapper extends BaseWrapper implements Wrapper
 {
+  private static final byte[] NUMBER_TAG_OPEN = "<number>".getBytes();
+  private static final byte[] NUMBER_TAG_CLOSE = "</number>".getBytes();
+
   /**
    *
    * @param cls Class
@@ -29,7 +32,7 @@ public class NumberWrapper extends BaseWrapper implements Wrapper
       value = !"".equals(val) ? Integer.valueOf(val) : null;
     else if (type.equals(Integer.TYPE))
       value = Integer.parseInt(val);
-    else if (type.equals(Long.class))
+    else if (type.equals(Long.class) || type.equals(Object.class))
       value = !"".equals(val) ? Long.valueOf(val) : null;
     else if (type.equals(Long.TYPE))
       value = Long.parseLong(val);
@@ -64,9 +67,9 @@ public class NumberWrapper extends BaseWrapper implements Wrapper
   public void marshal(OutputStream out)
     throws IOException
   {
-    out.write("<number>".getBytes());
+    out.write(NUMBER_TAG_OPEN);
     out.write(value.toString().getBytes());
-    out.write("</number>".getBytes());
+    out.write(NUMBER_TAG_CLOSE);
   }
 
   /**
@@ -80,7 +83,7 @@ public class NumberWrapper extends BaseWrapper implements Wrapper
     if (cls.equals(Integer.class) || cls.equals(Integer.TYPE))
       return ConversionScore.exact;
 
-    if (cls.equals(String.class))
+    if (cls.equals(String.class) || cls.equals(Object.class))
       return ConversionScore.compatible;
 
     return ConversionScore.nomatch;

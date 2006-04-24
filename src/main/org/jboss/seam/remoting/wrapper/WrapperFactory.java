@@ -40,11 +40,19 @@ public class WrapperFactory
     registerWrapper("bag", BagWrapper.class);
     registerWrapper("map", MapWrapper.class);
 
+    // String types
     registerWrapperClass(String.class, StringWrapper.class);
     registerWrapperClass(StringBuilder.class, StringWrapper.class);
     registerWrapperClass(StringBuffer.class, StringWrapper.class);
+    registerWrapperClass(Character.class, StringWrapper.class);
+
+    // Number types
     registerWrapperClass(Integer.class, NumberWrapper.class);
     registerWrapperClass(Long.class, NumberWrapper.class);
+    registerWrapperClass(Short.class, NumberWrapper.class);
+    registerWrapperClass(Double.class, NumberWrapper.class);
+    registerWrapperClass(Float.class, NumberWrapper.class);
+    registerWrapperClass(Byte.class, NumberWrapper.class);
   }
 
   /**
@@ -91,8 +99,7 @@ public class WrapperFactory
         Wrapper wrapper = (Wrapper) wrapperClass.newInstance();
         return wrapper;
       }
-      catch (IllegalAccessException ex) { }
-      catch (InstantiationException ex) { }
+      catch (Exception ex) { }
     }
 
     throw new RuntimeException(String.format("Failed to create wrapper for type: %s",

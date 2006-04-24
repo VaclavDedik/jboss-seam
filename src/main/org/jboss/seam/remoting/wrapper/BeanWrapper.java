@@ -199,7 +199,7 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
   public ConversionScore conversionScore(Class cls) {
     if (cls.equals(value.getClass()))
       return ConversionScore.exact;
-    else if (cls.isAssignableFrom(value.getClass()))
+    else if (cls.isAssignableFrom(value.getClass()) || cls.equals(Object.class))
       return ConversionScore.compatible;
     else
       return ConversionScore.nomatch;

@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Handles date conversions
+ *
  * @author Shane Bryzak
  */
 public class DateWrapper extends BaseWrapper implements Wrapper
@@ -27,13 +29,14 @@ public class DateWrapper extends BaseWrapper implements Wrapper
   public Object convert(Type type)
       throws ConversionException
   {
-    if (type.equals(Date.class))
+    if ((type instanceof Class && Date.class.isAssignableFrom((Class) type)) ||
+        type.equals(Object.class))
     {
       try {
-        return df.parse(element.getStringValue());
+        value = df.parse(element.getStringValue());
       }
       catch (ParseException ex) {
-        throw new RuntimeException(String.format(
+        throw new ConversionException(String.format(
             "Date value [%s] is not in a valid format.", element.getStringValue()));
       }
     }
@@ -41,13 +44,17 @@ public class DateWrapper extends BaseWrapper implements Wrapper
       throw new ConversionException(String.format(
         "Value [%s] cannot be converted to type [%s].", element.getStringValue(),
         type));
+
+    return value;
   }
 
   public ConversionScore conversionScore(Class cls)
   {
-    if (cls.equals(Date.class))
+    if (Date.class.isAssignableFrom(cls))
       return ConversionScore.exact;
-
-    return ConversionScore.nomatch;
+    else if (cls.equals(Object.class))
+      return ConversionScore.compatible;
+    else
+      return ConversionScore.nomatch;
   }
 }

@@ -7,27 +7,29 @@ import org.dom4j.Element;
 import org.jboss.seam.remoting.CallContext;
 
 /**
+ * Base class for all Wrapper implementations.
  *
  * @author Shane Bryzak
  */
 public abstract class BaseWrapper implements Wrapper
 {
   /**
-   *
+   * The call context
    */
   protected CallContext context;
 
   /**
-   *
+   * The DOM4J element containing the value
    */
   protected Element element;
 
   /**
-   *
+   * The wrapped value
    */
   protected Object value;
 
   /**
+   * Sets the wrapped value
    *
    * @param value Object
    */
@@ -37,6 +39,7 @@ public abstract class BaseWrapper implements Wrapper
   }
 
   /**
+   * Returns the wrapped value
    *
    * @return Object
    */
@@ -46,6 +49,7 @@ public abstract class BaseWrapper implements Wrapper
   }
 
   /**
+   * Sets the call context
    *
    * @param call Call
    */
@@ -64,7 +68,16 @@ public abstract class BaseWrapper implements Wrapper
     this.element = element;
   }
 
+  /**
+   * Default implementation does nothing
+   */
   public void unmarshal() {}
 
+  /**
+   * Default implementation does nothing
+   *
+   * @param out OutputStream
+   * @throws IOException
+   */
   public void serialize(OutputStream out) throws IOException { }
 }

@@ -33,6 +33,7 @@ public class BagWrapper extends BaseWrapper implements Wrapper
   {
     out.write(BAG_TAG_OPEN);
 
+    // Fix to prevent uninitialized lazy loading in Hibernate
     if (value instanceof PersistentCollection)
     {
       if (!((PersistentCollection) value).wasInitialized())
@@ -93,7 +94,7 @@ public class BagWrapper extends BaseWrapper implements Wrapper
             "Could not create instance of target type [%s].", type));
       }
       for (Wrapper w : vals)
-        ((Collection) value).add(w.convert(type));
+        ((Collection) value).add(w.convert(Object.class));
     }
     else if (type instanceof ParameterizedType &&
              Collection.class.isAssignableFrom((Class) ((ParameterizedType) type).getRawType()))
@@ -154,11 +155,11 @@ public class BagWrapper extends BaseWrapper implements Wrapper
     if (cls.isArray())
       return ConversionScore.compatible;
 
-    for (Class c : cls.getInterfaces())
-    {
-      if (c.equals(Collection.class))
-        return ConversionScore.compatible;
-    }
+    if (cls.equals(Object.class))
+      return ConversionScore.compatible;
+
+    if (Collection.class.isAssignableFrom(cls))
+      return ConversionScore.compatible;
 
     return ConversionScore.nomatch;
   }

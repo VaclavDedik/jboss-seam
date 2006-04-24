@@ -80,6 +80,8 @@ public class MapWrapper extends BaseWrapper implements Wrapper
     {
       if (!((Class) type).isInterface())
         typeClass = (Class) type;
+      keyType = Object.class;
+      valueType = Object.class;
     }
     // If it's neither, throw an exception
     else
@@ -103,9 +105,12 @@ public class MapWrapper extends BaseWrapper implements Wrapper
 
     for (Element e : (List<Element>) element.elements("element"))
     {
+      Element keyElement = (Element) e.element("k").elementIterator().next();
+      Element valueElement = (Element) e.element("v").elementIterator().next();
+
       ((Map) value).put(
-        context.createWrapperFromElement((Element) e.element("k").elements().get(0)).convert(keyType),
-        context.createWrapperFromElement((Element) e.element("v").elements().get(0)).convert(valueType));
+        context.createWrapperFromElement(keyElement).convert(keyType),
+        context.createWrapperFromElement(valueElement).convert(valueType));
     }
 
     return value;
@@ -113,14 +118,11 @@ public class MapWrapper extends BaseWrapper implements Wrapper
 
   public ConversionScore conversionScore(Class cls)
   {
-    if (cls.equals(Map.class))
+    if (Map.class.isAssignableFrom(cls))
       return ConversionScore.exact;
 
-    for (Class c : cls.getInterfaces())
-    {
-      if (c.equals(Map.class))
-        return ConversionScore.compatible;
-    }
+    if (cls.equals(Object.class))
+      return ConversionScore.compatible;
 
     return ConversionScore.nomatch;
   }

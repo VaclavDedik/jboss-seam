@@ -11,6 +11,7 @@
        <class name="org.jboss.seam.test.ComponentTest"/>
        <class name="org.jboss.seam.test.ContextTest"/>
        <class name="org.jboss.seam.test.PhaseListenerTest"/>
+       <class name="org.jboss.seam.test.RemotingTest"/>
      </classes>
    </test>
 	

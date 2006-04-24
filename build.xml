@@ -16,8 +16,9 @@
 
     <!-- set global properties for this build -->
     <property name="build.dir"          value="build"/>
-    <property name="classes.dir"        value="${build.dir}/classes"/>
+    <property name="classes.dir"        value="${build.dir}/classes"/>    
 	<property name="uiclasses.dir"     value="${build.dir}/uiclasses"/>
+	  <property name="coverage.dir"       value="${build.dir}/coverage"/>
 
     <property name="src.java.dir"       value="src/main"/>
 	<property name="src.ui.dir"         value="src/ui"/>
@@ -105,6 +106,11 @@
         <path refid="build.classpath"/>
         <path path="${eejb.conf.dir}"/>
      </path>
+     
+    <path id="classpath.emma">
+      <pathelement location="${basedir}/extras/emma/emma.jar"/>
+      <pathelement location="${basedir}/extras/emma/emma_ant.jar"/>
+    </path>      
 
     <fileset id="eejb.conf" 
             dir="${eejb.conf.dir}">
@@ -273,7 +279,10 @@
     
     <target name="testcore" depends="compile"
             description="Run the core unit tests">
-        
+
+        <taskdef resource="emma_ant.properties" 
+                 classpathref="classpath.emma"/>
+
         <taskdef resource="testngtasks"
                  classpath="${testng.jar}"/>
         
@@ -283,11 +292,42 @@
         
         <delete dir="test-output"/>
         
+        <mkdir dir="${coverage.dir}/classes"/>
+        
+        <!-- Apply instrumentation to the classes -->
+        <emma>
+          <instr 
+            instrpath="${build.dir}/test" 
+            destdir="${coverage.dir}/classes"
+            mode="copy" 
+            metadatafile="${coverage.dir}/coverage.em">
+
+            <!-- Exclude packages we don't want coverage for -->
+            <filter excludes="org.jboss.seam.annotations.*"/>
+            <filter excludes="org.jboss.seam.test.*"/>
+          </instr>
+        </emma>                
+       
         <testng>
+            <classpath path="${coverage.dir}/classes"/>
             <classpath path="${build.dir}/test"/>
             <classpath refid="test.classpath"/>
+            <classpath refid="classpath.emma"/>
             <xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
         </testng>
+        
+        <!-- Move the runtime coverage metadata to the coverage dir -->
+        <move file="coverage.ec" todir="${coverage.dir}"/>        
+        
+        <!-- Generate code coverage report -->
+        <emma>     
+          <report sourcepath="${src.java.dir}" depth="method">
+            <infileset dir="${coverage.dir}" includes="coverage.em,coverage.ec" />
+            <html outfile="./report/coverage.html"/>
+          </report>
+        </emma>
+        
+        <echo>Code coverage report for core classes available at ${basedir}/report/coverage.html</echo>        
             
     </target>
 
@@ -314,7 +354,7 @@
     </junitreport>
 
     <echo>Report available at ${basedir}/report/html/index.html</echo>
-    
+             
   </target>
 
   <target name="testexample" depends="compile"
