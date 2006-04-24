@@ -8,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.jboss.seam.core.Ejb;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.example.booking.Booking;
@@ -64,6 +65,7 @@ public class BookingUnitTest extends SeamTest
       setField(hb, "hotelSearch", hs);
       setField(hb, "user", em.getReference(User.class, "gavin"));
       setField(hb, "facesMessages", new FacesMessages());
+      setField(hb, "events", new Events() { public void raiseEvent(String type) { assert "bookingConfirmed".equals(type); } } );
       
       assert hb.selectHotel().equals("hotel");
       assert hb.bookHotel().equals("book");

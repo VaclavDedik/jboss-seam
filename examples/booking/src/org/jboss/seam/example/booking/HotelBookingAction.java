@@ -47,6 +47,9 @@ public class HotelBookingAction implements HotelBooking
    @In(create=true)
    private transient FacesMessages facesMessages;
       
+   @In(create=true)
+   private transient Events events;
+      
    @In 
    private HotelSearching hotelSearch;
    
@@ -89,7 +92,7 @@ public class HotelBookingAction implements HotelBooking
       if (booking==null || hotel==null) return "main";
       em.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
-      Events.instance().raiseEvent("bookingConfirmed");
+      events.raiseEvent("bookingConfirmed");
       return "confirmed";
    }
    
