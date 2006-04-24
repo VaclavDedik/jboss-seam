@@ -66,6 +66,7 @@ import org.jboss.seam.interceptors.JavaBeanInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
+import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
@@ -511,6 +512,10 @@ public class Component
       interceptors.add( new Interceptor( new BijectionInterceptor(), this ) );
       interceptors.add( new Interceptor( new ValidationInterceptor(), this ) );
       interceptors.add( new Interceptor( new RollbackInterceptor(), this ) );
+      if ( getType()==ComponentType.JAVA_BEAN )
+      {
+         interceptors.add( new Interceptor( new TransactionInterceptor(), this ) );
+      }
    }
 
    public Class<?> getBeanClass()

@@ -6,14 +6,12 @@
  */
 package org.jboss.seam.core;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
 
@@ -26,12 +24,12 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Scope(ScopeType.APPLICATION)
 @Name("taskInstance")
-@Intercept(NEVER)
 @Startup
 public class TaskInstance 
 {
    
    @Unwrap
+   @Transactional
    public org.jbpm.taskmgmt.exe.TaskInstance getTaskInstance()
    {
       if ( !Contexts.isConversationContextActive() ) return null;

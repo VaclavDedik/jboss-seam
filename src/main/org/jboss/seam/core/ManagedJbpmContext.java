@@ -66,6 +66,10 @@ public class ManagedJbpmContext implements Synchronization
    @Unwrap
    public JbpmContext getJbpmContext() throws NamingException, RollbackException, SystemException
    {
+      if ( !Transactions.isTransactionActiveOrMarkedRollback() )
+      {
+         throw new IllegalStateException("JbpmContext may only be used inside a transaction");
+      }
       if ( !synchronizationRegistered )
       {
          Transactions.registerSynchronization(this);

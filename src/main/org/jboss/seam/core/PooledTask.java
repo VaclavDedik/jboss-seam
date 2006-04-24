@@ -5,6 +5,7 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -18,6 +19,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 public class PooledTask
 {
    
+   @Transactional
    public String assignToCurrentActor()
    {
       Actor actor = Actor.instance();

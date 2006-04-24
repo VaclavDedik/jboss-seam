@@ -1,14 +1,13 @@
 package org.jboss.seam.core;
 
-import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
@@ -22,11 +21,11 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name( "taskInstanceList" )
 @Scope( APPLICATION )
-@Intercept( NEVER )
 public class TaskInstanceList
 {
    
    @Unwrap
+   @Transactional
    public List<TaskInstance> getTaskInstanceList()
    {
       return getTaskInstanceList( Actor.instance().getId() );

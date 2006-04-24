@@ -1,16 +1,15 @@
 package org.jboss.seam.core;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.ScopeType.EVENT;
+import static org.jboss.seam.ScopeType.APPLICATION;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
@@ -22,12 +21,12 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  */
 @Name( "taskInstanceListForType" )
-@Scope( EVENT )
-@Intercept( NEVER )
+@Scope( APPLICATION )
 public class TaskInstanceListForType
 {
    
    @Unwrap
+   @Transactional
    public Map<String,List<TaskInstance>> getTaskInstanceList()
    {
       return getTaskInstanceList( Actor.instance().getId() );

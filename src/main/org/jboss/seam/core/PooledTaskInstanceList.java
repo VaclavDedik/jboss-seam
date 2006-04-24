@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
@@ -20,11 +19,11 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name( "pooledTaskInstanceList" )
 @Scope( ScopeType.APPLICATION )
-@Intercept(InterceptionType.NEVER)
 public class PooledTaskInstanceList
 {
    
    @Unwrap
+   @Transactional
    public List<TaskInstance> getPooledTaskInstanceList()
    {
       List<TaskInstance> pooledTaskInstanceList = new ArrayList<TaskInstance>();
