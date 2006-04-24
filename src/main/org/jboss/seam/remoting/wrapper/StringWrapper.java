@@ -111,10 +111,6 @@ public class StringWrapper extends BaseWrapper implements Wrapper
     return ConversionScore.nomatch;
   }
 
-  /**
-   *
-   * @return String
-   */
   public void marshal(OutputStream out)
     throws IOException
   {

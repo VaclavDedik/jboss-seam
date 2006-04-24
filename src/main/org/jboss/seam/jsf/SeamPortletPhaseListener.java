@@ -86,6 +86,11 @@ public class SeamPortletPhaseListener implements PhaseListener
    {
       log.trace( "after phase: " + event.getPhaseId() );
 
+      if ( event.getPhaseId() == INVOKE_APPLICATION )
+      {
+         FacesMessages.afterInvocation();
+      }
+      
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(event);
@@ -109,7 +114,11 @@ public class SeamPortletPhaseListener implements PhaseListener
       boolean actionsWereCalled = false;
       actionsWereCalled = callAction( event.getFacesContext() ) || actionsWereCalled;
       actionsWereCalled = Pages.instance().callAction() || actionsWereCalled;
-      if (actionsWereCalled) afterPageActions();
+      if (actionsWereCalled) 
+      {
+         FacesMessages.afterInvocation();
+         afterPageActions();
+      }
    }
    
    protected void afterPageActions() {}

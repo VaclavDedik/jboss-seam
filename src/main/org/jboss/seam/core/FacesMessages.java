@@ -34,6 +34,8 @@ import org.jboss.seam.util.Template;
 public class FacesMessages 
 {
    
+   private List<Runnable> tasks = new ArrayList<Runnable>();
+   
    private List<FacesMessage> facesMessages = new ArrayList<FacesMessage>();
    private Map<String, List<FacesMessage>> keyedFacesMessages = new HashMap<String, List<FacesMessage>>();
 
@@ -51,6 +53,18 @@ public class FacesMessages
          }
       }
       clear();
+   }
+   
+   private void runTasks()
+   {
+      for (Runnable task: tasks) task.run();
+      tasks.clear();
+   }
+   
+   public static void afterInvocation()
+   {
+      FacesMessages instance = (FacesMessages) Component.getInstance(FacesMessages.class, ScopeType.CONVERSATION, false);
+      if (instance!=null) instance.runTasks();
    }
    
    public void clear()
@@ -97,9 +111,11 @@ public class FacesMessages
     * Add a templated FacesMessage to a particular component id
     * @param id a JSF component id
     */
-   public void add(String id, Severity severity, String messageTemplate)
+   public void add(final String id, final Severity severity, final String messageTemplate)
    {
-      add( id, createFacesMessage(severity, messageTemplate) );
+      tasks.add( new Runnable() {
+         public void run() { add( id, createFacesMessage(severity, messageTemplate) ); }
+      } );
    }
 
    public static FacesMessages instance()
@@ -124,9 +140,11 @@ public class FacesMessages
     * Add a templated FacesMessage that will be used
     * the next time a page is rendered.
     */
-   public void add(Severity severity, String messageTemplate)
+   public void add(final Severity severity, final String messageTemplate)
    {
-      add( createFacesMessage(severity, messageTemplate) );
+      tasks.add( new Runnable() {
+         public void run() { add( createFacesMessage(severity, messageTemplate) ); }
+      } );
    }
    
    /**
@@ -170,7 +188,7 @@ public class FacesMessages
 
    public void add(InvalidValue iv)
    {
-      add( iv.getPropertyName(), createFacesMessage( FacesMessage.SEVERITY_WARN, iv.getMessage() ) );
+      add( iv.getPropertyName(), FacesMessage.SEVERITY_WARN, iv.getMessage() );
    }
    
    private FacesMessage createFacesMessage(Severity severity, String messageTemplate)

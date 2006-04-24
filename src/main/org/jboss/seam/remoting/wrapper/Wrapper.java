@@ -52,16 +52,8 @@ public interface Wrapper
    */
   public Object convert(Type type) throws ConversionException;
 
-  /**
-   *
-   * @return String
-   */
   public void marshal(OutputStream out) throws IOException;
 
-  /**
-   *
-   * @return String
-   */
   public void serialize(OutputStream out) throws IOException;
 
   /**

@@ -9,6 +9,7 @@ package org.jboss.seam.jsf;
 import static javax.faces.event.PhaseId.ANY_PHASE;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
+import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 
 import java.util.Map;
 import java.util.Set;
@@ -92,7 +93,11 @@ public class SeamPhaseListener implements PhaseListener
       finally
       {
          Lifecycle.setPhaseId( PhaseId.RENDER_RESPONSE );
-         if (actionsWereCalled) afterPageActions();
+         if (actionsWereCalled) 
+         {
+            FacesMessages.afterInvocation();
+            afterPageActions();
+         }
       }
    }
    
@@ -145,6 +150,11 @@ public class SeamPhaseListener implements PhaseListener
       log.trace( "after phase: " + event.getPhaseId() );
 
       FacesContext facesContext = event.getFacesContext();
+      
+      if ( event.getPhaseId() == INVOKE_APPLICATION )
+      {
+         FacesMessages.afterInvocation();
+      }
       
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
