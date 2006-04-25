@@ -1,0 +1,17 @@
+<application>
+	<display-name>Seam JBMS</display-name>
+
+	<module>
+		<web>
+			<web-uri>jboss-seam-jbms.war</web-uri>
+			<context-root>/seam-jbms</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>jboss-seam-jbms.jar</ejb>
+	</module>
+	<module>
+	    <java>jboss-seam.jar</java>
+	</module>
+
+</application>
