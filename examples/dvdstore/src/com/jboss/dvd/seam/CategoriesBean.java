@@ -26,7 +26,7 @@ import org.jboss.seam.annotations.Scope;
 
 @Stateful
 @Name("catbean")
-@Scope(ScopeType.APPLICATION)
+@Scope(ScopeType.EVENT)
 public class CategoriesBean
     implements Categories,
                Serializable 
@@ -39,7 +39,9 @@ public class CategoriesBean
 
     @Create
     public void loadData() {
-        categories = em.createQuery("from Category c").getResultList();
+        categories = em.createQuery("from Category c")
+              .setHint("org.hibernate.cacheable", true)
+              .getResultList();
 
         Map<String,Category> results = new TreeMap<String,Category>();
         
