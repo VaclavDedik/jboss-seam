@@ -19,7 +19,6 @@
     <property name="classes.dir"          value="${build.dir}/classes"/>    
 	<property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
 	<property name="coverage.dir"         value="${build.dir}/coverage"/>
-	<property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
 
     <property name="src.java.dir"         value="src/main"/>
 	<property name="src.ui.dir"           value="src/ui"/>
@@ -29,6 +28,8 @@
 	<property name="facelets.lib.dir"     value="${imported.basedir}/facelets/lib"/>
     <property name="eejb.conf.dir"        value="${imported.basedir}/embedded-ejb/conf"/>
     <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
+	<property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
+	<property name="facelets.dir"         value="${imported.basedir}/facelets"/>
 
     <property name="doc.dir"              value="doc"/>
     <property name="doc.api.dir"          value="${doc.dir}/api"/>
@@ -45,6 +46,7 @@
     <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
+	<property name="dist.facelets.dir"   value="${dist.dir}/facelets"/>
 
     <property name="deploy.dir"           value="${jboss.home}/server/default/deploy"/>
 	<property name="webroot.dir"          value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
@@ -404,6 +406,11 @@
         <copy todir="${dist.mc.conf.dir}">
             <fileset dir="${mc.conf.dir}">
                 <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist.facelets.dir}">
+            <fileset dir="${facelets.dir}">
+            	<include name="**/*.jar"/>
             </fileset>
         </copy>
     </target>
