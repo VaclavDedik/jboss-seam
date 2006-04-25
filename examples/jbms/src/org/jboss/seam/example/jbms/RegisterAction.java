@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
+import org.jboss.annotation.ejb.Depends;
+import org.jboss.mail.userapi.MailSender;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -18,6 +20,8 @@ import org.jboss.seam.core.FacesMessages;
 @Name("register")
 public class RegisterAction implements Register
 {
+   @Depends("jboss.mail:type=MailServices,name=MailSender")
+   private MailSender mailer;
 
    @In @Valid
    private User user;
@@ -34,9 +38,10 @@ public class RegisterAction implements Register
       if (existing.size()==0)
       {
          em.persist(user);
-         
-         //TODO: send the confirmation email!!
-         
+         String from = user.getEmail();  //todo this should be a sender acct
+         String to = from;
+         mailer.send(user.getUsername(), from, new String[]{to}, 
+                     new String[]{},new String[]{},"Hi user","This is a mail to a user\r\n\r\nHi user\r\n.\r\n");
          return "success";
       }
       else

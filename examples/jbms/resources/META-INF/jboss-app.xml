@@ -2,4 +2,5 @@
       <loader-repository> 
       seam.jboss.org:loader=seam-jbms
       </loader-repository> 
+      <depends>jboss.mail:name=MailSender,type=MailServices</depends>
 </jboss-app> 
