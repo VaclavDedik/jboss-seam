@@ -11,19 +11,14 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class Transactions
 {
-   public static final String EJBCONTEXT_NAME = "java:comp/EJBContext";
+   public static final String EJBCONTEXT_NAME = "java:comp.ejb3/EJBContext";
    
    private static String userTransactionName = "UserTransaction";
    private static final String STANDARD_USER_TRANSACTION_NAME = "java:comp/UserTransaction";
    
    private static String transactionManagerName = "java:/TransactionManager";
-   
-   private static final Log log = LogFactory.getLog(Transactions.class);
    
    public static boolean isTransactionActive() throws SystemException, NamingException
    {
