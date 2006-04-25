@@ -12,7 +12,7 @@ import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.util.Transactions;
 
-@Around(RollbackInterceptor.class)
+@Around({RollbackInterceptor.class, BusinessProcessInterceptor.class, ConversationInterceptor.class})
 public class TransactionInterceptor extends AbstractInterceptor
 {
    private static final Log log = LogFactory.getLog(TransactionInterceptor.class);
