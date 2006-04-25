@@ -39,6 +39,7 @@ public class ChangePasswordAction implements ChangePassword
       if ( user.getPassword().equals(verify) )
       {
          user = em.merge(user);
+         FacesMessages.instance().add("Password updated");
          return "main";
       }
       else 
