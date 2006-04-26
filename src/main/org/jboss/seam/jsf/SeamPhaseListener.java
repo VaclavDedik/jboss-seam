@@ -9,7 +9,6 @@ package org.jboss.seam.jsf;
 import static javax.faces.event.PhaseId.ANY_PHASE;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
-import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 
 import java.util.Map;
 import java.util.Set;
@@ -95,7 +94,7 @@ public class SeamPhaseListener implements PhaseListener
          Lifecycle.setPhaseId( PhaseId.RENDER_RESPONSE );
          if (actionsWereCalled) 
          {
-            FacesMessages.afterInvocation();
+            FacesMessages.afterPhase();
             afterPageActions();
          }
       }
@@ -151,17 +150,17 @@ public class SeamPhaseListener implements PhaseListener
 
       FacesContext facesContext = event.getFacesContext();
       
-      if ( event.getPhaseId() == INVOKE_APPLICATION )
-      {
-         FacesMessages.afterInvocation();
-      }
-      
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(event);
          //renderDebugPage(facesContext);
       }
-      else if ( event.getPhaseId() == RENDER_RESPONSE )
+      
+      //has to happen after, since restoreAnyConversationContext() 
+      //can add messages
+      FacesMessages.afterPhase();
+            
+      if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          if ( !Init.instance().isClientSideConversations() ) 
          {
@@ -173,7 +172,7 @@ public class SeamPhaseListener implements PhaseListener
          }
          Lifecycle.endRequest( facesContext.getExternalContext() );
       }
-      else if ( facesContext.getResponseComplete() )
+      else if ( event.getPhaseId() != RESTORE_VIEW && facesContext.getResponseComplete() )
       {
          //responseComplete() was called by one of the other
          //phases, so we will never get to the RENDER_RESPONSE

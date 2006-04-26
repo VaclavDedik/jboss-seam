@@ -563,7 +563,7 @@ public class InterceptorTest
       });
       
       assert "foo".equals(result);
-      FacesMessages.afterInvocation();
+      FacesMessages.afterPhase();
       FacesMessages.instance().beforeRenderResponse();
       assert !FacesContext.getCurrentInstance().getMessages().hasNext();      
       
@@ -588,7 +588,7 @@ public class InterceptorTest
       });
             
       assert "baz".equals(result);
-      FacesMessages.afterInvocation();
+      FacesMessages.afterPhase();
       FacesMessages.instance().beforeRenderResponse();
       assert FacesContext.getCurrentInstance().getMessages().hasNext();      
 

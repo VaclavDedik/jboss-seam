@@ -85,25 +85,25 @@ public class SeamPortletPhaseListener implements PhaseListener
    public void afterPhase(PhaseEvent event)
    {
       log.trace( "after phase: " + event.getPhaseId() );
-
-      if ( event.getPhaseId() == INVOKE_APPLICATION )
-      {
-         FacesMessages.afterInvocation();
-      }
+      
+      FacesContext facesContext = event.getFacesContext();
       
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(event);
       }
-      else if ( event.getPhaseId() == RENDER_RESPONSE )
+            
+      FacesMessages.afterPhase();
+      
+      if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
+         Lifecycle.endRequest( facesContext.getExternalContext() );
       }
-      else if ( event.getPhaseId() == INVOKE_APPLICATION || event.getFacesContext().getResponseComplete() )
+      else if ( event.getPhaseId() == INVOKE_APPLICATION || ( event.getPhaseId() != RESTORE_VIEW && facesContext.getResponseComplete() ) )
       {
          Manager.instance().beforeRedirect();
-         beforeSaveState( event.getFacesContext() );
-         Lifecycle.endRequest( event.getFacesContext().getExternalContext() );
+         beforeSaveState(facesContext);
+         Lifecycle.endRequest( facesContext.getExternalContext() );
       }
 
       Lifecycle.setPhaseId(null);
@@ -116,7 +116,7 @@ public class SeamPortletPhaseListener implements PhaseListener
       actionsWereCalled = Pages.instance().callAction() || actionsWereCalled;
       if (actionsWereCalled) 
       {
-         FacesMessages.afterInvocation();
+         FacesMessages.afterPhase();
          afterPageActions();
       }
    }

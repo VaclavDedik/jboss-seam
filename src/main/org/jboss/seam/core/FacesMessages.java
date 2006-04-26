@@ -61,10 +61,13 @@ public class FacesMessages
       tasks.clear();
    }
    
-   public static void afterInvocation()
+   public static void afterPhase()
    {
-      FacesMessages instance = (FacesMessages) Component.getInstance(FacesMessages.class, ScopeType.CONVERSATION, false);
-      if (instance!=null) instance.runTasks();
+      if ( Contexts.isConversationContextActive() )
+      {
+         FacesMessages instance = (FacesMessages) Component.getInstance(FacesMessages.class, ScopeType.CONVERSATION, false);
+         if (instance!=null) instance.runTasks();
+      }
    }
    
    public void clear()
