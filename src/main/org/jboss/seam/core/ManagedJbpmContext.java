@@ -70,7 +70,7 @@ public class ManagedJbpmContext implements Synchronization
       {
          throw new IllegalStateException("JbpmContext may only be used inside a transaction");
       }
-      if ( !synchronizationRegistered )
+      if ( !synchronizationRegistered && Transactions.isTransactionActive() )
       {
          Transactions.registerSynchronization(this);
          synchronizationRegistered = true;

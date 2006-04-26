@@ -61,16 +61,10 @@ public class Transactions
       }
    }
    
-   public static void registerSynchronization(Synchronization sync) throws SystemException, RollbackException, NamingException
+   public static void registerSynchronization(Synchronization sync) 
+         throws SystemException, RollbackException, NamingException
    {
-      if ( isTransactionActive() )
-      {
-         getTransactionManager().getTransaction().registerSynchronization(sync);
-      }
-      if ( !isTransactionActiveOrMarkedRollback() )
-      {
-         throw new IllegalStateException("No active transaction");
-      }
+      getTransactionManager().getTransaction().registerSynchronization(sync);
    }
 
    private Transactions() {}
