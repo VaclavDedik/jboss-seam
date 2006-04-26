@@ -19,7 +19,6 @@
    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
       <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
       <param name="Target" value="System.out"/>
-      <param name="Threshold" value="INFO"/>
 
       <layout class="org.apache.log4j.PatternLayout">
          <param name="ConversionPattern" value="%-5p %d{dd-MM HH:mm:ss,SSS} (%F:%M:%L)  -%m%n"/>
@@ -30,14 +29,29 @@
    <category name="org.hibernate">
       <priority value="DEBUG"/>
    </category>
+   -->
 
+   <!-- 
    <category name="org.jboss.seam">
       <priority value="DEBUG"/>
    </category>
    -->
    
+   <!-- 
+   <category name="org.jboss.ejb3">
+      <priority value="DEBUG"/>
+   </category>
+   -->
+
+   <!-- 
+   <category name="org.jboss.kernel">
+      <priority value="DEBUG"/>
+   </category>
+   -->
+
    <root>
+      <priority value="INFO"/>
       <appender-ref ref="CONSOLE"/>
    </root>
-
+   
 </log4j:configuration>
