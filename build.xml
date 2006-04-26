@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 
 <project name="Seam" default="build" basedir=".">
+	
+	<tstamp/>
 
     <!-- Allow this to be overriden by others importing this project. -->
     <dirname property="imported.basedir" file="${ant.file.Seam}"/>
@@ -17,39 +19,41 @@
     <!-- set global properties for this build -->
     <property name="build.dir"            value="build"/>
     <property name="classes.dir"          value="${build.dir}/classes"/>    
-	<property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
-	<property name="coverage.dir"         value="${build.dir}/coverage"/>
+    <property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
+    <property name="coverage.dir"         value="${build.dir}/coverage"/>
 
     <property name="src.java.dir"         value="src/main"/>
-	<property name="src.ui.dir"           value="src/ui"/>
+    <property name="src.ui.dir"           value="src/ui"/>
     <property name="src.test.dir"         value="src/test"/>
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
-	<property name="facelets.lib.dir"     value="${imported.basedir}/facelets/lib"/>
+    <property name="facelets.lib.dir"     value="${imported.basedir}/facelets/lib"/>
     <property name="eejb.conf.dir"        value="${imported.basedir}/embedded-ejb/conf"/>
     <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
-	<property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
-	<property name="facelets.dir"         value="${imported.basedir}/facelets"/>
+    <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
+    <property name="facelets.dir"         value="${imported.basedir}/facelets"/>
 
     <property name="doc.dir"              value="doc"/>
     <property name="doc.api.dir"          value="${doc.dir}/api"/>
     <property name="doc.ref.dir"          value="${doc.dir}/reference"/>
     <property name="javadoc.link"         value="http://java.sun.com/j2se/5.0/docs/api"/>
-
-    <property name="dist.dir"             value="${imported.basedir}/../${name}-${version}.${patchlevel}"/>
+    
+    <property name="dist.name"            value="${name}-${version}.${patchlevel}"/>
+    
+    <property name="dist.dir"             value="${imported.basedir}/../${dist.name}"/>
     <property name="dist.doc.dir"         value="${dist.dir}/doc"/>
     <property name="dist.api.dir"         value="${dist.dir}/doc/api"/>
     <property name="dist.ref.dir"         value="${dist.dir}/doc/reference"/>
     <property name="dist.src.java.dir"    value="${dist.dir}/src/main"/>
-	<property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
-	<property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
+    <property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
+    <property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
     <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
-	<property name="dist.facelets.dir"   value="${dist.dir}/facelets"/>
+    <property name="dist.facelets.dir"    value="${dist.dir}/facelets"/>
 
     <property name="deploy.dir"           value="${jboss.home}/server/default/deploy"/>
-	<property name="webroot.dir"          value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
+    <property name="webroot.dir"          value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
     
     <property name="testng.jar"           value="${imported.basedir}/lib/testng-4.5.1-jdk15.jar"/>
 
@@ -74,12 +78,12 @@
     </fileset>
     
     <zipfileset id="example.tomcat.lib" 
-    	    prefix="WEB-INF/lib"
+            prefix="WEB-INF/lib"
                dir="${lib.dir}">
         <include name="*.jar"/>
-    	<exclude name="servlet-api.jar"/>
-    	<exclude name="javax.servlet.jsp.jar"/>
-    	<exclude name="testng-*.jar"/>    	
+        <exclude name="servlet-api.jar"/>
+        <exclude name="javax.servlet.jsp.jar"/>
+        <exclude name="testng-*.jar"/>
     </zipfileset>
     
     <zipfileset id="example.tomcat.seam.jar" 
@@ -124,29 +128,29 @@
             dir="${eejb.conf.dir}">
         <include name="ejb3-interceptors-aop.xml"/>
         <include name="embedded-jboss-beans.xml"/>
-    	<include name="jboss-jms-beans.xml"/>
-    	<include name="security-beans.xml"/>
-    	<include name="login-config.xml"/>
+        <include name="jboss-jms-beans.xml"/>
+        <include name="security-beans.xml"/>
+        <include name="login-config.xml"/>
         <include name="default.persistence.properties"/>
         <include name="log4j.xml"/>
-    	<include name="jndi.properties"/>
+        <include name="jndi.properties"/>
     </fileset>
     
     <fileset id="mc.conf" 
             dir="${mc.conf.dir}">
         <include name="log4j.xml"/>
-    	<include name="jndi.properties"/>
+        <include name="jndi.properties"/>
     </fileset>
     
     <patternset id="meta.files">
         <include name="**/*.dtd"/>
         <include name="**/*.xml"/>
-    	<include name="**/*.tld"/>
+        <include name="**/*.tld"/>
         <include name="**/*.xslt"/>
         <include name="**/*.properties"/>
-    	<include name="**/*.js"/>
-    	<include name="**/*.html"/>
-    	<include name="**/*.xhtml"/>
+        <include name="**/*.js"/>
+        <include name="**/*.html"/>
+        <include name="**/*.xhtml"/>
     </patternset>
         
     <patternset id="src.files">
@@ -168,7 +172,7 @@
             description="Cleans up the build directory">
         <delete dir="${build.dir}"/>
         <delete dir="test-output"/>
-    	<delete dir="report"/>
+        <delete dir="report"/>
     </target>
 
     <target name="cleandist"
@@ -182,82 +186,82 @@
 
         <ant dir="examples/booking" target="clean" inheritall="false"/>
         <ant dir="examples/hibernate" target="clean" inheritall="false"/>
-    	<ant dir="examples/blog" target="clean" inheritall="false"/>
+        <ant dir="examples/blog" target="clean" inheritall="false"/>
         <ant dir="examples/issues" target="clean" inheritall="false"/>
         <ant dir="examples/dvdstore" target="clean" inheritall="false"/>
         <ant dir="examples/messages" target="clean" inheritall="false"/>
         <ant dir="examples/numberguess" target="clean" inheritall="false"/>
         <ant dir="examples/registration" target="clean" inheritall="false"/>
         <ant dir="examples/todo" target="clean" inheritall="false"/>
-    	<ant dir="examples/portal" target="clean" inheritall="false"/>
-    	<ant dir="examples/remoting/helloworld" target="clean" inheritall="false"/>
-    	<ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
-    	<ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
+        <ant dir="examples/portal" target="clean" inheritall="false"/>
+        <ant dir="examples/remoting/helloworld" target="clean" inheritall="false"/>
+        <ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
+        <ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
 
     </target>
-	
-	<target name="undeployall" 
-		    description="Undeploy all examples">
+    
+    <target name="undeployall" 
+            description="Undeploy all examples">
         <ant dir="examples/booking" target="undeploy" inheritall="false"/>
         <ant dir="examples/hibernate" target="undeploy" inheritall="false"/>
-		<ant dir="examples/blog" target="undeploy" inheritall="false"/>
+        <ant dir="examples/blog" target="undeploy" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy" inheritall="false"/>
         <ant dir="examples/dvdstore" target="undeploy" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy" inheritall="false"/>
         <ant dir="examples/numberguess" target="undeploy" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy" inheritall="false"/>
         <ant dir="examples/todo" target="undeploy" inheritall="false"/>
-    	<ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false"/>
-    	<ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false"/>
-		<ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false"/>
+        <ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false"/>
+        <ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false"/>
+        <ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false"/>
 
         <ant dir="examples/booking" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/dvdstore" target="undeploy.tomcat" inheritall="false"/>
-		<ant dir="examples/blog" target="undeploy.tomcat" inheritall="false"/>
+        <ant dir="examples/blog" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy.tomcat" inheritall="false"/>
-		<ant dir="examples/messages" target="undeploy.tomcat" inheritall="false"/>
-		<ant dir="examples/todo" target="undeploy.tomcat" inheritall="false"/>
-		<ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false"/>
+        <ant dir="examples/messages" target="undeploy.tomcat" inheritall="false"/>
+        <ant dir="examples/todo" target="undeploy.tomcat" inheritall="false"/>
+        <ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false"/>
     </target>
 
-	<target name="deploypresentation" 
-		    depends="jar"
-		    description="Deploy all examples used in Seam presentations">
+    <target name="deploypresentation" 
+            depends="jar"
+            description="Deploy all examples used in Seam presentations">
         <ant dir="examples/booking" target="deploy" inheritall="false"/>
         <ant dir="examples/issues" target="deploy" inheritall="false"/>
         <ant dir="examples/dvdstore" target="deploy" inheritall="false"/>
-		<ant dir="examples/remoting/progressbar" target="deploy" inheritall="false"/>
-    	<ant dir="examples/remoting/chatroom" target="deploy" inheritall="false"/>
-		<copy file="examples/seam-examples.html" todir="${webroot.dir}"/>
-		<replace file="${webroot.dir}/seam-examples.html" token="http://localhost:8080" value=""/>
-	</target>
+        <ant dir="examples/remoting/progressbar" target="deploy" inheritall="false"/>
+        <ant dir="examples/remoting/chatroom" target="deploy" inheritall="false"/>
+        <copy file="examples/seam-examples.html" todir="${webroot.dir}"/>
+        <replace file="${webroot.dir}/seam-examples.html" token="http://localhost:8080" value=""/>
+    </target>
 
     <target name="init"
             description="Initialize the build">
         <echo message="Build ${Name} ${version}"/>
-    	
+        
         <mkdir dir="${classes.dir}"/>
         <copy todir="${classes.dir}">
             <fileset dir="${src.java.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
-    	
+        
     </target>
 
     <target name="initui"
             description="Initialize the build for the UI package">
         <echo message="Build ${Name} UI ${version}"/>
 
-    	<mkdir dir="${uiclasses.dir}"/>
+        <mkdir dir="${uiclasses.dir}"/>
         <copy todir="${uiclasses.dir}">
             <fileset dir="${src.ui.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
-    	
+        
     </target>
 
     <target name="compile" depends="init"
@@ -306,12 +310,12 @@
         </testng>
         
     </target>
-	
+    
 
   <target name="testall" depends="testcore,jar"
           description="Run the core unit tests and all example tests">
-  	
-  	<mkdir dir="report"/>
+      
+      <mkdir dir="report"/>
 
     <ant dir="examples/booking" target="testexample" inheritall="false"/>
     <ant dir="examples/hibernate" target="testexample" inheritall="false"/>
@@ -319,8 +323,8 @@
     <ant dir="examples/numberguess" target="testexample" inheritall="false"/>
     <ant dir="examples/registration" target="testexample" inheritall="false"/>
     <ant dir="examples/todo" target="testexample" inheritall="false"/>
-  	<ant dir="examples/blog" target="testexample" inheritall="false"/>
-  	<ant dir="examples/portal" target="testexample" inheritall="false"/>
+      <ant dir="examples/blog" target="testexample" inheritall="false"/>
+      <ant dir="examples/portal" target="testexample" inheritall="false"/>
 
     <junitreport todir="./report">
       <fileset dir=".">
@@ -348,11 +352,11 @@
         <delete dir="test-output"/>
         
         <testng outputdir="test-output">
-        	<classpath path="${example.coverage.dir}/classes"/> <!-- TODO: ugly! -->
+            <classpath path="${example.coverage.dir}/classes"/> <!-- TODO: ugly! -->
             <classpath path="${build.dir}/test"/>
             <classpath path="${mc.conf.dir}"/>
             <classpath refid="${test.classpath}"/>
-        	<classpath refid="example.classpath.emma"/>
+            <classpath refid="example.classpath.emma"/>
             <xmlfileset dir="${src.test.dir}" includes="**/*.xml"/>
         </testng>
             
@@ -369,7 +373,7 @@
             </fileset>
         </copy>
         
-    	<mkdir dir="${dist.src.ui.dir}"/>
+        <mkdir dir="${dist.src.ui.dir}"/>
         <copy todir="${dist.src.ui.dir}">
             <fileset dir="${src.ui.dir}">
                 <patternset refid="src.files"/>
@@ -379,7 +383,7 @@
             </fileset>
         </copy>
 
-    	<mkdir dir="${dist.src.test.dir}"/>
+        <mkdir dir="${dist.src.test.dir}"/>
         <copy todir="${dist.src.test.dir}">
             <fileset dir="${src.test.dir}">
                 <patternset refid="src.files"/>
@@ -410,56 +414,56 @@
         </copy>
         <copy todir="${dist.facelets.dir}">
             <fileset dir="${facelets.dir}">
-            	<include name="**/*.jar"/>
+                <include name="**/*.jar"/>
             </fileset>
         </copy>
     </target>
 
-	<target name="instrument" depends="compile">
-	  	
-	    <taskdef resource="emma_ant.properties" 
-	             classpathref="classpath.emma"/>
+    <target name="instrument" depends="compile">
+          
+        <taskdef resource="emma_ant.properties" 
+                 classpathref="classpath.emma"/>
 
-	    <copy todir="${build.dir}/test" >
-	        <fileset dir="${classes.dir}" includes="**/*.*"/>
-	    </copy>
-	    
-	    <mkdir dir="${coverage.dir}/classes"/>
-	    
-	    <!-- Apply instrumentation to the classes -->
-	    <emma>
-	      <instr 
-	        instrpath="${build.dir}/test" 
-	        destdir="${coverage.dir}/classes"
-	        mode="copy" 
-	        metadatafile="${coverage.dir}/coverage.em">
+        <copy todir="${build.dir}/test" >
+            <fileset dir="${classes.dir}" includes="**/*.*"/>
+        </copy>
+        
+        <mkdir dir="${coverage.dir}/classes"/>
+        
+        <!-- Apply instrumentation to the classes -->
+        <emma>
+          <instr 
+            instrpath="${build.dir}/test" 
+            destdir="${coverage.dir}/classes"
+            mode="copy" 
+            metadatafile="${coverage.dir}/coverage.em">
 
-	        <!-- Exclude packages we don't want coverage for -->
-	        <filter excludes="org.jboss.seam.annotations.*"/>
-	        <filter excludes="org.jboss.seam.test.*"/>
-	      </instr>
-	    </emma>
-	  	
-	</target>
-		
-	<target name="coverage" depends="instrument,testall" 
-	  	    description="Generate a test coverage report">
-	  	
-	    <!-- Move the runtime coverage metadata to the coverage dir -->
-	    <move file="coverage.ec" todir="${coverage.dir}"/>        
-	    
-	    <!-- Generate code coverage report -->
-	    <emma>     
-	      <report sourcepath="${src.java.dir}" depth="method">
-	        <infileset dir="${coverage.dir}" includes="coverage.em,coverage.ec" />
-	        <html outfile="./report/coverage.html"/>
-	      </report>
-	    </emma>
-	    
-	    <echo>Code coverage report for core classes available at ${basedir}/report/coverage.html</echo>        
-	        
-	</target>
-	
+            <!-- Exclude packages we don't want coverage for -->
+            <filter excludes="org.jboss.seam.annotations.*"/>
+            <filter excludes="org.jboss.seam.test.*"/>
+          </instr>
+        </emma>
+          
+    </target>
+        
+    <target name="coverage" depends="instrument,testall" 
+              description="Generate a test coverage report">
+          
+        <!-- Move the runtime coverage metadata to the coverage dir -->
+        <move file="coverage.ec" todir="${coverage.dir}"/>        
+        
+        <!-- Generate code coverage report -->
+        <emma>     
+          <report sourcepath="${src.java.dir}" depth="method">
+            <infileset dir="${coverage.dir}" includes="coverage.em,coverage.ec" />
+            <html outfile="./report/coverage.html"/>
+          </report>
+        </emma>
+        
+        <echo>Code coverage report for core classes available at ${basedir}/report/coverage.html</echo>        
+            
+    </target>
+    
     <target name="copyexamples" description="Copy examples to dist dir">
         <copy todir="${dist.dir}/examples">
             <fileset dir="${imported.basedir}/examples">
@@ -468,34 +472,34 @@
                 <exclude name="booking/alter.config/**/*"/>
                 <exclude name="booking/build.alter.xml"/>
                 <include name="hibernate/**/*"/>
-            	<include name="blog/**/*"/>
-            	<include name="issues/**/*"/>
+                <include name="blog/**/*"/>
+                <include name="issues/**/*"/>
                 <include name="registration/**/*"/>
                 <include name="dvdstore/**/*"/>
-            	<include name="messages/**/*"/>
-            	<include name="todo/**/*"/>
-            	<include name="numberguess/**/*"/>
-            	<include name="portal/**/*"/>
-            	<include name="remoting/**/*"/>
-            	<exclude name="remoting/stories"/>
-            	<exclude name="remoting/stories/**/*"/>
+                <include name="messages/**/*"/>
+                <include name="todo/**/*"/>
+                <include name="numberguess/**/*"/>
+                <include name="portal/**/*"/>
+                <include name="remoting/**/*"/>
+                <exclude name="remoting/stories"/>
+                <exclude name="remoting/stories/**/*"/>
                 <include name="readme.txt"/>
-            	<include name="seam-examples.html"/>
-            	<exclude name="*/build"/>
-            	<exclude name="*/build/**/*"/>
-            	<exclude name="*/test-output"/>
-            	<exclude name="*/test-output/**/*"/>
+                <include name="seam-examples.html"/>
+                <exclude name="*/build"/>
+                <exclude name="*/build/**/*"/>
+                <exclude name="*/test-output"/>
+                <exclude name="*/test-output/**/*"/>
             </fileset>
         </copy>
     </target>
-	
-	<target name="build" depends="jar,jarui"
-		description="Build both distribution .jar files"/>
+    
+    <target name="build" depends="jar,jarui"
+        description="Build both distribution .jar files"/>
 
     <target name="jar" depends="compile"
             description="Build the distribution .jar file">
         <mkdir dir="${dist.dir}"/>
-    	
+        
         <jar jarfile="${basedir}/${name}.jar" basedir="${classes.dir}">
             <include name="**/*.class"/>
             <exclude name="**/test/*.class"/>
@@ -505,22 +509,22 @@
             </manifest>
         </jar>
         <copy file="${basedir}/${name}.jar" todir="${dist.dir}"/>
-    	
+        
     </target>
 
     <target name="jarui" depends="compileui"
             description="Build the distribution .jar file for the UI package">
         <mkdir dir="${dist.dir}"/>
-    	
+        
         <jar jarfile="${basedir}/${name}-ui.jar" basedir="${uiclasses.dir}">
-        	<include name="**/*.class"/>
+            <include name="**/*.class"/>
             <patternset refid="meta.files"/>
             <manifest>
                 <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
-    	
+        
     </target>
 
     <target name="javadoc"
@@ -560,16 +564,16 @@
 
     <target name="extras"
             description="Copy miscellaneous files to root dir">
-        <copy file="readme.txt"         todir="${dist.dir}"/>
+        <copy file="readme.txt"                 todir="${dist.dir}"/>
         <copy file="microcontainer/readme.txt"  todir="${dist.dir}/microcontainer"/>
         <copy file="embedded-ejb/readme.txt"    todir="${dist.dir}/embedded-ejb"/>
-        <copy file="lgpl.txt"           todir="${dist.dir}"/>
-        <copy file="changelog.txt"      todir="${dist.dir}"/>
-        <copy file="build.properties"   todir="${dist.dir}"/>
-        <copy file="build.xml"          todir="${dist.dir}"/>
+        <copy file="lgpl.txt"                   todir="${dist.dir}"/>
+        <copy file="changelog.txt"              todir="${dist.dir}"/>
+        <copy file="build.properties"           todir="${dist.dir}"/>
+        <copy file="build.xml"                  todir="${dist.dir}"/>
         <replace file="${dist.dir}/build.xml">
-            <replacetoken><![CDATA[../${name}-${version}]]></replacetoken>
-            <replacevalue><![CDATA[../${name}]]></replacevalue>
+            <replacetoken><![CDATA[../${name}-${version}.${patchlevel}]]></replacetoken>
+            <replacevalue><![CDATA[../${name}-${today}]]></replacevalue>
         </replace>
     </target>
 
@@ -577,10 +581,10 @@
         depends="cleandist,jar,jarui,javadoc,copysource,copylib,copyexamples,extras,refdoc"
         description="Build everything and package">
         <zip zipfile="${dist.dir}.zip">
-          <zipfileset prefix="${name}-${version}.${patchlevel}" dir="${dist.dir}"/>
+          <zipfileset prefix="${dist.name}" dir="${dist.dir}"/>
         </zip>
         <tar tarfile="${dist.dir}.tar.gz" compression="gzip">
-          <tarfileset prefix="${name}-${version}.${patchlevel}" dir="${dist.dir}"/>
+          <tarfileset prefix="${dist.name}" dir="${dist.dir}"/>
         </tar>
     </target>
 
@@ -593,31 +597,31 @@
     </fileset>
 
     <target name="war" depends="compile">
-    	
+        
         <copy todir="${build.dir}/resources/WEB-INF">
             <fileset refid="web.xml.file"/>
             <filterset>
-    	        <filter token="jndiPattern" value="${example.name}/#{ejbName}/local"/>
+                <filter token="jndiPattern" value="${example.name}/#{ejbName}/local"/>
                 <filter token="embeddedEjb" value=""/>
                 <filter token="microcontainer" value=""/>
-    	    </filterset>
+            </filterset>
         </copy>
-    	
+        
         <jar destfile="${build.dir}/${example.name}.war">
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf"/>
             <zipfileset refid="example.war.webinf.lib"/>
-        	<zipfileset refid="example.war.webinf.lib.extra"/>
+            <zipfileset refid="example.war.webinf.lib.extra"/>
             <zipfileset dir="${build.dir}/resources">
-            	<include name="WEB-INF/web.xml"/>
+                <include name="WEB-INF/web.xml"/>
             </zipfileset>
-        	<!--
-        	<manifest>
-        		<attribute name="Class-Path" value="${name}.jar"/>
-        	</manifest>
-        	-->
+            <!--
+            <manifest>
+                <attribute name="Class-Path" value="${name}.jar"/>
+            </manifest>
+            -->
         </jar>
-    	
+        
     </target>
 
     <target name="ejb3" depends="compile">
@@ -625,11 +629,11 @@
             <fileset refid="example.classes"/>
             <fileset refid="example.ejb3.root"/>
             <fileset refid="example.ejb3.lib"/>
-        	<!--
-        	<manifest>
-        		<attribute name="Class-Path" value="${name}.jar"/>
-        	</manifest>
-        	-->
+            <!--
+            <manifest>
+                <attribute name="Class-Path" value="${name}.jar"/>
+            </manifest>
+            -->
         </jar>
     </target>
 
@@ -666,7 +670,7 @@
             </fileset>
         </delete>
     </target>
-	
+    
     <!-- ############################ Tomcat! #############################-->
 
      <target name="war.tomcat" depends="compile">
@@ -684,25 +688,25 @@
         <copy todir="${build.dir}/resources/WEB-INF">
             <fileset refid="web.xml.file"/>
             <filterset>
-    	        <filter token="jndiPattern" value="#{ejbName}/local"/>
+                <filter token="jndiPattern" value="#{ejbName}/local"/>
                 <filter token="embeddedEjb" value="org.jboss.seam.core.Ejb"/>
                 <filter token="microcontainer" value="org.jboss.seam.core.Microcontainer"/>
-    	    </filterset>
+            </filterset>
         </copy>
-    	
+        
         <jar destfile="${build.dir}/${example.name}.war" duplicate="preserve">
             <zipfileset refid="example.tomcat.lib"/>
-        	<zipfileset refid="example.tomcat.seam.jar"/>
+            <zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
-        	<zipfileset refid="example.war.webinf.lib.extra"/>
+            <zipfileset refid="example.war.webinf.lib.extra"/>
             <zipfileset refid="example.tomcat.war.webinf"/>
             <zipfileset dir="${build.dir}/resources">
-            	<include name="WEB-INF/web.xml"/>
+                <include name="WEB-INF/web.xml"/>
             </zipfileset>
             <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
                 <include name="${example.name}.jar"/>
-            	<include name="mc-conf.jar"/>
+                <include name="mc-conf.jar"/>
             </zipfileset>
         </jar>
 
