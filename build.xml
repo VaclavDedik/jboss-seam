@@ -573,7 +573,7 @@
         <copy file="build.xml"                  todir="${dist.dir}"/>
         <replace file="${dist.dir}/build.xml">
             <replacetoken><![CDATA[${name}-${version}.${patchlevel}]]></replacetoken>
-            <replacevalue><![CDATA[${name}-${today}]]></replacevalue>
+            <replacevalue><![CDATA[${name}-${TODAY}]]></replacevalue>
         </replace>
     </target>
 
