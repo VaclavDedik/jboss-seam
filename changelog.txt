@@ -1,5 +1,9 @@
 JBoss Seam Changelog
 ====================
+Changes in version 1.0.0.CR2 (April 2006)
+-----------------------------------------
+* Fix bugs with pageflow backbutton handling
+
 Changes in version 1.0.0.CR1 (April 2006)
 -----------------------------------------
 * Seam Remoting framework (Shane Bryzak)
