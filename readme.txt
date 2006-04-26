@@ -54,7 +54,3 @@ Learn more
 
 * Read the documentation in the "doc/reference/en" directory
 * Read the online FAQ http://www.jboss.com/products/seam/faq
-
-
-
-
