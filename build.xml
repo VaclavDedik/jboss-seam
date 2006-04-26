@@ -572,8 +572,8 @@
         <copy file="build.properties"           todir="${dist.dir}"/>
         <copy file="build.xml"                  todir="${dist.dir}"/>
         <replace file="${dist.dir}/build.xml">
-            <replacetoken><![CDATA[../${name}-${version}.${patchlevel}]]></replacetoken>
-            <replacevalue><![CDATA[../${name}-${today}]]></replacevalue>
+            <replacetoken><![CDATA[${name}-${version}.${patchlevel}]]></replacetoken>
+            <replacevalue><![CDATA[${name}-${today}]]></replacevalue>
         </replace>
     </target>
 
