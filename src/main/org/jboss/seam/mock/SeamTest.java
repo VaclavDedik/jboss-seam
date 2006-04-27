@@ -10,6 +10,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -18,8 +20,11 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamNavigationHandler;
@@ -28,6 +33,7 @@ import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.servlet.ServletSessionImpl;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
+import org.jboss.seam.util.Validation;
 import org.testng.annotations.Configuration;
 
 /**
@@ -72,6 +78,7 @@ public class SeamTest
    {
       private String conversationId;
       private String outcome;
+      private boolean validationFailed;
       
       /**
        * A script for a JSF interaction with
@@ -160,6 +167,24 @@ public class SeamTest
          return externalContext.getRequestParameterMap();
       }
       
+      protected void validate(Class modelClass, String property, Object value)
+      {
+         ClassValidator validator = Validation.getValidator(modelClass);
+         InvalidValue[] ivs = validator.getPotentialInvalidValues(property, value);
+         if (ivs.length>0)
+         {
+            validationFailed = true;
+            FacesMessage message = FacesMessages.createFacesMessage( FacesMessage.SEVERITY_WARN, ivs[0].getMessage() );
+            FacesContext.getCurrentInstance().addMessage( property, /*TODO*/ message );
+            FacesContext.getCurrentInstance().renderResponse();
+         }
+      }
+      
+      public boolean isValidationFailure()
+      {
+         return validationFailed;
+      }
+      
       public String run() throws Exception
       {   
          facesContext = new MockFacesContext( externalContext, application );
@@ -198,21 +223,27 @@ public class SeamTest
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
             
             processValidations();
-      
+            
             phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
-            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
-            
-            updateModelValues();
-      
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
-            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
-            
-            invokeApplication();
-            
-            String outcome = getInvokeApplicationOutcome();
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
-      
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
+
+            if ( !FacesContext.getCurrentInstance().getRenderResponse() )
+            {
+         
+               phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
+               
+               updateModelValues();
+         
+               phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
+               phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
+               
+               invokeApplication();
+               
+               String outcome = getInvokeApplicationOutcome();
+               facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+         
+               phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
+               
+            }
             
          }
          
