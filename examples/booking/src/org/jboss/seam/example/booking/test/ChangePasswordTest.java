@@ -21,8 +21,6 @@ public class ChangePasswordTest extends SeamTest
    {
       
       new Script() {
-
-         ChangePassword changePassword;
          
          @Override
          protected void applyRequestValues() throws Exception
@@ -30,21 +28,12 @@ public class ChangePasswordTest extends SeamTest
             Contexts.getSessionContext().set("loggedIn", true);
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
          }
-
+         
          @Override
-         protected void updateModelValues() throws Exception
+         protected void processValidations() throws Exception
          {
-            User user = (User) Component.getInstance("user", true);
-            user.setPassword("xxx");
-            changePassword = (ChangePassword) Component.getInstance("changePassword", true);
-            changePassword.setVerify("xxx");
-         }
-
-         @Override
-         protected void invokeApplication()
-         {
-            String outcome = changePassword.changePassword();
-            assert outcome==null;
+            validate(User.class, "password", "xxx");
+            assert isValidationFailure();
          }
 
          @Override
@@ -53,7 +42,7 @@ public class ChangePasswordTest extends SeamTest
             User user = (User) Component.getInstance("user", false);
             assert user.getName().equals("Gavin King");
             assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("xxx");
+            assert user.getPassword().equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 

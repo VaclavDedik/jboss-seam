@@ -2,7 +2,6 @@
 package org.jboss.seam.example.booking;
 
 import static javax.persistence.PersistenceContextType.EXTENDED;
-import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.util.Calendar;
 
@@ -11,12 +10,10 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.validator.Valid;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -38,7 +35,6 @@ public class HotelBookingAction implements HotelBooking
    
    @In(required=false) 
    @Out(required=false)
-   @Valid
    private Booking booking;
    
    @In
@@ -71,7 +67,6 @@ public class HotelBookingAction implements HotelBooking
       return "book";
    }
 
-   @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";

@@ -2,7 +2,6 @@
 package org.jboss.seam.example.booking;
 
 import static org.jboss.seam.ScopeType.EVENT;
-import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.util.List;
 
@@ -11,9 +10,7 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.validator.Valid;
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -25,7 +22,7 @@ import org.jboss.seam.core.FacesMessages;
 public class RegisterAction implements Register
 {
 
-   @In @Valid
+   @In
    private User user;
    
    @PersistenceContext
@@ -36,7 +33,6 @@ public class RegisterAction implements Register
    
    private String verify;
    
-   @IfInvalid(outcome=REDISPLAY)
    public String register()
    {
       if ( user.getPassword().equals(verify) )
