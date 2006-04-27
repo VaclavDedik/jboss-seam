@@ -9,10 +9,8 @@ import javax.faces.validator.ValidatorException;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
-import org.jboss.seam.Component;
-import org.jboss.seam.Seam;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.ResourceBundle;
+import org.jboss.seam.util.Validation;
 
 public class ModelValidator implements Validator
 {
@@ -42,19 +40,9 @@ public class ModelValidator implements Validator
       {
          modelClass = modelClass.getSuperclass();
       }
-      ClassValidator validator;
-      String componentName = Seam.getComponentName(modelClass);
-      if (componentName==null)
-      {
-         java.util.ResourceBundle bundle = ResourceBundle.instance();
-         validator = bundle==null ? 
-               new ClassValidator(modelClass) : 
-               new ClassValidator(modelClass, bundle);
-      }
-      else
-      {
-         validator = Component.forName(componentName).getValidator();
-      }
+      
+      ClassValidator validator = Validation.getValidator(modelClass);
+      
       InvalidValue[] ivs = validator.getPotentialInvalidValues(propertyName, value);
       if ( ivs.length!=0 )
       {

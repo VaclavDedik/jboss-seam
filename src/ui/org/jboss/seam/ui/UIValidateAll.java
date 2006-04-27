@@ -17,7 +17,13 @@ public class UIValidateAll extends UIComponentBase
    @Override
    public List getChildren()
    {
-      for ( Object child: super.getChildren() )
+      addValidators( super.getChildren() );
+      return super.getChildren();
+   }
+
+   private void addValidators(List children)
+   {
+      for (Object child: children)
       {
          if (child instanceof UIInput)
          {
@@ -29,12 +35,9 @@ public class UIValidateAll extends UIComponentBase
          }
          else if (child instanceof UIComponentBase)
          {
-            //TODO: recurse
+            addValidators( ( (UIComponentBase) child ).getChildren() );
          }
       }
-      return super.getChildren();
    }
-
-   
 
 }
