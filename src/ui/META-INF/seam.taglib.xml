@@ -48,4 +48,17 @@
 			<component-type>org.jboss.seam.ui.HtmlLink</component-type>
 		</component>
 	</tag>
+	<tag>
+		<tag-name>validateAll</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIValidateAll</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>validate</tag-name>
+		<validator>
+			<validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
+		</validator>
+	</tag>
 </facelet-taglib>

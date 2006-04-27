@@ -88,4 +88,14 @@
     </property>
   </component>
   
+  <component>
+    <component-type>org.jboss.seam.ui.UIValidateAll</component-type>
+    <component-class>org.jboss.seam.ui.UIValidateAll</component-class>
+  </component>
+  
+  <validator>
+    <validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
+    <validator-class>org.jboss.seam.ui.ModelValidator</validator-class>
+  </validator>
+  
 </faces-config>

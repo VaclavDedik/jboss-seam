@@ -194,7 +194,7 @@ public class FacesMessages
       add( iv.getPropertyName(), FacesMessage.SEVERITY_WARN, iv.getMessage() );
    }
    
-   private FacesMessage createFacesMessage(Severity severity, String messageTemplate)
+   public static FacesMessage createFacesMessage(Severity severity, String messageTemplate)
    {
       return new FacesMessage( severity, Template.render(messageTemplate), null );
    }
