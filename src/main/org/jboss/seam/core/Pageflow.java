@@ -108,7 +108,12 @@ public class Pageflow
    {
       if (processInstance==null) return null;
       Token pageFlowToken = processInstance.getRootToken();
-      return pageFlowToken.getNode();
+      Node node = pageFlowToken.getNode();
+      if (node==null) 
+      {
+         throw new IllegalStateException("pageflow has not yet started");
+      }
+      return node;
    }
    
    public void reposition(String nodeName)

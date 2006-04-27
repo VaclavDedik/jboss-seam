@@ -680,7 +680,7 @@ public class Manager
          Conversation conversation = Conversation.instance();
 
          //stuff from jPDL takes precedence
-         Page page = Init.instance().isJbpmInstalled() ?
+         Page page = Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() ?
                Pageflow.instance().getPage() : null;
          if (page!=null)
          {
