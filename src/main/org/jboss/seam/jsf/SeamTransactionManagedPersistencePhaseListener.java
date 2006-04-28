@@ -48,17 +48,18 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    public void afterPhase(PhaseEvent event)
    {
 
-      boolean commit = event.getPhaseId()==PhaseId.RENDER_RESPONSE ||
+      PhaseId phaseId = event.getPhaseId();
+      boolean commit = phaseId==PhaseId.RENDER_RESPONSE ||
             event.getFacesContext().getResponseComplete();
-      boolean flush = event.getPhaseId()==PhaseId.INVOKE_APPLICATION || 
+      boolean flush = phaseId==PhaseId.INVOKE_APPLICATION || 
             event.getFacesContext().getRenderResponse();
       if ( commit )
       {
-         commit();
+         commit(phaseId);
       }
       else if ( flush )
       {
-         flush();
+         flush(phaseId);
       }
 
       super.afterPhase( event );
@@ -70,7 +71,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       {
          if ( !Transactions.isTransactionActiveOrMarkedRollback() )
          {
-            log.debug( "Starting transaction prior to RESTORE_VIEW phase" );
+            log.debug( "Starting transaction prior to phase: RESTORE_VIEW" );
             Transactions.getUserTransaction().begin();
          }
       }
@@ -81,12 +82,12 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
       }
    }
 
-   private void commit() {
+   private void commit(PhaseId phaseId) {
       try
       {
          if ( Transactions.isTransactionActive() )
          {
-            log.debug( "Committing transaction after RENDER_RESPONSE phase or responseComplete()" );
+            log.debug( "Committing transaction after phase: " + phaseId );
             Transactions.getUserTransaction().commit();
          }
       }
@@ -100,14 +101,14 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    @Override
    protected void afterPageActions()
    {
-      flush();
+      flush(PhaseId.INVOKE_APPLICATION);
    }
 
-   private void flush() {
+   private void flush(PhaseId phaseId) {
       try
       {
-         log.debug( "Flushing persistence contexts after INVOKE_APPLICATION phase" );
-         if ( Transactions.isTransactionActive() )
+         log.debug( "Flushing persistence contexts after phase: " + phaseId );
+         if ( Transactions.isTransactionActive() && Contexts.isConversationContextActive() )
          {
             Init init = Init.instance();
             for (String unitName : init.getManagedPersistenceContexts())

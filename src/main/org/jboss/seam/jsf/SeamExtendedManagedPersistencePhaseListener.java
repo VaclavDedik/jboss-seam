@@ -25,13 +25,14 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    @Override
    public void beforePhase(PhaseEvent event)
    {
-//      boolean beginTran = event.getPhaseId()==PhaseId.UPDATE_MODEL_VALUES || 
-      boolean beginTran = event.getPhaseId()==PhaseId.RESTORE_VIEW || 
-            ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
+      PhaseId phaseId = event.getPhaseId();
+      //boolean beginTran = phaseId==PhaseId.UPDATE_MODEL_VALUES || 
+      boolean beginTran = phaseId==PhaseId.RESTORE_VIEW || 
+            ( phaseId==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       
       if ( beginTran ) 
       {
-         begin();
+         begin(phaseId);
       }
       
       super.beforePhase( event );
@@ -40,14 +41,15 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    @Override
    public void afterPhase(PhaseEvent event)
    {
-      boolean commitTran = event.getPhaseId()==PhaseId.INVOKE_APPLICATION || 
+      PhaseId phaseId = event.getPhaseId();
+      boolean commitTran = phaseId==PhaseId.INVOKE_APPLICATION || 
             event.getFacesContext().getRenderResponse() ||
             event.getFacesContext().getResponseComplete() ||
-            ( event.getPhaseId()==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
+            ( phaseId==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       
       if (commitTran)
       { 
-         commit(); //we commit before destroying contexts, cos the contexts have the PC in them
+         commit(phaseId); //we commit before destroying contexts, cos the contexts have the PC in them
       }
 
       super.afterPhase( event );      
@@ -56,16 +58,16 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    @Override
    protected void afterPageActions()
    {
-      commit();
-      begin();
+      commit(PhaseId.INVOKE_APPLICATION);
+      begin(PhaseId.INVOKE_APPLICATION);
    }
 
-   private void begin() {
+   private void begin(PhaseId phaseId) {
       try 
       {
          if ( !Transactions.isTransactionActiveOrMarkedRollback() )
          {
-            log.debug("beginning transaction");
+            log.debug("beginning transaction prior to phase: " + phaseId);
             Transactions.getUserTransaction().begin();
          }
       }
@@ -76,12 +78,12 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       }
    }
 
-   private void commit() {
+   private void commit(PhaseId phaseId) {
       try 
       {
          if ( Transactions.isTransactionActive() )
          {
-            log.debug("committing transaction");
+            log.debug("committing transaction after phase: " + phaseId);
             Transactions.getUserTransaction().commit();
          }
       }
