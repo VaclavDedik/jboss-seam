@@ -634,6 +634,8 @@ public class Manager
    
    public String encodeParameters(String url, Map<String, Object> parameters)
    {
+      if ( parameters.isEmpty() ) return url;
+      
       StringBuilder builder = new StringBuilder(url);
       for ( Map.Entry<String, Object> param: parameters.entrySet() )
       {
