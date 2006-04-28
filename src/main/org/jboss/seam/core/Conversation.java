@@ -195,6 +195,16 @@ public class Conversation implements Serializable {
    }
    
    /**
+    * Pop the conversation stack and redirect to the last defined
+    * view-id for the parent conversation.
+    */
+   public String redirectToParent()
+   {
+      pop();
+      return redirect();
+   }
+   
+   /**
     * Switch to the root conversation
     */
    public void root()
@@ -206,4 +216,14 @@ public class Conversation implements Serializable {
       }
    }
 
+   /**
+    * Switch to the root conversation and redirect to the 
+    * last defined view-id for the root conversation.
+    */
+   public String redirectToRoot()
+   {
+      root();
+      return redirect();
+   }
+   
 }
