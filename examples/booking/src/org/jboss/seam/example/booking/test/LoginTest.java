@@ -9,7 +9,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Ejb;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.example.booking.HotelBooking;
 import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.Login;
 import org.jboss.seam.example.booking.Logout;
