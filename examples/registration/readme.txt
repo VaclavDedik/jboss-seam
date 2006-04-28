@@ -54,8 +54,8 @@ How to Build and Deploy the Example on Tomcat
 
    http://localhost:8080/jboss-seam-registration/
 
-Running The TestNG Test
------------------------
+Running The TestNG Tests
+------------------------
 
 In the "examples/registration" directory, type "ant testexample"
 
