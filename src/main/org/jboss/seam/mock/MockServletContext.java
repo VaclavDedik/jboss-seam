@@ -1,12 +1,13 @@
 //$Id$
 package org.jboss.seam.mock;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,7 +54,25 @@ public class MockServletContext implements ServletContext
 
    public Set getResourcePaths(String name)
    {
-      throw new UnsupportedOperationException();
+      String path = getClass().getResource("/WEB-INF/web.xml").getPath();
+      File rootFile = new File(path).getParentFile().getParentFile();
+      Set<String> result = new HashSet<String>();
+      File[] files = rootFile.listFiles();
+      addPaths( result, files, rootFile.getPath() );
+      return result;
+   }
+
+   private static void addPaths(Set<String> result, File[] files, String rootPath)
+   {
+      for (File file: files)
+      {
+         //apparently Tomcat does not recurse:
+         /*if ( file.isDirectory() )
+         {
+            addPaths( result, file.listFiles(), rootPath );
+         }*/
+         result.add( file.getPath().substring( rootPath.length() ) );
+      }
    }
 
    public URL getResource(String name) throws MalformedURLException
@@ -91,24 +110,24 @@ public class MockServletContext implements ServletContext
       return null;
    }
 
-   public void log(String arg0)
+   public void log(String msg)
    {
       
    }
 
-   public void log(Exception arg0, String arg1)
+   public void log(Exception ex, String msg)
    {
       
    }
 
-   public void log(String arg0, Throwable arg1)
+   public void log(String msg, Throwable ex)
    {
 
    }
 
-   public String getRealPath(String arg0)
+   public String getRealPath(String relativePath)
    {
-      return null;
+      throw new UnsupportedOperationException();
    }
 
    public String getServerInfo()
