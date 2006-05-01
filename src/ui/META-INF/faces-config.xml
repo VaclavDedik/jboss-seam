@@ -110,4 +110,8 @@
     <validator-class>org.jboss.seam.ui.ModelValidator</validator-class>
   </validator>
   
+    <lifecycle>
+        <phase-listener>org.jboss.seam.ui.debug.SeamDebugPhaseListener</phase-listener>
+    </lifecycle>
+
 </faces-config>
