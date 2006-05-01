@@ -153,7 +153,6 @@ public class SeamPhaseListener implements PhaseListener
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(event);
-         //renderDebugPage(facesContext);
       }
       
       //has to happen after, since restoreAnyConversationContext() 
@@ -185,25 +184,6 @@ public class SeamPhaseListener implements PhaseListener
       
    }
 
-   /*private void renderDebugPage(FacesContext facesContext)
-   {
-      String viewId = facesContext.getViewRoot().getViewId();
-      if ( viewId!=null && viewId.startsWith("/debug.") )
-      {
-         try
-         {
-            InputStream in = getClass().getClassLoader().getResourceAsStream("/meta-inf/debug.xhtml");
-            Facelet f = FaceletFactory.getInstance().getFacelet( Strings.toString(in) );
-            f.apply( facesContext, facesContext.getViewRoot() );
-            facesContext.responseComplete();
-         }
-         catch (IOException ioe)
-         {
-            ioe.printStackTrace();
-         }
-      }
-   }*/
-   
    /**
     * Called just before the StateManager serializes the component tree
     */

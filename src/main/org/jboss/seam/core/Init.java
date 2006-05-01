@@ -41,6 +41,7 @@ public class Init
    private boolean isClientSideConversations = false;
    private boolean jbpmInstalled;
    private String jndiPattern;
+   private boolean debug;
    
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
@@ -166,6 +167,14 @@ public class Init
    public void setJndiPattern(String jndiPattern) 
    {
 	   this.jndiPattern = jndiPattern;
+   }
+   public boolean isDebug()
+   {
+      return debug;
+   }
+   public void setDebug(boolean debug)
+   {
+      this.debug = debug;
    }
 
 }

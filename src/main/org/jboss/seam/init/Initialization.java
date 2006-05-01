@@ -191,11 +191,30 @@ public class Initialization
       addComponent( ResourceBundle.class, context );
       addComponent( LocaleSelector.class, context );
       addComponent( UiComponent.class, context );
-      addComponent( Introspector.class, context );
-      addComponent( org.jboss.seam.debug.Contexts.class, context );
       addComponent( SubscriptionRegistry.class, context);
-
+      
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
+
+      if ( init.isDebug() )
+      {
+         addComponent( Introspector.class, context );
+         addComponent( org.jboss.seam.debug.Contexts.class, context );
+      }
+
+      if ( init.isJbpmInstalled() )
+      {
+         addComponent( Actor.class, context);
+         addComponent( Process.class, context );
+         addComponent( Pageflow.class, context );
+         addComponent( Transition.class, context);
+         addComponent( PooledTask.class, context );
+         addComponent( TaskInstance.class, context );
+         addComponent( ProcessInstance.class, context );
+         addComponent( TaskInstanceList.class, context );
+         addComponent( PooledTaskInstanceList.class, context );
+         addComponent( TaskInstanceListForType.class, context );
+         addComponent( ManagedJbpmContext.class, context );
+      }
 
       //TODO: move all this stuff into Init component?
       for ( String className : init.getComponentClasses() )
@@ -220,21 +239,6 @@ public class Initialization
       for ( String sfName : init.getManagedSessions() )
       {
          addComponent( sfName, ManagedHibernateSession.class, context );
-      }
-
-      if ( init.isJbpmInstalled() )
-      {
-         addComponent( Actor.class, context);
-         addComponent( Process.class, context );
-         addComponent( Pageflow.class, context );
-         addComponent( Transition.class, context);
-         addComponent( PooledTask.class, context );
-         addComponent( TaskInstance.class, context );
-         addComponent( ProcessInstance.class, context );
-         addComponent( TaskInstanceList.class, context );
-         addComponent( PooledTaskInstanceList.class, context );
-         addComponent( TaskInstanceListForType.class, context );
-         addComponent( ManagedJbpmContext.class, context );
       }
 
       if (isScannerEnabled)
