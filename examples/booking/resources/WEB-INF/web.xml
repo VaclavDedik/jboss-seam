@@ -39,6 +39,11 @@
         <param-value>@embeddedEjb@</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>org.jboss.seam.core.init.debug</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <!-- JSF -->
     
     <context-param>
