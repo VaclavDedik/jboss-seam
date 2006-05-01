@@ -28,7 +28,7 @@ public class SeamListener implements ServletContextListener, HttpSessionListener
    private static final Log log = LogFactory.getLog(ServletContextListener.class);
 
    public void contextInitialized(ServletContextEvent event) {
-      log.info("Welcome to Seam 1.0 rc1");
+      log.info("Welcome to Seam 1.0.0.CR3");
       new Initialization( event.getServletContext() ).init();
       Lifecycle.setServletContext( event.getServletContext() );
    }
