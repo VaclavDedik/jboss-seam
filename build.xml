@@ -282,6 +282,7 @@
         <javac
             destdir="${uiclasses.dir}"
             classpathref="build.classpath"
+        	classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
             nowarn="on">
