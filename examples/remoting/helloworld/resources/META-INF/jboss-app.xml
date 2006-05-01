@@ -1,5 +1,5 @@
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-remoting-helloworld
+      seam.jboss.org:loader=seam-helloworld
       </loader-repository> 
 </jboss-app> 

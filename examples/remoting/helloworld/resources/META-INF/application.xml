@@ -3,12 +3,12 @@
 
 	<module>
 		<web>
-			<web-uri>seam-remoting-helloworld.war</web-uri>
-			<context-root>/seam-remoting-helloworld</context-root>
+			<web-uri>seam-helloworld.war</web-uri>
+			<context-root>/seam-helloworld</context-root>
 		</web>
 	</module>
 	<module>
-		<ejb>seam-remoting-helloworld.jar</ejb>
+		<ejb>seam-helloworld.jar</ejb>
 	</module>
 	<module>
 	    <java>jboss-seam.jar</java>

@@ -38,7 +38,7 @@
 
     <context-param>
         <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>seam-remoting-helloworld/#{ejbName}/local</param-value>
+        <param-value>seam-helloworld/#{ejbName}/local</param-value>
     </context-param>
 
 

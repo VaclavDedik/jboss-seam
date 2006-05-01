@@ -4,7 +4,7 @@
 
     <!-- Example name -->
     <property name="Name"                   value="Seam Remoting HelloWorld Example"/>
-    <property name="example.name"           value="seam-remoting-helloworld"/>
+    <property name="example.name"           value="seam-helloworld"/>
 
 	<fileset id="web.xml.file"
 	       file="resources/WEB-INF/web.xml"/>
