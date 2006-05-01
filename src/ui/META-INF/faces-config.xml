@@ -71,6 +71,10 @@
     <component-type>org.jboss.seam.ui.HtmlLink</component-type>
     <component-class>org.jboss.seam.ui.HtmlLink</component-class>
     <property>
+        <property-name>value</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+    <property>
         <property-name>action</property-name>
         <property-class>java.lang.String</property-class>
     </property>
@@ -84,6 +88,14 @@
     </property>
     <property>
         <property-name>pageflow</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+    <property>
+        <property-name>linkStyle</property-name>
+        <property-class>java.lang.String</property-class>
+    </property>
+    <property>
+        <property-name>buttonClass</property-name>
         <property-class>java.lang.String</property-class>
     </property>
   </component>

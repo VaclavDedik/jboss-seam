@@ -23,6 +23,7 @@ public class HtmlLink extends HtmlOutputLink
    private String action;
    private String pageflow;
    private String style;
+   private String buttonClass;
    private String propagation = "default";
 
    private UISelection getSelection()
@@ -158,6 +159,7 @@ public class HtmlLink extends HtmlOutputLink
          if ( "button".equals(style) )
          {
             writer.writeAttribute("value", label, null);
+            writer.writeAttribute("class", buttonClass, null);
             writer.flush();
          }
          else
@@ -254,6 +256,16 @@ public class HtmlLink extends HtmlOutputLink
    public void setLinkStyle(String style)
    {
       this.style = style;
+   }
+
+   public String getButtonClass()
+   {
+      return buttonClass;
+   }
+
+   public void setButtonClass(String buttonClass)
+   {
+      this.buttonClass = buttonClass;
    }
 
 }
