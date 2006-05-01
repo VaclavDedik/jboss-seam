@@ -13,25 +13,26 @@ public class Resources {
             resource.substring(1) : resource;
    
       InputStream stream = null; 
-      ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-      if (classLoader!=null) {
-         stream = classLoader.getResourceAsStream( stripped );
-      }
-      if ( stream == null ) {
-         Seam.class.getResourceAsStream( resource );
-      }
-      if ( stream == null ) {
-         stream = Seam.class.getClassLoader().getResourceAsStream( stripped );
-      }
-      
-      if (stream==null) 
+
+      try
       {
-         try
-         {
-            stream = FacesContext.getCurrentInstance().getExternalContext()
-                  .getResourceAsStream(resource);
+         stream = FacesContext.getCurrentInstance().getExternalContext()
+               .getResourceAsStream(resource);
+      }
+      catch (Exception e) {}
+      
+      if (stream==null)
+      {
+         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         if (classLoader!=null) {
+            stream = classLoader.getResourceAsStream( stripped );
          }
-         catch (Exception e) {}
+         if ( stream == null ) {
+            Seam.class.getResourceAsStream( resource );
+         }
+         if ( stream == null ) {
+            stream = Seam.class.getClassLoader().getResourceAsStream( stripped );
+         }
       }
       
       return stream;
