@@ -159,7 +159,10 @@ public class HtmlLink extends HtmlOutputLink
          if ( "button".equals(style) )
          {
             writer.writeAttribute("value", label, null);
-            writer.writeAttribute("class", buttonClass, null);
+            if (buttonClass!=null) 
+            {
+               writer.writeAttribute("class", buttonClass, null);
+            }
             writer.flush();
          }
          else
@@ -204,17 +207,19 @@ public class HtmlLink extends HtmlOutputLink
       propagation = (String) values[3];
       action =  (String) values[4];
       style = (String) values[5];
+      buttonClass = (String) values[6];
    }
 
    @Override
    public Object saveState(FacesContext context) {
-      Object[] values = new Object[6];
+      Object[] values = new Object[7];
       values[0] = super.saveState(context);
       values[1] = view;
       values[2] = pageflow;
       values[3] = propagation;
       values[4] = action;
       values[5] = style;
+      values[6] = buttonClass;
       return values;
    }
 
