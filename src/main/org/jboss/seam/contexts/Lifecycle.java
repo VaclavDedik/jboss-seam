@@ -194,13 +194,14 @@ public class Lifecycle
    
    public static void flushClientConversation()
    {
-      if ( Contexts.isConversationContextActive() )
+      boolean flushNeeded = Contexts.isConversationContextActive() && 
+            !Seam.isSessionInvalid() && 
+            Init.instance().isClientSideConversations();
+      
+      if ( flushNeeded )
       {
-         if ( !Seam.isSessionInvalid() && Init.instance().isClientSideConversations() )
-         {
-            log.debug("flushing client-side conversation context");
-            Contexts.getConversationContext().flush();
-         }
+         log.debug("flushing client-side conversation context");
+         Contexts.getConversationContext().flush();
       }
    }
    
@@ -208,6 +209,7 @@ public class Lifecycle
    {
       if ( Contexts.isPageContextActive() )
       {
+         log.debug("flushing page context");
          Contexts.getPageContext().flush();
       }
    }

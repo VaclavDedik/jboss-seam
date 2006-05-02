@@ -151,7 +151,11 @@ public class Manager
    private ConversationEntry getConversationEntry(String conversationId) {
       return getConversationIdEntryMap().get(conversationId);
    }
-
+   
+   /**
+    * Get the name of the component that started the current
+    * conversation.
+    */
    public Object getCurrentConversationInitiator()
    {
       ConversationEntry ce = getCurrentConversationEntry();
@@ -273,6 +277,9 @@ public class Manager
       }
    }
 
+   /**
+    * Clean up all state associated with a conversation
+    */
    private void destroyConversation(String conversationId, Session session, Iterator iter)
    {
       ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
@@ -282,73 +289,83 @@ public class Manager
       iter.remove();
       dirty();
    }
-
+   
+   /**
+    * Flush the server-side conversation context to the session and
+    * write the conversation id and pageflow info to the response
+    * if we have a long running conversation, or discard the state
+    * of a temporary conversation.
+    */
    public void storeConversation(Session session, Object response)
    {
       if ( isLongRunningConversation() )
       {
          touchConversationStack();
-
-         if ( !Seam.isSessionInvalid() )
+         if ( !Seam.isSessionInvalid() ) 
          {
-            log.debug("Storing conversation state: " + currentConversationId);
-            Conversation.instance().flush();
-            //if the session is invalid, don't put the conversation id
-            //in the view, 'cos we are expecting the conversation to
-            //be destroyed by the servlet session listener
-            //Map attributes = FacesContext.getCurrentInstance().getViewRoot().getAttributes();
-            //attributes.put(CONVERSATION_ID, currentConversationId);
-            if ( Contexts.isPageContextActive() )
-            {
-               Contexts.getPageContext().set(CONVERSATION_ID, currentConversationId);
-            }
-            writeConversationIdToResponse(response, currentConversationId);
-            
-            if ( Contexts.isPageContextActive() && Init.instance().isJbpmInstalled() )
-            {
-               Pageflow pageflow = Pageflow.instance();
-               if ( pageflow.isInProcess() )
-               {
-                  Contexts.getPageContext().set( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
-                  Contexts.getPageContext().set( PAGEFLOW_NODE_NAME, pageflow.getNode().getName() );
-                  //attributes.put( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
-                  //attributes.put( PAGEFLOW_NODE_NAME, pageflow.getNode().getName() );
-               }
-            }
+            storeLongRunningConversation(response);
          }
-         //even if the session is invalid, still put the id in the map,
-         //so it can be cleaned up along with all the other conversations
       }
       else
       {
-         log.debug("Discarding conversation state: " + currentConversationId);
-
-         LinkedList<String> stack = getCurrentConversationIdStack();
-         if ( stack.size()>1 )
-         {
-            String outerConversationId = stack.get(1);
-            //attributes.put(CONVERSATION_ID, outerConversationId);
-            if ( Contexts.isPageContextActive() )
-            {
-               Contexts.getPageContext().set(CONVERSATION_ID, outerConversationId);
-            }
-            writeConversationIdToResponse(response, outerConversationId);
-         }
-         else
-         {
-            //attributes.remove(CONVERSATION_ID);
-            if ( Contexts.isPageContextActive() )
-            {
-               Contexts.getPageContext().remove(CONVERSATION_ID);
-            }
-         }
-
-         //now safe to remove the entry
-         removeCurrentConversationAndDestroyNestedContexts(session);
-
+         discardTemporaryConversaction(session, response);
       }
    }
+
+   private void storeLongRunningConversation(Object response)
+   {
+      log.debug("Storing conversation state: " + currentConversationId);
+      Conversation.instance().flush();
+      //if the session is invalid, don't put the conversation id
+      //in the view, 'cos we are expecting the conversation to
+      //be destroyed by the servlet session listener
+      if ( Contexts.isPageContextActive() )
+      {
+         Contexts.getPageContext().set(CONVERSATION_ID, currentConversationId);
+      }
+      writeConversationIdToResponse(response, currentConversationId);
+      
+      if ( Contexts.isPageContextActive() && Init.instance().isJbpmInstalled() )
+      {
+         Pageflow pageflow = Pageflow.instance();
+         if ( pageflow.isInProcess() )
+         {
+            Contexts.getPageContext().set( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+            Contexts.getPageContext().set( PAGEFLOW_NODE_NAME, pageflow.getNode().getName() );
+         }
+      }
+   }
+
+   private void discardTemporaryConversaction(Session session, Object response)
+   {
+      log.debug("Discarding conversation state: " + currentConversationId);
+
+      LinkedList<String> stack = getCurrentConversationIdStack();
+      if ( stack.size()>1 )
+      {
+         String outerConversationId = stack.get(1);
+         if ( Contexts.isPageContextActive() )
+         {
+            Contexts.getPageContext().set(CONVERSATION_ID, outerConversationId);
+         }
+         writeConversationIdToResponse(response, outerConversationId);
+      }
+      else
+      {
+         if ( Contexts.isPageContextActive() )
+         {
+            Contexts.getPageContext().remove(CONVERSATION_ID);
+         }
+      }
+
+      //now safe to remove the entry
+      removeCurrentConversationAndDestroyNestedContexts(session);
+   }
    
+   /**
+    * Write out the conversation id as a servlet response header or portlet
+    * render parameter.
+    */
    private void writeConversationIdToResponse(Object response, String conversationId)
    {
       if (response instanceof HttpServletResponse)
@@ -397,18 +414,24 @@ public class Manager
       }
    }
    
+   /**
+    * Initialize the request conversation context, taking
+    * into account conversation propagation style, and
+    * any conversation id passed as a request parameter
+    * or in the PAGE context.
+    * 
+    * @param parameters the request parameters
+    */
    public void restoreConversation(Map parameters)
    {
       
       //First, try to get the conversation id from a request parameter
       String storedConversationId = getConversationIdFromRequestParameter(parameters);
       
-      //Map attributes = FacesContext.getCurrentInstance().getViewRoot().getAttributes();
-      if ( isMissing(storedConversationId) && /*attributes!=null*/Contexts.isPageContextActive() )
+      if ( isMissing(storedConversationId) && Contexts.isPageContextActive() )
       {
-         //if it is not passed as a request parameter, try to get it from
-         //the JSF component tree
-         //storedConversationId = (String) attributes.get(CONVERSATION_ID);
+         //if it is not passed as a request parameter,
+         //try to get it from the page context
          storedConversationId = (String) Contexts.getPageContext().get(CONVERSATION_ID);
       }
 
@@ -432,7 +455,14 @@ public class Manager
       restoreConversation(storedConversationId);
       
    }
-
+   
+   /**
+    * Look for a conversation propagation style in the request
+    * parameters and begin, nest or join the conversation,
+    * as necessary.
+    * 
+    * @param parameters the request parameters
+    */
    public void handleConversationPropagation(Map parameters)
    {
       
@@ -476,6 +506,10 @@ public class Manager
 
    }
 
+   /**
+    * Initialize the request conversation context, given the 
+    * conversation id.
+    */
    public void restoreConversation(String storedConversationId) {
       boolean isStoredConversation = storedConversationId!=null &&
             getSessionConversationIds().contains(storedConversationId);
@@ -504,6 +538,12 @@ public class Manager
       }
    }
 
+   /**
+    * Retrieve the conversation id from the request parameters.
+    * 
+    * @param parameters the request parameters
+    * @return the conversation id
+    */
    private String getConversationIdFromRequestParameter(Map parameters) {
       Object object = parameters.get("conversationId");
       if (object==null)
@@ -533,7 +573,11 @@ public class Manager
    private boolean isMissing(String storedConversationId) {
       return storedConversationId==null || "".equals(storedConversationId);
    }
-
+   
+   /**
+    * Initialize a new temporary conversation context,
+    * and assign it a conversation id.
+    */
    public void initializeTemporaryConversation()
    {
       String id = Id.nextId();
@@ -550,6 +594,11 @@ public class Manager
       return ce;
    }
 
+   /**
+    * Promote a temporary conversation and make it long-running
+    * 
+    * @param initiator the name of the component starting the conversation.
+    */
    public void beginConversation(String initiator)
    {
       setLongRunningConversation(true);
@@ -557,11 +606,19 @@ public class Manager
       Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
    }
 
+   /**
+    * Make a long-running conversation temporary.
+    */
    public void endConversation()
    {
       setLongRunningConversation(false);
    }
-
+   
+   /**
+    * Begin a new nested conversation.
+    * 
+    * @param ownerName the name of the component starting the conversation
+    */
    public void beginNestedConversation(String ownerName)
    {
       LinkedList<String> stack = getCurrentConversationIdStack();
@@ -577,11 +634,21 @@ public class Manager
       return getConversationEntry( getCurrentConversationId() );
    }
    
+   /**
+    * Leave the scope of the current conversation, leaving
+    * it completely intact.
+    */
    public void leaveConversation()
    {
       initializeTemporaryConversation();
    }
 
+   /**
+    * Switch to another long-running conversation.
+    * 
+    * @param id the id of the conversation to switch to
+    * @return true if the conversation exists
+    */
    public boolean swapConversation(String id)
    {
       ConversationEntry ce = getConversationEntry(id);
@@ -606,6 +673,13 @@ public class Manager
       this.conversationTimeout = conversationTimeout;
    }
 
+   /**
+    * Temporarily promote a temporary conversation to
+    * a long running conversation for the duration of
+    * a browser redirect. After the redirect, the 
+    * conversation will be demoted back to a temporary
+    * conversation.
+    */
    public void beforeRedirect()
    {
       ConversationEntry ce = getConversationEntry(currentConversationId);
@@ -627,12 +701,18 @@ public class Manager
       return url + sep + "conversationId=" + getCurrentConversationId();
    }
 
+   /**
+    * Redirect to the given view id, encoding the conversation id
+    * into the request URL.
+    * 
+    * @param viewId the JSF view id
+    */
    public void redirect(String viewId)
    {
       redirect(viewId, null, true);
    }
    
-   public String encodeParameters(String url, Map<String, Object> parameters)
+   private String encodeParameters(String url, Map<String, Object> parameters)
    {
       if ( parameters.isEmpty() ) return url;
       
@@ -648,10 +728,18 @@ public class Manager
       return builder.toString();
    }
    
+   /**
+    * Redirect to the given view id, after encoding parameters and conversation id 
+    * into the request URL.
+    * 
+    * @param viewId the JSF view id
+    * @param parameters request parameters to be encoded
+    * @param includeConversationId determines if the conversation id is to be encoded
+    */
    public void redirect(String viewId, Map<String, Object> parameters, boolean includeConversationId)
    {
       FacesContext context = FacesContext.getCurrentInstance();
-      String url = context.getApplication().getViewHandler().getActionURL( context, viewId );
+      String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
       if (parameters!=null) 
       {
          url = encodeParameters(url, parameters);
@@ -672,6 +760,10 @@ public class Manager
       context.responseComplete(); //work around MyFaces bug in 1.1.1
    }
    
+   /**
+    * If a page description is defined, remember the description and
+    * view id for the current page, to support conversation switching.
+    */
    public void prepareBackswitch(PhaseEvent event) {
       if ( isLongRunningConversation() )
       {
@@ -711,5 +803,5 @@ public class Manager
 
       }
    }
-
+   
 }

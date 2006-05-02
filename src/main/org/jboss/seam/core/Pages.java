@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -156,14 +157,19 @@ public class Pages
          }
       }
       
+      handleOutcome(facesContext, outcome, fromAction);
+      
+      return result;
+
+   }
+
+   private static void handleOutcome(FacesContext facesContext, String outcome, String fromAction)
+   {
       if (outcome!=null)
       {
          facesContext.getApplication().getNavigationHandler()
                .handleNavigation(facesContext, fromAction, outcome);
       }
-      
-      return result;
-
    }
    
    public static Pages instance()
@@ -174,4 +180,44 @@ public class Pages
       }
       return (Pages) Component.getInstance(Pages.class, ScopeType.APPLICATION, true);
    }
+
+   public static boolean callAction(FacesContext facesContext)
+   {
+      //TODO: refactor with Pages.instance().callAction()!!
+      
+      boolean result = false;
+      
+      String outcome = (String) facesContext.getExternalContext().getRequestParameterMap().get("actionOutcome");
+      String fromAction = outcome;
+      
+      if (outcome==null)
+      {
+         String action = (String) facesContext.getExternalContext().getRequestParameterMap().get("actionMethod");
+         if (action!=null)
+         {
+            String expression = "#{" + action + "}";
+            if ( !isActionAllowed(facesContext, expression) ) return result;
+            result = true;
+            MethodBinding actionBinding = facesContext.getApplication().createMethodBinding(expression, null);
+            outcome = (String) actionBinding.invoke( facesContext, null );
+            fromAction = expression;
+         }
+      }
+      
+      handleOutcome(facesContext, outcome, fromAction);
+      
+      return result;
+   }
+
+   private static boolean isActionAllowed(FacesContext facesContext, String expression)
+   {
+      Map applicationMap = facesContext.getExternalContext().getApplicationMap();
+      Set actions = (Set) applicationMap.get("org.jboss.seam.actions");
+      if (actions==null) return false;
+      synchronized (actions)
+      {
+         return actions.contains(expression);
+      }
+   }
+
 }
