@@ -70,19 +70,21 @@
                     <h:inputText value="#{customer.zip}" />
                     
                     <h:outputText value="#{msgs.newCustomerCO}" />
-                    <h:selectOneMenu value="#{customer.country}">
-                        <f:selectItem itemValue="United States" itemLabel="#{msgs.co_US}"/>
-                        <f:selectItem itemValue="Australia" itemLabel="#{msgs.co_AU}" />
-                        <f:selectItem itemValue="Canada" itemLabel="#{msgs.co_CA}" />
-                        <f:selectItem itemValue="Chile" itemLabel="#{msgs.co_CL}" />
-                        <f:selectItem itemValue="China" itemLabel="#{msgs.co_CH}" />
-                        <f:selectItem itemValue="France" itemLabel="#{msgs.co_FR}" />
-                        <f:selectItem itemValue="Germany" itemLabel="#{msgs.co_DE}" />
-                        <f:selectItem itemValue="Japan" itemLabel="#{msgs.co_JP}" />
-                        <f:selectItem itemValue="Russia" itemLabel="#{msgs.co_RU}" />
-                        <f:selectItem itemValue="South Africa" itemLabel="#{msgs.co_ZA}" />
-                        <f:selectItem itemValue="UK" itemLabel="#{msgs.co_UK}" />
-                    </h:selectOneMenu> 
+                    <h:panelGroup>
+                        <h:selectOneMenu value="#{customer.country}">
+                            <f:selectItem itemValue="United States" itemLabel="#{msgs.co_US}"/>
+                            <f:selectItem itemValue="Australia" itemLabel="#{msgs.co_AU}" />
+                            <f:selectItem itemValue="Canada" itemLabel="#{msgs.co_CA}" />
+                            <f:selectItem itemValue="Chile" itemLabel="#{msgs.co_CL}" />
+                            <f:selectItem itemValue="China" itemLabel="#{msgs.co_CH}" />
+                            <f:selectItem itemValue="France" itemLabel="#{msgs.co_FR}" />
+                            <f:selectItem itemValue="Germany" itemLabel="#{msgs.co_DE}" />
+                            <f:selectItem itemValue="Japan" itemLabel="#{msgs.co_JP}" />
+                            <f:selectItem itemValue="Russia" itemLabel="#{msgs.co_RU}" />
+                            <f:selectItem itemValue="South Africa" itemLabel="#{msgs.co_ZA}" />
+                            <f:selectItem itemValue="UK" itemLabel="#{msgs.co_UK}" />
+                        </h:selectOneMenu> 
+                    </h:panelGroup>
                     
                     <h:outputText value="#{msgs.newCustomerEM}" />
                     <h:inputText value="#{customer.email}" />
@@ -121,9 +123,11 @@
                     </h:panelGroup>
                     
                     <h:outputText value="#{msgs.newCustomerCCT}" />
-                    <h:selectOneMenu value="#{customer.creditCardType}">
-                        <f:selectItems value="#{editCustomer.creditCardTypes}" />
-                    </h:selectOneMenu> 
+                    <h:panelGroup>
+                        <h:selectOneMenu value="#{customer.creditCardType}">
+                            <f:selectItems value="#{editCustomer.creditCardTypes}" />
+                        </h:selectOneMenu> 
+                    </h:panelGroup>
                     
                     
                     <h:outputText value="#{msgs.newCustomerCCN}" />
@@ -170,10 +174,12 @@
                     
                     
                     <h:outputText value="#{msgs.newCustomerGE}" />
-                    <h:selectOneMenu value="#{customer.gender}">
-                        <f:selectItem itemValue="M" itemLabel="#{msgs.gender_m}" />
-                        <f:selectItem itemValue="F" itemLabel="#{msgs.gender_f}" />
-                    </h:selectOneMenu> 
+                    <h:panelGroup>
+                        <h:selectOneMenu value="#{customer.gender}">
+                            <f:selectItem itemValue="M" itemLabel="#{msgs.gender_m}" />
+                            <f:selectItem itemValue="F" itemLabel="#{msgs.gender_f}" />
+                        </h:selectOneMenu> 
+                    </h:panelGroup>
                 </h:panelGrid>
                 
                 <h:commandButton action="#{editCustomer.create}" value="#{msgs.newCustomerSubmit}" />

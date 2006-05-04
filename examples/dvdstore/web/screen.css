@@ -240,7 +240,7 @@ h3 {
 .controlBar .button {    
    float: right; 
    width: 30px; 
-   border: 1px solid #d3e4ff;
+   /* border: 1px solid #d3e4ff; */
 }
 
 .controlBar .message {
@@ -277,6 +277,7 @@ h3 {
 }
 
 /* Box */
+
 .box {
         text-align: left;
         border: 1px solid #aaa;

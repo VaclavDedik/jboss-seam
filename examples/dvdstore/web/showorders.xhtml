@@ -43,9 +43,11 @@
                 </h:column>                        
 
                 <h:column>
-                    <h:commandLink id="xyz" action="#{showorders.detailOrder}">
-                        <h:commandButton value="details" /> 
-                    </h:commandLink>
+                    <h:form>
+                        <h:commandLink action="#{showorders.detailOrder}">
+                            <h:commandButton value="details" /> 
+                        </h:commandLink>
+                    </h:form>
                 </h:column>
             </h:dataTable>
 

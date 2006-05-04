@@ -6,10 +6,10 @@
     
     <c:when test="#{currentUser==null}">
         <div class="menu">
-            <dl>
-                <dt class="menuHeader">#{msgs.loginPagePrompt}</dt>
-                <dd class="menuForm">
-                    <h:form>
+            <h:form>
+                <dl>
+                    <dt class="menuHeader">#{msgs.loginPagePrompt}</dt>
+                    <dd class="menuForm">
                         <dl>
                             <dt><h:outputText value="#{msgs.loginUser}" /></dt>
                             <dd><h:inputText value="#{login.userName}" size="16" /></dd>
@@ -20,16 +20,16 @@
                                 <h:commandButton action="#{login.login}" value="#{msgs.loginPrompt}"
                                                  class="formButton" style="width: 166px;"/>
                             </dd>
-
+                            
                         </dl>
-                    </h:form>
-                </dd>
-            </dl>
-            <dl>
-                <dt class="menuFooter">
-                    <h:commandLink value="Create Account" action="newcustomer"/>
-                </dt>
-            </dl>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt class="menuFooter">
+                        <h:commandLink value="Create Account" action="newcustomer"/>
+                    </dt>
+                </dl>
+            </h:form>
         </div>
     </c:when>
     

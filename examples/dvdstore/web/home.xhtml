@@ -7,9 +7,11 @@
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ul>
-                <li id="current"><h:commandLink action="main" value="Login"/></li>
-            </ul>
+            <h:form>
+                <ul>
+                    <li id="current"><h:commandLink action="main" value="Login"/></li>
+                </ul>
+            </h:form>
         </ui:define>
             
         <ui:define name="sidebar">
