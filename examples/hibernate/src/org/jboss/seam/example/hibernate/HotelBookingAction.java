@@ -2,18 +2,15 @@
 package org.jboss.seam.example.hibernate;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
-import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.validator.Valid;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -44,7 +41,6 @@ public class HotelBookingAction implements Serializable
    
    @In(required=false) 
    @Out(required=false)
-   @Valid
    private Booking booking;
    
    @In
@@ -124,7 +120,6 @@ public class HotelBookingAction implements Serializable
       return "book";
    }
 
-   @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";

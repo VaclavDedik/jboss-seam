@@ -2,13 +2,10 @@
 package org.jboss.seam.example.hibernate;
 
 import static org.jboss.seam.ScopeType.EVENT;
-import static org.jboss.seam.annotations.Outcome.REDISPLAY;
 
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.validator.Valid;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -19,7 +16,7 @@ import org.jboss.seam.core.FacesMessages;
 public class RegisterAction
 {
 
-   @In @Valid
+   @In
    private User user;
    
    @In(create=true)
@@ -30,7 +27,6 @@ public class RegisterAction
    
    private String verify;
    
-   @IfInvalid(outcome=REDISPLAY)
    public String register()
    {
       if ( user.getPassword().equals(verify) )

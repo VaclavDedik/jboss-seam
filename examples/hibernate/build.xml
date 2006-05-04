@@ -30,10 +30,8 @@
     </zipfileset>
 
     <zipfileset id="example.war.webinf.lib.extra" 
-            prefix="WEB-INF/lib"
-               dir=".">
-        <include name="_NONE_"/>
-    </zipfileset>
+    	    prefix="WEB-INF/lib"
+    	     refid="seam-ui.jar"/>
     
     <!-- EJB3 -->
     <fileset id="example.ejb3.root" dir=".">
@@ -114,6 +112,7 @@
             <zipfileset refid="example.war.docroot"/>
         	<zipfileset refid="example.war.webinf"/>
             <zipfileset refid="example.war.webinf.lib"/>
+        	<zipfileset refid="example.war.webinf.lib.extra"/>
             <zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset dir="${build.dir}/resources">
             	<include name="WEB-INF/web.xml"/>

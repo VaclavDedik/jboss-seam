@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html">
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:s="http://jboss.com/products/seam/taglib">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>JBoss Suites: Seam Framework</title>
@@ -32,28 +33,42 @@
 			</div>
 			<div class="section">
 				<fieldset>
-					<div class="entry">
-						<div class="label"><h:outputLabel for="username">Username:</h:outputLabel></div>
-						<div class="input"><h:inputText id="username" value="#{user.username}"/><br/><span class="errors"><h:message for="username" /></span></div>
-					</div>
-					<div class="entry">
-						<div class="label"><h:outputLabel for="name">Real Name:</h:outputLabel></div>
-						<div class="input"><h:inputText id="name" value="#{user.name}" /><br/><span class="errors"><h:message for="name" /></span></div>
-					</div>
-					<div class="entry">
-						<div class="label"><h:outputLabel for="password">Password:</h:outputLabel></div>
-						<div class="input"><h:inputSecret id="password" value="#{user.password}" /><br/><span class="errors"><h:message for="password" /></span></div>
-					</div>
-					<div class="entry">
-						<div class="label"><h:outputLabel for="verify">Verify Password:</h:outputLabel></div>
-						<div class="input"><h:inputSecret id="verify" value="#{register.verify}" /><br/><span class="errors"><h:message for="verify" /></span></div>
-					</div>
+					<s:validateAll>
+						<div class="entry">
+							<div class="label"><h:outputLabel for="username">Username:</h:outputLabel></div>
+							<div class="input">
+								<h:inputText id="username" value="#{user.username}" required="true"/><br/>
+								<span class="errors"><h:message for="username" /></span>
+							</div>
+						</div>
+						<div class="entry">
+							<div class="label"><h:outputLabel for="name">Real Name:</h:outputLabel></div>
+							<div class="input">
+								<h:inputText id="name" value="#{user.name}" required="true"/><br/>
+								<span class="errors"><h:message for="name" /></span>
+							</div>
+						</div>
+						<div class="entry">
+							<div class="label"><h:outputLabel for="password">Password:</h:outputLabel></div>
+							<div class="input">
+								<h:inputSecret id="password" value="#{user.password}" required="true"/><br/>
+								<span class="errors"><h:message for="password" /></span>
+							</div>
+						</div>
+						<div class="entry">
+							<div class="label"><h:outputLabel for="verify">Verify Password:</h:outputLabel></div>
+							<div class="input">
+								<h:inputSecret id="verify" value="#{register.verify}" required="true"/><br/>
+								<span class="errors"><h:message for="verify" /></span>
+							</div>
+						</div>
+					</s:validateAll>
 					<div class="entry errors"><h:messages globalOnly="true" /></div>
 					<div class="entry">
 						<div class="label">&#160;</div>
 						<div class="input">
 							<h:commandButton value="Register" action="#{register.register}" class="button"/>&#160;
-							<h:commandButton value="Cancel" action="login" class="button"/>
+							<s:link value="Cancel" action="login" linkStyle="button" buttonClass="button"/>
 						</div>
 					</div>
 				</fieldset>

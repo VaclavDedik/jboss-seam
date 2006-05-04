@@ -4,42 +4,45 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"
                 template="template.xhtml">
 
 <ui:define name="content">
    <div class="blogEntry">
       <h:form>
-         <div>
-            <h:outputLabel for="id">Id: </h:outputLabel>
-         </div>
-         <div>
-            <h:inputText id="id" value="#{newBlogEntry.id}" size="20" maxlength="20"/>
-            <span class="errors"><h:message for="id"/></span>
-         </div>
-         <div>
-            <h:outputLabel for="title">Title: </h:outputLabel>
-         </div>
-         <div>
-            <h:inputText id="title" value="#{newBlogEntry.title}" size="70" maxlength="70"/>
-            <span class="errors"><h:message for="title"/></span>
-         </div>
-         <div>
-            <h:outputLabel for="excerpt">Excerpt (optional): </h:outputLabel>
-         </div>
-         <div>
-            <h:inputTextarea id="excerpt" value="#{newBlogEntry.excerpt}" cols="68" rows="3"/>
-            <span class="errors"><h:message for="excerpt"/></span>
-         </div>
-         <div>
-            <h:outputLabel for="body">Body text: </h:outputLabel>
-         </div>
-         <div>
-            <h:inputTextarea id="body" value="#{newBlogEntry.body}" cols="68" rows="20"/>
-            <span class="errors"><h:message for="body"/></span>
-         </div>
-         <div>
-            <h:commandButton value="Post" action="#{postAction.post}"/>
-         </div>
+         <s:validateAll>
+            <div>
+               <h:outputLabel for="id">Id: </h:outputLabel>
+            </div>
+            <div>
+               <h:inputText id="id" value="#{newBlogEntry.id}" size="20" maxlength="20" required="true"/>
+               <span class="errors"><h:message for="id"/></span>
+            </div>
+            <div>
+               <h:outputLabel for="title">Title: </h:outputLabel>
+            </div>
+            <div>
+               <h:inputText id="title" value="#{newBlogEntry.title}" size="70" maxlength="70" required="true"/>
+               <span class="errors"><h:message for="title"/></span>
+            </div>
+            <div>
+               <h:outputLabel for="excerpt">Excerpt (optional): </h:outputLabel>
+            </div>
+            <div>
+               <h:inputTextarea id="excerpt" value="#{newBlogEntry.excerpt}" cols="68" rows="3"/>
+               <span class="errors"><h:message for="excerpt"/></span>
+            </div>
+            <div>
+               <h:outputLabel for="body">Body text: </h:outputLabel>
+            </div>
+            <div>
+               <h:inputTextarea id="body" value="#{newBlogEntry.body}" cols="68" rows="20" required="true"/>
+               <span class="errors"><h:message for="body"/></span>
+            </div>
+            <div>
+               <h:commandButton value="Post" action="#{postAction.post}"/>
+            </div>
+         </s:validateAll>
       </h:form>
    </div>
 </ui:define>

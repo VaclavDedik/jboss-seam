@@ -26,12 +26,11 @@
                dir="../../facelets/lib">
         <include name="*.jar"/>
     </zipfileset>
-    <zipfileset id="example.war.webinf.lib.extra" 
-            prefix="WEB-INF/lib"
-               dir=".">
-        <include name="_NONE_"/>
-    </zipfileset>
 
+    <zipfileset id="example.war.webinf.lib.extra" 
+    	    prefix="WEB-INF/lib"
+    	     refid="seam-ui.jar"/>
+    
     <!-- EJB3 -->
     <fileset id="example.ejb3.root"
             dir="resources">
