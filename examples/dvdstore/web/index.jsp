@@ -1,3 +1,3 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:redirect url="/home.seam" />
+<c:redirect url="/home.faces" />
 
