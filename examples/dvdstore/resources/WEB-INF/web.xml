@@ -76,7 +76,7 @@
     
     <filter-mapping>
         <filter-name>Seam Redirect Filter</filter-name>
-        <url-pattern>*.faces</url-pattern>
+        <url-pattern>*.seam</url-pattern>
     </filter-mapping>
 
     <servlet>
@@ -87,7 +87,6 @@
     
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.faces</url-pattern>
+        <url-pattern>*.seam</url-pattern>
     </servlet-mapping>                 
-
 </web-app>
