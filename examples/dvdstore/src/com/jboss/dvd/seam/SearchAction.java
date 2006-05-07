@@ -49,7 +49,7 @@ public class SearchAction
     String   title    = null;
     String   actor    = null;
 
-    @DataModel //@Out(scope=ScopeType.CONVERSATION,required=false)
+    @DataModel
     List<Product> searchResults;
 
     @DataModelSelection
@@ -82,9 +82,11 @@ public class SearchAction
     }
 
     @Begin(join=true)
-    public void doSearch() {
+    public String doSearch() {
         currentPage=0;
         updateResults();
+
+        return "browse";
     }
 
     public void nextPage() {
@@ -102,13 +104,9 @@ public class SearchAction
     }
 
     public void selectFromRequest() {
-        System.out.println("SELECT id=" + id + " prev dvd was " + dvd);
-           
         if (id != null) {
             dvd = em.find(Product.class, id);
         }
-
-        System.out.println("new dvd is " + dvd);
     }
 
     public boolean isLastPage() {
@@ -142,15 +140,15 @@ public class SearchAction
         title = (title == null) ? "%" : "%" + title.toLowerCase() + "%";
         actor = (actor == null) ? "%" : "%" + actor.toLowerCase() + "%";
 
-        if (category == null) {
+        if (category == null || category.getCategoryId()==0) {
             return em.createQuery("from Product p where lower(p.title) like :title " + 
-                                  "and lower(p.actor) LIKE :actor")
+                                  "and lower(p.actor) LIKE :actor order by p.title")
                 .setParameter("title", title)
                 .setParameter("actor", actor);
         } else { 
             return em.createQuery("from Product p where lower(p.title) like :title " + 
                                   "and lower(p.actor) like :actor " + 
-                                  "and p.category = :category")
+                                  "and :category member of p.categories order by p.title")
                 .setParameter("title", title)
                 .setParameter("actor", actor)
                 .setParameter("category", category);

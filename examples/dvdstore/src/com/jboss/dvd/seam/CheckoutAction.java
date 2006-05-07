@@ -23,7 +23,7 @@ import org.jboss.seam.core.FacesMessages;
 
 @Stateful
 @Name("checkout")
-    //@Conversational(ifNotBegunOutcome="customer")
+@Conversational(ifNotBegunOutcome="checkout")
 public class CheckoutAction
     implements Checkout,
                Serializable
@@ -73,8 +73,7 @@ public class CheckoutAction
 
             orderId      = completedOrder.getOrderId();
             amount       = completedOrder.getNetAmount();
-            customerName = "anonymous";
-            //customerName = completedOrder.getCustomer().getUserName();
+            customerName = completedOrder.getCustomer().getUserName();
 
             //return "complete;"
         } catch (InsufficientQuantityException e) {
@@ -84,12 +83,7 @@ public class CheckoutAction
             }
             
             //return null;
-        } catch (Throwable t) {
-            System.out.println("----------------------------");
-            t.printStackTrace();
         }
-
-        System.out.println("DDDDDDDDDDDDDDDDDDDDDOOOOOOONE!!!!!!!!!!");
     }
 
 

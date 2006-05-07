@@ -18,7 +18,7 @@
                     <dd>
                         <h:selectOneMenu value="#{search.category}"
                                          converter="#{catbean.converter}">
-                            <f:selectItem itemLabel="Any" itemValue="#{catbean.nullCategory}"   /> 
+                            <f:selectItem  itemLabel="Any" itemValue="#{catbean.nullCategory}" />
                             <f:selectItems value="#{catbean.categories}" />
                         </h:selectOneMenu>
                     </dd>

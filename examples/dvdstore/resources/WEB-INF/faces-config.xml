@@ -23,6 +23,12 @@
     </lifecycle>
 
     <navigation-rule>
+        <navigation-case>
+            <from-outcome>browse</from-outcome>
+            <to-view-id>/browse.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
 
         <navigation-case>
             <from-outcome>ship</from-outcome>

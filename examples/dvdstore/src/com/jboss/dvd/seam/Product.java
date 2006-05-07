@@ -7,7 +7,9 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
+import java.util.*;
 import javax.persistence.*;
+
 
 @Entity
 @Table(name="PRODUCTS")
@@ -15,13 +17,14 @@ public class Product
     implements Serializable
 {
     long productId;
+    String asin;
     String title;
     String actor;
     String description;
     String imageURL;
     float price;
 
-    Category  category;
+    Set<Category> categories;
     Inventory inventory;
 
     @Id @GeneratedValue
@@ -33,6 +36,15 @@ public class Product
         this.productId = id;
     }     
 
+    @Column(name="ASIN", length=16)
+    public String getASIN() {
+        return asin;
+    }
+
+    public void setASIN(String asin) {
+        this.asin = asin;
+    }
+
     @OneToOne(fetch=FetchType.LAZY,mappedBy="product")
     public Inventory getInventory() {
         return inventory;
@@ -41,13 +53,15 @@ public class Product
         this.inventory = inventory;
     }
     
-    @ManyToOne
-    @JoinColumn(name="CATEGORY",nullable=false)
-    public Category getCategory() {
-        return category;
+    @ManyToMany
+    @JoinTable(name="PRODUCT_CATEGORY",
+               joinColumns=@JoinColumn(name="PROD_ID"),
+               inverseJoinColumns=@JoinColumn(name="CATEGORY"))
+    public Set<Category> getCategories() {
+        return categories;
     }
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
     
     @Column(name="TITLE",nullable=false,length=50)
@@ -76,7 +90,8 @@ public class Product
         this.imageURL = imageURL;
     }
 
-    @Column(name="ACTOR",nullable=false,length=50)
+    // nullable=false
+    @Column(name="ACTOR",length=50)
     public String getActor() {
         return actor;
     }

@@ -31,7 +31,7 @@ public class CategoriesBean
     implements Categories,
                Serializable 
 {
-    List<Category>      categories;
+    List<Category>       categories;
     Map<String,Category> categoryMap;
     
     @PersistenceContext 
@@ -48,6 +48,7 @@ public class CategoriesBean
         for (Category category: categories) {
             results.put(category.getName(),category);
         }
+        
         categoryMap = results;
     }
 
@@ -78,8 +79,10 @@ public class CategoriesBean
                                   Object       obj) 
         {
             if (obj == null) return null;
-            
-            String val = String.valueOf(((Category) obj).getCategoryId());
+
+            Category category = (Category) obj;
+            String val = String.valueOf(category.getCategoryId());
+
             return val;
         }
         

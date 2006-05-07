@@ -20,7 +20,7 @@ public interface Search
     public boolean  isLastPage();
     public boolean  isFirstPage();
 
-    public void     doSearch();
+    public String   doSearch();
     public void     selectFromRequest();
     public void     addToCart();
     public void     addAllToCart();

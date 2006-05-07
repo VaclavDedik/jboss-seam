@@ -3,12 +3,18 @@
 <datasources>
     <local-tx-datasource>
         <jndi-name>dvdDatasource</jndi-name>
+        <connection-url>jdbc:hsqldb:${jboss.server.data.dir}${/}hypersonic${/}dvd</connection-url>
         <connection-url>jdbc:hsqldb:.</connection-url>
         <driver-class>org.hsqldb.jdbcDriver</driver-class>
         <user-name>sa</user-name>
         <password></password>
     </local-tx-datasource>
-    
+
+    <mbean code="org.jboss.jdbc.HypersonicDatabase" 
+           name="jboss:service=Hypersonic,database=dvd">
+        <attribute name="Database">dvd</attribute>
+        <attribute name="InProcessMode">true</attribute>
+    </mbean>  
 <!--
     <local-tx-datasource>
         <jndi-name>dvdDatasource</jndi-name>
