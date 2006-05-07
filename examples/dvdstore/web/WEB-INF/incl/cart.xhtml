@@ -2,9 +2,9 @@
            xmlns:ui="http://java.sun.com/jsf/facelets"
            xmlns:f="http://java.sun.com/jsf/core"
            xmlns:h="http://java.sun.com/jsf/html"
+           xmlns:s="http://jboss.com/products/seam/taglib"
            rendered="#{!cart.isEmpty}">
     <div class="menu">
-        <h:form>
             <dl>
                 <dt class="menuHeader">#{msgs.searchCartHeader}</dt>
                 <dd class="menuForm">
@@ -33,13 +33,14 @@
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </dd>
-                
-                <dd>
-                    <h:commandButton action="checkout" value="#{msgs.checkoutButton}" 
-                                     class="formButton" style="width: 166px;"/>
-                </dd>
+
+                <h:form>
+                    <dd>
+                        <h:commandButton action="#{checkout.startCheckout}" value="#{msgs.checkoutButton}" 
+                                         class="formButton" style="width: 166px;" />
+                    </dd>
+                </h:form>
             </dl>
-        </h:form>
     </div>
 </f:subview>
 

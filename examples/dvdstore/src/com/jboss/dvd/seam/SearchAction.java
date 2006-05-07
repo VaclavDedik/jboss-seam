@@ -20,19 +20,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Conversational;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.datamodel.*;
 
 @Stateful
 @Name("search")
 @Conversational(ifNotBegunOutcome="customer")
-@Scope(ScopeType.CONVERSATION)
 public class SearchAction
     implements Search,
                Serializable
@@ -45,6 +38,9 @@ public class SearchAction
     @PersistenceContext
     EntityManager em;
 
+    @RequestParameter
+    Long id;
+
     int     pageSize    = 15;
     int     currentPage = 0; 
     boolean hasMore     = false;
@@ -53,8 +49,12 @@ public class SearchAction
     String   title    = null;
     String   actor    = null;
 
-    @Out(scope=ScopeType.CONVERSATION,required=false)
+    @DataModel //@Out(scope=ScopeType.CONVERSATION,required=false)
     List<Product> searchResults;
+
+    @DataModelSelection
+    @Out(required=false)
+    Product dvd;
 
     @Out(scope=ScopeType.CONVERSATION,required=false)
     Map<Product, Boolean> searchSelections;
@@ -66,7 +66,7 @@ public class SearchAction
         return category;
     }
 
-
+    
     public void setTitle(String title) {
         this.title = title;
     }
@@ -81,7 +81,7 @@ public class SearchAction
         return actor;
     }
 
-    @Begin(join=true, pageflow="shopping")
+    @Begin(join=true)
     public void doSearch() {
         currentPage=0;
         updateResults();
@@ -99,6 +99,16 @@ public class SearchAction
             currentPage--;
             updateResults();
         }
+    }
+
+    public void selectFromRequest() {
+        System.out.println("SELECT id=" + id + " prev dvd was " + dvd);
+           
+        if (id != null) {
+            dvd = em.find(Product.class, id);
+        }
+
+        System.out.println("new dvd is " + dvd);
     }
 
     public boolean isLastPage() {
@@ -119,14 +129,12 @@ public class SearchAction
         if (items.size() > pageSize) { 
             searchResults    = new ArrayList(items.subList(0,pageSize));
             hasMore = true;
-        } 
-        else {
+        } else {
             searchResults = items;
             hasMore = false;
         }
 
         searchSelections = new HashMap<Product, Boolean>();
-
     }
 
 
@@ -139,8 +147,7 @@ public class SearchAction
                                   "and lower(p.actor) LIKE :actor")
                 .setParameter("title", title)
                 .setParameter("actor", actor);
-        } 
-        else { 
+        } else { 
             return em.createQuery("from Product p where lower(p.title) like :title " + 
                                   "and lower(p.actor) like :actor " + 
                                   "and p.category = :category")
@@ -150,10 +157,21 @@ public class SearchAction
         }
     }
 
+    /**
+     *  Add the selected DVD to the cart
+     */
     public void addToCart() {
+        cart.addProduct(dvd,1);
+    }
+
+
+    /**
+     *  Add many items to cart
+     */
+    public void addAllToCart() {
         for (Product item: searchResults) {
             Boolean selected = searchSelections.get(item);
-            if ( selected!=null && selected ) {
+            if (selected!=null && selected) {
                 searchSelections.put(item, false);
                 cart.addProduct(item, 1);
             }

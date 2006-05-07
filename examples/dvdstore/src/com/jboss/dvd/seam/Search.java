@@ -15,17 +15,19 @@ public interface Search
     public Category getCategory();
     public void     setCategory(Category category);
 
-    public void   nextPage();
-    public void   prevPage(); 
+    public void     nextPage();
+    public void     prevPage(); 
     public boolean  isLastPage();
     public boolean  isFirstPage();
 
-    public void   doSearch();
-    public void   addToCart();
+    public void     doSearch();
+    public void     selectFromRequest();
+    public void     addToCart();
+    public void     addAllToCart();
     
     public int      getPageSize();
     public void     setPageSize(int pageSize);
 
-    public void   reset();
+    public void     reset();
     public void     destroy();
 }

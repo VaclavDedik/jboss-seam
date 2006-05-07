@@ -1,0 +1,49 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jstl/core">
+<body>
+    <ui:composition template="/WEB-INF/template.xhtml">
+        <ui:define name="topnav">
+            <ui:include src="/WEB-INF/incl/browse_nav.xhtml" />
+        </ui:define>
+
+        <ui:define name="sidebar">
+            <ui:include src="/WEB-INF/incl/login.xhtml" />
+            <ui:include src="/WEB-INF/incl/searchbox.xhtml" />
+            <ui:include src="/WEB-INF/incl/cart.xhtml" />
+        </ui:define>
+        
+        <ui:define name="body">
+            <h:panelGrid columns="2">
+                <h:outputText value="Title:" />
+                <h:outputText value="#{dvd.title}" />
+
+                <h:outputText value="Actor:" />
+                <h:outputText value="#{dvd.actor}" />
+
+                <h:outputText value="Price:" />
+                <h:outputText value="#{dvd.price}" />
+            </h:panelGrid>
+            
+
+            <div class="cntInfo">
+                #{dvd.description}
+            </div>
+
+            <h:form>
+                <h:commandButton action="#{search.addToCart}" value="Add to Cart" />
+                <s:link view="/browse.xhtml" value="Back to Search" linkStyle="button"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</body>
+</html>
+
+
+
+

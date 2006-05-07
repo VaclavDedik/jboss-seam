@@ -157,8 +157,6 @@ public class Order
     }
 
 
-
-
     public void cancel() {
         setStatus(Order.Status.CANCELLED);
     }

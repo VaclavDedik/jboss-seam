@@ -19,17 +19,9 @@ import java.util.Map;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
+import javax.persistence.*;
 
-import org.jboss.seam.annotations.CreateProcess;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
 
@@ -42,25 +34,11 @@ public class ShoppingCartBean
 {
     static final long serialVersionUID = 8722576722482084467L;
 
-    @In(value="currentUser",required=false)
-    Customer customer;
-
     @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
     
     Order cartOrder = new Order();
     Map<Product,Boolean> cartSelection  = new HashMap<Product,Boolean>();
-
-    @Out(required=false, scope=CONVERSATION)
-    Order order = null;
-
-
-    @Out(scope=BUSINESS_PROCESS, required=false)
-    long orderId;
-    @Out(scope=BUSINESS_PROCESS, required=false)
-    float amount;
-    @Out(value="customer",scope=BUSINESS_PROCESS, required=false)
-    String customerName;
 
     public List<OrderLine> getCart() {
         return cartOrder.getOrderLines();
@@ -70,17 +48,13 @@ public class ShoppingCartBean
     }
 
     public void addProduct(Product product, int quantity) {
-        product = em.find(Product.class, product.getProductId());
-
         cartOrder.addProduct(product,quantity);
         cartOrder.calculateTotals();
     }
 
-
     public Map getCartSelection() {
         return cartSelection;
     }
-
 
     public float getSubtotal() {
         return cartOrder.getNetAmount();
@@ -94,14 +68,14 @@ public class ShoppingCartBean
         return cartOrder.getTotalAmount();
     }
 
-    
+
     public void updateCart() {
         List<OrderLine> newLines =  new ArrayList<OrderLine>();
 
         for (OrderLine line: cartOrder.getOrderLines()) {
             if (line.getQuantity() > 0) {
                 Boolean selected = cartSelection.get(line);
-                if ( selected==null || !selected ) {
+                if (selected==null || !selected) {
                     newLines.add(line);
                 }
             }
@@ -112,52 +86,8 @@ public class ShoppingCartBean
         cartSelection = new HashMap<Product,Boolean>();
     }
 
-
-    @End
-    @CreateProcess(definition="OrderManagement")
-    public String purchase() {
-        try {
-            order = purchase(customer, cartOrder);
-            cartOrder = new Order();
-
-            orderId  = order.getOrderId();
-            amount   = order.getNetAmount();
-            customerName = order.getCustomer().getUserName();
-
-            return "complete";
-        } catch (InsufficientQuantityException e) {
-            for (Product product: e.getProducts()) {
-                Contexts.getEventContext().set("prod", product);
-                FacesMessages.instance().addFromResourceBundle("checkoutInsufficientQuantity");
-            }
-            
-            return null;
-        }
-    }
-
-    
-    private Order purchase(Customer customer, Order order) 
-        throws InsufficientQuantityException
-    {
-        order.setCustomer(customer);
-        order.setOrderDate(new Date());
-
-        List<Product> errorProducts = new ArrayList<Product>();
-        for (OrderLine line: order.getOrderLines()) {
-            Inventory inv = line.getProduct().getInventory();
-            if (!inv.order(line.getQuantity())) {
-                errorProducts.add(line.getProduct());
-            }
-        }
-
-        if (errorProducts.size()>0) {
-            throw new InsufficientQuantityException(errorProducts);
-        }
-
-        order.calculateTotals();
-        em.persist(order);
-
-        return order;
+    public void resetCart() {
+        cartOrder = new Order();
     }
 
     @Destroy

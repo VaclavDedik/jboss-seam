@@ -17,7 +17,7 @@
         <ui:define name="body">
             <h2>#{msgs.checkoutCompleteHeader}</h2>
             <h:form>
-                <h:dataTable value="#{order.orderLines}" 
+                <h:dataTable value="#{completedOrder.orderLines}" 
                              var="item"
                              styleClass="dvdtable" 
                              headerClass="dvdtablehead"
@@ -64,17 +64,17 @@
                 <div class="cntInfo" style="float: right;">
                     <h:panelGrid columns="2">
                         <h:outputText value="#{msgs.checkoutSubtotal}" />
-                        <h:outputText value="#{order.netAmount}">
+                        <h:outputText value="#{completedOrder.netAmount}">
                             <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
                         
                         <h:outputText value="#{msgs.checkoutTax}" />
-                        <h:outputText value="#{order.tax}">
+                        <h:outputText value="#{completedOrder.tax}">
                             <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
                         
                         <h:outputText value="#{msgs.checkoutTotal}" />
-                        <h:outputText value="#{order.totalAmount}">
+                        <h:outputText value="#{completedOrder.totalAmount}">
                             <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
                     </h:panelGrid>
@@ -86,12 +86,12 @@
 
             <p class="orderBox cntAlert">
                 Thank you for ordering. 
-                <h:outputText value="#{order.totalAmount}"> 
+                <h:outputText value="#{completedOrder.totalAmount}"> 
                     <f:convertNumber type="currency" currencySymbol="$" />
                 </h:outputText>
-                charged was to your <h:outputText value="#{order.customer.creditCardTypeString}" />.
+                charged was to your <h:outputText value="#{completedOrder.customer.creditCardTypeString}" />.
                 Your order number is 
-                <h:outputText value="#{order.orderId}" />.
+                <h:outputText value="#{completedOrder.orderId}" />.
             </p>
         </ui:define>
     </ui:composition>

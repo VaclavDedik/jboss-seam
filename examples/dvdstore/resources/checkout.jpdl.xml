@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<pageflow-definition name="checkout">
+    <start-state name="start">
+        <transition to="checkout"/>
+    </start-state>
+    
+    <page name="checkout" view-id="/checkout.xhtml">
+        <redirect/>
+        <transition to="checkout">
+            <action expression="#{cart.updateCart}" />
+        </transition>
+        <transition name="confirm" to="confirm">
+            <action expression="#{checkout.createOrder}" />
+        </transition>
+    </page>
+
+    <page name="confirm" view-id="/confirm.xhtml">
+        <redirect/>
+        <transition name="update"   to="checkout" />
+        <transition name="purchase" to="complete">
+            <action expression="#{checkout.submitOrder}" />
+        </transition>
+    </page>
+    
+    <page name="complete" view-id="/complete.xhtml">
+        <redirect/>
+        <end-conversation />
+    </page>    
+</pageflow-definition>

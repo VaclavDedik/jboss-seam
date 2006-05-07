@@ -53,7 +53,6 @@ public class LoginAction
     }
     
     public String login() {
-
         try {
             User found =  
                 (User) em.createQuery("from User u where u.userName = :userName and u.password = :password")
@@ -73,8 +72,7 @@ public class LoginAction
             else {
                 return "customer";
             }
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             FacesMessages.instance().addFromResourceBundle("loginErrorPrompt");
             Seam.invalidateSession();
             return null;

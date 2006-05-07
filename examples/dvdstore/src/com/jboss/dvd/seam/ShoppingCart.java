@@ -16,11 +16,13 @@ public interface ShoppingCart
     public void addProduct(Product product, int quantity);
     public List<OrderLine> getCart();
     public Map getCartSelection();
+
     public float getSubtotal();
     public float getTax();
     public float getTotal();
+
     public void updateCart();
-    public String purchase();
+    public void resetCart();
 
     public void destroy();
 }

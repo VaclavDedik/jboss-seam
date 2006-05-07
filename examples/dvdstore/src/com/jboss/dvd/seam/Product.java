@@ -17,6 +17,7 @@ public class Product
     long productId;
     String title;
     String actor;
+    String description;
     float price;
 
     Category  category;
@@ -54,6 +55,15 @@ public class Product
     }
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Column(name="DESCRIPTION",length=1024)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Column(name="ACTOR",nullable=false,length=50)
