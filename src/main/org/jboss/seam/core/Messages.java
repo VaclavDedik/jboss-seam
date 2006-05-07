@@ -17,7 +17,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.util.Template;
 
 /**
  * Support for an application-global resource bundle
@@ -62,7 +61,7 @@ public class Messages {
                   }
                   else
                   {
-                     String result = Template.render(resource);
+                     String result = Interpolator.instance().interpolate(resource);
                      cache.put(resourceKey, result);
                      return result;
                   }

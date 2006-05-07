@@ -39,6 +39,7 @@ import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.HttpError;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.IsUserInRole;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.LocaleSelector;
@@ -187,11 +188,12 @@ public class Initialization
       addComponent( BusinessProcessContext.class, context );
       addComponent( Locale.class, context );
       addComponent( Messages.class, context );
-      addComponent( FacesMessages.class, context);
+      addComponent( Interpolator.class, context );
+      addComponent( FacesMessages.class, context );
       addComponent( ResourceBundle.class, context );
       addComponent( LocaleSelector.class, context );
       addComponent( UiComponent.class, context );
-      addComponent( SubscriptionRegistry.class, context);
+      addComponent( SubscriptionRegistry.class, context );
       
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
 

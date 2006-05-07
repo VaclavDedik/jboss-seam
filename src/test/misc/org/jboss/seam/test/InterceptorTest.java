@@ -17,6 +17,7 @@ import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
@@ -532,6 +533,10 @@ public class InterceptorTest
       appContext.set( 
             Seam.getComponentName(FacesMessages.class) + ".component", 
             new Component(FacesMessages.class, appContext) 
+         );
+      appContext.set(
+            Seam.getComponentName(Interpolator.class) + ".component", 
+            new Component(Interpolator.class, appContext)
          );
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.beginRequest(externalContext);

@@ -21,7 +21,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.util.Template;
 
 /**
  * A Seam component that TBD.
@@ -196,7 +195,7 @@ public class FacesMessages
    
    public static FacesMessage createFacesMessage(Severity severity, String messageTemplate)
    {
-      return new FacesMessage( severity, Template.render(messageTemplate), null );
+      return new FacesMessage( severity, Interpolator.instance().interpolate(messageTemplate), null );
    }
    
    private String getClientId(String id)

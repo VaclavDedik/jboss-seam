@@ -28,7 +28,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
-import org.jboss.seam.util.Template;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
@@ -112,7 +111,7 @@ public class Pages
    
    public String getDescription(String viewId)
    {
-      return Template.render( descriptionByViewId.get(viewId) );
+      return Interpolator.instance().interpolate( descriptionByViewId.get(viewId) );
    }
 
    public Integer getTimeout(String viewId)
