@@ -18,6 +18,7 @@ public class Product
     String title;
     String actor;
     String description;
+    String imageURL;
     float price;
 
     Category  category;
@@ -64,6 +65,15 @@ public class Product
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Column(name="IMAGE_URL",length=256)
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Column(name="ACTOR",nullable=false,length=50)

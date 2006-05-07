@@ -19,6 +19,11 @@
         </ui:define>
         
         <ui:define name="body">
+            
+            <f:subview rendered="#{dvd.imageURL != null}">
+                <img src="#{dvd.imageURL}" style="float:left;"/>
+            </f:subview>
+
             <h:panelGrid columns="2">
                 <h:outputText value="Title:" />
                 <h:outputText value="#{dvd.title}" />
