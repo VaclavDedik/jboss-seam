@@ -2,6 +2,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -12,7 +13,6 @@ import java.util.Set;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -26,12 +26,11 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
 @Name("messages")
-public class Messages {
+public class Messages implements Serializable {
    
-   private Map<String, String> messages;
+   private transient Map<String, String> messages;
    
-   @Create
-   public void init() 
+   private void init() 
    {
       messages = new AbstractMap<String, String>()
       {
@@ -95,6 +94,7 @@ public class Messages {
    @Unwrap
    public Map getMessages()
    {
+      if (messages==null) init();
       return messages;
    }
    

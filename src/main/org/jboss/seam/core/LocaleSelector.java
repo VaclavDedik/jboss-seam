@@ -2,6 +2,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +29,7 @@ import org.jboss.seam.util.Strings;
 @Scope(ScopeType.SESSION)
 @Name("localeSelector")
 @Intercept(NEVER)
-public class LocaleSelector {
+public class LocaleSelector implements Serializable {
    //TODO: this is a mutable session-scope component, could break in a cluster
 
    private String language;

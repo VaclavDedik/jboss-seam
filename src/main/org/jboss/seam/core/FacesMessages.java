@@ -2,6 +2,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,10 +31,10 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.CONVERSATION)
 @Name("facesMessages")
 @Intercept(NEVER)
-public class FacesMessages 
+public class FacesMessages implements Serializable
 {
    
-   private List<Runnable> tasks = new ArrayList<Runnable>();
+   private transient List<Runnable> tasks;
    
    private List<FacesMessage> facesMessages = new ArrayList<FacesMessage>();
    private Map<String, List<FacesMessage>> keyedFacesMessages = new HashMap<String, List<FacesMessage>>();
@@ -56,8 +57,11 @@ public class FacesMessages
    
    private void runTasks()
    {
-      for (Runnable task: tasks) task.run();
-      tasks.clear();
+      if (tasks!=null)
+      {
+         for (Runnable task: tasks) task.run();
+         tasks.clear();
+      }
    }
    
    public static void afterPhase()
@@ -115,7 +119,7 @@ public class FacesMessages
     */
    public void add(final String id, final Severity severity, final String messageTemplate)
    {
-      tasks.add( new Runnable() {
+      getTasks().add( new Runnable() {
          public void run() { add( id, createFacesMessage(severity, messageTemplate) ); }
       } );
    }
@@ -144,7 +148,7 @@ public class FacesMessages
     */
    public void add(final Severity severity, final String messageTemplate)
    {
-      tasks.add( new Runnable() {
+      getTasks().add( new Runnable() {
          public void run() { add( createFacesMessage(severity, messageTemplate) ); }
       } );
    }
@@ -222,6 +226,15 @@ public class FacesMessages
          }
          return null;
       }
+   }
+   
+   private List<Runnable> getTasks()
+   {
+      if (tasks==null)
+      {
+         tasks = new ArrayList<Runnable>();
+      }
+      return tasks;
    }
   
 }

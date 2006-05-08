@@ -2,6 +2,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.Serializable;
 import java.util.MissingResourceException;
 
 import org.apache.commons.logging.Log;
@@ -23,12 +24,12 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
 @Name("resourceBundle")
-public class ResourceBundle {
+public class ResourceBundle implements Serializable {
    
    private static final Log log = LogFactory.getLog(ResourceBundle.class);
 
    private String bundleName = "messages";
-   private java.util.ResourceBundle bundle;
+   private transient java.util.ResourceBundle bundle;
 
    public String getBundleName() 
    {
@@ -40,8 +41,7 @@ public class ResourceBundle {
       this.bundleName = bundleName;
    }
    
-   @Create
-   public void loadBundle() 
+   private void loadBundle() 
    {
       try
       {
@@ -61,6 +61,7 @@ public class ResourceBundle {
    @Unwrap
    public java.util.ResourceBundle getBundle()
    {
+      if (bundle==null) loadBundle();
       return bundle;
    }
    

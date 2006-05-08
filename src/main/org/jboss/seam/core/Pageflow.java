@@ -2,6 +2,8 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -27,7 +29,7 @@ import org.jbpm.graph.exe.Token;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.pageflow")
 @Intercept(NEVER)
-public class Pageflow 
+public class Pageflow implements Serializable
 {
    //TODO: a conversation-scope mutable component, could break in a cluster
    
