@@ -8,7 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a method as an observer of an event type.
+ * Marks a method as an observer of an event type or
+ * multiple event types.
  * 
  * @author Gavin King
  */
@@ -18,7 +19,7 @@ import java.lang.annotation.Target;
 public @interface Observer
 {
    /**
-    * @return the event type
+    * @return the event type or types to observe
     */
-   String value() default "";
+   String[] value() default {};
 }
