@@ -74,7 +74,6 @@ import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Sorter;
 import org.jboss.seam.util.StringArrayPropertyEditor;
-import org.jboss.seam.util.Strings;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -1129,10 +1128,6 @@ public class Component
             }
          }
          result = unwrap( component, result );
-         if ( log.isTraceEnabled() )
-         {
-            log.trace( Strings.toString(result) );
-         }
       }
       return result;
    }
