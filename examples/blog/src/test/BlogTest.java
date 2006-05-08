@@ -50,9 +50,9 @@ public class BlogTest extends SeamTest
       {
          
          @Override
-         protected void setParameters()
+         protected void setup()
          {
-            getRequestParameterMap().put("blogEntryId", "i18n");
+            getParameters().put("blogEntryId", new String[] {"i18n"});
          }
 
          @Override
@@ -111,9 +111,9 @@ public class BlogTest extends SeamTest
          }
 
          @Override
-         protected void setParameters()
+         protected void setup()
          {
-            getRequestParameterMap().put("searchPattern", "seam");
+            getParameters().put("searchPattern", new String[]{"seam"});
          }
 
          @Override

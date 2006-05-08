@@ -82,9 +82,9 @@ public class TodoTest extends SeamTest
       {
    
          @Override
-         protected void setParameters()
+         protected void setup()
          {
-            getRequestParameterMap().put("taskId", Long.toString(taskId));
+            getParameters().put( "taskId", new String[] { Long.toString(taskId) } );
          }
 
          @Override
