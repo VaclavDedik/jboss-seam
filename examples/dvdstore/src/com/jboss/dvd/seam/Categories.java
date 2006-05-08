@@ -16,4 +16,6 @@ public interface Categories {
     public Map<String,Category> getCategories();
     public Converter getConverter();
     public Category getNullCategory();
+    
+    public void destroy();
 }

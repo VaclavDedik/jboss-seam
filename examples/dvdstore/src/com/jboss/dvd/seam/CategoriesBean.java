@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -21,6 +22,7 @@ import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
@@ -105,5 +107,7 @@ public class CategoriesBean
             return null;
         }
     }
-
+    
+    @Remove @Destroy 
+    public void destroy() {}
 }
