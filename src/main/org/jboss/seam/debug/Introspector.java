@@ -4,6 +4,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,9 @@ public class Introspector {
          Object value;
          try
          {
-            value = properties[i].getReadMethod().invoke(component);
+            Method readMethod = properties[i].getReadMethod();
+            if (readMethod==null) continue;
+            value = readMethod.invoke(component);
          }
          catch (InvocationTargetException ite)
          {
