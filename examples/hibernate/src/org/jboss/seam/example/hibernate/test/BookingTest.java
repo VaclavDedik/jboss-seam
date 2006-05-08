@@ -24,6 +24,7 @@ import org.jboss.seam.example.hibernate.User;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.mock.SeamTest.Script;
 import org.testng.annotations.Test;
 
 public class BookingTest extends SeamTest
@@ -111,6 +112,8 @@ public class BookingTest extends SeamTest
             assert booking.getHotel()==Contexts.getConversationContext().get("hotel");
             assert booking.getUser()==Contexts.getSessionContext().get("user");
             assert Manager.instance().isLongRunningConversation();
+            assert booking.getCreditCard()==null;
+            assert booking.getCreditCardName()==null;
          }
          
       }.run();
@@ -118,11 +121,10 @@ public class BookingTest extends SeamTest
       new Script(id) {
 
          @Override
-         protected void invokeApplication()
+         protected void processValidations() throws Exception
          {
-        	 HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.setBookingDetails();
-            assert outcome==null;
+            validate(Booking.class, "creditCard", "123");
+            assert isValidationFailure();
          }
 
          @Override
@@ -130,7 +132,28 @@ public class BookingTest extends SeamTest
          {
             Iterator messages = FacesContext.getCurrentInstance().getMessages();
             assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number is required");
+            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number must 16 digits long");
+            assert !messages.hasNext();
+            assert Manager.instance().isLongRunningConversation();
+         }
+         
+      }.run();
+      
+      new Script(id) {
+
+         @Override
+         protected void processValidations() throws Exception
+         {
+            validate(Booking.class, "creditCardName", "");
+            assert isValidationFailure();
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            Iterator messages = FacesContext.getCurrentInstance().getMessages();
+            assert messages.hasNext();
+            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card name is required");
             assert !messages.hasNext();
             assert Manager.instance().isLongRunningConversation();
          }
@@ -144,6 +167,8 @@ public class BookingTest extends SeamTest
          {
             Booking booking = (Booking) Contexts.getConversationContext().get("booking");
             booking.setCreditCard("1234567891021234");
+            booking.setCreditCardName("GAVIN KING");
+            booking.setBeds(2);
             Date now = new Date();
             booking.setCheckinDate(now);
             booking.setCheckoutDate(now);

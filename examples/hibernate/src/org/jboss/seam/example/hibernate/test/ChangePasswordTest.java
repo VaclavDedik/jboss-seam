@@ -37,9 +37,9 @@ public class ChangePasswordTest extends SeamTest
          protected void updateModelValues() throws Exception
          {
             User user = (User) Component.getInstance("user", true);
-            user.setPassword("xxx");
+            user.setPassword("xxxyyy");
             changePassword = (ChangePasswordAction) Component.getInstance("changePassword", true);
-            changePassword.setVerify("xxx");
+            changePassword.setVerify("xxxyyx");
          }
 
          @Override
@@ -55,7 +55,7 @@ public class ChangePasswordTest extends SeamTest
             User user = (User) Component.getInstance("user", false);
             assert user.getName().equals("Gavin King");
             assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("xxx");
+            assert user.getPassword().equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 
