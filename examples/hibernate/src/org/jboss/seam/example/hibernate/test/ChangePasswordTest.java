@@ -58,7 +58,6 @@ public class ChangePasswordTest extends SeamTest
             assert user.getPassword().equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
-
          }
          
       }.run();
