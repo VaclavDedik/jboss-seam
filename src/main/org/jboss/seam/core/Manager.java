@@ -218,6 +218,18 @@ public class Manager
       if ( ce==null ) return null;
       return ce.getViewId();
    }
+   
+   public String getParentConversationViewId()
+   {
+      if ( currentConversationIdStack==null || currentConversationIdStack.size()<2 )
+      {
+         return null;
+      }
+      else
+      {
+         return currentConversationIdStack.get(1);
+      }
+   }
 
    @Destroy
    public void flushConversationIdMapToSession()

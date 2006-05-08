@@ -125,6 +125,11 @@ public class Conversation implements Serializable {
    {
       Manager manager = Manager.instance();
       String viewId = manager.getCurrentConversationViewId();
+      return redirect(manager, viewId);
+   }
+
+   private String redirect(Manager manager, String viewId)
+   {
       if (viewId!=null)
       {
          manager.redirect( viewId );
@@ -137,6 +142,18 @@ public class Conversation implements Serializable {
    }
    
    /**
+    * End a child conversation and redirect to the last defined
+    * view-id for the parent conversation.
+    */
+   public String endAndRedirect()
+   {
+      end();
+      Manager manager = Manager.instance();
+      String viewId = manager.getParentConversationViewId();
+      return redirect(manager, viewId);
+   }
+   
+   /**
     * Leave the scope of the current conversation
     */
    public void leave()
@@ -145,7 +162,7 @@ public class Conversation implements Serializable {
    }
    
    /**
-    * Start a long-running conversation
+    * Start a long-running conversation.
     */
    public void begin()
    {
@@ -157,7 +174,7 @@ public class Conversation implements Serializable {
    }
    
    /**
-    * End a long-runnning conversation
+    * End a long-runnning conversation.
     */
    public void end()
    {
