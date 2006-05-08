@@ -12,6 +12,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -130,13 +132,25 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getRequestHeaderMap()
    {
-      return null;
+      Map<String, String> result = new HashMap<String, String>();
+      Enumeration<String> en = request.getHeaderNames();
+      while ( en.hasMoreElements() )
+      {
+         result.put( en.nextElement(), request.getHeader( en.nextElement() ) );
+      }
+      return result;
    }
 
    @Override
    public Map getRequestHeaderValuesMap()
    {
-      return null;
+      Map<String, Enumeration> result = new HashMap<String, Enumeration>();
+      Enumeration<String> en = request.getHeaderNames();
+      while ( en.hasMoreElements() )
+      {
+         result.put( en.nextElement(), request.getHeaders( en.nextElement() ) );
+      }
+      return result;
    }
 
    @Override

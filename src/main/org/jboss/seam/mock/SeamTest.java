@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -160,11 +159,16 @@ public class SeamTest
        * Override to set up any request parameters for
        * the request.
        */
-      protected void setParameters() {}
+      protected void setup() {}
       
-      public Map<String, String> getRequestParameterMap()
+      public Map<String, String[]> getParameters()
       {
-         return externalContext.getRequestParameterMap();
+         return ( (MockHttpServletRequest) externalContext.getRequest() ).getParameters();
+      }
+      
+      public Map<String, String[]> getHeaders()
+      {
+         return ( (MockHttpServletRequest) externalContext.getRequest() ).getHeaders();
       }
       
       protected void validate(Class modelClass, String property, Object value)
@@ -205,7 +209,7 @@ public class SeamTest
             	);
          }
          
-         setParameters();
+         setup();
          
          facesContext.getViewRoot().setViewId( getViewId() );
 

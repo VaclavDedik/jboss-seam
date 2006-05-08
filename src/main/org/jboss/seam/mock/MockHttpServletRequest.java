@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
@@ -35,6 +36,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private HttpSession session;
    private ExternalContext externalContext;
+   private Map<String, String[]> headers = new HashMap<String, String[]>();
    
    public MockHttpServletRequest(ExternalContext externalContext)
    {
@@ -65,32 +67,28 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public long getDateHeader(String arg0)
    {
-      //TODO
-      return 0;
+      throw new UnsupportedOperationException();
    }
 
-   public String getHeader(String arg0)
+   public String getHeader(String header)
    {
-      //TODO
-      return null;
+      String[] values = headers.get(header);
+      return values.length==0 ? null : values[0];
    }
 
-   public Enumeration getHeaders(String arg0)
+   public Enumeration getHeaders(String header)
    {
-      //TODO
-      return null;
+      return new IteratorEnumeration( Arrays.asList( headers.get(header) ).iterator() );
    }
 
    public Enumeration getHeaderNames()
    {
-      //TODO
-      return null;
+      return new IteratorEnumeration( headers.keySet().iterator() );
    }
 
-   public int getIntHeader(String arg0)
+   public int getIntHeader(String header)
    {
-      //TODO
-      return 0;
+      throw new UnsupportedOperationException();
    }
 
    public String getMethod()
@@ -368,5 +366,10 @@ public class MockHttpServletRequest implements HttpServletRequest
    {
       //TODO
       return 0;
+   }
+
+   public Map<String, String[]> getHeaders()
+   {
+      return headers;
    }
 }
