@@ -83,6 +83,8 @@ public class CheckoutAction
             }
             
             //return null;
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 

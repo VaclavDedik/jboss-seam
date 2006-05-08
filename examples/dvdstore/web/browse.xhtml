@@ -32,13 +32,24 @@
                         is shared, allowing the customer to place
                         items in the cart from any of the search screens.
                     </p>
-                    <!--
-                    <p>
-                        The pageflow is defined by a 
-                        <a onclick="window.open('img/pageflow.jpg','img','height=630,width=350,toolbar=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no'); return false;"
-                           href="img/pageflow.jpg">jBPM pageflow definition</a>.
-                    </p>
-                    -->
+
+                    <div class="bestouter">
+                        <ui:repeat value="#{topProducts}" var="item">
+                            <div class="bestinner">
+                                <div class="besttitle">
+                                    <s:link view="/dvd.xhtml" value="#{item.title}">
+                                        <f:param name="id" value="#{item.productId}"/>
+                                    </s:link>
+                                </div>
+                                <div class="bestimage">
+                                    <s:link view="/dvd.xhtml">
+                                        <f:param name="id" value="#{item.productId}"/>
+                                        <img src="#{item.imageURL}" />
+                                    </s:link>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
                 </c:when>
                 
                 <c:when test="#{empty searchResults}">
@@ -87,7 +98,9 @@
                                     <h:outputText value="#{msgs.searchResultsTitle}" />
                                 </f:facet>
 
-                                <s:link view="/dvd.xhtml" value="#{product.title}" />
+                                <s:link view="/dvd.xhtml" value="#{product.title}">
+                                    <f:param name="id" value="#{product.productId}"/>
+                                </s:link>
                             </h:column>                        
                             
                             <h:column>

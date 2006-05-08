@@ -19,31 +19,37 @@
         </ui:define>
         
         <ui:define name="body">
-            
-            <f:subview rendered="#{dvd.imageURL != null}">
-                <img src="#{dvd.imageURL}" style="float:left;"/>
-            </f:subview>
+            <div class="productbox">
+                <f:subview rendered="#{dvd.imageURL != null}">
+                    <div class="productimage">
+                        <img src="#{dvd.imageURL}" />
+                    </div>
+                </f:subview>
+                
+                <div class="productinfo">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Title:" />
+                        <h:outputText value="#{dvd.title}" />
+                        
+                        <h:outputText value="Actor:" />
+                        <h:outputText value="#{dvd.actor}" />
+                        
+                        <h:outputText value="Price:" />
+                        <h:outputText value="#{dvd.price}" />
+                    </h:panelGrid>
+                </div>
 
-            <h:panelGrid columns="2">
-                <h:outputText value="Title:" />
-                <h:outputText value="#{dvd.title}" />
+                <div class="cntInfo">
+                    #{dvd.description}
+                </div>
 
-                <h:outputText value="Actor:" />
-                <h:outputText value="#{dvd.actor}" />
-
-                <h:outputText value="Price:" />
-                <h:outputText value="#{dvd.price}" />
-            </h:panelGrid>
-            
-
-            <div class="cntInfo">
-                #{dvd.description}
+                <div class="productbuttons">
+                    <h:form>
+                        <h:commandButton action="#{search.addToCart}" value="Add to Cart" />
+                        <s:link view="/browse.xhtml" value="Back to Search" linkStyle="button"/>
+                    </h:form>
+                </div>
             </div>
-
-            <h:form>
-                <h:commandButton action="#{search.addToCart}" value="Add to Cart" />
-                <s:link view="/browse.xhtml" value="Back to Search" linkStyle="button"/>
-            </h:form>
         </ui:define>
     </ui:composition>
 </body>

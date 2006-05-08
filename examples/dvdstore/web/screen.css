@@ -212,6 +212,49 @@ h3 {
     border-top: 1px solid #dadada;
     background: url(img/shade.menu.gif) 0 2px repeat-x;
 }
+
+/*<group=top sellers>*/
+
+.bestouter {
+    width:  600px;
+    height: 100px;
+}
+
+.bestinner {
+    float: left;
+    height:160px;
+    width: 120px;
+    border-style: solid;
+    border-width: 1px;
+    margin: 10px;
+    background: #dfeefe;
+}
+
+.besttitle {
+    heioght: .5em;
+    text-align: center;
+    font-weight: bold;
+    background: #5e8bc4 0px;
+    font-size: .5em;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+.bestimage {
+    margin-top:  10px;
+    height: auto;
+}
+
+.bestimage img {
+   height: 120px;
+   vertical-align: middle;
+   margin-left:  auto;
+   margin-right: auto;
+   display:  block;
+}
+
+/*</group>*/
+
 .spacer {
     margin-top: 20px;
 }
@@ -309,7 +352,8 @@ h3 {
         color: #900;
 }
 
-/* Menu */
+/*<group=menu>*/
+
 .menu {
         background: #619ad9 url(img/menu.bg.gif) 0 100% no-repeat;
         text-align: left;
@@ -390,11 +434,17 @@ h3 {
 }
 
 /* Menu */
+
+/* Menu */
+    
+/*</group>*/
 .formButton {
         background: #eaeaea url(img/btn.bg.gif) 0 0 repeat-x;
         border-style: ridge; 
 }
-/* Status Box */
+
+/*<group=Status Box>*/
+
 #status {
         float: right;
         padding: 5px 10px;
@@ -416,6 +466,10 @@ h3 {
         border: 1px solid #003080;
 }
 
+/* Status Box */
+    
+/*</group>*/
+
 
 
 .orderBox {
@@ -427,3 +481,30 @@ h3 {
     padding: 10px;
 
 }
+
+/*<group=product page>*/
+.productbox {    
+    margin-left:  40px;
+}
+
+.productimage {   
+    float: left;
+    margin-right: -30px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+}
+
+.productimage img {
+    position: relative;
+    left: -30px;
+}
+    
+
+
+.productinfo {
+   
+}
+
+
+
+/*</group>*/

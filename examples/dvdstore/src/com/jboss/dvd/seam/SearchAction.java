@@ -53,6 +53,8 @@ public class SearchAction
     List<Product> searchResults;
 
     @DataModelSelection
+    Product selectedProduct;
+
     @Out(required=false)
     Product dvd;
 
@@ -102,10 +104,13 @@ public class SearchAction
             updateResults();
         }
     }
-
+    
+    @Begin(join=true)
     public void selectFromRequest() {
         if (id != null) {
             dvd = em.find(Product.class, id);
+        }  else if (selectedProduct != null) {
+            dvd = selectedProduct;
         }
     }
 
