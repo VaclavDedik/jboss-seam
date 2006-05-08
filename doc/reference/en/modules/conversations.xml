@@ -484,7 +484,7 @@
 public class EditDocumentBean implements EditDocument {
     @In(create=true) EntityManager em;
     @In Document document;
-    @In FacesMessages facesMessages;
+    @In(create=true) FacesMessages facesMessages;
     
     public String update() {
         em.merge(document);

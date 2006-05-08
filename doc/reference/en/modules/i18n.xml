@@ -146,7 +146,7 @@
             You can even use the messages in your code:
         </para>
 
-        <programlisting><![CDATA[@In private Map<String, String> messages;]]></programlisting>
+        <programlisting><![CDATA[@In(create=true) private Map<String, String> messages;]]></programlisting>
         <programlisting><![CDATA[@In("#{messages['Hello']}") private String helloMessage;]]></programlisting>
 
     </section>
@@ -162,7 +162,8 @@
         <programlisting><![CDATA[@Name("hello")
 @Stateless
 public class HelloBean implements Hello {
-    @In FacesMessages facesMessages;
+    @In(create=true) 
+    FacesMessages facesMessages;
     
     public String sayIt() {
         facesMessages.addFromResourceBundle("Hello");
