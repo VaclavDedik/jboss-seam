@@ -118,7 +118,7 @@ public class HtmlLink extends HtmlOutputLink
          }
       }
       
-      if ( "join".equals(propagation) || "nest".equals("propagation") || "begin".equals("propagation") || "end".equals(propagation) )
+      if ( "join".equals(propagation) || "nest".equals(propagation) || "begin".equals(propagation) || "end".equals(propagation) )
       {
          UIConversationPropagation uiPropagation = new UIConversationPropagation();
          uiPropagation.setType(propagation);
