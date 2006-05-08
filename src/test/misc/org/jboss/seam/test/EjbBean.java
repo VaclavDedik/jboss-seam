@@ -5,6 +5,7 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
@@ -14,6 +15,6 @@ import org.jboss.seam.annotations.Scope;
 public class EjbBean implements Ejb
 {
    public void foo() {}
-   @Remove 
+   @Remove @Destroy
    public void destroy() {}
 }

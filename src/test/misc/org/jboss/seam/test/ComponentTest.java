@@ -68,10 +68,10 @@ public class ComponentTest
       assert c.getBeanClass()==EjbBean.class;
       assert c.getType()==ComponentType.STATEFUL_SESSION_BEAN;
       assert c.getScope()==ScopeType.EVENT;
-      assert !c.hasDestroyMethod();
+      assert c.hasDestroyMethod();
       assert !c.hasCreateMethod();
       assert c.getCreateMethod()==null;
-      assert c.getDestroyMethod()==null;
+      assert c.getDestroyMethod()!=null;
       assert c.getInFields().size()==0;
       assert c.getInMethods().size()==0;
       assert c.getUnwrapMethod()==null;

@@ -10,6 +10,7 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -179,6 +180,7 @@ public class Component
          );
 
       initMembers(clazz, applicationContext);
+      checkDestroyMethod();
 
       localInterfaces = getLocalInterfaces(beanClass);
 
@@ -204,6 +206,21 @@ public class Component
       if ( scope==ScopeType.PAGE && type==ComponentType.STATEFUL_SESSION_BEAN )
       {
          throw new IllegalArgumentException("Stateful session beans may not be bound to the PAGE context: " + name);
+      }
+            
+      boolean serializableScope = scope==ScopeType.PAGE || scope==ScopeType.SESSION || scope==ScopeType.CONVERSATION;
+      boolean serializableType = type==ComponentType.JAVA_BEAN || type==ComponentType.ENTITY_BEAN;
+      if ( serializableType && serializableScope && !Serializable.class.isAssignableFrom(beanClass) )
+      {
+         log.warn("Component class should be serializable: " + name);
+      }
+   }
+   
+   private void checkDestroyMethod()
+   {
+      if ( type==ComponentType.STATEFUL_SESSION_BEAN && ( destroyMethod==null || !removeMethods.contains(destroyMethod) ) )
+      {
+         throw new IllegalArgumentException("Stateful session bean component should have a method marked @Remove @Destroy: " + name);
       }
    }
 
@@ -380,14 +397,6 @@ public class Component
             if ( !field.isAccessible() )
             {
                field.setAccessible(true);
-            }
-         }
-         
-         if ( getType()==ComponentType.STATEFUL_SESSION_BEAN )
-         {
-            if ( destroyMethod==null || !removeMethods.contains(destroyMethod) )
-            {
-               log.warn("stateful sessiopn bean component has no @Destroy @Remove method: " + name);
             }
          }
 
