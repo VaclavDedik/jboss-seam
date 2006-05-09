@@ -1084,6 +1084,11 @@ public class Component
       return (Component) Contexts.getApplicationContext().get( name + ".component" );
    }
 
+   public static Object getInstance(Class<?> clazz)
+   {
+      return getInstance(clazz, true);
+   }
+
    public static Object getInstance(Class<?> clazz, boolean create)
    {
       return getInstance( Seam.getComponentName(clazz), create );
@@ -1092,6 +1097,11 @@ public class Component
    public static Object getInstance(Class<?> clazz, ScopeType scope, boolean create)
    {
       return getInstance( Seam.getComponentName(clazz), scope, create );
+   }
+
+   public static Object getInstance(String name)
+   {
+      return getInstance(name, true);
    }
 
    public static Object getInstance(String name, boolean create)

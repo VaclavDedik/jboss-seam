@@ -73,7 +73,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    public String getHeader(String header)
    {
       String[] values = headers.get(header);
-      return values.length==0 ? null : values[0];
+      return values==null || values.length==0 ? null : values[0];
    }
 
    public Enumeration getHeaders(String header)
@@ -244,7 +244,7 @@ public class MockHttpServletRequest implements HttpServletRequest
    public String getParameter(String param)
    {
       String[] values = parameters.get(param);
-      return values==null ? null : values[0];
+      return values==null || values.length==0 ? null : values[0];
    }
 
    public Enumeration getParameterNames()

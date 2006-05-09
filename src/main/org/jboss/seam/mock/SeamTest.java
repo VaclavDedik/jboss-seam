@@ -22,6 +22,7 @@ import javax.transaction.UserTransaction;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
@@ -194,21 +195,17 @@ public class SeamTest
          facesContext = new MockFacesContext( externalContext, application );
          facesContext.setCurrent();
          Map attributes = facesContext.getViewRoot().getAttributes();
-         if (conversationId!=null) 
-         {
-            attributes.put(Manager.CONVERSATION_ID, conversationId);
-         }
-         else
-         {
-            attributes.remove(Manager.CONVERSATION_ID);
-         }
-         if ( conversationStates.containsKey( conversationId ) )
-         {
-            attributes.putAll(
-                    conversationStates.get( conversationId ).state
-            	);
-         }
          
+         if ( !isGetRequest() && conversationId!=null ) 
+         {
+            if ( conversationStates.containsKey( conversationId ) )
+            {
+               attributes.putAll(
+                       conversationStates.get( conversationId ).state
+                  );
+            }
+         }
+                  
          setup();
          
          facesContext.getViewRoot().setViewId( getViewId() );
@@ -272,12 +269,15 @@ public class SeamTest
             
          }
 
-         conversationId = (String) attributes.get(Manager.CONVERSATION_ID);         
-
-         ConversationState conversationState = new ConversationState();
-         conversationState.state.putAll( attributes );
-         conversationStates.put( conversationId, conversationState );
-
+         Map pageContextMap = (Map) attributes.get( ScopeType.PAGE.getPrefix() );
+         if (pageContextMap!=null)
+         {
+            conversationId = (String) pageContextMap.get(Manager.CONVERSATION_ID);
+            ConversationState conversationState = new ConversationState();
+            conversationState.state.putAll( attributes );
+            conversationStates.put( conversationId, conversationState );
+         }
+         
          return conversationId;
       }
       

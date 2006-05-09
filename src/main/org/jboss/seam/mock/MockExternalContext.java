@@ -132,11 +132,12 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getRequestHeaderMap()
    {
-      Map<String, String> result = new HashMap<String, String>();
-      Enumeration<String> en = request.getHeaderNames();
-      while ( en.hasMoreElements() )
+      Map result = new HashMap();
+      Enumeration<String> names = request.getHeaderNames();
+      while ( names.hasMoreElements() )
       {
-         result.put( en.nextElement(), request.getHeader( en.nextElement() ) );
+         String name = names.nextElement();
+         result.put( name, request.getHeader(name) );
       }
       return result;
    }
@@ -174,7 +175,14 @@ public class MockExternalContext extends ExternalContext
    @Override
    public Map getRequestParameterMap()
    {
-      return request.getParameterMap();
+      Map map = new HashMap();
+      Enumeration<String> names = request.getParameterNames();
+      while ( names.hasMoreElements() )
+      {
+         String name = names.nextElement();
+         map.put( name, request.getParameter(name) );
+      }
+      return map;
    }
 
    @Override
