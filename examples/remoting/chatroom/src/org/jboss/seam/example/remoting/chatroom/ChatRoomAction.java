@@ -2,10 +2,12 @@ package org.jboss.seam.example.remoting.chatroom;
 
 import javax.annotation.EJB;
 import javax.ejb.Interceptors;
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -51,4 +53,8 @@ public class ChatRoomAction implements ChatRoomLocal {
   {
     return chatRoomService.getUsers();
   }
+  
+  @Destroy @Remove 
+  public void destroy() {}
+  
 }

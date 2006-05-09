@@ -12,5 +12,7 @@ public interface ChatRoomLocal {
   @WebRemote String getChatTopicName();
   @WebRemote void sendMessage(String message);
   @WebRemote Set<String> listUsers();
+  
+  public void destroy();
 }
 
