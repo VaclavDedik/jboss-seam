@@ -5,7 +5,9 @@
       xmlns:s="http://jboss.com/products/seam/taglib"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:c="http://java.sun.com/jstl/core">
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
@@ -37,7 +39,8 @@
                         <ui:repeat value="#{topProducts}" var="item">
                             <div class="bestinner">
                                 <div class="besttitle">
-                                    <s:link view="/dvd.xhtml" value="#{item.title}">
+                                    <s:link view="/dvd.xhtml">
+                                        #{fn:length(item.title) gt 15 ? fn:substring(item.title,0,14) : item.title}
                                         <f:param name="id" value="#{item.productId}"/>
                                     </s:link>
                                 </div>
