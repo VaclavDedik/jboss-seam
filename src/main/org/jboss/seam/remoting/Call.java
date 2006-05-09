@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.remoting.wrapper.ConversionException;
 import org.jboss.seam.remoting.wrapper.ConversionScore;
 import org.jboss.seam.remoting.wrapper.Wrapper;
+import org.jboss.seam.ComponentType;
 
 /**
  *
@@ -100,9 +101,15 @@ public class Call
     // Create an instance of the component
     Object instance = Component.getInstance(componentName, true);
 
-    // Get the local interface for the component - this is the type that we're
-    // going to assume we're invoking against.
-    Class type = component.getLocalInterfaces().iterator().next();
+    Class type = null;
+
+    if (component.getLocalInterfaces().size() > 0)
+    {
+      // Get the local interface for the component - this is the type that we're
+      // going to assume we're invoking against.
+      type = component.getLocalInterfaces().iterator().next();
+    }
+
     if (type == null)
       type = component.getBeanClass();
 
