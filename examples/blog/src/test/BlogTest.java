@@ -4,16 +4,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Redirect;
+import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
+import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
 import actions.BlogService;
 import actions.EntryAction;
+import actions.PostAction;
 import actions.SearchAction;
 import actions.SearchService;
 import domain.Blog;
@@ -21,6 +25,64 @@ import domain.BlogEntry;
 
 public class BlogTest extends SeamTest
 {
+   
+   @Test
+   public void testPost() throws Exception
+   {
+      
+      new Script()
+      {
+
+         @Override
+         protected void updateModelValues() throws Exception
+         {
+            BlogEntry entry = (BlogEntry) Component.getInstance("newBlogEntry");
+            entry.setId("testing");
+            entry.setTitle("Integration testing Seam applications");
+            entry.setBody("This post is about SeamTest...");
+         }
+         
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            PostAction action = (PostAction) Component.getInstance(PostAction.class);
+            assert action.post().equals("success");
+         }
+         
+      }.run();
+
+      new Script()
+      {
+
+         @Override
+         protected boolean isGetRequest()
+         {
+            return true;
+         }
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            List<BlogEntry> blogEntries = ( (Blog) Component.getInstance(BlogService.class, true) ).getBlogEntries();
+            assert blogEntries.size()==4;
+            BlogEntry blogEntry = blogEntries.get(0);
+            assert blogEntry.getId().equals("testing");
+            assert blogEntry.getBody().equals("This post is about SeamTest...");
+            assert blogEntry.getTitle().equals("Integration testing Seam applications");
+         }
+
+      }.run();
+      
+      new Script()
+      {
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            ( (EntityManager) getInstance("entityManager") ).createQuery("delete from BlogEntry where id='testing'").executeUpdate();
+         }  
+      }.run();
+
+   }
    
    @Test
    public void testLatest() throws Exception
@@ -133,6 +195,12 @@ public class BlogTest extends SeamTest
       initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
       initParams.put(Init.MANAGED_PERSISTENCE_CONTEXTS, "entityManager");
       initParams.put("entityManager.persistenceUnitJndiName", "java:/blogEntityManagerFactory");
+   }
+
+   @Override
+   protected SeamPhaseListener createPhaseListener()
+   {
+      return new SeamExtendedManagedPersistencePhaseListener();
    }
 
 }
