@@ -145,15 +145,15 @@ li {
 #nav li a:hover {
         color: #044c9c;
 }
-#nav #current {
+#nav .current {
         border-bottom: 1px solid #fff;
         background: url(img/nav.tab.left.gif) no-repeat left top;
 }
-#nav #current a {
+#nav .current a {
         color: #044c9c;
         background: url(img/nav.tab.right.gif) no-repeat right top;
 }
-#nav #current a {
+#nav .current a {
         text-decoration: none;
 }
     
@@ -211,6 +211,7 @@ h3 {
 .cntInfo .cntForm {
     white-space: nowrap;
 }
+
 .cntError {
      background-color: #ffc;
      border-color: #930;
@@ -371,7 +372,7 @@ h3 {
 }
 
 /* Forms */
-.required {
+.required, .warning {
         font-weight: bold;
         color: #900;
 }

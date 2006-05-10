@@ -2,9 +2,9 @@
 
 <pageflow-definition name="checkout">
     <start-state name="start">
-        <transition to="checkout"/>
+        <transition to="confirm"/>
     </start-state>
-    
+    <!--
     <page name="checkout" view-id="/checkout.xhtml">
         <redirect/>
         <transition to="checkout">
@@ -13,8 +13,9 @@
         <transition name="confirm" to="confirm">
             <action expression="#{checkout.createOrder}" />
         </transition>
+        <transition name="cancel" to="continue" />
     </page>
-
+-->
     <page name="confirm" view-id="/confirm.xhtml">
         <redirect/>
         <transition name="update"   to="checkout" />
@@ -27,4 +28,9 @@
         <redirect/>
         <end-conversation />
     </page>    
+
+    <page name="continue">
+        <end-conversation />
+    </page>
+
 </pageflow-definition>

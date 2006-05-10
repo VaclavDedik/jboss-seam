@@ -8,10 +8,9 @@
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ul>
-                <li><a href="browse.seam">Search for Movies</a></li>
-                <li id="current"><a href="showorders.seam">My Orders</a></li>
-            </ul>
+            <ui:include src="/WEB-INF/incl/store_nav.xhtml">
+                <ui:param name="page" value="orders" />
+            </ui:include>
         </ui:define>
 
         <ui:define name="sidebar">

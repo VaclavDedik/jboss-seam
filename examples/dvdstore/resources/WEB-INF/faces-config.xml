@@ -29,6 +29,11 @@
             <redirect/>
         </navigation-case>
 
+        <navigation-case>
+            <from-outcome>checkout</from-outcome>
+            <to-view-id>/checkout.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
 
         <navigation-case>
             <from-outcome>ship</from-outcome>
@@ -60,25 +65,21 @@
             <redirect/>
         </navigation-case>
 
-        <navigation-case>  
-            <from-outcome>customer</from-outcome> 
-            <to-view-id>/browse.xhtml</to-view-id>
-            <redirect />
-        </navigation-case> 
-        
+
         <navigation-case>  
             <from-outcome>admin</from-outcome> 
             <to-view-id>/admin.xhtml</to-view-id>
             <redirect />
         </navigation-case> 
 
+<!--
         <navigation-case> 
             <from-action>#{editCustomer.create}</from-action>   
             <from-outcome>success</from-outcome> 
             <to-view-id>/browse.xhtml</to-view-id>
             <redirect />
         </navigation-case> 
-
+-->
     </navigation-rule>
 
     <!-- temp workaround for facelets/myfaces bug -->

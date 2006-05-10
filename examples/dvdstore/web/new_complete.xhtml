@@ -8,9 +8,9 @@
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ul>
-                <li id="current"><s:link action="browse" value="Login"/></li>
-            </ul>
+            <ui:include src="/WEB-INF/incl/store_nav.xhtml">
+                <ui:param name="page" value="home" />
+            </ui:include>
         </ui:define>
 
         <ui:define name="sidebar">

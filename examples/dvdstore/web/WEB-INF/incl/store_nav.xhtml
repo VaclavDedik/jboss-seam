@@ -1,0 +1,24 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html">
+    <ul>
+        <li id="page_home"><a href="home.seam">Home</a></li>
+        <li id="page_shop"><a href="browse.seam">Shop</a></li>
+        <f:subview rendered="#{login.loggedIn}">
+            <li id="page_orders"><a href="showorders.seam">My Orders</a></li>
+        </f:subview>
+        <li id="page_cart"><a href="checkout.seam">Cart</a></li>
+    </ul>
+
+    <script language="JavaScript">
+        function setClass(id, className) {
+            obj = document.getElementById(id);
+            if (obj != null) {
+                obj.className = className;
+            }
+        }
+        setClass("page_" + "#{page}", "current");
+    </script>
+
+</div>

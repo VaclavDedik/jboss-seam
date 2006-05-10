@@ -1,19 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.com/products/seam/taglib"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf"
       xmlns:h="http://java.sun.com/jsf/html">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <h:form>
-                <ul>
-                    <li id="current"><h:commandLink action="main" value="Login"/></li>
-                </ul>
-            </h:form>
-        </ui:define>
-            
+            <ui:include src="/WEB-INF/incl/store_nav.xhtml">
+                <ui:param name="page" value="home" />
+            </ui:include>
+        </ui:define> 
+           
         <ui:define name="sidebar">
             <ui:include src="/WEB-INF/incl/login.xhtml" />
         </ui:define>
@@ -32,9 +31,12 @@
 
             <h2>How to use the DVD Store</h2>
             <p>
+                You can enter the store DVD immediately by clicking on
+                the shopping link below. However, in order to complete
+                a purchase, you'll need to first log in as a customer.
                 There are 5 customer accounts: <b>user1</b> through
-                <b>user5</b> (with password <b>password</b>).  You
-                can login using any of the customer accounts or create
+                <b>user5</b> (with password <b>password</b>).  You can
+                login using any of the customer accounts or create
                 your own customer account to browse the DVD Store and
                 make purchases.  Once an order is submitted, you can
                 check the status of the order from the <em>My
@@ -50,6 +52,9 @@
                 (username <b>manager</b>, password <b>password</b>)
                 will be presented with different fulfilment options.
             </p> 
+
+
+            <s:link linkStyle="button" view="/browse.xhtml" value="Start Shopping" />
 
         </ui:define>
     </ui:composition> 

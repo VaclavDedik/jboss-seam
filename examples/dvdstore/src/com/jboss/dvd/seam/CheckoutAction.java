@@ -59,10 +59,10 @@ public class CheckoutAction
     @Out(value="customer",scope=ScopeType.BUSINESS_PROCESS, required=false)
     String customerName;
 
-    @Begin(nested=true, pageflow="checkout") 
-    public void startCheckout() {
-    }
+//     public void startCheckout() {
+//     }
 
+    @Begin(nested=true, pageflow="checkout") 
     public void createOrder() {
         currentOrder = new Order();
 

@@ -7,7 +7,9 @@
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ui:include src="/WEB-INF/incl/browse_nav.xhtml" />
+            <ui:include src="/WEB-INF/incl/store_nav.xhtml">
+                <ui:param name="page" value="cart" />
+            </ui:include>
         </ui:define>
 
         <ui:define name="sidebar">

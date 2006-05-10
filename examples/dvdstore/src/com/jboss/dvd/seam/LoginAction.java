@@ -68,9 +68,8 @@ public class LoginAction
                 actor.getGroupActorIds().add("shippers");
                 actor.getGroupActorIds().add("reviewers");
                 return "admin";
-            } 
-            else {
-                return "customer";
+            } else {
+                return null; // redisplay the current page
             }
         } catch (Exception e) {
             FacesMessages.instance().addFromResourceBundle("loginErrorPrompt");

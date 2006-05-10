@@ -8,7 +8,9 @@
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
-            <ui:include src="/WEB-INF/incl/browse_nav.xhtml" />
+            <ui:include src="/WEB-INF/incl/store_nav.xhtml">
+                <ui:param name="page" value="cart" />
+            </ui:include>
         </ui:define>
 
         <ui:define name="sidebar">
@@ -22,13 +24,17 @@
             
             <div class="controlBar" style="clear: left;">
                 <div style="padding: 3px 6px; vertical-align: bottom;">
-                    Shopping Cart
+                    <div class="message">Shopping Cart</div>
                 </div>
             </div>
             
             <c:choose>
                 <c:when test="#{empty cart.cart}">
                     <p>Your cart is empty.</p>
+
+                    <h:form>
+                        <h:commandButton action="browse" value="Continue Shopping" />
+                    </h:form>
                 </c:when>
                 <c:otherwise>
                     <h:form>
@@ -71,6 +77,8 @@
                                 <h:inputText value="#{item.quantity}" size="6" />
                             </h:column>                        
                         </h:dataTable>
+                        <h:commandButton action="browse"  
+                                         value="Continue Shopping" />
                         <h:commandButton action="#{cart.updateCart}" 
                                          value="#{msgs.checkoutUpdateButton}" />
                     </h:form>
@@ -94,11 +102,18 @@
                                 </h:outputText>
                             </h:panelGrid>
                             
-                            <h:form>
-                                <h:commandButton action="confirm"  
-                                                 value="#{msgs.checkoutPurchaseButton}" />
-                            </h:form>
+
+                            <f:subview rendered="#{login.loggedIn}">
+                                <h:form>
+                                    <h:commandButton action="#{checkout.createOrder}"  
+                                                     value="#{msgs.checkoutPurchaseButton}"  />
+                                </h:form>
+                            </f:subview>
                         </div>
+
+                        <f:subview rendered="#{!login.loggedIn}">
+                            <p class="warning">You must be logged in to place an order</p>
+                        </f:subview>
                     </div>
                 </c:otherwise>
             </c:choose>
