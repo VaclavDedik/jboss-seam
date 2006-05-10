@@ -4,21 +4,10 @@
     <start-state name="start">
         <transition to="confirm"/>
     </start-state>
-    <!--
-    <page name="checkout" view-id="/checkout.xhtml">
-        <redirect/>
-        <transition to="checkout">
-            <action expression="#{cart.updateCart}" />
-        </transition>
-        <transition name="confirm" to="confirm">
-            <action expression="#{checkout.createOrder}" />
-        </transition>
-        <transition name="cancel" to="continue" />
-    </page>
--->
+
     <page name="confirm" view-id="/confirm.xhtml">
         <redirect/>
-        <transition name="update"   to="checkout" />
+        <transition name="update"   to="continue" /> 
         <transition name="purchase" to="complete">
             <action expression="#{checkout.submitOrder}" />
         </transition>

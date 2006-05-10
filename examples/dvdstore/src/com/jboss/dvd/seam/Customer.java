@@ -8,13 +8,10 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import org.jboss.seam.annotations.Name;
+import org.hibernate.validator.*;
 
 @Entity
 @Name("customer")
@@ -30,8 +27,7 @@ public class Customer
     String  city;
     String  state;
     String  zip;  
-    String  country;
-    Integer region;
+
     String  email;
     String  phone;
 
@@ -45,28 +41,37 @@ public class Customer
     }
 
 
-    @Column(name="ADDRESS1",length=50)    
+    @Column(name="ADDRESS1",length=50)
+    @NotNull
     public String getAddress1() {
         return address1;
     }
     public void setAddress1(String address1) {
         this.address1 = address1;
     }
+
     @Column(name="ADDRESS2",length=50)
+    @NotNull
     public String getAddress2() {
         return address2;
     }
     public void setAddress2(String address2) {
         this.address2 = address2;
     }
+
     @Column(name="CITY",length=50)  
+    @NotNull
     public String getCity() {
         return city;
     }
     public void setCity(String city) {
         this.city = city;
     }
-    @Column(name="STATE",length=50)
+
+
+    @Column(name="STATE",length=2)
+    @NotNull
+    @Length(min=2,max=2)
     public String getState() {
         return state;
     }
@@ -74,9 +79,10 @@ public class Customer
         this.state = state;
     }
 
-    @Column(name="ZIP", length=50)
-    //@Length(min=5, max=5)
-    //@NotNull
+    @Column(name="ZIP", length=10)
+    @Length(min=5, max=10)
+    @Pattern(regex="[0-9]{5}(-[0-9]{4})?", message="not a valid zipcode") // {validator.zip}
+    @NotNull
     public String getZip() {
         return zip;
     }
@@ -84,23 +90,8 @@ public class Customer
         this.zip = zip;
     }
 
-    @Column(name="COUNTRY",length=50)
-    public String getCountry() {
-        return country;
-    }
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    @Column(name="REGION")
-    public Integer getRegion() {
-        return region;
-    }
-    public void setRegion(Integer region) {
-        this.region = region;
-    }
-
     @Column(name="EMAIL",length=50)
+    @Email
     public String getEmail() {
         return email;
     }
