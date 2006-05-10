@@ -221,6 +221,12 @@ public class Manager
    
    public String getParentConversationViewId()
    {
+      ConversationEntry conversationEntry = getConversationEntry( getParentConversationId() );
+      return conversationEntry==null ? null : conversationEntry.getViewId();
+   }
+   
+   public String getParentConversationId()
+   {
       if ( currentConversationIdStack==null || currentConversationIdStack.size()<2 )
       {
          return null;
