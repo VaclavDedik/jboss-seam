@@ -34,13 +34,12 @@ public class Customer
     Integer region;
     String  email;
     String  phone;
+
     Integer creditCardType = 1;
     String  creditCard     = "000-0000-0000";
     int     ccMonth        = 1;
     int     ccYear         = 2005;
-    Integer age;
-    Long    income;
-    String  gender;
+
 
     public Customer() {
     }
@@ -117,29 +116,6 @@ public class Customer
         this.phone = phone;
     }
 
-    @Column(name="AGE")    
-    public Integer getAge() {
-        return age;
-    }
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    @Column(name="INCOME")    
-    public Long getIncome() {
-        return income;
-    }
-    public void setIncome(Long income) {
-        this.income = income;
-    }
-
-    @Column(name="GENDER", length=1)
-    public String getGender() {
-        return gender;
-    }
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
     @Column(name="CREDITCARDTYPE")    
     public Integer getCreditCardType() {

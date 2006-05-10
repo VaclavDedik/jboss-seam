@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<body>
+    <ui:composition template="/WEB-INF/template.xhtml">
+        <ui:define name="topnav">
+            <ul>
+                <li id="current"><s:link action="browse" value="Login"/></li>
+            </ul>
+        </ui:define>
+
+        <ui:define name="sidebar">
+            <ui:include src="/WEB-INF/incl/login.xhtml" />
+        </ui:define>
+        
+        <ui:define name="body">
+            <h:messages globalOnly="true" 
+                        layout="list" 
+                        errorClass="cntError"/>
+            
+            <h2><h:outputText value="#{msgs.newCustomerHeader}" /></h2>
+            <h3><h:outputText value="#{msgs.newCustomerInfo}" /></h3>
+            
+
+            <div class="cntInfo">
+                <h:form>
+                    <table border="0">
+                        <tr>
+                            <td class="cntForm">#{msgs.newCustomerUN}</td>
+                            <td class="cntForm">
+                                <h:inputText id="userName" required="true"
+                                             value="#{customer.userName}">
+                                    <s:validate />
+                                </h:inputText> *
+                            </td>
+                            <td><h:message for="userName" styleClass="cntError" /></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="cntForm">#{msgs.newCustomerPW}</td>
+                            <td class="cntForm">
+                                <h:inputSecret id="password" required="true"
+                                               value="#{customer.password}">
+                                    <s:validate />
+                                </h:inputSecret> *
+                            </td>
+                            <td><h:message for="password" styleClass="cntError" /></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="cntForm">#{msgs.newCustomerP2}</td>
+                            <td class="cntForm">
+                                <h:inputSecret id="passwordVerify"
+                                               value="#{editCustomer.passwordVerify}">
+                                </h:inputSecret> * 
+                            </td>
+                            <td><h:message for="passwordVerify" styleClass="cntError" /></td>
+                        </tr>
+                    </table>
+
+                    <h:commandButton action="next" value="#{msgs.newCustomerSubmit}" />
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</body>
+</html>

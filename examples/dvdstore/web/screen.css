@@ -1,10 +1,12 @@
-/* Setup defaults since variable in browsers */
+
+
+/*<group=defaults>*/
+
 body, div, dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5, form {
     margin: 0;
     padding: 0;
 }
 
-/* Element Defaults */
 html {
     height: 100%;
 }
@@ -42,8 +44,11 @@ ol, ul {
 li {
     margin: 10px 12px;
 }
+    
+/*</group>*/
 
-/* Layout */
+/*<group=Layout>*/
+
 #document {
         height: 100%;
 }
@@ -79,10 +84,11 @@ li {
         padding-left: 0;
         padding-right: 0;
 }
+    
+/*</group>*/
 
+/*<group=header>*/
 
-
-/* Header */
 #header {
     position: relative;
     height: 60px;
@@ -100,9 +106,11 @@ li {
     padding-top: 3px;
     height: 40px;
 }
+    
+/*</group>*/
 
+/*<group=Navigation>*/
 
-/* Navigation */
 #nav {
         position: relative;
         padding: 1px 20px 0 20px;
@@ -148,13 +156,16 @@ li {
 #nav #current a {
         text-decoration: none;
 }
-/* Breadcrumb
------------------------------------------------ */
+    
+/*</group>*/
+/* Breadcrumb */
 #breadcrumb {
         color: #3b66a2;
         font-size: small;
 }
-/* Headings */
+
+/*<group=Headings>*/
+
 h1, h2, h3, h4, h5 {
         font-family: "Trebuchet MS", Arial, sans-serif;
         line-height: normal;
@@ -177,7 +188,11 @@ h3 {
         letter-spacing: 0px;
         color: #333;
 }
-/* Content Boxes */
+    
+/*</group>*/
+
+/*<group=Content Boxes>*/
+
 .cntInfo, .cntError, .cntAlert, .cntSubTitle, .cntSubMenu {
         padding: 4px;
         margin: 0;
@@ -192,11 +207,17 @@ h3 {
 .cntInfo {
         background: #FAFAF8 url(img/shade.info.gif) 0 0 repeat-x;
 }
+
+.cntInfo .cntForm {
+    white-space: nowrap;
+}
 .cntError {
-        background-color: #ffc;
-        border-color: #930;
-     font-size: 10px;
-     position: fixed; /* make box not wrap */
+     background-color: #ffc;
+     border-color: #930;
+     font-size: 10px; /* make box not wrap */;
+     white-space: nowrap;
+     position: relative;
+     left: 5px;
 }
 .cntAlert {
     background-color: #d3e4ff;
@@ -212,6 +233,8 @@ h3 {
     border-top: 1px solid #dadada;
     background: url(img/shade.menu.gif) 0 2px repeat-x;
 }
+    
+/*</group>*/
 
 /*<group=top sellers>*/
 
@@ -294,6 +317,10 @@ h3 {
     font-weight: bold;
 }
 
+.controlBar option {
+        font-size: small;       
+}
+
 .dvdtable {    
     width:  99%;
 }
@@ -307,9 +334,6 @@ h3 {
         float: left;
         */
         border-bottom: 1px solid #eaeaea;
-}
-.controlBar option {
-        font-size: small;       
 }
 #searchSummary a {
         color: #2C5298;

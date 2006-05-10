@@ -13,10 +13,16 @@ import javax.ejb.Local;
 @Local
 public interface EditCustomer
 {
+    public void startEdit();
+
     public Map<String,Integer> getCreditCardTypes();
 
     public void   setPasswordVerify(String password);
     public String getPasswordVerify();
 
-    public String create();
+    public boolean isValidNamePassword();
+
+    public String saveUser();
+
+    public void destroy();
 }

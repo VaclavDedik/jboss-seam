@@ -86,4 +86,8 @@ public class LoginAction
         return "logout";
     }
 
+    public boolean isLoggedIn() {
+        return sessionContext.get("currentUser") != null;
+    }
+
 }

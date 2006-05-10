@@ -8,13 +8,8 @@ package com.jboss.dvd.seam;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
+import org.hibernate.validator.*;
 
 @Entity
 @Table(name="USERS")
@@ -38,7 +33,9 @@ public abstract class User
         this.id = id;
     }     
 
-    @Column(name="USERNAME",unique=true,nullable=false,length=50)    
+    @Column(name="USERNAME",unique=true,nullable=false,length=50)
+    @NotNull 
+    @Length(min=4,max=16)
     public String getUserName() {
         return userName;
     }
@@ -46,7 +43,9 @@ public abstract class User
         this.userName = userName;
     }
 
-    @Column(name="PASSWORD",nullable=false,length=50)    
+    @Column(name="PASSWORD",nullable=false,length=50)
+    @NotNull
+    @Length(min=6,max=50)
     public String getPassword() {
         return password;
     }

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<pageflow-definition name="newuser">
+    <start-state name="start">
+        <transition to="account"/>
+    </start-state>
+    
+    <page name="account" view-id="/new_account.xhtml">
+        <redirect/>
+        <transition name="next" to="checkPassword" />
+    </page>
+
+    <decision name="checkPassword" expression="#{editCustomer.validNamePassword}">
+        <transition name="true" to="contact"/>
+        <transition name="false" to="account">
+            <!-- <action name="#{editCustomer.warnPassword}" /> action is never triggered -->
+        </transition>
+    </decision>
+
+
+    <page name="contact" view-id="/new_contact.xhtml">
+        <redirect/>
+        <transaction to="contact" />
+        <transition name="prev" to="account" />
+        <transition name="next" to="card" />
+    </page>
+
+    <page name="card" view-id="/new_card.xhtml">
+        <redirect/>
+        <transition name="prev" to="contact" />
+        <transition name="next" to="complete">
+            <action expression="#{editCustomer.saveUser}" />
+        </transition>
+    </page>
+    
+    <page name="complete" view-id="/new_complete.xhtml">
+        <redirect/>
+        <end-conversation />
+    </page>    
+</pageflow-definition>

@@ -11,25 +11,19 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.ejb.*;
+import javax.persistence.*;
 
 import org.hibernate.validator.Valid;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.IfInvalid;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Outcome;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.FacesMessages;
 
-@Stateless
+@Stateful
 @Name("editCustomer")
-@Scope(ScopeType.EVENT)
+@Conversational(ifNotBegunOutcome="browse")
 public class EditCustomerAction
     implements EditCustomer
 {
@@ -43,14 +37,14 @@ public class EditCustomerAction
     Context sessionContext;
 
     @In(create=true)
-    @Valid
+    @Out
     Customer customer;
     
     @In(create=true)
     FacesMessages facesMessages;
 
-    String password = null;
-    
+    String password = null;    
+
     public void setPasswordVerify(String password) {
         this.password = password;
     }
@@ -58,15 +52,37 @@ public class EditCustomerAction
         return password;
     }
 
-    public Map<String,Integer> getCreditCardTypes() {
-        Map<String,Integer> map = new TreeMap<String,Integer>();
-        for (int i=1; i<=5; i++) {
-            map.put(Customer.cctypes[i-1], i);
-        }
-        return map;
+
+    @Begin(nested=true, pageflow="newuser") 
+    public void startEdit() {
     }
 
-    private boolean passwordsMatch() {
+    public boolean isValidNamePassword() {
+        boolean ok = true;
+        if (!isUniqueName()) {
+            facesMessages.add("userName", "This name is already in use");
+            ok = false;
+        }
+        if (!isPasswordsMatch()) {
+            facesMessages.add("passwordVerify", "Must match password field");
+            ok = false;
+        }
+        return ok;
+    }
+
+    private boolean isUniqueName() {
+        String name = customer.getUserName();
+        if (name == null) return true;
+
+        List<Customer> results = em.createQuery("from Customer c where c.userName = :name")
+            .setParameter("name", name)
+            .getResultList();
+
+        return results.size() == 0;
+    }
+
+
+    private boolean isPasswordsMatch() {
         String customerpass = customer.getPassword();
 
         return (password != null)
@@ -74,34 +90,19 @@ public class EditCustomerAction
             && (customerpass.equals(password));
     }
 
-
-    @IfInvalid(outcome=Outcome.REDISPLAY)
-    public String create() {
-        if (!passwordsMatch()) {
-                facesMessages.addFromResourceBundle("createCustomerPasswordError");
-                return null;
+    public String saveUser() {
+        if (!isValidNamePassword()) {
+            return null;
         }
 
         try {
-            List existing  =  
-                em.createQuery("from Customer c where c.userName = :userName")
-                .setParameter("userName", customer.getUserName())
-                .getResultList();
-
-
-            if (existing.size()>0) {
-                facesMessages.addFromResourceBundle("createCustomerExistingError");
-                return null;
-            }
-
             em.persist(customer);
             sessionContext.set("currentUser", customer);
             Actor.instance().setId(customer.getUserName());
             
             facesMessages.addFromResourceBundle("createCustomerSuccess");
             return "success";
-        }  
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             ctx.setRollbackOnly();
 
             facesMessages.addFromResourceBundle("createCustomerError");
@@ -109,4 +110,18 @@ public class EditCustomerAction
         }
     }
 
+    
+    public Map<String,Integer> getCreditCardTypes() {
+        Map<String,Integer> map = new TreeMap<String,Integer>();
+        for (int i=1; i<=5; i++) {
+            map.put(Customer.cctypes[i-1], i);
+        }
+        return map;
+    }
+   
+
+    @Destroy
+    @Remove
+    public void destroy() {
+    }
 }

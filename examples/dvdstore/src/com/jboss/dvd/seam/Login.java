@@ -16,4 +16,6 @@ public interface Login
 
     public String login();
     public String logout();
+
+    public boolean isLoggedIn();
 }
