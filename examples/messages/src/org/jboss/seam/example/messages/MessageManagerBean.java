@@ -1,13 +1,12 @@
 //$Id$
 package org.jboss.seam.example.messages;
 
-import static org.jboss.seam.ScopeType.SESSION;
 import static javax.persistence.PersistenceContextType.EXTENDED;
+import static org.jboss.seam.ScopeType.SESSION;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -20,7 +19,6 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateful
 @Scope(SESSION)

@@ -36,6 +36,7 @@
         <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
+    	<include name="META-INF/ejb-jar.xml"/>
     </fileset>
 
     <!-- EAR -->
