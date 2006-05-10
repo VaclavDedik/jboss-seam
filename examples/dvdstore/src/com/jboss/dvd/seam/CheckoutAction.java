@@ -8,15 +8,25 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import javax.ejb.*;
-import javax.persistence.*;
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.datamodel.*;
-
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Conversational;
+import org.jboss.seam.annotations.CreateProcess;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
 

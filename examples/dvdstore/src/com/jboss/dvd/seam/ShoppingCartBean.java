@@ -6,24 +6,23 @@
  */ 
 package com.jboss.dvd.seam;
 
-import static org.jboss.seam.ScopeType.BUSINESS_PROCESS;
-import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.ScopeType.SESSION;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
 @Stateful
 @Name("cart")
