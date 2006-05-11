@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pageflow-diagram name="checkout" width="1344" height="972">
+  <node name="start" x="85" y="48" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="checkout" x="85" y="197" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-65" h1="-84" w2="-65" h2="-84"/>
+      <bendpoint w1="-111" h1="-24" w2="-111" h2="-24"/>
+    </transition>
+    <transition name="confirm">
+      <label x="15" y="-7"/>
+      <bendpoint w1="42" h1="45" w2="42" h2="-53"/>
+    </transition>
+  </node>
+  <node name="confirm" x="85" y="295" width="140" height="40">
+    <transition name="update">
+      <label x="-51" y="-5"/>
+      <bendpoint w1="-39" h1="-52" w2="-39" h2="46"/>
+    </transition>
+    <transition name="purchase">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="complete" x="84" y="424" width="140" height="40"/>
+</pageflow-diagram>
