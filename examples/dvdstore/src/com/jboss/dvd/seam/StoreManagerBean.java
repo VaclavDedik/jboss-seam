@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.Name;
@@ -35,8 +35,7 @@ public class StoreManagerBean
             return (Float) em.createQuery("select sum(o.totalAmount) from Order o where o.status != :status")
                 .setParameter("status", Order.Status.CANCELLED)
                 .getSingleResult();
-        } 
-        catch (EntityNotFoundException e) {
+        } catch (NoResultException e) {
             return 0.0;
         }
     }
@@ -44,8 +43,7 @@ public class StoreManagerBean
     public int getUnitsSold() {
         try {
             return (Integer) em.createQuery("select sum(i.sales) from Inventory i").getSingleResult();
-        } 
-        catch (EntityNotFoundException e) {
+        } catch (NoResultException e) {
             return 0;
         }
     }
@@ -53,8 +51,7 @@ public class StoreManagerBean
     public int getTotalInventory() {
         try {
             return (Integer) em.createQuery("select sum(i.quantity) from Inventory i").getSingleResult();
-        } 
-        catch (EntityNotFoundException e) {
+        } catch (NoResultException e) {
             return 0;
         }
     }
