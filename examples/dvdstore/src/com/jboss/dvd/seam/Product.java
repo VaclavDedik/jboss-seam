@@ -19,11 +19,11 @@ public class Product
     long productId;
     String asin;
     String title;
-    String actor;
     String description;
     String imageURL;
     float price;
 
+    List<Actor>    actors;
     Set<Category> categories;
     Inventory inventory;
 
@@ -52,6 +52,18 @@ public class Product
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
+
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name="PRODUCT_ACTORS",
+               joinColumns=@JoinColumn(name="PROD_ID"),
+               inverseJoinColumns=@JoinColumn(name="ACTOR_ID"))
+    public List<Actor> getActors() {
+        return actors;
+    }
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }
+
     
     @ManyToMany
     @JoinTable(name="PRODUCT_CATEGORY",
@@ -88,15 +100,6 @@ public class Product
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
-    }
-
-    // nullable=false
-    @Column(name="ACTOR",length=50)
-    public String getActor() {
-        return actor;
-    }
-    public void setActor(String actor) {
-        this.actor = actor;
     }
 
     @Column(name="PRICE",nullable=false,precision=12,scale=2)

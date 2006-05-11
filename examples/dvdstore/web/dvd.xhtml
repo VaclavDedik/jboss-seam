@@ -33,9 +33,13 @@
                         <h:outputText value="Title:" />
                         <h:outputText value="#{dvd.title}" />
                         
-                        <h:outputText value="Actor:" />
-                        <h:outputText value="#{dvd.actor}" />
-                        
+                        <h:outputText value="Starring:" />
+                        <h:panelGroup>
+                            <c:forEach items="#{dvd.actors}" var="starring">
+                                [#{starring.name}]
+                            </c:forEach>
+                        </h:panelGroup>
+
                         <h:outputText value="Price:" />
                         <h:outputText value="#{dvd.price}" />
                     </h:panelGrid>

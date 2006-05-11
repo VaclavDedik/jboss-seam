@@ -257,11 +257,11 @@ h3 {
 .besttitle {
     heioght: .5em;
     text-align: center;
-    font-weight: bold;
     background: #5e8bc4 0px;
-    font-size: .5em;
     text-transform: none;
     white-space: nowrap;
+    font-size: 1em;
+    font-weight: bold;
 }
 
 .bestimage {
@@ -275,6 +275,14 @@ h3 {
    margin-left:  auto;
    margin-right: auto;
    display:  block;
+}
+
+.besttitle a:link {
+    text-decoration: none;
+}
+
+.besttitle a:hover {
+    text-decoration: underline;
 }
 
 /*</group>*/

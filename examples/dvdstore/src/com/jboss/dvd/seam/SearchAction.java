@@ -146,13 +146,15 @@ public class SearchAction
         actor = (actor == null) ? "%" : "%" + actor.toLowerCase() + "%";
 
         if (category == null || category.getCategoryId()==0) {
-            return em.createQuery("from Product p where lower(p.title) like :title " + 
-                                  "and lower(p.actor) LIKE :actor order by p.title")
+            return em.createQuery("select distinct p from Product p JOIN p.actors a " + 
+                                  "where lower(p.title) like :title " + 
+                                  "and lower(a.name) LIKE :actor order by p.title")
                 .setParameter("title", title)
                 .setParameter("actor", actor);
         } else { 
-            return em.createQuery("from Product p where lower(p.title) like :title " + 
-                                  "and lower(p.actor) like :actor " + 
+            return em.createQuery("select distinct p from Product p JOIN p.actors a " +
+                                  "where lower(p.title) like :title " + 
+                                  "and lower(a.name) like :actor " + 
                                   "and :category member of p.categories order by p.title")
                 .setParameter("title", title)
                 .setParameter("actor", actor)

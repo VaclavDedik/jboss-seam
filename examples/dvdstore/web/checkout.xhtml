@@ -79,6 +79,8 @@
                         </h:dataTable>
                         <h:commandButton action="browse"  
                                          value="Continue Shopping" />
+                        <h:commandButton action="#{cart.resetCart}"  
+                                         value="Empty Cart"  />
                         <h:commandButton action="#{cart.updateCart}" 
                                          value="#{msgs.checkoutUpdateButton}" />
                     </h:form>
