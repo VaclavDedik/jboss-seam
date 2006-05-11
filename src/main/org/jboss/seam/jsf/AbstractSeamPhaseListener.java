@@ -4,7 +4,6 @@ import static javax.faces.event.PhaseId.ANY_PHASE;
 
 import java.util.Map;
 
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -38,10 +37,9 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    public static void restoreAnyConversationContext(FacesContext facesContext)
    {
       Lifecycle.resumePage();
-      ExternalContext externalContext = facesContext.getExternalContext();
       Map parameters = facesContext.getExternalContext().getRequestParameterMap();
       Manager.instance().restoreConversation(parameters);
-      Lifecycle.resumeConversation(externalContext);
+      Lifecycle.resumeConversation( facesContext.getExternalContext() );
       if ( Init.instance().isJbpmInstalled() )
       {
          Pageflow.instance().validatePageflow();
@@ -137,5 +135,13 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    }
    
    protected void afterPageActions() {}
+   
+   private static boolean exists = false;
+   
+   protected AbstractSeamPhaseListener()
+   {
+      if (exists) log.warn("There should only be one Seam phase listener per application");
+      exists=true;
+   }
    
 }
