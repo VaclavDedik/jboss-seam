@@ -19,6 +19,13 @@
         </ui:define>
         
         <ui:define name="body">
+            <f:subview rendered="#{!login.admin}">
+                The admin screen is only administrative users.  Please
+                login to continue.  If you are looking for the store,
+                try <s:link view="/browse.xhtml" value="here" />.
+            </f:subview>
+
+            <f:subview rendered="#{login.admin}">
             <h1>Order Management</h1>
             
             <p>
@@ -158,7 +165,8 @@
                     </h:dataTable>
                 </c:otherwise>
             </c:choose>
-            
+
+        </f:subview>            
         </ui:define>
     </ui:composition>
 </body>

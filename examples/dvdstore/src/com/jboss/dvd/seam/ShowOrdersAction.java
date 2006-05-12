@@ -51,8 +51,9 @@ public class ShowOrdersAction
     @Begin @Factory("orders")
     public String findOrders() {
         orders = em.createQuery("from Order o where o.customer = :customer")
-                   .setParameter("customer", customer)
-                   .getResultList();
+            .setParameter("customer", customer)
+            .getResultList();
+
         order = null;
 
         return "showorders";

@@ -20,6 +20,12 @@
         
         <ui:define name="body">
             <h1>Your orders:</h1>
+
+            <f:subview rendered="#{!orders.rowAvailable}">
+                <p>You have not placed any orders.</p>
+            </f:subview>
+
+            <f:subview rendered="#{orders.rowAvailable}">
                 
             <h:dataTable value="#{orders}" var="item"
                          styleClass="dvdtable" 
@@ -50,8 +56,7 @@
                 </h:column>
             </h:dataTable>
 
-
-            <c:if test="#{myorder != null}">
+            <f:subview rendered="#{myorder != null}">
                 <div class="cntInfo">
                     <h2>Order Details</h2>
 
@@ -123,8 +128,8 @@
                         </h:dataTable>
                     </div>
                 </div>
-            </c:if>
-            
+            </f:subview>
+        </f:subview>
         </ui:define>
     </ui:composition>
 </body>

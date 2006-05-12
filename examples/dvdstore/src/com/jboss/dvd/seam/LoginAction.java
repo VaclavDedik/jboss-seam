@@ -26,6 +26,8 @@ public class LoginAction
     implements Login,
                Serializable
 {
+    private static final String USER_VAR = "currentUser";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -60,7 +62,7 @@ public class LoginAction
                 .setParameter("password", password)
                 .getSingleResult();
 
-            sessionContext.set("currentUser", found);
+            sessionContext.set(USER_VAR, found);
             
             actor.setId(username);
             
@@ -80,13 +82,27 @@ public class LoginAction
 
     public String logout() {
         Seam.invalidateSession();
-        sessionContext.set("currentUser", null);
+        sessionContext.set(USER_VAR, null);
         sessionContext.set("loggedIn", null);
         return "logout";
     }
 
+    private User currentUser() {
+        return (User) sessionContext.get(USER_VAR);
+    }
+
     public boolean isLoggedIn() {
-        return sessionContext.get("currentUser") != null;
+        return currentUser() != null;
+    }
+
+    public boolean isCustomer() {
+        User user = currentUser();
+        return (user!=null) && (user instanceof Customer);
+    }
+
+    public boolean isAdmin() {
+        User user = currentUser();
+        return (user!=null) && (user instanceof Admin);
     }
 
 }

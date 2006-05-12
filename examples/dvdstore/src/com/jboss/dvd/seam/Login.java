@@ -18,4 +18,6 @@ public interface Login
     public String logout();
 
     public boolean isLoggedIn();
+    public boolean isCustomer();
+    public boolean isAdmin();
 }
