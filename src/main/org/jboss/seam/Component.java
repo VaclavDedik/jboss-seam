@@ -206,6 +206,10 @@ public class Component
       {
          throw new IllegalArgumentException("Stateful session beans may not be bound to the PAGE context: " + name);
       }
+      if ( scope==ScopeType.APPLICATION && type==ComponentType.STATEFUL_SESSION_BEAN )
+      {
+         log.warn("Stateful session beans was bound to the APPLICATION context - note that it is not safe to make concurrent calls to the bean: " + name);
+      }
             
       boolean serializableScope = scope==ScopeType.PAGE || scope==ScopeType.SESSION || scope==ScopeType.CONVERSATION;
       boolean serializableType = type==ComponentType.JAVA_BEAN || type==ComponentType.ENTITY_BEAN;
