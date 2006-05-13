@@ -29,6 +29,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Resources;
 
+/**
+ * Holds metadata for pages defined in pages.xml, including
+ * page actions and page descriptions.
+ * 
+ * @author Gavin King
+ */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 //@Startup(depends="org.jboss.seam.core.microcontainer") //don't make it a startup component 'cos it needs a faces context
@@ -152,7 +158,7 @@ public class Pages
          {
             fromAction = methodBinding.getExpressionString();
             result = true;
-            outcome = (String) methodBinding.invoke(facesContext, null);
+            outcome = toString( methodBinding.invoke(facesContext, null) );
          }
       }
       
@@ -160,6 +166,11 @@ public class Pages
       
       return result;
 
+   }
+
+   private static String toString(Object returnValue)
+   {
+      return returnValue == null ? null : returnValue.toString();
    }
 
    private static void handleOutcome(FacesContext facesContext, String outcome, String fromAction)
@@ -198,7 +209,7 @@ public class Pages
             if ( !isActionAllowed(facesContext, expression) ) return result;
             result = true;
             MethodBinding actionBinding = facesContext.getApplication().createMethodBinding(expression, null);
-            outcome = (String) actionBinding.invoke( facesContext, null );
+            outcome = toString( actionBinding.invoke(facesContext, null) );
             fromAction = expression;
          }
       }
