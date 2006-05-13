@@ -461,7 +461,7 @@ public void begin() { ... }]]></programlisting>
             <title>Ending the flow</title>
    
         <para>
-            We end the conversation using <literal>&lt;conversation-end&gt;</literal>
+            We end the conversation using <literal>&lt;end-conversation&gt;</literal>
             or <literal>@End</literal>. (In fact, for readability, use of 
             <emphasis>both</emphasis> is encouraged.)
         </para>
@@ -694,7 +694,7 @@ public String start() { ... }]]></programlisting>
 public String completed() { ... }]]></programlisting>
 
         <para>
-            (Alternatively, we could have used <literal>&lt;conversation-end&gt;</literal>
+            (Alternatively, we could have used <literal>&lt;end-conversation&gt;</literal>
             as shown above.)
         </para>
 
