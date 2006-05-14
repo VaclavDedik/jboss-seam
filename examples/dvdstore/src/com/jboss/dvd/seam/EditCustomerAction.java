@@ -11,12 +11,19 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
-import javax.ejb.*;
-import javax.persistence.*;
+import javax.ejb.Remove;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import org.hibernate.validator.*;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
+import org.hibernate.validator.InvalidValue;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Conversational;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.FacesMessages;
