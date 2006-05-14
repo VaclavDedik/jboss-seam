@@ -21,79 +21,75 @@
             <h:messages globalOnly="true" 
                         layout="list" 
                         errorClass="cntError"/>
-            
-            <div class="controlBar" style="clear: left;">
-                <div class="message">Confirm Order</div>
-            </div>
-            
-            <c:choose>
-                <c:when test="#{currentOrder == null}">
-                    <p>You have no order.</p>
-                </c:when>
-                <c:otherwise>
-                    <h:form>
-                        <h:dataTable value="#{currentOrder.orderLines}" var="line"
-                                     styleClass="dvdtable" 
-                                     headerClass="dvdtablehead"
-                                     rowClasses="dvdtableodd,dvdtableeven"
-                                     columnClasses="dvdtablecol">
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.cartTitleColumn}" />
-                                </f:facet>
-                                <h:outputText value="#{line.product.title}" />
-                            </h:column>                        
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.cartActorColumn}" />
-                                </f:facet>
-                                <h:outputText value="#{line.product.actors[0].name}" />
-                            </h:column>                        
-                            
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.cartPriceColumn}" />
-                                </f:facet>
-                                <h:outputText value="#{line.product.price}">
-                                    <f:convertNumber type="currency" currencySymbol="$" />
-                                </h:outputText>
-                            </h:column>                        
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.cartQuantityColumn}" />
-                                </f:facet>
-                                <h:outputText value="#{line.quantity}" size="6" />
-                            </h:column>                        
-                        </h:dataTable>
-                    </h:form>
 
-                    <div style="width: 100%;">
-                        <div class="cntInfo" style="float:right;">
-                            <h:panelGrid columns="2">
-                                <h:outputText value="#{msgs.checkoutSubtotal}" />
-                                <h:outputText value="#{currentOrder.netAmount}">
-                                    <f:convertNumber type="currency" currencySymbol="$" />
-                                </h:outputText>
-                                
-                                <h:outputText value="#{msgs.checkoutTax}" />
-                                <h:outputText value="#{currentOrder.tax}">
-                                    <f:convertNumber type="currency" currencySymbol="$" />
-                                </h:outputText>
-                                
-                                <h:outputText value="#{msgs.checkoutTotal}" />
-                                <h:outputText value="#{order.totalAmount}">
-                                    <f:convertNumber type="currency" currencySymbol="$" />
-                                </h:outputText>
-                            </h:panelGrid>
-                            
-                            <h:form>
-                                <h:commandButton action="purchase" value="Confirm" />
-                            </h:form>
-                        </div>
-                    </div>
-                </c:otherwise>
-            </c:choose>
+            <h1>Confirm Order</h1>
             
+            <f:subview rendered="#{currentOrder==null}">
+                <p>You have no order.</p>
+            </f:subview>
+
+            <f:subview rendered="#{currentOrder != null}">
+                <h:form>
+                    <h:dataTable value="#{currentOrder.orderLines}" var="line"
+                                 styleClass="dvdtable" 
+                                 headerClass="dvdtablehead"
+                                 rowClasses="dvdtableodd,dvdtableeven"
+                                 columnClasses="dvdtablecol">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.cartTitleColumn}" />
+                            </f:facet>
+                            <h:outputText value="#{line.product.title}" />
+                        </h:column>                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.cartActorColumn}" />
+                            </f:facet>
+                            <h:outputText value="#{line.product.actors[0].name}" />
+                        </h:column>                        
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.cartPriceColumn}" />
+                            </f:facet>
+                            <h:outputText value="#{line.product.price}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </h:column>                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs.cartQuantityColumn}" />
+                            </f:facet>
+                            <h:outputText value="#{line.quantity}" size="6" />
+                        </h:column>                        
+                    </h:dataTable>
+                </h:form>
+                
+                <div style="width: 100%;">
+                    <div class="cntInfo" style="float:right;">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="#{msgs.checkoutSubtotal}" />
+                            <h:outputText value="#{currentOrder.netAmount}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                            
+                            <h:outputText value="#{msgs.checkoutTax}" />
+                            <h:outputText value="#{currentOrder.tax}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                            
+                            <h:outputText value="#{msgs.checkoutTotal}" />
+                            <h:outputText value="#{order.totalAmount}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </h:panelGrid>
+                        
+                        <h:form>
+                            <h:commandButton action="purchase" value="Confirm" />
+                        </h:form>
+                    </div>
+                </div>
+            </f:subview>            
         </ui:define>
     </ui:composition>
 </body>

@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.*;
 
-import org.hibernate.validator.Valid;
+import org.hibernate.validator.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.contexts.Context;
@@ -102,10 +102,18 @@ public class EditCustomerAction
             
             facesMessages.addFromResourceBundle("createCustomerSuccess");
             return "success";
+        } catch (org.hibernate.validator.InvalidStateException e) {
+            InvalidValue[] vals = e.getInvalidValues();
+            for (InvalidValue val: vals) {
+                System.out.println("-- " + val);
+            }
+
+            return null;
         } catch (RuntimeException e) {
             ctx.setRollbackOnly();
 
             facesMessages.addFromResourceBundle("createCustomerError");
+
             return null;
         }
     }

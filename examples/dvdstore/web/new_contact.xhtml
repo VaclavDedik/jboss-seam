@@ -27,72 +27,99 @@
             
             <h:form>
                 <s:validateAll>
-                    <h:panelGrid columns="2">
-                        <h:outputText value="#{msgs.newCustomerFN}" />
-                        <h:panelGroup>
-                            <h:inputText id="firstName" required="true"
-                                         value="#{customer.firstName}" />
-                            <f:verbatim>*</f:verbatim>
-                            <h:message for="firstName" styleClass="cntError" />
-                        </h:panelGroup>
-                        
-                        <h:outputText value="#{msgs.newCustomerLN}" />
-                        <h:panelGroup>
-                            <h:inputText id="lastName" required="true"
-                                         value="#{customer.lastName}" />
-                            <f:verbatim>*</f:verbatim>
-                            <h:message for="lastName" styleClass="cntError" />
-                        </h:panelGroup>
-                        
-                        <h:outputText value="#{msgs.newCustomerA1}" />
-                        <h:panelGroup>
-                            <h:inputText id="address1" required="true"
-                                         value="#{customer.address1}" />
-                            <f:verbatim>*</f:verbatim>
+                    <table border="0">
+                        <tr>
+                            <td class="cntForm">#{msgs.newCustomerFN}</td>
+                            <td class="cntForm">
+                                <h:inputText id="firstName" required="true"
+                                             value="#{customer.firstName}" /> *
+                            </td>
+                            <td><h:message for="firstName" styleClass="cntError" /></td>
+                        </tr>
+
+                        <tr>
+                            <td>#{msgs.newCustomerLN}</td>
+                            <td>
+                                <h:inputText id="lastName" required="true"
+                                             value="#{customer.lastName}" /> *
+                            </td>
+                            <td><h:message for="lastName" styleClass="cntError" /></td>
+                        </tr>
+
+                        <tr>
+                            <td>#{msgs.newCustomerA1}</td>
+                            <td>
+                                <h:inputText id="address1" required="true"
+                                             value="#{customer.address1}" /> *
+                            </td>
+                            <td>
                             <h:message for="address1" styleClass="cntError" />
-                        </h:panelGroup>
+                            </td>
+                        </tr>
+
                         
-                        <h:outputText value="#{msgs.newCustomerA2}" />
-                        <h:panelGroup>
-                            <h:inputText value="#{customer.address2}" />
-                        </h:panelGroup>
+                        <tr>
+                            <td>#{msgs.newCustomerA2}</td>
+                            <td>
+                                <h:inputText value="#{customer.address2}" />
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
                         
-                        <h:outputText value="#{msgs.newCustomerCY}" />
-                        <h:panelGroup>
-                            <h:inputText id="city" required="true" 
-                                         value="#{customer.city}" />
-                            <f:verbatim>*</f:verbatim>
-                            <h:message for="city" styleClass="cntError" />
-                        </h:panelGroup>
+                        <tr>
+                            <td>#{msgs.newCustomerCY}</td>
+                            <td>
+                                <h:inputText id="city" required="true" 
+                                             value="#{customer.city}" /> *
+                            </td>
+                            <td>
+                                <h:message for="city" styleClass="cntError" />
+                            </td>
+                        </tr>
+
                         
-                        <h:outputText value="#{msgs.newCustomerST}" />
-                        <h:panelGroup>
-                            <h:inputText id="state" required="true" 
-                                         value="#{customer.state}" />
-                            <f:verbatim>*</f:verbatim>
-                            <h:message for="state" styleClass="cntError" />
-                        </h:panelGroup>
+                        <tr>
+                            <td>#{msgs.newCustomerST}</td>
+                            <td>
+                                <h:inputText id="state" required="true" 
+                                             value="#{customer.state}" /> *
+                            </td>
+                            <td>
+                                <h:message for="state" styleClass="cntError" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>#{msgs.newCustomerZP}</td>
+                            <td>
+                                <h:inputText id="zip" required="true" 
+                                             value="#{customer.zip}" /> *
+                            </td>
+                            <td>
+                                <h:message for="zip" styleClass="cntError" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>#{msgs.newCustomerEM}</td>
+                            <td>
+                                <h:inputText id="email" value="#{customer.email}" required="true"/> *
+                            </td>
+                            <td>
+                                <h:message for="email" styleClass="cntError" />
+                            </td>
+                        </tr>
                         
-                        <h:outputText value="#{msgs.newCustomerZP}" />
-                        <h:panelGroup>
-                            <h:inputText id="zip" required="true" 
-                                         value="#{customer.zip}" />
-                            <f:verbatim>*</f:verbatim>
-                            <h:message for="zip" styleClass="cntError" />
-                        </h:panelGroup>                        
-                        
-                        <h:outputText value="#{msgs.newCustomerEM}" />
-                        <h:panelGroup>
-                            <h:inputText id="email" value="#{customer.email}" />
-                            <h:message for="email" styleClass="cntError" />
-                        </h:panelGroup>
-                        
-                        <h:outputText value="#{msgs.newCustomerPH}" />
-                        <h:panelGroup>
-                            <h:inputText id="phone" value="#{customer.phone}" />
-                            <h:message for="phone" styleClass="cntError" />
-                        </h:panelGroup>
-                    </h:panelGrid>
+                        <tr>
+                            <td>#{msgs.newCustomerPH}</td>
+                            <td>
+                                <h:inputText id="phone" value="#{customer.phone}" />
+                            </td>
+                            <td>
+                                <h:message for="phone" styleClass="cntError" />
+                            </td>
+                        </tr>
+                    </table>
                 </s:validateAll>
 
                 <ui:remove><h:commandButton action="prev" value="Back" /></ui:remove>
