@@ -12,7 +12,6 @@ import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.remoting.wrapper.ConversionException;
 import org.jboss.seam.remoting.wrapper.ConversionScore;
 import org.jboss.seam.remoting.wrapper.Wrapper;
-import org.jboss.seam.ComponentType;
 
 /**
  *
