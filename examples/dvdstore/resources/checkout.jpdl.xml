@@ -7,7 +7,7 @@
 
     <page name="confirm" view-id="/confirm.xhtml">
         <redirect/>
-        <transition name="update"   to="continue" /> 
+        <transition name="update"   to="continue"/> 
         <transition name="purchase" to="complete">
             <action expression="#{checkout.submitOrder}" />
         </transition>
@@ -15,11 +15,11 @@
     
     <page name="complete" view-id="/complete.xhtml">
         <redirect/>
-        <end-conversation />
+        <end-conversation/>
     </page>    
 
     <page name="continue">
-        <end-conversation />
+        <end-conversation/>
     </page>
 
 </pageflow-definition>

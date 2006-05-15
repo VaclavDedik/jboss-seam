@@ -20,21 +20,21 @@
 
     <page name="contact" view-id="/new_contact.xhtml">
         <redirect/>
-        <transaction to="contact" />
-        <transition name="prev" to="account" />
-        <transition name="next" to="card" />
+        <transaction to="contact"/>
+        <transition name="prev" to="account"/>
+        <transition name="next" to="card"/>
     </page>
 
     <page name="card" view-id="/new_card.xhtml">
         <redirect/>
-        <transition name="prev" to="contact" />
+        <transition name="prev" to="contact"/>
         <transition name="next" to="complete">
-            <action expression="#{editCustomer.saveUser}" />
+            <action expression="#{editCustomer.saveUser}"/>
         </transition>
     </page>
     
     <page name="complete" view-id="/new_complete.xhtml">
         <redirect/>
-        <end-conversation />
+        <end-conversation/>
     </page>    
 </pageflow-definition>
