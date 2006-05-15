@@ -24,15 +24,15 @@ public class StoreManagerBean
     @PersistenceContext
     EntityManager em;
 
-    public int getNumberOrders() {
-        return (Integer) em.createQuery("select count(o) from Order o where o.status != :status")
+    public long getNumberOrders() {
+        return (Long) em.createQuery("select count(o) from Order o where o.status != :status")
             .setParameter("status", Order.Status.CANCELLED)
             .getSingleResult();
     }
 
     public double getTotalSales() {
         try {
-            return (Float) em.createQuery("select sum(o.totalAmount) from Order o where o.status != :status")
+            return (Double) em.createQuery("select sum(o.totalAmount) from Order o where o.status != :status")
                 .setParameter("status", Order.Status.CANCELLED)
                 .getSingleResult();
         } catch (NoResultException e) {
@@ -40,17 +40,17 @@ public class StoreManagerBean
         }
     }
 
-    public int getUnitsSold() {
+    public long getUnitsSold() {
         try {
-            return (Integer) em.createQuery("select sum(i.sales) from Inventory i").getSingleResult();
+            return (Long) em.createQuery("select sum(i.sales) from Inventory i").getSingleResult();
         } catch (NoResultException e) {
             return 0;
         }
     }
 
-    public int getTotalInventory() {
+    public long getTotalInventory() {
         try {
-            return (Integer) em.createQuery("select sum(i.quantity) from Inventory i").getSingleResult();
+            return (Long) em.createQuery("select sum(i.quantity) from Inventory i").getSingleResult();
         } catch (NoResultException e) {
             return 0;
         }

@@ -24,7 +24,13 @@
 
             <h1>Shopping Cart</h1>
 
-
+            <p>
+                The checkout wizard uses a 
+                <a onclick="window.open('img/checkout.html','flowimg','height=330,width=370,toolbar=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no'); return false;"
+                   href="img/checkout.html">pageflow</a>
+                to define the flow of the user interaction.
+            </p>
+        
             <f:subview rendered="#{empty cart.cart}">
                 <p>Your cart is empty.</p>
 
@@ -76,8 +82,10 @@
                     </h:dataTable>
                     <h:commandButton action="browse"  
                                      value="Continue Shopping" />
+                    &#160;
                     <h:commandButton action="#{cart.resetCart}"  
                                      value="Empty Cart"  />
+                    &#160;
                     <h:commandButton action="#{cart.updateCart}" 
                                      value="#{msgs.checkoutUpdateButton}" />
                 </h:form>

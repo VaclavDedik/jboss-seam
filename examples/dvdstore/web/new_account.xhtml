@@ -18,14 +18,23 @@
         </ui:define>
         
         <ui:define name="body">
+        
             <h:messages globalOnly="true" 
                         layout="list" 
                         errorClass="cntError"/>
             
             <h2><h:outputText value="#{msgs.newCustomerHeader}" /></h2>
-            <h3><h:outputText value="#{msgs.newCustomerInfo}" /></h3>
+            
+            <p><em><h:outputText value="#{msgs.newCustomerInfo}" /></em></p>
             
 
+            <p>
+                The user registration wizard uses a 
+                <a onclick="window.open('img/newuser.html','flowimg','height=580,width=510,toolbar=no,status=no,directories=no,menubar=no,scrollbars=no,resizable=no'); return false;"
+                   href="img/newuser.html">pageflow</a>
+                to define the flow of the user interaction.
+            </p>
+        
             <div class="cntInfo">
                 <h:form>
                     <table border="0">

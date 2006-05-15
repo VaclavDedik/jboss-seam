@@ -11,8 +11,8 @@ import javax.ejb.Local;
 @Local
 public interface StoreManager
 {  
-    public int    getNumberOrders();
-    public int    getUnitsSold();
-    public int    getTotalInventory();
+    public long    getNumberOrders();
+    public long    getUnitsSold();
+    public long    getTotalInventory();
     public double getTotalSales();
 }
