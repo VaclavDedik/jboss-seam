@@ -3,7 +3,6 @@ package org.jboss.seam.test;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.el.EvaluationException;
 import javax.faces.el.VariableResolver;
 import javax.servlet.http.HttpSession;
 
