@@ -3,11 +3,13 @@ package org.jboss.seam.example.issues;
 
 import java.util.List;
 
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -58,5 +60,8 @@ public class LoginBean implements Login {
        Seam.invalidateSession();
        return "home";
     }
+    
+    @Remove @Destroy
+    public void destroy() {}
 
 }
