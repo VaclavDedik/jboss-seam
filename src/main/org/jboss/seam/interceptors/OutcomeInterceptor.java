@@ -1,8 +1,8 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
-import javax.ejb.AroundInvoke;
-import javax.ejb.InvocationContext;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.annotations.Outcome;

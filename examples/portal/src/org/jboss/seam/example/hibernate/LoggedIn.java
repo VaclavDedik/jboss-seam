@@ -8,7 +8,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.ejb.Interceptors;
+import javax.interceptor.Interceptors;
 
 @Target(TYPE)
 @Retention(RUNTIME)

@@ -4,9 +4,9 @@ package org.jboss.seam.interceptors;
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.ejb.ApplicationException;
-import javax.ejb.AroundInvoke;
-import javax.ejb.InvocationContext;
 import javax.ejb.Remove;
 
 import org.apache.commons.logging.Log;

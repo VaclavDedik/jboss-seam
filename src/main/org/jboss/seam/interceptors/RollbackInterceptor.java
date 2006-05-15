@@ -4,8 +4,8 @@ package org.jboss.seam.interceptors;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ejb.AroundInvoke;
-import javax.ejb.InvocationContext;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.annotations.Around;

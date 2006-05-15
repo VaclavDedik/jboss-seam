@@ -2,8 +2,8 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.AnnotatedElement;
 
-import javax.ejb.AroundInvoke;
-import javax.ejb.InvocationContext;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.transaction.UserTransaction;
 
 import org.apache.commons.logging.Log;

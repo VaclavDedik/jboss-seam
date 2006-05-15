@@ -3,8 +3,8 @@ package org.jboss.seam.example.hibernate;
 
 import java.lang.reflect.Method;
 
-import javax.ejb.AroundInvoke;
-import javax.ejb.InvocationContext;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.annotations.Around;

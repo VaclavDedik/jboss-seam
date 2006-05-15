@@ -4,7 +4,7 @@ import static org.jboss.seam.ScopeType.SESSION;
 import javax.ejb.Stateless;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import javax.ejb.Interceptors;
+import javax.interceptor.Interceptors;
 import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless

@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.InvocationContext;
+import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
 

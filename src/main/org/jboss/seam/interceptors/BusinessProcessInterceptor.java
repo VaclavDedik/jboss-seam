@@ -11,8 +11,8 @@ import java.beans.PropertyEditorManager;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.ejb.AroundInvoke;
-import javax.ejb.InvocationContext;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.logging.Log;

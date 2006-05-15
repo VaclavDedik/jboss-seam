@@ -24,7 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ejb.Interceptors;
+import javax.interceptor.Interceptors;
 import javax.ejb.Local;
 import javax.ejb.Remove;
 import javax.faces.application.Application;

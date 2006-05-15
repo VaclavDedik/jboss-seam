@@ -1,7 +1,7 @@
 package org.jboss.seam.example.remoting.chatroom;
 
 import javax.annotation.EJB;
-import javax.ejb.Interceptors;
+import javax.interceptor.Interceptors;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 

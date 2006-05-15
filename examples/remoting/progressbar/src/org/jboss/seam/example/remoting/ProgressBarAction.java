@@ -1,16 +1,13 @@
 package org.jboss.seam.example.remoting;
 
-import javax.ejb.Interceptors;
-import javax.ejb.Stateless;
-
-import static org.jboss.seam.ScopeType.SESSION;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ejb.SeamInterceptor;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.ScopeType;
 import java.util.Random;
+
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
+
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.ejb.SeamInterceptor;
 
 @Stateless
 @Name("progressBarAction")

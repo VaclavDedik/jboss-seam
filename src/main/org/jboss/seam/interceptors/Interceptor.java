@@ -4,9 +4,9 @@ package org.jboss.seam.interceptors;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import javax.ejb.AroundInvoke;
-import javax.ejb.Interceptors;
-import javax.ejb.InvocationContext;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptors;
+import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.util.Reflections;

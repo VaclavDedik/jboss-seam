@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.ejb.EJBContext;
-import javax.ejb.InvocationContext;
+import javax.interceptor.InvocationContext;
 
 public class MockInvocationContext implements InvocationContext
 {
