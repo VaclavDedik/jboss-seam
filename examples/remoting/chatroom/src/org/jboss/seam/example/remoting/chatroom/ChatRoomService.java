@@ -1,6 +1,8 @@
 package org.jboss.seam.example.remoting.chatroom;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.jms.JMSException;
 import javax.jms.Topic;
 import javax.jms.TopicConnection;
@@ -11,8 +13,6 @@ import javax.naming.InitialContext;
 
 import org.jboss.annotation.ejb.Service;
 import org.jboss.logging.Logger;
-import java.util.Set;
-import java.util.HashSet;
 
 /**
  *

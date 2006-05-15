@@ -22,7 +22,7 @@ public class ProgressBarAction implements ProgressBarLocal {
     try {
       for (int i = 1; i <= 100;)
       {
-        Thread.currentThread().sleep(r.nextInt(200));
+        Thread.sleep(r.nextInt(200));
         progress.setPercentComplete(i);
         i++;
       }
