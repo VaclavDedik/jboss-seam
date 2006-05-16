@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
@@ -50,7 +51,8 @@
                         <h:outputText value="Tracking number:" />
                         <h:panelGroup>
                             <!-- required, min length=4 -->
-                            <h:inputText id="trackingNumber" value="#{ship.track}" /> 
+                            <h:inputText id="trackingNumber" value="#{ship.track}" required="true"/> 
+
                             <h:message for="trackingNumber" styleClass="cntError" />
                         </h:panelGroup>
                     </h:panelGrid>
@@ -91,7 +93,7 @@
                             </h:column>                        
                         </h:dataTable>
                     </div>
-                    <h:commandButton action="#{ship.ship}" value="ship" /> 
+                    <h:commandButton action="#{ship.ship}" value="Ship" /> 
                 </h:form>
             </div>
         </ui:define>

@@ -41,7 +41,7 @@
                             <div class="bestinner">
                                 <div class="besttitle">
                                     <s:link view="/dvd.xhtml">
-                                        #{fn:length(item.title) gt 15 ? fn:substring(item.title,0,14) : item.title}
+                                        #{fn:length(item.title) gt 14 ? fn:substring(item.title,0,13) : item.title}
                                         <f:param name="id" value="#{item.productId}"/>
                                     </s:link>
                                 </div>
