@@ -50,10 +50,9 @@
                 </div>
 
                 <div class="productbuttons">
-                    <h:form>
-                        <h:commandButton action="#{search.addToCart}" value="Add to Cart" />
-                        <s:link view="/browse.xhtml" value="Back to Search" linkStyle="button"/>
-                    </h:form>
+                    <s:link action="#{search.addToCart}" value="Add to Cart" linkStyle="button"/>
+                    &#160;
+                    <s:link view="/browse.xhtml" value="Back to Search" linkStyle="button"/>
                 </div>
             </div>
         </ui:define>
