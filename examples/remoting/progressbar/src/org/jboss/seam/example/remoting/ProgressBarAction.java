@@ -30,7 +30,7 @@ public class ProgressBarAction implements ProgressBarLocal {
     catch (InterruptedException ex) {
     }
 
-    return "complete";
+    return "/complete.xhtml";
   }
 
   public Progress getProgress()

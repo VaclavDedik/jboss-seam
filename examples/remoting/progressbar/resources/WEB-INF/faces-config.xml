@@ -4,24 +4,14 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                             "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 <faces-config>
 
-  <navigation-rule>
+    <application>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+    </application>
 
-    <navigation-case>
-      <from-outcome>complete</from-outcome>
-      <to-view-id>/complete.xhtml</to-view-id>
-      <redirect />
-    </navigation-case>
-    
-  </navigation-rule>
+    <!-- Phase listener needed for all Seam applications -->
 
-  <application>
-    <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-  </application>
-
-	<!-- Phase listener needed for all Seam applications -->
-	
-	<lifecycle>
-		<phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
-	</lifecycle>
+    <lifecycle>
+        <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
+    </lifecycle>
 
 </faces-config>
