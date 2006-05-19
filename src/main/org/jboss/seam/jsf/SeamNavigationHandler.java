@@ -1,10 +1,10 @@
 package org.jboss.seam.jsf;
 
-
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 
 public class SeamNavigationHandler extends NavigationHandler {
@@ -21,7 +21,12 @@ public class SeamNavigationHandler extends NavigationHandler {
       //if ( !"org.jboss.seam.switch".equals(outcome) ) 
       if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces
       {
-         if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() && Pageflow.instance().hasTransition(outcome) )
+         boolean outcomeIsViewId = outcome!=null && outcome.startsWith("/");
+         if ( outcomeIsViewId )
+         {
+            Manager.instance().redirect(outcome);
+         }
+         else if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() && Pageflow.instance().hasTransition(outcome) )
          {
             Pageflow.instance().navigate(context, outcome);
          }
