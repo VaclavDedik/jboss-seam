@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -728,6 +729,24 @@ public class Manager
    public void redirect(String viewId)
    {
       redirect(viewId, null, true);
+   }
+   
+   public void interpolateAndRedirect(String url)
+   {
+      Map<String, Object> parameters = new HashMap<String, Object>();
+      int loc = url.indexOf('?');
+      if (loc>0)
+      {
+         StringTokenizer tokens = new StringTokenizer( url.substring(loc), "?=&" );
+         while ( tokens.hasMoreTokens() )
+         {
+            String name = tokens.nextToken();
+            String value = Interpolator.instance().interpolate( tokens.nextToken() );
+            parameters.put(name, value);
+         }
+         url = url.substring(0, loc);
+      }
+      redirect(url, parameters, true);
    }
    
    private String encodeParameters(String url, Map<String, Object> parameters)

@@ -24,7 +24,7 @@ public class SeamNavigationHandler extends NavigationHandler {
          boolean outcomeIsViewId = outcome!=null && outcome.startsWith("/");
          if ( outcomeIsViewId )
          {
-            Manager.instance().redirect(outcome);
+            Manager.instance().interpolateAndRedirect(outcome);
          }
          else if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() && Pageflow.instance().hasTransition(outcome) )
          {
