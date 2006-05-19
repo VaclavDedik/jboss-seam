@@ -44,7 +44,7 @@ public class PostAction
       newBlogEntry.setDate( new Date() );
       blog.getBlogEntries().add(newBlogEntry);
       entityManager.persist(newBlogEntry);
-      return "success";
+      return "/index.xhtml";
    }
    
 }

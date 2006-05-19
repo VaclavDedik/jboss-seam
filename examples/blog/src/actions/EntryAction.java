@@ -28,8 +28,8 @@ public class EntryAction
    @In(create=true) 
    private Blog blog;
    
-   @RequestParameter
-   private String blogEntryId;
+   @RequestParameter("blogEntryId")
+   private String id;
    
    @Out(scope=ScopeType.EVENT, required=false)
    private BlogEntry blogEntry;
@@ -37,7 +37,7 @@ public class EntryAction
    
    public void getBlogEntry() throws IOException
    {
-      blogEntry = blog.getBlogEntry(blogEntryId);
+      blogEntry = blog.getBlogEntry(id);
       if (blogEntry==null)
       {
          HttpError.instance().send(HttpServletResponse.SC_NOT_FOUND);

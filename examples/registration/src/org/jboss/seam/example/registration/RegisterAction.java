@@ -34,7 +34,7 @@ public class RegisterAction implements Register
       if (existing.size()==0)
       {
          em.persist(user);
-         return "success";
+         return "/registered.jsp";
       }
       else
       {

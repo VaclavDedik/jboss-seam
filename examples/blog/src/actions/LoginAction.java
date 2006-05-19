@@ -30,7 +30,7 @@ public class LoginAction
       if ( blog.getPassword().equals(password) )
       {
          loggedIn = true;
-         return "success";
+         return "/post.xhtml";
       }
       else
       {
@@ -41,7 +41,7 @@ public class LoginAction
    
    public String challenge()
    {
-      return loggedIn ? null : "login";
+      return loggedIn ? null : "/login.xhtml";
    }
 
    public String getPassword()
