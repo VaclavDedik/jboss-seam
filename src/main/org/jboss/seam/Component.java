@@ -72,7 +72,8 @@ import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
-import org.jboss.seam.util.Sorter;
+import org.jboss.seam.util.SortItem;
+import org.jboss.seam.util.SorterNew;
 import org.jboss.seam.util.StringArrayPropertyEditor;
 
 /**
@@ -507,21 +508,55 @@ public class Component
          }
       }
 
-      new Sorter<Interceptor>() {
-         protected boolean isOrderViolated(Interceptor outside, Interceptor inside)
-         {
-            Class<?> insideClass = inside.getUserInterceptor().getClass();
-            Class<?> outsideClass = outside.getUserInterceptor().getClass();
-            Around around = insideClass.getAnnotation(Around.class);
-            Within within = outsideClass.getAnnotation(Within.class);
-            return ( around!=null && Arrays.asList( around.value() ).contains( outsideClass ) ) ||
-                  ( within!=null && Arrays.asList( within.value() ).contains( insideClass ) );
-         }
-      }.sort(interceptors);
+      newSort(interceptors);
 
       log.trace("interceptor stack: " + interceptors);
    }
 
+   private List<Interceptor> newSort(List<Interceptor> list)
+   {
+      List<SortItem<Interceptor>> siList = new ArrayList<SortItem<Interceptor>>();
+      Map<Class<?>,SortItem<Interceptor>> ht = new HashMap<Class<?>,SortItem<Interceptor>>();
+      
+      for (Interceptor i : list)
+      {
+         SortItem<Interceptor> si = new SortItem<Interceptor>(i);
+         siList.add(si);
+         ht.put( i.getUserInterceptor().getClass(), si );
+      }
+      
+      for (SortItem<Interceptor> si : siList)
+      {
+         Class<?> clazz = si.getObj().getUserInterceptor().getClass();
+         Around around = clazz.getAnnotation(Around.class);
+         Within within = clazz.getAnnotation(Within.class);
+         if  (around!=null)
+         {
+            for (Class<?> cl : Arrays.asList( around.value() ) )
+            {
+               si.getAround().add( ht.get(cl) );
+            }
+         }
+         if (within!=null)
+         {
+            for (Class<?> cl : Arrays.asList( within.value() ) )
+            {
+               si.getWithin().add( ht.get(cl) );
+            }
+         }
+      }
+
+      SorterNew<Interceptor> sList = new SorterNew<Interceptor>();
+      siList = sList.sort(siList);
+
+      list.clear();
+      for (SortItem<Interceptor> si : siList)
+      {
+         list.add( si.getObj() );
+      }
+      return list ;
+   }
+   
    private void initDefaultInterceptors()
    {
       interceptors.add( new Interceptor( new OutcomeInterceptor(), this ) );
@@ -560,7 +595,7 @@ public class Component
    public ClassValidator getValidator()
    {
       java.util.ResourceBundle bundle = Contexts.isApplicationContextActive() ? //yew, just for testing!
-    		  ResourceBundle.instance() : null;
+            ResourceBundle.instance() : null;
       Locale locale = bundle==null ? 
             new Locale("DUMMY") : bundle.getLocale();
       ClassValidator validator = validators.get(locale);
