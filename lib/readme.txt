@@ -4,7 +4,7 @@ and run the unit tests.
 The only jars required to run Seam in a full Java EE 5 
 environment are:
 
-  jbpm-3.1.jar
+  jbpm-3.1.1.jar
   thirdparty-all.jar
 
 To use Seam with Hibernate3 in a J2EE 1.4 environment, 
@@ -14,11 +14,11 @@ Hibernate3:
   hibernate-all.jar
 
 MyFaces:
-  myfaces-impl.jar
-  myfaces-api.jar
+  myfaces-impl-1.1.3.jar
+  myfaces-api-1.1.3.jar
   commons-digester-1.6.jar
-  commons-codec-1.2.jar
-  commons-beanutils.jar
+  commons-codec-1.3.jar
+  commons-beanutils-1.7.0.jar
   jstl.jar
 
 (Or use your preferred JSF 1.1/1.2 implementation.)
