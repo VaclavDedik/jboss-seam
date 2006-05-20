@@ -41,13 +41,16 @@
         <param-value>@jndiPattern@</param-value>
     </context-param>
 
-    <!-- MyFaces -->
+    <context-param>
+        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
+        <param-value>@myFacesLifecycleBug@</param-value>
+    </context-param>
 
+    <!-- MyFaces -->
 
     <listener>
         <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
     </listener>
-
 
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>

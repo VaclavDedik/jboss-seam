@@ -20,6 +20,10 @@
         <url-pattern>*.jsf</url-pattern>
     </filter-mapping>
 
+    <context-param>
+        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
+        <param-value>@myFacesLifecycleBug@</param-value>
+    </context-param>
 
     <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
     

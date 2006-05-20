@@ -10,6 +10,11 @@
       <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
    </listener>
 
+    <context-param>
+        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
+        <param-value>@myFacesLifecycleBug@</param-value>
+    </context-param>
+
    <!-- 120 second conversation timeout -->
    <context-param>
       <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>

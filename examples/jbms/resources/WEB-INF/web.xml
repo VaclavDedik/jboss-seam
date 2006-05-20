@@ -22,6 +22,11 @@
         <param-value>@embeddedEjb@</param-value>
     </context-param>
     
+    <context-param>
+        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
+        <param-value>@myFacesLifecycleBug@</param-value>
+    </context-param>
+
     <!-- MyFaces -->
 
     <listener>

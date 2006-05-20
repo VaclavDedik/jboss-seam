@@ -6,24 +6,25 @@
     <property name="Name"                   value="Seam JBMS Example"/>
     <property name="example.name"           value="jboss-seam-jbms"/>
 
-	<fileset id="web.xml.file"
-	       file="resources/WEB-INF/web.xml"/>
-
     <!-- WAR -->
+	
     <zipfileset id="example.war.docroot"
                dir="view">
       <include name="**/*"/>
     </zipfileset>
+	
     <zipfileset id="example.war.webinf"
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
         <patternset refid="meta.files"/>
-     </zipfileset>
+    </zipfileset>
+	
     <zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
                dir="resources/WEB-INF">
         <include name="_NONE_"/>
     </zipfileset>
+	
     <zipfileset id="example.war.webinf.lib.extra" 
             prefix="WEB-INF/lib"
                dir=".">
@@ -31,6 +32,7 @@
     </zipfileset>
 
     <!-- EJB3 -->
+	
     <fileset id="example.ejb3.root"
             dir="resources">
         <include name="import.sql"/>
@@ -40,6 +42,7 @@
     </fileset>
 
     <!-- EAR -->
+	
     <zipfileset id="example.ear.resources"
             prefix="META-INF"
                dir="resources/META-INF">
@@ -57,19 +60,20 @@
 		<include name="**/*.*"/>
 	</fileset>
 	
-  <!-- Tomcat build -->
-  <zipfileset id="example.tomcat.war.webinf"
+    <!-- Tomcat build -->
+    <zipfileset id="example.tomcat.war.webinf"
           prefix="WEB-INF"
              dir="resources/WEB-INF" >
-    <include name="faces-config.xml"/>
-  </zipfileset>
+       <include name="web.xml"/>
+       <include name="faces-config.xml"/>
+    </zipfileset>
   
-  <fileset id="example.tomcat.resources"
+    <fileset id="example.tomcat.resources"
           dir="resources">
-    <include name="seam.properties"/>
-    <include name="META-INF/persistence.xml"/>
-  	<include name="META-INF/ejb-jar.xml"/>
-  </fileset>
+       <include name="seam.properties"/>
+       <include name="META-INF/persistence.xml"/>
+  	   <include name="META-INF/ejb-jar.xml"/>
+    </fileset>
   
 
     <!-- Deploy -->

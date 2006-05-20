@@ -6,9 +6,6 @@
     <property name="Name"               value="Seam DVD Store Example"/>
     <property name="example.name"       value="jboss-seam-dvd"/>
 
-	<fileset id="web.xml.file"
-	       file="resources/WEB-INF/web.xml"/>
-
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="web">
@@ -61,6 +58,7 @@
                dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
+        <include name="web.xml"/>
     </zipfileset>
     
     <fileset id="example.tomcat.resources"

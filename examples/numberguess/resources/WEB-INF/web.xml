@@ -21,6 +21,11 @@
     </filter-mapping>
 
     <context-param>
+        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
+        <param-value>@myFacesLifecycleBug@</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>org.jboss.seam.core.init.componentClasses</param-name>
         <param-value>org.jboss.seam.core.Jbpm @microcontainer@</param-value>
     </context-param>

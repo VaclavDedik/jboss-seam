@@ -6,24 +6,24 @@
     <property name="Name"                   value="Seam Remoting HelloWorld Example"/>
     <property name="example.name"           value="seam-helloworld"/>
 
-	<fileset id="web.xml.file"
-	       file="resources/WEB-INF/web.xml"/>
-
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">
       <include name="**/*"/>
     </zipfileset>
+    
     <zipfileset id="example.war.webinf"
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
         <patternset refid="meta.files"/>
-     </zipfileset>
+    </zipfileset>
+     
     <zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
                dir="../../../facelets/lib">
         <include name="*.jar"/>
     </zipfileset>
+    
     <zipfileset id="example.war.webinf.lib.extra" 
             prefix="WEB-INF/lib"
                dir=".">

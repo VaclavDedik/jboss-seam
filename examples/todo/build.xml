@@ -6,9 +6,6 @@
     <property name="Name"                   value="Seam Todo List Example"/>
     <property name="example.name"           value="jboss-seam-todo"/>
 
-	<fileset id="web.xml.file"
-	       file="resources/WEB-INF/web.xml"/>
-
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">
@@ -26,6 +23,7 @@
                dir="resources/WEB-INF">
         <include name="_NONE_"/>
     </zipfileset>
+	
     <zipfileset id="example.war.webinf.lib.extra" 
             prefix="WEB-INF/lib"
                dir=".">
@@ -57,6 +55,7 @@
                dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
+        <include name="web.xml"/>
     </zipfileset>
     
     <fileset id="example.tomcat.resources"

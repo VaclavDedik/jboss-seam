@@ -41,10 +41,13 @@
         <param-value>seam-stories/#{ejbName}/local</param-value>
     </context-param>
 
-    
+    <context-param>
+        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
+        <param-value>@myFacesLifecycleBug@</param-value>
+    </context-param>
+
 
     <!-- MyFaces -->
-
 
     <listener>
         <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
