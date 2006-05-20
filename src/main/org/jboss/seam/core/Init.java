@@ -42,6 +42,7 @@ public class Init
    private boolean jbpmInstalled;
    private String jndiPattern;
    private boolean debug;
+   private boolean myFacesLifecycleBug;
    
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
@@ -175,6 +176,16 @@ public class Init
    public void setDebug(boolean debug)
    {
       this.debug = debug;
+   }
+   
+   public boolean isMyFacesLifecycleBug()
+   {
+      return myFacesLifecycleBug;
+   }
+   
+   public void setMyFacesLifecycleBug(boolean myFacesLifecycleBugExists)
+   {
+      this.myFacesLifecycleBug = myFacesLifecycleBugExists;
    }
 
 }

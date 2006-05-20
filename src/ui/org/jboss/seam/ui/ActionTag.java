@@ -15,9 +15,9 @@
  */
 package org.jboss.seam.ui;
 
-import org.apache.myfaces.taglib.UIComponentTagBase;
-
 import javax.faces.component.UIComponent;
+
+import org.apache.myfaces.shared_impl.taglib.UIComponentTagBase;
 
 
 public class ActionTag

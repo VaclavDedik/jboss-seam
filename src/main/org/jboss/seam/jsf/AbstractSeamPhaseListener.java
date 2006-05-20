@@ -104,7 +104,12 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          //we need to call beforeSaveState(), since the
          //component tree will not get rendered
          storeAnyConversationContext(facesContext);
-         Lifecycle.endRequest( facesContext.getExternalContext() ); //MyFaces bug: ?
+         
+         //workaround for a bug in MyFaces prior to 1.1.3
+         if ( Init.instance().isMyFacesLifecycleBug() ) 
+         {
+            Lifecycle.endRequest( facesContext.getExternalContext() );
+         }
       }
       else //if the page actions did not call responseComplete()
       {

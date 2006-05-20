@@ -17,7 +17,7 @@ package org.jboss.seam.ui;
 
 import javax.faces.component.UIComponent;
 
-import org.apache.myfaces.taglib.html.HtmlDataTableTagBase;
+import org.apache.myfaces.shared_impl.taglib.html.HtmlDataTableTagBase;
 
 /**
  * @author Gavin King
