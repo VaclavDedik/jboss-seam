@@ -59,6 +59,8 @@
 
     <property name="javac.debug"          value="true"/>
     <property name="javac.deprecation"    value="false"/>
+	
+	<property name="jbossHasMyFacesLifecycleBug" value="true"/>
 
     <path id="example.path" />
     
@@ -598,29 +600,24 @@
     </fileset>
 
     <target name="war" depends="compile">
-        
+
         <copy todir="${build.dir}/resources/WEB-INF">
-            <fileset refid="web.xml.file"/>
-            <filterset>
+            <fileset refid="example.war.webinf"/>
+            <filterset filtersfile="resources/WEB-INF/web.xml">
                 <filter token="jndiPattern" value="${example.name}/#{ejbName}/local"/>
                 <filter token="embeddedEjb" value=""/>
                 <filter token="microcontainer" value=""/>
+                <filter token="myFacesLifecycleBug" value="${jbossHasMyFacesLifecycleBug}"/>
             </filterset>
         </copy>
         
         <jar destfile="${build.dir}/${example.name}.war">
             <zipfileset refid="example.war.docroot"/>
-            <zipfileset refid="example.war.webinf"/>
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset refid="example.war.webinf.lib.extra"/>
             <zipfileset dir="${build.dir}/resources">
-                <include name="WEB-INF/web.xml"/>
+                <include name="WEB-INF/**/*.*"/>
             </zipfileset>
-            <!--
-            <manifest>
-                <attribute name="Class-Path" value="${name}.jar"/>
-            </manifest>
-            -->
         </jar>
         
     </target>
@@ -687,11 +684,12 @@
         </jar>
         
         <copy todir="${build.dir}/resources/WEB-INF">
-            <fileset refid="web.xml.file"/>
+            <fileset refid="example.tomcat.war.webinf"/>
             <filterset>
                 <filter token="jndiPattern" value="#{ejbName}/local"/>
                 <filter token="embeddedEjb" value="org.jboss.seam.core.Ejb"/>
                 <filter token="microcontainer" value="org.jboss.seam.core.Microcontainer"/>
+            	<filter token="myFacesLifecycleBug" value="false"/>
             </filterset>
         </copy>
         
@@ -701,9 +699,8 @@
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset refid="example.war.webinf.lib.extra"/>
-            <zipfileset refid="example.tomcat.war.webinf"/>
             <zipfileset dir="${build.dir}/resources">
-                <include name="WEB-INF/web.xml"/>
+                <include name="WEB-INF/**/*.*"/>
             </zipfileset>
             <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
                 <include name="${example.name}.jar"/>
