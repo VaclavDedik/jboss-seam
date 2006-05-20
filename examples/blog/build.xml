@@ -6,9 +6,6 @@
     <property name="Name"                   value="Seam Blog Example"/>
     <property name="example.name"           value="jboss-seam-blog"/>
 
-	<fileset id="web.xml.file"
-	       file="resources/WEB-INF/web.xml"/>
-
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
                dir="view">
@@ -72,6 +69,7 @@
     <zipfileset id="example.tomcat.war.webinf"
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
+        <include name="web.xml"/>
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
     </zipfileset>

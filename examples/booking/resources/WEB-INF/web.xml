@@ -11,6 +11,11 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
     
+    <context-param>
+        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
+        <param-value>@myFacesLifecycleBug@</param-value>
+    </context-param>
+
     <!-- Propagate conversations across redirects -->
     <filter>
         <filter-name>Seam Redirect Filter</filter-name>

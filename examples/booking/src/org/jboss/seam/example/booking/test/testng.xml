@@ -20,6 +20,12 @@
      </classes>
    </test>
 	
+   <test name="Switch Conversation">
+     <classes>
+       <class name="org.jboss.seam.example.booking.test.SwitchConversationTest"/>
+     </classes>
+   </test>
+	
    <test name="Booking Unit">
      <classes>
        <class name="org.jboss.seam.example.booking.test.BookingUnitTest"/>
