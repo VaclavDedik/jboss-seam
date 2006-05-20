@@ -2,9 +2,7 @@ package actions;
 
 import java.io.IOException;
 
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.core.Redirect;
 
 /**
  * Handles submission of the search box,
@@ -16,18 +14,8 @@ import org.jboss.seam.core.Redirect;
 public class SearchAction 
 {
    
-   @In(create=true) 
-   private Redirect redirect;
-   
    private String searchPattern;
    
-   public void search() throws IOException
-   {
-      redirect.setViewId("/search.xhtml");
-      redirect.setParameter("searchPattern", searchPattern);
-      redirect.execute();
-   }
-
    public String getSearchPattern()
    {
       return searchPattern;
@@ -36,6 +24,11 @@ public class SearchAction
    public void setSearchPattern(String searchPattern)
    {
       this.searchPattern = searchPattern;
+   }
+
+   public String search() throws IOException
+   {
+      return "/search.xhtml?searchPattern=#{searchAction.searchPattern}";
    }
 
 }
