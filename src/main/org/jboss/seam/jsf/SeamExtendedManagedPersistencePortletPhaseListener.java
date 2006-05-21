@@ -77,7 +77,7 @@ public class SeamExtendedManagedPersistencePortletPhaseListener extends SeamPort
    private void commit() {
       try 
       {
-         if ( Transactions.isTransactionActive() )
+         if ( Transactions.isTransactionActiveOrMarkedRollback() )
          {
             log.debug("committing transaction");
             Transactions.getUserTransaction().commit();

@@ -85,7 +85,7 @@ public class SeamTransactionManagedPersistencePhaseListener extends SeamPhaseLis
    private void commit(PhaseId phaseId) {
       try
       {
-         if ( Transactions.isTransactionActive() )
+         if ( Transactions.isTransactionActiveOrMarkedRollback() )
          {
             log.debug( "Committing transaction after phase: " + phaseId );
             Transactions.getUserTransaction().commit();
