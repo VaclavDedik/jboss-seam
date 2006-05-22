@@ -4,13 +4,6 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                             "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 <faces-config>
 
-    <navigation-rule>
-        <navigation-case>
-            <from-outcome>success</from-outcome>
-            <to-view-id>/todo.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-
 	<!-- Phase listener needed for all Seam applications -->
 	
 	<lifecycle>

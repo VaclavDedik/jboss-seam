@@ -23,6 +23,6 @@ public class Login {
    public String login()
    {
       actor.setId(user);
-      return "success";
+      return "/todo.jsp";
    }
 }
