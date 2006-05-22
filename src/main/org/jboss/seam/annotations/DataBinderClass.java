@@ -8,6 +8,15 @@ import java.lang.annotation.Target;
 
 import org.jboss.seam.databinding.DataBinder;
 
+/**
+ * Meta-annotation that specifies that an annotation
+ * is a databinding annotation, ie. that it results
+ * in outjection of a wrapped representation of the
+ * annotated component attribute value.
+ * 
+ * @see org.jboss.seam.databinding.DataBinder
+ * @author Gavin King
+ */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented

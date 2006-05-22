@@ -9,6 +9,15 @@ import java.lang.annotation.Target;
 
 import org.jboss.seam.databinding.DataSelector;
 
+/**
+ * Meta-annotation that specifies that an annotation
+ * is a dataselection annotation, ie. that it results
+ * in injection of the selected item of some databound
+ * data.
+ * 
+ * @see org.jboss.seam.databinding.DataSelector
+ * @author Gavin King
+ */
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
