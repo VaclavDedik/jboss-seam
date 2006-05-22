@@ -10,6 +10,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.DataBinderClass;
+import org.jboss.seam.databinding.DataModelBinder;
 
 /**
  * Outjects a List to the same scope as the owning component
@@ -24,6 +26,7 @@ import org.jboss.seam.ScopeType;
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
 @Documented
+@DataBinderClass(DataModelBinder.class)
 public @interface DataModel
 {
    /**

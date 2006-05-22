@@ -9,6 +9,9 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.jboss.seam.annotations.DataSelectorClass;
+import org.jboss.seam.databinding.DataModelIndexSelector;
+
 /**
  * Injects the selected row index of a ListDataModel. Intended
  * for use with @DataModel.
@@ -18,6 +21,7 @@ import java.lang.annotation.Target;
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
 @Documented
+@DataSelectorClass(DataModelIndexSelector.class)
 public @interface DataModelSelectionIndex
 {
    /**

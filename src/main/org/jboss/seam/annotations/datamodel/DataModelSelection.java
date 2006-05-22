@@ -9,6 +9,9 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.jboss.seam.annotations.DataSelectorClass;
+import org.jboss.seam.databinding.DataModelSelector;
+
 /**
  * Injects the selected row data of a ListDataModel. Intended
  * for use with @DataModel.
@@ -18,6 +21,7 @@ import java.lang.annotation.Target;
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
 @Documented
+@DataSelectorClass(DataModelSelector.class)
 public @interface DataModelSelection
 {
    /**
