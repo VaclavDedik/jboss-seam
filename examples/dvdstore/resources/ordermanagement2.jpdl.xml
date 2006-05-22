@@ -6,28 +6,31 @@
         <transition to="approval"/>
     </start-state>
 
-    <task-node name="approval">
+    <task-node name="approval" end-tasks="true">
         <task name="approve" description="Review order">
-           <assignment pooled-actors="reviewers" />
+           <assignment pooled-actors="reviewers"/>
         </task>
         <!--
         <task name="approve">
            <assignment actor-id="manager"/>
         </task>
         -->
+        <transition name="cancel"  to="cancelled"/>
         <transition name="approve" to="process"/>
-        <transition name="reject"  to="complete"/>
+        <transition name="reject"  to="cancelled"/>
     </task-node>
 
     <task-node name="process">
         <task name="ship" description="Ship order">
-           <assignment pooled-actors="#{shipperAssignment.pooledActors}" />
+           <assignment pooled-actors="#{shipperAssignment.pooledActors}"/>
         </task>
         <transition name="shipped" to="complete">
-            <action expression="#{afterShipping.log}" />
+            <action expression="#{afterShipping.log}"/>
         </transition>
     </task-node>
 
     <end-state name="complete"/>
+    
+    <end-state name="cancelled"/>
     
 </process-definition>

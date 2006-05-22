@@ -24,6 +24,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
+import org.jboss.seam.core.ManagedJbpmContext;
+import org.jbpm.JbpmContext;
+import org.jbpm.graph.exe.ProcessInstance;
 
 import com.jboss.dvd.seam.Order.Status;
 
@@ -61,12 +64,25 @@ public class ShowOrdersAction
 
 
     public String cancelOrder() {
+        order = em.merge(orders.get(index));
+       
         if (order.getStatus() != Status.OPEN) {
             return null;
         }
 
-        order = em.merge(order);
         order.setStatus(Status.CANCELLED);
+        
+        JbpmContext context = ManagedJbpmContext.instance();
+
+        ProcessInstance pi = (ProcessInstance) context.getSession()
+              .createQuery("select pi from LongInstance si join si.processInstance pi " +
+                          "where si.name = 'orderId' and si.value = :orderId")
+              .setLong("orderId", order.getOrderId())
+              .uniqueResult();
+        
+        pi.signal("cancel");
+        
+        context.save(pi);
         
         return findOrders();
     }

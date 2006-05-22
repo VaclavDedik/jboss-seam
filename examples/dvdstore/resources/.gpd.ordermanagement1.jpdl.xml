@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process-diagram name="OrderManagement" width="831" height="704">
+<process-diagram name="OrderManagement" width="859" height="792">
   <node name="start" x="89" y="49" width="140" height="40">
     <transition>
       <label x="5" y="-10"/>
@@ -10,6 +10,10 @@
     <transition name="shipped">
       <label x="5" y="-10"/>
     </transition>
+    <transition name="cancel">
+      <label x="1" y="-23"/>
+    </transition>
   </node>
   <node name="complete" x="89" y="444" width="140" height="40"/>
+  <node name="cancelled" x="335" y="299" width="140" height="40"/>
 </process-diagram>

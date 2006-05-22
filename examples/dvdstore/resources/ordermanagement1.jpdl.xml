@@ -6,14 +6,16 @@
         <transition to="process"/>
     </start-state>
 
-    <task-node name="process">
+    <task-node name="process" end-tasks="true">
         <task name="ship" description="Ship order">
-           <assignment pooled-actors="#{shipperAssignment.pooledActors}" />
+           <assignment pooled-actors="#{shipperAssignment.pooledActors}"/>
         </task>
         <transition name="shipped" to="complete">
-            <action expression="#{afterShipping.log}" />
+            <action expression="#{afterShipping.log}"/>
         </transition>
+        <transition name="cancel" to="cancelled"/>
     </task-node>
 
     <end-state name="complete"/>
+    <end-state name="cancelled"/>
 </process-definition>

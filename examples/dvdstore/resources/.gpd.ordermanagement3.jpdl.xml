@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process-diagram name="OrderManagement" width="831" height="794">
+<process-diagram name="OrderManagement" width="838" height="602">
   <node name="start" x="52" y="34" width="140" height="40">
     <transition>
       <label x="5" y="-10"/>
@@ -15,11 +15,15 @@
     </transition>
   </node>
   <node name="approval" x="255" y="238" width="159" height="40">
+    <transition name="cancel">
+      <label x="5" y="-10"/>
+    </transition>
     <transition name="approve">
       <label x="-46" y="-28"/>
     </transition>
     <transition name="reject">
-      <label x="71" y="-85"/>
+      <label x="18" y="16"/>
+      <bendpoint w1="114" h1="40" w2="-21" h2="-74"/>
     </transition>
   </node>
   <node name="process" x="50" y="370" width="148" height="40">
@@ -28,4 +32,5 @@
     </transition>
   </node>
   <node name="complete" x="53" y="561" width="140" height="40"/>
+  <node name="cancelled" x="399" y="352" width="140" height="40"/>
 </process-diagram>

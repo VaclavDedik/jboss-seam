@@ -11,12 +11,13 @@
         <transition name="small order" to="process"/>
     </decision>
 
-    <task-node name="approval">
+    <task-node name="approval" end-tasks="true">
         <task name="approve" description="Review order">
-           <assignment pooled-actors="reviewers" />
+           <assignment pooled-actors="reviewers"/>
         </task>
+        <transition name="cancel"  to="cancelled"/>
         <transition name="approve" to="process"/>
-        <transition name="reject"  to="complete"/>
+        <transition name="reject"  to="cancelled"/>
     </task-node>
     
     <task-node name="process">
@@ -29,5 +30,6 @@
     </task-node>
     
     <end-state name="complete"/>
+    <end-state name="cancelled"/>
     
 </process-definition>
