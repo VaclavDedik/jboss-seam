@@ -61,7 +61,6 @@ public class Order
         return (orderLines == null) || (orderLines.size()==0);
     }
     
-
     @OneToMany(mappedBy="order", cascade=CascadeType.ALL)
     public List<OrderLine> getOrderLines() {
         return orderLines;
@@ -85,7 +84,6 @@ public class Order
 
         orderLines.add(line);
     }
-
 
     public void removeProduct(Product product) {
         for (OrderLine line: orderLines) {
@@ -165,21 +163,22 @@ public class Order
         setTotalAmount(getNetAmount() + getTax());
     }
 
-
     public void cancel() {
-        setStatus(Order.Status.CANCELLED);
+        setStatus(Status.CANCELLED);
     }
 
     public void process() {
-        setStatus(Order.Status.PROCESSING);
+        setStatus(Status.PROCESSING);
     }
 
     public void ship(String tracking) {
-        setStatus(Order.Status.SHIPPED);
+        setStatus(Status.SHIPPED);
         setTrackingNumber(tracking);
     }
-
-
-
+    
+    @Transient
+    public boolean isOpen() {
+       return status == Status.OPEN;
+    }
 
 }
