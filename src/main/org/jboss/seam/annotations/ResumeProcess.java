@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 
 /**
  * Marks a method as causing jBPM {@link org.jbpm.graph.exe.ProcessInstance process}
- * to be resumed.  Essentially this simply re-associates the jBPM
+ * to be resumed. Essentially this simply re-associates the jBPM
  * {@link org.jbpm.context.exe.ContextInstance} with the current
  * {@link org.jboss.seam.contexts.BusinessProcessContext}.
  */
