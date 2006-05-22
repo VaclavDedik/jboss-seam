@@ -43,11 +43,17 @@ public class SeamExceptionFilter implements Filter
       try
       {
          chain.doFilter(request, response);
+         
+         //There is a bug in JBoss AS where JBoss does not clean up
+         //any orphaned tx at the end of the request. It is possible
+         //that a Seam-managed tx could be left orphaned if, eg.
+         //facelets handles an exceptions and displays the debug page.
+         rollbackTransactionIfNecessary(); 
       }
       catch (Exception e)
       {
          log.error("uncaught exception handled by Seam", e);
-         rollbackAfterException();
+         rollbackTransactionIfNecessary();
          endWebRequestAfterException(request);
          throw new ServletException(e);
       }
@@ -71,7 +77,7 @@ public class SeamExceptionFilter implements Filter
       }
    }
 
-   private void rollbackAfterException()
+   private void rollbackTransactionIfNecessary()
    {
       try {
          if ( Transactions.isTransactionActiveOrMarkedRollback() )

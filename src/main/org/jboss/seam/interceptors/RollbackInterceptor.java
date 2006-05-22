@@ -14,7 +14,7 @@ import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.util.Transactions;
 
 /**
- * Automatically sets transactions to rollback.
+ * Automatically sets transactions to rollback only.
  * 
  * @author Gavin King
  */
