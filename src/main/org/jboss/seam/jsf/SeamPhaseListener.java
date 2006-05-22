@@ -8,7 +8,9 @@ package org.jboss.seam.jsf;
 
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
+import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 
@@ -18,6 +20,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.util.Transactions;
 
 /**
  * Manages the Seam contexts associated with a JSF request.
@@ -58,8 +61,23 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(facesContext);
+      }      
+      else if ( event.getPhaseId() == INVOKE_APPLICATION )
+      {
+         try
+         {
+            if ( Transactions.isTransactionMarkedRollback() )
+            {
+               FacesMessages.instance().addFromResourceBundle(
+                        FacesMessage.SEVERITY_WARN, 
+                        "org.jboss.seam.TransactionFailed", 
+                        "Transaction failed"
+                     );
+            }
+         }
+         catch (Exception e) {} //swallow silently, not important
       }
-      
+            
       //has to happen after, since restoreAnyConversationContext() 
       //can add messages
       FacesMessages.afterPhase();

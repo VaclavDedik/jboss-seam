@@ -37,7 +37,7 @@ public class SorterNew<T>
 		list.remove(item);
 		for (SortItem<T> o: list)
       {
-			o.getAround().remove(item);
+			o.getWithin().remove(item);
 		}
 	}
    
@@ -46,7 +46,7 @@ public class SorterNew<T>
 		SortItem<T> res=null;
 		for (SortItem<T> o: list)
       {
-			if ( o.getAround().isEmpty() && testNobodyWantsWithin(o) )
+			if ( o.getWithin().isEmpty() && testNobodyWantsAround(o) )
          {
 				res = o;
 				break;
@@ -55,12 +55,12 @@ public class SorterNew<T>
 		return res;
 	}
    
-	private boolean testNobodyWantsWithin(SortItem<T> item)
+	private boolean testNobodyWantsAround(SortItem<T> item)
    {
 		boolean res = true;
 		for (SortItem<T> o: list)
       {
-			if ( o.getWithin().contains(item) )
+			if ( o.getAround().contains(item) )
          {
 				res = false;
 				break;

@@ -24,13 +24,14 @@ public class SeamExtendedManagedPersistencePortletPhaseListener extends SeamPort
    @Override
    public void beforePhase(PhaseEvent event)
    {
-      boolean beginTran = event.getPhaseId()==PhaseId.RESTORE_VIEW || 
-            event.getPhaseId()==PhaseId.RENDER_RESPONSE || 
-            event.getPhaseId()==PhaseId.INVOKE_APPLICATION;
+      PhaseId phaseId = event.getPhaseId();
+      boolean beginTran = phaseId==PhaseId.RESTORE_VIEW || 
+            phaseId==PhaseId.RENDER_RESPONSE || 
+            phaseId==PhaseId.INVOKE_APPLICATION;
       
       if ( beginTran ) 
       {
-         begin();
+         begin(phaseId);
       }
       
       super.beforePhase( event );
@@ -39,13 +40,14 @@ public class SeamExtendedManagedPersistencePortletPhaseListener extends SeamPort
    @Override
    public void afterPhase(PhaseEvent event)
    {
-      boolean commitTran = event.getPhaseId()==PhaseId.INVOKE_APPLICATION || 
+      PhaseId phaseId = event.getPhaseId();
+      boolean commitTran = phaseId==PhaseId.INVOKE_APPLICATION || 
             event.getFacesContext().getRenderResponse() ||
-            event.getPhaseId()==PhaseId.RENDER_RESPONSE;
+            phaseId==PhaseId.RENDER_RESPONSE;
       
       if (commitTran)
       { 
-         commit(); //we commit before destroying contexts, cos the contexts have the PC in them
+         commit(phaseId); //we commit before destroying contexts, cos the contexts have the PC in them
       }
 
       super.afterPhase( event );      
@@ -54,16 +56,16 @@ public class SeamExtendedManagedPersistencePortletPhaseListener extends SeamPort
    @Override
    protected void afterPageActions()
    {
-      commit();
-      begin();
+      commit(PhaseId.INVOKE_APPLICATION);
+      begin(PhaseId.INVOKE_APPLICATION);
    }
 
-   private void begin() {
+   private void begin(PhaseId phaseId) {
       try 
       {
          if ( !Transactions.isTransactionActiveOrMarkedRollback() )
          {
-            log.debug("beginning transaction");
+            log.debug("beginning transaction prior to phase: " + phaseId);
             Transactions.getUserTransaction().begin();
          }
       }
@@ -74,13 +76,18 @@ public class SeamExtendedManagedPersistencePortletPhaseListener extends SeamPort
       }
    }
 
-   private void commit() {
+   private void commit(PhaseId phaseId) {
       try 
       {
-         if ( Transactions.isTransactionActiveOrMarkedRollback() )
+         if ( Transactions.isTransactionActive() )
          {
-            log.debug("committing transaction");
+            log.debug("committing transaction after phase: " + phaseId);
             Transactions.getUserTransaction().commit();
+         }
+         else if ( Transactions.isTransactionMarkedRollback() )
+         {
+            log.debug("rolling back transaction after phase: " + phaseId);
+            Transactions.getUserTransaction().rollback();
          }
       }
       catch (Exception e)

@@ -31,6 +31,11 @@ public class Transactions
       return status==Status.STATUS_ACTIVE || status == Status.STATUS_MARKED_ROLLBACK;
    }
    
+   public static boolean isTransactionMarkedRollback() throws SystemException, NamingException
+   {
+      return getUserTransaction().getStatus() == Status.STATUS_MARKED_ROLLBACK;
+   }
+   
    public static TransactionManager getTransactionManager() throws NamingException
    {
       return (TransactionManager) Naming.getInitialContext().lookup(transactionManagerName);

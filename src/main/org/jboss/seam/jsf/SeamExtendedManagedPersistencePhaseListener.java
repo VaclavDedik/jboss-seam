@@ -49,7 +49,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       
       if (commitTran)
       { 
-         commit(phaseId); //we commit before destroying contexts, cos the contexts have the PC in them
+         commitOrRollback(phaseId); //we commit before destroying contexts, cos the contexts have the PC in them
       }
 
       super.afterPhase( event );      
@@ -58,7 +58,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    @Override
    protected void afterPageActions()
    {
-      commit(PhaseId.INVOKE_APPLICATION);
+      commitOrRollback(PhaseId.INVOKE_APPLICATION);
       begin(PhaseId.INVOKE_APPLICATION);
    }
 
@@ -78,13 +78,18 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       }
    }
 
-   private void commit(PhaseId phaseId) {
+   private void commitOrRollback(PhaseId phaseId) {
       try 
       {
-         if ( Transactions.isTransactionActiveOrMarkedRollback() )
+         if ( Transactions.isTransactionActive() )
          {
             log.debug("committing transaction after phase: " + phaseId);
             Transactions.getUserTransaction().commit();
+         }
+         else if ( Transactions.isTransactionMarkedRollback() )
+         {
+            log.debug("rolling back transaction after phase: " + phaseId);
+            Transactions.getUserTransaction().rollback();
          }
       }
       catch (Exception e)
