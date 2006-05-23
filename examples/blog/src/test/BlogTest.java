@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.Redirect;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
@@ -46,7 +45,7 @@ public class BlogTest extends SeamTest
          protected void invokeApplication() throws Exception
          {
             PostAction action = (PostAction) Component.getInstance(PostAction.class);
-            assert action.post().equals("success");
+            assert action.post().equals("/index.xhtml");
          }
          
       }.run();
@@ -155,10 +154,8 @@ public class BlogTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            ( (SearchAction) Component.getInstance(SearchAction.class, false) ).search();
-            assert Redirect.instance().getViewId().equals("/search.xhtml");
-            assert Redirect.instance().getParameters().get("searchPattern").equals("seam");
-            assert FacesContext.getCurrentInstance().getResponseComplete();
+            String outcome = ( (SearchAction) Component.getInstance(SearchAction.class, false) ).search();
+            assert outcome.equals("/search.xhtml?searchPattern=#{searchAction.searchPattern}");
          }
          
       }.run();

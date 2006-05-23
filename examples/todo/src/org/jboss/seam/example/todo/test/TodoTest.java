@@ -37,7 +37,7 @@ public class TodoTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            assert "success".equals( ( (Login) Component.getInstance(Login.class, false) ).login() );
+            assert "/todo.jsp".equals( ( (Login) Component.getInstance(Login.class, false) ).login() );
             assert Actor.instance().getId().equals("gavin");
          }
 
