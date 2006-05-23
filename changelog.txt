@@ -1,8 +1,19 @@
 JBoss Seam Changelog
 ====================
-Changes in version 1.0.0.CR2 (April 2006)
------------------------------------------
+Changes in version 1.0.0.CR3 (May 2006)
+---------------------------------------
+* allow JSF view id as an action outcome
 * Fix bugs with pageflow backbutton handling
+* generalization of the @DataModel functionality to allow integration of databinding architectures
+* Seam debug page now deployable as seam-debug.jar
+* Fix a bug in interceptor ordering (Denis Karpov)
+* Upgrade to MyFaces 1.1.3 (with switch for compatibility to 1.1.1) and JBoss AS 4.0.4.GA
+* Allow multiple event types in @Observer
+* Fixed a bug in s:link conversation propagation
+* Fixed a bug in seam-managed transaction handling
+* Fixed a bug in Redirect
+* Fixed a bug where some built-in components were not serializable
+* Added Interpolator
 
 Changes in version 1.0.0.CR1 (April 2006)
 -----------------------------------------
