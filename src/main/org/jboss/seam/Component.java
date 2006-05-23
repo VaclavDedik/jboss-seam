@@ -730,17 +730,10 @@ public class Component
 
    public void inject(Object bean/*, boolean isActionInvocation*/)
    {
-      try
-      {
-         injectMethods(bean/*, isActionInvocation*/);
-         injectFields(bean/*, isActionInvocation*/);
-         injectDataModelSelection(bean);
-         injectParameters(bean);
-      }
-      catch (RuntimeException e)
-      {
-         e.printStackTrace();
-      }
+      injectMethods(bean/*, isActionInvocation*/);
+      injectFields(bean/*, isActionInvocation*/);
+      injectDataModelSelection(bean);
+      injectParameters(bean);
    }
 
    private void injectParameters(Object bean)
