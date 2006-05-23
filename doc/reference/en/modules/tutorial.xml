@@ -1342,7 +1342,7 @@ public class Login {
    public String login()
    {
       actor.setId(user);
-      return "success";
+      return "/todo.jsp";
    }
 }]]></programlisting>
         </example>
@@ -2465,11 +2465,39 @@ public class HotelBookingAction implements HotelBooking
     </section>
     
     <section>
+        <title>The Seam UI control library</title>
+        <para>
+            If you check inside the WAR file for the booking application, you'll find <literal>seam-ui.jar</literal>
+            in the <literal>WEB-INF/lib</literal> directory. This package contains a number of JSF custom
+            controls that integrate with Seam. The booking application uses the <literal>&lt;s:link&gt;</literal>
+            control for navigation from the search screen to the hotel page:
+        </para>
+        
+        <programlisting><![CDATA[<s:link value="View Hotel" action="#{hotelBooking.selectHotel}"/>]]></programlisting>
+        
+        <para>
+            The use of <literal>&lt;s:link&gt;</literal> here allows us to attach an action listener
+            to a HTML link without breaking the browser's "open in new window" feature. The standard
+            JSF <literal>&lt;h:commandLink&gt;</literal> does not work with "open in new window".
+        </para>
+    </section>
+    
+    <section>
         <title>The Seam Debug Page</title>
         
         <para>
-            In the <literal>examples/booking/view</literal> directory you will find a facelets page
-            called <literal>debug.xhtml</literal>. This page lets you browse and inspect the Seam 
+            The WAR also includes <literal>seam-debug.jar</literal>. If this jar is deployed in 
+            <literal>WEB-INF/lib</literal>, along with the Facelets, and if you set the following Seam 
+            property in <literal>web.xml</literal> or <literal>seam.properties</literal>:
+        </para>
+
+        <programlisting><![CDATA[<context-param>
+        <param-name>org.jboss.seam.core.init.debug</param-name>
+        <param-value>true</param-value>
+    </context-param>]]></programlisting>
+    
+        <para>
+            Then the Seam debug page will be available. This page lets you browse and inspect the Seam 
             components in any of the Seam contexts associated with your current login session. Just
             point your browser at <ulink url="http://localhost:8080/seam-booking/debug.seam"><literal>http://localhost:8080/seam-booking/debug.seam</literal></ulink>.
         </para>
@@ -2482,10 +2510,6 @@ public class HotelBookingAction implements HotelBooking
             <imagedata fileref="../shared/images/debug.png" align="center"/>
           </imageobject>
         </mediaobject>
-        
-        <para>
-            You can include this page in your own applications.
-        </para>
         
     </section>
     
@@ -2731,6 +2755,41 @@ public class BlogService
           request parameters.
       </para>
       
+      <para>
+          You can either use a templated outcome, with JSF EL expressions as the request parameter
+          values:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[@Name("searchAction")
+public class SearchAction 
+{
+   
+   private String searchPattern;
+   
+   public String getSearchPattern()
+   {
+      return searchPattern;
+   }
+
+   public void setSearchPattern(String searchPattern)
+   {
+      this.searchPattern = searchPattern;
+   }
+
+   public String search()
+   {
+      return "/search.xhtml?searchPattern=#{searchAction.searchPattern}");
+   }
+
+}]]></programlisting>
+      </example>
+      
+      <para>
+          Or, if that feels too magical, you can inject and call the <literal>redirect</literal>
+          component directly:
+      </para>
+
       <example>
       <programlisting><![CDATA[@Name("searchAction")
 public class SearchAction 
@@ -2741,13 +2800,6 @@ public class SearchAction
    
    private String searchPattern;
    
-   public void search() throws IOException
-   {
-      redirect.setViewId("/search.xhtml");
-      redirect.setParameter("searchPattern", searchPattern);
-      redirect.execute();
-   }
-
    public String getSearchPattern()
    {
       return searchPattern;
@@ -2756,6 +2808,13 @@ public class SearchAction
    public void setSearchPattern(String searchPattern)
    {
       this.searchPattern = searchPattern;
+   }
+
+   public void search()
+   {
+      redirect.setViewId("/search.xhtml");
+      redirect.setParameter("searchPattern", searchPattern);
+      redirect.execute();
    }
 
 }]]></programlisting>
@@ -2854,7 +2913,7 @@ public class EntryAction
    private BlogEntry blogEntry;
 
    
-   public void getBlogEntry() throws IOException
+   public void getBlogEntry()
    {
       blogEntry = blog.getBlogEntry(blogEntryId);
       if (blogEntry==null)
