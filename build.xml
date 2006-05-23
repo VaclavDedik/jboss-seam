@@ -20,10 +20,12 @@
     <property name="build.dir"            value="build"/>
     <property name="classes.dir"          value="${build.dir}/classes"/>    
     <property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
+	<property name="debugclasses.dir"        value="${build.dir}/debugclasses"/>
     <property name="coverage.dir"         value="${build.dir}/coverage"/>
 
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
+	<property name="src.debug.dir"        value="src/debug"/>
     <property name="src.test.dir"         value="src/test"/>
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
@@ -46,6 +48,7 @@
     <property name="dist.ref.dir"         value="${dist.dir}/doc/reference"/>
     <property name="dist.src.java.dir"    value="${dist.dir}/src/main"/>
     <property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
+	<property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
     <property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
     <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
@@ -65,23 +68,28 @@
     <path id="example.path" />
     
     <fileset id="lib" 
-            dir="${lib.dir}">
+            dir="${lib.dir}"
+        description="compile-time dependencies">
         <include name="*.jar"/>
     </fileset>
     
     <fileset id="seam.jar" 
-            dir="${imported.basedir}">
+            dir="${imported.basedir}"
+            description="the main Seam jar">
         <include name="${name}.jar" />
     </fileset>
     
-    <fileset id="seam-ui.jar" 
-            dir="${imported.basedir}">
+    <fileset id="extra.seam.jar" 
+            dir="${imported.basedir}"
+            description="the Seam debug and UI jars">
         <include name="${name}-ui.jar" />
+    	<include name="${name}-debug.jar" />
     </fileset>
     
     <zipfileset id="example.tomcat.lib" 
             prefix="WEB-INF/lib"
-               dir="${lib.dir}">
+               dir="${lib.dir}"
+               description="run-time dependencies for tomcat deployment">
         <include name="*.jar"/>
         <exclude name="servlet-api.jar"/>
         <exclude name="javax.servlet.jsp.jar"/>
@@ -266,6 +274,19 @@
         
     </target>
 
+    <target name="initdebug"
+            description="Initialize the build for the debug package">
+        <echo message="Build ${Name} Debug ${version}"/>
+
+        <mkdir dir="${debugclasses.dir}"/>
+        <copy todir="${debugclasses.dir}">
+            <fileset dir="${src.debug.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        
+    </target>
+
     <target name="compile" depends="init"
             description="Compile the Java source code">
         <javac
@@ -289,6 +310,19 @@
             deprecation="${javac.deprecation}"
             nowarn="on">
             <src path="${src.ui.dir}"/>
+        </javac>
+    </target>
+    
+    <target name="compiledebug" depends="initdebug"
+            description="Compile the Java source code for the debug package">
+        <javac
+            destdir="${debugclasses.dir}"
+            classpathref="build.classpath"
+        	classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
+            debug="${javac.debug}"
+            deprecation="${javac.deprecation}"
+            nowarn="on">
+            <src path="${src.debug.dir}"/>
         </javac>
     </target>
     
@@ -382,6 +416,16 @@
                 <patternset refid="src.files"/>
             </fileset>
             <fileset dir="${src.ui.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${dist.src.debug.dir}"/>
+        <copy todir="${dist.src.debug.dir}">
+            <fileset dir="${src.debug.dir}">
+                <patternset refid="src.files"/>
+            </fileset>
+            <fileset dir="${src.debug.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
@@ -496,8 +540,8 @@
         </copy>
     </target>
     
-    <target name="build" depends="jar,jarui"
-        description="Build both distribution .jar files"/>
+    <target name="build" depends="jar,jarui,jardebug"
+        description="Build all three distribution .jar files"/>
 
     <target name="jar" depends="compile"
             description="Build the distribution .jar file">
@@ -527,6 +571,21 @@
             </manifest>
         </jar>
         <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
+        
+    </target>
+
+    <target name="jardebug" depends="compiledebug"
+            description="Build the distribution .jar file for the debug package">
+        <mkdir dir="${dist.dir}"/>
+        
+        <jar jarfile="${basedir}/${name}-debug.jar" basedir="${debugclasses.dir}">
+            <include name="**/*.class"/>
+            <patternset refid="meta.files"/>
+            <manifest>
+                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+            </manifest>
+        </jar>
+        <copy file="${basedir}/${name}-debug.jar" todir="${dist.dir}"/>
         
     </target>
 
@@ -581,7 +640,7 @@
     </target>
 
     <target name="dist"
-        depends="cleandist,jar,jarui,javadoc,copysource,copylib,copyexamples,extras,refdoc"
+        depends="cleandist,build,javadoc,copysource,copylib,copyexamples,extras,refdoc"
         description="Build everything and package">
         <zip zipfile="${dist.dir}.zip">
           <zipfileset prefix="${dist.name}" dir="${dist.dir}"/>
