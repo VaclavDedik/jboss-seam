@@ -122,6 +122,26 @@
     </navigation-case>
 
 </navigation-rule>]]></programlisting>
+
+        <para>
+            If you find navigation rules overly verbose, you can return view ids
+            directly from your action listener methods:
+        </para>
+        
+        <programlisting><![CDATA[public String guess() {
+    if (guess==randomNumber) return "/win.jsp";
+    if (++guessCount==maxGuesses) return "/lose.jsp";
+    return null;
+}]]></programlisting>
+
+        <para>
+            Note that this results in a redirect. You can even specify parameters 
+            to be used in the redirect:
+        </para>
+        
+        <programlisting><![CDATA[public String search() {
+    return "/searchResults.jsp?searchPattern=#{searchAction.searchPattern}";
+}]]></programlisting>
         
         <para>
             The stateful model defines a set of transitions between a set of
