@@ -135,6 +135,9 @@ public class Scanner
          catch (ClassNotFoundException cnfe) {
             log.debug( "could not load class: " + classname, cnfe );
          }
+         catch (NoClassDefFoundError ncdfe) {
+            log.debug( "could not load class (missing dependency): " + classname, ncdfe );
+         }
       }
    }
 }
