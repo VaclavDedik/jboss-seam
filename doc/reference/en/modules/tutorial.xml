@@ -303,7 +303,7 @@ public class User implements Serializable
             </programlistingco>
             <para>
                 The most important things to notice in this example are the <literal>@Name</literal>
-                and <literal>@Scope</literal> annotations. Thes annotations establish that this class
+                and <literal>@Scope</literal> annotations. These annotations establish that this class
                 is a Seam component.
             </para>
             <para>
@@ -370,7 +370,7 @@ public class RegisterAction implements Register
       if (existing.size()==0)
       {
          em.persist(user);
-         return "success";
+         return "/registered.jsp";
       }
       else
       {
@@ -430,7 +430,13 @@ public class RegisterAction implements Register
                     <para>
                         JSF action listener methods return a string-valued outcome that determines what
                         page will be displayed next. A null outcome (or a void action listener method)
-                        redisplays the previous page.
+                        redisplays the previous page. In plain JSF, it is normal to always use a JSF
+                        <emphasis>navigation rule</emphasis> to determine the JSF view id from the 
+                        outcome. For complex application this indirection is useful and a good practice. 
+                        However, for very simple examples like this one, Seam lets you use the JSF view id
+                        as the outcome, eliminating the requirement for a navigation rule. <emphasis>Note
+                        that when you use a view id as an outcome, Seam always performs a browser 
+                        redirect.</emphasis>
                     </para>
                 </callout>
                 <callout arearefs="registration-builtin">
@@ -578,14 +584,6 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                             "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 <faces-config>
 
-    <navigation-rule>
-        <navigation-case>
-            <from-outcome>success</from-outcome>
-            <to-view-id>/registered.jsp</to-view-id>
-            <redirect/>
-        </navigation-case>
-    </navigation-rule>
-
     <!-- A phase listener is needed by all Seam applications -->
     
     <lifecycle>
@@ -598,11 +596,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         <indexterm><primary>phase listener</primary></indexterm>
         
         <para>
-            The <literal>jsf-config.xml</literal> file integrates Seam into JSF and specifies the 
-            single navigation rule for our registration application. Note that there are no managed 
-            bean declarations (they are not needed with Seam). The managed beans are the Seam 
-            components. In Seam applications, the <literal>jsf-config.xml</literal> is used only 
-            for specifying the page flow by mapping logical JSF outcome names to view pages.
+            The <literal>faces-config.xml</literal> file integrates Seam into JSF. Note that we don't
+            need any JSF managed bean declarations! The managed beans are the Seam components. In Seam 
+            applications, the <literal>faces-config.xml</literal> is used much less often than in plain 
+            JSF.
         </para>
         
         <para>
@@ -611,6 +608,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
             rules, and possibly jBPM process definitions. Seam takes the view that 
             <emphasis>process flow</emphasis> and <emphasis>configuration data</emphasis> are the only 
             things that truly belong in XML.
+        </para>
+        
+        <para>
+            In this simple example, we don't even need a navigation rule, since we decided to embed 
+            the view id in our action code.
         </para>
         
       </section>
@@ -801,12 +803,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
           a JSF <literal>FacesMessage</literal> to the view.
       </para>
       <para>
-          If no user with that username exists, the <literal>"success"</literal>
-          outcome triggers our navigation rule, which performs a browser redirect
-          to the <literal>registered.jsp</literal> page. When JSF comes to render 
-          the page, it asks Seam to resolve the variable named <literal>user</literal> 
-          and uses property values of the returned <literal>User</literal> entity 
-          from Seam's session scope.
+          If no user with that username exists, the <literal>"/registered.jsp"</literal>
+          outcome triggers a browser redirect to the <literal>registered.jsp</literal> page. 
+          When JSF comes to render the page, it asks Seam to resolve the variable named 
+          <literal>user</literal> and uses property values of the returned <literal>User</literal> 
+          entity from Seam's session scope.
       </para>
 
     </section>
@@ -943,8 +944,8 @@ public class Message implements Serializable
                     <area id="messages-persistencecontext" coords="14"/>
                     <area id="messages-factory" coords="17"/>
                     <area id="messages-select" coords="23"/>
-                    <area id="messages-delete" coords="29"/>
-                    <area id="messages-remove" coords="37"/>
+                    <area id="messages-delete" coords="28"/>
+                    <area id="messages-remove" coords="35"/>
                 </areaspec>    
           <programlisting><![CDATA[@Stateful
 @Scope(SESSION)
@@ -968,18 +969,16 @@ public class MessageManagerBean implements Serializable, MessageManager
       messageList = em.createQuery("from Message msg order by msg.datetime desc").getResultList();
    }
    
-   public String select()
+   public void select()
    {
       message.setRead(true);
-      return "selected";
    }
    
-   public String delete()
+   public void delete()
    {
       messageList.remove(message);
       em.remove(message);
       message=null;
-      return "deleted";
    }
    
    @Remove @Destory
@@ -1078,8 +1077,8 @@ public class MessageManagerBean implements Serializable, MessageManager
 public interface MessageManager
 {
    public void findMessages();
-   public String select();
-   public String delete();
+   public void select();
+   public void delete();
    public void destroy();
 }]]></programlisting>
        
