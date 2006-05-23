@@ -26,6 +26,11 @@
         <param-value>@myFacesLifecycleBug@</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>org.jboss.seam.core.init.debug</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <!-- 120 second conversation timeout -->
     <context-param>
         <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>

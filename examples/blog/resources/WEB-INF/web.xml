@@ -24,6 +24,11 @@
     </context-param>
 
     <context-param>
+        <param-name>org.jboss.seam.core.init.debug</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
         <param-value>@myFacesLifecycleBug@</param-value>
     </context-param>
