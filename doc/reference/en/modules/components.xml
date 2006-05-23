@@ -108,99 +108,12 @@
     </section>
     
     <section>
-        <title>Components for internationalization</title>
+        <title>Utility components</title>
         <para>
-            The next group of components make it easy to build internationalized user interfaces
-            using Seam.
+            These components are merely useful.
         </para>
         
-    	<variablelist spacing="compact">
-            <varlistentry>
-                <term><literal>locale</literal></term>
-                <listitem>
-                    <para>
-                        The Seam locale. The locale is session scoped.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>resourceBundle</literal></term>
-                <listitem>
-                    <para>
-                        The Seam resource bundle. The resource bundle is session scoped.
-                    </para>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal>resourceBundle.bundleName</literal> &mdash; the name of 
-                            the bundle. Default to <literal>messages</literal>.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>localeSelector</literal></term>
-                <listitem>
-                    <para>
-                        Supports selection of the locale either at configuration time, 
-                        or by the user at runtime.
-                    </para>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal>select()</literal> &mdash; select the specified locale.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>localeSelector.locale</literal> &mdash; the actual
-                            <literal>java.util.Locale</literal>.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>localeSelector.localeString</literal> &mdash; the 
-                            stringified representation of the locale.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>localeSelector.language</literal> &mdash; the language for
-                            the specified locale.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>localeSelector.country</literal> &mdash; the country for
-                            the specified locale.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>localeSelector.variant</literal> &mdash; the variant for
-                            the specified locale.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>localeSelector.supportedLocales</literal> &mdash; a list
-                            of <literal>SelectItem</literal>s representing the supported locales 
-                            listed in <literal>jsf-config.xml</literal>.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>messages</literal></term>
-                <listitem>
-                    <para>
-                        A map containing internationalized messages rendered from message
-                        templates defined in the Seam resource bundle.
-                    </para>
-                </listitem>
-            </varlistentry>
+         <variablelist>
             <varlistentry>
                 <term><literal>facesMessages</literal></term>
                 <listitem>
@@ -297,7 +210,127 @@
                     </para>
                 </listitem>
              </varlistentry>
+            <varlistentry>
+                <term><literal>interpolator</literal></term>
+                <listitem>
+                    <para>
+                        An API for interpolating the values of JSF EL expressions in
+                        Strings.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>interpolate(String template)</literal> &mdash; scan
+                            the template for JSF EL expressions of the form <literal>#{...}</literal>
+                            and replace them with their evaluated values.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+             </varlistentry>
         </variablelist>
+        
+        <para>
+            All of these components are always installed.
+        </para>
+    </section>
+    
+    <section>
+        <title>Components for internationalization</title>
+        <para>
+            The next group of components make it easy to build internationalized user interfaces
+            using Seam.
+        </para>
+        
+    	<variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>locale</literal></term>
+                <listitem>
+                    <para>
+                        The Seam locale. The locale is session scoped.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>resourceBundle</literal></term>
+                <listitem>
+                    <para>
+                        The Seam resource bundle. The resource bundle is session scoped.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>resourceBundle.bundleName</literal> &mdash; the name of 
+                            the bundle. Default to <literal>messages</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>localeSelector</literal></term>
+                <listitem>
+                    <para>
+                        Supports selection of the locale either at configuration time, 
+                        or by the user at runtime.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>select()</literal> &mdash; select the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.locale</literal> &mdash; the actual
+                            <literal>java.util.Locale</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.localeString</literal> &mdash; the 
+                            stringified representation of the locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.language</literal> &mdash; the language for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.country</literal> &mdash; the country for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.variant</literal> &mdash; the variant for
+                            the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.supportedLocales</literal> &mdash; a list
+                            of <literal>SelectItem</literal>s representing the supported locales 
+                            listed in <literal>jsf-config.xml</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>messages</literal></term>
+                <listitem>
+                    <para>
+                        A map containing internationalized messages rendered from message
+                        templates defined in the Seam resource bundle.
+                    </para>
+                </listitem>
+            </varlistentry>
+         </variablelist>
+         
         
         <para>
             All of these components are always installed.
