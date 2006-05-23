@@ -1,117 +1,115 @@
 <?xml version="1.0"?>
 <!DOCTYPE faces-config PUBLIC
-   "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
-   "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
 
 <faces-config>
 
-  <component>
-    <component-type>org.jboss.seam.ui.HtmlQueryTable</component-type>
-    <component-class>org.jboss.seam.ui.HtmlQueryTable</component-class>
-    <property>
-        <property-name>ejbql</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-    <property>
-        <property-name>firstResult</property-name>
-        <property-class>java.lang.Integer</property-class>
-    </property>
-    <property>
-        <property-name>maxResults</property-name>
-        <property-class>java.lang.integer</property-class>
-    </property>
-  </component>
-  
-  <component>
-    <component-type>org.jboss.seam.ui.UIAction</component-type>
-    <component-class>org.jboss.seam.ui.UIAction</component-class>
-    <property>
-        <property-name>action</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-  </component>
-  
-  <component>
-    <component-type>org.jboss.seam.ui.UIConversationId</component-type>
-    <component-class>org.jboss.seam.ui.UIConversationId</component-class>
-  </component>
-  
-  <component>
-    <component-type>org.jboss.seam.ui.UIConversationPropagation</component-type>
-    <component-class>org.jboss.seam.ui.UIConversationPropagation</component-class>
-    <property>
-        <property-name>type</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-    <property>
-        <property-name>pageflow</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-  </component>
-  
-  <component>
-    <component-type>org.jboss.seam.ui.UISelection</component-type>
-    <component-class>org.jboss.seam.ui.UISelection</component-class>
-    <property>
-        <property-name>dataModel</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-  </component>
-  
-  <component>
-    <component-type>org.jboss.seam.ui.UITaskId</component-type>
-    <component-class>org.jboss.seam.ui.UITaskId</component-class>
-    <property>
-        <property-name>task</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-  </component>
-  
-  <component>
-    <component-type>org.jboss.seam.ui.HtmlLink</component-type>
-    <component-class>org.jboss.seam.ui.HtmlLink</component-class>
-    <property>
-        <property-name>value</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-    <property>
-        <property-name>action</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-    <property>
-        <property-name>view</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-    <property>
-        <property-name>propagation</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-    <property>
-        <property-name>pageflow</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-    <property>
-        <property-name>linkStyle</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-    <property>
-        <property-name>buttonClass</property-name>
-        <property-class>java.lang.String</property-class>
-    </property>
-  </component>
-  
-  <component>
-    <component-type>org.jboss.seam.ui.UIValidateAll</component-type>
-    <component-class>org.jboss.seam.ui.UIValidateAll</component-class>
-  </component>
-  
-  <validator>
-    <validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
-    <validator-class>org.jboss.seam.ui.ModelValidator</validator-class>
-  </validator>
-  
-    <lifecycle>
-        <phase-listener>org.jboss.seam.ui.debug.SeamDebugPhaseListener</phase-listener>
-    </lifecycle>
+    <component>
+        <component-type>org.jboss.seam.ui.HtmlQueryTable</component-type>
+        <component-class>
+            org.jboss.seam.ui.HtmlQueryTable
+        </component-class>
+        <property>
+            <property-name>ejbql</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>firstResult</property-name>
+            <property-class>java.lang.Integer</property-class>
+        </property>
+        <property>
+            <property-name>maxResults</property-name>
+            <property-class>java.lang.integer</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIAction</component-type>
+        <component-class>org.jboss.seam.ui.UIAction</component-class>
+        <property>
+            <property-name>action</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIConversationId</component-type>
+        <component-class>org.jboss.seam.ui.UIConversationId</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIConversationPropagation</component-type>
+        <component-class>org.jboss.seam.ui.UIConversationPropagation</component-class>
+        <property>
+            <property-name>type</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>pageflow</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UISelection</component-type>
+        <component-class>org.jboss.seam.ui.UISelection</component-class>
+        <property>
+            <property-name>dataModel</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UITaskId</component-type>
+        <component-class>org.jboss.seam.ui.UITaskId</component-class>
+        <property>
+            <property-name>task</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.HtmlLink</component-type>
+        <component-class>org.jboss.seam.ui.HtmlLink</component-class>
+        <property>
+            <property-name>value</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>action</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>view</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>propagation</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>pageflow</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>linkStyle</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>buttonClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIValidateAll</component-type>
+        <component-class>org.jboss.seam.ui.UIValidateAll</component-class>
+    </component>
+
+    <validator>
+        <validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
+        <validator-class>org.jboss.seam.ui.ModelValidator</validator-class>
+    </validator>
 
 </faces-config>
