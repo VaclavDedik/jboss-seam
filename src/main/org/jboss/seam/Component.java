@@ -54,8 +54,6 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.Within;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelection;
-import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -338,11 +336,9 @@ public class Component
                }
                unwrapMethod = method;
             }
-            if ( method.isAnnotationPresent(DataModel.class) )
+            if ( method.isAnnotationPresent(DataModel.class) ) //TODO: generalize
             {
                checkDataModelScope( method.getAnnotation(DataModel.class) );
-               dataModelGetters.add(method);
-               dataModelGetterAnnotations.put( method, method.getAnnotation(DataModel.class) );
             }
             if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
             {
@@ -359,26 +355,32 @@ public class Component
                   init.addObserverMethod(eventType, method, this);
                }
             }
-            if ( method.isAnnotationPresent(DataModelSelectionIndex.class) )
-            {
-               selectionSetters.add(method);
-               dataModelSelectionSetterAnnotations.put( method, method.getAnnotation(DataModelSelectionIndex.class) );
-            }
-            if ( method.isAnnotationPresent(DataModelSelection.class) )
-            {
-               selectionSetters.add(method);
-               dataModelSelectionSetterAnnotations.put( method, method.getAnnotation(DataModelSelection.class) );
-            }
             if ( method.isAnnotationPresent(RequestParameter.class) )
             {
                parameterSetters.add(method);
             }
+
+            for ( Annotation ann: method.getAnnotations() )
+            {
+               if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
+               {
+                  dataModelGetters.add(method);
+                  dataModelGetterAnnotations.put(method, ann);
+               }
+               if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
+               {
+                  selectionSetters.add(method);
+                  dataModelSelectionSetterAnnotations.put(method, ann);
+               }
+            }
+
             if ( !method.isAccessible() )
             {
                method.setAccessible(true);
             }
-         }
 
+         }
+         
          for (Field field: clazz.getDeclaredFields())
          {
             if ( field.isAnnotationPresent(In.class) )
@@ -389,30 +391,34 @@ public class Component
             {
                outFields.add(field);
             }
-            if ( field.isAnnotationPresent(DataModel.class) )
+            if ( field.isAnnotationPresent(DataModel.class) ) //TODO: generalize
             {
                checkDataModelScope( field.getAnnotation(DataModel.class) );
-               dataModelFields.add(field);
-               dataModelFieldAnnotations.put( field, field.getAnnotation(DataModel.class) );
-            }
-            if ( field.isAnnotationPresent(DataModelSelection.class) )
-            {
-               selectionFields.add(field);
-               dataModelSelectionFieldAnnotations.put( field, field.getAnnotation(DataModelSelection.class) );
-            }
-            if ( field.isAnnotationPresent(DataModelSelectionIndex.class) )
-            {
-               selectionFields.add(field);
-               dataModelSelectionFieldAnnotations.put( field, field.getAnnotation(DataModelSelectionIndex.class) );
             }
             if ( field.isAnnotationPresent(RequestParameter.class) )
             {
                parameterFields.add(field);
             }
+            
+            for ( Annotation ann: field.getAnnotations() )
+            {
+               if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
+               {
+                  dataModelFields.add(field);
+                  dataModelFieldAnnotations.put(field, ann);
+               }
+               if ( ann.annotationType().isAnnotationPresent(DataSelectorClass.class) )
+               {
+                  selectionFields.add(field);
+                  dataModelSelectionFieldAnnotations.put(field, ann);
+               }
+            }
+
             if ( !field.isAccessible() )
             {
                field.setAccessible(true);
             }
+
          }
 
       }
@@ -829,8 +835,8 @@ public class Component
                Annotation dataModelSelectionAnn = dataModelSelectionFieldAnnotations.get(field);
                setFieldValue( bean, field, name, createUnwrapper(dataModelSelectionAnn).getSelection(dataModel) );
             }
-
          }
+         
       }
    }
 
