@@ -35,7 +35,7 @@ public class EntryAction
    private BlogEntry blogEntry;
 
    
-   public void getBlogEntry() throws IOException
+   public void getBlogEntry()
    {
       blogEntry = blog.getBlogEntry(id);
       if (blogEntry==null)

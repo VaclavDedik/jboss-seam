@@ -1,7 +1,5 @@
 package actions;
 
-import java.io.IOException;
-
 import org.jboss.seam.annotations.Name;
 
 /**
@@ -26,7 +24,7 @@ public class SearchAction
       this.searchPattern = searchPattern;
    }
 
-   public String search() throws IOException
+   public String search()
    {
       return "/search.xhtml?searchPattern=#{searchAction.searchPattern}";
    }
