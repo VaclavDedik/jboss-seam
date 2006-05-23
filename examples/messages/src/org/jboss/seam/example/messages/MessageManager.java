@@ -7,7 +7,7 @@ import javax.ejb.Local;
 public interface MessageManager
 {
    public void findMessages();
-   public String select();
-   public String delete();
+   public void select();
+   public void delete();
    public void destroy();
 }

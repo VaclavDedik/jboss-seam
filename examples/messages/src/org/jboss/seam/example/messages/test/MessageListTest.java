@@ -42,7 +42,7 @@ public class MessageListTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception {
             MessageManager ml = (MessageManager) Component.getInstance(MessageManagerBean.class, true);
-            assert ml.select().equals("selected");
+            ml.select();
          }
 
 
@@ -71,7 +71,7 @@ public class MessageListTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception {
             MessageManager ml = (MessageManager) Component.getInstance(MessageManagerBean.class, true);
-            assert ml.delete().equals("deleted");
+            ml.delete();
          }
 
 

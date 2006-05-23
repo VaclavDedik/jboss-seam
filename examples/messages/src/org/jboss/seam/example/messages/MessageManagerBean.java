@@ -42,18 +42,16 @@ public class MessageManagerBean implements Serializable, MessageManager
       messageList = em.createQuery("from Message msg order by msg.datetime desc").getResultList();
    }
    
-   public String select()
+   public void select()
    {
       message.setRead(true);
-      return "selected";
    }
    
-   public String delete()
+   public void delete()
    {
       messageList.remove(message);
       em.remove(message);
       message=null;
-      return "deleted";
    }
    
    @Remove @Destroy
