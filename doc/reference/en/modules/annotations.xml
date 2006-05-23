@@ -916,6 +916,36 @@
             </varlistentry>
         </variablelist>
         
-    </section> 
+    </section>
+    
+    <section>
+        <title>Meta-annotations for databinding</title>
+        <para>
+            These meta-annotations make it possible to implement similar functionality to
+            <literal>@DataModel</literal> and <literal>@DataModelSelection</literal>
+            for other datastructures apart from lists.
+        </para>
+        
+        <variablelist spacing="compact">
+            <varlistentry id="databinderclass-annotation">
+                <term><literal>@DataBinderClass</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@DataBinderClass(DataModelBinder.class)]]></programlisting>
+                    <para>
+                        Specifies that an annotation is a databinding annotation.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="dataselectorclass-annotation">
+                <term><literal>@DataSelectorClass</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@DataSelectorClass(DataModelSelector.class)]]></programlisting>
+                    <para>
+                        Specifies that an annotation is a dataselection annotation.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
 
 </chapter>
