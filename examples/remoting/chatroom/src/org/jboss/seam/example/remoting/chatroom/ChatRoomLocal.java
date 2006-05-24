@@ -9,10 +9,9 @@ import org.jboss.seam.annotations.WebRemote;
 public interface ChatRoomLocal {
   @WebRemote boolean connect(String name);
   @WebRemote void disconnect();
-  @WebRemote String getChatTopicName();
   @WebRemote void sendMessage(String message);
   @WebRemote Set<String> listUsers();
-  
+
   public void destroy();
 }
 

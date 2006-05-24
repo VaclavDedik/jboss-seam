@@ -33,7 +33,9 @@
     <!-- EJB3 -->
     <fileset id="example.ejb3.root"
             dir="resources">
-        <include name="seam.properties"/>
+      <include name="seam.properties"/>
+      <include name="chatroom-service.xml"/>
+    	<include name="META-INF/ejb-jar.xml"/>        
     </fileset>
 
     <!-- EAR -->

@@ -1,7 +1,6 @@
 package org.jboss.seam.example.remoting.chatroom;
 
-import javax.annotation.EJB;
-import javax.interceptor.Interceptors;
+import java.util.Set;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
@@ -13,16 +12,13 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.ejb.SeamInterceptor;
-import java.util.Set;
 
 @Stateful
 @Name("chatroomAction")
 @Scope(CONVERSATION)
-@Interceptors(SeamInterceptor.class)
 public class ChatRoomAction implements ChatRoomLocal {
 
-  @EJB ChatRoomServiceLocal chatRoomService;
+  @In(create = true) ChatRoomService chatRoomService;
 
   @In(required = false) @Out(scope = CONVERSATION) String username;
 
@@ -44,17 +40,12 @@ public class ChatRoomAction implements ChatRoomLocal {
     chatRoomService.disconnectUser(username);
   }
 
-  public String getChatTopicName()
-  {
-    return chatRoomService.getChatTopicName();
-  }
-
   public Set<String> listUsers()
   {
     return chatRoomService.getUsers();
   }
-  
-  @Destroy @Remove 
+
+  @Destroy @Remove
   public void destroy() {}
-  
+
 }

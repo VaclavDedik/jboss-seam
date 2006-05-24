@@ -2,7 +2,6 @@ package org.jboss.seam.example.remoting.chatroom;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.jms.JMSException;
 import javax.jms.Topic;
 import javax.jms.TopicConnection;
@@ -11,14 +10,18 @@ import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
 import javax.naming.InitialContext;
 
-import org.jboss.annotation.ejb.Service;
 import org.jboss.logging.Logger;
+import static org.jboss.seam.ScopeType.APPLICATION;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
 /**
  *
  */
-@Service(objectName = "ejb3:service=ChatRoomService")
-public class ChatRoomService implements ChatRoomServiceLocal, ChatRoomServiceManagement
+@Name("chatRoomService")
+@Scope(APPLICATION)
+public class ChatRoomService
 {
   private Logger log = Logger.getLogger(ChatRoomService.class);
 
@@ -28,7 +31,7 @@ public class ChatRoomService implements ChatRoomServiceLocal, ChatRoomServiceMan
 
   private Set<String> users = new HashSet<String>();
 
-  public void start()
+  public ChatRoomService()
       throws Exception
   {
     InitialContext ctx = new InitialContext();
@@ -38,14 +41,10 @@ public class ChatRoomService implements ChatRoomServiceLocal, ChatRoomServiceMan
     topicConnection = f.createTopicConnection();
     topicConnection.start();
 
-    TopicSession topicSession = topicConnection.createTopicSession(false,
-          javax.jms.Session.AUTO_ACKNOWLEDGE);
-
-    chatTopic = topicSession.createTemporaryTopic();
-
-    topicSession.close();
+    chatTopic = (Topic) ctx.lookup("topic/chatroomTopic");
   }
 
+  @Destroy
   public void stop()
   {
     try {
@@ -107,16 +106,6 @@ public class ChatRoomService implements ChatRoomServiceLocal, ChatRoomServiceMan
         }
         catch (JMSException ex) { }
       }
-    }
-  }
-
-  public String getChatTopicName()
-  {
-    try {
-      return chatTopic.getTopicName();
-    }
-    catch (JMSException ex) {
-      return null;
     }
   }
 }
