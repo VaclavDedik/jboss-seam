@@ -76,7 +76,7 @@ public class LoginAction
         } catch (Exception e) {
             FacesMessages.instance().addFromResourceBundle("loginErrorPrompt");
             Seam.invalidateSession();
-            return null;
+            return "home";
         }
     }
 
