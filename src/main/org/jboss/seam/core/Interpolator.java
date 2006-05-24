@@ -14,6 +14,11 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
+/**
+ * Interpolates EL expressions in Strings
+ * 
+ * @author Gavin King
+ */
 @Intercept(NEVER)
 @Scope(STATELESS)
 @Name("interpolator")
@@ -25,7 +30,14 @@ public class Interpolator {
    {
       return (Interpolator) Component.getInstance(Interpolator.class, true);
    }
-
+   
+   /**
+    * Replace all EL expressions in the form #{...} with their evaluated
+    * values.
+    * 
+    * @param string a template
+    * @return the interpolated string
+    */
    public String interpolate(String string) {
       FacesContext context = FacesContext.getCurrentInstance();
       StringTokenizer tokens = new StringTokenizer(string, "#${}", true);
