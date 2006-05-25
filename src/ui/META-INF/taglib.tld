@@ -7,9 +7,21 @@
    <short-name>s</short-name>
    <uri>http://jboss.com/products/seam/taglib</uri>
    
+    <tag>
+        <name>validate</name>
+        <tag-class>org.jboss.seam.ui.tag.ValidateTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    
+    <tag>
+        <name>validateAll</name>
+        <tag-class>org.jboss.seam.ui.tag.ValidateAllTag</tag-class>
+        <body-content>JSP</body-content>
+    </tag>
+    
    <tag>
     <name>queryTable</name>
-    <tag-class>org.jboss.seam.ui.HtmlQueryTableTag</tag-class>
+    <tag-class>org.jboss.seam.ui.tag.HtmlQueryTableTag</tag-class>
     <body-content>JSP</body-content>
     
     <attribute>
@@ -123,7 +135,7 @@
 
     <tag>
         <name>action</name>
-        <tag-class>org.jboss.seam.ui.ActionTag</tag-class>
+        <tag-class>org.jboss.seam.ui.tag.ActionTag</tag-class>
         <body-content>empty</body-content>
                 <!-- UIParameter attributes -->
         <!-- UIComponent attributes -->

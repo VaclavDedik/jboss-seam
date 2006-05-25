@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.seam.ui;
+package org.jboss.seam.ui.tag;
 
 import javax.faces.component.UIComponent;
 
 import org.apache.myfaces.shared_impl.taglib.html.HtmlDataTableTagBase;
+import org.jboss.seam.ui.HtmlQueryTable;
 
 /**
  * @author Gavin King
