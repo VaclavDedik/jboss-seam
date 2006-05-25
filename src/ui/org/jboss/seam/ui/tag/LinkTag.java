@@ -24,12 +24,14 @@ public class LinkTag extends HtmlCommandLinkTagBase
     private String linkStyle;
     private String propagation;
     private String pageflow;
+    private String taskInstance;
 
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);
         setStringProperty(component, "view", view);
         setStringProperty(component, "action", action);
+        setValueBinding(component, "taskInstance", taskInstance);
         setStringProperty(component, "buttonClass", buttonClass);
         setStringProperty(component, "linkStyle", linkStyle);
         setStringProperty(component, "propagation", propagation);
@@ -64,5 +66,10 @@ public class LinkTag extends HtmlCommandLinkTagBase
    public void setView(String view)
    {
       this.view = view;
+   }
+
+   public void setTaskInstance(String task)
+   {
+      this.taskInstance = task;
    }
 }

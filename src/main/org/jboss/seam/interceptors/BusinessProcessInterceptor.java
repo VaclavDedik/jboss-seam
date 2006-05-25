@@ -11,9 +11,9 @@ import java.beans.PropertyEditorManager;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.faces.context.FacesContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -103,18 +103,24 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          if ( method.isAnnotationPresent( CreateProcess.class ) )
          {
             log.trace( "encountered @CreateProcess" );
-            CreateProcess tag = method.getAnnotation( CreateProcess.class );
+            CreateProcess tag = method.getAnnotation(CreateProcess.class);
             createProcess( tag.definition() );
          }
-         if ( method.isAnnotationPresent( StartTask.class ) )
+         if ( method.isAnnotationPresent(StartTask.class) )
          {
             log.trace( "encountered @StartTask" );
             startTask();
          }
-         if ( method.isAnnotationPresent( EndTask.class ) )
+         if ( method.isAnnotationPresent(EndTask.class) )
          {
             log.trace( "encountered @EndTask" );
             endTask( method.getAnnotation(EndTask.class).transition() );
+         }
+         if ( method.isAnnotationPresent(org.jboss.seam.annotations.Transition.class) )
+         {
+            log.trace( "encountered @Transition" );
+            String name = method.getAnnotation(org.jboss.seam.annotations.Transition.class).value();
+            org.jboss.seam.core.ProcessInstance.instance().signal(name);
          }
       }
       return result;
