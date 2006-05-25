@@ -811,22 +811,24 @@ public class Component
             setFieldValue( bean, dataModelField, name, wrapper.getWrappedData(dataModel) ); //for PAGE scope datamodels (does not work for properties!)
          }
          
-         Object selection = wrapper.getSelection(dataModel);
+         Object selectedIndex = wrapper.getSelection(dataModel);
 
-         log.debug( "selected row: " + selection );
+         log.debug( "selected row: " + selectedIndex );
 
-         if ( selection!=null )
+         if ( selectedIndex!=null )
          {
             Method setter = dataModelSelectionSetters.get(name);
             if (setter != null)
             {
                Annotation dataModelSelectionAnn = dataModelSelectionSetterAnnotations.get(setter);
-               setPropertyValue( bean, setter, name, createUnwrapper(dataModelSelectionAnn).getSelection(dataModel) );
+               Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModel);
+               setPropertyValue(bean, setter, name, selection);
             }
             Field field = dataModelSelectionFields.get(name);
             if (field != null) {
                Annotation dataModelSelectionAnn = dataModelSelectionFieldAnnotations.get(field);
-               setFieldValue( bean, field, name, createUnwrapper(dataModelSelectionAnn).getSelection(dataModel) );
+               Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModel);
+               setFieldValue(bean, field, name, selection);
             }
          }
          
@@ -888,9 +890,8 @@ public class Component
       
       Context context = getDataModelContext(scope);
       Object existingDataModel = context.get(name);
-      boolean dirty = existingDataModel == null || 
-            scope==ScopeType.PAGE ||
-            !wrapper.getWrappedData(existingDataModel).equals(list); //TODO: delegate to the wrapper to determine equality
+      boolean dirty = existingDataModel == null || scope==ScopeType.PAGE ||
+            wrapper.isDirty(existingDataModel, list);
       
       if ( dirty )
       {

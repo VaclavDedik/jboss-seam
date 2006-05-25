@@ -19,4 +19,5 @@ public interface DataBinder<Out, Type, WrapperType>
    WrapperType wrap(Type value);
    Type getWrappedData(WrapperType wrapper);
    Object getSelection(WrapperType wrapper);
+   boolean isDirty(WrapperType wrapper, Type value);
 }

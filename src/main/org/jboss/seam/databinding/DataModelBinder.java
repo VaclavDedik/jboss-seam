@@ -33,5 +33,10 @@ public class DataModelBinder implements DataBinder<DataModel, List, javax.faces.
    {
       return wrapper.getRowCount()==0 || wrapper.getRowIndex()<0 ? null : wrapper.getRowIndex();
    }
+
+   public boolean isDirty(javax.faces.model.DataModel wrapper, List value)
+   {
+      return !getWrappedData(wrapper).equals(value);
+   }
    
 }
