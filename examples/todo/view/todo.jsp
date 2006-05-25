@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s"%>
 <html>
 <head>
 <title>Todo List</title>
@@ -40,10 +41,7 @@
                 </h:inputText>
             </h:column>
             <h:column>
-                <h:commandLink action="#{todoList.done}"> 
-                    <h:commandButton value="Done"/>
-                    <f:param name="taskId" value="#{task.id}"/>
-                </h:commandLink>
+                <s:link action="#{todoList.done}" taskInstance="#{task}" value="Done" linkStyle="button"/>
             </h:column>
          </h:dataTable>
       </div>
