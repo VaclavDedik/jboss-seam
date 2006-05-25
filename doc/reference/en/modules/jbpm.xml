@@ -655,12 +655,18 @@ public void createTodo() { ... }]]></programlisting>
         <h:outputText value="#{task.description}"/>
     </h:column>
     <h:column>
-        <h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
-            <h:commandButton value="Assign"/>
-            <f:param name="taskId" value="#{task.id}"/>
-        </h:commandLink>
+        <s:link action="#{pooledTask.assignToCurrentActor}" value="Assign" taskInstance="#{task}"/>
     </h:column>            	
 </h:dataTable>]]></programlisting>
+
+        <para>
+            Note that instead of <literal>&lt;s:link&gt;</literal> we could have used
+            a plain JSF <literal>&lt;h:commandLink&gt;</literal>:
+        </para>
+
+        <programlisting><![CDATA[<h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
+    <f:param name="taskId" value="#{task.id}"/>
+</h:commandLink>]]></programlisting>
 
         <para>
             The <literal>pooledTask</literal> component is a built-in component that
@@ -678,10 +684,7 @@ public void createTodo() { ... }]]></programlisting>
         <h:outputText value="#{task.description}"/>
     </h:column>
     <h:column>
-        <h:commandLink action="#{todoList.start}"> 
-            <h:commandButton value="Start Work"/>
-            <f:param name="taskId" value="#{task.id}"/>
-        </h:commandLink>
+        <s:link action="#{todoList.start}" value="Start Work" taskInstance="#{task}"/>
     </h:column>            	
 </h:dataTable>]]></programlisting>
 
