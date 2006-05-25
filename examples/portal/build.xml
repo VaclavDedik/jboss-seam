@@ -19,6 +19,10 @@
         <exclude name="lib/**/*"/>
     </zipfileset>
 
+    <zipfileset id="example.war.webinf.lib.extra" 
+    	    prefix="WEB-INF/lib"
+    	     refid="ui.seam.jar"/>
+    
     <!-- EJB3 -->
     <fileset id="example.ejb3.root" dir=".">
         <include name="_NONE_"/>
@@ -36,23 +40,6 @@
     <!-- Test -->
     <fileset id="example.resources" dir="resources">
         <include name="**/*.*"/>
-    </fileset>
-
-    <!-- Tomcat build -->
-    <zipfileset id="example.tomcat.war.webinf"
-            prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <include name="web.xml"/>
-        <include name="faces-config.xml"/>
-        <include name="pages.xml"/>
-    </zipfileset>
-    
-    <fileset id="example.tomcat.resources"
-            dir="resources">
-        <include name="seam.properties"/>
-        <include name="import.sql"/>
-        <include name="hibernate.cfg.xml"/>
-        <include name="jboss-beans.xml"/>
     </fileset>
     
     <!-- Deploy -->
@@ -89,6 +76,7 @@
         <jar destfile="${build.dir}/${example.name}.war">
             <zipfileset refid="example.war.docroot"/>
         	<zipfileset refid="example.war.webinf"/>
+        	<zipfileset refid="example.war.webinf.lib.extra"/>
             <zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
                 <include name="${example.name}.jar"/>
