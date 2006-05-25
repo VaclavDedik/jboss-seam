@@ -66,8 +66,7 @@ public class Jbpm
    @Destroy
    public void shutdown()
    {
-      //TODO: don't I need to destroy it somehow???
-      jbpmConfiguration = null;
+      jbpmConfiguration.close();
    }
    
    public JbpmConfiguration getJbpmConfiguration()
