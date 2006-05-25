@@ -342,25 +342,22 @@ public class User implements Serializable
                 <areaspec>
                     <area id="registration-stateless-annotation" coords="1"/>
                     <area id="registration-in-annotation" coords="6"/>
-                    <area id="registration-valid-annotation" coords="6"/>
                     <area id="registration-persistencecontext-annotation" coords="9"/>
-                    <area id="registration-ifinvalid-annotation" coords="12"/>
-                    <area id="registration-action-listener" coords="13"/>
-                    <area id="registration-outcome" coords="22"/>
-                    <area id="registration-builtin" coords="26"/>
+                    <area id="registration-action-listener" coords="12"/>
+                    <area id="registration-outcome" coords="21"/>
+                    <area id="registration-builtin" coords="25"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateless
 @Name("register")
 public class RegisterAction implements Register
 {
 
-   @In @Valid
+   @In
    private User user;
    
    @PersistenceContext
    private EntityManager em;
    
-   @IfInvalid(outcome=Outcome.REDISPLAY)
    public String register()
    {
       List existing = em.createQuery("select username from User where username=:username")
@@ -396,26 +393,10 @@ public class RegisterAction implements Register
                         (the instance variable name).
                     </para>
                 </callout>
-                <callout arearefs="registration-valid-annotation">
-                    <para>
-                        The <literal>@Valid</literal> annotation is provided by Hibernate Validator
-                        to specify that recursive validation of related objects should occur.
-                    </para>
-                </callout>
                 <callout arearefs="registration-persistencecontext-annotation">
                     <para>
                         The EJB standard <literal>@PersistenceContext</literal> annotation is used to 
                         inject the EJB3 entity manager.
-                    </para>
-                </callout>
-                <callout arearefs="registration-ifinvalid-annotation">
-                    <para>
-                        The <link linkend="ifinvalid-annotation"><literal>@IfInvalid</literal></link> 
-                        annotation tells Seam to validate the component state using Hibernate Validator 
-                        before invoking the action listener method, and return a different JSF outcome 
-                        if the state is invalid. In this example, the <literal>user</literal> is 
-                        validated when the <literal>register()</literal> method is invoked, and the
-                        form is redisplayed with messages if a validation failure occurs.
                     </para>
                 </callout>
                 <callout arearefs="registration-action-listener">
@@ -671,6 +652,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         <example id="registration-simpleform">
           <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
 <html>
  <head>
   <title>Register New User</title>
@@ -679,18 +661,20 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
   <f:view>
    <h:form>
      <table border="0">
-       <tr>
-         <td>Username</td>
-         <td><h:inputText value="#{user.username}"/></td>
-       </tr>
-       <tr>
-         <td>Real Name</td>
-         <td><h:inputText value="#{user.name}"/></td>
-       </tr>
-       <tr>
-         <td>Password</td>
-         <td><h:inputSecret value="#{user.password}"/></td>
-       </tr>
+       <s:validateAll>
+         <tr>
+           <td>Username</td>
+           <td><h:inputText value="#{user.username}"/></td>
+         </tr>
+         <tr>
+           <td>Real Name</td>
+           <td><h:inputText value="#{user.name}"/></td>
+         </tr>
+         <tr>
+           <td>Password</td>
+           <td><h:inputSecret value="#{user.password}"/></td>
+         </tr>
+       </s:validateAll>
      </table>
      <h:messages/>
      <h:commandButton type="submit" value="Register" action="#{register.register}"/>
@@ -699,6 +683,12 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
  </body>
 </html>]]></programlisting>
         </example>
+        
+        <para>
+            The only thing here that is specific to Seam is the <literal>&lt;s:validateAll&gt;</literal>
+            tag. This JSF component tells JSF to validate all the contained input fields against the 
+            Hibernate Validator annotations specified on the entity bean.
+        </para>
         
         <example id="registration-simplepage">
           <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
@@ -718,7 +708,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         
         
         <para>
-            These are boring old JSP pages using standard JSF components. There is
+            This is a boring old JSP pages using standard JSF components. There is
             nothing specific to Seam here.
         </para>
 
@@ -776,9 +766,14 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
           <literal>user</literal>. Since there is no value already bound to that
           name (in any Seam context), Seam instantiates the <literal>user</literal>
           component, and returns the resulting <literal>User</literal> entity
-          bean instance to JSF after storing it in the Seam session context. JSF 
-          binds the form input values to properties of the <literal>User</literal> 
-          entity bean.
+          bean instance to JSF after storing it in the Seam session context. 
+      </para>
+      <para>
+          The form input values are now validated against the Hibernate Validator
+          constraints specified on the <literal>User</literal> entity. If the
+          constraints are violated, JSF redisplays the page. Otherwise, JSF binds 
+          the form input values to properties of the <literal>User</literal> entity 
+          bean.
       </para>
       <para>
           Next, JSF asks Seam to resolve the variable named <literal>register</literal>.
@@ -787,12 +782,8 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
           action listener method.
       </para>
       <para>
-          Seam intercepts the method call, injects the <literal>User</literal> entity
-          from the session context, before asking Hibernate Validator to validate the 
-          session bean instance (and, recursively, the <literal>User</literal> entity 
-          bean instance). If the state is valid, the invocation proceeds and the 
-          <literal>register()</literal> method is called. If not, Seam returns a 
-          <literal>null</literal> outcome and JSF redisplays the page.
+          Seam intercepts the method call and injects the <literal>User</literal> entity
+          from the Seam session context, before continuing the invocation.
       </para>
       <para>
           The <literal>register()</literal> method checks if a user with the entered
@@ -1448,8 +1439,9 @@ public class TodoList {
        </para>
        
        <example>
-       <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
-<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+       <programlisting><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
 <html>
 <head>
 <title>Todo List</title>
@@ -1490,10 +1482,7 @@ public class TodoList {
                 </h:inputText>
             </h:column>
             <h:column>
-                <h:commandLink action="#{todoList.done}"> 
-                    <h:commandButton value="Done"/>
-                    <f:param name="taskId" value="#{task.id}"/>
-                </h:commandLink>
+                <s:link value="Done" action="#{todoList.done}" taskInstance="#{task}" linkStyle="button"/>
             </h:column>
          </h:dataTable>
       </div>
@@ -1573,21 +1562,22 @@ public class TodoList {
         <para>
             This button ends the task by calling the action method annotated 
             <literal>@StartTask @EndTask</literal>. It passes the task id to
-            Seam as a request parameter.
+            Seam as a request parameter:
         </para>
 
         <programlisting><![CDATA[<h:column>
-    <h:commandLink action="#{todoList.done}"> 
-        <h:commandButton value="Done"/>
-        <f:param name="taskId" value="#{task.id}"/>
-    </h:commandLink>
+    <s:link value="Done" action="#{todoList.done}" taskInstance="#{task}" linkStyle="button"/>
 </h:column>]]></programlisting>
 
+        <para>
+            (Note that this is using a Seam <literal>%lt;s:link&gt;</literal> JSF control
+            from the <literal>seam-ui.jar</literal> package.)
+        </para>
         
         <para>
             This button is used to update the properties of the tasks. When the form is
             submitted, Seam and jBPM will make any changes to the tasks persistent.
-            There is no need for any action listener method.
+            There is no need for any action listener method:
         </para>
         
         <programlisting><![CDATA[<h:commandButton value="Update Items" action="update"/>]]></programlisting>
@@ -2304,8 +2294,8 @@ public class HotelSearchingAction implements HotelSearching
                     <area id="booking-extendedpersistencecontext-annotation" coords="8"/>
                     <area id="booking-out-annotation" coords="11"/>
                     <area id="booking-begin-annotation" coords="31"/>
-                    <area id="booking-end-annotation" coords="65"/>
-                    <area id="booking-dest-annotation" coords="81"/>
+                    <area id="booking-end-annotation" coords="64"/>
+                    <area id="booking-dest-annotation" coords="80"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
@@ -2356,7 +2346,6 @@ public class HotelBookingAction implements HotelBooking
       return "book";
    }
 
-   @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";
@@ -2492,9 +2481,9 @@ public class HotelBookingAction implements HotelBooking
         </para>
 
         <programlisting><![CDATA[<context-param>
-        <param-name>org.jboss.seam.core.init.debug</param-name>
-        <param-value>true</param-value>
-    </context-param>]]></programlisting>
+    <param-name>org.jboss.seam.core.init.debug</param-name>
+    <param-value>true</param-value>
+</context-param>]]></programlisting>
     
         <para>
             Then the Seam debug page will be available. This page lets you browse and inspect the Seam 
