@@ -132,42 +132,4 @@
         </attribute>
    </tag>
 
-
-    <tag>
-        <name>action</name>
-        <tag-class>org.jboss.seam.ui.tag.ActionTag</tag-class>
-        <body-content>empty</body-content>
-                <!-- UIParameter attributes -->
-        <!-- UIComponent attributes -->
-        <attribute>
-            <name>id</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <type>java.lang.String</type>
-            <description>Every component may have an unique id. Automatically created if omitted.</description>
-        </attribute>
-        <attribute>
-            <name>rendered</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <type>java.lang.String</type>
-            <description>If false, this component will not be rendered.</description>
-        </attribute>
-        <attribute>
-            <name>binding</name>
-            <required>false</required>
-            <rtexprvalue>false</rtexprvalue>
-            <type>java.lang.String</type>
-            <description>Component binding.</description>
-        </attribute>
-
-        <attribute>
-            <name>action</name>
-            <required>true</required>
-            <rtexprvalue>false</rtexprvalue>
-            <type>java.lang.String</type>
-            <description>Method binding.</description>
-        </attribute>
-
-    </tag>
 </taglib>
