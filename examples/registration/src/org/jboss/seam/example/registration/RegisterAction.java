@@ -8,10 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.validator.Valid;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.core.FacesMessages;
 
 @Stateless
@@ -25,7 +23,6 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
-   @IfInvalid(outcome=Outcome.REDISPLAY)
    public String register()
    {
       List existing = em.createQuery("select username from User where username=:username")
