@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
 <f:view>
     <h:form>
 			<div class="section">
@@ -7,6 +8,7 @@
 			</div>
 			<div class="section">
 				<fieldset>
+				<s:validateAll>
 					<div class="entry">
 						<div class="label"><h:outputLabel for="username">Username:</h:outputLabel></div>
 						<div class="input"><h:inputText id="username" value="#{user.username}"/><br/><span class="errors"><h:message for="username" /></span></div>
@@ -31,6 +33,7 @@
 							<h:commandButton value="Cancel" action="login" styleClass="button"/>
 						</div>
 					</div>
+				</s:validateAll>
 				</fieldset>
 			</div>
 

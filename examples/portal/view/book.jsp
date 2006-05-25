@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
 <f:view>
 
 <div class="section">
@@ -24,6 +25,7 @@
 			<div class="label">Zip:</div>
 			<div class="output"><h:outputText value="#{hotel.zip}"/></div>
 		</div>
+		<s:validateAll>
 		<div class="entry">
 			<div class="label"><h:outputLabel for="checkinDate">Check In Date:</h:outputLabel></div>
 			<div class="input"><h:inputText id="checkinDate" value="#{booking.checkinDate}"><f:convertDateTime type="date"/></h:inputText><br/><span class="errors"><h:message for="checkinDate" /></span></div>
@@ -44,6 +46,7 @@
 				<h:commandButton value="Back To Search" action="main" styleClass="button"/>
 			</div>
 		</div>
+		</s:validateAll>
 	</fieldset>
 	</h:form>
 </div>

@@ -1,11 +1,7 @@
 //$Id$
 package org.jboss.seam.example.hibernate;
 
-import static org.jboss.seam.annotations.Outcome.REDISPLAY;
-
 import org.hibernate.Session;
-import org.hibernate.validator.Valid;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -16,7 +12,7 @@ import org.jboss.seam.core.FacesMessages;
 public class ChangePasswordAction
 {
 
-   @In @Out @Valid
+   @In @Out
    private User user;
    
    @In(create=true)
@@ -24,7 +20,6 @@ public class ChangePasswordAction
    
    private String verify;
    
-   @IfInvalid(outcome=REDISPLAY)
    public String changePassword()
    {
       if ( user.getPassword().equals(verify) )

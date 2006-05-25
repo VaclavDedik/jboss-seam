@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
 <f:view>
 
 <div class="section">
@@ -10,11 +11,13 @@
 	<fieldset>
 		<div class="entry">
 			<div class="label"><h:outputLabel for="password">Password:</h:outputLabel></div>
-			<div class="input"><h:inputSecret id="password" value="#{user.password}" /><br/><span class="errors"><h:message for="password" /></span></div>
+			<div class="input"><h:inputSecret id="password" value="#{user.password}" required="true"><s:validate/></h:inputSecret><br/>
+			<span class="errors"><h:message for="password" /></span></div>
 		</div>
 		<div class="entry">
 			<div class="label"><h:outputLabel for="password">Verify:</h:outputLabel></div>
-			<div class="input"><h:inputSecret id="verify" value="#{changePassword.verify}" /><br/><span class="errors"><h:message for="verify" /></span></div>
+			<div class="input"><h:inputSecret id="verify" value="#{changePassword.verify}" required="true"/><br/>
+			<span class="errors"><h:message for="verify" /></span></div>
 		</div>
 		<div class="entry errors"><h:messages globalOnly="true"/></div>
 		<div class="entry">
