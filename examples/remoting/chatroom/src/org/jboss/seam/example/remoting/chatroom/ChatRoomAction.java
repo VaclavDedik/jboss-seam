@@ -39,7 +39,10 @@ public class ChatRoomAction implements ChatRoomActionWebRemote
 
    public Set<String> getUsers()
    {
-      if (users==null) users = Collections.synchronizedSet( new HashSet<String>() );
+      if (users==null) 
+      {
+         users = Collections.synchronizedSet( new HashSet<String>() );
+      }
       return users;
    }
 
