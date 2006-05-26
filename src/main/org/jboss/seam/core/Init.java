@@ -37,6 +37,8 @@ public class Init
    
    private String[] managedPersistenceContexts = {};
    private String[] managedSessions = {};
+   private String[] managedTopicPublishers = {};
+   private String[] managedQueueSenders = {};
    private String[] componentClasses = {};
    private boolean isClientSideConversations = false;
    private boolean jbpmInstalled;
@@ -186,6 +188,26 @@ public class Init
    public void setMyFacesLifecycleBug(boolean myFacesLifecycleBugExists)
    {
       this.myFacesLifecycleBug = myFacesLifecycleBugExists;
+   }
+   
+   public String[] getManagedTopicPublishers()
+   {
+      return managedTopicPublishers;
+   }
+   
+   public void setManagedTopicPublishers(String[] managedTopicPublishers)
+   {
+      this.managedTopicPublishers = managedTopicPublishers;
+   }
+   
+   public String[] getManagedQueueSenders()
+   {
+      return managedQueueSenders;
+   }
+   
+   public void setManagedQueueSenders(String[] managedQueueSenders)
+   {
+      this.managedQueueSenders = managedQueueSenders;
    }
 
 }

@@ -68,6 +68,12 @@ import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.Scanner;
+import org.jboss.seam.jms.ManagedQueueSender;
+import org.jboss.seam.jms.ManagedTopicPublisher;
+import org.jboss.seam.jms.QueueConnection;
+import org.jboss.seam.jms.QueueSession;
+import org.jboss.seam.jms.TopicConnection;
+import org.jboss.seam.jms.TopicSession;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
@@ -217,6 +223,18 @@ public class Initialization
          addComponent( TaskInstanceListForType.class, context );
          addComponent( ManagedJbpmContext.class, context );
       }
+      
+      if ( init.getManagedTopicPublishers()!=null && init.getManagedTopicPublishers().length>0 )
+      {
+         addComponent( TopicConnection.class, context );
+         addComponent( TopicSession.class, context );
+      }
+
+      if ( init.getManagedQueueSenders()!=null && init.getManagedQueueSenders().length>0 )
+      {
+         addComponent( QueueConnection.class, context );
+         addComponent( QueueSession.class, context );
+      }
 
       //TODO: move all this stuff into Init component?
       for ( String className : init.getComponentClasses() )
@@ -241,6 +259,16 @@ public class Initialization
       for ( String sfName : init.getManagedSessions() )
       {
          addComponent( sfName, ManagedHibernateSession.class, context );
+      }
+
+      for ( String tName : init.getManagedTopicPublishers() )
+      {
+         addComponent( tName, ManagedTopicPublisher.class, context );
+      }
+
+      for ( String qName : init.getManagedQueueSenders() )
+      {
+         addComponent( qName, ManagedQueueSender.class, context );
       }
 
       if (isScannerEnabled)

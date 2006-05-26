@@ -1,0 +1,67 @@
+package org.jboss.seam.jms;
+
+import static org.jboss.seam.InterceptionType.NEVER;
+
+import javax.jms.JMSException;
+import javax.jms.QueueConnectionFactory;
+import javax.naming.NamingException;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.Naming;
+
+@Scope(ScopeType.APPLICATION)
+@Intercept(NEVER)
+@Name("org.jboss.seam.jms.queueConnection")
+public class QueueConnection
+{
+   private String queueConnectionFactoryJndiName = "UIL2ConnectionFactory";
+   private javax.jms.QueueConnection queueConnection;
+
+   public String getQueueConnectionFactoryJndiName()
+   {
+      return queueConnectionFactoryJndiName;
+   }
+
+   public void setQueueConnectionFactoryJndiName(String jndiName)
+   {
+      this.queueConnectionFactoryJndiName = jndiName;
+   }
+   
+   @Create
+   public void init() throws NamingException, JMSException
+   {
+      queueConnection = getQueueConnectionFactory().createQueueConnection();
+      queueConnection.start();
+   }
+   
+   @Destroy
+   public void destroy() throws JMSException
+   {
+      queueConnection.stop();
+      queueConnection.close();
+   }
+
+   private QueueConnectionFactory getQueueConnectionFactory() throws NamingException
+   {
+      return (QueueConnectionFactory) Naming.getInitialContext().lookup(queueConnectionFactoryJndiName);
+   }
+   
+   @Unwrap
+   public javax.jms.QueueConnection getQueueConnection()
+   {
+      return queueConnection;
+   }
+   
+   public static javax.jms.QueueConnection instance()
+   {
+      return (javax.jms.QueueConnection) Component.getInstance( Seam.getComponentName(QueueConnection.class), true );
+   }
+}

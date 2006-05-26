@@ -101,17 +101,4 @@ public class ManagedHibernateSession implements Serializable
       return componentName;
    }
    
-   /*private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException
-   {
-      //TODO: this is just noise! We should deprecate disconnect/reconnect in HB core.
-      ois.defaultReadObject();
-      if (session!=null && !session.isConnected() ) session.reconnect();
-   }
-
-   private void writeObject(ObjectOutputStream oos) throws IOException
-   {
-      //TODO: this is just noise! We should deprecate disconnect/reconnect in HB core.
-      if (session!=null && session.isConnected() ) session.disconnect();
-      oos.defaultWriteObject();
-   }*/
 }

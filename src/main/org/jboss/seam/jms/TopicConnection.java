@@ -1,0 +1,67 @@
+package org.jboss.seam.jms;
+
+import static org.jboss.seam.InterceptionType.NEVER;
+
+import javax.jms.JMSException;
+import javax.jms.TopicConnectionFactory;
+import javax.naming.NamingException;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.Naming;
+
+@Scope(ScopeType.APPLICATION)
+@Intercept(NEVER)
+@Name("org.jboss.seam.jms.topicConnection")
+public class TopicConnection
+{
+   private String topicConnectionFactoryJndiName = "UIL2ConnectionFactory";
+   private javax.jms.TopicConnection topicConnection;
+
+   public String getTopicConnectionFactoryJndiName()
+   {
+      return topicConnectionFactoryJndiName;
+   }
+
+   public void setTopicConnectionFactoryJndiName(String jndiName)
+   {
+      this.topicConnectionFactoryJndiName = jndiName;
+   }
+   
+   @Create
+   public void init() throws NamingException, JMSException
+   {
+      topicConnection = getTopicConnectionFactory().createTopicConnection();
+      topicConnection.start();
+   }
+   
+   @Destroy
+   public void destroy() throws JMSException
+   {
+      topicConnection.stop();
+      topicConnection.close();
+   }
+
+   private TopicConnectionFactory getTopicConnectionFactory() throws NamingException
+   {
+      return (TopicConnectionFactory) Naming.getInitialContext().lookup(topicConnectionFactoryJndiName);
+   }
+   
+   @Unwrap
+   public javax.jms.TopicConnection getTopicConnection()
+   {
+      return topicConnection;
+   }
+   
+   public static javax.jms.TopicConnection instance()
+   {
+      return (javax.jms.TopicConnection) Component.getInstance( Seam.getComponentName(TopicConnection.class), true );
+   }
+}
