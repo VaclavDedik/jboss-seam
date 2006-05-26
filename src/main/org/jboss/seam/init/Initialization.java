@@ -64,6 +64,7 @@ import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.TaskInstanceListForType;
 import org.jboss.seam.core.Transition;
+import org.jboss.seam.core.TreeCache;
 import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
 import org.jboss.seam.debug.Introspector;
@@ -200,6 +201,7 @@ public class Initialization
       addComponent( LocaleSelector.class, context );
       addComponent( UiComponent.class, context );
       addComponent( SubscriptionRegistry.class, context );
+      addComponent( TreeCache.class, context );
       
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
 
