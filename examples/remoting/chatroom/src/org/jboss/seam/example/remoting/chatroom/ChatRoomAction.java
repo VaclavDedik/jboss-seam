@@ -1,10 +1,17 @@
 package org.jboss.seam.example.remoting.chatroom;
 
+import static org.jboss.seam.ScopeType.CONVERSATION;
+
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.jms.TopicPublisher;
+import javax.jms.TopicSession;
 
-import static org.jboss.seam.ScopeType.CONVERSATION;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
@@ -16,36 +23,69 @@ import org.jboss.seam.annotations.Scope;
 @Stateful
 @Name("chatroomAction")
 @Scope(CONVERSATION)
-public class ChatRoomAction implements ChatRoomLocal {
+public class ChatRoomAction implements ChatRoomActionWebRemote
+{
 
-  @In(create = true) ChatRoomService chatRoomService;
+   @In(create=true)
+   private transient TopicPublisher topicPublisher;   
+   @In(create=true)
+   private transient TopicSession topicSession;
 
-  @In(required = false) @Out(scope = CONVERSATION) String username;
+   private String username;
 
-  @Begin
-  public boolean connect(String username)
-  {
-    this.username = username;
-    return chatRoomService.connectUser(username);
-  }
+   @In(required=false) 
+   @Out(scope=ScopeType.APPLICATION)
+   private transient Set<String> users;
 
-  public void sendMessage(String message)
-  {
-    chatRoomService.publish(new ChannelActionDTO("message", username, message));
-  }
+   public Set<String> getUsers()
+   {
+      if (users==null) users = Collections.synchronizedSet( new HashSet<String>() );
+      return users;
+   }
 
-  @End
-  public void disconnect()
-  {
-    chatRoomService.disconnectUser(username);
-  }
+   @Begin
+   public boolean connect(String username)
+   {
+      this.username = username;
+      boolean added = getUsers().add(username);
+      if (added)
+      {
+         publish( new ChatroomEvent("connect", username) );
+      }
+      return added;
+   }
 
-  public Set<String> listUsers()
-  {
-    return chatRoomService.getUsers();
-  }
+   public void sendMessage(String message)
+   {
+      publish( new ChatroomEvent("message", username, message) );
+   }
 
-  @Destroy @Remove
-  public void destroy() {}
+   @End
+   public void disconnect()
+   {
+      getUsers().remove(username);
+      publish( new ChatroomEvent("disconnect", username) );
+   }
+
+   public Set<String> listUsers()
+   {
+      return getUsers();
+   }
+
+   public synchronized void publish(ChatroomEvent message)
+   {
+      try
+      {
+         topicPublisher.publish( topicSession.createObjectMessage(message) );
+      } 
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
+      } 
+   }
+   
+   @Destroy
+   @Remove
+   public void destroy() {}
 
 }

@@ -6,7 +6,7 @@ import javax.ejb.Local;
 import org.jboss.seam.annotations.WebRemote;
 
 @Local
-public interface ChatRoomLocal {
+public interface ChatRoomActionWebRemote {
   @WebRemote boolean connect(String name);
   @WebRemote void disconnect();
   @WebRemote void sendMessage(String message);

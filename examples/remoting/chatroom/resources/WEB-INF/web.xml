@@ -42,6 +42,16 @@
     </context-param>
 
     <context-param>
+        <param-name>org.jboss.seam.core.init.managedTopicPublishers</param-name>
+        <param-value>topicPublisher</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>topicPublisher.topicJndiName</param-name>
+        <param-value>topic/chatroomTopic</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
         <param-value>@myFacesLifecycleBug@</param-value>
     </context-param>
