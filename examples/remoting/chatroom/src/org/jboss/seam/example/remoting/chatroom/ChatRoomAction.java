@@ -72,7 +72,7 @@ public class ChatRoomAction implements ChatRoomActionWebRemote
       return getUsers();
    }
 
-   public synchronized void publish(ChatroomEvent message)
+   private void publish(ChatroomEvent message)
    {
       try
       {
