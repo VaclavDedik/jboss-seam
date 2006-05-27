@@ -211,6 +211,29 @@
                 </listitem>
              </varlistentry>
             <varlistentry>
+                <term><literal>events</literal></term>
+                <listitem>
+                    <para>
+                        An API for raising events that can be observed via
+                        <literal>@Observer</literal> methods, or method
+                        bindings in <literal>WEB-INF/events.xml</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>raiseEvent(String type)</literal> &mdash; raise
+                            an event of a particular type and distribute to all
+                            observers.
+                        </para>
+                        <para>
+                            <literal>addListener(String type, String methodBinding)</literal> 
+                            &mdash; add an observer for a particular event type.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+             </varlistentry>
+            <varlistentry>
                 <term><literal>interpolator</literal></term>
                 <listitem>
                     <para>
