@@ -46,10 +46,12 @@
     <zipfileset id="example.ear.resources"
                dir="resources">
     	<include name="*.jpdl.xml"/>
+    	<exclude name=".gpd.*"/>
     	<include name="*.cfg.xml"/>
         <include name="META-INF/*"/>
         <exclude name="META-INF/persistence.xml"/>
     	<exclude name="META-INF/ejb-jar.xml"/>
+    	<exclude name="META-INF/jboss-beans.xml"/>
     </zipfileset>
 
     <!-- Tomcat build -->
@@ -69,6 +71,7 @@
     	<include name="META-INF/ejb-jar.xml"/>
         <include name="META-INF/jboss-beans.xml"/> <!-- TODO: move out of META-INF -->
     	<include name="*.jpdl.xml"/>
+    	<exclude name=".gpd.*"/>
     	<include name="*.cfg.xml"/>
     </fileset>
     

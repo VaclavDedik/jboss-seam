@@ -41,6 +41,7 @@
     	<include name="jbpm.cfg.xml"/>
     	<include name="hibernate.cfg.xml"/>
         <include name="META-INF/*"/>
+    	<exclude name="META-INF/jboss-beans.xml"/>
     </zipfileset>
 
     <fileset id="example.ejb3.lib" dir="../../lib">

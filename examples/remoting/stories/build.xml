@@ -41,8 +41,6 @@
     <!-- EAR -->
     <zipfileset id="example.ear.resources"
             dir="resources">
-    	<!--include name="pageflow.jpdl.xml"/>
-    	<include name="jbpm.cfg.xml"/-->
       <include name="META-INF/*"/>
     </zipfileset>
 
