@@ -691,12 +691,6 @@
         <jar jarfile="${build.dir}/${example.name}.jar">
             <fileset refid="example.classes"/>
             <fileset refid="example.ejb3.root"/>
-            <fileset refid="example.ejb3.lib"/>
-            <!--
-            <manifest>
-                <attribute name="Class-Path" value="${name}.jar"/>
-            </manifest>
-            -->
         </jar>
     </target>
 
@@ -710,6 +704,7 @@
                 <include name="${example.name}.war"/>
             </zipfileset>
             <zipfileset refid="example.ear.resources"/>
+            <fileset refid="example.ejb3.lib"/>
         </jar>
     </target>
 
