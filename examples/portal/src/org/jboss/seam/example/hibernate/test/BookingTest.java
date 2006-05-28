@@ -114,29 +114,7 @@ public class BookingTest extends SeamTest
          }
          
       }.run();
-      
-      new Script(id) {
-
-         @Override
-         protected void invokeApplication()
-         {
-        	 HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.setBookingDetails();
-            assert outcome==null;
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number is required");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-      }.run();
-      
+            
       new Script(id) {
          
          @Override @SuppressWarnings("deprecation")

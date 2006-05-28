@@ -24,48 +24,14 @@ public class ChangePasswordTest extends SeamTest
       
       new Script() {
 
-         ChangePasswordAction changePassword;
-         
+    	   ChangePasswordAction changePassword;
+
          @Override
          protected void applyRequestValues() throws Exception
          {
             Contexts.getSessionContext().set("loggedIn", true);
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
          }
-
-         @Override
-         protected void updateModelValues() throws Exception
-         {
-            User user = (User) Component.getInstance("user", true);
-            user.setPassword("xxx");
-            changePassword = (ChangePasswordAction) Component.getInstance("changePassword", true);
-            changePassword.setVerify("xxx");
-         }
-
-         @Override
-         protected void invokeApplication()
-         {
-            String outcome = changePassword.changePassword();
-            assert outcome==null;
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            User user = (User) Component.getInstance("user", false);
-            assert user.getName().equals("Gavin King");
-            assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("xxx");
-            assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
-
-         }
-         
-      }.run();
-      
-      new Script() {
-
-    	  ChangePasswordAction changePassword;
 
          @Override
          protected void updateModelValues() throws Exception
