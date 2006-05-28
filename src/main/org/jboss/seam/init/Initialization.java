@@ -201,7 +201,12 @@ public class Initialization
       addComponent( LocaleSelector.class, context );
       addComponent( UiComponent.class, context );
       addComponent( SubscriptionRegistry.class, context );
-      addComponent( TreeCache.class, context );
+
+      try
+      {
+         addComponent( TreeCache.class, context );
+      }
+      catch (NoClassDefFoundError ncdfe) {} //swallow
       
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
 
