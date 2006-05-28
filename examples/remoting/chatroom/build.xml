@@ -33,21 +33,21 @@
     <!-- EJB3 -->
     <fileset id="example.ejb3.root"
             dir="resources">
-      <include name="seam.properties"/>
-      <include name="chatroom-service.xml"/>
-    	<include name="META-INF/ejb-jar.xml"/>        
+        <include name="seam.properties"/>
+        <include name="chatroom-service.xml"/>
+        <include name="META-INF/ejb-jar.xml"/>
     </fileset>
 
     <!-- EAR -->
     <zipfileset id="example.ear.resources"
             dir="resources">
-    	<!--include name="pageflow.jpdl.xml"/>
-    	<include name="jbpm.cfg.xml"/-->
-      <include name="META-INF/*"/>
+        <include name="META-INF/*"/>
+        <include name="treecache.xml"/>
     </zipfileset>
 
     <fileset id="example.ejb3.lib" dir="../../../lib">
-      <include name="_NONE_"/>
+        <include name="jgroups.jar"/>
+    	<include name="jboss-cache.jar"/>
     </fileset>
   
 	<!-- Test -->

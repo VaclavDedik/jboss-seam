@@ -11,13 +11,14 @@ import javax.ejb.Stateful;
 import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
 
-import org.jboss.seam.ScopeType;
+import org.jboss.cache.CacheException;
+import org.jboss.cache.Fqn;
+import org.jboss.cache.TreeCache;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 
 @Stateful
@@ -32,18 +33,26 @@ public class ChatRoomAction implements ChatRoomActionWebRemote
    private transient TopicSession topicSession;
 
    private String username;
-
-   @In(required=false) 
-   @Out(scope=ScopeType.APPLICATION)
-   private transient Set<String> users;
+   
+   @In(create=true) 
+   private transient TreeCache treeCache;
 
    public Set<String> getUsers()
    {
-      if (users==null) 
+      try
       {
-         users = Collections.synchronizedSet( new HashSet<String>() );
+         Set<String> users = (Set<String>) treeCache.get( new Fqn("users"), "set" );
+         if (users==null) 
+         {
+            users = Collections.synchronizedSet( new HashSet<String>() );
+            treeCache.put( new Fqn("users"), "set", users );
+         }
+         return users;
       }
-      return users;
+      catch (CacheException ce)
+      {
+         throw new RuntimeException(ce);
+      }
    }
 
    @Begin

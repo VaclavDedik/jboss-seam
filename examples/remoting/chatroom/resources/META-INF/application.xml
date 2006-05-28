@@ -13,5 +13,11 @@
 	<module>
 	    <java>jboss-seam.jar</java>
 	</module>
+	<module>
+	    <java>jboss-cache.jar</java>
+	</module>
+	<module>
+	    <java>jgroups.jar</java>
+	</module>
 
 </application>
