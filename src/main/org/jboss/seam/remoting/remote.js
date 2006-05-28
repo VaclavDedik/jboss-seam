@@ -348,9 +348,9 @@ Seam.Remoting.serializeValue = function(value, type, refs)
   else // We don't know the type.. try to guess
   {
     switch (typeof(value)) {
-      case "number": 
+      case "number":
         return "<number>" + value + "</number>";
-      case "boolean": 
+      case "boolean":
         return "<bool>" + (value ? "true" : "false") + "</bool>";
       case "object":
         if (value instanceof Array)
@@ -361,7 +361,7 @@ Seam.Remoting.serializeValue = function(value, type, refs)
           return Seam.Remoting.serializeMap(value, refs);
         else
           return Seam.Remoting.getTypeRef(value, refs);
-      default: 
+      default:
         return "<str>" + Seam.Remoting.URLEncode(value) + "</str>"; // Default to String
     }
   }
@@ -579,14 +579,23 @@ Seam.Remoting.executeBatch = function()
   }
 
   var envelope = Seam.Remoting.createEnvelope(Seam.Remoting.createHeader(), data);
-  Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
+  Seam.Remoting.batchAsyncReq = Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
   Seam.Remoting.inBatch = false;
 }
 
 Seam.Remoting.cancelBatch = function()
 {
   Seam.Remoting.inBatch = false;
-  // Todo - unregister the callbacks for the calls in the batch
+  for (var i = 0; i < Seam.Remoting.batchedCalls.length; i++)
+    Seam.Remoting.pendingCalls.remove(Seam.Remoting.batchedCalls[i].id);
+}
+
+Seam.Remoting.cancelCall = function(callId)
+{
+  var call = Seam.Remoting.pendingCalls.get(callId);
+  Seam.Remoting.pendingCalls.remove(callId);
+  if (call && call.asyncReq)
+    call.asyncReq.abort();
 }
 
 Seam.Remoting.execute = function(component, methodName, params, callback)
@@ -602,8 +611,10 @@ Seam.Remoting.execute = function(component, methodName, params, callback)
     // Marshal the request
     var envelope = Seam.Remoting.createEnvelope(Seam.Remoting.createHeader(), call.data);
     Seam.Remoting.pendingCalls.put(call.id, call);
-    Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
+    call.asyncReq = Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
   }
+
+  return call;
 }
 
 Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
@@ -627,6 +638,7 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
   asyncReq.onreadystatechange = function() {Seam.Remoting.requestCallback(asyncReq, callback); }
   asyncReq.open("POST", Seam.Remoting.contextPath + "/seam/remoting" + path, true);
   asyncReq.send(envelope);
+  return asyncReq;
 }
 
 Seam.Remoting.setCallback = function(component, methodName, callback)
@@ -689,7 +701,7 @@ Seam.Remoting.processResponse = function(doc)
     {
       var node = bodyNode.childNodes.item(i);
       if (node.tagName == "result")
-      Seam.Remoting.processResult(node, context);
+        Seam.Remoting.processResult(node, context);
     }
   }
 }
@@ -787,12 +799,12 @@ Seam.Remoting.unmarshalValue = function(element, refs)
   switch (tag)
   {
     case "bool": return element.firstChild.nodeValue == "true";
-    case "number": 
+    case "number":
       if (element.firstChild.nodeValue.indexOf(".") == -1)
         return parseInt(element.firstChild.nodeValue);
       else
         return parseFloat(element.firstChild.nodeValue);
-    case "str": 
+    case "str":
       var data = "";
       for (var i = 0; i < element.childNodes.length; i++)
       {

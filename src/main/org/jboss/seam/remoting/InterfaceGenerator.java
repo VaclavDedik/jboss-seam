@@ -284,7 +284,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         componentSrc.append(", ");
       componentSrc.append("callback) {\n");
 
-      componentSrc.append("    Seam.Remoting.execute(this, \"");
+      componentSrc.append("    return Seam.Remoting.execute(this, \"");
       componentSrc.append(m.getName());
       componentSrc.append("\", [");
 
