@@ -5,4 +5,10 @@
             <class name="com.jboss.dvd.seam.test.SearchTest"/>
         </classes>
     </test>
+    <test name="bestsellers">
+        <classes>
+            <class name="com.jboss.dvd.seam.test.BestSellersTest"/>
+        </classes>
+    </test>
+
 </suite>

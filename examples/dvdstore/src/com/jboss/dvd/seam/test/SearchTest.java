@@ -1,72 +1,42 @@
 package com.jboss.dvd.seam.test;
 
 import java.util.*;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
-
-import org.jboss.seam.*;
-import org.jboss.seam.contexts.*;
-import org.jboss.seam.core.*;
-import org.jboss.seam.mock.*;
+import javax.faces.model.*;
 
 import org.testng.annotations.Test;
+import static org.testng.AssertJUnit.*;
 
 import com.jboss.dvd.seam.*;
 
-
 public class SearchTest 
-    extends SeamTest
-{
-   
+    extends BaseTest
+{   
     @Test
-    public void testSomething() 
+    public void testNoParamSearch() 
         throws Exception
     {
         
         String id =  new Script() {
             Search search;
                 
-            @Override
-            protected void applyRequestValues()
+            protected void updateModelValues()
             {
-                Customer customer = new Customer();
-                customer.setFirstName("Joe");
-                customer.setLastName("User");
-
-                Contexts.getSessionContext().set("loggedIn", true);
-                Contexts.getSessionContext().set("currentUser", customer);
-            }
-                
-            @Override
-            protected void updateModelValues() throws Exception
-            {
-                search = (Search) Component.getInstance("search", true);
+                search = (Search) getInstance("search");
             }
 
-            @Override
             protected void invokeApplication()
             {
                 String outcome = search.doSearch();
-                assert "browse".equals(outcome);
+                assertEquals("search outcome", "browse", outcome);
             }
                
-            @Override
             protected void renderResponse()
             {
-                ListDataModel model = (ListDataModel) Contexts.getConversationContext().get("searchResults");
-                assert model.getRowCount()==15;
-                assert Manager.instance().isLongRunningConversation();
+                ListDataModel model = (ListDataModel) lookup("searchResults");
+                assertEquals("page size", 15, model.getRowCount());
+                assertTrue("in conversation", inConversation());
             }               
         }.run();
     }
     
-    @Override
-    public void initServletContext(Map initParams)
-    {
-        initParams.put(Init.COMPONENT_CLASSES, Ejb.class.getName());
-        initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
-    }
 }
