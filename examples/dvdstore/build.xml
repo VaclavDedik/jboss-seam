@@ -86,9 +86,15 @@
         <include name="dvd-ds.xml"/>
     </patternset>
 
+    <!-- Test -->
+    <fileset id="example.resources" dir="resources">
+        <include name="**/*.*"/>
+    </fileset>
+
     <!-- Overrides -->
     <property name="src.java.dir" value="src"/>
-	<property name="src.test.dir" value="src"/>
+    <property name="src.test.dir" value="src"/>
+    <property name="test.classpath" value="test.eejb.classpath"/>
     <property name="tomcat.conf" value="eejb.conf"/>
 	
     <import file="../../build.xml"/>

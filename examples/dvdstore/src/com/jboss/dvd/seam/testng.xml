@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="DVD Search" verbose="2" parallel="false">
+    <test name="search">
+        <classes>
+            <class name="com.jboss.dvd.seam.test.SearchTest"/>
+        </classes>
+    </test>
+</suite>
