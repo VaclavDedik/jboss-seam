@@ -1177,7 +1177,7 @@ public interface MessageManager
              <literal>messageList</literal> component. The action listener fires, removing
              the selected <literal>Message</literal> from the list, and also calling
              <literal>remove()</literal> on the <literal>EntityManager</literal>. At the end 
-             of the call, Seam refreshes the <literal>messages</literal> context variable and
+             of the call, Seam refreshes the <literal>messageList</literal> context variable and
              clears the context variable named <literal>message</literal>. The EJB container 
              commits the transaction, and deletes the <literal>Message</literal> from the 
              database. Finally, the page is re-rendered, redisplaying the message list.
