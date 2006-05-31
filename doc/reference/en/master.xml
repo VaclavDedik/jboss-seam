@@ -193,11 +193,10 @@
                         JBoss Embeddable EJB3 container.
                     </para>
                     <para>
-                        However, we realize that not everyone is ready to make the switch to EJB 3.0. (After all,
-                        the Java EE 5 spec is not even final yet!) So, in the interim, you can use Seam as
-                        a framework for applications that use JSF for presentation, Hibernate (or plain JDBC)
-                        for persistence and JavaBeans for application logic. Then, when you're ready to make
-                        the switch to EJB 3.0, migration will be straightforward.
+                        However, we realize that not everyone is ready to make the switch to EJB 3.0. So, in the
+                        interim, you can use Seam as a framework for applications that use JSF for presentation,
+                        Hibernate (or plain JDBC) for persistence and JavaBeans for application logic. Then,
+                        when you're ready to make the switch to EJB 3.0, migration will be straightforward.
                     </para>
                 </listitem>
             </varlistentry>
