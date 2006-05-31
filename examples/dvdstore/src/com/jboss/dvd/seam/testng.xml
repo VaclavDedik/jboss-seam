@@ -1,14 +1,21 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="DVD Search" verbose="2" parallel="false">
-    <test name="search">
+<suite name="DVD Store" verbose="2" parallel="false">
+    <test name="model unit tests">
         <classes>
-            <class name="com.jboss.dvd.seam.test.SearchTest"/>
-        </classes>
-    </test>
-    <test name="bestsellers">
-        <classes>
-            <class name="com.jboss.dvd.seam.test.BestSellersTest"/>
+            <class name="com.jboss.dvd.seam.test.ProductUnitTest" />
         </classes>
     </test>
 
+    <test name="store beans">
+        <classes>
+            <class name="com.jboss.dvd.seam.test.SearchTest"/>
+            <class name="com.jboss.dvd.seam.test.BestSellersTest"/>
+        </classes>
+    </test>
+    
+    <test name="admin beans">
+        <classes>
+            <class name="com.jboss.dvd.seam.test.StoreManagerTest"/>
+        </classes>
+    </test>
 </suite>

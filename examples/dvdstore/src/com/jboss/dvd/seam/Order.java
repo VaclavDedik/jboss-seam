@@ -155,12 +155,12 @@ public class Order
         int index = 1;
         for (OrderLine line: orderLines) {
             line.setPosition(index++);
-            total +=  line.getProduct().getPrice() * line.getQuantity();
+            total += round(line.getProduct().getPrice() * line.getQuantity());
         }
         
-        setNetAmount(total);
-        setTax((float) (getNetAmount() * .0825));
-        setTotalAmount(getNetAmount() + getTax());
+        setNetAmount(round(total));
+        setTax(round(getNetAmount() * .0825));
+        setTotalAmount(round(getNetAmount() + getTax()));
     }
 
     public void cancel() {
@@ -176,6 +176,14 @@ public class Order
         setTrackingNumber(tracking);
     }
     
+    // just make sure it only has 2 digits
+    private float round(double val) {
+        int tmp = (int) (val * 100.0 + .5);
+        float res = (float) (tmp / 100.0);
+
+        return res;
+    }
+
     @Transient
     public boolean isOpen() {
        return status == Status.OPEN;

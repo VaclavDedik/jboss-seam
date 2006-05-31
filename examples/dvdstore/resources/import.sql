@@ -1541,13 +1541,13 @@ insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (180, 44);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (180, 4);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (180, 180, 58, 10);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('181', 'B00005JNBQ', 'Napoleon Dynamite', 29.99, 'http://images.amazon.com/images/P/B00005JNBQ.01.MZZZZZZZ.jpg', 'As deadpan comedies go, Napoleon Dynamite stands in a class all its own. Played by John Heder, the title character is (in the words of critic Roger Ebert) "the kind of nerd other nerds avoid," a mouth-breathing dweeb with a mangy nest of orange hair, and ungainly features that suggest a perpetual state of half-conscious depression. He lives in Preston, Idaho (former home of 24-year-old director Jared Hess) with his thrill-seeking grandma and 32-year-old brother, and his days at high school consist mostly of being abused or ignored by indifferent classmates. Napoleon''s sad-sack story doesn''t offer the scathing, impassioned humor of Welcome to the Dollhouse because Hess (who cowrote the nearly plotless screenplay with his wife, Jerusha) doesn''t have an angst-ridden axe to grind. Instead, the comedy (which exists in a tacky universe of worn-out rural suburbia) is so low-key that some will find it difficult to laugh, while others (i.e., those who feel superior to Napoleon) will have plenty of fun at Napoleon''s expense. The result is a curiously uneven film, hilarious at times, but hampered by its own sense of affectionate mockery. An audience favorite at the Sundance film festival, Napoleon Dynamite may not be entirely lovable, but it''s definitely unique. ');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (181, 24)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (181, 25)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (181, 7);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (181, 8);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (181, 9);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (181, 10);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (181, 4);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (181, 181, 22, 24);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (181, 181, 22, 26);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('182', 'B000CQM4Y2', 'Just Like Heaven ', 29.99, 'http://images.amazon.com/images/P/B000CQM4Y2.01.MZZZZZZZ.jpg', 'Bad romantic comedies make you scoff at their absurdity; good ones make you wish your life was that absurd. Just Like Heaven is just smart and likable enough to trigger that wishing. David (Mark Ruffalo, Collateral, You Can Count On Me) finds an amazing apartment in San Francisco');
 insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (182, 24)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (182, 7);
@@ -1666,7 +1666,7 @@ insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (195, 15);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (195, 28);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (195, 21);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (195, 4);
-insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (195, 195, 49, 1);
+insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (195, 195, 49, 27);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('196', 'B000062XHI', 'Ocean''s Eleven ', 14.96, 'http://images.amazon.com/images/P/B000062XHI.01.MZZZZZZZ.jpg', 'Ocean''s Eleven improves on 1960''s Rat Pack original with supernova casting, a slickly updated plot, and Steven Soderbergh''s graceful touch behind the camera. Soderbergh reportedly relished the opportunity "to make a movie that has no desire except to give pleasure from beginning to end," and he succeeds on those terms, blessed by the casting of George Clooney as Danny Ocean, the title role originated by Frank Sinatra. Fresh out of jail, Ocean masterminds a plot to steal $163 million from the seemingly impervious vault of Las Vegas''s Bellagio casino, not just for the money but to win his ex-wife (Julia Roberts) back from the casino''s ruthless owner (Andy Garcia). Soderbergh doesn''t scrimp on the caper''s comically intricate strategy, but he finds greater joy in assembling a stellar team (including Brad Pitt, Matt Damon, Don Cheadle, and Carl Reiner) and indulging their strengths as actors. The result is a film that''s as smooth as a silk suit and just as stylish. ');
 insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (196, 27)
 insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (196, 33)
