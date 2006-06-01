@@ -340,6 +340,7 @@ public class Lifecycle
    {
       Context conversationContext = new ServerConversationContext( Session.getSession(session) );
       Contexts.conversationContext.set( conversationContext );
+      Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }
    
    private static ThreadLocal<PhaseId> phaseId = new ThreadLocal<PhaseId>();
