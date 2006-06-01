@@ -28,7 +28,7 @@ public class WebSessionContext implements Context {
 
    private String getKey(String name)
    {
-      return getPrefix() + name;
+      return /*getPrefix() + */ name;
    }
 
    private String getPrefix()
@@ -38,21 +38,6 @@ public class WebSessionContext implements Context {
 
 	public WebSessionContext(Session session) {
        this.session = session;
-       /*
-       Object session = externalContext.getSession(true);
-       if (session instanceof HttpSession)
-       {
-          this.session = new ServletSessionImpl((HttpSession) session);
-       }
-       else if (session instanceof PortletSession)
-       {
-          this.session = new PortletSessionImpl((PortletSession) session);
-       }
-       else 
-       {
-          throw new RuntimeException("Unknown type of session");
-       }
-        */  
 	}
 
 	public Object get(String name) {
