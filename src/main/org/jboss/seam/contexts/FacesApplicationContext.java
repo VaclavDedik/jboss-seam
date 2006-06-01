@@ -30,7 +30,7 @@ public class FacesApplicationContext implements Context {
 
    private String getKey(String name)
    {
-      return getPrefix() + name;
+      return /*getPrefix() +*/ name;
    }
 
    private String getPrefix()
