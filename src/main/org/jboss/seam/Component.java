@@ -201,7 +201,8 @@ public class Component
 
    }
 
-   private void checkScopeForComponentType() {
+   private void checkScopeForComponentType() 
+   {
       if ( scope==ScopeType.STATELESS && (type==ComponentType.STATEFUL_SESSION_BEAN || type==ComponentType.ENTITY_BEAN) )
       {
          throw new IllegalArgumentException("Only stateless session beans and Java beans may be bound to the STATELESS context: " + name);
@@ -214,7 +215,7 @@ public class Component
       {
          log.warn("Stateful session beans was bound to the APPLICATION context - note that it is not safe to make concurrent calls to the bean: " + name);
       }
-            
+      
       boolean serializableScope = scope==ScopeType.PAGE || scope==ScopeType.SESSION || scope==ScopeType.CONVERSATION;
       boolean serializableType = type==ComponentType.JAVA_BEAN || type==ComponentType.ENTITY_BEAN;
       if ( serializableType && serializableScope && !Serializable.class.isAssignableFrom(beanClass) )
@@ -373,12 +374,12 @@ public class Component
                   dataModelSelectionSetterAnnotations.put(method, ann);
                }
             }
-
+            
             if ( !method.isAccessible() )
             {
                method.setAccessible(true);
             }
-
+            
          }
          
          for (Field field: clazz.getDeclaredFields())
@@ -413,12 +414,12 @@ public class Component
                   dataModelSelectionFieldAnnotations.put(field, ann);
                }
             }
-
+            
             if ( !field.isAccessible() )
             {
                field.setAccessible(true);
             }
-
+            
          }
 
       }
@@ -443,10 +444,12 @@ public class Component
          }
       }
 
-      for (Method method: selectionSetters) {
+      for (Method method: selectionSetters) 
+      {
          Annotation ann = dataModelSelectionSetterAnnotations.get(method);
          String name = createUnwrapper(ann).getVariableName(ann);
-         if ( name.length() == 0 ) {
+         if ( name.length() == 0 ) 
+         {
             if ( hasMultipleDataModels )
             {
                throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
@@ -460,10 +463,12 @@ public class Component
          }
       }
       
-      for (Field field: selectionFields) {
+      for (Field field: selectionFields) 
+      {
          Annotation ann = dataModelSelectionFieldAnnotations.get(field);
          String name = createUnwrapper(ann).getVariableName(ann);
-         if ( name.length() == 0 ) {
+         if ( name.length() == 0 ) 
+         {
             if ( hasMultipleDataModels )
             {
                throw new IllegalStateException( "Missing value() for @DataModelSelection with multiple @DataModels" );
@@ -784,14 +789,14 @@ public class Component
 
    private void injectDataModelSelection(Object bean)
    {
-      for ( Method dataModelGetter : dataModelGetters )
+      for ( Method dataModelGetter: dataModelGetters )
       {
          Annotation dataModelAnn = dataModelGetterAnnotations.get(dataModelGetter);
          DataBinder wrapper = createWrapper(dataModelAnn);
          final String name = toName( wrapper.getVariableName(dataModelAnn), dataModelGetter );
          injectDataModelSelection( bean, name, wrapper.getVariableScope(dataModelAnn), null, wrapper );
       }
-      for ( Field dataModelField : dataModelFields )
+      for ( Field dataModelField: dataModelFields )
       {
          Annotation dataModelAnn = dataModelFieldAnnotations.get(dataModelField);
          DataBinder wrapper = createWrapper(dataModelAnn);
@@ -802,7 +807,7 @@ public class Component
 
    private void injectDataModelSelection(Object bean, String name, ScopeType scope, Field dataModelField, DataBinder wrapper)
    {
-      Object dataModel = getDataModelContext(scope).get( name );
+      Object dataModel = getDataModelContext(scope).get(name);
       if ( dataModel != null )
       {
          
@@ -825,7 +830,8 @@ public class Component
                setPropertyValue(bean, setter, name, selection);
             }
             Field field = dataModelSelectionFields.get(name);
-            if (field != null) {
+            if (field != null) 
+            {
                Annotation dataModelSelectionAnn = dataModelSelectionFieldAnnotations.get(field);
                Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModel);
                setFieldValue(bean, field, name, selection);

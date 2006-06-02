@@ -52,7 +52,7 @@ public class Messages implements Serializable {
                   }
                   catch (MissingResourceException mre)
                   {
-                     return null;
+                     return resourceKey;
                   }
                   if (resource==null)
                   {
@@ -60,14 +60,13 @@ public class Messages implements Serializable {
                   }
                   else
                   {
-                     String result = Interpolator.instance().interpolate(resource);
-                     cache.put(resourceKey, result);
-                     return result;
+                     cache.put(resourceKey, resource);
+                     return Interpolator.instance().interpolate(resource);
                   }
                }
                else
                {
-                  return cachedValue;
+                  return Interpolator.instance().interpolate(cachedValue);
                }
             }
             else
