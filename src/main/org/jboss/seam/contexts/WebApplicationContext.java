@@ -61,14 +61,15 @@ public class WebApplicationContext implements Context {
     public String[] getNames() {
        Enumeration names = externalContext.getAttributeNames();
        ArrayList<String> results = new ArrayList<String>();
-       String prefix = getPrefix();
+       //String prefix = getPrefix();
        while ( names.hasMoreElements() )
        {
           String name = (String) names.nextElement();
-          if ( name.startsWith(prefix) )
+          /*if ( name.startsWith(prefix) )
           {
              results.add( name.substring(prefix.length()) );
-          }
+          }*/
+          results.add(name);
        }
        return results.toArray(new String[]{});
     }
