@@ -1,5 +1,7 @@
 package org.jboss.seam.databinding;
 
+import java.lang.annotation.Annotation;
+
 import org.jboss.seam.ScopeType;
 
 /**
@@ -12,12 +14,12 @@ import org.jboss.seam.ScopeType;
  * @param <Type> the bound type
  * @param <WrapperType> the wrapper type
  */
-public interface DataBinder<Out, Type, WrapperType>
+public interface DataBinder<Out extends Annotation, Type, WrapperType>
 {
    String getVariableName(Out out);
    ScopeType getVariableScope(Out out);
-   WrapperType wrap(Type value);
-   Type getWrappedData(WrapperType wrapper);
-   Object getSelection(WrapperType wrapper);
-   boolean isDirty(WrapperType wrapper, Type value);
+   WrapperType wrap(Out out, Type value);
+   Type getWrappedData(Out out, WrapperType wrapper);
+   Object getSelection(Out out, WrapperType wrapper);
+   boolean isDirty(Out out, WrapperType wrapper, Type value);
 }

@@ -794,29 +794,31 @@ public class Component
          Annotation dataModelAnn = dataModelGetterAnnotations.get(dataModelGetter);
          DataBinder wrapper = createWrapper(dataModelAnn);
          final String name = toName( wrapper.getVariableName(dataModelAnn), dataModelGetter );
-         injectDataModelSelection( bean, name, wrapper.getVariableScope(dataModelAnn), null, wrapper );
+         injectDataModelSelection( bean, name, null, wrapper, dataModelAnn );
       }
       for ( Field dataModelField: dataModelFields )
       {
          Annotation dataModelAnn = dataModelFieldAnnotations.get(dataModelField);
          DataBinder wrapper = createWrapper(dataModelAnn);
          final String name = toName( wrapper.getVariableName(dataModelAnn), dataModelField );
-         injectDataModelSelection( bean, name, wrapper.getVariableScope(dataModelAnn), dataModelField, wrapper );
+         injectDataModelSelection( bean, name, dataModelField, wrapper, dataModelAnn );
       }
    }
 
-   private void injectDataModelSelection(Object bean, String name, ScopeType scope, Field dataModelField, DataBinder wrapper)
+   private void injectDataModelSelection(Object bean, String name, Field dataModelField, DataBinder wrapper, Annotation dataModelAnn)
    {
+      ScopeType scope = wrapper.getVariableScope(dataModelAnn);
+      
       Object dataModel = getDataModelContext(scope).get(name);
       if ( dataModel != null )
       {
          
          if (dataModelField!=null)
          {
-            setFieldValue( bean, dataModelField, name, wrapper.getWrappedData(dataModel) ); //for PAGE scope datamodels (does not work for properties!)
+            setFieldValue( bean, dataModelField, name, wrapper.getWrappedData(dataModelAnn, dataModel) ); //for PAGE scope datamodels (does not work for properties!)
          }
          
-         Object selectedIndex = wrapper.getSelection(dataModel);
+         Object selectedIndex = wrapper.getSelection(dataModelAnn, dataModel);
 
          log.debug( "selected row: " + selectedIndex );
 
@@ -826,14 +828,14 @@ public class Component
             if (setter != null)
             {
                Annotation dataModelSelectionAnn = dataModelSelectionSetterAnnotations.get(setter);
-               Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModel);
+               Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModelSelectionAnn, dataModel);
                setPropertyValue(bean, setter, name, selection);
             }
             Field field = dataModelSelectionFields.get(name);
             if (field != null) 
             {
                Annotation dataModelSelectionAnn = dataModelSelectionFieldAnnotations.get(field);
-               Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModel);
+               Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModelSelectionAnn, dataModel);
                setFieldValue(bean, field, name, selection);
             }
          }
@@ -851,7 +853,7 @@ public class Component
          DataBinder wrapper = createWrapper(dataModelAnn);
          name = toName( wrapper.getVariableName(dataModelAnn), dataModelGetter );
          list = getPropertyValue( bean, dataModelGetter, name );
-         outjectDataModelList( name, list, wrapper.getVariableScope(dataModelAnn), wrapper );
+         outjectDataModelList( name, list, wrapper, dataModelAnn );
       }
 
       for ( Field dataModelField: dataModelFields )
@@ -862,7 +864,7 @@ public class Component
          DataBinder wrapper = createWrapper(dataModelAnn);
          name = toName( wrapper.getVariableName(dataModelAnn), dataModelField );
          list = getFieldValue( bean, dataModelField, name );
-         outjectDataModelList( name, list, wrapper.getVariableScope(dataModelAnn), wrapper );
+         outjectDataModelList( name, list, wrapper, dataModelAnn );
       }
 
    }
@@ -891,19 +893,21 @@ public class Component
       }
    }
 
-   private void outjectDataModelList(String name, Object list, ScopeType scope, DataBinder wrapper)
+   private void outjectDataModelList(String name, Object list, DataBinder wrapper, Annotation dataModelAnn)
    {
+      
+      ScopeType scope = wrapper.getVariableScope(dataModelAnn);
       
       Context context = getDataModelContext(scope);
       Object existingDataModel = context.get(name);
       boolean dirty = existingDataModel == null || scope==ScopeType.PAGE ||
-            wrapper.isDirty(existingDataModel, list);
+            wrapper.isDirty(dataModelAnn, existingDataModel, list);
       
       if ( dirty )
       {
          if ( list != null )
          {
-            context.set( name, wrapper.wrap(list) );
+            context.set( name, wrapper.wrap(dataModelAnn, list) );
          }
          else
          {
