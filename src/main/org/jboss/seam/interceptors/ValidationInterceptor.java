@@ -39,7 +39,7 @@ public class ValidationInterceptor extends AbstractInterceptor
       {
          IfInvalid ifInvalid = method.getAnnotation(IfInvalid.class);
          InvalidValue[] invalidValues = component.getValidator()
-               .getInvalidValues( invocation.getBean() );
+               .getInvalidValues( invocation.getTarget() );
          if (invalidValues.length==0)
          {
             return invocation.proceed();

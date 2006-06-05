@@ -53,7 +53,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
          Object[] resultParams = params;
          final Map contextData = new HashMap();
          
-         public Object getBean()
+         public Object getTarget()
          {
             return target;
          }

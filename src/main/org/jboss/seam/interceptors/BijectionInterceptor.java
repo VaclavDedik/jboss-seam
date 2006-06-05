@@ -27,7 +27,7 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             log.trace("injecting dependencies of: " + component.getName());
          }
-         component.inject(invocation.getBean()/*, true*/);
+         component.inject(invocation.getTarget()/*, true*/);
       }
       
       Object result = invocation.proceed();
@@ -38,7 +38,7 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             log.trace("outjecting dependencies of: " + component.getName());
          }
-         component.outject(invocation.getBean());
+         component.outject(invocation.getTarget());
       }
       
       return result;

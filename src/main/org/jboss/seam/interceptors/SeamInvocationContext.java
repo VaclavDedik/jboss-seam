@@ -27,9 +27,9 @@ public class SeamInvocationContext implements InvocationContext
    private final Component component;
    int location = 0;
 
-   public Object getBean()
+   public Object getTarget()
    {
-      return ejbInvocationContext.getBean();
+      return ejbInvocationContext.getTarget();
    }
 
    public Map getContextData()
