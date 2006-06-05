@@ -35,8 +35,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.contexts.Session;
-import org.jboss.seam.jbpm.Page;
 import org.jboss.seam.util.Id;
+import org.jbpm.pageflow.Page;
 
 /**
  * The Seam conversation manager.

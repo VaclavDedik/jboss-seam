@@ -28,6 +28,7 @@ import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
+import org.jbpm.pageflow.PageflowHelper;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.xml.sax.InputSource;
 
@@ -108,7 +109,7 @@ public class Jbpm
       {
          throw new IllegalArgumentException("pageflow resource not found: " + resourceName);
       }
-      return new PageflowParser( new InputSource(resource) ).readProcessDefinition();
+      return PageflowHelper.parseInputSource(new InputSource(resource));
    }
 
    public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 

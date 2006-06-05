@@ -14,11 +14,12 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.jbpm.Page;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
+import org.jbpm.pageflow.Page;
+import org.jbpm.pageflow.PageflowHelper;
 
 /**
  * A Seam component that manages the current
@@ -31,6 +32,7 @@ import org.jbpm.graph.exe.Token;
 @Intercept(NEVER)
 public class Pageflow implements Serializable
 {
+ 
    //TODO: a conversation-scope mutable component, could break in a cluster
    
    private int counter;
@@ -173,22 +175,22 @@ public class Pageflow implements Serializable
          {
             //we don't use jBPM's default transition,
             //instead we use the "anonymous" transition
-            processInstance.signal( (String) null );
+            PageflowHelper.signal(processInstance, (String) null);
             navigate(context);
          }
       }
       else
       {
          //trigger the named transition
-         processInstance.signal(outcome);
+         PageflowHelper.signal(processInstance, outcome);
          navigate(context);
       }
    }
-
+   
    public void begin(String processDefinitionName)
    {
       ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
-      ProcessInstance pi = pd.createProcessInstance();
+      ProcessInstance pi = PageflowHelper.newPageflowInstance(pd);
       setProcessInstance(pi);
       //if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
       //{
