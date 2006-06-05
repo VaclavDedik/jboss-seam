@@ -12,7 +12,7 @@ public class DataModelSelector implements DataSelector<DataModelSelection, DataM
       return in.value();
    }
 
-   public Object getSelection(DataModel wrapper)
+   public Object getSelection(DataModelSelection in, DataModel wrapper)
    {
       return wrapper.getRowCount()==0 || wrapper.getRowIndex()<0 ? null : wrapper.getRowData();
    }

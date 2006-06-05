@@ -19,24 +19,24 @@ public class DataModelBinder implements DataBinder<DataModel, List, javax.faces.
       return out.scope();
    }
 
-   public javax.faces.model.DataModel wrap(List value)
+   public javax.faces.model.DataModel wrap(DataModel out, List value)
    {
       return new ListDataModel(value);
    }
 
-   public List getWrappedData(javax.faces.model.DataModel wrapper)
+   public List getWrappedData(DataModel out, javax.faces.model.DataModel wrapper)
    {
       return (List) wrapper.getWrappedData();
    }
 
-   public Object getSelection(javax.faces.model.DataModel wrapper)
+   public Object getSelection(DataModel out, javax.faces.model.DataModel wrapper)
    {
       return wrapper.getRowCount()==0 || wrapper.getRowIndex()<0 ? null : wrapper.getRowIndex();
    }
 
-   public boolean isDirty(javax.faces.model.DataModel wrapper, List value)
+   public boolean isDirty(DataModel out, javax.faces.model.DataModel wrapper, List value)
    {
-      return !getWrappedData(wrapper).equals(value);
+      return !getWrappedData(out, wrapper).equals(value);
    }
    
 }
