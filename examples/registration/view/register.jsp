@@ -12,15 +12,15 @@
        <s:validateAll>
          <tr>
            <td>Username</td>
-           <td><h:inputText value="#{user.username}"/></td>
+           <td><h:inputText value="#{user.username}" required="true"/></td>
          </tr>
          <tr>
            <td>Real Name</td>
-           <td><h:inputText value="#{user.name}"/></td>
+           <td><h:inputText value="#{user.name}" required="true"/></td>
          </tr>
          <tr>
            <td>Password</td>
-           <td><h:inputSecret value="#{user.password}"/></td>
+           <td><h:inputSecret value="#{user.password}" required="true"/></td>
          </tr>
        </s:validateAll>
      </table>
