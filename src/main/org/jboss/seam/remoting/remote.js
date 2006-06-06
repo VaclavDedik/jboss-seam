@@ -692,7 +692,11 @@ Seam.Remoting.processResponse = function(doc)
       }
     }
     if (contextNode)
+    {
       Seam.Remoting.unmarshalContext(contextNode, context);
+      if (context.getConversationId() && Seam.Remoting.getContext().getConversationId() == null)
+        Seam.Remoting.getContext().setConversationId(context.getConversationId());
+    }
   }
 
   if (bodyNode)

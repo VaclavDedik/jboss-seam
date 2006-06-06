@@ -433,6 +433,13 @@
         call <literal>Seam.Remoting.getContext().getConversationId()</literal>.  To set the conversation ID before
         making a request, call <literal>Seam.Remoting.getContext().setConversationId()</literal>.
       </para>
+      
+      <para>
+        If the conversation ID hasn't been explicitly set with <literal>Seam.Remoting.getContext().setConversationId()</literal>,
+        then it will be automatically assigned the first valid conversation ID that is returned by any remoting call.
+        If you are working with multiple conversations within your page, then you may need to explicitly set the conversation ID
+        before each call.  If you are working with just a single conversation, then you don't need to do anything special.
+      </para>
     </sect1>
     
     <sect1>
