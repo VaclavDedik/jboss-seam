@@ -11,7 +11,7 @@
             <map keyClass="java.lang.String" valueClass="java.lang.String">
                <entry>
                   <key>java.naming.factory.initial</key>
-                  <value>org.jnp.interfaces.NamingContextFactory</value>
+                  <value>org.jnp.interfaces.LocalOnlyContextFactory</value>
                </entry>
                <entry>
                    <key>java.naming.factory.url.pkgs</key>
@@ -51,6 +51,7 @@
       <property name="bindTo">UserTransaction</property>
       <property name="serializable">false</property>
    </bean>
+
 
    <bean name="TransactionManager" class="java.lang.Object">
       <constructor factoryMethod="getTransactionManager">
