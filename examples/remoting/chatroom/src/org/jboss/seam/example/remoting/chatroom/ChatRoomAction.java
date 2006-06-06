@@ -2,8 +2,6 @@ package org.jboss.seam.example.remoting.chatroom;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.ejb.Remove;
@@ -11,9 +9,6 @@ import javax.ejb.Stateful;
 import javax.jms.TopicPublisher;
 import javax.jms.TopicSession;
 
-import org.jboss.cache.CacheException;
-import org.jboss.cache.Fqn;
-import org.jboss.cache.TreeCache;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
@@ -32,34 +27,16 @@ public class ChatRoomAction implements ChatRoomActionWebRemote
    @In(create=true)
    private transient TopicSession topicSession;
 
+   @In(create=true)
+   Set<String> chatroomUsers;
+   
    private String username;
    
-   @In(create=true) 
-   private transient TreeCache treeCache;
-
-   public Set<String> getUsers()
-   {
-      try
-      {
-         Set<String> users = (Set<String>) treeCache.get( new Fqn("users"), "set" );
-         if (users==null) 
-         {
-            users = Collections.synchronizedSet( new HashSet<String>() );
-            treeCache.put( new Fqn("users"), "set", users );
-         }
-         return users;
-      }
-      catch (CacheException ce)
-      {
-         throw new RuntimeException(ce);
-      }
-   }
-
    @Begin
    public boolean connect(String username)
    {
       this.username = username;
-      boolean added = getUsers().add(username);
+      boolean added = chatroomUsers.add(username);
       if (added)
       {
          publish( new ChatroomEvent("connect", username) );
@@ -75,13 +52,13 @@ public class ChatRoomAction implements ChatRoomActionWebRemote
    @End
    public void disconnect()
    {
-      getUsers().remove(username);
+      chatroomUsers.remove(username);
       publish( new ChatroomEvent("disconnect", username) );
    }
 
    public Set<String> listUsers()
    {
-      return getUsers();
+      return chatroomUsers;
    }
 
    private void publish(ChatroomEvent message)

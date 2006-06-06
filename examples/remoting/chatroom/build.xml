@@ -47,7 +47,8 @@
 
     <fileset id="example.ejb3.lib" dir="../../../lib">
         <include name="jgroups.jar"/>
-    	<include name="jboss-cache.jar"/>
+    	<include name="jboss-cache*.jar"/>
+    	<include name="jboss-aop*.jar"/>
     </fileset>
   
 	<!-- Test -->

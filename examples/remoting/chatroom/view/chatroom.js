@@ -18,7 +18,6 @@ Seam.Remoting.setPollTimeout(2);   // 10 seconds
 Seam.Remoting.setPollInterval(1); // 1 second
 
 var username = null;
-var chatJMSTopic = "chatroomTopic";
 var chatroom = Seam.Component.getInstance("chatroomAction");
 
 function connect() {
@@ -40,11 +39,11 @@ function connect() {
   chatroom.connect(username, connectCallback);
   chatroom.listUsers(listUsersCallback);
   Seam.Remoting.executeBatch();  
-  Seam.Remoting.subscribe(chatJMSTopic, channelMessageCallback);  
+  Seam.Remoting.subscribe("chatroomTopic", channelMessageCallback);  
 }
 
 function disconnect() {
-  Seam.Remoting.unsubscribe(chatJMSTopic);
+  Seam.Remoting.unsubscribe("chatroomTopic");
   setInterfaceState(false);
   chatroom.disconnect();
   getObject("userList").options.length = 0;
