@@ -20,7 +20,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.jbpm.PageflowParser;
 import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Resources;
