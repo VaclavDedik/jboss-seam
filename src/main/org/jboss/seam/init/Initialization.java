@@ -64,7 +64,7 @@ import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.TaskInstanceListForType;
 import org.jboss.seam.core.Transition;
-import org.jboss.seam.core.TreeCache;
+import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
 import org.jboss.seam.debug.Introspector;
@@ -204,7 +204,7 @@ public class Initialization
 
       try
       {
-         addComponent( TreeCache.class, context );
+         addComponent( PojoCache.class, context );
       }
       catch (NoClassDefFoundError ncdfe) {} //swallow
       

@@ -10,7 +10,7 @@ import javax.interceptor.InvocationContext;
 public class MockInvocationContext implements InvocationContext
 {
 
-   public Object getBean()
+   public Object getTarget()
    {
       //TODO
       return null;

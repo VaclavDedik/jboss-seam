@@ -66,7 +66,7 @@ public class InterceptorTest
       bi.setComponent( new Component(Bar.class, appContext) );
       String result = (String) bi.bijectTargetComponent( new MockInvocationContext() {
          @Override
-         public Object getBean()
+         public Object getTarget()
          {
             return bar;
          }
@@ -89,7 +89,7 @@ public class InterceptorTest
       bar.otherFoo=null;
       bi.bijectTargetComponent( new MockInvocationContext() {
          @Override
-         public Object getBean()
+         public Object getTarget()
          {
             return bar;
          }
@@ -109,7 +109,7 @@ public class InterceptorTest
          Contexts.getSessionContext().remove("otherFoo");
          bi.bijectTargetComponent( new MockInvocationContext() {
             @Override
-            public Object getBean()
+            public Object getTarget()
             {
                return bar;
             }
@@ -135,7 +135,7 @@ public class InterceptorTest
          biba.bijectTargetComponent( new MockInvocationContext() {
    
             @Override
-            public Object getBean() {
+            public Object getTarget() {
                return brokenAction;
             }
    
@@ -159,7 +159,7 @@ public class InterceptorTest
       result = (String) bia.bijectTargetComponent( new MockInvocationContext() {
 
          @Override
-         public Object getBean() {
+         public Object getTarget() {
             return action;
          }
 
@@ -555,7 +555,7 @@ public class InterceptorTest
             return InterceptorTest.getMethod("foo");
          }
          @Override
-         public Object getBean()
+         public Object getTarget()
          {
             return foo;
          }
@@ -579,7 +579,7 @@ public class InterceptorTest
             return InterceptorTest.getMethod("bar");
          }
          @Override
-         public Object getBean()
+         public Object getTarget()
          {
             return foo;
          }
@@ -606,7 +606,7 @@ public class InterceptorTest
             return InterceptorTest.getMethod("bar");
          }
          @Override
-         public Object getBean()
+         public Object getTarget()
          {
             return foo;
          }
