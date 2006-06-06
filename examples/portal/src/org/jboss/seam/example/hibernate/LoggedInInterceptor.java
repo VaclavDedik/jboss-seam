@@ -50,7 +50,7 @@ public class LoggedInInterceptor
             }
             else
             {
-               return method.invoke( invocation.getBean(), invocation.getParameters() );
+               return method.invoke( invocation.getTarget(), invocation.getParameters() );
             }
          }
       }
