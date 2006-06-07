@@ -125,59 +125,6 @@ Seam.Remoting.log = function(msg)
   }
 }
 
-Seam.Remoting.URLDecode = function(value)
-{
-  var decoded = '';
-  for(var i = 0;i < value.length; i++)
-  {
-    var chr = value.charAt(i);
-    if ((chr == '%') && ((i + 2) <= value.length))
-      decoded += String.fromCharCode(parseInt(value.substring((i+ 1 ), ((i += 2) + 1)), 16));
-    else if(chr == '+')
-      decoded += ' ';
-    else
-      decoded += chr;
-  }
-  return decoded;
-}
-
-Seam.Remoting.URLEncode = function(value)
-{
-  var encoded = '';
-  for(var i = 0; i < value.length; i++)
-  {
-    var charCode = value.charCodeAt(i);
-    if (((charCode > 47)&&(charCode < 58)) ||
-        ((charCode > 64)&&(charCode < 91)) ||
-        ((charCode > 96)&&(charCode < 123)))
-    {
-      encoded += value.charAt(i);
-    }
-    else if (charCode == 32)
-      encoded += '+';
-    else
-    {
-      var hex = charCode.toString(16);
-      var len = hex.length;
-      switch(len)
-      {
-        case 0:
-          hex = '00';
-          break;
-        case 1:
-          hex = '0'+hex;
-        case 2:
-          break;
-        defalt:
-          hex = hex.substring((len-2), len);
-          break;
-      }
-      encoded += '%' + hex;
-    }
-  }
-  return encoded;
-}
-
 Seam.Remoting.__Context = function() {
   this.conversationId = null;
 
@@ -342,7 +289,7 @@ Seam.Remoting.serializeValue = function(value, type, refs)
       case "bag": return Seam.Remoting.serializeBag(value, refs);
       case "map": return Seam.Remoting.serializeMap(value, refs);
 
-      default: return "<str>" + Seam.Remoting.URLEncode(value) + "</str>";
+      default: return "<str>" + encodeURIComponent(value) + "</str>";
     }
   }
   else // We don't know the type.. try to guess
@@ -362,7 +309,7 @@ Seam.Remoting.serializeValue = function(value, type, refs)
         else
           return Seam.Remoting.getTypeRef(value, refs);
       default:
-        return "<str>" + Seam.Remoting.URLEncode(value) + "</str>"; // Default to String
+        return "<str>" + encodeURIComponent(value) + "</str>"; // Default to String
     }
   }
 }
@@ -815,7 +762,7 @@ Seam.Remoting.unmarshalValue = function(element, refs)
         if (element.childNodes[i].nodeType == 3) // NODE_TEXT
           data += element.childNodes[i].nodeValue;
       }
-      return Seam.Remoting.URLDecode(data);
+      return decodeURIComponent(data);
     case "ref": return refs[parseInt(element.getAttribute("id"))];
     case "bag":
       var value = new Array();

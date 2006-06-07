@@ -14,7 +14,7 @@ import java.net.URLEncoder;
  */
 public class StringWrapper extends BaseWrapper implements Wrapper
 {
-  public static final String DEFAULT_ENCODING = "ISO-8859-1";
+  public static final String DEFAULT_ENCODING = "UTF-8";
 
   private static final byte[] STRING_TAG_OPEN = "<str>".getBytes();
   private static final byte[] STRING_TAG_CLOSE = "</str>".getBytes();
@@ -136,7 +136,7 @@ public class StringWrapper extends BaseWrapper implements Wrapper
     throws IOException
   {
     out.write(STRING_TAG_OPEN);
-    out.write(URLEncoder.encode(value.toString(), DEFAULT_ENCODING).getBytes());
+    out.write(URLEncoder.encode(value.toString(), DEFAULT_ENCODING).replace("+", "%20").getBytes());
     out.write(STRING_TAG_CLOSE);
   }
 }
