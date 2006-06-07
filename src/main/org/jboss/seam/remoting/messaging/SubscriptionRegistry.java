@@ -1,21 +1,22 @@
 package org.jboss.seam.remoting.messaging;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
-
 import javax.jms.TopicConnection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import static org.jboss.seam.InterceptionType.NEVER;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-
+import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  *
@@ -29,6 +30,9 @@ public class SubscriptionRegistry
   private static final String DEFAULT_CONNECTION_PROVIDER =
     "org.jboss.seam.remoting.messaging.JBossConnectionProvider";
 
+  public static final String CONTEXT_USER_TOKENS =
+      "org.jboss.seam.remoting.messaging.SubscriptionRegistry.userTokens";
+
   private static final Log log = LogFactory.getLog(SubscriptionRegistry.class);
 
   private String connectionProvider;
@@ -38,6 +42,11 @@ public class SubscriptionRegistry
   private Object monitor = new Object();
 
   private Map<String,RemoteSubscriber> subscriptions = new HashMap<String,RemoteSubscriber>();
+
+  /**
+   * Contains a list of all the topics that clients are allowed to subscribe to.
+   */
+  private static Set<String> allowedTopics = new HashSet<String>();
 
   public static SubscriptionRegistry instance()
   {
@@ -49,6 +58,16 @@ public class SubscriptionRegistry
     }
 
     return registry;
+  }
+
+  /**
+   * Add a new topic to the list of allowed topics that clients may subscribe to.
+   *
+   * @param topicName String The name of the topic.
+   */
+  public static synchronized void allowTopic(String topicName)
+  {
+    allowedTopics.add(topicName);
   }
 
   public void setConnectionProvider(String connectionProvider)
@@ -93,11 +112,20 @@ public class SubscriptionRegistry
 
   public RemoteSubscriber subscribe(String topicName)
   {
+    if (!allowedTopics.contains(topicName))
+      throw new IllegalArgumentException(String.format(
+        "Cannot subscribe to a topic that is not allowed. Topic [%s] is not an " +
+        "allowed topic.", topicName));
+
     RemoteSubscriber sub = new RemoteSubscriber(UUID.randomUUID().toString(), topicName);
 
     try {
       sub.subscribe(getTopicConnection());
       subscriptions.put(sub.getToken(), sub);
+
+      // Save the client's token in their session context
+      getUserTokens().add(sub.getToken());
+
       return sub;
     }
     catch (Exception ex) {
@@ -106,8 +134,30 @@ public class SubscriptionRegistry
     }
   }
 
+  /**
+   *
+   * @return Set
+   */
+  public Set getUserTokens()
+  {
+    Context session = Contexts.getSessionContext();
+    if (session.get(CONTEXT_USER_TOKENS) == null)
+    {
+      synchronized(session)
+      {
+        if (session.get(CONTEXT_USER_TOKENS) == null)
+          session.set(CONTEXT_USER_TOKENS, new HashSet<String> ());
+      }
+    }
+    return (Set) session.get(CONTEXT_USER_TOKENS);
+  }
+
   public RemoteSubscriber getSubscription(String token)
   {
+    if (!getUserTokens().contains(token))
+      throw new IllegalArgumentException(
+        "Invalid token argument - token not found in Session Context.");
+
     return subscriptions.get(token);
   }
 }

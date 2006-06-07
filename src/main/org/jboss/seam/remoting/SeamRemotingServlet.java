@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.servlet.SeamServletFilter;
+import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 
 /**
  * Provides remoting capabilities for Seam.
@@ -28,6 +29,8 @@ public class SeamRemotingServlet extends HttpServlet
 
   private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 
+  private static final String PARAM_ALLOWABLE_TOPICS = "allowableTopics";
+
   private static final String RESOURCE_PATH = "resource";
 
   private ServletContext servletContext;
@@ -35,6 +38,16 @@ public class SeamRemotingServlet extends HttpServlet
   public void init(ServletConfig config) throws ServletException
   {
     servletContext = config.getServletContext();
+
+    String topicsParam = config.getInitParameter(PARAM_ALLOWABLE_TOPICS);
+    if (topicsParam != null)
+    {
+      String[] topics = topicsParam.split(",");
+      for (String topic : topics)
+      {
+        SubscriptionRegistry.allowTopic(topic);
+      }
+    }
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)

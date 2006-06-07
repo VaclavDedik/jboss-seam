@@ -94,6 +94,11 @@
   <servlet>
     <servlet-name>Seam Remoting</servlet-name>
     <servlet-class>org.jboss.seam.remoting.SeamRemotingServlet</servlet-class>
+    
+    <init-param>
+      <param-name>allowableTopics</param-name>
+      <param-value>chatroomTopic</param-value>
+    </init-param>    
   </servlet>
 
   <servlet-mapping>
