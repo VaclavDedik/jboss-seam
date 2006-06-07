@@ -19,9 +19,7 @@
 	<classpathentry kind="src" path="embedded-ejb/conf"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
-	<classpathentry kind="lib" path="lib/myfaces-api.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="lib/myfaces-impl.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
@@ -31,5 +29,8 @@
 	<classpathentry kind="lib" path="facelets/lib/jsf-facelets.jar"/>
 	<classpathentry kind="lib" path="facelets/lib/el-api.jar"/>
 	<classpathentry kind="lib" path="lib/mailstuff.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-api-1.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
