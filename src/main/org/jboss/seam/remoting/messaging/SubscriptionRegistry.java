@@ -46,7 +46,7 @@ public class SubscriptionRegistry
   /**
    * Contains a list of all the topics that clients are allowed to subscribe to.
    */
-  private static Set<String> allowedTopics = new HashSet<String>();
+  private Set<String> allowedTopics = new HashSet<String>();
 
   public static SubscriptionRegistry instance()
   {
@@ -60,14 +60,14 @@ public class SubscriptionRegistry
     return registry;
   }
 
-  /**
-   * Add a new topic to the list of allowed topics that clients may subscribe to.
-   *
-   * @param topicName String The name of the topic.
-   */
-  public static synchronized void allowTopic(String topicName)
+  public Set<String> getAllowedTopics()
   {
-    allowedTopics.add(topicName);
+    return allowedTopics;
+  }
+
+  public void setAllowedTopics(Set<String> allowedTopics)
+  {
+    this.allowedTopics = allowedTopics;
   }
 
   public void setConnectionProvider(String connectionProvider)

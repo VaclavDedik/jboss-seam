@@ -741,32 +741,18 @@
         <title>Configuration</title>
         
         <para>
-          Before you can subscribe to a JMS topic, you must first configure your web.xml to allow 
-          only certain topics to be subscribed to via Seam Remoting.  Add an init-param called 
-          <literal>allowableTopics</literal> to the Seam Remoting servlet, and for its param-value
-          list all the topics, separated by commas, that you wish to provide access to.  Make sure 
-          that no extra spaces are included.
+          Before you can subscribe to a JMS topic, you must first configure your seam.properties
+          with a list of the topics that can be subscribed to via Seam Remoting.  Add a configuration
+          property called <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal>
+          and for its value list all the topics, separated by commas, that you wish to allow access to.
         </para>
         
         <programlisting><![CDATA[
-        
-  <servlet>
-    <servlet-name>Seam Remoting</servlet-name>
-    <servlet-class>org.jboss.seam.remoting.SeamRemotingServlet</servlet-class>    
-   
-    <init-param>
-      <param-name>allowableTopics</param-name>
-      <param-value>topic1,topic2</param-value>
-    </init-param>
-  </servlet>       
+org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics=topic1,topic2        
     
         ]]>
         </programlisting>
-        
-        <para>
-          You can also add new topics at runtime, using <literal>SubscriptionRegistry.allowTopic()</literal>.
-        </para>
-             
+                     
       </sect2>
       
       <sect2>

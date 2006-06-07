@@ -76,6 +76,7 @@ import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.SorterNew;
 import org.jboss.seam.util.StringArrayPropertyEditor;
+import org.jboss.seam.util.SetPropertyEditor;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -93,6 +94,7 @@ public class Component
    //static
    {
       PropertyEditorManager.registerEditor(String[].class, StringArrayPropertyEditor.class);
+      PropertyEditorManager.registerEditor(Set.class, SetPropertyEditor.class);
    }
 
    private static final Log log = LogFactory.getLog(Component.class);
@@ -201,7 +203,7 @@ public class Component
 
    }
 
-   private void checkScopeForComponentType() 
+   private void checkScopeForComponentType()
    {
       if ( scope==ScopeType.STATELESS && (type==ComponentType.STATEFUL_SESSION_BEAN || type==ComponentType.ENTITY_BEAN) )
       {
@@ -215,7 +217,7 @@ public class Component
       {
          log.warn("Stateful session beans was bound to the APPLICATION context - note that it is not safe to make concurrent calls to the bean: " + name);
       }
-      
+
       boolean serializableScope = scope==ScopeType.PAGE || scope==ScopeType.SESSION || scope==ScopeType.CONVERSATION;
       boolean serializableType = type==ComponentType.JAVA_BEAN || type==ComponentType.ENTITY_BEAN;
       if ( serializableType && serializableScope && !Serializable.class.isAssignableFrom(beanClass) )
@@ -223,7 +225,7 @@ public class Component
          log.warn("Component class should be serializable: " + name);
       }
    }
-   
+
    private void checkDestroyMethod()
    {
       if ( type==ComponentType.STATEFUL_SESSION_BEAN && ( destroyMethod==null || !removeMethods.contains(destroyMethod) ) )
@@ -374,14 +376,14 @@ public class Component
                   dataModelSelectionSetterAnnotations.put(method, ann);
                }
             }
-            
+
             if ( !method.isAccessible() )
             {
                method.setAccessible(true);
             }
-            
+
          }
-         
+
          for (Field field: clazz.getDeclaredFields())
          {
             if ( field.isAnnotationPresent(In.class) )
@@ -400,7 +402,7 @@ public class Component
             {
                parameterFields.add(field);
             }
-            
+
             for ( Annotation ann: field.getAnnotations() )
             {
                if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
@@ -414,12 +416,12 @@ public class Component
                   dataModelSelectionFieldAnnotations.put(field, ann);
                }
             }
-            
+
             if ( !field.isAccessible() )
             {
                field.setAccessible(true);
             }
-            
+
          }
 
       }
@@ -444,11 +446,11 @@ public class Component
          }
       }
 
-      for (Method method: selectionSetters) 
+      for (Method method: selectionSetters)
       {
          Annotation ann = dataModelSelectionSetterAnnotations.get(method);
          String name = createUnwrapper(ann).getVariableName(ann);
-         if ( name.length() == 0 ) 
+         if ( name.length() == 0 )
          {
             if ( hasMultipleDataModels )
             {
@@ -462,12 +464,12 @@ public class Component
             throw new IllegalStateException("Multiple @DataModelSelection setters for: " + name);
          }
       }
-      
-      for (Field field: selectionFields) 
+
+      for (Field field: selectionFields)
       {
          Annotation ann = dataModelSelectionFieldAnnotations.get(field);
          String name = createUnwrapper(ann).getVariableName(ann);
-         if ( name.length() == 0 ) 
+         if ( name.length() == 0 )
          {
             if ( hasMultipleDataModels )
             {
@@ -513,14 +515,14 @@ public class Component
    {
       List<SortItem<Interceptor>> siList = new ArrayList<SortItem<Interceptor>>();
       Map<Class<?>,SortItem<Interceptor>> ht = new HashMap<Class<?>,SortItem<Interceptor>>();
-      
+
       for (Interceptor i : list)
       {
          SortItem<Interceptor> si = new SortItem<Interceptor>(i);
          siList.add(si);
          ht.put( i.getUserInterceptor().getClass(), si );
       }
-      
+
       for (SortItem<Interceptor> si : siList)
       {
          Class<?> clazz = si.getObj().getUserInterceptor().getClass();
@@ -552,7 +554,7 @@ public class Component
       }
       return list ;
    }
-   
+
    private void initDefaultInterceptors()
    {
       interceptors.add( new Interceptor( new OutcomeInterceptor(), this ) );
@@ -592,7 +594,7 @@ public class Component
    {
       java.util.ResourceBundle bundle = Contexts.isApplicationContextActive() ? //yew, just for testing!
             ResourceBundle.instance() : null;
-      Locale locale = bundle==null ? 
+      Locale locale = bundle==null ?
             new Locale("DUMMY") : bundle.getLocale();
       ClassValidator validator = validators.get(locale);
       if (validator==null)
@@ -766,14 +768,14 @@ public class Component
          setFieldValue( bean, field, name, convertedValue );
       }
    }
-   
+
    private Object convertRequestParameter(Object requestParameter, Class type)
    {
       if ( String.class.equals(type) ) return requestParameter;
-      
+
       FacesContext facesContext = FacesContext.getCurrentInstance();
       Converter converter = facesContext.getApplication().createConverter(type);
-      if (converter==null) 
+      if (converter==null)
       {
          throw new IllegalArgumentException("no converter for type: " + type);
       }
@@ -808,16 +810,16 @@ public class Component
    private void injectDataModelSelection(Object bean, String name, Field dataModelField, DataBinder wrapper, Annotation dataModelAnn)
    {
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
-      
+
       Object dataModel = getDataModelContext(scope).get(name);
       if ( dataModel != null )
       {
-         
+
          if (dataModelField!=null)
          {
             setFieldValue( bean, dataModelField, name, wrapper.getWrappedData(dataModelAnn, dataModel) ); //for PAGE scope datamodels (does not work for properties!)
          }
-         
+
          Object selectedIndex = wrapper.getSelection(dataModelAnn, dataModel);
 
          log.debug( "selected row: " + selectedIndex );
@@ -832,14 +834,14 @@ public class Component
                setPropertyValue(bean, setter, name, selection);
             }
             Field field = dataModelSelectionFields.get(name);
-            if (field != null) 
+            if (field != null)
             {
                Annotation dataModelSelectionAnn = dataModelSelectionFieldAnnotations.get(field);
                Object selection = createUnwrapper(dataModelSelectionAnn).getSelection(dataModelSelectionAnn, dataModel);
                setFieldValue(bean, field, name, selection);
             }
          }
-         
+
       }
    }
 
@@ -895,14 +897,14 @@ public class Component
 
    private void outjectDataModelList(String name, Object list, DataBinder wrapper, Annotation dataModelAnn)
    {
-      
+
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
-      
+
       Context context = getDataModelContext(scope);
       Object existingDataModel = context.get(name);
       boolean dirty = existingDataModel == null || scope==ScopeType.PAGE ||
             wrapper.isDirty(dataModelAnn, existingDataModel, list);
-      
+
       if ( dirty )
       {
          if ( list != null )
@@ -914,7 +916,7 @@ public class Component
             context.remove( name );
          }
       }
-      
+
    }
 
    private Context getDataModelContext(ScopeType specifiedScope) {
@@ -986,9 +988,9 @@ public class Component
    {
       if (value==null && out.required())
       {
-         throw new RequiredException( 
-               "Out attribute requires value for component: " + 
-               getAttributeMessage(name) 
+         throw new RequiredException(
+               "Out attribute requires value for component: " +
+               getAttributeMessage(name)
             );
       }
       else
@@ -1001,9 +1003,9 @@ public class Component
             {
                if ( !component.isInstance(value) )
                {
-                  throw new IllegalArgumentException( 
-                        "attempted to bind an Out attribute of the wrong type to: " + 
-                        getAttributeMessage(name) 
+                  throw new IllegalArgumentException(
+                        "attempted to bind an Out attribute of the wrong type to: " +
+                        getAttributeMessage(name)
                      );
                }
             }
@@ -1285,9 +1287,9 @@ public class Component
       {
          if ( in.create() )
          {
-            throw new IllegalArgumentException( 
-                  "cannot combine create=true with explicit scope on @In: " + 
-                  getAttributeMessage(name) 
+            throw new IllegalArgumentException(
+                  "cannot combine create=true with explicit scope on @In: " +
+                  getAttributeMessage(name)
                );
          }
          result = in.scope().getContext().get(name);
@@ -1295,9 +1297,9 @@ public class Component
 
       if (result==null && in.required())
       {
-         throw new RequiredException( 
-               "In attribute requires value for component: " +  
-               getAttributeMessage(name) 
+         throw new RequiredException(
+               "In attribute requires value for component: " +
+               getAttributeMessage(name)
             );
       }
       else
