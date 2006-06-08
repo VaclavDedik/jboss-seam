@@ -190,6 +190,10 @@ public class Pageflow implements Serializable
    public void begin(String processDefinitionName)
    {
       ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
+      if (pd==null)
+      {
+         throw new IllegalArgumentException("pageflow definition not found: " + processDefinitionName);
+      }
       ProcessInstance pi = PageflowHelper.newPageflowInstance(pd);
       setProcessInstance(pi);
       //if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
