@@ -1226,8 +1226,8 @@ public class Component
          Object instance = component.newInstance();
          if (component.getScope()!=ScopeType.STATELESS)
          {
+            component.getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
             callCreateMethod(component, instance);
-            component.getScope().getContext().set(name, instance);
          }
          return instance;
       }
