@@ -153,7 +153,7 @@ public class RemotingTest
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     wrapper.marshal(out);
     byte[] expected = ("<str>" + URLEncoder.encode(value, StringWrapper.DEFAULT_ENCODING) +
-                       "</str>").getBytes();
+                       "</str>").replace("+", "%20").getBytes();
 
     assertEquals(expected, out.toByteArray());
 
