@@ -57,10 +57,11 @@ public class SeamVariableResolver extends VariableResolver
       }
       else
       {
-         if ( managedBean!=null && managedBean!=component )
+         //TODO: fix and re-enable
+         /*if ( managedBean!=null && managedBean!=component )
          {
             log.warn("Seam component hides managed bean with same name");
-         }
+         }*/
          log.debug("resolved name to seam component");
          return component;
       }      

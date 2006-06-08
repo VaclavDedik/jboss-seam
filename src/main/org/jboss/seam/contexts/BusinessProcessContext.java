@@ -17,6 +17,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ProcessInstance;
+import org.jboss.seam.core.TaskInstance;
 import org.jbpm.context.exe.ContextInstance;
 
 /**
@@ -41,18 +42,23 @@ public class BusinessProcessContext implements Context {
 
    public BusinessProcessContext() {}
    
-   private ContextInstance getContextInstance()
-   {
-      org.jbpm.graph.exe.ProcessInstance processInstance = getProcessInstance();
-      return processInstance==null ? null : processInstance.getContextInstance(); 
-   }
-
    public Object get(String name) {
+      
       Object result = additions.get(name);
       if (result!=null) return result;
       if ( removals.contains(name) ) return null;
-      ContextInstance context = getContextInstance();
-      return context==null ? null : context.getVariable(name);
+      
+      org.jbpm.taskmgmt.exe.TaskInstance taskInstance = getTaskInstance();
+      if (taskInstance==null)
+      {
+         ContextInstance context = getContextInstance();
+         return context==null ? null : context.getVariable(name);
+      }
+      else
+      {
+         return taskInstance.getVariable(name);
+      }
+      
    }
 
    public void set(String name, Object value) {
@@ -85,12 +91,20 @@ public class BusinessProcessContext implements Context {
 
    private Set<String> getNamesFromContext() {
       HashSet<String> results = new HashSet<String>();
-      ContextInstance context = getContextInstance();
-      if ( context!=null ) 
+      org.jbpm.taskmgmt.exe.TaskInstance taskInstance = getTaskInstance();
+      if (taskInstance==null)
       {
-         results.addAll( context.getVariables().keySet() );
-         results.removeAll(removals);
+         ContextInstance context = getContextInstance();
+         if ( context!=null ) 
+         {
+            results.addAll( context.getVariables().keySet() );
+         }
       }
+      else
+      {
+         results.addAll( taskInstance.getVariables().keySet() );
+      }
+      results.removeAll(removals);
       return results;
    }
 
@@ -108,29 +122,70 @@ public class BusinessProcessContext implements Context {
 
    public void flush()
    {
-      org.jbpm.graph.exe.ProcessInstance processInstance = getProcessInstance();
-      if ( processInstance==null )
+      if ( !additions.isEmpty() || !removals.isEmpty() )
       {
-         log.debug( "no process instance to persist business process state" );
-      }
-      else if ( !additions.isEmpty() || !removals.isEmpty() )
-      {
-         log.debug( "flushing to process instance: " + processInstance.getId() );
-
-         ContextInstance contextInstance = processInstance.getContextInstance();
-
-         for ( Map.Entry<String, Object> entry: additions.entrySet() )
+         
+         org.jbpm.taskmgmt.exe.TaskInstance taskInstance = getTaskInstance();
+         if (taskInstance==null)
          {
-            contextInstance.setVariable( entry.getKey(), entry.getValue() );
+            org.jbpm.graph.exe.ProcessInstance processInstance = getProcessInstance();
+            if ( processInstance==null )
+            {
+               log.debug( "no process instance to persist business process state" );
+            }
+            else 
+            {
+               flushToProcessInstance(processInstance);
+            }
          }
+         else
+         {
+            flushToTaskInstance(taskInstance);
+         }
+         
          additions.clear();
-
-         for ( String name: removals )
-         {
-            contextInstance.deleteVariable(name);
-         }
          removals.clear();
+         
       }
+      
+   }
+
+   private void flushToTaskInstance(org.jbpm.taskmgmt.exe.TaskInstance taskInstance)
+   {
+      log.debug( "flushing to task instance: " + taskInstance.getId() );
+      
+      for ( Map.Entry<String, Object> entry: additions.entrySet() )
+      {
+         taskInstance.setVariableLocally( entry.getKey(), entry.getValue() );
+      }
+
+      for ( String name: removals )
+      {
+         taskInstance.deleteVariableLocally(name);
+      }
+   }
+
+   private void flushToProcessInstance(org.jbpm.graph.exe.ProcessInstance processInstance)
+   {
+      log.debug( "flushing to process instance: " + processInstance.getId() );
+  
+      ContextInstance contextInstance = processInstance.getContextInstance();
+  
+      for ( Map.Entry<String, Object> entry: additions.entrySet() )
+      {
+         contextInstance.setVariable( entry.getKey(), entry.getValue() );
+      }
+  
+      for ( String name: removals )
+      {
+         contextInstance.deleteVariable(name);
+      }
+   }
+
+   private ContextInstance getContextInstance()
+   {
+      org.jbpm.graph.exe.ProcessInstance processInstance = getProcessInstance();
+      return processInstance==null ? null : processInstance.getContextInstance(); 
    }
 
    private org.jbpm.graph.exe.ProcessInstance getProcessInstance()
@@ -142,8 +197,23 @@ public class BusinessProcessContext implements Context {
       }
       else
       {
-          return ProcessInstance.instance();
+         return ProcessInstance.instance();
       }
    }
+   
+   private org.jbpm.taskmgmt.exe.TaskInstance getTaskInstance()
+   {
+      Init init = Init.instance(); //may be null in some tests
+      if ( init==null || !init.isJbpmInstalled() ) 
+      {
+         return null;
+      }
+      else
+      {
+         return TaskInstance.instance();
+      }
+   }
+   
+   
 
 }
