@@ -189,9 +189,11 @@ public class HtmlLink extends HtmlOutputLink
          throws UnsupportedEncodingException
    {
       Object value = param.getValue();
-      return (first ? '?' : '&') + 
-            param.getName() + '=' + 
-            URLEncoder.encode( value==null ? "" : value.toString(), characterEncoding );
+      String strValue = value==null ? "" : value.toString();
+      String encoded = characterEncoding==null ? 
+            URLEncoder.encode(strValue) : //to work around what appears to be a bug in ADF
+            URLEncoder.encode(strValue, characterEncoding);
+      return (first ? '?' : '&') + param.getName() + '=' + encoded;
    }
 
    public String getView()
