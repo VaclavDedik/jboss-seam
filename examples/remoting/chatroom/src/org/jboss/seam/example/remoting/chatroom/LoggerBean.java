@@ -8,7 +8,7 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.ComponentLog;
 import org.jboss.seam.annotations.Name;
 
 @MessageDriven(activationConfig={
@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Name;
 public class LoggerBean implements MessageListener
 {
    
-   private static final Log log = LogFactory.getLog(LoggerBean.class);
+   @ComponentLog Log log;
 
    public void onMessage(Message msg)
    {
