@@ -98,8 +98,9 @@ public void publish(Payment payment) {
     <section>
         <title>Receiving messages using a message-driven bean</title>
         <para>
-            You can process messages using any EJB3 message driven bean. Currently message-driven
-            beans cannot be Seam components, but this will be fixed in the next release.
+            You can process messages using any EJB3 message driven bean. Message-driven
+            beans may even be Seam components, in which case it is possible to inject
+            other event and application scoped Seam components.
         </para>
     </section>
     

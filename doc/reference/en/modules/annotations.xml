@@ -324,6 +324,31 @@
         </variablelist>
         
         <para>
+            This annotation lets you inject a <literal>Log</literal>:
+        </para>
+        
+        <variablelist spacing="compact">
+            <varlistentry id="componentlog-annotation">
+                <term><literal>@ComponentLog</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@ComponentLog("categoryName")]]></programlisting>
+                    <para>
+                        Specifies that a component field is to be injected with an instance of
+                        <literal>org.apache.commons.logging.Log</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; specifies the name of the
+                            log category. Default to the name of the component class.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+        
+        <para>
             The last annotation lets you inject a request parameter value:
         </para>
         
