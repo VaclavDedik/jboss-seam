@@ -1,6 +1,8 @@
 package org.jboss.seam.log;
 
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
 
 /**
@@ -153,6 +155,7 @@ public class LogImpl implements Log
    {
       if (object instanceof String)
       {
+         if ( !Contexts.isApplicationContextActive() ) return object; //for unit testing
          return Interpolator.instance().interpolate( (String) object, params );
       }
       else
