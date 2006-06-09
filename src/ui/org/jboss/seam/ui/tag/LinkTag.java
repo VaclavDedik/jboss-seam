@@ -25,6 +25,7 @@ public class LinkTag extends HtmlCommandLinkTagBase
     private String propagation;
     private String pageflow;
     private String taskInstance;
+    private String fragment;
 
     protected void setProperties(UIComponent component)
     {
@@ -36,6 +37,7 @@ public class LinkTag extends HtmlCommandLinkTagBase
         setStringProperty(component, "linkStyle", linkStyle);
         setStringProperty(component, "propagation", propagation);
         setStringProperty(component, "pageflow", pageflow);
+        setStringProperty(component, "fragment", fragment);
     }
 
     public void setAction(String action)
@@ -71,5 +73,10 @@ public class LinkTag extends HtmlCommandLinkTagBase
    public void setTaskInstance(String task)
    {
       this.taskInstance = task;
+   }
+
+   public void setFragment(String fragment)
+   {
+      this.fragment = fragment;
    }
 }

@@ -85,6 +85,10 @@
             <property-class>java.lang.String</property-class>
         </property>
         <property>
+            <property-name>fragment</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
             <property-name>propagation</property-name>
             <property-class>java.lang.String</property-class>
         </property>

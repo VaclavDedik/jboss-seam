@@ -44,6 +44,12 @@
 		</attribute>
 
 		<attribute>
+			<name>fragment</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
 			<name>taskInstance</name>
 			<required>false</required>
 			<rtexprvalue>false</rtexprvalue>

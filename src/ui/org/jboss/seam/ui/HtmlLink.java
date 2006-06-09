@@ -25,6 +25,7 @@ public class HtmlLink extends HtmlOutputLink
    private String style;
    private String buttonClass;
    private String propagation = "default";
+   private String fragment;
 
    private UISelection getSelection()
    {
@@ -141,6 +142,11 @@ public class HtmlLink extends HtmlOutputLink
       {
          encodedUrl += getParameterString(characterEncoding, uiSelection, first);
          first = false;
+      }
+      
+      if (fragment!=null)
+      {
+         encodedUrl += '#' + fragment;
       }
       
       if ( "button".equals(style) )
@@ -271,6 +277,16 @@ public class HtmlLink extends HtmlOutputLink
    public void setButtonClass(String buttonClass)
    {
       this.buttonClass = buttonClass;
+   }
+
+   public String getFragment()
+   {
+      return fragment;
+   }
+
+   public void setFragment(String fragment)
+   {
+      this.fragment = fragment;
    }
 
 }
