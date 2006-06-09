@@ -131,7 +131,7 @@ public class Component
    private Map<Field, Annotation> dataModelSelectionFieldAnnotations = new HashMap<Field, Annotation>();
    
    private Field logField;
-   private Log logInstance;
+   private org.jboss.seam.log.Log logInstance;
 
    private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
 
@@ -409,17 +409,17 @@ public class Component
             {
                parameterFields.add(field);
             }
-            if ( field.isAnnotationPresent(org.jboss.seam.annotations.ComponentLog.class) )
+            if ( field.isAnnotationPresent(org.jboss.seam.annotations.Logger.class) )
             {
                logField=field;
-               String category = field.getAnnotation(org.jboss.seam.annotations.ComponentLog.class).value();
+               String category = field.getAnnotation(org.jboss.seam.annotations.Logger.class).value();
                if ( "".equals( category ) )
                {
-                  logInstance = LogFactory.getLog(beanClass);
+                  logInstance = new org.jboss.seam.log.LogImpl(beanClass);
                }
                else
                {
-                  logInstance = LogFactory.getLog(category);
+                  logInstance = new org.jboss.seam.log.LogImpl(category);
                }
             }
             for ( Annotation ann: field.getAnnotations() )

@@ -38,27 +38,46 @@ public class Interpolator {
     * @param string a template
     * @return the interpolated string
     */
-   public String interpolate(String string) {
+   public String interpolate(String string, Object... params) {
+      if ( string.indexOf('#')<0 ) return string;
+      if ( params.length>10 ) 
+      {
+         throw new IllegalArgumentException("more than 10 parameters");
+      }
+      
       FacesContext context = FacesContext.getCurrentInstance();
-      StringTokenizer tokens = new StringTokenizer(string, "#${}", true);
+      StringTokenizer tokens = new StringTokenizer(string, "#{}", true);
       StringBuilder builder = new StringBuilder(string.length());
       while ( tokens.hasMoreTokens() )
       {
          String tok = tokens.nextToken();
          if ( "#".equals(tok) )
          {
-            tokens.nextToken();
-            String expression = "#{" + tokens.nextToken() + "}";
-            try
+            String nextTok = tokens.nextToken();
+            if ( "{".equals(nextTok) )
             {
-               Object value = context.getApplication().createValueBinding(expression).getValue(context);
-               if (value!=null) builder.append(value);
+               String expression = "#{" + tokens.nextToken() + "}";
+               try
+               {
+                  Object value = context.getApplication().createValueBinding(expression).getValue(context);
+                  if (value!=null) builder.append(value);
+               }
+               catch (Exception e)
+               {
+                  log.warn("exception interpolating string: " + string, e);
+               }
+               tokens.nextToken();
             }
-            catch (Exception e)
+            else 
             {
-               log.warn("exception interpolating string: " + string, e);
+               int index = Integer.parseInt( nextTok.substring(0, 1) );
+               if (index>=params.length) 
+               {
+                  throw new IllegalArgumentException("parameter index out of bounds: " + index + " in: " + string);
+               }
+               builder.append( params[index] );
+               builder.append( nextTok.substring(1) );
             }
-            tokens.nextToken();
          }
          else
          {

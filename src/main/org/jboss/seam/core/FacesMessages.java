@@ -108,19 +108,19 @@ public class FacesMessages implements Serializable
     * Add a templated FacesMessage to a particular component id
     * @param id a JSF component id
     */
-   public void add(String id, String messageTemplate)
+   public void add(String id, String messageTemplate, Object... params)
    {
-      add(id, FacesMessage.SEVERITY_INFO, messageTemplate);
+      add(id, FacesMessage.SEVERITY_INFO, messageTemplate, params);
    }
    
    /**
     * Add a templated FacesMessage to a particular component id
     * @param id a JSF component id
     */
-   public void add(final String id, final Severity severity, final String messageTemplate)
+   public void add(final String id, final Severity severity, final String messageTemplate, final Object... params)
    {
       getTasks().add( new Runnable() {
-         public void run() { add( id, createFacesMessage(severity, messageTemplate) ); }
+         public void run() { add( id, createFacesMessage(severity, messageTemplate, params) ); }
       } );
    }
 
@@ -137,19 +137,19 @@ public class FacesMessages implements Serializable
     * Add a templated FacesMessage that will be used
     * the next time a page is rendered.
     */
-   public void add(String messageTemplate)
+   public void add(String messageTemplate, Object... params)
    {
-      add(FacesMessage.SEVERITY_INFO, messageTemplate);
+      add(FacesMessage.SEVERITY_INFO, messageTemplate, params);
    }
    
    /**
     * Add a templated FacesMessage that will be used
     * the next time a page is rendered.
     */
-   public void add(final Severity severity, final String messageTemplate)
+   public void add(final Severity severity, final String messageTemplate, final Object... params)
    {
       getTasks().add( new Runnable() {
-         public void run() { add( createFacesMessage(severity, messageTemplate) ); }
+         public void run() { add( createFacesMessage(severity, messageTemplate, params) ); }
       } );
    }
    
@@ -157,18 +157,18 @@ public class FacesMessages implements Serializable
     * Add a templated FacesMessage by looking for the message
     * template in the resource bundle. 
     */
-   public void addFromResourceBundle(String key)
+   public void addFromResourceBundle(String key, Object... params)
    {
-      addFromResourceBundle(FacesMessage.SEVERITY_INFO, key);
+      addFromResourceBundle(FacesMessage.SEVERITY_INFO, key, params);
    }
    
    /**
     * Add a templated FacesMessage by looking for the message
     * template in the resource bundle. 
     */
-   public void addFromResourceBundle(Severity severity, String key)
+   public void addFromResourceBundle(Severity severity, String key, Object... params)
    {
-      addFromResourceBundle(severity, key, key);
+      addFromResourceBundle(severity, key, key, params);
    }
    
    /**
@@ -176,7 +176,7 @@ public class FacesMessages implements Serializable
     * template in the resource bundle. If it is missing, use
     * the given message template.
     */
-   public void addFromResourceBundle(Severity severity, String key, String defaultMessageTemplate)
+   public void addFromResourceBundle(Severity severity, String key, String defaultMessageTemplate, Object... params)
    {
       String messageTemplate = defaultMessageTemplate;
       java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
@@ -189,7 +189,7 @@ public class FacesMessages implements Serializable
          }
          catch (MissingResourceException mre) {} //swallow
       }
-      add(severity, messageTemplate);
+      add(severity, messageTemplate, params);
    }
 
    public void add(InvalidValue iv)
@@ -197,9 +197,9 @@ public class FacesMessages implements Serializable
       add( iv.getPropertyName(), FacesMessage.SEVERITY_WARN, iv.getMessage() );
    }
    
-   public static FacesMessage createFacesMessage(Severity severity, String messageTemplate)
+   public static FacesMessage createFacesMessage(Severity severity, String messageTemplate, Object... params)
    {
-      return new FacesMessage( severity, Interpolator.instance().interpolate(messageTemplate), null );
+      return new FacesMessage( severity, Interpolator.instance().interpolate(messageTemplate, params), null );
    }
    
    private String getClientId(String id)
