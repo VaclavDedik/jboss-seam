@@ -13,6 +13,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  * Interpolates EL expressions in Strings
@@ -28,7 +29,14 @@ public class Interpolator {
    
    public static Interpolator instance()
    {
-      return (Interpolator) Component.getInstance(Interpolator.class, true);
+      if ( Contexts.isApplicationContextActive() )
+      {
+         return (Interpolator) Component.getInstance(Interpolator.class, true);         
+      }
+      else
+      {
+         return new Interpolator(); //for unit testing
+      }
    }
    
    /**
