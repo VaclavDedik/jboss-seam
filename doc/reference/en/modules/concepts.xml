@@ -300,6 +300,11 @@
                     JavaBeans
                 </para>
             </listitem>
+            <listitem>
+                <para>
+                    EJB 3.0 message-driven beans
+                </para>
+            </listitem>
         </itemizedlist>
         
         <sect2>
@@ -381,6 +386,20 @@
             </para>
         </sect2>
         
+        <sect2>
+            <title>Message-driven beans</title>
+            <para>
+                Message-driven beans may function as a seam component. However, message-driven beans
+                are called quite differently to other Seam components - instead of invoking them via
+                the context variable, they listen for messages sent to a JMS queue or topic.
+            </para>
+            <para>
+                Message-driven beans may not be bound to a Seam context. Nor do they have access to
+                any Seam contexts apart from the <literal>EVENT</literal> and <literal>APPLICATION</literal>
+                contexts. However, they do support bijection and some other Seam functionality.
+            </para>
+        </sect2>
+
         <sect2>
             <title>Interception</title>
             <para>
