@@ -7,9 +7,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
-import org.apache.commons.logging.Log;
-import org.jboss.seam.annotations.ComponentLog;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.log.Log;
 
 @MessageDriven(activationConfig={
       @ActivationConfigProperty(propertyName="messagingType", propertyValue="javax.jms.MessageListener"),
@@ -21,14 +21,14 @@ import org.jboss.seam.annotations.Name;
 public class LoggerBean implements MessageListener
 {
    
-   @ComponentLog Log log;
+   @Logger Log log;
 
    public void onMessage(Message msg)
    {
       try
       {
          ChatroomEvent event = (ChatroomEvent) ( (ObjectMessage) msg ).getObject();
-         log.info( event.getUser() + ": " + ( event.getData()==null ? event.getAction() : event.getData() ) );
+         log.info( "#0: #1", event.getUser(), event.getData()==null ? event.getAction() : event.getData() );
       }
       catch (JMSException jmse)
       {
