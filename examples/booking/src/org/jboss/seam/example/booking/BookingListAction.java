@@ -13,6 +13,7 @@ import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
@@ -23,6 +24,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.log.Log;
 
 @Stateful
 @Scope(SESSION)
@@ -44,6 +46,8 @@ public class BookingListAction implements BookingList, Serializable
    @Out(required=false)
    private Booking booking;
    
+   @Logger private Log log;
+   
    @Factory
    @Observer("bookingConfirmed")
    public void getBookings()
@@ -55,6 +59,7 @@ public class BookingListAction implements BookingList, Serializable
    
    public String cancel()
    {
+      log.info("Cancel booking: #0 for #{user.username}", booking.getId());
       Booking cancelled = em.find(Booking.class, booking.getId());
       if (cancelled!=null) em.remove( cancelled );
       getBookings();

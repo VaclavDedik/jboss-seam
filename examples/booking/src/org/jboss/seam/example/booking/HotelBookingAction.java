@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
@@ -19,6 +20,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.log.Log;
 
 @Stateful
 @Name("hotelBooking")
@@ -48,6 +50,8 @@ public class HotelBookingAction implements HotelBooking
       
    @In 
    private HotelSearching hotelSearch;
+   
+   @Logger private Log log;
    
    @Begin
    public String selectHotel()
@@ -87,6 +91,7 @@ public class HotelBookingAction implements HotelBooking
       if (booking==null || hotel==null) return "main";
       em.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      log.info("New booking: #{booking.id} for #{user.username}");
       events.raiseEvent("bookingConfirmed");
       return "confirmed";
    }
