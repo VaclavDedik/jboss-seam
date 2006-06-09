@@ -129,6 +129,9 @@ public class Component
    private Map<Field, Annotation> dataModelFieldAnnotations = new HashMap<Field, Annotation>();
    private Map<String, Field> dataModelSelectionFields = new HashMap<String, Field>();
    private Map<Field, Annotation> dataModelSelectionFieldAnnotations = new HashMap<Field, Annotation>();
+   
+   private Field logField;
+   private Log logInstance;
 
    private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
 
@@ -406,7 +409,19 @@ public class Component
             {
                parameterFields.add(field);
             }
-
+            if ( field.isAnnotationPresent(org.jboss.seam.annotations.ComponentLog.class) )
+            {
+               logField=field;
+               String category = field.getAnnotation(org.jboss.seam.annotations.ComponentLog.class).value();
+               if ( "".equals( category ) )
+               {
+                  logInstance = LogFactory.getLog(beanClass);
+               }
+               else
+               {
+                  logInstance = LogFactory.getLog(category);
+               }
+            }
             for ( Annotation ann: field.getAnnotations() )
             {
                if ( ann.annotationType().isAnnotationPresent(DataBinderClass.class) )
@@ -696,7 +711,8 @@ public class Component
             !dataModelSelectionSetters.isEmpty() ||
             !dataModelSelectionFields.isEmpty() ||
             !parameterFields.isEmpty() ||
-            !parameterSetters.isEmpty();
+            !parameterSetters.isEmpty() ||
+            logField!=null;
    }
 
     public boolean needsOutjection() {
@@ -743,10 +759,19 @@ public class Component
 
    public void inject(Object bean/*, boolean isActionInvocation*/)
    {
+      injectLog(bean);
       injectMethods(bean/*, isActionInvocation*/);
       injectFields(bean/*, isActionInvocation*/);
       injectDataModelSelection(bean);
       injectParameters(bean);
+   }
+   
+   private void injectLog(Object bean)
+   {
+      if (logField!=null)
+      {
+         setFieldValue(bean, logField, "log", logInstance);
+      }
    }
 
    private void injectParameters(Object bean)
