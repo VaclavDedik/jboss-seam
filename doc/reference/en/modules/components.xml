@@ -89,16 +89,6 @@
                     </para>
                 </listitem>
             </varlistentry>
-            <varlistentry>
-                <term><literal>uiComponent</literal></term>
-                <listitem>
-                    <para>
-                        Allows access to a JSF <literal>UIComponent</literal> by its id
-                        from the EL. For example, we can write 
-                        <literal>@In("#{uiComponent['myForm:address'].value}")</literal>.
-                    </para>
-                </listitem>
-            </varlistentry>
         </variablelist>
         
         <para>
@@ -251,6 +241,33 @@
                     </itemizedlist>
                 </listitem>
              </varlistentry>
+            <varlistentry>
+                <term><literal>pojoCache</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a JBoss Cache <literal>PojoCache</literal> 
+                        instance.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>pojoCache.cfgResourceName</literal> &mdash; the name of 
+                            the configuration file. Default to <literal>treecache.xml</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>uiComponent</literal></term>
+                <listitem>
+                    <para>
+                        Allows access to a JSF <literal>UIComponent</literal> by its id
+                        from the EL. For example, we can write 
+                        <literal>@In("#{uiComponent['myForm:address'].value}")</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
         </variablelist>
         
         <para>
@@ -861,6 +878,8 @@
         <para>
             These components relate to web-tier security.
         </para>
+        
+        <variablelist spacing="compact">
             <varlistentry>
                 <term><literal>userPrincipal</literal></term>
                 <listitem>
@@ -879,6 +898,7 @@
                     </para>
                 </listitem>
             </varlistentry>
+        </variablelist>
     </section>
     
     <section>
