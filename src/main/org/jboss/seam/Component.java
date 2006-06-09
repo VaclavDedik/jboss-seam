@@ -73,10 +73,10 @@ import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.util.SetPropertyEditor;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.SorterNew;
 import org.jboss.seam.util.StringArrayPropertyEditor;
-import org.jboss.seam.util.SetPropertyEditor;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -724,8 +724,9 @@ public class Component
               return beanClass.newInstance();
            case STATELESS_SESSION_BEAN:
            case STATEFUL_SESSION_BEAN:
-           case MESSAGE_DRIVEN_BEAN:
               return Naming.getInitialContext().lookup(jndiName);
+           case MESSAGE_DRIVEN_BEAN:
+              throw new UnsupportedOperationException("Message-driven beans may not be called: " + name);
            default:
               throw new IllegalStateException();
         }
