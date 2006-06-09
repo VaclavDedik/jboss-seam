@@ -615,6 +615,34 @@
     </section>
     
     <section>
+        <title>Security-related components</title>
+        <para>
+            These components relate to web-tier security.
+        </para>
+        
+        <variablelist spacing="compact">
+            <varlistentry>
+                <term><literal>userPrincipal</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for the current user <literal>Principal</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>isUserInRole</literal></term>
+                <listitem>
+                    <para>
+                        Allows JSF pages to choose to render a control, depending upon
+                        the roles available to the current principal.
+                        <literal>&lt;h:commandButton value="edit" rendered="#{isUserInRole['admin']}"/&gt;</literal>.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    
+    <section>
         <title>JMS-related components</title>
         <para>
             These components are for use with managed <literal>TopicPublisher</literal>s
@@ -873,34 +901,6 @@
        </variablelist>
    </section>
 
-    <section>
-        <title>Security-related components</title>
-        <para>
-            These components relate to web-tier security.
-        </para>
-        
-        <variablelist spacing="compact">
-            <varlistentry>
-                <term><literal>userPrincipal</literal></term>
-                <listitem>
-                    <para>
-                        Manager component for the current user <literal>Principal</literal>.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>isUserInRole</literal></term>
-                <listitem>
-                    <para>
-                        Allows JSF pages to choose to render a control, depending upon
-                        the roles available to the current principal.
-                        <literal>&lt;h:commandButton value="edit" rendered="#{isUserInRole['admin']}"/&gt;</literal>.
-                    </para>
-                </listitem>
-            </varlistentry>
-        </variablelist>
-    </section>
-    
     <section>
         <title>Special components</title>
         <para>

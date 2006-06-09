@@ -534,7 +534,7 @@
     public void doSomethingWithObject(Object obj) {
       // code
     }
-  }        
+  }
         </programlisting>
         
         <para>
@@ -716,14 +716,13 @@
         </para>
         
         <programlisting>
-
   Seam.Remoting.displayLoadingMessage = function() {
     // Write code here to display the indicator
   };
   
   Seam.Remoting.hideLoadingMessage = function() {
     // Write code here to hide the indicator
-  };                
+  };
         </programlisting>
       </sect2>
     </sect1>
@@ -747,11 +746,7 @@
           and for its value list all the topics, separated by commas, that you wish to allow access to.
         </para>
         
-        <programlisting><![CDATA[
-org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics=topic1,topic2        
-    
-        ]]>
-        </programlisting>
+        <programlisting><![CDATA[org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics=topic1,topic2]]></programlisting>
                      
       </sect2>
       
@@ -763,15 +758,13 @@ org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics=topic1,topi
         </para>
         
         <programlisting>
-        
   function subscriptionCallback(message)
   {
     if (message instanceof Seam.Remoting.TextMessage)
       alert("Received message: " + message.getText());
   }        
         
-  Seam.Remoting.subscribe("topicName", subscriptionCallback);        
-        
+  Seam.Remoting.subscribe("topicName", subscriptionCallback);
         </programlisting>
         
         <para>
