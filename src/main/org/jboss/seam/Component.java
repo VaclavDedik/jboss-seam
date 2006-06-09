@@ -217,6 +217,10 @@ public class Component
       {
          log.warn("Stateful session beans was bound to the APPLICATION context - note that it is not safe to make concurrent calls to the bean: " + name);
       }
+      if ( scope!=ScopeType.STATELESS && type==ComponentType.MESSAGE_DRIVEN_BEAN )
+      {
+         throw new IllegalArgumentException("Message-driven beans must be bound to STATELESS context: " + name);
+      }
 
       boolean serializableScope = scope==ScopeType.PAGE || scope==ScopeType.SESSION || scope==ScopeType.CONVERSATION;
       boolean serializableType = type==ComponentType.JAVA_BEAN || type==ComponentType.ENTITY_BEAN;
@@ -718,8 +722,9 @@ public class Component
               }
            case ENTITY_BEAN:
               return beanClass.newInstance();
-           case STATELESS_SESSION_BEAN :
-           case STATEFUL_SESSION_BEAN :
+           case STATELESS_SESSION_BEAN:
+           case STATEFUL_SESSION_BEAN:
+           case MESSAGE_DRIVEN_BEAN:
               return Naming.getInitialContext().lookup(jndiName);
            default:
               throw new IllegalStateException();

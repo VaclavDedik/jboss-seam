@@ -14,6 +14,7 @@ public enum ComponentType
    ENTITY_BEAN, 
    STATELESS_SESSION_BEAN,
    STATEFUL_SESSION_BEAN,
+   MESSAGE_DRIVEN_BEAN,
    JAVA_BEAN;
    
    public boolean isEjb()
@@ -29,6 +30,7 @@ public enum ComponentType
          case ENTITY_BEAN:
             return CONVERSATION;
          case STATELESS_SESSION_BEAN:
+         case MESSAGE_DRIVEN_BEAN:
             return STATELESS;
          case JAVA_BEAN:
             return EVENT;

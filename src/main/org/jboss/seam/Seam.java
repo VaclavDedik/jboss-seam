@@ -5,7 +5,9 @@ import static org.jboss.seam.ComponentType.ENTITY_BEAN;
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
 import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
+import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
 
+import javax.ejb.MessageDriven;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.Entity;
@@ -63,6 +65,10 @@ public class Seam
       {
          return STATELESS_SESSION_BEAN;
       }
+      else if ( clazz.isAnnotationPresent(MessageDriven.class) )
+      {
+         return MESSAGE_DRIVEN_BEAN;
+      }
       else if ( clazz.isAnnotationPresent(Entity.class) )
       {
          return ENTITY_BEAN;
@@ -95,6 +101,9 @@ public class Seam
          case STATELESS_SESSION_BEAN:
             Stateless stateless = clazz.getAnnotation(Stateless.class);
             return stateless.name().equals("") ? unqualifyClassName(clazz) : stateless.name();
+         case MESSAGE_DRIVEN_BEAN:
+            MessageDriven md = clazz.getAnnotation(MessageDriven.class);
+            return md.name().equals("") ? unqualifyClassName(clazz) : md.name();
          default:
             throw new IllegalArgumentException();
       }
@@ -106,9 +115,14 @@ public class Seam
    
    public static InterceptionType getInterceptionType(Class<?> clazz)
    {
-      if ( getComponentType(clazz)==ENTITY_BEAN )
+      ComponentType componentType = getComponentType(clazz);
+      if ( componentType==ENTITY_BEAN )
       {
          return InterceptionType.NEVER;
+      }
+      else if ( getComponentType(clazz)==MESSAGE_DRIVEN_BEAN )
+      {
+         return InterceptionType.ALWAYS;
       }
       else if ( clazz.isAnnotationPresent(Intercept.class) )
       {
