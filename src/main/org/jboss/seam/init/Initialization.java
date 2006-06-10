@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -17,6 +18,9 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -41,16 +45,16 @@ import org.jboss.seam.core.HttpError;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.IsUserInRole;
+import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.LocaleSelector;
-import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedJbpmContext;
-import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Messages;
 import org.jboss.seam.core.PageContext;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
+import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
 import org.jboss.seam.core.Process;
@@ -64,7 +68,6 @@ import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.TaskInstanceListForType;
 import org.jboss.seam.core.Transition;
-import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
 import org.jboss.seam.debug.Introspector;
@@ -94,12 +97,88 @@ public class Initialization
    private Map<String, String> properties = new HashMap<String, String>();
    private ServletContext servletContext;
    private boolean isScannerEnabled = true;
+   private Map<String, Class> components = new HashMap<String, Class>();
 
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
+      initPropertiesFromXml();
       initPropertiesFromServletContext();
       initPropertiesFromResource();
+   }
+   
+   private void initPropertiesFromXml()
+   {
+      InputStream stream = Resources.getResourceAsStream("/WEB-INF/components.xml", servletContext);      
+      if (stream==null)
+      {
+         log.info("no components.xml file found");
+      }
+      else
+      {
+         log.info("reading components.xml");
+         try
+         {
+            Properties replacements = new Properties();
+            InputStream replaceStream = Resources.getResourceAsStream("components.properties");
+            if (replaceStream!=null) replacements.load( replaceStream );
+            
+            SAXReader saxReader = new SAXReader();
+            saxReader.setMergeAdjacentText(true);
+            Document doc = saxReader.read(stream);
+            
+            List<Element> elements = doc.getRootElement().elements("component");
+            for (Element component: elements)
+            {
+               String installed = component.attributeValue("installed");
+               if (installed==null || "true".equals( replace(installed, replacements) ) )
+               {
+                  installComponent(component, replacements);
+               }
+            }
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException("error while reading components.xml", e);
+         }
+      }
+   }
+
+   private String replace(String value, Properties replacements)
+   {
+      if ( value.startsWith("@") ) 
+      {
+         value = replacements.getProperty( value.substring(1, value.length()-1) );
+      }
+      return value;
+   }
+
+   private void installComponent(Element component, Properties replacements) throws ClassNotFoundException
+   {
+      String name = component.attributeValue("name");
+      String className = component.attributeValue("class");
+      if (className!=null)
+      {
+         Class<?> clazz = Reflections.classForName(className);
+         if (name==null)
+         {
+            name = clazz.getAnnotation(Name.class).value();
+         }
+         components.put(name, clazz);
+      }
+      else if (name==null)
+      {
+         throw new IllegalArgumentException("must specify either class or name in components.xml");
+      }
+         
+      
+      List<Element> props = component.elements("property");
+      for( Element prop: props )
+      {
+         String propName = name + '.' + prop.attributeValue("name");
+         String value = prop.getTextTrim();
+         properties.put( propName, replace(value, replacements) );
+      }
    }
 
    public Initialization setProperty(String name, String value)
@@ -145,9 +224,9 @@ public class Initialization
       if (userTransactionName!=null) Transactions.setUserTransactionName( userTransactionName );
    }
 
-   public static void loadFromResource(Map properties, String resource)
+   public void loadFromResource(Map properties, String resource)
    {
-      InputStream stream = Resources.getResourceAsStream(resource);
+      InputStream stream = Resources.getResourceAsStream(resource, servletContext);
       if (stream!=null)
       {
          log.info("reading properties from: " + resource);
@@ -173,7 +252,7 @@ public class Initialization
    {
       Context context = Contexts.getApplicationContext();
 
-      addComponent( Init.class, context );
+      addComponent( Init.class, context );      
       addComponent( Pages.class, context);
       addComponent( Events.class, context);
       addComponent( Manager.class, context );
@@ -207,8 +286,13 @@ public class Initialization
          addComponent( PojoCache.class, context );
       }
       catch (NoClassDefFoundError ncdfe) {} //swallow
-      
+
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
+      
+      if ( components.values().contains(Jbpm.class) )
+      {
+         init.setJbpmInstalled(true);
+      }
 
       if ( init.isDebug() )
       {
@@ -231,51 +315,21 @@ public class Initialization
          addComponent( ManagedJbpmContext.class, context );
       }
       
-      if ( init.getManagedTopicPublishers()!=null && init.getManagedTopicPublishers().length>0 )
+      if ( components.values().contains(ManagedTopicPublisher.class) )
       {
          addComponent( TopicConnection.class, context );
          addComponent( TopicSession.class, context );
       }
 
-      if ( init.getManagedQueueSenders()!=null && init.getManagedQueueSenders().length>0 )
+      if ( components.values().contains(ManagedQueueSender.class) )
       {
          addComponent( QueueConnection.class, context );
          addComponent( QueueSession.class, context );
       }
 
-      //TODO: move all this stuff into Init component?
-      for ( String className : init.getComponentClasses() )
+      for ( Map.Entry<String, Class> component : components.entrySet() )
       {
-         try
-         {
-            Class<Object> componentClass = Reflections.classForName(className);
-            addComponent( componentClass, context );
-            addComponentRoles(context, componentClass);
-         }
-         catch (ClassNotFoundException cnfe)
-         {
-            throw new IllegalArgumentException("Component class not found: " + className, cnfe);
-         }
-      }
-
-      for ( String unitName : init.getManagedPersistenceContexts() )
-      {
-         addComponent( unitName, ManagedPersistenceContext.class, context );
-      }
-
-      for ( String sfName : init.getManagedSessions() )
-      {
-         addComponent( sfName, ManagedHibernateSession.class, context );
-      }
-
-      for ( String tName : init.getManagedTopicPublishers() )
-      {
-         addComponent( tName, ManagedTopicPublisher.class, context );
-      }
-
-      for ( String qName : init.getManagedQueueSenders() )
-      {
-         addComponent( qName, ManagedQueueSender.class, context );
+         addComponent( component.getKey(), component.getValue(), context );
       }
 
       if (isScannerEnabled)

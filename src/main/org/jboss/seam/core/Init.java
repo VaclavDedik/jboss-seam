@@ -10,9 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -28,18 +29,8 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.init")
 public class Init
 {
-   private static final String NAME = Seam.getComponentName(Init.class);
-   public static final String COMPONENT_CLASSES = NAME + ".componentClasses";
-   public static final String MANAGED_PERSISTENCE_CONTEXTS = NAME + ".managedPersistenceContexts";
-   public static final String MANAGED_SESSIONS = NAME + ".managedSessions";
-   public static final String MANAGED_DATA_SOURCES = NAME + ".managedDataSources";
-   public static final String JNDI_PATTERN = NAME + ".jndiPattern";
+   private static final Log log = LogFactory.getLog(Init.class);
    
-   private String[] managedPersistenceContexts = {};
-   private String[] managedSessions = {};
-   private String[] managedTopicPublishers = {};
-   private String[] managedQueueSenders = {};
-   private String[] componentClasses = {};
    private boolean isClientSideConversations = false;
    private boolean jbpmInstalled;
    private String jndiPattern;
@@ -48,43 +39,6 @@ public class Init
    
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
-
-   public String[] getManagedPersistenceContexts()
-   {
-      return managedPersistenceContexts;
-   }
-   public void setManagedPersistenceContexts(String[] managedPersistenceContexts)
-   {
-      this.managedPersistenceContexts = managedPersistenceContexts;
-   }
-
-   public String[] getManagedSessions()
-   {
-      return managedSessions;
-   }
-
-   public void setManagedSessions(String[] managedSessions)
-   {
-      this.managedSessions = managedSessions;
-   }
-
-   public String[] getComponentClasses()
-   {
-      return componentClasses;
-   }
-
-   public void setComponentClasses(String[] componentClasses)
-   {
-      this.componentClasses = componentClasses;
-      jbpmInstalled = false;
-      for (String className: componentClasses)
-      {
-         if ( Jbpm.class.getName().equals(className) )
-         {
-            jbpmInstalled = true;
-         }
-      }
-   }
    
    public static Init instance()
    {
@@ -189,25 +143,10 @@ public class Init
    {
       this.myFacesLifecycleBug = myFacesLifecycleBugExists;
    }
-   
-   public String[] getManagedTopicPublishers()
+
+   public void setJbpmInstalled(boolean jbpmInstalled)
    {
-      return managedTopicPublishers;
-   }
-   
-   public void setManagedTopicPublishers(String[] managedTopicPublishers)
-   {
-      this.managedTopicPublishers = managedTopicPublishers;
-   }
-   
-   public String[] getManagedQueueSenders()
-   {
-      return managedQueueSenders;
-   }
-   
-   public void setManagedQueueSenders(String[] managedQueueSenders)
-   {
-      this.managedQueueSenders = managedQueueSenders;
+      this.jbpmInstalled = jbpmInstalled;
    }
 
 }
