@@ -1,32 +1,31 @@
 JBoss Seam - Contextual Component framework for Java EE 5
 =========================================================
-version 1.0.0.CR3, May 2006
+version 1.0.0.GA, June 2006
 
 This software is distributed under the terms of the FSF Lesser Gnu
 Public License (see lgpl.txt).
 
 Get Up And Running Quick
 ------------------------
-
-1. Download JBoss AS 4.0.4.CR2 or later
-
-   http://www.jboss.com/products/jbossas/downloads
    
-2. Install JBoss AS 4.0.4.CR2 with the EJB 3.0 profile selected
+1. Install JBoss AS 4.0.4.GA with the EJB 3.0 profile selected
+   using the JBoss installer
+   
+   http://labs.jboss.com/portal/jbossas/download
 
-3. Edit the "build.properties" file and change jboss.home to your 
+2. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS installation directory
 
-4. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
+3. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
 
-5. In the "examples/booking" directory, type "ant deploy" and check 
+4. In the "examples/booking" directory, type "ant deploy" and check 
    for any error messages
    
-6. Point your browser to 
+5. Point your browser to 
 
    http://localhost:8080/seam-booking/
    
-7. Register an account, search for hotels, book a room...
+6. Register an account, search for hotels, book a room...
 
 Running The TestNG Tests
 ------------------------

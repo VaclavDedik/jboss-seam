@@ -14,7 +14,7 @@
     <property name="Name"                 value="JBoss Seam"/>
     <property name="name"                 value="jboss-seam"/>
     <property name="version"              value="1.0"/>
-    <property name="patchlevel"           value="0.CR3"/>
+    <property name="patchlevel"           value="0.GA"/>
 
     <!-- set global properties for this build -->
     <property name="build.dir"            value="build"/>
@@ -303,6 +303,7 @@
             nowarn="on">
             <src path="${src.java.dir}"/>
             <src path="${src.test.dir}"/>
+        	<exclude name="**/Drools*.java"/>
         </javac>
     </target>
     
@@ -668,10 +669,10 @@
 
         <copy todir="${build.dir}/resources/WEB-INF">
             <fileset refid="example.war.webinf"/>
-            <filterset filtersfile="resources/WEB-INF/web.xml">
+            <filterset>
                 <filter token="jndiPattern" value="${example.name}/#{ejbName}/local"/>
-                <filter token="embeddedEjb" value=""/>
-                <filter token="microcontainer" value=""/>
+                <filter token="embeddedEjb" value="false"/>
+                <filter token="microcontainer" value="false"/>
                 <filter token="myFacesLifecycleBug" value="${jbossHasMyFacesLifecycleBug}"/>
             </filterset>
         </copy>
@@ -747,8 +748,8 @@
             <fileset refid="example.tomcat.war.webinf"/>
             <filterset>
                 <filter token="jndiPattern" value="#{ejbName}/local"/>
-                <filter token="embeddedEjb" value="org.jboss.seam.core.Ejb"/>
-                <filter token="microcontainer" value="org.jboss.seam.core.Microcontainer"/>
+                <filter token="embeddedEjb" value="true"/>
+                <filter token="microcontainer" value="true"/>
             	<filter token="myFacesLifecycleBug" value="false"/>
             </filterset>
         </copy>

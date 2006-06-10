@@ -1,5 +1,19 @@
 JBoss Seam Changelog
 ====================
+Changes in version 1.0.0.GA (June 2006)
+---------------------------------------
+* Redesigned configuration framework based on components.xml
+* JBoss Cache integration
+* Helper components for working with JMS
+* Support message-driven beans as Seam components
+* Use jBPM task-scoped variables
+* Upgrade to JBoss EJB 3.0 RC8
+* Support fragment identifier in <s:link>
+* Ability to cancel remote calls in Seam Remoting
+* Fix bug with interpolation of messages in resource bundle
+* Fix bug with stack overflow when components with circular references have @Create methods
+* Allow Seam variables to be read from outside Seam
+
 Changes in version 1.0.0.CR3 (May 2006)
 ---------------------------------------
 * allow JSF view id as an action outcome
