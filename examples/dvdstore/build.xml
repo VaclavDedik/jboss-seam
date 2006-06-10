@@ -48,6 +48,7 @@
     	<include name="*.jpdl.xml"/>
     	<exclude name=".gpd.*"/>
     	<include name="*.cfg.xml"/>
+    	<include name="*.xsd"/>
         <include name="META-INF/*"/>
         <exclude name="META-INF/persistence.xml"/>
     	<exclude name="META-INF/ejb-jar.xml"/>
@@ -60,6 +61,7 @@
                dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
+    	<include name="components.xml"/>
         <include name="web.xml"/>
     </zipfileset>
     

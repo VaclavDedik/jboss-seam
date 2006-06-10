@@ -21,34 +21,6 @@
         <url-pattern>*.jsf</url-pattern>
     </filter-mapping>
 
-    <context-param>
-        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
-        <param-value>@myFacesLifecycleBug@</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.debug</param-name>
-        <param-value>true</param-value>
-    </context-param>
-
-    <!-- 120 second conversation timeout -->
-    <context-param>
-        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
-        <param-value>120000</param-value>
-    </context-param>
-    
-    <!-- Defines a Seam-managed Hibernate session -->
-    <context-param>
-        <param-name>org.jboss.seam.core.init.managedSessions</param-name>
-        <param-value>bookingDatabase</param-value>
-    </context-param>
-    
-    <!-- Bootstrap Hibernate inside Java EE -->
-    <context-param>
-        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-        <param-value>org.jboss.seam.core.Hibernate @microcontainer@</param-value>
-    </context-param>
-    
     <!-- Needed to ensure safe tx cleanup when using Seam-managed sessions/persistence contexts -->
     <filter>
         <filter-name>Seam Exception Filter</filter-name>

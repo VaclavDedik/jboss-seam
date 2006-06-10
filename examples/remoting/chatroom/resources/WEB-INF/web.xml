@@ -12,7 +12,6 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
 
-    
     <!-- Propagate conversations across redirects -->
 
     <filter>
@@ -24,42 +23,6 @@
         <filter-name>Seam Redirect Filter</filter-name>
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
-
-
-    <!-- 120 second conversation timeout -->
-
-    <context-param>
-        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
-        <param-value>120000</param-value>
-    </context-param>
-
-
-    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>@jndiPattern@</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.managedTopicPublishers</param-name>
-        <param-value>topicPublisher</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>topicPublisher.topicJndiName</param-name>
-        <param-value>topic/chatroomTopic</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</param-name>
-        <param-value>chatroomTopic</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
-        <param-value>@myFacesLifecycleBug@</param-value>
-    </context-param>
 
     <!-- MyFaces -->
 

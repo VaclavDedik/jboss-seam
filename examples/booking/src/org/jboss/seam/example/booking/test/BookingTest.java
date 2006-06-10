@@ -4,7 +4,6 @@ package org.jboss.seam.example.booking.test;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -13,8 +12,6 @@ import javax.faces.model.ListDataModel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Ejb;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.BookingList;
@@ -275,13 +272,6 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-   }
-
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.COMPONENT_CLASSES, Ejb.class.getName());
-      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
    }
    
 }

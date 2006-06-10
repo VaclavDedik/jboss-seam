@@ -1,12 +1,19 @@
 package com.jboss.dvd.seam.test;
 
-import java.util.*;
-import javax.faces.model.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
+
+import java.util.List;
+
+import javax.faces.model.ListDataModel;
+
 import org.testng.annotations.Test;
 
-import com.jboss.dvd.seam.*;
-
-import static org.testng.AssertJUnit.*;
+import com.jboss.dvd.seam.BestSellers;
+import com.jboss.dvd.seam.Product;
+import com.jboss.dvd.seam.ShoppingCart;
 
 public class BestSellersTest 
     extends BaseTest

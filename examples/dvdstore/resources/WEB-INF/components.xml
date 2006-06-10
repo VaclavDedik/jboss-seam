@@ -1,0 +1,22 @@
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
+        <property name="jndiPattern">@jndiPattern@</property>
+    </component>
+    
+    <!-- 120 second conversation timeout -->
+    <component name="org.jboss.seam.core.manager">
+        <property name="conversationTimeout">120000</property>
+    </component>
+    
+    <component class="org.jboss.seam.core.Jbpm">
+        <property name="processDefinitions">ordermanagement1.jpdl.xml</property>
+        <property name="pageflowDefinitions">checkout.jpdl.xml, newuser.jpdl.xml</property>
+    </component>
+
+    <component class="org.jboss.seam.core.Ejb" 
+           installed="@embeddedEjb@"/>
+    
+</components>

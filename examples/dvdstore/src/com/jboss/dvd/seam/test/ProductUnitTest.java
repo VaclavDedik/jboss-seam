@@ -1,13 +1,19 @@
 package com.jboss.dvd.seam.test;
 
-import java.util.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 
 import org.testng.annotations.Test;
-import static org.testng.AssertJUnit.*;
 
-import com.jboss.dvd.seam.*;
+import com.jboss.dvd.seam.Product;
 
 public class ProductUnitTest 
     extends BaseTest

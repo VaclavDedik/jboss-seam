@@ -25,28 +25,6 @@
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
 
-
-    <!-- 120 second conversation timeout -->
-
-    <context-param>
-        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
-        <param-value>120000</param-value>
-    </context-param>
-
-
-    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>seam-helloworld/#{ejbName}/local</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
-        <param-value>@myFacesLifecycleBug@</param-value>
-    </context-param>
-
-
     <!-- MyFaces -->
 
     <listener>

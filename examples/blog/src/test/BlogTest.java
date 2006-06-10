@@ -1,14 +1,11 @@
 package test;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
@@ -183,15 +180,6 @@ public class BlogTest extends SeamTest
          }
          
       }.run();
-   }
-   
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Ejb");
-      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
-      initParams.put(Init.MANAGED_PERSISTENCE_CONTEXTS, "entityManager");
-      initParams.put("entityManager.persistenceUnitJndiName", "java:/blogEntityManagerFactory");
    }
 
    @Override

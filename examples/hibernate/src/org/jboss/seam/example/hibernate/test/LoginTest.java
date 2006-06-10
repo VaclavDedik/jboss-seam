@@ -1,14 +1,10 @@
 //$Id$
 package org.jboss.seam.example.hibernate.test;
 
-import java.util.Map;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Microcontainer;
 import org.jboss.seam.example.hibernate.HotelBookingAction;
 import org.jboss.seam.example.hibernate.LoginAction;
 import org.jboss.seam.example.hibernate.LogoutAction;
@@ -121,13 +117,6 @@ public class LoginTest extends SeamTest
       
       assert isSessionInvalid();
       
-   }
-
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.MANAGED_SESSIONS, "bookingDatabase");
-      initParams.put(Init.COMPONENT_CLASSES, Microcontainer.class.getName());
    }
    
    @Override

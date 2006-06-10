@@ -1,12 +1,10 @@
 package com.jboss.dvd.seam.test;
 
-import java.util.*;
+import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.Test;
 
-import com.jboss.dvd.seam.*;
-
-import static org.testng.AssertJUnit.*;
+import com.jboss.dvd.seam.StoreManager;
 
 public class StoreManagerTest 
     extends BaseTest

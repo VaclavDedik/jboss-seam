@@ -4,7 +4,6 @@ package org.jboss.seam.example.hibernate.test;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -13,9 +12,7 @@ import javax.faces.model.ListDataModel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Microcontainer;
 import org.jboss.seam.example.hibernate.Booking;
 import org.jboss.seam.example.hibernate.BookingListAction;
 import org.jboss.seam.example.hibernate.Hotel;
@@ -24,7 +21,6 @@ import org.jboss.seam.example.hibernate.User;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
-import org.jboss.seam.mock.SeamTest.Script;
 import org.testng.annotations.Test;
 
 public class BookingTest extends SeamTest
@@ -279,13 +275,6 @@ public class BookingTest extends SeamTest
       
    }
 
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.MANAGED_SESSIONS, "bookingDatabase");
-      initParams.put(Init.COMPONENT_CLASSES, Microcontainer.class.getName());
-   }
-   
    @Override
    public SeamPhaseListener createPhaseListener()
    {

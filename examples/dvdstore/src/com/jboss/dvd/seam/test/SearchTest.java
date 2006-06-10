@@ -1,12 +1,13 @@
 package com.jboss.dvd.seam.test;
 
-import java.util.*;
-import javax.faces.model.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+
+import javax.faces.model.ListDataModel;
 
 import org.testng.annotations.Test;
-import static org.testng.AssertJUnit.*;
 
-import com.jboss.dvd.seam.*;
+import com.jboss.dvd.seam.Search;
 
 public class SearchTest 
     extends BaseTest

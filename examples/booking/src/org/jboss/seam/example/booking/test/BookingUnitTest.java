@@ -1,16 +1,13 @@
 package org.jboss.seam.example.booking.test;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.jboss.seam.core.Ejb;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.example.booking.Booking;
 import org.jboss.seam.example.booking.Hotel;
 import org.jboss.seam.example.booking.HotelBooking;
@@ -88,11 +85,5 @@ public class BookingUnitTest extends SeamTest
       
       em.close();
    }
-   
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.COMPONENT_CLASSES, Ejb.class.getName());
-      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
-   }
+
 }

@@ -1,13 +1,9 @@
 //$Id$
 package org.jboss.seam.example.booking.test;
 
-import java.util.Map;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Ejb;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.Login;
@@ -119,11 +115,4 @@ public class LoginTest extends SeamTest
       
    }
 
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.COMPONENT_CLASSES, Ejb.class.getName());
-      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
-   }
-   
 }

@@ -4,28 +4,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-
     <!-- Seam -->
     
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
-
-    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
-    <context-param>
-        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>@jndiPattern@</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-        <param-value>@embeddedEjb@</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
-        <param-value>@myFacesLifecycleBug@</param-value>
-    </context-param>
 
     <!-- MyFaces -->
 

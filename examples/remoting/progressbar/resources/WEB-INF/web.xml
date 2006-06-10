@@ -12,7 +12,6 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
 
-    
     <!-- Propagate conversations across redirects -->
 
     <filter>
@@ -24,28 +23,6 @@
         <filter-name>Seam Redirect Filter</filter-name>
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
-
-
-    <!-- 120 second conversation timeout -->
-
-    <context-param>
-        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
-        <param-value>120000</param-value>
-    </context-param>
-
-
-    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>seam-progressbar/#{ejbName}/local</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
-        <param-value>@myFacesLifecycleBug@</param-value>
-    </context-param>
-
 
     <!-- MyFaces -->
 
