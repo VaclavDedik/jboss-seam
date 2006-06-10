@@ -1,0 +1,20 @@
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
+        <property name="jndiPattern">@jndiPattern@</property>
+    </component>
+    
+    <!-- 120 second conversation timeout -->
+    <component name="org.jboss.seam.core.manager">
+        <property name="conversationTimeout">120000</property>
+    </component>
+    
+    <component name="entityManager" class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/issuesEntityManagerFactory</property>
+    </component>
+
+    <component class="org.jboss.seam.core.Ejb" 
+           installed="@embeddedEjb@"/>
+
+</components>

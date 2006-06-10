@@ -20,42 +20,6 @@
         <url-pattern>*.jsf</url-pattern>
     </filter-mapping>
 
-    <context-param>
-        <param-name>org.jboss.seam.core.init.myFacesLifecycleBug</param-name>
-        <param-value>@myFacesLifecycleBug@</param-value>
-    </context-param>
-
-    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
-    
-    <context-param>
-        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>@jndiPattern@</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-        <param-value>@embeddedEjb@</param-value>
-    </context-param>
-    
-    <!-- Seam managed persistence context -->
-    
-    <context-param>
-        <param-name>org.jboss.seam.core.init.managedPersistenceContexts</param-name>
-        <param-value>entityManager</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>entityManager.persistenceUnitJndiName</param-name>
-        <param-value>java:/issuesEntityManagerFactory</param-value>
-    </context-param>
-
-    <!-- 120 second conversation timeout -->
-    
-    <context-param>
-        <param-name>org.jboss.seam.core.manager.conversationTimeout</param-name>
-        <param-value>120000</param-value>
-    </context-param>
-
     <!-- MyFaces -->
     
     <listener>

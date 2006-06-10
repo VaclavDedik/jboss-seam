@@ -59,6 +59,7 @@
         <include name="faces-config.xml"/>
         <include name="pages.xml"/>
     	<include name="events.xml"/>
+    	<include name="components.xml"/>
     	<include name="classes/messages.properties"/>
     </zipfileset>
     
