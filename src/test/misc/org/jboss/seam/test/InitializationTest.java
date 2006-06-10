@@ -2,7 +2,6 @@
 package org.jboss.seam.test;
 
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.mock.MockServletContext;
 import org.testng.annotations.Test;
@@ -17,15 +16,7 @@ public class InitializationTest
       assert servletContext.getAttributes().size()==21 + 2*10;
       assert !Contexts.isApplicationContextActive();
    }
-
-   @Test
-   public void testInitialization()
-   {
-      MockServletContext servletContext = new MockServletContext();
-      servletContext.getInitParameters().put(Init.COMPONENT_CLASSES, "org.jboss.seam.test.Foo, org.jboss.seam.test.Bar");
-      servletContext.getInitParameters().put(Init.MANAGED_PERSISTENCE_CONTEXTS, "bookingDatabase");
-      new Initialization(servletContext).setScannerEnabled(false).init();
-      assert servletContext.getAttributes().size()==24 + 2*10;
-      assert !Contexts.isApplicationContextActive();
-   }
+   
+   //TODO: write a test for components.xml
+   
 }
