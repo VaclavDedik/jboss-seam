@@ -84,4 +84,16 @@ public class Transactions
       return userTransactionName;
    }
    
+   public static boolean isTransactionAvailableAndMarkedRollback() throws SystemException
+   {
+      try
+      {
+         return getUserTransaction().getStatus() == Status.STATUS_MARKED_ROLLBACK;
+      }
+      catch (NamingException ne)
+      {
+         return false;
+      }
+   }
+   
 }

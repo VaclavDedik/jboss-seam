@@ -66,7 +66,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       {
          try
          {
-            if ( Transactions.isTransactionMarkedRollback() )
+            if ( Transactions.isTransactionAvailableAndMarkedRollback() )
             {
                FacesMessages.instance().addFromResourceBundle(
                         FacesMessage.SEVERITY_WARN, 
