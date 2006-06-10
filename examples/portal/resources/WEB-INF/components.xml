@@ -1,0 +1,14 @@
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
+    </component>
+
+    <!-- Bootstrap Hibernate -->
+    <component name="bookingDatabase" 
+              class="org.jboss.seam.core.ManagedHibernateSession"/>    
+    <component class="org.jboss.seam.core.Hibernate"/>
+    <component class="org.jboss.seam.core.Microcontainer"
+             install="@microcontainer@"/>
+
+</components>

@@ -2,12 +2,9 @@
 package org.jboss.seam.example.todo.test;
 
 import java.util.List;
-import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Actor;
-import org.jboss.seam.core.Init;
-import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.example.todo.Login;
 import org.jboss.seam.example.todo.TodoList;
@@ -107,14 +104,6 @@ public class TodoTest extends SeamTest
    protected SeamPhaseListener createPhaseListener()
    {
       return new SeamExtendedManagedPersistencePhaseListener();
-   }
-
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Jbpm org.jboss.seam.core.Microcontainer");
-      initParams.put(Jbpm.PROCESS_DEFINITIONS, "todo.jpdl.xml");
-      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
    }
    
 }

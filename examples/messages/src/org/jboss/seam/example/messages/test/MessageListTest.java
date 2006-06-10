@@ -1,11 +1,8 @@
 //$Id$
 package org.jboss.seam.example.messages.test;
-import java.util.Map;
-
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.example.messages.Message;
 import org.jboss.seam.example.messages.MessageManager;
 import org.jboss.seam.example.messages.MessageManagerBean;
@@ -94,13 +91,6 @@ public class MessageListTest extends SeamTest
          
       }.run();
 
-   }
-
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Ejb");
-      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
    }
    
 }

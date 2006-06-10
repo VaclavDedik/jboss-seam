@@ -1,11 +1,7 @@
 //$Id$
 package org.jboss.seam.example.numberguess.test;
 
-import java.util.Map;
-
 import org.jboss.seam.Component;
-import org.jboss.seam.core.Init;
-import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.example.numberguess.NumberGuess;
@@ -219,15 +215,6 @@ public class NumberGuessTest extends SeamTest
       }.run();
 
 
-   }
-   
-
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Jbpm");
-      initParams.put(Jbpm.PAGEFLOW_DEFINITIONS, "pageflow.jpdl.xml");
-      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
    }
    
 }

@@ -59,6 +59,7 @@
                dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
         <include name="web.xml"/>
+    	<include name="components.xml"/>
     </zipfileset>
     
     <fileset id="example.tomcat.resources"

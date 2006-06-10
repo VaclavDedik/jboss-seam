@@ -1,10 +1,7 @@
 //$Id$
 package org.jboss.seam.example.registration.test;
 
-import java.util.Map;
-
 import org.jboss.seam.Component;
-import org.jboss.seam.core.Init;
 import org.jboss.seam.example.registration.Register;
 import org.jboss.seam.example.registration.User;
 import org.jboss.seam.mock.SeamTest;
@@ -49,13 +46,6 @@ public class RegisterTest extends SeamTest
          
       }.run();
       
-   }
-
-   @Override
-   public void initServletContext(Map initParams)
-   {
-      initParams.put(Init.COMPONENT_CLASSES, "org.jboss.seam.core.Ejb");
-      initParams.put(Init.JNDI_PATTERN, "#{ejbName}/local");
    }
    
 }
