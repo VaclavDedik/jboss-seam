@@ -581,10 +581,21 @@ public class User {
             </para>
         </sect2>
 
+
+    </sect1>
+    
+    <sect1>
+        <title>Configuring components</title>
+        <para>
+            Seam provides two basic approaches to configuring components: configuration via
+            property settings in a properties file or <literal>web.xml</literal>, and configuration
+            via <literal>components.xml</literal>.
+        </para>
+        
         <sect2>
-            <title>Configuring components</title>
+            <title>Configuring components via property settings</title>
             <para>
-                Seam components may be provided with configuration data either via servlet context
+                Seam components may be provided with configuration properties either via servlet context
                 parameters, or via a properties file named <literal>seam.properties</literal> in the 
                 root of the classpath.
             </para>
@@ -608,9 +619,81 @@ public class User {
                 named <literal>setConversationTimeout()</literal>.)
             </para>
         </sect2>
+        
+        <sect2>
+            <title>Configuring components via <literal>components.xml</literal></title>
+            <para>
+                The <literal>components.xml</literal> is a bit more powerful than property settings. It
+                lets you:
+            </para>
+            
+            <itemizedlist>
+                <listitem><para>
+                    Configure components that have been installed automatically&mdash;including both
+                    built-in components, and application components that have been annotated with
+                    the <literal>@Name</literal> annotation and picked up by Seam's deployment
+                    scanner.
+                </para></listitem>
+                <listitem><para>
+                    Install classes with no <literal>@Name</literal> annotation as Seam 
+                    components&mdash;this is most useful for certain kinds of infrastructural
+                    components which can be installed multiple times different names (for
+                    example Seam-managed persistence contexts).
+                </para></listitem>
+                <listitem><para>
+                    Install components that <emphasis>do</emphasis> have a <literal>@Name</literal> 
+                    annotation but are not installed by default (this is the case for certain
+                    built-in components).
+                </para></listitem>
+            </itemizedlist>
+            
+            <para>
+                Usually, Seam components are installed when the deployment scanner discovers a
+                class with a <literal>@Name</literal> annotation sitting in an archive with a
+                <literal>seam.properties</literal> file. The <literal>components.xml</literal>
+                file lets us handle special cases where that is not the case.
+            </para>
+            
+            <para>
+                For example, the following <literal>components.xml</literal> file installs the
+                JBoss Embeddable EJB3 container:
+            </para>
+            
+            <programlisting><![CDATA[<components>
+    <component class="org.jboss.seam.core.Ejb"/>
+</components>]]></programlisting>
 
-    </sect1>
+            <para>
+                This one installs and configures two different Seam-managed persistence contexts:
+            </para>
+
+            <programlisting><![CDATA[<components>
+
+    <component name="customerDatabase" 
+              class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/customerEntityManagerFactory</property>
+    </component>
     
+    <component name="accountingDatabase"
+              class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/accountingEntityManagerFactory</property>
+    </component>
+
+</components>]]></programlisting>
+
+            <para>
+                Sometimes we want to reuse the same <literal>components.xml</literal> file with
+                minor changes during both deployment and testing. Seam let's you place wildcards
+                of the form <literal>@wildcard@</literal> in the <literal>components.xml</literal> 
+                file which can be replaced either by your Ant build script (at deployment time)
+                or by providing a file named <literal>components.properties</literal> in the
+                classpath (at development time). You'll see this approach used in the Seam examples.
+            </para> 
+
+        </sect2>
+        
+    </sect1>
+
     <sect1>
         <title>Bijection</title>
         <para>

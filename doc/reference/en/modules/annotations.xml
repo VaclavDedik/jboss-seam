@@ -328,13 +328,13 @@
         </para>
         
         <variablelist spacing="compact">
-            <varlistentry id="componentlog-annotation">
-                <term><literal>@ComponentLog</literal></term>
+            <varlistentry id="logger-annotation">
+                <term><literal>@Logger</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@ComponentLog("categoryName")]]></programlisting>
+                    <programlisting><![CDATA[@Logger("categoryName")]]></programlisting>
                     <para>
                         Specifies that a component field is to be injected with an instance of
-                        <literal>org.apache.commons.logging.Log</literal>.
+                        <literal>org.jboss.seam.log.Log</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>

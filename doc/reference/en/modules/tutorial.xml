@@ -343,9 +343,11 @@ public class User implements Serializable
                     <area id="registration-stateless-annotation" coords="1"/>
                     <area id="registration-in-annotation" coords="6"/>
                     <area id="registration-persistencecontext-annotation" coords="9"/>
-                    <area id="registration-action-listener" coords="12"/>
-                    <area id="registration-outcome" coords="21"/>
-                    <area id="registration-builtin" coords="25"/>
+                    <area id="registration-logger-annotation" coords="12"/>
+                    <area id="registration-action-listener" coords="15"/>
+                    <area id="registration-log" coords="24"/>
+                    <area id="registration-outcome" coords="25"/>
+                    <area id="registration-builtin" coords="29"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateless
 @Name("register")
@@ -358,6 +360,9 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
+   @Logger
+   private Log log;
+   
    public String register()
    {
       List existing = em.createQuery("select username from User where username=:username")
@@ -367,6 +372,7 @@ public class RegisterAction implements Register
       if (existing.size()==0)
       {
          em.persist(user);
+         log.info("Registered new user #{user.username}");
          return "/registered.jsp";
       }
       else
@@ -399,12 +405,23 @@ public class RegisterAction implements Register
                         inject the EJB3 entity manager.
                     </para>
                 </callout>
+                <callout arearefs="registration-logger-annotation">
+                    <para>
+                        The Seam <literal>@Logger</literal> annotation is used to inject the component's
+                        <literal>Log</literal> instance.
+                    </para>
+                </callout>
                 <callout arearefs="registration-action-listener">
                     <para>
                         The action listener method uses the standard EJB3 <literal>EntityManager</literal> 
                         API to interact with the database, and returns the JSF outcome. Note that, since
                         this is a sesson bean, a transaction is automatically begun when the 
                         <literal>register()</literal> method is called, and committed when it completes.
+                    </para>
+                </callout>
+                <callout arearefs="registration-log">
+                    <para>
+                        The <literal>Log</literal> API lets us easily display templated log messages.
                     </para>
                 </callout>
                 <callout arearefs="registration-outcome">
@@ -463,8 +480,6 @@ public class RegisterAction implements Register
         <title>The session bean local interface: <literal>Register.java</literal></title>
         
         <para>Naturally, our session bean needs a local interface.</para>
-
-        <indexterm><primary>Annotation</primary><secondary>@javax.ejb.Local</secondary></indexterm>
         
         <example>
           <programlisting><![CDATA[@Local
@@ -481,10 +496,47 @@ public interface Register
       </section>
       
       <section>
-        <title>The web deployment description: <literal>web.xml</literal></title>
+        <title>The Seam component deployment descriptor: <literal>components.xml</literal></title>
         
-        <indexterm><primary>web.xml</primary></indexterm>
-        <indexterm><primary>descriptor file</primary><secondary>web.xml</secondary></indexterm>
+        <para>
+            If you've used many Java frameworks before, you'll be used to having to declate
+            all your component classes in some kind of XML file that gradually grows more and
+            more unmanageable as your project matures. You'll be relieved to know that Seam
+            does not require that application components be accompanied by XML. Most Seam
+            applications require a very small amount of XML that does not grow very much as 
+            the project gets bigger.
+        </para>
+        
+        <para>
+            Nevertheless, it is often useful to be able to provide for <emphasis>some</emphasis> 
+            external configuration of <emphasis>some</emphasis> components (particularly the
+            components built in to Seam). You have a couple of options here, but the most flexible
+            option is to provide this configuration in a file called <literal>components.xml</literal>, 
+            located in the <literal>WEB-INF</literal> directory. We'll use the 
+            <literal>components.xml</literal> file to tell Seam how to find our EJB components
+            in JNDI:
+        </para>
+        
+        <example>
+          <programlisting><![CDATA[<components>
+
+    <component name="org.jboss.seam.core.init">
+        <!-- JNDI name pattern for JBoss EJB 3.0 -->
+        <property name="jndiPattern">#{ejbName}/local</property>
+    </component>
+
+</components>]]></programlisting>
+        </example>
+        
+        <para>
+            This code configures a property named <literal>jndiPattern</literal> of a built-in 
+            Seam component named <literal>org.jboss.seam.core.init</literal>.
+        </para>
+        
+      </section>
+      
+      <section>
+        <title>The web deployment description: <literal>web.xml</literal></title>
         
         <para>
             The presentation layer for our mini-application will be deployed in a WAR.
@@ -505,12 +557,6 @@ public interface Register
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
-
-    <!-- Global JNDI name pattern for JBoss EJB3 (change for other servers) -->
-    <context-param>
-        <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
-        <param-value>jboss-seam-registration/#{ejbName}/local</param-value>
-    </context-param>
 
     <!-- MyFaces -->
 
@@ -549,9 +595,6 @@ public interface Register
       
       <section>
         <title>The JSF configration: <literal>faces-config.xml</literal></title>
-        
-        <indexterm><primary>faces-config.xml</primary></indexterm>
-        <indexterm><primary>descriptor file</primary><secondary>faces-config.xml</secondary></indexterm>
         
         <para>
             All Seam applications use JSF views as the presentation layer. So we'll need
@@ -1078,9 +1121,9 @@ public interface MessageManager
        </para>
        
        <para>
-           Let's skip over <literal>persistence.xml</literal>, <literal>web.xml</literal>,
-           <literal>ejb-jar.xml</literal>, <literal>faces-config.xml</literal> and 
-           <literal>application.xml</literal> since they are much the same as the previous 
+           Let's skip over <literal>components.xml</literal>, <literal>persistence.xml</literal>, 
+           <literal>web.xml</literal>, <literal>ejb-jar.xml</literal>, <literal>faces-config.xml</literal> 
+           and <literal>application.xml</literal> since they are much the same as the previous 
            example, and go straight to the JSP.
        </para>
        
