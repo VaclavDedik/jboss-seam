@@ -788,6 +788,63 @@ public class LoginAction implements Login {
     </sect1>
     
     <sect1>
+        <title>Logging</title>
+        <para>
+            Who is not totally fed up with seeing noisy code like this?
+        </para>
+        
+        <programlisting><![CDATA[private static final Log log = LogFactory.getLog(CreateOrderAction.class);
+        
+public Order createOrder(User user, Product product, int quantity) {
+    if ( log.isDebugEnabled() ) {
+        log.debug("Creating new order for user: " + user.username() + 
+            " product: " + product.name() 
+            + " quantity: " + quantity);
+    }
+    return new Order(user, product, quantity);
+}]]></programlisting>
+
+        <para>
+            It is difficult to imagine how the code for a simple log message could possibly be 
+            more verbose. There is more lines of code tied up in logging than in the actual 
+            business logic! I remain totally astonished that the Java community has not come 
+            up with anything better in 10 years.
+        </para>
+        
+        <para>
+            Seam provides a logging API built on top of Apache commons-logging that simplifies 
+            this code significantly:
+        </para>
+        
+        <programlisting><![CDATA[@Logger private Log log;
+        
+public Order createOrder(User user, Product product, int quantity) {
+    log.debug("Creating new order for user: #0 product: #1 quantity: #2", user.username(), product.name(), quantity);
+    return new Order(user, product, quantity);
+}]]></programlisting>
+
+        <para>
+            Note that we don't need the noisy <literal>if ( log.isDebugEnabled() )</literal> guard,
+            since string concatenation happens <emphasis>inside</emphasis> the <literal>debug()</literal>
+            method. Note also that we don't usually need to specify the log category explicitly, since
+            Seam knows what component it is injecting the <literal>Log</literal> into.
+        </para>
+        
+        <para>
+            If <literal>User</literal> and <literal>Product</literal> are Seam components
+            available in the current contexts, it gets even better:
+        </para>
+        
+        <programlisting><![CDATA[@Logger private Log log;
+        
+public Order createOrder(User user, Product product, int quantity) {
+    log.debug("Creating new order for user: #{user.username} product: #{product.name} quantity: #0", quantity);
+    return new Order(user, product, quantity);
+}]]></programlisting>
+
+    </sect1>
+    
+    <sect1>
     	<title>Seam interceptors</title>
     	<para>
     		EJB 3.0 introduced a standard interceptor model for session bean components. To add an
