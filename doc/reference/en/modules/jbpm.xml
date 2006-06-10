@@ -310,13 +310,13 @@
         
         <para>
             We need to install the Seam jBPM-related components, and tell them
-            where to find our pageflow definition. As usual, we can specify
-            Seam configuration in either <literal>web.xml</literal> or
-            <literal>seam.properties</literal>:
+            where to find our pageflow definition. We can specify this
+            Seam configuration in <literal>components.xml</literal>.
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Jbpm
-org.jboss.seam.core.jbpm.pageflowDefinitions pageflow.jpdl.xml]]></programlisting>
+        <programlisting><![CDATA[<component class="org.jboss.seam.core.Jbpm">
+    <property name="pageflowDefinitions">pageflow.jpdl.xml</property>
+</component>]]></programlisting>
 
         <para>
             The first line installs jBPM, the second points to a jPDL-based
@@ -576,8 +576,9 @@ public void begin() { ... }]]></programlisting>
             business process definitions:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.init.componentClasses org.jboss.seam.core.Jbpm
-org.jboss.seam.core.jbpm.processDefinitions todo.jpdl.xml]]></programlisting>
+        <programlisting><![CDATA[<component class="org.jboss.seam.core.Jbpm">
+    <property name="processDefinitions">todo.jpdl.xml</property>
+</component>]]></programlisting>
 
         </section>
         

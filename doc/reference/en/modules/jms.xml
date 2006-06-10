@@ -21,34 +21,25 @@
             you are using some other JMS provider, you need to set one or
             both of <literal>queueConnection.queueConnectionFactoryJndiName</literal>
             and <literal>topicConnection.topicConnectionFactoryJndiName</literal>
-            in <literal>seam.properties</literal> or <literal>web.xml</literal>.
+            in <literal>seam.properties</literal>, <literal>web.xml</literal>
+            or <literal>components.xml</literal>.
         </para>
         
         <para>
-            You need to list topics and queues under
-            <literal>org.jboss.seam.core.init.managedTopicPublishers</literal>
-            and 
-            <literal>org.jboss.seam.core.init.managedQueueSenders</literal>.
-            For example, the following entries in <literal>seam.properties</literal>
-            installs a Seam managed <literal>TopicPublisher</literal>:
+            You also need to list topics and queues in <literal>components.xml</literal>
+            to install a Seam managed <literal>TopicPublisher</literal>s and
+            <literal>QueueSender</literal>s:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.core.init.managedTopicPublishers stockTickerPublisher
-stockTickerPublisher.topicJndiName topic/stockTickerTopic]]></programlisting>
+        <programlisting><![CDATA[<component name="stockTickerPublisher"
+          class="org.jboss.seam.core.ManagedTopicPublisher">
+    <property name="topicJndiName">topic/stockTickerTopic</property>
+</component>
 
-        <para>
-            As usual, we could also use <literal>web.xml</literal>:
-        </para>
-        
-        <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.core.init.managedQueueSender</param-name>
-    <param-value>paymentQueueSender</param-value>
-</context-param>
-
-<context-param>
-    <param-name>paymentQueueSender.queueJndiName</param-name>
-    <param-value>queue/payments</param-value>
-</context-param>]]></programlisting>
+<component name="paymentQueueSender"
+          class="org.jboss.seam.core.ManagedQueueSender">
+    <property name="queueJndiName">queue/paymentQueue</property>
+</component>]]></programlisting>
 
     </section>
 
