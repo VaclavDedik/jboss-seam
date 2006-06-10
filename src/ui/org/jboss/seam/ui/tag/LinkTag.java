@@ -2,7 +2,6 @@ package org.jboss.seam.ui.tag;
 
 import javax.faces.component.UIComponent;
 
-import org.apache.myfaces.shared_impl.taglib.html.HtmlCommandLinkTagBase;
 import org.jboss.seam.ui.HtmlLink;
 
 
