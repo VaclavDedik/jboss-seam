@@ -193,8 +193,8 @@
             archive in which your Seam components are deployed (even an empty properties file 
             will do). At startup, Seam will scan any archives with
             <literal>seam.properties</literal> files for seam components. If that doesn't
-            work for you, you can also add components by listing them explicitly in
-            the configuration property named <literal>org.jboss.seam.core.init.componentClasses</literal>.
+            work for you, you can also add components by installing them explicitly in
+            <literal>components.xml</literal>. (We don't recommend this alternative approach.)
         </para>
         
         <sect2>
