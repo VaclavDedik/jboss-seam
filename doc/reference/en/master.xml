@@ -54,6 +54,33 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><emphasis>Integrated AJAX-based Remoting</emphasis></term>
+                <listitem>
+                    <para>
+                        Seam provides a built-in JavaScript remoting layer for EJB3 components. AJAX clients 
+                        can easily call server-side components and subscribe to JMS topics, without the need 
+                        for an intermediate action layer.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><emphasis>Integrate Business Process as a First Class Construct</emphasis></term>
+                <listitem>
+                    <para>
+                        Optionally, Seam integrates transparent business process management via jBPM. You won't believe
+                        how easy it is to implement complex workflows using jBPM and Seam.
+                    </para>
+                    <para>
+                        Seam even allows definition of presentation tier conversation flow by the same means.
+                    </para>
+                    <para>
+                        JSF provides an incredibly rich event model for the presentation tier. Seam enhances this
+                        model by exposing jBPM's business process related events via exactly the same event handling
+                        mechanism, providing a uniform event model for Seam's uniform component model.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><emphasis>One Kind of "Stuff"</emphasis></term>
                 <listitem>
                     <para>
@@ -136,23 +163,6 @@
                         allowing users to freely switch between different conversations (workspaces) in a single
                         browser window. Seam provides not only correct multi-window operation, but also multi-window-like
                         operation in a single window!
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><emphasis>Integrate Business Process as a First Class Construct</emphasis></term>
-                <listitem>
-                    <para>
-                        Optionally, Seam integrates transparent business process management via jBPM. You won't believe
-                        how easy it is to implement complex workflows using jBPM and Seam.
-                    </para>
-                    <para>
-                        Seam even allows definition of presentation tier conversation flow by the same means.
-                    </para>
-                    <para>
-                        JSF provides an incredibly rich event model for the presentation tier. Seam enhances this
-                        model by exposing jBPM's business process related events via exactly the same event handling
-                        mechanism, providing a uniform event model for Seam's uniform component model.
                     </para>
                 </listitem>
             </varlistentry>
