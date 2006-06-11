@@ -9,7 +9,7 @@ How to Build and Deploy the Example on JBoss AS
 
 2. Download the JBoss Seam distribution from:
 
-   http://www.jboss.com/products/list/downloads#seam
+   http://labs.jboss.com/portal/jbossseam/download/index.html
 
 3. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS installation directory
@@ -38,7 +38,7 @@ How to Build and Deploy the Example on Tomcat
    
 2. Download the JBoss Seam distribution from:
 
-   http://www.jboss.com/products/list/downloads#seam
+   http://labs.jboss.com/portal/jbossseam/download/index.html
 
 3. Edit the "build.properties" file and change tomcat.home to your 
    Tomcat installation directory
