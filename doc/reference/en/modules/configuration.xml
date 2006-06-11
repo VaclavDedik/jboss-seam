@@ -99,12 +99,22 @@
             defined in the EJB3 specification, so this mapping is 
             vendor-specific. We must specify a pattern using the configuration
             property named <literal>org.jboss.seam.core.init.jndiPattern</literal>.
+            We may specify this using <literal>components.xml</literal>,
+            <literal>web.xml</literal> or even <literal>seam.properties</literal>.
         </para>
         
         <para>
             For JBoss AS, the following pattern is correct:
         </para>
         
+        <programlisting><![CDATA[<component name="org.jboss.seam.core.init">
+    <property name="jndiPattern">myEarName/#{ejbName}/local</property>
+</component>]]></programlisting>
+
+        <para>
+            Or:
+        </para>
+
         <programlisting><![CDATA[<context-param>
     <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
     <param-value>myEarName/#{ejbName}/local</param-value>
@@ -112,22 +122,27 @@
 
         <para>
             Where <literal>myEarName</literal> is the name of the EAR in which
-            the bean is deployed. Outside the context of an EAR (when using
+            the bean is deployed. 
+        </para>
+        
+        <para>
+            Outside the context of an EAR (when using
             the JBoss Embeddable EJB3 container), the following pattern is
             the one to use:
         </para>
         
+        <programlisting><![CDATA[<component name="org.jboss.seam.core.init">
+    <property name="jndiPattern">#{ejbName}/local</property>
+</component>]]></programlisting>
+
+        <para>
+            Or:
+        </para>
+
         <programlisting><![CDATA[<context-param>
     <param-name>org.jboss.seam.core.init.jndiPattern</param-name>
     <param-value>#{ejbName}/local</param-value>
 </context-param>]]></programlisting>
-
-        <para>
-            Note that this configuration setting may be specified in either
-            <literal>web.xml</literal> or in <literal>seam.properties</literal>.
-        </para>
-        
-        <programlisting><![CDATA[org.jboss.seam.core.init.jndiPattern #{ejbName}/local</param-value>]]></programlisting>
 
         </sect2>
         
@@ -200,6 +215,7 @@
             MANIFEST.MF
         WEB-INF/
             web.xml
+            components.xml
             faces-config.xml
         login.jsp
         register.jsp
@@ -282,19 +298,10 @@
             directory. To use the Embeddable EJB3 container with Seam, add the 
             <literal>embedded-ejb/conf</literal> directory, and all jars in the <literal>lib</literal> 
             and <literal>embedded-ejb/lib</literal> directories to your classpath. Then, add the 
-            following line to <literal>seam.properties</literal>:
+            following line to <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Ejb]]></programlisting>
-        
-        <para>
-            Or, alternatively, add the following entry to <literal>web.xml</literal>:
-        </para>
-        
-        <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-    <param-value>org.jboss.seam.core.Ejb</param-value>
-</context-param>]]></programlisting>
+        <programlisting><![CDATA[<component class="org.jboss.seam.core.Ejb"/>]]></programlisting>
 
         <para>
             This setting installs the built-in component named <literal>org.jboss.seam.core.ejb</literal>.
@@ -365,6 +372,7 @@
         MANIFEST.MF
     WEB-INF/
         web.xml
+        components.xml
         faces-config.xml
         lib/
             jboss-seam.jar
@@ -504,25 +512,13 @@
             You'll need to use a <emphasis>managed persistence context</emphasis> (for EJB3) or
             <emphasis>managed session</emphasis> (for Hibernate) in your components. We'll see how to 
             use a managed session later. Configuring a managed persistence context is easy. In
-            <literal>seam.properties</literal>, we can write:
+            <literal>components.xml</literal>, we can write:
         </para>
 
-        <programlisting><![CDATA[org.jboss.seam.core.init.managedPersistenceContexts bookingDatabase
-bookingDatabase.persistenceUnitJndiName java:/EntityManagerFactories/bookingData]]></programlisting>
-        
-        <para>
-            Or, in <literal>web.xml</literal>:
-        </para>
-        
-        <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.core.init.managedPersistenceContexts</param-name>
-    <param-value>bookingDatabase</param-value>
-</context-param>
-
-<context-param>
-    <param-name>bookingDatabase.persistenceUnitJndiName</param-name>
-    <param-value>java:/EntityManagerFactories/bookingData</param-value>
-</context-param>]]></programlisting>
+        <programlisting><![CDATA[<component name="bookingDatabase"
+          class="org.jboss.seam.core.ManagedPersistenceContext">
+    <property name="persistenceUnitJndiName">java:/EntityManagerFactories/bookingData</property>
+</component>]]></programlisting>
 
         <para>
             This configuration creates a conversation-scoped Seam component named 
@@ -605,14 +601,15 @@ bookingDatabase.persistenceUnitJndiName java:/EntityManagerFactories/bookingData
         </para>
         
         <para>
-            To configure our Seam components, as usual, we have a choice between 
-            <literal>seam.properties</literal> and <literal>web.xml</literal>.
-            Let's show just the properties file this time:
+            To configure our Seam component, as usual, we use <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Hibernate
-org.jboss.seam.core.init.managedSessions bookingDatabase
-bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programlisting>
+        <programlisting><![CDATA[<component class="org.jboss.seam.core.Hibernate"/>
+
+<component name="bookingDatabase"
+          class="org.jboss.seam.core.ManagedHibernateSession">
+    <property name="sessionFactoryJndiName">java:/bookingSessionFactory</property>
+</component>]]></programlisting>
 
         <para>
             Where <literal>java:/bookingSessionFactory</literal> is the name of the session factory 
@@ -644,6 +641,7 @@ bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programli
         MANIFEST.MF
     WEB-INF/
         web.xml
+        components.xml
         faces-config.xml
         lib/
             jboss-seam.jar
@@ -712,9 +710,12 @@ bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programli
             bootstraps the microcontainer. As before, we probably want to use a Seam managed session.
         </para>
 
-        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Microcontainer
-org.jboss.seam.core.init.managedSessions bookingDatabase
-bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programlisting>
+        <programlisting><![CDATA[<component class="org.jboss.seam.core.Microcontainer"/>
+        
+<component name="bookingDatabase"
+          class="org.jboss.seam.core.ManagedHibernateSession">
+    <property name="sessionFactoryJndiName">java:/bookingSessionFactory</property>
+</component>]]></programlisting>
 
         <para>
             Where <literal>java:/bookingSessionFactory</literal> is the name of the Hibernate session
@@ -723,7 +724,7 @@ bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programli
         
         <para>
             You'll need to provide a <literal>jboss.beans.xml</literal> file that installs JNDI,
-            JTA, and your JCA datasource into the microcontainer:
+            JTA, your JCA datasource and Hibernate into the microcontainer:
         </para>
         
 <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -782,6 +783,7 @@ bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programli
         MANIFEST.MF
     WEB-INF/
         web.xml
+        components.xml
         faces-config.xml
         lib/
             jboss-seam.jar
@@ -821,47 +823,21 @@ bookingDatabase.sessionFactoryJndiName java:/bookingSessionFactory]]></programli
         <title>Configuring jBPM in Seam</title>
         <para>
             Seam's jBPM integration is not installed by default, so you'll need
-            to enable jBPM by adding a built-in component to the list of 
-            installed components. In <literal>seam.properties</literal>:
-        </para>
-
-        <programlisting><![CDATA[org.jboss.seam.core.init.componentClasses org.jboss.seam.core.Jbpm]]></programlisting>
-        
-        <para>
-            Or in <literal>web.xml</literal>:
+            to enable jBPM by installing a built-in component. You'll also need to 
+            explicitly list your process and pageflow definitions. In 
+            <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.core.init.componentClasses</param-name>
-    <param-value>org.jboss.seam.core.Jbpm</param-value>
-</context-param>]]></programlisting>
-
-        <para>
-            You'll also need to explicitly list your process and pageflow definitions:
-        </para>
-        
-        <programlisting><![CDATA[<context-param>
-    <param-name>org.jboss.seam.core.jbpm.pageflowDefinitions</param-name>
-    <param-value>
+        <programlisting><![CDATA[<component class="org.jboss.seam.core.Jbpm">
+    <property name="pageflowDefinitions">
         createDocument.jpdl.xml 
         editDocument.jpdl.xml 
         approveDocument.jpdl.xml
-    </param-value>
-</context-param>
-
-<context-param>
-    <param-name>org.jboss.seam.core.jbpm.processDefinitions</param-name>
-    <param-value>
+    </property>
+    <property name="processDefinitions">
         documentLifecycle.jpdl.xml
-    </param-value>
-</context-param>]]></programlisting>
-        
-        <para>
-            Or:
-        </para>
-        
-        <programlisting><![CDATA[org.jboss.seam.core.jbpm.pageflowDefinitions createDocument.jpdl.xml editDocument.jpdl.xml approveDocument.jpdl.xml
-org.jboss.seam.core.jbpm.processDefinitions documentLifecycle.jpdl.xml]]></programlisting>
+    </property>
+</component>]]></programlisting>
 
         <para>
             No further special configuration is needed if you only have pageflows.
@@ -915,6 +891,7 @@ org.jboss.seam.core.jbpm.processDefinitions documentLifecycle.jpdl.xml]]></progr
             MANIFEST.MF
         WEB-INF/
             web.xml
+            components.xml
             faces-config.xml
         login.jsp
         register.jsp
