@@ -5,6 +5,7 @@ build
 output
 jboss-seam.jar
 jboss-seam-ui.jar
+jboss-seam-debug.jar
 test-output
 testng-failures.xml
 report
