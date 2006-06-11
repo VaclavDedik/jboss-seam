@@ -906,12 +906,18 @@
         <para>
             Certain special Seam component classes are installable multiple times under names
             specified in the Seam configuration. For example, the following lines in 
-            <literal>seam.properties</literal> install and configure two Seam components:
+            <literal>components.xml</literal> install and configure two Seam components:
         </para>
         
-        <programlisting><![CDATA[org.jboss.seam.core.init.managedPersistenceContexts bookingDatabase, userDatabase
-bookingDatabase.persistenceUnitJndiName java:/comp/emf/bookingPersistence
-userDatabase.persistenceUnitJndiName java:/comp/emf/userPersistence]]></programlisting>
+        <programlisting><![CDATA[<component name="bookingDatabase"
+          class="org.jboss.seam.core.ManagedPersistenceContext">
+    <property name="persistenceUnitJndiName">java:/comp/emf/bookingPersistence</property>
+</component>
+
+<component name="userDatabase"
+          class="org.jboss.seam.core.ManagedPersistenceContext">
+    <property name="persistenceUnitJndiName">java:/comp/emf/userPersistence</property>
+</component>]]></programlisting>
         
         <para>
             The Seam component names are <literal>bookingDatabase</literal> and 
