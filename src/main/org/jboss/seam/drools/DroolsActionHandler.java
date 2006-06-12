@@ -20,7 +20,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 public class DroolsActionHandler implements ActionHandler
 {
 
-   public List<String> objectNames;
+   public List<String> assertObjects;
    public String workingMemoryName;
 
    /**
@@ -32,7 +32,7 @@ public class DroolsActionHandler implements ActionHandler
       WorkingMemory workingMemory = (WorkingMemory) Component.getInstance(workingMemoryName, true);
 
       // load the facts
-      for (String objectName: objectNames)
+      for (String objectName: assertObjects)
       {
          //TODO: support EL expressions here:
          Object object = new SeamVariableResolver().resolveVariable(objectName);

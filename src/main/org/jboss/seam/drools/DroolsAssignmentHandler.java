@@ -28,7 +28,7 @@ public class DroolsAssignmentHandler implements AssignmentHandler
 
    public String group;
    public String workingMemoryName;
-   public List<String> objectNames;
+   public List<String> assertObjects;
 
    public void assign(Assignable assignable, ExecutionContext executionContext)
          throws Exception
@@ -41,7 +41,7 @@ public class DroolsAssignmentHandler implements AssignmentHandler
       assertObjects( getGroupByName(session, group), workingMemory );
       assertObjects( getMemberships(session), workingMemory );
 
-      for (String objectName: objectNames)
+      for (String objectName: assertObjects)
       {
          //TODO: support EL expressions here:
          Object object = new SeamVariableResolver().resolveVariable(objectName);

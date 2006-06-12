@@ -87,19 +87,19 @@ public void pricePolicy() throws FactException
          <programlisting><![CDATA[<decision name="approval">
          
     <handler class="org.jboss.seam.drools.DroolsDecisionHandler">
-        <objectNames>
+        <assertObjects>
             <element>customer</element>
             <element>order</element>
-        </objectNames>
+        </assertObjects>
         <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>
     </handler>
     
     <transition name="approved" to="ship">
         <action class="org.jboss.seam.drools.DroolsActionHandler">
-            <objectNames>
+            <assertObjects>
                 <element>customer</element>
                 <element>order</element>
-            </objectNames>
+            </assertObjects>
             <workingMemoryName>shippingRulesWorkingMemory</workingMemoryName>
         </action>
     </transition>
@@ -109,8 +109,8 @@ public void pricePolicy() throws FactException
 </decision>]]></programlisting>
 
          <para>
-             The <literal>&lt;objectNames&gt;</literal> are names of components in the
-             Seam contexts to be asserted as facts into the <literal>WorkingMemory</literal>.
+             The <literal>&lt;assertObjects&gt;</literal> element specifies names of components in 
+             the Seam contexts to be asserted as facts into the <literal>WorkingMemory</literal>.
          </para>
          
          <para>
