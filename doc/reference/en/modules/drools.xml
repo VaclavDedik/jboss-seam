@@ -1,0 +1,146 @@
+<chapter id="drools">
+    <title>Seam and JBoss Rules</title>
+    
+    <para>
+        Seam makes it easy to call JBoss Rules (Drools) rulebases from Seam
+        components or jBPM process definitions. <emphasis>This is an experimental
+        and unsupported feature of Seam 1.0.</emphasis>
+    </para>
+    
+    <section>
+        <title>Installing rules</title>
+        
+        <para>
+            The first step is to make an instance of <literal>org.drools.RuleBase</literal>
+            available in a Seam context variable. In most rules-driven applications,
+            rules need to be dynamically deployable, so you will need to implement
+            some solution that allows you to deploy rules and make them available to
+            Seam (a future release of Drools will provide a Rule Server that
+            solves this problem). For testing purposes, Seam provides a built-in component
+            that compiles a static set of rules from the classpath. You can install
+            this component via <literal>components.xml</literal>:
+        </para>
+
+        <programlisting><![CDATA[<component name="policyPricingRules"
+          class="org.jboss.seam.drools.RuleBase">
+    <property name="rulesFiles">policyPricingRules.drl</property>
+</component>]]></programlisting>
+
+         <para>
+             This component compiles rules from a set of <literal>.drl</literal>
+             files and caches an instance of <literal>org.drools.RuleBase</literal>
+             in the Seam <literal>APPLICATION</literal> context. Note that it is 
+             quite likely that you will need to install multiple rule bases in a 
+             rule-driven application.
+         </para>
+         
+         <para>
+             Next, we need to make an instance of <literal>org.drools.WorkingMemory</literal>
+             available to each conversation. (Each <literal>WorkingMemory</literal>
+             accumulates facts relating to the current conversation.)
+         </para>
+
+         <programlisting><![CDATA[<component name="policyPricingWorkingMemory"
+          class="org.jboss.seam.drools.ManagedWorkingMemory">
+    <property name="ruleBaseName">policyPricingRules</property>
+</component>]]></programlisting>
+
+         <para>
+             Notice that we gave the <literal>policyPricingWorkingMemory</literal> a
+             reference back to our rule base via the <literal>ruleBaseName</literal>
+             configuration property.
+         </para>
+         
+     </section>
+     
+     <section>
+         <title>Using rules from a Seam component</title>
+         
+         <para>
+             We can now inject our <literal>WorkingMemory</literal> into any Seam component,
+             assert facts, and fire rules:
+         </para>
+         
+         <programlisting><![CDATA[@In(create=true) 
+WorkingMemory policyPricingWorkingMemory;
+
+@In Policy policy;
+@In Customer customer;
+
+public void pricePolicy() throws FactException
+{
+    policyPricingWorkingMemory.assertObject(policy);
+    policyPricingWorkingMemory.assertObject(customer);
+    policyPricingWorkingMemory.fireAllRules();
+}]]></programlisting>
+     
+     </section>
+     
+     <section>
+         <title>Using rules from a jBPM process definition</title>
+         
+         <para>
+             You can even allow a rule base to act as a jBPM action handler, decision
+             handler, or assignment handler.
+         </para>
+         
+         <programlisting><![CDATA[<decision name="approval">
+         
+    <handler class="org.jboss.seam.drools.DroolsDecisionHandler">
+        <objectNames>
+            <element>customer</element>
+            <element>order</element>
+        </objectNames>
+        <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>
+    </handler>
+    
+    <transition name="approved" to="ship">
+        <action class="org.jboss.seam.drools.DroolsActionHandler">
+            <objectNames>
+                <element>customer</element>
+                <element>order</element>
+            </objectNames>
+            <workingMemoryName>shippingRulesWorkingMemory</workingMemoryName>
+        </action>
+    </transition>
+    
+    <transition name="rejected" to="cancelled"/>
+    
+</decision>]]></programlisting>
+
+         <para>
+             The <literal>&lt;objectNames&gt;</literal> are names of components in the
+             Seam contexts to be asserted as facts into the <literal>WorkingMemory</literal>.
+         </para>
+         
+         <para>
+             Certain objects are available to the rules as Drools globals, namely
+             the jBPM <literal>ContextInstance</literal>, as <literal>contextInstance</literal>
+             and a Seam <literal>Decision</literal> object, as <literal>decision</literal>.
+             Rules which handle decisions should call <literal>decision.setOutcome("result")</literal>
+             to determine the result of the decision.
+         </para>
+         
+         <programlisting><![CDATA[package org.jboss.seam.examples.shop
+ 
+import org.jboss.seam.examples.shop.Customer
+import org.jboss.seam.examples.shop.Order
+import org.jboss.seam.drools.Decision
+
+global Decision decision
+
+rule "Approve Order For Loyal Customer"
+  when
+    Customer( loyaltyStatus = "GOLD" )
+    Order( totalAmount <= 10 000 )
+  then
+    decision.setOutcome("approved")
+end]]></programlisting>
+
+         <para>
+             There is also support for using Drools for jBPM task assignments. TODO!
+         </para>
+         
+     </section>
+     
+</chapter>

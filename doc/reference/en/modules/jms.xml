@@ -32,12 +32,12 @@
         </para>
         
         <programlisting><![CDATA[<component name="stockTickerPublisher"
-          class="org.jboss.seam.core.ManagedTopicPublisher">
+          class="org.jboss.seam.jms.ManagedTopicPublisher">
     <property name="topicJndiName">topic/stockTickerTopic</property>
 </component>
 
 <component name="paymentQueueSender"
-          class="org.jboss.seam.core.ManagedQueueSender">
+          class="org.jboss.seam.jms.ManagedQueueSender">
     <property name="queueJndiName">queue/paymentQueue</property>
 </component>]]></programlisting>
 

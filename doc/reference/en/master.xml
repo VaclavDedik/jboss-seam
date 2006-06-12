@@ -9,6 +9,7 @@
 <!ENTITY i18n                   SYSTEM "modules/i18n.xml">
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
+<!ENTITY drools                 SYSTEM "modules/drools.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
@@ -236,6 +237,7 @@
     &i18n;
     &jms;
     &remoting;
+    &drools;
     &configuration;
     &annotations;
     &components;
