@@ -13,6 +13,7 @@ Changes in version 1.0.0.GA (June 2006)
 * Fix bug with interpolation of messages in resource bundle
 * Fix bug with stack overflow when components with circular references have @Create methods
 * Allow Seam variables to be read from outside Seam
+* Experimental Drools integration
 
 Changes in version 1.0.0.CR3 (May 2006)
 ---------------------------------------
