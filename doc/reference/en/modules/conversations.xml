@@ -297,7 +297,7 @@
         <para>
             This action method is called at the beginning of the render response
             phase, any time the page is about to be rendered. If a page action
-            returns a non-null outcome, Seam will process any appropriat JSF 
+            returns a non-null outcome, Seam will process any appropriate JSF 
             navigation rules, possibly resulting in a completely different page 
             being rendered.
         </para>
@@ -521,7 +521,7 @@ public class EditDocumentBean implements EditDocument {
             Workspace management is the ability to "switch" conversations in
             a single window. Seam makes workspace management completely 
             transparent at the level of the Java code. To enable workspace
-            management, all you need to so is:
+            management, all you need to do is:
         </para>
         
         <itemizedlist>

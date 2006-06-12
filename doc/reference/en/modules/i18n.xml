@@ -62,7 +62,7 @@
 
         <para>
             Or, if you want a list of all supported locales from 
-            <literal>jsf-config.xml</literal>, just use:
+            <literal>faces-config.xml</literal>, just use:
         </para>
 
         <programlisting><![CDATA[<h:selectOneMenu value="#{localeSelector.localeString}">

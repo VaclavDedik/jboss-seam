@@ -556,11 +556,10 @@ public class User {
             <para>
                 Seam was designed to integrate tightly in a Java EE 5 environment. However, 
                 we understand that there are many projects which are not running in a full EE
-                environment, and at the time of writing, Java EE 5 is not yet final. We also
-                realize the critical importance of easy unit and integration testing using 
-                frameworks such as TestNG and JUnit. So, we've made it easy to run Seam in Java SE
-                environments by allowing you to boostrap certain critical infrastructure normally
-                only found in EE environments by installing built-in Seam components.
+                environment. We also realize the critical importance of easy unit and integration
+                testing using frameworks such as TestNG and JUnit. So, we've made it easy to run Seam
+                in Java SE environments by allowing you to boostrap certain critical infrastructure
+                normally only found in EE environments by installing built-in Seam components.
             </para>
             <para>
                 For example, you can run your EJB3 components in Tomcat or an integration test suite 
@@ -1053,7 +1052,7 @@ public class LoggedInInterceptor
         <programlisting><![CDATA[<start-page name="hello" view-id="/hello.jsp">
     <transition to="hello">
         <action expression="#{helloWorld.sayHello}"/>
-    </trasition>
+    </transition>
 </start-page>]]></programlisting>
 
         <para>

@@ -1321,7 +1321,7 @@ public interface MessageManager
                     <para>
                         The <literal>&lt;end-state&gt;</literal> node defines the logical
                         end of the business process. When execution reaches this node,
-                        the process instance is destoryed.
+                        the process instance is destroyed.
                     </para>
                 </callout>
            </calloutlist>
