@@ -1,5 +1,7 @@
 package org.jboss.seam.log;
 
+import java.io.Serializable;
+
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.core.Interpolator;
 
@@ -8,10 +10,10 @@ import org.jboss.seam.core.Interpolator;
  * 
  * @author Gavin King
  */
-public class LogImpl implements Log
+public class LogImpl implements Log, Serializable
 {
    
-   private final org.apache.commons.logging.Log log;
+   private transient org.apache.commons.logging.Log log;
 
    public LogImpl(Class clazz)
    {
