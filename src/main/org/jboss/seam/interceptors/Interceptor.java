@@ -78,7 +78,10 @@ public final class Interceptor extends Reflections
       }
       if (aroundInvokeMethod==null) 
       {
-         throw new IllegalArgumentException("no @AroundInvoke method found");
+         throw new IllegalArgumentException(
+               "no @AroundInvoke method found: " + 
+               userInterceptor.getClass().getName()
+            );
       }
    }
    
