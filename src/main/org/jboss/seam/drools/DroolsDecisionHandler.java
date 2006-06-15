@@ -3,9 +3,6 @@ package org.jboss.seam.drools;
 import java.util.List;
 
 import org.drools.WorkingMemory;
-import org.jboss.seam.Component;
-import org.jboss.seam.core.Actor;
-import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.node.DecisionHandler;
 
@@ -17,7 +14,7 @@ import org.jbpm.graph.node.DecisionHandler;
  * @author Gavin King
  *
  */
-public class DroolsDecisionHandler implements DecisionHandler
+public class DroolsDecisionHandler extends DroolsHandler implements DecisionHandler
 {
 
    public List<String> assertObjects;
@@ -29,21 +26,7 @@ public class DroolsDecisionHandler implements DecisionHandler
     */
    public String decide(ExecutionContext executionContext) throws Exception
    {
-      WorkingMemory workingMemory = (WorkingMemory) Component.getInstance(workingMemoryName, true);
-
-      // load the facts
-      for (String objectName: assertObjects)
-      {
-         //TODO: support EL expressions here:
-         Object object = new SeamVariableResolver().resolveVariable(objectName);
-         // assert the object into the rules engine
-         workingMemory.assertObject(object);
-      }
-      
-      // assert the contextInstance so that it may be used to set results
-      // TODO: any other useful objects?
-      workingMemory.setGlobal( "contextInstance", executionContext.getContextInstance() );
-      workingMemory.assertObject( Actor.instance() );
+      WorkingMemory workingMemory = getWorkingMemory(workingMemoryName, assertObjects, executionContext);
       workingMemory.setGlobal( "decision", new Decision() );
       workingMemory.fireAllRules();
       return ( (Decision) workingMemory.getGlobal("decision") ).getOutcome();
