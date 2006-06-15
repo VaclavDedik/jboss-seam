@@ -102,11 +102,11 @@ public class Call
 
     Class type = null;
 
-    if (component.getLocalInterfaces().size() > 0)
+    if (component.getBusinessInterfaces().size() > 0)
     {
       // Get the local interface for the component - this is the type that we're
       // going to assume we're invoking against.
-      type = component.getLocalInterfaces().iterator().next();
+      type = component.getBusinessInterfaces().iterator().next();
     }
 
     if (type == null)

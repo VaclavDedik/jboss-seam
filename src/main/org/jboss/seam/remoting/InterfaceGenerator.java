@@ -214,9 +214,9 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     if ((component.getType().equals(ComponentType.STATEFUL_SESSION_BEAN) ||
         component.getType().equals(ComponentType.STATELESS_SESSION_BEAN)) &&
-        component.getLocalInterfaces().size() > 0)
+        component.getBusinessInterfaces().size() > 0)
     {
-      type = component.getLocalInterfaces().iterator().next();
+      type = component.getBusinessInterfaces().iterator().next();
     }
     else if (component.getType().equals(ComponentType.ENTITY_BEAN))
     {

@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
@@ -137,7 +138,7 @@ public class Component
 
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
 
-   private Set<Class> localInterfaces;
+   private Set<Class> businessInterfaces;
 
    private Class<Factory> factory;
 
@@ -190,7 +191,7 @@ public class Component
       initMembers(clazz, applicationContext);
       checkDestroyMethod();
 
-      localInterfaces = getLocalInterfaces(beanClass);
+      businessInterfaces = getBusinessInterfaces(beanClass);
 
       if ( interceptionType!=InterceptionType.NEVER)
       {
@@ -1066,7 +1067,7 @@ public class Component
             return beanClass.isInstance(bean);
          default:
             Class clazz = bean.getClass();
-            for (Class intfc: localInterfaces)
+            for (Class intfc: businessInterfaces)
             {
                if (intfc.isAssignableFrom(clazz))
                {
@@ -1077,37 +1078,51 @@ public class Component
       }
    }
 
-   private static Set<Class> getLocalInterfaces(Class clazz)
+   private static Set<Class> getBusinessInterfaces(Class clazz)
    {
-       Set<Class> result = new HashSet<Class>();
+      Set<Class> result = new HashSet<Class>();
 
-       if (clazz.isAnnotationPresent(Local.class)) {
-           Local local = (Local) clazz.getAnnotation(Local.class);
-           for (Class iface: local.value()) {
+      if ( clazz.isAnnotationPresent(Local.class) ) 
+      {
+         Local local = (Local) clazz.getAnnotation(Local.class);
+         for ( Class iface: local.value() ) {
+            result.add(iface);
+         }
+      }
+      
+      if ( clazz.isAnnotationPresent(Remote.class) ) 
+      {
+         Remote remote = (Remote) clazz.getAnnotation(Remote.class);
+         for ( Class iface: remote.value() ) 
+         {
+            result.add(iface);
+         }
+      }
+      
+      for ( Class iface: clazz.getInterfaces() ) 
+      {
+         if ( iface.isAnnotationPresent(Local.class) || iface.isAnnotationPresent(Remote.class) ) 
+         {
+            result.add(iface);
+         }
+      }
+
+      if ( result.size() == 0 ) {
+         for ( Class iface: clazz.getInterfaces() ) 
+         {
+            if ( !isExcludedLocalInterfaceName( iface.getName() ) )
+            {
                result.add(iface);
-           }
-       } else {
-           for (Class iface: clazz.getInterfaces()) {
-               if (iface.isAnnotationPresent(Local.class)) {
-                   result.add(iface);
-               }
-           }
-
-           if (result.size() == 0) {
-               for (Class iface: clazz.getInterfaces()) {
-                   if (!isExcludedLocalInterfaceName(iface.getName())) {
-                       result.add(iface);
-                   }
-               }
-           }
-       }
-
+            }
+         }
+      }
+       
        return result;
    }
 
-   public Set<Class> getLocalInterfaces()
+   public Set<Class> getBusinessInterfaces()
    {
-     return getLocalInterfaces(beanClass);
+      return businessInterfaces;
    }
 
     private static boolean isExcludedLocalInterfaceName(String name) {
