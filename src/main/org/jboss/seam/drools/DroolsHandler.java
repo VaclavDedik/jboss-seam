@@ -2,10 +2,11 @@ package org.jboss.seam.drools;
 
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Actor;
-import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.el.ELException;
 
@@ -18,17 +19,29 @@ import org.jbpm.jpdl.el.ELException;
  */
 public class DroolsHandler
 {
-   protected WorkingMemory getWorkingMemory(String workingMemoryName, List<String> objectNames, ExecutionContext executionContext) 
+   protected WorkingMemory getWorkingMemory(String workingMemoryName, List<String> expressions, ExecutionContext executionContext) 
          throws ELException
    {
       WorkingMemory workingMemory = (WorkingMemory) Component.getInstance(workingMemoryName, true);
-
-      for (String objectName: objectNames)
+      
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      for (String objectName: expressions)
       {
-         //TODO: support EL expressions here:
-         Object object = new SeamVariableResolver().resolveVariable(objectName);
+         //TODO: delegate to jBPM instead of to JSF
+         Object object = facesContext.getApplication().createValueBinding(objectName).getValue(facesContext);
+         //Object object = new SeamVariableResolver().resolveVariable(objectName);
          // assert the object into the rules engine
-         workingMemory.assertObject(object);
+         if (object instanceof Iterable)
+         {
+            for (Object element: (Iterable) object)
+            {
+               workingMemory.assertObject(element);
+            }
+         }
+         else
+         {
+            workingMemory.assertObject(object);
+         }
       }
       
       workingMemory.setGlobal( "contextInstance", executionContext.getContextInstance() );
