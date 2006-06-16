@@ -331,6 +331,10 @@ public class Component
             }
             if ( method.isAnnotationPresent(Destroy.class) )
             {
+               if (type!=ComponentType.JAVA_BEAN && type!=ComponentType.STATEFUL_SESSION_BEAN)
+               {
+                  throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Destroy methods: " + name);
+               }
                if (destroyMethod!=null)
                {
                   throw new IllegalStateException("component has two @Destroy methods: " + name);
@@ -339,6 +343,10 @@ public class Component
             }
             if ( method.isAnnotationPresent(Create.class) )
             {
+               if (type!=ComponentType.JAVA_BEAN && type!=ComponentType.STATEFUL_SESSION_BEAN)
+               {
+                  throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Create methods: " + name);
+               }
                if (createMethod!=null)
                {
                   throw new IllegalStateException("component has two @Create methods: " + name);
