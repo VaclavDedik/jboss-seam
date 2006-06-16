@@ -34,13 +34,14 @@ public class SeamInterceptor implements Serializable
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if ( isSeamComponent( invocation.getTarget() ) )
+      if ( !isSeamComponent( invocation.getTarget() ) )
       {
          //not a Seam component
          return invocation.proceed();
       }
       else if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) //not sure about the second bit (only needed at init time!)
       {
+         //a Seam component, and Seam contexts exist
          return aroundInvokeInContexts(invocation);
       }
       else
