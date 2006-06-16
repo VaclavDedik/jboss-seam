@@ -1,9 +1,9 @@
 /*
- �* JBoss, Home of Professional Open Source
- �*
- �* Distributable under LGPL license.
- �* See terms of license at gnu.org.
- �*/
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.ejb;
 
 import java.io.Serializable;
@@ -15,7 +15,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.SeamInvocationContext;
@@ -35,7 +34,7 @@ public class SeamInterceptor implements Serializable
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if ( !getUnproxiedClass( invocation.getTarget() ).isAnnotationPresent(Name.class) )
+      if ( isSeamComponent( invocation.getTarget() ) )
       {
          //not a Seam component
          return invocation.proceed();
@@ -60,7 +59,7 @@ public class SeamInterceptor implements Serializable
          }
       }
    }
-   
+
    public Object aroundInvokeInContexts(InvocationContext invocation) throws Exception
    {
       final Component component = getSeamComponent( invocation.getTarget() );
@@ -77,7 +76,6 @@ public class SeamInterceptor implements Serializable
          {
             log.trace("not intercepted: " + invocation.getMethod().getName());
          }
-         //component.inject( invocation.getBean(), false );
          return invocation.proceed();
       }
    }
@@ -87,20 +85,14 @@ public class SeamInterceptor implements Serializable
       return component!=null && component.getInterceptionType().isActive();
    }
 
+   private boolean isSeamComponent(Object bean)
+   {
+      return Seam.getBeanClass( bean.getClass() )!=null;
+   }
+   
    private Component getSeamComponent(Object bean)
    {
-      String componentName = Seam.getComponentName( getUnproxiedClass(bean) );
-      return Component.forName( componentName );
-   }
-
-   private Class getUnproxiedClass(Object bean)
-   {
-      Class clazz = bean.getClass();
-      if ( clazz.getName().contains("CGLIB") ) 
-      {
-         clazz = clazz.getSuperclass();
-      }
-      return clazz;
+      return Component.forName( Seam.getComponentName( bean.getClass() ) );
    }
    
 }

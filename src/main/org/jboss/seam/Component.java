@@ -791,15 +791,7 @@ public class Component
 
    private void injectParameters(Object bean)
    {
-      Map requestParameters = null;
-      if ( FacesContext.getCurrentInstance() != null )
-      {
-         requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-      }
-      else if ( Lifecycle.getServletRequest() != null )
-      {
-         requestParameters = Lifecycle.getServletRequest().getParameterMap();
-      }
+      Map requestParameters = getRequestParameters();
 
       for (Method setter: parameterSetters)
       {
@@ -815,7 +807,21 @@ public class Component
       }
    }
 
-   private Object convertRequestParameter(Object requestParameter, Class type)
+   public static Map getRequestParameters()
+   {
+      Map requestParameters = null;
+      if ( FacesContext.getCurrentInstance() != null )
+      {
+         requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+      }
+      else if ( Lifecycle.getServletRequest() != null )
+      {
+         requestParameters = Lifecycle.getServletRequest().getParameterMap();
+      }
+      return requestParameters;
+   }
+
+   public static Object convertRequestParameter(Object requestParameter, Class type)
    {
       if ( String.class.equals(type) ) return requestParameter;
 

@@ -35,13 +35,7 @@ public class ModelValidator implements Validator
 
       String propertyName = propertyExpression.substring( modelExpression.length() , propertyExpression.length()-1 );
       
-      Class modelClass = model.getClass();
-      if ( modelClass.getName().contains("CGLIB") ) 
-      {
-         modelClass = modelClass.getSuperclass();
-      }
-      
-      ClassValidator validator = Validation.getValidator(modelClass);
+      ClassValidator validator = Validation.getValidator( model.getClass() );
       
       InvalidValue[] ivs = validator.getPotentialInvalidValues(propertyName, value);
       if ( ivs.length!=0 )

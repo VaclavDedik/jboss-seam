@@ -10,20 +10,18 @@ public class Validation
 
    public static ClassValidator getValidator(Class modelClass)
    {
-      ClassValidator validator;
       String componentName = Seam.getComponentName(modelClass);
       if (componentName==null)
       {
          java.util.ResourceBundle bundle = ResourceBundle.instance();
-         validator = bundle==null ? 
+         return bundle==null ? 
                new ClassValidator(modelClass) : 
                new ClassValidator(modelClass, bundle);
       }
       else
       {
-         validator = Component.forName(componentName).getValidator();
+         return Component.forName(componentName).getValidator();
       }
-      return validator;
    }
 
 }

@@ -84,8 +84,28 @@ public class Seam
     */
    public static String getComponentName(Class<?> clazz)
    {
-      Name name = clazz.getAnnotation(Name.class);
-      return name==null ? null : name.value();
+      while ( clazz!=null && !Object.class.equals(clazz) )
+      {
+         Name name = clazz.getAnnotation(Name.class);
+         if ( name!=null ) return name.value();
+         clazz = clazz.getSuperclass();
+      }
+      return null;
+   }
+   
+   /**
+    * Get the bean class from a container-generated proxy
+    * class
+    */
+   public static Class getBeanClass(Class<?> clazz)
+   {
+      while ( clazz!=null && !Object.class.equals(clazz) )
+      {
+         Name name = clazz.getAnnotation(Name.class);
+         if ( name!=null ) return clazz;
+         clazz = clazz.getSuperclass();
+      }
+      return null;
    }
    
    public static String getEjbName(Class<?> clazz)
