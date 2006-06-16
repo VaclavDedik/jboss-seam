@@ -111,8 +111,9 @@ public void pricePolicy() throws FactException
 </decision>]]></programlisting>
 
          <para>
-             The <literal>&lt;assertObjects&gt;</literal> element specifies names of components in 
-             the Seam contexts to be asserted as facts into the <literal>WorkingMemory</literal>.
+             The <literal>&lt;assertObjects&gt;</literal> element specifies EL expression that
+             return an object or collection of objects to be asserted as facts into the 
+             <literal>WorkingMemory</literal>.
          </para>
          
          <para>
