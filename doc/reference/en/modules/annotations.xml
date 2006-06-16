@@ -879,10 +879,13 @@
                 <listitem>
                     <programlisting><![CDATA[@DataModel("variableName")]]></programlisting>
                     <para>
-                        Exposes an attribute of type <literal>List</literal> as a JSF
-                        <literal>DataModel</literal> into the scope of the owning 
-                        component (or the <literal>EVENT</literal> scope if the
-                        owning component is <literal>STATELESS</literal>).
+                        Exposes an attribute of type <literal>List</literal>, 
+                        <literal>Map</literal>, <literal>Set</literal> or
+                        <literal>Object[]</literal> as a JSF <literal>DataModel</literal> 
+                        into the scope of the owning component (or the <literal>EVENT</literal> 
+                        scope if the owning component is <literal>STATELESS</literal>).
+                        In the case of <literal>Map</literal>, each row of the 
+                        <literal>DataModel</literal> is a <literal>Map.Entry</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -907,7 +910,8 @@
                 <listitem>
                     <programlisting><![CDATA[@DataModelSelection]]></programlisting>
                     <para>
-                        Injects the selected value from the JSF <literal>DataModel</literal>.
+                        Injects the selected value from the JSF <literal>DataModel</literal>
+                        (this is the element of the underlying collection, or the map value).
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -926,7 +930,8 @@
                     <programlisting><![CDATA[@DataModelSelectionIndex]]></programlisting>
                     <para>
                         Exposes the selection index of the JSF <literal>DataModel</literal>
-                        as an attribute of the component.
+                        as an attribute of the component (this is the row number of the
+                        underlying collection, or the map key).
                     </para>
                     <itemizedlist>
                         <listitem>

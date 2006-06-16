@@ -88,8 +88,9 @@ public void pricePolicy() throws FactException
          
     <handler class="org.jboss.seam.drools.DroolsDecisionHandler">
         <assertObjects>
-            <element>customer</element>
-            <element>order</element>
+            <element>#{customer}</element>
+            <element>#{order}</element>
+            <element>#{order.lineItems}</element>
         </assertObjects>
         <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>
     </handler>
@@ -97,8 +98,9 @@ public void pricePolicy() throws FactException
     <transition name="approved" to="ship">
         <action class="org.jboss.seam.drools.DroolsActionHandler">
             <assertObjects>
-                <element>customer</element>
-                <element>order</element>
+                <element>#{customer}</element>
+                <element>#{order}</element>
+                <element>#{order.lineItems}</element>
             </assertObjects>
             <workingMemoryName>shippingRulesWorkingMemory</workingMemoryName>
         </action>
@@ -122,23 +124,22 @@ public void pricePolicy() throws FactException
          </para>
          
          <programlisting><![CDATA[package org.jboss.seam.examples.shop
- 
-import org.jboss.seam.examples.shop.Customer
-import org.jboss.seam.examples.shop.Order
+
 import org.jboss.seam.drools.Decision
 
 global Decision decision
 
 rule "Approve Order For Loyal Customer"
   when
-    Customer( loyaltyStatus = "GOLD" )
-    Order( totalAmount <= 10 000 )
+    Customer( loyaltyStatus == "GOLD" )
+    Order( totalAmount <= 10000 )
   then
     decision.setOutcome("approved")
 end]]></programlisting>
 
          <para>
-             There is also support for using Drools for jBPM task assignments. TODO!
+             There is also support for using Drools for jBPM task assignments, using
+             <literal>org.jboss.seam.drools.DroolsAssignmentHandler</literal>. TODO!
          </para>
          
      </section>
