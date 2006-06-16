@@ -391,7 +391,9 @@
                     <programlisting><![CDATA[@Create]]></programlisting>
                     <para>
                         Specifies that the method should be called when an instance
-                        of the component is instantiated by Seam.
+                        of the component is instantiated by Seam. Note that 
+                        create methods are only supported for JavaBeans and stateful
+                        session beans.
                     </para>
                 </listitem>
             </varlistentry>   
@@ -401,7 +403,8 @@
                     <programlisting><![CDATA[@Destroy]]></programlisting>
                     <para>
                         Specifies that the method should be called when the context ends and
-                        its context variables are destroyed.
+                        its context variables are destroyed. Note that create methods are only 
+                        supported for JavaBeans and stateful session beans.
                     </para>
                     <para>
                         Note that all stateful session bean components <emphasis>must</emphasis>
