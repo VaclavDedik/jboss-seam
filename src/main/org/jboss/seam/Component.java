@@ -271,18 +271,32 @@ public class Component
       if (applicationContext==null) return; //TODO: yew!!!!!
       Map<String, String> properties = (Map<String, String>) applicationContext.get(PROPERTIES);
       if (properties==null) return; //TODO: yew!!!!!
-      for (Map.Entry<String, String> me: properties.entrySet())
+      
+      
+      for ( Map.Entry<String, String> me: properties.entrySet() )
       {
          String key = me.getKey();
          String value = me.getValue();
 
          if ( key.startsWith(name) && key.charAt( name.length() )=='.' )
          {
+            if ( type==ComponentType.ENTITY_BEAN )
+            {
+               throw new IllegalArgumentException("can not configure entity beans: " + name);
+            }
+            else if ( type!=ComponentType.JAVA_BEAN && businessInterfaces.size()>1 )
+            {
+               throw new IllegalArgumentException("can only configure components with exactly one business interface: " + name);
+            }
+            
+            Class configClass = type==ComponentType.JAVA_BEAN ? 
+                  beanClass : businessInterfaces.iterator().next();
+               
             String propertyName = key.substring( name.length()+1, key.length() );
             PropertyDescriptor propertyDescriptor;
             try
             {
-               propertyDescriptor = new PropertyDescriptor(propertyName, beanClass);
+               propertyDescriptor = new PropertyDescriptor(propertyName, configClass);
             }
             catch (IntrospectionException ie)
             {
@@ -291,7 +305,7 @@ public class Component
             PropertyEditor propertyEditor = PropertyEditorManager.findEditor( propertyDescriptor.getPropertyType() );
             propertyEditor.setAsText( value );
             initializers.put( propertyDescriptor.getWriteMethod(), propertyEditor.getValue() );
-            log.debug( key + "=" + value );
+            if ( log.isDebugEnabled() ) log.debug( key + "=" + value );
         }
 
       }
@@ -751,7 +765,7 @@ public class Component
 
    protected Object initialize(Object bean) throws Exception
    {
-      for (Map.Entry<Method, Object> me: initializers.entrySet())
+      for ( Map.Entry<Method, Object> me: initializers.entrySet() )
       {
          Reflections.invoke( me.getKey(), bean, me.getValue() );
       }
