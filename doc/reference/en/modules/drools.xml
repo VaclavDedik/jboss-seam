@@ -111,7 +111,7 @@ public void pricePolicy() throws FactException
 </decision>]]></programlisting>
 
          <para>
-             The <literal>&lt;assertObjects&gt;</literal> element specifies EL expression that
+             The <literal>&lt;assertObjects&gt;</literal> element specifies EL expressions that
              return an object or collection of objects to be asserted as facts into the 
              <literal>WorkingMemory</literal>.
          </para>
