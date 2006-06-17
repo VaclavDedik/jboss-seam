@@ -46,9 +46,6 @@ public class Jbpm
 {
    private static final Log log = LogFactory.getLog( Jbpm.class );
    
-   public static final String PROCESS_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".processDefinitions";
-   public static final String PAGEFLOW_DEFINITIONS = Seam.getComponentName(Jbpm.class) + ".pageflowDefinitions";
-
    private JbpmConfiguration jbpmConfiguration;
    private String[] processDefinitions;
    private String[] pageflowDefinitions;
