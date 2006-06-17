@@ -33,10 +33,10 @@ public class FacesApplicationContext implements Context {
       return /*getPrefix() +*/ name;
    }
 
-   private String getPrefix()
+   /*private String getPrefix()
    {
       return ScopeType.APPLICATION.getPrefix() + '$';
-   }
+   }*/
 
 	public FacesApplicationContext(ExternalContext externalContext) {
 		this.externalContext = externalContext;
