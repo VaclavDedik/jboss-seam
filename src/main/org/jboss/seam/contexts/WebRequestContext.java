@@ -35,10 +35,10 @@ public class WebRequestContext implements Context {
       return /*getPrefix() + */ name;
    }
 
-   private String getPrefix()
+   /*private String getPrefix()
    {
       return ScopeType.EVENT.getPrefix() + '$';
-   }
+   }*/
 
 	public Object get(String name) {
 		return request.getAttribute( getKey(name) );

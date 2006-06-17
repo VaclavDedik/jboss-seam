@@ -15,6 +15,7 @@ import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.contexts.ContextAdaptor;
+import org.jboss.seam.contexts.WebRequestContext;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -73,7 +74,7 @@ public class ContextTest
       assert Contexts.getSessionContext()!=null;
       assert Contexts.getConversationContext()!=null;
       assert Contexts.getApplicationContext()!=null;
-      assert Contexts.getEventContext() instanceof EventContext;
+      assert Contexts.getEventContext() instanceof WebRequestContext;
       assert Contexts.getSessionContext() instanceof WebSessionContext;
       assert Contexts.getConversationContext() instanceof ServerConversationContext;
       assert Contexts.getApplicationContext() instanceof FacesApplicationContext;
@@ -115,7 +116,7 @@ public class ContextTest
       assert Contexts.getSessionContext()!=null;
       assert Contexts.getConversationContext()!=null;
       assert Contexts.getApplicationContext()!=null;
-      assert Contexts.getEventContext() instanceof EventContext;
+      assert Contexts.getEventContext() instanceof WebRequestContext;
       assert Contexts.getSessionContext() instanceof WebSessionContext;
       assert Contexts.getConversationContext() instanceof ServerConversationContext;
       assert Contexts.getApplicationContext() instanceof FacesApplicationContext;

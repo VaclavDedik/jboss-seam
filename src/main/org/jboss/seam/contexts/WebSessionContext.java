@@ -32,10 +32,10 @@ public class WebSessionContext implements Context
       return /*getPrefix() + */ name;
    }
 
-   private String getPrefix()
+   /*private String getPrefix()
    {
       return ScopeType.SESSION.getPrefix() + '$';
-   }
+   }*/
 
 	public WebSessionContext(ContextAdaptor session) 
    {

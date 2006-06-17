@@ -34,10 +34,10 @@ public class WebApplicationContext implements Context
       return /*getPrefix() +*/ name;
    }
 
-   private String getPrefix()
+   /*private String getPrefix()
    {
       return ScopeType.APPLICATION.getPrefix() + '$';
-   }
+   }*/
 
 	public WebApplicationContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
