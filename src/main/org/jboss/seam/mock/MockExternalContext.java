@@ -34,10 +34,16 @@ public class MockExternalContext extends ExternalContext
    private HttpServletRequest request;
    
    
-   public MockExternalContext(HttpSession session)
+   public MockExternalContext()
    {
       this.context = new MockServletContext();
-      this.request = new MockHttpServletRequest(session);
+      this.request = new MockHttpServletRequest( new MockHttpSession(context) );
+   }
+
+   public MockExternalContext(MockServletContext context)
+   {
+      this.context = context;
+      this.request = new MockHttpServletRequest( new MockHttpSession(context) );
    }
 
    public MockExternalContext(MockServletContext context, HttpSession session)

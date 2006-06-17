@@ -33,12 +33,10 @@ public class MockHttpServletRequest implements HttpServletRequest
    private Map<String, String[]> parameters = new HashMap<String, String[]>();
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private HttpSession session;
-   //private ExternalContext externalContext;
    private Map<String, String[]> headers = new HashMap<String, String[]>();
    
-   public MockHttpServletRequest(/*ExternalContext externalContext, */HttpSession session)
+   public MockHttpServletRequest(HttpSession session)
    {
-      //this.externalContext = externalContext;
       this.session = session;
    }
 
@@ -163,10 +161,6 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public HttpSession getSession(boolean create)
    {
-      /*if (create && session==null)
-      {
-         session = new MockHttpSession( (ServletContext) externalContext.getContext() );
-      }*/
       return session;
    }
 
