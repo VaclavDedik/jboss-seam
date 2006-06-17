@@ -70,7 +70,6 @@ public class TodoTest extends SeamTest
             assert taskInstance.getDescription().equals("Kick Roy out of my office");
             taskId = taskInstance.getId();
          }
-                  
          
       }.run();
 
@@ -95,7 +94,6 @@ public class TodoTest extends SeamTest
          {
             assert ( (List) Component.getInstance(TaskInstanceList.class, true) ).size()==0;
          }
-                  
          
       }.run();
    }
