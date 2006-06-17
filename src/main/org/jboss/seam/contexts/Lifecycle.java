@@ -57,9 +57,9 @@ public class Lifecycle
          throw new IllegalStateException("Attempted to invoke a Seam component outside the context of a web application");
       }
 
-      Contexts.eventContext.set( new EventContext() );
-      Contexts.sessionContext.set( new EventContext() );
-      Contexts.conversationContext.set( new EventContext() );
+      Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
+      Contexts.sessionContext.set( new MapContext(ScopeType.SESSION) );
+      Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
       Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
    }
@@ -176,7 +176,7 @@ public class Lifecycle
       Contexts.applicationContext.set(tempAppContext);
 
       //this is used just as a place to stick the ConversationManager
-      Context tempEventContext = new EventContext();
+      Context tempEventContext = new MapContext(ScopeType.EVENT);
       Contexts.eventContext.set(tempEventContext);
 
       //this is used (a) for destroying session-scoped components

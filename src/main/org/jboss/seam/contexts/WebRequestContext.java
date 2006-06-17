@@ -26,7 +26,7 @@ public class WebRequestContext implements Context {
       return ScopeType.EVENT;
    }
 
-	WebRequestContext(ContextAdaptor request) {
+	public WebRequestContext(ContextAdaptor request) {
 		this.request = request;
 	}
    
