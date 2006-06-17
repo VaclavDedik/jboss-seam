@@ -253,6 +253,10 @@ public class Initialization
       Context context = Contexts.getApplicationContext();
 
       addComponent( Init.class, context );      
+      
+      //force instantiation of Init
+      Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
+      
       addComponent( Pages.class, context);
       addComponent( Events.class, context);
       addComponent( Manager.class, context );
@@ -287,8 +291,6 @@ public class Initialization
       }
       catch (NoClassDefFoundError ncdfe) {} //swallow
 
-      Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
-      
       if ( components.values().contains(Jbpm.class) )
       {
          init.setJbpmInstalled(true);

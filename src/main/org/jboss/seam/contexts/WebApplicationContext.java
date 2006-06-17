@@ -22,7 +22,7 @@ import org.jboss.seam.Seam;
 public class WebApplicationContext implements Context 
 {
 
-	private ServletContext externalContext;
+	private ServletContext servletContext;
 	
    public ScopeType getType()
    {
@@ -39,16 +39,16 @@ public class WebApplicationContext implements Context
       return ScopeType.APPLICATION.getPrefix() + '$';
    }
 
-	public WebApplicationContext(ServletContext externalContext) {
-		this.externalContext = externalContext;
+	public WebApplicationContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
 	}
 
 	public Object get(String name) {
-		return externalContext.getAttribute( getKey(name) );
+		return servletContext.getAttribute( getKey(name) );
 	}
 
 	public void set(String name, Object value) {
-       externalContext.setAttribute( getKey(name), value );
+       servletContext.setAttribute( getKey(name), value );
 	}
 
 	public boolean isSet(String name) {
@@ -56,11 +56,11 @@ public class WebApplicationContext implements Context
 	}
 
 	public void remove(String name) {
-       externalContext.removeAttribute( getKey(name) );
+       servletContext.removeAttribute( getKey(name) );
 	}
 
     public String[] getNames() {
-       Enumeration names = externalContext.getAttributeNames();
+       Enumeration names = servletContext.getAttributeNames();
        ArrayList<String> results = new ArrayList<String>();
        //String prefix = getPrefix();
        while ( names.hasMoreElements() )
