@@ -18,7 +18,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.contexts.Session;
+import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.remoting.wrapper.Wrapper;
 
@@ -79,7 +79,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       HttpSession session = ( (HttpServletRequest) request).getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session);
+      Lifecycle.beginRequest(servletContext, session, request);
 
       Manager.instance().restoreConversation( ctx.getConversationId() );
       Lifecycle.resumeConversation(session);
@@ -94,7 +94,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       // Store the conversation ID in the outgoing context
       ctx.setConversationId( Manager.instance().getCurrentConversationId() );
-      Manager.instance().storeConversation(Session.getSession(session), response);
+      Manager.instance().storeConversation(ContextAdaptor.getSession(session), response);
       Lifecycle.endRequest();
 
       // Package up the response

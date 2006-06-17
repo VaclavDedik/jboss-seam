@@ -4,11 +4,11 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.servlet;
+package org.jboss.seam.portlet;
 
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpSession;
+import javax.portlet.PortletRequest;
 
 import org.jboss.seam.contexts.ContextAdaptor;
 
@@ -16,39 +16,39 @@ import org.jboss.seam.contexts.ContextAdaptor;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @version $Revision$
  */
-public class ServletSessionImpl extends ContextAdaptor
+public class PortletRequestImpl extends ContextAdaptor
 {
+
+   private PortletRequest request;
    
-   private HttpSession session;
-
-   public ServletSessionImpl(HttpSession session)
+   public PortletRequestImpl(PortletRequest request)
    {
-      this.session = session;
+      this.request = request;
    }
-
+   
    public Object getAttribute(String key)
    {
-      return session.getAttribute(key);
+      return request.getAttribute(key);
    }
 
    public void removeAttribute(String key)
    {
-      session.removeAttribute(key);
+      request.removeAttribute(key);
    }
 
    public Enumeration getAttributeNames()
    {
-      return session.getAttributeNames();
+      return request.getAttributeNames();
    }
 
    public void setAttribute(String key, Object value)
    {
-      session.setAttribute(key, value);
+      request.setAttribute(key, value);
    }
 
    public void invalidate()
    {
-      session.invalidate();
+      throw new UnsupportedOperationException();
    }
 
 }

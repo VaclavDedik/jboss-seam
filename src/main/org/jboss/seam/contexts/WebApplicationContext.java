@@ -19,7 +19,8 @@ import org.jboss.seam.Seam;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class WebApplicationContext implements Context {
+public class WebApplicationContext implements Context 
+{
 
 	private ServletContext externalContext;
 	

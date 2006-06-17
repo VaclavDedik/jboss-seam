@@ -34,43 +34,53 @@ public class Lifecycle
 
    public static void beginRequest(ExternalContext externalContext) {
       log.debug( ">>> Begin web request" );
-      //eventContext.set( new WebRequestContext( request ) );
-      Contexts.eventContext.set( new EventContext() );
-      Contexts.sessionContext.set( new WebSessionContext( Session.getSession(externalContext, true) ) );
+      Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(externalContext) ) );
+      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext, true) ) );
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
 
-   public static void beginRequest(ServletContext servletContext, HttpSession session) {
+   public static void beginRequest(ServletContext servletContext, HttpSession session, ServletRequest request) {
       log.debug( ">>> Begin web request" );
-      //eventContext.set( new WebRequestContext( request ) );
-      Contexts.eventContext.set( new EventContext() );
-      Contexts.sessionContext.set( new WebSessionContext( Session.getSession(session) ) );
+      Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(request) ) );
+      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(session) ) );
       Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
    }
 
    public static void beginCall()
    {
-      Contexts.eventContext.set( new EventContext() );
-      ServletContext theServletContext = getServletContext();
-      if (theServletContext==null)
+      log.debug( ">>> Begin call" );
+      ServletContext servletContext = getServletContext();
+      if (servletContext==null)
       {
          throw new IllegalStateException("Attempted to invoke a Seam component outside the context of a web application");
       }
-      Contexts.applicationContext.set( new WebApplicationContext(theServletContext) );
+
+      Contexts.eventContext.set( new EventContext() );
+      Contexts.sessionContext.set( new EventContext() );
+      Contexts.conversationContext.set( new EventContext() );
+      Contexts.businessProcessContext.set( new BusinessProcessContext() );
+      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
    }
    
    public static void endCall()
    {
       try
       {
+         Contexts.destroy( Contexts.getSessionContext() );
          flushAndDestroyContexts();
+         if ( Manager.instance().isLongRunningConversation() )
+         {
+            throw new IllegalStateException("Do not start long-running conversations in direct calls to EJBs");
+         }
       }
       finally
       {
          clearThreadlocals();
+         log.debug( "<<< End call" );
       }
+      
    }
 
    public static void beginInitialization(ServletContext servletContext)
@@ -131,7 +141,7 @@ public class Lifecycle
    /***
     * Instantiate @Startup components for session scoped component
     */
-   public static void beginSession(ServletContext servletContext, Session session) 
+   public static void beginSession(ServletContext servletContext, ContextAdaptor session) 
    {
       log.debug("Session started");
       
@@ -158,7 +168,7 @@ public class Lifecycle
       Contexts.applicationContext.set(null);
    }
 
-   public static void endSession(ServletContext servletContext, Session session)
+   public static void endSession(ServletContext servletContext, ContextAdaptor session)
    {
       log.debug("End of session, destroying contexts");
 
@@ -224,7 +234,7 @@ public class Lifecycle
 
          if ( Seam.isSessionInvalid() )
          {
-            Session.getSession(externalContext, true).invalidate(); //huh? we create a session just to invalidate it?
+            ContextAdaptor.getSession(externalContext, true).invalidate(); //huh? we create a session just to invalidate it?
             //actual session context will be destroyed from the listener
          }
       }
@@ -262,7 +272,7 @@ public class Lifecycle
 
          if ( Seam.isSessionInvalid() )
          {
-            Session.getSession(session).invalidate(); //huh? we create a session just to invalidate it?
+            ContextAdaptor.getSession(session).invalidate(); //huh? we create a session just to invalidate it?
             //actual session context will be destroyed from the listener
          }
       }
@@ -283,14 +293,8 @@ public class Lifecycle
       Contexts.applicationContext.set( null );
    }
 
-   private static void flushAndDestroyContexts() {
-      /*if ( Contexts.isBusinessProcessContextActive() )
-      {
-         //must come before destroying event context, since 
-         //it uses an event-scoped jBPM session
-         log.debug("flushing business process context");
-         Contexts.getBusinessProcessContext().flush();
-      }*/
+   private static void flushAndDestroyContexts() 
+   {
 
       if ( Contexts.isEventContextActive() )
       {
@@ -298,13 +302,6 @@ public class Lifecycle
          Contexts.destroy( Contexts.getEventContext() );
       }
       
-      //the page context is never logically destroyed
-      /*if ( Contexts.isPageContextActive() )
-      {
-         log.debug("destroying page context");
-         Contexts.destroy( Contexts.getPageContext() );
-      }*/
-
       if ( Contexts.isConversationContextActive() )
       {
          if ( !Manager.instance().isLongRunningConversation() )
@@ -331,14 +328,14 @@ public class Lifecycle
       Init init = (Init) Component.getInstance(Init.class, false);
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
-            (Context) new ServerConversationContext( Session.getSession(externalContext, true) );
+            (Context) new ServerConversationContext( ContextAdaptor.getSession(externalContext, true) );
       Contexts.conversationContext.set( conversationContext );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }
 
    public static void resumeConversation(HttpSession session)
    {
-      Context conversationContext = new ServerConversationContext( Session.getSession(session) );
+      Context conversationContext = new ServerConversationContext( ContextAdaptor.getSession(session) );
       Contexts.conversationContext.set( conversationContext );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }

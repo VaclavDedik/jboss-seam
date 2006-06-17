@@ -10,13 +10,13 @@ import java.util.Enumeration;
 
 import javax.portlet.PortletSession;
 
-import org.jboss.seam.contexts.Session;
+import org.jboss.seam.contexts.ContextAdaptor;
 
 /**
  * @author <a href="mailto:theute@jboss.org">Thomas Heute </a>
  * @version $Revision$
  */
-public class PortletSessionImpl extends Session
+public class PortletSessionImpl extends ContextAdaptor
 {
 
    private PortletSession session;

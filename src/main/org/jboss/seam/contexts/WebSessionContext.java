@@ -20,7 +20,7 @@ import org.jboss.seam.Seam;
 public class WebSessionContext implements Context 
 {
 
-   private Session session;
+   private ContextAdaptor session;
 	
    public ScopeType getType()
    {
@@ -37,7 +37,7 @@ public class WebSessionContext implements Context
       return ScopeType.SESSION.getPrefix() + '$';
    }
 
-	public WebSessionContext(Session session) 
+	public WebSessionContext(ContextAdaptor session) 
    {
        this.session = session;
 	}

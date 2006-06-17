@@ -68,7 +68,7 @@ public class SubscriptionHandler extends BaseRequestHandler implements RequestHa
       HttpSession session = ((HttpServletRequest) request).getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session);
+      Lifecycle.beginRequest(servletContext, session, request);
 
       Manager.instance().restoreConversation( (String) null );
       Lifecycle.resumeConversation(session);

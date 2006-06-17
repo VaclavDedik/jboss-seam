@@ -57,7 +57,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
       HttpSession session = ((HttpServletRequest) request).getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session);
+      Lifecycle.beginRequest(servletContext, session, request);
 
       for (PollRequest req : polls)
         req.poll();

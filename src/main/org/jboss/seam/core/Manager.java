@@ -34,7 +34,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServerConversationContext;
-import org.jboss.seam.contexts.Session;
+import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.util.Id;
 import org.jbpm.pageflow.Page;
 
@@ -290,7 +290,7 @@ public class Manager
          {
             String conversationId = entry.getKey();
             log.debug("conversation timeout for conversation: " + conversationId);
-            Session session = Session.getSession(externalContext, true);
+            ContextAdaptor session = ContextAdaptor.getSession(externalContext, true);
             destroyConversation(conversationId, session, entries);
          }
       }
@@ -299,7 +299,7 @@ public class Manager
    /**
     * Clean up all state associated with a conversation
     */
-   private void destroyConversation(String conversationId, Session session, Iterator iter)
+   private void destroyConversation(String conversationId, ContextAdaptor session, Iterator iter)
    {
       ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
       Contexts.destroy( conversationContext );
@@ -327,7 +327,7 @@ public class Manager
     * if we have a long running conversation, or discard the state
     * of a temporary conversation.
     */
-   public void storeConversation(Session session, Object response)
+   public void storeConversation(ContextAdaptor session, Object response)
    {
       if ( isLongRunningConversation() )
       {
@@ -340,7 +340,7 @@ public class Manager
       }
       else
       {
-         discardTemporaryConversaction(session, response);
+         discardTemporaryConversation(session, response);
       }
    }
 
@@ -368,7 +368,7 @@ public class Manager
       }
    }
 
-   private void discardTemporaryConversaction(Session session, Object response)
+   private void discardTemporaryConversation(ContextAdaptor session, Object response)
    {
       log.debug("Discarding conversation state: " + currentConversationId);
 
@@ -410,12 +410,12 @@ public class Manager
       }
    }
 
-   private void removeCurrentConversationAndDestroyNestedContexts(Session session) {
+   private void removeCurrentConversationAndDestroyNestedContexts(ContextAdaptor session) {
       removeConversationEntry(currentConversationId);
       destroyNestedContexts(session, currentConversationId);
    }
 
-   private void destroyNestedContexts(Session session, String conversationId) {
+   private void destroyNestedContexts(ContextAdaptor session, String conversationId) {
       Iterator<ConversationEntry> entries = getConversationIdEntryMap().values().iterator();
       while ( entries.hasNext() )
       {

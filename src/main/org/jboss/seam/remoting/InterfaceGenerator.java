@@ -73,7 +73,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
       HttpSession session = ( (HttpServletRequest) request).getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session);
+      Lifecycle.beginRequest(servletContext, session, request);
 
       String[] componentNames = request.getQueryString().split("&");
       Component[] components = new Component[componentNames.length];

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.contexts.Session;
+import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.core.Manager;
 
 /**
@@ -39,7 +39,7 @@ public class SeamServletFilter implements Filter {
       HttpSession session = ( (HttpServletRequest) request ).getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
-      Lifecycle.beginRequest(servletContext, session);
+      Lifecycle.beginRequest(servletContext, session, request);
       Manager.instance().restoreConversation( request.getParameterMap() );
       Lifecycle.resumeConversation(session);
       Manager.instance().handleConversationPropagation( request.getParameterMap() );
@@ -47,7 +47,7 @@ public class SeamServletFilter implements Filter {
       {
          chain.doFilter(request, response);
          //TODO: conversation timeout
-         Manager.instance().storeConversation( Session.getSession(session), response );
+         Manager.instance().storeConversation( ContextAdaptor.getSession(session), response );
          Lifecycle.endRequest(session);
       }
       catch (Exception e)

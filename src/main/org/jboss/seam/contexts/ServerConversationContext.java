@@ -27,7 +27,7 @@ import org.jboss.seam.core.Manager;
  */
 public class ServerConversationContext implements Context {
 
-   private final Session session;
+   private final ContextAdaptor session;
    private final Map<String, Object> additions = new HashMap<String, Object>();
    private final Set<String> removals = new HashSet<String>();
    private final String id;
@@ -63,14 +63,14 @@ public class ServerConversationContext implements Context {
       return ScopeType.CONVERSATION.getPrefix() + '#' + id + '$';
    }
 
-   public ServerConversationContext(Session session)
+   public ServerConversationContext(ContextAdaptor session)
    {
       this.session = session;
       id = null;
       idStack = null;
    }
       
-   public ServerConversationContext(Session session, String id)
+   public ServerConversationContext(ContextAdaptor session, String id)
    {
       this.session = session;
       this.id = id;
