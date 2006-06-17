@@ -14,7 +14,7 @@ import org.jboss.seam.contexts.EventContext;
 import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServerConversationContext;
-import org.jboss.seam.contexts.Session;
+import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -167,7 +167,7 @@ public class ContextTest
       MockServletContext servletContext = new MockServletContext();
       ExternalContext externalContext = new MockExternalContext(servletContext);
       Context appContext = new FacesApplicationContext(externalContext);
-      Session session = new ServletSessionImpl( (HttpSession) externalContext.getSession(true) );
+      ContextAdaptor session = new ServletSessionImpl( (HttpSession) externalContext.getSession(true) );
       appContext.set(
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
