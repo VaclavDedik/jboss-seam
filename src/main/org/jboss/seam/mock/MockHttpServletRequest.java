@@ -16,9 +16,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.faces.context.ExternalContext;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +33,13 @@ public class MockHttpServletRequest implements HttpServletRequest
    private Map<String, String[]> parameters = new HashMap<String, String[]>();
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private HttpSession session;
-   private ExternalContext externalContext;
+   //private ExternalContext externalContext;
    private Map<String, String[]> headers = new HashMap<String, String[]>();
    
-   public MockHttpServletRequest(ExternalContext externalContext)
+   public MockHttpServletRequest(/*ExternalContext externalContext, */HttpSession session)
    {
-      this.externalContext = externalContext;
+      //this.externalContext = externalContext;
+      this.session = session;
    }
 
    public Map<String, String[]> getParameters()
@@ -164,10 +163,10 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public HttpSession getSession(boolean create)
    {
-      if (create && session==null)
+      /*if (create && session==null)
       {
          session = new MockHttpSession( (ServletContext) externalContext.getContext() );
-      }
+      }*/
       return session;
    }
 

@@ -51,6 +51,7 @@ public class SeamTest
    private MockApplication application;
    private SeamPhaseListener phases;
    private MockFacesContext facesContext;
+   private MockHttpSession session;
    private Map<String, ConversationState> conversationStates;
    
    protected HttpSession getSession()
@@ -192,6 +193,7 @@ public class SeamTest
       
       public String run() throws Exception
       {   
+         externalContext = new MockExternalContext(servletContext, session);
          facesContext = new MockFacesContext( externalContext, application );
          facesContext.setCurrent();
          Map attributes = facesContext.getViewRoot().getAttributes();
@@ -277,7 +279,7 @@ public class SeamTest
             conversationState.state.putAll( attributes );
             conversationStates.put( conversationId, conversationState );
          }
-         
+
          return conversationId;
       }
       
@@ -286,16 +288,14 @@ public class SeamTest
    @Configuration(beforeTestMethod=true)
    public void begin()
    {
-      externalContext = new MockExternalContext(servletContext);
+      session = new MockHttpSession(servletContext);
    }
 
    @Configuration(afterTestMethod=true)
    public void end()
    {
-      if ( facesContext!=null )
-      {
-         Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) facesContext.getExternalContext().getSession(true) ) );
-      }
+      Lifecycle.endSession( servletContext, new ServletSessionImpl(session) );
+      session = null;
    }
    
    /**

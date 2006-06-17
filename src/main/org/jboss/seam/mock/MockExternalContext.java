@@ -21,6 +21,7 @@ import java.util.Set;
 
 import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Gavin King
@@ -33,16 +34,16 @@ public class MockExternalContext extends ExternalContext
    private HttpServletRequest request;
    
    
-   public MockExternalContext()
+   public MockExternalContext(HttpSession session)
    {
       this.context = new MockServletContext();
-      this.request = new MockHttpServletRequest(this);
+      this.request = new MockHttpServletRequest(session);
    }
 
-   public MockExternalContext(MockServletContext context)
+   public MockExternalContext(MockServletContext context, HttpSession session)
    {
       this.context = context;
-      this.request = new MockHttpServletRequest(this);
+      this.request = new MockHttpServletRequest(session);
    }
 
    public MockExternalContext(MockServletContext context, HttpServletRequest request)
