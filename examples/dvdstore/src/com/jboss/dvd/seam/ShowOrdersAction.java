@@ -13,6 +13,7 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
@@ -23,7 +24,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
+import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.core.ManagedJbpmContext;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.exe.ProcessInstance;
@@ -39,17 +40,15 @@ public class ShowOrdersAction
     @In(value="currentUser",required=false)
     Customer customer;
 
-    @PersistenceContext
+    @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
 
     @DataModel
     List<Order> orders;    
 
+    @DataModelSelection
     @Out(value="myorder", required=false, scope=ScopeType.CONVERSATION)
     Order order;
-
-    @DataModelSelectionIndex
-    int index;
 
     @Begin @Factory("orders")
     public String findOrders() {
@@ -64,9 +63,10 @@ public class ShowOrdersAction
 
 
     public String cancelOrder() {
-        order = em.merge(orders.get(index));
        
-        if (order.getStatus() != Status.OPEN) {
+        em.refresh(order);
+       
+        if ( order.getStatus() != Status.OPEN ) {
             return null;
         }
 
@@ -77,7 +77,7 @@ public class ShowOrdersAction
         ProcessInstance pi = (ProcessInstance) context.getSession()
               .createQuery("select pi from LongInstance si join si.processInstance pi " +
                           "where si.name = 'orderId' and si.value = :orderId")
-              .setLong("orderId", order.getOrderId())
+              .setLong( "orderId", order.getOrderId() )
               .uniqueResult();
         
         pi.signal("cancel");
@@ -88,9 +88,7 @@ public class ShowOrdersAction
     }
 
     public String detailOrder() {
-        order = em.merge(orders.get(index));
-        order.getOrderLines();
-
+        em.refresh(order);
         return "showorders";
     }
 
