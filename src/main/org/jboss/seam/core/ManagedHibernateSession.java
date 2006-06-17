@@ -16,6 +16,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
@@ -29,9 +30,9 @@ import org.jboss.seam.util.Naming;
  */
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
+@Mutable
 public class ManagedHibernateSession implements Serializable
 {
-   //TODO: a conversation-scope mutable component, could break in a cluster
    
    /** The serialVersionUID */
    private static final long serialVersionUID = 3130309555079841107L;
@@ -59,7 +60,10 @@ public class ManagedHibernateSession implements Serializable
          throw new IllegalArgumentException("SessionFactory not found", ne);
       }
       
-      log.debug("created seam managed session for session factory: "+ sessionFactoryJndiName);
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("created seam managed session for session factory: "+ sessionFactoryJndiName);
+      }
    }
    
    @Unwrap
@@ -72,7 +76,10 @@ public class ManagedHibernateSession implements Serializable
    @Destroy
    public void destroy()
    {
-      log.debug("destroying seam managed session for session factory: " + sessionFactoryJndiName);
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("destroying seam managed session for session factory: " + sessionFactoryJndiName);
+      }
       session.close();
    }
    
@@ -82,11 +89,6 @@ public class ManagedHibernateSession implements Serializable
       return (SessionFactory) Naming.getInitialContext().lookup(sessionFactoryJndiName);
    }
    
-   public String toString()
-   {
-      return "ManagedHibernateSession(" + sessionFactoryJndiName + ")";
-   }
-
    public String getSessionFactoryJndiName()
    {
       return sessionFactoryJndiName;
@@ -101,4 +103,9 @@ public class ManagedHibernateSession implements Serializable
       return componentName;
    }
    
+   public String toString()
+   {
+      return "ManagedHibernateSession(" + sessionFactoryJndiName + ")";
+   }
+
 }

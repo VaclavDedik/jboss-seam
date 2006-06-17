@@ -17,6 +17,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
@@ -31,9 +32,9 @@ import org.jboss.seam.util.Transactions;
  */
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
+@Mutable
 public class ManagedPersistenceContext implements Serializable
 {
-   //TODO: a conversation-scope mutable component, could break in a cluster
 
    private static final Log log = LogFactory.getLog(ManagedPersistenceContext.class);
    
@@ -59,7 +60,10 @@ public class ManagedPersistenceContext implements Serializable
          throw new IllegalArgumentException("EntityManagerFactory not found", ne);
       }
       
-      log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitJndiName);
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitJndiName);
+      }
    }
    
    @Unwrap
@@ -75,7 +79,10 @@ public class ManagedPersistenceContext implements Serializable
    @Destroy
    public void destroy()
    {
-      log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitJndiName);
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitJndiName);
+      }
       entityManager.close();
    }
    
@@ -83,11 +90,6 @@ public class ManagedPersistenceContext implements Serializable
          throws NamingException
    {
       return (EntityManagerFactory) Naming.getInitialContext().lookup(persistenceUnitJndiName);
-   }
-   
-   public String toString()
-   {
-      return "ManagedPersistenceContext(" + persistenceUnitJndiName + ")";
    }
    
    /**
@@ -106,4 +108,10 @@ public class ManagedPersistenceContext implements Serializable
    public String getComponentName() {
       return componentName;
    }
+
+   public String toString()
+   {
+      return "ManagedPersistenceContext(" + persistenceUnitJndiName + ")";
+   }
+   
 }

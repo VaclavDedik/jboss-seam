@@ -8,9 +8,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -30,10 +33,11 @@ import org.jbpm.pageflow.PageflowHelper;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.pageflow")
 @Intercept(NEVER)
+@Mutable
 public class Pageflow implements Serializable
 {
- 
-   //TODO: a conversation-scope mutable component, could break in a cluster
+   
+   private static final Log log = LogFactory.getLog(Pageflow.class);
    
    private int counter;
    
@@ -187,12 +191,17 @@ public class Pageflow implements Serializable
       }
    }
    
-   public void begin(String processDefinitionName)
+   public void begin(String pageflowDefinitionName)
    {
-      ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(processDefinitionName);
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("beginning pageflow: " + pageflowDefinitionName);
+      }
+      
+      ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(pageflowDefinitionName);
       if (pd==null)
       {
-         throw new IllegalArgumentException("pageflow definition not found: " + processDefinitionName);
+         throw new IllegalArgumentException("pageflow definition not found: " + pageflowDefinitionName);
       }
       ProcessInstance pi = PageflowHelper.newPageflowInstance(pd);
       setProcessInstance(pi);
@@ -205,6 +214,13 @@ public class Pageflow implements Serializable
         //TODO: this is not actually completely true, what about <s:actionLink/>
     	  //pi.signal();
       //}
+   }
+   
+   public String toString()
+   {
+      String name = processInstance==null ? 
+            "null" : processInstance.getProcessDefinition().getName();
+      return "Pageflow(" + name + ")";
    }
    
 }

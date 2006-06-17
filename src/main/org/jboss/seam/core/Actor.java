@@ -9,6 +9,7 @@ import java.util.Set;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -22,8 +23,9 @@ import org.jboss.seam.contexts.Contexts;
 @Name("actor")
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
-public class Actor implements Serializable {
-   //TODO: this is a mutable session-scope component, could break in a cluster
+@Mutable
+public class Actor implements Serializable 
+{
    
    private String id;
    private Set<String> groupActorIds = new HashSet<String>();
@@ -51,4 +53,10 @@ public class Actor implements Serializable {
       }
       return (Actor) Component.getInstance(Actor.class, true);
    }
+   
+   public String toString()
+   {
+      return "Actor(" + id + ")";
+   }
+   
 }

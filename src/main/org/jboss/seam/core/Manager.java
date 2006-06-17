@@ -309,6 +309,18 @@ public class Manager
       dirty();
    }
    
+   private void forceMutableComponentReplication()
+   {
+      for (String name: Init.instance().getMutableComponentNames())
+      {
+         Object object = Contexts.getSessionContext().get(name);
+         if (object!=null)
+         {
+            Contexts.getSessionContext().set(name, object);
+         }
+      }
+   }
+   
    /**
     * Flush the server-side conversation context to the session and
     * write the conversation id and pageflow info to the response
@@ -322,6 +334,7 @@ public class Manager
          touchConversationStack();
          if ( !Seam.isSessionInvalid() ) 
          {
+            forceMutableComponentReplication();
             storeLongRunningConversation(response);
          }
       }

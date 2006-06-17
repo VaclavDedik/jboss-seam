@@ -16,6 +16,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -29,8 +30,9 @@ import org.jboss.seam.util.Strings;
 @Scope(ScopeType.SESSION)
 @Name("localeSelector")
 @Intercept(NEVER)
-public class LocaleSelector implements Serializable {
-   //TODO: this is a mutable session-scope component, could break in a cluster
+@Mutable
+public class LocaleSelector implements Serializable 
+{
 
    private String language;
    private String country;
