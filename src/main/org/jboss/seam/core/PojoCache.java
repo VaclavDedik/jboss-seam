@@ -18,7 +18,8 @@ import org.jboss.seam.contexts.Contexts;
 @Name("pojoCache")
 @Scope(ScopeType.APPLICATION)
 @Intercept(InterceptionType.NEVER)
-public class PojoCache {
+public class PojoCache 
+{
 
 	private static final Log log = LogFactory.getLog(PojoCache.class);
 
@@ -26,7 +27,8 @@ public class PojoCache {
    private String cfgResourceName = "treecache.xml";
 
    @Create
-   public void start() throws Exception {
+   public void start() throws Exception 
+   {
       log.debug("starting JBoss Cache");
       cache = new org.jboss.cache.aop.PojoCache();
       new PropertyConfigurator().configure(cache, cfgResourceName);
@@ -34,7 +36,8 @@ public class PojoCache {
    }
    
    @Destroy
-   public void stop() {
+   public void stop() 
+   {
       log.debug("stopping JBoss Cache");
       cache.stop();
       cache.destroy();
@@ -42,7 +45,8 @@ public class PojoCache {
    }
 
    @Unwrap
-   public org.jboss.cache.aop.PojoCache getCache() {
+   public org.jboss.cache.aop.PojoCache getCache() 
+   {
       return cache;
    }
 

@@ -78,7 +78,8 @@ public class ServerConversationContext implements Context {
       idStack.add(id);
    }
       
-	public Object get(String name) {
+	public Object get(String name) 
+   {
       Object result = additions.get(name);
       if (result!=null) return result;
       if ( removals.contains(name) ) return null;
@@ -98,7 +99,8 @@ public class ServerConversationContext implements Context {
       }
 	}
 
-   public void set(String name, Object value) {
+   public void set(String name, Object value) 
+   {
       if (value==null)
       {
          //yes, we need this
@@ -111,22 +113,26 @@ public class ServerConversationContext implements Context {
       }
 	}
 
-	public boolean isSet(String name) {
+	public boolean isSet(String name) 
+   {
 		return get(name)!=null;
 	}
    
-	public void remove(String name) {
+	public void remove(String name) 
+   {
       additions.remove(name);
       removals.add(name);
 	}
 
-   public String[] getNames() {
+   public String[] getNames() 
+   {
       Set<String> results = getNamesFromSession();
       results.addAll( additions.keySet() ); //after, to override
       return results.toArray(new String[]{});
    }
 
-   private Set<String> getNamesFromSession() {
+   private Set<String> getNamesFromSession() 
+   {
       HashSet<String> results = new HashSet<String>();
       Enumeration names = session.getAttributeNames();
       String prefix = getPrefix( getId() );

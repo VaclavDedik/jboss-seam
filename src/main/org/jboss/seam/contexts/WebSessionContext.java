@@ -17,7 +17,8 @@ import org.jboss.seam.Seam;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
-public class WebSessionContext implements Context {
+public class WebSessionContext implements Context 
+{
 
    private Session session;
 	
@@ -36,27 +37,33 @@ public class WebSessionContext implements Context {
       return ScopeType.SESSION.getPrefix() + '$';
    }
 
-	public WebSessionContext(Session session) {
+	public WebSessionContext(Session session) 
+   {
        this.session = session;
 	}
 
-	public Object get(String name) {
+	public Object get(String name) 
+   {
 		return session.getAttribute( getKey(name) );
 	}
 
-	public void set(String name, Object value) {
+	public void set(String name, Object value) 
+   {
 		session.setAttribute( getKey(name), value );
 	}
 
-	public boolean isSet(String name) {
+	public boolean isSet(String name) 
+   {
 		return get(name)!=null;
 	}
 
-	public void remove(String name) {
+	public void remove(String name) 
+   {
 		session.removeAttribute( getKey(name) );
 	}
 
-	public String[] getNames() {
+	public String[] getNames() 
+   {
 		Enumeration names = session.getAttributeNames();
 		ArrayList<String> results = new ArrayList<String>();
       String prefix = ScopeType.CONVERSATION.getPrefix();
