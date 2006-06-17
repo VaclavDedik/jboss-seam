@@ -47,6 +47,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
+import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
@@ -108,6 +109,7 @@ public class Component
    private InterceptionType interceptionType;
    private boolean startup;
    private String[] dependencies;
+   private boolean mutable;
 
    private Method destroyMethod;
    private Method createMethod;
@@ -176,6 +178,12 @@ public class Component
       if (startup)
       {
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
+      }
+      
+      mutable = beanClass.isAnnotationPresent(Mutable.class);
+      if (mutable)
+      {
+         Init.instance().getMutableComponentNames().add(name);
       }
 
       jndiName = getJndiName(applicationContext);
@@ -1434,6 +1442,11 @@ public class Component
    public String[] getDependencies()
    {
       return dependencies;
+   }
+
+   public boolean isMutable()
+   {
+      return mutable;
    }
 
 }
