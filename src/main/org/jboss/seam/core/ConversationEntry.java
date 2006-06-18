@@ -165,4 +165,9 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    public void setRemoveAfterRedirect(boolean removeAfterRedirect) {
       this.removeAfterRedirect = removeAfterRedirect;
    }
+   
+   void setId(String id)
+   {
+      this.id = id;
+   }
 }
