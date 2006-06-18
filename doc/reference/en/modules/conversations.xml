@@ -515,6 +515,50 @@ public class EditDocumentBean implements EditDocument {
     </section>
     
     <section>
+        <title>Using an "explicit" conversation id</title>
+        <para>
+            Ordinarily, Seam generates a meaningless unique id for each conversation
+            in each session. You can customize the id value when you begin the 
+            conversation.
+        </para>
+        
+        <para>
+            This feature can be used to customize the conversation id generation
+            algorithm like so:
+        </para>
+
+        <programlisting><![CDATA[@Begin(id="#{myConversationIdGenerator.nextId}") 
+public void editHotel() { ... }]]></programlisting>
+
+        <para>
+            Or it can be used to assign a meaningful conversation id:
+        </para>
+        
+        <programlisting><![CDATA[@Begin(id="hotel#{hotel.id}") 
+public String editHotel() { ... }]]></programlisting>
+
+        <programlisting><![CDATA[@Begin(id="hotel#{hotelsDataModel.rowData.id}") 
+public String selectHotel() { ... }]]></programlisting>
+
+        <programlisting><![CDATA[@Begin(id="entry#{params['blogId']}")
+public String viewBlogEntry() { ... }]]></programlisting>
+
+        <programlisting><![CDATA[@BeginTask(id="task#{taskInstance.id}") 
+public String approveDocument() { ... }]]></programlisting>
+        
+        <para>
+            Clearly, these example result in the same conversation id every time
+            a particular hotel, blog or task is selected. So what happens if a conversation
+            with the same conversation id already exists when the new conversation
+            begins? Well, Seam detects the existing conversation and redirects
+            to that conversation without running the <literal>@Begin</literal> 
+            method again. This feature helps control the number of workspaces
+            that are created when using workspace management.
+        </para>
+
+    </section>
+    
+    <section>
         <title>Workspace management</title>
         
         <para>
