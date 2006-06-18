@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
+import org.drools.FactHandle;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Actor;
@@ -35,12 +36,12 @@ public class DroolsHandler
          {
             for (Object element: (Iterable) object)
             {
-               workingMemory.assertObject(element);
+               assertObject(workingMemory, element);
             }
          }
          else
          {
-            workingMemory.assertObject(object);
+            assertObject(workingMemory, object);
          }
       }
       
@@ -48,5 +49,18 @@ public class DroolsHandler
       workingMemory.assertObject( Actor.instance() );
 
       return workingMemory;
+   }
+
+   private void assertObject(WorkingMemory workingMemory, Object element)
+   {
+      FactHandle fact = workingMemory.getFactHandle(element);
+      if (fact==null)
+      {
+         workingMemory.assertObject(element);
+      }
+      else
+      {
+         workingMemory.modifyObject(fact, element);
+      }
    }
 }
