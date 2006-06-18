@@ -27,6 +27,9 @@ todo/                 The Seam todo list example demonstrating
 messages/             The Seam message list example demonstrating use 
                       of the @DataModel annotation
                       
+drools/               A version of the number guessing example that
+                      uses Drools with jBPM
+                      
 portal/               A port of the Seam Hibernate demo to run on
                       JBoss Portal
                 
