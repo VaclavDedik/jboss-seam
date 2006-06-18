@@ -70,7 +70,14 @@ public class ConversationInterceptor extends AbstractInterceptor
       }
       
       String outcome = getOutcomeForConversationId(method);
-      if (outcome!=null) return outcome;
+      if (outcome!=null) 
+      {
+         if ( !method.getReturnType().equals(String.class) )
+         {
+            throw new IllegalStateException("begin method return type was not a string");
+         }
+         return outcome;
+      }
 
       Object result = invocation.proceed();
 
