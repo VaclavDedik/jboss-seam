@@ -1,5 +1,18 @@
 JBoss Seam Changelog
 ====================
+Changes in version 1.0.1.GA (June 2006)
+---------------------------------------
+* Allow use of @DataModel with an array, Map or Set
+* Fixed bug in configuration of SFSBs using components.xml
+* Support Seam components with remote interfaces
+* Improvements to Drools integration, and an example app
+* Support @Begin(id="#{...}"), @BeginTask(id="#{...}")
+* Set up conversation and business process contexts in direct call to EJB
+* Added @Mutable, fixing some minor bugs in clustered environment
+* Fix GlassFish compatibility (thanks to Roger Kitain)
+* Fixed minor bug in SeamTest
+* Fixed minor bug in Log
+
 Changes in version 1.0.0.GA (June 2006)
 ---------------------------------------
 * Redesigned configuration framework based on components.xml

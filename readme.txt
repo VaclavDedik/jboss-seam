@@ -1,6 +1,6 @@
 JBoss Seam - Contextual Component framework for Java EE 5
 =========================================================
-version 1.0.0.GA, June 2006
+version 1.0.1.GA, June 2006
 
 This software is distributed under the terms of the FSF Lesser Gnu
 Public License (see lgpl.txt).
@@ -9,9 +9,9 @@ Get Up And Running Quick
 ------------------------
    
 1. Install JBoss AS 4.0.4.GA with the EJB 3.0 profile selected
-   using the JBoss installer
+   using the JEMS installer
    
-   http://labs.jboss.com/portal/jbossas/download
+   http://sourceforge.net/project/showfiles.php?group_id=22866&package_id=193295
 
 2. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS installation directory
