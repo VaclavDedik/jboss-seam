@@ -16,6 +16,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 
+/**
+ * Manager for a JMS TopicSession
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.EVENT)
 @Intercept(NEVER)
 @Name("topicSession")

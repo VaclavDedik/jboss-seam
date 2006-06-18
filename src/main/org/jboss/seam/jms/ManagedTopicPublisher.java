@@ -15,6 +15,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
 
+/**
+ * Manager for a JMS TopicPublisher for a named JMS topic
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.EVENT)
 @Intercept(NEVER)
 public class ManagedTopicPublisher
@@ -22,7 +28,10 @@ public class ManagedTopicPublisher
    private String topicJndiName;
    
    private TopicPublisher topicPublisher;
-
+   
+   /**
+    * The JNDI name of the topic
+    */
    public String getTopicJndiName()
    {
       return topicJndiName;

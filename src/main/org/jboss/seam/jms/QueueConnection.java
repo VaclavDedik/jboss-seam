@@ -17,6 +17,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
 
+/**
+ * Manager for a JMS QueueConnection. By default, the JBoss MQ UIL2.
+ * 
+ * @author Gavin King
+ * 
+ */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.jms.queueConnection")
@@ -25,6 +31,9 @@ public class QueueConnection
    private String queueConnectionFactoryJndiName = "UIL2ConnectionFactory";
    private javax.jms.QueueConnection queueConnection;
 
+   /**
+    * The JNDI name of the QueueConnectionFactory
+    */
    public String getQueueConnectionFactoryJndiName()
    {
       return queueConnectionFactoryJndiName;

@@ -15,6 +15,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
 
+/**
+ * Manager for a JMS QueueSender for a named JMS queue
+ * 
+ * @author Gavin King
+ *
+ */
 @Scope(ScopeType.EVENT)
 @Intercept(NEVER)
 public class ManagedQueueSender
@@ -23,6 +29,9 @@ public class ManagedQueueSender
    
    private QueueSender queueSender;
 
+   /**
+    * The JNDI name of the queue
+    */
    public String getQueueJndiName()
    {
       return queueJndiName;

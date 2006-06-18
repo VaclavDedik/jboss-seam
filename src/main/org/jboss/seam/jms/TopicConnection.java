@@ -17,6 +17,12 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
 
+/**
+ * Manager for a JMS TopicConnection. By default, the JBoss MQ UIL2.
+ * 
+ * @author Gavin King
+ * 
+ */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.jms.topicConnection")
@@ -25,6 +31,9 @@ public class TopicConnection
    private String topicConnectionFactoryJndiName = "UIL2ConnectionFactory";
    private javax.jms.TopicConnection topicConnection;
 
+   /**
+    * The JNDI name of the TopicConnectionFactory
+    */
    public String getTopicConnectionFactoryJndiName()
    {
       return topicConnectionFactoryJndiName;
