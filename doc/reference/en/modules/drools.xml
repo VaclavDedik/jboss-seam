@@ -23,7 +23,7 @@
 
         <programlisting><![CDATA[<component name="policyPricingRules"
           class="org.jboss.seam.drools.RuleBase">
-    <property name="rulesFiles">policyPricingRules.drl</property>
+    <property name="ruleFiles">policyPricingRules.drl</property>
 </component>]]></programlisting>
 
          <para>
@@ -81,28 +81,29 @@ public void pricePolicy() throws FactException
          
          <para>
              You can even allow a rule base to act as a jBPM action handler, decision
-             handler, or assignment handler.
+             handler, or assignment handler&mdash;in either a pageflow or business
+             process definition.
          </para>
          
          <programlisting><![CDATA[<decision name="approval">
          
     <handler class="org.jboss.seam.drools.DroolsDecisionHandler">
+        <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>
         <assertObjects>
             <element>#{customer}</element>
             <element>#{order}</element>
             <element>#{order.lineItems}</element>
         </assertObjects>
-        <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>
     </handler>
     
     <transition name="approved" to="ship">
         <action class="org.jboss.seam.drools.DroolsActionHandler">
+            <workingMemoryName>shippingRulesWorkingMemory</workingMemoryName>
             <assertObjects>
                 <element>#{customer}</element>
                 <element>#{order}</element>
                 <element>#{order.lineItems}</element>
             </assertObjects>
-            <workingMemoryName>shippingRulesWorkingMemory</workingMemoryName>
         </action>
     </transition>
     
@@ -117,11 +118,32 @@ public void pricePolicy() throws FactException
          </para>
          
          <para>
+             There is also support for using Drools for jBPM task assignments:
+         </para>
+         
+         <programlisting><![CDATA[<task-node name="review">
+    <task name="review" description="Review Order">
+        <assignment handler="org.jboss.seam.drools.DroolsAssignmentHandler">
+            <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>
+            <assertObjects>
+                <element>#{actor}</element>
+                <element>#{customer}</element>
+                <element>#{order}</element>
+                <element>#{order.lineItems}</element>
+            </assertObjects>
+        </assignment>
+    </task>
+    <transition name="rejected" to="cancelled"/>
+    <transition name="approved" to="approved"/>
+</task-node>]]></programlisting>
+
+         <para>
              Certain objects are available to the rules as Drools globals, namely
-             the jBPM <literal>ContextInstance</literal>, as <literal>contextInstance</literal>
+             the jBPM <literal>Assignable</literal>, as <literal>assignable</literal>
              and a Seam <literal>Decision</literal> object, as <literal>decision</literal>.
              Rules which handle decisions should call <literal>decision.setOutcome("result")</literal>
-             to determine the result of the decision.
+             to determine the result of the decision. Rules which perform assignments should
+             set the actor id using the <literal>Assignable</literal>.
          </para>
          
          <programlisting><![CDATA[package org.jboss.seam.examples.shop
@@ -135,14 +157,22 @@ rule "Approve Order For Loyal Customer"
     Customer( loyaltyStatus == "GOLD" )
     Order( totalAmount <= 10000 )
   then
-    decision.setOutcome("approved")
+    decision.setOutcome("approved");
 end]]></programlisting>
 
-         <para>
-             There is also support for using Drools for jBPM task assignments, using
-             <literal>org.jboss.seam.drools.DroolsAssignmentHandler</literal>. TODO!
-         </para>
-         
+         <programlisting><![CDATA[package org.jboss.seam.examples.shop
+
+import org.jbpm.taskmgmt.exe.Assignable
+
+global Assignable assignable
+
+rule "Assign Review For Small Order"
+  when
+    Order( totalAmount <= 100 )
+  then
+    assignable.setPooledActors( new String[] {"reviewers"} );
+end]]></programlisting>
+
      </section>
      
 </chapter>
