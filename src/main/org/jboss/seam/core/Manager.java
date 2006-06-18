@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -80,9 +81,42 @@ public class Manager
       return currentConversationId;
    }
 
+   /**
+    * Only public for the unit tests!
+    * @param id
+    */
    public void setCurrentConversationId(String id)
    {
       currentConversationId = id;
+   }
+   
+   public void updateCurrentConversationId(String id)
+   {
+      
+      String[] names = Contexts.getConversationContext().getNames();
+      Object[] values = new Object[names.length];
+      for (int i=0; i<names.length; i++)
+      {
+         values[i] = Contexts.getConversationContext().get(names[i]);
+         Contexts.getConversationContext().remove(names[i]);
+      }
+      Contexts.getConversationContext().flush();
+      
+      Map<String, ConversationEntry> map = getConversationIdEntryMap();
+      ConversationEntry ce = map.remove(currentConversationId);
+      if (ce!=null){
+         ce.setId(id);
+         map.put(id, ce);
+         dirty();
+      }
+      currentConversationIdStack.set(0, id);
+      currentConversationId = id;
+      
+      for (int i=0; i<names.length; i++)
+      {
+         Contexts.getConversationContext().set(names[i], values[i]);
+      }
+      
    }
 
    public Set<String> getSessionConversationIds()

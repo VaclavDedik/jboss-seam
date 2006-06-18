@@ -4,10 +4,10 @@ package org.jboss.seam.interceptors;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.PhaseId;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,8 +20,11 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.StartTask;
+import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 
@@ -32,6 +35,7 @@ import org.jboss.seam.core.Pageflow;
  * @author Gavin King
  */
 @Around({ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class})
+@Within(BusinessProcessInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {
 
@@ -64,6 +68,9 @@ public class ConversationInterceptor extends AbstractInterceptor
       {
          throw new IllegalStateException("begin method invoked from a long running conversation, try using @Begin(join=true)");
       }
+      
+      String outcome = getOutcomeForConversationId(method);
+      if (outcome!=null) return outcome;
 
       Object result = invocation.proceed();
 
@@ -71,6 +78,39 @@ public class ConversationInterceptor extends AbstractInterceptor
       endConversationIfNecessary(method, result);
       return result;
    
+   }
+   
+   public String getOutcomeForConversationId(Method method)
+   {
+      String id = null;
+      if ( method.isAnnotationPresent(Begin.class) )
+      {
+         id = method.getAnnotation(Begin.class).id();
+      }
+      else if ( method.isAnnotationPresent(BeginTask.class) )
+      {
+         id = method.getAnnotation(BeginTask.class).id();
+      }
+      else if ( method.isAnnotationPresent(StartTask.class) )
+      {
+         id = method.getAnnotation(StartTask.class).id();
+      }
+      
+      if ( id!=null && !"".equals(id) )
+      {
+         id = Interpolator.instance().interpolate(id);
+         ConversationEntry ce = Manager.instance().getConversationIdEntryMap().get(id);
+         if (ce==null) 
+         {
+            Manager.instance().updateCurrentConversationId(id);
+         }
+         else
+         {
+            return ce.select();
+         }
+      }
+      
+      return null;
    }
 
    private boolean isMissingJoin(Method method) {

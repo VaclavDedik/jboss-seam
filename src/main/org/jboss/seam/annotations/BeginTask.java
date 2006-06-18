@@ -37,8 +37,13 @@ public @interface BeginTask
     */
    String taskIdParameter() default "taskId";
    /**
-    * The name of the jBPM process definition defining 
-    * the page flow for this conversation.
+    * The name of the jBPM process definition defining the page flow for 
+    * this conversation.
     */
    String pageflow() default "";
+   /**
+    * An EL expression for the conversation id. If a conversation with 
+    * the same id aready exists, Seam will redirect to that conversation.
+    */
+   String id() default "";
 }

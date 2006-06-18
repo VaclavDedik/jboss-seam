@@ -43,4 +43,10 @@ public @interface Begin {
     * the page flow for this conversation.
     */
    String pageflow() default "";
+   /**
+    * An EL expression for the conversation id. If a 
+    * conversation with the same id aready exists, Seam 
+    * will redirect to that conversation.
+    */
+   String id() default "";
 }
