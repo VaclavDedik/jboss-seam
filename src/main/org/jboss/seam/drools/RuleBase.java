@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.Resources;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
@@ -33,7 +34,7 @@ public class RuleBase
       for (String ruleFile: ruleFiles)
       {
          // read in the source
-         Reader reader = new InputStreamReader(DroolsActionHandler.class.getResourceAsStream(ruleFile));
+         Reader reader = new InputStreamReader( Resources.getResourceAsStream(ruleFile) );
          PackageDescr packageDescr = new DrlParser().parse(reader);
          // pre build the package
          builder.addPackage(packageDescr);

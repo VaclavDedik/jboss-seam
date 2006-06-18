@@ -44,7 +44,7 @@ public class DroolsHandler
          }
       }
       
-      workingMemory.setGlobal( "contextInstance", executionContext.getContextInstance() );
+      //workingMemory.setGlobal( "contextInstance", executionContext.getContextInstance() );
       workingMemory.assertObject( Actor.instance() );
 
       return workingMemory;
