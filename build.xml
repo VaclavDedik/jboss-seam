@@ -214,6 +214,7 @@
         <ant dir="examples/registration" target="clean" inheritall="false"/>
         <ant dir="examples/todo" target="clean" inheritall="false"/>
         <ant dir="examples/portal" target="clean" inheritall="false"/>
+    	<ant dir="examples/drools" target="clean" inheritall="false"/>
         <ant dir="examples/remoting/helloworld" target="clean" inheritall="false"/>
         <ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
         <ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
@@ -231,6 +232,7 @@
         <ant dir="examples/numberguess" target="undeploy" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy" inheritall="false"/>
         <ant dir="examples/todo" target="undeploy" inheritall="false"/>
+    	<ant dir="examples/drools" target="undeploy" inheritall="false"/>
         <ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false"/>
         <ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false"/>
         <ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false"/>
@@ -243,6 +245,7 @@
         <ant dir="examples/registration" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/todo" target="undeploy.tomcat" inheritall="false"/>
+    	<ant dir="examples/drools" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false"/>
     </target>
 
@@ -364,25 +367,26 @@
       
       <mkdir dir="report"/>
 
-    <ant dir="examples/booking" target="testexample" inheritall="false"/>
-    <ant dir="examples/hibernate" target="testexample" inheritall="false"/>
-    <ant dir="examples/messages" target="testexample" inheritall="false"/>
-    <ant dir="examples/numberguess" target="testexample" inheritall="false"/>
-    <ant dir="examples/registration" target="testexample" inheritall="false"/>
-    <ant dir="examples/todo" target="testexample" inheritall="false"/>
+      <ant dir="examples/booking" target="testexample" inheritall="false"/>
+      <ant dir="examples/dvdstore" target="testexample" inheritall="false"/>
+      <ant dir="examples/hibernate" target="testexample" inheritall="false"/>
+      <ant dir="examples/messages" target="testexample" inheritall="false"/>
+      <ant dir="examples/numberguess" target="testexample" inheritall="false"/>
+      <ant dir="examples/registration" target="testexample" inheritall="false"/>
+      <ant dir="examples/todo" target="testexample" inheritall="false"/>
       <ant dir="examples/blog" target="testexample" inheritall="false"/>
       <ant dir="examples/portal" target="testexample" inheritall="false"/>
 
-    <junitreport todir="./report">
-      <fileset dir=".">
-        <include name="**/test-output/*.xml"/>
-        <exclude name="**/testng-failures.xml"/>
-      </fileset>
-      <report format="frames" todir="./report/html"/>
-    </junitreport>
+      <junitreport todir="./report">
+        <fileset dir=".">
+          <include name="**/test-output/*.xml"/>
+          <exclude name="**/testng-failures.xml"/>
+        </fileset>
+        <report format="frames" todir="./report/html"/>
+      </junitreport>
 
-    <echo>Report available at ${basedir}/report/html/index.html</echo>
-             
+      <echo>Report available at ${basedir}/report/html/index.html</echo>
+
   </target>
 
     <target name="testexample" depends="compile"
@@ -542,6 +546,7 @@
                 <include name="todo/**/*"/>
                 <include name="numberguess/**/*"/>
                 <include name="portal/**/*"/>
+            	<include name="drools/**/*"/>
                 <include name="remoting/**/*"/>
                 <exclude name="remoting/stories"/>
                 <exclude name="remoting/stories/**/*"/>
@@ -787,9 +792,9 @@
     </target>
   
     <target name="undeploy.tomcat" 
-        description="Undeploy the example from Tomcat">
+            description="Undeploy the example from Tomcat">
         <delete file="${tomcat.home}/webapps/${example.name}.war"/>
-          <delete dir="${tomcat.home}/webapps/${example.name}"/>
+        <delete dir="${tomcat.home}/webapps/${example.name}"/>
     </target>
     
 </project>
