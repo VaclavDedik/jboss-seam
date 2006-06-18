@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<project name="Drools" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Drools Example"/>
+    <property name="example.name"           value="jboss-seam-drools"/>
+
+    <!-- WAR -->
+
+    <zipfileset id="example.war.docroot"
+               dir="view">
+      <include name="**/*"/>
+    </zipfileset>
+    
+    <zipfileset id="example.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <patternset refid="meta.files"/>
+     </zipfileset>
+     
+    <zipfileset id="example.war.webinf.lib"
+            prefix="WEB-INF/lib"
+               dir="resources/WEB-INF">
+        <include name="_NONE_"/>
+    </zipfileset>
+    
+    <zipfileset id="example.war.webinf.lib.extra" 
+            prefix="WEB-INF/lib"
+               dir=".">
+        <include name="_NONE_"/>
+    </zipfileset>
+
+    <!-- EJB3 -->
+    <fileset id="example.ejb3.root"
+            dir="resources">
+        <include name="seam.properties"/>
+    </fileset>
+
+    <!-- EAR -->
+    <zipfileset id="example.ear.resources"
+            dir="resources">
+    	<include name="pageflow.jpdl.xml"/>
+    	<include name="jbpm.cfg.xml"/>
+    	<include name="*.drl"/>
+        <include name="META-INF/*"/>
+    </zipfileset>
+
+    <fileset id="example.ejb3.lib" dir="../..">
+        <include name="lib/jbpm*.jar"/>
+    	<include name="drools/lib/*.jar"/>
+    </fileset>
+  
+    <!-- Tomcat build -->
+    <zipfileset id="example.tomcat.war.webinf"
+            prefix="WEB-INF"
+               dir="resources/WEB-INF" >
+        <include name="faces-config.xml"/>
+        <include name="pages.xml"/>
+    	<include name="components.xml"/>
+    	<include name="web.xml"/>
+    </zipfileset>
+    
+    <fileset id="example.tomcat.resources"
+            dir="resources">
+        <include name="seam.properties"/>
+    	<include name="jbpm.cfg.xml"/>
+    	<include name="*.drl"/>
+    	<include name="pageflow.jpdl.xml"/>
+    </fileset>
+    
+	<!-- Test -->
+	<fileset id="example.resources" dir="resources">
+		<include name="**/*.*"/>
+	</fileset>
+
+    <!-- Deploy -->
+    <fileset id="example.deploy"
+            dir="resources">
+        <include name="_NONE_"/>
+    </fileset>
+
+    <!-- Undeploy -->
+    <patternset id="example.undeploy">
+        <include name="_NONE_"/>
+    </patternset>
+
+    <!-- Overrides -->
+    <property name="src.java.dir" value="src"/>
+	<property name="src.test.dir" value="src"/>
+	<property name="test.classpath" value="test.mc.classpath"/>
+	<property name="tomcat.conf" value="mc.conf"/>
+
+    <import file="../../build.xml"/>
+
+</project>
+

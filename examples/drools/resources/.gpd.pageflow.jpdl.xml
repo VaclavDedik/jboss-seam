@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pageflow-diagram name="numberGuess" width="724" height="516">
+  <node name="displayGuess" x="157" y="35" width="140" height="40">
+    <transition name="guess">
+      <label x="-44" y="-10"/>
+      <bendpoint w1="-43" h1="55" w2="-46" h2="-60"/>
+    </transition>
+  </node>
+  <node name="drools" x="112" y="150" width="236" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+      <bendpoint w1="53" h1="-52" w2="56" h2="63"/>
+    </transition>
+    <transition name="lose">
+      <label x="15" y="-13"/>
+    </transition>
+    <transition name="win">
+      <label x="-28" y="-17"/>
+    </transition>
+  </node>
+  <node name="win" x="57" y="271" width="140" height="40"/>
+  <node name="lose" x="279" y="270" width="140" height="40"/>
+</pageflow-diagram>
