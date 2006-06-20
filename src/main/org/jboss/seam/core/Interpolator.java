@@ -74,7 +74,7 @@ public class Interpolator {
                {
                   log.warn("exception interpolating string: " + string, e);
                }
-               tokens.nextToken();
+               tokens.nextToken(); //the }
             }
             else 
             {
@@ -92,8 +92,11 @@ public class Interpolator {
                {
                   log.warn("parameter index out of bounds: " + index + " in: " + string);
                }
-               builder.append( params[index] );
-               builder.append( nextTok.substring(1) );
+               else
+               {
+                  builder.append( params[index] );
+                  builder.append( nextTok.substring(1) );
+               }
             }
          }
          else
