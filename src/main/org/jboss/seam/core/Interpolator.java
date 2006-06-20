@@ -78,10 +78,19 @@ public class Interpolator {
             }
             else 
             {
-               int index = Integer.parseInt( nextTok.substring(0, 1) );
+               int index;
+               try
+               {
+                  index = Integer.parseInt( nextTok.substring(0, 1) );
+               }
+               catch (NumberFormatException nfe)
+               {
+                  builder.append(nextTok);
+                  continue;
+               }
                if (index>=params.length) 
                {
-                  throw new IllegalArgumentException("parameter index out of bounds: " + index + " in: " + string);
+                  log.warn("parameter index out of bounds: " + index + " in: " + string);
                }
                builder.append( params[index] );
                builder.append( nextTok.substring(1) );
