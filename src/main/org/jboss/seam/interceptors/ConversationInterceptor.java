@@ -49,7 +49,11 @@ public class ConversationInterceptor extends AbstractInterceptor
       if ( isNoConversationForConversationalBean(method) )
       {
          log.info("no long-running conversation for @Conversational bean: " + component.getName());
-         FacesMessages.instance().addFromResourceBundle( FacesMessage.SEVERITY_WARN, "org.jboss.seam.NoConversation", "No conversation" );
+         FacesMessages.instance().addFromResourceBundle( 
+               FacesMessage.SEVERITY_WARN, 
+               "org.jboss.seam.NoConversation", 
+               "No conversation" 
+            );
          
          if ( method.getReturnType().equals(String.class) )
          {
@@ -224,27 +228,27 @@ public class ConversationInterceptor extends AbstractInterceptor
       return "";
    }
 
-   private void beginConversation(boolean nested, String processDefinitionName)
+   private void beginConversation(boolean nested, String pageflowName)
    {
       if ( !Manager.instance().isLongRunningConversation() )
       {
          log.debug("Beginning long-running conversation");
          Manager.instance().beginConversation( component.getName() );
-         beginNavigation(processDefinitionName);
+         beginNavigation(pageflowName);
       }
       else if (nested)
       {
          log.debug("Beginning nested conversation");
          Manager.instance().beginNestedConversation( component.getName() );
-         beginNavigation(processDefinitionName);
+         beginNavigation(pageflowName);
       }
    }
    
-   private void beginNavigation(String processDefinitionName)
+   private void beginNavigation(String pageflowName)
    {
-      if ( !processDefinitionName.equals("") )
+      if ( !pageflowName.equals("") )
       {
-         Pageflow.instance().begin(processDefinitionName);
+         Pageflow.instance().begin(pageflowName);
       }
    }
 

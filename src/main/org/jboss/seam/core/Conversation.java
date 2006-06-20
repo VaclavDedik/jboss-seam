@@ -166,11 +166,25 @@ public class Conversation implements Serializable {
     */
    public void begin()
    {
+      begin( Seam.getComponentName(Conversation.class) );
+      //TODO: let them pass a pageflow name as a request parameter
+   }
+   
+   /**
+    * Start a long-running conversation.
+    */
+   public void begin(String componentName)
+   {
       if ( !Manager.instance().isLongRunningConversation() )
       {
-         Manager.instance().beginConversation( Seam.getComponentName(Conversation.class) );
+         Manager.instance().beginConversation(componentName);
       }
       //TODO: let them pass a pageflow name as a request parameter
+   }
+   
+   public void beginPageflow(String pageflowName)
+   {
+      Pageflow.instance().begin(pageflowName);
    }
    
    /**

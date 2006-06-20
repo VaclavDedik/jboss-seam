@@ -34,7 +34,7 @@ public class ProcessInstance
    {
       if ( !Contexts.isConversationContextActive() ) return null;
       
-      Long processId = Process.instance().getProcessId();
+      Long processId = BusinessProcess.instance().getProcessId();
       if (processId!=null)
       {
          //TODO: do we need to cache this??
@@ -48,7 +48,7 @@ public class ProcessInstance
    
    public static org.jbpm.graph.exe.ProcessInstance instance()
    {
-      if ( !Contexts.isConversationContextActive() || Process.instance().getProcessId()==null ) return null; //so we don't start a txn
+      if ( !Contexts.isConversationContextActive() || BusinessProcess.instance().getProcessId()==null ) return null; //so we don't start a txn
       
       if ( !Contexts.isApplicationContextActive() )
       {

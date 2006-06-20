@@ -34,7 +34,7 @@ public class TaskInstance
    {
       if ( !Contexts.isConversationContextActive() ) return null;
       
-      Long taskId = Process.instance().getTaskId();
+      Long taskId = BusinessProcess.instance().getTaskId();
       if (taskId!=null)
       {
          //TODO: do we need to cache this??
@@ -48,7 +48,7 @@ public class TaskInstance
    
    public static org.jbpm.taskmgmt.exe.TaskInstance instance()
    {
-      if ( Process.instance().getTaskId()==null ) return null; //so we don't start a txn
+      if ( BusinessProcess.instance().getTaskId()==null ) return null; //so we don't start a txn
       
       if ( !Contexts.isApplicationContextActive() )
       {

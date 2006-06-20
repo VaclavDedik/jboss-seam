@@ -23,14 +23,7 @@ import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Actor;
-import org.jboss.seam.core.ManagedJbpmContext;
-import org.jboss.seam.core.Process;
-import org.jboss.seam.core.Transition;
-import org.jbpm.JbpmContext;
-import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.graph.exe.ProcessInstance;
+import org.jboss.seam.core.BusinessProcess;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -85,14 +78,14 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    }
 
    private void initProcess(String processIdParameter) {
-      Process.instance().setProcessId( getRequestParamValueAsLong(processIdParameter) );
+      BusinessProcess.instance().setProcessId( getRequestParamValueAsLong(processIdParameter) );
    }
 
    private void initTask(String taskIdParameter) {
-      Process context = Process.instance();
-      context.setTaskId( getRequestParamValueAsLong(taskIdParameter) );
+      BusinessProcess process = BusinessProcess.instance();
+      process.setTaskId( getRequestParamValueAsLong(taskIdParameter) );
       TaskInstance taskInstance = org.jboss.seam.core.TaskInstance.instance();
-      context.setProcessId( taskInstance.getTaskMgmtInstance().getProcessInstance().getId() );
+      process.setProcessId( taskInstance.getTaskMgmtInstance().getProcessInstance().getId() );
    }
 
    private Object afterInvocation(InvocationContext invocation, Object result)
@@ -104,17 +97,17 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          {
             log.trace( "encountered @CreateProcess" );
             CreateProcess tag = method.getAnnotation(CreateProcess.class);
-            createProcess( tag.definition() );
+            BusinessProcess.instance().createProcess( tag.definition() );
          }
          if ( method.isAnnotationPresent(StartTask.class) )
          {
             log.trace( "encountered @StartTask" );
-            startTask();
+            BusinessProcess.instance().startTask();
          }
          if ( method.isAnnotationPresent(EndTask.class) )
          {
             log.trace( "encountered @EndTask" );
-            endTask( method.getAnnotation(EndTask.class).transition() );
+            BusinessProcess.instance().endTask( method.getAnnotation(EndTask.class).transition() );
          }
          if ( method.isAnnotationPresent(org.jboss.seam.annotations.Transition.class) )
          {
@@ -126,64 +119,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       return result;
    }
 
-   private void createProcess(String processDefinitionName)
-   {
-      JbpmContext jbpmContext = ManagedJbpmContext.instance();
-      
-      ProcessDefinition pd = jbpmContext.getGraphSession().findLatestProcessDefinition(processDefinitionName);
-      if ( pd == null )
-      {
-         throw new IllegalArgumentException( "Unknown process definition: " + processDefinitionName );
-      }
-      
-      ProcessInstance process = pd.createProcessInstance();
-      jbpmContext.save(process);
-      Process.instance().setProcessId( process.getId() );
-      // need to set process variables before the signal
-      Contexts.getBusinessProcessContext().flush();
-      process.signal();
-   }
-
-   private void startTask()
-   {
-      String actorId = Actor.instance().getId();
-      TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
-      if ( actorId != null )
-      {
-         task.start(actorId);
-      }
-      else
-      {
-         task.start();
-      }
-   }
-
-   private void endTask(String transitionName)
-   {
-      TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
-      if ( task == null )
-      {
-         throw new IllegalStateException( "no task instance associated with context" );
-      }
-      
-      if ( "".equals(transitionName) )
-      {
-         transitionName = Transition.instance().getName();
-      }
-      
-      if ( transitionName == null )
-      {
-         task.end();
-      }
-      else
-      {
-         task.end(transitionName);
-      }
-      
-      Process.instance().setTaskId(null);
-   }
-
-    private Long getRequestParamValueAsLong(String paramName)
+   private Long getRequestParamValueAsLong(String paramName)
     {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map paramMap = facesContext.getExternalContext()

@@ -57,7 +57,7 @@ import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
-import org.jboss.seam.core.Process;
+import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.Redirect;
 import org.jboss.seam.core.ResourceBundle;
@@ -305,7 +305,7 @@ public class Initialization
       if ( init.isJbpmInstalled() )
       {
          addComponent( Actor.class, context);
-         addComponent( Process.class, context );
+         addComponent( BusinessProcess.class, context );
          addComponent( Pageflow.class, context );
          addComponent( Transition.class, context);
          addComponent( PooledTask.class, context );
