@@ -16,12 +16,21 @@ import org.apache.commons.logging.LogFactory;
 
 public final class Naming {
    
-   private static final Log log = LogFactory.getLog(Naming.class);
+    private static final Log log = LogFactory.getLog(Naming.class);
     private static Hashtable initialContextProperties;
 
     public static InitialContext getInitialContext(Hashtable<String, String> props) throws NamingException {
+       
+        if (props==null)
+        {
+            throw new IllegalStateException("JNDI properties not initialized, Seam was not started correctly");
+        }
 
-        log.debug("JNDI InitialContext properties:" + props);
+        if (log.isDebugEnabled())
+        {
+            log.debug("JNDI InitialContext properties:" + props);
+        }
+        
         try {
             return props.size()==0 ?
                     new InitialContext() :
@@ -31,6 +40,7 @@ public final class Naming {
             log.debug("Could not obtain initial context", e);
             throw e;
         }
+        
     }
     
     public static InitialContext getInitialContext() throws NamingException {
