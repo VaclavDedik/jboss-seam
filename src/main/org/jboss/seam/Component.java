@@ -31,6 +31,7 @@ import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.interceptor.Interceptors;
+import javax.servlet.ServletRequest;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
@@ -825,16 +826,19 @@ public class Component
 
    public static Map getRequestParameters()
    {
-      Map requestParameters = null;
-      if ( FacesContext.getCurrentInstance() != null )
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if ( facesContext != null )
       {
-         requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+         return facesContext.getExternalContext().getRequestParameterMap();
       }
-      else if ( Lifecycle.getServletRequest() != null )
+      
+      ServletRequest servletRequest = Lifecycle.getServletRequest();
+      if ( servletRequest != null )
       {
-         requestParameters = Lifecycle.getServletRequest().getParameterMap();
+         return servletRequest.getParameterMap();
       }
-      return requestParameters;
+      
+      return null;
    }
 
    public static Object convertRequestParameter(Object requestParameter, Class type)
