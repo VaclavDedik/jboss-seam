@@ -7,6 +7,7 @@
     
     <component name="themeSelector">
         <property name="availableThemes">default, accessible, printable</property>
+        <property name="cookieEnabled">true</property>
     </component>
     
     <component name="entityManager" 
