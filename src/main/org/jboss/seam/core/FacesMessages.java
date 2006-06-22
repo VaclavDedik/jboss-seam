@@ -172,11 +172,44 @@ public class FacesMessages implements Serializable
    }
    
    /**
-    * Add a templated FacesMessage by looking for the message
-    * template in the resource bundle. If it is missing, use
+    * Add a templated FacesMessage to a particular component id by looking 
+    * for the message template in the resource bundle. 
+    */
+   public void addFromResourceBundle(String id, String key, Object... params)
+   {
+      addFromResourceBundle(FacesMessage.SEVERITY_INFO, key, params);
+   }
+   
+   /**
+    * Add a templated FacesMessage to a particular component id by looking 
+    * for the message template in the resource bundle. 
+    */
+   public void addFromResourceBundle(String id, Severity severity, String key, Object... params)
+   {
+      addFromResourceBundle(severity, key, key, params);
+   }
+   
+   /**
+    * Add a templated FacesMessage to a particular component id by looking 
+    * for the message template in the resource bundle. If it is missing, use
     * the given message template.
     */
    public void addFromResourceBundle(Severity severity, String key, String defaultMessageTemplate, Object... params)
+   {
+      add( severity, interpolateBundleMessage(key, defaultMessageTemplate), params );
+   }
+
+   /**
+    * Add a templated FacesMessage to a particular component id by looking 
+    * for the message template in the resource bundle. If it is missing, use
+    * the given message template.
+    */
+   public void addFromResourceBundle(String id, Severity severity, String key, String defaultMessageTemplate, Object... params)
+   {
+      add( id, severity, interpolateBundleMessage(key, defaultMessageTemplate), params );
+   }
+
+   private String interpolateBundleMessage(String key, String defaultMessageTemplate)
    {
       String messageTemplate = defaultMessageTemplate;
       java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
@@ -189,7 +222,7 @@ public class FacesMessages implements Serializable
          }
          catch (MissingResourceException mre) {} //swallow
       }
-      add(severity, messageTemplate, params);
+      return messageTemplate;
    }
 
    public void add(InvalidValue iv)
