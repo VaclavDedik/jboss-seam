@@ -6,7 +6,7 @@
     </component>
     
     <component name="themeSelector">
-        <property name="availableThemes">default, accessible</property>
+        <property name="availableThemes">default, accessible, printable</property>
     </component>
     
     <component name="entityManager" 
