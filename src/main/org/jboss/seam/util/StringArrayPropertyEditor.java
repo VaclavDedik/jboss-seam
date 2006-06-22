@@ -18,6 +18,7 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport
    @Override
    public String getAsText()
    {
-      return Strings.toString( (Object[]) getValue() );
+      Object[] array = (Object[]) getValue();
+      return array==null ? null : Strings.toString( array );
    }
 }

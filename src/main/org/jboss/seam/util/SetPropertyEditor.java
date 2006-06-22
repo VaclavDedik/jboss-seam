@@ -10,30 +10,32 @@ import java.util.Set;
  * @author Shane Bryzak
  */
 public class SetPropertyEditor extends PropertyEditorSupport
-
 {
-  @Override
-  public void setAsText(String text)
+   
+   @Override
+   public void setAsText(String text)
       throws IllegalArgumentException
-  {
-    Set<String> value = new HashSet();
-    for (String s : Strings.split(text, ", \r\n\f\t"))
-    {
-      value.add(s);
-    }
-    setValue(value);
-  }
+   {
+      Set<String> value = new HashSet();
+      for (String s : Strings.split(text, ", \r\n\f\t"))
+      {
+         value.add(s);
+       }
+       setValue(value);
+   }
 
-  @Override
-  public String getAsText()
-  {
-    StringBuilder text = new StringBuilder();
-    for (String s : (Set<String>) getValue())
-    {
-      if (text.length() > 0)
-        text.append(',');
-      text.append(s);
-    }
-    return text.toString();
+   @Override
+   public String getAsText()
+   {
+      StringBuilder text = new StringBuilder();
+      Set<String> set = (Set<String>) getValue();
+      if (set==null) return null;
+      for (String s : set)
+      {
+         if (text.length() > 0) text.append(',');
+         text.append(s);
+      }
+      return text.toString();
   }
+   
 }
