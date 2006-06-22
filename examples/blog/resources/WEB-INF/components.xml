@@ -5,6 +5,10 @@
         <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
     </component>
     
+    <component name="themeSelector">
+        <property name="availableThemes">default, accessible</property>
+    </component>
+    
     <component name="entityManager" 
               class="org.jboss.seam.core.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/blogEntityManagerFactory</property>

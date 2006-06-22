@@ -12,12 +12,21 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>#{blog.name}</title>
-      <link href="screen.css" rel="stylesheet" type="text/css" />
+      <link href="#{theme.css}" rel="stylesheet" type="text/css" />
    </head>
 
    <body>
       <div id="search">
          <h:form>
+            <h:selectOneMenu value="#{themeSelector.theme}">
+               <f:selectItems value="#{themeSelector.themes}"/>
+            </h:selectOneMenu>
+            <h:commandLink action="#{themeSelector.select}">
+               <h:commandButton value="Select Theme"/>
+               <f:param name="blogEntryId" value="#{param.blogEntryId}"/>
+               <f:param name="searchPattern" value="#{param.searchPattern}"/>
+            </h:commandLink>
+            &#160;&#160;
             <h:inputText value="#{searchAction.searchPattern}"/>
             <h:commandButton value="Search" action="#{searchAction.search}"/>
          </h:form>
