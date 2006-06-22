@@ -1,4 +1,9 @@
-//$Id$
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.deployment;
 
 import java.io.File;
@@ -15,6 +20,13 @@ import java.util.zip.ZipFile;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Scanner to scan jar archives 
+ *
+ * @author Gavin King
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @version $Revision$
+ */
 public class Scanner
 {
 
@@ -40,9 +52,9 @@ public class Scanner
             .replace('/', '.').replace('\\', '.');
    }
    
-   public Set<Class<?>> getClasses()
+   public Set<String> getClasses()
    {
-      Set<Class<?>> result = new HashSet<Class<?>>();
+      Set<String> result = new HashSet<String>();
       Enumeration<URL> urls;
       try
       {
@@ -91,7 +103,7 @@ public class Scanner
       return result;
    }
 
-   private void handleArchive(Set<Class<?>> result, File file) throws ZipException, IOException
+   private void handleArchive(Set<String> result, File file) throws ZipException, IOException
    {
       log.debug("archive: " + file);
       ZipFile zip = new ZipFile(file);
@@ -105,7 +117,7 @@ public class Scanner
       }
    }
 
-   private void handleDirectory(Set<Class<?>> result, File file, String path)
+   private void handleDirectory(Set<String> result, File file, String path)
    {
       log.debug("directory: " + file);
       for ( File child: file.listFiles() )
@@ -123,21 +135,12 @@ public class Scanner
       }
    }
 
-   private void handleItem(Set<Class<?>> result, String name)
+   private void handleItem(Set<String> result, String name)
    {
       if ( name.endsWith(".class") && !name.startsWith("org/jboss/seam/core") )
       {
          String classname = filenameToClassname( name );
-         try
-         {
-            result.add( classLoader.loadClass( classname ) );
-         }
-         catch (ClassNotFoundException cnfe) {
-            log.debug( "could not load class: " + classname, cnfe );
-         }
-         catch (NoClassDefFoundError ncdfe) {
-            log.debug( "could not load class (missing dependency): " + classname, ncdfe );
-         }
+         result.add( classname );
       }
    }
 }
