@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,24 +43,43 @@ public class ThemeSelector implements Serializable
    private String theme;
    private String[] availableThemes;
    
+   private boolean cookieEnabled;
+   
    @Create
    public void initDefaultTheme()
    {
-      //TODO: look for a cookie
-      if (availableThemes.length==0)
+      if (cookieEnabled)
       {
-         throw new IllegalStateException("no themes defined");
+         Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext()
+               .getRequestCookieMap().get("org.jboss.seam.core.Theme");
+         if (cookie!=null) theme = cookie.getValue();
       }
-      if (theme==null) 
+      
+      if (theme==null)
       {
-         theme = availableThemes[0];
+         if (availableThemes.length==0)
+         {
+            throw new IllegalStateException("no themes defined");
+         }
+         if (theme==null) 
+         {
+            theme = availableThemes[0];
+         }
       }
    }
    
    public void select()
    {
       Contexts.removeFromAllContexts( Seam.getComponentName(Theme.class) );
-      //TODO: set the cookie
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      String viewId = facesContext.getViewRoot().getViewId();
+      UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(facesContext, viewId);
+      facesContext.setViewRoot(viewRoot);
+      if (cookieEnabled)
+      {
+         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+         response.addCookie( new Cookie("org.jboss.seam.core.Theme", theme) );
+      }
    }
 
    public List<SelectItem> getThemes()
@@ -115,6 +138,16 @@ public class ThemeSelector implements Serializable
    public String[] getAvailableThemes()
    {
       return availableThemes;
+   }
+
+   public boolean isCookieEnabled()
+   {
+      return cookieEnabled;
+   }
+
+   public void setCookieEnabled(boolean cookieEnabled)
+   {
+      this.cookieEnabled = cookieEnabled;
    }
 
 }

@@ -12,7 +12,9 @@ import java.util.StringTokenizer;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -42,10 +44,17 @@ public class LocaleSelector implements Serializable
    private String country;
    private String variant;
    
+   private boolean cookieEnabled;
+   
    @Create
    public void initLocale()
    {
-      //TODO: look for a cookie
+      if (cookieEnabled)
+      {
+         Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext()
+               .getRequestCookieMap().get("org.jboss.seam.core.Locale");
+         if (cookie!=null) setLocaleString( cookie.getValue() );
+      }
    }
    
    /**
@@ -56,7 +65,11 @@ public class LocaleSelector implements Serializable
       FacesContext.getCurrentInstance().getViewRoot().setLocale( getLocale() );
       Contexts.removeFromAllContexts( Seam.getComponentName(ResourceBundle.class) );
       Contexts.removeFromAllContexts( Seam.getComponentName(Messages.class) );
-      //TODO: set the cookie
+      if (cookieEnabled)
+      {
+         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+         response.addCookie( new Cookie( "org.jboss.seam.core.Locale", getLocaleString() ) );
+      }
    }
    
    public Locale calculateLocale(Locale jsfLocale)
@@ -170,6 +183,16 @@ public class LocaleSelector implements Serializable
 
    public void setVariant(String variant) {
       this.variant = variant;
+   }
+
+   public boolean isCookieEnabled()
+   {
+      return cookieEnabled;
+   }
+
+   public void setCookieEnabled(boolean cookieEnabled)
+   {
+      this.cookieEnabled = cookieEnabled;
    }
    
 }
