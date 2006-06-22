@@ -79,6 +79,8 @@ import org.jboss.seam.jms.QueueSession;
 import org.jboss.seam.jms.TopicConnection;
 import org.jboss.seam.jms.TopicSession;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
+import org.jboss.seam.theme.Theme;
+import org.jboss.seam.theme.ThemeSelector;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
@@ -278,6 +280,8 @@ public class Initialization
       addComponent( BusinessProcessContext.class, context );
       addComponent( Locale.class, context );
       addComponent( Messages.class, context );
+      addComponent( Theme.class, context);
+      addComponent( ThemeSelector.class, context);
       addComponent( Interpolator.class, context );
       addComponent( FacesMessages.class, context );
       addComponent( ResourceBundle.class, context );

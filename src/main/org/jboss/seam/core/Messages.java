@@ -35,16 +35,16 @@ public class Messages implements Serializable {
       messages = new AbstractMap<String, String>()
       {
          private java.util.ResourceBundle bundle = ResourceBundle.instance();
-         private Map<String, String> cache = new HashMap<String, String>();
+         //private Map<String, String> cache = new HashMap<String, String>();
 
          @Override
          public String get(Object key) {
             if (key instanceof String)
             {
                String resourceKey = (String) key;
-               String cachedValue = cache.get(key);
+               /*String cachedValue = cache.get(key);
                if (cachedValue==null)
-               {
+               {*/
                   String resource;
                   try
                   {
@@ -60,14 +60,14 @@ public class Messages implements Serializable {
                   }
                   else
                   {
-                     cache.put(resourceKey, resource);
+                     //cache.put(resourceKey, resource);
                      return Interpolator.instance().interpolate(resource);
                   }
-               }
+               /*}
                else
                {
                   return Interpolator.instance().interpolate(cachedValue);
-               }
+               }*/
             }
             else
             {
