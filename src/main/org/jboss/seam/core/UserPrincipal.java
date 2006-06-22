@@ -5,6 +5,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import java.security.Principal;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -14,6 +16,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 
 /**
  * Manager component for the current user Principal
@@ -31,7 +34,18 @@ public class UserPrincipal
    public Principal getUserPrincipal()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext==null ? null : facesContext.getExternalContext().getUserPrincipal();
+      if ( facesContext != null ) 
+      {
+         return facesContext.getExternalContext().getUserPrincipal();
+      }
+      
+      ServletRequest servletRequest = Lifecycle.getServletRequest();
+      if ( servletRequest != null )
+      {
+         return ( (HttpServletRequest) servletRequest ).getUserPrincipal();
+      }
+      
+      return null;
    }
    
    public Principal instance()

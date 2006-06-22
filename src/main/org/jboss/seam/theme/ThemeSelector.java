@@ -42,6 +42,7 @@ public class ThemeSelector implements Serializable
    @Create
    public void initDefaultTheme()
    {
+      //TODO: look for a cookie
       if (availableThemes.length==0)
       {
          throw new IllegalStateException("no themes defined");
@@ -55,6 +56,7 @@ public class ThemeSelector implements Serializable
    public void select()
    {
       Contexts.removeFromAllContexts( Seam.getComponentName(Theme.class) );
+      //TODO: set the cookie
    }
 
    public List<SelectItem> getThemes()

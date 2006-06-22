@@ -11,15 +11,19 @@ import java.util.StringTokenizer;
 
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -38,6 +42,12 @@ public class LocaleSelector implements Serializable
    private String country;
    private String variant;
    
+   @Create
+   public void initLocale()
+   {
+      //TODO: look for a cookie
+   }
+   
    /**
     * Force the resource bundle to reload, using the current locale
     */
@@ -46,6 +56,7 @@ public class LocaleSelector implements Serializable
       FacesContext.getCurrentInstance().getViewRoot().setLocale( getLocale() );
       Contexts.removeFromAllContexts( Seam.getComponentName(ResourceBundle.class) );
       Contexts.removeFromAllContexts( Seam.getComponentName(Messages.class) );
+      //TODO: set the cookie
    }
    
    public Locale calculateLocale(Locale jsfLocale)
@@ -106,14 +117,23 @@ public class LocaleSelector implements Serializable
    public Locale getLocale() 
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if (facesContext==null)
+      if (facesContext!=null)
       {
-         return calculateLocale( Locale.getDefault() );
+         //Note: this does a double dispatch back to LocaleSelector.calculateLocale()
+         return facesContext.getApplication().getViewHandler().calculateLocale(facesContext);
       }
-      else
+      
+      ServletRequest request = Lifecycle.getServletRequest();
+      if (request!=null)
       {
-         return facesContext.getApplication().getViewHandler().calculateLocale( facesContext );
+         Locale requestLocale = ( (HttpServletRequest) request ).getLocale();
+         if (requestLocale!=null)
+         {
+            return calculateLocale(requestLocale);
+         }
       }
+
+      return calculateLocale( Locale.getDefault() );
    }
 
    public static LocaleSelector instance()
