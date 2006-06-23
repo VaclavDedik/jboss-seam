@@ -3,6 +3,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -12,7 +13,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.cfg.Environment;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
@@ -20,6 +20,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.jbpm.PageflowParser;
 import org.jboss.seam.jbpm.SeamVariableResolver;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Resources;
@@ -35,8 +36,9 @@ import org.xml.sax.InputSource;
  * A seam component that boostraps a JBPM SessionFactory
  * 
  * @author Gavin King
- * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Norman Richards
+ * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
@@ -110,7 +112,7 @@ public class Jbpm
       }
       return PageflowHelper.parseInputSource(new InputSource(resource));
    }
-
+   
    public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
    {
       InputStream resource = Resources.getResourceAsStream(resourceName);
@@ -137,6 +139,46 @@ public class Jbpm
       this.processDefinitions = processDefinitions;
    }
    
+   /**
+    * Dynamically add a page flow definition, if a pageflow with an identical name already exists,
+    * the pageflow is updated.
+    * @param pageflowDefinition The page flow definition
+    * @return The pageflow definition name.
+    */
+   public String addPageflowDefinition(String pageflowDefinition) 
+   {
+      String pageFlowName = null;
+     
+      if ( pageflowDefinition!=null )
+      {
+         ProcessDefinition pd = new PageflowParser( new StringReader(pageflowDefinition) ).readProcessDefinition();
+         if (log.isDebugEnabled() && pageflowProcessDefinitions.containsKey(pd.getName()))
+         {
+            log.debug("Updating the already existing pageflow definition: " + pd.getName());
+         }
+         pageflowProcessDefinitions.put( pd.getName(), pd );
+         pageFlowName = pd.getName();
+      }
+      return pageFlowName;
+   }
+   
+   /**
+    * Remove a pageflow definition
+    * @param pageflowName Name of the pageflow to remove
+    * @return true if the pageflow definition has been removed
+    */
+   public boolean removePageflowDefinition(String pageflowName) 
+   {
+      String pageFlowName = null;
+     
+      if (( pageflowName != null ) && pageflowProcessDefinitions.containsKey(pageFlowName))
+      {
+         pageflowProcessDefinitions.remove(pageFlowName);
+         return true;
+      }
+      return false;
+   }
+   
    private void installPageflowDefinitions() {
       if ( pageflowDefinitions!=null )
       {
@@ -158,7 +200,10 @@ public class Jbpm
             for ( String definitionResource : processDefinitions )
             {
                ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource( definitionResource );
-               log.trace( "deploying process definition : " + processDefinition.getName() );
+               if (log.isDebugEnabled())
+               {
+                  log.debug( "deploying process definition : " + processDefinition.getName() );
+               }
                jbpmContext.deployProcessDefinition(processDefinition);
             }
          }
