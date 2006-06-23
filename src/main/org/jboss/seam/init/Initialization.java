@@ -1,9 +1,9 @@
 /*
- * JBoss, Home of Professional Open Source
- *
- * Distributable under LGPL license.
- * See terms of license at gnu.org.
- */
+ï¿½* JBoss, Home of Professional Open Source
+ï¿½*
+ï¿½* Distributable under LGPL license.
+ï¿½* See terms of license at gnu.org.
+ï¿½*/
 package org.jboss.seam.init;
 
 import java.io.IOException;
@@ -32,6 +32,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.ApplicationContext;
+import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.BusinessProcessContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationContext;
@@ -57,7 +58,6 @@ import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
-import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.Redirect;
 import org.jboss.seam.core.ResourceBundle;
@@ -342,11 +342,8 @@ public class Initialization
       {
          for ( Class clazz: new Scanner().getClasses() )
          {
-            if ( clazz.isAnnotationPresent(Name.class) )
-            {
-               addComponent(clazz, context);
-               addComponentRoles(context, clazz);
-            }
+            addComponent(clazz, context);
+            addComponentRoles(context, clazz);
          }
       }
 

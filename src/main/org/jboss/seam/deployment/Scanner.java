@@ -1,8 +1,11 @@
 //$Id$
 package org.jboss.seam.deployment;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
@@ -12,8 +15,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import javassist.bytecode.AnnotationsAttribute;
+import javassist.bytecode.ClassFile;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.Name;
 
 public class Scanner
 {
@@ -40,6 +47,9 @@ public class Scanner
             .replace('/', '.').replace('\\', '.');
    }
    
+   /**
+    * Returns only Seam components (ie: classes annotated with @Name)
+    */
    public Set<Class<?>> getClasses()
    {
       Set<Class<?>> result = new HashSet<Class<?>>();
@@ -130,14 +140,49 @@ public class Scanner
          String classname = filenameToClassname( name );
          try
          {
-            result.add( classLoader.loadClass( classname ) );
+            if (hasAnnotation(getClassFile(name), Name.class))
+            {
+               result.add( classLoader.loadClass( classname ) );
+            }
          }
-         catch (ClassNotFoundException cnfe) {
+         catch (ClassNotFoundException cnfe)
+         {
             log.debug( "could not load class: " + classname, cnfe );
          }
-         catch (NoClassDefFoundError ncdfe) {
+         catch (NoClassDefFoundError ncdfe)
+         {
             log.debug( "could not load class (missing dependency): " + classname, ncdfe );
+         }
+         catch (IOException ioe)
+         {
+            log.debug( "could not load classfile: " + classname, ioe );
          }
       }
    }
+   
+   private ClassFile getClassFile(String name) throws IOException 
+   {
+      InputStream stream = classLoader.getResourceAsStream(name);
+      DataInputStream dstream = new DataInputStream(stream); 
+
+      try 
+      { 
+         return new ClassFile(dstream); 
+      } 
+      finally 
+      { 
+         dstream.close(); 
+         stream.close(); 
+      }
+   }
+   
+   private boolean hasAnnotation(ClassFile cf, Class<? extends Annotation> annotationType)
+   { 
+      AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute( AnnotationsAttribute.visibleTag ); 
+      if ( visible != null ) { 
+         return visible.getAnnotation( annotationType.getName() ) != null; 
+      } 
+      return false; 
+   }
+
 }
