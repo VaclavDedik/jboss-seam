@@ -401,7 +401,7 @@
             The link may specify just the JSF view id:
         </para>
         
-        <programlisting><![CDATA[<s:link view-id=“/login.xhtml” value=“Login”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link view=“/login.xhtml” value=“Login”/>]]></programlisting>
         
         <para>
             Or, it may specify an action method (in which case the action outcome determines
@@ -412,11 +412,11 @@
         
         <para>
             If you specify <emphasis>both</emphasis> a JSF view id and an action method, the
-            view-id will be used <emphasis>unless</emphasis> the action method returns a
+            'view' will be used <emphasis>unless</emphasis> the action method returns a
             non-null outcome:
         </para>
         
-        <programlisting><![CDATA[<s:link view-id="/loggedOut.xhtml"  action=“#{login.logout}” value=“Logout”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link view="/loggedOut.xhtml"  action=“#{login.logout}” value=“Logout”/>]]></programlisting>
         
         <para>
             The link may be rendered as a button:
@@ -429,13 +429,13 @@
             using inside <literal>&lt;h:dataTable&gt;</literal>:
         </para>
         
-        <programlisting><![CDATA[<s:link view-id=“/hotel.xhtml” action=“#{hotelSearch.selectHotel}” value=“#{hotel.name}”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link view=“/hotel.xhtml” action=“#{hotelSearch.selectHotel}” value=“#{hotel.name}”/>]]></programlisting>
         
         <para>
             You can leave the scope of an existing conversation:
         </para>
         
-        <programlisting><![CDATA[<s:link view-id=“/main.xhtml” propagation=“none”/>]]></programlisting>
+        <programlisting><![CDATA[<s:link view=“/main.xhtml” propagation=“none”/>]]></programlisting>
         
         <para>
             You can begin, end, or nest conversations:
