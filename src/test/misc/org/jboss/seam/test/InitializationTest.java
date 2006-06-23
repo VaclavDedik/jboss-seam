@@ -13,7 +13,7 @@ public class InitializationTest
    {
       MockServletContext servletContext = new MockServletContext();
       new Initialization(servletContext).setScannerEnabled(false).init();
-      assert servletContext.getAttributes().size()==21 + 2*10;
+      assert servletContext.getAttributes().size()==23 + 2*10;
       assert !Contexts.isApplicationContextActive();
    }
    
