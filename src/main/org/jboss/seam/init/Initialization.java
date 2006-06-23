@@ -1,23 +1,18 @@
 /*
-ï¿½* JBoss, Home of Professional Open Source
-ï¿½*
-ï¿½* Distributable under LGPL license.
-ï¿½* See terms of license at gnu.org.
-ï¿½*/
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.init;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Proxy;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.bytecode.annotation.AnnotationImpl;
 
 import javax.servlet.ServletContext;
 
@@ -37,7 +32,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.ApplicationContext;
-import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.BusinessProcessContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationContext;
@@ -63,6 +57,7 @@ import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
+import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.Redirect;
 import org.jboss.seam.core.ResourceBundle;
@@ -345,52 +340,17 @@ public class Initialization
 
       if (isScannerEnabled)
       {
-         for (String className : new Scanner().getClasses())
+         for ( Class clazz: new Scanner().getClasses() )
          {
-            if (hasAnnotation(className, Name.class.getName()))
+            if ( clazz.isAnnotationPresent(Name.class) )
             {
-               ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-               Class clazz;
-               try
-               {
-                  clazz = classLoader.loadClass(className);
-                  addComponent(clazz, context);
-                  addComponentRoles(context, clazz);
-               }
-               catch (ClassNotFoundException e)
-               {
-                  log.error("Could not load " + className ,e);
-               }
+               addComponent(clazz, context);
+               addComponentRoles(context, clazz);
             }
          }
       }
 
    }
-   
-   private boolean hasAnnotation(String className, String annotationName)
-   {
-      ClassPool pool = ClassPool.getDefault();
-      
-      try
-      {
-         CtClass pt = pool.get(className);
-         for (Object annotation : pt.getAnnotations())
-         {
-            AnnotationImpl annotationImpl = (AnnotationImpl) Proxy.getInvocationHandler(annotation);
-
-            if (annotationName.equals(annotationImpl.getTypeName()))
-            {
-               return true;
-            }
-         }
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace();
-      }
-      return false;
-   }
-   
 
    private void addComponentRoles(Context context, Class<Object> componentClass) {
       if ( componentClass.isAnnotationPresent(Role.class) )
