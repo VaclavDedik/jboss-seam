@@ -31,7 +31,7 @@ public class Messages implements Serializable {
    private transient Map<String, String> messages;
    
    private void init() 
-   {
+   {  
       messages = new AbstractMap<String, String>()
       {
          private java.util.ResourceBundle bundle = ResourceBundle.instance();
@@ -45,14 +45,17 @@ public class Messages implements Serializable {
                /*String cachedValue = cache.get(key);
                if (cachedValue==null)
                {*/
-                  String resource;
-                  try
+                  String resource=null;
+                  if (bundle!=null)
                   {
-                     resource = bundle.getString(resourceKey);
-                  }
-                  catch (MissingResourceException mre)
-                  {
-                     return resourceKey;
+                     try
+                     {
+                        resource = bundle.getString(resourceKey);
+                     }
+                     catch (MissingResourceException mre)
+                     {
+                        //Just swallow
+                     }
                   }
                   if (resource==null)
                   {
