@@ -53,9 +53,9 @@ public class ProcessDefinitionSwitcher
        currentProcessDefinition = def;
     }
 
-    public String switchProcess() {
-       jbpmContext.deployProcessDefinition( 
-             jbpm.getProcessDefinitionFromResource(currentProcessDefinition) );
+    public String switchProcess() 
+    {
+       jbpmContext.deployProcessDefinition( jbpm.getProcessDefinitionFromResource(currentProcessDefinition) );
        return null;
     }
     
