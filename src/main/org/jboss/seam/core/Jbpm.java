@@ -12,6 +12,7 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.cfg.Environment;
+import org.hibernate.lob.ReaderInputStream;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -103,14 +104,14 @@ public class Jbpm
       return pageflowProcessDefinitions.get(pageflowName);
    }
    
-   private ProcessDefinition getPageflowDefinitionFromResource(String resourceName)
+   public ProcessDefinition getPageflowDefinitionFromResource(String resourceName)
    {
       InputStream resource = Resources.getResourceAsStream(resourceName);
       if (resource==null)
       {
          throw new IllegalArgumentException("pageflow resource not found: " + resourceName);
       }
-      return PageflowHelper.parseInputSource(new InputSource(resource));
+      return PageflowHelper.parseInputSource( new InputSource(resource) );
    }
    
    public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
@@ -140,43 +141,45 @@ public class Jbpm
    }
    
    /**
-    * Dynamically add a page flow definition, if a pageflow with an identical name already exists,
-    * the pageflow is updated.
-    * @param pageflowDefinition The page flow definition
-    * @return The pageflow definition name.
+    * Dynamically deploy a page flow definition, if a pageflow with an 
+    * identical name already exists, the pageflow is updated.
+    * 
+    * @return true if the pageflow definition has been updated
     */
-   public String addPageflowDefinition(String pageflowDefinition) 
+   public boolean deployPageflowDefinition(ProcessDefinition pageflowDefinition) 
    {
-      String pageFlowName = null;
-     
-      if ( pageflowDefinition!=null )
-      {
-         ProcessDefinition pd = new PageflowParser( new StringReader(pageflowDefinition) ).readProcessDefinition();
-         if (log.isDebugEnabled() && pageflowProcessDefinitions.containsKey(pd.getName()))
-         {
-            log.debug("Updating the already existing pageflow definition: " + pd.getName());
-         }
-         pageflowProcessDefinitions.put( pd.getName(), pd );
-         pageFlowName = pd.getName();
-      }
-      return pageFlowName;
+      return pageflowProcessDefinitions.put( pageflowDefinition.getName(), pageflowDefinition )!=null;
+   }
+   
+   /**
+    * Read a pageflow definition
+    * 
+    * @param pageflowDefinition the pageflow as an XML string
+    */
+   public ProcessDefinition getPageflowDefinitionFromXml(String pageflowDefinition)
+   {
+      return PageflowHelper.parseInputSource( new InputSource( new ReaderInputStream( new StringReader(pageflowDefinition) ) ) );
+   }
+   
+   /**
+    * Read a process definition
+    * 
+    * @param processDefinition the process as an XML string
+    */
+   public ProcessDefinition getProcessDefinitionFromXml(String processDefinition)
+   {
+      return ProcessDefinition.parseXmlInputStream( new ReaderInputStream( new StringReader(processDefinition) ) );
    }
    
    /**
     * Remove a pageflow definition
+    * 
     * @param pageflowName Name of the pageflow to remove
     * @return true if the pageflow definition has been removed
     */
-   public boolean removePageflowDefinition(String pageflowName) 
-   {
-      String pageFlowName = null;
-     
-      if (( pageflowName != null ) && pageflowProcessDefinitions.containsKey(pageFlowName))
-      {
-         pageflowProcessDefinitions.remove(pageFlowName);
-         return true;
-      }
-      return false;
+   public boolean undeployPageflowDefinition(String pageflowName) 
+   {     
+      return pageflowProcessDefinitions.remove(pageflowName)!=null;
    }
    
    private void installPageflowDefinitions() {
