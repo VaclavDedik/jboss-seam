@@ -41,14 +41,16 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       
       Lifecycle.setPhaseId( event.getPhaseId() );
 
+      FacesContext facesContext = event.getFacesContext();
+      
       if ( event.getPhaseId() == RESTORE_VIEW || event.getPhaseId() == RENDER_RESPONSE )
       {
-         Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
+         Lifecycle.beginRequest( facesContext.getExternalContext() );
       }
       
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         restoreAnyConversationContext( event.getFacesContext() );         
+         restoreAnyConversationContext( facesContext );         
          beforeRender(event);
       }
 

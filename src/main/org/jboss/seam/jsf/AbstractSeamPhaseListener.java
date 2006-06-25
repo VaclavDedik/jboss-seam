@@ -45,7 +45,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          Pageflow.instance().validatePageflow();
       }
       Manager.instance().handleConversationPropagation(parameters);
-      selectDataModelRow(parameters);
       
       if ( log.isDebugEnabled() )
       {
@@ -95,9 +94,12 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
 
    protected void beforeRender(PhaseEvent event)
    {  
+      FacesContext facesContext = event.getFacesContext();
+
+      selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
+      
       callPageActions(event);
       
-      FacesContext facesContext = event.getFacesContext();
       if ( facesContext.getResponseComplete() )
       {
          //if the page actions called responseComplete(),
