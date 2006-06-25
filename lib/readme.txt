@@ -19,9 +19,21 @@ MyFaces:
   commons-digester-1.6.jar
   commons-codec-1.3.jar
   commons-beanutils-1.7.0.jar
+  commons-lang-2.1.jar
+  commons-collections-3.1.jar
   jstl.jar
 
-(Or use your preferred JSF 1.1/1.2 implementation.)
+Or use your preferred JSF 1.1/1.2 implementation.
+
+Note that commons-lang and commons-collections are only
+needed for server-side JSF state saving in MyFaces.
+
+To use the JBoss Cache, the following additional jars
+are required:
+
+  jgroups.jar
+  jboss-aop-jdk50.jar
+  jboss-cache-jdk50.jar
 
 To use Seam in with JBoss Embeddable EJB 3.0 or JBoss 
 Microcontainer, the following extra jars are required:
