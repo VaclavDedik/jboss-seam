@@ -28,6 +28,11 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
   private static final byte[] MEMBER_CLOSE_TAG = "</member>".getBytes();
 
   /**
+   * The path of this object within the result object graph
+   */
+  private String path;
+
+  /**
    *
    * @param element Element
    */
@@ -140,9 +145,34 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
   /**
    *
    * @param out OutputStream
+   * @param path String
+   * @param constraints List
+   * @throws IOException
+   */
+  public void serialize(OutputStream out, String path, List<String> constraints)
+      throws IOException
+  {
+    this.path = path;
+    serialize(out, constraints);
+  }
+
+  /**
+   *
+   * @param out OutputStream
    * @throws IOException
    */
   public void serialize(OutputStream out)
+      throws IOException
+  {
+    serialize(out, null);
+  }
+
+  /**
+   *
+   * @param out OutputStream
+   * @throws IOException
+   */
+  public void serialize(OutputStream out, List<String> constraints)
     throws IOException
   {
     out.write(BEAN_START_TAG_OPEN);
@@ -165,27 +195,37 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
 
     for (Field f : InterfaceGenerator.getAccessibleFields(cls))
     {
-      out.write(MEMBER_START_TAG_OPEN);
-      out.write(f.getName().getBytes());
-      out.write(MEMBER_START_TAG_CLOSE);
+      String fieldPath = path != null && path.length() > 0 ? String.format("%s.%s", path, f.getName()) : f.getName();
+      if (constraints == null || !constraints.contains(fieldPath))
+      {
+        out.write(MEMBER_START_TAG_OPEN);
+        out.write(f.getName().getBytes());
+        out.write(MEMBER_START_TAG_CLOSE);
 
-      boolean accessible = f.isAccessible();
-      try
-      {
-        // Temporarily set the field's accessibility so we can read it
-        f.setAccessible(true);
-        context.createWrapperFromObject(f.get(value)).marshal(out);
-      }
-      catch (IllegalAccessException ex)
-      {
-        throw new RuntimeException("Error reading value from field.");
-      }
-      finally
-      {
-        f.setAccessible(accessible);
-      }
+        boolean accessible = f.isAccessible();
+        try
+        {
+          // Temporarily set the field's accessibility so we can read it
+          f.setAccessible(true);
+          Wrapper w = context.createWrapperFromObject(f.get(value));
+          w.marshal(out);
 
-      out.write(MEMBER_CLOSE_TAG);
+          if (w instanceof BeanWrapper)
+          {
+            ((BeanWrapper) w).path = fieldPath;
+          }
+        }
+        catch (IllegalAccessException ex)
+        {
+          throw new RuntimeException("Error reading value from field.");
+        }
+        finally
+        {
+          f.setAccessible(accessible);
+        }
+
+        out.write(MEMBER_CLOSE_TAG);
+      }
     }
 
     out.write(BEAN_CLOSE_TAG);

@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +16,10 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ContextAdaptor;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.remoting.wrapper.BeanWrapper;
 import org.jboss.seam.remoting.wrapper.Wrapper;
 
 /**
@@ -225,7 +225,9 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       out.write(RESULT_TAG_OPEN_END);
 
       out.write(VALUE_TAG_OPEN);
+
       call.getContext().createWrapperFromObject(call.getResult()).marshal(out);
+
       out.write(VALUE_TAG_CLOSE);
 
       out.write(REFS_TAG_OPEN);
@@ -239,7 +241,18 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
         out.write(Integer.toString(i).getBytes());
         out.write(REF_TAG_OPEN_END);
 
-        wrapper.serialize(out);
+        // Now... our result should be the first object.  Once we get it,
+        // set its path to "" and it will propogate the correct path down the
+        // object graph
+        if (wrapper.getValue().equals(call.getResult()) &&
+            call.getConstraints() != null && wrapper instanceof BeanWrapper)
+        {
+          ((BeanWrapper) wrapper).serialize(out, "", call.getConstraints());
+        }
+        else if (wrapper instanceof BeanWrapper && call.getConstraints() != null)
+          ((BeanWrapper) wrapper).serialize(out, call.getConstraints());
+        else
+          wrapper.serialize(out);
 
         out.write(REF_TAG_CLOSE);
       }

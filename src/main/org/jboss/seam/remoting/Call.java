@@ -3,11 +3,13 @@ package org.jboss.seam.remoting;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.annotations.Constrain;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.remoting.wrapper.ConversionException;
 import org.jboss.seam.remoting.wrapper.ConversionScore;
@@ -28,6 +30,8 @@ public class Call
   private Object result;
 
   private CallContext context;
+
+  private List<String> constraints = null;
 
   /**
    * Constructor.
@@ -84,6 +88,16 @@ public class Call
   }
 
   /**
+   * Returns the object graph constraints annotated on the method that is called.
+   *
+   * @return List The constraints
+   */
+  public List<String> getConstraints()
+  {
+    return constraints;
+  }
+
+  /**
    * Execute this call
    *
    * @throws Exception
@@ -116,6 +130,9 @@ public class Call
     Method m = findMethod(methodName, type);
     if (m == null)
       throw new RuntimeException("No compatible method found.");
+
+    if (m.getAnnotation(Constrain.class) != null)
+      constraints = Arrays.asList(m.getAnnotation(Constrain.class).value());
 
     // Invoke!
     result = m.invoke(instance, convertParams(m.getGenericParameterTypes()));
