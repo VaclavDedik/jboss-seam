@@ -93,6 +93,7 @@ import org.jboss.seam.util.Transactions;
  */
 public class Initialization
 {
+   public static final String COMPONENT_SUFFIX = ".component";
    
    private static final Log log = LogFactory.getLog(Initialization.class);
 
@@ -369,17 +370,29 @@ public class Initialization
 
    protected void addComponent(String name, ScopeType scope, Class clazz, Context context)
    {
-      context.set( name + ".component", new Component(clazz, name, scope) );
+      checkDuplicates(name, context);
+      context.set( name + COMPONENT_SUFFIX, new Component(clazz, name, scope) );
    }
 
    protected void addComponent(String name, Class clazz, Context context)
    {
-      context.set( name + ".component", new Component(clazz, name) );
+      checkDuplicates(name, context);
+      context.set( name + COMPONENT_SUFFIX, new Component(clazz, name) );
    }
 
    protected void addComponent(Class clazz, Context context)
    {
-      context.set( Seam.getComponentName(clazz) + ".component", new Component(clazz) );
+      String name = Seam.getComponentName(clazz);
+      checkDuplicates(name, context);
+      context.set( name + COMPONENT_SUFFIX, new Component(clazz) );
+   }
+   
+   private void checkDuplicates(String componentName, Context context)
+   {
+      if (log.isWarnEnabled() && (context.get(componentName + COMPONENT_SUFFIX) != null))
+      {
+         log.warn("Component with name " + componentName + " has been previously registered and is being redefined.");
+      }
    }
 
    public boolean isScannerEnabled()
