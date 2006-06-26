@@ -147,44 +147,61 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         {
           List<Field> fields = new ArrayList<Field>();
 
-          for (Field f : cls.getDeclaredFields())
+          Class c = cls;
+          while (!c.equals(Object.class))
           {
-            if (!Modifier.isTransient(f.getModifiers()) && !Modifier.isStatic(f.getModifiers()))
+            for (Field f : c.getDeclaredFields())
             {
-              String fieldName = f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
-              String getterName = String.format("get%s", fieldName);
-              String setterName = String.format("set%s", fieldName);
-              Method getMethod = null;
-              Method setMethod = null;
-
-              try {
-                getMethod = cls.getMethod(getterName);
-              }
-              catch (SecurityException ex) { }
-              catch (NoSuchMethodException ex)
+              if (!Modifier.isTransient(f.getModifiers()) &&
+                  !Modifier.isStatic(f.getModifiers()))
               {
-                // it might be an "is" method...
-                getterName = String.format("is%s", fieldName);
+                String fieldName = f.getName().substring(0, 1).toUpperCase() +
+                    f.getName().substring(1);
+                String getterName = String.format("get%s", fieldName);
+                String setterName = String.format("set%s", fieldName);
+                Method getMethod = null;
+                Method setMethod = null;
+
                 try
                 {
-                  getMethod = cls.getMethod(getterName);
+                  getMethod = c.getMethod(getterName);
                 }
-                catch (NoSuchMethodException ex2) { /* don't care */ }
-              }
+                catch (SecurityException ex)
+                {}
+                catch (NoSuchMethodException ex)
+                {
+                  // it might be an "is" method...
+                  getterName = String.format("is%s", fieldName);
+                  try
+                  {
+                    getMethod = c.getMethod(getterName);
+                  }
+                  catch (NoSuchMethodException ex2)
+                  { /* don't care */}
+                }
 
-              try {
-                setMethod = cls.getMethod(setterName, new Class[] {f.getType()});
-              }
-              catch (SecurityException ex) { }
-              catch (NoSuchMethodException ex) { /* don't care */ }
+                try
+                {
+                  setMethod = c.getMethod(setterName, new Class[]
+                                            {f.getType()});
+                }
+                catch (SecurityException ex)
+                {}
+                catch (NoSuchMethodException ex)
+                { /* don't care */}
 
-              if (Modifier.isPublic(f.getModifiers()) ||
-                  (getMethod != null && Modifier.isPublic(getMethod.getModifiers()) ||
-                  (setMethod != null && Modifier.isPublic(setMethod.getModifiers()))))
-              {
-                fields.add(f);
+                if (Modifier.isPublic(f.getModifiers()) ||
+                    (getMethod != null &&
+                     Modifier.isPublic(getMethod.getModifiers()) ||
+                     (setMethod != null &&
+                      Modifier.isPublic(setMethod.getModifiers()))))
+                {
+                  fields.add(f);
+                }
               }
             }
+
+            c = c.getSuperclass();
           }
 
           accessibleFields.put(cls, fields);
@@ -486,13 +503,20 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     typeSource.append(typeName);
     typeSource.append(".__metadata = [\n");
 
+    boolean first = true;
+
     for (String key : metadata.keySet())
     {
+      if (!first)
+        typeSource.append(",\n");
+
       typeSource.append("  {field: \"");
       typeSource.append(key);
       typeSource.append("\", type: \"");
       typeSource.append(metadata.get(key));
-      typeSource.append("\"},\n");
+      typeSource.append("\"}");
+
+      first = false;
     }
 
     typeSource.append("];\n\n");
