@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.Constrain;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.remoting.wrapper.ConversionException;
 import org.jboss.seam.remoting.wrapper.ConversionScore;
@@ -131,8 +130,8 @@ public class Call
     if (m == null)
       throw new RuntimeException("No compatible method found.");
 
-    if (m.getAnnotation(Constrain.class) != null)
-      constraints = Arrays.asList(m.getAnnotation(Constrain.class).value());
+    if (m.getAnnotation(WebRemote.class).exclude().length > 0)
+      constraints = Arrays.asList(m.getAnnotation(WebRemote.class).exclude());
 
     // Invoke!
     result = m.invoke(instance, convertParams(m.getGenericParameterTypes()));

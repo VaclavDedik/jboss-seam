@@ -16,4 +16,8 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 public @interface WebRemote {
+  /**
+   * Specifies a list of paths to exclude from the result's object graph
+   */
+  String[] exclude() default {};
 }
