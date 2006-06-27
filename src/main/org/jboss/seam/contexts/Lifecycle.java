@@ -1,8 +1,8 @@
 /*
- * JBoss, Home of Professional Open Source  
+ * JBoss, Home of Professional Open Source ï¿½
  * 
  * Distributable under LGPL license. 
- * See terms of license at gnu.org.  
+ï¿½* See terms of license at gnu.org. ï¿½
  */
 package org.jboss.seam.contexts;
 
@@ -325,7 +325,7 @@ public class Lifecycle
    
    public static void resumeConversation(ExternalContext externalContext)
    {
-      Init init = (Init) Component.getInstance(Init.class, false);
+      Init init = Init.instance();
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
             (Context) new ServerConversationContext( ContextAdaptor.getSession(externalContext, true) );
