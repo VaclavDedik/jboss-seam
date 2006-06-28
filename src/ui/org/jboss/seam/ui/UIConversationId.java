@@ -3,6 +3,7 @@ package org.jboss.seam.ui;
 import javax.faces.component.UIParameter;
 
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Manager;
 
 public class UIConversationId extends UIParameter
 {
@@ -12,7 +13,7 @@ public class UIConversationId extends UIParameter
    @Override
    public String getName()
    {
-      return "conversationId";
+      return Manager.instance().getConversationIdParameter();
    }
    
    @Override

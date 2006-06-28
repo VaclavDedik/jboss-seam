@@ -75,6 +75,8 @@ public class Manager
    private boolean nonFacesRequest = true;
 
    private int conversationTimeout = 600000; //10 mins
+   
+   private String conversationIdParameter = "conversationId";
 
    public String getCurrentConversationId()
    {
@@ -436,11 +438,11 @@ public class Manager
    {
       if (response instanceof HttpServletResponse)
       {
-         ( (HttpServletResponse) response ).setHeader("conversationId", conversationId);
+         ( (HttpServletResponse) response ).setHeader(conversationIdParameter, conversationId);
       }
       else if (response instanceof ActionResponse)
       {
-         ( (ActionResponse) response ).setRenderParameter("conversationId", conversationId);
+         ( (ActionResponse) response ).setRenderParameter(conversationIdParameter, conversationId);
       }
    }
 
@@ -611,7 +613,7 @@ public class Manager
     * @return the conversation id
     */
    private String getConversationIdFromRequestParameter(Map parameters) {
-      Object object = parameters.get("conversationId");
+      Object object = parameters.get(conversationIdParameter);
       if (object==null)
       {
          return null;
@@ -901,6 +903,16 @@ public class Manager
    public void setNonFacesRequest(boolean nonFacesRequest)
    {
       this.nonFacesRequest = nonFacesRequest;
+   }
+
+   public String getConversationIdParameter()
+   {
+      return conversationIdParameter;
+   }
+
+   public void setConversationIdParameter(String conversationIdParameter)
+   {
+      this.conversationIdParameter = conversationIdParameter;
    }
    
 }
