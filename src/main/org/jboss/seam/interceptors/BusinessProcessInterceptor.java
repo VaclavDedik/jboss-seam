@@ -26,7 +26,6 @@ import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.FacesMessages;
-import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -81,6 +80,29 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
          return initProcess( tag.processIdParameter() );
       }
+      if ( method.isAnnotationPresent(EndTask.class) )
+      {
+         log.trace( "encountered @EndTask" );
+         return checkTask();
+      }
+      else
+      {
+         return true;
+      }
+   }
+
+   private boolean checkTask()
+   {
+      if ( org.jboss.seam.core.TaskInstance.instance()==null )
+      {
+         FacesMessages.instance().addFromResourceBundle(
+               FacesMessage.SEVERITY_WARN, 
+               "org.jboss.seam.TaskNotFound", 
+               "Task #0 not found", 
+               BusinessProcess.instance().getTaskId()
+            );
+         return false;
+      }
       else
       {
          return true;
@@ -90,8 +112,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    private boolean initProcess(String processIdParameter) {
       Long processId = getRequestParamValueAsLong(processIdParameter);
       BusinessProcess.instance().setProcessId(processId);
-      ProcessInstance processInstance = org.jboss.seam.core.ProcessInstance.instance();
-      if (processInstance==null)
+      if ( org.jboss.seam.core.ProcessInstance.instance()==null )
       {
          FacesMessages.instance().addFromResourceBundle(
                FacesMessage.SEVERITY_WARN, 
@@ -161,7 +182,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    }
 
    private Long getRequestParamValueAsLong(String paramName)
-    {
+   {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map paramMap = facesContext.getExternalContext()
               .getRequestParameterMap();
