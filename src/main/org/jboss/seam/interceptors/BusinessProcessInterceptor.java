@@ -11,6 +11,7 @@ import java.beans.PropertyEditorManager;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -24,6 +25,8 @@ import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.core.FacesMessages;
+import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -46,11 +49,14 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       if (isActor) JbpmAuthentication.pushAuthenticatedActorId( actor.getId() );
       try
       {*/
-         Method method = invocation.getMethod();
-         log.trace( "Starting bpm interception [component=" + component.getName() + ", method=" + method.getName() + "]" );
-   
-         beforeInvocation( invocation );
+      if ( !beforeInvocation(invocation) )
+      {
+         return null;
+      }
+      else
+      {
          return afterInvocation( invocation, invocation.proceed() );
+      }
       /*}
       finally
       {
@@ -58,34 +64,69 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       }*/
    }
 
-   private void beforeInvocation(InvocationContext invocationContext) {
+   private boolean beforeInvocation(InvocationContext invocationContext) {
       Method method = invocationContext.getMethod();
       if ( method.isAnnotationPresent( StartTask.class ) ) {
          log.trace( "encountered @StartTask" );
          StartTask tag = method.getAnnotation( StartTask.class );
-         initTask( tag.taskIdParameter() );
+         return initTask( tag.taskIdParameter() );
       }
       else if ( method.isAnnotationPresent( BeginTask.class ) ) {
          log.trace( "encountered @BeginTask" );
          BeginTask tag = method.getAnnotation( BeginTask.class );
-         initTask( tag.taskIdParameter() );
+         return initTask( tag.taskIdParameter() );
       }
       else if ( method.isAnnotationPresent( ResumeProcess.class ) ) {
          log.trace( "encountered @ResumeProcess" );
          ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
-         initProcess( tag.processIdParameter() );
+         return initProcess( tag.processIdParameter() );
+      }
+      else
+      {
+         return true;
       }
    }
 
-   private void initProcess(String processIdParameter) {
-      BusinessProcess.instance().setProcessId( getRequestParamValueAsLong(processIdParameter) );
+   private boolean initProcess(String processIdParameter) {
+      Long processId = getRequestParamValueAsLong(processIdParameter);
+      BusinessProcess.instance().setProcessId(processId);
+      ProcessInstance processInstance = org.jboss.seam.core.ProcessInstance.instance();
+      if (processInstance==null)
+      {
+         FacesMessages.instance().addFromResourceBundle(
+               FacesMessage.SEVERITY_WARN, 
+               "org.jboss.seam.ProcessNotFound", 
+               "Process #0 not found", 
+               processId
+            );
+         return false;
+      }
+      else
+      {
+         return true;
+      }
    }
 
-   private void initTask(String taskIdParameter) {
+   private boolean initTask(String taskIdParameter) {
       BusinessProcess process = BusinessProcess.instance();
-      process.setTaskId( getRequestParamValueAsLong(taskIdParameter) );
+      Long taskId = getRequestParamValueAsLong(taskIdParameter);
+      process.setTaskId(taskId);
       TaskInstance taskInstance = org.jboss.seam.core.TaskInstance.instance();
-      process.setProcessId( taskInstance.getTaskMgmtInstance().getProcessInstance().getId() );
+      if (taskInstance==null)
+      {
+         FacesMessages.instance().addFromResourceBundle(
+               FacesMessage.SEVERITY_WARN, 
+               "org.jboss.seam.TaskNotFound", 
+               "Task #0 not found", 
+               taskId
+            );
+         return false;
+      }
+      else
+      {
+         process.setProcessId( taskInstance.getTaskMgmtInstance().getProcessInstance().getId() );
+         return true;
+      }
    }
 
    private Object afterInvocation(InvocationContext invocation, Object result)
@@ -125,15 +166,22 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
         Map paramMap = facesContext.getExternalContext()
               .getRequestParameterMap();
         String paramValue = (String) paramMap.get(paramName);
-        PropertyEditor editor = PropertyEditorManager.findEditor(Long.class);
-        if ( editor != null )
+        if (paramValue==null)
         {
-            editor.setAsText(paramValue);
-            return (Long) editor.getValue();
+           return null;
         }
         else
         {
-            return Long.parseLong(paramValue);
+           PropertyEditor editor = PropertyEditorManager.findEditor(Long.class);
+           if ( editor != null )
+           {
+               editor.setAsText(paramValue);
+               return (Long) editor.getValue();
+           }
+           else
+           {
+               return Long.parseLong(paramValue);
+           }
         }
     }
 }

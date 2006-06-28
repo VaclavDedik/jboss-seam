@@ -38,6 +38,7 @@ public class ProcessInstance
       if (processId!=null)
       {
          //TODO: do we need to cache this??
+         //TODO: use getProcessInstance(), which returns null!
          return ManagedJbpmContext.instance().getGraphSession().loadProcessInstance(processId);
       }
       else

@@ -38,6 +38,7 @@ public class TaskInstance
       if (taskId!=null)
       {
          //TODO: do we need to cache this??
+         //TODO: use getTaskInstance(), which returns null!
          return ManagedJbpmContext.instance().getTaskMgmtSession().loadTaskInstance(taskId);
       }
       else
