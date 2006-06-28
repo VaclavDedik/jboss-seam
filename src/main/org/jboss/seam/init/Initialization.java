@@ -60,6 +60,7 @@ import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
 import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.Redirect;
+import org.jboss.seam.core.RenderParameters;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
@@ -288,6 +289,7 @@ public class Initialization
       addComponent( ResourceBundle.class, context );
       addComponent( LocaleSelector.class, context );
       addComponent( UiComponent.class, context );
+      addComponent( RenderParameters.class, context );
       addComponent( SubscriptionRegistry.class, context );
 
       try

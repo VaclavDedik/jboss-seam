@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -33,9 +32,9 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServerConversationContext;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.util.Id;
 import org.jbpm.pageflow.Page;
 
@@ -72,7 +71,8 @@ public class Manager
 
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
-
+   
+   private boolean nonFacesRequest = true;
 
    private int conversationTimeout = 600000; //10 mins
 
@@ -758,11 +758,7 @@ public class Manager
       setLongRunningConversation(true);
    }
 
-   /**
-    * Beware of side-effect!
-    */
    public String encodeConversationId(String url) {
-      beforeRedirect();
       char sep = url.contains("?") ? '&' : '?';
       return url + sep + "conversationId=" + getCurrentConversationId();
    }
@@ -808,7 +804,10 @@ public class Manager
                .append('=')
                .append( param.getValue() );
       }
-      builder.setCharAt( url.length() ,'?' );
+      if ( url.indexOf('?')<0 ) 
+      {
+         builder.setCharAt( url.length() ,'?' );
+      }
       return builder.toString();
    }
    
@@ -828,9 +827,15 @@ public class Manager
       {
          url = encodeParameters(url, parameters);
       }
+      Map<String, Object> renderParameters = RenderParameters.instance();
+      if (renderParameters!=null)
+      {
+         url = encodeParameters(url, renderParameters);
+      }
       if (includeConversationId)
       {
          url = encodeConversationId(url);
+         beforeRedirect();
       }
       ExternalContext externalContext = context.getExternalContext();
       try
@@ -886,6 +891,16 @@ public class Manager
          }
 
       }
+   }
+
+   public boolean isNonFacesRequest()
+   {
+      return nonFacesRequest;
+   }
+
+   public void setNonFacesRequest(boolean nonFacesRequest)
+   {
+      this.nonFacesRequest = nonFacesRequest;
    }
    
 }

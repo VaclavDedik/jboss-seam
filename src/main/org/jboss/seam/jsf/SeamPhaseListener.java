@@ -61,6 +61,10 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(facesContext);
+         if ( !event.getFacesContext().getRenderResponse() )
+         {
+            Manager.instance().setNonFacesRequest(false);
+         }
       }      
       else if ( event.getPhaseId() == INVOKE_APPLICATION )
       {
@@ -94,11 +98,12 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
          }
          Lifecycle.endRequest( facesContext.getExternalContext() );
       }
-      else if ( event.getPhaseId() != RESTORE_VIEW && facesContext.getResponseComplete() )
+      else if ( facesContext.getResponseComplete() )
       {
-         //responseComplete() was called by one of the other
-         //phases, so we will never get to the RENDER_RESPONSE
-         //phase
+         //responseComplete() was called by one of the other phases, 
+         //so we will never get to the RENDER_RESPONSE phase
+         //Note: we can't call Manager.instance().beforeRedirect() here, 
+         //since a redirect is not the only reason for a responseComplete
          storeAnyConversationContext(facesContext);
          Lifecycle.endRequest( facesContext.getExternalContext() );
       }

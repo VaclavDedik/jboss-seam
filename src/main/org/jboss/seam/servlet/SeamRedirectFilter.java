@@ -41,7 +41,9 @@ public class SeamRedirectFilter implements Filter
             {
                if ( !url.contains("?conversationId=") )
                {
-                  url = Manager.instance().encodeConversationId(url);
+                  Manager manager = Manager.instance();
+                  url = manager.encodeConversationId(url);
+                  manager.beforeRedirect();
                }
             }
             super.sendRedirect(url);

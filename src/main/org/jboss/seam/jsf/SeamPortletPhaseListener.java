@@ -65,6 +65,10 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          restoreAnyConversationContext(facesContext);
+         if ( !event.getFacesContext().getRenderResponse() )
+         {
+            Manager.instance().setNonFacesRequest(false);
+         }
       }
       else if ( event.getPhaseId() == INVOKE_APPLICATION )
       {
@@ -88,7 +92,7 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       {
          Lifecycle.endRequest( facesContext.getExternalContext() );
       }
-      else if ( event.getPhaseId() == INVOKE_APPLICATION || ( event.getPhaseId() != RESTORE_VIEW && facesContext.getResponseComplete() ) )
+      else if ( event.getPhaseId() == INVOKE_APPLICATION || facesContext.getResponseComplete() )
       {
          Manager.instance().beforeRedirect();
          storeAnyConversationContext(facesContext);
