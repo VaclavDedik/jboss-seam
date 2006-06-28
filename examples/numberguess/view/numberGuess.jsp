@@ -8,6 +8,7 @@
 <h1>Guess a number...</h1>
 <f:view>
 	<h:form>
+	    <h:messages globalOnly="true" />
 	    <h:outputText value="Higher!" rendered="#{numberGuess.randomNumber>numberGuess.currentGuess}" />
 	    <h:outputText value="Lower!" rendered="#{numberGuess.randomNumber<numberGuess.currentGuess}" />
 		<br />
