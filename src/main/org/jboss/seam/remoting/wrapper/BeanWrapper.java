@@ -70,21 +70,28 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
 
       Wrapper w = context.createWrapperFromElement((Element) member.elementIterator().next());
 
+      Class cls = value.getClass();
+
       Field field = null;
-      try {
-        // First check the declared fields
-        field = value.getClass().getDeclaredField(name);
-      }
-      catch (NoSuchFieldException ex) {
+
+      while (field == null && !cls.equals(Object.class))
+      {
         try
         {
-          // Couldn't find the field.. try inherited fields
-          field = value.getClass().getField(name);
+          // First check the declared fields
+          field = cls.getDeclaredField(name);
         }
-        catch (NoSuchFieldException ex2) {
-          throw new RuntimeException("Field not found in bean: " + name, ex2);
+        catch (NoSuchFieldException ex)
+        {
+          // Couldn't find the field.. try the superclass
+          cls = cls.getSuperclass();
         }
       }
+
+      if (field == null)
+        throw new RuntimeException(String.format(
+          "Error while unmarshalling - field [%s] not found in class [%s]",
+          name, value.getClass().getName()));
 
       Object fieldValue = null;
       try {
