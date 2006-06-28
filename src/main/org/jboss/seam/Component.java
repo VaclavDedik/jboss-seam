@@ -67,6 +67,7 @@ import org.jboss.seam.databinding.DataSelector;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
+import org.jboss.seam.interceptors.ConversationalInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.JavaBeanInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
@@ -608,10 +609,11 @@ public class Component
 
    private void initDefaultInterceptors()
    {
-      interceptors.add( new Interceptor( new OutcomeInterceptor(), this ) );
       interceptors.add( new Interceptor( new RemoveInterceptor(), this ) );
+      interceptors.add( new Interceptor( new ConversationalInterceptor(), this ) );
       interceptors.add( new Interceptor( new BusinessProcessInterceptor(), this ) );
       interceptors.add( new Interceptor( new ConversationInterceptor(), this ) );
+      interceptors.add( new Interceptor( new OutcomeInterceptor(), this ) );
       interceptors.add( new Interceptor( new BijectionInterceptor(), this ) );
       interceptors.add( new Interceptor( new ValidationInterceptor(), this ) );
       interceptors.add( new Interceptor( new RollbackInterceptor(), this ) );
