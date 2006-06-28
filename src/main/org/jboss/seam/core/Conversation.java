@@ -196,6 +196,19 @@ public class Conversation implements Serializable {
    }
    
    /**
+    * Is this conversation long-running? Note that this method returns
+    * false even when the conversation has been temporarily promoted
+    * to long-running for the course of a redirect, so it does what
+    * the user really expects.
+    */
+   public boolean isLongRunning()
+   {
+      Manager manager = Manager.instance();
+      return manager.isLongRunningConversation() && 
+            !manager.getCurrentConversationEntry().isRemoveAfterRedirect();
+   }
+   
+   /**
     * Get the id of the immediate parent of a nested conversation
     */
    public String getParentId()
