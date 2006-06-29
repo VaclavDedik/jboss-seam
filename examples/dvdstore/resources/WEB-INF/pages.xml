@@ -6,8 +6,8 @@
        only accessed in the scope of a conversation initiated
        by their associated components
     -->
-    <page view-id="/ship.xhtml"   action="#{ship.ping}" />
-    <page view-id="/accept.xhtml" action="#{accept.ping}" />
+    <page view-id="/admin/ship.xhtml"   action="#{ship.ping}" />
+    <page view-id="/admin/accept.xhtml" action="#{accept.ping}" />
 
-    <page view-id="/admin.xhtml" action="#{login.adminCheck}" />
+    <page view-id="/admin/*" action="#{login.adminCheck}" />
 </pages>
