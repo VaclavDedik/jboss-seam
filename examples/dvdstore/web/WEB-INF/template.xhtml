@@ -61,54 +61,20 @@
 
                 </ui:insert>
             </div>
+
             
+            <div id="errors">
+                <ui:insert name="errors">
+                    <h:messages globalOnly="true" 
+                                layout="table" 
+                                styleClass="cntError" />
+                </ui:insert>
+            </div>
 
             <div id="content">
                 <ui:debug hotkey="D"/>
                 <ui:insert name="body">
-                    <h1>Product Search: <span style="color: #F68938">gloves ansel</span></h1>
-                    <div id="searchSummary" class="cntSubTitle">		
-                        <p>Note: "<span style="color: #F68938;">ansel</span>" was spell-corrected to "<span style="color: #F68938;">ansell</span>"</p>
-                        <dl>
-                            <dt style="color: #2C5298; font-weight: bold;">365 Products found in:</dt>
-                            <dd style="padding-left: 6px;"><a href="#">Personal Protection</a> > <a href="#">Hand Protection</a> > <a href="#">Gloves (365)</a></dd>
-                        </dl>
-                    </div>
-                    <div style="clear: left;">
-                        <div style="float: left; width: 33%; text-align: center; margin-bottom: 10px;"><img src="prd/1.jpg" /><br/>Most Popular</div>
-                        <div style="float: left; width: 33%; text-align: center; margin-bottom: 10px;"><img src="prd/2.jpg" /><br/>Highly Recommended</div>
-                        <div style="float: left; width: 33%; text-align: center; margin-bottom: 10px;"><img src="prd/1.jpg" /><br/>Best Buy</div>
-                    </div>
-                    <div class="controlBar" style="clear: left;">
-                        <div style="float: right; width: 50%; text-align: right; padding: 3px 6px;">
-                            <div style="float: right; width: 24px"><img src="img/fastf_24.gif" /></div>
-                            <div style="float: right; padding: 1px 6px 0 6px;">Page <select name="bx" size="1"><option>1</option><option>2</option><option>3</option></select> of 3</div>
-                            <div style="float: right; width: 24px"><img src="img/rewnd_24.gif" /></div>
-                        </div>
-                        <div style="padding: 3px 6px; vertical-align: bottom;">Sort By: <select name="sort" size="1"><option>Relevance</option><option>McKesson Brand</option><option>Promotional Items</option><option>Max Rewards</option><option>Max Merit</option><option>Manufacturer Name</option></select></div>
-                    </div>
-                    <div>
-                        <div class="results">
-                            <div style="float: left; width: 50px;"><img src="prd/1.5.jpg" /></div>
-                            <div style="padding: 6px; padding-left: 60px;"><strong>COMPRESSOR/ASPIRATOR, UL LISTED 110W</strong><br/>Description</div>
-                        </div>
-                        <div class="results">
-                            <div style="float: left; width: 50px;"><img src="prd/2.5.jpg" /></div>
-                            <div style="padding: 6px; padding-left: 60px;"><strong>Some Content</strong><br/>Description</div>
-                        </div>
-                        <div class="results">
-                            <div style="float: left; width: 50px;"><img src="prd/1.5.jpg" /></div>
-                            <div style="padding: 6px; padding-left: 60px;"><strong>Some Content</strong><br/>Description</div>
-                        </div>
-                        <div class="results">
-                            <div style="float: left; width: 50px;"><img src="prd/2.5.jpg" /></div>
-                            <div style="padding: 6px; padding-left: 60px;"><strong>Some Content</strong><br/>Description</div>
-                        </div>
-                        <div class="results">
-                            <div style="float: left; width: 50px;"><img src="prd/1.5.jpg" /></div>
-                            <div style="padding: 6px; padding-left: 60px;"><strong>Some Content</strong><br/>Description</div>
-                        </div>
-                    </div>
+                    PAGE BODY
                 </ui:insert>
             </div>
         </div>

@@ -13,5 +13,6 @@ public interface Ship {
     public String ship();
     public String viewTask();
 
+    public String ping();
     public void   destroy();
 }

@@ -17,10 +17,6 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:messages globalOnly="true" 
-                        layout="list" 
-                        errorClass="cntError"/>
-
             <f:subview rendered="#{completedOrder == null}">
                 <p>Your order could not be completed.</p>
 

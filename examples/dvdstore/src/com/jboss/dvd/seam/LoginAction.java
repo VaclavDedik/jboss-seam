@@ -104,5 +104,8 @@ public class LoginAction
         User user = currentUser();
         return (user!=null) && (user instanceof Admin);
     }
-
+    
+    public String adminCheck() {
+        return isAdmin() ? null : "home";
+    }
 }

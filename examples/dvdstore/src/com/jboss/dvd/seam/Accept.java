@@ -10,6 +10,7 @@ public interface Accept {
     public String accept();
     public String reject();
 
+    public String ping();
     public String viewTask();
 
     public void   destroy();

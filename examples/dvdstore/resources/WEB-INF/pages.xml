@@ -1,3 +1,13 @@
 <pages>
     <page view-id="/dvd.xhtml" action="#{search.selectFromRequest}" /> 
+
+    <!-- 
+       these page guards are to ensure that the views are
+       only accessed in the scope of a conversation initiated
+       by their associated components
+    -->
+    <page view-id="/ship.xhtml"   action="#{ship.ping}" />
+    <page view-id="/accept.xhtml" action="#{accept.ping}" />
+
+    <page view-id="/admin.xhtml" action="#{login.adminCheck}" />
 </pages>

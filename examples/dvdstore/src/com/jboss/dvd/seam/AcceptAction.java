@@ -26,23 +26,28 @@ import org.jboss.seam.annotations.Out;
 
 @Stateful
 @Name("accept")
-@Conversational(ifNotBegunOutcome="admin")
+@Conversational(ifNotBegunOutcome="admin", initiator=true)
 public class AcceptAction
     implements Accept,
                Serializable
 {
-    @In(value="currentUser")
+    @In(required=false, value="currentUser")
     Admin admin;
 
     @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
 
-    @Out(scope=ScopeType.CONVERSATION)
+    @Out(required=false,scope=ScopeType.CONVERSATION)
     Order order;
 
-    @In
+    @In(required=false)
     Long orderId;
     
+    // this is a guard action on the shipping page to force a redirect
+    public String ping() {
+        return null;
+    }
+
     @BeginTask
     public String viewTask() {
         order = (Order) em.createQuery("from Order o join fetch o.orderLines where o.orderId = :orderId")

@@ -15,34 +15,33 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.BeginTask;
-import org.jboss.seam.annotations.Conversational;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.EndTask;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.*;
 
 @Stateful
 @Name("ship")
-@Conversational(ifNotBegunOutcome="admin")
+@Conversational(ifNotBegunOutcome="admin",initiator=true)
 public class ShipAction
     implements Ship,
                Serializable
 {
-    @In(value="currentUser")
+    @In(value="currentUser", required=false)
     Admin admin;
 
     @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
-
-    @Out(scope=ScopeType.CONVERSATION)
+    
+    @Out(required=false, scope=ScopeType.CONVERSATION)
     Order order;
 
-    @In
+    @In(required=false)
     Long orderId;
 
     String track;
+
+    // this is a guard action on the shipping page to force a redirect
+    public String ping() {
+        return null;
+    }
 
     public String getTrack() {
         return track;
@@ -56,20 +55,19 @@ public class ShipAction
         order = (Order) em.find(Order.class, orderId);
         return "ship";
     }
-
+    
     @EndTask
     public String ship() {
         if (track == null || track.length()==0) {
             // invalid message
             return null;
         }
-
+        
         order.ship(track);
         
         return "admin";
     }
 
-    @Destroy 
-    @Remove
-    public void destroy() {}
+    @Destroy @Remove
+    public void destroy() { }
 }
