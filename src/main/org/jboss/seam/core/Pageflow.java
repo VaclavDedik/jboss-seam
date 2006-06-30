@@ -17,12 +17,12 @@ import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.pageflow.Page;
+import org.jboss.seam.pageflow.PageflowHelper;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
-import org.jbpm.pageflow.Page;
-import org.jbpm.pageflow.PageflowHelper;
 
 /**
  * A Seam component that manages the current

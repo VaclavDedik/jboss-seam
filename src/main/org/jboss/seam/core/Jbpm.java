@@ -22,13 +22,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.jbpm.SeamVariableResolver;
+import org.jboss.seam.pageflow.PageflowHelper;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
-import org.jbpm.pageflow.PageflowHelper;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.xml.sax.InputSource;
 

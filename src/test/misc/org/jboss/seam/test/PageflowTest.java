@@ -2,10 +2,15 @@ package org.jboss.seam.test;
 
 import java.io.StringReader;
 
-import org.jboss.seam.jbpm.PageflowParser;
+import org.jboss.seam.pageflow.Page;
+import org.jboss.seam.pageflow.PageflowHelper;
+import org.jboss.seam.pageflow.PageflowParser;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.graph.exe.Token;
+import org.jbpm.graph.node.StartState;
 import org.testng.annotations.Test;
 
 public class PageflowTest {
@@ -19,9 +24,9 @@ public class PageflowTest {
     JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
     
     StringReader stringReader = new StringReader(
-      "<pageflow name='hoepla'>" +
+      "<pageflow-definition name='hoepla'>" +
       "  <start-state name='start' />" +
-      "</pageflow>"
+      "</pageflow-definition>"
     );
     PageflowParser pageflowParser = new PageflowParser(stringReader);
     ProcessDefinition processDefinition = pageflowParser.readProcessDefinition();
@@ -34,13 +39,12 @@ public class PageflowTest {
   public void testPageflowWithStartPage() {
     JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
     
-    StringReader stringReader = new StringReader(
-      "<pageflow name='hoepla'>" +
+    ProcessDefinition processDefinition = PageflowHelper.parseXmlString(
+      "<pageflow-definition name='hoepla'>" +
       "  <start-page name='start' />" +
-      "</pageflow>"
+      "</pageflow-definition>"
     );
-    PageflowParser pageflowParser = new PageflowParser(stringReader);
-    ProcessDefinition processDefinition = pageflowParser.readProcessDefinition();
+        
     assert "start".equals(processDefinition.getStartState().getName());
     
     jbpmContext.close();
@@ -51,9 +55,9 @@ public class PageflowTest {
     JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
     
     StringReader stringReader = new StringReader(
-      "<pageflow name='hoepla' start-page='start'>" +
+      "<pageflow-definition name='hoepla' start-page='start'>" +
       "  <page name='start' />" +
-      "</pageflow>"
+      "</pageflow-definition>"
     );
     PageflowParser pageflowParser = new PageflowParser(stringReader);
     ProcessDefinition processDefinition = pageflowParser.readProcessDefinition();
@@ -61,4 +65,41 @@ public class PageflowTest {
     
     jbpmContext.close();
   }
+  
+  @Test
+  public void testOrderPageflow() {
+    ProcessDefinition pageflowDefinition = PageflowHelper.parseXmlString(
+      "<pageflow-definition name='checkout'>" +
+      "  <start-state name='start'>" +
+      "    <transition to='confirm'/>" +
+      "  </start-state>" +
+      "  <page name='confirm' view-id='/confirm.xhtml'>" +
+      "    <redirect/>" +
+      "    <transition name='update'   to='continue'/>" + 
+      "    <transition name='purchase' to='complete'>" +
+      "      <action expression='#{checkout.submitOrder}' />" +
+      "    </transition>" +
+      "  </page>" +
+      "  <page name='complete' view-id='/complete.xhtml'>" +
+      "    <redirect/>" +
+      "    <end-conversation/>" +
+      "  </page>" +    
+      "  <page name='continue'>" +
+      "    <end-conversation/>" +
+      "  </page>" +
+      "</pageflow-definition>"
+    );
+    
+    StartState start = (StartState) pageflowDefinition.getStartState();
+    Page confirm = (Page) pageflowDefinition.getNode("confirm");
+    Page complete = (Page) pageflowDefinition.getNode("complete");
+    Page cont = (Page) pageflowDefinition.getNode("continue");
+    
+    ProcessInstance pageflowInstance = new ProcessInstance(pageflowDefinition);
+    Token token = pageflowInstance.getRootToken();
+    assert start.equals(token.getNode());
+    
+    pageflowInstance.signal();
+  }
+  
 }

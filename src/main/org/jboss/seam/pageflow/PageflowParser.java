@@ -1,4 +1,4 @@
-package org.jboss.seam.jbpm;
+package org.jboss.seam.pageflow;
 
 import java.io.Reader;
 
@@ -24,8 +24,7 @@ public class PageflowParser extends JpdlXmlReader {
   public PageflowParser(Reader reader) {
     super(reader);
   }
-
-  @Override
+  
   public void readNodes(Element nodeCollectionElement, NodeCollection nodeCollection) {
     super.readNodes(nodeCollectionElement, nodeCollection);
     

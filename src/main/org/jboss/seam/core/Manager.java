@@ -36,7 +36,7 @@ import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.util.Id;
-import org.jbpm.pageflow.Page;
+import org.jboss.seam.pageflow.Page;
 
 /**
  * The Seam conversation manager.

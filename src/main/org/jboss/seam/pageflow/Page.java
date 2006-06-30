@@ -1,15 +1,15 @@
-package org.jboss.seam.jbpm;
+package org.jboss.seam.pageflow;
 
 import org.dom4j.Element;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.Interpolator;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.Transition;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
-import org.jbpm.taskmgmt.exe.TaskInstance;
 
 public class Page extends Node implements Parsable 
 {
@@ -58,7 +58,7 @@ public class Page extends Node implements Parsable
       String timeoutString = pageElement.attributeValue("timeout");
       if ( timeoutString!=null )
       {
-         timeout = Integer.parseInt(timeoutString);
+         timeout = Integer.valueOf(timeoutString);
       }
    }
 
@@ -69,7 +69,7 @@ public class Page extends Node implements Parsable
    {
       if (isConversationEnd) {
 
-         TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
+         org.jbpm.taskmgmt.exe.TaskInstance task = TaskInstance.instance();
          if ( task != null )
          {
             
