@@ -1,14 +1,11 @@
 package actions;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.HttpError;
 
 import domain.Blog;
 import domain.BlogEntry;
@@ -33,13 +30,10 @@ public class EntryAction
    private BlogEntry blogEntry;
 
    
-   public void getBlogEntry()
+   public void getBlogEntry() throws EntryNotFoundException
    {
       blogEntry = blog.getBlogEntry(id);
-      if (blogEntry==null)
-      {
-         HttpError.instance().send(HttpServletResponse.SC_NOT_FOUND);
-      }
+      if (blogEntry==null) throw new EntryNotFoundException(id);
    }
    
 }
