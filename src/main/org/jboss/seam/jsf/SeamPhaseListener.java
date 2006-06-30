@@ -6,9 +6,9 @@
  */
 package org.jboss.seam.jsf;
 
+import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
-import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -34,7 +34,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
 {
 
    private static final Log log = LogFactory.getLog( SeamPhaseListener.class );
-
+   
    public void beforePhase(PhaseEvent event)
    {
       log.trace( "before phase: " + event.getPhaseId() );
