@@ -62,12 +62,12 @@ public class Contexts
       return sw.toString();
    }
 
-   private Exception getException()
+   public Exception getException()
    {
       return (Exception) org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.lastException");
    }
    
-   public boolean isException()
+   public boolean isExceptionExists()
    {
       return getException()!=null;
    }
