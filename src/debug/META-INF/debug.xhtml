@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:h="http://java.sun.com/jsf/html">
 <f:view>
@@ -208,6 +209,21 @@
       </h:column>
     </h:dataTable>
     </div>
+    
+    <f:subview rendered="#{org$jboss$seam$lastException!=null}">
+    <h2>
+      <a href="#" onclick="toggle('stackTrace'); return false;">
+        <span id="stackTraceOff" style="display: none;">+</span>
+        <span id="stackTraceOn">-</span>
+        &#160;Exception
+      </a>
+    </h2>
+    <div id="stackTrace" class="grayBox">
+        <ui:repeat value="#{org$jboss$seam$lastException.stackTrace}" var="frame">
+            <div>#{frame}</div>
+        </ui:repeat>
+    </div>
+    </f:subview>
 
   </body>
 </f:view>
