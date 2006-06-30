@@ -15,16 +15,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Manager;
-import org.jboss.seam.interceptors.NoConversationException;
 import org.jboss.seam.util.Transactions;
 
 /**
