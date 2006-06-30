@@ -1,11 +1,17 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.Component;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.RequestParameter;
 
 /**
  * Before invoking the component, inject all dependencies. After
@@ -21,25 +27,59 @@ public class BijectionInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object bijectTargetComponent(InvocationContext invocation) throws Exception
    {
-      if (component.needsInjection()) //only needed to hush the log message
+      if ( component.needsInjection() ) //only needed to hush the log message
       {
          if ( log.isTraceEnabled() )
          {
             log.trace("injecting dependencies of: " + component.getName());
          }
-         component.inject(invocation.getTarget()/*, true*/);
+         component.inject(invocation.getTarget());
       }
       
       Object result = invocation.proceed();
       
-      if (component.needsOutjection()) //only needed to hush the log message
+      if ( component.needsOutjection() ) //only needed to hush the log message
       {
          if ( log.isTraceEnabled() )
          {
             log.trace("outjecting dependencies of: " + component.getName());
          }
-         component.outject(invocation.getTarget());
+         component.outject( invocation.getTarget() );
       }
+      
+      //method parameter injection?
+      /*Method method = invocation.getMethod();
+      if (method!=null) //TODO: YEW! for unit tests
+      {
+         //TODO: could this be slow?
+         Annotation[][] allParameterAnnotations = method.getParameterAnnotations();
+         for( int i=0; i<allParameterAnnotations.length; i++ )
+         {
+            Annotation[] paramAnns = allParameterAnnotations[i];
+            for ( Annotation ann: paramAnns )
+            {
+               if (ann instanceof In)
+               {
+                  String name = ( (In) ann ).value();
+                  if (name==null)
+                  {
+                     throw new IllegalArgumentException("@RequestIn must specify a parameter name when used in a method parameter");
+                  }
+                  invocation.getParameters()[i] = Component.getInstance(name);
+               }
+               else if (ann instanceof RequestParameter)
+               {
+                  String name = ( (RequestParameter) ann ).value();
+                  if (name==null)
+                  {
+                     throw new IllegalArgumentException("@RequestParameter must specify a parameter name when used in a method parameter");
+                  }
+                  Object value = Component.getRequestParameters().get(name);
+                  invocation.getParameters()[i] = Component.convertRequestParameter( value, method.getParameterTypes()[i] );
+               }
+            }
+         }
+      }*/
       
       return result;
    }
