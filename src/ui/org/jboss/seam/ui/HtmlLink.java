@@ -151,7 +151,17 @@ public class HtmlLink extends HtmlOutputLink
       
       if ( "button".equals(style) )
       {
-         writer.writeAttribute("onclick", "location.href='" + encodedUrl + "'", null);
+         String onclick = getOnclick();
+         if (onclick==null)
+         {
+            onclick = "";
+         }
+         else if ( onclick.length()>0 && !onclick.endsWith(";") )
+         {
+             onclick += ";";
+         }
+         onclick += "location.href='" + encodedUrl + "'";
+         writer.writeAttribute("onclick", onclick, null);
       }
       else
       {
