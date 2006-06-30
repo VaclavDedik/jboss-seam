@@ -60,7 +60,7 @@ public class SeamExceptionFilter implements Filter
       {
          rollbackTransactionIfNecessary();
          endWebRequestAfterException(request);
-         if ( isExceptionHandled(request) )
+         if ( !isExceptionHandled(request) )
          {
             log.error("uncaught exception handled by Seam", e);
             throw new ServletException(e);
@@ -75,7 +75,7 @@ public class SeamExceptionFilter implements Filter
 
    private boolean isExceptionHandled(ServletRequest request)
    {
-      return request.getAttribute("org.jboss.seam.exceptionHandled")==null;
+      return request.getAttribute("org.jboss.seam.exceptionHandled")!=null;
    }
 
    private void endWebRequestAfterException(ServletRequest request)
