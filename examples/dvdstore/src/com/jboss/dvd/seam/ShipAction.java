@@ -15,11 +15,15 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.BeginTask;
+import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.EndTask;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 
 @Stateful
 @Name("ship")
-@Conversational(ifNotBegunOutcome="admin",initiator=true)
 public class ShipAction
     implements Ship,
                Serializable
@@ -37,11 +41,6 @@ public class ShipAction
     Long orderId;
 
     String track;
-
-    // this is a guard action on the shipping page to force a redirect
-    public String ping() {
-        return null;
-    }
 
     public String getTrack() {
         return track;

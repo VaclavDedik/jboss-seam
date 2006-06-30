@@ -16,7 +16,6 @@ import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.BeginTask;
-import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.In;
@@ -26,27 +25,21 @@ import org.jboss.seam.annotations.Out;
 
 @Stateful
 @Name("accept")
-@Conversational(ifNotBegunOutcome="admin", initiator=true)
 public class AcceptAction
     implements Accept,
                Serializable
 {
-    @In(required=false, value="currentUser")
+    @In(value="currentUser")
     Admin admin;
 
     @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
 
-    @Out(required=false,scope=ScopeType.CONVERSATION)
+    @Out(scope=ScopeType.CONVERSATION)
     Order order;
 
-    @In(required=false)
+    @In
     Long orderId;
-    
-    // this is a guard action on the shipping page to force a redirect
-    public String ping() {
-        return null;
-    }
 
     @BeginTask
     public String viewTask() {

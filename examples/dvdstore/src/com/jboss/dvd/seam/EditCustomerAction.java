@@ -17,9 +17,9 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.validator.*;
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -30,7 +30,6 @@ import org.jboss.seam.core.FacesMessages;
 
 @Stateful
 @Name("editCustomer")
-@Conversational(ifNotBegunOutcome="browse",initiator=true)
 public class EditCustomerAction
     implements EditCustomer
 {
@@ -88,7 +87,6 @@ public class EditCustomerAction
         return results.size() == 0;
     }
 
-
     private boolean isPasswordsMatch() {
         String customerpass = customer.getPassword();
 
@@ -126,7 +124,6 @@ public class EditCustomerAction
         }
     }
 
-    
     public Map<String,Integer> getCreditCardTypes() {
         Map<String,Integer> map = new TreeMap<String,Integer>();
         for (int i=1; i<=5; i++) {
@@ -134,9 +131,6 @@ public class EditCustomerAction
         }
         return map;
     }
-   
-
-    public String ping() { return null; }
 
     @Destroy @Remove
     public void destroy() {

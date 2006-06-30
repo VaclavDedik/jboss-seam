@@ -20,7 +20,6 @@ import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
@@ -33,7 +32,6 @@ import org.jboss.seam.core.FacesMessages;
 
 @Stateful
 @Name("checkout")
-@Conversational(ifNotBegunOutcome="checkout")
 public class CheckoutAction
     implements Checkout,
                Serializable
