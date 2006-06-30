@@ -78,6 +78,7 @@ public class Manager
    private int conversationTimeout = 600000; //10 mins
    
    private String conversationIdParameter = "conversationId";
+   private String conversationIsLongRunningParameter = "conversationIsLongRunning";
 
    public String getCurrentConversationId()
    {
@@ -505,7 +506,7 @@ public class Manager
       
       //First, try to get the conversation id from a request parameter
       String storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);
-      Boolean isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, "conversationIsLongRunning") );
+      Boolean isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
       
       if ( isMissing(storedConversationId) && Contexts.isPageContextActive() )
       {
@@ -777,13 +778,20 @@ public class Manager
    }
 
    public String encodeConversationId(String url) {
-      return new StringBuilder( url.length() + conversationIdParameter.length() + 5 )
-         .append(url)
-         .append( url.contains("?") ? '&' : '?' )
-         .append(conversationIdParameter)
-         .append('=')
-         .append( getCurrentConversationId() )
-         .toString();
+      StringBuilder builder = new StringBuilder( url.length() + conversationIdParameter.length() + 5 )
+            .append(url)
+            .append( url.contains("?") ? '&' : '?' )
+            .append(conversationIdParameter)
+            .append('=')
+            .append( getCurrentConversationId() );
+      if ( isReallyLongRunningConversation() )
+      {
+         builder.append('&')
+               .append(conversationIsLongRunningParameter)
+               .append('=')
+               .append("true");
+      }
+      return builder.toString();
    }
 
    /**
@@ -934,6 +942,16 @@ public class Manager
    public void setConversationIdParameter(String conversationIdParameter)
    {
       this.conversationIdParameter = conversationIdParameter;
+   }
+
+   public String getConversationIsLongRunningParameter()
+   {
+      return conversationIsLongRunningParameter;
+   }
+
+   public void setConversationIsLongRunningParameter(String conversationIdLongRunning)
+   {
+      this.conversationIsLongRunningParameter = conversationIdLongRunning;
    }
    
 }

@@ -64,7 +64,12 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
             "org.jboss.seam.NoConversation", 
             "No conversation" 
          );
-      Manager.instance().redirect( Pages.instance().getNoConversationViewId() );
+      String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+      String noConversationViewId = Pages.instance().getNoConversationViewId(viewId);
+      if (noConversationViewId!=null)
+      {
+         Manager.instance().redirect( noConversationViewId );
+      }
    }
 
    /**
