@@ -1,13 +1,19 @@
 <pages>
     <page view-id="/dvd.xhtml" action="#{search.selectFromRequest}" /> 
 
+
     <!-- 
        these page guards are to ensure that the views are
        only accessed in the scope of a conversation initiated
        by their associated components
     -->
+    <page view-id="/newuser/card.xhtml"     action="#{editCustomer.ping}" />
+    <page view-id="/newuser/contact.xhtml"  action="#{editCustomer.ping}" />
+
     <page view-id="/admin/ship.xhtml"   action="#{ship.ping}" />
     <page view-id="/admin/accept.xhtml" action="#{accept.ping}" />
 
+
+    <!-- this action ensures that only admin users can access anything under /admin" -->
     <page view-id="/admin/*" action="#{login.adminCheck}" />
 </pages>

@@ -17,7 +17,7 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.validator.InvalidValue;
+import org.hibernate.validator.*;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
@@ -30,7 +30,7 @@ import org.jboss.seam.core.FacesMessages;
 
 @Stateful
 @Name("editCustomer")
-@Conversational(ifNotBegunOutcome="browse")
+@Conversational(ifNotBegunOutcome="browse",initiator=true)
 public class EditCustomerAction
     implements EditCustomer
 {
@@ -99,6 +99,7 @@ public class EditCustomerAction
 
     public String saveUser() {
         if (!isValidNamePassword()) {
+            facesMessages.add("User name #{customer.userName} is not unique");
             return null;
         }
 
@@ -109,10 +110,10 @@ public class EditCustomerAction
             
             facesMessages.addFromResourceBundle("createCustomerSuccess");
             return "success";
-        } catch (org.hibernate.validator.InvalidStateException e) {
+        } catch (InvalidStateException e) {
             InvalidValue[] vals = e.getInvalidValues();
             for (InvalidValue val: vals) {
-                System.out.println("-- " + val);
+                facesMessages.add(val);
             }
 
             return null;
@@ -135,8 +136,9 @@ public class EditCustomerAction
     }
    
 
-    @Destroy
-    @Remove
+    public String ping() { return null; }
+
+    @Destroy @Remove
     public void destroy() {
     }
 }

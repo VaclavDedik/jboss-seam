@@ -23,6 +23,7 @@ public interface EditCustomer
     public boolean isValidNamePassword();
 
     public String saveUser();
+    public String ping();
 
     public void destroy();
 }

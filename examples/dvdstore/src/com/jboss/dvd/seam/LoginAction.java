@@ -74,6 +74,7 @@ public class LoginAction
                 return null; // redisplay the current page
             }
         } catch (Exception e) {
+            // this message is lost in the session invalidation
             FacesMessages.instance().addFromResourceBundle("loginErrorPrompt");
             Seam.invalidateSession();
             return "home";

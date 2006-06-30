@@ -1,14 +1,15 @@
 <div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:s="http://jboss.com/products/seam/taglib"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:h="http://java.sun.com/jsf/html">
     <ul>
-        <li id="page_home"><a href="home.seam">Home</a></li>
-        <li id="page_shop"><a href="browse.seam">Shop</a></li>
+        <li id="page_home"><s:link view="/home.xhtml" value="Home" propagation="none"/></li>
+        <li id="page_shop"><s:link view="/browse.xhtml" value="Shop" propagation="none"/></li>
         <f:subview rendered="#{login.loggedIn}">
-            <li id="page_orders"><a href="showorders.seam">My Orders</a></li>
+            <li id="page_orders"><s:link view="/showorders.xhtml" value="My Orders" propagation="none"/></li>
         </f:subview>
-        <li id="page_cart"><a href="checkout.seam">Cart</a></li>
+        <li id="page_cart"><s:link view="/checkout.xhtml" value="Cart" propagation="none"/></li>
     </ul>
 
     <script language="JavaScript">

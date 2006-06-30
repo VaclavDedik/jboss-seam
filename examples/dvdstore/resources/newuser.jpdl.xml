@@ -5,7 +5,7 @@
         <transition to="account"/>
     </start-state>
     
-    <page name="account" view-id="/new_account.xhtml">
+    <page name="account" view-id="/newuser/account.xhtml">
         <redirect/>
         <transition name="next" to="checkPassword" />
     </page>
@@ -18,14 +18,14 @@
     </decision>
 
 
-    <page name="contact" view-id="/new_contact.xhtml">
+    <page name="contact" view-id="/newuser/contact.xhtml">
         <redirect/>
         <transaction to="contact"/>
         <transition name="prev" to="account"/>
         <transition name="next" to="card"/>
     </page>
 
-    <page name="card" view-id="/new_card.xhtml">
+    <page name="card" view-id="/newuser/card.xhtml">
         <redirect/>
         <transition name="prev" to="contact"/>
         <transition name="next" to="complete">
@@ -33,7 +33,7 @@
         </transition>
     </page>
     
-    <page name="complete" view-id="/new_complete.xhtml">
+    <page name="complete" view-id="/newuser/complete.xhtml">
         <redirect/>
         <end-conversation/>
     </page>    
