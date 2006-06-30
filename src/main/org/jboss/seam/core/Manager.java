@@ -761,8 +761,13 @@ public class Manager
    }
 
    public String encodeConversationId(String url) {
-      char sep = url.contains("?") ? '&' : '?';
-      return url + sep + "conversationId=" + getCurrentConversationId();
+      return new StringBuilder( url.length() + conversationIdParameter.length() + 5 )
+         .append(url)
+         .append( url.contains("?") ? '&' : '?' )
+         .append(conversationIdParameter)
+         .append('=')
+         .append( getCurrentConversationId() )
+         .toString();
    }
 
    /**
