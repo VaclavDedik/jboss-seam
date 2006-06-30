@@ -35,8 +35,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServerConversationContext;
-import org.jboss.seam.util.Id;
 import org.jboss.seam.pageflow.Page;
+import org.jboss.seam.util.Id;
 
 /**
  * The Seam conversation manager.
@@ -55,6 +55,7 @@ public class Manager
    private static final String NAME = Seam.getComponentName(Manager.class);
    public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdEntryMap";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
+   public static final String CONVERSATION_IS_LONG_RUNNING = NAME + ".conversationIsLongRunning";
    public static final String PAGEFLOW_COUNTER = NAME + ".pageflowCounter";
    public static final String PAGEFLOW_NODE_NAME = NAME + ".pageflowNodeName";
 
@@ -291,6 +292,12 @@ public class Manager
       return isLongRunningConversation;
    }
 
+   public boolean isReallyLongRunningConversation()
+   {
+      return isLongRunningConversation() && 
+            !getCurrentConversationEntry().isRemoveAfterRedirect();
+   }
+
    public void setLongRunningConversation(boolean isLongRunningConversation)
    {
       this.isLongRunningConversation = isLongRunningConversation;
@@ -387,9 +394,12 @@ public class Manager
       //if the session is invalid, don't put the conversation id
       //in the view, 'cos we are expecting the conversation to
       //be destroyed by the servlet session listener
-      if ( Contexts.isPageContextActive() )
+      if ( Contexts.isPageContextActive() ) 
       {
-         Contexts.getPageContext().set(CONVERSATION_ID, currentConversationId);
+         //TODO: we really only need to execute this code when we are in the 
+         //      RENDER_RESPONSE phase, ie. not before redirects
+         Contexts.getPageContext().set( CONVERSATION_ID, currentConversationId );
+         Contexts.getPageContext().set( CONVERSATION_IS_LONG_RUNNING, true );
       }
       writeConversationIdToResponse(response, currentConversationId);
       
@@ -490,17 +500,20 @@ public class Manager
     * 
     * @param parameters the request parameters
     */
-   public void restoreConversation(Map parameters)
+   public boolean restoreConversation(Map parameters)
    {
       
       //First, try to get the conversation id from a request parameter
-      String storedConversationId = getConversationIdFromRequestParameter(parameters);
+      String storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);
+      Boolean isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, "conversationIsLongRunning") );
       
       if ( isMissing(storedConversationId) && Contexts.isPageContextActive() )
       {
          //if it is not passed as a request parameter,
          //try to get it from the page context
          storedConversationId = (String) Contexts.getPageContext().get(CONVERSATION_ID);
+         isLongRunningConversation = (Boolean) Contexts.getPageContext().get(CONVERSATION_IS_LONG_RUNNING);
+         if (isLongRunningConversation==null) isLongRunningConversation = false;
       }
 
       else if (storedConversationId!=null)
@@ -520,7 +533,7 @@ public class Manager
          storedConversationId = null;
       }
 
-      restoreConversation(storedConversationId);
+      return restoreConversation(storedConversationId, isLongRunningConversation);
       
    }
    
@@ -578,7 +591,7 @@ public class Manager
     * Initialize the request conversation context, given the 
     * conversation id.
     */
-   public void restoreConversation(String storedConversationId) {
+   public boolean restoreConversation(String storedConversationId, boolean isLongRunningConversation) {
       boolean isStoredConversation = storedConversationId!=null &&
             getSessionConversationIds().contains(storedConversationId);
       if ( isStoredConversation )
@@ -595,6 +608,8 @@ public class Manager
          {
             setLongRunningConversation(false);
          }
+         
+         return true;
 
       }
       else
@@ -603,6 +618,7 @@ public class Manager
          //long-running conversation to restore
          log.debug("No stored conversation");
          initializeTemporaryConversation();
+         return !isLongRunningConversation;
       }
    }
 
@@ -612,8 +628,8 @@ public class Manager
     * @param parameters the request parameters
     * @return the conversation id
     */
-   private String getConversationIdFromRequestParameter(Map parameters) {
-      Object object = parameters.get(conversationIdParameter);
+   private String getRequestParameterValue(Map parameters, String parameterName) {
+      Object object = parameters.get(parameterName);
       if (object==null)
       {
          return null;

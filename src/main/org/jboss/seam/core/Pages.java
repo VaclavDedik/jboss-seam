@@ -50,6 +50,8 @@ public class Pages
    private Map<String, MethodBinding> actionsByViewId = new HashMap<String, MethodBinding>();
    private Map<String, String> outcomesByViewId = new HashMap<String, String>();
    
+   private String noConversationViewId;
+   
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
             public int compare(String x, String y)
@@ -228,6 +230,16 @@ public class Pages
       {
          return actions.contains(expression);
       }
+   }
+
+   public String getNoConversationViewId()
+   {
+      return noConversationViewId;
+   }
+
+   public void setNoConversationViewId(String noConversationViewId)
+   {
+      this.noConversationViewId = noConversationViewId;
    }
 
 }

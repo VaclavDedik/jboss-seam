@@ -4,6 +4,7 @@ import static javax.faces.event.PhaseId.ANY_PHASE;
 
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -38,8 +39,12 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    {
       Lifecycle.resumePage();
       Map parameters = facesContext.getExternalContext().getRequestParameterMap();
-      Manager.instance().restoreConversation(parameters);
+      boolean conversationFound = Manager.instance().restoreConversation(parameters);
       Lifecycle.resumeConversation( facesContext.getExternalContext() );
+      if (!conversationFound)
+      {
+         redirectToNoConversationView();
+      }
       if ( Init.instance().isJbpmInstalled() )
       {
          Pageflow.instance().validatePageflow();
@@ -50,6 +55,16 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       {
          log.debug( "After restoring conversation context: " + Contexts.getConversationContext() );
       }
+   }
+
+   private static void redirectToNoConversationView()
+   {
+      FacesMessages.instance().addFromResourceBundle( 
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.NoConversation", 
+            "No conversation" 
+         );
+      Manager.instance().redirect( Pages.instance().getNoConversationViewId() );
    }
 
    /**

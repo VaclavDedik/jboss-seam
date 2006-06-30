@@ -112,9 +112,10 @@ public class HtmlLink extends HtmlOutputLink
       
       if ( "default".equals(propagation) || "join".equals(propagation) || "nest".equals(propagation) || "end".equals(propagation) )
       {
-         if ( Manager.instance().isLongRunningConversation() )
+         if ( Manager.instance().isReallyLongRunningConversation() )
          {
             encodedUrl += getParameterString(characterEncoding, new UIConversationId(), first);
+            encodedUrl += getParameterString(characterEncoding, new UIConversationIsLongRunning(), first);
             first = false;
          }
       }

@@ -52,11 +52,6 @@ public class ExceptionInterceptor extends AbstractInterceptor
                error( e.getClass().getAnnotation(HttpError.class).errorCode(), e.getMessage() );
                handled(e);
             }
-            else if (e instanceof NoConversationException)
-            {
-               redirect( ( (NoConversationException) e ).getViewId() );
-               handled(e);
-            }
             else if ( Init.instance().isDebug() )
             {
                redirectToDebugPage(e);
@@ -90,7 +85,7 @@ public class ExceptionInterceptor extends AbstractInterceptor
 
    private void redirectToDebugPage(Exception e)
    {
-      if ( log.isDebugEnabled() ) log.debug("redirecting to debug page");
+      log.error("redirecting to debug page", e);
       Contexts.getConversationContext().set("org.jboss.seam.lastException", e);
       FacesContext facesContext = FacesContext.getCurrentInstance();
       org.jboss.seam.core.Redirect redirect = org.jboss.seam.core.Redirect.instance();

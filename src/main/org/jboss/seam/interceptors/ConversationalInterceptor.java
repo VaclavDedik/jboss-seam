@@ -40,38 +40,39 @@ public class ConversationalInterceptor extends AbstractInterceptor
 
       if ( isNoConversationForConversationalBean(method) )
       {
-         if ( log.isDebugEnabled() )
-         {
-            log.debug( "no long-running conversation for @Conversational bean: " + component.getName() );
-         }
-         FacesMessages.instance().addFromResourceBundle( 
-               FacesMessage.SEVERITY_WARN, 
-               "org.jboss.seam.NoConversation", 
-               "No conversation" 
-            );
-         
          String outcome = methodIsConversational(method) ? 
                method.getAnnotation(Conversational.class).ifNotBegunOutcome() :
                component.getBeanClass().getAnnotation(Conversational.class).ifNotBegunOutcome();
-         String viewId = methodIsConversational(method) ? 
-               method.getAnnotation(Conversational.class).ifNotBegunViewId() :
-               component.getBeanClass().getAnnotation(Conversational.class).ifNotBegunViewId();
-               
          
-         if ( Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION && !"".equals(outcome) )
+         if ( "".equals(outcome) )
          {
-            if ( method.getReturnType().equals(String.class) )
-            {
-               return viewId;
-            }
-            else if ( method.getReturnType().equals(void.class) )
-            {
-               return null;
-            }
+            throw new IllegalStateException( "no long-running conversation for @Conversational bean: " + component.getName() );
          }
-         else if ( !"".equals(viewId) )
+         else
          {
-            throw new NoConversationException(viewId);
+            //Deprecated functionality:
+            if ( Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION )
+            {
+               
+               if ( log.isDebugEnabled() )
+               {
+                  log.debug( "no long-running conversation for @Conversational bean: " + component.getName() );
+               }
+               FacesMessages.instance().addFromResourceBundle( 
+                     FacesMessage.SEVERITY_WARN, 
+                     "org.jboss.seam.NoConversation", 
+                     "No conversation" 
+                  );
+               
+               if ( method.getReturnType().equals(String.class) )
+               {
+                  return outcome;
+               }
+               else if ( method.getReturnType().equals(void.class) )
+               {
+                  return null;
+               }
+            }
          }
          
       }
@@ -83,7 +84,6 @@ public class ConversationalInterceptor extends AbstractInterceptor
    private boolean isNoConversationForConversationalBean(Method method)
    {
       boolean classlevelViolation = componentIsConversational() && 
-            //Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION &&
             ( !Manager.instance().isLongRunningConversation() || ( componentShouldBeInitiator() && !componentIsInitiator() ) ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(StartTask.class) &&
@@ -94,7 +94,6 @@ public class ConversationalInterceptor extends AbstractInterceptor
       if (classlevelViolation) return true;
       
       boolean methodlevelViolation = methodIsConversational(method) &&
-            //Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION &&
             ( !Manager.instance().isLongRunningConversation() || ( componentShouldBeInitiator(method) && !componentIsInitiator() ) );
       
       return methodlevelViolation;

@@ -203,9 +203,7 @@ public class Conversation implements Serializable {
     */
    public boolean isLongRunning()
    {
-      Manager manager = Manager.instance();
-      return manager.isLongRunningConversation() && 
-            !manager.getCurrentConversationEntry().isRemoveAfterRedirect();
+      return Manager.instance().isReallyLongRunningConversation();
    }
    
    /**

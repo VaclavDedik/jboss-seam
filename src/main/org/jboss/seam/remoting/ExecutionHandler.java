@@ -81,7 +81,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, session, request);
 
-      Manager.instance().restoreConversation( ctx.getConversationId() );
+      Manager.instance().restoreConversation( ctx.getConversationId(), false );
       Lifecycle.resumeConversation(session);
 
       // Extract the calls from the request
