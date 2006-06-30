@@ -12,7 +12,7 @@ public class UIConversationIsLongRunning extends UIParameter
    @Override
    public String getName()
    {
-      return "conversationIsLongRunning";
+      return Manager.instance().getConversationIsLongRunningParameter();
    }
    
    @Override
