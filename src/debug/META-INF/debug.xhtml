@@ -210,7 +210,7 @@
     </h:dataTable>
     </div>
     
-    <f:subview rendered="#{org$jboss$seam$lastException!=null}">
+    <f:subview rendered="#{org$jboss$seam$debug$contexts.exception}">
     <h2>
       <a href="#" onclick="toggle('stackTrace'); return false;">
         <span id="stackTraceOff" style="display: none;">+</span>

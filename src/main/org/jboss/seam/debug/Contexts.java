@@ -1,5 +1,9 @@
 package org.jboss.seam.debug;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringBufferInputStream;
+import java.io.StringWriter;
 import java.util.Arrays;
 
 import org.jboss.seam.ScopeType;
@@ -50,6 +54,15 @@ public class Contexts
    public ConversationEntry[] getConversationEntries()
    {
       return Manager.instance().getConversationIdEntryMap().values().toArray( new ConversationEntry[0] );
+   }
+   
+   public String getStackTrace()
+   {
+      Exception e = (Exception) org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.lastException");
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      e.printStackTrace(pw);
+      return sw.toString();
    }
 
 }
