@@ -9,6 +9,7 @@
     <!-- 120 second conversation timeout -->
     <component name="org.jboss.seam.core.manager">
         <property name="conversationTimeout">120000</property>
+        <property name="conversationIdParameter">cid</property>
     </component>
     
     <component class="org.jboss.seam.core.Ejb" 

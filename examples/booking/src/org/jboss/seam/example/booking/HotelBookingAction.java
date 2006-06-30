@@ -24,7 +24,7 @@ import org.jboss.seam.log.Log;
 
 @Stateful
 @Name("hotelBooking")
-@Conversational(ifNotBegunOutcome="main")
+@Conversational(ifNotBegunViewId="/main.xhtml")
 @LoggedIn
 public class HotelBookingAction implements HotelBooking
 {
@@ -43,15 +43,16 @@ public class HotelBookingAction implements HotelBooking
    private User user;
    
    @In(create=true)
-   private transient FacesMessages facesMessages;
+   private FacesMessages facesMessages;
       
    @In(create=true)
-   private transient Events events;
+   private Events events;
       
    @In 
    private HotelSearching hotelSearch;
    
-   @Logger private Log log;
+   @Logger 
+   private Log log;
    
    @Begin
    public String selectHotel()

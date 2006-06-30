@@ -46,7 +46,8 @@ public class BookingListAction implements BookingList, Serializable
    @Out(required=false)
    private Booking booking;
    
-   @Logger private Log log;
+   @Logger 
+   private Log log;
    
    @Factory
    @Observer("bookingConfirmed")

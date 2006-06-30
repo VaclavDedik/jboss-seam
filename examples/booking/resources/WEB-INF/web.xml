@@ -22,6 +22,16 @@
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>Seam Exception Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Seam Exception Filter</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
+
     <!-- JSF -->
     
     <context-param>
