@@ -26,7 +26,7 @@ public @interface Conversational
     * of the scope of its conversation during the invoke
     * application phase.
     * 
-    * @deprecated
+    * @deprecated use no-conversation-view-id in pages.xml
     */
    String ifNotBegunOutcome() default "";
    /**
@@ -35,6 +35,8 @@ public @interface Conversational
     * begun by a call to some @Begin method of this
     * component. If false, the component or method may be 
     * called inside a conversation begun by any component.
+    * 
+    * @deprecated use no-conversation-view-id in pages.xml
     */
    boolean initiator() default false;
 }

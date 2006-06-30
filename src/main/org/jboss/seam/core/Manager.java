@@ -296,7 +296,8 @@ public class Manager
    public boolean isReallyLongRunningConversation()
    {
       return isLongRunningConversation() && 
-            !getCurrentConversationEntry().isRemoveAfterRedirect();
+            !getCurrentConversationEntry().isRemoveAfterRedirect() &&
+            !Seam.isSessionInvalid();
    }
 
    public void setLongRunningConversation(boolean isLongRunningConversation)
@@ -399,8 +400,11 @@ public class Manager
       {
          //TODO: we really only need to execute this code when we are in the 
          //      RENDER_RESPONSE phase, ie. not before redirects
-         Contexts.getPageContext().set( CONVERSATION_ID, currentConversationId );
-         Contexts.getPageContext().set( CONVERSATION_IS_LONG_RUNNING, true );
+         if ( isReallyLongRunningConversation() )
+         {
+            Contexts.getPageContext().set( CONVERSATION_ID, currentConversationId );
+            Contexts.getPageContext().set( CONVERSATION_IS_LONG_RUNNING, true );
+         }
       }
       writeConversationIdToResponse(response, currentConversationId);
       
@@ -778,20 +782,27 @@ public class Manager
    }
 
    public String encodeConversationId(String url) {
-      StringBuilder builder = new StringBuilder( url.length() + conversationIdParameter.length() + 5 )
-            .append(url)
-            .append( url.contains("?") ? '&' : '?' )
-            .append(conversationIdParameter)
-            .append('=')
-            .append( getCurrentConversationId() );
-      if ( isReallyLongRunningConversation() )
+      if ( Seam.isSessionInvalid() )
       {
-         builder.append('&')
-               .append(conversationIsLongRunningParameter)
-               .append('=')
-               .append("true");
+         return url;
       }
-      return builder.toString();
+      else
+      {
+         StringBuilder builder = new StringBuilder( url.length() + conversationIdParameter.length() + 5 )
+               .append(url)
+               .append( url.contains("?") ? '&' : '?' )
+               .append(conversationIdParameter)
+               .append('=')
+               .append( getCurrentConversationId() );
+         if ( isReallyLongRunningConversation() )
+         {
+            builder.append('&')
+                  .append(conversationIsLongRunningParameter)
+                  .append('=')
+                  .append("true");
+         }
+         return builder.toString();
+      }
    }
 
    /**

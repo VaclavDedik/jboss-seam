@@ -26,6 +26,7 @@ import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.FacesMessages;
+import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
@@ -93,33 +94,16 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
 
    private boolean checkTask()
    {
-      if ( org.jboss.seam.core.TaskInstance.instance()==null )
+      TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
+      Long taskId = BusinessProcess.instance().getTaskId();
+      if ( task==null )
       {
-         FacesMessages.instance().addFromResourceBundle(
-               FacesMessage.SEVERITY_WARN, 
-               "org.jboss.seam.TaskNotFound", 
-               "Task #0 not found", 
-               BusinessProcess.instance().getTaskId()
-            );
+         taskNotFound(taskId);
          return false;
       }
-      else
+      else if ( task.hasEnded() )
       {
-         return true;
-      }
-   }
-
-   private boolean initProcess(String processIdParameter) {
-      Long processId = getRequestParamValueAsLong(processIdParameter);
-      BusinessProcess.instance().setProcessId(processId);
-      if ( org.jboss.seam.core.ProcessInstance.instance()==null )
-      {
-         FacesMessages.instance().addFromResourceBundle(
-               FacesMessage.SEVERITY_WARN, 
-               "org.jboss.seam.ProcessNotFound", 
-               "Process #0 not found", 
-               processId
-            );
+         taskEnded(taskId);
          return false;
       }
       else
@@ -135,12 +119,12 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       TaskInstance taskInstance = org.jboss.seam.core.TaskInstance.instance();
       if (taskInstance==null)
       {
-         FacesMessages.instance().addFromResourceBundle(
-               FacesMessage.SEVERITY_WARN, 
-               "org.jboss.seam.TaskNotFound", 
-               "Task #0 not found", 
-               taskId
-            );
+         taskNotFound(taskId);
+         return false;
+      }
+      else if ( taskInstance.hasEnded() )
+      {
+         taskEnded(taskId);
          return false;
       }
       else
@@ -148,6 +132,66 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          process.setProcessId( taskInstance.getTaskMgmtInstance().getProcessInstance().getId() );
          return true;
       }
+   }
+
+   private boolean initProcess(String processIdParameter) {
+      Long processId = getRequestParamValueAsLong(processIdParameter);
+      BusinessProcess.instance().setProcessId(processId);
+      ProcessInstance process = org.jboss.seam.core.ProcessInstance.instance();
+      if ( process==null )
+      {
+         processNotFound(processId);
+         return false;
+      }
+      else if ( process.hasEnded() )
+      {
+         processEnded(processId);
+         return false;
+      }
+      else
+      {
+         return true;
+      }
+   }
+
+   private void taskNotFound(Long taskId)
+   {
+      FacesMessages.instance().addFromResourceBundle(
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.TaskNotFound", 
+            "Task #0 not found", 
+            taskId
+         );
+   }
+
+   private void taskEnded(Long taskId)
+   {
+      FacesMessages.instance().addFromResourceBundle(
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.TaskEnded", 
+            "Task #0 already ended", 
+            taskId
+         );
+   }
+
+   private void processEnded(Long processId)
+   {
+      FacesMessages.instance().addFromResourceBundle(
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.ProcessEnded", 
+            "Process #0 already ended", 
+            processId
+         );
+   }
+
+   private void processNotFound(Long processId)
+   {
+      FacesMessages.instance().addFromResourceBundle(
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.ProcessNotFound", 
+            "Process #0 not found", 
+            processId
+         );
    }
 
    private Object afterInvocation(InvocationContext invocation, Object result)
