@@ -219,9 +219,7 @@
       </a>
     </h2>
     <div id="stackTrace" class="grayBox">
-        <ui:repeat value="#{org$jboss$seam$lastException.stackTrace}" var="frame">
-            <div>#{frame}</div>
-        </ui:repeat>
+        <pre>#{org$jboss$seam$debug$contexts.stackTrace}</pre>
     </div>
     </f:subview>
 
