@@ -74,8 +74,11 @@ public class BijectionInterceptor extends AbstractInterceptor
                   {
                      throw new IllegalArgumentException("@RequestParameter must specify a parameter name when used in a method parameter");
                   }
-                  Object value = Component.getRequestParameters().get(name);
-                  invocation.getParameters()[i] = Component.convertRequestParameter( value, method.getParameterTypes()[i] );
+                  invocation.getParameters()[i] = Component.convertMultiValueRequestParameter( 
+                        Component.getRequestParameters(), 
+                        name, 
+                        method.getParameterTypes()[i] 
+                     );
                }
             }
          }

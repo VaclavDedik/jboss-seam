@@ -12,6 +12,7 @@ import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -810,28 +811,58 @@ public class Component
 
    private void injectParameters(Object bean)
    {
-      Map requestParameters = getRequestParameters();
+      Map<String, String[]> requestParameters = getRequestParameters();
 
       for (Method setter: parameterSetters)
       {
          String name = toName( setter.getAnnotation(RequestParameter.class).value(), setter );
-         Object convertedValue = convertRequestParameter( requestParameters.get(name), setter.getParameterTypes()[0] );
+         Class<?> setterType = setter.getParameterTypes()[0];
+         Object convertedValue = convertMultiValueRequestParameter(requestParameters, name, setterType);
          setPropertyValue( bean, setter, name, convertedValue );
       }
       for (Field field: parameterFields)
       {
          String name = toName( field.getAnnotation(RequestParameter.class).value(), field );
-         Object convertedValue = convertRequestParameter( requestParameters.get(name), field.getType() );
+         Class<?> fieldType = field.getType();
+         Object convertedValue = convertMultiValueRequestParameter(requestParameters, name, fieldType);
          setFieldValue( bean, field, name, convertedValue );
       }
    }
 
-   public static Map getRequestParameters()
+   private Object convertMultiValueRequestParameter(Map<String, String[]> requestParameters, String name, Class<?> type)
+   {
+      String[] array = requestParameters.get(name);
+      if (array==null || array.length==0)
+      {
+         return null;
+      }
+      else
+      {
+         if ( type.isArray() )
+         {
+               int length = Array.getLength(array);
+               Class<?> elementType = type.getComponentType();
+               Object newInstance = Array.newInstance(elementType, length);
+               for ( int i=0; i<length; i++ )
+               {
+                  Object element = convertRequestParameter( (String) Array.get(array, i), elementType );
+                  Array.set( newInstance, i, element );
+               }
+               return newInstance;
+         }
+         else
+         {
+            return convertRequestParameter( array[0], type );
+         }
+      }
+   }
+
+   public static Map<String, String[]> getRequestParameters()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       if ( facesContext != null )
       {
-         return facesContext.getExternalContext().getRequestParameterMap();
+         return facesContext.getExternalContext().getRequestParameterValuesMap();
       }
       
       ServletRequest servletRequest = Lifecycle.getServletRequest();
@@ -843,7 +874,7 @@ public class Component
       return null;
    }
 
-   public static Object convertRequestParameter(Object requestParameter, Class type)
+   public static Object convertRequestParameter(String requestParameter, Class type)
    {
       if ( String.class.equals(type) ) return requestParameter;
 
@@ -853,7 +884,7 @@ public class Component
       {
          throw new IllegalArgumentException("no converter for type: " + type);
       }
-      return converter.getAsObject( facesContext, facesContext.getViewRoot(), (String) requestParameter );
+      return converter.getAsObject( facesContext, facesContext.getViewRoot(), requestParameter );
    }
 
    public void outject(Object bean)
