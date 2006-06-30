@@ -14,7 +14,7 @@
       h1 { color: #090; }
       h2, h2 span { font-size: large; color: #339; }
       h2 a { text-decoration: none; color: #339; }
-      .grayBox { padding: 8px; margin: 10px 0; border: 1px solid #CCC; background-color: #f9f9f9;  }
+      pre { padding: 8px; margin: 10px 0; border: 1px solid #CCC; background-color: #f9f9f9;  }
       #applicationContext { display: none; }
       #attributes, #conversationContext, #sessionContext, #processContext { display: block; }
       code { font-size: medium; }
@@ -210,7 +210,7 @@
     </h:dataTable>
     </div>
     
-    <f:subview rendered="#{org$jboss$seam$debug$contexts.exception}">
+    <f:subview rendered="#{org$jboss$seam$debug$contexts.exceptionExists}">
     <h2>
       <a href="#" onclick="toggle('stackTrace'); return false;">
         <span id="stackTraceOff" style="display: none;">+</span>
@@ -218,7 +218,8 @@
         &#160;Exception
       </a>
     </h2>
-    <div id="stackTrace" class="grayBox">
+    <div id="stackTrace">
+        #{org$jboss$seam$debug$contexts.exception.message}
         <pre>#{org$jboss$seam$debug$contexts.stackTrace}</pre>
     </div>
     </f:subview>
