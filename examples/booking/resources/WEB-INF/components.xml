@@ -10,8 +10,13 @@
     <component name="org.jboss.seam.core.manager">
         <property name="conversationTimeout">120000</property>
         <property name="conversationIdParameter">cid</property>
+        <property name="conversationIsLongRunningParameter">clr</property>
     </component>
     
+    <component name="org.jboss.seam.core.pages">
+        <property name="noConversationViewId">/main.xhtml</property>
+    </component>
+
     <component class="org.jboss.seam.core.Ejb" 
            installed="@embeddedEjb@"/>
 

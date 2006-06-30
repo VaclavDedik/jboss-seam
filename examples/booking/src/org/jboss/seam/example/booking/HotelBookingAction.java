@@ -11,11 +11,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.Events;
@@ -24,7 +23,6 @@ import org.jboss.seam.log.Log;
 
 @Stateful
 @Name("hotelBooking")
-@Conversational(ifNotBegunViewId="/main.xhtml")
 @LoggedIn
 public class HotelBookingAction implements HotelBooking
 {
