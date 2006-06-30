@@ -25,8 +25,11 @@ public @interface Conversational
     * The JSF outcome if the component is invoked outside
     * of the scope of its conversation during the invoke
     * application phase.
+    * 
+    * @deprecated use ifNotBegunViewId()
     */
-   String ifNotBegunOutcome();
+   String ifNotBegunOutcome() default "";
+   String ifNotBegunViewId() default "";
    /**
     * If true, the component must be the initiator of the
     * conversation. That is, the conversation must have

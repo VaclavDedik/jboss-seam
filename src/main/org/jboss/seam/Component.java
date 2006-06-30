@@ -69,6 +69,7 @@ import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.ConversationalInterceptor;
+import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.JavaBeanInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
@@ -610,6 +611,7 @@ public class Component
 
    private void initDefaultInterceptors()
    {
+      interceptors.add( new Interceptor( new ExceptionInterceptor(), this ) );
       interceptors.add( new Interceptor( new RemoveInterceptor(), this ) );
       interceptors.add( new Interceptor( new ConversationalInterceptor(), this ) );
       interceptors.add( new Interceptor( new BusinessProcessInterceptor(), this ) );
