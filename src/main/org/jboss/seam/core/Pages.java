@@ -97,7 +97,7 @@ public class Pages
                timeoutsByViewId.put( viewId, Integer.parseInt(timeoutString) );
             }
             String noConversationViewId = page.attributeValue("no-conversation-view-id");
-            if (timeoutString!=null)
+            if (noConversationViewId!=null)
             {
                noConverationViewIdByViewId.put( viewId, noConversationViewId );
             }
