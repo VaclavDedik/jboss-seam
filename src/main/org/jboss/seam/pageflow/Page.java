@@ -31,6 +31,7 @@ public class Page extends Node implements Parsable
    private String description;
    private Integer timeout;
    private boolean backEnabled;
+   private String noConversationViewId;
 
    /**
     * parses the dom4j element that corresponds to this page.
@@ -38,6 +39,7 @@ public class Page extends Node implements Parsable
    public void read(Element pageElement, JpdlXmlReader jpdlXmlReader) 
    {
       viewId = pageElement.attributeValue("view-id");
+      noConversationViewId = pageElement.attributeValue("no-conversation-view-id");
       backEnabled = "enabled".equals( pageElement.attributeValue("back") );
       Element conversationEndElement = pageElement.element("end-conversation");
       if (conversationEndElement!=null) 
@@ -131,5 +133,10 @@ public class Page extends Node implements Parsable
    public boolean isBackEnabled()
    {
       return backEnabled;
+   }
+
+   public String getNoConversationViewId()
+   {
+      return noConversationViewId;
    }
 }

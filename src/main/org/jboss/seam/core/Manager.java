@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -37,6 +38,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.pageflow.Page;
 import org.jboss.seam.util.Id;
+import org.jbpm.graph.def.Node;
+import org.jbpm.graph.def.ProcessDefinition;
 
 /**
  * The Seam conversation manager.
@@ -58,6 +61,7 @@ public class Manager
    public static final String CONVERSATION_IS_LONG_RUNNING = NAME + ".conversationIsLongRunning";
    public static final String PAGEFLOW_COUNTER = NAME + ".pageflowCounter";
    public static final String PAGEFLOW_NODE_NAME = NAME + ".pageflowNodeName";
+   public static final String PAGEFLOW_NAME = NAME + ".pageflowName";
 
    //A map of all conversations for the session,
    //to the last activity time, which is flushed
@@ -413,8 +417,9 @@ public class Manager
          Pageflow pageflow = Pageflow.instance();
          if ( pageflow.isInProcess() )
          {
-            Contexts.getPageContext().set( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+            Contexts.getPageContext().set( PAGEFLOW_NAME, pageflow.getProcessInstance().getProcessDefinition().getName() );
             Contexts.getPageContext().set( PAGEFLOW_NODE_NAME, pageflow.getNode().getName() );
+            Contexts.getPageContext().set( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
          }
       }
    }
@@ -504,6 +509,8 @@ public class Manager
     * or in the PAGE context.
     * 
     * @param parameters the request parameters
+    * @return false if the conversation id referred to a 
+    *         long-running conversation that was not found
     */
    public boolean restoreConversation(Map parameters)
    {
@@ -907,16 +914,7 @@ public class Manager
          //stuff from jPDL takes precedence
          Page page = Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() ?
                Pageflow.instance().getPage() : null;
-         if (page!=null)
-         {
-            if ( page.hasDescription() )
-            {
-               conversation.setDescription( page.getDescription() );
-               conversation.setViewId( page.getViewId() );
-            }
-            conversation.setTimeout( page.getTimeout() );
-         }
-         else
+         if (page==null)
          {
             //handle stuff defined in pages.xml
             String viewId = event.getFacesContext().getViewRoot().getViewId();
@@ -930,6 +928,16 @@ public class Manager
                }
                conversation.setTimeout( pages.getTimeout(viewId) );
             }
+         }
+         else
+         {
+            //use stuff from the pageflow definition
+            if ( page.hasDescription() )
+            {
+               conversation.setDescription( page.getDescription() );
+               conversation.setViewId( page.getViewId() );
+            }
+            conversation.setTimeout( page.getTimeout() );
          }
 
       }
@@ -963,6 +971,49 @@ public class Manager
    public void setConversationIsLongRunningParameter(String conversationIdLongRunning)
    {
       this.conversationIsLongRunningParameter = conversationIdLongRunning;
+   }
+
+   public void redirectToNoConversationView()
+   {
+      FacesMessages.instance().addFromResourceBundle( 
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.NoConversation", 
+            "No conversation" 
+         );
+      
+      //stuff from jPDL takes precedence
+      String pageflowName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NAME);
+      String pageflowNodeName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NODE_NAME);
+      
+      String noConversationViewId = null;
+      if (pageflowName==null || pageflowNodeName==null)
+      {
+         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+         Pages pages = Pages.instance();
+         if (pages!=null) //for tests
+         {
+            noConversationViewId = pages.getNoConversationViewId(viewId);
+         }
+      }
+      else
+      {
+         ProcessDefinition pageflowProcessDefinition = Jbpm.instance().getPageflowProcessDefinition(pageflowName);
+         if (pageflowProcessDefinition==null)
+         {
+            throw new IllegalArgumentException("pageflow definition not found: " + pageflowName);
+         }
+         Node node = pageflowProcessDefinition.getNode(pageflowNodeName);
+         if (node!=null && node instanceof Page)
+         {
+            Page page = (Page) node;
+            noConversationViewId = page.getNoConversationViewId();
+         }
+      }
+      
+      if (noConversationViewId!=null)
+      {
+         redirect( noConversationViewId );
+      }
    }
    
 }

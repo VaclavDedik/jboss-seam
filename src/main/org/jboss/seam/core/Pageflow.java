@@ -75,15 +75,18 @@ public class Pageflow implements Serializable
       if ( processInstance!=null )
       {
          
-         if ( getPage().isBackEnabled() )
+         String pageflowName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NAME);
+         String pageflowNodeName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NODE_NAME);
+         boolean canReposition = getPage().isBackEnabled() && 
+               processInstance.getProcessDefinition().getName().equals(pageflowName) && //probably not necessary
+               pageflowNodeName!=null; //probably not necessary
+         if ( canReposition )
          {
             //check the node name to make sure we are still on the same node
-            //String pageNodeName = (String) attributes.get(Manager.PAGEFLOW_NODE_NAME);
-            String pageNodeName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NODE_NAME);
-            if ( pageNodeName!=null && !pageNodeName.equals( getNode().getName() ) )
+            if ( !pageflowNodeName.equals( getNode().getName() ) )
             {
                //legal use of back/forward button, so reposition
-               reposition(pageNodeName);
+               reposition(pageflowNodeName);
             }
          }
          else
