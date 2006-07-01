@@ -10,7 +10,7 @@
    <h:dataTable value="#{searchResults}" var="blogEntry">
       <h:column>
          <div>
-            <h:outputLink value="entry.seam">
+            <h:outputLink value="entry.xhtml">
                <f:param name="blogEntryId" value="#{blogEntry.id}"/>
                #{blogEntry.title}
             </h:outputLink>

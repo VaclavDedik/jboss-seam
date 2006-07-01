@@ -16,7 +16,7 @@
                      value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
             </div>
             <p>
-               <h:outputLink value="entry.seam" rendered="#{blogEntry.excerpt!=null}">
+               <h:outputLink value="entry.xhtml" rendered="#{blogEntry.excerpt!=null}">
                   <f:param name="blogEntryId" value="#{blogEntry.id}"/>
                   Read more...
                </h:outputLink>
@@ -27,7 +27,7 @@
 		           <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
 		       </h:outputText>]
 		       &#160;
-               <h:outputLink value="entry.seam">[Link]
+               <h:outputLink value="entry.xhtml">[Link]
                   <f:param name="blogEntryId" value="#{blogEntry.id}"/>
                </h:outputLink>
             </p>

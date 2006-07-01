@@ -37,12 +37,13 @@
          <ui:insert name="content"/>
          <div class="blogEntry">
             #{blog.name}: 
-            <h:outputLink value="search.seam">
+            <h:outputLink value="search.xhtml">
                [All posts]
                <f:param name="searchPattern" value=""/>
             </h:outputLink>
-            <h:outputLink value="index.seam">[Recent posts]</h:outputLink>
-            <h:outputLink value="post.seam">[Write new post]</h:outputLink>
+            <h:outputLink value="index.xhtml">[Recent posts]</h:outputLink>
+            <h:outputLink value="post.xhtml">[Write new post]</h:outputLink>
+            <h:outputLink value="index.rss">[RSS]</h:outputLink>
             <br/>
             Total pageviews: #{blog.hitCount.pageviews}
          </div>
