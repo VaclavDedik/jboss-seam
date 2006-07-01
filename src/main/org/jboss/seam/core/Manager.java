@@ -614,9 +614,15 @@ public class Manager
          ConversationEntry ce = getCurrentConversationEntry();
          setCurrentConversationIdStack( ce.getConversationIdStack() );
 
-         if ( ce.isRemoveAfterRedirect() )
+         boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !(
+               Init.instance().isDebug() &&
+               "/debug.xhtml".equals( FacesContext.getCurrentInstance().getViewRoot().getViewId() )
+            );
+         
+         if (removeAfterRedirect)
          {
             setLongRunningConversation(false);
+            ce.setRemoveAfterRedirect(false);
          }
          
          return true;

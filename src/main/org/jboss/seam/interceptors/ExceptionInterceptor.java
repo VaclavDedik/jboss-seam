@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.HttpError;
 import org.jboss.seam.annotations.Redirect;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -86,7 +87,8 @@ public class ExceptionInterceptor extends AbstractInterceptor
    private void redirectToDebugPage(Exception e)
    {
       log.error("redirecting to debug page", e);
-      Contexts.getConversationContext().set("org.jboss.seam.lastException", e);
+      Contexts.getConversationContext().set("org.jboss.seam.debug.lastException", e);
+      Contexts.getConversationContext().set("org.jboss.seam.debug.phaseId", Lifecycle.getPhaseId().toString());
       FacesContext facesContext = FacesContext.getCurrentInstance();
       org.jboss.seam.core.Redirect redirect = org.jboss.seam.core.Redirect.instance();
       redirect.setViewId("/debug.xhtml");

@@ -64,7 +64,7 @@ public class Contexts
 
    public Exception getException()
    {
-      return (Exception) org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.lastException");
+      return (Exception) org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.debug.lastException");
    }
    
    public boolean isExceptionExists()
