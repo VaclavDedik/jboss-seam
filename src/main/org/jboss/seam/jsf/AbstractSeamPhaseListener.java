@@ -20,6 +20,7 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
+import org.jboss.seam.util.Transactions;
 
 public abstract class AbstractSeamPhaseListener implements PhaseListener
 {
@@ -140,12 +141,12 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          if (actionsWereCalled) 
          {
             FacesMessages.afterPhase();
-            afterPageActions(); //TODO: does it really belong in the finally?
+            handleTransactionsAfterPageActions(event); //TODO: does it really belong in the finally?
          }
       }
    }
    
-   protected void afterPageActions() {}
+   protected void handleTransactionsAfterPageActions(PhaseEvent event) {}
    
    private static boolean exists = false;
    
@@ -154,5 +155,44 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       if (exists) log.warn("There should only be one Seam phase listener per application");
       exists=true;
    }
+
+   /////////Do not really belong here:
    
+   void begin(PhaseId phaseId) {
+      try 
+      {
+         if ( !Transactions.isTransactionActiveOrMarkedRollback() )
+         {
+            log.debug("beginning transaction prior to phase: " + phaseId);
+            Transactions.getUserTransaction().begin();
+         }
+      }
+      catch (Exception e)
+      {
+         //TODO: what should we *really* do here??
+         throw new IllegalStateException("Could not start transaction", e);
+      }
+   }
+
+   void commitOrRollback(PhaseId phaseId) {
+      try 
+      {
+         if ( Transactions.isTransactionActive() )
+         {
+            log.debug("committing transaction after phase: " + phaseId);
+            Transactions.getUserTransaction().commit();
+         }
+         else if ( Transactions.isTransactionMarkedRollback() )
+         {
+            log.debug("rolling back transaction after phase: " + phaseId);
+            Transactions.getUserTransaction().rollback();
+         }
+      }
+      catch (Exception e)
+      {
+         //TODO: what should we *really* do here??
+         throw new IllegalStateException("Could not commit transaction", e);
+      }
+   }
+
 }

@@ -4,10 +4,6 @@ package org.jboss.seam.jsf;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.util.Transactions;
-
 /**
  * Transaction management for extended persistence contexts.
  * A transaction spans the restore view, apply request values, process validations,
@@ -19,81 +15,43 @@ import org.jboss.seam.util.Transactions;
  */
 public class SeamExtendedManagedPersistencePortletPhaseListener extends SeamPortletPhaseListener
 {
-   private static final Log log = LogFactory.getLog( SeamExtendedManagedPersistencePortletPhaseListener.class );
    
    @Override
-   public void beforePhase(PhaseEvent event)
+   public void handleTransactionsBeforePhase(PhaseEvent event)
    {
       PhaseId phaseId = event.getPhaseId();
       boolean beginTran = phaseId==PhaseId.RESTORE_VIEW || 
             phaseId==PhaseId.RENDER_RESPONSE || 
-            phaseId==PhaseId.INVOKE_APPLICATION;
+            phaseId==PhaseId.INVOKE_APPLICATION; //TODO: why is this here?
       
       if ( beginTran ) 
       {
          begin(phaseId);
       }
-      
-      super.beforePhase( event );
    }
 
    @Override
-   public void afterPhase(PhaseEvent event)
+   public void handleTransactionsAfterPhase(PhaseEvent event)
    {
       PhaseId phaseId = event.getPhaseId();
       boolean commitTran = phaseId==PhaseId.INVOKE_APPLICATION || 
             event.getFacesContext().getRenderResponse() ||
+            event.getFacesContext().getResponseComplete() || //TODO: unnecessary for portlet?
             phaseId==PhaseId.RENDER_RESPONSE;
       
       if (commitTran)
       { 
-         commit(phaseId); //we commit before destroying contexts, cos the contexts have the PC in them
-      }
-
-      super.afterPhase( event );      
+         commitOrRollback(phaseId); //we commit before destroying contexts, cos the contexts have the PC in them
+      }    
    }
 
    @Override
-   protected void afterPageActions()
+   protected void handleTransactionsAfterPageActions(PhaseEvent event)
    {
-      commit(PhaseId.INVOKE_APPLICATION);
-      begin(PhaseId.INVOKE_APPLICATION);
-   }
-
-   private void begin(PhaseId phaseId) {
-      try 
+      commitOrRollback(PhaseId.INVOKE_APPLICATION);
+      if ( !event.getFacesContext().getResponseComplete() ) //TODO: unnecessary for portlet?
       {
-         if ( !Transactions.isTransactionActiveOrMarkedRollback() )
-         {
-            log.debug("beginning transaction prior to phase: " + phaseId);
-            Transactions.getUserTransaction().begin();
-         }
-      }
-      catch (Exception e)
-      {
-         //TODO: what should we *really* do here??
-         throw new IllegalStateException("Could not start transaction", e);
-      }
-   }
-
-   private void commit(PhaseId phaseId) {
-      try 
-      {
-         if ( Transactions.isTransactionActive() )
-         {
-            log.debug("committing transaction after phase: " + phaseId);
-            Transactions.getUserTransaction().commit();
-         }
-         else if ( Transactions.isTransactionMarkedRollback() )
-         {
-            log.debug("rolling back transaction after phase: " + phaseId);
-            Transactions.getUserTransaction().rollback();
-         }
-      }
-      catch (Exception e)
-      {
-         //TODO: what should we *really* do here??
-         throw new IllegalStateException("Could not commit transaction", e);
+         begin(PhaseId.INVOKE_APPLICATION);
       }
    }
 

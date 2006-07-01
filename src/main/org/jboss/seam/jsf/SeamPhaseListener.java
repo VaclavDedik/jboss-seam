@@ -41,6 +41,9 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       
       Lifecycle.setPhaseId( event.getPhaseId() );
 
+      //delegate to subclass:
+      handleTransactionsBeforePhase(event);
+      
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          Lifecycle.beginRequest( event.getFacesContext().getExternalContext() );
@@ -85,6 +88,9 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       //has to happen after, since restoreAnyConversationContext() 
       //can add messages
       FacesMessages.afterPhase();
+      
+      //delegate to subclass:
+      handleTransactionsAfterPhase(event);
             
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
@@ -111,5 +117,8 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       Lifecycle.setPhaseId(null);
       
    }
+   
+   protected void handleTransactionsAfterPhase(PhaseEvent event) {}
+   protected void handleTransactionsBeforePhase(PhaseEvent event) {}
 
 }

@@ -41,6 +41,9 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       
       Lifecycle.setPhaseId( event.getPhaseId() );
 
+      //delegate to subclass:
+      handleTransactionsBeforePhase(event);
+      
       FacesContext facesContext = event.getFacesContext();
       
       if ( event.getPhaseId() == RESTORE_VIEW || event.getPhaseId() == RENDER_RESPONSE )
@@ -88,6 +91,9 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       
       FacesMessages.afterPhase();
       
+      //delegate to subclass:
+      handleTransactionsAfterPhase(event);
+            
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
          Lifecycle.endRequest( facesContext.getExternalContext() );
@@ -102,5 +108,8 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       Lifecycle.setPhaseId(null);
       
    }
+
+   protected void handleTransactionsAfterPhase(PhaseEvent event) {}
+   protected void handleTransactionsBeforePhase(PhaseEvent event) {}
 
 }
