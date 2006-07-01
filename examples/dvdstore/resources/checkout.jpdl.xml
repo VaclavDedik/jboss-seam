@@ -5,7 +5,8 @@
         <transition to="confirm"/>
     </start-state>
 
-    <page name="confirm" view-id="/confirm.xhtml">
+    <page name="confirm" view-id="/confirm.xhtml"
+          no-conversation-view-id="/checkout.xhtml">
         <redirect/>
         <transition name="update"   to="continue"/> 
         <transition name="purchase" to="complete">

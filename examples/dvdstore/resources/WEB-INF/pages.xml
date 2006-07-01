@@ -1,24 +1,10 @@
 <pages>
     <page view-id="/dvd.xhtml" action="#{search.selectFromRequest}" /> 
 
-    <!-- 
-       these page guards are to ensure that the views are
-       only accessed in the scope of the long-running 
-       conversation
-    -->
-    <page view-id="/confirm.xhtml"
-            no-conversation-view-id="/checkout.xhtml"/>
-
-    <page view-id="/newuser/card.xhtml"
-            no-conversation-view-id="/newuser/account.xhtml"/>
-    <page view-id="/newuser/contact.xhtml"
-            no-conversation-view-id="/newuser/account.xhtml"/>
-
     <page view-id="/admin/ship.xhtml"
             no-conversation-view-id="/admin/admin.xhtml"/>
     <page view-id="/admin/accept.xhtml"
             no-conversation-view-id="/admin/admin.xhtml"/>
-
 
     <!-- this action ensures that only admin users can access anything under /admin" -->
     <page view-id="/admin/*" action="#{login.adminCheck}" />

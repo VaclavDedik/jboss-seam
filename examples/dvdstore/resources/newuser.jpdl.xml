@@ -18,14 +18,16 @@
     </decision>
 
 
-    <page name="contact" view-id="/newuser/contact.xhtml">
+    <page name="contact" view-id="/newuser/contact.xhtml"
+          no-conversation-view-id="/newuser/account.xhtml">
         <redirect/>
         <transaction to="contact"/>
         <transition name="prev" to="account"/>
         <transition name="next" to="card"/>
     </page>
 
-    <page name="card" view-id="/newuser/card.xhtml">
+    <page name="card" view-id="/newuser/card.xhtml"
+          no-conversation-view-id="/newuser/account.xhtml">
         <redirect/>
         <transition name="prev" to="contact"/>
         <transition name="next" to="complete">
@@ -33,8 +35,10 @@
         </transition>
     </page>
     
-    <page name="complete" view-id="/newuser/complete.xhtml">
+    <page name="complete" view-id="/newuser/complete.xhtml"
+          no-conversation-view-id="/newuser/account.xhtml">
         <redirect/>
         <end-conversation/>
-    </page>    
+    </page>
+    
 </pageflow-definition>
