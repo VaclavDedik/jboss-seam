@@ -201,11 +201,7 @@ public class Pageflow implements Serializable
          log.debug("beginning pageflow: " + pageflowDefinitionName);
       }
       
-      ProcessDefinition pd = Jbpm.instance().getPageflowProcessDefinition(pageflowDefinitionName);
-      if (pd==null)
-      {
-         throw new IllegalArgumentException("pageflow definition not found: " + pageflowDefinitionName);
-      }
+      ProcessDefinition pd = getPageflowProcessDefinition(pageflowDefinitionName);
       ProcessInstance pi = PageflowHelper.newPageflowInstance(pd);
       setProcessInstance(pi);
       //if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
@@ -219,11 +215,36 @@ public class Pageflow implements Serializable
       //}
    }
    
+   public String getNoConversationViewId(String pageflowName, String pageflowNodeName)
+   {
+      ProcessDefinition pageflowProcessDefinition = getPageflowProcessDefinition(pageflowName);
+      Node node = pageflowProcessDefinition.getNode(pageflowNodeName);
+      if (node!=null && node instanceof Page)
+      {
+         Page page = (Page) node;
+         return page.getNoConversationViewId();
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   private ProcessDefinition getPageflowProcessDefinition(String pageflowName)
+   {
+      ProcessDefinition pageflowProcessDefinition = Jbpm.instance().getPageflowProcessDefinition(pageflowName);
+      if (pageflowProcessDefinition==null)
+      {
+         throw new IllegalArgumentException("pageflow definition not found: " + pageflowName);
+      }
+      return pageflowProcessDefinition;
+   }
+   
    public String toString()
    {
       String name = processInstance==null ? 
             "null" : processInstance.getProcessDefinition().getName();
       return "Pageflow(" + name + ")";
    }
-   
+
 }

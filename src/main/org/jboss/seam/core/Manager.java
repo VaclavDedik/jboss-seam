@@ -38,8 +38,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.pageflow.Page;
 import org.jboss.seam.util.Id;
-import org.jbpm.graph.def.Node;
-import org.jbpm.graph.def.ProcessDefinition;
 
 /**
  * The Seam conversation manager.
@@ -997,17 +995,7 @@ public class Manager
       }
       else
       {
-         ProcessDefinition pageflowProcessDefinition = Jbpm.instance().getPageflowProcessDefinition(pageflowName);
-         if (pageflowProcessDefinition==null)
-         {
-            throw new IllegalArgumentException("pageflow definition not found: " + pageflowName);
-         }
-         Node node = pageflowProcessDefinition.getNode(pageflowNodeName);
-         if (node!=null && node instanceof Page)
-         {
-            Page page = (Page) node;
-            noConversationViewId = page.getNoConversationViewId();
-         }
+         noConversationViewId = Pageflow.instance().getNoConversationViewId(pageflowName, pageflowNodeName);
       }
       
       if (noConversationViewId!=null)
