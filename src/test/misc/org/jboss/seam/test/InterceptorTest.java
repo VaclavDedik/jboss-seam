@@ -21,6 +21,7 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
+import org.jboss.seam.interceptors.ConversationalInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
@@ -424,7 +425,7 @@ public class InterceptorTest
    }
    
    @Test
-   public void testConversationalConversationInterceptor() throws Exception
+   public void testConversationalInterceptor() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
@@ -443,12 +444,12 @@ public class InterceptorTest
       Manager.instance().setCurrentConversationId("1");
       Lifecycle.resumeConversation(externalContext);
       
-      ConversationInterceptor ci = new ConversationInterceptor();
+      ConversationalInterceptor ci = new ConversationalInterceptor();
       ci.setComponent( new Component(Bar.class, appContext) );
       
       assert !Manager.instance().isLongRunningConversation();
 
-      String result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      String result = (String) ci.checkConversationForConversationalBean( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -462,10 +463,10 @@ public class InterceptorTest
          }
       });
       
-      assert !Manager.instance().isLongRunningConversation();
+      //assert !Manager.instance().isLongRunningConversation();
       assert "error".equals(result);
       
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.checkConversationForConversationalBean( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -478,10 +479,12 @@ public class InterceptorTest
          }
       });
       
-      assert Manager.instance().isLongRunningConversation();
+      Manager.instance().beginConversation("bar");
+      
+      //assert Manager.instance().isLongRunningConversation();
       assert "begun".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.checkConversationForConversationalBean( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -494,10 +497,10 @@ public class InterceptorTest
          }
       });
       
-      assert Manager.instance().isLongRunningConversation();
+      //assert Manager.instance().isLongRunningConversation();
       assert "foo".equals(result);
 
-      result = (String) ci.endOrBeginLongRunningConversation( new MockInvocationContext() {
+      result = (String) ci.checkConversationForConversationalBean( new MockInvocationContext() {
          @Override
          public Method getMethod()
          {
@@ -510,7 +513,9 @@ public class InterceptorTest
          }
       });
       
-      assert !Manager.instance().isLongRunningConversation();
+      Manager.instance().endConversation();
+      
+      //assert !Manager.instance().isLongRunningConversation();
       assert "ended".equals(result);
       
       Lifecycle.endApplication(servletContext);
