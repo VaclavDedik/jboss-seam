@@ -1,11 +1,13 @@
 package test;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.RenderParameters;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
@@ -14,7 +16,6 @@ import org.testng.annotations.Test;
 import actions.BlogService;
 import actions.EntryAction;
 import actions.PostAction;
-import actions.SearchAction;
 import actions.SearchService;
 import domain.Blog;
 import domain.BlogEntry;
@@ -145,15 +146,17 @@ public class BlogTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            ( (SearchAction) Component.getInstance(SearchAction.class, true) ).setSearchPattern("seam");
+            ( (Map) Component.getInstance(RenderParameters.class, true) ).put("searchPattern", "seam");
+         }
+         
+         @Override
+         protected String getInvokeApplicationOutcome()
+         {
+            return "/search.xhtml";
          }
 
          @Override
-         protected void invokeApplication() throws Exception
-         {
-            String outcome = ( (SearchAction) Component.getInstance(SearchAction.class, false) ).search();
-            assert outcome.equals("/search.xhtml?searchPattern=#{searchAction.searchPattern}");
-         }
+         protected void renderResponse() { assert false; }
          
       }.run();
 
