@@ -305,7 +305,7 @@ public class Component
                Type parameterType = setterMethod.getGenericParameterTypes()[0];
                initializerSetters.put( setterMethod, getInitialValue(propertyValue, parameterClass, parameterType) );
             }
-            else
+            else if (type==ComponentType.JAVA_BEAN) //TODO: use a @PostConstruct callback on the interceptor to allow field-based config of session beans
             {
                try
                {
@@ -314,8 +314,12 @@ public class Component
                }
                catch (NoSuchFieldException nsfe)
                {
-                  throw new IllegalArgumentException("no field or setter for configuration setting: " + key, nsfe);
+                  throw new IllegalArgumentException("no field or setter method for configuration setting: " + key, nsfe);
                }
+            }
+            else
+            {
+               throw new IllegalArgumentException("no setter method for configuration setting: " + key);
             }
         }
 
