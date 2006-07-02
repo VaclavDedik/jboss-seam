@@ -1,6 +1,7 @@
 package actions;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
@@ -14,7 +15,7 @@ import domain.Blog;
 
 @Name("loginAction")
 @Scope(ScopeType.SESSION)
-public class LoginAction
+public class LoginAction implements Serializable
 {
    @In(create=true) private Blog blog;
    
@@ -58,5 +59,5 @@ public class LoginAction
    {
       return loggedIn;
    }
-   
+      
 }
