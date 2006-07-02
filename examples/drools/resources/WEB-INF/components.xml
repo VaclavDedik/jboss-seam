@@ -5,7 +5,7 @@
     </component>
     
     <component name="workingMemory" class="org.jboss.seam.drools.ManagedWorkingMemory">
-        <property name="ruleBaseName">ruleBase</property>
+        <property name="ruleBase">#{ruleBase}</property>
     </component>
 
     <component name="org.jboss.seam.core.init">
