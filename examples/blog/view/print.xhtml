@@ -24,6 +24,9 @@
             </h:outputLink>
             <h:outputLink value="index.xhtml">[Recent posts]</h:outputLink>
             &#160;&#160;
+            <h:inputText value="#{renderParameters.searchPattern}"/>
+            <h:commandButton value="Search" action="/search.xhtml"/>
+            &#160;&#160;
             <h:selectOneMenu value="#{themeSelector.theme}">
                <f:selectItems value="#{themeSelector.themes}"/>
             </h:selectOneMenu>
@@ -32,9 +35,6 @@
                <f:param name="blogEntryId" value="#{param.blogEntryId}"/>
                <f:param name="searchPattern" value="#{param.searchPattern}"/>
             </h:commandLink>
-            &#160;&#160;
-            <h:inputText value="#{searchAction.searchPattern}"/>
-            <h:commandButton value="Search" action="#{searchAction.search}"/>
          </h:form>
       </div>
       <div id="container">
