@@ -6,13 +6,12 @@
  */
 package org.jboss.seam;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -117,7 +116,8 @@ public class Component
    private Set<Field> outFields = new HashSet<Field>();
    private Set<Field> parameterFields = new HashSet<Field>();
    private Set<Method> parameterSetters = new HashSet<Method>();
-   private Map<Method, InitialValue> initializers = new HashMap<Method, InitialValue>();
+   private Map<Method, InitialValue> initializerSetters = new HashMap<Method, InitialValue>();
+   private Map<Field, InitialValue> initializerFields = new HashMap<Field, InitialValue>();
 
    private List<Method> dataModelGetters = new ArrayList<Method>();
    private Map<Method, Annotation> dataModelGetterAnnotations = new HashMap<Method, Annotation>();
@@ -298,14 +298,31 @@ public class Component
                   beanClass : businessInterfaces.iterator().next();
                
             String propertyName = key.substring( name.length()+1, key.length() );
-            PropertyDescriptor propertyDescriptor = getPropertyDescriptor(configClass, propertyName, key);
-            initializers.put( propertyDescriptor.getWriteMethod(), getInitialValue(propertyValue, propertyDescriptor) );
+            Method setterMethod = Reflections.getSetterMethod(configClass, propertyName);
+            if (setterMethod!=null)
+            {
+               Class parameterClass = setterMethod.getParameterTypes()[0];
+               Type parameterType = setterMethod.getGenericParameterTypes()[0];
+               initializerSetters.put( setterMethod, getInitialValue(propertyValue, parameterClass, parameterType) );
+            }
+            else
+            {
+               try
+               {
+                  Field field = configClass.getField(propertyName);
+                  initializerFields.put( field, getInitialValue(propertyValue, field.getType(), field.getGenericType()) );
+               }
+               catch (NoSuchFieldException nsfe)
+               {
+                  throw new IllegalArgumentException("no field or setter for configuration setting: " + key, nsfe);
+               }
+            }
         }
 
       }
    }
 
-   private InitialValue getInitialValue(Conversions.PropertyValue propertyValue, PropertyDescriptor propertyDescriptor)
+   private InitialValue getInitialValue(Conversions.PropertyValue propertyValue, Class parameterClass, Type parameterType)
    {
       if ( propertyValue.isExpression() ) //TODO: support #{...} in <value> element
       {
@@ -313,23 +330,11 @@ public class Component
       }
       else
       {
-         Object value = Conversions.getConverter( propertyDescriptor.getPropertyType() )
-               .toObject( propertyValue, propertyDescriptor.getReadMethod().getGenericReturnType() );
+         Object value = Conversions.getConverter(parameterClass).toObject(propertyValue, parameterType);
          return new ConstantInitialValue(value);
       }
    }
 
-   private PropertyDescriptor getPropertyDescriptor(Class clazz, String propertyName, String key)
-   {
-      try
-      {
-         return new PropertyDescriptor(propertyName, clazz);
-      }
-      catch (IntrospectionException ie)
-      {
-         throw new IllegalArgumentException("no property for configuration setting: " + key, ie);
-      }
-   }
 
    private void initMembers(Class<?> clazz, Context applicationContext)
    {
@@ -795,9 +800,13 @@ public class Component
 
    protected Object initialize(Object bean) throws Exception
    {
-      for ( Map.Entry<Method, InitialValue> me: initializers.entrySet() )
+      for ( Map.Entry<Method, InitialValue> me: initializerSetters.entrySet() )
       {
-         Reflections.invoke( me.getKey(), bean, me.getValue().getValue() );
+         setPropertyValue(bean, me.getKey(), me.getKey().getName(), me.getValue().getValue() );
+      }
+      for ( Map.Entry<Field, InitialValue> me: initializerFields.entrySet() )
+      {
+         setFieldValue(bean, me.getKey(), me.getKey().getName(), me.getValue().getValue() );
       }
       return bean;
    }
@@ -1052,11 +1061,8 @@ public class Component
       for (Method method : getInMethods())
       {
          In in = method.getAnnotation(In.class);
-         //if ( isActionInvocation || in.alwaysDefined() )
-         //{
-            String name = toName(in.value(), method);
-            setPropertyValue( bean, method, name, getInstanceToInject(in, name, bean) );
-         //}
+         String name = toName(in.value(), method);
+         setPropertyValue( bean, method, name, getInstanceToInject(in, name, bean) );
       }
    }
 
@@ -1065,11 +1071,8 @@ public class Component
       for (Field field : getInFields())
       {
          In in = field.getAnnotation(In.class);
-         //if ( isActionInvocation || in.alwaysDefined() )
-         //{
-            String name = toName(in.value(), field);
-            setFieldValue( bean, field, name, getInstanceToInject(in, name, bean) );
-         //}
+         String name = toName(in.value(), field);
+         setFieldValue( bean, field, name, getInstanceToInject(in, name, bean) );
       }
    }
 

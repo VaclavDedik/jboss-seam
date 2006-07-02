@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.util;
 
+import java.beans.Introspector;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -76,6 +77,23 @@ public class Reflections
          throw new IllegalArgumentException("type argument not a class");
       }
       return (Class) typeArgument;
+   }
+   
+   public static Method getSetterMethod(Class clazz, String name)
+   {
+      Method[] methods = clazz.getMethods();
+      for (Method method: methods)
+      {
+         String methodName = method.getName();
+         if ( methodName.startsWith("set") && method.getParameterTypes().length==1 )
+         {
+            if ( Introspector.decapitalize( methodName.substring(3) ).equals(name) )
+            {
+               return method;
+            }
+         }
+      }
+      return null;
    }
 
 }
