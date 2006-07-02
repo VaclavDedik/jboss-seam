@@ -1,5 +1,6 @@
 package org.jboss.seam.util;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 public class Conversions
@@ -53,84 +55,85 @@ public class Conversions
    
    public static interface Converter<Z>
    {
-      public Z toObject(String string, Type type); 
+      public Z toObject(PropertyValue value, Type type); 
    }
    
    public static class BooleanConverter implements Converter<Boolean>
    {
-      public Boolean toObject(String string, Type type)
+      public Boolean toObject(PropertyValue value, Type type)
       {
-         return Boolean.valueOf(string);
+         return Boolean.valueOf( value.getSingleValue() );
       }
    }
    
    public static class IntegerConverter implements Converter<Integer>
    {
-      public Integer toObject(String string, Type type)
+      public Integer toObject(PropertyValue value, Type type)
       {
-         return Integer.valueOf(string);
+         return Integer.valueOf( value.getSingleValue() );
       }
    }
    
    public static class LongConverter implements Converter<Long>
    {
-      public Long toObject(String string, Type type)
+      public Long toObject(PropertyValue value, Type type)
       {
-         return Long.valueOf(string);
+         return Long.valueOf( value.getSingleValue() );
       }
    }
    
    public static class FloatConverter implements Converter<Float>
    {
-      public Float toObject(String string, Type type)
+      public Float toObject(PropertyValue value, Type type)
       {
-         return Float.valueOf(string);
+         return Float.valueOf( value.getSingleValue() );
       }
    }
    
    public static class DoubleConverter implements Converter<Double>
    {
-      public Double toObject(String string, Type type)
+      public Double toObject(PropertyValue value, Type type)
       {
-         return Double.valueOf(string);
+         return Double.valueOf( value.getSingleValue() );
       }
    }
    
    public static class CharacterConverter implements Converter<Character>
    {
-      public Character toObject(String string, Type type)
+      public Character toObject(PropertyValue value, Type type)
       {
-         return string.charAt(0);
+         return value.getSingleValue().charAt(0);
       }
    }
    
    public static class StringConverter implements Converter<String>
    {
-      public String toObject(String string, Type type)
+      public String toObject(PropertyValue value, Type type)
       {
-         return string;
+         return  value.getSingleValue() ;
       }
    }
    
    public static class StringArrayConverter implements Converter<String[]>
    {
-      public String[] toObject(String string, Type type)
+      public String[] toObject(PropertyValue values, Type type)
       {
-         return Strings.split(string, ", ()\r\n\f\t");
+         return  values.getMultiValues();
       }
    }
    
    public static class ArrayConverter implements Converter
    {
-      public Object toObject(String string, Type type)
+      public Object toObject(PropertyValue values, Type type)
       {
-         String[] strings = getConverter(String[].class).toObject(string, String[].class);
+         String[] strings = values.getMultiValues();
          Class elementType = ( (Class) type ).getComponentType();
          Object objects = Array.newInstance( elementType, strings.length );
          Converter elementConverter = converters.get(elementType);
          for (int i=0; i<strings.length; i++)
          {
-            Array.set( objects, i, elementConverter.toObject(strings[i], elementType) );
+            Object element = elementConverter.toObject( new FlatPropertyValue(strings[i]), elementType );
+            Array.set( objects, i, element );
          }
          return objects;
       }
@@ -138,15 +141,16 @@ public class Conversions
    
    public static class SetConverter implements Converter<Set>
    {
-      public Set toObject(String string, Type type)
+      public Set toObject(PropertyValue values, Type type)
       {
-         String[] strings = getConverter(String[].class).toObject(string, String[].class);
+         String[] strings = values.getMultiValues();
          Class elementType = Reflections.getCollectionElementType(type);
          Set set = new HashSet(strings.length);
          Converter elementConverter = converters.get(elementType);
          for (int i=0; i<strings.length; i++)
          {
-            set.add( elementConverter.toObject(strings[i], elementType) );
+            Object element = elementConverter.toObject( new FlatPropertyValue(strings[i]), elementType );
+            set.add(element);
          }
          return set;
       }
@@ -154,15 +158,16 @@ public class Conversions
    
    public static class ListConverter implements Converter<List>
    {
-      public List toObject(String string, Type type)
+      public List toObject(PropertyValue values, Type type)
       {
-         String[] strings = getConverter(String[].class).toObject(string, String[].class);
+         String[] strings = values.getMultiValues();
          Class elementType = Reflections.getCollectionElementType(type);
          List list = new ArrayList(strings.length);
          Converter elementConverter = converters.get(elementType);
          for (int i=0; i<strings.length; i++)
          {
-            list.add( elementConverter.toObject(strings[i], elementType) );
+            Object element = elementConverter.toObject( new FlatPropertyValue(strings[i]), elementType );
+            list.add(element);
          }
          return list;
       }
@@ -170,18 +175,139 @@ public class Conversions
    
    public static class MapConverter implements Converter<Map>
    {
-      public Map toObject(String string, Type type)
+      public Map toObject(PropertyValue values, Type type)
       {
-         String[] strings = getConverter(String[].class).toObject(string, String[].class);
+         Properties keyedValues = values.getKeyedValues();
          Class elementType = Reflections.getCollectionElementType(type);
-         Map map = new HashMap(strings.length/2);
+         Map map = new HashMap( keyedValues.size() );
          Converter elementConverter = converters.get(elementType);
-         for (int i=0; i<strings.length;)
+         for (Map.Entry me: keyedValues.entrySet())
          {
-            map.put( strings[i++], elementConverter.toObject(strings[i++], elementType) );
+            String key = (String) me.getKey();
+            Object element = elementConverter.toObject( new FlatPropertyValue( (String) me.getValue() ), elementType );
+            map.put(key, element);
          }
          return map;
       }
+   }
+   
+   public static interface PropertyValue extends Serializable
+   {
+      Properties getKeyedValues();
+      String[] getMultiValues();
+      String getSingleValue();
+      boolean isExpression();
+   }
+   
+   public static class FlatPropertyValue implements PropertyValue
+   {
+      
+      private String string;
+
+      public FlatPropertyValue(String string)
+      {
+         this.string = string;
+      }
+
+      public String[] getMultiValues()
+      {
+         return Strings.split(string, ", \r\n\f\t");
+      }
+
+      public String getSingleValue()
+      {
+         return string;
+      }
+      
+      public boolean isExpression()
+      {
+         return string.startsWith("#{");
+      }
+
+      public Properties getKeyedValues()
+      {
+         throw new UnsupportedOperationException("not a keyed property value");
+      }
+      
+      public String toString()
+      {
+         return string;
+      }
+      
+   }
+   
+   public static class MultiPropertyValue implements PropertyValue
+   {
+      
+      private String[] strings;
+
+      public MultiPropertyValue(String[] strings)
+      {
+         this.strings = strings;
+      }
+
+      public String[] getMultiValues()
+      {
+         return strings;
+      }
+
+      public String getSingleValue()
+      {
+         throw new UnsupportedOperationException("not a flat property value");
+      }
+      
+      public Properties getKeyedValues()
+      {
+         throw new UnsupportedOperationException("not a keyed property value");
+      }
+
+      public boolean isExpression()
+      {
+         return false;
+      }
+      
+      public String toString()
+      {
+         return Strings.toString(", ", strings);
+      }
+      
+   }
+   
+   public static class AssociativePropertyValue implements PropertyValue
+   {
+      
+      private Properties keyedValues;
+
+      public AssociativePropertyValue(Properties keyedValues)
+      {
+         this.keyedValues = keyedValues;
+      }
+
+      public String[] getMultiValues()
+      {
+         throw new UnsupportedOperationException("not a multi-valued property value");
+      }
+
+      public String getSingleValue()
+      {
+         throw new UnsupportedOperationException("not a flat property value");
+      }
+      
+      public Properties getKeyedValues()
+      {
+         return keyedValues;
+      }
+      
+      public boolean isExpression()
+      {
+         return false;
+      }
+      
+      public String toString()
+      {
+         return keyedValues.toString();
+      }
+      
    }
    
 }

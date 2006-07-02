@@ -82,6 +82,7 @@ import org.jboss.seam.jms.TopicSession;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.theme.Theme;
 import org.jboss.seam.theme.ThemeSelector;
+import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
@@ -98,7 +99,7 @@ public class Initialization
    
    private static final Log log = LogFactory.getLog(Initialization.class);
 
-   private Map<String, String> properties = new HashMap<String, String>();
+   private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
    private ServletContext servletContext;
    private boolean isScannerEnabled = true;
    private Map<String, Class> components = new HashMap<String, Class>();
@@ -109,6 +110,7 @@ public class Initialization
       initPropertiesFromXml();
       initPropertiesFromServletContext();
       initPropertiesFromResource();
+      initJndiProperties();
    }
    
    private void initPropertiesFromXml()
@@ -180,44 +182,61 @@ public class Initialization
       for( Element prop: props )
       {
          String propName = name + '.' + prop.attributeValue("name");
-         List<Element> keyElements = prop.elements("key");
-         List<Element> valueElements = prop.elements("value");
-         String value;
-         if (valueElements.isEmpty() && keyElements.isEmpty())
-         {
-            value = prop.getTextTrim();
-         }
-         else if ( keyElements.isEmpty() )
-         {
-            StringBuilder builder = new StringBuilder();
-            for (Element valueElement : valueElements)
-            {
-               if (builder.length()>0) builder.append(", ");
-               builder.append( valueElement.getTextTrim() );
-            }
-            value = builder.toString();
-         }
-         else
-         {
-            StringBuilder builder = new StringBuilder();
-            for (int i=0; i<keyElements.size(); i++)
-            {
-               Element keyElement = keyElements.get(i);
-               Element valueElement = valueElements.get(i);
-               if (builder.length()>0) builder.append(", ");
-               builder.append('(')
-                     .append( keyElement.getTextTrim() )
-                     .append(", ")
-                     .append( valueElement.getTextTrim() )
-                     .append(')');
-            }
-            value = builder.toString();
-         }
-         properties.put( propName, replace(value, replacements) );
+         properties.put( propName, getPropertyValue(prop, propName, replacements) );
       }
    }
 
-   public Initialization setProperty(String name, String value)
+   private Conversions.PropertyValue getPropertyValue(Element prop, String propName, Properties replacements)
+   {
+      List<Element> keyElements = prop.elements("key");
+      List<Element> valueElements = prop.elements("value");
+      Conversions.PropertyValue propertyValue;
+      if ( valueElements.isEmpty() && keyElements.isEmpty() )
+      {
+         propertyValue = new Conversions.FlatPropertyValue( trimmedText(prop, propName, replacements) );
+      }
+      else if ( keyElements.isEmpty() )
+      {
+         //a list-like structure
+         int len = valueElements.size();
+         String[] values = new String[len];
+         for (int i=0; i<len; i++)
+         {
+            values[i] = trimmedText( valueElements.get(i), propName, replacements );
+         }
+         propertyValue = new Conversions.MultiPropertyValue(values);
+      }
+      else
+      {
+         //a map-like structure
+         if ( valueElements.size()!=keyElements.size() )
+         {
+            throw new IllegalArgumentException("value elements must match key elements: " + propName);
+         }
+         Properties keyedValues = new Properties();
+         for (int i=0; i<keyElements.size(); i++)
+         {
+            String key = trimmedText( keyElements.get(i), propName, replacements );
+            String value = trimmedText( valueElements.get(i), propName, replacements );
+            keyedValues.put(key, value);
+            
+         }
+         propertyValue = new Conversions.AssociativePropertyValue(keyedValues);
+      }
+      return propertyValue;
+   }
+
+   private String trimmedText(Element element, String propName, Properties replacements)
+   {
+      String text = element.getTextTrim();
+      if (text==null)
+      {
+         throw new IllegalArgumentException("property value must be specified in element body: " + propName);
+      }
+      return replace(text, replacements);
+   }
+
+   public Initialization setProperty(String name, Conversions.PropertyValue value)
    {
       properties.put(name, value);
       return this;
@@ -240,17 +259,24 @@ public class Initialization
       while (params.hasMoreElements())
       {
          String name = (String) params.nextElement();
-         properties.put(name, servletContext.getInitParameter(name));
+         properties.put( name, new Conversions.FlatPropertyValue( servletContext.getInitParameter(name) ) );
       }
    }
 
    private void initPropertiesFromResource()
    {
-      loadFromResource( properties, "/seam.properties" );
+      Properties props = loadFromResource("/seam.properties");
+      for (Map.Entry me: props.entrySet())
+      {
+         properties.put( (String) me.getKey(), new Conversions.FlatPropertyValue( (String) me.getValue() ) );
+      }
+   }
 
+   private void initJndiProperties()
+   {
       Properties jndiProperties = new Properties();
-      loadFromResource( jndiProperties, "/jndi.properties" );
-      loadFromResource( jndiProperties, "/seam-jndi.properties" );
+      jndiProperties.putAll( loadFromResource("/jndi.properties") );
+      jndiProperties.putAll( loadFromResource("/seam-jndi.properties") );
       Naming.setInitialContextProperties(jndiProperties);
    }
 
@@ -260,13 +286,13 @@ public class Initialization
       if (userTransactionName!=null) Transactions.setUserTransactionName( userTransactionName );
    }
 
-   public void loadFromResource(Map properties, String resource)
+   private Properties loadFromResource(String resource)
    {
+      Properties props = new Properties();
       InputStream stream = Resources.getResourceAsStream(resource, servletContext);
       if (stream!=null)
       {
          log.info("reading properties from: " + resource);
-         Properties props = new Properties();
          try
          {
             props.load(stream);
@@ -275,13 +301,13 @@ public class Initialization
          {
             log.error("could not read " + resource, ioe);
          }
-         properties.putAll(props);
          initUserTransactionName(props); //TODO: this is very fragile!!!
       }
       else
       {
          log.debug("not found: " + resource);
       }
+      return props;
    }
 
    protected void addComponents()

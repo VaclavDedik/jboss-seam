@@ -272,18 +272,18 @@ public class Component
    private void initInitializers(Context applicationContext)
    {
       if (applicationContext==null) return; //TODO: yew!!!!!
-      Map<String, String> properties = (Map<String, String>) applicationContext.get(PROPERTIES);
+      Map<String, Conversions.PropertyValue> properties = (Map<String, Conversions.PropertyValue>) applicationContext.get(PROPERTIES);
       if (properties==null) return; //TODO: yew!!!!!
       
       
-      for ( Map.Entry<String, String> me: properties.entrySet() )
+      for ( Map.Entry<String, Conversions.PropertyValue> me: properties.entrySet() )
       {
          String key = me.getKey();
-         String value = me.getValue();
+         Conversions.PropertyValue propertyValue = me.getValue();
 
          if ( key.startsWith(name) && key.charAt( name.length() )=='.' )
          {
-            if ( log.isDebugEnabled() ) log.debug( key + "=" + value );
+            if ( log.isDebugEnabled() ) log.debug( key + "=" + propertyValue );
 
             if ( type==ComponentType.ENTITY_BEAN )
             {
@@ -299,22 +299,22 @@ public class Component
                
             String propertyName = key.substring( name.length()+1, key.length() );
             PropertyDescriptor propertyDescriptor = getPropertyDescriptor(configClass, propertyName, key);
-            initializers.put( propertyDescriptor.getWriteMethod(), getInitialValue(value, propertyDescriptor) );
+            initializers.put( propertyDescriptor.getWriteMethod(), getInitialValue(propertyValue, propertyDescriptor) );
         }
 
       }
    }
 
-   private InitialValue getInitialValue(String string, PropertyDescriptor propertyDescriptor)
+   private InitialValue getInitialValue(Conversions.PropertyValue propertyValue, PropertyDescriptor propertyDescriptor)
    {
-      if (string.startsWith("#{"))
+      if ( propertyValue.isExpression() ) //TODO: support #{...} in <value> element
       {
-         return new ELInitialValue(string);
+         return new ELInitialValue( propertyValue.getSingleValue() );
       }
       else
       {
          Object value = Conversions.getConverter( propertyDescriptor.getPropertyType() )
-               .toObject( string, propertyDescriptor.getReadMethod().getGenericReturnType() );
+               .toObject( propertyValue, propertyDescriptor.getReadMethod().getGenericReturnType() );
          return new ConstantInitialValue(value);
       }
    }
