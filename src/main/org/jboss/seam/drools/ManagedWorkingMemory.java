@@ -26,6 +26,7 @@ public class ManagedWorkingMemory
    
    private String ruleBaseName;
    private WorkingMemory workingMemory;
+   private RuleBase ruleBase;
 
    /**
     * The name of a Seam context variable holding an
@@ -54,7 +55,9 @@ public class ManagedWorkingMemory
    {
       if (workingMemory==null)
       {
-         RuleBase ruleBase = (RuleBase) Component.getInstance(ruleBaseName, true);
+         RuleBase ruleBase = this.ruleBase==null ? 
+               (RuleBase) Component.getInstance(ruleBaseName, true) :
+                this.ruleBase;
          if (ruleBase==null)
          {
             throw new IllegalArgumentException("RuleBase not found: " + ruleBaseName);
@@ -68,6 +71,16 @@ public class ManagedWorkingMemory
    public void destroy()
    {
       workingMemory.dispose();
+   }
+
+   public RuleBase getRuleBase()
+   {
+      return ruleBase;
+   }
+
+   public void setRuleBase(RuleBase ruleBase)
+   {
+      this.ruleBase = ruleBase;
    }
 
 }

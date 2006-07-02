@@ -3,6 +3,8 @@ package org.jboss.seam.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 public class Reflections
 {
@@ -55,6 +57,25 @@ public class Reflections
       {
          return Class.forName(name);
       }
+   }
+
+   public static Class getCollectionElementType(Type collectionType)
+   {
+      if ( !(collectionType instanceof ParameterizedType) )
+      {
+         throw new IllegalArgumentException("collection type not parameterized");
+      }
+      Type[] typeArguments = ( (ParameterizedType) collectionType ).getActualTypeArguments();
+      if (typeArguments.length==0)
+      {
+         throw new IllegalArgumentException("no type arguments for collection type");
+      }
+      Type typeArgument = typeArguments.length==1 ? typeArguments[0] : typeArguments[1]; //handle Maps
+      if ( !(typeArgument instanceof Class) )
+      {
+         throw new IllegalArgumentException("type argument not a class");
+      }
+      return (Class) typeArgument;
    }
 
 }

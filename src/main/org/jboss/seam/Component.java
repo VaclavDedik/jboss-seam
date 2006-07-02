@@ -8,8 +8,6 @@ package org.jboss.seam;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
@@ -77,12 +75,11 @@ import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
+import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
-import org.jboss.seam.util.SetPropertyEditor;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.SorterNew;
-import org.jboss.seam.util.StringArrayPropertyEditor;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -96,12 +93,6 @@ import org.jboss.seam.util.StringArrayPropertyEditor;
 public class Component
 {
    public static final String PROPERTIES = "org.jboss.seam.properties";
-
-   //static
-   {
-      PropertyEditorManager.registerEditor(String[].class, StringArrayPropertyEditor.class);
-      PropertyEditorManager.registerEditor(Set.class, SetPropertyEditor.class);
-   }
 
    private static final Log log = LogFactory.getLog(Component.class);
 
@@ -126,7 +117,7 @@ public class Component
    private Set<Field> outFields = new HashSet<Field>();
    private Set<Field> parameterFields = new HashSet<Field>();
    private Set<Method> parameterSetters = new HashSet<Method>();
-   private Map<Method, Object> initializers = new HashMap<Method, Object>();
+   private Map<Method, InitialValue> initializers = new HashMap<Method, InitialValue>();
 
    private List<Method> dataModelGetters = new ArrayList<Method>();
    private Map<Method, Annotation> dataModelGetterAnnotations = new HashMap<Method, Annotation>();
@@ -292,6 +283,8 @@ public class Component
 
          if ( key.startsWith(name) && key.charAt( name.length() )=='.' )
          {
+            if ( log.isDebugEnabled() ) log.debug( key + "=" + value );
+
             if ( type==ComponentType.ENTITY_BEAN )
             {
                throw new IllegalArgumentException("can not configure entity beans: " + name);
@@ -305,21 +298,36 @@ public class Component
                   beanClass : businessInterfaces.iterator().next();
                
             String propertyName = key.substring( name.length()+1, key.length() );
-            PropertyDescriptor propertyDescriptor;
-            try
-            {
-               propertyDescriptor = new PropertyDescriptor(propertyName, configClass);
-            }
-            catch (IntrospectionException ie)
-            {
-               throw new IllegalArgumentException("no property for configuration setting: " + key, ie);
-            }
-            PropertyEditor propertyEditor = PropertyEditorManager.findEditor( propertyDescriptor.getPropertyType() );
-            propertyEditor.setAsText( value );
-            initializers.put( propertyDescriptor.getWriteMethod(), propertyEditor.getValue() );
-            if ( log.isDebugEnabled() ) log.debug( key + "=" + value );
+            PropertyDescriptor propertyDescriptor = getPropertyDescriptor(configClass, propertyName, key);
+            initializers.put( propertyDescriptor.getWriteMethod(), getInitialValue(value, propertyDescriptor) );
         }
 
+      }
+   }
+
+   private InitialValue getInitialValue(String string, PropertyDescriptor propertyDescriptor)
+   {
+      if (string.startsWith("#{"))
+      {
+         return new ELInitialValue(string);
+      }
+      else
+      {
+         Object value = Conversions.getConverter( propertyDescriptor.getPropertyType() )
+               .toObject( string, propertyDescriptor.getReadMethod().getGenericReturnType() );
+         return new ConstantInitialValue(value);
+      }
+   }
+
+   private PropertyDescriptor getPropertyDescriptor(Class clazz, String propertyName, String key)
+   {
+      try
+      {
+         return new PropertyDescriptor(propertyName, clazz);
+      }
+      catch (IntrospectionException ie)
+      {
+         throw new IllegalArgumentException("no property for configuration setting: " + key, ie);
       }
    }
 
@@ -787,9 +795,9 @@ public class Component
 
    protected Object initialize(Object bean) throws Exception
    {
-      for ( Map.Entry<Method, Object> me: initializers.entrySet() )
+      for ( Map.Entry<Method, InitialValue> me: initializers.entrySet() )
       {
-         Reflections.invoke( me.getKey(), bean, me.getValue() );
+         Reflections.invoke( me.getKey(), bean, me.getValue().getValue() );
       }
       return bean;
    }
@@ -1486,6 +1494,47 @@ public class Component
    public boolean isMutable()
    {
       return mutable;
+   }
+   
+   public static interface InitialValue
+   {
+      Object getValue();
+   }
+   
+   public static class ConstantInitialValue implements InitialValue
+   {
+      private Object value;
+      
+      public ConstantInitialValue(Object value)
+      {
+         this.value = value;
+      }
+
+      public Object getValue()
+      {
+         return value;
+      }
+      
+   }
+
+   public static class ELInitialValue implements InitialValue
+   {
+      private String expression;
+      //private ValueBinding vb;
+      
+      public ELInitialValue(String expression)
+      {
+         this.expression = expression;
+         //vb = FacesContext.getCurrentInstance().getApplication().createValueBinding(expression);
+      }
+
+      public Object getValue()
+      {
+         return FacesContext.getCurrentInstance().getApplication()
+               .createValueBinding(expression)
+               .getValue( FacesContext.getCurrentInstance() );
+      }
+      
    }
 
 }

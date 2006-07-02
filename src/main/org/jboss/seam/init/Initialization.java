@@ -180,7 +180,22 @@ public class Initialization
       for( Element prop: props )
       {
          String propName = name + '.' + prop.attributeValue("name");
-         String value = prop.getTextTrim();
+         List<Element> valueElements = prop.elements("value");
+         String value;
+         if (valueElements.isEmpty())
+         {
+            value = prop.getTextTrim();
+         }
+         else
+         {
+            StringBuilder builder = new StringBuilder();
+            for (Element valueElement : valueElements)
+            {
+               if (builder.length()>0) builder.append(", ");
+               builder.append( valueElement.getTextTrim() );
+            }
+            value = builder.toString();
+         }
          properties.put( propName, replace(value, replacements) );
       }
    }
