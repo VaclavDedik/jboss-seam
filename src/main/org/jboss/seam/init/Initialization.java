@@ -1,9 +1,9 @@
 /*
-�* JBoss, Home of Professional Open Source
-�*
-�* Distributable under LGPL license.
-�* See terms of license at gnu.org.
-�*/
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.init;
 
 import java.io.IOException;
@@ -180,19 +180,36 @@ public class Initialization
       for( Element prop: props )
       {
          String propName = name + '.' + prop.attributeValue("name");
+         List<Element> keyElements = prop.elements("key");
          List<Element> valueElements = prop.elements("value");
          String value;
-         if (valueElements.isEmpty())
+         if (valueElements.isEmpty() && keyElements.isEmpty())
          {
             value = prop.getTextTrim();
          }
-         else
+         else if ( keyElements.isEmpty() )
          {
             StringBuilder builder = new StringBuilder();
             for (Element valueElement : valueElements)
             {
                if (builder.length()>0) builder.append(", ");
                builder.append( valueElement.getTextTrim() );
+            }
+            value = builder.toString();
+         }
+         else
+         {
+            StringBuilder builder = new StringBuilder();
+            for (int i=0; i<keyElements.size(); i++)
+            {
+               Element keyElement = keyElements.get(i);
+               Element valueElement = valueElements.get(i);
+               if (builder.length()>0) builder.append(", ");
+               builder.append('(')
+                     .append( keyElement.getTextTrim() )
+                     .append(", ")
+                     .append( valueElement.getTextTrim() )
+                     .append(')');
             }
             value = builder.toString();
          }

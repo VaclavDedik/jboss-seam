@@ -116,7 +116,7 @@ public class Conversions
    {
       public String[] toObject(String string, Type type)
       {
-         return Strings.split(string, ", \r\n\f\t");
+         return Strings.split(string, ", ()\r\n\f\t");
       }
    }
    
@@ -165,6 +165,22 @@ public class Conversions
             list.add( elementConverter.toObject(strings[i], elementType) );
          }
          return list;
+      }
+   }
+   
+   public static class MapConverter implements Converter<Map>
+   {
+      public Map toObject(String string, Type type)
+      {
+         String[] strings = getConverter(String[].class).toObject(string, String[].class);
+         Class elementType = Reflections.getCollectionElementType(type);
+         Map map = new HashMap(strings.length/2);
+         Converter elementConverter = converters.get(elementType);
+         for (int i=0; i<strings.length;)
+         {
+            map.put( strings[i++], elementConverter.toObject(strings[i++], elementType) );
+         }
+         return map;
       }
    }
    
