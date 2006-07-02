@@ -10,7 +10,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.validator.Valid;
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -22,7 +21,6 @@ import org.jboss.seam.core.FacesMessages;
 
 @Name("hotelBooking")
 @Scope(CONVERSATION)
-@Conversational(ifNotBegunOutcome="main")
 @LoggedIn
 public class HotelBookingAction implements Serializable
 {
