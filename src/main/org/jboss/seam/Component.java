@@ -289,37 +289,28 @@ public class Component
             {
                throw new IllegalArgumentException("can not configure entity beans: " + name);
             }
-            else if ( type!=ComponentType.JAVA_BEAN && businessInterfaces.size()>1 )
-            {
-               throw new IllegalArgumentException("can only configure components with exactly one business interface: " + name);
-            }
-            
-            Class configClass = type==ComponentType.JAVA_BEAN ? 
-                  beanClass : businessInterfaces.iterator().next();
                
             String propertyName = key.substring( name.length()+1, key.length() );
-            Method setterMethod = Reflections.getSetterMethod(configClass, propertyName);
+            Method setterMethod = Reflections.getSetterMethod(beanClass, propertyName);
             if (setterMethod!=null)
             {
+               if ( !setterMethod.isAccessible() ) setterMethod.setAccessible(true);
                Class parameterClass = setterMethod.getParameterTypes()[0];
                Type parameterType = setterMethod.getGenericParameterTypes()[0];
                initializerSetters.put( setterMethod, getInitialValue(propertyValue, parameterClass, parameterType) );
             }
-            else if (type==ComponentType.JAVA_BEAN) //TODO: use a @PostConstruct callback on the interceptor to allow field-based config of session beans
+            else
             {
                try
                {
-                  Field field = configClass.getField(propertyName);
+                  Field field = beanClass.getField(propertyName);
+                  if ( !field.isAccessible() ) field.setAccessible(true);
                   initializerFields.put( field, getInitialValue(propertyValue, field.getType(), field.getGenericType()) );
                }
                catch (NoSuchFieldException nsfe)
                {
                   throw new IllegalArgumentException("no field or setter method for configuration setting: " + key, nsfe);
                }
-            }
-            else
-            {
-               throw new IllegalArgumentException("no setter method for configuration setting: " + key);
             }
         }
 
@@ -579,7 +570,7 @@ public class Component
 
       newSort(interceptors);
 
-      log.trace("interceptor stack: " + interceptors);
+      if ( log.isDebugEnabled() ) log.debug("interceptor stack: " + interceptors);
    }
 
    private List<Interceptor> newSort(List<Interceptor> list)
@@ -747,11 +738,10 @@ public class Component
 
    public Object newInstance()
    {
-      log.debug("instantiating Seam component: " + name);
-
+      if ( log.isDebugEnabled() ) log.debug("instantiating Seam component: " + name);
       try
       {
-         return initialize( instantiate() );
+         return instantiate();
       }
       catch (Exception e)
       {
@@ -782,11 +772,14 @@ public class Component
            case JAVA_BEAN:
               if (interceptionType==InterceptionType.NEVER)
               {
-                 return beanClass.newInstance();
+                 Object bean = beanClass.newInstance();
+                 initialize(bean);
+                 return bean;
               }
               else
               {
                  Factory bean = factory.newInstance();
+                 initialize(bean);
                  bean.setCallback( 0, new JavaBeanInterceptor() );
                  return bean;
               }
@@ -802,8 +795,9 @@ public class Component
         }
     }
 
-   protected Object initialize(Object bean) throws Exception
+   public void initialize(Object bean) throws Exception
    {
+      if ( log.isDebugEnabled() ) log.debug("initializing new instance of: " + name);
       for ( Map.Entry<Method, InitialValue> me: initializerSetters.entrySet() )
       {
          setPropertyValue(bean, me.getKey(), me.getKey().getName(), me.getValue().getValue() );
@@ -812,7 +806,6 @@ public class Component
       {
          setFieldValue(bean, me.getKey(), me.getKey().getName(), me.getValue().getValue() );
       }
-      return bean;
    }
 
    public void inject(Object bean/*, boolean isActionInvocation*/)
@@ -950,7 +943,7 @@ public class Component
 
          Object selectedIndex = wrapper.getSelection(dataModelAnn, dataModel);
 
-         log.debug( "selected row: " + selectedIndex );
+         if ( log.isDebugEnabled() ) log.debug( "selected row: " + selectedIndex );
 
          if ( selectedIndex!=null )
          {
@@ -1354,7 +1347,7 @@ public class Component
       Component component = Component.forName(name);
       if (component == null)
       {
-         log.debug("seam component not found: " + name);
+         if ( log.isDebugEnabled() ) log.debug("seam component not found: " + name);
          return null; //needed when this method is called by JSF
       }
       else

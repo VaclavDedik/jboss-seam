@@ -8,6 +8,7 @@ package org.jboss.seam.ejb;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
@@ -30,6 +31,17 @@ public class SeamInterceptor implements Serializable
 {
    
    private static final Log log = LogFactory.getLog(SeamInterceptor.class);
+   
+   @PostConstruct
+   public void initialize(InvocationContext invocation) throws Exception
+   {
+      Object bean = invocation.getTarget();
+      if ( isSeamComponent(bean) )
+      {
+         getSeamComponent(bean).initialize(bean);
+      }
+      invocation.proceed();
+   }
    
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
