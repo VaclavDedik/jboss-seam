@@ -1,5 +1,9 @@
 <components>
 
+    <component name="numberGuess">
+        <property name="maxGuesses">10</property>
+    </component>
+
     <component name="org.jboss.seam.core.init">
         <property name="debug">true</property>
         <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
