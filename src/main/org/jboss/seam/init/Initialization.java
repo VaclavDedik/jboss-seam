@@ -146,7 +146,14 @@ public class Initialization
             List<Element> factoryElements = doc.getRootElement().elements("factory");
             for (Element factory: factoryElements)
             {
-               Init.instance().addFactory( factory.attributeValue("name"), factory.attributeValue("expression") );
+               String scopeName = factory.attributeValue("scope");
+               Init.instance().addFactory( 
+                     factory.attributeValue("name"), 
+                     factory.attributeValue("expression"),
+                     scopeName==null ? 
+                           ScopeType.UNSPECIFIED : 
+                           ScopeType.valueOf( scopeName.toUpperCase() )
+                  );
             }
             
          }

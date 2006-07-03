@@ -40,7 +40,7 @@ public class Init
    
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
-   private Map<String, MethodBinding> factoryMethodBindings = new HashMap<String, MethodBinding>();
+   private Map<String, FactoryMethodBinding> factoryMethodBindings = new HashMap<String, FactoryMethodBinding>();
    
    public static Init instance()
    {
@@ -70,11 +70,23 @@ public class Init
    public static class FactoryMethod {
 	   public Method method;
 	   public Component component;
+      public ScopeType scope;
 	   FactoryMethod(Method method, Component component)
 	   {
 		   this.method = method;
 		   this.component = component;
+         scope = method.getAnnotation(org.jboss.seam.annotations.Factory.class).scope();
 	   }
+   }
+   
+   public static class FactoryMethodBinding {
+      public MethodBinding methodBinding;
+      public ScopeType scope;
+      FactoryMethodBinding(MethodBinding methodBinding, ScopeType scope)
+      {
+         this.methodBinding = methodBinding;
+         this.scope = scope;
+      }
    }
    
    public FactoryMethod getFactory(String variable)
@@ -82,7 +94,7 @@ public class Init
       return factories.get(variable);
    }
    
-   public MethodBinding getFactoryMethodBinding(String variable)
+   public FactoryMethodBinding getFactoryMethodBinding(String variable)
    {
       return factoryMethodBindings.get(variable);
    }
@@ -92,11 +104,11 @@ public class Init
 	   factories.put( variable, new FactoryMethod(method, component) );
    }
    
-   public void addFactory(String variable, String methodBindingExpression)
+   public void addFactory(String variable, String methodBindingExpression, ScopeType scope)
    {
       MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication()
             .createMethodBinding(methodBindingExpression, null);
-      factoryMethodBindings.put(variable, methodBinding);
+      factoryMethodBindings.put( variable, new FactoryMethodBinding(methodBinding, scope) );
    }
    
    public static class ObserverMethod {

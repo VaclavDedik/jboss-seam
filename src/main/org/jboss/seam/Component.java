@@ -61,6 +61,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ResourceBundle;
+import org.jboss.seam.core.Init.FactoryMethodBinding;
 import org.jboss.seam.databinding.DataBinder;
 import org.jboss.seam.databinding.DataSelector;
 import org.jboss.seam.interceptors.BijectionInterceptor;
@@ -1336,21 +1337,43 @@ public class Component
       else
       {
          Init.FactoryMethod factoryMethod = init.getFactory(name);
-         MethodBinding methodBinding = init.getFactoryMethodBinding(name);
-         if (factoryMethod!=null)
+         Init.FactoryMethodBinding methodBinding = init.getFactoryMethodBinding(name);
+         if (methodBinding!=null) //let the XML take precedence
+         {
+            Object result = methodBinding.methodBinding.invoke( FacesContext.getCurrentInstance(), null );
+            return handleFactoryMethodResult(name, null, result, factoryMethod.scope);
+         }
+         else if (factoryMethod!=null)
          {
             Object factory = Component.getInstance( factoryMethod.component.getName(), true );
-            callComponentMethod(factoryMethod.component, factory, factoryMethod.method);
-            return Contexts.lookupInStatefulContexts(name);
-         }
-         else if (methodBinding!=null)
-         {
-            return methodBinding.invoke( FacesContext.getCurrentInstance(), null );
+            Object result = callComponentMethod(factoryMethod.component, factory, factoryMethod.method);
+            return handleFactoryMethodResult(name, factoryMethod.component, result, factoryMethod.scope);
          }
          else
          {
             return null;
          }
+      }
+   }
+
+   private static Object handleFactoryMethodResult(String name, Component component, Object result, ScopeType scope)
+   {
+      if (result==null) //a factory method with a void return type
+      {
+         return Contexts.lookupInStatefulContexts(name);
+      }
+      else //a factory method returning a value
+      {
+         if (scope==ScopeType.UNSPECIFIED)
+         {
+            if (component==null)
+            {
+               throw new IllegalArgumentException("no scope specified for factory method defined in components.xml: " + name);
+            }
+            scope = component.getScope();
+         }
+         scope.getContext().set(name, result);
+         return result;
       }
    }
 
