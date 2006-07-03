@@ -87,12 +87,15 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       if (dataModelSelection!=null)
       {
          int loc = dataModelSelection.indexOf('[');
-         String name = dataModelSelection.substring(0, loc);
-         int index = Integer.parseInt( dataModelSelection.substring( loc+1, dataModelSelection.length()-1 ) );
-         Object value = Contexts.lookupInStatefulContexts(name);
-         if (value!=null)
+         if (loc>0)
          {
-            ( (DataModel) value ).setRowIndex(index);
+            String name = dataModelSelection.substring(0, loc);
+            int index = Integer.parseInt( dataModelSelection.substring( loc+1, dataModelSelection.length()-1 ) );
+            Object value = Contexts.lookupInStatefulContexts(name);
+            if (value!=null)
+            {
+               ( (DataModel) value ).setRowIndex(index);
+            }
          }
       }
    }

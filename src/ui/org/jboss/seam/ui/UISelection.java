@@ -23,8 +23,9 @@ public class UISelection extends UIParameter
    public Object getValue()
    {
       Object value = Contexts.lookupInStatefulContexts(dataModel);
-      return value==null ? null : 
-         dataModel + '[' + ( (DataModel) value ).getRowIndex() + ']';
+      int rowIndex = ( (DataModel) value ).getRowIndex();
+      return value==null || rowIndex<0 ? 
+            null : dataModel + '[' + rowIndex + ']';
    }
 
    @Override
