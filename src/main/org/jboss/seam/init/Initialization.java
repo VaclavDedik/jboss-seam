@@ -133,8 +133,8 @@ public class Initialization
             saxReader.setMergeAdjacentText(true);
             Document doc = saxReader.read(stream);
             
-            List<Element> elements = doc.getRootElement().elements("component");
-            for (Element component: elements)
+            List<Element> componentElements = doc.getRootElement().elements("component");
+            for (Element component: componentElements)
             {
                String installed = component.attributeValue("installed");
                if (installed==null || "true".equals( replace(installed, replacements) ) )
@@ -142,6 +142,13 @@ public class Initialization
                   installComponent(component, replacements);
                }
             }
+            
+            List<Element> factoryElements = doc.getRootElement().elements("factory");
+            for (Element factory: factoryElements)
+            {
+               Init.instance().addFactory( factory.attributeValue("name"), factory.attributeValue("expression") );
+            }
+            
          }
          catch (Exception e)
          {

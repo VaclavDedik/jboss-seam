@@ -28,6 +28,7 @@ import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.el.MethodBinding;
 import javax.interceptor.Interceptors;
 import javax.servlet.ServletRequest;
 
@@ -1328,17 +1329,28 @@ public class Component
    public static Object getInstanceFromFactory(String name)
    {
       Init init = Init.instance();
-      Init.FactoryMethod factoryMethod = init==null ?
-            null : init.getFactory(name);
-      if (factoryMethod==null)
+      if (init==null) //for unit tests, yew!
       {
          return null;
       }
       else
       {
-         Object factory = Component.getInstance( factoryMethod.component.getName(), true );
-         callComponentMethod(factoryMethod.component, factory, factoryMethod.method);
-         return Contexts.lookupInStatefulContexts(name);
+         Init.FactoryMethod factoryMethod = init.getFactory(name);
+         MethodBinding methodBinding = init.getFactoryMethodBinding(name);
+         if (factoryMethod!=null)
+         {
+            Object factory = Component.getInstance( factoryMethod.component.getName(), true );
+            callComponentMethod(factoryMethod.component, factory, factoryMethod.method);
+            return Contexts.lookupInStatefulContexts(name);
+         }
+         else if (methodBinding!=null)
+         {
+            return methodBinding.invoke( FacesContext.getCurrentInstance(), null );
+         }
+         else
+         {
+            return null;
+         }
       }
    }
 

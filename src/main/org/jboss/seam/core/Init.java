@@ -10,8 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
@@ -29,7 +30,6 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.init")
 public class Init
 {
-   private static final Log log = LogFactory.getLog(Init.class);
    
    private boolean isClientSideConversations = false;
    private boolean jbpmInstalled;
@@ -38,8 +38,9 @@ public class Init
    private boolean myFacesLifecycleBug;
    private List<String> mutableComponentNames = new ArrayList<String>();
    
-   private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
+   private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
+   private Map<String, MethodBinding> factoryMethodBindings = new HashMap<String, MethodBinding>();
    
    public static Init instance()
    {
@@ -81,9 +82,21 @@ public class Init
       return factories.get(variable);
    }
    
+   public MethodBinding getFactoryMethodBinding(String variable)
+   {
+      return factoryMethodBindings.get(variable);
+   }
+   
    public void addFactoryMethod(String variable, Method method, Component component)
    {
 	   factories.put( variable, new FactoryMethod(method, component) );
+   }
+   
+   public void addFactory(String variable, String methodBindingExpression)
+   {
+      MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication()
+            .createMethodBinding(methodBindingExpression, null);
+      factoryMethodBindings.put(variable, methodBinding);
    }
    
    public static class ObserverMethod {
