@@ -59,13 +59,13 @@ public class PageContext implements Context {
    
    private Map getCurrentReadableMap()
    {
-      return Lifecycle.getPhaseId().compareTo(PhaseId.INVOKE_APPLICATION) > 0 ?
+      return isRenderResponsePhase() ?
             nextPageMap : previousPageMap;
    }
 
    private Map getCurrentWritableMap()
    {
-      return Lifecycle.getPhaseId().compareTo(PhaseId.INVOKE_APPLICATION) < 0 ?
+      return isBeforeInvokeApplicationPhase() ?
             previousPageMap : nextPageMap;
    }
 
@@ -98,9 +98,34 @@ public class PageContext implements Context {
       getAttributeMap().put( ScopeType.PAGE.getPrefix(), nextPageMap );
    }
 
-   private Map getAttributeMap()
+   private static Map getAttributeMap()
    {
-      return FacesContext.getCurrentInstance().getViewRoot().getAttributes();
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if (facesContext==null)
+      {
+         throw new IllegalStateException("no FacesContext bound to current thread");
+      }
+      return facesContext.getViewRoot().getAttributes();
+   }
+
+   private static PhaseId getPhaseId()
+   {
+      PhaseId phaseId = Lifecycle.getPhaseId();
+      if (phaseId==null)
+      {
+         throw new IllegalStateException("No phase id bound to current thread");
+      }
+      return phaseId;
+   }
+
+   private static boolean isBeforeInvokeApplicationPhase()
+   {
+      return getPhaseId().compareTo(PhaseId.INVOKE_APPLICATION) < 0;
+   }
+
+   private static boolean isRenderResponsePhase()
+   {
+      return getPhaseId().compareTo(PhaseId.INVOKE_APPLICATION) > 0;
    }
 
 }
