@@ -3,6 +3,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.STATELESS;
 
+import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
 import javax.faces.context.FacesContext;
@@ -47,12 +48,24 @@ public class Interpolator {
     * @return the interpolated string
     */
    public String interpolate(String string, Object... params) {
-      if ( string.indexOf('#')<0 ) return string;
       if ( params.length>10 ) 
       {
          throw new IllegalArgumentException("more than 10 parameters");
       }
       
+      if ( string.indexOf('#')>=0 )
+      {
+         string = interpolateExpressions(string, params);
+      }
+      if ( params.length>1 && string.indexOf('{')>=0 )
+      {
+         string = new MessageFormat(string, Locale.instance()).format(params);
+      }
+      return string;
+   }
+
+   private String interpolateExpressions(String string, Object... params)
+   {
       FacesContext context = FacesContext.getCurrentInstance();
       StringTokenizer tokens = new StringTokenizer(string, "#{}", true);
       StringBuilder builder = new StringBuilder(string.length());
