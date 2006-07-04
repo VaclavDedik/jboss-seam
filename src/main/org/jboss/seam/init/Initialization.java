@@ -8,11 +8,14 @@ package org.jboss.seam.init;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -102,7 +105,8 @@ public class Initialization
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
    private ServletContext servletContext;
    private boolean isScannerEnabled = true;
-   private Map<String, Class> components = new HashMap<String, Class>();
+   private List<ComponentDescriptor> componentDescriptors = new ArrayList<ComponentDescriptor>();
+   private Set<Class> installedComponents = new HashSet<Class>();
 
    public Initialization(ServletContext servletContext)
    {
@@ -177,6 +181,8 @@ public class Initialization
    {
       String name = component.attributeValue("name");
       String className = component.attributeValue("class");
+      String scopeName = component.attributeValue("scope");
+      ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName);
       if (className!=null)
       {
          Class<?> clazz = Reflections.classForName(className);
@@ -184,7 +190,8 @@ public class Initialization
          {
             name = clazz.getAnnotation(Name.class).value();
          }
-         components.put(name, clazz);
+         componentDescriptors.add( new ComponentDescriptor(name, clazz, scope) );
+         installedComponents.add(clazz);
       }
       else if (name==null)
       {
@@ -370,7 +377,7 @@ public class Initialization
       }
       catch (NoClassDefFoundError ncdfe) {} //swallow
 
-      if ( components.values().contains(Jbpm.class) )
+      if ( installedComponents.contains(Jbpm.class) )
       {
          init.setJbpmInstalled(true);
       }
@@ -396,21 +403,28 @@ public class Initialization
          addComponent( ManagedJbpmContext.class, context );
       }
       
-      if ( components.values().contains(ManagedTopicPublisher.class) )
+      if ( installedComponents.contains(ManagedTopicPublisher.class) )
       {
          addComponent( TopicConnection.class, context );
          addComponent( TopicSession.class, context );
       }
 
-      if ( components.values().contains(ManagedQueueSender.class) )
+      if ( installedComponents.contains(ManagedQueueSender.class) )
       {
          addComponent( QueueConnection.class, context );
          addComponent( QueueSession.class, context );
       }
 
-      for ( Map.Entry<String, Class> component : components.entrySet() )
+      for ( ComponentDescriptor componentDescriptor : componentDescriptors )
       {
-         addComponent( component.getKey(), component.getValue(), context );
+         if (componentDescriptor.scope==null)
+         {
+            addComponent( componentDescriptor.name, componentDescriptor.componentClass, context );
+         }
+         else
+         {
+            addComponent( componentDescriptor.name, componentDescriptor.scope, componentDescriptor.componentClass, context );
+         }
       }
 
       if (isScannerEnabled)
@@ -478,6 +492,19 @@ public class Initialization
    {
       this.isScannerEnabled = isScannerEnabled;
       return this;
+   }
+   
+   private static class ComponentDescriptor
+   {
+      String name;
+      Class componentClass;
+      ScopeType scope;
+      public ComponentDescriptor(String name, Class componentClass, ScopeType scope)
+      {
+         this.name = name;
+         this.componentClass = componentClass;
+         this.scope = scope;
+      }
    }
 
 }

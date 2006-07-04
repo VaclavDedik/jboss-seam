@@ -28,7 +28,6 @@ import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.el.MethodBinding;
 import javax.interceptor.Interceptors;
 import javax.servlet.ServletRequest;
 
@@ -61,7 +60,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ResourceBundle;
-import org.jboss.seam.core.Init.FactoryMethodBinding;
 import org.jboss.seam.databinding.DataBinder;
 import org.jboss.seam.databinding.DataSelector;
 import org.jboss.seam.interceptors.BijectionInterceptor;
@@ -1373,7 +1371,10 @@ public class Component
             }
             scope = component.getScope();
          }
-         scope.getContext().set(name, result);
+         if ( !scope.getContext().isSet(name) ) //just in case the factory method sets the variable _and_ returns a value - should we really allow that?
+         {
+            scope.getContext().set(name, result);
+         }
          return result;
       }
    }
