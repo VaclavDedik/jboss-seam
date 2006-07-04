@@ -321,7 +321,8 @@ public class Component
 
    private InitialValue getInitialValue(Conversions.PropertyValue propertyValue, Class parameterClass, Type parameterType)
    {
-      if ( propertyValue.isExpression() ) //TODO: support #{...} in <value> element
+      //note that org.jboss.seam.core.init.jndiPattern looks like an EL expression but is not one!
+      if ( propertyValue.isExpression() && !beanClass.equals(Init.class) ) //TODO: support #{...} in <value> element
       {
          return new ELInitialValue( propertyValue.getSingleValue() );
       }
