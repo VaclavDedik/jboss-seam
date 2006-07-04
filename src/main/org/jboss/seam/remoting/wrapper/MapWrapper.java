@@ -38,11 +38,11 @@ public class MapWrapper extends BaseWrapper implements Wrapper
       out.write(ELEMENT_TAG_OPEN);
 
       out.write(KEY_TAG_OPEN);
-      context.createWrapperFromObject(key).marshal(out);
+      context.createWrapperFromObject(key, String.format("%s[key]", path)).marshal(out);
       out.write(KEY_TAG_CLOSE);
 
       out.write(VALUE_TAG_OPEN);
-      context.createWrapperFromObject(m.get(key)).marshal(out);
+      context.createWrapperFromObject(m.get(key), String.format("%s[value]", path)).marshal(out);
       out.write(VALUE_TAG_CLOSE);
 
       out.write(ELEMENT_TAG_CLOSE);

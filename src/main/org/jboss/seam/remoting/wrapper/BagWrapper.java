@@ -61,7 +61,7 @@ public class BagWrapper extends BaseWrapper implements Wrapper
     for (Object val : vals)
     {
       out.write(ELEMENT_TAG_OPEN);
-      context.createWrapperFromObject(val).marshal(out);
+      context.createWrapperFromObject(val, path).marshal(out);
       out.write(ELEMENT_TAG_CLOSE);
     }
 

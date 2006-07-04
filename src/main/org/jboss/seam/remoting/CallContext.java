@@ -61,7 +61,7 @@ public class CallContext
    *
    * @return Wrapper
    */
-  public Wrapper createWrapperFromObject(Object value)
+  public Wrapper createWrapperFromObject(Object value, String path)
   {
     // Not very efficient but has to be done - may implement something better later
     for (Wrapper ref : outRefs)
@@ -72,6 +72,7 @@ public class CallContext
 
     Wrapper w = WrapperFactory.getInstance().getWrapperForObject(value);
     w.setCallContext(this);
+    w.setPath(path);
     return w;
   }
 

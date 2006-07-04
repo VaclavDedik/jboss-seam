@@ -242,10 +242,61 @@ public class RemotingTest
 
   @Test
   public void testNumberWrapper()
+      throws Exception
   {
-    NumberWrapper wrapper = new NumberWrapper();
+    String value = "123";
 
-    /** @todo Write tests for NumberWrapper */
+    NumberWrapper wrapper = new NumberWrapper();
+    wrapper.setElement(createElement("number", value));
+
+    assert new Short(value).equals(wrapper.convert(Short.class));
+    assert Short.parseShort(value) == wrapper.convert(Short.TYPE);
+
+    assert new Integer(value).equals(wrapper.convert(Integer.class));
+    assert Integer.parseInt(value) == wrapper.convert(Integer.TYPE);
+
+    assert new Long(value).equals(wrapper.convert(Long.class));
+    assert Long.parseLong(value) == wrapper.convert(Long.TYPE);
+
+    assert new Byte(value).equals(wrapper.convert(Byte.class));
+    assert Byte.parseByte(value) == wrapper.convert(Byte.TYPE);
+
+    assert value.equals(wrapper.convert(String.class));
+
+    value = "123.456";
+    wrapper.setElement(createElement("number", value));
+
+    assert new Double(value).equals(wrapper.convert(Double.class));
+    assert Double.valueOf(value).equals(wrapper.convert(Double.TYPE));
+
+    assert new Float(value).equals(wrapper.convert(Float.class));
+    assert Float.valueOf(value).equals(wrapper.convert(Float.TYPE));
+
+    value = "";
+    wrapper.setElement(createElement("number", value));
+
+    assert null == wrapper.convert(Short.class);
+    assert null == wrapper.convert(Integer.class);
+    assert null == wrapper.convert(Long.class);
+    assert null == wrapper.convert(Float.class);
+    assert null == wrapper.convert(Double.class);
+    assert null == wrapper.convert(Byte.class);
+
+    try
+    {
+      // Attempt an invalid conversion
+      wrapper.convert(InvalidClass.class);
+      assert false;
+    }
+    catch (ConversionException ex) { }
+
+    assert ConversionScore.exact == wrapper.conversionScore(Integer.class);
+    assert ConversionScore.exact == wrapper.conversionScore(Integer.TYPE);
+
+    assert ConversionScore.compatible == wrapper.conversionScore(String.class);
+    assert ConversionScore.compatible == wrapper.conversionScore(Object.class);
+
+    assert ConversionScore.nomatch == wrapper.conversionScore(InvalidClass.class);
   }
 
   /**

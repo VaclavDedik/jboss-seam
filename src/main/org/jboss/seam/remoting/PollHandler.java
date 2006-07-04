@@ -152,7 +152,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
     out.write("\">".getBytes());
 
     out.write("<value>".getBytes());
-    ctx.createWrapperFromObject(value).marshal(out);
+    ctx.createWrapperFromObject(value, "").marshal(out);
     out.write("</value>".getBytes());
 
     out.write(REFS_TAG_OPEN);

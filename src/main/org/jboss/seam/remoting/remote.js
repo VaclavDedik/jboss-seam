@@ -2,6 +2,7 @@
 var Seam = new Object();
 Seam.Remoting = new Object();
 Seam.Component = new Object();
+Seam.pageContext = new Object();
 
 // Components registered here
 Seam.Component.components = new Array();

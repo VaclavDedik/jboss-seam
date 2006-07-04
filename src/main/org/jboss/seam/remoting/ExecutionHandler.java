@@ -226,7 +226,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
       out.write(VALUE_TAG_OPEN);
 
-      call.getContext().createWrapperFromObject(call.getResult()).marshal(out);
+      call.getContext().createWrapperFromObject(call.getResult(), "").marshal(out);
 
       out.write(VALUE_TAG_CLOSE);
 
@@ -241,15 +241,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
         out.write(Integer.toString(i).getBytes());
         out.write(REF_TAG_OPEN_END);
 
-        // Now... our result should be the first object.  Once we get it,
-        // set its path to "" and it will propogate the correct path down the
-        // object graph
-        if (wrapper.getValue().equals(call.getResult()) &&
-            call.getConstraints() != null && wrapper instanceof BeanWrapper)
-        {
-          ((BeanWrapper) wrapper).serialize(out, "", call.getConstraints());
-        }
-        else if (wrapper instanceof BeanWrapper && call.getConstraints() != null)
+        if (wrapper instanceof BeanWrapper && call.getConstraints() != null)
           ((BeanWrapper) wrapper).serialize(out, call.getConstraints());
         else
           wrapper.serialize(out);

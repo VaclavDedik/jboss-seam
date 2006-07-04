@@ -15,6 +15,13 @@ import org.jboss.seam.remoting.CallContext;
 public interface Wrapper
 {
   /**
+   * Sets the path of the wrapped object within the resulting object graph
+   *
+   * @param path String
+   */
+  public void setPath(String path);
+
+  /**
    *
    * @param call Call
    */
@@ -63,7 +70,7 @@ public interface Wrapper
    *
    * 0 - Cannot be converted
    * 1 - Can be converted to this type
-   * 2 - Param is already of this type
+   * 2 - Param is this exact type
    *
    * @param target Class
    * @return int

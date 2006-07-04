@@ -14,6 +14,11 @@ import org.jboss.seam.remoting.CallContext;
 public abstract class BaseWrapper implements Wrapper
 {
   /**
+   * The path of this object within the result object graph
+   */
+  protected String path;
+
+  /**
    * The call context
    */
   protected CallContext context;
@@ -27,6 +32,16 @@ public abstract class BaseWrapper implements Wrapper
    * The wrapped value
    */
   protected Object value;
+
+  /**
+   * Sets the path.
+   *
+   * @param path String
+   */
+  public void setPath(String path)
+  {
+    this.path = path;
+  }
 
   /**
    * Sets the wrapped value

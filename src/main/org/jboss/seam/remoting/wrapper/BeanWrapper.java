@@ -28,11 +28,6 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
   private static final byte[] MEMBER_CLOSE_TAG = "</member>".getBytes();
 
   /**
-   * The path of this object within the result object graph
-   */
-  private String path;
-
-  /**
    *
    * @param element Element
    */
@@ -152,20 +147,6 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
   /**
    *
    * @param out OutputStream
-   * @param path String
-   * @param constraints List
-   * @throws IOException
-   */
-  public void serialize(OutputStream out, String path, List<String> constraints)
-      throws IOException
-  {
-    this.path = path;
-    serialize(out, constraints);
-  }
-
-  /**
-   *
-   * @param out OutputStream
    * @throws IOException
    */
   public void serialize(OutputStream out)
@@ -203,7 +184,11 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     for (Field f : InterfaceGenerator.getAccessibleFields(cls))
     {
       String fieldPath = path != null && path.length() > 0 ? String.format("%s.%s", path, f.getName()) : f.getName();
-      if (constraints == null || !constraints.contains(fieldPath))
+
+      // Also exclude fields listed using wildcard notation: [componentName].fieldName
+      String wildCard = String.format("[%s].%s", componentName != null ? componentName : cls.getName(), f.getName());
+
+      if (constraints == null || (!constraints.contains(fieldPath) && !constraints.contains(wildCard)))
       {
         out.write(MEMBER_START_TAG_OPEN);
         out.write(f.getName().getBytes());
@@ -214,13 +199,8 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
         {
           // Temporarily set the field's accessibility so we can read it
           f.setAccessible(true);
-          Wrapper w = context.createWrapperFromObject(f.get(value));
-          w.marshal(out);
 
-          if (w instanceof BeanWrapper)
-          {
-            ((BeanWrapper) w).path = fieldPath;
-          }
+          context.createWrapperFromObject(f.get(value), fieldPath).marshal(out);
         }
         catch (IllegalAccessException ex)
         {
