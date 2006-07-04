@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 
-import org.hibernate.validator.Valid;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
@@ -30,7 +29,6 @@ public class PostAction
    
    @In(required=false) 
    @Out(scope=ScopeType.EVENT)
-   @Valid
    private BlogEntry newBlogEntry;
    
    @Factory("newBlogEntry")

@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.validator.Valid;
 import org.jboss.annotation.ejb.Depends;
 import org.jboss.mail.userapi.MailSender;
 import org.jboss.seam.annotations.IfInvalid;
@@ -23,7 +22,7 @@ public class RegisterAction implements Register
    @Depends("jboss.mail:type=MailServices,name=MailSender")
    private MailSender mailer;
 
-   @In @Valid
+   @In
    private User user;
    
    @PersistenceContext
