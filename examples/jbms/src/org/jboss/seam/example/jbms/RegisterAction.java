@@ -9,7 +9,6 @@ import javax.persistence.PersistenceContext;
 
 import org.jboss.annotation.ejb.Depends;
 import org.jboss.mail.userapi.MailSender;
-import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Outcome;
@@ -28,7 +27,6 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
-   @IfInvalid(outcome=Outcome.REDISPLAY)
    public String register()
    {
       List existing = em.createQuery("select username from User where username=:username")
