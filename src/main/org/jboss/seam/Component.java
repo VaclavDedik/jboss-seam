@@ -1551,6 +1551,11 @@ public class Component
          return value;
       }
       
+      public String toString()
+      {
+         return "ConstantInitialValue(" + value + ")";
+      }
+      
    }
 
    public static class ELInitialValue implements InitialValue
@@ -1569,6 +1574,11 @@ public class Component
          return FacesContext.getCurrentInstance().getApplication()
                .createValueBinding(expression)
                .getValue( FacesContext.getCurrentInstance() );
+      }
+      
+      public String toString()
+      {
+         return "ELInitialValue(" + expression + ")";
       }
       
    }
