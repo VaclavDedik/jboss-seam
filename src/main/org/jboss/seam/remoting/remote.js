@@ -543,7 +543,12 @@ Seam.Remoting.cancelCall = function(callId)
   var call = Seam.Remoting.pendingCalls.get(callId);
   Seam.Remoting.pendingCalls.remove(callId);
   if (call && call.asyncReq)
+  {
+    if (Seam.Remoting.pendingCalls.isEmpty())
+      Seam.Remoting.hideLoadingMessage();
+    call.asyncReq.onreadystatechange = function() {};
     call.asyncReq.abort();
+  }
 }
 
 Seam.Remoting.execute = function(component, methodName, params, callback)
