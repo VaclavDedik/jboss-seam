@@ -821,12 +821,15 @@
     	
     	<variablelist spacing="compact">
             <varlistentry id="webremote-annotation">
-                <term><literal>@WebRemote</literal></term>
+                <term><literal>@WebRemote(exclude = {path.to.exclude})</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@WebRemote]]></programlisting>
                     <para>
                         Indicates that the annotated method may be called from client-side 
                         JavaScript.
+The <literal>exclude</literal> property is optional and
+                        allows objects to be excluded from the result's object graph (see the
+                        Remoting chapter for more details).
                     </para>
                 </listitem>
             </varlistentry>
