@@ -728,6 +728,137 @@
     </sect1>
     
     <sect1>
+      <title>Controlling what data is returned</title>
+      
+      <para>
+        When a remote method is executed, the result is serialized into an XML response that is returned
+        to the client.  This response is then unmarshaled by the client into a Javascript object.  For
+        complex types (i.e. Javabeans) that include references to other objects, all of these referenced objects
+        are also serialized as part of the response.  These objects may reference other objects, which may
+        reference other objects, and so forth.  If left unchecked, this object "graph" could potentially 
+        be enormous, depending on what relationships exist between your objects.  And as a side issue (besides 
+        the potential verbosity of the response), you might also wish to prevent sensitive information from being 
+        exposed to the client.
+      </para>
+      
+      <para>
+        Seam Remoting provides a simple means to "constrain" the object graph, by specifying the 
+        <literal>exclude</literal> field of the remote method's <literal>@WebRemote</literal> annotation.
+        This field accepts a String array containing one or more paths specified using dot notation. When invoking
+        a remote method, the objects in the result's object graph that match these paths are excluded from the 
+        serialized result packet.
+      </para>
+      
+      <para>
+        For all our examples, we'll use the following <literal>Widget</literal> class:
+      </para>
+      
+      <programlisting>
+@Name("widget")
+public class Widget
+{
+  private String value;
+  private String secret;
+  private Widget child;
+  private Map&lt;String,Widget&gt; widgetMap;
+  private List&lt;Widget&gt; widgetList;
+  
+  // getters and setters for all fields
+}
+      </programlisting>
+      
+      <sect2>
+        <title>Constraining normal fields</title>
+        
+        <para>
+          If your remote method returns an instance of <literal>Widget</literal>, but you don't want to expose the
+          <literal>secret</literal> field because it contains sensitive information, you would constrain it like this:
+        </para>
+        
+        <programlisting>
+  @WebRemote(exclude = {"secret"})
+  public Widget getWidget();      
+        </programlisting>
+        
+        <para>
+          The value "secret" refers to the <literal>secret</literal> field of the returned object. Now, suppose that we 
+          don't care about exposing this particular field to the client.  Instead, notice that the <literal>Widget</literal>
+          value that is returned has a field <literal>child</literal> that is also a <literal>Widget</literal>.  What if we
+          want to hide the <literal>child</literal>'s <literal>secret</literal> value instead?  We can do this by using 
+          dot notation to specify this field's path within the result's object graph:
+        </para>
+        
+        <programlisting>
+  @WebRemote(exclude = {"child.secret"})
+  public Widget getWidget();      
+        </programlisting>
+
+      </sect2>
+      
+      <sect2>
+        <title>Constraining Maps and Collections</title>
+      
+        <para>
+          The other place that objects can exist within an object graph are within a <literal>Map</literal> or
+          some kind of collection (<literal>List</literal>, <literal>Set</literal>, <literal>Array</literal>, etc).
+          Collections are easy, and are treated like any other field.  For example, if our <literal>Widget</literal>
+          contained a list of other <literal>Widget</literal>s in its <literal>widgetList</literal> field, to
+          constrain the <literal>secret</literal> field of the <literal>Widget</literal>s in this list the annotation
+          would look like this:
+        </para>
+        
+        <programlisting>
+  @WebRemote(exclude = {"widgetList.secret"})
+  public Widget getWidget();      
+        </programlisting>
+        
+        <para>
+          To constrain a <literal>Map</literal>'s key or value, the notation is slightly different.  Appending
+          <literal>[key]</literal> after the <literal>Map</literal>'s field name will constrain the 
+          <literal>Map</literal>'s key object values, while <literal>[value]</literal> will constrain the value
+          object values.  The following example demonstrates how the values of the <literal>widgetMap</literal>
+          field have their <literal>secret</literal> field constrained:
+        </para>
+        
+        <programlisting>
+  @WebRemote(exclude = {"widgetMap[value].secret"})
+  public Widget getWidget();      
+        </programlisting>
+      </sect2>
+      
+      <sect2>
+        <title>Constraining objects of a specific type</title>
+      
+        <para>
+          There is one last notation that can be used to constrain the fields of a type of object no matter
+          where in the result's object graph it appears.  This notation uses either the name of the component
+          (if the object is a Seam component) or the fully qualified class name (only if the object is not a 
+          Seam component) and is expressed using square brackets:
+        </para>
+        
+        <programlisting>
+  @WebRemote(exclude = {"[widget].secret"})
+  public Widget getWidget();      
+        </programlisting>
+        
+      </sect2>
+      
+      <sect2>
+        <title>Combining Constraints</title>
+        
+        <para>
+          Constraints can also be combined, to filter objects from multiple paths within the object graph:
+        </para>
+
+        <programlisting>
+  @WebRemote(exclude = {"widgetList.secret", "widgetMap[value].secret"})
+  public Widget getWidget();      
+        </programlisting>
+      </sect2>
+      
+    </sect1>
+    
+    <sect1>
       <title>JMS Messaging</title>
       
       <para>
