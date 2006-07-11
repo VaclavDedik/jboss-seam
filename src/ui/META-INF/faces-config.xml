@@ -25,6 +25,23 @@
     </component>
 
     <component>
+        <component-type>org.jboss.seam.ui.UICache</component-type>
+        <component-class>org.jboss.seam.ui.UICache</component-class>
+        <property>
+            <property-name>key</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>enabled</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>region</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
         <component-type>org.jboss.seam.ui.UIAction</component-type>
         <component-class>org.jboss.seam.ui.UIAction</component-class>
         <property>

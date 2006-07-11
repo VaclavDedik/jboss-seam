@@ -70,4 +70,11 @@
 		</validator>
 	</tag>
 	
+	<tag>
+		<tag-name>cache</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UICache</component-type>
+		</component>
+	</tag>
+	
 </facelet-taglib>
