@@ -77,6 +77,8 @@ public class Manager
    
    private boolean nonFacesRequest = true;
 
+   private boolean controllingRedirect;
+   
    private int conversationTimeout = 600000; //10 mins
    
    private String conversationIdParameter = "conversationId";
@@ -792,7 +794,7 @@ public class Manager
       setLongRunningConversation(true);
    }
 
-   public String encodeConversationId(String url) {
+   private String encodeConversationId(String url) {
       if ( Seam.isSessionInvalid() )
       {
          return url;
@@ -891,6 +893,7 @@ public class Manager
          beforeRedirect();
       }
       ExternalContext externalContext = context.getExternalContext();
+      controllingRedirect = true;
       try
       {
          externalContext.redirect( externalContext.encodeActionURL(url) );
@@ -899,9 +902,32 @@ public class Manager
       {
          throw new RuntimeException("could not redirect to: " + url, ioe);
       }
+      finally
+      {
+         controllingRedirect = false;
+      }
       context.responseComplete(); //work around MyFaces bug in 1.1.1
    }
    
+   /**
+    * Called by the Seam Redirect Filter when a redirect is called.
+    * Appends the conversationId parameter if necessary.
+    * 
+    * @param url the requested URL
+    * @return the resulting URL with the conversationId appended
+    */
+   public String appendConversationIdFromRedirectFilter(String url)
+   {
+      boolean appendConversationId = !controllingRedirect && 
+            !url.contains("?" + getConversationIdParameter() +"=");
+      if (appendConversationId)
+      {
+         url = encodeConversationId(url);
+         beforeRedirect();
+      }
+      return url;
+   }
+
    /**
     * If a page description is defined, remember the description and
     * view id for the current page, to support conversation switching.
@@ -1009,5 +1035,5 @@ public class Manager
          redirect( noConversationViewId );
       }
    }
-   
+
 }

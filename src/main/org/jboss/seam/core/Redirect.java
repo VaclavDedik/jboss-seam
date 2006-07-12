@@ -27,6 +27,7 @@ public class Redirect implements Serializable
 {
    private String viewId;
    private Map<String, Object> parameters = new HashMap<String, Object>();
+   private boolean conversationPropagationEnabled = true;
    
    /**
     * Get the JSF view id to redirect to
@@ -76,12 +77,28 @@ public class Redirect implements Serializable
    }
    
    /**
+    * Should the conversation be propagated across the redirect?
+    * @return true by default
+    */
+   public boolean isConversationPropagationEnabled()
+   {
+      return conversationPropagationEnabled;
+   }
+   
+   /**
+    * Note that conversations are propagated by default
+    */
+   public void setConversationPropagationEnabled(boolean conversationPropagationEnabled)
+   {
+      this.conversationPropagationEnabled = conversationPropagationEnabled;
+   }
+   
+   /**
     * Perform the redirect
     */
    public void execute()
    {
-      // only include the conv-id if the Seam redirect filter is installed
-      Manager.instance().redirect(viewId, parameters, false);
+      Manager.instance().redirect(viewId, parameters, conversationPropagationEnabled);
    }
    
    public static Redirect instance()
@@ -92,5 +109,5 @@ public class Redirect implements Serializable
       }
       return (Redirect) Component.getInstance(Redirect.class, ScopeType.CONVERSATION, true);
    }
-   
+
 }

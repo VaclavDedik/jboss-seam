@@ -39,18 +39,13 @@ public class SeamRedirectFilter implements Filter
          {
             if ( Contexts.isEventContextActive() )
             {
-               Manager manager = Manager.instance();
-               if ( !url.contains("?" + manager.getConversationIdParameter() +"=") )
-               {
-                  url = manager.encodeConversationId(url);
-                  manager.beforeRedirect();
-               }
+               url = Manager.instance().appendConversationIdFromRedirectFilter(url);
             }
             super.sendRedirect(url);
-         }  
+         }
       };
    }
 
-   public void destroy() {}
+   public void destroy() {}  
 
 }
