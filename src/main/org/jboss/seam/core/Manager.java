@@ -86,6 +86,8 @@ public class Manager
    private String conversationIdParameter = "conversationId";
    private String conversationIsLongRunningParameter = "conversationIsLongRunning";
 
+   private boolean conversationAlreadyStored;
+
    public String getCurrentConversationId()
    {
       return currentConversationId;
@@ -393,6 +395,7 @@ public class Manager
       {
          discardTemporaryConversation(session, response);
       }
+      conversationAlreadyStored = true;
    }
 
    private void storeLongRunningConversation(Object response)
@@ -1041,6 +1044,11 @@ public class Manager
       {
          redirect( noConversationViewId );
       }
+   }
+
+   public boolean isConversationAlreadyStored()
+   {
+      return conversationAlreadyStored;
    }
 
 }

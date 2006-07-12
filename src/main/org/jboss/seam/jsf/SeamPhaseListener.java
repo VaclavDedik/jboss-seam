@@ -94,6 +94,13 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
             
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
+         if ( !Manager.instance().isConversationAlreadyStored() ) 
+         {
+            //for JSF pages with no form, storeAnyConversationContext()
+            //will not get called from SeamStateManager.saveSerializedView()
+            storeAnyConversationContext(facesContext);
+         }
+         
          if ( !Init.instance().isClientSideConversations() ) 
          {
             // difficult question: is it really safe to do this here?
