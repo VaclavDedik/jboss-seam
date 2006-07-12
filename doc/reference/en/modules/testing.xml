@@ -42,8 +42,6 @@ public class RegisterAction implements Register
        this.em = em;
    }
    
-   
-   @IfInvalid(outcome=Outcome.REDISPLAY)
    public String register()
    {
       List existing = em.createQuery("select username from User where username=:username")

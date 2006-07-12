@@ -382,7 +382,7 @@
                 container. In this use case, components are JavaBeans instead of session beans.
             </para>
             <para>
-                By default, JavaBeans are bound to the conversation context.
+                By default, JavaBeans are bound to the event context.
             </para>
         </sect2>
         

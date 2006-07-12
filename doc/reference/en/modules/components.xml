@@ -737,7 +737,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.process</literal></term>
+                <term><literal>businessProcess</literal></term>
                 <listitem>
                     <para>
                         Internal component for Seam process management. Installed whenever
