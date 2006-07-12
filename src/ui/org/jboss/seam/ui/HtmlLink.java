@@ -192,9 +192,22 @@ public class HtmlLink extends HtmlOutputLink
       {
          writer.flush();
       }
+      
    }
    
-   
+   @Override
+   public void encodeEnd(FacesContext context) throws IOException
+   {
+      ResponseWriter writer = context.getResponseWriter();
+      if ( "button".equals(style) )
+      {
+         writer.endElement("input");
+      }
+      else
+      {
+         writer.endElement("a");
+      }
+   }
 
    private String getParameterString(String characterEncoding, UIParameter param, boolean first) 
          throws UnsupportedEncodingException
