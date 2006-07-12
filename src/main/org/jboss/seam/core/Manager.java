@@ -801,7 +801,7 @@ public class Manager
    }
 
    private String encodeConversationId(String url) {
-      if ( Seam.isSessionInvalid() )
+      if ( destroyBeforeRedirect || Seam.isSessionInvalid() )
       {
          return url;
       }
@@ -928,6 +928,7 @@ public class Manager
             !url.contains("?" + getConversationIdParameter() +"=");
       if (appendConversationId)
       {
+         
          url = encodeConversationId(url);
          beforeRedirect();
       }
