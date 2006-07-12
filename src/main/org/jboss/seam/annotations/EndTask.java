@@ -42,4 +42,14 @@ public @interface EndTask {
     */
    String transition() default "";
    
+   /**
+    * Should the conversation be destroyed before any
+    * redirect? (The default behavior is to propagate
+    * the conversation across the redirect and then
+    * destroy it at the end of the redirected request.)
+    * 
+    * @return false by default
+    */
+   boolean beforeRedirect() default false;
+  
 }

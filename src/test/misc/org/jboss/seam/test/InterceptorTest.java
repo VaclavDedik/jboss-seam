@@ -513,7 +513,7 @@ public class InterceptorTest
          }
       });
       
-      Manager.instance().endConversation();
+      Manager.instance().endConversation(false);
       
       //assert !Manager.instance().isLongRunningConversation();
       assert "ended".equals(result);

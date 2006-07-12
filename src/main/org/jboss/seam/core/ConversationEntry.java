@@ -77,7 +77,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
 
    public String destroy() {
       boolean success = Manager.instance().swapConversation( getId() );
-      if (success) Manager.instance().endConversation();
+      if (success) Manager.instance().endConversation(false);
       return null;
    }
 

@@ -79,6 +79,8 @@ public class Manager
 
    private boolean controllingRedirect;
    
+   private boolean destroyBeforeRedirect;
+   
    private int conversationTimeout = 600000; //10 mins
    
    private String conversationIdParameter = "conversationId";
@@ -594,7 +596,7 @@ public class Manager
       }
       else if ( "end".equals(propagation) )
       {
-         endConversation();
+         endConversation(false);
       }
 
    }
@@ -711,9 +713,10 @@ public class Manager
    /**
     * Make a long-running conversation temporary.
     */
-   public void endConversation()
+   public void endConversation(boolean beforeRedirect)
    {
       setLongRunningConversation(false);
+      destroyBeforeRedirect = beforeRedirect;
    }
    
    /**
@@ -784,14 +787,17 @@ public class Manager
     */
    public void beforeRedirect()
    {
-      ConversationEntry ce = getConversationEntry(currentConversationId);
-      if (ce==null)
+      if (!destroyBeforeRedirect)
       {
-         ce = createConversationEntry();
+         ConversationEntry ce = getConversationEntry(currentConversationId);
+         if (ce==null)
+         {
+            ce = createConversationEntry();
+         }
+         //ups, we don't really want to destroy it on this request after all!
+         ce.setRemoveAfterRedirect( !isLongRunningConversation() );
+         setLongRunningConversation(true);
       }
-      //ups, we don't really want to destroy it on this request after all!
-      ce.setRemoveAfterRedirect( !isLongRunningConversation() );
-      setLongRunningConversation(true);
    }
 
    private String encodeConversationId(String url) {

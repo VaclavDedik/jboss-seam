@@ -93,7 +93,7 @@ public class Page extends Node implements Parsable
             
          }
          
-         Manager.instance().endConversation();
+         Manager.instance().endConversation(false);
       }
    }
 

@@ -183,39 +183,45 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void endConversationIfNecessary(Method method, Object result)
    {
+      boolean isEndAnnotation = method.isAnnotationPresent(End.class);
+      boolean isEndTaskAnnotation = method.isAnnotationPresent(EndTask.class);
+      
+      boolean beforeRedirect = ( isEndAnnotation && method.getAnnotation(End.class).beforeRedirect() ) ||
+            ( isEndTaskAnnotation && method.getAnnotation(EndTask.class).beforeRedirect() );
+      
       boolean simpleEnd = 
-            ( method.isAnnotationPresent(End.class) && method.getAnnotation(End.class).ifOutcome().length==0 ) || 
-            ( method.isAnnotationPresent(EndTask.class) && method.getAnnotation(EndTask.class).ifOutcome().length==0 );
+            ( isEndAnnotation && method.getAnnotation(End.class).ifOutcome().length==0 ) || 
+            ( isEndTaskAnnotation && method.getAnnotation(EndTask.class).ifOutcome().length==0 );
       if ( simpleEnd )
       {
          if ( result!=null || method.getReturnType().equals(void.class) ) //null outcome interpreted as redisplay
          {
-            endConversation();
+            endConversation(beforeRedirect);
          }
       }
-      else if ( method.isAnnotationPresent(End.class) )
+      else if ( isEndAnnotation )
       {
          String[] outcomes = method.getAnnotation(End.class).ifOutcome();
          if ( Arrays.asList(outcomes).contains(result) )
          {
-            endConversation();
+            endConversation(beforeRedirect);
          }
       }
-      else if ( method.isAnnotationPresent(EndTask.class) )
+      else if ( isEndTaskAnnotation )
       {
          //TODO: fix minor code duplication
          String[] outcomes = method.getAnnotation(EndTask.class).ifOutcome();
          if ( Arrays.asList(outcomes).contains(result) )
          {
-            endConversation();
+            endConversation(beforeRedirect);
          }
       }
    }
 
-   private void endConversation()
+   private void endConversation(boolean beforeRedirect)
    {
       log.debug("Ending long-running conversation");
-      Manager.instance().endConversation();
+      Manager.instance().endConversation(false);
    }
 
 }

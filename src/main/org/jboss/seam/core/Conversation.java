@@ -192,8 +192,17 @@ public class Conversation implements Serializable {
     */
    public void end()
    {
-      Manager.instance().endConversation();   
+      Manager.instance().endConversation(false);   
    }
+   
+   /**
+    * End a long-runnning conversation and destroy
+    * it before a redirect.
+    */
+   public void endBeforeRedirect()
+   {
+      Manager.instance().endConversation(true);   
+   }   
    
    /**
     * Is this conversation long-running? Note that this method returns
