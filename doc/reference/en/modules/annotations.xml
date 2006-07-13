@@ -490,6 +490,49 @@
                     </para>
                 </listitem>
                 <listitem>
+                    <programlisting><![CDATA[@Begin(ifOutcome={"success", "continue"})]]></programlisting>
+                    <para>
+                        Specifies that a long-running conversation begins when this
+                        action listener method returns with one of the given outcomes.
+                    </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Begin(join=true)]]></programlisting>
+                    <para>
+                        Specifies that if a long-running conversation is already in progress,
+                        the conversation context is simply propagated.
+                    </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Begin(nested=true)]]></programlisting>
+                    <para>
+                        Specifies that if a long-running conversation is already in progress,
+                        a new <emphasis>nested</emphasis> conversation context begins. The
+                        nested conversation will end when the next <literal>@End</literal>
+                        is encountered, and the outer conversation will resume. It is
+                        perfectly legal for multiple nested conversations to exist 
+                        concurrently in the same outer conversation.
+                    </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Begin(pageflow="process definition name")]]></programlisting>
+                    <para>
+                        Specifies a jBPM process definition name that defines the pageflow
+                        for this conversation.
+                    </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Begin(flushMode=FlushModeType.MANUAL)]]></programlisting>
+                    <para>
+                        Specify the flush mode of any Seam-managed persistence contexts.
+                        <literal>flushMode=FlushModeType.MANUAL</literal> supports the 
+                        use of <emphasis>atomic conversations</emphasis> where all write 
+                        operations are queued in the conversation context until an 
+                        explicit call to <literal>flush()</literal> (which usually occurs 
+                        at the end of the conversation).
+                    </para>
+                </listitem>
+                <listitem>
                     <itemizedlist>
                         <listitem>
                         <para>
@@ -497,8 +540,6 @@
                             outcomes that result in a new long-running conversation context.
                         </para>
                         </listitem>
-                    </itemizedlist>
-                    <itemizedlist>
                         <listitem>
                         <para>
                             <literal>join</literal> &mdash; determines the behavior 
@@ -509,8 +550,6 @@
                             <literal>nested=true</literal> is specified
                         </para>
                         </listitem>
-                    </itemizedlist>
-                    <itemizedlist>
                         <listitem>
                         <para>
                             <literal>nested</literal> &mdash; specifies that a nested
@@ -518,8 +557,13 @@
                             is already in progress.
                         </para>
                         </listitem>
-                    </itemizedlist>
-                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>flushMode</literal> &mdash; set the flush mode of
+                            any Seam-managed Hibernate sessions or JPA persistence contexts 
+                            that are created during this conversation. 
+                        </para>
+                        </listitem>
                         <listitem>
                         <para>
                             <literal>pageflow</literal> &mdash; a process
@@ -546,12 +590,24 @@
                         action listener method returns with one of the given outcomes or
                         throws one of the specified classes of exception.
                     </para>
+                 </listitem>
+                 <listitem>
                     <itemizedlist>
                         <listitem>
                         <para>
                             <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or 
                             outcomes that result in the end of the current long-running 
                             conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>beforeRedirect</literal> &mdash; by default, the
+                            conversation will not actually be destroyed until after
+                            any redirect has occurred. Setting <literal>beforeRedirect=true</literal>
+                            specifies that the conversation should be destroyed at the end
+                            of the current request, and that the redirect will be processed in
+                            a new temporary conversation context.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -586,6 +642,13 @@
                             used by the Seam <literal>taskList</literal> JSF component.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>flushMode</literal> &mdash; set the flush mode of
+                            any Seam-managed Hibernate sessions or JPA persistence contexts 
+                            that are created during this conversation.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
@@ -616,6 +679,13 @@
                             used by the Seam <literal>taskList</literal> JSF component.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>flushMode</literal> &mdash; set the flush mode of
+                            any Seam-managed Hibernate sessions or JPA persistence contexts 
+                            that are created during this conversation.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
@@ -644,6 +714,7 @@
                         Specifies that the task ends when this method returns one of the listed outcomes.
                     </para>
                 </listitem>
+                <listitem>
                     <itemizedlist>
                         <listitem>
                         <para>
@@ -657,7 +728,18 @@
                             outcomes that result in the end of the task.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>beforeRedirect</literal> &mdash; by default, the
+                            conversation will not actually be destroyed until after
+                            any redirect has occurred. Setting <literal>beforeRedirect=true</literal>
+                            specifies that the conversation should be destroyed at the end
+                            of the current request, and that the redirect will be processed in
+                            a new temporary conversation context.
+                        </para>
+                        </listitem>
                     </itemizedlist>
+                </listitem>
             </varlistentry>   
             <varlistentry id="createprocess-annotation">
                 <term><literal>@CreateProcess</literal></term>
@@ -768,6 +850,53 @@
     </section>
     
     <section>
+    	<title>Annotations for exceptions</title>
+    	<para>
+    	    These annotations let you specify how Seam should handle an exception that propagates
+    	    out of a Seam component.
+    	</para>
+    	
+    	<variablelist spacing="compact">
+            <varlistentry id="redirect-annotation">
+                <term><literal>@Redirect</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Redirect]]></programlisting>
+                    <para>
+                        Specifies that the annotated exception causes a browser redirect
+                        to a specified view id.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>viewId</literal> &mdash; specifies the JSF view id
+                            to redirect to.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="httperror-annotation">
+                <term><literal>@HttpError</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@HttpError]]></programlisting>
+                    <para>
+                        Specifies that the annotated exception causes a HTTP error
+                        to be sent.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>errorCode</literal> &mdash; the HTTP error code,
+                            default to <literal>500</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+        </variablelist> 
+    </section>
+    
+    <section>
     	<title>Annotations for validation</title>
     	<para>
     	    This annotation triggers Hibernate Validator. It appears on a method of a Seam 
@@ -776,6 +905,10 @@
     	<para>
     	    Please refer to the documentation for the Hibernate Annotations package for
     	    information about the annotations defined by the Hibernate Validator framework.
+    	</para>
+    	<para>
+    	    <emphasis>Note that use of <literal>@IfInvalid</literal> is now semi-deprecated
+    	    and <literal>&lt;s:validateAll&gt;</literal> is now preferred.</emphasis>
     	</para>
     	
     	<variablelist spacing="compact">
@@ -826,8 +959,7 @@
                     <programlisting><![CDATA[@WebRemote]]></programlisting>
                     <para>
                         Indicates that the annotated method may be called from client-side 
-                        JavaScript.
-The <literal>exclude</literal> property is optional and
+                        JavaScript. The <literal>exclude</literal> property is optional and
                         allows objects to be excluded from the result's object graph (see the
                         Remoting chapter for more details).
                     </para>
