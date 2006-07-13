@@ -251,7 +251,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    private void endConversation(boolean beforeRedirect)
    {
       log.debug("Ending long-running conversation");
-      Manager.instance().endConversation(false);
+      Manager.instance().endConversation(beforeRedirect);
    }
 
 }
