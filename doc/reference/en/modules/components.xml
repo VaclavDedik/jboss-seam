@@ -170,6 +170,13 @@
                         </listitem>
                         <listitem>
                         <para>
+                            <literal>redirect.conversationPropagationEnabled</literal> &mdash; 
+                            determines whether the conversation will propagate across the 
+                            redirect.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
                             <literal>redirect.parameters</literal> &mdash; a map of
                             request parameter name to value, to be passed in the redirect
                             request.
@@ -256,6 +263,23 @@
                         </para>
                         </listitem>
                     </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>renderParameters</literal></term>
+                <listitem>
+                    <para>
+                        Allows JSF form controls to be bound to a "render parameter"
+                        which will be accessible via <literal>@RequestParameter</literal>
+                        during the subsequent render phase even if a browser redirect
+                        occurs. 
+                    </para>
+                    <para>
+                        For example, the value entered in this input field: 
+                        <literal>&lt;inputText value="#{renderParameters.searchString}"/&gt;</literal>
+                        will be available via <literal>@RequestParameter("searchString")</literal>
+                        when the form is submitted.
+                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -550,6 +574,48 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><literal>businessProcess</literal></term>
+                <listitem>
+                    <para>
+                        API for programmatic control of the association between the
+                        conversation and business process.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>businessProcess.taskId</literal> &mdash; the id of the task 
+                            associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>businessProcess.processId</literal> &mdash; the id of the process
+                            associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>createProcess(String name)</literal> &mdash; create an
+                            instance of the named process definition and associate it with
+                            the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>startTask()</literal> &mdash; start the task 
+                            associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>endTask(String transitionName)</literal> &mdash; end the task 
+                            associated with the current conversation.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><literal>taskInstance</literal></term>
                 <listitem>
                     <para>
@@ -734,15 +800,6 @@
                         </para>
                         </listitem>
                     </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>businessProcess</literal></term>
-                <listitem>
-                    <para>
-                        Internal component for Seam process management. Installed whenever
-                        <literal>org.jboss.seam.core.jbpm</literal> is installed.
-                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -991,6 +1048,22 @@
                         <para>
                             <literal><emphasis>&lt;managedTopicPublisher&gt;</emphasis>.topicJndiName</literal> 
                             &mdash; the JNDI name of the JMS topic.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;alias&gt;</emphasis></literal></term>
+                <listitem>
+                    <para>
+                        An "alias" (a second name) for a component.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;alias&gt;</emphasis>.name</literal> 
+                            &mdash; the name of the component to be aliased.
                         </para>
                         </listitem>
                     </itemizedlist>
