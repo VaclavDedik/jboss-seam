@@ -799,6 +799,20 @@
                             the conversation context timeout in milliseconds.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.conversationIdParameter</literal> &mdash; 
+                            the request parameter used to propagate the conversation id, default
+                            to <literal>conversationId</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.conversationIsLongRunningParameter</literal> &mdash; 
+                            the request parameter used to propagate information about whether the conversation
+                            is long-running, default to <literal>conversationIsLongRunning</literal>.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
