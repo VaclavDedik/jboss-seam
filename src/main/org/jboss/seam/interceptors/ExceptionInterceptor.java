@@ -53,7 +53,8 @@ public class ExceptionInterceptor extends AbstractInterceptor
                error( e.getClass().getAnnotation(HttpError.class).errorCode(), e.getMessage() );
                handled(e);
             }
-            else if ( Init.instance().isDebug() )
+            else if ( Init.instance().isDebug() && 
+                      !e.getClass().isAnnotationPresent(javax.ejb.ApplicationException.class) )
             {
                redirectToDebugPage(e);
                handled(e);
