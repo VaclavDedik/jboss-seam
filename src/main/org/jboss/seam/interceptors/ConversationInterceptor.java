@@ -14,8 +14,10 @@ import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndTask;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.annotations.Within;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
@@ -124,6 +126,7 @@ public class ConversationInterceptor extends AbstractInterceptor
                nested = method.getAnnotation(Begin.class).nested();
             }
             beginConversation( nested, getProcessDefinitionName(method) );
+            setFlushMode(method); //TODO: what if conversation already exists? Or a nested conversation?
          }
       }
       else if ( method.isAnnotationPresent(Begin.class) )
@@ -135,9 +138,36 @@ public class ConversationInterceptor extends AbstractInterceptor
                   method.getAnnotation(Begin.class).nested(), 
                   getProcessDefinitionName(method) 
                );
+            setFlushMode(method); //TODO: what if conversation already exists? Or a nested conversation?
          }
       }
       
+   }
+   
+   private void setFlushMode(Method method)
+   {
+      FlushModeType flushMode;
+      if (method.isAnnotationPresent(Begin.class))
+      {
+         flushMode = method.getAnnotation(Begin.class).flushMode();
+      }
+      else if (method.isAnnotationPresent(BeginTask.class))
+      {
+         flushMode = method.getAnnotation(BeginTask.class).flushMode();
+      }
+      else if (method.isAnnotationPresent(StartTask.class))
+      {
+         flushMode = method.getAnnotation(StartTask.class).flushMode();
+      }
+      else
+      {
+         return;
+      }
+      
+      if (flushMode!=FlushModeType.AUTO)
+      {
+         Conversation.instance().setFlushMode(flushMode);
+      }
    }
 
    private String getProcessDefinitionName(Method method) {
@@ -153,7 +183,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       {
          return method.getAnnotation(StartTask.class).pageflow();
       }
-      //TODO: let them pass a pagelfow name as a request parameter
+      //TODO: let them pass a pageflow name as a request parameter
       return "";
    }
 

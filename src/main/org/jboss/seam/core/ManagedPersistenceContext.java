@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.FlushModeType;
 import javax.transaction.SystemException;
 
 import org.apache.commons.logging.Log;
@@ -21,6 +22,7 @@ import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
+import org.jboss.seam.util.Persistence;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -60,12 +62,24 @@ public class ManagedPersistenceContext implements Serializable
          throw new IllegalArgumentException("EntityManagerFactory not found", ne);
       }
       
+      switch ( Conversation.instance().getFlushMode() )
+      {
+         case AUTO: 
+            break;
+         case MANUAL:
+            Persistence.setFlushModeManual(entityManager); 
+            break;
+         case COMMIT: 
+            entityManager.setFlushMode(FlushModeType.COMMIT); 
+            break;
+      }
+      
       if ( log.isDebugEnabled() )
       {
          log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitJndiName);
       }
    }
-   
+
    @Unwrap
    public EntityManager getEntityManager() throws NamingException, SystemException
    {

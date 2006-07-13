@@ -46,4 +46,9 @@ public @interface BeginTask
     * the same id aready exists, Seam will redirect to that conversation.
     */
    String id() default "";
+   /**
+    * Set the FlushMode for any EntityManager used in
+    * this conversation.
+    */
+   FlushModeType flushMode() default FlushModeType.AUTO;
 }

@@ -9,6 +9,7 @@ import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jboss.seam.Component;
@@ -58,6 +59,13 @@ public class ManagedHibernateSession implements Serializable
       catch (NamingException ne)
       {
          throw new IllegalArgumentException("SessionFactory not found", ne);
+      }
+      
+      switch ( Conversation.instance().getFlushMode() )
+      {
+         case AUTO: break;
+         case MANUAL: session.setFlushMode(FlushMode.NEVER); break;
+         case COMMIT: session.setFlushMode(FlushMode.COMMIT); break;
       }
       
       if ( log.isDebugEnabled() )

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -28,6 +29,7 @@ import org.jboss.seam.contexts.Contexts;
 public class Conversation implements Serializable {
    
    private Integer timeout;
+   private FlushModeType flushMode = FlushModeType.AUTO;
    String description;
    String viewId;
 
@@ -275,6 +277,16 @@ public class Conversation implements Serializable {
    {
       root();
       return redirect();
+   }
+
+   public FlushModeType getFlushMode()
+   {
+      return flushMode;
+   }
+
+   public void setFlushMode(FlushModeType flushMode)
+   {
+      this.flushMode = flushMode;
    }
    
 }
