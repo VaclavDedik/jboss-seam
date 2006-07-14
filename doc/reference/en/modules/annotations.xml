@@ -317,8 +317,32 @@
                     <para>
                         Specifies that the method of the component is used to initialize the
                         value of the named context variable, when the context variable has
-                        no value.
+                        no value. This style is used with methods that return 
+                        <literal>void</literal>.
                     </para>
+                    <programlisting><![CDATA[@Factory("processInstance", scope=CONVERSATION)]]></programlisting>
+                    <para>
+                        Specifies that the method returns a value that Seam should use to 
+                        initialize the value of the named context variable, when the context 
+                        variable has no value. This style is used with methods that return 
+                        a value.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>value</literal> &mdash; specifies the name of the
+                            context variable. If the method is a getter method, default to 
+                            the JavaBeans property name.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>scope</literal> &mdash; specifies the scope that Seam
+                            should bind the returned value to. Only meaningful for factory
+                            methods which return a value.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
                 </listitem>
             </varlistentry>   
         </variablelist>

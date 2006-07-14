@@ -712,6 +712,19 @@ public class User {
 </components>]]></programlisting>
 
             <para>
+                You can even create an "alias" for a commonly used expression:
+            </para>
+
+            <programlisting><![CDATA[<components>
+
+    <component name="userName"
+              class="org.jboss.seam.core.Alias">
+        <property name="expression">#{actor.id}</property>
+    </component>
+
+</components>]]></programlisting>
+
+            <para>
                 Sometimes we want to reuse the same <literal>components.xml</literal> file with
                 minor changes during both deployment and testing. Seam let's you place wildcards
                 of the form <literal>@wildcard@</literal> in the <literal>components.xml</literal> 
@@ -1297,6 +1310,113 @@ public class DocumentNotFoundException extends Exception { ... }]]></programlist
         <programlisting><![CDATA[@Redirect(viewId="/error.xhtml")
 @ApplicationException(rollback=true)
 public class UnrecoverableException extends RuntimeException { ... }]]></programlisting>
+
+    </sect1>
+    
+    <sect1>
+        <title>Lifecycle methods</title>
+        <para>
+            Session bean and entity bean Seam components support all the usual EJB 3.0 lifecycle
+            callback (<literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, etc).
+            But Seam also defines its own component lifecycle callbacks.
+        </para>
+        <para>
+            The <literal>@Create</literal> method is called every time Seam instantiates a
+            component. Unlike the <literal>@PostConstruct</literal> method, this method is
+            called after the component is fully constructed by the EJB container, and has
+            access to all the usual Seam functionality (bijection, etc). Components may
+            define only one <literal>@Create</literal> method.
+        </para>
+        <para>
+            The <literal>@Destroy</literal> method is called when the context that the Seam
+            component is bound to ends. Components may define only one <literal>@Destroy</literal> 
+            method. Stateful session bean components <emphasis>must</emphasis> define a method
+            annotated <literal>@Destroy @Remove</literal>.
+        </para>
+        <para>
+            Finally, a related annotation is the <literal>@Startup</literal> annotation, which
+            may be applied to any application or session scoped component. The 
+            <literal>@Startup</literal> annotation tells Seam to instantiate the component
+            immediately, when the context begins, instead of waiting until it is first 
+            referenced by a client. It is possible to control the order of instantiation
+            of startup components by specifying <literal>@Startup(depends={....})</literal>.
+        </para>
+    </sect1>
+    
+    <sect1>
+        <title>Factory and manager components</title>
+        <para>
+            We often need to work with objects that are not Seam components. But we still want
+            to be able to inject them into our components using <literal>@In</literal> and
+            use them in value and method binding expressions, etc. Sometimes, we even need
+            to tie them into the Seam context lifecycle (<literal>@Destroy</literal>, for
+            example). So the Seam contexts can contain objects which are not Seam components,
+            and Seam provides a couple of nice features that make it easier to work with
+            non-component objects bound to contexts.
+        </para>
+
+        <para>
+            The <emphasis>factory component pattern</emphasis> lets a Seam component act
+            as the instantiator for a non-component object. A <emphasis>factory method</emphasis> 
+            will be called when a context variable is referenced but has no value bound to it. 
+            We define factory methods using the <literal>@Factory</literal> annotation. The
+            factory method binds a value to the context variable, and determines the scope
+            of the bound value. There are two styles of factory method. The first style 
+            returns a value, which is bound to the context by Seam:
+        </para>
+
+        <programlisting><![CDATA[@Factory(scope=CONVERSATION)
+public List<Customer> getCustomerList() { 
+    return ... ;
+} ]]></programlisting>
+
+        <para>
+            The second style is a method of type <literal>void</literal> which binds the
+            value to the context variable itself:
+        </para>
+
+        <programlisting><![CDATA[@DataModel List<Customer> customerList;
+
+@Factory("customerList")
+public void initCustomerList() { 
+    customerList = ...  ;
+} ]]></programlisting>
+
+        <para>
+            In both cases, the factory method is called when we reference the 
+            <literal>customerList</literal> context variable and its value is null,
+            and then has no further part to play in the lifecycle of the value. An
+            even more powerful pattern is the <emphasis>manager component pattern</emphasis>.
+            In this case, we have a Seam component that is bound to a context variable,
+            that manages the value of the context variable, while remaining invisible
+            to clients.
+        </para>
+        
+        <para>
+            A manager component is any component with an <literal>@Unwrap</literal> 
+            method. This method returns the value that will be visable to clients,
+            and is called <emphasis>every time</emphasis> a context variable is
+            referenced.
+        </para>
+        
+        <programlisting><![CDATA[@Name("customerList")
+@Scope(CONVERSATION)
+public class CustomerListManager
+{
+    ...
+    
+    @Unwrap
+    public List<Customer> getCustomerList() { 
+        return ... ;
+    }
+}]]></programlisting>
+
+        <para>
+            This pattern is especially useful if we have some heavyweight object that
+            needs a cleanup operation when the context ends. In this case, the
+            manager component may perform cleanup in the <literal>@Destroy</literal>
+            method.
+        </para>
 
     </sect1>
     

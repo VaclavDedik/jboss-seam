@@ -30,7 +30,10 @@
            <term><literal>&lt;s:cache&gt;</literal></term>
            <listitem>
                <para>
-                   Cache the rendered page fragment using JBoss Cache.
+                   Cache the rendered page fragment using JBoss Cache. Note that 
+                   <literal>&lt;s:cache&gt;</literal> actually uses the instance
+                   of JBoss Cache managed by the built-in <literal>pojoCache</literal>
+                   component.
                </para>
                <itemizedlist>
                    <listitem>
