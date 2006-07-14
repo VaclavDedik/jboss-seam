@@ -21,6 +21,7 @@ public class UICache extends UIComponentBase
    private static final Log log = LogFactory.getLog(UICache.class);
    
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Cache";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UICache";
    
    private String key;
    private String region;
