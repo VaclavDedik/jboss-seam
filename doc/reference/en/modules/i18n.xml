@@ -179,7 +179,90 @@ public class HelloBean implements Hello {
     
     <section>
         <title>Themes</title>
-        <para>TODO</para>
+        <para>
+            Seam applications are also very easily skinnable. The theme API is very
+            similar to the localization API, but of course these two concerns are
+            orthogonal, and some applications support both localization and themes.
+        </para>
+        
+        <para>
+            First, configure the set of supported themes:
+        </para>
+        
+        <programlisting><![CDATA[<component name="themeSelector">
+    <property name="availableThemes">
+        <value>default</value>
+        <value>accessible</value>
+        <value>printable</value>
+    </property>
+</component>]]></programlisting>
+
+        <para>
+            Themes are defined in a properties file with the same name as the theme.
+            For example, the <literal>default</literal> theme is defined as a set of
+            entries in <literal>default.properties</literal>. For example, 
+            <literal>default.properties</literal> might define:
+        </para>
+        
+<programlisting><![CDATA[css ../screen.css
+template template.xhtml]]></programlisting>
+
+        <para>
+            Usually the entries in a theme resource bundle will be paths to CSS styles
+            or images and names of facelets templates (unlike localization resource
+            bundles which are usually text).
+        </para>
+        
+        <para>
+            Now we can use these entries in our JSP or facelets pages. For example,
+            to theme the stylesheet in a facelets page:
+        </para>
+        
+        <programlisting><![CDATA[<link href="#{theme.css}" rel="stylesheet" type="text/css" />]]></programlisting>
+        
+        <para>
+            Most powerfully, facelets lets us theme the template used by a <literal>&lt;ui:composition&gt;</literal>:
+        </para>
+
+        <programlisting><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="#{theme.template}">]]></programlisting>
+        
+        <para>
+            Just like the locale selector, there is a built-in theme selector to allow 
+            the user to freely switch themes:
+        </para>
+
+        <programlisting><![CDATA[<h:selectOneMenu value="#{themeSelector.theme}">
+    <f:selectItems value="#{themeSelector.themes}"/>
+</h:selectOneMenu>
+<h:commandButton action="#{themeSelector.select}" value="Select Theme"/>]]></programlisting>
+
+    </section>
+    
+    <section>
+        <title>Persisting locale and theme preferences via cookies</title>
+        <para>
+            Both the locale selector and theme selector support persistence of locale and
+            theme preference to a cookie. Simply set the <literal>cookieEnabled</literal>
+            configuration property:
+        </para>
+        
+        <programlisting><![CDATA[<component name="themeSelector">
+    <property name="availableThemes">
+        <value>default</value>
+        <value>accessible</value>
+        <value>printable</value>
+    </property>
+    <property name="cookieEnabled">true</property>
+</component>
+
+<component name="localeSelector">
+    <property name="cookieEnabled">true</property>
+</component>]]></programlisting>
+
     </section>
     
 </chapter>

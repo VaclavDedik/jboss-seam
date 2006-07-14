@@ -31,7 +31,6 @@
            <listitem>
                <para>
                    Cache the rendered page fragment using JBoss Cache.
-                   <emphasis>Facelets only.</emphasis>
                </para>
                <itemizedlist>
                    <listitem>
