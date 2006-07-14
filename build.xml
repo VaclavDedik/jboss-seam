@@ -649,6 +649,8 @@
         <copy file="readme.txt"                 todir="${dist.dir}"/>
         <copy file="microcontainer/readme.txt"  todir="${dist.dir}/microcontainer"/>
         <copy file="embedded-ejb/readme.txt"    todir="${dist.dir}/embedded-ejb"/>
+        <copy file="facelets/readme.txt"        todir="${dist.dir}/facelets"/>
+        <copy file="drools/readme.txt"          todir="${dist.dir}/drools"/>
         <copy file="lgpl.txt"                   todir="${dist.dir}"/>
         <copy file="changelog.txt"              todir="${dist.dir}"/>
         <copy file="build.properties"           todir="${dist.dir}"/>
@@ -660,7 +662,7 @@
     </target>
 
     <target name="dist"
-        depends="cleandist,build,javadoc,copysource,copylib,copyexamples,extras,refdoc"
+        depends="cleandist,build,javadoc,copysource,copylib,copyexamples,refdoc,extras"
         description="Build everything and package">
         <zip zipfile="${dist.dir}.zip">
           <zipfileset prefix="${dist.name}" dir="${dist.dir}"/>
