@@ -1,0 +1,181 @@
+<chapter id="controls">
+    <title>Seam JSF controls</title>
+    <para>
+        Seam includes a number of JSF controls that are useful for working with
+        Seam. These are intended to complement the built-in JSF controls, and
+        controls from other third-party libraries.
+    </para>
+    
+ 
+    <variablelist>
+       <varlistentry>
+           <term><literal>&lt;s:validate&gt;</literal></term>
+           <listitem>
+               <para>
+                   Validate a JSF input field against the bound property using 
+                   Hibernate Validator.
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:validateAll&gt;</literal></term>
+           <listitem>
+               <para>
+                   Validate all child JSF input fields against the bound propertys using 
+                   Hibernate Validator.
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:cache&gt;</literal></term>
+           <listitem>
+               <para>
+                   Cache the rendered page fragment using JBoss Cache.
+                   <emphasis>Facelets only.</emphasis>
+               </para>
+               <itemizedlist>
+                   <listitem>
+                   <para>
+                       <literal>key</literal> &mdash; the key to cache rendered content,
+                       often a value expression. For example, if we were caching a page
+                       fragment that displays a document, we might use 
+                       <literal>key="Document-#{document.id}"</literal>.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>enabled</literal> &mdash; a value expression that determines
+                       if the cache should be used.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>region</literal> &mdash; a JBoss Cache node to use (different
+                       nodes can have different expiry policies).
+                   </para>
+                   </listitem>
+               </itemizedlist>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:link&gt;</literal></term>
+           <listitem>
+               <para>
+                   A link or button that supports invocation of an action with control
+                   over conversation propagation.
+               </para>
+               <itemizedlist>
+                   <listitem>
+                   <para>
+                       <literal>value</literal> &mdash; the label.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>action</literal> &mdash; a method binding that specified
+                       the action listener.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>view</literal> &mdash; the JSF view id to link to.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>fragment</literal> &mdash; the fragment identifier to link to.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>linkStyle</literal> &mdash; either <literal>link</literal>,
+                       the default, or <literal>button</literal>.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>buttonClass</literal> &mdash; the css class for the button.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>propagation</literal> &mdash; determines the conversation
+                       propagation style: <literal>begin</literal>, <literal>join</literal>,
+                       <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                       (This is only useful when <literal>propagation="begin"</literal> or 
+                       <literal>propagation="join"</literal>.)
+                   </para>
+                   </listitem>
+               </itemizedlist>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:conversationPropagation&gt;</literal></term>
+           <listitem>
+               <para>
+                   Customize the conversation propagation for a command link or button
+                   (or similar JSF control).
+                   <emphasis>Facelets only.</emphasis>
+               </para>
+               <itemizedlist>
+                   <listitem>
+                   <para>
+                       <literal>propagation</literal> &mdash; determines the conversation
+                       propagation style: <literal>begin</literal>, <literal>join</literal>,
+                       <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                       (This is only useful when <literal>propagation="begin"</literal> or 
+                       <literal>propagation="join"</literal>.)
+                   </para>
+                   </listitem>
+               </itemizedlist>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:conversationId&gt;</literal></term>
+           <listitem>
+               <para>
+                   Add the conversation id to an output link (or similar JSF control).
+                   <emphasis>Facelets only.</emphasis>
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:taskId&gt;</literal></term>
+           <listitem>
+               <para>
+                   Add the task id to an output link (or similar JSF control), when the
+                   task is available via <literal>#{task}</literal>.
+                   <emphasis>Facelets only.</emphasis>
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:action&gt;</literal></term>
+           <listitem>
+               <para>
+                   Attach an action listener to an output link (or similar JSF control).
+                   <emphasis>Facelets only.</emphasis>
+               </para>
+               <itemizedlist>
+                   <listitem>
+                   <para>
+                       <literal>action</literal> &mdash; a method binding that specified
+                       the action listener.
+                   </para>
+                   </listitem>
+               </itemizedlist>
+           </listitem>
+       </varlistentry>
+    </variablelist>
+    
+</chapter>

@@ -1,5 +1,5 @@
 <chapter id="i18n">
-    <title>Internationalization</title>
+    <title>Internationalization and themes</title>
     <para>
         Seam makes it easy to build internationalized applications by
         providing several built-in components for handling multi-language
@@ -175,6 +175,11 @@ public class HelloBean implements Hello {
             depending upon the user's locale.
         </para>
 
+    </section>
+    
+    <section>
+        <title>Themes</title>
+        <para>TODO</para>
     </section>
     
 </chapter>
