@@ -1071,13 +1071,20 @@
                 <term><literal><emphasis>&lt;alias&gt;</emphasis></literal></term>
                 <listitem>
                     <para>
-                        An "alias" (a second name) for a component.
+                        An "alias" (a second name) for a component. You can even create
+                        an alias for an often-used expression.
                     </para>
                     <itemizedlist>
                         <listitem>
                         <para>
                             <literal><emphasis>&lt;alias&gt;</emphasis>.name</literal> 
                             &mdash; the name of the component to be aliased.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;alias&gt;</emphasis>.expression</literal> 
+                            &mdash; an expression to be evaluated.
                         </para>
                         </listitem>
                     </itemizedlist>

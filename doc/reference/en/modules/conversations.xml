@@ -107,7 +107,8 @@
         <para>
             If the JSF request lifecycle is foreshortened by a redirect,
             Seam transparently stores and restores the current conversation 
-            context.
+            context&mdash;unless the conversation was already ended via
+            <literal>@End(beforeRedirect=true)</literal>.
         </para>
         </listitem>
     </itemizedlist>
@@ -778,6 +779,73 @@ public String approveDocument() { ... }]]></programlisting>
             in action!
         </para>
         
+    </section>
+    
+    <section>
+        <title>Seam-managed persistence contexts and atomic conversations</title>
+        <para>
+            Seam provides built-in components for EJB 3.0 and Hibernate persistence context 
+            management that support the use of persistence contexts scoped to the conversation.
+            This useful feature allows you to program optimistic transactions that span multiple
+            requests to the server without the need to use the merge() operation or to re-load 
+            data at the beginning of each request, and without the need to wrestle with the 
+            dreaded <literal>LazyInitializationException</literal> or 
+            <literal>NonUniqueObjectException</literal>. Please see the configuration chapter 
+            for information about configuring Seam-managed persistence contexts and 
+            Seam-managed transactions.
+        </para>
+        <para>
+            As with any optimistic transaction management, transaction isolation and consistency
+            can be achieved via use of optimistic locking. Fortunately, both Hibernate and EJB 
+            3.0 make it very easy to use optimistic locking, by providing the 
+            <literal>@Version</literal> annotation.
+        </para>
+        <para>
+            By default, the persistence context is flushed (synchronized with the database)
+            at the end of each transaction. This is sometimes the desired behavior. But very 
+            often, we would prefer that all changes are held in memory and only written to
+            the database when the conversation ends successfully. This allows for truly
+            atomic conversations. As the result of a truly stupid and shortsighted decision
+            by certain non-JBoss, non-Sun and non-Sybase members of the EJB 3.0 expert group, 
+            there is currently no simple, usable and portable way to implement atomic 
+            conversations using EJB 3.0 persistence. However, Hibernate provides this feature
+            as a vendor extension to the <literal>FlushModeType</literal>s defined by the 
+            specification, and it is our expectation that other vendors will soon provide
+            a similar extension.
+        </para>
+        <para>
+            Seam lets you specify <literal>FlushModeType.MANUAL</literal> when beginning a
+            conversation. Currently, this works only when Hibernate is the underlying 
+            persistence provider, but we plan to support other equivalent vendor extensions.
+        </para>
+        
+        <programlisting><![CDATA[@In(create=true) EntityManager em; //a Seam-managed persistence context
+
+@Begin(flushMode=MANUAL)
+public void beginClaimWizard() {
+    claim = em.find(Claim.class, claimId);
+}]]></programlisting>
+
+        <para>
+            Now, the <literal>claim</literal> object remains managed by the persistence context
+            for the rest ot the conversation. We can make changes to the claim:
+        </para>
+        
+        <programlisting><![CDATA[public void addPartyToClaim() {
+    Party party = ....;
+    claim.addParty(party);
+}]]></programlisting>
+
+        <para>
+            But these changes will not be flushed to the database until we explicitly force
+            the flush to occur:
+        </para>
+        
+        <programlisting><![CDATA[@End
+public void commitClaim() {
+    em.flush();
+}]]></programlisting>
+
     </section>
     
     <section>

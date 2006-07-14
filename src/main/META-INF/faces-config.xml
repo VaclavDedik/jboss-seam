@@ -4,10 +4,23 @@
    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
 
 <faces-config>
+
   <application>
      <navigation-handler>org.jboss.seam.jsf.SeamNavigationHandler</navigation-handler>
      <view-handler>org.jboss.seam.jsf.SeamViewHandler</view-handler>
      <state-manager>org.jboss.seam.jsf.SeamStateManager</state-manager>
      <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
   </application>
+  
+  <component>
+    <component-type>javax.faces.ViewRoot</component-type>
+    <component-class>org.jboss.seam.jsf.SeamViewRoot</component-class>
+  </component>
+  <!--
+  <renderer>
+    <component-family>javax.faces.ViewRoot</component-family>
+    <renderer-type>org.jboss.seam.jsf.Root</renderer-type>
+    <renderer-class>org.jboss.seam.SeamViewRootRenderer</renderer-class>
+  </renderer>
+  -->
 </faces-config>

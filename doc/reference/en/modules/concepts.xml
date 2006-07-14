@@ -644,6 +644,9 @@ public class User {
                     annotation but are not installed by default (this is the case for certain
                     built-in components).
                 </para></listitem>
+                <listitem><para>
+                    Override the scope of a component.
+                </para></listitem>
             </itemizedlist>
             
             <para>
@@ -681,6 +684,34 @@ public class User {
 </components>]]></programlisting>
 
             <para>
+                This example creates a session-scoped Seam-managed persistence context (this
+                is not recommended in practice):
+            </para>
+
+            <programlisting><![CDATA[<components>
+
+    <component name="productDatabase"
+              scope="session"
+              class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/productEntityManagerFactory</property>
+    </component>
+
+</components>]]></programlisting>
+
+            <para>
+                You can create an "alias" (a second name) for a Seam component like so:
+            </para>
+
+            <programlisting><![CDATA[<components>
+
+    <component name="user"
+              class="org.jboss.seam.core.Alias">
+        <property name="name">actor</property>
+    </component>
+
+</components>]]></programlisting>
+
+            <para>
                 Sometimes we want to reuse the same <literal>components.xml</literal> file with
                 minor changes during both deployment and testing. Seam let's you place wildcards
                 of the form <literal>@wildcard@</literal> in the <literal>components.xml</literal> 
@@ -691,6 +722,60 @@ public class User {
 
         </sect2>
         
+        <sect2>
+            <title>Configurable property types</title>
+            <para>
+                Properties of string, primitive or primitive wrapper type may be configured just 
+                as you would expect:
+            </para>
+            
+            <programlisting><![CDATA[org.jboss.seam.core.manager.conversationTimeout 60000]]></programlisting>
+            
+            <programlisting><![CDATA[<component name="org.jboss.seam.core.manager">
+    <property name="conversationTimeout">60000</property>
+</component>]]></programlisting>
+
+            <para>
+                Arrays, sets and lists of strings or primitives are also supported:
+            </para>
+
+            <programlisting><![CDATA[org.jboss.seam.core.jbpm.processDefinitions order.jpdl.xml, return.jpdl.xml, inventory.jpdl.xml]]></programlisting>
+            
+            <programlisting><![CDATA[<component name="org.jboss.seam.core.jbpm">
+    <property name="processDefinitions">
+        <value>order.jpdl.xml</value>
+        <value>return.jpdl.xml</value>
+        <value>inventory.jpdl.xml</value>
+    </property>
+</component>]]></programlisting>
+
+            <para>
+                Even maps with String-valued keys and string or primitive values are supported:
+            </para>
+        
+            <programlisting><![CDATA[<component name="issueEditor">
+    <property name="issueStatuses">
+        <key>open</key> <value>open issue</value>
+        <key>resolved</key> <value>issue resolved by developer</value>
+        <key>closed</key> <value>resolution accepted by user</value>
+    </property>
+</component>]]></programlisting>
+
+            <para>
+                Finally, you may wire together components using a value-binding expression. Note 
+                that this is quite different to injection using <literal>@In</literal>, since it
+                happens at component instantiation time instead of invocation time. It is 
+                therefore much more similar to the dependecy injection facilities offered by 
+                traditional IoC containers like Spring.
+            </para>
+
+         <programlisting><![CDATA[<component name="policyPricingWorkingMemory"
+          class="org.jboss.seam.drools.ManagedWorkingMemory">
+    <property name="ruleBase">#{policyPricingRules}</property>
+</component>]]></programlisting>
+
+        </sect2>
+
     </sect1>
 
     <sect1>
@@ -1184,6 +1269,35 @@ public class HelloListener {
             
         </sect2>
         
+    </sect1>
+    
+    <sect1>
+        <title>Managing exceptions</title>
+        <para>
+            JSF is surprisingly limited when it comes to exception handling. Seam lets you
+            define how a particular class of event is to be treated by annotating the event
+            class. This facility is meant to be combined with the EJB 3.0-standard 
+            <literal>@ApplicationException</literal> annotation which specifies whether 
+            the exception should cause a transaction rollback.
+        </para>
+        
+        <para>
+            This exception results in a HTTP 404 error whenever it propagates out of the
+            Seam component layer. It does not roll back the current transaction.
+        </para>
+        
+        <programlisting><![CDATA[@HttpError(errorCode=404)
+public class DocumentNotFoundException extends Exception { ... }]]></programlisting>
+
+        <para>
+            This exception results in a browser redirect whenever it propagates out of the
+            Seam component layer. It also rolls back the current transaction.
+        </para>
+        
+        <programlisting><![CDATA[@Redirect(viewId="/error.xhtml")
+@ApplicationException(rollback=true)
+public class UnrecoverableException extends RuntimeException { ... }]]></programlisting>
+
     </sect1>
     
 </chapter>

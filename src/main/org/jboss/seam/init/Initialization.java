@@ -82,6 +82,7 @@ import org.jboss.seam.jms.QueueConnection;
 import org.jboss.seam.jms.QueueSession;
 import org.jboss.seam.jms.TopicConnection;
 import org.jboss.seam.jms.TopicSession;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.theme.Theme;
 import org.jboss.seam.theme.ThemeSelector;
@@ -386,6 +387,7 @@ public class Initialization
       {
          addComponent( Introspector.class, context );
          addComponent( org.jboss.seam.debug.Contexts.class, context );
+         addComponent( Logging.class, context );
       }
 
       if ( init.isJbpmInstalled() )

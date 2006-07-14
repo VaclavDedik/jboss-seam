@@ -2,6 +2,8 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
@@ -20,13 +22,22 @@ public class Alias
 {
    
    private String name;
+   private String expression;
    
    @Unwrap
    public Object getValue()
    {
       //Note that by making this component stateless, we ensure
       //that this method never gets called if create=false
-      return Component.getInstance(name);
+      if (expression==null)
+      {
+         return Component.getInstance(name);
+      }
+      else
+      {
+         FacesContext facesContext = FacesContext.getCurrentInstance();
+         return facesContext.getApplication().createValueBinding(expression).getValue(facesContext);
+      }
    }
 
    public String getName()
@@ -37,6 +48,16 @@ public class Alias
    public void setName(String name)
    {
       this.name = name;
+   }
+
+   public String getExpression()
+   {
+      return expression;
+   }
+
+   public void setExpression(String expression)
+   {
+      this.expression = expression;
    }
    
 }

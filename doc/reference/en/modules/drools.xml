@@ -42,12 +42,12 @@
 
          <programlisting><![CDATA[<component name="policyPricingWorkingMemory"
           class="org.jboss.seam.drools.ManagedWorkingMemory">
-    <property name="ruleBaseName">policyPricingRules</property>
+    <property name="ruleBase">#{policyPricingRules}</property>
 </component>]]></programlisting>
 
          <para>
              Notice that we gave the <literal>policyPricingWorkingMemory</literal> a
-             reference back to our rule base via the <literal>ruleBaseName</literal>
+             reference back to our rule base via the <literal>ruleBase</literal>
              configuration property.
          </para>
          
