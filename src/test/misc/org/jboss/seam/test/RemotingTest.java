@@ -6,13 +6,17 @@
  */
 package org.jboss.seam.test;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -22,9 +26,16 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.init.Initialization;
+import org.jboss.seam.mock.MockServletContext;
 import org.jboss.seam.remoting.CallContext;
+import org.jboss.seam.remoting.MarshalUtils;
+import org.jboss.seam.remoting.client.ParserUtils;
 import org.jboss.seam.remoting.wrapper.BagWrapper;
 import org.jboss.seam.remoting.wrapper.BaseWrapper;
 import org.jboss.seam.remoting.wrapper.BeanWrapper;
@@ -37,19 +48,7 @@ import org.jboss.seam.remoting.wrapper.NullWrapper;
 import org.jboss.seam.remoting.wrapper.NumberWrapper;
 import org.jboss.seam.remoting.wrapper.StringWrapper;
 import org.jboss.seam.remoting.wrapper.WrapperFactory;
-import static org.testng.Assert.*;
 import org.testng.annotations.Test;
-import java.util.Arrays;
-import org.dom4j.io.SAXReader;
-import org.dom4j.Document;
-import org.jboss.seam.remoting.wrapper.Wrapper;
-import java.io.StringReader;
-import org.jboss.seam.mock.MockServletContext;
-import org.jboss.seam.init.Initialization;
-import org.jboss.seam.contexts.Lifecycle;
-import javax.servlet.ServletContext;
-import org.jboss.seam.remoting.MarshalUtils;
-import org.jboss.seam.remoting.client.ParserUtils;
 
 /**
  * Unit tests for Seam Remoting
@@ -261,16 +260,16 @@ public class RemotingTest
     wrapper.setElement(createElement("number", value));
 
     assert new Short(value).equals(wrapper.convert(Short.class));
-    assert Short.parseShort(value) == wrapper.convert(Short.TYPE);
+    assert wrapper.convert(Short.TYPE).equals(Short.parseShort(value));
 
     assert new Integer(value).equals(wrapper.convert(Integer.class));
-    assert Integer.parseInt(value) == wrapper.convert(Integer.TYPE);
+    assert wrapper.convert(Integer.TYPE).equals(Integer.parseInt(value));
 
     assert new Long(value).equals(wrapper.convert(Long.class));
-    assert Long.parseLong(value) == wrapper.convert(Long.TYPE);
+    assert wrapper.convert(Long.TYPE).equals(Long.parseLong(value));
 
     assert new Byte(value).equals(wrapper.convert(Byte.class));
-    assert Byte.parseByte(value) == wrapper.convert(Byte.TYPE);
+    assert wrapper.convert(Byte.TYPE).equals(Byte.parseByte(value));
 
     assert value.equals(wrapper.convert(String.class));
 
