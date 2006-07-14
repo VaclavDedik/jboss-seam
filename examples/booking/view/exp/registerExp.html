@@ -27,12 +27,14 @@
     </p>
 
     <p>
-       This JSF form includes <code>&lt;h:message></code> tags that
-       will display the results of any JSF validation failures that
-       occur during the form submission cycle.
+       The register.xhtml JSF form captures the user input for new account
+       registration. It validates the user input, binds the data to a 
+       Seam data component, and invokes a Seam UI event handler method
+       when the form is submitted.
     </p>
     
 <code class="block">
+&lt;s:validateAll>
 &lt;div class="entry">
     &lt;div class="label">
         &lt;h:outputLabel for="username">Username:&lt;/h:outputLabel>
@@ -51,6 +53,7 @@
         &lt;span class="errors">&lt;h:message for="name" />&lt;/span>
     &lt;/div>
 &lt;/div>
+&lt;/s:validateAll>
 
 ... ...
 
@@ -72,12 +75,24 @@
    </p>
 
    <p>
+       Notice that the input fields are enclosed by a <code>&lt;s:validateAll</code>
+       tag. This tag is part of Seam's extension to JSF. It tells the Seam
+       runtime to validate those input fields when the form is submitted.
+       The validation conditions are specified on the entity bean classes
+       those input fields map to (e.g., here the validation condition is
+       on the <code>User</code> class, see later).
+       This JSF form also includes <code>&lt;h:message></code> tags that
+       will display the results of any JSF validation failures.
+    </p>
+
+   <p>
       The <code>User</code> class is an EJB 3.0 entity bean with a 
       <code>@Name</code> annotation that binds the bean instance to a
       context variable named <code>user</code>. In addition to the standard 
       EJB 3.0 O/R mapping metadata, this bean features several Hibernate 
       Validator annotations such as 
-      <code>@NotNull</code>, <code>@Length</code>. These constraints are 
+      <code>@NotNull</code>, <code>@Length</code>. Due to the 
+      <code>&lt;s:validateAll</code> tag in the form, these constraints are 
       automatically validated by Seam when the form is submitted. If the user 
       enters invalid data in the JSF form, the form will be redisplayed with 
       error messages.
@@ -151,7 +166,7 @@ public class User implements Serializable
 public class RegisterAction implements Register
 {
 
-   @In @Valid
+   @In
    private User user;
    
    @PersistenceContext
@@ -162,7 +177,6 @@ public class RegisterAction implements Register
    
    private String verify;
    
-   @IfInvalid(outcome=REDISPLAY)
    public String register()
    {
       if ( user.getPassword().equals(verify) )
@@ -208,10 +222,6 @@ public class RegisterAction implements Register
        bean. The <code>user</code> component is our entity bean, of course. The <code>facesMessages</code> 
        component is a built-in Seam component that makes it very easy to display templated and localized
        messages to the user, even when redirect after post is used.
-    </p>
-    <p>
-       The <code>@IfInValid</code> annotation tells the Seam to apply the Hibernate Validator constraints
-       and redisplay the form with error messages if the constraints are violated.
     </p>
 
     <p>
