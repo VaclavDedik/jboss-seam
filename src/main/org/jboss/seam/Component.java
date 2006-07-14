@@ -1423,7 +1423,12 @@ public class Component
       }
       catch (NoSuchMethodException e)
       {
-         throw new IllegalArgumentException("create method not found", e);
+         String message = "method not found: " + method.getName() + " for component: " + component.getName();
+         if ( component.getType()==ComponentType.STATELESS_SESSION_BEAN || component.getType()==ComponentType.STATEFUL_SESSION_BEAN )
+         {
+             message += " (check that it is declared on the session bean business interface)";
+         }
+         throw new IllegalArgumentException(message, e);
       }
    }
 
