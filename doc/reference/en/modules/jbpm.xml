@@ -260,10 +260,21 @@
 	        the context of Seam, where there is a well-defined conversational
 	        model, backed by stateful session beans, it is actually quite 
 	        straightforward. Usually it is as simple as combining the use 
-	        of the <literal>@Conversational</literal> annotation with null 
+	        of <literal>no-conversation-view-id</literal> with null 
 	        checks at the beginning of action listener methods. We consider
 	        support for freeform navigation to be almost always desirable.
 	    </para>
+	    
+	    <para>
+	        In this case, the <literal>no-conversation-view-id</literal> 
+	        declaration goes in <literal>pages.xml</literal>. It tells
+	        Seam to redirect to a different page if a request originates
+	        from a page rendered during a conversation, and that conversation
+	        no longer exists:
+	    </para>
+	    
+	    <programlisting><![CDATA[<page view-id="/checkout.xhtml" 
+        no-conversation-view-id="/main.xhtml"/>]]></programlisting>
 	    
 	    <para>
 	        On the other hand, in the stateful model, backbuttoning is 
@@ -281,7 +292,9 @@
 	        setting <literal>back="enabled"</literal>.
 	    </para>
 	    
-<programlisting><![CDATA[<page name="checkout" view-id="/checkout.xhtml" back="enabled">
+        <programlisting><![CDATA[<page name="checkout" 
+        view-id="/checkout.xhtml" 
+        back="enabled">
     <redirect/>
     <transition to="checkout"/>
     <transition name="complete" to="complete"/>
@@ -292,6 +305,23 @@
             <literal>checkout</literal> state to <emphasis>any previous
             state!</emphasis>
         </para>
+        
+        <para>
+            Of course, we still need to define what happens if a request 
+            originates from a page rendered during a pageflow, and the
+            conversation with the pageflow no longer exists. In this case,
+            the <literal>no-conversation-view-id</literal> declaration
+            goes into the pageflow definition:
+        </para>
+
+        <programlisting><![CDATA[<page name="checkout" 
+        view-id="/checkout.xhtml" 
+        back="enabled" 
+        no-conversation-view-id="/main.xhtml">
+    <redirect/>
+    <transition to="checkout"/>
+    <transition name="complete" to="complete"/>
+</page>]]></programlisting>
 
         </section>
     
