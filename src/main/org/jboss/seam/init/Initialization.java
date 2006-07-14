@@ -387,7 +387,6 @@ public class Initialization
       {
          addComponent( Introspector.class, context );
          addComponent( org.jboss.seam.debug.Contexts.class, context );
-         addComponent( Logging.class, context );
       }
 
       if ( init.isJbpmInstalled() )
