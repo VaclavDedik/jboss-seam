@@ -42,4 +42,12 @@
 		<url-pattern>*.seam</url-pattern>
 	</servlet-mapping>
 	
+	<!-- JSP -->
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<is-xml>true</is-xml>
+		</jsp-property-group>
+	</jsp-config>
+	
 </web-app>
