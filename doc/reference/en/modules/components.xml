@@ -300,7 +300,7 @@
     </section>
     
     <section>
-        <title>Components for internationalization</title>
+        <title>Components for internationalization and themes</title>
         <para>
             The next group of components make it easy to build internationalized user interfaces
             using Seam.
@@ -381,6 +381,12 @@
                             listed in <literal>jsf-config.xml</literal>.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>localeSelector.cookieEnabled</literal> &mdash; specifies
+                            that the locale selection should be persisted via a cookie.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
@@ -390,6 +396,55 @@
                     <para>
                         A map containing internationalized messages rendered from message
                         templates defined in the Seam resource bundle.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>themeSelector</literal></term>
+                <listitem>
+                    <para>
+                        Supports selection of the theme either at configuration time, 
+                        or by the user at runtime.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>select()</literal> &mdash; select the specified theme.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>theme.availableThemes</literal> &mdash; the list of
+                            defined themes.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>themeSelector.theme</literal> &mdash; the selected
+                            theme.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>themeSelector.themes</literal> &mdash; a list
+                            of <literal>SelectItem</literal>s representing the defined
+                            themes.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>themeSelector.cookieEnabled</literal> &mdash; specifies
+                            that the theme selection should be persisted via a cookie.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>theme</literal></term>
+                <listitem>
+                    <para>
+                        A map containing theme entries.
                     </para>
                 </listitem>
             </varlistentry>
@@ -998,11 +1053,11 @@
     	<variablelist spacing="compact">
             <varlistentry>
                 <term><literal><emphasis>&lt;managedPersistenceContext&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.core.ManagedPersistenceContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for a conversation scoped managed <literal>EntityManager</literal>
-                        with an extended persistence context. Installed via 
-                        <literal>org.jboss.seam.core.init.managedPersistenceContexts</literal>.
+                        with an extended persistence context.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -1017,10 +1072,10 @@
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;managedSession&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.core.ManagedSession</literal></term>
                 <listitem>
                     <para>
-                        Manager component for a conversation scoped managed Hibernate <literal>Session</literal>.  
-                        Installed via <literal>org.jboss.seam.core.init.managedSessions</literal>.
+                        Manager component for a conversation scoped managed Hibernate <literal>Session</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -1035,10 +1090,10 @@
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;managedQueueSender&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.jms.ManagedQueueSender</literal></term>
                 <listitem>
                     <para>
-                        Manager component for an event scoped managed JMS <literal>QueueSender</literal>.  
-                        Installed via <literal>org.jboss.seam.core.init.managedQueueSenders</literal>.
+                        Manager component for an event scoped managed JMS <literal>QueueSender</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -1052,10 +1107,10 @@
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;managedTopicPublisher&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.jms.ManagedTopicPublisher</literal></term>
                 <listitem>
                     <para>
-                        Manager component for an event scoped managed JMS <literal>TopicPublisher</literal>.  
-                        Installed via <literal>org.jboss.seam.core.init.managedTopicPublishers</literal>.
+                        Manager component for an event scoped managed JMS <literal>TopicPublisher</literal>.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -1068,7 +1123,44 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><literal><emphasis>&lt;managedWorkingMemory&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.drools.ManagedWorkingMemory</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for a conversation scoped managed Drools <literal>WorkingMemory</literal>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;managedWorkingMemory&gt;</emphasis>.ruleBase</literal> 
+                            &mdash; a value expression that evaluates to an instance of <literal>RuleBase</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;ruleBase&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.drools.RuleBase</literal></term>
+                <listitem>
+                    <para>
+                        Manager component for an application scoped Drools <literal>RuleBase</literal>.
+                        <emphasis>Note that this is not really intended for production usage, since
+                        it does not support dynamic installation of new rules.</emphasis>
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal><emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles</literal> 
+                            &mdash; a list of files containing rules.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><literal><emphasis>&lt;alias&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.core.Alias</literal></term>
                 <listitem>
                     <para>
                         An "alias" (a second name) for a component. You can even create
