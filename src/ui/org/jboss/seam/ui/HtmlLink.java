@@ -35,7 +35,7 @@ public class HtmlLink extends HtmlOutputLink
          if ( parentUIData.getValue() instanceof DataModel )
          {
             String dataModelExpression = parentUIData.getValueBinding("value").getExpressionString();
-            String dataModelName = dataModelExpression.substring(2, dataModelExpression.length()-1);
+            String dataModelName = dataModelExpression.substring(2, dataModelExpression.length()-1).replace('$','.');
             UISelection uiSelection = new UISelection();
             uiSelection.setDataModel(dataModelName);
             return uiSelection;
