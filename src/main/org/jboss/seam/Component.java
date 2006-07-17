@@ -1357,11 +1357,8 @@ public class Component
 
    private static Object handleFactoryMethodResult(String name, Component component, Object result, ScopeType scope)
    {
-      if (result==null) //a factory method with a void return type
-      {
-         return Contexts.lookupInStatefulContexts(name);
-      }
-      else //a factory method returning a value
+      Object value = Contexts.lookupInStatefulContexts(name); //see if a value was outjected by the factory method
+      if (value==null) //usually a factory method returning a value
       {
          if (scope==ScopeType.UNSPECIFIED)
          {
@@ -1369,14 +1366,21 @@ public class Component
             {
                throw new IllegalArgumentException("no scope specified for factory method defined in components.xml: " + name);
             }
-            scope = component.getScope();
+            else //an @Factory method defaults to the same scope as the component
+            {
+               scope = component.getScope();
+            }
          }
-         if ( !scope.getContext().isSet(name) ) //just in case the factory method sets the variable _and_ returns a value - should we really allow that?
-         {
-            scope.getContext().set(name, result);
-         }
-         return result;
+         scope.getContext().set(name, result);
       }
+      else //usually a factory method with a void return type
+      {
+         if (scope!=ScopeType.UNSPECIFIED)
+         {
+            throw new IllegalArgumentException("factory method with defined scope outjected a value: " + name);
+         }
+      }
+      return result;
    }
 
    public static Object newInstance(String name)
