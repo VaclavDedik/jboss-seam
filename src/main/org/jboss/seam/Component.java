@@ -1372,6 +1372,7 @@ public class Component
             }
          }
          scope.getContext().set(name, result);
+         return result;
       }
       else //usually a factory method with a void return type
       {
@@ -1379,8 +1380,8 @@ public class Component
          {
             throw new IllegalArgumentException("factory method with defined scope outjected a value: " + name);
          }
+         return value;
       }
-      return result;
    }
 
    public static Object newInstance(String name)
