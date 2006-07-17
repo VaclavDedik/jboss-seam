@@ -1015,7 +1015,7 @@ public class MessageManagerBean implements Serializable, MessageManager
       message=null;
    }
    
-   @Remove @Destory
+   @Remove @Destroy
    public void destroy() {}
 
 }]]></programlisting>
