@@ -87,23 +87,39 @@ public class Strings
    public static String toString(String sep, Object... objects)
    {
       StringBuilder builder = new StringBuilder();
-      for (int i=0; i<objects.length; i++)
+      for (Object object: objects)
       {
-         builder.append( objects[i].toString() );
-         if (i<objects.length-1) builder.append(sep);
+         builder.append(sep).append(object);
       }
-      return builder.toString();
+      return builder.substring(2);
    }
    
-   public static String toString(Class... classes)
+   public static String toClassNameString(String sep, Object... objects)
    {
       StringBuilder builder = new StringBuilder();
-      for (int i=0; i<classes.length; i++)
+      for (Object object: objects)
       {
-         builder.append( classes[i].getName() );
-         if (i<classes.length-1) builder.append(" ");
+         builder.append(sep);
+         if (object==null)
+         {
+            builder.append("null");
+         }
+         else
+         {
+            builder.append( object.getClass().getName() );
+         }
       }
-      return builder.toString();
+      return builder.substring(2);
+   }
+   
+   public static String toString(String sep, Class... classes)
+   {
+      StringBuilder builder = new StringBuilder();
+      for (Class clazz: classes)
+      {
+         builder.append(sep).append( clazz.getName() );
+      }
+      return builder.substring(2);
    }
    
    public static String toString(InputStream in) throws IOException {

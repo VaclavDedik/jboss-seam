@@ -15,6 +15,14 @@ public class Reflections
       {
          return method.invoke( target, args );
       }
+      catch (IllegalArgumentException iae)
+      {
+         throw new IllegalArgumentException( 
+               "Could not invoke method by reflection: " + toString(method) + 
+               " with parameters: (" + Strings.toClassNameString(", ", args) + ')', 
+               iae
+            );
+      }
       catch (InvocationTargetException ite)
       {
          if ( ite.getCause() instanceof Exception )
@@ -46,6 +54,16 @@ public class Reflections
             throw new IllegalArgumentException("exception invoking: " + method.getName(), e);
          }
       }
+   }
+   
+   private static String toString(Method method)
+   {
+      return Strings.unqualify( method.getClass().getName() ) + 
+            '.' + 
+            method.getName() + 
+            '(' + 
+            Strings.toString( ", ", method.getParameterTypes() ) + 
+            ')';
    }
    
    public static Class classForName(String name) throws ClassNotFoundException
