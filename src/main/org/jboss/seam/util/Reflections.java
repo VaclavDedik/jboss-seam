@@ -19,7 +19,8 @@ public class Reflections
       {
          throw new IllegalArgumentException( 
                "Could not invoke method by reflection: " + toString(method) + 
-               " with parameters: (" + Strings.toClassNameString(", ", args) + ')', 
+               " with parameters: (" + Strings.toClassNameString(", ", args) + ')' +
+               " on: " + target.getClass().getName(), 
                iae
             );
       }
