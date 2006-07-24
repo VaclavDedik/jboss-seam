@@ -15,8 +15,9 @@ public class ManagedHibernateEntity
    private Serializable id;
    private String entityClass;
    private Object newInstance;
-   private String converterId;
-   private Converter converter;
+   private String idConverterId;
+   private String idClass;
+   private Converter idConverter;
    
    public Session getSession()
    {
@@ -68,15 +69,19 @@ public class ManagedHibernateEntity
    
    ////////////TODO: copy/paste from ManagedEntity ///////////////////
 
-   private Serializable getConvertedId()
+   private Serializable getConvertedId() throws ClassNotFoundException
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if (converterId!=null)
+      if (idConverterId!=null)
       {
-         converter = facesContext.getApplication().createConverter(converterId); //cache the lookup
+         idConverter = facesContext.getApplication().createConverter(idConverterId); //cache the lookup
+      }
+      else if (idClass!=null)
+      {
+         idConverter = facesContext.getApplication().createConverter( Class.forName(idClass) );
       }
       
-      if (converter==null)
+      if (idConverter==null)
       {
          //TODO: look for an @Id annotation and guess the id type!
          //converter = facesContext.getApplication().createConverter(idClass)
@@ -84,7 +89,7 @@ public class ManagedHibernateEntity
       }
       else
       {
-         return (Serializable) converter.getAsObject( 
+         return (Serializable) idConverter.getAsObject( 
                facesContext, 
                facesContext.getViewRoot(), 
                (String) id 
@@ -92,24 +97,34 @@ public class ManagedHibernateEntity
       }
    }
 
-   public String getConverterId()
+   public String getIdConverterId()
    {
-      return converterId;
+      return idConverterId;
    }
 
-   public void setConverterId(String converterId)
+   public void setIdConverterId(String converterId)
    {
-      this.converterId = converterId;
+      this.idConverterId = converterId;
    }
 
-   public Converter getConverter()
+   public Converter getIdConverter()
    {
-      return converter;
+      return idConverter;
    }
 
-   public void setConverter(Converter converter)
+   public void setIdConverter(Converter converter)
    {
-      this.converter = converter;
+      this.idConverter = converter;
+   }
+
+   public String getIdClass()
+   {
+      return idClass;
+   }
+
+   public void setIdClass(String idClass)
+   {
+      this.idClass = idClass;
    }
 
 }
