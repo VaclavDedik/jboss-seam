@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.Reflections;
 
 /**
  * Manager component for an EJB 3.0 entity instance. Allows
@@ -62,7 +63,7 @@ public class ManagedEntity
    @Unwrap
    public Object getInstance() throws Exception
    {
-      Class<?> clazz = Class.forName(entityClass);
+      Class<?> clazz = Reflections.classForName(entityClass);
       if (id==null)
       {
          if (newInstance==null)
@@ -87,7 +88,7 @@ public class ManagedEntity
          if (idConverterId==null)
          {
             //TODO: guess the id class using @Id
-            idConverter = facesContext.getApplication().createConverter( Class.forName(idClass) );
+            idConverter = facesContext.getApplication().createConverter( Reflections.classForName(idClass) );
          }
          else
          {

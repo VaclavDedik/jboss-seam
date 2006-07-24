@@ -28,6 +28,7 @@ import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.el.ValueBinding;
 import javax.interceptor.Interceptors;
 import javax.servlet.ServletRequest;
 
@@ -804,11 +805,13 @@ public class Component
 
       for ( Map.Entry<Method, InitialValue> me: initializerSetters.entrySet() )
       {
-         setPropertyValue(bean, me.getKey(), me.getKey().getName(), me.getValue().getValue() );
+         Method method = me.getKey();
+         setPropertyValue(bean, method, method.getName(), me.getValue().getValue( method.getParameterTypes()[0] ) );
       }
       for ( Map.Entry<Field, InitialValue> me: initializerFields.entrySet() )
       {
-         setFieldValue(bean, me.getKey(), me.getKey().getName(), me.getValue().getValue() );
+         Field field = me.getKey();
+         setFieldValue(bean, field, field.getName(), me.getValue().getValue( field.getType() ) );
       }
    }
 
@@ -1548,7 +1551,7 @@ public class Component
    
    public static interface InitialValue
    {
-      Object getValue();
+      Object getValue(Class type);
    }
    
    public static class ConstantInitialValue implements InitialValue
@@ -1560,7 +1563,7 @@ public class Component
          this.value = value;
       }
 
-      public Object getValue()
+      public Object getValue(Class type)
       {
          return value;
       }
@@ -1583,11 +1586,22 @@ public class Component
          //vb = FacesContext.getCurrentInstance().getApplication().createValueBinding(expression);
       }
 
-      public Object getValue()
+      public Object getValue(Class type)
+      {
+         if ( type.equals(ValueBinding.class) )
+         {
+            return createValueBinding();
+         }
+         else
+         {
+            return createValueBinding().getValue( FacesContext.getCurrentInstance() );
+         }
+      }
+
+      private ValueBinding createValueBinding()
       {
          return FacesContext.getCurrentInstance().getApplication()
-               .createValueBinding(expression)
-               .getValue( FacesContext.getCurrentInstance() );
+               .createValueBinding(expression);
       }
       
       public String toString()

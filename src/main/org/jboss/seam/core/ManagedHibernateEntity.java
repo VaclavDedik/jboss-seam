@@ -8,6 +8,7 @@ import javax.faces.convert.Converter;
 import org.hibernate.Session;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.Reflections;
 
 /**
  * Manager component for a Hibernate entity instance. Allows
@@ -61,7 +62,7 @@ public class ManagedHibernateEntity
    @Unwrap @Transactional
    public Object getInstance() throws Exception
    {
-      Class clazz = Class.forName(entityClass);
+      Class clazz = Reflections.classForName(entityClass);
       if (id==null)
       {
          if (newInstance==null)
@@ -86,7 +87,7 @@ public class ManagedHibernateEntity
          if (idConverterId==null)
          {
             //TODO: guess the id class using @Id
-            idConverter = facesContext.getApplication().createConverter( Class.forName(idClass) );
+            idConverter = facesContext.getApplication().createConverter( Reflections.classForName(idClass) );
          }
          else
          {
