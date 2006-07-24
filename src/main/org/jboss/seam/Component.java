@@ -799,6 +799,9 @@ public class Component
    public void initialize(Object bean) throws Exception
    {
       if ( log.isDebugEnabled() ) log.debug("initializing new instance of: " + name);
+      
+      injectLog(bean);
+
       for ( Map.Entry<Method, InitialValue> me: initializerSetters.entrySet() )
       {
          setPropertyValue(bean, me.getKey(), me.getKey().getName(), me.getValue().getValue() );
@@ -811,7 +814,7 @@ public class Component
 
    public void inject(Object bean/*, boolean isActionInvocation*/)
    {
-      injectLog(bean);
+      //injectLog(bean);
       injectMethods(bean/*, isActionInvocation*/);
       injectFields(bean/*, isActionInvocation*/);
       injectDataModelSelection(bean);

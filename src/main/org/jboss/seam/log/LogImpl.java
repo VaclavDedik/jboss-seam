@@ -1,5 +1,7 @@
 package org.jboss.seam.log;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import org.apache.commons.logging.LogFactory;
@@ -14,14 +16,16 @@ public class LogImpl implements Log, Serializable
 {
    
    private transient org.apache.commons.logging.Log log;
+   private final String category;
 
    public LogImpl(Class clazz)
    {
-      this.log = LogFactory.getLog(clazz);
+      this( clazz.getName() );
    }
 
    public LogImpl(String category)
    {
+      this.category = category;
       this.log = LogFactory.getLog(category);
    }
 
@@ -161,6 +165,13 @@ public class LogImpl implements Log, Serializable
       {
          return object;
       }
+   }
+   
+   void readObject(ObjectInputStream ois) 
+         throws ClassNotFoundException, IOException
+   {
+      ois.defaultReadObject();
+      log = LogFactory.getLog(category);
    }
 
 }
