@@ -22,6 +22,7 @@ import org.jboss.seam.util.Resources;
 public class RuleBase
 {
    private String[] ruleFiles;
+   private String dslFile;
    private org.drools.RuleBase ruleBase;
    
    @Create
@@ -34,8 +35,17 @@ public class RuleBase
       for (String ruleFile: ruleFiles)
       {
          // read in the source
-         Reader reader = new InputStreamReader( Resources.getResourceAsStream(ruleFile) );
-         PackageDescr packageDescr = new DrlParser().parse(reader);
+         Reader drlReader = new InputStreamReader( Resources.getResourceAsStream(ruleFile) );
+         PackageDescr packageDescr;
+         if (dslFile==null)
+         {
+            packageDescr = new DrlParser().parse(drlReader);
+         }
+         else
+         {
+            Reader dslReader = new InputStreamReader( Resources.getResourceAsStream(dslFile) );
+            packageDescr = new DrlParser().parse(drlReader, dslReader);
+         }
          // pre build the package
          builder.addPackage(packageDescr);
       }
@@ -59,6 +69,16 @@ public class RuleBase
    public void setRuleFiles(String[] ruleFiles)
    {
       this.ruleFiles = ruleFiles;
+   }
+
+   public String getDslFile()
+   {
+      return dslFile;
+   }
+
+   public void setDslFile(String dslFile)
+   {
+      this.dslFile = dslFile;
    }
 
 }
