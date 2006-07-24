@@ -1,14 +1,11 @@
 package org.jboss.seam.core;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.io.Serializable;
 
 import org.hibernate.Session;
-import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 
-@Intercept(NEVER)
 public class ManagedHibernateEntity
 {
    private Session session;
@@ -45,7 +42,7 @@ public class ManagedHibernateEntity
       this.entityClass = entityClass;
    }
 
-   @Unwrap
+   @Unwrap @Transactional
    public Object getInstance() throws ClassNotFoundException
    {
       Class clazz = Class.forName(entityClass);
