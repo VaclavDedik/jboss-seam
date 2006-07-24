@@ -9,6 +9,15 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Unwrap;
 
+/**
+ * Manager component for an EJB 3.0 entity instance. Allows
+ * auto-fetching of contextual entities. The identifier
+ * is determined by evaluating an EL expression and then
+ * using JSF type conversion if necessary.
+ * 
+ * @author Gavin King
+ *
+ */
 @Intercept(NEVER)
 public class ManagedEntity
 {

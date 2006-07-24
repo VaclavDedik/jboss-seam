@@ -9,6 +9,15 @@ import org.hibernate.Session;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 
+/**
+ * Manager component for a Hibernate entity instance. Allows
+ * auto-fetching of contextual entities. The identifier
+ * is determined by evaluating an EL expression and then
+ * using JSF type conversion if necessary.
+ * 
+ * @author Gavin King
+ *
+ */
 public class ManagedHibernateEntity
 {
    private Session session;
