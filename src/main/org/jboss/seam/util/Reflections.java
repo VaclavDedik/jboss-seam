@@ -17,12 +17,13 @@ public class Reflections
       }
       catch (IllegalArgumentException iae)
       {
-         throw new IllegalArgumentException( 
-               "Could not invoke method by reflection: " + toString(method) + 
-               " with parameters: (" + Strings.toClassNameString(", ", args) + ')' +
-               " on: " + target.getClass().getName(), 
-               iae
-            );
+         String message = "Could not invoke method by reflection: " + toString(method);
+         if (args!=null && args.length>0) 
+         {
+            message += " with parameters: (" + Strings.toClassNameString(", ", args) + ')';
+         }
+         message += " on: " + target.getClass().getName();
+         throw new IllegalArgumentException(message, iae);
       }
       catch (InvocationTargetException ite)
       {
