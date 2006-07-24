@@ -3,11 +3,11 @@ package org.jboss.seam.security.realm;
 import java.security.Principal;
 
 /**
- * Allows authentication against a Seam component
+ * JAAS realm implementation
  *
  * @author Shane Bryzak
  */
-public class SeamRealm implements Realm
+public class JaasRealm implements Realm
 {
   public Principal authenticate(String username, String credentials)
   {
@@ -18,4 +18,5 @@ public class SeamRealm implements Realm
   {
     return null;
   }
+
 }
