@@ -21,6 +21,12 @@
 	</module>
 	
     <module>
+	    <java>drools/lib/drools-compiler-3.0.3.jar</java>
+	</module>
+    <module>
+	    <java>drools/lib/drools-core-3.0.3.jar</java>
+	</module>
+    <module>
 	    <java>drools/lib/antlr-2.7.6.jar</java>
 	</module>
     <module>
@@ -34,12 +40,6 @@
 	</module>
     <module>
 	    <java>drools/lib/commons-lang-2.1.jar</java>
-	</module>
-    <module>
-	    <java>drools/lib/drools-compiler-3.0.1.jar</java>
-	</module>
-    <module>
-	    <java>drools/lib/drools-core-3.0.1.jar</java>
 	</module>
     <module>
 	    <java>drools/lib/janino-2.4.3.jar</java>
