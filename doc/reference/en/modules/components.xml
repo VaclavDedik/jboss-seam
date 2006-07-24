@@ -1152,7 +1152,11 @@
                         <listitem>
                         <para>
                             <literal><emphasis>&lt;ruleBase&gt;</emphasis>.ruleFiles</literal> 
-                            &mdash; a list of files containing rules.
+                            &mdash; a list of files containing Drools rules.
+                        </para>
+                        <para>
+                            <literal><emphasis>&lt;ruleBase&gt;</emphasis>.dslFile</literal> 
+                            &mdash; a Drools DSL definition.
                         </para>
                         </listitem>
                     </itemizedlist>

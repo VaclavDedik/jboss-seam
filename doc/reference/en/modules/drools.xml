@@ -35,6 +35,17 @@
          </para>
          
          <para>
+             If you want to use a Drools DSL, you alse need to specify the DSL
+             definition:
+         </para>
+         
+        <programlisting><![CDATA[<component name="policyPricingRules"
+          class="org.jboss.seam.drools.RuleBase">
+    <property name="ruleFiles">policyPricingRules.drl</property>
+    <property name="dslFile">policyPricing.dsl</property>
+</component>]]></programlisting>
+
+         <para>
              Next, we need to make an instance of <literal>org.drools.WorkingMemory</literal>
              available to each conversation. (Each <literal>WorkingMemory</literal>
              accumulates facts relating to the current conversation.)
