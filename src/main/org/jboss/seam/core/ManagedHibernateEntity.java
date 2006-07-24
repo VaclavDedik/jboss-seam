@@ -23,9 +23,9 @@ public class ManagedHibernateEntity
    private Session session;
    private Serializable id;
    private String entityClass;
+   private String idClass;
    private Object newInstance;
    private String idConverterId;
-   private String idClass;
    private Converter idConverter;
    
    public Session getSession()
@@ -78,22 +78,24 @@ public class ManagedHibernateEntity
    
    ////////////TODO: copy/paste from ManagedEntity ///////////////////
 
-   private Serializable getConvertedId() throws ClassNotFoundException
+   private Serializable getConvertedId() throws Exception
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if (idConverterId!=null)
+      if (idConverter==null)
       {
-         idConverter = facesContext.getApplication().createConverter(idConverterId); //cache the lookup
-      }
-      else if (idClass!=null)
-      {
-         idConverter = facesContext.getApplication().createConverter( Class.forName(idClass) );
+         if (idConverterId==null)
+         {
+            //TODO: guess the id class using @Id
+            idConverter = facesContext.getApplication().createConverter( Class.forName(idClass) );
+         }
+         else
+         {
+            idConverter = facesContext.getApplication().createConverter(idConverterId); //cache the lookup
+         }
       }
       
       if (idConverter==null)
       {
-         //TODO: look for an @Id annotation and guess the id type!
-         //converter = facesContext.getApplication().createConverter(idClass)
          return id;
       }
       else
