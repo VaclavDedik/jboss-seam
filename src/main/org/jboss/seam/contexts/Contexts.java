@@ -186,7 +186,7 @@ public class Contexts {
             {
                try
                {
-                  callDestroyMethod( component, context.get(name) );
+                  component.callDestroyMethod( context.get(name) );
                }
                catch (Exception e)
                {
@@ -198,22 +198,6 @@ public class Contexts {
       finally
       {
          Lifecycle.stopDestroying();
-      }
-   }
-
-   private static void callDestroyMethod(Component component, Object instance)
-   {
-      if ( component.hasDestroyMethod() )
-      {
-         String methodName = component.getDestroyMethod().getName();
-         try {
-            Method method = instance.getClass().getMethod(methodName);
-            Reflections.invokeAndWrap( method, instance );
-         }
-         catch (NoSuchMethodException e)
-         {
-            log.warn("could not find destroy method", e);
-         }
       }
    }
    

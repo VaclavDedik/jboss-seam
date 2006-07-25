@@ -1330,8 +1330,8 @@ public class Component
             {
                throw new IllegalArgumentException( "value found for In attribute has the wrong type: " + name );
             }
+            result = component.unwrap(result);
          }
-         result = unwrap( component, result );
       }
       return result;
    }
@@ -1355,7 +1355,7 @@ public class Component
          else if (factoryMethod!=null)
          {
             Object factory = Component.getInstance( factoryMethod.component.getName(), true );
-            Object result = callComponentMethod(factoryMethod.component, factory, factoryMethod.method);
+            Object result = factoryMethod.component.callComponentMethod(factory, factoryMethod.method);
             return handleFactoryMethodResult(name, factoryMethod.component, result, factoryMethod.scope);
          }
          else
@@ -1408,21 +1408,29 @@ public class Component
          if (component.getScope()!=ScopeType.STATELESS)
          {
             component.getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
-            callCreateMethod(component, instance);
+            component.callCreateMethod(instance);
          }
          return instance;
       }
    }
 
-   private static void callCreateMethod(Component component, Object instance)
+   public void callCreateMethod(Object instance)
    {
-      if (component.hasCreateMethod())
+      if ( hasCreateMethod() )
       {
-         callComponentMethod( component, instance, component.getCreateMethod() );
+         callComponentMethod( instance, getCreateMethod() );
+      }
+   }
+   
+   public void callDestroyMethod(Object instance)
+   {
+      if ( hasDestroyMethod() )
+      {
+         callComponentMethod( instance, getDestroyMethod() );
       }
    }
 
-   public static Object callComponentMethod(Component component, Object instance, Method method) {
+   public Object callComponentMethod(Object instance, Method method) {
       Class[] paramTypes = method.getParameterTypes();
       String createMethodName = method.getName();
       try
@@ -1433,13 +1441,13 @@ public class Component
             return Reflections.invokeAndWrap( interfaceMethod, instance );
          }
          else {
-            return Reflections.invokeAndWrap( interfaceMethod, instance, component );
+            return Reflections.invokeAndWrap( interfaceMethod, instance, this );
          }
       }
       catch (NoSuchMethodException e)
       {
-         String message = "method not found: " + method.getName() + " for component: " + component.getName();
-         if ( component.getType()==ComponentType.STATELESS_SESSION_BEAN || component.getType()==ComponentType.STATEFUL_SESSION_BEAN )
+         String message = "method not found: " + method.getName() + " for component: " + name;
+         if ( getType()==ComponentType.STATELESS_SESSION_BEAN || getType()==ComponentType.STATEFUL_SESSION_BEAN )
          {
              message += " (check that it is declared on the session bean business interface)";
          }
@@ -1447,13 +1455,16 @@ public class Component
       }
    }
 
-   private static Object unwrap(Component component, Object instance)
+   private Object unwrap(Object instance)
    {
-      if (component!=null && component.hasUnwrapMethod())
+      if ( hasUnwrapMethod() )
       {
-         instance = callComponentMethod(component, instance, component.getUnwrapMethod() );
+         return callComponentMethod( instance, getUnwrapMethod() );
       }
-      return instance;
+      else
+      {
+         return instance;
+      }
    }
 
    private Object getInstanceToInject(In in, String name, Object bean)

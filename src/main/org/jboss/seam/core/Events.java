@@ -100,7 +100,7 @@ public class Events
          for (ObserverMethod observer: observers)
          {
             Object listener = Component.getInstance( observer.component.getName(), true );
-            Component.callComponentMethod(observer.component, listener, observer.method);
+            observer.component.callComponentMethod(listener, observer.method);
          }
       }
    }
