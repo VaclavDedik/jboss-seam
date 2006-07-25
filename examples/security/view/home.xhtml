@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+<head>
+	<title>Seam Security</title>
+</head>
+
+<body>
+  <h1>Security example</h1>
+
+  <a href="protected/protected.seam">Protected page</a>
+  
+  <h:form>
+  
+		<div>
+			<h:outputLabel for="username">Login Name</h:outputLabel>
+			<h:inputText id="username" value="#{user.username}" style="width: 175px;"/>
+			<div class="errors"><h:message for="username"/></div>
+		</div>
+
+		<div>
+			<h:outputLabel for="password">Password</h:outputLabel>
+			<h:inputSecret id="password" value="#{user.password}" style="width: 175px;"/>
+		</div>  
+    
+    <h:commandButton action="#{login.login}" value="Login" class="button" />    
+    
+    <h:commandButton action="#{protectedAction.foo}" value="Foo" class="button"/>
+  </h:form>
+</body>
+</html>
+

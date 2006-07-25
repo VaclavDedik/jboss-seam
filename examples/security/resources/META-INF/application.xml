@@ -1,0 +1,17 @@
+<application>
+	<display-name>Seam Security</display-name>
+
+	<module>
+		<web>
+			<web-uri>seam-security.war</web-uri>
+			<context-root>/seam-security</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>seam-security.jar</ejb>
+	</module>
+	<module>
+	    <java>jboss-seam.jar</java>
+	</module>
+
+</application>
