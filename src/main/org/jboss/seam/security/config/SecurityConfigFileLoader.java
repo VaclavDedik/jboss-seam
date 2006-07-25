@@ -1,9 +1,12 @@
 package org.jboss.seam.security.config;
 
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.servlet.ServletContext;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -13,17 +16,13 @@ import org.jboss.seam.security.authenticator.BasicAuthenticator;
 import org.jboss.seam.security.authenticator.FormAuthenticator;
 import org.jboss.seam.security.authenticator.SeamAuthenticator;
 import org.jboss.seam.security.realm.Realm;
-import java.lang.reflect.Constructor;
-import javax.servlet.ServletContext;
-import java.lang.reflect.Method;
 
 /**
- * The default SecurityConfig implementation, loads the security configuration
- * from an XML configuration file.
+ * Loads the security configuration from an XML configuration file.
  *
  * @author Shane Bryzak
  */
-public class DefaultSecurityConfigImpl implements SecurityConfig
+public class SecurityConfigFileLoader implements SecurityConfigLoader
 {
   // <security-constraint>
   private static final String SECURITY_CONSTRAINT = "security-constraint";
@@ -36,12 +35,16 @@ public class DefaultSecurityConfigImpl implements SecurityConfig
   // <login-config>
   private static final String LOGIN_CONFIG = "login-config";
   private static final String AUTH_METHOD = "auth-method";
+
+  // FORM
   private static final String FORM_LOGIN_CONFIG = "form-login-config";
   private static final String FORM_LOGIN_PAGE = "form-login-page";
   private static final String FORM_ERROR_PAGE = "form-error-page";
   private static final String FORM_DEFAULT_PAGE = "form-default-page";
+
+  // SEAM
   private static final String SEAM_LOGIN_CONFIG = "seam-login-config";
-  private static final String SEAM_LOGIN_ACTION = "seam-login-action";
+  private static final String SEAM_LOGIN_PAGE = "seam-login-page";
 
   // <security-role>
   private static final String SECURITY_ROLE = "security-role";
@@ -50,39 +53,24 @@ public class DefaultSecurityConfigImpl implements SecurityConfig
   private static final String REALM = "realm";
   private static final String CLASSNAME_ATTRIBUTE = "className";
 
-  /**
-   * Security constraints
-   */
   private Set<SecurityConstraint> securityConstraints = new HashSet<SecurityConstraint>();
 
-  /**
-   * The authentication method
-   */
-  private AuthMethod authMethod;
-
-  /**
-   * The authenticator
-   */
-  private Authenticator authenticator;
-
-  /**
-   * Security roles with access to the application
-   */
   private Set<String> securityRoles = new HashSet<String>();
 
-  /**
-   * Authentication realm
-   */
-  private Realm realm;
+  private AuthMethod authMethod;
+
+  private Authenticator authenticator;
 
   private ServletContext servletContext;
+
+  private Realm realm;
 
   /**
    * Constructor, loads the configuration from configFile.
    *
    * @param configFile File
    */
-  public DefaultSecurityConfigImpl(InputStream config, ServletContext servletContext)
+  public SecurityConfigFileLoader(InputStream config, ServletContext servletContext)
       throws SecurityConfigException
   {
     try
@@ -133,6 +121,15 @@ public class DefaultSecurityConfigImpl implements SecurityConfig
   public Authenticator getAuthenticator()
   {
     return authenticator;
+  }
+
+  /**
+   *
+   * @return Set
+   */
+  public Set<String> getSecurityRoles()
+  {
+    return securityRoles;
   }
 
   /**
@@ -237,8 +234,8 @@ public class DefaultSecurityConfigImpl implements SecurityConfig
         break;
       case SEAM:
         Element seamConfigElement = loginConfigElement.element(SEAM_LOGIN_CONFIG);
-        String loginAction = seamConfigElement.elementText(SEAM_LOGIN_ACTION);
-        authenticator = new SeamAuthenticator(loginAction);
+        loginPage = seamConfigElement.elementText(SEAM_LOGIN_PAGE);
+        authenticator = new SeamAuthenticator(loginPage);
         break;
     }
 
@@ -246,7 +243,6 @@ public class DefaultSecurityConfigImpl implements SecurityConfig
       throw new SecurityConfigException(
         String.format("No valid authenticator for auth-method [%s]", authMethod.toString()));
 
-    authenticator.setSecurityConfig(this);
   }
 
   /**
@@ -290,7 +286,6 @@ public class DefaultSecurityConfigImpl implements SecurityConfig
       // Swallow exceptions here
     }
 
-
     String realmClass = realmElement.attributeValue(CLASSNAME_ATTRIBUTE);
     try
     {
@@ -308,15 +303,11 @@ public class DefaultSecurityConfigImpl implements SecurityConfig
        * TODO - see if this can be refactored into something more elegant
        */
       Constructor[] constructors = cls.getConstructors();
-      if (constructors.length > 0)
+      if (constructors.length > 0 &&
+          constructors[0].getParameterTypes().length == 1 &&
+          constructors[0].getParameterTypes()[0].equals(String.class))
       {
-        if (constructors[0].getParameterTypes().length == 1 &&
-            constructors[0].getParameterTypes()[0].equals(String.class))
-        {
-          realm = (Realm) constructors[0].newInstance(contextPath);
-        }
-        else
-          realm = (Realm) cls.newInstance();
+        realm = (Realm) constructors[0].newInstance(contextPath);
       }
       else
         realm = (Realm) cls.newInstance();
