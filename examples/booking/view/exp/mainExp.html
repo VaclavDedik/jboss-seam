@@ -70,6 +70,8 @@ public class HotelSearchingAction implements HotelSearching
    
    @DataModel
    private List&lt;Hotel&gt; hotels;
+   @DataModelSelection
+   private Hotel selectedHotel;
    
    public String find()
    {
@@ -80,6 +82,11 @@ public class HotelSearchingAction implements HotelSearching
             .getResultList();
       
       return "main";
+   }
+   
+   public Hotel getSelectedHotel()
+   {
+      return selectedHotel;
    }
    
    public int getPageSize() {
@@ -111,7 +118,14 @@ public class HotelSearchingAction implements HotelSearching
        with the <code>@DataModel</code> annotation, so when the <code>find()</code> method
        returns, Seam outjects an instance of <code>ListDataModel</code> to a context
        variable named <code>hotels</code>. So, when the search page is re-rendered, the
-       result list is available to the JSF <code>dataTable</code>.
+       result list is available to the JSF <code>dataTable</code>. 
+       Each row of the data table has an associated command button or link 
+       (see below). When the user
+       clicks on the button / link, the <code>Hotel</code> represented by that
+       row is injected into the <code>hotel</code> field annotated by the
+       <code>@DataModelSelection</code> annotation. Other application components
+       can then access the selected hotel via the
+       <code>HotelSearching.selectedHotel</code> property.
     </p>
 
 <code class="block">
@@ -141,36 +155,41 @@ public class HotelSearchingAction implements HotelSearching
 </code>
 
     <p>
-       The "View Hotel" link is implemented using a Seam <code>&lt;s:actionLink></code>.
+       The "View Hotel" link is the above mentioned command link associated
+       with each row of the data table. It is implemented 
+       using a Seam <code>&lt;s:Link></code>, which is part of Seam's 
+       extension of JSF controls.
        This JSF control let's us call an action, and pass a request parameter, without 
-       submitting any JSF form. The advantage of <code>&lt;s:actionLink></code> is that, 
+       submitting any JSF form. The advantage of <code>&lt;s:link></code> is that, 
        unlike a standard JSF <code>&lt;h:commandLink></code>, there is no JavaScript 
        used, so "open link in new tab" works seamlessly.
     </p>
     <p>
        When this link is clicked, the <code>selectHotel()</code> method of the
-       <code>HotelBookingAction</code> bean is called and, after injecting the
-       value of the request parameter, the hotel is fetched from the database, 
-       and a Seam conversation begins!
+       <code>HotelBookingAction</code> bean is called. It gets the selected
+       hotel from the <code>HotelSearching.selectedHotel</code> property,
+       merges it to the current persistence context (in case the same
+       hotel has been accessed before in the same session),
+       and starts a Seam conversation. We will discuss Seam conversations
+       in the next step.
     </p>
-
+    
 <code class="block">
-   @RequestParameter
-   private Long hotelId; 
+@Stateful
+@Name("hotelBooking")
+@LoggedIn
+public class HotelBookingAction implements HotelBooking
+{
+
+   ... ...
    
    @Begin
    public String selectHotel()
    {
-      if (hotelId!=null)
-      {
-         hotel = em.find(Hotel.class, hotelId);
-         return "hotel";
-      }
-      else
-      {
-         return null;
-      }
+      hotel = em.merge( hotelSearch.getSelectedHotel() );
+      return "hotel";
    }
+}
 </code>
 
    <p>

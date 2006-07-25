@@ -58,7 +58,11 @@
        The <code>User</code> enity bean is mapped to the Seam  
        context variable named <code>user</code> bean via the 
        <code>@Name</code> annotation. <code>User</code> is
-       a session scoped bean.
+       a session scoped bean, meaning that the <code>user</code>
+       component value is retained for the entire session for
+       each user. You might also notice there are validation annotation
+       on the data properties. We will discuss those annotations in the
+       <a href="registerExp.html">next step</a>.
     </p>
 
 <code class="block">

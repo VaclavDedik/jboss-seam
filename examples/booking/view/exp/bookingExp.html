@@ -28,7 +28,9 @@
 
     <p>
        The hotel booking "wizard" is implemented by a conversation-scoped
-       stateful session bean. The <code>HotelBookingAction</code> maintains
+       stateful session bean. All Seam components are in the 
+       conversation scope by default. 
+       The <code>HotelBookingAction</code> maintains
        state associated with the booking process in the Seam conversation
        scope. This ensures that if the user is working in multiple brower
        tabs or multiple brower windows, the various conversations are
@@ -37,13 +39,14 @@
     <p>
        To see this working in practice, right click on the "View Hotel" button 
        in the search screen and select "open in new tab" or "open in new window",
-       and try working on multiple hotel bookings simultaneously.
+       and try working on multiple hotel bookings simultaneously. 
+       In the <a href="workspaceExp.html"/>next step</a>, we will discuss
+       Seam's built-in components to manage multiple concurrent conversations.
     </p>
     
 <code class="block">
 @Stateful
 @Name("hotelBooking")
-@Conversational(ifNotBegunOutcome="main")
 @LoggedIn
 public class HotelBookingAction implements HotelBooking
 {
@@ -56,33 +59,28 @@ public class HotelBookingAction implements HotelBooking
    
    @In(required=false) 
    @Out(required=false)
-   @Valid
    private Booking booking;
    
    @In
    private User user;
    
    @In(create=true)
-   private transient FacesMessages facesMessages;
+   private FacesMessages facesMessages;
       
-   @In(required=false)
-   private BookingList bookingList;
+   @In(create=true)
+   private Events events;
+      
+   @In 
+   private HotelSearching hotelSearch;
    
-   @RequestParameter
-   private Long hotelId; 
+   @Logger 
+   private Log log;
    
    @Begin
    public String selectHotel()
    {
-      if (hotelId!=null)
-      {
-         hotel = em.find(Hotel.class, hotelId);
-         return "hotel";
-      }
-      else
-      {
-         return null;
-      }
+      hotel = em.merge( hotelSearch.getSelectedHotel() );
+      return "hotel";
    }
    
    public String bookHotel()
@@ -96,7 +94,6 @@ public class HotelBookingAction implements HotelBooking
       return "book";
    }
 
-   @IfInvalid(outcome=REDISPLAY)
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";
@@ -116,9 +113,9 @@ public class HotelBookingAction implements HotelBooking
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);
-      if (bookingList!=null) bookingList.refresh();
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
-      //hotels=null;
+      log.info("New booking: #{booking.id} for #{user.username}");
+      events.raiseEvent("bookingConfirmed");
       return "confirmed";
    }
    
@@ -134,9 +131,26 @@ public class HotelBookingAction implements HotelBooking
 }</code>
 
     <p>
-       The conversation begins when <code>selectHotel()</code> is called, and ends when 
-       <code>confirm()</code> or <code>cancel()</code> is called.
+       The conversation begins when the <code>@Begin</code> annotated
+       <code>selectHotel()</code> is called, and ends when 
+       the <code>@End</code> annotated 
+       <code>confirm()</code> or <code>cancel()</code> is called. Between the
+       <code>@Begin</code> and <code>@End</code> methods, the user can do
+       any number of things with the application (i.e., invoke any 
+       event handler method or use the BACK button etc.) and the 
+       <code>hotelBooking</code> maintains its state throughout the process.
+       When the <code>@End</code> method is called, Seam destroys this
+       component and avoids any memory leak.
     </p>
+    
+    <p>
+      However, none of the <code>HotelBookingAction</code> bean methods 
+      may be called outside of a long-running conversation. 
+      So if we try to use the 
+      back button after the end of the conversation, Seam will redirect to the main page, with an 
+      error message.
+   </p>
+
 
     <p>
        <center>

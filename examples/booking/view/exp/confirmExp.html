@@ -53,8 +53,9 @@
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);
-      if (bookingList!=null) bookingList.refresh();
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      log.info("New booking: #{booking.id} for #{user.username}");
+      events.raiseEvent("bookingConfirmed");
       return "confirmed";
    }
    
@@ -75,12 +76,31 @@
    </p>
    
    <p>
-      The <code>HotelBookingAction</code> bean is marked <code>@Conversational</code>. This means that
-      none of its methods may be called outside of a long-running conversation. So if we try to use the 
-      back button after the end of the conversation, Seam will redirect to the main page, with an 
-      error message.
+      Notice that the <code>HotelBookingAction.confirm()</code> method
+      raises a <code>bookingConfirmed</code> event before it finishes. The
+      event mechanism allows Seam components to communicate with each other
+      without direct coupling. In this case, the <code>BookingListAction</code>
+      component captures the <code>bookingConfirmed</code> event and refreshes
+      the existing booking list for the current user.
    </p>
+   
+<code class="block">
+public class BookingListAction implements BookingList, Serializable
+{
 
+   ... ...
+   
+   @Factory
+   @Observer("bookingConfirmed")
+   public void getBookings()
+   {
+      bookings = em.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
+            .setParameter("username", user.getUsername())
+            .getResultList();
+   }
+}
+</code>
+   
    <p>
       <center>
       <form>
