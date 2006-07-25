@@ -234,7 +234,7 @@ public class Initialization
          {
             throw new IllegalArgumentException("value elements must match key elements: " + propName);
          }
-         Properties keyedValues = new Properties();
+         Map<String, String> keyedValues = new HashMap<String, String>();
          for (int i=0; i<keyElements.size(); i++)
          {
             String key = trimmedText( keyElements.get(i), propName, replacements );

@@ -1,7 +1,9 @@
 package org.jboss.seam.core;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.context.FacesContext;
 
@@ -20,14 +22,39 @@ public class RenderParameters
    @Unwrap
    public Map<String, Object> getParameters()
    {
-      if ( Manager.instance().isNonFacesRequest() )
+      return new AbstractMap<String, Object>()
       {
-         return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-      }
-      else
-      {
-         return parameters;
-      }
+         
+         private Map requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+
+         @Override
+         public Set<Entry<String, Object>> entrySet()
+         {
+            return parameters.entrySet();
+         }
+
+         @Override
+         public Object get(Object key)
+         {
+            if ( parameters.containsKey(key) )
+            {
+               return parameters.get(key);
+            }
+            else
+            {
+               return requestParameters.get(key);
+            }
+         }
+
+         @Override
+         public Object put(String key, Object value)
+         {
+            Object old = get(key);
+            parameters.put(key, value);
+            return old;
+         }
+         
+      };
    }
    
    public static Map<String, Object> instance()

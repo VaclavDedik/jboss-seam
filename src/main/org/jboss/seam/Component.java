@@ -80,6 +80,7 @@ import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.SorterNew;
+import org.jboss.seam.util.Conversions.PropertyValue;
 
 /**
  * A Seam component is any POJO managed by Seam.
@@ -323,12 +324,11 @@ public class Component
       //note that org.jboss.seam.core.init.jndiPattern looks like an EL expression but is not one!
       if ( propertyValue.isExpression() && !beanClass.equals(Init.class) ) //TODO: support #{...} in <value> element
       {
-         return new ELInitialValue( propertyValue.getSingleValue() );
+         return new ELInitialValue(propertyValue, parameterClass, parameterType);
       }
       else
       {
-         Object value = Conversions.getConverter(parameterClass).toObject(propertyValue, parameterType);
-         return new ConstantInitialValue(value);
+         return new ConstantInitialValue(propertyValue, parameterClass, parameterType);
       }
    }
 
@@ -1558,9 +1558,9 @@ public class Component
    {
       private Object value;
       
-      public ConstantInitialValue(Object value)
+      public ConstantInitialValue(PropertyValue propertyValue, Class parameterClass, Type parameterType)
       {
-         this.value = value;
+         this.value = Conversions.getConverter(parameterClass).toObject(propertyValue, parameterType);
       }
 
       public Object getValue(Class type)
@@ -1579,29 +1579,53 @@ public class Component
    {
       private String expression;
       //private ValueBinding vb;
+      private Conversions.Converter converter;
+      private Type parameterType;
       
-      public ELInitialValue(String expression)
+      public ELInitialValue(PropertyValue propertyValue, Class parameterClass, Type parameterType)
       {
-         this.expression = expression;
+         this.expression = propertyValue.getSingleValue();
+         this.parameterType = parameterType;
+         try
+         {
+            this.converter = Conversions.getConverter(parameterClass);
+         }
+         catch (IllegalArgumentException iae) {
+            //no converter for the type
+         }
          //vb = FacesContext.getCurrentInstance().getApplication().createValueBinding(expression);
       }
 
       public Object getValue(Class type)
       {
+         Object value;
          if ( type.equals(ValueBinding.class) )
          {
-            return createValueBinding();
+            value = createValueBinding();
          }
          else
          {
-            return createValueBinding().getValue( FacesContext.getCurrentInstance() );
+            value = createValueBinding().getValue( FacesContext.getCurrentInstance() );
+         }
+         
+         if (converter!=null && value instanceof String)
+         {
+            return converter.toObject( new Conversions.FlatPropertyValue( (String) value ), parameterType );
+         }
+         else if (converter!=null && value instanceof String[])
+         {
+            return converter.toObject( new Conversions.MultiPropertyValue( (String[]) value ), parameterType );
+         }
+         else
+         {
+            return value;
          }
       }
 
       private ValueBinding createValueBinding()
       {
          return FacesContext.getCurrentInstance().getApplication()
-               .createValueBinding(expression);
+               .createValueBinding( expression );
       }
       
       public String toString()

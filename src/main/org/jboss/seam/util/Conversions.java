@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 public class Conversions
@@ -31,6 +30,7 @@ public class Conversions
       put(String[].class, new StringArrayConverter());
       put(Set.class, new SetConverter());
       put(List.class, new ListConverter());
+      put(Map.class, new MapConverter());
       //put(Date.class, new DateTimeConverter());
       //put(Short.class, new ShortConverter());
       //put(Byte.class, new ByteConverter());
@@ -118,7 +118,7 @@ public class Conversions
    {
       public String[] toObject(PropertyValue values, Type type)
       {
-         return  values.getMultiValues();
+         return values.getMultiValues();
       }
    }
    
@@ -177,14 +177,14 @@ public class Conversions
    {
       public Map toObject(PropertyValue values, Type type)
       {
-         Properties keyedValues = values.getKeyedValues();
+         Map<String, String> keyedValues = values.getKeyedValues();
          Class elementType = Reflections.getCollectionElementType(type);
          Map map = new HashMap( keyedValues.size() );
          Converter elementConverter = converters.get(elementType);
-         for (Map.Entry me: keyedValues.entrySet())
+         for (Map.Entry<String, String> me: keyedValues.entrySet())
          {
-            String key = (String) me.getKey();
-            Object element = elementConverter.toObject( new FlatPropertyValue( (String) me.getValue() ), elementType );
+            String key = me.getKey();
+            Object element = elementConverter.toObject( new FlatPropertyValue( me.getValue() ), elementType );
             map.put(key, element);
          }
          return map;
@@ -193,7 +193,7 @@ public class Conversions
    
    public static interface PropertyValue extends Serializable
    {
-      Properties getKeyedValues();
+      Map<String, String> getKeyedValues();
       String[] getMultiValues();
       String getSingleValue();
       boolean isExpression();
@@ -224,7 +224,7 @@ public class Conversions
          return string.startsWith("#{");
       }
 
-      public Properties getKeyedValues()
+      public Map<String, String> getKeyedValues()
       {
          throw new UnsupportedOperationException("not a keyed property value");
       }
@@ -256,7 +256,7 @@ public class Conversions
          throw new UnsupportedOperationException("not a flat property value");
       }
       
-      public Properties getKeyedValues()
+      public Map<String, String> getKeyedValues()
       {
          throw new UnsupportedOperationException("not a keyed property value");
       }
@@ -276,9 +276,9 @@ public class Conversions
    public static class AssociativePropertyValue implements PropertyValue
    {
       
-      private Properties keyedValues;
+      private Map<String, String> keyedValues;
 
-      public AssociativePropertyValue(Properties keyedValues)
+      public AssociativePropertyValue(Map<String, String> keyedValues)
       {
          this.keyedValues = keyedValues;
       }
@@ -293,7 +293,7 @@ public class Conversions
          throw new UnsupportedOperationException("not a flat property value");
       }
       
-      public Properties getKeyedValues()
+      public Map<String, String> getKeyedValues()
       {
          return keyedValues;
       }

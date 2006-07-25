@@ -56,7 +56,9 @@ public class Redirect implements Serializable
    }
    
    /**
-    * Set a request parameter value
+    * Set a request parameter value (to set a multi-valued
+    * request parameter, pass an array or collection as
+    * the value)
     */
    public void setParameter(String name, Object value)
    {

@@ -863,10 +863,25 @@ public class Manager
       StringBuilder builder = new StringBuilder(url);
       for ( Map.Entry<String, Object> param: parameters.entrySet() )
       {
-         builder.append('&')
-               .append( param.getKey() )
-               .append('=')
-               .append( param.getValue() );
+         Object parameterValue = param.getValue();
+         String parameterName = param.getKey();
+         if (parameterValue instanceof Iterable)
+         {
+            for ( Object value: (Iterable) parameterValue )
+            {
+               builder.append('&')
+                  .append(parameterName)
+                  .append('=')
+                  .append(value);
+            }
+         }
+         else
+         {
+            builder.append('&')
+                  .append(parameterName)
+                  .append('=')
+                  .append(parameterValue);
+         }
       }
       if ( url.indexOf('?')<0 ) 
       {
@@ -982,12 +997,14 @@ public class Manager
 
       }
    }
-
+   
+   @Deprecated
    public boolean isNonFacesRequest()
    {
       return nonFacesRequest;
    }
-
+   
+   @Deprecated
    public void setNonFacesRequest(boolean nonFacesRequest)
    {
       this.nonFacesRequest = nonFacesRequest;
