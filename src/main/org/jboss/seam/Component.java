@@ -174,6 +174,10 @@ public class Component
       startup = beanClass.isAnnotationPresent(Startup.class);
       if (startup)
       {
+         if (scope!=ScopeType.SESSION && scope!=ScopeType.APPLICATION)
+         {
+            throw new IllegalArgumentException("@Startup only supported for SESSION or APPLICATION scoped components: " + name);
+         }
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
       

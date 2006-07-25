@@ -150,7 +150,7 @@ public class Seam
       }
       else 
       {
-         return InterceptionType.AFTER_RESTORE_VIEW;
+         return InterceptionType.ALWAYS;
       }
    }
 
