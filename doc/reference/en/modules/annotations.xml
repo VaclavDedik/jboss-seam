@@ -96,14 +96,14 @@
                     <para>
                         Determines when Seam interceptors are active. The possible values
                         are defined by the <literal>InterceptionType</literal> enumeration:
-                        <literal>ALWAYS, INVOKE_APPLICATION, NEVER</literal>.
+                        <literal>ALWAYS, AFTER_RESTORE_VIEW, AFTER_UPDATE_MODEL_VALUES, 
+                        INVOKE_APPLICATION, NEVER</literal>.
                     </para>
                     <para>
                         When no interception type is explicitly specified, the default depends 
                         upon the component type. For entity beans, the default is 
-                        <literal>NEVER</literal>. For session beans and JavaBeans, the default 
-                        is <literal>INVOKE_APPLICATION</literal> (interception only enabled 
-                        during the JSF invoke application phase).
+                        <literal>NEVER</literal>. For session beans, message driven beans and 
+                        JavaBeans, the default is <literal>ALWAYS</literal>.
                     </para>
                 </listitem>
             </varlistentry>   
