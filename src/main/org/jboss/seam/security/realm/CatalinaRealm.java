@@ -3,11 +3,17 @@ package org.jboss.seam.security.realm;
 import java.lang.reflect.Method;
 import java.security.Principal;
 
+import static org.jboss.seam.ScopeType.APPLICATION;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+
 /**
  * Wrapper for Tomcat realm authentication
  *
  * @author Shane Bryzak
  */
+@Name("org.jboss.seam.security.realm.Realm")
+@Scope(APPLICATION)
 public class CatalinaRealm implements Realm
 {
   private Object realm;

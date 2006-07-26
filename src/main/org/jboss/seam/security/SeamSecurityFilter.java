@@ -43,6 +43,7 @@ public class SeamSecurityFilter implements Filter
     {
       Lifecycle.setServletContext(servletContext);
       Lifecycle.beginCall();
+      SecurityConfig.instance().setServletContext(servletContext);
       SecurityConfig.instance().loadConfig(new SecurityConfigFileLoader(
         servletContext.getResourceAsStream(CONFIG_RESOURCE), servletContext));
       Contexts.getApplicationContext().set("org.jboss.seam.security.realm.Realm",

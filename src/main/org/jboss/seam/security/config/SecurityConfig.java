@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.jboss.seam.security.authenticator.Authenticator;
 import org.jboss.seam.security.realm.Realm;
+import javax.servlet.ServletContext;
 
 /**
  * Security Configuration interface.
@@ -18,6 +19,9 @@ public final class SecurityConfig
    */
   private static final SecurityConfig instance = new SecurityConfig();
 
+  /**
+   * Flag indicating whether the configuration has been loaded
+   */
   private boolean configLoaded = false;
 
   /**
@@ -46,11 +50,18 @@ public final class SecurityConfig
   private Realm realm;
 
   /**
-   * Private constructor
+   * The ServletContext for this application.  This is required because various
+   * modules of the security framework may need to instantiate a Seam context
+   */
+  private ServletContext servletContext;
+
+  /**
+   * Private constructor.
    */
   private SecurityConfig() {  }
 
   /**
+   * Returns the SecurityConfig singleton
    *
    * @return SecurityConfig
    */
@@ -60,6 +71,7 @@ public final class SecurityConfig
   }
 
   /**
+   * Loads the configuration from the specified SecurityConfigLoader
    *
    * @param configLoader SecurityConfigLoader
    */
@@ -81,6 +93,24 @@ public final class SecurityConfig
 
       configLoaded = true;
     }
+  }
+
+  /**
+   *
+   * @param servletContext ServletContext
+   */
+  public void setServletContext(ServletContext servletContext)
+  {
+    this.servletContext = servletContext;
+  }
+
+  /**
+   *
+   * @return ServletContext
+   */
+  public ServletContext getServletContext()
+  {
+    return servletContext;
   }
 
   /**
