@@ -9,8 +9,8 @@ import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.HttpError;
+import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Redirect;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -24,7 +24,7 @@ import org.jboss.seam.jsf.AbstractSeamPhaseListener;
  * 
  * @author Gavin King
  */
-@Around({ConversationalInterceptor.class, RemoveInterceptor.class, BijectionInterceptor.class})
+@Interceptor(around={ConversationalInterceptor.class, RemoveInterceptor.class, BijectionInterceptor.class})
 public class ExceptionInterceptor extends AbstractInterceptor
 {
 

@@ -9,14 +9,13 @@ import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.FlushModeType;
+import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.annotations.Within;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Interpolator;
@@ -29,8 +28,8 @@ import org.jboss.seam.core.Pageflow;
  * 
  * @author Gavin King
  */
-@Around({ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class})
-@Within(BusinessProcessInterceptor.class)
+@Interceptor(around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class},
+             within=BusinessProcessInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {
 

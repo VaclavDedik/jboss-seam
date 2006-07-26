@@ -12,7 +12,8 @@ import org.jboss.seam.InterceptorType;
 /**
  * Annotates an interceptor class and specifies what 
  * kind of interceptor it is (client side or server 
- * side).
+ * side), and its ordering with respect to other
+ * interceptors in the stack.
  * 
  * @author Gavin King
  */
@@ -21,5 +22,21 @@ import org.jboss.seam.InterceptorType;
 @Documented
 public @interface Interceptor
 {
+   /**
+    * Specifies that the interceptor is a SERVER or CLIENT
+    * side interceptor.
+    * 
+    * @return SERVER by default
+    */
    InterceptorType type() default InterceptorType.SERVER;
+   /**
+    * Specifies that an interceptor is called "around" 
+    * another interceptor or interceptors.
+    */
+   Class[] around() default {};
+   /**
+    * Specifies that an interceptor is called "within" 
+    * another interceptor or interceptors.
+    */
+   Class[] within() default {};
 }

@@ -14,7 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.IfInvalid;
-import org.jboss.seam.annotations.Within;
+import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.core.FacesMessages;
 
 /**
@@ -25,7 +25,7 @@ import org.jboss.seam.core.FacesMessages;
  * 
  * @author Gavin King
  */
-@Within({BijectionInterceptor.class, OutcomeInterceptor.class})
+@Interceptor(within={BijectionInterceptor.class, OutcomeInterceptor.class})
 public class ValidationInterceptor extends AbstractInterceptor
 {
 

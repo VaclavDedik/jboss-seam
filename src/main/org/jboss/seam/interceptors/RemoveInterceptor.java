@@ -4,15 +4,15 @@ package org.jboss.seam.interceptors;
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 import javax.ejb.ApplicationException;
 import javax.ejb.Remove;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ComponentType;
-import org.jboss.seam.annotations.Around;
+import org.jboss.seam.annotations.Interceptor;
 
 /**
  * Removes components from the Seam context after invocation
@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.Around;
  * 
  * @author Gavin King
  */
-@Around({ValidationInterceptor.class, BijectionInterceptor.class, ConversationInterceptor.class})
+@Interceptor(around={ValidationInterceptor.class, BijectionInterceptor.class, ConversationInterceptor.class})
 public class RemoveInterceptor extends AbstractInterceptor
 {
     

@@ -10,12 +10,12 @@ import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
@@ -27,7 +27,7 @@ import org.jboss.seam.core.Manager;
  * 
  * @author Gavin King
  */
-@Around({ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class, BusinessProcessInterceptor.class})
+@Interceptor(around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class, BusinessProcessInterceptor.class})
 public class ConversationalInterceptor extends AbstractInterceptor
 {
 

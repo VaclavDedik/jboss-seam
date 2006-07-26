@@ -8,7 +8,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.ComponentType;
-import org.jboss.seam.annotations.Around;
+import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.util.Transactions;
@@ -18,7 +18,7 @@ import org.jboss.seam.util.Transactions;
  * 
  * @author Gavin King
  */
-@Around(OutcomeInterceptor.class)
+@Interceptor(around=OutcomeInterceptor.class)
 public class RollbackInterceptor extends AbstractInterceptor 
 {
    

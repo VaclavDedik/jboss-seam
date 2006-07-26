@@ -18,10 +18,10 @@ import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.EndTask;
+import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
@@ -35,7 +35,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
-@Around({ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class})
+@Interceptor(around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class})
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
    

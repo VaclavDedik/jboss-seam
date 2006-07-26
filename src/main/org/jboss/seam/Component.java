@@ -39,7 +39,6 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.validator.ClassValidator;
-import org.jboss.seam.annotations.Around;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.DataBinderClass;
 import org.jboss.seam.annotations.DataSelectorClass;
@@ -54,7 +53,6 @@ import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.annotations.Within;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -608,18 +606,14 @@ public class Component
       for (SortItem<Interceptor> si : siList)
       {
          Class<?> clazz = si.getObj().getUserInterceptor().getClass();
-         Around around = clazz.getAnnotation(Around.class);
-         Within within = clazz.getAnnotation(Within.class);
-         if  (around!=null)
+         if ( clazz.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) )
          {
-            for (Class<?> cl : Arrays.asList( around.value() ) )
+            org.jboss.seam.annotations.Interceptor interceptorAnn = clazz.getAnnotation(org.jboss.seam.annotations.Interceptor.class);
+            for (Class<?> cl : Arrays.asList( interceptorAnn.around() ) )
             {
                si.getAround().add( ht.get(cl) );
             }
-         }
-         if (within!=null)
-         {
-            for (Class<?> cl : Arrays.asList( within.value() ) )
+            for (Class<?> cl : Arrays.asList( interceptorAnn.within() ) )
             {
                si.getWithin().add( ht.get(cl) );
             }
