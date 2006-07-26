@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.InterceptorType;
 
 /**
  * Adapts from EJB interception to Seam component interceptors
@@ -17,16 +18,16 @@ import org.jboss.seam.Component;
 public class SeamInvocationContext implements InvocationContext
 {
    
-   public SeamInvocationContext(InvocationContext ejbInvocationContext, Component component)
-   {
-      this.component = component;
-      this.ejbInvocationContext = ejbInvocationContext;
-   }
-   
    private final InvocationContext ejbInvocationContext;
-   private final Component component;
+   private final List<Interceptor> interceptors;
    int location = 0;
 
+   public SeamInvocationContext(InvocationContext ejbInvocationContext, List<Interceptor> interceptors)
+   {
+      this.ejbInvocationContext = ejbInvocationContext;
+      this.interceptors = interceptors;
+   }
+   
    public Object getTarget()
    {
       return ejbInvocationContext.getTarget();
@@ -49,8 +50,6 @@ public class SeamInvocationContext implements InvocationContext
 
    public Object proceed() throws Exception
    {
-      
-      List<Interceptor> interceptors = component.getInterceptors();
       if ( location==interceptors.size() )
       {
          return ejbInvocationContext.proceed();

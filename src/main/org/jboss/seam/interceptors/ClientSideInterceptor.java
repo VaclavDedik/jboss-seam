@@ -20,39 +20,25 @@ import org.jboss.seam.ejb.SeamInterceptor;
  * 
  * @author Gavin King
  */
-public class JavaBeanInterceptor implements MethodInterceptor, Serializable
+public class ClientSideInterceptor implements MethodInterceptor, Serializable
 {
    
    private final SeamInterceptor seamInterceptor;
-   private boolean recursive = false;
-   
-   public JavaBeanInterceptor(Component component)
-   {
-      seamInterceptor = new SeamInterceptor(InterceptorType.ANY, component);
-   }
+   private final Object bean;
 
-   public Object intercept(final Object target, final Method method, final Object[] params,
+   public ClientSideInterceptor(Object bean, Component component)
+   {
+      this.bean = bean;
+      seamInterceptor = new SeamInterceptor(InterceptorType.CLIENT, component);
+   }
+   
+   public Object intercept(final Object proxy, final Method method, final Object[] params,
          final MethodProxy methodProxy) throws Throwable
    {
-      if (recursive) 
-      {
-         return methodProxy.invokeSuper(target, params);
-      }
-      else
-      {
-         recursive = true;
-         try
-         {
-            return interceptInvocation(target, method, params, methodProxy);
-         }
-         finally
-         {
-            recursive = false;
-         }
-      }
+      return interceptInvocation(bean, method, params, methodProxy);
    }
 
-   private Object interceptInvocation(final Object target, final Method method, final Object[] params, 
+   private Object interceptInvocation(final Object bean, final Method method, final Object[] params, 
          final MethodProxy methodProxy) throws Exception
    {
       return seamInterceptor.aroundInvoke( new InvocationContext() {
@@ -62,7 +48,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
          
          public Object getTarget()
          {
-            return target;
+            return bean;
          }
          
          public Map getContextData()
@@ -84,7 +70,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
          {
             try
             {
-               return methodProxy.invokeSuper(target, resultParams);
+               return methodProxy.invoke(bean, resultParams);
             }
             catch (Error e)
             {

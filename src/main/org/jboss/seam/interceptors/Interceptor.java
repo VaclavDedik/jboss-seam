@@ -9,6 +9,7 @@ import javax.interceptor.Interceptors;
 import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.InterceptorType;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -18,12 +19,18 @@ import org.jboss.seam.util.Reflections;
  */
 public final class Interceptor extends Reflections
 {
-   private Method aroundInvokeMethod;
    private final Object userInterceptor;
+   private Method aroundInvokeMethod;
+   private InterceptorType type;
    
    public Object getUserInterceptor()
    {
       return userInterceptor;
+   }
+   
+   public InterceptorType getType()
+   {
+      return type;
    }
    
    public String toString()
@@ -34,30 +41,34 @@ public final class Interceptor extends Reflections
    public Interceptor(AbstractInterceptor builtinInterceptor, Component component)
    {
       userInterceptor = builtinInterceptor;
-      init(null, component);
+      init(null, component, builtinInterceptor.getClass());
    }
    
    public Interceptor(Annotation annotation, Component component) 
    {
       Interceptors interceptorAnnotation = annotation.annotationType()
             .getAnnotation(Interceptors.class);
+      Class interceptorClass;
       try
       {
          Class[] classes = interceptorAnnotation.value();
          if (classes.length!=1)
          {
+            //TODO: remove this silly restriction!
             throw new IllegalArgumentException("Must be exactly one interceptor when used as a meta-annotation");
          }
-         userInterceptor = classes[0].newInstance();
+         interceptorClass = classes[0];
+         userInterceptor = interceptorClass.newInstance();
       }
       catch (Exception e)
       {
          throw new IllegalArgumentException("could not instantiate interceptor", e);
       }
-      init(annotation, component);
+      init(annotation, component, interceptorClass);
    }
+   
 
-   private void init(Annotation annotation, Component component)
+   private void init(Annotation annotation, Component component, Class<?> interceptorClass)
    {
       for (Method method : userInterceptor.getClass().getMethods())
       {
@@ -67,10 +78,12 @@ public final class Interceptor extends Reflections
             aroundInvokeMethod = method;
          }
          Class[] params = method.getParameterTypes();
+         //if there is a method that takes the annotation, call it, to pass initialization info
          if ( annotation!=null && params.length==1 && params[0]==annotation.annotationType() )
          {
             Reflections.invokeAndWrap(method, userInterceptor, annotation);
          }
+         //if there is a method that takes the component, call it
          if ( params.length==1 && params[0]==Component.class )
          {
             Reflections.invokeAndWrap(method, userInterceptor, component);
@@ -83,6 +96,10 @@ public final class Interceptor extends Reflections
                userInterceptor.getClass().getName()
             );
       }
+
+      type = interceptorClass.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) ?
+            interceptorClass.getAnnotation(org.jboss.seam.annotations.Interceptor.class).type() :
+            InterceptorType.SERVER;
    }
    
    public Object aroundInvoke(InvocationContext invocation) throws Exception

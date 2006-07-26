@@ -65,6 +65,7 @@ import org.jboss.seam.databinding.DataBinder;
 import org.jboss.seam.databinding.DataSelector;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
+import org.jboss.seam.interceptors.ClientSideInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.ConversationalInterceptor;
 import org.jboss.seam.interceptors.ExceptionInterceptor;
@@ -136,6 +137,7 @@ public class Component
    private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
 
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
+   private List<Interceptor> clientSideInterceptors = new ArrayList<Interceptor>();
 
    private Set<Class> businessInterfaces;
 
@@ -209,10 +211,10 @@ public class Component
 
       initInitializers(applicationContext);
 
-      if (type==ComponentType.JAVA_BEAN)
-      {
+      /*if (type==ComponentType.JAVA_BEAN)
+      {*/
          factory = createProxyFactory();
-      }
+      //}
 
    }
 
@@ -570,13 +572,25 @@ public class Component
       {
          if ( annotation.annotationType().isAnnotationPresent(Interceptors.class) )
          {
-            interceptors.add( new Interceptor(annotation, this) );
+            addInterceptor( new Interceptor(annotation, this) );
          }
       }
 
       newSort(interceptors);
 
       if ( log.isDebugEnabled() ) log.debug("interceptor stack: " + interceptors);
+   }
+   
+   private void addInterceptor(Interceptor interceptor)
+   {
+      if ( interceptor.getType()==InterceptorType.SERVER)
+      {
+         interceptors.add(interceptor);
+      }
+      else
+      {
+         clientSideInterceptors.add(interceptor);
+      }
    }
 
    private List<Interceptor> newSort(List<Interceptor> list)
@@ -625,19 +639,23 @@ public class Component
 
    private void initDefaultInterceptors()
    {
-      interceptors.add( new Interceptor( new ExceptionInterceptor(), this ) );
-      interceptors.add( new Interceptor( new RemoveInterceptor(), this ) );
-      interceptors.add( new Interceptor( new ConversationalInterceptor(), this ) );
-      interceptors.add( new Interceptor( new BusinessProcessInterceptor(), this ) );
-      interceptors.add( new Interceptor( new ConversationInterceptor(), this ) );
-      interceptors.add( new Interceptor( new OutcomeInterceptor(), this ) );
-      interceptors.add( new Interceptor( new BijectionInterceptor(), this ) );
-      interceptors.add( new Interceptor( new ValidationInterceptor(), this ) );
-      interceptors.add( new Interceptor( new RollbackInterceptor(), this ) );
+      addInterceptor( new Interceptor( new ExceptionInterceptor(), this ) );
+      addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );
+      addInterceptor( new Interceptor( new ConversationalInterceptor(), this ) );
+      addInterceptor( new Interceptor( new BusinessProcessInterceptor(), this ) );
+      addInterceptor( new Interceptor( new ConversationInterceptor(), this ) );
+      addInterceptor( new Interceptor( new OutcomeInterceptor(), this ) );
+      addInterceptor( new Interceptor( new BijectionInterceptor(), this ) );
+      addInterceptor( new Interceptor( new ValidationInterceptor(), this ) );
+      addInterceptor( new Interceptor( new RollbackInterceptor(), this ) );
       if ( getType()==ComponentType.JAVA_BEAN )
       {
-         interceptors.add( new Interceptor( new TransactionInterceptor(), this ) );
+         addInterceptor( new Interceptor( new TransactionInterceptor(), this ) );
       }
+      /*else
+      {
+         addInterceptor( new Interceptor( new EJBExceptionInterceptor(), this ) );
+      }*/
    }
 
    public Class<?> getBeanClass()
@@ -677,9 +695,19 @@ public class Component
       return validator;
    }
 
-   public List<Interceptor> getInterceptors()
+   public List<Interceptor> getInterceptors(InterceptorType type)
    {
-      return interceptors;
+      switch(type)
+      {
+         case SERVER: return interceptors;
+         case CLIENT: return clientSideInterceptors;
+         case ANY: 
+            List<Interceptor> all = new ArrayList<Interceptor>();
+            all.addAll(clientSideInterceptors);
+            all.addAll(interceptors);
+            return all;
+         default: throw new IllegalArgumentException("no interceptor type specified");
+      }
    }
 
    public Method getDestroyMethod()
@@ -773,19 +801,26 @@ public class Component
               {
                  Factory bean = factory.newInstance();
                  initialize(bean);
-                 bean.setCallback( 0, new JavaBeanInterceptor() );
+                 bean.setCallback( 0, new JavaBeanInterceptor(this) );
                  return bean;
               }
            case ENTITY_BEAN:
               return beanClass.newInstance();
            case STATELESS_SESSION_BEAN:
            case STATEFUL_SESSION_BEAN:
-              return Naming.getInitialContext().lookup(jndiName);
+              return wrap( Naming.getInitialContext().lookup(jndiName) );
            case MESSAGE_DRIVEN_BEAN:
               throw new UnsupportedOperationException("Message-driven beans may not be called: " + name);
            default:
               throw new IllegalStateException();
         }
+    }
+    
+    private Object wrap(Object bean) throws Exception
+    {
+       Factory proxy = factory.newInstance();
+       proxy.setCallback( 0, new ClientSideInterceptor(bean, this) );
+       return proxy;
     }
 
    public void initialize(Object bean) throws Exception
@@ -1543,7 +1578,12 @@ public class Component
       en.setUseCache(false);
       en.setInterceptDuringConstruction(false);
       en.setCallbackType(MethodInterceptor.class);
-      en.setSuperclass(beanClass);
+      en.setSuperclass( type==ComponentType.JAVA_BEAN ? beanClass : Object.class );
+      Set<Class> interfaces = getBusinessInterfaces();
+      if (interfaces.size()>0)
+      {
+         en.setInterfaces( interfaces.toArray( new Class[0] ) );
+      }
       return (Class<Factory>) en.createClass();
    }
 
