@@ -33,10 +33,12 @@
     <!-- EJB3 -->
     <fileset id="example.ejb3.root"
             dir="resources">
+        <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="users.properties"/>
         <include name="roles.properties"/>
         <include name="META-INF/ejb-jar.xml"/>
+        <include name="META-INF/persistence.xml"/>        
     </fileset>
 
     <!-- EAR -->
@@ -58,12 +60,12 @@
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
-        <include name="_NONE_"/>
+      <include name="security-ds.xml"/>
     </fileset>
 
     <!-- Undeploy -->
     <patternset id="example.undeploy">
-        <include name="_NONE_"/>
+      <include name="booking-ds.xml"/>
     </patternset>
 
     <!-- Overrides -->

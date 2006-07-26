@@ -5,12 +5,16 @@
 
 <head>
 	<title>Seam Security</title>
+	
+	<style>
+	  label {
+	    width: 100px;
+	  }
+	</style>
 </head>
 
 <body>
   <h1>Security example</h1>
-
-  <a href="protected/protected.seam">Protected page</a>
   
   <h:form>
   
@@ -24,10 +28,11 @@
 			<h:outputLabel for="password">Password</h:outputLabel>
 			<h:inputSecret id="password" value="#{user.password}" style="width: 175px;"/>
 		</div>  
+	
+    <div class="errors"><h:messages globalOnly="true"/></div>      	
+
+    <h:commandButton action="#{login.login}" value="Login" class="button" />        
     
-    <h:commandButton action="#{login.login}" value="Login" class="button" />    
-    
-    <h:commandButton action="#{protectedAction.foo}" value="Foo" class="button"/>
   </h:form>
 </body>
 </html>

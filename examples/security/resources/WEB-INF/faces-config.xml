@@ -4,6 +4,22 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
                             "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 <faces-config>
 
+    <navigation-rule>
+
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/welcome.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>        
+        
+    </navigation-rule>
+
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>

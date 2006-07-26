@@ -1,5 +1,5 @@
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-poker
+      seam.jboss.org:loader=seam-security
       </loader-repository> 
 </jboss-app> 

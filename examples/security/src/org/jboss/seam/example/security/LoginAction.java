@@ -1,10 +1,13 @@
 package org.jboss.seam.example.security;
 
-import org.jboss.seam.annotations.Name;
-import javax.ejb.Stateless;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.security.realm.Realm;
 import java.security.Principal;
+import javax.ejb.Stateless;
+
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
+import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.security.realm.Realm;
 
 /**
  * Authenticates the user against the Realm.
@@ -17,7 +20,7 @@ public class LoginAction implements LoginLocal
 {
   @In("org.jboss.seam.security.realm.Realm") Realm realm;
 
-  @In User user;
+  @In @Out User user;
 
   public String login()
   {
@@ -31,6 +34,7 @@ public class LoginAction implements LoginLocal
     }
     catch (Exception ex)
     {
+      FacesMessages.instance().add("Invalid login, please check your username and password are correct");
       return "login";
     }
   }

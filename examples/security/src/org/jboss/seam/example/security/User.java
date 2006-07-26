@@ -1,8 +1,12 @@
 package org.jboss.seam.example.security;
 
+import java.util.Set;
 import javax.persistence.Entity;
-import org.jboss.seam.annotations.Name;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.jboss.seam.annotations.Name;
+import javax.persistence.JoinColumn;
 
 /**
  * <p>PROPRIETARY/CONFIDENTIAL Use of this product is subject to license terms.
@@ -15,13 +19,26 @@ import javax.persistence.Id;
 @Name("user")
 public class User
 {
-  private Integer userId;
   private String username;
   private String password;
+  private Set<Role> roles;
+
+  @Id
+  public String getUsername()
+  {
+    return username;
+  }
 
   public String getPassword()
   {
     return password;
+  }
+
+  @OneToMany
+  @JoinColumn(name = "USERNAME")
+  public Set<Role> getRoles()
+  {
+    return roles;
   }
 
   public void setPassword(String password)
@@ -34,19 +51,8 @@ public class User
     this.username = username;
   }
 
-  @Id
-  public void setUserId(Integer userId)
+  public void setRoles(Set<Role> roles)
   {
-    this.userId = userId;
-  }
-
-  public Integer getUserId()
-  {
-    return userId;
-  }
-
-  public String getUsername()
-  {
-    return username;
+    this.roles = roles;
   }
 }
