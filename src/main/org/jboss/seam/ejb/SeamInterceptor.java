@@ -9,6 +9,7 @@ package org.jboss.seam.ejb;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
@@ -19,6 +20,7 @@ import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.interceptors.EventType;
 import org.jboss.seam.interceptors.SeamInvocationContext;
 
 /**
@@ -55,18 +57,29 @@ public class SeamInterceptor implements Serializable
    }
    
    @PostConstruct
-   public void initialize(InvocationContext invocation) throws Exception
+   public void postConstruct(InvocationContext invocation) throws Exception
    {
       Object bean = invocation.getTarget();
       if ( isSeamComponent(bean) )
       {
          getSeamComponent(bean).initialize(bean);
       }
-      invocation.proceed();
+      invoke(invocation, EventType.POST_CONSTRUCT);
+   }
+   
+   @PreDestroy
+   public void preDestroy(InvocationContext invocation) throws Exception
+   {
+      invoke(invocation, EventType.PRE_DESTORY);
    }
    
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
+   {
+      return invoke(invocation, EventType.AROUND_INVOKE);
+   }
+   
+   private Object invoke(InvocationContext invocation, EventType invocationType) throws Exception
    {
       if ( !isSeamComponent( invocation.getTarget() ) )
       {
@@ -76,7 +89,7 @@ public class SeamInterceptor implements Serializable
       else if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) //not sure about the second bit (only needed at init time!)
       {
          //a Seam component, and Seam contexts exist
-         return aroundInvokeInContexts(invocation);
+         return invokeInContexts(invocation, invocationType);
       }
       else
       {
@@ -86,7 +99,7 @@ public class SeamInterceptor implements Serializable
          Lifecycle.beginCall();
          try
          {
-            return aroundInvokeInContexts(invocation);
+            return invokeInContexts(invocation, invocationType);
          }
          finally
          {
@@ -95,7 +108,7 @@ public class SeamInterceptor implements Serializable
       }
    }
 
-   public Object aroundInvokeInContexts(InvocationContext invocation) throws Exception
+   private Object invokeInContexts(InvocationContext invocation, EventType eventType) throws Exception
    {
       final Component component = getSeamComponent( invocation.getTarget() );
       if ( isProcessInterceptors(component) )
@@ -104,7 +117,7 @@ public class SeamInterceptor implements Serializable
          {
             log.trace("intercepted: " + invocation.getMethod().getName());
          }
-         return new SeamInvocationContext( invocation, component.getInterceptors(type) ).proceed();
+         return new SeamInvocationContext( invocation, eventType, component.getInterceptors(type) ).proceed();
       }
       else {
          if ( log.isTraceEnabled() ) 

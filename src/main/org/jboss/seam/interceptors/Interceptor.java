@@ -4,6 +4,8 @@ package org.jboss.seam.interceptors;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptors;
 import javax.interceptor.InvocationContext;
@@ -21,6 +23,8 @@ public final class Interceptor extends Reflections
 {
    private final Object userInterceptor;
    private Method aroundInvokeMethod;
+   private Method postConstructMethod;
+   private Method preDestroyMethod;
    private InterceptorType type;
    
    public Object getUserInterceptor()
@@ -77,6 +81,15 @@ public final class Interceptor extends Reflections
          {
             aroundInvokeMethod = method;
          }
+         if ( method.isAnnotationPresent(PostConstruct.class) )
+         {
+            postConstructMethod = method;
+         }
+         if ( method.isAnnotationPresent(PreDestroy.class) )
+         {
+            preDestroyMethod = method;
+         }
+
          Class[] params = method.getParameterTypes();
          //if there is a method that takes the annotation, call it, to pass initialization info
          if ( annotation!=null && params.length==1 && params[0]==annotation.annotationType() )
@@ -89,13 +102,6 @@ public final class Interceptor extends Reflections
             Reflections.invokeAndWrap(method, userInterceptor, component);
          }
       }
-      if (aroundInvokeMethod==null) 
-      {
-         throw new IllegalArgumentException(
-               "no @AroundInvoke method found: " + 
-               userInterceptor.getClass().getName()
-            );
-      }
 
       type = interceptorClass.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) ?
             interceptorClass.getAnnotation(org.jboss.seam.annotations.Interceptor.class).type() :
@@ -104,6 +110,21 @@ public final class Interceptor extends Reflections
    
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      return Reflections.invoke( aroundInvokeMethod, userInterceptor, invocation );
+      return aroundInvokeMethod==null ?
+            invocation.proceed() :
+            Reflections.invoke( aroundInvokeMethod, userInterceptor, invocation );
    }
+   public Object postConstruct(InvocationContext invocation) throws Exception
+   {
+      return postConstructMethod==null ?
+            invocation.proceed() :
+            Reflections.invoke( aroundInvokeMethod, userInterceptor, invocation );
+   }
+   public Object preDestroy(InvocationContext invocation) throws Exception
+   {
+      return preDestroyMethod==null ?
+            invocation.proceed() :
+            Reflections.invoke( aroundInvokeMethod, userInterceptor, invocation );
+   }
+   
 }

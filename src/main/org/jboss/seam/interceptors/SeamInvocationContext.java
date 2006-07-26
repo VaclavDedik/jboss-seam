@@ -7,9 +7,6 @@ import java.util.Map;
 
 import javax.interceptor.InvocationContext;
 
-import org.jboss.seam.Component;
-import org.jboss.seam.InterceptorType;
-
 /**
  * Adapts from EJB interception to Seam component interceptors
  * 
@@ -18,14 +15,16 @@ import org.jboss.seam.InterceptorType;
 public class SeamInvocationContext implements InvocationContext
 {
    
+   private final EventType eventType;
    private final InvocationContext ejbInvocationContext;
    private final List<Interceptor> interceptors;
    int location = 0;
 
-   public SeamInvocationContext(InvocationContext ejbInvocationContext, List<Interceptor> interceptors)
+   public SeamInvocationContext(InvocationContext ejbInvocationContext, EventType type, List<Interceptor> interceptors)
    {
       this.ejbInvocationContext = ejbInvocationContext;
       this.interceptors = interceptors;
+      this.eventType = type;
    }
    
    public Object getTarget()
@@ -56,7 +55,14 @@ public class SeamInvocationContext implements InvocationContext
       }
       else
       {
-         return interceptors.get(location++).aroundInvoke(this);
+         Interceptor interceptor = interceptors.get(location++);
+         switch(eventType)
+         {
+            case AROUND_INVOKE: return interceptor.aroundInvoke(this);
+            case POST_CONSTRUCT: return interceptor.postConstruct(this);
+            case PRE_DESTORY: return interceptor.preDestroy(this);
+            default: throw new IllegalArgumentException("no InvocationType");
+         }
       }
    }
 
