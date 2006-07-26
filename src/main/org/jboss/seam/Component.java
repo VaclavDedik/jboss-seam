@@ -742,19 +742,6 @@ public class Component
       return inFields;
    }
 
-   public Object newInstance()
-   {
-      if ( log.isDebugEnabled() ) log.debug("instantiating Seam component: " + name);
-      try
-      {
-         return instantiate();
-      }
-      catch (Exception e)
-      {
-         throw new InstantiationException("Could not instantiate Seam component: " + name, e);
-      }
-   }
-
     public boolean needsInjection() {
         return !getInFields().isEmpty() ||
             !getInMethods().isEmpty() ||
@@ -763,7 +750,7 @@ public class Component
             !parameterFields.isEmpty() ||
             !parameterSetters.isEmpty() ||
             logField!=null;
-   }
+    }
 
     public boolean needsOutjection() {
         return !getOutFields().isEmpty() ||
@@ -1313,27 +1300,39 @@ public class Component
    }
 
    private static Object getInstance(String name, boolean create, Object result) {
-      if (result == null && create)
+      Component component = Component.forName(name);
+
+      if (result==null && create)
       {
         result = getInstanceFromFactory(name);
         if (result==null)
         {
-             result = newInstance(name);
+           if (component==null)
+           {
+              //needed when this method is called by JSF
+              if ( log.isDebugEnabled() ) log.debug("seam component not found: " + name);
+           }
+           else
+           {
+              result = component.newInstance();
+           }
         }
       }
+      
       if (result!=null)
       {
-         Component component = Component.forName(name);
          if (component!=null)
          {
             if ( !component.isInstance(result) )
             {
-               throw new IllegalArgumentException( "value found for In attribute has the wrong type: " + name );
+               throw new IllegalArgumentException( "value of context variable is not an instance of the component bound to the context variable: " + name );
             }
             result = component.unwrap(result);
          }
       }
+      
       return result;
+      
    }
 
    public static Object getInstanceFromFactory(String name)
@@ -1394,24 +1393,27 @@ public class Component
       }
    }
 
-   public static Object newInstance(String name)
+   public Object newInstance()
    {
-      Component component = Component.forName(name);
-      if (component == null)
+      if ( log.isDebugEnabled() ) log.debug("instantiating Seam component: " + name);
+
+      Object instance;
+      try
       {
-         if ( log.isDebugEnabled() ) log.debug("seam component not found: " + name);
-         return null; //needed when this method is called by JSF
+         instance = instantiate();
       }
-      else
+      catch (Exception e)
       {
-         Object instance = component.newInstance();
-         if (component.getScope()!=ScopeType.STATELESS)
-         {
-            component.getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
-            component.callCreateMethod(instance);
-         }
-         return instance;
+         throw new InstantiationException("Could not instantiate Seam component: " + name, e);
       }
+      
+      if ( getScope()!=ScopeType.STATELESS )
+      {
+         getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
+         callCreateMethod(instance);
+      }
+      
+      return instance;
    }
 
    public void callCreateMethod(Object instance)

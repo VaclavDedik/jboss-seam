@@ -122,7 +122,8 @@ public class Lifecycle
             }
          }
       }
-      Component.getInstance( component.getName(), component.getScope(), true );
+      log.info("starting up: " + component.getName());
+      component.newInstance();
    }
 
    public static void endApplication(ServletContext servletContext)
