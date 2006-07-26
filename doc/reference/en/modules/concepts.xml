@@ -1084,15 +1084,26 @@ public class ChangePasswordAction implements ChangePassword {
 }]]></programlisting>
 
         <para>
-            If interceptor ordering is important (it usually is), you can add 
-            <literal>@Within</literal> and <literal>@Around</literal> annotations to your
-            interceptor classes to specify a partial order of interceptors.
+            If interceptor ordering is important (it usually is), you can add
+            <literal>@Interceptor</literal> annotations to your interceptor 
+            classes to specify a partial order of interceptors.
         </para>
         
-<programlisting><![CDATA[@Around({BijectionInterceptor.class,
-         ValidationInterceptor.class,
-         ConversationInterceptor.class})
-@Within(RemoveInterceptor.class)
+<programlisting><![CDATA[@Interceptor(around={BijectionInterceptor.class,
+                     ValidationInterceptor.class,
+                     ConversationInterceptor.class},
+             within=RemoveInterceptor.class)
+public class LoggedInInterceptor
+{
+    ...
+}]]></programlisting>
+
+        <para>
+            You can even have a "client-side" interceptor, that runs around any of the built-in
+            functionality of EJB3:
+        </para>
+
+<programlisting><![CDATA[@Interceptor(type=CLIENT)
 public class LoggedInInterceptor
 {
     ...
