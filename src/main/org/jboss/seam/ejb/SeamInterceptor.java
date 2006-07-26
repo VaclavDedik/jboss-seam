@@ -10,6 +10,8 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
@@ -71,6 +73,18 @@ public class SeamInterceptor implements Serializable
    public void preDestroy(InvocationContext invocation) throws Exception
    {
       invoke(invocation, EventType.PRE_DESTORY);
+   }
+   
+   @PrePassivate
+   public void prePassivate(InvocationContext invocation) throws Exception
+   {
+      invoke(invocation, EventType.PRE_PASSIVATE);
+   }
+   
+   @PostActivate
+   public void postActivate(InvocationContext invocation) throws Exception
+   {
+      invoke(invocation, EventType.POST_ACTIVATE);
    }
    
    @AroundInvoke

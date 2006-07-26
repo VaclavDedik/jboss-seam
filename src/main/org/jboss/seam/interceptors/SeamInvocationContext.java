@@ -61,6 +61,8 @@ public class SeamInvocationContext implements InvocationContext
             case AROUND_INVOKE: return interceptor.aroundInvoke(this);
             case POST_CONSTRUCT: return interceptor.postConstruct(this);
             case PRE_DESTORY: return interceptor.preDestroy(this);
+            case PRE_PASSIVATE: return interceptor.prePassivate(this);
+            case POST_ACTIVATE: return interceptor.postActivate(this);
             default: throw new IllegalArgumentException("no InvocationType");
          }
       }

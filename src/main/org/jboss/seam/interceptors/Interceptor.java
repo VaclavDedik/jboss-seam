@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptors;
 import javax.interceptor.InvocationContext;
@@ -25,6 +27,8 @@ public final class Interceptor extends Reflections
    private Method aroundInvokeMethod;
    private Method postConstructMethod;
    private Method preDestroyMethod;
+   private Method postActivateMethod;
+   private Method prePassivateMethod;
    private InterceptorType type;
    
    public Object getUserInterceptor()
@@ -89,6 +93,14 @@ public final class Interceptor extends Reflections
          {
             preDestroyMethod = method;
          }
+         if ( method.isAnnotationPresent(PrePassivate.class) )
+         {
+            prePassivateMethod = method;
+         }
+         if ( method.isAnnotationPresent(PostActivate.class) )
+         {
+            postActivateMethod = method;
+         }
 
          Class[] params = method.getParameterTypes();
          //if there is a method that takes the annotation, call it, to pass initialization info
@@ -118,13 +130,25 @@ public final class Interceptor extends Reflections
    {
       return postConstructMethod==null ?
             invocation.proceed() :
-            Reflections.invoke( aroundInvokeMethod, userInterceptor, invocation );
+            Reflections.invoke( postConstructMethod, userInterceptor, invocation );
    }
    public Object preDestroy(InvocationContext invocation) throws Exception
    {
       return preDestroyMethod==null ?
             invocation.proceed() :
-            Reflections.invoke( aroundInvokeMethod, userInterceptor, invocation );
+            Reflections.invoke( preDestroyMethod, userInterceptor, invocation );
+   }
+   public Object prePassivate(InvocationContext invocation) throws Exception
+   {
+      return prePassivateMethod==null ?
+            invocation.proceed() :
+            Reflections.invoke( prePassivateMethod, userInterceptor, invocation );
+   }
+   public Object postActivate(InvocationContext invocation) throws Exception
+   {
+      return postActivateMethod==null ?
+            invocation.proceed() :
+            Reflections.invoke( postActivateMethod, userInterceptor, invocation );
    }
    
 }
