@@ -40,7 +40,9 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     Component component = Component.forName(beanType);
 
     if (component != null)
-      value = Component.newInstance(beanType);
+    {
+      value = component.newInstance();
+    }
     else
     {
       try {
