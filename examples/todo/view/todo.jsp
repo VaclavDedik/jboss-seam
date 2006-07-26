@@ -49,7 +49,7 @@
       <h:messages/>
       </div>
       <div>
-         <h:commandButton value="Update Items" action="update" rendered="#{not empty taskInstanceList}"/>
+         <h:commandButton value="Update Items" rendered="#{not empty taskInstanceList}"/>
       </div>
    </h:form>
    <h:form id="new">
