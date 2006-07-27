@@ -140,28 +140,31 @@ public class Component
    private Set<Class> businessInterfaces;
 
    private Class<Factory> factory;
-
+   
+   //only used for tests
    public Component(Class<?> clazz)
    {
       this( clazz, Seam.getComponentName(clazz) );
    }
-
+   
+   // only used for tests
    public Component(Class<?> clazz, String componentName)
    {
       this(clazz, componentName, Seam.getComponentScope(clazz));
+   }
+   
+   // only used for tests
+   public Component(Class<?> clazz, Context applicationContext)
+   {
+      this( clazz, Seam.getComponentName(clazz), Seam.getComponentScope(clazz), applicationContext );
    }
 
    public Component(Class<?> clazz, String componentName, ScopeType componentScope)
    {
       this(clazz, componentName, componentScope, Contexts.getApplicationContext());
    }
-
-   public Component(Class<?> clazz, Context applicationContext)
-   {
-      this( clazz, Seam.getComponentName(clazz), Seam.getComponentScope(clazz), applicationContext );
-   }
-
-   public Component(Class<?> clazz, String componentName, ScopeType componentScope, Context applicationContext)
+   
+   private Component(Class<?> clazz, String componentName, ScopeType componentScope, Context applicationContext)
    {
       beanClass = clazz;
       name = componentName;
@@ -579,7 +582,7 @@ public class Component
       if ( log.isDebugEnabled() ) log.debug("interceptor stack: " + interceptors);
    }
    
-   private void addInterceptor(Interceptor interceptor)
+   public void addInterceptor(Interceptor interceptor)
    {
       if ( interceptor.getType()==InterceptorType.SERVER)
       {

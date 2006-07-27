@@ -46,10 +46,10 @@ public final class Interceptor extends Reflections
       return "Interceptor(" + userInterceptor.getClass().getName() + ")";
    }
    
-   public Interceptor(AbstractInterceptor builtinInterceptor, Component component)
+   public Interceptor(Object interceptor, Component component)
    {
-      userInterceptor = builtinInterceptor;
-      init(null, component, builtinInterceptor.getClass());
+      userInterceptor = interceptor;
+      init( null, component, interceptor.getClass() );
    }
    
    public Interceptor(Annotation annotation, Component component) 

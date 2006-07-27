@@ -197,13 +197,17 @@ public class Initialization
       {
          throw new IllegalArgumentException("must specify either class or name in components.xml");
       }
-         
-      
+               
       List<Element> props = component.elements("property");
       for( Element prop: props )
       {
-         String propName = name + '.' + prop.attributeValue("name");
-         properties.put( propName, getPropertyValue(prop, propName, replacements) );
+         String propName = prop.attributeValue("name");
+         if (propName==null)
+         {
+            throw new IllegalArgumentException("no name for property of component: " + name);
+         }
+         String qualifiedPropName = name + '.' + propName;
+         properties.put( qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements) );
       }
    }
 
@@ -417,14 +421,7 @@ public class Initialization
 
       for ( ComponentDescriptor componentDescriptor : componentDescriptors )
       {
-         if (componentDescriptor.scope==null)
-         {
-            addComponent( componentDescriptor.name, componentDescriptor.componentClass, context );
-         }
-         else
-         {
-            addComponent( componentDescriptor.name, componentDescriptor.scope, componentDescriptor.componentClass, context );
-         }
+         addComponent( componentDescriptor, context );
       }
 
       if (isScannerEnabled)
@@ -443,7 +440,7 @@ public class Initialization
       {
          Role role = componentClass.getAnnotation(Role.class);
          ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
-         addComponent( role.name(), scope, componentClass, context );
+         addComponent( new ComponentDescriptor( role.name(), componentClass, scope), context );
       }
       if ( componentClass.isAnnotationPresent(Roles.class) )
       {
@@ -451,38 +448,35 @@ public class Initialization
          for (Role role: roles)
          {
             ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
-            addComponent( role.name(), scope, componentClass, context );
+            addComponent( new ComponentDescriptor( role.name(), componentClass, scope), context );
          }
       }
    }
-
-   protected void addComponent(String name, ScopeType scope, Class clazz, Context context)
+   
+   protected void addComponent(ComponentDescriptor descriptor, Context context)
    {
-      checkDuplicates(name, context);
-      context.set( name + COMPONENT_SUFFIX, new Component(clazz, name, scope) );
-   }
+      String name = descriptor.getName();
+      String componentName = name + COMPONENT_SUFFIX;
+      
+      if ( log.isWarnEnabled() && context.isSet(componentName) )
+      {
+         log.warn("Component has been previously installed and is being redefined: " + name);
+      }
+      
+      Component component = new Component( 
+            descriptor.getComponentClass(), 
+            name, 
+            descriptor.getScope()
+         );
+      context.set(componentName, component);
 
-   protected void addComponent(String name, Class clazz, Context context)
-   {
-      checkDuplicates(name, context);
-      context.set( name + COMPONENT_SUFFIX, new Component(clazz, name) );
    }
 
    protected void addComponent(Class clazz, Context context)
    {
-      String name = Seam.getComponentName(clazz);
-      checkDuplicates(name, context);
-      context.set( name + COMPONENT_SUFFIX, new Component(clazz) );
+      addComponent( new ComponentDescriptor(clazz), context );
    }
    
-   private void checkDuplicates(String componentName, Context context)
-   {
-      if (log.isWarnEnabled() && (context.get(componentName + COMPONENT_SUFFIX) != null))
-      {
-         log.warn("Component with name " + componentName + " has been previously registered and is being redefined.");
-      }
-   }
-
    public boolean isScannerEnabled()
    {
       return isScannerEnabled;
@@ -496,14 +490,32 @@ public class Initialization
    
    private static class ComponentDescriptor
    {
-      String name;
-      Class componentClass;
-      ScopeType scope;
+      private String name;
+      private Class componentClass;
+      private ScopeType scope;
+      
       public ComponentDescriptor(String name, Class componentClass, ScopeType scope)
       {
          this.name = name;
          this.componentClass = componentClass;
          this.scope = scope;
+      }
+      public ComponentDescriptor(Class componentClass)
+      {
+         this.componentClass = componentClass;
+      }
+      
+      public String getName()
+      {
+         return name==null ? Seam.getComponentName(componentClass) : name;
+      }
+      public ScopeType getScope()
+      {
+         return scope==null ? Seam.getComponentScope(componentClass) : scope;
+      }
+      public Class getComponentClass()
+      {
+         return componentClass;
       }
    }
 
