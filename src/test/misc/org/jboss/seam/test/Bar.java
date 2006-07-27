@@ -33,7 +33,7 @@ public class Bar
    @In(create=true)
    Foo foo;
    
-   @Out
+   @Out(required=false)
    String string;
    
    @Begin

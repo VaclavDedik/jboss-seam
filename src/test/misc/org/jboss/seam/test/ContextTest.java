@@ -9,12 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.MapContext;
 import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServerConversationContext;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.WebRequestContext;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Init;
@@ -49,6 +48,11 @@ public class ContextTest
             Seam.getComponentName(Bar.class) + ".component",
             new Component(Bar.class)
       );
+      appContext.set( 
+            Seam.getComponentName(Foo.class) + ".component",
+            new Component(Foo.class)
+      );
+      appContext.set("otherFoo", new Foo());
       
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -81,14 +85,17 @@ public class ContextTest
       assert Contexts.getConversationContext() instanceof ServerConversationContext;
       assert Contexts.getApplicationContext() instanceof FacesApplicationContext;
       
-      Contexts.getSessionContext().set("foo", "bar");
-      Contexts.getApplicationContext().set("foo", "bar");
+      Contexts.getSessionContext().set("zzz", "bar");
+      Contexts.getApplicationContext().set("zzz", "bar");
       Contexts.getConversationContext().set("xxx", "yyy");
       
       Object bar = seamVariableResolver.resolveVariable(null, "bar");
       assert bar!=null;
       assert bar instanceof Bar;
       assert Contexts.getConversationContext().get("bar")==bar;
+      Object foo = Contexts.getSessionContext().get("foo");
+      assert foo!=null;
+      assert foo instanceof Foo;
       
       Lifecycle.endRequest(externalContext);
       
@@ -96,8 +103,8 @@ public class ContextTest
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
-      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==3;
-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==4;
+      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==4;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==6;
       
       Lifecycle.beginRequest(externalContext);
       
@@ -123,22 +130,25 @@ public class ContextTest
       assert Contexts.getConversationContext() instanceof ServerConversationContext;
       assert Contexts.getApplicationContext() instanceof FacesApplicationContext;
       
-      assert Contexts.getSessionContext().get("foo").equals("bar");
-      assert Contexts.getApplicationContext().get("foo").equals("bar");
+      assert Contexts.getSessionContext().get("zzz").equals("bar");
+      assert Contexts.getApplicationContext().get("zzz").equals("bar");
       assert Contexts.getConversationContext().get("xxx").equals("yyy");
       assert Contexts.getConversationContext().get("bar")==bar;
+      assert Contexts.getSessionContext().get("foo")==foo;
       
       assert Contexts.getConversationContext().getNames().length==2;
-      assert Contexts.getApplicationContext().getNames().length==4;
-      assert Contexts.getSessionContext().getNames().length==1;
+      assert Contexts.getApplicationContext().getNames().length==6;
+      assert Contexts.getSessionContext().getNames().length==2;
       
-      assert seamVariableResolver.resolveVariable(null, "foo").equals("bar");
+      assert seamVariableResolver.resolveVariable(null, "zzz").equals("bar");
       assert seamVariableResolver.resolveVariable(null, "xxx").equals("yyy");
       assert seamVariableResolver.resolveVariable(null, "bar")==bar;
+      assert seamVariableResolver.resolveVariable(null, "foo")==foo;
       
-      assert jbpmVariableResolver.resolveVariable("foo").equals("bar");
+      assert jbpmVariableResolver.resolveVariable("zzz").equals("bar");
       assert jbpmVariableResolver.resolveVariable("xxx").equals("yyy");
       assert jbpmVariableResolver.resolveVariable("bar")==bar;
+      assert jbpmVariableResolver.resolveVariable("foo")==foo;
 
       Manager.instance().setLongRunningConversation(false);
       Lifecycle.endRequest(externalContext);
@@ -147,16 +157,13 @@ public class ContextTest
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isConversationContextActive();
       assert !Contexts.isApplicationContextActive();
-      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==1;
-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==4;
+      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==2;
+      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==6;
       
       Lifecycle.endSession( servletContext, new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) );
-      
-      //assert session.getAttributes().size()==0;
-      
+            
       Lifecycle.endApplication(servletContext);
       
-      //assert servletContext.getAttributes().size()==0;
    }
    
    private static final VariableResolver VARIABLE_RESOLVER = new VariableResolver() {
