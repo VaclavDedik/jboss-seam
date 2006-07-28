@@ -7,10 +7,10 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
- * Specifies that an exception results in a HTTP error.
+ * Specifies that an exception should result in immediate
+ * rendering of the view. This may only be used with 
+ * exceptions thrown during the INVOKE_APPLICATION phase.
  * 
  * @author Gavin King
  *
@@ -18,20 +18,19 @@ import javax.servlet.http.HttpServletResponse;
 @Target(TYPE)
 @Retention(RUNTIME)
 @Documented
-public @interface HttpError
+public @interface Render
 {
    /**
-    * The message to be sent in the HTTP error, default
+    * The message to be displayed as a FacesMessage, default
     * to using the exception message.
     * 
     * @return a templated message
     */
    String message() default "";
-   
    /**
-    * The HTTP error code, default to 500.
+    * The view to render, default to the current view.
     * 
-    * @return an error code
+    * @return a JSF view id
     */
-   int errorCode() default HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+   String viewId() default "";
 }

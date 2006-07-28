@@ -3,7 +3,9 @@ package org.jboss.seam.interceptors;
 
 import java.util.Map;
 
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
@@ -12,10 +14,12 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.HttpError;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Redirect;
+import org.jboss.seam.annotations.Render;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.jsf.AbstractSeamPhaseListener;
 
@@ -45,12 +49,30 @@ public class ExceptionInterceptor extends AbstractInterceptor
          {
             if ( e.getClass().isAnnotationPresent(Redirect.class) )
             {
-               redirect( e.getClass().getAnnotation(Redirect.class).viewId() );
+               Redirect redirect = e.getClass().getAnnotation(Redirect.class);
+               addFacesMessage( e, redirect.message() );
+               redirect( redirect.viewId() );
                handled(e);
+            }
+            else if ( e.getClass().isAnnotationPresent(Render.class) )
+            {
+               if ( Lifecycle.getPhaseId()!=PhaseId.INVOKE_APPLICATION )
+               {
+                  //unfortunately, @Render can only really work during an action invocation
+                  throw e;
+               }
+               else
+               {
+                  Render render = e.getClass().getAnnotation(Render.class);
+                  addFacesMessage( e, render.message() );
+                  render( render.viewId() );
+                  return null;
+               }
             }
             else if ( e.getClass().isAnnotationPresent(HttpError.class) )
             {
-               error( e.getClass().getAnnotation(HttpError.class).errorCode(), e.getMessage() );
+               HttpError httpError = e.getClass().getAnnotation(HttpError.class);
+               error( httpError.errorCode(), renderExceptionMessage( e, httpError.message() ) );
                handled(e);
             }
             else if ( Init.instance().isDebug() && 
@@ -62,6 +84,17 @@ public class ExceptionInterceptor extends AbstractInterceptor
          }
          throw e;
       }
+   }
+
+   private void addFacesMessage(Exception e, String message)
+   {
+      FacesMessages.instance().add( renderExceptionMessage(e, message) );
+   }
+   
+   private String renderExceptionMessage(Exception e, String message)
+   {
+      return Interpolator.instance()
+            .interpolate( "".equals(message) ? e.getMessage() : message );
    }
 
    private void error(int code, String message)
@@ -76,13 +109,29 @@ public class ExceptionInterceptor extends AbstractInterceptor
 
    private void redirect(String viewId)
    {
-      if ( log.isDebugEnabled() ) log.debug("redirecting to: " + viewId);
       FacesContext facesContext = FacesContext.getCurrentInstance();
+      if ( "".equals(viewId) )
+      {
+         viewId = facesContext.getViewRoot().getViewId();
+      }
+      if ( log.isDebugEnabled() ) log.debug("redirecting to: " + viewId);
       org.jboss.seam.core.Redirect redirect = org.jboss.seam.core.Redirect.instance();
       redirect.setViewId(viewId);
       redirect.execute();
       FacesMessages.afterPhase();
       AbstractSeamPhaseListener.storeAnyConversationContext(facesContext);
+   }
+   
+   private void render(String viewId)
+   {
+      FacesContext context = FacesContext.getCurrentInstance();
+      if ( !"".equals(viewId) )
+      {
+         if ( log.isDebugEnabled() ) log.debug("rendering: " + viewId);
+         UIViewRoot viewRoot = context.getApplication().getViewHandler().createView(context, viewId);
+         context.setViewRoot(viewRoot);
+      }
+      context.renderResponse();
    }
 
    private void redirectToDebugPage(Exception e)
