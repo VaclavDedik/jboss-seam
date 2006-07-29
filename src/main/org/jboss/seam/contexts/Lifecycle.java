@@ -110,7 +110,7 @@ public class Lifecycle
    }
 
    private static void startup(Component component)
-   {
+    {
       if ( component.isStartup() )
       {
          for (String dependency: component.getDependencies() )
@@ -122,8 +122,11 @@ public class Lifecycle
             }
          }
       }
+
       log.info("starting up: " + component.getName());
-      component.newInstance();
+      if (component.getScope().getContext().get(component.getName()) == null) {
+          component.newInstance();
+      }
    }
 
    public static void endApplication(ServletContext servletContext)
