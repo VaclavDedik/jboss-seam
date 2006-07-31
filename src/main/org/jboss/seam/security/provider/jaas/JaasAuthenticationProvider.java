@@ -19,7 +19,7 @@ import org.jboss.seam.security.provider.AuthenticationProvider;
  *
  * @author Shane Bryzak
  */
-public class JaasAuthenticationProvider implements AuthenticationProvider
+public class JaasAuthenticationProvider //implements AuthenticationProvider
 {
   public Principal authenticate(String username, String credentials)
   {

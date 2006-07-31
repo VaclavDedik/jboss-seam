@@ -10,7 +10,7 @@ import org.jboss.seam.security.provider.AuthenticationProvider;
  *
  * @author Shane Bryzak
  */
-public class CatalinaProvider implements AuthenticationProvider
+public class CatalinaProvider //implements AuthenticationProvider
 {
   private Object realm;
   private Method authenticateMethod1;  // authenticate(String, String)

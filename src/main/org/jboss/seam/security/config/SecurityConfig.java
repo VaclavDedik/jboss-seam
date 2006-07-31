@@ -2,8 +2,6 @@ package org.jboss.seam.security.config;
 
 import java.util.Collections;
 import java.util.Set;
-
-import org.jboss.seam.security.filter.handler.Handler;
 import javax.servlet.ServletContext;
 
 /**
@@ -32,11 +30,6 @@ public final class SecurityConfig
    * The authentication method
    */
   private AuthMethod authMethod;
-
-  /**
-   * The authenticator
-   */
-  private Handler authenticator;
 
   /**
    * Security roles with access to the application
@@ -84,8 +77,7 @@ public final class SecurityConfig
       securityConstraints = configLoader.getSecurityConstraints();
       authMethod = configLoader.getAuthMethod();
 
-      authenticator = configLoader.getAuthenticator();
-      authenticator.setSecurityConfig(this);
+//      authenticator = configLoader.getAuthenticator();
 
       securityRoles = configLoader.getSecurityRoles();
 
@@ -128,24 +120,6 @@ public final class SecurityConfig
   {
     return authMethod;
   }
-
-  /**
-   *
-   * @return Authenticator
-   */
-  public Handler getAuthenticator()
-  {
-    return authenticator;
-  }
-
-  /**
-   *
-   * @return Realm
-   */
-//  public Realm getRealm()
-//  {
-//    return realm;
-//  }
 
   /**
    *
