@@ -15,7 +15,7 @@ import org.jboss.annotation.security.SecurityDomain;
  */
 @Stateless
 @Name("protectedAction")
-@SecurityDomain("securityexample")
+@SecurityDomain("seam")
 public class ProtectedAction implements ProtectedLocal
 {
   @RolesAllowed("admin")

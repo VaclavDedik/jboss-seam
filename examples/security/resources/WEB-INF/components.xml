@@ -9,5 +9,9 @@
         <property name="conversationTimeout">120000</property>
     </component>
 
-    <component class="org.jboss.seam.security.realm.JaasRealm"/>
+    <component class="org.jboss.seam.security.authenticator.ProviderAuthenticator">
+      <property name="providers">org.jboss.seam.example.security.AuthenticatorAction</property>
+    </component>
+    
+    <component class="org.jboss.seam.security.ThreadLocalAuthenticationContext"/>
 </components>

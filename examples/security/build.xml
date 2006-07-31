@@ -38,7 +38,9 @@
         <include name="users.properties"/>
         <include name="roles.properties"/>
         <include name="META-INF/ejb-jar.xml"/>
-        <include name="META-INF/persistence.xml"/>        
+        <include name="META-INF/persistence.xml"/>  
+        <include name="jboss-service.xml"/>
+        <include name="META-INF/login-config.xml"/>      
     </fileset>
 
     <!-- EAR -->

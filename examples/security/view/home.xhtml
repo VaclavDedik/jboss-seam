@@ -31,7 +31,8 @@
 	
     <div class="errors"><h:messages globalOnly="true"/></div>      	
 
-    <h:commandButton action="#{login.login}" value="Login" class="button" />        
+    <h:commandButton action="#{login.login}" value="Login" class="button" />  
+    <h:commandButton action="#{protectedAction.foo}" value="Protected action" class="button"/>      
     
   </h:form>
 </body>
