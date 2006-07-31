@@ -3,8 +3,7 @@ package org.jboss.seam.security.config;
 import java.util.Collections;
 import java.util.Set;
 
-import org.jboss.seam.security.authenticator.Authenticator;
-import org.jboss.seam.security.realm.Realm;
+import org.jboss.seam.security.filter.handler.Handler;
 import javax.servlet.ServletContext;
 
 /**
@@ -37,7 +36,7 @@ public final class SecurityConfig
   /**
    * The authenticator
    */
-  private Authenticator authenticator;
+  private Handler authenticator;
 
   /**
    * Security roles with access to the application
@@ -47,7 +46,7 @@ public final class SecurityConfig
   /**
    * Authentication realm
    */
-  private Realm realm;
+//  private Realm realm;
 
   /**
    * The ServletContext for this application.  This is required because various
@@ -89,7 +88,6 @@ public final class SecurityConfig
       authenticator.setSecurityConfig(this);
 
       securityRoles = configLoader.getSecurityRoles();
-      realm = configLoader.getRealm();
 
       configLoaded = true;
     }
@@ -135,7 +133,7 @@ public final class SecurityConfig
    *
    * @return Authenticator
    */
-  public Authenticator getAuthenticator()
+  public Handler getAuthenticator()
   {
     return authenticator;
   }
@@ -144,10 +142,10 @@ public final class SecurityConfig
    *
    * @return Realm
    */
-  public Realm getRealm()
-  {
-    return realm;
-  }
+//  public Realm getRealm()
+//  {
+//    return realm;
+//  }
 
   /**
    *

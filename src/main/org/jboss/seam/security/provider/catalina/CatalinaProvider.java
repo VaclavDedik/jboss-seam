@@ -1,20 +1,16 @@
-package org.jboss.seam.security.realm;
+package org.jboss.seam.security.provider.catalina;
 
 import java.lang.reflect.Method;
 import java.security.Principal;
 
-import static org.jboss.seam.ScopeType.APPLICATION;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.security.provider.AuthenticationProvider;
 
 /**
  * Wrapper for Tomcat realm authentication
  *
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.realm.Realm")
-@Scope(APPLICATION)
-public class CatalinaRealm implements Realm
+public class CatalinaProvider implements AuthenticationProvider
 {
   private Object realm;
   private Method authenticateMethod1;  // authenticate(String, String)
@@ -24,7 +20,7 @@ public class CatalinaRealm implements Realm
    * Constructor - does some reflection gymnastics to find the Tomcat realm.
    * This is so we don't have a dependency on the catalina libs.
    */
-  public CatalinaRealm(String localContext)
+  public CatalinaProvider(String localContext)
   {
     try
     {

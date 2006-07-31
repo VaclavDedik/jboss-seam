@@ -1,16 +1,17 @@
-package org.jboss.seam.security.authenticator;
+package org.jboss.seam.security.filter.handler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.jboss.seam.security.config.SecurityConfig;
+
+
 
 /**
  * Abstract base class for Authenticator implementations.
  *
  * @author Shane Bryzak
  */
-public abstract class BaseAuthenticator implements Authenticator
+public abstract class BaseHandler implements Handler
 {
   protected SecurityConfig securityConfig;
 

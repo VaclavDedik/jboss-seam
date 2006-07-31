@@ -1,4 +1,4 @@
-package org.jboss.seam.security.realm;
+package org.jboss.seam.security.provider.jaas;
 
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;

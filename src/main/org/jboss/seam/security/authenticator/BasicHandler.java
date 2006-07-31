@@ -1,4 +1,4 @@
-package org.jboss.seam.security.authenticator;
+package org.jboss.seam.security.filter.handler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Shane Bryzak
  */
-public class BasicAuthenticator extends BaseAuthenticator
+public class BasicHandler extends BaseHandler
 {
-  public BasicAuthenticator()
+  public BasicHandler()
   {
   }
 

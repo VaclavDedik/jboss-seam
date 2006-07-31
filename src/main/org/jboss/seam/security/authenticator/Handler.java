@@ -1,9 +1,8 @@
-package org.jboss.seam.security.authenticator;
+package org.jboss.seam.security.filter.handler;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.jboss.seam.security.config.SecurityConfig;
 
 /**
@@ -11,7 +10,7 @@ import org.jboss.seam.security.config.SecurityConfig;
  *
  * @author Shane Bryzak
  */
-public interface Authenticator
+public interface Handler
 {
   void setSecurityConfig(SecurityConfig securityConfig);
   boolean processLogin(HttpServletRequest request, HttpServletResponse response);

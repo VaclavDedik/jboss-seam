@@ -11,11 +11,9 @@ import javax.servlet.ServletContext;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.seam.security.authenticator.Authenticator;
-import org.jboss.seam.security.authenticator.BasicAuthenticator;
-import org.jboss.seam.security.authenticator.FormAuthenticator;
-import org.jboss.seam.security.authenticator.SeamAuthenticator;
-import org.jboss.seam.security.realm.Realm;
+import org.jboss.seam.security.filter.handler.Handler;
+import org.jboss.seam.security.filter.handler.BasicHandler;
+import org.jboss.seam.security.filter.handler.FormHandler;
 
 /**
  * Loads the security configuration from an XML configuration file.
@@ -49,21 +47,15 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
   // <security-role>
   private static final String SECURITY_ROLE = "security-role";
 
-  // <realm>
-  private static final String REALM = "realm";
-  private static final String CLASSNAME_ATTRIBUTE = "className";
-
   private Set<SecurityConstraint> securityConstraints = new HashSet<SecurityConstraint>();
 
   private Set<String> securityRoles = new HashSet<String>();
 
   private AuthMethod authMethod;
 
-  private Authenticator authenticator;
+  private Handler authenticator;
 
   private ServletContext servletContext;
-
-  private Realm realm;
 
   /**
    * Constructor, loads the configuration from configFile.
@@ -85,7 +77,6 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
       loadSecurityConstraints(env.elements(SECURITY_CONSTRAINT));
       loadLoginConfig(env.element(LOGIN_CONFIG));
       loadSecurityRoles(env.element(SECURITY_ROLE));
-      loadRealm(env.element(REALM));
     }
     catch (Exception ex)
     {
@@ -118,7 +109,7 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
    *
    * @return Authenticator
    */
-  public Authenticator getAuthenticator()
+  public Handler getAuthenticator()
   {
     return authenticator;
   }
@@ -130,15 +121,6 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
   public Set<String> getSecurityRoles()
   {
     return securityRoles;
-  }
-
-  /**
-   *
-   * @return Realm
-   */
-  public Realm getRealm()
-  {
-    return realm;
   }
 
   /**
@@ -223,20 +205,20 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
     switch (authMethod)
     {
       case BASIC:
-        authenticator = new BasicAuthenticator();
+        authenticator = new BasicHandler();
         break;
       case FORM:
         Element formConfigElement = loginConfigElement.element(FORM_LOGIN_CONFIG);
         String loginPage = formConfigElement.elementText(FORM_LOGIN_PAGE);
         String errorPage = formConfigElement.elementText(FORM_ERROR_PAGE);
         String defaultPage = formConfigElement.elementText(FORM_DEFAULT_PAGE);
-        authenticator = new FormAuthenticator(loginPage, errorPage, defaultPage);
+        authenticator = new FormHandler(loginPage, errorPage, defaultPage);
         break;
-      case SEAM:
-        Element seamConfigElement = loginConfigElement.element(SEAM_LOGIN_CONFIG);
-        loginPage = seamConfigElement.elementText(SEAM_LOGIN_PAGE);
-        authenticator = new SeamAuthenticator(loginPage);
-        break;
+//      case SEAM:
+//        Element seamConfigElement = loginConfigElement.element(SEAM_LOGIN_CONFIG);
+//        loginPage = seamConfigElement.elementText(SEAM_LOGIN_PAGE);
+//        authenticator = new SeamAuthenticator(loginPage);
+//        break;
     }
 
     if (authenticator == null)
@@ -257,69 +239,6 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
     for (Element roleName : (List<Element>) securityRoleElement.elements(ROLE_NAME))
     {
       securityRoles.add(roleName.getTextTrim());
-    }
-  }
-
-  /**
-   *
-   * @param realmElement Element
-   * @throws SecurityConfigException
-   */
-  private void loadRealm(Element realmElement)
-      throws SecurityConfigException
-  {
-    String contextPath = "";
-
-    try
-    {
-      // Determine the context path from servletContext
-      Class acfCls = Class.forName(
-          "org.apache.catalina.core.ApplicationContextFacade");
-      if (acfCls.isAssignableFrom(servletContext.getClass()))
-      {
-        Method getContextPath = acfCls.getMethod("getContextPath");
-        contextPath = (String) getContextPath.invoke(servletContext);
-      }
-    }
-    catch (Exception ex)
-    {
-      // Swallow exceptions here
-    }
-
-    String realmClass = realmElement.attributeValue(CLASSNAME_ATTRIBUTE);
-    try
-    {
-      Class cls = Class.forName(realmClass);
-
-      /**
-       * The only reason we jump through the following hoops is so that
-       * CatalinaRealm gets access to the servlet context path, otherwise we
-       * would just use the default constructor for the realm.
-       *
-       * NOTE: we don't want to add a setServletContext() method to the Realm
-       * interface at this stage because that would introduce a dependency on the
-       * servlet API (though does it matter really???)
-       *
-       * TODO - see if this can be refactored into something more elegant
-       */
-      Constructor[] constructors = cls.getConstructors();
-      if (constructors.length > 0 &&
-          constructors[0].getParameterTypes().length == 1 &&
-          constructors[0].getParameterTypes()[0].equals(String.class))
-      {
-        realm = (Realm) constructors[0].newInstance(contextPath);
-      }
-      else
-        realm = (Realm) cls.newInstance();
-    }
-    catch (ClassNotFoundException ex)
-    {
-      throw new SecurityConfigException(
-          String.format("Realm class [%s] not found.", realmClass), ex);
-    }
-    catch (Exception ex)
-    {
-      throw new SecurityConfigException("Error creating realm", ex);
     }
   }
 }

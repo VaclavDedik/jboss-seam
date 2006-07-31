@@ -1,4 +1,4 @@
-package org.jboss.seam.security;
+package org.jboss.seam.security.filter;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.security.config.SecurityConfig;
 import org.jboss.seam.security.config.SecurityConfigException;
@@ -46,8 +45,6 @@ public class SeamSecurityFilter implements Filter
       SecurityConfig.instance().setServletContext(servletContext);
       SecurityConfig.instance().loadConfig(new SecurityConfigFileLoader(
         servletContext.getResourceAsStream(CONFIG_RESOURCE), servletContext));
-      Contexts.getApplicationContext().set("org.jboss.seam.security.realm.Realm",
-                                           SecurityConfig.instance().getRealm());
     }
     catch (SecurityConfigException ex)
     {

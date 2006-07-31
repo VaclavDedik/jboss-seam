@@ -2,8 +2,7 @@ package org.jboss.seam.security.config;
 
 import java.util.Set;
 
-import org.jboss.seam.security.authenticator.Authenticator;
-import org.jboss.seam.security.realm.Realm;
+import org.jboss.seam.security.filter.handler.Handler;
 
 /**
  * <p> </p>
@@ -14,7 +13,6 @@ public interface SecurityConfigLoader
 {
   Set<SecurityConstraint> getSecurityConstraints();
   AuthMethod getAuthMethod();
-  Authenticator getAuthenticator();
+  Handler getAuthenticator();
   Set<String> getSecurityRoles();
-  Realm getRealm();
 }

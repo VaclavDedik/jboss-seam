@@ -1,4 +1,4 @@
-package org.jboss.seam.security.loginmodule;
+package org.jboss.seam.security.adapter.jboss;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -10,13 +10,9 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.spi.LoginModule;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.security.config.SecurityConfig;
-import org.jboss.seam.security.realm.RolePrincipal;
-import org.jboss.seam.security.realm.UserPrincipal;
 
 /**
- * A LoginModule that provides authentication against a Seam component.
+ *
  *
  * @author Shane Bryzak
  */
@@ -52,9 +48,9 @@ public class SeamLoginModule implements LoginModule
 
   public boolean commit()
   {
-    subject.getPrincipals().add(new UserPrincipal(principal));
-    for (String role : roles)
-      subject.getPrincipals().add(new RolePrincipal(principal));
+//    subject.getPrincipals().add(new UserPrincipal(principal));
+//    for (String role : roles)
+//      subject.getPrincipals().add(new RolePrincipal(principal));
     return true;
   }
 

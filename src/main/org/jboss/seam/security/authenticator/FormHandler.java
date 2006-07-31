@@ -1,4 +1,4 @@
-package org.jboss.seam.security.authenticator;
+package org.jboss.seam.security.filter.handler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Shane Bryzak
  */
-public class FormAuthenticator extends BaseAuthenticator
+public class FormHandler extends BaseHandler
 {
   private String loginPage;
 
-  public FormAuthenticator(String loginPage, String errorPage, String defaultPage)
+  public FormHandler(String loginPage, String errorPage, String defaultPage)
   {
   }
 
