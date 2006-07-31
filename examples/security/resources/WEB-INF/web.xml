@@ -93,7 +93,7 @@
   
     <filter>
         <filter-name>Seam Security Filter</filter-name>
-        <filter-class>org.jboss.seam.security.SeamSecurityFilter</filter-class>
+        <filter-class>org.jboss.seam.security.filter.SeamSecurityFilter</filter-class>
     </filter>
 
     <filter-mapping>
