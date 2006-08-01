@@ -7,6 +7,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.provider.AuthenticationProvider;
+import org.jboss.seam.security.UsernamePasswordToken;
 
 /**
  *
@@ -21,6 +22,10 @@ public class AuthenticatorAction implements AuthenticationProvider
   public Authentication authenticate(Authentication authentication)
       throws AuthenticationException
   {
-    return null;
+    UsernamePasswordToken token = new UsernamePasswordToken(
+      authentication.getPrincipal(), authentication.getCredentials(),
+        new String[] {"user", "admin"});
+
+    return token;
   }
 }

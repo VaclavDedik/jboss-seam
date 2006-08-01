@@ -21,7 +21,7 @@ public class ProtectedAction implements ProtectedLocal
   @RolesAllowed("admin")
   public String foo()
   {
-    System.out.println("foo() called");
-    return "success";
+    System.out.println("protected method foo() successfully called");
+    return "protected";
   }
 }

@@ -21,7 +21,7 @@ import org.jboss.seam.security.authenticator.Authenticator;
 public class LoginAction implements LoginLocal
 {
   @In(value = "org.jboss.seam.security.Authenticator") Authenticator authenticator;
-  @Out(scope = SESSION) Authentication authentication;
+  @Out(value = "org.jboss.seam.security.Authentication", scope = SESSION) Authentication authentication;
 
   @In @Out User user;
 
