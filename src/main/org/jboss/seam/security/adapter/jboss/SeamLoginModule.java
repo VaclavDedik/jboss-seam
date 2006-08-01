@@ -1,15 +1,24 @@
 package org.jboss.seam.security.adapter.jboss;
 
-import java.lang.reflect.Method;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.security.Principal;
+import java.security.acl.Group;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Map;
+import java.util.Set;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
+import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.spi.LoginModule;
 
-import org.jboss.seam.Component;
+import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.AuthenticationContext;
+import org.jboss.seam.security.config.SecurityConfig;
 
 /**
  *
@@ -18,78 +27,47 @@ import org.jboss.seam.Component;
  */
 public class SeamLoginModule implements LoginModule
 {
-  private static final String CONFIG_COMPONENT_NAME = "component-name";
-  private static final String CONFIG_LOGIN_METHOD = "login-method";
-  private static final String CONFIG_PRINCIPAL_METHOD = "principal-method";
-  private static final String CONFIG_ROLES_METHOD = "roles-method";
+  private static final String SIMPLE_PRINCIPAL_CLASS = "org.jboss.security.SimplePrincipal";
+  private static final String SIMPLE_GROUP_CLASS = "org.jboss.security.SimpleGroup";
 
-  private static final String DEFAULT_COMPONENT_NAME = "loginModule";
-  private static final String DEFAULT_LOGIN_METHOD = "login";
-  private static final String DEFAULT_PRINCIPAL_METHOD = "getPrincipal";
-  private static final String DEFAULT_ROLES_METHOD = "getRoles";
+  private Constructor simplePrincipalConstructor = null;
+  private Constructor simpleGroupConstructor = null;
 
   private Subject subject;
   private CallbackHandler callbackHandler;
 
-  private String componentName;
-  private String loginMethodName;
-  private String principalMethodName;
-  private String rolesMethodName;
-
-  private String principal;
-  private String[] roles;
+  private Authentication authentication;
 
   public boolean abort()
   {
-    principal = null;
-    roles = null;
     return true;
   }
 
+  /**
+   *
+   * @return boolean
+   */
   public boolean commit()
   {
-//    subject.getPrincipals().add(new UserPrincipal(principal));
-//    for (String role : roles)
-//      subject.getPrincipals().add(new RolePrincipal(principal));
-    return true;
-  }
+    Set<Principal> principals = subject.getPrincipals();
 
-  public void initialize(Subject subject, CallbackHandler handler,
-                         Map<String,?> sharedState, Map<String,?> options)
-  {
-    this.subject = subject;
-    this.callbackHandler = handler;
+    principals.add(authentication);
 
-    componentName = options.containsKey(CONFIG_COMPONENT_NAME) ?
-        (String) options.get(CONFIG_COMPONENT_NAME) : DEFAULT_COMPONENT_NAME;
-    loginMethodName = options.containsKey(CONFIG_LOGIN_METHOD) ?
-        (String) options.get(CONFIG_LOGIN_METHOD) : DEFAULT_LOGIN_METHOD;
-    principalMethodName = options.containsKey(CONFIG_PRINCIPAL_METHOD) ?
-        (String) options.get(CONFIG_PRINCIPAL_METHOD) : DEFAULT_PRINCIPAL_METHOD;
-    rolesMethodName = options.containsKey(CONFIG_ROLES_METHOD) ?
-        (String) options.get(CONFIG_ROLES_METHOD) : DEFAULT_ROLES_METHOD;
-  }
-
-  public boolean login()
-  {
     try
     {
-//      Lifecycle.setServletContext(SecurityConfig.instance().getServletContext());
-//      Lifecycle.beginCall();
+      for (Group group : getRoleSets())
+      {
+        Group subjectGroup = null;
+        subjectGroup = createGroup(group.getName(), principals);
 
-      Object obj = Component.getInstance(componentName, true);
-      Method loginMethod = obj.getClass().getMethod(loginMethodName, String.class, String.class);
-      Method principalMethod = obj.getClass().getMethod(principalMethodName);
-      Method rolesMethod = obj.getClass().getMethod(rolesMethodName);
-
-      NameCallback nameCallback = new NameCallback("Username");
-      PasswordCallback pwCallback = new PasswordCallback("Password", false);
-      callbackHandler.handle(new Callback[]{nameCallback, pwCallback });
-
-      loginMethod.invoke(obj, nameCallback.getName(), new String(pwCallback.getPassword()));
-
-      principal = (String) principalMethod.invoke(obj);
-      roles = (String[]) rolesMethod.invoke(obj);
+        // Copy the group members to the Subject group
+        Enumeration members = group.members();
+        while (members.hasMoreElements())
+        {
+          Principal role = (Principal) members.nextElement();
+          subjectGroup.addMember(role);
+        }
+      }
 
       return true;
     }
@@ -97,16 +75,160 @@ public class SeamLoginModule implements LoginModule
     {
       return false;
     }
-    finally
-    {
-//      Lifecycle.endCall();
-    }
   }
 
+  /**
+   *
+   * @param name String
+   * @param principals Set
+   * @return Group
+   */
+  protected Group createGroup(String name, Set<Principal> principals)
+      throws Exception
+  {
+     Group roles = null;
+     for (Principal principal : principals)
+     {
+       if (!(principal instanceof Group))
+         continue;
+
+       if (((Group) principal).getName().equals(name))
+       {
+         roles = (Group) principal;
+         break;
+       }
+     }
+
+     if (roles == null)
+     {
+       roles = createSimpleGroup(name);
+       principals.add(roles);
+     }
+     return roles;
+   }
+
+   /**
+    *
+    * @param name String
+    * @return Principal
+    * @throws Exception
+    */
+   private Principal createSimplePrincipal(String name)
+       throws Exception
+   {
+     if (simplePrincipalConstructor == null)
+     {
+       Class cls = Class.forName(SIMPLE_PRINCIPAL_CLASS);
+       simplePrincipalConstructor = cls.getConstructor(String.class);
+     }
+     return (Principal) simplePrincipalConstructor.newInstance(name);
+   }
+
+  /**
+   *
+   * @param name String
+   * @return Group
+   */
+  private Group createSimpleGroup(String name)
+      throws Exception
+  {
+    if (simpleGroupConstructor == null)
+    {
+      Class cls = Class.forName(SIMPLE_GROUP_CLASS);
+      simpleGroupConstructor = cls.getConstructor(String.class);
+    }
+
+    return (Group) simpleGroupConstructor.newInstance(name);
+  }
+
+  /**
+   *
+   * @return Group[]
+   * @throws LoginException
+   */
+  protected Group[] getRoleSets()
+      throws Exception
+  {
+    Group rolesGroup = createSimpleGroup("Roles");
+
+    ArrayList groups = new ArrayList();
+    groups.add(rolesGroup);
+
+    for (String role : authentication.getRoles())
+    {
+      rolesGroup.addMember(createIdentity(role));
+    }
+
+    Group[] roleSets = new Group[groups.size()];
+    groups.toArray(roleSets);
+    return roleSets;
+  }
+
+  /**
+   *
+   * @param username String
+   * @return Principal
+   * @throws Exception
+   */
+  protected Principal createIdentity(String username)
+      throws Exception
+   {
+     return createSimplePrincipal(username);
+   }
+
+   /**
+    *
+    * @param subject Subject
+    * @param handler CallbackHandler
+    * @param sharedState Map
+    * @param options Map
+    */
+   public void initialize(Subject subject, CallbackHandler handler,
+                         Map<String,?> sharedState, Map<String,?> options)
+  {
+    this.subject = subject;
+    this.callbackHandler = handler;
+  }
+
+  /**
+   *
+   * @return boolean
+   */
+  public boolean login()
+  {
+    AuthenticationContext authCtx = (AuthenticationContext) SecurityConfig.instance()
+        .getApplicationContext().get("org.jboss.seam.security.AuthenticationContext");
+
+    authentication = authCtx.getAuthentication();
+
+    if (authentication == null || !authentication.isAuthenticated())
+    {
+      NameCallback nameCallback = new NameCallback("Username");
+      PasswordCallback pwCallback = new PasswordCallback("Password", false);
+      try
+      {
+        callbackHandler.handle(new Callback[]
+                               {nameCallback, pwCallback});
+      }
+      catch (UnsupportedCallbackException ex)
+      {
+      }
+      catch (IOException ex)
+      {
+      }
+
+      /** @todo Authenticate here if not already authenticated */
+    }
+
+    return true;
+  }
+
+  /**
+   *
+   * @return boolean
+   */
   public boolean logout()
   {
-    principal = null;
-    roles = null;
     return true;
   }
 }

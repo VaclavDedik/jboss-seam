@@ -3,8 +3,6 @@ package org.jboss.seam.security.provider.catalina;
 import java.lang.reflect.Method;
 import java.security.Principal;
 
-import org.jboss.seam.security.provider.AuthenticationProvider;
-
 /**
  * Wrapper for Tomcat realm authentication
  *

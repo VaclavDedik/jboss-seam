@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.WebApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
@@ -23,7 +24,7 @@ import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.AuthenticationContext;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.authenticator.Authenticator;
-import org.jboss.seam.contexts.Context;
+import org.jboss.seam.security.config.SecurityConfig;
 
 /**
  * A servlet filter that performs authentication within a Seam application.
@@ -41,6 +42,8 @@ public class SeamSecurityFilter implements Filter
       throws ServletException
   {
     servletContext = config.getServletContext();
+
+    SecurityConfig.instance().setApplicationContext( new WebApplicationContext(servletContext));
 
 //    try
 //    {
@@ -89,7 +92,7 @@ public class SeamSecurityFilter implements Filter
 
       try
       {
-        ((AuthenticationContext) appContext.get("org.jboss.seam.security.ApplicationContext"))
+        ((AuthenticationContext) appContext.get("org.jboss.seam.security.AuthenticationContext"))
            .setAuthentication(authenticator.authenticate(authentication));
       }
       catch (AuthenticationException ex)

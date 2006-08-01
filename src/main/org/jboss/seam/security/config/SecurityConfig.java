@@ -2,7 +2,7 @@ package org.jboss.seam.security.config;
 
 import java.util.Collections;
 import java.util.Set;
-import javax.servlet.ServletContext;
+import org.jboss.seam.contexts.Context;
 
 /**
  * Security Configuration interface.
@@ -37,15 +37,10 @@ public final class SecurityConfig
   private Set<String> securityRoles;
 
   /**
-   * Authentication realm
+   * The ApplicationContext for this application.  This is required by various
+   * modules of the security framework.
    */
-//  private Realm realm;
-
-  /**
-   * The ServletContext for this application.  This is required because various
-   * modules of the security framework may need to instantiate a Seam context
-   */
-  private ServletContext servletContext;
+  private Context applicationContext;
 
   /**
    * Private constructor.
@@ -76,11 +71,7 @@ public final class SecurityConfig
     {
       securityConstraints = configLoader.getSecurityConstraints();
       authMethod = configLoader.getAuthMethod();
-
-//      authenticator = configLoader.getAuthenticator();
-
       securityRoles = configLoader.getSecurityRoles();
-
       configLoaded = true;
     }
   }
@@ -89,18 +80,18 @@ public final class SecurityConfig
    *
    * @param servletContext ServletContext
    */
-  public void setServletContext(ServletContext servletContext)
+  public void setApplicationContext(Context ctx)
   {
-    this.servletContext = servletContext;
+    this.applicationContext = ctx;
   }
 
   /**
    *
    * @return ServletContext
    */
-  public ServletContext getServletContext()
+  public Context getApplicationContext()
   {
-    return servletContext;
+    return applicationContext;
   }
 
   /**

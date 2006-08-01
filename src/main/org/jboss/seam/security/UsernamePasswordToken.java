@@ -12,10 +12,18 @@ public class UsernamePasswordToken implements Authentication
   private Object principal;
   private boolean authenticated = false;
 
-  public UsernamePasswordToken(String username, String password)
+  public UsernamePasswordToken(Object principal, Object credentials)
   {
-    this.principal = username;
-    this.credentials = password;
+    this.principal = principal;
+    this.credentials = credentials;
+    this.authenticated = false;
+  }
+
+  public UsernamePasswordToken(Object principal, Object credentials, String[] roles)
+  {
+    this(principal, credentials);
+    this.roles = roles;
+    this.authenticated = true;
   }
 
   public String getName()

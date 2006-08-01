@@ -27,10 +27,12 @@ public class ProviderAuthenticator implements Authenticator
   {
     for (AuthenticationProvider provider : providers)
     {
-      provider.authenticate(authentication);
+      Authentication result = provider.authenticate(authentication);
+      if (result != null)
+        return result;
     }
 
-    return authentication;
+    throw new AuthenticationException("Provider not found");
   }
 
   public void setProviders(List<String> providerNames)

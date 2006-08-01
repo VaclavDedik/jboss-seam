@@ -12,8 +12,6 @@ import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
-import org.jboss.seam.security.provider.AuthenticationProvider;
-
 /**
  * JAAS authentication provider
  *
