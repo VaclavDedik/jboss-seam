@@ -14,6 +14,7 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
 import org.jboss.seam.security.Authentication;
@@ -27,13 +28,16 @@ import org.jboss.seam.security.config.SecurityConfig;
  */
 public class SeamLoginModule implements LoginModule
 {
-  private static final String SIMPLE_PRINCIPAL_CLASS = "org.jboss.security.SimplePrincipal";
-  private static final String SIMPLE_GROUP_CLASS = "org.jboss.security.SimpleGroup";
+  private static final String SIMPLE_PRINCIPAL_CLASS =
+      "org.jboss.security.SimplePrincipal";
+  private static final String SIMPLE_GROUP_CLASS =
+      "org.jboss.security.SimpleGroup";
 
   private Constructor simplePrincipalConstructor = null;
   private Constructor simpleGroupConstructor = null;
 
   private Subject subject;
+
   private CallbackHandler callbackHandler;
 
   private Authentication authentication;
@@ -86,43 +90,43 @@ public class SeamLoginModule implements LoginModule
   protected Group createGroup(String name, Set<Principal> principals)
       throws Exception
   {
-     Group roles = null;
-     for (Principal principal : principals)
-     {
-       if (!(principal instanceof Group))
-         continue;
+    Group roles = null;
+    for (Principal principal : principals)
+    {
+      if (! (principal instanceof Group))
+        continue;
 
-       if (((Group) principal).getName().equals(name))
-       {
-         roles = (Group) principal;
-         break;
-       }
-     }
+      if ( ( (Group) principal).getName().equals(name))
+      {
+        roles = (Group) principal;
+        break;
+      }
+    }
 
-     if (roles == null)
-     {
-       roles = createSimpleGroup(name);
-       principals.add(roles);
-     }
-     return roles;
-   }
+    if (roles == null)
+    {
+      roles = createSimpleGroup(name);
+      principals.add(roles);
+    }
+    return roles;
+  }
 
-   /**
-    *
-    * @param name String
-    * @return Principal
-    * @throws Exception
-    */
-   private Principal createSimplePrincipal(String name)
-       throws Exception
-   {
-     if (simplePrincipalConstructor == null)
-     {
-       Class cls = Class.forName(SIMPLE_PRINCIPAL_CLASS);
-       simplePrincipalConstructor = cls.getConstructor(String.class);
-     }
-     return (Principal) simplePrincipalConstructor.newInstance(name);
-   }
+  /**
+   *
+   * @param name String
+   * @return Principal
+   * @throws Exception
+   */
+  private Principal createSimplePrincipal(String name)
+      throws Exception
+  {
+    if (simplePrincipalConstructor == null)
+    {
+      Class cls = Class.forName(SIMPLE_PRINCIPAL_CLASS);
+      simplePrincipalConstructor = cls.getConstructor(String.class);
+    }
+    return (Principal) simplePrincipalConstructor.newInstance(name);
+  }
 
   /**
    *
@@ -172,19 +176,19 @@ public class SeamLoginModule implements LoginModule
    */
   protected Principal createIdentity(String username)
       throws Exception
-   {
-     return createSimplePrincipal(username);
-   }
+  {
+    return createSimplePrincipal(username);
+  }
 
-   /**
-    *
-    * @param subject Subject
-    * @param handler CallbackHandler
-    * @param sharedState Map
-    * @param options Map
-    */
-   public void initialize(Subject subject, CallbackHandler handler,
-                         Map<String,?> sharedState, Map<String,?> options)
+  /**
+   *
+   * @param subject Subject
+   * @param handler CallbackHandler
+   * @param sharedState Map
+   * @param options Map
+   */
+  public void initialize(Subject subject, CallbackHandler handler,
+                         Map sharedState, Map options)
   {
     this.subject = subject;
     this.callbackHandler = handler;
@@ -195,9 +199,12 @@ public class SeamLoginModule implements LoginModule
    * @return boolean
    */
   public boolean login()
+      throws LoginException
   {
-    AuthenticationContext authCtx = (AuthenticationContext) SecurityConfig.instance()
-        .getApplicationContext().get("org.jboss.seam.security.AuthenticationContext");
+    AuthenticationContext authCtx = (AuthenticationContext) SecurityConfig.
+        instance()
+        .getApplicationContext().get(
+        "org.jboss.seam.security.AuthenticationContext");
 
     authentication = authCtx.getAuthentication();
 
@@ -226,9 +233,13 @@ public class SeamLoginModule implements LoginModule
   /**
    *
    * @return boolean
+   * @throws LoginException
    */
   public boolean logout()
+      throws LoginException
   {
+    Set principals = subject.getPrincipals();
+    principals.remove(authentication);
     return true;
   }
 }

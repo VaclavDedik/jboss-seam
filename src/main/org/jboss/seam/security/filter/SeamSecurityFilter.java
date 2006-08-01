@@ -38,12 +38,25 @@ public class SeamSecurityFilter implements Filter
 
 //  private static final String CONFIG_RESOURCE = "/WEB-INF/seam-security.xml";
 
+  private AuthenticationContext authContext;
+  private Authenticator authenticator;
+
   public void init(FilterConfig config)
       throws ServletException
   {
     servletContext = config.getServletContext();
 
-    SecurityConfig.instance().setApplicationContext( new WebApplicationContext(servletContext));
+    Context appContext = new WebApplicationContext(servletContext);
+    SecurityConfig.instance().setApplicationContext(appContext);
+
+    authContext = ((AuthenticationContext) appContext.get(
+      "org.jboss.seam.security.AuthenticationContext"));
+
+    authenticator = (Authenticator) appContext.get(
+            "org.jboss.seam.security.Authenticator");
+
+    if (authenticator == null)
+      throw new ServletException("No Authenticator configured.");
 
 //    try
 //    {
@@ -77,29 +90,26 @@ public class SeamSecurityFilter implements Filter
     HttpServletRequest hRequest = (HttpServletRequest) request;
     HttpServletResponse hResponse = (HttpServletResponse) response;
 
-    Authentication authentication = (Authentication)new WebSessionContext(
-        ContextAdaptor.getSession(hRequest.getSession())).get(
+    Context sessionContext = new WebSessionContext(
+        ContextAdaptor.getSession(hRequest.getSession()));
+
+    Authentication authentication = (Authentication)sessionContext.get(
             "org.jboss.seam.security.Authentication");
+
 
     if (authentication != null)
     {
-      Context appContext = new WebApplicationContext(servletContext);
-
-      Authenticator authenticator = (Authenticator) appContext.get(
-              "org.jboss.seam.security.Authenticator");
-      if (authenticator == null)
-        throw new ServletException("No Authenticator configured.");
-
       try
       {
-        ((AuthenticationContext) appContext.get("org.jboss.seam.security.AuthenticationContext"))
-           .setAuthentication(authenticator.authenticate(authentication));
+        authContext.setAuthentication(authenticator.authenticate(authentication));
       }
       catch (AuthenticationException ex)
       {
-        throw new ServletException("Authentication Failed", ex);
+        authContext.setAuthentication(null);
       }
     }
+    else
+      authContext.setAuthentication(null);
 
     try
     {
@@ -126,8 +136,13 @@ public class SeamSecurityFilter implements Filter
           cause = cause.getCause();
         }
       }
-
       throw new ServletException(e);
+    }
+    finally
+    {
+      if (authentication != null)
+        authenticator.unauthenticate(authentication);
+      authContext.setAuthentication(null);
     }
   }
 

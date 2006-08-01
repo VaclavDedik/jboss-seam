@@ -12,4 +12,5 @@ public interface Authenticator
 {
   Authentication authenticate(Authentication authentication)
       throws AuthenticationException;
+  void unauthenticate(Authentication authentication);
 }
