@@ -3,7 +3,9 @@ package org.jboss.seam.security.filter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import javax.security.auth.login.FailedLoginException;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -25,6 +27,7 @@ import org.jboss.seam.security.AuthenticationContext;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.authenticator.Authenticator;
 import org.jboss.seam.security.config.SecurityConfig;
+import org.jboss.security.auth.callback.UsernamePasswordHandler;
 
 /**
  * A servlet filter that performs authentication within a Seam application.
@@ -85,8 +88,6 @@ public class SeamSecurityFilter implements Filter
                        FilterChain chain)
       throws IOException, ServletException
   {
-//     HttpSession session = ( (HttpServletRequest) request ).getSession(true);
-
     HttpServletRequest hRequest = (HttpServletRequest) request;
     HttpServletResponse hResponse = (HttpServletResponse) response;
 
@@ -96,20 +97,28 @@ public class SeamSecurityFilter implements Filter
     Authentication authentication = (Authentication)sessionContext.get(
             "org.jboss.seam.security.Authentication");
 
-
-    if (authentication != null)
+    LoginContext lc = null;
+    try
     {
-      try
+      if (authentication != null)
       {
         authContext.setAuthentication(authenticator.authenticate(authentication));
-      }
-      catch (AuthenticationException ex)
-      {
-        authContext.setAuthentication(null);
+        CallbackHandler handler = new UsernamePasswordHandler(
+            authentication.getPrincipal().toString(),
+            authentication.getCredentials());
+        try
+        {
+          lc = new LoginContext("client-login", handler);
+          lc.login();
+        }
+        catch (LoginException ex)
+        {
+          ex.printStackTrace();
+        }
+
       }
     }
-    else
-      authContext.setAuthentication(null);
+    catch (AuthenticationException ex) { }
 
     try
     {
@@ -124,10 +133,12 @@ public class SeamSecurityFilter implements Filter
         Set<Throwable> causes = new HashSet<Throwable> ();
         while (cause != null && !causes.contains(cause))
         {
-          if (cause instanceof FailedLoginException)
+          if (cause instanceof LoginException)
           {
             // Redirect to login page
             log.info("User not logged in... redirecting to login page.");
+
+            /** @todo Redirect based on whatever authentication method is being used */
 
 //             SecurityConfig.instance().getAuthenticator().showLogin(hRequest, hResponse);
             break;
@@ -143,6 +154,15 @@ public class SeamSecurityFilter implements Filter
       if (authentication != null)
         authenticator.unauthenticate(authentication);
       authContext.setAuthentication(null);
+
+      if (lc != null)
+      {
+        try
+        {
+          lc.logout();
+        }
+        catch (LoginException ex){ }
+      }
     }
   }
 
