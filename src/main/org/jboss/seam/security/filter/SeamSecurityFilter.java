@@ -151,8 +151,6 @@ public class SeamSecurityFilter implements Filter
     }
     finally
     {
-      if (authentication != null)
-        authenticator.unauthenticate(authentication);
       authContext.setAuthentication(null);
 
       if (lc != null)
