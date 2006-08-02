@@ -7,4 +7,5 @@ package org.jboss.seam.example.security;
 public interface LoginLocal
 {
   String login();
+  String logout();
 }
