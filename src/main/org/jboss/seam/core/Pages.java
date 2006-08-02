@@ -49,7 +49,7 @@ public class Pages
    private Map<String, Integer> timeoutsByViewId = new HashMap<String, Integer>();
    private Map<String, MethodBinding> actionsByViewId = new HashMap<String, MethodBinding>();
    private Map<String, String> outcomesByViewId = new HashMap<String, String>();
-   private Map<String, String> noConverationViewIdByViewId = new HashMap<String, String>();
+   private Map<String, String> noConversationViewIdByViewId = new HashMap<String, String>();
    
    private String noConversationViewId;
    
@@ -99,7 +99,7 @@ public class Pages
             String noConversationViewId = page.attributeValue("no-conversation-view-id");
             if (noConversationViewId!=null)
             {
-               noConverationViewIdByViewId.put( viewId, noConversationViewId );
+               noConversationViewIdByViewId.put( viewId, noConversationViewId );
             }
             String action = page.attributeValue("action");
             if (action!=null)
@@ -240,7 +240,7 @@ public class Pages
    
    public String getNoConversationViewId(String viewId)
    {
-      String result = noConverationViewIdByViewId.get(viewId);
+      String result = noConversationViewIdByViewId.get(viewId);
       return result==null ? noConversationViewId : result;
    }
 

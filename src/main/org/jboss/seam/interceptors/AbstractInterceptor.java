@@ -1,6 +1,9 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
+
 import org.jboss.seam.Component;
 
 /**
@@ -10,11 +13,24 @@ import org.jboss.seam.Component;
  */
 class AbstractInterceptor
 {
-   protected Component component;
+   protected transient Component component;
+   private String componentName;
 
    public void setComponent(Component component)
    {
       this.component = component;
+   }
+   
+   @PrePassivate
+   public void initComponentName()
+   {
+      componentName = component.getName();
+   }
+   
+   @PostActivate
+   public void initComponent()
+   {
+      component = Component.forName(componentName);
    }
 
 }

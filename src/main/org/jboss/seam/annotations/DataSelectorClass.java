@@ -1,6 +1,6 @@
 package org.jboss.seam.annotations;
 
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -18,7 +18,7 @@ import org.jboss.seam.databinding.DataSelector;
  * @see org.jboss.seam.databinding.DataSelector
  * @author Gavin King
  */
-@Target(TYPE)
+@Target(ANNOTATION_TYPE)
 @Retention(RUNTIME)
 @Documented
 public @interface DataSelectorClass

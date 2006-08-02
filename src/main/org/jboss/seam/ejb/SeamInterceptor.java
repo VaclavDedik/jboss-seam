@@ -38,7 +38,9 @@ public class SeamInterceptor implements Serializable
    private static final Log log = LogFactory.getLog(SeamInterceptor.class);
    
    private final InterceptorType type;
-   private final Component component;
+   private boolean isSeamComponent;
+   private String componentName;
+   private transient Component component;
    
    /**
     * Called when instatiated by EJB container
@@ -56,16 +58,22 @@ public class SeamInterceptor implements Serializable
    {
       this.type = type;
       this.component = component;
+      isSeamComponent = true;
    }
    
    @PostConstruct
    public void postConstruct(InvocationContext invocation) throws Exception
    {
+      //if instantiated by the EJB container, we 
+      //still need to init the component reference
       Object bean = invocation.getTarget();
       if ( isSeamComponent(bean) )
       {
-         getSeamComponent(bean).initialize(bean);
+         component = getSeamComponent(bean);
+         component.initialize(bean);
+         isSeamComponent = true;
       }
+      
       invoke(invocation, EventType.POST_CONSTRUCT);
    }
    
@@ -79,11 +87,13 @@ public class SeamInterceptor implements Serializable
    public void prePassivate(InvocationContext invocation) throws Exception
    {
       invoke(invocation, EventType.PRE_PASSIVATE);
+      if (isSeamComponent) componentName = component.getName();
    }
    
    @PostActivate
    public void postActivate(InvocationContext invocation) throws Exception
    {
+      if (isSeamComponent) component = Component.forName(componentName);
       invoke(invocation, EventType.POST_ACTIVATE);
    }
    
@@ -95,7 +105,7 @@ public class SeamInterceptor implements Serializable
    
    private Object invoke(InvocationContext invocation, EventType invocationType) throws Exception
    {
-      if ( !isSeamComponent( invocation.getTarget() ) )
+      if ( !isSeamComponent )
       {
          //not a Seam component
          return invocation.proceed();
@@ -124,19 +134,18 @@ public class SeamInterceptor implements Serializable
 
    private Object invokeInContexts(InvocationContext invocation, EventType eventType) throws Exception
    {
-      final Component component = getSeamComponent( invocation.getTarget() );
       if ( isProcessInterceptors(component) )
       {
          if ( log.isTraceEnabled() ) 
          {
-            log.trace("intercepted: " + invocation.getMethod().getName());
+            log.trace("intercepted: " + component.getName() + '.' + invocation.getMethod().getName());
          }
          return new SeamInvocationContext( invocation, eventType, component.getInterceptors(type) ).proceed();
       }
       else {
          if ( log.isTraceEnabled() ) 
          {
-            log.trace("not intercepted: " + invocation.getMethod().getName());
+            log.trace("not intercepted: " + component.getName() + '.' + invocation.getMethod().getName());
          }
          return invocation.proceed();
       }
@@ -149,7 +158,7 @@ public class SeamInterceptor implements Serializable
 
    private boolean isSeamComponent(Object bean)
    {
-      return component!=null || Seam.getBeanClass( bean.getClass() )!=null;
+      return isSeamComponent || Seam.getBeanClass( bean.getClass() )!=null;
    }
    
    private Component getSeamComponent(Object bean)
