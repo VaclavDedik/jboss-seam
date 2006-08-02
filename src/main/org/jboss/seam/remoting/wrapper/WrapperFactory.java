@@ -39,6 +39,7 @@ public class WrapperFactory
     registerWrapper("null", NullWrapper.class);
     registerWrapper("bag", BagWrapper.class);
     registerWrapper("map", MapWrapper.class);
+    registerWrapper("date", DateWrapper.class);
 
     // String types
     registerWrapperClass(String.class, StringWrapper.class);
