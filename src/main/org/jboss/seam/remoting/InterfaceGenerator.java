@@ -8,15 +8,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -29,9 +26,9 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.annotations.Name;
 
 /**
  * Generates JavaScript interface code.
@@ -45,7 +42,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
   /**
    * Maintain a cache of the accessible fields
    */
-  private static Map<Class,List<Field>> accessibleFields = new HashMap<Class,List<Field>>();
+  private static Map<Class,Set<String>> accessibleProperties = new HashMap<Class,Set<String>>();
 
   /**
    * A cache of component interfaces, keyed by component name.
@@ -77,16 +74,26 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
       String[] componentNames = request.getQueryString().split("&");
       Component[] components = new Component[componentNames.length];
+      Set<Type> types = new HashSet<Type>();
 
       for (int i = 0; i < componentNames.length; i++) {
         components[i] = Component.forName(componentNames[i]);
-        if (components[i] == null) {
-          log.error(String.format("Component not found: [%s]", componentNames[i]));
-          throw new ServletException("Invalid request - component not found.");
+        if (components[i] == null)
+        {
+          try
+          {
+            Class c = Class.forName(componentNames[i]);
+            appendClassSource(response.getOutputStream(), c, types);
+          }
+          catch (ClassNotFoundException ex)
+          {
+            log.error(String.format("Component not found: [%s]", componentNames[i]));
+            throw new ServletException("Invalid request - component not found.");
+          }
         }
       }
 
-      generateComponentInterface(components, response.getOutputStream());
+      generateComponentInterface(components, response.getOutputStream(), types);
     }
     finally
     {
@@ -102,50 +109,52 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
    * @param out OutputStream The OutputStream to write the generated javascript to
    * @throws IOException Thrown if there is an error writing to the OutputStream
    */
-  public void generateComponentInterface(Component[] components, OutputStream out)
+  public void generateComponentInterface(Component[] components, OutputStream out, Set<Type> types)
       throws IOException
   {
-    Set<Type> types = new HashSet<Type>();
     for (Component c : components)
     {
-      if (!interfaceCache.containsKey(c.getName()))
+      if (c != null)
       {
-        synchronized(interfaceCache)
+        if (!interfaceCache.containsKey(c.getName()))
         {
-          if (!interfaceCache.containsKey(c.getName()))
+          synchronized (interfaceCache)
           {
-            ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-            appendComponentSource(bOut, c, types);
-            interfaceCache.put(c.getName(), bOut.toByteArray());
+            if (!interfaceCache.containsKey(c.getName()))
+            {
+              ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+              appendComponentSource(bOut, c, types);
+              interfaceCache.put(c.getName(), bOut.toByteArray());
+            }
           }
         }
+        out.write(interfaceCache.get(c.getName()));
       }
-      out.write(interfaceCache.get(c.getName()));
     }
   }
 
   /**
    * A helper method, used internally by InterfaceGenerator and also when
-   * serializing responses.  Returns a list of the fields for the specified type
-   * which should be included in the generated interface for the type.
+   * serializing responses.  Returns a list of the property names for the specified
+   * class which should be included in the generated interface for the type.
    *
    * @param cls Class
    * @return List
    */
-  public static List<Field> getAccessibleFields(Class cls)
+  public static Set<String> getAccessibleProperties(Class cls)
   {
     /** @todo This is a hack to get the "real" class - find out if there is
               an API method in CGLIB that can be used instead */
     if (cls.getName().contains("EnhancerByCGLIB"))
       cls = cls.getSuperclass();
 
-    if (!accessibleFields.containsKey(cls))
+    if (!accessibleProperties.containsKey(cls))
     {
-      synchronized(accessibleFields)
+      synchronized(accessibleProperties)
       {
-        if (!accessibleFields.containsKey(cls))
+        if (!accessibleProperties.containsKey(cls))
         {
-          List<Field> fields = new ArrayList<Field>();
+          Set<String> properties = new HashSet<String>();
 
           Class c = cls;
           while (!c.equals(Object.class))
@@ -182,8 +191,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
                 try
                 {
-                  setMethod = c.getMethod(setterName, new Class[]
-                                            {f.getType()});
+                  setMethod = c.getMethod(setterName, new Class[] {f.getType()});
                 }
                 catch (SecurityException ex)
                 {}
@@ -196,20 +204,46 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
                      (setMethod != null &&
                       Modifier.isPublic(setMethod.getModifiers()))))
                 {
-                  fields.add(f);
+                  properties.add(f.getName());
                 }
+              }
+            }
+
+            //
+            for (Method m : c.getDeclaredMethods())
+            {
+              if (m.getName().startsWith("get") || m.getName().startsWith("is"))
+              {
+                int startIdx = m.getName().startsWith("get") ? 3 : 2;
+
+                try
+                {
+                  c.getMethod(String.format("set%s",
+                                            m.getName().substring(startIdx)), m.getReturnType());
+                }
+                catch (NoSuchMethodException ex)
+                {
+                  continue;
+                }
+
+                String propertyName = String.format("%s%s",
+                    Character.toLowerCase(m.getName().charAt(startIdx)),
+                    m.getName().substring(startIdx + 1));
+
+                if (!properties.contains(propertyName))
+                  properties.add(propertyName);
               }
             }
 
             c = c.getSuperclass();
           }
 
-          accessibleFields.put(cls, fields);
+          accessibleProperties.put(cls, properties);
         }
       }
     }
 
-    return accessibleFields.get(cls);
+    return accessibleProperties.get(cls);
   }
 
   /**
@@ -405,57 +439,98 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     StringBuilder mutators = new StringBuilder();
     Map<String,String> metadata = new HashMap<String,String>();
 
-    for (Field f : getAccessibleFields(classType))
+    for (String propertyName : getAccessibleProperties(classType))
     {
-      appendTypeSource(out, f.getType(), types);
+      Type propertyType = null;
+
+      Field f = null;
+      try
+      {
+        f = classType.getDeclaredField(propertyName);
+        propertyType = f.getGenericType();
+      }
+      catch (NoSuchFieldException ex)
+      {
+        try
+        {
+          propertyType = classType.getMethod(String.format("get%s%s",
+              Character.toUpperCase(propertyName.charAt(0)),
+              propertyName.substring(1))).getGenericReturnType();
+        }
+        catch (NoSuchMethodException ex2)
+        {
+          try
+          {
+            propertyType = classType.getMethod(String.format("is%s%s",
+                Character.toUpperCase(propertyName.charAt(0)),
+                propertyName.substring(1))).getGenericReturnType();
+          }
+          catch (NoSuchMethodException ex3)
+          {
+            // ???
+            continue;
+          }
+        }
+      }
+
+      appendTypeSource(out, propertyType, types);
 
       // Include types referenced by generic declarations
-      if (f.getGenericType() instanceof ParameterizedType)
+      if (propertyType instanceof ParameterizedType)
       {
-        for (Type t : ((ParameterizedType) f.getGenericType()).getActualTypeArguments())
+        for (Type t : ((ParameterizedType) propertyType).getActualTypeArguments())
         {
           if (t instanceof Class)
             appendTypeSource(out, (Class) t, types);
         }
       }
 
-      String fieldName = f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
-      String getterName = String.format("get%s", fieldName);
-      String setterName = String.format("set%s", fieldName);
       Method getMethod = null;
       Method setMethod = null;
 
-      try {
-        getMethod = classType.getMethod(getterName);
-      }
-      catch (SecurityException ex) { }
-      catch (NoSuchMethodException ex)
+      if (f != null)
       {
-        getterName = String.format("is%s", fieldName);
+        String fieldName = propertyName.substring(0, 1).toUpperCase() +
+            propertyName.substring(1);
+        String getterName = String.format("get%s", fieldName);
+        String setterName = String.format("set%s", fieldName);
+
         try
         {
           getMethod = classType.getMethod(getterName);
         }
-        catch (NoSuchMethodException ex2) { /* don't care */ }
-      }
+        catch (SecurityException ex){}
+        catch (NoSuchMethodException ex)
+        {
+          getterName = String.format("is%s", fieldName);
+          try
+          {
+            getMethod = classType.getMethod(getterName);
+          }
+          catch (NoSuchMethodException ex2)
+          { /* don't care */}
+        }
 
-      try {
-        setMethod = classType.getMethod(setterName, new Class[] {f.getType()});
+        try
+        {
+          setMethod = classType.getMethod(setterName, new Class[] {f.getType()});
+        }
+        catch (SecurityException ex) {}
+        catch (NoSuchMethodException ex) { /* don't care */}
       }
-      catch (SecurityException ex) { }
-      catch (NoSuchMethodException ex) { /* don't care */ }
 
       // Construct the list of fields.  Only include fields that are public,
       // or have a getter or setter method that is public
-      if (Modifier.isPublic(f.getModifiers()) ||
+      if ((f != null && (Modifier.isPublic(f.getModifiers())) ||
           (getMethod != null && Modifier.isPublic(getMethod.getModifiers()) ||
-          (setMethod != null && Modifier.isPublic(setMethod.getModifiers()))))
+          (setMethod != null && Modifier.isPublic(setMethod.getModifiers())))) ||
+          f == null)
       {
-        metadata.put(f.getName(), getFieldType(f.getType()));
+        metadata.put(propertyName, getFieldType(propertyType));
 
         fields.append("  this.");
-        fields.append(f.getName());
-        fields.append(" = null;\n");
+        fields.append(propertyName);
+        fields.append(" = undefined;\n");
 
         if (getMethod != null)
         {
@@ -464,7 +539,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
           accessors.append(".prototype.");
           accessors.append(getMethod.getName());
           accessors.append(" = function() { return this.");
-          accessors.append(f.getName());
+          accessors.append(propertyName);
           accessors.append("; }\n");
         }
 
@@ -475,11 +550,11 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
           mutators.append(".prototype.");
           mutators.append(setMethod.getName());
           mutators.append(" = function(");
-          mutators.append(f.getName());
+          mutators.append(propertyName);
           mutators.append(") { this.");
-          mutators.append(f.getName());
+          mutators.append(propertyName);
           mutators.append(" = ");
-          mutators.append(f.getName());
+          mutators.append(propertyName);
           mutators.append("; }\n");
         }
       }
@@ -541,9 +616,9 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
    * @param type Class
    * @return String
    */
-  private String getFieldType(Class type)
+  private String getFieldType(Type type)
   {
-    if (type.equals(String.class) || type.isEnum())
+    if (type.equals(String.class) || (type instanceof Class && ((Class) type).isEnum()))
       return "str";
     else if (type.equals(Boolean.class) || type.equals(Boolean.TYPE))
       return "bool";
@@ -554,11 +629,13 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
              type.equals(Double.class) || type.equals(Double.TYPE) ||
              type.equals(Byte.class) || type.equals(Byte.TYPE))
       return "number";
-    else if (Date.class.isAssignableFrom(type))
+    else if (type instanceof Class && Date.class.isAssignableFrom((Class) type))
       return "date";
-    else if (Map.class.isAssignableFrom(type))
+    else if (type instanceof Class && Map.class.isAssignableFrom((Class) type))
       return "map";
-    else if (type.isArray() || Collection.class.isAssignableFrom(type))
+    else if (type instanceof ParameterizedType ||
+             (type instanceof Class && ((Class) type).isArray() ||
+              Collection.class.isAssignableFrom((Class) type)))
       return "bag";
     else
       return "bean";

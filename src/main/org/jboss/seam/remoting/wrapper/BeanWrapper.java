@@ -10,6 +10,8 @@ import org.dom4j.Element;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.remoting.InterfaceGenerator;
+import java.lang.reflect.Method;
+import java.lang.reflect.*;
 
 /**
  * @author Shane Bryzak
@@ -183,26 +185,73 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
 
     out.write(BEAN_START_TAG_CLOSE);
 
-    for (Field f : InterfaceGenerator.getAccessibleFields(cls))
+    for (String propertyName : InterfaceGenerator.getAccessibleProperties(cls))
     {
-      String fieldPath = path != null && path.length() > 0 ? String.format("%s.%s", path, f.getName()) : f.getName();
+      String fieldPath = path != null && path.length() > 0 ? String.format("%s.%s", path, propertyName) : propertyName;
 
       // Also exclude fields listed using wildcard notation: [componentName].fieldName
-      String wildCard = String.format("[%s].%s", componentName != null ? componentName : cls.getName(), f.getName());
+      String wildCard = String.format("[%s].%s", componentName != null ? componentName : cls.getName(), propertyName);
 
       if (constraints == null || (!constraints.contains(fieldPath) && !constraints.contains(wildCard)))
       {
         out.write(MEMBER_START_TAG_OPEN);
-        out.write(f.getName().getBytes());
+        out.write(propertyName.getBytes());
         out.write(MEMBER_START_TAG_CLOSE);
 
-        boolean accessible = f.isAccessible();
+        Field f = null;
+        try
+        {
+          f = cls.getField(propertyName);
+        }
+        catch (NoSuchFieldException ex) { }
+
+        boolean accessible = false;
         try
         {
           // Temporarily set the field's accessibility so we can read it
-          f.setAccessible(true);
+          if (f != null)
+          {
+            accessible = f.isAccessible();
+            f.setAccessible(true);
+            context.createWrapperFromObject(f.get(value),
+                fieldPath).marshal(out);
+          }
+          else
+          {
+            Method accessor = null;
+            try
+            {
+              accessor = cls.getMethod(String.format("get%s%s",
+                  Character.toUpperCase(propertyName.charAt(0)),
+                  propertyName.substring(1)));
+            }
+            catch (NoSuchMethodException ex)
+            {
+              try
+              {
+                accessor = cls.getMethod(String.format("is%s%s",
+                    Character.toUpperCase(propertyName.charAt(0)),
+                    propertyName.substring(1)));
+              }
+              catch (NoSuchMethodException ex2)
+              {
+                // uh oh... continue with the next one
+                continue;
+              }
+            }
 
-          context.createWrapperFromObject(f.get(value), fieldPath).marshal(out);
+            try
+            {
+              context.createWrapperFromObject(accessor.invoke(value), fieldPath).
+                  marshal(out);
+            }
+            catch (InvocationTargetException ex)
+            {
+              throw new RuntimeException(String.format(
+                  "Failed to read property [%s] for object [%s]",
+                  propertyName, value));
+            }
+          }
         }
         catch (IllegalAccessException ex)
         {
@@ -210,7 +259,8 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
         }
         finally
         {
-          f.setAccessible(accessible);
+          if (f != null)
+            f.setAccessible(accessible);
         }
 
         out.write(MEMBER_CLOSE_TAG);
