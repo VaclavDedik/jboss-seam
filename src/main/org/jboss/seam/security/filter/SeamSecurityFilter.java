@@ -3,6 +3,7 @@ package org.jboss.seam.security.filter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -14,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,8 +52,8 @@ public class SeamSecurityFilter implements Filter
     Context appContext = new WebApplicationContext(servletContext);
     SecurityConfig.instance().setApplicationContext(appContext);
 
-    authContext = ((AuthenticationContext) appContext.get(
-      "org.jboss.seam.security.AuthenticationContext"));
+    authContext = (AuthenticationContext) appContext.get(
+      "org.jboss.seam.security.AuthenticationContext");
 
     authenticator = (Authenticator) appContext.get(
             "org.jboss.seam.security.Authenticator");
@@ -89,7 +89,6 @@ public class SeamSecurityFilter implements Filter
       throws IOException, ServletException
   {
     HttpServletRequest hRequest = (HttpServletRequest) request;
-    HttpServletResponse hResponse = (HttpServletResponse) response;
 
     Context sessionContext = new WebSessionContext(
         ContextAdaptor.getSession(hRequest.getSession()));

@@ -113,7 +113,7 @@ public class Lifecycle
     {
       if ( component.isStartup() )
       {
-         for (String dependency: component.getDependencies() )
+         for ( String dependency: component.getDependencies() )
          {
             Component dependentComponent = Component.forName(dependency);
             if (dependentComponent!=null)
@@ -123,9 +123,9 @@ public class Lifecycle
          }
       }
 
-      log.info("starting up: " + component.getName());
-      if (component.getScope().getContext().get(component.getName()) == null) {
-          component.newInstance();
+      if ( !component.getScope().getContext().isSet( component.getName() ) ) {
+         log.info("starting up: " + component.getName());
+         component.newInstance();
       }
    }
 
