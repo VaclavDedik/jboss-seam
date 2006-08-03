@@ -157,7 +157,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
           Set<String> properties = new HashSet<String>();
 
           Class c = cls;
-          while (!c.equals(Object.class))
+          while (c != null && !c.equals(Object.class))
           {
             for (Field f : c.getDeclaredFields())
             {
