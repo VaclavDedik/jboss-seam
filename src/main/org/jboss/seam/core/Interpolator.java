@@ -72,7 +72,7 @@ public class Interpolator {
       while ( tokens.hasMoreTokens() )
       {
          String tok = tokens.nextToken();
-         if ( "#".equals(tok) )
+         if ( "#".equals(tok) && tokens.hasMoreTokens() )
          {
             String nextTok = tokens.nextToken();
             if ( "{".equals(nextTok) )
@@ -95,20 +95,19 @@ public class Interpolator {
                try
                {
                   index = Integer.parseInt( nextTok.substring(0, 1) );
+                  if (index>=params.length) 
+                  {
+                     //log.warn("parameter index out of bounds: " + index + " in: " + string);
+                     builder.append("#").append(nextTok);
+                  }
+                  else
+                  {
+                     builder.append( params[index] ).append( nextTok.substring(1) );
+                  }
                }
                catch (NumberFormatException nfe)
                {
-                  builder.append(nextTok);
-                  continue;
-               }
-               if (index>=params.length) 
-               {
-                  log.warn("parameter index out of bounds: " + index + " in: " + string);
-               }
-               else
-               {
-                  builder.append( params[index] );
-                  builder.append( nextTok.substring(1) );
+                  builder.append("#").append(nextTok);
                }
             }
          }
