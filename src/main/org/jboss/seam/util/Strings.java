@@ -86,6 +86,7 @@ public class Strings
    
    public static String toString(String sep, Object... objects)
    {
+      if (objects.length==0) return "";
       StringBuilder builder = new StringBuilder();
       for (Object object: objects)
       {
@@ -96,6 +97,7 @@ public class Strings
    
    public static String toClassNameString(String sep, Object... objects)
    {
+      if (objects.length==0) return "";
       StringBuilder builder = new StringBuilder();
       for (Object object: objects)
       {
@@ -114,6 +116,7 @@ public class Strings
    
    public static String toString(String sep, Class... classes)
    {
+      if (classes.length==0) return "";
       StringBuilder builder = new StringBuilder();
       for (Class clazz: classes)
       {
