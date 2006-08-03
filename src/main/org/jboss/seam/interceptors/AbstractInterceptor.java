@@ -3,6 +3,7 @@ package org.jboss.seam.interceptors;
 
 import javax.ejb.PostActivate;
 import javax.ejb.PrePassivate;
+import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
 
@@ -22,15 +23,39 @@ class AbstractInterceptor
    }
    
    @PrePassivate
-   public void initComponentName()
+   public void initComponentName(InvocationContext invocation)
    {
+      try
+      {
+         invocation.proceed();
+      }
+      catch (RuntimeException e)
+      {
+         throw e;
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("exception in @PrePassivate", e);
+      }
       componentName = component.getName();
    }
    
    @PostActivate
-   public void initComponent()
+   public void initComponent(InvocationContext invocation)
    {
       component = Component.forName(componentName);
+      try
+      {
+         invocation.proceed();
+      }
+      catch (RuntimeException e)
+      {
+         throw e;
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("exception in @PostActivate", e);
+      }
    }
 
 }

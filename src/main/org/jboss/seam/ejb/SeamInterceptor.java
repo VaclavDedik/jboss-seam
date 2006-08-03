@@ -62,7 +62,7 @@ public class SeamInterceptor implements Serializable
    }
    
    @PostConstruct
-   public void postConstruct(InvocationContext invocation) throws Exception
+   public void postConstruct(InvocationContext invocation)
    {
       //if instantiated by the EJB container, we 
       //still need to init the component reference
@@ -70,31 +70,58 @@ public class SeamInterceptor implements Serializable
       if ( isSeamComponent(bean) )
       {
          component = getSeamComponent(bean);
-         component.initialize(bean);
+         try
+         {
+            component.initialize(bean);
+         }
+         catch (RuntimeException e)
+         {
+            throw e;
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException("exception initializing EJB component", e);
+         }
          isSeamComponent = true;
       }
       
-      invoke(invocation, EventType.POST_CONSTRUCT);
+      invokeAndHandle(invocation, EventType.POST_CONSTRUCT);
    }
    
    @PreDestroy
-   public void preDestroy(InvocationContext invocation) throws Exception
+   public void preDestroy(InvocationContext invocation)
    {
-      invoke(invocation, EventType.PRE_DESTORY);
+      invokeAndHandle(invocation, EventType.PRE_DESTORY);
    }
    
    @PrePassivate
-   public void prePassivate(InvocationContext invocation) throws Exception
+   public void prePassivate(InvocationContext invocation)
    {
-      invoke(invocation, EventType.PRE_PASSIVATE);
+      invokeAndHandle(invocation, EventType.PRE_PASSIVATE);
       if (isSeamComponent) componentName = component.getName();
    }
    
    @PostActivate
-   public void postActivate(InvocationContext invocation) throws Exception
+   public void postActivate(InvocationContext invocation)
    {
       if (isSeamComponent) component = Component.forName(componentName);
-      invoke(invocation, EventType.POST_ACTIVATE);
+      invokeAndHandle(invocation, EventType.POST_ACTIVATE);
+   }
+   
+   private void invokeAndHandle(InvocationContext invocation, EventType invocationType)
+   {
+      try
+      {
+         invoke(invocation, invocationType);
+      }
+      catch (RuntimeException e)
+      {
+         throw e;
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException("exception in EJB lifecycle callback", e);
+      }
    }
    
    @AroundInvoke
