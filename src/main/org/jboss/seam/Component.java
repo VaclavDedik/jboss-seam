@@ -28,6 +28,7 @@ import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.interceptor.Interceptors;
 import javax.servlet.ServletRequest;
@@ -1657,6 +1658,10 @@ public class Component
          {
             value = createValueBinding();
          }
+         else if ( type.equals(MethodBinding.class) )
+         {
+            value = createMethodBinding();
+         }
          else
          {
             value = createValueBinding().getValue( FacesContext.getCurrentInstance() );
@@ -1680,6 +1685,12 @@ public class Component
       {
          return FacesContext.getCurrentInstance().getApplication()
                .createValueBinding( expression );
+      }
+      
+      private MethodBinding createMethodBinding()
+      {
+         return FacesContext.getCurrentInstance().getApplication()
+               .createMethodBinding( expression, null );
       }
       
       public String toString()
