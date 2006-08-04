@@ -31,7 +31,7 @@ import org.jbpm.graph.exe.Token;
  * @author Gavin King
  */
 @Scope(ScopeType.CONVERSATION)
-@Name("org.jboss.seam.core.pageflow")
+@Name("pageflow")
 @Intercept(NEVER)
 @Mutable
 public class Pageflow implements Serializable
@@ -129,7 +129,18 @@ public class Pageflow implements Serializable
    
    public void reposition(String nodeName)
    {
+      if (processInstance==null)
+      {
+         throw new IllegalStateException("no pageflow in progress");
+      }
       Node node = processInstance.getProcessDefinition().getNode(nodeName);
+      if (node==null)
+      {
+         throw new IllegalArgumentException(
+               "no node named: " + nodeName + 
+               " for pageflow: " + processInstance.getProcessDefinition().getName()
+            );
+      }
       processInstance.getRootToken().setNode(node);
    }
    
@@ -201,9 +212,8 @@ public class Pageflow implements Serializable
          log.debug("beginning pageflow: " + pageflowDefinitionName);
       }
       
-      ProcessDefinition pd = getPageflowProcessDefinition(pageflowDefinitionName);
-      ProcessInstance pi = PageflowHelper.newPageflowInstance(pd);
-      setProcessInstance(pi);
+      processInstance = PageflowHelper.newPageflowInstance( getPageflowProcessDefinition(pageflowDefinitionName) );
+      
       //if ( Lifecycle.getPhaseId().equals(PhaseId.RENDER_RESPONSE) ) 
       //{
     	  //if a pageflow starts during the render response phase
