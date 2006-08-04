@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.Local;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.WebRemote;
@@ -119,7 +120,14 @@ public class Call
     {
       // Get the local interface for the component - this is the type that we're
       // going to assume we're invoking against.
-      type = component.getBusinessInterfaces().iterator().next();
+      for (Class c : component.getBusinessInterfaces())
+      {
+        if (c.isAnnotationPresent(Local.class))
+        {
+          type = component.getBusinessInterfaces().iterator().next();
+          break;
+        }
+      }
     }
 
     if (type == null)

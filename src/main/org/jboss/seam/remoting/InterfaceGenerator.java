@@ -29,6 +29,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.Lifecycle;
+import javax.ejb.Local;
 
 /**
  * Generates JavaScript interface code.
@@ -267,7 +268,18 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         component.getType().equals(ComponentType.STATELESS_SESSION_BEAN)) &&
         component.getBusinessInterfaces().size() > 0)
     {
-      type = component.getBusinessInterfaces().iterator().next();
+      for (Class c : component.getBusinessInterfaces())
+      {
+        if (c.isAnnotationPresent(Local.class))
+        {
+          type = component.getBusinessInterfaces().iterator().next();
+          break;
+        }
+      }
+
+      if (type == null)
+        throw new RuntimeException(String.format(
+        "Type cannot be determined for component [%s]. Please ensure that it has a local interface.", component));
     }
     else if (component.getType().equals(ComponentType.ENTITY_BEAN))
     {
@@ -439,6 +451,9 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     StringBuilder mutators = new StringBuilder();
     Map<String,String> metadata = new HashMap<String,String>();
 
+    String getMethodName = null;
+    String setMethodName = null;
+
     for (String propertyName : getAccessibleProperties(classType))
     {
       Type propertyType = null;
@@ -451,19 +466,26 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
       }
       catch (NoSuchFieldException ex)
       {
+        setMethodName = String.format("set%s%s",
+            Character.toUpperCase(propertyName.charAt(0)),
+              propertyName.substring(1));
+
         try
         {
-          propertyType = classType.getMethod(String.format("get%s%s",
+          getMethodName = String.format("get%s%s",
               Character.toUpperCase(propertyName.charAt(0)),
-              propertyName.substring(1))).getGenericReturnType();
+              propertyName.substring(1));
+          propertyType = classType.getMethod(getMethodName).getGenericReturnType();
         }
         catch (NoSuchMethodException ex2)
         {
           try
           {
-            propertyType = classType.getMethod(String.format("is%s%s",
+            getMethodName = String.format("is%s%s",
                 Character.toUpperCase(propertyName.charAt(0)),
-                propertyName.substring(1))).getGenericReturnType();
+                propertyName.substring(1));
+
+            propertyType = classType.getMethod(getMethodName).getGenericReturnType();
           }
           catch (NoSuchMethodException ex3)
           {
@@ -485,9 +507,6 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         }
       }
 
-      Method getMethod = null;
-      Method setMethod = null;
-
       if (f != null)
       {
         String fieldName = propertyName.substring(0, 1).toUpperCase() +
@@ -497,7 +516,8 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
         try
         {
-          getMethod = classType.getMethod(getterName);
+          classType.getMethod(getterName);
+          getMethodName = getterName;
         }
         catch (SecurityException ex){}
         catch (NoSuchMethodException ex)
@@ -505,7 +525,8 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
           getterName = String.format("is%s", fieldName);
           try
           {
-            getMethod = classType.getMethod(getterName);
+            if (Modifier.isPublic(classType.getMethod(getterName).getModifiers()))
+              getMethodName = getterName;
           }
           catch (NoSuchMethodException ex2)
           { /* don't care */}
@@ -513,18 +534,15 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
         try
         {
-          setMethod = classType.getMethod(setterName, new Class[] {f.getType()});
+          if (Modifier.isPublic(classType.getMethod(setterName, f.getType()).getModifiers()))
+            setMethodName = setterName;
         }
         catch (SecurityException ex) {}
         catch (NoSuchMethodException ex) { /* don't care */}
       }
 
-      // Construct the list of fields.  Only include fields that are public,
-      // or have a getter or setter method that is public
-      if ((f != null && (Modifier.isPublic(f.getModifiers())) ||
-          (getMethod != null && Modifier.isPublic(getMethod.getModifiers()) ||
-          (setMethod != null && Modifier.isPublic(setMethod.getModifiers())))) ||
-          f == null)
+      // Construct the list of fields.
+      if (getMethodName != null || setMethodName != null)
       {
         metadata.put(propertyName, getFieldType(propertyType));
 
@@ -532,23 +550,23 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         fields.append(propertyName);
         fields.append(" = undefined;\n");
 
-        if (getMethod != null)
+        if (getMethodName != null)
         {
           accessors.append("  Seam.Remoting.type.");
           accessors.append(typeName);
           accessors.append(".prototype.");
-          accessors.append(getMethod.getName());
+          accessors.append(getMethodName);
           accessors.append(" = function() { return this.");
           accessors.append(propertyName);
           accessors.append("; }\n");
         }
 
-        if (setMethod != null)
+        if (setMethodName != null)
         {
           mutators.append("  Seam.Remoting.type.");
           mutators.append(typeName);
           mutators.append(".prototype.");
-          mutators.append(setMethod.getName());
+          mutators.append(setMethodName);
           mutators.append(" = function(");
           mutators.append(propertyName);
           mutators.append(") { this.");
