@@ -587,6 +587,40 @@
         
         <variablelist spacing="compact">
             <varlistentry>
+                <term><literal>pageflow</literal></term>
+                <listitem>
+                    <para>
+                        API control of Seam pageflows.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>isInProcess()</literal> &mdash; returns <literal>true</literal>
+                            if there is currently a pageflow in process
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getProcessInstance()</literal> &mdash; returns jBPM
+                            <literal>ProcessInstance</literal> for the current pageflow
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>begin(String pageflowName)</literal> &mdash; begin a pageflow
+                            in the context of the current conversation
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>reposition(String nodeName)</literal> &mdash; reposition the
+                            current pageflow to a particular node
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><literal>actor</literal></term>
                 <listitem>
                     <para>
@@ -869,15 +903,6 @@
                         </para>
                         </listitem>
                     </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>org.jboss.seam.core.pageflow</literal></term>
-                <listitem>
-                    <para>
-                        Internal component for Seam pageflow management. Installed whenever
-                        <literal>org.jboss.seam.core.jbpm</literal> is installed.
-                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
