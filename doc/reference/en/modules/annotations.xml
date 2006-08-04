@@ -852,7 +852,7 @@
             <varlistentry id="redirect-annotation">
                 <term><literal>@Redirect</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@Redirect]]></programlisting>
+                    <programlisting><![CDATA[@Redirect(viewId="error.jsp")]]></programlisting>
                     <para>
                         Specifies that the annotated exception causes a browser redirect
                         to a specified view id.
@@ -864,13 +864,44 @@
                             to redirect to.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>message</literal> &mdash; a message to be displayed,
+                            default to the exception message.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="redirect-annotation">
+                <term><literal>@Render</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Render(viewId="error.jsp")]]></programlisting>
+                    <para>
+                        Specifies that the annotated exception causes immediate rendering
+                        of the view. This annotation is ignored unless the exception is
+                        thrown during the JSF INVOKE_APPLICATION phase.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>viewId</literal> &mdash; specifies the JSF view id
+                            to redirect to.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>message</literal> &mdash; a message to be displayed,
+                            default to the exception message.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry id="httperror-annotation">
                 <term><literal>@HttpError</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@HttpError]]></programlisting>
+                    <programlisting><![CDATA[@HttpError(errorCode=404)]]></programlisting>
                     <para>
                         Specifies that the annotated exception causes a HTTP error
                         to be sent.
@@ -880,6 +911,12 @@
                         <para>
                             <literal>errorCode</literal> &mdash; the HTTP error code,
                             default to <literal>500</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>message</literal> &mdash; a message to be sent
+                            with the HTTP error, default to the exception message.
                         </para>
                         </listitem>
                     </itemizedlist>
