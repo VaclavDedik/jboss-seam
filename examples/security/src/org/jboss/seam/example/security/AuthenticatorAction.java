@@ -13,7 +13,6 @@ import org.jboss.seam.security.provider.AuthenticationProvider;
 /**
  *
  * @author Shane Bryzak
- * @version 1.0
  */
 @Name("authenticatorAction")
 public class AuthenticatorAction implements AuthenticationProvider
@@ -37,10 +36,8 @@ public class AuthenticatorAction implements AuthenticationProvider
       for (Role role : user.getRoles())
         roles[idx++] = role.getRole();
 
-      UsernamePasswordToken token = new UsernamePasswordToken(
-        authentication.getPrincipal(), authentication.getCredentials(), roles);
-
-      return token;
+      return new UsernamePasswordToken(authentication.getPrincipal(),
+                                       authentication.getCredentials(), roles);
     }
     catch (NoResultException ex)
     {
@@ -50,10 +47,5 @@ public class AuthenticatorAction implements AuthenticationProvider
     {
       throw new AuthenticationException("Unknown authentication error", ex);
     }
-  }
-
-  public void unauthenticate(Authentication authentication)
-  {
-
   }
 }

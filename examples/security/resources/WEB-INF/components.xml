@@ -8,9 +8,14 @@
     <component name="org.jboss.seam.core.manager">
         <property name="conversationTimeout">120000</property>
     </component>
+    
+    <component name="entityManager" class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/securityEntityManagerFactory</property>
+    </component>    
 
     <component class="org.jboss.seam.security.authenticator.ProviderAuthenticator">
-      <property name="providers">org.jboss.seam.example.security.AuthenticatorAction</property>
+      <property name="providers">#{authenticatorAction}</property>
+      <property name="adapters">org.jboss.seam.security.adapter.jboss.JBossAuthenticationAdapter</property>
     </component>
     
     <component class="org.jboss.seam.security.ThreadLocalAuthenticationContext"/>

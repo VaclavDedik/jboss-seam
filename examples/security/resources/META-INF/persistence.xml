@@ -8,6 +8,7 @@
          <!-- These are the default for JBoss EJB3, but not for HEM: -->
          <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
          <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/securityEntityManagerFactory"/>
       </properties>
    </persistence-unit>
 </persistence>

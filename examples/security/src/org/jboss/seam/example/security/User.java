@@ -9,11 +9,8 @@ import org.jboss.seam.annotations.Name;
 import javax.persistence.JoinColumn;
 
 /**
- * <p>PROPRIETARY/CONFIDENTIAL Use of this product is subject to license terms.
- * Copyright (c) 2006 Symantec Corporation. All rights reserved.</p>
  *
  * @author Shane Bryzak
- * @version 1.0
  */
 @Entity
 @Name("user")
