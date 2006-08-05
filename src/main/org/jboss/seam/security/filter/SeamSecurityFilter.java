@@ -3,7 +3,6 @@ package org.jboss.seam.security.filter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -20,10 +19,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.ContextAdaptor;
-import org.jboss.seam.contexts.WebApplicationContext;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.security.Authentication;
-import org.jboss.seam.security.AuthenticationContext;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.authenticator.Authenticator;
 import org.jboss.seam.security.config.SecurityConfig;
@@ -41,30 +40,29 @@ public class SeamSecurityFilter implements Filter
 
 //  private static final String CONFIG_RESOURCE = "/WEB-INF/seam-security.xml";
 
-  private AuthenticationContext authContext;
-  private Authenticator authenticator;
-
   public void init(FilterConfig config)
       throws ServletException
   {
     servletContext = config.getServletContext();
 
-    Context appContext = new WebApplicationContext(servletContext);
-    SecurityConfig.instance().setApplicationContext(appContext);
+//    try
+//    {
+      /** @todo beginInitialization is the closest method we have to initialise the application context */
+//      Lifecycle.beginInitialization(servletContext);
 
-    authContext = (AuthenticationContext) appContext.get(
-      "org.jboss.seam.security.AuthenticationContext");
+//      SecurityConfig.instance().setApplicationContext(
+//          Contexts.getApplicationContext());
 
-    authenticator = (Authenticator) appContext.get(
-            "org.jboss.seam.security.Authenticator");
-
-    if (authenticator == null)
-      throw new ServletException("No Authenticator configured.");
+//      if (Authenticator.instance() == null)
+//        throw new ServletException("No Authenticator configured.");
+//    }
+//    finally
+//    {
+      /** @todo clear the application context */
+//    }
 
 //    try
 //    {
-//      Lifecycle.setServletContext(servletContext);
-//      Lifecycle.beginCall();
 //      SecurityConfig.instance().setServletContext(servletContext);
 //      SecurityConfig.instance().loadConfig(new SecurityConfigFileLoader(
 //        servletContext.getResourceAsStream(CONFIG_RESOURCE), servletContext));
@@ -78,10 +76,6 @@ public class SeamSecurityFilter implements Filter
 //    {
 //      throw new ServletException(ex);
 //    }
-//    finally
-//    {
-//      Lifecycle.endCall();
-//    }
   }
 
   public void doFilter(ServletRequest request, ServletResponse response,
@@ -90,34 +84,35 @@ public class SeamSecurityFilter implements Filter
   {
     HttpServletRequest hRequest = (HttpServletRequest) request;
 
-    Context sessionContext = new WebSessionContext(
-        ContextAdaptor.getSession(hRequest.getSession()));
+//    Context sessionContext = new WebSessionContext(
+//        ContextAdaptor.getSession(hRequest.getSession()));
+//
+//    Authentication authentication = (Authentication)sessionContext.get(
+//            "org.jboss.seam.security.Authentication");
 
-    Authentication authentication = (Authentication)sessionContext.get(
-            "org.jboss.seam.security.Authentication");
-
-    LoginContext lc = null;
-    try
-    {
-      if (authentication != null)
-      {
-        authContext.setAuthentication(authenticator.authenticate(authentication));
-        CallbackHandler handler = new UsernamePasswordHandler(
-            authentication.getPrincipal().toString(),
-            authentication.getCredentials());
-        try
-        {
-          lc = new LoginContext("client-login", handler);
-          lc.login();
-        }
-        catch (LoginException ex)
-        {
-          ex.printStackTrace();
-        }
-
-      }
-    }
-    catch (AuthenticationException ex) { }
+//    LoginContext lc = null;
+//    try
+//    {
+//      Lifecycle.beginInitialization(servletContext);
+//
+//      if (authentication != null)
+//      {
+//        AuthenticationContext.instance().setAuthentication(Authenticator.instance().authenticate(authentication));
+//        CallbackHandler handler = new UsernamePasswordHandler(
+//            authentication.getPrincipal().toString(),
+//            authentication.getCredentials());
+//        try
+//        {
+//          lc = new LoginContext("client-login", handler);
+//          lc.login();
+//        }
+//        catch (LoginException ex)
+//        {
+//          ex.printStackTrace();
+//        }
+//      }
+//    }
+//    catch (AuthenticationException ex) { }
 
     try
     {
@@ -150,16 +145,21 @@ public class SeamSecurityFilter implements Filter
     }
     finally
     {
-      authContext.setAuthentication(null);
+      // Have to set the application context again because it's probably null
+//      Lifecycle.beginInitialization(servletContext);
 
-      if (lc != null)
-      {
-        try
-        {
-          lc.logout();
-        }
-        catch (LoginException ex){ }
-      }
+//      AuthenticationContext.instance().setAuthentication(null);
+
+//      if (lc != null)
+//      {
+//        try
+//        {
+//          lc.logout();
+//        }
+//        catch (LoginException ex){ }
+//      }
+
+      /** @todo Clear the application context somewhere here */
     }
   }
 

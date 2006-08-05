@@ -5,12 +5,11 @@ package org.jboss.seam.security;
  *
  * @author Shane Bryzak
  */
-public class UsernamePasswordToken implements Authentication
+public class UsernamePasswordToken extends Authentication
 {
   private String[] roles;
   private Object credentials;
   private Object principal;
-  private boolean authenticated = false;
 
   public UsernamePasswordToken(Object principal, Object credentials)
   {
@@ -24,6 +23,7 @@ public class UsernamePasswordToken implements Authentication
     this(principal, credentials);
     this.roles = roles;
     this.authenticated = true;
+    this.valid = true;
   }
 
   public String getName()
@@ -44,10 +44,5 @@ public class UsernamePasswordToken implements Authentication
   public Object getPrincipal()
   {
     return principal;
-  }
-
-  public boolean isAuthenticated()
-  {
-    return authenticated;
   }
 }

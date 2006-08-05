@@ -18,7 +18,6 @@ import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
 import org.jboss.seam.security.Authentication;
-import org.jboss.seam.security.AuthenticationContext;
 import org.jboss.seam.security.config.SecurityConfig;
 
 /**
@@ -201,12 +200,7 @@ public class SeamLoginModule implements LoginModule
   public boolean login()
       throws LoginException
   {
-    AuthenticationContext authCtx = (AuthenticationContext) SecurityConfig.
-        instance()
-        .getApplicationContext().get(
-        "org.jboss.seam.security.AuthenticationContext");
-
-    authentication = authCtx.getAuthentication();
+    authentication = Authentication.instance();
 
     if (authentication == null || !authentication.isAuthenticated())
     {

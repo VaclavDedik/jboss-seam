@@ -7,24 +7,23 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.provider.AuthenticationProvider;
 
 /**
+ * Performs authentication services against one or more providers.
  *
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.Authenticator")
+@Name("org.jboss.seam.security.authenticator")
 @Scope(APPLICATION)
-@Startup
-public class ProviderAuthenticator implements Authenticator
+public class ProviderAuthenticator extends Authenticator
 {
   /**
    *
    */
-  private List<Object> providers = new ArrayList<Object>();
+  private List<Object> providers = new ArrayList<Object> ();
 
   /**
    *
@@ -32,7 +31,7 @@ public class ProviderAuthenticator implements Authenticator
    * @return Authentication
    * @throws AuthenticationException
    */
-  public Authentication authenticate(Authentication authentication)
+  public Authentication doAuthentication(Authentication authentication)
       throws AuthenticationException
   {
     for (Object p : providers)
@@ -42,7 +41,7 @@ public class ProviderAuthenticator implements Authenticator
       if (p instanceof AuthenticationProvider)
         provider = (AuthenticationProvider) p;
       else if (p instanceof Component)
-        provider = (AuthenticationProvider) ((Component) p).newInstance();
+        provider = (AuthenticationProvider) ( (Component) p).newInstance();
 
       Authentication result = provider.authenticate(authentication);
       if (result != null)
@@ -54,46 +53,32 @@ public class ProviderAuthenticator implements Authenticator
 
   /**
    *
-   * @param authentication Authentication
-   */
-  public void unauthenticate(Authentication authentication)
-  {
-    for (Object p : providers)
-    {
-      AuthenticationProvider provider = null;
-
-      if (p instanceof AuthenticationProvider)
-        provider = (AuthenticationProvider) p;
-      else if (p instanceof Component)
-        provider = (AuthenticationProvider) ((Component) p).newInstance();
-
-      provider.unauthenticate(authentication);
-    }
-  }
-
-  /**
-   *
    * @param providerNames List
    */
-  public void setProviders(List<String> providerNames)
+  public void setProviders(Object values)
   {
-    for (String providerName : providerNames)
+    if (values instanceof AuthenticationProvider)
     {
-      Object provider = null;
-      try
+      providers.add(values);
+    }
+    else
+    {
+      for (Object provider : (List) values)
       {
-        Component comp = Component.forName(providerName);
-        if (comp != null)
-          providers.add(comp);
+        if (provider instanceof Component)
+          providers.add(provider);
         else
         {
-          provider = Class.forName(providerName).newInstance();
-          providers.add( (AuthenticationProvider) provider);
-        }
-      }
-      catch (Exception ex)
-      {
+          try
+          {
+            provider = Class.forName(provider.toString()).newInstance();
+            providers.add( (AuthenticationProvider) provider);
+          }
+          catch (Exception ex)
+          {
 //        log.error("Error creating provider", ex);
+          }
+        }
       }
     }
   }
