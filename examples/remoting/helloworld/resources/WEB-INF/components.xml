@@ -8,5 +8,9 @@
     <component name="org.jboss.seam.core.manager">
         <property name="conversationTimeout">120000</property>
     </component>
+    
+    <component name="org.jboss.seam.remoting.remotingConfig">
+      <property name="debug">true</property>
+    </component>
 
 </components>

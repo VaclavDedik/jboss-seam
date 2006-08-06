@@ -10,13 +10,6 @@ function getObject(objectId) {
     return false;
 }
 
-// Uncomment the following line to enable the debug window
-//SeamRemote.setDebug(true);
-
-// Try adjusting the following values
-Seam.Remoting.setPollTimeout(2);   // 10 seconds
-Seam.Remoting.setPollInterval(1); // 1 second
-
 var username = null;
 var chatroom = Seam.Component.getInstance("chatroomAction");
 

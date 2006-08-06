@@ -10,23 +10,18 @@
 
 <body>
 
-  <script type="text/javascript" src="seam/remoting/resource/remote.js">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>
+  <h1>Seam Remoting - Hello World Example</h1>
+  
+  <p>
+  
+  </p>
 
-  <script type="text/javascript" src="seam/remoting/interface.js?helloAction">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>
+  <script type="text/javascript" src="seam/remoting/resource/remote.js"></script>
+  <script type="text/javascript" src="seam/remoting/interface.js?helloAction"></script>
   
   <script type="text/javascript">
     //<![CDATA[
     
-    Seam.Remoting.setDebug(true);
-
     function sayHello() {
       var name = prompt("What is your name?");
       Seam.Component.getInstance("helloAction").sayHello(name, sayHelloCallback);
