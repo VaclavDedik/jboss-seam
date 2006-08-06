@@ -656,12 +656,22 @@
       <para>
          To aid in tracking down bugs, it is possible to enable a debug mode which will display the
          contents of all the packets send back and forth between the client and server in a popup window.
-         To enable debug mode, execute the <literal>setDebug()</literal> method:
+         To enable debug mode, either execute the <literal>setDebug()</literal> method in Javascript:
       </para>
       
       <programlisting>
   Seam.Remoting.setDebug(true);      
       </programlisting>
+      
+      <para>
+        Or configure it via components.xml:
+      </para>
+        
+      <programlisting>
+    &lt;component name="org.jboss.seam.remoting.remotingConfig"&gt;
+      &lt;property name="debug"&gt;true&lt;/property&gt;
+    &lt;/component&gt;        
+      </programlisting>            
       
       <para>
         To turn off debugging, call <literal>setDebug(false)</literal>.  If you want to write your own
@@ -946,8 +956,31 @@ public class Widget
         </para>
         
         <para>
-          The following example demonstrates how to configure the polling to occur much more aggressively.  You should
-          set these parameters to suitable values for your application:
+          Caution should be used when setting a high <literal>pollTimeout</literal> value; each request that
+          has to wait for a message means that a server thread is tied up until a message is received, or until the
+          request times out.  If many such requests are being served simultaneously, it could mean a large
+          number of threads become tied up because of this reason.          
+        </para>
+        
+        <para>
+          It is recommended that you set these options via components.xml, however they can be overridden via
+          Javascript if desired.  The following example demonstrates how to configure the polling to occur much 
+          more aggressively.  You should set these parameters to suitable values for your application:
+        </para>
+        
+        <para>
+          Via components.xml:
+        </para>
+        
+        <programlisting>
+    &lt;component name="org.jboss.seam.remoting.remotingConfig"&gt;
+      &lt;property name="pollTimeout"&gt;5&lt;/property&gt;
+      &lt;property name="pollInterval"&gt;1&lt;/property&gt;
+    &lt;/component&gt;        
+        </programlisting>
+        
+        <para>
+          Via JavaScript:
         </para>
         
         <programlisting>
@@ -957,6 +990,7 @@ public class Widget
   // Wait up to 5 seconds on the server for new messages
   Seam.Remoting.pollTimeout = 5;   
         </programlisting>
+        
       </sect2>
       
     </sect1>
