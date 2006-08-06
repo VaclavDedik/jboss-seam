@@ -38,11 +38,7 @@
 
         <programlisting>
           <![CDATA[
-  <script type="text/javascript" src="seam/remoting/resource/remote.js">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>
+  <script type="text/javascript" src="seam/remoting/resource/remote.js"></script>
             ]]>
         </programlisting>
 
@@ -57,11 +53,7 @@
 
         <programlisting>
           <![CDATA[
-  <script type="text/javascript" src="seam/remoting/interface.js?customerAction">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>
+  <script type="text/javascript" src="seam/remoting/interface.js?customerAction"></script>
         ]]>
         </programlisting>
         
@@ -71,11 +63,7 @@
 
         <programlisting>
           <![CDATA[
-  <script type="text/javascript" src="seam/remoting/interface.js?customerAction&accountAction">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>
+  <script type="text/javascript" src="seam/remoting/interface.js?customerAction&accountAction"></script>
         ]]>
         </programlisting>
 
@@ -106,7 +94,6 @@
           <![CDATA[
   @Stateless
   @Name("helloAction")
-  @Scope(SESSION)
   public class HelloAction implements HelloLocal {
     public String sayHello(String name) {
       return "Hello, " + name;
@@ -135,17 +122,8 @@
 
         <programlisting>
           <![CDATA[
-  <script type="text/javascript" src="seam/remoting/resource/remote.js">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>
-
-  <script type="text/javascript" src="seam/remoting/interface.js?helloAction">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>
+  <script type="text/javascript" src="seam/remoting/resource/remote.js"></script>
+  <script type="text/javascript" src="seam/remoting/interface.js?helloAction"></script>
           ]]>
         </programlisting>
 
@@ -383,11 +361,7 @@
         
       <programlisting>
         <![CDATA[
-  <script type="text/javascript" src="seam/remoting/interface.js?customerAction">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>
+  <script type="text/javascript" src="seam/remoting/interface.js?customerAction"></script>
         ]]>
       </programlisting>
       
@@ -546,11 +520,7 @@
         
         <programlisting>
           <![CDATA[        
-  <script type="text/javascript" src="seam/remoting/interface.js?myAction&myWidget">
-    <!--
-    // This space intentionally left blank
-    //-->
-  </script>        
+  <script type="text/javascript" src="seam/remoting/interface.js?myAction&myWidget"></script>
           ]]>
         </programlisting>
         
@@ -973,10 +943,12 @@ public class Widget
         </para>
         
         <programlisting>
-    &lt;component name="org.jboss.seam.remoting.remotingConfig"&gt;
-      &lt;property name="pollTimeout"&gt;5&lt;/property&gt;
-      &lt;property name="pollInterval"&gt;1&lt;/property&gt;
-    &lt;/component&gt;        
+          <![CDATA[
+    <component name="org.jboss.seam.remoting.remotingConfig">
+      <property name="pollTimeout">5</property>
+      <property name="pollInterval">1</property>
+    </component>
+          ]]>
         </programlisting>
         
         <para>
