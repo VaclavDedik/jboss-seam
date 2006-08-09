@@ -61,9 +61,6 @@ public class HotelBookingAction implements HotelBooking
    @Out(required=false)
    private Booking booking;
    
-   @In
-   private User user;
-   
    @In(create=true)
    private FacesMessages facesMessages;
       
@@ -83,7 +80,7 @@ public class HotelBookingAction implements HotelBooking
       return "hotel";
    }
    
-   public String bookHotel()
+   public String bookHotel(User user)
    {      
       booking = new Booking(hotel, user);
       Calendar calendar = Calendar.getInstance();
@@ -109,7 +106,7 @@ public class HotelBookingAction implements HotelBooking
    }
 
    @End
-   public String confirm()
+   public String confirm(User user)
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);

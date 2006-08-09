@@ -75,6 +75,7 @@
         description="compile-time dependencies">
         <include name="lib/*.jar"/>
     	<include name="drools/lib/*.jar"/>
+      <include name="facelets/lib/*.jar"/>
     </fileset>
     
     <fileset id="seam.jar" 

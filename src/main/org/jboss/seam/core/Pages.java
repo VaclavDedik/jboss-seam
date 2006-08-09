@@ -22,6 +22,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.actionparam.ActionParamMethodBinding;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -106,7 +107,7 @@ public class Pages
             {
                if ( action.startsWith("#{") )
                {
-                  MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(action, null);
+                  MethodBinding methodBinding = new ActionParamMethodBinding(FacesContext.getCurrentInstance(), action);
                   actionsByViewId.put(viewId, methodBinding);
                }
                else
@@ -216,7 +217,7 @@ public class Pages
             String expression = "#{" + action + "}";
             if ( !isActionAllowed(facesContext, expression) ) return result;
             result = true;
-            MethodBinding actionBinding = facesContext.getApplication().createMethodBinding(expression, null);
+            MethodBinding actionBinding = new ActionParamMethodBinding(facesContext, expression);
             outcome = toString( actionBinding.invoke(facesContext, null) );
             fromAction = expression;
          }

@@ -67,12 +67,21 @@ public class BookingTest extends SeamTest
       }.run();
       
       String id = new Script() {
+
+         HotelSearching hotelSearch;
          
+         @Override
+         protected void updateModelValues() throws Exception
+         {
+            hotelSearch = (HotelSearching) Component.getInstance("hotelSearch", true);
+            hotelSearch.setSearchString("Union Square");
+         }
+
          @Override
          protected void invokeApplication()
          {
             HotelBooking hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
-            String outcome = hotelBooking.selectHotel();
+            String outcome = hotelBooking.selectHotel(hotelSearch.getSelectedHotel());
             assert "hotel".equals( outcome );
          }
 
@@ -90,10 +99,18 @@ public class BookingTest extends SeamTest
       id = new Script(id) {
 
          @Override
+         protected void applyRequestValues()
+         {
+            Contexts.getSessionContext().set("loggedIn", true);
+            Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
+         }
+
+         @Override
          protected void invokeApplication()
          {
+            User user = (User) Contexts.getSessionContext().get("user");
             HotelBooking hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
-            String outcome = hotelBooking.bookHotel();
+            String outcome = hotelBooking.bookHotel(user);
             assert "book".equals( outcome );
          }
 
@@ -219,10 +236,18 @@ public class BookingTest extends SeamTest
       new Script(id) {
         
          @Override
+         protected void applyRequestValues()
+         {
+            Contexts.getSessionContext().set("loggedIn", true);
+            Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
+         }
+
+         @Override
          protected void invokeApplication()
          {
+            User user = (User) Contexts.getSessionContext().get("user");
             HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.confirm();
+            String outcome = hotelBooking.confirm(user);
             assert "confirmed".equals( outcome );
          }
 

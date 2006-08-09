@@ -55,6 +55,22 @@
 			<component-type>org.jboss.seam.ui.HtmlLink</component-type>
 		</component>
 	</tag>
+
+        <tag>
+		<tag-name>commandButton</tag-name>
+		<component>
+			<component-type>javax.faces.HtmlCommandButton</component-type>
+                        <handler-class>com.sun.facelets.tag.jsf.html.HtmlComponentHandler</handler-class>
+		</component>
+	</tag>
+
+        <tag>
+		<tag-name>commandLink</tag-name>
+		<component>
+			<component-type>javax.faces.HtmlCommandLink</component-type>
+                        <handler-class>com.sun.facelets.tag.jsf.html.HtmlComponentHandler</handler-class>
+		</component>
+	</tag>
 	
 	<tag>
 		<tag-name>validateAll</tag-name>

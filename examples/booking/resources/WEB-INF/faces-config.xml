@@ -86,7 +86,7 @@
     <!-- Facelets support -->
 
     <application>
-        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
     </application>
     
     <!-- Select one of the two standard persistence lifecycle models for the Seam application -->

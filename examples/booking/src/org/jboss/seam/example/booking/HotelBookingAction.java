@@ -36,30 +36,24 @@ public class HotelBookingAction implements HotelBooking
    @In(required=false) 
    @Out(required=false)
    private Booking booking;
-   
-   @In
-   private User user;
-   
+     
    @In(create=true)
    private FacesMessages facesMessages;
       
    @In(create=true)
    private Events events;
-      
-   @In 
-   private HotelSearching hotelSearch;
    
    @Logger 
    private Log log;
    
    @Begin
-   public String selectHotel()
+   public String selectHotel(Hotel selectedHotel)
    {
-      hotel = em.merge( hotelSearch.getSelectedHotel() );
+      hotel = em.merge( selectedHotel );
       return "hotel";
    }
    
-   public String bookHotel()
+   public String bookHotel(User user)
    {      
       booking = new Booking(hotel, user);
       Calendar calendar = Calendar.getInstance();
@@ -85,7 +79,7 @@ public class HotelBookingAction implements HotelBooking
    }
 
    @End
-   public String confirm()
+   public String confirm(User user)
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);

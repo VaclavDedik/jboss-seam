@@ -27,18 +27,18 @@
     </p>
 
     <p>
-       The "Confirm" button is bound to the action method <code>confirm()</code>
+       The "Confirm" button is bound to the action method <code>confirm(User user)</code>
        of <code>HotelBookingAction</code>.
     </p>
 
 <code class="block">
 &lt;h:commandButton value="Confirm" 
-                 action="#{hotelBooking.confirm}" 
+                 action="#{hotelBooking.confirm(user)}" 
                  class="button"/>
 </code>
 
     <p>
-       The <code>confirm()</code> method is tagged with the <code>@End</code> annotation, 
+       The <code>confirm(User user)</code> method is tagged with the <code>@End</code> annotation, 
        which ends the long-running conversation and results in all state associated with
        the conversation being destroyed at the end of the request. Actually, since the
        <code>confirmed</code> outcome triggers a redirect, the state will not be destroyed
@@ -49,7 +49,7 @@
 
 <code class="block">
    @End
-   public String confirm()
+   public String confirm(User user)
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);

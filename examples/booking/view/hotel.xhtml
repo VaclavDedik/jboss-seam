@@ -3,6 +3,7 @@
 	    		xmlns:ui="http://java.sun.com/jsf/facelets"
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
+                                xmlns:s="http://jboss.com/products/seam/taglib"
 				template="template.xhtml">
 
 <!-- content -->
@@ -39,8 +40,8 @@
 <div class="section">
 	<h:form>
 	<fieldset class="buttonBox">
-		<h:commandButton action="#{hotelBooking.bookHotel}" value="Book Hotel" class="button"/>&#160;
-		<h:commandButton action="#{hotelBooking.cancel}" value="Back to Search" class="button"/>
+		<s:commandButton action="#{hotelBooking.bookHotel(user)}" value="Book Hotel" class="button"/>&#160;
+		<s:commandButton action="#{hotelBooking.cancel}" value="Back to Search" class="button"/>
 	</fieldset>
 	</h:form>
 </div>
