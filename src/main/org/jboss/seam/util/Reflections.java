@@ -2,6 +2,7 @@
 package org.jboss.seam.util;
 
 import java.beans.Introspector;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -38,6 +39,42 @@ public class Reflections
       }
    }
    
+   public static Object get(Field field, Object target) throws Exception
+   {
+      try
+      {
+         return field.get(target);
+      }
+      catch (IllegalArgumentException iae)
+      {
+         String message = "Could not get field value by reflection: " + toString(field) + 
+            " on: " + target.getClass().getName();
+         throw new IllegalArgumentException(message, iae);
+      }
+   }
+   
+   public static void set(Field field, Object target, Object value) throws Exception
+   {
+      try
+      {
+         field.set(target, value);
+      }
+      catch (IllegalArgumentException iae)
+      {
+         String message = "Could not set field value by reflection: " + toString(field) +
+            " on: " + target.getClass().getName();
+         if (value==null)
+         {
+            message += " with null value";
+         }
+         else
+         {
+            message += " with value: " + value.getClass();
+         }
+         throw new IllegalArgumentException(message, iae);
+      }
+   }
+   
    public static Object invokeAndWrap(Method method, Object target, Object... args)
    {
       try
@@ -66,6 +103,13 @@ public class Reflections
             '(' + 
             Strings.toString( ", ", method.getParameterTypes() ) + 
             ')';
+   }
+   
+   private static String toString(Field field)
+   {
+      return Strings.unqualify( field.getClass().getName() ) + 
+            '.' + 
+            field.getName();
    }
    
    public static Class classForName(String name) throws ClassNotFoundException

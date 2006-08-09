@@ -1250,7 +1250,7 @@ public class Component
    private Object getFieldValue(Object bean, Field field, String name)
    {
       try {
-         return field.get(bean);
+         return Reflections.get(field, bean);
       }
       catch (Exception e)
       {
@@ -1285,7 +1285,7 @@ public class Component
    {
       try
       {
-         field.set(bean, value);
+         Reflections.set(field, bean, value);
       }
       catch (Exception e)
       {
