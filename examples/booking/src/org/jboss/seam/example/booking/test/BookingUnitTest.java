@@ -60,7 +60,7 @@ public class BookingUnitTest extends SeamTest
       HotelBooking hb = new HotelBookingAction();
       
       setField(hb, "em", em);
-      setField(hb, "hotelSearch", hs);
+      //setField(hb, "hotelSearch", hs);
       //setField(hb, "user", em.getReference(User.class, "gavin"));
       setField(hb, "facesMessages", new FacesMessages());
       setField(hb, "events", new Events() { public void raiseEvent(String type) { assert "bookingConfirmed".equals(type); } } );
