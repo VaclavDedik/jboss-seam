@@ -18,5 +18,4 @@
       <property name="adapters">org.jboss.seam.security.adapter.jboss.JBossAuthenticationAdapter</property>
     </component>
     
-    <component class="org.jboss.seam.security.ThreadLocalAuthenticationContext"/>
 </components>
