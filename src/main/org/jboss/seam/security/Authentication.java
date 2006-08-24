@@ -2,13 +2,13 @@ package org.jboss.seam.security;
 
 import java.io.Serializable;
 import java.security.Principal;
-import java.security.acl.Acl;
-import org.jboss.seam.contexts.Contexts;
+
+import static org.jboss.seam.ScopeType.SESSION;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import static org.jboss.seam.ScopeType.SESSION;
+import org.jboss.seam.contexts.Contexts;
 
 /**
  * An Authentication represents either a login token or an authenticated Principal.
@@ -32,7 +32,7 @@ public abstract class Authentication implements Principal, Serializable
 
     if (instance==null)
     {
-      throw new IllegalStateException(
+      throw new AuthenticationException(
           "No Authentication could be created, make sure the Component exists in session scope");
     }
 

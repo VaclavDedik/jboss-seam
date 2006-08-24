@@ -1,11 +1,14 @@
 package org.jboss.seam.security;
 
+import javax.ejb.ApplicationException;
+
 /**
  * <p> </p>
  *
  * @author Shane Bryzak
  */
-public class AuthenticationException extends Exception
+@ApplicationException
+public class AuthenticationException extends RuntimeException
 {
   public AuthenticationException()
   {
