@@ -538,16 +538,19 @@ public class Manager
          log.debug("Found conversation id in request parameter: " + storedConversationId);
       }
       
-      //deprecated?
+      //TODO: this approach is deprecated, remove code:
       if ( "new".equals(storedConversationId) )
       {
          storedConversationId = null;
+         isLongRunningConversation = false;
       }
+      //end code to remove
 
       String propagation = getPropagationFromRequestParameter(parameters);
       if ( "none".equals(propagation) )
       {
          storedConversationId = null;
+         isLongRunningConversation = false;
       }
 
       return restoreConversation(storedConversationId, isLongRunningConversation);
@@ -906,11 +909,7 @@ public class Manager
       {
          url = encodeParameters(url, parameters);
       }
-      Map<String, Object> renderParameters = RenderParameters.instance();
-      if (renderParameters!=null)
-      {
-         url = encodeParameters(url, renderParameters);
-      }
+      url = encodeParameters( url, RenderParameters.instance() );
       if (includeConversationId)
       {
          url = encodeConversationId(url);
