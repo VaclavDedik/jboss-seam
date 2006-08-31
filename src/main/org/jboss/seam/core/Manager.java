@@ -898,7 +898,7 @@ public class Manager
     * into the request URL.
     * 
     * @param viewId the JSF view id
-    * @param parameters request parameters to be encoded
+    * @param parameters request parameters to be encoded (possibly null)
     * @param includeConversationId determines if the conversation id is to be encoded
     */
    public void redirect(String viewId, Map<String, Object> parameters, boolean includeConversationId)
@@ -909,7 +909,11 @@ public class Manager
       {
          url = encodeParameters(url, parameters);
       }
-      url = encodeParameters( url, RenderParameters.instance() );
+      Map<String, Object> renderParameters = RenderParameters.instance();
+      if (renderParameters!=null)
+      {
+         url = encodeParameters(url, renderParameters);
+      }
       if (includeConversationId)
       {
          url = encodeConversationId(url);
