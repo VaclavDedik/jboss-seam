@@ -233,7 +233,8 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
         String paramValue = (String) paramMap.get(paramName);
         if (paramValue==null)
         {
-           return null;
+           throw new IllegalStateException("no value for request parameter: " + paramName);
+           //return null;
         }
         else
         {
