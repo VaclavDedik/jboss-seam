@@ -30,19 +30,19 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
 
    public ConversationEntry(String id, LinkedList<String> stack)
    {
-      super();
       this.id = id;
       conversationIdStack = stack;
       startDatetime = new Date();
+      touch();
    }
 
    public ConversationEntry(String id)
    {
-      super();
       this.id = id;
       conversationIdStack = new LinkedList<String>();
       conversationIdStack.add(id);
       startDatetime = new Date();
+      touch();
    }
 
    public String getDescription() {
