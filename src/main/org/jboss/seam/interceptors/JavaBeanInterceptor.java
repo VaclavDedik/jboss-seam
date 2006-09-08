@@ -34,7 +34,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
    public Object intercept(final Object target, final Method method, final Object[] params,
          final MethodProxy methodProxy) throws Throwable
    {
-      if (recursive) 
+      if ( recursive || "finalize".equals( method.getName() ) ) 
       {
          return methodProxy.invokeSuper(target, params);
       }
