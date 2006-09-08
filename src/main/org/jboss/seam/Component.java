@@ -839,11 +839,11 @@ public class Component
       }
    }
 
-   public void inject(Object bean/*, boolean isActionInvocation*/)
+   public void inject(Object bean, boolean enforceRequired)
    {
       //injectLog(bean);
-      injectMethods(bean/*, isActionInvocation*/);
-      injectFields(bean/*, isActionInvocation*/);
+      injectMethods(bean, enforceRequired);
+      injectFields(bean, enforceRequired);
       injectDataModelSelection(bean);
       injectParameters(bean);
    }
@@ -934,10 +934,10 @@ public class Component
       return converter.getAsObject( facesContext, facesContext.getViewRoot(), requestParameter );
    }
 
-   public void outject(Object bean)
+   public void outject(Object bean, boolean enforceRequired)
    {
-      outjectMethods(bean);
-      outjectFields(bean);
+      outjectMethods(bean, enforceRequired);
+      outjectFields(bean, enforceRequired);
       outjectDataModels(bean);
    }
 
@@ -1084,27 +1084,27 @@ public class Component
       return scope.getContext();
    }
 
-   private void injectMethods(Object bean/*, boolean isActionInvocation*/)
+   private void injectMethods(Object bean, boolean enforceRequired)
    {
       for (Method method : getInMethods())
       {
          In in = method.getAnnotation(In.class);
          String name = toName(in.value(), method);
-         setPropertyValue( bean, method, name, getInstanceToInject(in, name, bean) );
+         setPropertyValue( bean, method, name, getInstanceToInject(in, name, bean, enforceRequired) );
       }
    }
 
-   private void injectFields(Object bean/*, boolean isActionInvocation*/)
+   private void injectFields(Object bean, boolean enforceRequired)
    {
       for (Field field : getInFields())
       {
          In in = field.getAnnotation(In.class);
          String name = toName(in.value(), field);
-         setFieldValue( bean, field, name, getInstanceToInject(in, name, bean) );
+         setFieldValue( bean, field, name, getInstanceToInject(in, name, bean, enforceRequired) );
       }
    }
 
-   private void outjectFields(Object bean)
+   private void outjectFields(Object bean, boolean enforceRequired)
    {
       for (Field field : getOutFields())
       {
@@ -1112,12 +1112,12 @@ public class Component
          if (out != null)
          {
             String name = toName(out.value(), field);
-            setOutjectedValue( out, name, getFieldValue(bean, field, name) );
+            setOutjectedValue( out, name, getFieldValue(bean, field, name), enforceRequired );
          }
       }
    }
 
-   private void outjectMethods(Object bean)
+   private void outjectMethods(Object bean, boolean enforceRequired)
    {
       for (Method method : getOutMethods())
       {
@@ -1125,14 +1125,14 @@ public class Component
          if (out != null)
          {
             String name = toName(out.value(), method);
-            setOutjectedValue( out, name, getPropertyValue(bean, method, name) );
+            setOutjectedValue( out, name, getPropertyValue(bean, method, name), enforceRequired );
          }
       }
    }
 
-   private void setOutjectedValue(Out out, String name, Object value)
+   private void setOutjectedValue(Out out, String name, Object value, boolean enforceRequired)
    {
-      if (value==null && out.required())
+      if (value==null && enforceRequired && out.required())
       {
          throw new RequiredException(
                "Out attribute requires value for component: " +
@@ -1502,7 +1502,7 @@ public class Component
       }
    }
 
-   private Object getInstanceToInject(In in, String name, Object bean)
+   private Object getInstanceToInject(In in, String name, Object bean, boolean enforceRequired)
    {
       Object result;
       if ( name.startsWith("#") )
@@ -1527,7 +1527,7 @@ public class Component
          result = in.scope().getContext().get(name);
       }
 
-      if (result==null && in.required())
+      if (result==null && enforceRequired && in.required())
       {
          throw new RequiredException(
                "In attribute requires value for component: " +

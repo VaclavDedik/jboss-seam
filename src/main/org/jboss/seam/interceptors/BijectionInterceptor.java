@@ -4,12 +4,18 @@ package org.jboss.seam.interceptors;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.RequestParameter;
 
@@ -23,6 +29,14 @@ public class BijectionInterceptor extends AbstractInterceptor
 {
    
    private static final Log log = LogFactory.getLog(BijectionInterceptor.class);
+   
+   private static boolean isLifecycleMethod(Method method)
+   {
+      return method==null || //EJB 3 JavaDoc says InvocationContext.getMethod() returns null for lifecycle callbacks!
+            method.isAnnotationPresent(Create.class) || method.isAnnotationPresent(Destroy.class) ||
+            method.isAnnotationPresent(PostConstruct.class) || method.isAnnotationPresent(PreDestroy.class) ||
+            method.isAnnotationPresent(PrePassivate.class) || method.isAnnotationPresent(PostActivate.class);
+   }
 
    @AroundInvoke
    public Object bijectTargetComponent(InvocationContext invocation) throws Exception
@@ -33,7 +47,7 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             log.trace("injecting dependencies of: " + component.getName());
          }
-         component.inject(invocation.getTarget());
+         component.inject( invocation.getTarget(), isLifecycleMethod( invocation.getMethod() ) );
       }
       
       Object result = invocation.proceed();
@@ -44,7 +58,7 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             log.trace("outjecting dependencies of: " + component.getName());
          }
-         component.outject( invocation.getTarget() );
+         component.outject( invocation.getTarget(), isLifecycleMethod( invocation.getMethod() ) );
       }
       
       //method parameter injection?
