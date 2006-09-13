@@ -146,7 +146,12 @@ public class Pageflow implements Serializable
    
    public Page getPage() 
    {
-      return (Page) getNode();
+      Node node = getNode();
+      if ( !(node instanceof Page) )
+      {
+         throw new IllegalStateException("pageflow is not currently at a <page> or <start-page> node (note that pageflows that begin during the RENDER_RESPONSE phase should use <start-page> instead of <start-state>)");
+      }
+      return (Page) node;
    }
    
    private void navigate(FacesContext context) 
