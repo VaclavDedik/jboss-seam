@@ -177,7 +177,7 @@ public class FacesMessages implements Serializable
     */
    public void addFromResourceBundle(String id, String key, Object... params)
    {
-      addFromResourceBundle(FacesMessage.SEVERITY_INFO, key, params);
+      addFromResourceBundle(id, FacesMessage.SEVERITY_INFO, key, params);
    }
    
    /**
@@ -186,7 +186,7 @@ public class FacesMessages implements Serializable
     */
    public void addFromResourceBundle(String id, Severity severity, String key, Object... params)
    {
-      addFromResourceBundle(severity, key, key, params);
+      addFromResourceBundle(id, severity, key, key, params);
    }
    
    /**
