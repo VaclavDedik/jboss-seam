@@ -6,12 +6,9 @@
  */
 package org.jboss.seam.contexts;
 
-import java.lang.reflect.Method;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
-import org.jboss.seam.util.Reflections;
 
 /**
  * Provides access to the current contexts associated with the thread.
