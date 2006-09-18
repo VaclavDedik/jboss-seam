@@ -79,7 +79,7 @@ public class Introspector {
          catch (InvocationTargetException ite)
          {
             Throwable e = ite.getCause();
-            value = e.getClass().getName() + '[' + e.getMessage() + ']';
+            value = toString(e);
          }
          
          boolean convertArrayToList = value!=null && 
@@ -106,6 +106,11 @@ public class Introspector {
       
       return attributes;
    }
+
+   private static String toString(Throwable e)
+   {
+      return e.getClass().getName() + '[' + e.getMessage() + ']';
+   }
    
    public static class Attribute
    {
@@ -118,17 +123,26 @@ public class Introspector {
          this.value = value;
       }
       
-      public String getName() {
+      public String getName() 
+      {
          return name;
       }
-      public void setName(String name) {
-         this.name = name;
-      }
-      public Object getValue() {
+      
+      public Object getValue() 
+      {
          return value;
       }
-      public void setValue(Object value) {
-         this.value = value;
+      
+      public String getStringValue() 
+      {
+         try
+         {
+            return value==null ? null : value.toString();
+         }
+         catch (Throwable e)
+         {
+            return Introspector.toString(e);
+         }
       }
       
    }
