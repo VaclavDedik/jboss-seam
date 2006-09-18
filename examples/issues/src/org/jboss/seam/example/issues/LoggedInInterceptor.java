@@ -8,7 +8,6 @@ import javax.interceptor.InvocationContext;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.annotations.Interceptor;
-import org.jboss.seam.annotations.Within;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.BijectionInterceptor;
