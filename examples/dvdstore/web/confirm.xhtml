@@ -75,7 +75,7 @@
                             </h:outputText>
                             
                             <h:outputText value="#{msgs.checkoutTotal}" />
-                            <h:outputText value="#{order.totalAmount}">
+                            <h:outputText value="#{currentOrder.totalAmount}">
                                 <f:convertNumber type="currency" currencySymbol="$" />
                             </h:outputText>
                         </h:panelGrid>
