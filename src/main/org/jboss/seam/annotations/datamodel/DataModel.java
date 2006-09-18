@@ -12,8 +12,6 @@ import java.lang.annotation.Target;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.DataBinderClass;
 import org.jboss.seam.databinding.DataModelBinder;
-import org.jboss.seam.jsf.ListDataModel;
-import org.jboss.seam.jsf.MapDataModel;
 
 /**
  * Outjects a collection to the same scope as the owning component

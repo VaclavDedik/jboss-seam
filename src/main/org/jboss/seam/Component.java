@@ -838,7 +838,14 @@ public class Component
          setFieldValue(bean, field, field.getName(), me.getValue().getValue( field.getType() ) );
       }
    }
-
+   
+   /**
+    * Inject context variable values into @In attributes
+    * of a component instance.
+    * 
+    * @param bean a Seam component instance
+    * @param enforceRequired should we enforce required=true?
+    */
    public void inject(Object bean, boolean enforceRequired)
    {
       //injectLog(bean);
@@ -846,6 +853,17 @@ public class Component
       injectFields(bean, enforceRequired);
       injectDataModelSelection(bean);
       injectParameters(bean);
+   }
+   
+   /**
+    * Null out any @In attributes of a component instance.
+    * 
+    * @param bean a Seam component instance
+    */
+   public void disinject(Object bean)
+   {
+      disinjectMethods(bean);
+      disinjectFields(bean);
    }
    
    private void injectLog(Object bean)
@@ -934,6 +952,13 @@ public class Component
       return converter.getAsObject( facesContext, facesContext.getViewRoot(), requestParameter );
    }
 
+   /**
+    * Outject context variable values from @Out attributes
+    * of a component instance.
+    * 
+    * @param bean a Seam component instance
+    * @param enforceRequired should we enforce required=true?
+    */
    public void outject(Object bean, boolean enforceRequired)
    {
       outjectMethods(bean, enforceRequired);
@@ -1093,6 +1118,18 @@ public class Component
          setPropertyValue( bean, method, name, getInstanceToInject(in, name, bean, enforceRequired) );
       }
    }
+   
+   private void disinjectMethods(Object bean)
+   {
+      for (Method method : getInMethods())
+      {
+         if ( !method.getParameterTypes()[0].isPrimitive() )
+         {
+            String name = toName( method.getAnnotation(In.class).value(), method );
+            setPropertyValue(bean, method, name, null);
+         }
+      }
+   }
 
    private void injectFields(Object bean, boolean enforceRequired)
    {
@@ -1102,6 +1139,18 @@ public class Component
          String name = toName(in.value(), field);
          setFieldValue( bean, field, name, getInstanceToInject(in, name, bean, enforceRequired) );
       }
+   }
+   
+   private void disinjectFields(Object bean)
+   {
+      for (Field field : getInFields())
+      {
+         if ( !field.getType().isPrimitive() )
+         {
+            String name = toName( field.getAnnotation(In.class).value(), field );
+            setFieldValue(bean, field, name, null);
+         }
+      }      
    }
 
    private void outjectFields(Object bean, boolean enforceRequired)

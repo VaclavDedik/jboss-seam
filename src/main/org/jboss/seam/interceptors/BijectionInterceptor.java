@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
@@ -13,11 +12,8 @@ import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.RequestParameter;
 
 /**
  * Before invoking the component, inject all dependencies. After
@@ -59,6 +55,15 @@ public class BijectionInterceptor extends AbstractInterceptor
             log.trace("outjecting dependencies of: " + component.getName());
          }
          component.outject( invocation.getTarget(), isLifecycleMethod( invocation.getMethod() ) );
+      }
+      
+      if ( component.needsInjection() ) //only needed to hush the log message
+      {
+         if ( log.isTraceEnabled() )
+         {
+            log.trace("disinjecting dependencies of: " + component.getName());
+         }
+         component.disinject( invocation.getTarget() );
       }
       
       //method parameter injection?
