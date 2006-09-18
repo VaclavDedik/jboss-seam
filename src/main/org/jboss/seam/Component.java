@@ -707,6 +707,26 @@ public class Component
          default: throw new IllegalArgumentException("no interceptor type specified");
       }
    }
+   
+   /**
+    * For use with Seam debug page.
+    * 
+    * @return the server-side interceptor stack
+    */
+   public List<Interceptor> getServerSideInterceptors()
+   {
+      return getInterceptors(InterceptorType.SERVER);
+   }
+
+   /**
+    * For use with Seam debug page.
+    * 
+    * @return the client-side interceptor stack
+    */
+   public List<Interceptor> getClientSideInterceptors()
+   {
+      return getInterceptors(InterceptorType.CLIENT);
+   }
 
    public Method getDestroyMethod()
    {
