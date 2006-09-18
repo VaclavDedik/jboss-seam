@@ -873,7 +873,7 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>
-            <varlistentry id="redirect-annotation">
+            <varlistentry id="render-annotation">
                 <term><literal>@Render</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@Render(viewId="error.jsp")]]></programlisting>
