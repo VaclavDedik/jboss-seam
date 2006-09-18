@@ -13,10 +13,12 @@ import org.jboss.seam.annotations.DataSelectorClass;
 import org.jboss.seam.databinding.DataModelIndexSelector;
 
 /**
- * Injects the selected row index of a ListDataModel. Intended
- * for use with @DataModel.
+ * Injects the selected row index of a ListDataModel,
+ * MapDataModel or ArrayDataModel. Intended for use 
+ * with @DataModel.
  * 
  * @author Gavin King
+ * @see DataModel
  */
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)

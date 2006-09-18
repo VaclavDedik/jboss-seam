@@ -12,16 +12,26 @@ import java.lang.annotation.Target;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.DataBinderClass;
 import org.jboss.seam.databinding.DataModelBinder;
+import org.jboss.seam.jsf.ListDataModel;
+import org.jboss.seam.jsf.MapDataModel;
 
 /**
- * Outjects a List to the same scope as the owning component
+ * Outjects a collection to the same scope as the owning component
  * (or to the EVENT scope in the case of a stateless component),
- * after wrapping as a ListDataModel. Note that the List
+ * after wrapping as a JSF DataModel (a List as a ListDataModel, a
+ * Map as a MapDataModel, a Set as a SetDataModel, an array as an 
+ * ArrayDataModel). Note that the List, Map, Set or array
  * will be re-wrapped and re-outjected each time the current
  * component value is different to the value held by the
- * context variable as determined by calling List.equals().
+ * context variable as determined by calling equals() on the 
+ * underlying collection.
  * 
  * @author Gavin King
+ * 
+ * @see org.jboss.seam.jsf.ListDataModel
+ * @see org.jboss.seam.jsf.MapDataModel
+ * @see org.jboss.seam.jsf.SetDataModel
+ * @see org.jboss.seam.jsf.ArrayDataModel
  */
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)

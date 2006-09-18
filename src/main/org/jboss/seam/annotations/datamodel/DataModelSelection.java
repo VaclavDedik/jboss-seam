@@ -13,10 +13,11 @@ import org.jboss.seam.annotations.DataSelectorClass;
 import org.jboss.seam.databinding.DataModelSelector;
 
 /**
- * Injects the selected row data of a ListDataModel. Intended
- * for use with @DataModel.
+ * Injects the selected row data of a DataModel. 
+ * Intended for use with @DataModel.
  * 
  * @author Gavin King
+ * @see DataModel
  */
 @Target({FIELD, METHOD})
 @Retention(RUNTIME)
