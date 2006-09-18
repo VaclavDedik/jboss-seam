@@ -97,8 +97,8 @@ public class Lifecycle
 
    public static void beginInitialization(ServletContext servletContext)
    {
-      Context context = new WebApplicationContext(servletContext);
-      Contexts.applicationContext.set(context);
+      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
+      Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
    }
 
    public static void endInitialization()
@@ -117,7 +117,9 @@ public class Lifecycle
 	         }
     	   }
       }
-
+      
+      Contexts.destroy( Contexts.getEventContext() );
+      Contexts.eventContext.set(null);
       Contexts.applicationContext.set(null);
    }
 
