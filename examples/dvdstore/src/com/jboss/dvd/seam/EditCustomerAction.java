@@ -80,7 +80,7 @@ public class EditCustomerAction
         String name = customer.getUserName();
         if (name == null) return true;
 
-        List<Customer> results = em.createQuery("from Customer c where c.userName = :name")
+        List<Customer> results = em.createQuery("select c from Customer c where c.userName = :name")
             .setParameter("name", name)
             .getResultList();
 

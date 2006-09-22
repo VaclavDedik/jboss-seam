@@ -43,7 +43,7 @@ public class AcceptAction
 
     @BeginTask
     public String viewTask() {
-        order = (Order) em.createQuery("from Order o join fetch o.orderLines where o.orderId = :orderId")
+        order = (Order) em.createQuery("select o from Order o join fetch o.orderLines where o.orderId = :orderId")
             .setParameter("orderId", orderId)
             .getSingleResult();
         return "accept";

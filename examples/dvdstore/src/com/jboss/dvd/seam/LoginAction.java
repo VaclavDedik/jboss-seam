@@ -57,7 +57,7 @@ public class LoginAction
     public String login() {
         try {
             User found =  
-                (User) em.createQuery("from User u where u.userName = :userName and u.password = :password")
+                (User) em.createQuery("select u from User u where u.userName = :userName and u.password = :password")
                 .setParameter("userName", username)
                 .setParameter("password", password)
                 .getSingleResult();

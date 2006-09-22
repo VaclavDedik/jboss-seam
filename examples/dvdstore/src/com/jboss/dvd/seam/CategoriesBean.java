@@ -41,7 +41,7 @@ public class CategoriesBean
 
     @Create
     public void loadData() {
-        categories = em.createQuery("from Category c")
+        categories = em.createQuery("select c from Category c")
               .setHint("org.hibernate.cacheable", true)
               .getResultList();
 

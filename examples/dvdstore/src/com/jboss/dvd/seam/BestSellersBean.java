@@ -46,7 +46,7 @@ public class BestSellersBean
 
     @Factory("topProducts")
     public void doSearch() {
-        topProducts = em.createQuery("from Product p order by p.inventory.sales DESC")
+        topProducts = em.createQuery("select p from Product p order by p.inventory.sales DESC")
                         .setMaxResults(MAX_RESULTS)
                         .getResultList();
     }

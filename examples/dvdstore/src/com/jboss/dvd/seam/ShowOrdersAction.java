@@ -52,7 +52,7 @@ public class ShowOrdersAction
 
     @Begin @Factory("orders")
     public String findOrders() {
-        orders = em.createQuery("from Order o where o.customer = :customer")
+        orders = em.createQuery("select o from Order o where o.customer = :customer")
             .setParameter("customer", customer)
             .getResultList();
 
@@ -75,10 +75,10 @@ public class ShowOrdersAction
         JbpmContext context = ManagedJbpmContext.instance();
 
         ProcessInstance pi = (ProcessInstance) context.getSession()
-              .createQuery("select pi from LongInstance si join si.processInstance pi " +
-                          "where si.name = 'orderId' and si.value = :orderId")
-              .setLong( "orderId", order.getOrderId() )
-              .uniqueResult();
+            .createQuery("select pi from LongInstance si join si.processInstance pi " +
+                         "where si.name = 'orderId' and si.value = :orderId")
+            .setLong("orderId", order.getOrderId())
+            .uniqueResult();
         
         pi.signal("cancel");
         
