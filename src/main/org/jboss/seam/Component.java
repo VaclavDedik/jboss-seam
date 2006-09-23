@@ -22,7 +22,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Local;
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
 import javax.ejb.Remote;
 import javax.ejb.Remove;
 import javax.faces.application.Application;
@@ -32,6 +36,7 @@ import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.interceptor.Interceptors;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpSessionActivationListener;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
@@ -71,6 +76,7 @@ import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.JavaBeanInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
+import org.jboss.seam.interceptors.PassivationInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
@@ -110,6 +116,10 @@ public class Component
    private Method destroyMethod;
    private Method createMethod;
    private Method unwrapMethod;
+   private Method preDestroyMethod;
+   private Method postConstructMethod;
+   private Method prePassivateMethod;
+   private Method postActivateMethod;
    private Set<Method> removeMethods = new HashSet<Method>();
    private Set<Method> validateMethods = new HashSet<Method>();
    private Set<Method> inMethods = new HashSet<Method>();
@@ -422,6 +432,22 @@ public class Component
             {
                parameterSetters.add(method);
             }
+            if ( method.isAnnotationPresent(PrePassivate.class) )
+            {
+               prePassivateMethod = method;
+            }
+            if ( method.isAnnotationPresent(PostActivate.class) )
+            {
+               prePassivateMethod = method;
+            }
+            if ( method.isAnnotationPresent(PostConstruct.class) )
+            {
+               postConstructMethod = method;
+            }
+            if ( method.isAnnotationPresent(PreDestroy.class) )
+            {
+               preDestroyMethod = method;
+            }
 
             for ( Annotation ann: method.getAnnotations() )
             {
@@ -654,6 +680,7 @@ public class Component
       {
          addInterceptor( new Interceptor( new EJBExceptionInterceptor(), this ) );
       }*/
+      addInterceptor( new Interceptor( new PassivationInterceptor(), this ) );
    }
 
    public Class<?> getBeanClass()
@@ -743,6 +770,26 @@ public class Component
       return validateMethods;
    }
 
+   public boolean hasPreDestroyMethod()
+   {
+      return preDestroyMethod!=null;
+   }
+
+   public boolean hasPostConstructMethod()
+   {
+      return postConstructMethod!=null;
+   }
+
+   public boolean hasPrePassivateMethod()
+   {
+      return preDestroyMethod!=null;
+   }
+
+   public boolean hasPostActivateMethod()
+   {
+      return postConstructMethod!=null;
+   }
+
    public boolean hasDestroyMethod()
    {
       return destroyMethod!=null;
@@ -813,6 +860,7 @@ public class Component
               {
                  Object bean = beanClass.newInstance();
                  initialize(bean);
+                 callPostConstructMethod(bean);
                  return bean;
               }
               else
@@ -820,6 +868,7 @@ public class Component
                  Factory bean = factory.newInstance();
                  initialize(bean);
                  bean.setCallback( 0, new JavaBeanInterceptor(this) );
+                 callPostConstructMethod(bean);
                  return bean;
               }
            case ENTITY_BEAN:
@@ -1533,6 +1582,38 @@ public class Component
          callComponentMethod( instance, getDestroyMethod() );
       }
    }
+   
+   public void callPreDestroyMethod(Object instance)
+   {
+      if ( hasPreDestroyMethod() )
+      {
+         callComponentMethod( instance, getPreDestroyMethod() );
+      }
+   }
+
+   public void callPostConstructMethod(Object instance)
+   {
+      if ( hasPostConstructMethod() )
+      {
+         callComponentMethod( instance, getPostConstructMethod() );
+      }
+   }
+
+   public void callPrePassivateMethod(Object instance)
+   {
+      if ( hasPrePassivateMethod() )
+      {
+         callComponentMethod( instance, getPrePassivateMethod() );
+      }
+   }
+
+   public void callPostActivateMethod(Object instance)
+   {
+      if ( hasPostActivateMethod() )
+      {
+         callComponentMethod( instance, getPostActivateMethod() );
+      }
+   }
 
    public Object callComponentMethod(Object instance, Method method) {
       Class[] paramTypes = method.getParameterTypes();
@@ -1551,7 +1632,7 @@ public class Component
       catch (NoSuchMethodException e)
       {
          String message = "method not found: " + method.getName() + " for component: " + name;
-         if ( getType()==ComponentType.STATELESS_SESSION_BEAN || getType()==ComponentType.STATEFUL_SESSION_BEAN )
+         if ( getType().isSessionBean() )
          {
              message += " (check that it is declared on the session bean business interface)";
          }
@@ -1646,11 +1727,16 @@ public class Component
       en.setInterceptDuringConstruction(false);
       en.setCallbackType(MethodInterceptor.class);
       en.setSuperclass( type==ComponentType.JAVA_BEAN ? beanClass : Object.class );
-      Set<Class> interfaces = getBusinessInterfaces();
-      if (interfaces.size()>0)
+      Set<Class> interfaces = new HashSet<Class>();
+      if ( type.isSessionBean() )
       {
-         en.setInterfaces( interfaces.toArray( new Class[0] ) );
+         interfaces.addAll( getBusinessInterfaces() );
       }
+      else
+      {
+         interfaces.add(HttpSessionActivationListener.class);
+      }
+      en.setInterfaces( interfaces.toArray( new Class[0] ) );
       return (Class<Factory>) en.createClass();
    }
 
@@ -1767,6 +1853,26 @@ public class Component
          return "ELInitialValue(" + expression + ")";
       }
       
+   }
+
+   public Method getPostActivateMethod()
+   {
+      return postActivateMethod;
+   }
+
+   public Method getPrePassivateMethod()
+   {
+      return prePassivateMethod;
+   }
+
+   public Method getPostConstructMethod()
+   {
+      return postConstructMethod;
+   }
+
+   public Method getPreDestroyMethod()
+   {
+      return preDestroyMethod;
    }
 
 }

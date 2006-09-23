@@ -5,6 +5,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
 
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -53,6 +55,18 @@ public class ManagedPersistenceContext implements Serializable
          persistenceUnitJndiName = "java:/" + componentName;
       }
       
+      createEntityManager();
+      
+      TouchedContexts.instance().add(componentName);
+      
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitJndiName);
+      }
+   }
+
+   private void createEntityManager()
+   {
       try
       {
          entityManager = getEntityManagerFactory().createEntityManager();
@@ -73,11 +87,6 @@ public class ManagedPersistenceContext implements Serializable
             entityManager.setFlushMode(FlushModeType.COMMIT); 
             break;
       }
-      
-      if ( log.isDebugEnabled() )
-      {
-         log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitJndiName);
-      }
    }
 
    @Unwrap
@@ -88,6 +97,25 @@ public class ManagedPersistenceContext implements Serializable
          entityManager.joinTransaction();
       }
       return entityManager;
+   }
+   
+   @PrePassivate
+   public void passivate()
+   {
+      if ( !Conversation.instance().getFlushMode().dirtyBetweenTransactions() ) //unfortunately, we have no isDirty() method!
+      {
+         entityManager.close();
+         entityManager = null;
+      }
+   }
+   
+   @PostActivate
+   public void activate()
+   {
+      if (entityManager==null)
+      {
+         createEntityManager();
+      }
    }
    
    @Destroy

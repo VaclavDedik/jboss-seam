@@ -25,31 +25,133 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
    
    private final SeamInterceptor seamInterceptor;
    private boolean recursive = false;
+   private final Component component;
    
    public JavaBeanInterceptor(Component component)
    {
       seamInterceptor = new SeamInterceptor(InterceptorType.ANY, component);
+      this.component = component;
    }
 
    public Object intercept(final Object target, final Method method, final Object[] params,
          final MethodProxy methodProxy) throws Throwable
    {
-      if ( recursive || "finalize".equals( method.getName() ) ) 
+      if (recursive) 
       {
          return methodProxy.invokeSuper(target, params);
       }
-      else
+      
+      recursive = true;
+      try
       {
-         recursive = true;
-         try
+         String methodName = method.getName();
+         if ( "finalize".equals(methodName) ) 
+         {
+            return methodProxy.invokeSuper(target, params);
+         }
+         else if ( "sessionDidActivate".equals(methodName) )
+         {
+            callPostActivate(target);
+            return null;
+         }
+         else if ( "sessionWillPassivate".equals(methodName) )
+         {
+            callPrePassivate(target);
+            return null;
+         }
+         else
          {
             return interceptInvocation(target, method, params, methodProxy);
          }
-         finally
-         {
-            recursive = false;
-         }
       }
+      finally
+      {
+         recursive = false;
+      }
+   }
+
+   private void callPrePassivate(final Object target)
+   {
+      seamInterceptor.prePassivate( new InvocationContext() {
+         
+         final Object[] params = {};
+         final Method passivateMethod = component.getPrePassivateMethod();
+         final Map contextData = new HashMap();
+         
+         public Object getTarget()
+         {
+            return target;
+         }
+         
+         public Map getContextData()
+         {
+            return contextData;
+         }
+
+         public Method getMethod()
+         {
+            return passivateMethod;
+         }
+
+         public Object[] getParameters()
+         {
+            return params;
+         }
+
+         public Object proceed() throws Exception
+         {
+            component.callPrePassivateMethod(target);
+            return null;
+         }
+
+         public void setParameters(Object[] newParams)
+         {
+            throw new IllegalArgumentException();
+         }
+         
+      } );
+   }
+
+   private void callPostActivate( final Object target)
+   {
+      seamInterceptor.postActivate( new InvocationContext() {
+         
+         final Object[] params = {};
+         final Method activateMethod = component.getPostActivateMethod();
+         final Map contextData = new HashMap();
+         
+         public Object getTarget()
+         {
+            return target;
+         }
+         
+         public Map getContextData()
+         {
+            return contextData;
+         }
+
+         public Method getMethod()
+         {
+            return activateMethod;
+         }
+
+         public Object[] getParameters()
+         {
+            return params;
+         }
+
+         public Object proceed() throws Exception
+         {
+            component.callPostActivateMethod(target);
+            return null;
+         }
+
+         public void setParameters(Object[] newParams)
+         {
+            throw new IllegalArgumentException();
+         }
+         
+      } );
    }
 
    private Object interceptInvocation(final Object target, final Method method, final Object[] params, 
@@ -77,7 +179,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
 
          public Object[] getParameters()
          {
-            return params;
+            return resultParams;
          }
 
          public Object proceed() throws Exception
@@ -106,7 +208,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
             resultParams = newParams;
          }
          
-      });
+      } );
    }
 
 }

@@ -19,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -81,7 +82,7 @@ public class SeamInterceptor implements Serializable
          {
             isSeamComponent = true;
             componentName = beanClass.getAnnotation(Name.class).value();
-            component = componentForName(componentName);
+            component = Seam.componentForName(componentName);
          }
          else
          {
@@ -124,7 +125,7 @@ public class SeamInterceptor implements Serializable
    @PostActivate
    public void postActivate(InvocationContext invocation)
    {
-      if (isSeamComponent) component = componentForName(componentName);
+      if (isSeamComponent) component = Seam.componentForName(componentName);
       invokeAndHandle(invocation, EventType.POST_ACTIVATE);
    }
    
@@ -201,26 +202,6 @@ public class SeamInterceptor implements Serializable
    private boolean isProcessInterceptors(final Component component)
    {
       return component!=null && component.getInterceptionType().isActive();
-   }
-   
-   private Component componentForName(String name)
-   {
-      if ( Contexts.isApplicationContextActive() )
-      {
-         return Component.forName(name);
-      }
-      else
-      {
-         Lifecycle.beginApplication();
-         try
-         {
-            return Component.forName(name);
-         }
-         finally
-         {
-            Lifecycle.endApplication();
-         }
-      }
    }
    
 }

@@ -22,6 +22,11 @@ public enum ComponentType
       return this!=JAVA_BEAN;
    }
    
+   public boolean isSessionBean()
+   {
+      return this==STATELESS_SESSION_BEAN || this==STATEFUL_SESSION_BEAN;
+   }
+   
    public ScopeType getDefaultScope()
    {
       switch (this)

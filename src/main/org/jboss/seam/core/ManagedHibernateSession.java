@@ -5,6 +5,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
 
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
 import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
@@ -52,6 +54,18 @@ public class ManagedHibernateSession implements Serializable
       {
          sessionFactoryJndiName = "java:/" + componentName;
       }
+      createSession();
+      
+      TouchedContexts.instance().add(componentName);
+      
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("created seam managed session for session factory: "+ sessionFactoryJndiName);
+      }
+   }
+
+   private void createSession()
+   {
       try
       {
          session = getSessionFactory().openSession();
@@ -67,11 +81,6 @@ public class ManagedHibernateSession implements Serializable
          case MANUAL: session.setFlushMode(FlushMode.NEVER); break;
          case COMMIT: session.setFlushMode(FlushMode.COMMIT); break;
       }
-      
-      if ( log.isDebugEnabled() )
-      {
-         log.debug("created seam managed session for session factory: "+ sessionFactoryJndiName);
-      }
    }
    
    @Unwrap
@@ -79,6 +88,25 @@ public class ManagedHibernateSession implements Serializable
    {
       session.isOpen();
       return session;
+   }
+   
+   @PrePassivate
+   public void passivate()
+   {
+      if ( !session.isDirty() )
+      {
+         session.close();
+         session = null;
+      }
+   }
+   
+   @PostActivate
+   public void activate()
+   {
+      if (session==null)
+      {
+         createSession();
+      }
    }
    
    @Destroy

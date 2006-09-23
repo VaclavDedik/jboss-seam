@@ -17,6 +17,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -108,6 +109,21 @@ public class Seam
       return null;
    }
    
+   /**
+    * Get the bean class from a container-generated proxy
+    * class
+    */
+   public static Class getEntityClass(Class<?> clazz)
+   {
+      while ( clazz!=null && !Object.class.equals(clazz) )
+      {
+         Entity name = clazz.getAnnotation(Entity.class);
+         if ( name!=null ) return clazz;
+         clazz = clazz.getSuperclass();
+      }
+      return null;
+   }
+   
    public static String getEjbName(Class<?> clazz)
    {
       switch ( getComponentType(clazz) )
@@ -177,6 +193,30 @@ public class Seam
       }
       Boolean isSessionInvalid = (Boolean) Contexts.getSessionContext().get(SESSION_INVALID);
       return isSessionInvalid!=null && isSessionInvalid;
+   }
+   
+   /**
+    * Get the Seam component, even if no application context
+    * is associated with the current thread.
+    */
+   public static Component componentForName(String name)
+   {
+      if ( Contexts.isApplicationContextActive() )
+      {
+         return Component.forName(name);
+      }
+      else
+      {
+         Lifecycle.beginApplication();
+         try
+         {
+            return Component.forName(name);
+         }
+         finally
+         {
+            Lifecycle.endApplication();
+         }
+      }
    }
 
 }
