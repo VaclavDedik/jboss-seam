@@ -48,7 +48,7 @@ public class UserPrincipal
       return null;
    }
    
-   public Principal instance()
+   public static Principal instance()
    {
       if ( !Contexts.isApplicationContextActive() )
       {
