@@ -16,7 +16,7 @@ public class Persistence
       }
       else
       {
-         throw new IllegalArgumentException("FlusMode.MANUAL only supported for Hibernate EntityManager");
+         throw new IllegalArgumentException("FlushMode.MANUAL only supported for Hibernate EntityManager");
       }
    }
 

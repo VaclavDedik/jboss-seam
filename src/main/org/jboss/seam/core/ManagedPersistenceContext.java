@@ -102,7 +102,7 @@ public class ManagedPersistenceContext implements Serializable
    @PrePassivate
    public void passivate()
    {
-      if ( !Conversation.instance().getFlushMode().dirtyBetweenTransactions() ) //unfortunately, we have no isDirty() method!
+      if ( !Persistence.isDirty(entityManager) )
       {
          entityManager.close();
          entityManager = null;
