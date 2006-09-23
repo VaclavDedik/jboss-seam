@@ -19,7 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
-import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.EventType;
@@ -43,33 +43,55 @@ public class SeamInterceptor implements Serializable
    private transient Component component;
    
    /**
-    * Called when instatiated by EJB container
+    * Called when instatiated by EJB container.
+    * (In this case it might be a Seam component,
+    * but we won't know until postConstruct() is
+    * called.)
     */
    public SeamInterceptor()
    {
       type = InterceptorType.SERVER;
-      component = null;
    }
    
    /**
-    * Called when instantiated by Seam
+    * Called when instantiated by Seam.
+    * (In this case it is always a Seam
+    * component.)
     */
    public SeamInterceptor(InterceptorType type, Component component)
    {
       this.type = type;
       this.component = component;
       isSeamComponent = true;
+      componentName = component.getName();
    }
    
    @PostConstruct
    public void postConstruct(InvocationContext invocation)
    {
-      //if instantiated by the EJB container, we 
-      //still need to init the component reference
       Object bean = invocation.getTarget();
-      if ( isSeamComponent(bean) )
+
+      // if it is a session bean instantiated by the EJB 
+      // container, we still need to init the component 
+      // reference
+      if (component==null) //ie. if it was instantiated by the EJB container
       {
-         component = getSeamComponent(bean);
+         Class<?> beanClass = bean.getClass();
+         if ( beanClass.isAnnotationPresent(Name.class) ) //for session beans, this is a safe test
+         {
+            isSeamComponent = true;
+            componentName = beanClass.getAnnotation(Name.class).value();
+            component = componentForName(componentName);
+         }
+         else
+         {
+            isSeamComponent = false;
+         }
+      }
+      
+      // initialize the bean instance
+      if (isSeamComponent)
+      {
          try
          {
             component.initialize(bean);
@@ -82,7 +104,6 @@ public class SeamInterceptor implements Serializable
          {
             throw new RuntimeException("exception initializing EJB component", e);
          }
-         isSeamComponent = true;
       }
       
       invokeAndHandle(invocation, EventType.POST_CONSTRUCT);
@@ -98,13 +119,12 @@ public class SeamInterceptor implements Serializable
    public void prePassivate(InvocationContext invocation)
    {
       invokeAndHandle(invocation, EventType.PRE_PASSIVATE);
-      if (isSeamComponent) componentName = component.getName();
    }
    
    @PostActivate
    public void postActivate(InvocationContext invocation)
    {
-      if (isSeamComponent) component = Component.forName(componentName);
+      if (isSeamComponent) component = componentForName(componentName);
       invokeAndHandle(invocation, EventType.POST_ACTIVATE);
    }
    
@@ -182,15 +202,25 @@ public class SeamInterceptor implements Serializable
    {
       return component!=null && component.getInterceptionType().isActive();
    }
-
-   private boolean isSeamComponent(Object bean)
-   {
-      return isSeamComponent || Seam.getBeanClass( bean.getClass() )!=null;
-   }
    
-   private Component getSeamComponent(Object bean)
+   private Component componentForName(String name)
    {
-      return component==null ? Component.forName( Seam.getComponentName( bean.getClass() ) ) : component;
+      if ( Contexts.isApplicationContextActive() )
+      {
+         return Component.forName(name);
+      }
+      else
+      {
+         Lifecycle.beginApplication();
+         try
+         {
+            return Component.forName(name);
+         }
+         finally
+         {
+            Lifecycle.endApplication();
+         }
+      }
    }
    
 }

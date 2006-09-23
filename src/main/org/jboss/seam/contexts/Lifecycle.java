@@ -64,11 +64,6 @@ public class Lifecycle
    {
       log.debug( ">>> Begin call" );
       ServletContext servletContext = getServletContext();
-      if (servletContext==null)
-      {
-         throw new IllegalStateException("Attempted to invoke a Seam component outside the context of a web application");
-      }
-
       Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
       Contexts.sessionContext.set( new MapContext(ScopeType.SESSION) );
       Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
@@ -94,6 +89,17 @@ public class Lifecycle
       }
 
    }
+   
+   public static void beginApplication()
+   {
+      Contexts.applicationContext.set( new WebApplicationContext( getServletContext() ) );
+   }
+   
+   public static void endApplication()
+   {
+      Contexts.applicationContext.set(null);
+   }
+   
 
    public static void beginInitialization(ServletContext servletContext)
    {
@@ -389,6 +395,10 @@ public class Lifecycle
    private static ServletContext servletContext;
 
    public static ServletContext getServletContext() {
+      if (servletContext==null)
+      {
+         throw new IllegalStateException("Attempted to invoke a Seam component outside the context of a web application");
+      }
       return servletContext;
    }
 
