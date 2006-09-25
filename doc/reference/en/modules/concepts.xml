@@ -608,7 +608,7 @@ public class User {
                 <literal>locale</literal> attribute whenever it instantiates the component.
             </para>
             <para>
-                Note that it is not possible to configure stateless session beans or entity beans.
+                Note that it is not possible to configure entity beans.
             </para>
             <para>
                 The same mechanism is used to configure Seam itself. For example, to set the conversation
