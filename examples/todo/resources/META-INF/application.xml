@@ -14,7 +14,7 @@
 	    <java>jboss-seam.jar</java>
 	</module>
 	<module>
-	    <java>jbpm-3.1.1.jar</java>
+	    <java>jbpm-3.1.2.jar</java>
 	</module>
 
 </application>
