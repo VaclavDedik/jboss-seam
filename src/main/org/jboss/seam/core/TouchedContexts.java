@@ -12,8 +12,9 @@ import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Contexts;
 
-@Name("touchedContexts")
+@Name("org.jboss.seam.core.touchedContexts")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
 @Mutable
@@ -29,7 +30,14 @@ public class TouchedContexts
    
    public static Set<String> instance()
    {
-      return (Set<String>) Component.getInstance(TouchedContexts.class);
+      if ( Contexts.isConversationContextActive() )
+      {
+         return (Set<String>) Component.getInstance(TouchedContexts.class);
+      }
+      else
+      {
+         return null;
+      }
    }
    
 }

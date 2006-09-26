@@ -71,16 +71,16 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext ctx) throws Exception
    {
-      entityRefsToIds(ctx);
-      Object result = ctx.proceed();
       entityIdsToRefs(ctx);
+      Object result = ctx.proceed();
+      entityRefsToIds(ctx);
       return result;
    }
    
    public void entityRefsToIds(InvocationContext ctx) throws Exception
    {      
       Set<String> pcs = TouchedContexts.instance();
-      if ( pcs.size()>0 )
+      if ( pcs!=null && pcs.size()>0 )
       {
          Object bean = ctx.getTarget();
          Class beanClass = Seam.getBeanClass( bean.getClass() );
@@ -153,6 +153,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                try
                {
                   Field field = beanClass.getDeclaredField( pe.getFieldName() );
+                  if ( !field.isAccessible() ) field.setAccessible(true);
                   field.set(bean, reference);
                   break;
                }
