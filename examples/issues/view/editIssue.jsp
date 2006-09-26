@@ -133,6 +133,10 @@
           <h:outputText value="#{messages.No} #{messages.Issue_comments}" rendered="#{commentsList.rowCount==0}"/>
           <h:dataTable value="#{commentsList}" var="child" rendered="#{commentsList.rowCount>0}" rowClasses="rvgRowOne,rvgRowTwo">
             <h:column>
+              <f:facet name="header"><h:outputText value="#{messages.Comment_user}"/></f:facet>
+              <h:outputText value="#{child.user.name}"/>
+            </h:column>
+            <h:column>
               <f:facet name="header"><h:outputText value="#{messages.Comment_text}"/></f:facet>
               <h:outputText value="#{child.text}"/>
             </h:column>

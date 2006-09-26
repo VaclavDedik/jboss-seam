@@ -118,7 +118,7 @@ public class ProjectEditorBean implements ProjectEditor {
 
     @DataModel
     public List getIssuesList() {
-       return project == null || project.getIssues()==null ?
+       return project.getIssues()==null ?
              null : new ArrayList( project.getIssues() );
     }
 
@@ -135,7 +135,8 @@ public class ProjectEditorBean implements ProjectEditor {
     
     public List<User> getDevelopers()
     {
-       return project.getDevelopers()==null ? null : new ArrayList<User>( project.getDevelopers() );
+       return project.getDevelopers()==null ? 
+             null : new ArrayList<User>( project.getDevelopers() );
     }
     
     @TransactionAttribute(NOT_SUPPORTED)
