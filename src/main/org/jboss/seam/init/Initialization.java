@@ -184,7 +184,7 @@ public class Initialization
       String name = component.attributeValue("name");
       String className = component.attributeValue("class");
       String scopeName = component.attributeValue("scope");
-      ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName);
+      ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName.toUpperCase());
       if (className!=null)
       {
          Class<?> clazz = Reflections.classForName(className);

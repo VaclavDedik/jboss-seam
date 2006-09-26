@@ -898,12 +898,14 @@ public class Component
       for ( Map.Entry<Method, InitialValue> me: initializerSetters.entrySet() )
       {
          Method method = me.getKey();
-         setPropertyValue(bean, method, method.getName(), me.getValue().getValue( method.getParameterTypes()[0] ) );
+         Object initialValue = me.getValue().getValue( method.getParameterTypes()[0] );
+         setPropertyValue(bean, method, method.getName(), initialValue );
       }
       for ( Map.Entry<Field, InitialValue> me: initializerFields.entrySet() )
       {
          Field field = me.getKey();
-         setFieldValue(bean, field, field.getName(), me.getValue().getValue( field.getType() ) );
+         Object initialValue = me.getValue().getValue( field.getType() );
+         setFieldValue(bean, field, field.getName(), initialValue );
       }
    }
    
