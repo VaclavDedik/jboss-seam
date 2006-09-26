@@ -75,8 +75,8 @@ import org.jboss.seam.interceptors.ConversationalInterceptor;
 import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.JavaBeanInterceptor;
+import org.jboss.seam.interceptors.ManagedEntityIdentityInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
-import org.jboss.seam.interceptors.PassivationInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
@@ -438,7 +438,7 @@ public class Component
             }
             if ( method.isAnnotationPresent(PostActivate.class) )
             {
-               prePassivateMethod = method;
+               postActivateMethod = method;
             }
             if ( method.isAnnotationPresent(PostConstruct.class) )
             {
@@ -676,11 +676,10 @@ public class Component
       {
          addInterceptor( new Interceptor( new TransactionInterceptor(), this ) );
       }
-      /*else
+      if ( getType()!=ComponentType.STATELESS_SESSION_BEAN )
       {
-         addInterceptor( new Interceptor( new EJBExceptionInterceptor(), this ) );
-      }*/
-      addInterceptor( new Interceptor( new PassivationInterceptor(), this ) );
+         addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
+      }
    }
 
    public Class<?> getBeanClass()
@@ -782,12 +781,12 @@ public class Component
 
    public boolean hasPrePassivateMethod()
    {
-      return preDestroyMethod!=null;
+      return prePassivateMethod!=null;
    }
 
    public boolean hasPostActivateMethod()
    {
-      return postConstructMethod!=null;
+      return postActivateMethod!=null;
    }
 
    public boolean hasDestroyMethod()

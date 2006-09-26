@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
+import java.io.Serializable;
+
 import javax.ejb.PostActivate;
 import javax.ejb.PrePassivate;
 import javax.interceptor.InvocationContext;
@@ -12,7 +14,7 @@ import org.jboss.seam.Component;
  * 
  * @author Gavin King
  */
-class AbstractInterceptor
+class AbstractInterceptor implements Serializable
 {
    protected transient Component component;
    private String componentName;

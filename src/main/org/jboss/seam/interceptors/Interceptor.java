@@ -80,7 +80,7 @@ public final class Interceptor extends Reflections
    {
       for (Method method : userInterceptor.getClass().getMethods())
       {
-         method.setAccessible(true);
+         if ( !method.isAccessible() ) method.setAccessible(true);
          if ( method.isAnnotationPresent(AroundInvoke.class) )
          {
             aroundInvokeMethod = method;

@@ -5,9 +5,9 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
 
-import javax.ejb.PostActivate;
-import javax.ejb.PrePassivate;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpSessionActivationListener;
+import javax.servlet.http.HttpSessionEvent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +34,7 @@ import org.jboss.seam.util.Naming;
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
 @Mutable
-public class ManagedHibernateSession implements Serializable
+public class ManagedHibernateSession implements Serializable, HttpSessionActivationListener
 {
    
    /** The serialVersionUID */
@@ -90,8 +90,8 @@ public class ManagedHibernateSession implements Serializable
       return session;
    }
    
-   @PrePassivate
-   public void passivate()
+   //we can't use @PrePassivate because it is intercept NEVER
+   public void sessionWillPassivate(HttpSessionEvent event)
    {
       if ( !session.isDirty() )
       {
@@ -100,8 +100,8 @@ public class ManagedHibernateSession implements Serializable
       }
    }
    
-   @PostActivate
-   public void activate()
+   //we can't use @PostActivate because it is intercept NEVER
+   public void sessionDidActivate(HttpSessionEvent event)
    {
       if (session==null)
       {
