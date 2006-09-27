@@ -88,13 +88,17 @@ public class ExceptionInterceptor extends AbstractInterceptor
 
    private void addFacesMessage(Exception e, String message)
    {
-      FacesMessages.instance().add( renderExceptionMessage(e, message) );
+      message = renderExceptionMessage(e, message);
+      if (message!=null)
+      {
+         FacesMessages.instance().add(message);
+      }
    }
    
    private String renderExceptionMessage(Exception e, String message)
    {
-      return Interpolator.instance()
-            .interpolate( "".equals(message) ? e.getMessage() : message );
+      message = "".equals(message) ? e.getMessage() : message;
+      return message==null ? null : Interpolator.instance().interpolate(message);
    }
 
    private void error(int code, String message)
@@ -102,7 +106,14 @@ public class ExceptionInterceptor extends AbstractInterceptor
       if ( log.isDebugEnabled() ) log.debug("sending error: " + code);
       FacesContext facesContext = FacesContext.getCurrentInstance();
       org.jboss.seam.core.HttpError httpError = org.jboss.seam.core.HttpError.instance();
-      httpError.send(code, message);
+      if (message==null)
+      {
+         httpError.send(code);
+      }
+      else
+      {
+         httpError.send(code, message);
+      }
       FacesMessages.afterPhase();
       AbstractSeamPhaseListener.storeAnyConversationContext(facesContext);
    }
