@@ -10,10 +10,17 @@
     <title>Contact List</title>
   </head>
   <body>
+  
+    <h:messages/>
+    
+    <!-- search box -->
     <h:form>
        First Name: <h:inputText value="#{exampleContact.firstName}"/>
        Last Name : <h:inputText value="#{exampleContact.lastName}"/>
        <h:commandButton value="Search" action="/search.xhtml"/>
+    </h:form>
+    
+    <!-- search results -->
     <table>
       <tr>
         <th>Name</th>
@@ -42,22 +49,26 @@
         </tr>
       </ui:repeat>
     </table>
-    </h:form>
     
-    <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;&lt;">
-      <f:param name="firstResult" value="0"/>
-    </s:link>
-    <h:outputText rendered="#{!contacts.previousExists}" value="&lt;&lt;"/>
-    &#160;
-    <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;">
-      <f:param name="firstResult" value="#{contacts.previousFirstResult}"/>
-    </s:link>
-    <h:outputText rendered="#{!contacts.previousExists}" value="&lt;"/>
-    &#160;
-    <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="&gt;">
-      <f:param name="firstResult" value="#{contacts.nextFirstResult}"/>
-    </s:link>
-    <h:outputText rendered="#{!contacts.nextExists}" value="&gt;"/>
+    <!-- pagination control -->
+    <div>
+      <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;&lt;">
+        <f:param name="firstResult" value="0"/>
+      </s:link>
+      <h:outputText rendered="#{!contacts.previousExists}" value="&lt;&lt;"/>
+      &#160;
+      <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;">
+        <f:param name="firstResult" value="#{contacts.previousFirstResult}"/>
+      </s:link>
+      <h:outputText rendered="#{!contacts.previousExists}" value="&lt;"/>
+      &#160;
+      <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="&gt;">
+        <f:param name="firstResult" value="#{contacts.nextFirstResult}"/>
+      </s:link>
+      <h:outputText rendered="#{!contacts.nextExists}" value="&gt;"/>
+    </div>
+    
+    <s:link view="/editContact.xhtml" value="Create New Contact"/>
     
   </body>
 </html>

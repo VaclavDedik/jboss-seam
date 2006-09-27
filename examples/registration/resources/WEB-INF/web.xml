@@ -10,6 +10,16 @@
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
     
+    <filter>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
+
     <!-- Facelets -->
 
     <context-param>

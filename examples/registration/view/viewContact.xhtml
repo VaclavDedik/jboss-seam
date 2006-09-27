@@ -11,6 +11,9 @@
   </head>
   <body>
   
+    <h:messages/>
+  
+    <!-- fields -->
     <table>
       <tr>
         <td>First Name</td>
@@ -50,8 +53,18 @@
       </tr>
     </table>
     
+    <!-- links and actions -->
     <s:link view="/editContact.xhtml" value="Edit Contact"/>
     &#160;&#160;
+    <s:link action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">
+      <f:param name="contactId" value="#{contact.id}"/>
+    </s:link>
+    &#160;&#160;
+    <s:link view="/editContact.xhtml" value="Create New Contact">
+      <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
+    </s:link>
+    &#160;&#160;
     <s:link view="/search.xhtml" value="Search Contacts"/>
+    
   </body>
 </html>
