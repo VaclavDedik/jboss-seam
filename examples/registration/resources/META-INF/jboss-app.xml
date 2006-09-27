@@ -1,5 +1,5 @@
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-registration
+      seam.jboss.org:loader=seam-crud
       </loader-repository> 
 </jboss-app> 

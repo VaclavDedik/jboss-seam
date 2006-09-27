@@ -1,14 +1,14 @@
 <application>
-	<display-name>Seam Registration</display-name>
+	<display-name>Seam CRUD</display-name>
 
 	<module>
 		<web>
-			<web-uri>jboss-seam-registration.war</web-uri>
-			<context-root>/seam-registration</context-root>
+			<web-uri>jboss-seam-crud.war</web-uri>
+			<context-root>/seam-crud</context-root>
 		</web>
 	</module>
 	<module>
-		<ejb>jboss-seam-registration.jar</ejb>
+		<ejb>jboss-seam-crud.jar</ejb>
 	</module>
 	<module>
 	    <java>jboss-seam.jar</java>

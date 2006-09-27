@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="Registration" default="deploy" basedir=".">
+<project name="CRUD" default="deploy" basedir=".">
 
     <!-- Example name -->
-    <property name="Name"                   value="Seam Registration Example"/>
-    <property name="example.name"           value="jboss-seam-registration"/>
+    <property name="Name"                   value="Seam CRUD Example"/>
+    <property name="example.name"           value="jboss-seam-crud"/>
 
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
@@ -20,16 +20,14 @@
     
     <zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
-               dir="resources/WEB-INF">
-        <include name="_NONE_"/>
+               dir="../../facelets/lib">
+        <include name="*.jar"/>
     </zipfileset>
     
     <zipfileset id="example.war.webinf.lib.extra" 
-            prefix="WEB-INF/lib"
-               dir=".">
-        <include name="_NONE_"/>
-    </zipfileset>
-
+    	    prefix="WEB-INF/lib"
+    	     refid="extra.seam.jar"/>
+    
     <zipfileset id="example.war.webinf.lib.extra" 
     	    prefix="WEB-INF/lib"
     	     refid="ui.seam.jar"/>
