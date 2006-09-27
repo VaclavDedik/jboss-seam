@@ -2,7 +2,6 @@ package org.jboss.seam.interceptors;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +10,12 @@ import java.util.Set;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
-import javax.persistence.Id;
 
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.TouchedContexts;
+import org.jboss.seam.util.Persistence;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -102,19 +101,25 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                         {
                            Object persistenceContext = Component.getInstance(persistenceContextName);
                            boolean managed;
+                           Object id;
                            if (persistenceContext instanceof EntityManager)
                            {
                               EntityManager em = (EntityManager) persistenceContext;
                               managed = em.contains(value);
+                              id = managed ? Persistence.getId(value, em) : null;
                            }
                            else
                            {
                               Session session = (Session) persistenceContext;
                               managed = session.contains(value);
+                              id = managed ? session.getIdentifier(value) : null;
                            }
                            if (managed)
                            {
-                              Object id = getId(value, entityClass);
+                              if (id==null)
+                              {
+                                 throw new IllegalStateException("could not get id of: " + beanClass.getName() + '.' + field.getName());
+                              }
                               list.add( new PassivatedEntity( id, entityClass, field.getName(), persistenceContextName ) );
                               Reflections.set(field, bean, null);
                               break;
@@ -162,30 +167,6 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
          }
          list.clear();
       }
-   }
-
-   private static Object getId(Object bean, Class entityClass) throws Exception
-   {
-      for (Class beanClass=entityClass; beanClass!=Object.class; beanClass=beanClass.getSuperclass() )
-      {
-         for (Field field: beanClass.getDeclaredFields()) //TODO: superclasses
-         {
-            if ( field.isAnnotationPresent(Id.class) )
-            {
-               if ( !field.isAccessible() ) field.setAccessible(true);
-               return Reflections.get(field, bean);
-            }
-         }
-         for (Method method: beanClass.getDeclaredMethods())
-         {
-            if ( method.isAnnotationPresent(Id.class) )
-            {
-               if ( !method.isAccessible() ) method.setAccessible(true);
-               return Reflections.invoke(method, bean);
-            }
-         }
-      }
-      throw new IllegalArgumentException("no id property found for entity class: " + entityClass.getName());
    }
    
 }

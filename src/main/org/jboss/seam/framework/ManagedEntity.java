@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.persistence.EntityManager;
 
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Reflections;
@@ -24,9 +25,10 @@ public class ManagedEntity
 {
    private EntityManager entityManager;
    private Object id;
-   private String entityClass;
+   private String entityClassName;
+   private Class<?> entityClass;
    private String idClass;
-   private Object newInstance;
+   private Object instance;
    private String idConverterId;
    private Converter idConverter;
    
@@ -52,36 +54,57 @@ public class ManagedEntity
    
    public String getEntityClass()
    {
-      return entityClass;
+      return entityClassName;
    }
 
    public void setEntityClass(String entityClass)
    {
-      this.entityClass = entityClass;
+      this.entityClassName = entityClass;
    }
 
+   @Create
+   public void initEntityClass() throws Exception
+   {
+      entityClass = Reflections.classForName(entityClassName);
+   }
+   
    @Unwrap
    public Object getInstance() throws Exception
    {
-      Class<?> clazz = Reflections.classForName(entityClass);
       if ( id==null || "".equals(id) )
       {
-         if (newInstance==null)
+         if (instance==null)
          {
-            newInstance = clazz.newInstance();
+            createInstance();
          }
-         return newInstance;
       }
       else
       {
-         entityManager.joinTransaction();
-         return entityManager.find( clazz, getConvertedId() );
+         if (instance==null)
+         {
+            //we cache the instance so that it does not "disappear"
+            //after remove() is called on the instance
+            //is this really a Good Idea??
+            entityManager.joinTransaction();
+            loadInstance( getConvertedId() );
+         }
       }
+      return instance;
+   }
+
+   protected void createInstance() throws Exception
+   {
+      instance = entityClass.newInstance();
+   }
+
+   protected void loadInstance(Object id)
+   {
+      instance = entityManager.find(entityClass, id);
    }
    
    //////////// TODO: copy/paste from ManagedHibernateEntity ///////////////////
    
-   private Object getConvertedId() throws Exception
+   protected Object getConvertedId() throws Exception
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       if (idConverter==null)

@@ -10,17 +10,26 @@ public class EntityActions
    private Object entity;
    
    @Transactional
-   public void persist()
+   public String update()
+   {
+      entityManager.joinTransaction();
+      return "updated";
+   }
+   
+   @Transactional
+   public String persist()
    {
       entityManager.joinTransaction();
       entityManager.persist(entity);
+      return "persisted";
    }
 
    @Transactional
-   public void remove()
+   public String remove()
    {
       entityManager.joinTransaction();
       entityManager.remove(entity);
+      return "removed";
    }
    
    public boolean isManaged()

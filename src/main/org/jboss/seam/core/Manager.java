@@ -859,7 +859,7 @@ public class Manager
       redirect(url, parameters, true);
    }
    
-   private String encodeParameters(String url, Map<String, Object> parameters)
+   public String encodeParameters(String url, Map<String, Object> parameters)
    {
       if ( parameters.isEmpty() ) return url;
       
@@ -914,11 +914,11 @@ public class Manager
       {
          url = encodeParameters(url, renderParameters);
       }
-      Map<String, Object> pageParameters = Pages.instance().getParameters(viewId);
+      /*Map<String, Object> pageParameters = Pages.instance().getParameters(viewId);
       if (pageParameters!=null)
       {
          url = encodeParameters(url, pageParameters);
-      }
+      }*/
       if (includeConversationId)
       {
          url = encodeConversationId(url);
