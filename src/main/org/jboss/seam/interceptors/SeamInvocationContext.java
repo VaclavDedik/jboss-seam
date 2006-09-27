@@ -18,12 +18,14 @@ public class SeamInvocationContext implements InvocationContext
    private final EventType eventType;
    private final InvocationContext ejbInvocationContext;
    private final List<Interceptor> interceptors;
+   private final List<Object> userInterceptors;
    int location = 0;
 
-   public SeamInvocationContext(InvocationContext ejbInvocationContext, EventType type, List<Interceptor> interceptors)
+   public SeamInvocationContext(InvocationContext ejbInvocationContext, EventType type, List<Object> userInterceptors, List<Interceptor> interceptors)
    {
       this.ejbInvocationContext = ejbInvocationContext;
       this.interceptors = interceptors;
+      this.userInterceptors = userInterceptors;
       this.eventType = type;
    }
    
@@ -55,14 +57,16 @@ public class SeamInvocationContext implements InvocationContext
       }
       else
       {
-         Interceptor interceptor = interceptors.get(location++);
+         Object userInterceptor = userInterceptors.get(location);
+         Interceptor interceptor = interceptors.get(location);
+         location++;
          switch(eventType)
          {
-            case AROUND_INVOKE: return interceptor.aroundInvoke(this);
-            case POST_CONSTRUCT: return interceptor.postConstruct(this);
-            case PRE_DESTORY: return interceptor.preDestroy(this);
-            case PRE_PASSIVATE: return interceptor.prePassivate(this);
-            case POST_ACTIVATE: return interceptor.postActivate(this);
+            case AROUND_INVOKE: return interceptor.aroundInvoke(this, userInterceptor);
+            case POST_CONSTRUCT: return interceptor.postConstruct(this, userInterceptor);
+            case PRE_DESTORY: return interceptor.preDestroy(this, userInterceptor);
+            case PRE_PASSIVATE: return interceptor.prePassivate(this, userInterceptor);
+            case POST_ACTIVATE: return interceptor.postActivate(this, userInterceptor);
             default: throw new IllegalArgumentException("no InvocationType");
          }
       }

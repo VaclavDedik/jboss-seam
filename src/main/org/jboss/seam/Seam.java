@@ -96,9 +96,9 @@ public class Seam
    
    /**
     * Get the bean class from a container-generated proxy
-    * class
+    * class BROKEN!!!!!
     */
-   public static Class getBeanClass(Class<?> clazz)
+   /*public static Class getBeanClass(Class<?> clazz)
    {
       while ( clazz!=null && !Object.class.equals(clazz) )
       {
@@ -107,7 +107,7 @@ public class Seam
          clazz = clazz.getSuperclass();
       }
       return null;
-   }
+   }*/
    
    /**
     * Get the bean class from a container-generated proxy

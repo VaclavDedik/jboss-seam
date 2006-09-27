@@ -97,7 +97,7 @@ public class Reflections
    
    private static String toString(Method method)
    {
-      return Strings.unqualify( method.getClass().getName() ) + 
+      return Strings.unqualify( method.getDeclaringClass().getName() ) + 
             '.' + 
             method.getName() + 
             '(' + 
@@ -107,7 +107,7 @@ public class Reflections
    
    private static String toString(Field field)
    {
-      return Strings.unqualify( field.getClass().getName() ) + 
+      return Strings.unqualify( field.getDeclaringClass().getName() ) + 
             '.' + 
             field.getName();
    }

@@ -7,6 +7,7 @@
 package org.jboss.seam.ejb;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -24,6 +25,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.EventType;
+import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.SeamInvocationContext;
 
 /**
@@ -42,6 +44,7 @@ public class SeamInterceptor implements Serializable
    private boolean isSeamComponent;
    private String componentName;
    private transient Component component;
+   private List<Object> userInterceptors;
    
    /**
     * Called when instatiated by EJB container.
@@ -63,6 +66,7 @@ public class SeamInterceptor implements Serializable
    {
       this.type = type;
       this.component = component;
+      userInterceptors = component.createUserInterceptors(type);
       isSeamComponent = true;
       componentName = component.getName();
    }
@@ -83,6 +87,7 @@ public class SeamInterceptor implements Serializable
             isSeamComponent = true;
             componentName = beanClass.getAnnotation(Name.class).value();
             component = Seam.componentForName(componentName);
+            userInterceptors = component.createUserInterceptors(type);
          }
          else
          {
@@ -188,7 +193,7 @@ public class SeamInterceptor implements Serializable
          {
             log.trace("intercepted: " + component.getName() + '.' + invocation.getMethod().getName());
          }
-         return new SeamInvocationContext( invocation, eventType, component.getInterceptors(type) ).proceed();
+         return new SeamInvocationContext( invocation, eventType, userInterceptors, component.getInterceptors(type) ).proceed();
       }
       else {
          if ( log.isTraceEnabled() ) 

@@ -3,6 +3,9 @@ package org.jboss.seam.ui;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
@@ -14,6 +17,7 @@ import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pages;
 
 public class HtmlLink extends HtmlOutputLink
 {
@@ -89,13 +93,31 @@ public class HtmlLink extends HtmlOutputLink
       String viewId = view==null ? context.getViewRoot().getViewId() : view;
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
       String encodedUrl = context.getExternalContext().encodeActionURL(url);
+      
       String characterEncoding = context.getResponseWriter().getCharacterEncoding();
       boolean first = true;
+      Set<String> usedParameters = new HashSet<String>();
+      
       for (Object child: getChildren())
       {
          if (child instanceof UIParameter)
          {
-            encodedUrl += getParameterString(characterEncoding, (UIParameter) child, first);
+            UIParameter uip = (UIParameter) child;
+            encodedUrl += getParameterString(characterEncoding, uip, first);
+            first = false;
+            usedParameters.add( uip.getName() );
+         }
+      }
+      
+      if (view!=null)
+      {
+         Map<String, Object> pageParameters = Pages.instance().getParameters(view, usedParameters);
+         for ( Map.Entry<String, Object> me: pageParameters.entrySet() )
+         {
+            UIParameter uip = new UIParameter();
+            uip.setName( me.getKey() );
+            uip.setValue( me.getValue() );
+            encodedUrl += getParameterString(characterEncoding, uip, first);
             first = false;
          }
       }
@@ -144,7 +166,7 @@ public class HtmlLink extends HtmlOutputLink
          encodedUrl += getParameterString(characterEncoding, uiSelection, first);
          first = false;
       }
-      
+            
       if (fragment!=null)
       {
          encodedUrl += '#' + fragment;

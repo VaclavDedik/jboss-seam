@@ -83,7 +83,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       if ( pcs!=null && pcs.size()>0 )
       {
          Object bean = ctx.getTarget();
-         Class beanClass = Seam.getBeanClass( bean.getClass() );
+         Class beanClass = bean.getClass();
          for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
          {
             Field[] fields = beanClass.getDeclaredFields();
@@ -101,7 +101,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                         for (String persistenceContextName: pcs)
                         {
                            Object persistenceContext = Component.getInstance(persistenceContextName);
-                           boolean managed = false;
+                           boolean managed;
                            if (persistenceContext instanceof EntityManager)
                            {
                               EntityManager em = (EntityManager) persistenceContext;
@@ -133,7 +133,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       if ( list.size()>0 )
       {
          Object bean = ctx.getTarget();
-         Class beanClass = Seam.getBeanClass( bean.getClass() );
+         Class beanClass = bean.getClass();
          for (PassivatedEntity pe: list)
          {
             Object persistenceContext = Component.getInstance( pe.getPersistenceContext() );
@@ -164,26 +164,28 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       }
    }
 
-   private static Object getId(Object bean, Class beanClass) throws Exception
+   private static Object getId(Object bean, Class entityClass) throws Exception
    {
-      for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass() )
+      for (Class beanClass=entityClass; beanClass!=Object.class; beanClass=beanClass.getSuperclass() )
       {
-         for (Field field: beanClass.getFields()) //TODO: superclasses
+         for (Field field: beanClass.getDeclaredFields()) //TODO: superclasses
          {
             if ( field.isAnnotationPresent(Id.class) )
             {
+               if ( !field.isAccessible() ) field.setAccessible(true);
                return Reflections.get(field, bean);
             }
          }
-         for (Method method: beanClass.getMethods())
+         for (Method method: beanClass.getDeclaredMethods())
          {
             if ( method.isAnnotationPresent(Id.class) )
             {
+               if ( !method.isAccessible() ) method.setAccessible(true);
                return Reflections.invoke(method, bean);
             }
          }
       }
-      throw new IllegalArgumentException("no id property found for entity class: " + beanClass.getName());
+      throw new IllegalArgumentException("no id property found for entity class: " + entityClass.getName());
    }
    
 }

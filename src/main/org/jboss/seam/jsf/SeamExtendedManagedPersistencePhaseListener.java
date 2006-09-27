@@ -25,7 +25,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
       boolean beginTran = phaseId==PhaseId.RESTORE_VIEW || 
             ( phaseId==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       
-      if ( beginTran ) 
+      if (beginTran) 
       {
          begin(phaseId);
       }
@@ -36,7 +36,7 @@ public class SeamExtendedManagedPersistencePhaseListener extends SeamPhaseListen
    {
       PhaseId phaseId = event.getPhaseId();
       boolean commitTran = phaseId==PhaseId.INVOKE_APPLICATION || 
-            event.getFacesContext().getRenderResponse() ||
+            event.getFacesContext().getRenderResponse() || //TODO: no need to commit the tx if we failed to restore the view
             event.getFacesContext().getResponseComplete() ||
             ( phaseId==PhaseId.RENDER_RESPONSE && !Init.instance().isClientSideConversations() );
       

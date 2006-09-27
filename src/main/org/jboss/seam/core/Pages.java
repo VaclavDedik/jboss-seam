@@ -3,6 +3,8 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.TreeSet;
 
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
+import javax.faces.el.ValueBinding;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,6 +31,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 
 /**
@@ -45,12 +49,23 @@ public class Pages
    
    private static final Log log = LogFactory.getLog(Pages.class);
    
-   //TODO: move into a single map:
-   private Map<String, String> descriptionByViewId = new HashMap<String, String>();
-   private Map<String, Integer> timeoutsByViewId = new HashMap<String, Integer>();
-   private Map<String, MethodBinding> actionsByViewId = new HashMap<String, MethodBinding>();
-   private Map<String, String> outcomesByViewId = new HashMap<String, String>();
-   private Map<String, String> noConversationViewIdByViewId = new HashMap<String, String>();
+   static final class Page
+   {
+      Page(String viewId)
+      {
+         this.viewId = viewId;
+      }
+      
+      final String viewId;
+      String description;
+      Integer timeout;
+      MethodBinding action;
+      String outcome;
+      String noConversationViewId;
+      Map<String, ValueBinding> parameterValueBindings = new HashMap<String, ValueBinding>();
+   }
+   
+   private Map<String, Page> pagesByViewId = new HashMap<String, Page>();
    
    private String noConversationViewId;
    
@@ -87,51 +102,68 @@ public class Pages
             {
                wildcardViewIds.add(viewId);
             }
+            Page entry = new Page(viewId);
+            pagesByViewId.put(viewId, entry);
+            
             String description = page.getTextTrim();
             if (description!=null && description.length()>0)
             {
-               descriptionByViewId.put( viewId, description );
+               entry.description = description;
             }
+            
             String timeoutString = page.attributeValue("timeout");
             if (timeoutString!=null)
             {
-               timeoutsByViewId.put( viewId, Integer.parseInt(timeoutString) );
+               entry.timeout = Integer.parseInt(timeoutString);
             }
+            
             String noConversationViewId = page.attributeValue("no-conversation-view-id");
-            if (noConversationViewId!=null)
-            {
-               noConversationViewIdByViewId.put( viewId, noConversationViewId );
-            }
+            entry.noConversationViewId = noConversationViewId;
+            
             String action = page.attributeValue("action");
             if (action!=null)
             {
                if ( action.startsWith("#{") )
                {
                   MethodBinding methodBinding = new ActionParamMethodBinding(FacesContext.getCurrentInstance(), action);
-                  actionsByViewId.put(viewId, methodBinding);
+                  entry.action = methodBinding;
                }
                else
                {
-                  outcomesByViewId.put(viewId, action);
+                  entry.outcome = action;
                }
+            }
+            
+            List<Element> children = page.elements("param");
+            for (Element param: children)
+            {
+               ValueBinding valueBinding = FacesContext.getCurrentInstance().getApplication()
+                     .createValueBinding( param.attributeValue("value") );
+               entry.parameterValueBindings.put( param.attributeValue("name"), valueBinding );
             }
          }
       }
    }
    
+   private Page getPage(String viewId)
+   {
+      Page result = pagesByViewId.get(viewId);
+      return result==null ? new Page(viewId) : result;
+   }
+   
    public boolean hasDescription(String viewId)
    {
-      return descriptionByViewId.containsKey(viewId);
+      return getPage(viewId).description!=null;
    }
    
    public String getDescription(String viewId)
    {
-      return Interpolator.instance().interpolate( descriptionByViewId.get(viewId) );
+      return Interpolator.instance().interpolate( getPage(viewId).description );
    }
 
    public Integer getTimeout(String viewId)
    {
-      return timeoutsByViewId.get(viewId);
+      return getPage(viewId).timeout;
    }
    
    public boolean callAction()
@@ -157,12 +189,12 @@ public class Pages
    {
       boolean result = false;
       
-      String outcome = outcomesByViewId.get(viewId);
+      String outcome = getPage(viewId).outcome;
       String fromAction = outcome;
       
       if (outcome==null)
       {
-         MethodBinding methodBinding = actionsByViewId.get(viewId);
+         MethodBinding methodBinding = getPage(viewId).action;
          if (methodBinding!=null) 
          {
             fromAction = methodBinding.getExpressionString();
@@ -241,8 +273,50 @@ public class Pages
    
    public String getNoConversationViewId(String viewId)
    {
-      String result = noConversationViewIdByViewId.get(viewId);
+      String result = getPage(viewId).noConversationViewId;
       return result==null ? noConversationViewId : result;
+   }
+   
+   private Collection<Map.Entry<String, ValueBinding>> getParameterValueBindings(String viewId)
+   {
+      return getPage(viewId).parameterValueBindings.entrySet();
+   }
+   
+   public Map<String, Object> getParameters(String viewId)
+   {
+      return getParameters(viewId, Collections.EMPTY_SET);
+   }
+   
+   public Map<String, Object> getParameters(String viewId, Set<String> overridden)
+   {
+      Map<String, Object> parameters = new HashMap<String, Object>();
+      for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
+      {
+         if ( !overridden.contains( me.getKey() ) )
+         {
+            Object value = me.getValue().getValue( FacesContext.getCurrentInstance() );
+            //TODO: handle multi-values!
+            if (value!=null)
+            {
+               parameters.put( me.getKey(), value );
+            }
+         }
+      }
+      return parameters;
+   }
+   
+   public void applyParameterValues(String viewId)
+   {
+      Map<String, String[]> parameters = Parameters.getRequestParameters();
+      for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
+      {
+         Class type = me.getValue().getType( FacesContext.getCurrentInstance() );
+         Object value = Parameters.convertMultiValueRequestParameter( parameters, me.getKey(), type );
+         if (value!=null) 
+         {
+            me.getValue().setValue( FacesContext.getCurrentInstance(), value );
+         }
+      }
    }
 
    public String getNoConversationViewId()

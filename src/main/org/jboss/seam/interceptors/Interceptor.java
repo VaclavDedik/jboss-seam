@@ -23,17 +23,56 @@ import org.jboss.seam.util.Reflections;
  */
 public final class Interceptor extends Reflections
 {
-   private final Object userInterceptor;
+   private Class<?> userInterceptorClass;
+   private Object statelessUserInterceptorInstance;
    private Method aroundInvokeMethod;
    private Method postConstructMethod;
    private Method preDestroyMethod;
    private Method postActivateMethod;
    private Method prePassivateMethod;
+   private Method componentInjectorMethod;
+   private Method annotationInjectorMethod;
    private InterceptorType type;
-   
-   public Object getUserInterceptor()
+   private Annotation annotation;
+   private Component component;
+
+   private boolean isStateless()
    {
-      return userInterceptor;
+      return userInterceptorClass.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) &&
+            userInterceptorClass.getAnnotation(org.jboss.seam.annotations.Interceptor.class).stateless();
+   }
+   
+   public Object createUserInterceptor()
+   {
+      if ( isStateless() )
+      {
+         return statelessUserInterceptorInstance;
+      }
+      else
+      {
+         try
+         {
+            Object userInterceptor = userInterceptorClass.newInstance();
+            if (componentInjectorMethod!=null)
+            {
+               Reflections.invokeAndWrap(componentInjectorMethod, userInterceptor, component);
+            }
+            if (annotationInjectorMethod!=null) 
+            {
+               Reflections.invokeAndWrap(annotationInjectorMethod, userInterceptor, annotation);
+            }
+            return userInterceptor;
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
+   }
+
+   public Class getUserInterceptorClass()
+   {
+      return userInterceptorClass;
    }
    
    public InterceptorType getType()
@@ -43,42 +82,48 @@ public final class Interceptor extends Reflections
    
    public String toString()
    {
-      return "Interceptor(" + userInterceptor.getClass().getName() + ")";
+      return "Interceptor(" + userInterceptorClass.getName() + ")";
    }
    
    public Interceptor(Object interceptor, Component component)
    {
-      userInterceptor = interceptor;
-      init( null, component, interceptor.getClass() );
+      userInterceptorClass = interceptor.getClass();
+      statelessUserInterceptorInstance = interceptor;
+      this.component = component;
+      init();
    }
    
    public Interceptor(Annotation annotation, Component component) 
    {
       Interceptors interceptorAnnotation = annotation.annotationType()
             .getAnnotation(Interceptors.class);
-      Class interceptorClass;
+      Class[] classes = interceptorAnnotation.value();
+      if (classes.length!=1)
+      {
+         //TODO: remove this silly restriction!
+         throw new IllegalArgumentException("Must be exactly one interceptor when used as a meta-annotation");
+      }
+      userInterceptorClass = classes[0];
+      
       try
       {
-         Class[] classes = interceptorAnnotation.value();
-         if (classes.length!=1)
-         {
-            //TODO: remove this silly restriction!
-            throw new IllegalArgumentException("Must be exactly one interceptor when used as a meta-annotation");
-         }
-         interceptorClass = classes[0];
-         userInterceptor = interceptorClass.newInstance();
+         statelessUserInterceptorInstance = userInterceptorClass.newInstance();
       }
       catch (Exception e)
       {
          throw new IllegalArgumentException("could not instantiate interceptor", e);
       }
-      init(annotation, component, interceptorClass);
+      
+      this.annotation = annotation;
+      this.component = component;
+      
+      init();
    }
    
 
-   private void init(Annotation annotation, Component component, Class<?> interceptorClass)
+   private void init()
    {
-      for (Method method : userInterceptor.getClass().getMethods())
+      for (Method method : userInterceptorClass.getMethods())
       {
          if ( !method.isAccessible() ) method.setAccessible(true);
          if ( method.isAnnotationPresent(AroundInvoke.class) )
@@ -106,45 +151,51 @@ public final class Interceptor extends Reflections
          //if there is a method that takes the annotation, call it, to pass initialization info
          if ( annotation!=null && params.length==1 && params[0]==annotation.annotationType() )
          {
-            Reflections.invokeAndWrap(method, userInterceptor, annotation);
+            annotationInjectorMethod = method;
+            Reflections.invokeAndWrap(method, userInterceptorClass, annotation);
          }
          //if there is a method that takes the component, call it
          if ( params.length==1 && params[0]==Component.class )
          {
-            Reflections.invokeAndWrap(method, userInterceptor, component);
+            componentInjectorMethod = method;
+            Reflections.invokeAndWrap(method, statelessUserInterceptorInstance, component);
          }
       }
 
-      type = interceptorClass.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) ?
-            interceptorClass.getAnnotation(org.jboss.seam.annotations.Interceptor.class).type() :
+      type = userInterceptorClass.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) ?
+            userInterceptorClass.getAnnotation(org.jboss.seam.annotations.Interceptor.class).type() :
             InterceptorType.SERVER;
    }
    
-   public Object aroundInvoke(InvocationContext invocation) throws Exception
+   public Object aroundInvoke(InvocationContext invocation, Object userInterceptor) throws Exception
    {
       return aroundInvokeMethod==null ?
             invocation.proceed() :
             Reflections.invoke( aroundInvokeMethod, userInterceptor, invocation );
    }
-   public Object postConstruct(InvocationContext invocation) throws Exception
+   
+   public Object postConstruct(InvocationContext invocation, Object userInterceptor) throws Exception
    {
       return postConstructMethod==null ?
             invocation.proceed() :
             Reflections.invoke( postConstructMethod, userInterceptor, invocation );
    }
-   public Object preDestroy(InvocationContext invocation) throws Exception
+   
+   public Object preDestroy(InvocationContext invocation, Object userInterceptor) throws Exception
    {
       return preDestroyMethod==null ?
             invocation.proceed() :
             Reflections.invoke( preDestroyMethod, userInterceptor, invocation );
    }
-   public Object prePassivate(InvocationContext invocation) throws Exception
+   
+   public Object prePassivate(InvocationContext invocation, Object userInterceptor) throws Exception
    {
       return prePassivateMethod==null ?
             invocation.proceed() :
             Reflections.invoke( prePassivateMethod, userInterceptor, invocation );
    }
-   public Object postActivate(InvocationContext invocation) throws Exception
+   
+   public Object postActivate(InvocationContext invocation, Object userInterceptor) throws Exception
    {
       return postActivateMethod==null ?
             invocation.proceed() :

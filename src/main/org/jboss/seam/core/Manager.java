@@ -914,6 +914,11 @@ public class Manager
       {
          url = encodeParameters(url, renderParameters);
       }
+      Map<String, Object> pageParameters = Pages.instance().getParameters(viewId);
+      if (pageParameters!=null)
+      {
+         url = encodeParameters(url, pageParameters);
+      }
       if (includeConversationId)
       {
          url = encodeConversationId(url);

@@ -7,6 +7,7 @@
 package org.jboss.seam.jsf;
 
 import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
+import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
 
@@ -20,6 +21,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pages;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -50,6 +52,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
+         Pages.instance().applyParameterValues( event.getFacesContext().getViewRoot().getViewId() );
          beforeRender(event);
       }
 
@@ -83,6 +86,10 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
             }
          }
          catch (Exception e) {} //swallow silently, not important
+      }
+      else if ( event.getPhaseId()== APPLY_REQUEST_VALUES )
+      {
+         Pages.instance().applyParameterValues( facesContext.getViewRoot().getViewId() );
       }
             
       //has to happen after, since restoreAnyConversationContext() 

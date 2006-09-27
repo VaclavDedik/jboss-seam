@@ -39,4 +39,8 @@ public @interface Interceptor
     * another interceptor or interceptors.
     */
    Class[] within() default {};
+   /**
+    * Performance optimization for stateless interceptors.
+    */
+   boolean stateless() default false;
 }

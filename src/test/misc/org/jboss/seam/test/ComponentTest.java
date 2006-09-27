@@ -23,7 +23,7 @@ public class ComponentTest
       assert Seam.getComponentName(Foo.class).equals("foo");
       assert Seam.getComponentType(Foo.class)==ComponentType.JAVA_BEAN;
       assert Seam.getComponentScope(Foo.class)==ScopeType.SESSION;
-      assert Seam.getBeanClass(Foo.class)==Foo.class;
+      //assert Seam.getBeanClass(Foo.class)==Foo.class;
       assert Seam.getEjbName(EjbBean.class).equals("EjbBean");
       assert Seam.getEjbName(Foo.class)==null;
       assert Seam.getInterceptionType(Foo.class)==InterceptionType.ALWAYS;

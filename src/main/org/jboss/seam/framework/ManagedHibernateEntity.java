@@ -1,17 +1,17 @@
-package org.jboss.seam.core;
+package org.jboss.seam.framework;
 
-import static org.jboss.seam.InterceptionType.NEVER;
+import java.io.Serializable;
 
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Intercept;
+import org.hibernate.Session;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Reflections;
 
 /**
- * Manager component for an EJB 3.0 entity instance. Allows
+ * Manager component for a Hibernate entity instance. Allows
  * auto-fetching of contextual entities. The identifier
  * is determined by evaluating an EL expression and then
  * using JSF type conversion if necessary.
@@ -19,33 +19,32 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
-@Intercept(NEVER)
-public class ManagedEntity
+public class ManagedHibernateEntity
 {
-   private EntityManager entityManager;
-   private Object id;
+   private Session session;
+   private Serializable id;
    private String entityClass;
    private String idClass;
    private Object newInstance;
    private String idConverterId;
    private Converter idConverter;
    
-   public EntityManager getEntityManager()
+   public Session getSession()
    {
-      return entityManager;
+      return session;
    }
 
-   public void setEntityManager(EntityManager entityManager)
+   public void setSession(Session session)
    {
-      this.entityManager = entityManager;
+      this.session = session;
    }
 
-   public Object getId()
+   public Serializable getId()
    {
       return id;
    }
 
-   public void setId(Object id)
+   public void setId(Serializable id)
    {
       this.id = id;
    }
@@ -60,11 +59,11 @@ public class ManagedEntity
       this.entityClass = entityClass;
    }
 
-   @Unwrap
+   @Unwrap @Transactional
    public Object getInstance() throws Exception
    {
-      Class<?> clazz = Reflections.classForName(entityClass);
-      if (id==null)
+      Class clazz = Reflections.classForName(entityClass);
+      if ( id==null || "".equals(id) )
       {
          if (newInstance==null)
          {
@@ -74,13 +73,13 @@ public class ManagedEntity
       }
       else
       {
-         return entityManager.find( clazz, getConvertedId() );
+         return session.get( clazz, getConvertedId() );
       }
    }
    
-   //////////// TODO: copy/paste from ManagedHibernateEntity ///////////////////
-   
-   private Object getConvertedId() throws Exception
+   ////////////TODO: copy/paste from ManagedEntity ///////////////////
+
+   private Serializable getConvertedId() throws Exception
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       if (idConverter==null)
@@ -102,7 +101,7 @@ public class ManagedEntity
       }
       else
       {
-         return idConverter.getAsObject( 
+         return (Serializable) idConverter.getAsObject( 
                facesContext, 
                facesContext.getViewRoot(), 
                (String) id 

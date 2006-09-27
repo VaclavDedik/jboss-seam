@@ -6,9 +6,21 @@
  */
 package org.jboss.seam;
 
+import static org.jboss.seam.ComponentType.ENTITY_BEAN;
+import static org.jboss.seam.ComponentType.JAVA_BEAN;
+import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
+import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
+import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
+import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.ScopeType.CONVERSATION;
+import static org.jboss.seam.ScopeType.EVENT;
+import static org.jboss.seam.ScopeType.PAGE;
+import static org.jboss.seam.ScopeType.SESSION;
+import static org.jboss.seam.ScopeType.STATELESS;
+import static org.jboss.seam.ScopeType.UNSPECIFIED;
+
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -31,11 +43,9 @@ import javax.ejb.Remote;
 import javax.ejb.Remove;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.interceptor.Interceptors;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSessionActivationListener;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -62,7 +72,6 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.databinding.DataBinder;
@@ -83,6 +92,7 @@ import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
+import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.SorterNew;
@@ -188,7 +198,7 @@ public class Component
       startup = beanClass.isAnnotationPresent(Startup.class);
       if (startup)
       {
-         if (scope!=ScopeType.SESSION && scope!=ScopeType.APPLICATION)
+         if (scope!=SESSION && scope!=APPLICATION)
          {
             throw new IllegalArgumentException("@Startup only supported for SESSION or APPLICATION scoped components: " + name);
          }
@@ -223,7 +233,7 @@ public class Component
 
       initInitializers(applicationContext);
 
-      /*if (type==ComponentType.JAVA_BEAN)
+      /*if (type==JAVA_BEAN)
       {*/
          factory = createProxyFactory();
       //}
@@ -232,25 +242,25 @@ public class Component
 
    private void checkScopeForComponentType()
    {
-      if ( scope==ScopeType.STATELESS && (type==ComponentType.STATEFUL_SESSION_BEAN || type==ComponentType.ENTITY_BEAN) )
+      if ( scope==STATELESS && (type==STATEFUL_SESSION_BEAN || type==ENTITY_BEAN) )
       {
          throw new IllegalArgumentException("Only stateless session beans and Java beans may be bound to the STATELESS context: " + name);
       }
-      if ( scope==ScopeType.PAGE && type==ComponentType.STATEFUL_SESSION_BEAN )
+      if ( scope==PAGE && type==STATEFUL_SESSION_BEAN )
       {
          throw new IllegalArgumentException("Stateful session beans may not be bound to the PAGE context: " + name);
       }
-      if ( scope==ScopeType.APPLICATION && type==ComponentType.STATEFUL_SESSION_BEAN )
+      if ( scope==APPLICATION && type==STATEFUL_SESSION_BEAN )
       {
          log.warn("Stateful session beans was bound to the APPLICATION context - note that it is not safe to make concurrent calls to the bean: " + name);
       }
-      if ( scope!=ScopeType.STATELESS && type==ComponentType.MESSAGE_DRIVEN_BEAN )
+      if ( scope!=STATELESS && type==MESSAGE_DRIVEN_BEAN )
       {
          throw new IllegalArgumentException("Message-driven beans must be bound to STATELESS context: " + name);
       }
 
-      boolean serializableScope = scope==ScopeType.PAGE || scope==ScopeType.SESSION || scope==ScopeType.CONVERSATION;
-      boolean serializableType = type==ComponentType.JAVA_BEAN || type==ComponentType.ENTITY_BEAN;
+      boolean serializableScope = scope==PAGE || scope==SESSION || scope==CONVERSATION;
+      boolean serializableType = type==JAVA_BEAN || type==ENTITY_BEAN;
       if ( serializableType && serializableScope && !Serializable.class.isAssignableFrom(beanClass) )
       {
          log.warn("Component class should be serializable: " + name);
@@ -259,7 +269,7 @@ public class Component
 
    private void checkDestroyMethod()
    {
-      if ( type==ComponentType.STATEFUL_SESSION_BEAN && ( destroyMethod==null || !removeMethods.contains(destroyMethod) ) )
+      if ( type==STATEFUL_SESSION_BEAN && ( destroyMethod==null || !removeMethods.contains(destroyMethod) ) )
       {
          throw new IllegalArgumentException("Stateful session bean component should have a method marked @Remove @Destroy: " + name);
       }
@@ -305,7 +315,7 @@ public class Component
          {
             if ( log.isDebugEnabled() ) log.debug( key + "=" + propertyValue );
 
-            if ( type==ComponentType.ENTITY_BEAN )
+            if ( type==ENTITY_BEAN )
             {
                throw new IllegalArgumentException("can not configure entity beans: " + name);
             }
@@ -371,7 +381,7 @@ public class Component
             }
             if ( method.isAnnotationPresent(Destroy.class) )
             {
-               if (type!=ComponentType.JAVA_BEAN && type!=ComponentType.STATEFUL_SESSION_BEAN)
+               if (type!=JAVA_BEAN && type!=STATEFUL_SESSION_BEAN)
                {
                   throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Destroy methods: " + name);
                }
@@ -383,7 +393,7 @@ public class Component
             }
             if ( method.isAnnotationPresent(Create.class) )
             {
-               if (type!=ComponentType.JAVA_BEAN && type!=ComponentType.STATEFUL_SESSION_BEAN)
+               if (type!=JAVA_BEAN && type!=STATEFUL_SESSION_BEAN)
                {
                   throw new IllegalArgumentException("Only JavaBeans and stateful session beans support @Create methods: " + name);
                }
@@ -586,7 +596,7 @@ public class Component
 
    private void checkDataModelScope(DataModel dataModel) {
       ScopeType dataModelScope = dataModel.scope();
-      if ( dataModelScope!=ScopeType.PAGE && dataModelScope!=ScopeType.UNSPECIFIED )
+      if ( dataModelScope!=PAGE && dataModelScope!=UNSPECIFIED )
       {
          throw new IllegalArgumentException("@DataModel scope must be ScopeType.UNSPECIFIED or ScopeType.PAGE: " + name);
       }
@@ -630,12 +640,12 @@ public class Component
       {
          SortItem<Interceptor> si = new SortItem<Interceptor>(i);
          siList.add(si);
-         ht.put( i.getUserInterceptor().getClass(), si );
+         ht.put( i.getUserInterceptorClass(), si );
       }
 
       for (SortItem<Interceptor> si : siList)
       {
-         Class<?> clazz = si.getObj().getUserInterceptor().getClass();
+         Class<?> clazz = si.getObj().getUserInterceptorClass();
          if ( clazz.isAnnotationPresent(org.jboss.seam.annotations.Interceptor.class) )
          {
             org.jboss.seam.annotations.Interceptor interceptorAnn = clazz.getAnnotation(org.jboss.seam.annotations.Interceptor.class);
@@ -672,11 +682,11 @@ public class Component
       addInterceptor( new Interceptor( new BijectionInterceptor(), this ) );
       addInterceptor( new Interceptor( new ValidationInterceptor(), this ) );
       addInterceptor( new Interceptor( new RollbackInterceptor(), this ) );
-      if ( getType()==ComponentType.JAVA_BEAN )
+      if ( getType()==JAVA_BEAN )
       {
          addInterceptor( new Interceptor( new TransactionInterceptor(), this ) );
       }
-      if ( getType()!=ComponentType.STATELESS_SESSION_BEAN )
+      if ( getType()!=STATELESS_SESSION_BEAN )
       {
          addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
       }
@@ -732,6 +742,17 @@ public class Component
             return all;
          default: throw new IllegalArgumentException("no interceptor type specified");
       }
+   }
+   
+   public List<Object> createUserInterceptors(InterceptorType type)
+   {
+      List<Interceptor> interceptors = getInterceptors(type);
+      List<Object> result = new ArrayList<Object>( interceptors.size() );
+      for (Interceptor interceptor: interceptors)
+      {
+         result.add( interceptor.createUserInterceptor() );
+      }
+      return result;
    }
    
    /**
@@ -946,80 +967,22 @@ public class Component
 
    private void injectParameters(Object bean)
    {
-      Map<String, String[]> requestParameters = getRequestParameters();
+      Map<String, String[]> requestParameters = Parameters.getRequestParameters();
 
       for (Method setter: parameterSetters)
       {
          String name = toName( setter.getAnnotation(RequestParameter.class).value(), setter );
          Class<?> setterType = setter.getParameterTypes()[0];
-         Object convertedValue = convertMultiValueRequestParameter(requestParameters, name, setterType);
+         Object convertedValue = Parameters.convertMultiValueRequestParameter(requestParameters, name, setterType);
          setPropertyValue( bean, setter, name, convertedValue );
       }
       for (Field field: parameterFields)
       {
          String name = toName( field.getAnnotation(RequestParameter.class).value(), field );
          Class<?> fieldType = field.getType();
-         Object convertedValue = convertMultiValueRequestParameter(requestParameters, name, fieldType);
+         Object convertedValue = Parameters.convertMultiValueRequestParameter(requestParameters, name, fieldType);
          setFieldValue( bean, field, name, convertedValue );
       }
-   }
-
-   private Object convertMultiValueRequestParameter(Map<String, String[]> requestParameters, String name, Class<?> type)
-   {
-      String[] array = requestParameters.get(name);
-      if (array==null || array.length==0)
-      {
-         return null;
-      }
-      else
-      {
-         if ( type.isArray() )
-         {
-               int length = Array.getLength(array);
-               Class<?> elementType = type.getComponentType();
-               Object newInstance = Array.newInstance(elementType, length);
-               for ( int i=0; i<length; i++ )
-               {
-                  Object element = convertRequestParameter( (String) Array.get(array, i), elementType );
-                  Array.set( newInstance, i, element );
-               }
-               return newInstance;
-         }
-         else
-         {
-            return convertRequestParameter( array[0], type );
-         }
-      }
-   }
-
-   public static Map<String, String[]> getRequestParameters()
-   {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( facesContext != null )
-      {
-         return facesContext.getExternalContext().getRequestParameterValuesMap();
-      }
-      
-      ServletRequest servletRequest = Lifecycle.getServletRequest();
-      if ( servletRequest != null )
-      {
-         return servletRequest.getParameterMap();
-      }
-      
-      return null;
-   }
-
-   public static Object convertRequestParameter(String requestParameter, Class type)
-   {
-      if ( String.class.equals(type) ) return requestParameter;
-
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      Converter converter = facesContext.getApplication().createConverter(type);
-      if (converter==null)
-      {
-         throw new IllegalArgumentException("no converter for type: " + type);
-      }
-      return converter.getAsObject( facesContext, facesContext.getViewRoot(), requestParameter );
    }
 
    /**
@@ -1149,7 +1112,7 @@ public class Component
 
       Context context = getDataModelContext(scope);
       Object existingDataModel = context.get(name);
-      boolean dirty = existingDataModel == null || scope==ScopeType.PAGE ||
+      boolean dirty = existingDataModel == null || scope==PAGE ||
             wrapper.isDirty(dataModelAnn, existingDataModel, list);
 
       if ( dirty )
@@ -1168,11 +1131,11 @@ public class Component
 
    private Context getDataModelContext(ScopeType specifiedScope) {
       ScopeType scope = this.scope;
-      if (scope==ScopeType.STATELESS)
+      if (scope==STATELESS)
       {
-         scope = ScopeType.EVENT;
+         scope = EVENT;
       }
-      if (specifiedScope!=ScopeType.UNSPECIFIED)
+      if (specifiedScope!=UNSPECIFIED)
       {
          scope = specifiedScope;
       }
@@ -1261,7 +1224,7 @@ public class Component
       else
       {
          ScopeType scope;
-         if (out.scope()==ScopeType.UNSPECIFIED)
+         if (out.scope()==UNSPECIFIED)
          {
             Component component = Component.forName(name);
             if (value!=null && component!=null)
@@ -1274,7 +1237,7 @@ public class Component
                      );
                }
             }
-            scope = component==null ? ScopeType.EVENT : component.getScope();
+            scope = component==null ? EVENT : component.getScope();
          }
          else
          {
@@ -1521,7 +1484,7 @@ public class Component
       Object value = Contexts.lookupInStatefulContexts(name); //see if a value was outjected by the factory method
       if (value==null) //usually a factory method returning a value
       {
-         if (scope==ScopeType.UNSPECIFIED)
+         if (scope==UNSPECIFIED)
          {
             if (component==null)
             {
@@ -1537,7 +1500,7 @@ public class Component
       }
       else //usually a factory method with a void return type
       {
-         if (scope!=ScopeType.UNSPECIFIED)
+         if (scope!=UNSPECIFIED)
          {
             throw new IllegalArgumentException("factory method with defined scope outjected a value: " + name);
          }
@@ -1559,7 +1522,7 @@ public class Component
          throw new InstantiationException("Could not instantiate Seam component: " + name, e);
       }
       
-      if ( getScope()!=ScopeType.STATELESS )
+      if ( getScope()!=STATELESS )
       {
          getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
          callCreateMethod(instance);
@@ -1662,9 +1625,9 @@ public class Component
          Application application = facesCtx.getApplication();
          result = application.createValueBinding(name).getValue(facesCtx);
       }
-      else if (in.scope()==ScopeType.UNSPECIFIED)
+      else if ( in.scope()==UNSPECIFIED )
       {
-         result = getInstance(name, in.create());
+         result = getInstance( name, in.create() );
       }
       else
       {
@@ -1678,7 +1641,7 @@ public class Component
          result = in.scope().getContext().get(name);
       }
 
-      if (result==null && enforceRequired && in.required())
+      if ( result==null && enforceRequired && in.required() )
       {
          throw new RequiredException(
                "In attribute requires value for component: " +
@@ -1727,7 +1690,7 @@ public class Component
       en.setUseCache(false);
       en.setInterceptDuringConstruction(false);
       en.setCallbackType(MethodInterceptor.class);
-      en.setSuperclass( type==ComponentType.JAVA_BEAN ? beanClass : Object.class );
+      en.setSuperclass( type==JAVA_BEAN ? beanClass : Object.class );
       Set<Class> interfaces = new HashSet<Class>();
       if ( type.isSessionBean() )
       {
