@@ -32,7 +32,7 @@
     
     <component name="entityManager" 
               class="org.jboss.seam.core.ManagedPersistenceContext">
-        <property name="persistenceUnitJndiName">java:/crudEntityManagerFactory</property>
+        <property name="persistenceUnitJndiName">java:/contactlistEntityManagerFactory</property>
     </component>
     
     <component name="org.jboss.seam.core.init">

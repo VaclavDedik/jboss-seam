@@ -3,8 +3,8 @@
 <project name="CRUD" default="deploy" basedir=".">
 
     <!-- Example name -->
-    <property name="Name"                   value="Seam CRUD Example"/>
-    <property name="example.name"           value="jboss-seam-crud"/>
+    <property name="Name"                   value="Seam Contact List Example"/>
+    <property name="example.name"           value="jboss-seam-contactlist"/>
 
     <!-- WAR -->
     <zipfileset id="example.war.docroot"

@@ -1,6 +1,6 @@
-Seam Registration Example
+Seam Contact List Example
 =========================
-This is a trivial example for the Seam tutorial.
+This example demonstrates the Seam CRUD framework.
 
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------
@@ -17,13 +17,13 @@ How to Build and Deploy the Example on JBoss AS
 4. Build Seam by running "ant" the Seam root directory
 
 5. Build and deploy the example by running "ant" in the Seam
-   "examples/registration" directory
+   "examples/contactlist" directory
 
 6. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
 
 7. Point your web browser to:
 
-   http://localhost:8080/seam-registration/
+   http://localhost:8080/seam-contactlist/
 
    NOTE: The default build uses the HSQL database embedded in JBoss AS
 
@@ -46,18 +46,18 @@ How to Build and Deploy the Example on Tomcat
 4. Build Seam by running "ant" the Seam root directory
 
 5. Build and deploy the example by running "ant deploy.tomcat" 
-   in the Seam "examples/registration" directory
+   in the Seam "examples/contactlist" directory
 
 6. Start Tomcat
 
 7. Point your web browser to:
 
-   http://localhost:8080/jboss-seam-registration/
+   http://localhost:8080/jboss-seam-contactlist/
 
 Running The TestNG Tests
 ------------------------
 
-In the "examples/registration" directory, type "ant testexample"
+In the "examples/contactlist" directory, type "ant testexample"
 
 Running the TestNG Tests in Eclipse
 -----------------------------------
@@ -68,8 +68,8 @@ Running the TestNG Tests in Eclipse
    in your source path:
    
    src/main/
-   examples/registration/src/
-   examples/registration/resources/
+   examples/contactlist/src/
+   examples/contactlist/resources/
    embedded-ejb/conf/
    
    And all jar files from the following directories in your classpath:
@@ -77,6 +77,6 @@ Running the TestNG Tests in Eclipse
    lib/
    embedded-ejb/lib
    
-3. Run examples/registration/src/org/jboss/seam/example/registration/test/testng.xml
+3. Run examples/registration/src/org/jboss/seam/example/contactlist/test/testng.xml
    using the TestNG plugin.
    
