@@ -12,7 +12,7 @@ public class EntityActions
    private Object entity;
    
    @In(create=true) 
-   FacesMessages facesMessages; 
+   private FacesMessages facesMessages; 
    
    @Transactional
    public String update()
