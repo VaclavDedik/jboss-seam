@@ -24,11 +24,11 @@ package org.jboss.seam.ui.facelet;
 
 import javax.el.ELContext;
 import javax.el.ELException;
-import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.MethodInfo;
 import javax.el.MethodNotFoundException;
 import javax.el.PropertyNotFoundException;
+
 import org.jboss.seam.actionparam.MethodExpressionParser;
 
 /**

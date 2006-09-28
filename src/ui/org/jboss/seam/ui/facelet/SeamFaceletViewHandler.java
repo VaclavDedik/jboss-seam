@@ -22,10 +22,10 @@
 
 package org.jboss.seam.ui.facelet;
 
+import javax.faces.application.ViewHandler;
+
 import com.sun.facelets.FaceletViewHandler;
 import com.sun.facelets.compiler.Compiler;
-import com.sun.facelets.compiler.SAXCompiler;
-import javax.faces.application.ViewHandler;
 
 /**
  * This class just extends the FaceletViewHandler to set the ExpressionFactory

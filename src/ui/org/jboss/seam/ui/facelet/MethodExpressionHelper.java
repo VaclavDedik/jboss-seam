@@ -24,13 +24,13 @@ package org.jboss.seam.ui.facelet;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+
 import javax.el.ELContext;
 import javax.el.ELException;
-import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.MethodInfo;
 import javax.el.ValueExpression;
-import javax.el.VariableMapper;
+
 import org.jboss.seam.actionparam.MethodExpressionParser;
 
 /**
