@@ -42,6 +42,7 @@ public class HtmlLink extends HtmlOutputLink
             String dataModelName = dataModelExpression.substring(2, dataModelExpression.length()-1).replace('$','.');
             UISelection uiSelection = new UISelection();
             uiSelection.setDataModel(dataModelName);
+            uiSelection.setVar( parentUIData.getVar() );
             return uiSelection;
          }
          else

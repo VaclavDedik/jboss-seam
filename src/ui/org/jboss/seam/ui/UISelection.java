@@ -12,6 +12,7 @@ public class UISelection extends UIParameter
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UISelection";
    
    private String dataModel;
+   private String var;
    
    @Override
    public String getName()
@@ -25,7 +26,7 @@ public class UISelection extends UIParameter
       Object value = Contexts.lookupInStatefulContexts(dataModel);
       int rowIndex = ( (DataModel) value ).getRowIndex();
       return value==null || rowIndex<0 ? 
-            null : dataModel + '[' + rowIndex + ']';
+            null : var + ':' + dataModel + '[' + rowIndex + ']';
    }
 
    @Override
@@ -51,5 +52,15 @@ public class UISelection extends UIParameter
    public void setDataModel(String dataModel)
    {
       this.dataModel = dataModel;
+   }
+
+   public String getVar()
+   {
+      return var;
+   }
+
+   public void setVar(String var)
+   {
+      this.var = var;
    }
 }
