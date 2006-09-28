@@ -49,13 +49,7 @@ public class BookingUnitTest extends SeamTest
       EntityManagerFactory emf = Persistence.createEntityManagerFactory("bookingDatabase");
       final EntityManager em = emf.createEntityManager();
       
-      HotelSearching hs = new HotelSearchingAction() {
-         @Override
-         public Hotel getSelectedHotel()
-         {
-            return em.getReference(Hotel.class, 1l);
-         }
-      };
+      Hotel hotel =  em.getReference(Hotel.class, 1l);
       
       HotelBooking hb = new HotelBookingAction();
       
@@ -66,7 +60,7 @@ public class BookingUnitTest extends SeamTest
       setField(hb, "events", new Events() { public void raiseEvent(String type) { assert "bookingConfirmed".equals(type); } } );
       setField(hb, "log", new LogImpl(HotelBookingAction.class));
       
-      assert hb.selectHotel(hs.getSelectedHotel()).equals("hotel");
+      assert hb.selectHotel(hotel).equals("hotel");
 
       User user = (User)em.getReference(User.class, "gavin");
       assert hb.bookHotel().equals("book");
