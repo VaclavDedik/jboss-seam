@@ -160,8 +160,11 @@ public class ServerConversationContext implements Context {
 
    public void flush()
    {
-      boolean longRunning = Manager.instance().isLongRunningConversation() ||
-            !Manager.instance().getCurrentConversationId().equals( getId() );
+      Manager manager = Manager.instance();
+      boolean longRunning = manager.isLongRunningConversation() ||
+            //TODO: in some exception cases it seems to be possible for 
+            //manager.getCurrentConversationId()==null, causing an NPE:
+            !manager.getCurrentConversationId().equals( getId() );  
       if ( longRunning )
       {
          for (String name: removals)

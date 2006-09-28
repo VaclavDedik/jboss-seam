@@ -43,7 +43,7 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             log.trace("injecting dependencies of: " + component.getName());
          }
-         component.inject( invocation.getTarget(), isLifecycleMethod( invocation.getMethod() ) );
+         component.inject( invocation.getTarget(), !isLifecycleMethod( invocation.getMethod() ) );
       }
       
       Object result = invocation.proceed();
