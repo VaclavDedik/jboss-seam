@@ -149,7 +149,7 @@ public class Component
    private Map<Field, Annotation> dataModelFieldAnnotations = new HashMap<Field, Annotation>();
    private Map<String, Field> dataModelSelectionFields = new HashMap<String, Field>();
    private Map<Field, Annotation> dataModelSelectionFieldAnnotations = new HashMap<Field, Annotation>();
-   
+
    private Field logField;
    private org.jboss.seam.log.Log logInstance;
 
@@ -161,19 +161,19 @@ public class Component
    private Set<Class> businessInterfaces;
 
    private Class<Factory> factory;
-   
+
    //only used for tests
    public Component(Class<?> clazz)
    {
       this( clazz, Seam.getComponentName(clazz) );
    }
-   
+
    // only used for tests
    public Component(Class<?> clazz, String componentName)
    {
       this(clazz, componentName, Seam.getComponentScope(clazz));
    }
-   
+
    // only used for tests
    public Component(Class<?> clazz, Context applicationContext)
    {
@@ -184,7 +184,7 @@ public class Component
    {
       this(clazz, componentName, componentScope, Contexts.getApplicationContext());
    }
-   
+
    private Component(Class<?> clazz, String componentName, ScopeType componentScope, Context applicationContext)
    {
       beanClass = clazz;
@@ -204,7 +204,7 @@ public class Component
          }
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
-      
+
       mutable = beanClass.isAnnotationPresent(Mutable.class);
       if (mutable)
       {
@@ -304,8 +304,8 @@ public class Component
       if (applicationContext==null) return; //TODO: yew!!!!!
       Map<String, Conversions.PropertyValue> properties = (Map<String, Conversions.PropertyValue>) applicationContext.get(PROPERTIES);
       if (properties==null) return; //TODO: yew!!!!!
-      
-      
+
+
       for ( Map.Entry<String, Conversions.PropertyValue> me: properties.entrySet() )
       {
          String key = me.getKey();
@@ -319,7 +319,7 @@ public class Component
             {
                throw new IllegalArgumentException("can not configure entity beans: " + name);
             }
-               
+
             String propertyName = key.substring( name.length()+1, key.length() );
             Method setterMethod = Reflections.getSetterMethod(beanClass, propertyName);
             if (setterMethod!=null)
@@ -618,7 +618,7 @@ public class Component
 
       if ( log.isDebugEnabled() ) log.debug("interceptor stack: " + interceptors);
    }
-   
+
    public void addInterceptor(Interceptor interceptor)
    {
       if ( interceptor.getType()==InterceptorType.SERVER)
@@ -735,7 +735,7 @@ public class Component
       {
          case SERVER: return interceptors;
          case CLIENT: return clientSideInterceptors;
-         case ANY: 
+         case ANY:
             List<Interceptor> all = new ArrayList<Interceptor>();
             all.addAll(clientSideInterceptors);
             all.addAll(interceptors);
@@ -743,7 +743,7 @@ public class Component
          default: throw new IllegalArgumentException("no interceptor type specified");
       }
    }
-   
+
    public List<Object> createUserInterceptors(InterceptorType type)
    {
       List<Interceptor> interceptors = getInterceptors(type);
@@ -754,10 +754,10 @@ public class Component
       }
       return result;
    }
-   
+
    /**
     * For use with Seam debug page.
-    * 
+    *
     * @return the server-side interceptor stack
     */
    public List<Interceptor> getServerSideInterceptors()
@@ -767,7 +767,7 @@ public class Component
 
    /**
     * For use with Seam debug page.
-    * 
+    *
     * @return the client-side interceptor stack
     */
    public List<Interceptor> getClientSideInterceptors()
@@ -902,7 +902,7 @@ public class Component
               throw new IllegalStateException();
         }
     }
-    
+
     private Object wrap(Object bean) throws Exception
     {
        Factory proxy = factory.newInstance();
@@ -913,7 +913,7 @@ public class Component
    public void initialize(Object bean) throws Exception
    {
       if ( log.isDebugEnabled() ) log.debug("initializing new instance of: " + name);
-      
+
       injectLog(bean);
 
       for ( Map.Entry<Method, InitialValue> me: initializerSetters.entrySet() )
@@ -929,11 +929,11 @@ public class Component
          setFieldValue(bean, field, field.getName(), initialValue );
       }
    }
-   
+
    /**
     * Inject context variable values into @In attributes
     * of a component instance.
-    * 
+    *
     * @param bean a Seam component instance
     * @param enforceRequired should we enforce required=true?
     */
@@ -945,10 +945,10 @@ public class Component
       injectDataModelSelection(bean);
       injectParameters(bean);
    }
-   
+
    /**
     * Null out any @In attributes of a component instance.
-    * 
+    *
     * @param bean a Seam component instance
     */
    public void disinject(Object bean)
@@ -956,7 +956,7 @@ public class Component
       disinjectMethods(bean);
       disinjectFields(bean);
    }
-   
+
    private void injectLog(Object bean)
    {
       if (logField!=null)
@@ -988,7 +988,7 @@ public class Component
    /**
     * Outject context variable values from @Out attributes
     * of a component instance.
-    * 
+    *
     * @param bean a Seam component instance
     * @param enforceRequired should we enforce required=true?
     */
@@ -1151,7 +1151,7 @@ public class Component
          setPropertyValue( bean, method, name, getInstanceToInject(in, name, bean, enforceRequired) );
       }
    }
-   
+
    private void disinjectMethods(Object bean)
    {
       for (Method method : getInMethods())
@@ -1173,7 +1173,7 @@ public class Component
          setFieldValue( bean, field, name, getInstanceToInject(in, name, bean, enforceRequired) );
       }
    }
-   
+
    private void disinjectFields(Object bean)
    {
       for (Field field : getInFields())
@@ -1183,7 +1183,7 @@ public class Component
             String name = toName( field.getAnnotation(In.class).value(), field );
             setFieldValue(bean, field, name, null);
          }
-      }      
+      }
    }
 
    private void outjectFields(Object bean, boolean enforceRequired)
@@ -1239,10 +1239,10 @@ public class Component
             }
          }
 
-         Context context = component==null ? 
-               getOutContext( out.scope() ) : 
+         Context context = component==null ?
+               getOutContext( out.scope() ) :
                component.getScope().getContext();
-               
+
          if (value==null)
          {
             context.remove(name);
@@ -1278,33 +1278,33 @@ public class Component
    {
       Set<Class> result = new HashSet<Class>();
 
-      if ( clazz.isAnnotationPresent(Local.class) ) 
+      if ( clazz.isAnnotationPresent(Local.class) )
       {
          Local local = (Local) clazz.getAnnotation(Local.class);
          for ( Class iface: local.value() ) {
             result.add(iface);
          }
       }
-      
-      if ( clazz.isAnnotationPresent(Remote.class) ) 
+
+      if ( clazz.isAnnotationPresent(Remote.class) )
       {
          Remote remote = (Remote) clazz.getAnnotation(Remote.class);
-         for ( Class iface: remote.value() ) 
+         for ( Class iface: remote.value() )
          {
             result.add(iface);
          }
       }
-      
-      for ( Class iface: clazz.getInterfaces() ) 
+
+      for ( Class iface: clazz.getInterfaces() )
       {
-         if ( iface.isAnnotationPresent(Local.class) || iface.isAnnotationPresent(Remote.class) ) 
+         if ( iface.isAnnotationPresent(Local.class) || iface.isAnnotationPresent(Remote.class) )
          {
             result.add(iface);
          }
       }
 
       if ( result.size() == 0 ) {
-         for ( Class iface: clazz.getInterfaces() ) 
+         for ( Class iface: clazz.getInterfaces() )
          {
             if ( !isExcludedLocalInterfaceName( iface.getName() ) )
             {
@@ -1312,7 +1312,7 @@ public class Component
             }
          }
       }
-       
+
        return result;
    }
 
@@ -1433,7 +1433,7 @@ public class Component
            }
         }
       }
-      
+
       if (result!=null)
       {
          if (component!=null)
@@ -1445,9 +1445,9 @@ public class Component
             result = component.unwrap(result);
          }
       }
-      
+
       return result;
-      
+
    }
 
    public static Object getInstanceFromFactory(String name)
@@ -1521,13 +1521,13 @@ public class Component
       {
          throw new InstantiationException("Could not instantiate Seam component: " + name, e);
       }
-      
+
       if ( getScope()!=STATELESS )
       {
          getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
          callCreateMethod(instance);
       }
-      
+
       return instance;
    }
 
@@ -1538,7 +1538,7 @@ public class Component
          callComponentMethod( instance, getCreateMethod() );
       }
    }
-   
+
    public void callDestroyMethod(Object instance)
    {
       if ( hasDestroyMethod() )
@@ -1546,7 +1546,7 @@ public class Component
          callComponentMethod( instance, getDestroyMethod() );
       }
    }
-   
+
    public void callPreDestroyMethod(Object instance)
    {
       if ( hasPreDestroyMethod() )
@@ -1621,12 +1621,14 @@ public class Component
       Object result;
       if ( name.startsWith("#") )
       {
+         log.debug("trying to inject with EL expression: " + name);
          FacesContext facesCtx = FacesContext.getCurrentInstance();
          Application application = facesCtx.getApplication();
          result = application.createValueBinding(name).getValue(facesCtx);
       }
       else if ( in.scope()==UNSPECIFIED )
       {
+         log.debug("trying to inject with hierarchical context search: " + name);
          result = getInstance( name, in.create() );
       }
       else
@@ -1638,6 +1640,7 @@ public class Component
                   getAttributeMessage(name)
                );
          }
+         log.debug("trying to inject from context: " + name + ", scope: " + scope);
          result = in.scope().getContext().get(name);
       }
 
@@ -1722,16 +1725,16 @@ public class Component
    {
       return mutable;
    }
-   
+
    public static interface InitialValue
    {
       Object getValue(Class type);
    }
-   
+
    public static class ConstantInitialValue implements InitialValue
    {
       private Object value;
-      
+
       public ConstantInitialValue(PropertyValue propertyValue, Class parameterClass, Type parameterType)
       {
          this.value = Conversions.getConverter(parameterClass).toObject(propertyValue, parameterType);
@@ -1741,12 +1744,12 @@ public class Component
       {
          return value;
       }
-      
+
       public String toString()
       {
          return "ConstantInitialValue(" + value + ")";
       }
-      
+
    }
 
    public static class ELInitialValue implements InitialValue
@@ -1755,7 +1758,7 @@ public class Component
       //private ValueBinding vb;
       private Conversions.Converter converter;
       private Type parameterType;
-      
+
       public ELInitialValue(PropertyValue propertyValue, Class parameterClass, Type parameterType)
       {
          this.expression = propertyValue.getSingleValue();
@@ -1785,7 +1788,7 @@ public class Component
          {
             value = createValueBinding().getValue( FacesContext.getCurrentInstance() );
          }
-         
+
          if (converter!=null && value instanceof String)
          {
             return converter.toObject( new Conversions.FlatPropertyValue( (String) value ), parameterType );
@@ -1805,18 +1808,18 @@ public class Component
          return FacesContext.getCurrentInstance().getApplication()
                .createValueBinding( expression );
       }
-      
+
       private MethodBinding createMethodBinding()
       {
          return FacesContext.getCurrentInstance().getApplication()
                .createMethodBinding( expression, null );
       }
-      
+
       public String toString()
       {
          return "ELInitialValue(" + expression + ")";
       }
-      
+
    }
 
    public Method getPostActivateMethod()
