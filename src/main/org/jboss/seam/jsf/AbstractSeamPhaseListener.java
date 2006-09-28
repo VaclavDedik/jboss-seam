@@ -12,9 +12,9 @@ import javax.faces.model.DataModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -131,7 +131,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          Manager.instance().prepareBackswitch(event);
       }
    }
-
+   
    public boolean callPageActions(PhaseEvent event)
    {
       Lifecycle.setPhaseId( PhaseId.INVOKE_APPLICATION );
