@@ -6,7 +6,6 @@
 ?*/
 package org.jboss.seam.contexts;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.seam.ScopeType;
@@ -37,13 +36,7 @@ public class StatelessContext implements Context {
 	}
 
 	public void set(String name, Object value) {
-		try {
-		   InitialContext initialContext = Naming.getInitialContext();
-           initialContext.bind(name, value);
-		}
-		catch (NamingException ne) {
-			throw new IllegalArgumentException("could not bind: " + name, ne);
-		}
+		throw new UnsupportedOperationException("attempt to write to stateless context");
 	}
 
 	public boolean isSet(String name) {
@@ -51,12 +44,7 @@ public class StatelessContext implements Context {
 	}
 
 	public void remove(String name) {
-		try {
-           Naming.getInitialContext().unbind(name);
-		}
-		catch (NamingException ne) {
-			throw new IllegalArgumentException("could not unbind: " + name, ne);
-		}
+      throw new UnsupportedOperationException("attempt to write to stateless context");
 	}
 
 	public String[] getNames() {
