@@ -107,6 +107,12 @@ public class Lifecycle
       Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
    }
 
+   public static void beginExceptionRecovery(ServletContext servletContext, ServletRequest request)
+   {
+      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
+      Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(request) ) );
+   }
+
    public static void endInitialization()
    {
 	   //instantiate all application-scoped @Startup components
@@ -279,7 +285,7 @@ public class Lifecycle
       log.debug("After request, destroying contexts");
       try
       {
-        Authenticator.instance().endRequest();
+         Authenticator.instance().endRequest();
       }
       catch (Exception ex) {  }
 
@@ -335,12 +341,6 @@ public class Lifecycle
    private static void flushAndDestroyContexts()
    {
 
-      if ( Contexts.isEventContextActive() )
-      {
-         log.debug("destroying event context");
-         Contexts.destroy( Contexts.getEventContext() );
-      }
-
       if ( Contexts.isConversationContextActive() )
       {
          if ( !Manager.instance().isLongRunningConversation() )
@@ -353,6 +353,15 @@ public class Lifecycle
             log.debug("flushing server-side conversation context");
             Contexts.getConversationContext().flush();
          }
+      }
+      
+      //destroy the event context after the
+      //conversation context, since we need
+      //the manager to flush() conversation
+      if ( Contexts.isEventContextActive() )
+      {
+         log.debug("destroying event context");
+         Contexts.destroy( Contexts.getEventContext() );
       }
 
    }
