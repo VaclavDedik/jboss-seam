@@ -65,8 +65,8 @@ public class Query
    {
       prepareEjbql();
       
-      entityManager.joinTransaction();
-      javax.persistence.Query query = entityManager.createQuery(ejbql);
+      getEntityManager().joinTransaction();
+      javax.persistence.Query query = getEntityManager().createQuery(ejbql);
       for (int i=0; i<queryParameters.size(); i++)
       {
          Object parameterValue = queryParameters.get(i).getValue( FacesContext.getCurrentInstance() );

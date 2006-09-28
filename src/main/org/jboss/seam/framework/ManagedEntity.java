@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Reflections;
 
@@ -68,14 +69,14 @@ public class ManagedEntity
       entityClass = Reflections.classForName(entityClassName);
    }
    
-   @Unwrap
+   @Unwrap @Transactional
    public Object getInstance() throws Exception
    {
       if ( id==null || "".equals(id) )
       {
          if (instance==null)
          {
-            createInstance();
+            instance = createInstance();
          }
       }
       else
@@ -85,21 +86,21 @@ public class ManagedEntity
             //we cache the instance so that it does not "disappear"
             //after remove() is called on the instance
             //is this really a Good Idea??
-            entityManager.joinTransaction();
-            loadInstance( getConvertedId() );
+            getEntityManager().joinTransaction();
+            instance =loadInstance( getConvertedId() );
          }
       }
       return instance;
    }
 
-   protected void createInstance() throws Exception
+   protected Object createInstance() throws Exception
    {
-      instance = entityClass.newInstance();
+      return entityClass.newInstance();
    }
 
-   protected void loadInstance(Object id)
+   protected Object loadInstance(Object id)
    {
-      instance = entityManager.find(entityClass, id);
+      return getEntityManager().find(entityClass, id);
    }
    
    //////////// TODO: copy/paste from ManagedHibernateEntity ///////////////////

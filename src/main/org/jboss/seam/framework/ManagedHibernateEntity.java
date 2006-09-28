@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
 import org.hibernate.Session;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Reflections;
@@ -23,9 +24,10 @@ public class ManagedHibernateEntity
 {
    private Session session;
    private Serializable id;
-   private String entityClass;
+   private String entityClassName;
+   private Class entityClass;
    private String idClass;
-   private Object newInstance;
+   private Object instance;
    private String idConverterId;
    private Converter idConverter;
    
@@ -51,30 +53,51 @@ public class ManagedHibernateEntity
    
    public String getEntityClass()
    {
-      return entityClass;
+      return entityClassName;
    }
 
    public void setEntityClass(String entityClass)
    {
-      this.entityClass = entityClass;
+      this.entityClassName = entityClass;
    }
 
+   @Create
+   public void initEntityClass() throws Exception
+   {
+      entityClass = Reflections.classForName(entityClassName);
+   }
+   
    @Unwrap @Transactional
    public Object getInstance() throws Exception
    {
-      Class clazz = Reflections.classForName(entityClass);
       if ( id==null || "".equals(id) )
       {
-         if (newInstance==null)
+         if (instance==null)
          {
-            newInstance = clazz.newInstance();
+            instance = createInstance();
          }
-         return newInstance;
       }
       else
       {
-         return session.get( clazz, getConvertedId() );
+         if (instance==null)
+         {
+            //we cache the instance so that it does not "disappear"
+            //after remove() is called on the instance
+            //is this really a Good Idea??
+            instance = loadInstance( getConvertedId() );
+         }
       }
+      return instance;
+   }
+   
+   protected Object createInstance() throws Exception
+   {
+      return entityClass.newInstance();
+   }
+
+   protected Object loadInstance(Serializable id)
+   {
+      return getSession().get(entityClass, id);
    }
    
    ////////////TODO: copy/paste from ManagedEntity ///////////////////

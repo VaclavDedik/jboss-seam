@@ -17,8 +17,8 @@ public class EntityActions
    @Transactional
    public String update()
    {
-      entityManager.joinTransaction();
-      entityManager.flush();
+      getEntityManager().joinTransaction();
+      getEntityManager().flush();
       facesMessages.add("Successfully updated");
       return "updated";
    }
@@ -26,9 +26,9 @@ public class EntityActions
    @Transactional
    public String persist()
    {
-      entityManager.joinTransaction();
-      entityManager.persist(entity);
-      entityManager.flush();
+      getEntityManager().joinTransaction();
+      getEntityManager().persist(entity);
+      getEntityManager().flush();
       facesMessages.add("Successfully created");
       return "persisted";
    }
@@ -36,9 +36,9 @@ public class EntityActions
    @Transactional
    public String remove()
    {
-      entityManager.joinTransaction();
-      entityManager.remove(entity);
-      entityManager.flush();
+      getEntityManager().joinTransaction();
+      getEntityManager().remove(entity);
+      getEntityManager().flush();
       facesMessages.add("Successfully deleted");
       return "removed";
    }
