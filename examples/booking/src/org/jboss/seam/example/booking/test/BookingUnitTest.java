@@ -61,7 +61,7 @@ public class BookingUnitTest extends SeamTest
       
       setField(hb, "em", em);
       //setField(hb, "hotelSearch", hs);
-      //setField(hb, "user", em.getReference(User.class, "gavin"));
+      setField(hb, "user", em.getReference(User.class, "gavin"));
       setField(hb, "facesMessages", new FacesMessages());
       setField(hb, "events", new Events() { public void raiseEvent(String type) { assert "bookingConfirmed".equals(type); } } );
       setField(hb, "log", new LogImpl(HotelBookingAction.class));
@@ -69,7 +69,7 @@ public class BookingUnitTest extends SeamTest
       assert hb.selectHotel(hs.getSelectedHotel()).equals("hotel");
 
       User user = (User)em.getReference(User.class, "gavin");
-      assert hb.bookHotel(user).equals("book");
+      assert hb.bookHotel().equals("book");
       
       Booking booking = (Booking) getField(hb, "booking");
       assert booking!=null;
@@ -82,7 +82,7 @@ public class BookingUnitTest extends SeamTest
       assert hb.setBookingDetails().equals("confirm");
 
       getUserTransaction().begin();
-      assert hb.confirm(user).equals("confirmed");
+      assert hb.confirm().equals("confirmed");
       getUserTransaction().commit();
       
       em.close();

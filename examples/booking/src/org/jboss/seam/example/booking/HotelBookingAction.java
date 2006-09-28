@@ -30,6 +30,9 @@ public class HotelBookingAction implements HotelBooking
    @PersistenceContext(type=EXTENDED)
    private EntityManager em;
    
+   @In 
+   private User user;
+   
    @In(required=false) @Out
    private Hotel hotel;
    
@@ -49,11 +52,11 @@ public class HotelBookingAction implements HotelBooking
    @Begin
    public String selectHotel(Hotel selectedHotel)
    {
-      hotel = em.merge( selectedHotel );
+      hotel = em.merge(selectedHotel);
       return "hotel";
    }
    
-   public String bookHotel(User user)
+   public String bookHotel()
    {      
       booking = new Booking(hotel, user);
       Calendar calendar = Calendar.getInstance();
@@ -79,7 +82,7 @@ public class HotelBookingAction implements HotelBooking
    }
 
    @End
-   public String confirm(User user)
+   public String confirm()
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);

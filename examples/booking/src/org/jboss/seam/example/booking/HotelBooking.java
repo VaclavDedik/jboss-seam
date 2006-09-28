@@ -8,11 +8,11 @@ public interface HotelBooking
 {
    public String selectHotel(Hotel selectedHotel);
    
-   public String bookHotel(User user);
+   public String bookHotel();
    
    public String setBookingDetails();
    
-   public String confirm(User user);
+   public String confirm();
    public String cancel();
    
    public void destroy();

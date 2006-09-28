@@ -108,9 +108,8 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            User user = (User) Contexts.getSessionContext().get("user");
             HotelBooking hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
-            String outcome = hotelBooking.bookHotel(user);
+            String outcome = hotelBooking.bookHotel();
             assert "book".equals( outcome );
          }
 
@@ -222,7 +221,7 @@ public class BookingTest extends SeamTest
          {
             HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.setBookingDetails();
-            assert "confirm".equals( outcome );
+            assert "confirm".equals(outcome);
          }
 
          @Override
@@ -245,9 +244,8 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            User user = (User) Contexts.getSessionContext().get("user");
             HotelBooking hotelBooking = (HotelBooking) Contexts.getConversationContext().get("hotelBooking");
-            String outcome = hotelBooking.confirm(user);
+            String outcome = hotelBooking.confirm();
             assert "confirmed".equals( outcome );
          }
 
@@ -284,7 +282,7 @@ public class BookingTest extends SeamTest
             bookings.setRowIndex(0);
             BookingList bookingList = (BookingList) Component.getInstance("bookingList", true);
             String outcome = bookingList.cancel();
-            assert "main".equals( outcome );
+            assert "main".equals(outcome);
          }
 
          @Override
