@@ -13,7 +13,6 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.datamodel.DataModelSelection;
 
 @Stateful
 @Name("hotelSearch")
@@ -30,8 +29,6 @@ public class HotelSearchingAction implements HotelSearching
    
    @DataModel
    private List<Hotel> hotels;
-   @DataModelSelection
-   private Hotel selectedHotel;
    
    public String find()
    {
@@ -42,11 +39,6 @@ public class HotelSearchingAction implements HotelSearching
             .getResultList();
       
       return "main";
-   }
-   
-   public Hotel getSelectedHotel()
-   {
-      return selectedHotel;
    }
       
    public int getPageSize() {
