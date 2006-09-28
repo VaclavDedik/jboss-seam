@@ -1,17 +1,3 @@
 <pages>
-   
-   <page view-id="/search.xhtml">
-      <param name="firstName" value="#{exampleContact.firstName}"/>
-      <param name="lastName" value="#{exampleContact.lastName}"/>
-      <param name="firstResult" value="#{contacts.firstResult}"/>
-   </page>
-   
-   <page view-id="/viewContact.xhtml">
-      <param name="contactId" value="#{contact.id}"/>
-   </page>
-   
-   <page view-id="/editContact.xhtml">
-      <param name="contactId" value="#{contact.id}"/>
-   </page>
-   
+	<page view-id="/registered.jsp" action="#{register.logClientIP(facesContext)}" /> 
 </pages>

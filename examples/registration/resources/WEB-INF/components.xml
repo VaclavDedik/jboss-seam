@@ -1,40 +1,5 @@
 <components>
 
-    <component name="contact"
-              class="org.jboss.seam.framework.ManagedEntity">
-        <property name="id">#{param.contactId}</property>
-        <property name="idClass">java.lang.Long</property>
-        <property name="entityClass">org.jboss.seam.example.crud.Contact</property>
-        <property name="entityManager">#{entityManager}</property>
-    </component>
-
-    <component name="contactActions"
-              class="org.jboss.seam.framework.EntityActions">
-        <property name="entityManager">#{entityManager}</property>
-        <property name="entity">#{contact}</property>
-    </component>
-
-    <component name="exampleContact"
-              class="org.jboss.seam.framework.ManagedObject">
-        <property name="objectClass">org.jboss.seam.example.crud.Contact</property>
-    </component>
-    
-    <component name="contacts" 
-              class="org.jboss.seam.framework.Query">
-        <property name="ejbql">from Contact</property>
-        <property name="restrictions">
-            <value>lower(firstName) like lower( #{exampleContact.firstName} + '%' )</value>
-            <value>lower(lastName) like lower( #{exampleContact.lastName} + '%' )</value>
-        </property>
-        <property name="maxResults">20</property>
-        <property name="entityManager">#{entityManager}</property>
-    </component>
-    
-    <component name="entityManager" 
-              class="org.jboss.seam.core.ManagedPersistenceContext">
-        <property name="persistenceUnitJndiName">java:/crudEntityManagerFactory</property>
-    </component>
-    
     <component name="org.jboss.seam.core.init">
         <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
         <property name="jndiPattern">@jndiPattern@</property>
