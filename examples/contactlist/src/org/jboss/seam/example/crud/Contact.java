@@ -4,21 +4,33 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.validator.Length;
+
 @Entity
 public class Contact
 {
    @Id @GeneratedValue 
    private Long id;
    
+   @Length(max=50)
    private String firstName;
+   @Length(max=50)
    private String lastName;
+   @Length(max=250)
    private String address;
+   @Length(max=50)
    private String city;
+   @Length(max=50)
    private String state;
+   @Length(max=6)
    private String zip;
+   @Length(max=50)
    private String country;
+   @Length(max=20)
    private String homePhone;
+   @Length(max=20)
    private String businessPhone;
+   @Length(max=20)
    private String cellPhone;
    
    public String getAddress()
