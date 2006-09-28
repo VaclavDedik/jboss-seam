@@ -1,0 +1,78 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:s="http://jboss.com/products/seam/taglib"
+				template="template.xhtml">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Edit Contact</title>
+  </head>
+  <body>
+  
+    <h:form>
+    
+      <h:messages/>
+	  
+	  <!-- editable fields --> 
+      <s:validateAll>
+      
+        <table>
+          <tr>
+            <td>First Name</td>
+            <td><h:inputText value="#{contact.firstName}"/></td>
+          </tr>
+          <tr>
+            <td>Last Name</td>
+            <td><h:inputText value="#{contact.lastName}"/></td>
+          </tr>
+          <tr>
+            <td>Cell Phone</td>
+            <td><h:inputText value="#{contact.cellPhone}"/></td>
+          </tr>
+          <tr>
+            <td>Home Phone</td>
+            <td><h:inputText value="#{contact.homePhone}"/></td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td><h:inputText value="#{contact.address}"/></td>
+          </tr>
+          <tr>
+            <td>City</td>
+            <td><h:inputText value="#{contact.city}"/></td>
+          </tr>
+          <tr>
+            <td>State</td>
+            <td><h:inputText value="#{contact.state}"/></td>
+          </tr>
+          <tr>
+            <td>Zip</td>
+            <td><h:inputText value="#{contact.zip}"/></td>
+          </tr>
+          <tr>
+            <td>Country</td>
+            <td><h:inputText value="#{contact.country}"/></td>
+          </tr>
+        </table>
+    
+      </s:validateAll>
+    
+      <!-- actions -->
+      <h:commandLink action="#{contactActions.update}" value="Update Contact" rendered="#{contactActions.managed}">
+        <f:param name="contactId" value="#{contact.id}"/>
+      </h:commandLink>
+      <h:outputText rendered="#{contactActions.managed}" value="&#160;&#160;"/>
+      <h:commandLink action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">
+        <f:param name="contactId" value="#{contact.id}"/>
+      </h:commandLink>
+      <h:commandLink action="#{contactActions.persist}" value="Create Contact" rendered="#{!contactActions.managed}"/>
+      &#160;&#160;
+      <s:link view="/viewContact.xhtml" value="Cancel" rendered="#{contactActions.managed}"/>
+      <s:link view="/search.xhtml" value="Cancel" rendered="#{!contactActions.managed}"/>
+    
+    </h:form>
+   
+  </body>
+</html>
