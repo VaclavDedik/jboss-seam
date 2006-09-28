@@ -1,3 +1,0 @@
-<pages>
-	<page view-id="/registered.jsp" action="#{register.logClientIP(facesContext)}" /> 
-</pages>
