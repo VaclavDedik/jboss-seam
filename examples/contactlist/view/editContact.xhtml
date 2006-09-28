@@ -13,7 +13,7 @@
   
     <h:form>
     
-      <h:messages/>
+      <h:messages globalOnly="true"/>
 	  
 	  <!-- editable fields --> 
       <s:validateAll>
@@ -21,39 +21,48 @@
         <table>
           <tr>
             <td>First Name</td>
-            <td><h:inputText value="#{contact.firstName}"/></td>
+            <td><h:inputText id="firstName" value="#{contact.firstName}"/></td>
+            <td><h:message for="firstName"/></td>
           </tr>
           <tr>
             <td>Last Name</td>
-            <td><h:inputText value="#{contact.lastName}"/></td>
+            <td><h:inputText id="lastName" value="#{contact.lastName}"/></td>
+            <td><h:message for="lastName"/></td>
           </tr>
           <tr>
             <td>Cell Phone</td>
-            <td><h:inputText value="#{contact.cellPhone}"/></td>
+            <td><h:inputText id="cellPhone" value="#{contact.cellPhone}"/></td>
+            <td><h:message for="cellPhone"/></td>
           </tr>
           <tr>
             <td>Home Phone</td>
-            <td><h:inputText value="#{contact.homePhone}"/></td>
+            <td><h:inputText id="homePhone" value="#{contact.homePhone}"/></td>
+            <td><h:message styleClass="error" for="homePhone"/></td>
           </tr>
           <tr>
             <td>Address</td>
-            <td><h:inputText value="#{contact.address}"/></td>
+            <td><h:inputText id="address" value="#{contact.address}"/></td>
+            <td><h:message styleClass="error" for="address"/></td>
           </tr>
           <tr>
             <td>City</td>
-            <td><h:inputText value="#{contact.city}"/></td>
+            <td><h:inputText id="city" value="#{contact.city}"/></td>
+            <td><h:message for="city"/></td>
           </tr>
           <tr>
             <td>State</td>
-            <td><h:inputText value="#{contact.state}"/></td>
+            <td><h:inputText id="state" value="#{contact.state}"/></td>
+            <td><h:message for="state"/></td>
           </tr>
           <tr>
             <td>Zip</td>
-            <td><h:inputText value="#{contact.zip}"/></td>
+            <td><h:inputText id="zip" value="#{contact.zip}"/></td>
+            <td><h:message for="zip"/></td>
           </tr>
           <tr>
             <td>Country</td>
-            <td><h:inputText value="#{contact.country}"/></td>
+            <td><h:inputText id="country" value="#{contact.country}"/></td>
+            <td><h:message for="country"/></td>
           </tr>
         </table>
     
