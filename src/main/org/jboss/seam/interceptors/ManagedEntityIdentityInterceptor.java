@@ -14,6 +14,8 @@ import javax.persistence.EntityManager;
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.core.TouchedContexts;
 import org.jboss.seam.util.Persistence;
 import org.jboss.seam.util.Reflections;
@@ -27,6 +29,7 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
+@Interceptor(around=BijectionInterceptor.class)
 public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
 {
    
@@ -88,7 +91,10 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
             Field[] fields = beanClass.getDeclaredFields();
             for (Field field: fields)
             {
-               if ( !Modifier.isTransient( field.getModifiers() ) && !Modifier.isStatic( field.getModifiers() ) )
+               boolean ignoreField = Modifier.isTransient( field.getModifiers() ) || 
+                  Modifier.isStatic( field.getModifiers() )
+                  || field.isAnnotationPresent(In.class);
+               if ( !ignoreField )
                {
                   if ( !field.isAccessible() ) field.setAccessible(true);
                   Object value = Reflections.get(field, bean);
