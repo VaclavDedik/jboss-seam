@@ -1021,7 +1021,7 @@ public class Component
    {
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
 
-      Object dataModel = getDataModelContext(scope).get(name);
+      Object dataModel = getOutContext(scope).get(name);
       if ( dataModel != null )
       {
 
@@ -1110,7 +1110,7 @@ public class Component
 
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
 
-      Context context = getDataModelContext(scope);
+      Context context = getOutContext(scope);
       Object existingDataModel = context.get(name);
       boolean dirty = existingDataModel == null || scope==PAGE ||
             wrapper.isDirty(dataModelAnn, existingDataModel, list);
@@ -1129,7 +1129,7 @@ public class Component
 
    }
 
-   private Context getDataModelContext(ScopeType specifiedScope) {
+   private Context getOutContext(ScopeType specifiedScope) {
       ScopeType scope = this.scope;
       if (scope==STATELESS)
       {
@@ -1223,10 +1223,10 @@ public class Component
       }
       else
       {
-         ScopeType scope;
-         if (out.scope()==UNSPECIFIED)
+         Component component = null;
+         if ( out.scope()==UNSPECIFIED )
          {
-            Component component = Component.forName(name);
+            component = Component.forName(name);
             if (value!=null && component!=null)
             {
                if ( !component.isInstance(value) )
@@ -1237,19 +1237,19 @@ public class Component
                      );
                }
             }
-            scope = component==null ? EVENT : component.getScope();
          }
-         else
-         {
-            scope = out.scope();
-         }
+
+         Context context = component==null ? 
+               getOutContext( out.scope() ) : 
+               component.getScope().getContext();
+               
          if (value==null)
          {
-            scope.getContext().remove(name);
+            context.remove(name);
          }
          else
          {
-            scope.getContext().set(name, value);
+            context.set(name, value);
          }
       }
    }
