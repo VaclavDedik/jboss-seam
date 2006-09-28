@@ -161,8 +161,6 @@ public class ServerConversationContext implements Context {
    public void flush()
    {
       Manager manager = Manager.instance();
-      //TODO: with the exception filter it seems to be possible for 
-      //manager==null, causing an NPE here:
       boolean longRunning = manager.isLongRunningConversation() ||
             !manager.getCurrentConversationId().equals( getId() );  
       if ( longRunning )
