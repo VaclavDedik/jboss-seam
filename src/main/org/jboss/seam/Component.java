@@ -72,6 +72,7 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.databinding.DataBinder;
@@ -1526,6 +1527,7 @@ public class Component
       {
          getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
          callCreateMethod(instance);
+         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postCreate." + name);
       }
 
       return instance;
@@ -1621,14 +1623,20 @@ public class Component
       Object result;
       if ( name.startsWith("#") )
       {
-         log.debug("trying to inject with EL expression: " + name);
+         if ( log.isDebugEnabled() )
+         {
+            log.debug("trying to inject with EL expression: " + name);
+         }
          FacesContext facesCtx = FacesContext.getCurrentInstance();
          Application application = facesCtx.getApplication();
          result = application.createValueBinding(name).getValue(facesCtx);
       }
       else if ( in.scope()==UNSPECIFIED )
       {
-         log.debug("trying to inject with hierarchical context search: " + name);
+         if ( log.isDebugEnabled() )
+         {
+            log.debug("trying to inject with hierarchical context search: " + name);
+         }
          result = getInstance( name, in.create() );
       }
       else
@@ -1640,7 +1648,10 @@ public class Component
                   getAttributeMessage(name)
                );
          }
-         log.debug("trying to inject from context: " + name + ", scope: " + scope);
+         if ( log.isDebugEnabled() )
+         {
+            log.debug("trying to inject from specified context: " + name + ", scope: " + scope);
+         }
          result = in.scope().getContext().get(name);
       }
 

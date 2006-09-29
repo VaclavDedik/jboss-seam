@@ -9,6 +9,7 @@ package org.jboss.seam.contexts;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Events;
 
 /**
  * Provides access to the current contexts associated with the thread.
@@ -173,6 +174,7 @@ public class Contexts {
    
    public static void destroy(Context context)
    {
+      Events.instance().raiseEvent("org.jboss.seam.preDestroyContext." + context.getType().toString());
       Lifecycle.startDestroying();
       try
       {
@@ -181,6 +183,7 @@ public class Contexts {
             log.debug("destroying: " + name);
             if ( component!=null )
             {
+               Events.instance().raiseEvent("org.jboss.seam.preDestroy." + name);
                try
                {
                   component.callDestroyMethod( context.get(name) );
@@ -196,6 +199,7 @@ public class Contexts {
       {
          Lifecycle.stopDestroying();
       }
+      Events.instance().raiseEvent("org.jboss.seam.postDestroyContext." + context.getType().toString());
    }
    
 }

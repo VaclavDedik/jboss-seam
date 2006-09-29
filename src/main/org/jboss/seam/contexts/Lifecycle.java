@@ -20,6 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.security.authenticator.Authenticator;
@@ -115,6 +116,8 @@ public class Lifecycle
 
    public static void endInitialization()
    {
+      startup( Component.forName( Seam.getComponentName(Events.class) ) );
+      
 	   //instantiate all application-scoped @Startup components
       Context context = Contexts.getApplicationContext();
       for ( String name: context.getNames() )

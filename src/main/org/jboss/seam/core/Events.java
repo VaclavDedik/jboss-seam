@@ -19,6 +19,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -105,6 +106,11 @@ public class Events
       }
    }
    
+   public static boolean exists()
+   {
+      return Contexts.getApplicationContext().isSet( Seam.getComponentName(Events.class) );
+   }
+
    public static Events instance()
    {
       if ( !Contexts.isApplicationContextActive() )

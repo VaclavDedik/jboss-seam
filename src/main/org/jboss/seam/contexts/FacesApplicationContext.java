@@ -13,6 +13,7 @@ import javax.faces.context.ExternalContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.core.Events;
 
 /**
  * @author Gavin King
@@ -47,7 +48,9 @@ public class FacesApplicationContext implements Context {
 	}
 
 	public void set(String name, Object value) {
-       externalContext.getApplicationMap().put( getKey(name), value );
+      Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
+      externalContext.getApplicationMap().put( getKey(name), value );
+      Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
 	}
 
 	public boolean isSet(String name) {
@@ -55,7 +58,9 @@ public class FacesApplicationContext implements Context {
 	}
 
 	public void remove(String name) {
-       externalContext.getApplicationMap().remove( getKey(name) );
+      Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
+      externalContext.getApplicationMap().remove( getKey(name) );
+      Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
     public String[] getNames() {

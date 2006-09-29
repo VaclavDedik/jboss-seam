@@ -228,6 +228,8 @@ public class Pageflow implements Serializable
         //TODO: this is not actually completely true, what about <s:actionLink/>
     	  //pi.signal();
       //}
+      
+      Events.instance().raiseEvent("org.jboss.seam.beginPageflow." + pageflowDefinitionName);
    }
    
    public String getNoConversationViewId(String pageflowName, String pageflowNodeName)

@@ -4,6 +4,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
@@ -70,6 +72,8 @@ public class BusinessProcess implements Serializable {
       // need to set process variables before the signal
       Contexts.getBusinessProcessContext().flush();
       process.signal();
+      
+      Events.instance().raiseEvent("org.jboss.seam.createProcess." + processDefinitionName);
    }
 
    public void startTask()
@@ -84,6 +88,8 @@ public class BusinessProcess implements Serializable {
       {
          task.start();
       }
+      
+      Events.instance().raiseEvent("org.jboss.seam.startTask." + task.getTask().getName());
    }
 
    public void endTask(String transitionName)
@@ -109,6 +115,112 @@ public class BusinessProcess implements Serializable {
       }
       
       setTaskId(null);
+      
+      Events.instance().raiseEvent("org.jboss.seam.endTask." + task.getTask().getName());
    }
    
+   public boolean initTask(Long taskId)
+   {
+      setTaskId(taskId);
+      TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
+      if (task==null)
+      {
+         taskNotFound(taskId);
+         return false;
+      }
+      else if ( task.hasEnded() )
+      {
+         taskEnded(taskId);
+         return false;
+      }
+      else
+      {
+         setProcessId( task.getTaskMgmtInstance().getProcessInstance().getId() );
+         Events.instance().raiseEvent("org.jboss.seam.initTask." + task.getTask().getName());
+         return true;
+      }
+      
+   }
+   
+   public boolean initProcess(Long processId)
+   {
+      setProcessId(processId);
+      ProcessInstance process = org.jboss.seam.core.ProcessInstance.instance();
+      if ( process==null )
+      {
+         processNotFound(processId);
+         return false;
+      }
+      else if ( process.hasEnded() )
+      {
+         processEnded(processId);
+         return false;
+      }
+      else
+      {
+         Events.instance().raiseEvent("org.jboss.seam.initProcess." + process.getProcessDefinition().getName());
+         return true;
+      }
+   }
+
+   public boolean checkTask()
+   {
+      TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
+      Long taskId = getTaskId();
+      if ( task==null )
+      {
+         taskNotFound(taskId);
+         return false;
+      }
+      else if ( task.hasEnded() )
+      {
+         taskEnded(taskId);
+         return false;
+      }
+      else
+      {
+         return true;
+      }
+   }
+
+   private void taskNotFound(Long taskId)
+   {
+      FacesMessages.instance().addFromResourceBundle(
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.TaskNotFound", 
+            "Task #0 not found", 
+            taskId
+         );
+   }
+
+   private void taskEnded(Long taskId)
+   {
+      FacesMessages.instance().addFromResourceBundle(
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.TaskEnded", 
+            "Task #0 already ended", 
+            taskId
+         );
+   }
+
+   private void processEnded(Long processId)
+   {
+      FacesMessages.instance().addFromResourceBundle(
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.ProcessEnded", 
+            "Process #0 already ended", 
+            processId
+         );
+   }
+
+   private void processNotFound(Long processId)
+   {
+      FacesMessages.instance().addFromResourceBundle(
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.ProcessNotFound", 
+            "Process #0 not found", 
+            processId
+         );
+   }
+
 }

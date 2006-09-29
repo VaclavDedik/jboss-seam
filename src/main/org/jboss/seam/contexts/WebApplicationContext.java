@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.core.Events;
 
 /**
  * @author Gavin King
@@ -47,8 +48,10 @@ public class WebApplicationContext implements Context
 		return servletContext.getAttribute( getKey(name) );
 	}
 
-	public void set(String name, Object value) {
-       servletContext.setAttribute( getKey(name), value );
+   public void set(String name, Object value) {
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
+      servletContext.setAttribute( getKey(name), value );
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
 	}
 
 	public boolean isSet(String name) {
@@ -56,7 +59,9 @@ public class WebApplicationContext implements Context
 	}
 
 	public void remove(String name) {
-       servletContext.removeAttribute( getKey(name) );
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
+      servletContext.removeAttribute( getKey(name) );
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
     public String[] getNames() {

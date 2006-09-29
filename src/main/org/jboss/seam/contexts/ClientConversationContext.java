@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
 
 /**
@@ -45,7 +46,9 @@ public class ClientConversationContext implements Context {
 
 	public void set(String name, Object value) 
    {
+      Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
 		map.put(name, value);
+      Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
 	}
 
 	public boolean isSet(String name) 
@@ -55,7 +58,9 @@ public class ClientConversationContext implements Context {
    
 	public void remove(String name) 
    {
+      Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
       map.remove(name);
+      Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
    public String[] getNames() {

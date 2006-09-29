@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.TaskInstance;
@@ -62,6 +63,7 @@ public class BusinessProcessContext implements Context {
    }
 
    public void set(String name, Object value) {
+      Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
       if (value==null)
       {
          //yes, we need this
@@ -72,6 +74,7 @@ public class BusinessProcessContext implements Context {
          removals.remove(name);
          additions.put(name, value);
       }
+      Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
    }
 
    public boolean isSet(String name) {
@@ -79,8 +82,10 @@ public class BusinessProcessContext implements Context {
    }
    
    public void remove(String name) {
+      Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
       additions.remove(name);
       removals.add(name);
+      Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
    }
 
    public String[] getNames() {
@@ -118,7 +123,6 @@ public class BusinessProcessContext implements Context {
       additions.clear();
       removals.addAll( getNamesFromContext() );
    }
-   
 
    public void flush()
    {
