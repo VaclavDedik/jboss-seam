@@ -5,7 +5,6 @@ import static org.jboss.seam.ScopeType.STATELESS;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
 
 import domain.Blog;
@@ -24,14 +23,10 @@ public class EntryAction
    @In(create=true) 
    private Blog blog;
    
-   @RequestParameter("blogEntryId")
-   private String id;
-   
    @Out
    private BlogEntry blogEntry;
-
    
-   public void getBlogEntry() throws EntryNotFoundException
+   public void getBlogEntry(String id) throws EntryNotFoundException
    {
       blogEntry = blog.getBlogEntry(id);
       if (blogEntry==null) throw new EntryNotFoundException(id);

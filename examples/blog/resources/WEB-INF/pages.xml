@@ -1,5 +1,5 @@
 <pages>
-   <page view-id="/entry.xhtml" action="#{entryAction.getBlogEntry}"/>
+   <page view-id="/entry.xhtml" action="#{entryAction.getBlogEntry(param.blogEntryId)}"/>
    <page view-id="/post.xhtml" action="#{loginAction.challenge}"/>
    <page view-id="*" action="#{blog.hitCount.hit}"/>
 </pages>

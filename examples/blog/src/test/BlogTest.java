@@ -124,7 +124,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            ( (EntryAction) Component.getInstance(EntryAction.class, true) ).getBlogEntry();
+            ( (EntryAction) Component.getInstance(EntryAction.class, true) ).getBlogEntry("i18n");
          }
 
          @Override
