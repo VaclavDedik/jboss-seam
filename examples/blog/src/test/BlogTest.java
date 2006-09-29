@@ -131,6 +131,7 @@ public class BlogTest extends SeamTest
          protected void renderResponse() throws Exception
          {
             BlogEntry blogEntry = (BlogEntry) Contexts.getEventContext().get("blogEntry");
+            assert blogEntry!=null;
             assert blogEntry.getId().equals("i18n");
          }
          

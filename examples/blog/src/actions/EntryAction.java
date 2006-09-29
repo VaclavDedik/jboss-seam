@@ -1,6 +1,7 @@
 package actions;
 
-import org.jboss.seam.ScopeType;
+import static org.jboss.seam.ScopeType.STATELESS;
+
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -17,7 +18,7 @@ import domain.BlogEntry;
  * @author Gavin King
  */
 @Name("entryAction")
-@Scope(ScopeType.STATELESS)
+@Scope(STATELESS)
 public class EntryAction
 {
    @In(create=true) 
@@ -26,7 +27,7 @@ public class EntryAction
    @RequestParameter("blogEntryId")
    private String id;
    
-   @Out(scope=ScopeType.EVENT, required=false)
+   @Out
    private BlogEntry blogEntry;
 
    
