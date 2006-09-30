@@ -33,7 +33,6 @@ import javax.faces.webapp.UIComponentTag;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.actionparam.ActionParamMethodBinding;
 import org.jboss.seam.ui.JSF;
 
 /**
@@ -322,7 +321,7 @@ public abstract class UIComponentTagBase extends UIComponentTag
          MethodBinding mb;
          if (isValueReference(action))
          {
-            mb = new ActionParamMethodBinding(context, action);
+            mb = context.getApplication().createMethodBinding(action, null);
          } else
          {
             mb = new SimpleActionMethodBinding(action);

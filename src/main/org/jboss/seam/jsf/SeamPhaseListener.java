@@ -11,6 +11,8 @@ import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
 
+import javax.faces.FactoryFinder;
+import javax.faces.application.ApplicationFactory;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -37,6 +39,12 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
 
    private static final Log log = LogFactory.getLog( SeamPhaseListener.class );
    
+   public SeamPhaseListener()
+   {
+      ApplicationFactory factory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
+      factory.setApplication( new SeamApplication( factory.getApplication() ) );
+   }
+   
    public void beforePhase(PhaseEvent event)
    {
       log.trace( "before phase: " + event.getPhaseId() );
@@ -52,7 +60,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       }
       else if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         Pages.instance().applyParameterValues( event.getFacesContext().getViewRoot().getViewId() );
+         Pages.instance().applyParameterValues( event.getFacesContext().getViewRoot().getViewId() ); //TODO?
          beforeRender(event);
       }
 
@@ -89,7 +97,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       }
       else if ( event.getPhaseId()== APPLY_REQUEST_VALUES )
       {
-         Pages.instance().applyParameterValues( facesContext.getViewRoot().getViewId() );
+         Pages.instance().applyParameterValues( facesContext.getViewRoot().getViewId() ); //TODO??
       }
             
       //has to happen after, since restoreAnyConversationContext() 

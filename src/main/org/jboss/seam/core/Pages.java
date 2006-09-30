@@ -125,7 +125,9 @@ public class Pages
             {
                if ( action.startsWith("#{") )
                {
-                  MethodBinding methodBinding = new ActionParamMethodBinding(FacesContext.getCurrentInstance(), action);
+                  MethodBinding methodBinding = FacesContext.getCurrentInstance()
+                        .getApplication()
+                        .createMethodBinding(action, null);
                   entry.action = methodBinding;
                }
                else
@@ -238,18 +240,23 @@ public class Pages
       
       boolean result = false;
       
-      String outcome = (String) facesContext.getExternalContext().getRequestParameterMap().get("actionOutcome");
+      String outcome = (String) facesContext.getExternalContext()
+            .getRequestParameterMap()
+            .get("actionOutcome");
       String fromAction = outcome;
       
       if (outcome==null)
       {
-         String action = (String) facesContext.getExternalContext().getRequestParameterMap().get("actionMethod");
+         String action = (String) facesContext.getExternalContext()
+               .getRequestParameterMap()
+               .get("actionMethod");
          if (action!=null)
          {
             String expression = "#{" + action + "}";
             if ( !isActionAllowed(facesContext, expression) ) return result;
             result = true;
-            MethodBinding actionBinding = new ActionParamMethodBinding(facesContext, expression);
+            MethodBinding actionBinding = facesContext.getApplication()
+                  .createMethodBinding(expression, null);
             outcome = toString( actionBinding.invoke(facesContext, null) );
             fromAction = expression;
          }

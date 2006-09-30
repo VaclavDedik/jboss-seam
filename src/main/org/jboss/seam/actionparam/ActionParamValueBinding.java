@@ -22,11 +22,14 @@
 
 package org.jboss.seam.actionparam;
 
+import javax.faces.application.Application;
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.ValueBinding;
+
+import org.jboss.seam.jsf.SeamApplication;
 
 /**
  * This is a sort of bastardized ValueBinding that takes an action expression.
@@ -42,24 +45,27 @@ public class ActionParamValueBinding extends ValueBinding implements StateHolder
     
     private String expression;
     private ValueBinding binding;
+    private Application application;
     
     private boolean isTransient = false;
     
     public ActionParamValueBinding()
     {
         // needed for StateHolder
+        application = ( (SeamApplication) FacesContext.getCurrentInstance().getApplication() ).getDelegate();
     }
     
-    public ActionParamValueBinding(FacesContext facesContext, String expression)
+    public ActionParamValueBinding(Application application, String expression)
     {
         this.expression = expression;
-        setBinding(facesContext, expression);
+        this.application = application;
+        setBinding(expression);
     }
     
-    private void setBinding(FacesContext facesContext, String expression)
+    private void setBinding(String expression)
     {
         MethodExpressionParser parser = new MethodExpressionParser(expression);
-        this.binding = facesContext.getApplication().createValueBinding(parser.getCombinedExpression());
+        this.binding = application.createValueBinding( parser.getCombinedExpression() );
     }
 
     public void setValue(FacesContext facesContext, Object object) throws EvaluationException, PropertyNotFoundException 
@@ -88,8 +94,8 @@ public class ActionParamValueBinding extends ValueBinding implements StateHolder
     }
 
     public void restoreState(FacesContext facesContext, Object object) {
-        this.expression = (String)object;
-        setBinding(facesContext, this.expression);
+        this.expression = (String) object;
+        setBinding(this.expression);
     }
 
     public Object saveState(FacesContext facesContext) {

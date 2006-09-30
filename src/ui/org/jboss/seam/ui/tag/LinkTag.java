@@ -23,10 +23,7 @@
 package org.jboss.seam.ui.tag;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
-import org.jboss.seam.actionparam.ActionParamValueBinding;
 import org.jboss.seam.ui.HtmlLink;
 
 
@@ -55,28 +52,13 @@ public class LinkTag extends HtmlCommandLinkTagBase
     {
         super.setProperties(component);
         setStringProperty(component, "view", view);
-        setActionOnComponent(component);
+        setStringProperty(component, "action", action);
         setValueBinding(component, "taskInstance", taskInstance);
         setStringProperty(component, "buttonClass", buttonClass);
         setStringProperty(component, "linkStyle", linkStyle);
         setStringProperty(component, "propagation", propagation);
         setStringProperty(component, "pageflow", pageflow);
         setStringProperty(component, "fragment", fragment);
-    }
-
-    private void setActionOnComponent(UIComponent component)
-    {
-      if (action == null) return;
-      
-      if (isValueReference(action))
-      {
-         ValueBinding vb = new ActionParamValueBinding(FacesContext.getCurrentInstance(), action);
-         component.setValueBinding("action", vb);
-      } 
-      else
-      {
-         component.getAttributes().put("action", action);
-      }
     }
 
     public void setAction(String action)

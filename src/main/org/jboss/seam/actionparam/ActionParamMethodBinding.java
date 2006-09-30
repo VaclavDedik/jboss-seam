@@ -22,11 +22,14 @@
 
 package org.jboss.seam.actionparam;
 
+import javax.faces.application.Application;
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.MethodNotFoundException;
+
+import org.jboss.seam.jsf.SeamApplication;
 
 /**
  * This class assumes that the entire expression is not a string literal.  If
@@ -38,21 +41,24 @@ public class ActionParamMethodBinding extends MethodBinding implements StateHold
     
     private String expWithParams;
     private ActionParamBindingHelper helper;
+    private Application application;
     
     private boolean isTransient = false;
 
     public ActionParamMethodBinding()
     {
         // constructor needed for StateHolder
+        application = ( (SeamApplication) FacesContext.getCurrentInstance().getApplication() ).getDelegate();
     }
     
-    public ActionParamMethodBinding(FacesContext facesContext, String expWithParams) {
+    public ActionParamMethodBinding(Application application, String expWithParams) {
         if (MethodExpressionParser.isStringLiteral(expWithParams)) {
             throw new EvaluationException(expWithParams + " is not an EL expression");
         }
         
         this.expWithParams = expWithParams;
-        this.helper = new ActionParamBindingHelper(facesContext.getApplication(), expWithParams);
+        this.application = application;
+        this.helper = new ActionParamBindingHelper(application, expWithParams);
     }
     
     @Override
@@ -71,8 +77,8 @@ public class ActionParamMethodBinding extends MethodBinding implements StateHold
     }
     
     public void restoreState(FacesContext facesContext, Object object) {
-        this.expWithParams = (String)object;
-        this.helper = new ActionParamBindingHelper(facesContext.getApplication(), expWithParams);
+        this.expWithParams = (String) object;
+        this.helper = new ActionParamBindingHelper(application, expWithParams);
     }
 
     public Object saveState(FacesContext facesContext) {
