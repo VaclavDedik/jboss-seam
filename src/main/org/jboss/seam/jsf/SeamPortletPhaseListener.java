@@ -9,6 +9,7 @@ package org.jboss.seam.jsf;
 import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
+import static javax.faces.event.PhaseId.UPDATE_MODEL_VALUES;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -53,6 +54,10 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       {
          restoreAnyConversationContext( facesContext );         
          beforeRender(event);
+      }
+      else if ( event.getPhaseId()== UPDATE_MODEL_VALUES )
+      {
+         beforeUpdateModelValues(event);
       }
 
    }

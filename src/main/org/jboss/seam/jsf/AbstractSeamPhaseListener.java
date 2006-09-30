@@ -105,7 +105,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
    }
 
-   protected void afterUpdateModelValues(PhaseEvent event)
+   protected void beforeUpdateModelValues(PhaseEvent event)
    {
       Pages.instance().applyParameterValues( event.getFacesContext().getViewRoot().getViewId() );
       Manager.instance().setUpdateModelValuesCalled(true);
@@ -161,7 +161,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
    }
    
-   public boolean callPageActions(PhaseEvent event)
+   private boolean callPageActions(PhaseEvent event)
    {
       Lifecycle.setPhaseId( PhaseId.INVOKE_APPLICATION );
       boolean actionsWereCalled = false;

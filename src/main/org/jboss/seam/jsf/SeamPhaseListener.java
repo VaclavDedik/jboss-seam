@@ -59,6 +59,10 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       {
          beforeRender(event);
       }
+      else if ( event.getPhaseId()== UPDATE_MODEL_VALUES )
+      {
+         beforeUpdateModelValues(event);
+      }
 
    }
    
@@ -75,10 +79,6 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       else if ( event.getPhaseId() == INVOKE_APPLICATION )
       {
          afterInvokeApplication();
-      }
-      else if ( event.getPhaseId()== UPDATE_MODEL_VALUES )
-      {
-         afterUpdateModelValues(event);
       }
             
       //has to happen after, since restoreAnyConversationContext() 
