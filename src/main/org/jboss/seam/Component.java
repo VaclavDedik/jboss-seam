@@ -1494,6 +1494,7 @@ public class Component
             else //an @Factory method defaults to the same scope as the component
             {
                scope = component.getScope();
+               if (scope==STATELESS) scope=EVENT;
             }
          }
          scope.getContext().set(name, result);

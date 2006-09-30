@@ -60,18 +60,23 @@ public class SeamRedirectFilter implements Filter
 
    public static String getViewId(String url)
    {
+      //for /seam/* style servlet mappings
+      String pathInfo = FacesContext.getCurrentInstance().getExternalContext().getRequestPathInfo();
       String servletPath = FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath();
       String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-      String pathInfo = FacesContext.getCurrentInstance().getExternalContext().getRequestPathInfo();
+      if (pathInfo!=null)
+      {
+         return url.substring( contextPath.length() + servletPath.length(), getParamLoc(url) );
+      }
+      
+      //for *.seam style servlet mappings
       if ( url.startsWith(contextPath) )
       {
          String extension = servletPath.substring( servletPath.indexOf('.') );
          if ( url.endsWith(extension) || url.contains(extension + '?') )
          {
-            int loc = url.indexOf('?');
-            if (loc<0) loc = url.length();
             String suffix = getSuffix();
-            return url.substring(contextPath.length(), loc - suffix.length() + 1) + suffix;
+            return url.substring(contextPath.length(), getParamLoc(url) - suffix.length() + 1) + suffix;
          }
          else
          {
@@ -82,6 +87,13 @@ public class SeamRedirectFilter implements Filter
       {
          return null;
       }
+   }
+
+   private static int getParamLoc(String url)
+   {
+      int loc = url.indexOf('?');
+      if (loc<0) loc = url.length();
+      return loc;
    }
    
    public static String getSuffix()
