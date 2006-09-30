@@ -7,14 +7,6 @@
 	<namespace>http://jboss.com/products/seam/taglib</namespace>
 	
 	<tag>
-		<tag-name>queryTable</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.HtmlQueryTable</component-type>
-			<renderer-type>javax.faces.Table</renderer-type>
-		</component>
-	</tag>
-	
-	<tag>
 		<tag-name>action</tag-name>
 		<component>
 			<component-type>org.jboss.seam.ui.UIAction</component-type>
@@ -56,19 +48,19 @@
 		</component>
 	</tag>
 
-        <tag>
+    <tag>
 		<tag-name>commandButton</tag-name>
 		<component>
 			<component-type>javax.faces.HtmlCommandButton</component-type>
-                        <handler-class>com.sun.facelets.tag.jsf.html.HtmlComponentHandler</handler-class>
+            <handler-class>com.sun.facelets.tag.jsf.html.HtmlComponentHandler</handler-class>
 		</component>
 	</tag>
 
-        <tag>
+    <tag>
 		<tag-name>commandLink</tag-name>
 		<component>
 			<component-type>javax.faces.HtmlCommandLink</component-type>
-                        <handler-class>com.sun.facelets.tag.jsf.html.HtmlComponentHandler</handler-class>
+            <handler-class>com.sun.facelets.tag.jsf.html.HtmlComponentHandler</handler-class>
 		</component>
 	</tag>
 	
