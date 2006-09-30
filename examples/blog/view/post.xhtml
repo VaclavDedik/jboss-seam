@@ -15,28 +15,28 @@
                <h:outputLabel for="id">Id: </h:outputLabel>
             </div>
             <div class="hilite">
-               <h:inputText id="id" value="#{newBlogEntry.id}" size="20" maxlength="20" required="true"/>
+               <h:inputText id="id" value="#{blogEntry.id}" size="20" maxlength="20" required="true"/>
                <span class="errors"><h:message for="id"/></span>
             </div>
             <div>
                <h:outputLabel for="title">Title: </h:outputLabel>
             </div>
             <div class="hilite">
-               <h:inputText id="title" value="#{newBlogEntry.title}" size="70" maxlength="70" required="true"/>
+               <h:inputText id="title" value="#{blogEntry.title}" size="70" maxlength="70" required="true"/>
                <span class="errors"><h:message for="title"/></span>
             </div>
             <div>
                <h:outputLabel for="excerpt">Excerpt (optional): </h:outputLabel>
             </div>
             <div class="hilite">
-               <h:inputTextarea id="excerpt" value="#{newBlogEntry.excerpt}" cols="68" rows="3"/>
+               <h:inputTextarea id="excerpt" value="#{blogEntry.excerpt}" cols="68" rows="3"/>
                <span class="errors"><h:message for="excerpt"/></span>
             </div>
             <div>
                <h:outputLabel for="body">Body text: </h:outputLabel>
             </div>
             <div class="hilite">
-               <h:inputTextarea id="body" value="#{newBlogEntry.body}" cols="68" rows="20" required="true"/>
+               <h:inputTextarea id="body" value="#{blogEntry.body}" cols="68" rows="20" required="true"/>
                <span class="errors"><h:message for="body"/></span>
             </div>
             <div>

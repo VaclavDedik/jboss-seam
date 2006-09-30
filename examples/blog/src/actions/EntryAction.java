@@ -26,7 +26,7 @@ public class EntryAction
    @Out
    private BlogEntry blogEntry;
    
-   public void getBlogEntry(String id) throws EntryNotFoundException
+   public void loadBlogEntry(String id) throws EntryNotFoundException
    {
       blogEntry = blog.getBlogEntry(id);
       if (blogEntry==null) throw new EntryNotFoundException(id);

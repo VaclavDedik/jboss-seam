@@ -33,7 +33,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            BlogEntry entry = (BlogEntry) Component.getInstance("newBlogEntry");
+            BlogEntry entry = (BlogEntry) Component.getInstance("blogEntry");
             entry.setId("testing");
             entry.setTitle("Integration testing Seam applications");
             entry.setBody("This post is about SeamTest...");
@@ -65,7 +65,7 @@ public class BlogTest extends SeamTest
             BlogEntry blogEntry = blogEntries.get(0);
             assert blogEntry.getId().equals("testing");
             assert blogEntry.getBody().equals("This post is about SeamTest...");
-            assert blogEntry.getTitle().equals("Integration testing Seam applications");
+            assert blogEntry.getTitle().equals("Integration testing Seam applications is easy!");
          }
 
       }.run();
@@ -124,7 +124,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            ( (EntryAction) Component.getInstance(EntryAction.class, true) ).getBlogEntry("i18n");
+            ( (EntryAction) Component.getInstance(EntryAction.class, true) ).loadBlogEntry("i18n");
          }
 
          @Override

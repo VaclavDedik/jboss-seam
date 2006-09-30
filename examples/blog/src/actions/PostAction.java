@@ -6,10 +6,8 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 
 import domain.Blog;
@@ -28,20 +26,13 @@ public class PostAction
    @In(create=true) private EntityManager entityManager;
    
    @In(required=false) 
-   @Out(scope=ScopeType.EVENT)
-   private BlogEntry newBlogEntry;
-   
-   @Factory("newBlogEntry")
-   public void createBlogEntry()
-   {
-      newBlogEntry = new BlogEntry(blog);
-   }
+   private BlogEntry blogEntry;
    
    public String post() throws IOException
    {
-      newBlogEntry.setDate( new Date() );
-      blog.getBlogEntries().add(newBlogEntry);
-      entityManager.persist(newBlogEntry);
+      blogEntry.setDate( new Date() );
+      blog.getBlogEntries().add(blogEntry);
+      entityManager.persist(blogEntry);
       return "/index.xhtml";
    }
    

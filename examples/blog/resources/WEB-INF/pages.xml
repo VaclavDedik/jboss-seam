@@ -1,5 +1,15 @@
 <pages>
-   <page view-id="/entry.xhtml" action="#{entryAction.getBlogEntry(param.blogEntryId)}"/>
+
+   <page view-id="/search.xhtml">
+      <param name="searchPattern" value="#{searchService.searchPattern}"/>
+   </page>
+
+   <page view-id="/entry.xhtml" action="#{entryAction.loadBlogEntry(blogEntry.id)}">
+      <param name="blogEntryId" value="#{blogEntry.id}"/>
+   </page>
+
    <page view-id="/post.xhtml" action="#{loginAction.challenge}"/>
+
    <page view-id="*" action="#{blog.hitCount.hit}"/>
+
 </pages>

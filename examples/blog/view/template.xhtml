@@ -18,7 +18,7 @@
    <body>
       <div id="search">
          <h:form>
-            <h:inputText value="#{renderParameters.searchPattern}"/>
+            <h:inputText value="#{searchService.searchPattern}"/>
             <h:commandButton value="Search" action="/search.xhtml"/>
             &#160;&#160;
             <h:selectOneMenu value="#{themeSelector.theme}">
@@ -26,8 +26,8 @@
             </h:selectOneMenu>
             <h:commandLink action="#{themeSelector.select}">
                <h:commandButton value="Select Theme"/>
-               <f:param name="blogEntryId" value="#{param.blogEntryId}"/>
-               <f:param name="searchPattern" value="#{param.searchPattern}"/>
+               <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+               <f:param name="searchPattern" value="#{searchService.searchPattern}"/>
             </h:commandLink>
          </h:form>
       </div>

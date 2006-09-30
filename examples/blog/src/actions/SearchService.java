@@ -4,11 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.RequestParameter;
-import org.jboss.seam.annotations.Unwrap;
 
 import domain.BlogEntry;
 
@@ -17,25 +15,29 @@ import domain.BlogEntry;
  *
  * @author Gavin King
  */
-@Name("searchResults")
+@Name("searchService")
 public class SearchService 
 {
    
    @In(create=true)
    private EntityManager entityManager;
    
-   @RequestParameter
    private String searchPattern;
    
-   private List<BlogEntry> searchResults;
-   
-   @Create
-   public void initSearchResults()
+   @Factory("searchResults")
+   public List<BlogEntry> getSearchResults()
    {
-      searchResults = entityManager.createQuery("from BlogEntry be where lower(be.title) like :searchPattern or lower(be.body) like :searchPattern order by be.date desc")
-            .setParameter( "searchPattern", getSqlSearchPattern() )
-            .setMaxResults(100)
-            .getResultList();
+      if (searchPattern==null)
+      {
+         return null;
+      }
+      else
+      {
+         return entityManager.createQuery("from BlogEntry be where lower(be.title) like :searchPattern or lower(be.body) like :searchPattern order by be.date desc")
+               .setParameter( "searchPattern", getSqlSearchPattern() )
+               .setMaxResults(100)
+               .getResultList();
+      }
    }
 
    private String getSqlSearchPattern()
@@ -43,10 +45,14 @@ public class SearchService
       return searchPattern==null ? "" : '%' + searchPattern.toLowerCase().replace('*', '%').replace('?', '_') + '%';
    }
 
-   @Unwrap
-   public List<BlogEntry> getSearchResults()
+   public String getSearchPattern()
    {
-      return searchResults;
+      return searchPattern;
+   }
+
+   public void setSearchPattern(String searchPattern)
+   {
+      this.searchPattern = searchPattern;
    }
 
 }
