@@ -75,7 +75,7 @@ public class Manager
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
    
-   private boolean nonFacesRequest = true;
+   private boolean updateModelValuesCalled;
 
    private boolean controllingRedirect;
    
@@ -1007,18 +1007,6 @@ public class Manager
 
       }
    }
-   
-   @Deprecated
-   public boolean isNonFacesRequest()
-   {
-      return nonFacesRequest;
-   }
-   
-   @Deprecated
-   public void setNonFacesRequest(boolean nonFacesRequest)
-   {
-      this.nonFacesRequest = nonFacesRequest;
-   }
 
    public String getConversationIdParameter()
    {
@@ -1076,6 +1064,16 @@ public class Manager
    public boolean isConversationAlreadyStored()
    {
       return conversationAlreadyStored;
+   }
+
+   public boolean isUpdateModelValuesCalled()
+   {
+      return updateModelValuesCalled;
+   }
+
+   public void setUpdateModelValuesCalled(boolean updateModelValuesCalled)
+   {
+      this.updateModelValuesCalled = updateModelValuesCalled;
    }
 
 }

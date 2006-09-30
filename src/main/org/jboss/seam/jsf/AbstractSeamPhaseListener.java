@@ -4,6 +4,7 @@ import static javax.faces.event.PhaseId.ANY_PHASE;
 
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -104,9 +105,37 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
    }
 
+   protected void afterUpdateModelValues(PhaseEvent event)
+   {
+      Pages.instance().applyParameterValues( event.getFacesContext().getViewRoot().getViewId() );
+      Manager.instance().setUpdateModelValuesCalled(true);
+   }
+
+   protected void afterInvokeApplication()
+   {
+      try
+      {
+         if ( Transactions.isTransactionAvailableAndMarkedRollback() )
+         {
+            FacesMessages.instance().addFromResourceBundle(
+                     FacesMessage.SEVERITY_WARN, 
+                     "org.jboss.seam.TransactionFailed", 
+                     "Transaction failed"
+                  );
+         }
+      }
+      catch (Exception e) {} //swallow silently, not important
+   }
+
    protected void beforeRender(PhaseEvent event)
    {  
+      
       FacesContext facesContext = event.getFacesContext();
+
+      if ( !Manager.instance().isUpdateModelValuesCalled() )
+      {
+         Pages.instance().applyParameterValues( facesContext.getViewRoot().getViewId() );
+      }
 
       selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
       
