@@ -24,6 +24,7 @@ import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.core.ProcessInstance;
 
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.
@@ -40,11 +41,6 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object manageBusinessProcessContext(InvocationContext invocation) throws Exception
    {
-      /*Actor actor = Actor.instance();
-      boolean isActor = actor!=null && actor.getId()!=null;
-      if (isActor) JbpmAuthentication.pushAuthenticatedActorId( actor.getId() );
-      try
-      {*/
       if ( !beforeInvocation(invocation) )
       {
          return null;
@@ -53,11 +49,6 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
       {
          return afterInvocation( invocation, invocation.proceed() );
       }
-      /*}
-      finally
-      {
-         if (isActor) JbpmAuthentication.popAuthenticatedActorId();
-      }*/
    }
 
    private boolean beforeInvocation(InvocationContext invocationContext) {
@@ -115,8 +106,9 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          if ( method.isAnnotationPresent(org.jboss.seam.annotations.Transition.class) )
          {
             log.trace( "encountered @Transition" );
-            String name = method.getAnnotation(org.jboss.seam.annotations.Transition.class).value();
-            org.jboss.seam.core.ProcessInstance.instance().signal(name);
+            String transitionName = method.getAnnotation(org.jboss.seam.annotations.Transition.class).value();
+            if ( "".equals(transitionName) ) transitionName = method.getName();
+            ProcessInstance.instance().signal(transitionName);
          }
       }
       return result;
