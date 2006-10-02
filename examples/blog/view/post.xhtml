@@ -10,47 +10,45 @@
 <ui:define name="content">
    <div class="blogEntry">
       <h:form>
-         <s:decorations>
-            <f:facet name="afterInvalidField"><s:message/></f:facet>
-            <f:facet name="aroundInvalidField"><s:span styleClass="errors"/></f:facet>
-            <s:validateAll>
-               <div>
-                  <h:outputLabel for="id">Id: </h:outputLabel>
-               </div>
-               <div class="hilite">
-                  <s:decorate>
-                     <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true"/>
-                  </s:decorate>
-               </div>
-               <div>
-                  <h:outputLabel for="title">Title: </h:outputLabel>
-               </div>
-               <div class="hilite">
-                  <s:decorate>
-                     <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true"/>
-                  </s:decorate>
-               </div>
-               <div>
-                  <h:outputLabel for="excerpt">Excerpt (optional): </h:outputLabel>
-               </div>
-               <div class="hilite">
-                  <s:decorate>
-                     <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3"/>
-                  </s:decorate>
-               </div>
-               <div>
-                  <h:outputLabel for="body">Body text: </h:outputLabel>
-               </div>
-               <div class="hilite">
-                  <s:decorate>
-                     <h:inputTextarea value="#{blogEntry.body}" cols="68" rows="20" required="true"/>
-                  </s:decorate>
-               </div>
-               <div>
-                  <h:commandButton value="Post" action="#{postAction.post}"/>
-               </div>
-            </s:validateAll>
-         </s:decorations>
+         <f:facet name="afterInvalidField"><s:message/></f:facet>
+         <f:facet name="aroundInvalidField"><s:span styleClass="errors"/></f:facet>
+         <s:validateAll>
+            <div>
+               <h:outputLabel for="id">Id: </h:outputLabel>
+            </div>
+            <div class="hilite">
+               <s:decorate>
+                  <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true"/>
+               </s:decorate>
+            </div>
+            <div>
+               <h:outputLabel for="title">Title: </h:outputLabel>
+            </div>
+            <div class="hilite">
+               <s:decorate>
+                  <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true"/>
+               </s:decorate>
+            </div>
+            <div>
+               <h:outputLabel for="excerpt">Excerpt (optional): </h:outputLabel>
+            </div>
+            <div class="hilite">
+               <s:decorate>
+                  <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3"/>
+               </s:decorate>
+            </div>
+            <div>
+               <h:outputLabel for="body">Body text: </h:outputLabel>
+            </div>
+            <div class="hilite">
+               <s:decorate>
+                  <h:inputTextarea value="#{blogEntry.body}" cols="68" rows="20" required="true"/>
+               </s:decorate>
+            </div>
+            <div>
+               <h:commandButton value="Post" action="#{postAction.post}"/>
+            </div>
+         </s:validateAll>
       </h:form>
    </div>
 </ui:define>
