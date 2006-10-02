@@ -110,6 +110,8 @@ public class HtmlLink extends HtmlOutputLink
          }
       }
       
+      ValueBinding viewBinding = getValueBinding("view");
+      String view = viewBinding==null ? this.view : (String) viewBinding.getValue(context);
       if (view!=null)
       {
          Map<String, Object> pageParameters = Pages.instance().getParameters(view, usedParameters);

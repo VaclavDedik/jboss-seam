@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.ValueBinding;
 
 public class UIStyleDecoration extends UIComponentBase
 {
@@ -50,7 +51,13 @@ public class UIStyleDecoration extends UIComponentBase
       super.encodeBegin(context);
       ResponseWriter response = context.getResponseWriter();
       response.startElement("span", this);
-      response.writeAttribute("class", styleClass, "styleClass");
+
+      ValueBinding classBinding = getValueBinding("styleClass");
+      String styleClass = classBinding==null ? this.styleClass : (String) classBinding.getValue(context);
+      if (styleClass!=null) 
+      {
+         response.writeAttribute("class", styleClass, "styleClass");
+      }
    }
 
    @Override
