@@ -140,8 +140,8 @@ public class HtmlLink extends HtmlOutputLink
          if ( Manager.instance().isReallyLongRunningConversation() )
          {
             encodedUrl += getParameterString(characterEncoding, new UIConversationId(), first);
-            encodedUrl += getParameterString(characterEncoding, new UIConversationIsLongRunning(), first);
             first = false;
+            encodedUrl += getParameterString(characterEncoding, new UIConversationIsLongRunning(), first);
          }
       }
       
