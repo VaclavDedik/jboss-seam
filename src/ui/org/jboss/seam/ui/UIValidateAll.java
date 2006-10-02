@@ -7,12 +7,13 @@ import javax.faces.component.UIInput;
 
 public class UIValidateAll extends UIComponentBase
 {
+   public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.ValidateAll";
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UIValidateAll";
       
    @Override
    public String getFamily()
    {
-      return "org.jboss.seam.ui.ValidateAll";
+      return COMPONENT_FAMILY;
    }
 
    @Override

@@ -6,25 +6,6 @@
 <faces-config>
 
     <component>
-        <component-type>org.jboss.seam.ui.HtmlQueryTable</component-type>
-        <component-class>
-            org.jboss.seam.ui.HtmlQueryTable
-        </component-class>
-        <property>
-            <property-name>ejbql</property-name>
-            <property-class>java.lang.String</property-class>
-        </property>
-        <property>
-            <property-name>firstResult</property-name>
-            <property-class>java.lang.Integer</property-class>
-        </property>
-        <property>
-            <property-name>maxResults</property-name>
-            <property-class>java.lang.integer</property-class>
-        </property>
-    </component>
-
-    <component>
         <component-type>org.jboss.seam.ui.UICache</component-type>
         <component-class>org.jboss.seam.ui.UICache</component-class>
         <property>
@@ -126,6 +107,42 @@
     <component>
         <component-type>org.jboss.seam.ui.UIValidateAll</component-type>
         <component-class>org.jboss.seam.ui.UIValidateAll</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIDecorations</component-type>
+        <component-class>org.jboss.seam.ui.UIDecorations</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIDecorate</component-type>
+        <component-class>org.jboss.seam.ui.UIDecorate</component-class>
+        <property>
+            <property-name>for</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIMessageDecoration</component-type>
+        <component-class>org.jboss.seam.ui.UIMessageDecoration</component-class>
+        <property>
+            <property-name>showSummary</property-name>
+            <property-class>java.lang.Boolean</property-class>
+        </property>
+        <property>
+            <property-name>showDetail</property-name>
+            <property-class>java.lang.Boolean</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIStyleDecoration</component-type>
+        <component-class>org.jboss.seam.ui.UIStyleDecoration</component-class>
+        <property>
+            <property-name>styleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
     </component>
 
     <validator>

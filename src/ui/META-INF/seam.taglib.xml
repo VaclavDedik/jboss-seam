@@ -47,27 +47,39 @@
 			<component-type>org.jboss.seam.ui.HtmlLink</component-type>
 		</component>
 	</tag>
-
-    <tag>
-		<tag-name>commandButton</tag-name>
-		<component>
-			<component-type>javax.faces.HtmlCommandButton</component-type>
-            <handler-class>com.sun.facelets.tag.jsf.html.HtmlComponentHandler</handler-class>
-		</component>
-	</tag>
-
-    <tag>
-		<tag-name>commandLink</tag-name>
-		<component>
-			<component-type>javax.faces.HtmlCommandLink</component-type>
-            <handler-class>com.sun.facelets.tag.jsf.html.HtmlComponentHandler</handler-class>
-		</component>
-	</tag>
 	
 	<tag>
 		<tag-name>validateAll</tag-name>
 		<component>
 			<component-type>org.jboss.seam.ui.UIValidateAll</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>decorations</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIDecorations</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>decorate</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIDecorate</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>message</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIMessageDecoration</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>span</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIStyleDecoration</component-type>
 		</component>
 	</tag>
 	
