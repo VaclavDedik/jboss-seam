@@ -15,8 +15,9 @@ import org.jboss.seam.core.Events;
  * @author Gavin King
  *
  */
-@Interceptor(around={BijectionInterceptor.class, ConversationInterceptor.class, TransactionInterceptor.class, 
-                     BusinessProcessInterceptor.class, RollbackInterceptor.class, })
+@Interceptor(around={BijectionInterceptor.class, ConversationInterceptor.class, 
+                     TransactionInterceptor.class, BusinessProcessInterceptor.class, 
+                     RollbackInterceptor.class})
 public class EventInterceptor extends AbstractInterceptor
 {
    /*@PostConstruct
