@@ -56,13 +56,6 @@
 	</tag>
 	
 	<tag>
-		<tag-name>decorations</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UIDecorations</component-type>
-		</component>
-	</tag>
-	
-	<tag>
 		<tag-name>decorate</tag-name>
 		<component>
 			<component-type>org.jboss.seam.ui.UIDecorate</component-type>

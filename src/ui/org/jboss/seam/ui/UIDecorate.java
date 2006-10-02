@@ -53,7 +53,7 @@ public class UIDecorate extends UIComponentBase
    /**
     * A depth-first search for a UIInput
     */
-   private String getInputId(UIComponent component)
+   private static String getInputId(UIComponent component)
    {
       for (Object child: component.getChildren())
       {
@@ -79,22 +79,6 @@ public class UIDecorate extends UIComponentBase
    {
       return true;
    }
-   
-   private UIDecorations getParentDecorations(UIComponent component)
-   {
-      if (component instanceof UIDecorations) 
-      {
-         return (UIDecorations) component;
-      }
-      else if ( component.getParent()==null )
-      {
-         return null;
-      }
-      else
-      {
-         return getParentDecorations( component.getParent() );
-      }
-   }
 
    public String getFor()
    {
@@ -108,12 +92,15 @@ public class UIDecorate extends UIComponentBase
 
    private UIComponent getDecoration(String name)
    {
-      UIComponent dec = getFacet(name);
-      if (dec==null)
-      {
-         dec = getParentDecorations(this).getFacet(name);
-      }
-      return dec;
+      return getDecoration(name, this);
+   }
+   
+   private static UIComponent getDecoration(String name, UIComponent component)
+   {
+      UIComponent dec = component.getFacet(name);
+      if (dec!=null) return dec;
+      if ( component.getParent()==null ) return null;
+      return getDecoration( name, component.getParent() );
    }
 
    @Override

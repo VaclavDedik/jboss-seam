@@ -110,11 +110,6 @@
     </component>
 
     <component>
-        <component-type>org.jboss.seam.ui.UIDecorations</component-type>
-        <component-class>org.jboss.seam.ui.UIDecorations</component-class>
-    </component>
-
-    <component>
         <component-type>org.jboss.seam.ui.UIDecorate</component-type>
         <component-class>org.jboss.seam.ui.UIDecorate</component-class>
         <property>
