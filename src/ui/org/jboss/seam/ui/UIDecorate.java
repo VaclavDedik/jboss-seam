@@ -67,7 +67,7 @@ public class UIDecorate extends UIComponentBase
          }
          else if (child instanceof UIComponent)
          {
-            String id = getInputId(component);
+            String id = getInputId( (UIComponent) child );
             if (id!=null) return id;
          }
       }
