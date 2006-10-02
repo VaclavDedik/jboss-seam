@@ -10,15 +10,23 @@
 <ui:define name="content">
    <div class="blogEntry">
       <h:form>
-         <f:facet name="afterInvalidField"><s:message/></f:facet>
-         <f:facet name="aroundInvalidField"><s:span styleClass="errors"/></f:facet>
+         <f:facet name="afterInvalidField">
+            <s:span>
+               &#160;Error:&#160;
+               <s:message/>
+            </s:span>
+         </f:facet>
+         <f:facet name="aroundInvalidField">
+            <s:span styleClass="errors"/>
+         </f:facet>
+         
          <s:validateAll>
             <div>
                <h:outputLabel for="id">Id: </h:outputLabel>
             </div>
             <div class="hilite">
                <s:decorate>
-                  <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true"/>
+                  <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true" id="id"/>
                </s:decorate>
             </div>
             <div>
@@ -26,7 +34,7 @@
             </div>
             <div class="hilite">
                <s:decorate>
-                  <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true"/>
+                  <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true" id="title"/>
                </s:decorate>
             </div>
             <div>
@@ -34,7 +42,7 @@
             </div>
             <div class="hilite">
                <s:decorate>
-                  <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3"/>
+                  <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3" id="excerpt"/>
                </s:decorate>
             </div>
             <div>
@@ -42,13 +50,15 @@
             </div>
             <div class="hilite">
                <s:decorate>
-                  <h:inputTextarea value="#{blogEntry.body}" cols="68" rows="20" required="true"/>
+                  <h:inputTextarea value="#{blogEntry.body}" cols="68" rows="20" required="true" id="body"/>
                </s:decorate>
             </div>
-            <div>
-               <h:commandButton value="Post" action="#{postAction.post}"/>
-            </div>
          </s:validateAll>
+         
+         <div>
+            <h:commandButton value="Post" action="#{postAction.post}"/>
+         </div>
+
       </h:form>
    </div>
 </ui:define>
