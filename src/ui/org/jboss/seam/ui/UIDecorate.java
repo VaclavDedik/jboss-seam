@@ -42,23 +42,36 @@ public class UIDecorate extends UIComponentBase
       String id = getFor();
       if (id==null)
       {
-         for (Object child: getChildren())
-         {
-            if (child instanceof UIInput)
-            {
-               UIInput input = (UIInput) child;
-               if ( input.isRendered() )
-               {
-                  return input.getId();
-               }
-            }
-         }
-         return null;
+         return getInputId(this);
       }
       else
       {
          return id;
       }
+   }
+
+   /**
+    * A depth-first search for a UIInput
+    */
+   private String getInputId(UIComponent component)
+   {
+      for (Object child: component.getChildren())
+      {
+         if (child instanceof UIInput)
+         {
+            UIInput input = (UIInput) child;
+            if ( input.isRendered() )
+            {
+               return input.getId();
+            }
+         }
+         else if (child instanceof UIComponent)
+         {
+            String id = getInputId(component);
+            if (id!=null) return id;
+         }
+      }
+      return null;
    }
 
    @Override
