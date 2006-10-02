@@ -23,7 +23,7 @@ import javax.faces.component.html.HtmlCommandLink;
  * @author Martin Marinschek
  * @version $Revision$ $Date$
  */
-public class HtmlCommandLinkTag
+public class CommandLinkTag
     extends HtmlCommandLinkTagBase
 {
     public String getComponentType()

@@ -6,6 +6,20 @@
 <faces-config>
 
     <component>
+        <component-type>org.jboss.seam.ui.UIValidateAll</component-type>
+        <component-class>org.jboss.seam.ui.UIValidateAll</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.UIDecorate</component-type>
+        <component-class>org.jboss.seam.ui.UIDecorate</component-class>
+        <property>
+            <property-name>for</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
         <component-type>org.jboss.seam.ui.UICache</component-type>
         <component-class>org.jboss.seam.ui.UICache</component-class>
         <property>
@@ -102,25 +116,120 @@
             <property-name>buttonClass</property-name>
             <property-class>java.lang.String</property-class>
         </property>
+        
+	    <property>
+	        <property-name>accesskey</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>charset</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>coords</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>dir</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>hreflang</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>lang</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onblur</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onclick</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>ondblclick</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onfocus</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onkeydown</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onkeypress</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onkeyup</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onmousedown</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onmousemove</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onmouseout</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onmouseover</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>onmouseup</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>rel</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>rev</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>shape</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>style</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>styleClass</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>tabindex</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>target</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>title</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>type</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
     </component>
 
     <component>
-        <component-type>org.jboss.seam.ui.UIValidateAll</component-type>
-        <component-class>org.jboss.seam.ui.UIValidateAll</component-class>
-    </component>
-
-    <component>
-        <component-type>org.jboss.seam.ui.UIDecorate</component-type>
-        <component-class>org.jboss.seam.ui.UIDecorate</component-class>
-        <property>
-            <property-name>for</property-name>
-            <property-class>java.lang.String</property-class>
-        </property>
-    </component>
-
-    <component>
-        <component-type>org.jboss.seam.ui.UIMessageDecoration</component-type>
-        <component-class>org.jboss.seam.ui.UIMessageDecoration</component-class>
+        <component-type>org.jboss.seam.ui.HtmlMessageDecoration</component-type>
+        <component-class>org.jboss.seam.ui.HtmlMessageDecoration</component-class>
         <property>
             <property-name>showSummary</property-name>
             <property-class>java.lang.Boolean</property-class>
@@ -129,13 +238,79 @@
             <property-name>showDetail</property-name>
             <property-class>java.lang.Boolean</property-class>
         </property>
+	    <property>
+	        <property-name>errorClass</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>errorStyle</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>fatalClass</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>fatalStyle</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>infoClass</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>infoStyle</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>style</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>styleClass</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>title</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>tooltip</property-name>
+	        <property-class>boolean</property-class>
+	        <default-value>false</default-value>
+	    </property>
+	    <property>
+	        <property-name>warnClass</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
+	    <property>
+	        <property-name>warnStyle</property-name>
+	        <property-class>java.lang.String</property-class>
+	    </property>
     </component>
 
     <component>
-        <component-type>org.jboss.seam.ui.UIStyleDecoration</component-type>
-        <component-class>org.jboss.seam.ui.UIStyleDecoration</component-class>
+        <component-type>org.jboss.seam.ui.HtmlSpan</component-type>
+        <component-class>org.jboss.seam.ui.HtmlSpan</component-class>
         <property>
             <property-name>styleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>style</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.ui.HtmlDiv</component-type>
+        <component-class>org.jboss.seam.ui.HtmlDiv</component-class>
+        <property>
+            <property-name>styleClass</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>style</property-name>
             <property-class>java.lang.String</property-class>
         </property>
     </component>

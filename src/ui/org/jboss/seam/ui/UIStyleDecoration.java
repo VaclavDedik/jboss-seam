@@ -7,12 +7,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
 
-public class UIStyleDecoration extends UIComponentBase
+public abstract class UIStyleDecoration extends UIComponentBase
 {
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.StyleDecoration";
-   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UIStyleDecoration";
    
    private String styleClass;
+   private String style;
 
    @Override
    public String getFamily()
@@ -35,13 +35,15 @@ public class UIStyleDecoration extends UIComponentBase
       Object[] values = (Object[]) state;
       super.restoreState(context, values[0]);
       styleClass = (String) values[1];
+      style = (String) values[2];
    }
 
    @Override
    public Object saveState(FacesContext context) {
-      Object[] values = new Object[2];
+      Object[] values = new Object[3];
       values[0] = super.saveState(context);
       values[1] = styleClass;
+      values[2] = style;
       return values;
    }
 
@@ -50,7 +52,7 @@ public class UIStyleDecoration extends UIComponentBase
    {
       super.encodeBegin(context);
       ResponseWriter response = context.getResponseWriter();
-      response.startElement("span", this);
+      response.startElement( getElement(), this );
 
       ValueBinding classBinding = getValueBinding("styleClass");
       String styleClass = classBinding==null ? this.styleClass : (String) classBinding.getValue(context);
@@ -58,17 +60,34 @@ public class UIStyleDecoration extends UIComponentBase
       {
          response.writeAttribute("class", styleClass, "styleClass");
       }
+
+      ValueBinding styleBinding = getValueBinding("style");
+      String style = styleBinding==null ? this.style : (String) styleBinding.getValue(context);
+      if (style!=null) 
+      {
+         response.writeAttribute("style", style, "style");
+      }
    }
 
    @Override
    public void encodeEnd(FacesContext context) throws IOException
    {
       ResponseWriter response = context.getResponseWriter();
-      response.endElement("span");
+      response.endElement( getElement() );
       response.flush();
       super.encodeEnd(context);
    }
 
-   
+   public abstract String getElement();
+
+   public String getStyle()
+   {
+      return style;
+   }
+
+   public void setStyle(String style)
+   {
+      this.style = style;
+   }
    
 }

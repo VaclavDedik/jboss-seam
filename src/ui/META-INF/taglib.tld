@@ -9,6 +9,18 @@
 	<uri>http://jboss.com/products/seam/taglib</uri>
 
 	<tag>
+		<name>decorate</name>
+		<tag-class>org.jboss.seam.ui.tag.DecorateTag</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>for</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<name>validate</name>
 		<tag-class>org.jboss.seam.ui.tag.ValidateTag</tag-class>
 		<body-content>empty</body-content>
@@ -19,12 +31,12 @@
 		<tag-class>org.jboss.seam.ui.tag.ValidateAllTag</tag-class>
 		<body-content>JSP</body-content>
 	</tag>
-	
+
 	<tag>
-	    <name>cache</name>
-	    <tag-class>org.jboss.seam.ui.tag.CacheTag</tag-class>
-	    <body-content>JSP</body-content>
-	    
+		<name>cache</name>
+		<tag-class>org.jboss.seam.ui.tag.CacheTag</tag-class>
+		<body-content>JSP</body-content>
+
 		<attribute>
 			<name>key</name>
 			<required>true</required>
@@ -42,6 +54,98 @@
 			<required>false</required>
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
+	</tag>
+
+	<tag>
+		<name>span</name>
+		<tag-class>org.jboss.seam.ui.tag.SpanTag</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<!-- UIComponent attributes -->
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>
+				Every component may have an unique id. Automatically
+				created if omitted.
+			</description>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>
+				If false, this component will not be rendered.
+			</description>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>Component binding.</description>
+		</attribute>
+
+	</tag>
+
+	<tag>
+		<name>div</name>
+		<tag-class>org.jboss.seam.ui.tag.DivTag</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<!-- UIComponent attributes -->
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>
+				Every component may have an unique id. Automatically
+				created if omitted.
+			</description>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>
+				If false, this component will not be rendered.
+			</description>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>Component binding.</description>
+		</attribute>
+
 	</tag>
 
 	<tag>
@@ -286,453 +390,674 @@
 
 	</tag>
 
-        <tag>
-              <name>commandButton</name>
-              <tag-class>org.jboss.seam.ui.tag.CommandButtonTag</tag-class>
-              <body-content>JSP</body-content>
+	<tag>
+		<name>message</name>
+		<tag-class>org.jboss.seam.ui.tag.MessageTag</tag-class>
+		<body-content>JSP</body-content>
 
-              <attribute>
-                 <name>id</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
+		<!-- UIComponent attributes -->
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>
+				Every component may have an unique id. Automatically
+				created if omitted.
+			</description>
+		</attribute>
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>
+				If false, this component will not be rendered.
+			</description>
+		</attribute>
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>Component binding.</description>
+		</attribute>
 
-              <attribute>
-                 <name>binding</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>rendered</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>action</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>actionListener</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>immediate</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>value</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>dir</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>lang</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>style</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>title</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>styleClass</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onclick</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>ondblclick</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmousedown</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmouseup</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmouseover</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmousemove</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmouseout</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onkeypress</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onkeydown</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onkeyup</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>accesskey</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>alt</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>disabled</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>onblur</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>onfocus</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>onselect</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>onchange</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>tabindex</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>type</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>size</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>image</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-        </tag>
+		<!-- attribute>
+			<name>for</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>The client identifier of the component for which this component represents associated message(s).</description>
+			</attribute-->
+		<attribute>
+			<name>showSummary</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>
+				Indicates whether the summary of the associated
+				message(s) should be displayed. Default is: true
+			</description>
+		</attribute>
+		<attribute>
+			<name>showDetail</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>
+				Indicates whether the detail of the associated
+				message(s) should be displayed. Default is: false
+			</description>
+		</attribute>
 
-        <tag>
-              <name>commandLink</name>
-              <tag-class>org.jboss.seam.ui.tag.HtmlCommandLinkTag</tag-class>
-              <body-content>JSP</body-content>
-              
-              <attribute>
-                 <name>id</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>binding</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>rendered</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>action</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>actionListener</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>immediate</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>value</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>dir</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>lang</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>style</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>title</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>styleClass</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onclick</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>ondblclick</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmousedown</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmouseup</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmouseover</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmousemove</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onmouseout</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onkeypress</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onkeydown</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>onkeyup</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>accesskey</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>charset</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>tabindex</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>onblur</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>onfocus</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>type</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>target</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-              </attribute>
-              
-              <attribute>
-                 <name>coords</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>hreflang</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>rel</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>rev</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-              
-              <attribute>
-                 <name>shape</name>
-                 <required>false</required>
-                 <rtexprvalue>false</rtexprvalue>
-                 <type>java.lang.String</type>
-              </attribute>
-        </tag>
+
+		<!-- HTML 4.0 universal attributes -->
+		<attribute>
+			<name>dir</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>lang</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				Corresponds to the HTML class attribute.
+			</description>
+		</attribute>
+
+		<!-- HTML 4.0 event-handler attributes -->
+		<attribute>
+			<name>onclick</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>ondblclick</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onmousedown</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onmouseup</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onmouseover</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onmousemove</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onmouseout</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onkeypress</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onkeydown</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onkeyup</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<!-- HtmlMessage attributes -->
+		<attribute>
+			<name>infoClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				CSS class to be used for messages with severity "INFO".
+			</description>
+		</attribute>
+		<attribute>
+			<name>infoStyle</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				CSS style to be used for messages with severity "INFO".
+			</description>
+		</attribute>
+		<attribute>
+			<name>warnClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				CSS class to be used for messages with severity "WARN".
+			</description>
+		</attribute>
+		<attribute>
+			<name>warnStyle</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				CSS style to be used for messages with severity "WARN".
+			</description>
+		</attribute>
+		<attribute>
+			<name>errorClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				CSS class to be used for messages with severity "ERROR".
+			</description>
+		</attribute>
+		<attribute>
+			<name>errorStyle</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				CSS style to be used for messages with severity "ERROR".
+			</description>
+		</attribute>
+		<attribute>
+			<name>fatalClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				CSS class to be used for messages with severity "FATAL".
+			</description>
+		</attribute>
+		<attribute>
+			<name>fatalStyle</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				CSS style to be used for messages with severity "FATAL".
+			</description>
+		</attribute>
+		<attribute>
+			<name>tooltip</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>
+				If true, the message summary will be rendered as a
+				tooltip (i.e. HTML title attribute).
+			</description>
+		</attribute>
+
+	</tag>
+
+	<tag>
+		<name>commandButton</name>
+		<tag-class>org.jboss.seam.ui.tag.CommandButtonTag</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>action</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>actionListener</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>immediate</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>dir</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>lang</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onclick</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>ondblclick</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmousedown</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmouseup</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmouseover</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmousemove</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmouseout</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onkeypress</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onkeydown</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onkeyup</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>accesskey</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>alt</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>disabled</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>onblur</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>onfocus</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>onselect</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>onchange</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>tabindex</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>size</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>image</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>commandLink</name>
+		<tag-class>org.jboss.seam.ui.tag.CommandLinkTag</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>binding</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>rendered</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>action</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>actionListener</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>immediate</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>dir</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>lang</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>styleClass</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onclick</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>ondblclick</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmousedown</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmouseup</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmouseover</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmousemove</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onmouseout</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onkeypress</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onkeydown</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>onkeyup</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>accesskey</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>charset</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>tabindex</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>onblur</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>onfocus</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>target</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>coords</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>hreflang</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>rel</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>rev</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>shape</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
 
 </taglib>

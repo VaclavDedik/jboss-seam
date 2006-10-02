@@ -27,7 +27,7 @@ import javax.faces.component.UIComponent;
 import org.jboss.seam.ui.HtmlLink;
 
 
-public class LinkTag extends HtmlCommandLinkTagBase
+public class LinkTag extends HtmlOutputLinkTagBase
 {
     public String getComponentType()
     {

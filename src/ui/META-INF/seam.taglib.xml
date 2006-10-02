@@ -7,6 +7,27 @@
 	<namespace>http://jboss.com/products/seam/taglib</namespace>
 	
 	<tag>
+		<tag-name>cache</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UICache</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>validateAll</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIValidateAll</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>decorate</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.UIDecorate</component-type>
+		</component>
+	</tag>
+	
+	<tag>
 		<tag-name>action</tag-name>
 		<component>
 			<component-type>org.jboss.seam.ui.UIAction</component-type>
@@ -49,30 +70,23 @@
 	</tag>
 	
 	<tag>
-		<tag-name>validateAll</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UIValidateAll</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>decorate</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UIDecorate</component-type>
-		</component>
-	</tag>
-	
-	<tag>
 		<tag-name>message</tag-name>
 		<component>
-			<component-type>org.jboss.seam.ui.UIMessageDecoration</component-type>
+			<component-type>org.jboss.seam.ui.HtmlMessageDecoration</component-type>
 		</component>
 	</tag>
 	
 	<tag>
 		<tag-name>span</tag-name>
 		<component>
-			<component-type>org.jboss.seam.ui.UIStyleDecoration</component-type>
+			<component-type>org.jboss.seam.ui.HtmlSpan</component-type>
+		</component>
+	</tag>
+	
+	<tag>
+		<tag-name>div</tag-name>
+		<component>
+			<component-type>org.jboss.seam.ui.HtmlDiv</component-type>
 		</component>
 	</tag>
 	
@@ -81,13 +95,6 @@
 		<validator>
 			<validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
 		</validator>
-	</tag>
-	
-	<tag>
-		<tag-name>cache</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UICache</component-type>
-		</component>
 	</tag>
 	
 </facelet-taglib>

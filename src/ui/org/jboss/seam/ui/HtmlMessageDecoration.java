@@ -1,12 +1,12 @@
 package org.jboss.seam.ui;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIMessage;
+import javax.faces.component.html.HtmlMessage;
 
 
-public class UIMessageDecoration extends UIMessage
+public class HtmlMessageDecoration extends HtmlMessage
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UIMessageDecoration";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlMessageDecoration";
 
    private UIDecorate getParentDecorate(UIComponent component)
    {
