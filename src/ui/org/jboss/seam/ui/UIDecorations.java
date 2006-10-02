@@ -1,6 +1,5 @@
 package org.jboss.seam.ui;
 
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 
 public class UIDecorations extends UIComponentBase
@@ -13,36 +12,6 @@ public class UIDecorations extends UIComponentBase
    public String getFamily()
    {
       return COMPONENT_FAMILY;
-   }
-   
-   public UIComponent getBeforeInvalidDecoration()
-   {
-      return getFacet("beforeInvalidField");
-   }
-
-   public UIComponent getAfterInvalidDecoration()
-   {
-      return getFacet("afterInvalidField");
-   }
-
-   public UIComponent getAroundInvalidDecoration()
-   {
-      return getFacet("aroundInvalidField");
-   }
-
-   public UIComponent getBeforeDecoration()
-   {
-      return getFacet("beforeField");
-   }
-
-   public UIComponent getAfterDecoration()
-   {
-      return getFacet("afterField");
-   }
-
-   public UIComponent getAroundDecoration()
-   {
-      return getFacet("aroundField");
    }
 
 }

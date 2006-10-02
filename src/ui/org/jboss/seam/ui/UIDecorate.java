@@ -93,14 +93,23 @@ public class UIDecorate extends UIComponentBase
       this.forId = forId;
    }
 
+   private UIComponent getDecoration(String name)
+   {
+      UIComponent dec = getFacet(name);
+      if (dec==null)
+      {
+         dec = getParentDecorations(this).getFacet(name);
+      }
+      return dec;
+   }
+
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
       super.encodeBegin(context);
       boolean hasMessage = hasMessage();
-      UIDecorations parentDecorations = getParentDecorations(this);
-      UIComponent aroundDecoration = parentDecorations.getAroundDecoration();
-      UIComponent aroundInvalidDecoration = parentDecorations.getAroundInvalidDecoration();
+      UIComponent aroundDecoration = getDecoration("aroundField");
+      UIComponent aroundInvalidDecoration = getDecoration("aroundInvalidField");
       if (aroundDecoration!=null && !hasMessage)
       {
          aroundDecoration.setParent(this);
@@ -112,14 +121,13 @@ public class UIDecorate extends UIComponentBase
          aroundInvalidDecoration.encodeBegin(context);
       }
    }
-
+   
    @Override
    public void encodeEnd(FacesContext context) throws IOException
    {
       boolean hasMessage = hasMessage();
-      UIDecorations parentDecorations = getParentDecorations(this);
-      UIComponent aroundDecoration = parentDecorations.getAroundDecoration();
-      UIComponent aroundInvalidDecoration = parentDecorations.getAroundInvalidDecoration();
+      UIComponent aroundDecoration = getDecoration("aroundField");
+      UIComponent aroundInvalidDecoration = getDecoration("aroundInvalidField");
       if (aroundDecoration!=null && !hasMessage)
       {
          aroundDecoration.setParent(this);
@@ -137,11 +145,9 @@ public class UIDecorate extends UIComponentBase
    public void encodeChildren(FacesContext facesContext) throws IOException
    {
       boolean hasMessage = hasMessage();
-      UIDecorations parentDecorations = getParentDecorations(this);
-      UIComponent beforeDecoration = parentDecorations.getBeforeDecoration();
-      UIComponent afterDecoration = parentDecorations.getAfterDecoration();
-      UIComponent beforeInvalidDecoration = parentDecorations.getBeforeInvalidDecoration();
-      UIComponent afterInvalidDecoration = parentDecorations.getAfterInvalidDecoration();
+
+      UIComponent beforeDecoration = getDecoration("beforeField");
+      UIComponent beforeInvalidDecoration = getDecoration("beforeInvalidField");
       if ( beforeDecoration!=null && !hasMessage )
       {
          beforeDecoration.setParent(this);
@@ -152,7 +158,11 @@ public class UIDecorate extends UIComponentBase
          beforeInvalidDecoration.setParent(this);
          JSF.renderChild(facesContext, beforeInvalidDecoration);
       }
+      
       JSF.renderChildren(facesContext, this);
+      
+      UIComponent afterDecoration = getDecoration("afterField");
+      UIComponent afterInvalidDecoration = getDecoration("afterInvalidField");
       if ( afterDecoration!=null  && !hasMessage )
       {
          afterDecoration.setParent(this);
