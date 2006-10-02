@@ -139,6 +139,9 @@ fieldset {
 	text-align: center;
 	color: #600;
 }
+.errors input {
+	border: 1px solid #600;
+}
 .errors ul {
 	list-style: none;
 }

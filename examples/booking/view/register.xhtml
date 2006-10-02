@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:s="http://jboss.com/products/seam/taglib">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -40,37 +41,56 @@
 				<fieldset>
 				
 					<s:validateAll>
+
+					    <f:facet name="afterInvalidField">
+					       <s:message/>
+					    </f:facet>
+					    <f:facet name="aroundInvalidField">
+					       <s:span styleClass="errors"/>
+					    </f:facet>
+		    
 						<div class="entry">
 							<div class="label"><h:outputLabel for="username">Username:</h:outputLabel></div>
 							<div class="input">
-								<h:inputText id="username" value="#{user.username}" required="true"/><br/>
-								<span class="errors"><h:message for="username" /></span>
+								<s:decorate>
+									<h:inputText id="username" value="#{user.username}" required="true"/><br/>
+								</s:decorate>
 							</div>
 						</div>
+						
 						<div class="entry">
 							<div class="label"><h:outputLabel for="name">Real Name:</h:outputLabel></div>
 							<div class="input">
-								<h:inputText id="name" value="#{user.name}" required="true"/><br/>
-								<span class="errors"><h:message for="name" /></span>
+								<s:decorate>
+									<h:inputText id="name" value="#{user.name}" required="true"/><br/>
+								</s:decorate>
 							</div>
 						</div>
+						
 						<div class="entry">
 							<div class="label"><h:outputLabel for="password">Password:</h:outputLabel></div>
 							<div class="input">
-								<h:inputSecret id="password" value="#{user.password}" required="true"/><br/>
-								<span class="errors"><h:message for="password" /></span>
+								<s:decorate>
+									<h:inputSecret id="password" value="#{user.password}" required="true"/><br/>
+								</s:decorate>
 							</div>
 						</div>
+						
 						<div class="entry">
 							<div class="label"><h:outputLabel for="verify">Verify Password:</h:outputLabel></div>
 							<div class="input">
-								<h:inputSecret id="verify" value="#{register.verify}" required="true"/><br/>
-								<span class="errors"><h:message for="verify" /></span>
+								<s:decorate>
+									<h:inputSecret id="verify" value="#{register.verify}" required="true"/><br/>
+								</s:decorate>
 							</div>
 						</div>
+
 					</s:validateAll>
 					
-					<div class="entry errors"><h:messages globalOnly="true" /></div>
+					<div class="entry errors">
+						<h:messages globalOnly="true"/>
+					</div>
+					
 					<div class="entry">
 						<div class="label">&#160;</div>
 						<div class="input">
