@@ -28,7 +28,8 @@ import org.jboss.seam.core.Pageflow;
  * 
  * @author Gavin King
  */
-@Interceptor(around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class},
+@Interceptor(stateless=true,
+             around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class},
              within=BusinessProcessInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {

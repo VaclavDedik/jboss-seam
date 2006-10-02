@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Interceptor;
 
 /**
  * Before invoking the component, inject all dependencies. After
@@ -21,6 +22,7 @@ import org.jboss.seam.annotations.Destroy;
  * 
  * @author Gavin King
  */
+@Interceptor(stateless=true)
 public class BijectionInterceptor extends AbstractInterceptor
 {
    

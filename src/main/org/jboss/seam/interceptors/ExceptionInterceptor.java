@@ -28,7 +28,8 @@ import org.jboss.seam.jsf.AbstractSeamPhaseListener;
  * 
  * @author Gavin King
  */
-@Interceptor(around={ConversationalInterceptor.class, RemoveInterceptor.class, BijectionInterceptor.class})
+@Interceptor(stateless=true,
+             around={ConversationalInterceptor.class, RemoveInterceptor.class, BijectionInterceptor.class})
 public class ExceptionInterceptor extends AbstractInterceptor
 {
 

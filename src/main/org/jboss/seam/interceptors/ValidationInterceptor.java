@@ -25,7 +25,8 @@ import org.jboss.seam.core.FacesMessages;
  * 
  * @author Gavin King
  */
-@Interceptor(within={BijectionInterceptor.class, OutcomeInterceptor.class})
+@Interceptor(stateless=true,
+             within={BijectionInterceptor.class, OutcomeInterceptor.class})
 public class ValidationInterceptor extends AbstractInterceptor
 {
 

@@ -27,7 +27,8 @@ import org.jboss.seam.core.Manager;
  * 
  * @author Gavin King
  */
-@Interceptor(around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class, BusinessProcessInterceptor.class})
+@Interceptor(stateless=true,
+             around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class, BusinessProcessInterceptor.class})
 public class ConversationalInterceptor extends AbstractInterceptor
 {
 

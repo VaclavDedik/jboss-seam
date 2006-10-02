@@ -12,7 +12,8 @@ import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.util.Transactions;
 
-@Interceptor(around={RollbackInterceptor.class, BusinessProcessInterceptor.class, ConversationInterceptor.class})
+@Interceptor(stateless=true,
+             around={RollbackInterceptor.class, BusinessProcessInterceptor.class, ConversationInterceptor.class})
 public class TransactionInterceptor extends AbstractInterceptor
 {
    private static final Log log = LogFactory.getLog(TransactionInterceptor.class);

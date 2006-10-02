@@ -20,7 +20,8 @@ import org.jboss.seam.annotations.Interceptor;
  * 
  * @author Gavin King
  */
-@Interceptor(around={ValidationInterceptor.class, BijectionInterceptor.class, ConversationInterceptor.class})
+@Interceptor(stateless=true,
+             around={ValidationInterceptor.class, BijectionInterceptor.class, ConversationInterceptor.class})
 public class RemoveInterceptor extends AbstractInterceptor
 {
     

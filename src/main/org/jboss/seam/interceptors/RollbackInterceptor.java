@@ -18,7 +18,7 @@ import org.jboss.seam.util.Transactions;
  * 
  * @author Gavin King
  */
-@Interceptor(around=OutcomeInterceptor.class)
+@Interceptor(stateless=true, around=OutcomeInterceptor.class)
 public class RollbackInterceptor extends AbstractInterceptor 
 {
    

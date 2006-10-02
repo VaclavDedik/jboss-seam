@@ -5,6 +5,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.faces.event.PhaseId;
 
+import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.contexts.Lifecycle;
 
@@ -13,6 +14,7 @@ import org.jboss.seam.contexts.Lifecycle;
  * 
  * @author Gavin King
  */
+@Interceptor(stateless=true)
 public class OutcomeInterceptor extends AbstractInterceptor
 {
    @AroundInvoke
