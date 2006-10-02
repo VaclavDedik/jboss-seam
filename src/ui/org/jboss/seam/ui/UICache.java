@@ -2,9 +2,7 @@ package org.jboss.seam.ui;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.List;
 
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -59,7 +57,7 @@ public class UICache extends UIComponentBase
             StringWriter stringWriter = new StringWriter();
             ResponseWriter cachingResponseWriter = response.cloneWithWriter(stringWriter);
             facesContext.setResponseWriter(cachingResponseWriter);
-            renderChildren(facesContext, this);
+            JSF.renderChildren(facesContext, this);
             facesContext.setResponseWriter(response);
             String output = stringWriter.getBuffer().toString();
             response.write(output);
@@ -77,7 +75,7 @@ public class UICache extends UIComponentBase
       }
       else
       {
-         renderChildren(facesContext, this);
+         JSF.renderChildren(facesContext, this);
       }
    }
 
@@ -112,29 +110,6 @@ public class UICache extends UIComponentBase
       return true;
    }
    
-   private static void renderChildren(FacesContext facesContext, UIComponent component)
-         throws IOException
-   {
-      List children = component.getChildren();
-      for (int j = 0, size = component.getChildCount(); j < size; j++)
-      {
-         UIComponent child = (UIComponent) children.get(j);
-         if (child.isRendered())
-         {
-            child.encodeBegin(facesContext);
-            if (child.getRendersChildren())
-            {
-               child.encodeChildren(facesContext);
-            }
-            else
-            {
-               renderChildren(facesContext, child);
-            }
-            child.encodeEnd(facesContext);
-         }
-      }
-   }
-
    public String getKey()
    {
       return key;
@@ -153,6 +128,23 @@ public class UICache extends UIComponentBase
    public void setRegion(String region)
    {
       this.region = region;
+   }
+
+   @Override
+   public void restoreState(FacesContext context, Object state) {
+      Object[] values = (Object[]) state;
+      super.restoreState(context, values[0]);
+      key = (String) values[1];
+      region = (String) values[1];
+   }
+
+   @Override
+   public Object saveState(FacesContext context) {
+      Object[] values = new Object[3];
+      values[0] = super.saveState(context);
+      values[1] = key;
+      values[2] = region;
+      return values;
    }
 
 }
