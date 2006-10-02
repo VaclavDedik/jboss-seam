@@ -66,3 +66,13 @@ h6 {
 .blogEntry {
   margin-top: 20px;
 }
+.errors {
+  color: red;
+}
+.errors input {
+  color: red;
+  border: 1px solid red;
+}
+.errors textarea {
+  border: 1px solid red;
+}
