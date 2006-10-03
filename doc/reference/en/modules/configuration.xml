@@ -617,8 +617,20 @@
         </para>
         
         <programlisting><![CDATA[<session-factory name="java:/bookingSessionFactory">
+		<property name="transaction.flush_before_completion">true</property>
+		<property name="connection.release_mode">after_statement</property>
+		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+		<property name="connection.datasource">java:/bookingDatasource</property>
     ...
 </session-factory>]]></programlisting>
+
+        <para>
+            Note that Seam does not flush the session, so you should always enable
+            <literal>hibernate.transaction.flush_before_completion</literal> to 
+            ensure that the session is automatically flushed before the JTA transaction
+            commits.
+        </para>
         
         <para>
             We can now have a managed Hibernate <literal>Session</literal> injected into our
