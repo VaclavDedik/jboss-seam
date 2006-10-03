@@ -24,7 +24,6 @@ import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
-import org.jboss.seam.core.ProcessInstance;
 
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.
@@ -109,7 +108,7 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
             log.trace( "encountered @Transition" );
             String transitionName = method.getAnnotation(org.jboss.seam.annotations.Transition.class).value();
             if ( "".equals(transitionName) ) transitionName = method.getName();
-            ProcessInstance.instance().signal(transitionName);
+            BusinessProcess.instance().transition(transitionName);
          }
       }
       return result;

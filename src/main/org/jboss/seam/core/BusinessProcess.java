@@ -117,6 +117,22 @@ public class BusinessProcess implements Serializable {
       setTaskId(null);
       
       Events.instance().raiseEvent("org.jboss.seam.endTask." + task.getTask().getName());
+
+      ProcessInstance process = org.jboss.seam.core.ProcessInstance.instance();
+      if ( process.hasEnded() )
+      {
+         Events.instance().raiseEvent("org.jboss.seam.endProcess." + process.getProcessDefinition().getName());
+      }
+   }
+   
+   public void transition(String transitionName)
+   {
+      ProcessInstance process = org.jboss.seam.core.ProcessInstance.instance();
+      process.signal(transitionName);
+      if ( process.hasEnded() )
+      {
+         Events.instance().raiseEvent("org.jboss.seam.endProcess." + process.getProcessDefinition().getName());
+      }
    }
    
    public boolean initTask(Long taskId)

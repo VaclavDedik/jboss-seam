@@ -208,6 +208,11 @@ public class Pageflow implements Serializable
          PageflowHelper.signal(processInstance, outcome);
          navigate(context);
       }
+      
+      if ( processInstance.hasEnded() )
+      {
+         Events.instance().raiseEvent("org.jboss.seam.endPageflow." + processInstance.getProcessDefinition().getName());
+      }
    }
    
    public void begin(String pageflowDefinitionName)
