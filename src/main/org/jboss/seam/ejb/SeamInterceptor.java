@@ -25,7 +25,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.EventType;
-import org.jboss.seam.interceptors.Interceptor;
 import org.jboss.seam.interceptors.SeamInvocationContext;
 
 /**

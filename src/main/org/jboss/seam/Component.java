@@ -41,10 +41,6 @@ import javax.ejb.PostActivate;
 import javax.ejb.PrePassivate;
 import javax.ejb.Remote;
 import javax.ejb.Remove;
-import javax.faces.application.Application;
-import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpSessionActivationListener;
 
@@ -73,8 +69,11 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ResourceBundle;
+import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.databinding.DataBinder;
 import org.jboss.seam.databinding.DataSelector;
 import org.jboss.seam.interceptors.BijectionInterceptor;
@@ -1466,7 +1465,7 @@ public class Component
          Init.FactoryMethodBinding methodBinding = init.getFactoryMethodBinding(name);
          if (methodBinding!=null) //let the XML take precedence
          {
-            Object result = methodBinding.methodBinding.invoke( FacesContext.getCurrentInstance(), null );
+            Object result = methodBinding.methodBinding.invoke(null);
             return handleFactoryMethodResult(name, null, result, factoryMethod.scope);
          }
          else if (factoryMethod!=null)
@@ -1630,9 +1629,7 @@ public class Component
          {
             log.debug("trying to inject with EL expression: " + name);
          }
-         FacesContext facesCtx = FacesContext.getCurrentInstance();
-         Application application = facesCtx.getApplication();
-         result = application.createValueBinding(name).getValue(facesCtx);
+         result = Expressions.instance().createValueBinding(name).getValue();
       }
       else if ( in.scope()==UNSPECIFIED )
       {
@@ -1800,7 +1797,7 @@ public class Component
          }
          else
          {
-            value = createValueBinding().getValue( FacesContext.getCurrentInstance() );
+            value = createValueBinding().getValue();
          }
 
          if (converter!=null && value instanceof String)
@@ -1819,14 +1816,12 @@ public class Component
 
       private ValueBinding createValueBinding()
       {
-         return FacesContext.getCurrentInstance().getApplication()
-               .createValueBinding( expression );
+         return Expressions.instance().createValueBinding(expression);
       }
 
       private MethodBinding createMethodBinding()
       {
-         return FacesContext.getCurrentInstance().getApplication()
-               .createMethodBinding( expression, null );
+         return Expressions.instance().createMethodBinding(expression);
       }
 
       public String toString()

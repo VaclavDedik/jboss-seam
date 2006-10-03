@@ -2,8 +2,6 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
-import javax.faces.context.FacesContext;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
@@ -35,8 +33,7 @@ public class Alias
       }
       else
       {
-         FacesContext facesContext = FacesContext.getCurrentInstance();
-         return facesContext.getApplication().createValueBinding(expression).getValue(facesContext);
+         return Expressions.instance().createValueBinding(expression).getValue();
       }
    }
 

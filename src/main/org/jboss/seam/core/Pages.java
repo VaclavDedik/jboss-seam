@@ -14,8 +14,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
-import javax.faces.el.ValueBinding;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,12 +23,13 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.actionparam.ActionParamMethodBinding;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 
@@ -125,9 +124,7 @@ public class Pages
             {
                if ( action.startsWith("#{") )
                {
-                  MethodBinding methodBinding = FacesContext.getCurrentInstance()
-                        .getApplication()
-                        .createMethodBinding(action, null);
+                  MethodBinding methodBinding = Expressions.instance().createMethodBinding(action);
                   entry.action = methodBinding;
                }
                else
@@ -139,8 +136,7 @@ public class Pages
             List<Element> children = page.elements("param");
             for (Element param: children)
             {
-               ValueBinding valueBinding = FacesContext.getCurrentInstance().getApplication()
-                     .createValueBinding( param.attributeValue("value") );
+               ValueBinding valueBinding = Expressions.instance().createValueBinding( param.attributeValue("value") );
                entry.parameterValueBindings.put( param.attributeValue("name"), valueBinding );
             }
          }
@@ -201,7 +197,7 @@ public class Pages
          {
             fromAction = methodBinding.getExpressionString();
             result = true;
-            outcome = toString( methodBinding.invoke(facesContext, null) );
+            outcome = toString( methodBinding.invoke(null) );
          }
       }
       
@@ -255,9 +251,8 @@ public class Pages
             String expression = "#{" + action + "}";
             if ( !isActionAllowed(facesContext, expression) ) return result;
             result = true;
-            MethodBinding actionBinding = facesContext.getApplication()
-                  .createMethodBinding(expression, null);
-            outcome = toString( actionBinding.invoke(facesContext, null) );
+            MethodBinding actionBinding = Expressions.instance().createMethodBinding(expression);
+            outcome = toString( actionBinding.invoke(null) );
             fromAction = expression;
          }
       }
@@ -301,7 +296,7 @@ public class Pages
       {
          if ( !overridden.contains( me.getKey() ) )
          {
-            Object value = me.getValue().getValue( FacesContext.getCurrentInstance() );
+            Object value = me.getValue().getValue();
             //TODO: handle multi-values!
             if (value!=null)
             {
@@ -317,11 +312,11 @@ public class Pages
       Map<String, String[]> parameters = Parameters.getRequestParameters();
       for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
       {
-         Class type = me.getValue().getType( FacesContext.getCurrentInstance() );
+         Class type = me.getValue().getType();
          Object value = Parameters.convertMultiValueRequestParameter( parameters, me.getKey(), type );
          if (value!=null) 
          {
-            me.getValue().setValue( FacesContext.getCurrentInstance(), value );
+            me.getValue().setValue(value);
          }
       }
    }

@@ -10,15 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Expressions.MethodBinding;
 
 /**
  * A Seam component that holds Seam configuration settings
@@ -106,8 +104,7 @@ public class Init
    
    public void addFactory(String variable, String methodBindingExpression, ScopeType scope)
    {
-      MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication()
-            .createMethodBinding(methodBindingExpression, null);
+      MethodBinding methodBinding = Expressions.instance().createMethodBinding(methodBindingExpression);
       factoryMethodBindings.put( variable, new FactoryMethodBinding(methodBinding, scope) );
    }
    

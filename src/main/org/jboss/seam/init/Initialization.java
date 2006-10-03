@@ -43,6 +43,7 @@ import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.HttpError;
@@ -346,7 +347,8 @@ public class Initialization
 
       //force instantiation of Init
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
-
+      
+      addComponent( Expressions.class, context);
       addComponent( Pages.class, context);
       addComponent( Events.class, context);
       addComponent( Manager.class, context );

@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.jsf.ListDataModel;
 
 @Intercept(NEVER)
@@ -69,7 +69,7 @@ public class Query
       javax.persistence.Query query = getEntityManager().createQuery(ejbql);
       for (int i=0; i<queryParameters.size(); i++)
       {
-         Object parameterValue = queryParameters.get(i).getValue( FacesContext.getCurrentInstance() );
+         Object parameterValue = queryParameters.get(i).getValue();
          if (parameterValue==null)
          {
             return null;
@@ -139,7 +139,7 @@ public class Query
             if ( "#".equals(token) )
             {
                String expression = token + ejbqlTokens.nextToken() + ejbqlTokens.nextToken();
-               queryParameters.add( FacesContext.getCurrentInstance().getApplication().createValueBinding(expression) );
+               queryParameters.add( Expressions.instance().createValueBinding(expression) );
                ejbqlBuilder.append("?").append( queryParameters.size() );
             }
             else
@@ -159,7 +159,7 @@ public class Query
                if ( "#".equals(token) )
                {
                   String expression = token + tokens.nextToken() + tokens.nextToken();
-                  valueBinding = FacesContext.getCurrentInstance().getApplication().createValueBinding(expression);
+                  valueBinding = Expressions.instance().createValueBinding(expression);
                   builder.append("?").append( queryParameters.size() );
                }
                else
@@ -174,7 +174,7 @@ public class Query
                throw new IllegalArgumentException("no value binding in restriction: " + restriction);
             }
             
-            Object parameterValue = valueBinding.getValue( FacesContext.getCurrentInstance() );
+            Object parameterValue = valueBinding.getValue();
             if (parameterValue!=null)
             {
                queryParameters.add(valueBinding);

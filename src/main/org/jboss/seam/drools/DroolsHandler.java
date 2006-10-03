@@ -2,12 +2,11 @@ package org.jboss.seam.drools;
 
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-
 import org.drools.FactHandle;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Actor;
+import org.jboss.seam.core.Expressions;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.el.ELException;
 
@@ -25,11 +24,10 @@ public class DroolsHandler
    {
       WorkingMemory workingMemory = (WorkingMemory) Component.getInstance(workingMemoryName, true);
       
-      FacesContext facesContext = FacesContext.getCurrentInstance();
       for (String objectName: expressions)
       {
          //TODO: delegate to jBPM instead of to JSF
-         Object object = facesContext.getApplication().createValueBinding(objectName).getValue(facesContext);
+         Object object = Expressions.instance().createValueBinding(objectName).getValue();
          //Object object = new SeamVariableResolver().resolveVariable(objectName);
          // assert the object into the rules engine
          if (object instanceof Iterable)

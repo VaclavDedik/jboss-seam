@@ -80,7 +80,7 @@ public class Interpolator {
                String expression = "#{" + tokens.nextToken() + "}";
                try
                {
-                  Object value = context.getApplication().createValueBinding(expression).getValue(context);
+                  Object value = Expressions.instance().createValueBinding(expression).getValue();
                   if (value!=null) builder.append(value);
                }
                catch (Exception e)
