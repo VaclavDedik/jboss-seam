@@ -90,6 +90,7 @@ public class BusinessProcessContext implements Context {
 
    public String[] getNames() {
       Set<String> results = getNamesFromContext();
+      results.removeAll(removals);
       results.addAll( additions.keySet() ); //after, to override
       return results.toArray(new String[]{});
    }
@@ -109,7 +110,6 @@ public class BusinessProcessContext implements Context {
       {
          results.addAll( taskInstance.getVariables().keySet() );
       }
-      results.removeAll(removals);
       return results;
    }
 
