@@ -77,6 +77,9 @@ public class ClientConversationContext implements Context {
       return get( Seam.getComponentName(clazz) );
    }
 
+   /**
+    * Put the context variables in the faces view root.
+    */
    public void flush()
    {
       if ( Manager.instance().isLongRunningConversation() )

@@ -20,9 +20,11 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.security.authenticator.Authenticator;
 
 /**
@@ -343,9 +345,23 @@ public class Lifecycle
 
    private static void flushAndDestroyContexts()
    {
-
+      
       if ( Contexts.isConversationContextActive() )
       {
+
+         if ( Contexts.isBusinessProcessContextActive() )
+         {
+            boolean destroyBusinessProcessContext = !BusinessProcess.instance().hasCurrentProcess() || 
+                  //TODO: it would be nice if BP context spanned redirects along with the conversation
+                  //      this would also require changes to BusinessProcessContext
+                  ProcessInstance.instance().hasEnded();
+            if ( destroyBusinessProcessContext )
+            {
+               log.debug("destroying business process context");
+               Contexts.destroy( Contexts.getBusinessProcessContext() );
+            }
+         }
+
          if ( !Manager.instance().isLongRunningConversation() )
          {
             log.debug("destroying conversation context");
@@ -356,6 +372,7 @@ public class Lifecycle
             log.debug("flushing server-side conversation context");
             Contexts.getConversationContext().flush();
          }
+         
       }
       
       //destroy the event context after the

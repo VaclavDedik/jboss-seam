@@ -98,6 +98,9 @@ public class PageContext implements Context {
       return get( Seam.getComponentName(clazz) );
    }
 
+   /**
+    * Put the context variables in the faces view root.
+    */
    public void flush()
    {
       getAttributeMap().put( ScopeType.PAGE.getPrefix(), nextPageMap );

@@ -162,7 +162,12 @@ public class ServerConversationContext implements Context {
       additions.clear();
       removals.addAll( getNamesFromSession() );
    }
-
+   
+   /**
+    * Propagate additions and removals to the HttpSession if 
+    * the current conversation is long-running, or remove all 
+    * attributes if it is a temporary conversation.
+    */
    public void flush()
    {
       Manager manager = Manager.instance();

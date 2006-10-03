@@ -124,6 +124,11 @@ public class BusinessProcessContext implements Context {
       removals.addAll( getNamesFromContext() );
    }
 
+   /**
+    * Propagate all additions and removals to the jBPM database if
+    * there is a current process instance, or do nothing if there
+    * is no current process instance.
+    */
    public void flush()
    {
       if ( !additions.isEmpty() || !removals.isEmpty() )
@@ -136,6 +141,7 @@ public class BusinessProcessContext implements Context {
             if ( processInstance==null )
             {
                log.debug( "no process instance to persist business process state" );
+               return; //don't clear the additions and removals
             }
             else 
             {

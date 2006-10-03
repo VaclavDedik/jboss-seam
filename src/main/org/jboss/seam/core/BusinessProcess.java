@@ -39,6 +39,16 @@ public class BusinessProcess implements Serializable {
       }
       return (BusinessProcess) Component.getInstance(BusinessProcess.class, ScopeType.CONVERSATION, true);
    }
+   
+   public boolean hasCurrentProcess()
+   {
+      return processId!=null;
+   }
+
+   public boolean hasCurrentTask()
+   {
+      return taskId!=null;
+   }
 
    public Long getProcessId() {
       return processId;
@@ -114,7 +124,7 @@ public class BusinessProcess implements Serializable {
          task.end(transitionName);
       }
       
-      setTaskId(null);
+      setTaskId(null); //TODO: do I really need this???!
       
       Events.instance().raiseEvent("org.jboss.seam.endTask." + task.getTask().getName());
 
@@ -181,14 +191,12 @@ public class BusinessProcess implements Serializable {
 
    public boolean checkTask()
    {
-      TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
-      Long taskId = getTaskId();
-      if ( task==null )
+      if ( !hasCurrentTask() )
       {
          taskNotFound(taskId);
          return false;
       }
-      else if ( task.hasEnded() )
+      else if ( org.jboss.seam.core.TaskInstance.instance().hasEnded() )
       {
          taskEnded(taskId);
          return false;

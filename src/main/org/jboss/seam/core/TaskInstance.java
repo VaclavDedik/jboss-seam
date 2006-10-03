@@ -49,7 +49,7 @@ public class TaskInstance
    
    public static org.jbpm.taskmgmt.exe.TaskInstance instance()
    {
-      if ( BusinessProcess.instance().getTaskId()==null ) return null; //so we don't start a txn
+      if ( !Contexts.isConversationContextActive() || !BusinessProcess.instance().hasCurrentTask() ) return null; //so we don't start a txn
       
       if ( !Contexts.isApplicationContextActive() )
       {
