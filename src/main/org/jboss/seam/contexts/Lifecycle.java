@@ -351,7 +351,8 @@ public class Lifecycle
 
          if ( Contexts.isBusinessProcessContextActive() )
          {
-            boolean destroyBusinessProcessContext = !BusinessProcess.instance().hasCurrentProcess() || 
+            boolean destroyBusinessProcessContext = !Init.instance().isJbpmInstalled() || 
+                  !BusinessProcess.instance().hasCurrentProcess() || 
                   //TODO: it would be nice if BP context spanned redirects along with the conversation
                   //      this would also require changes to BusinessProcessContext
                   ProcessInstance.instance().hasEnded();
