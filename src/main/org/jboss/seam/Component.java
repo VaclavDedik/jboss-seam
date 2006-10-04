@@ -42,6 +42,7 @@ import javax.ejb.PrePassivate;
 import javax.ejb.Remote;
 import javax.ejb.Remove;
 import javax.interceptor.Interceptors;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -878,32 +879,47 @@ public class Component
     {
         switch(type) {
            case JAVA_BEAN:
-              if (interceptionType==InterceptionType.NEVER)
-              {
-                 Object bean = beanClass.newInstance();
-                 initialize(bean);
-                 callPostConstructMethod(bean);
-                 return bean;
-              }
-              else
-              {
-                 Factory bean = factory.newInstance();
-                 initialize(bean);
-                 bean.setCallback( 0, new JavaBeanInterceptor(this) );
-                 callPostConstructMethod(bean);
-                 return bean;
-              }
+              return instantiateJavaBean();
            case ENTITY_BEAN:
-              return beanClass.newInstance();
+              return instantiateEntityBean();
            case STATELESS_SESSION_BEAN:
            case STATEFUL_SESSION_BEAN:
-              return wrap( Naming.getInitialContext().lookup(jndiName) );
+              return instantiateSessionBean();
            case MESSAGE_DRIVEN_BEAN:
               throw new UnsupportedOperationException("Message-driven beans may not be called: " + name);
            default:
               throw new IllegalStateException();
         }
     }
+    
+   protected Object instantiateSessionBean() throws Exception, NamingException
+   {
+      return wrap( Naming.getInitialContext().lookup(jndiName) );
+   }
+
+   protected Object instantiateEntityBean() throws Exception
+   {
+      return beanClass.newInstance();
+   }
+
+   protected Object instantiateJavaBean() throws Exception
+   {
+      if (interceptionType==InterceptionType.NEVER)
+        {
+           Object bean = beanClass.newInstance();
+           initialize(bean);
+           callPostConstructMethod(bean);
+           return bean;
+        }
+        else
+        {
+           Factory bean = factory.newInstance();
+           initialize(bean);
+           bean.setCallback( 0, new JavaBeanInterceptor(this) );
+           callPostConstructMethod(bean);
+           return bean;
+        }
+   }
 
     private Object wrap(Object bean) throws Exception
     {
