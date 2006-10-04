@@ -25,12 +25,10 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
    
    private final SeamInterceptor seamInterceptor;
    private boolean recursive = false;
-   private final Component component;
    
    public JavaBeanInterceptor(Component component)
    {
       seamInterceptor = new SeamInterceptor(InterceptorType.ANY, component);
-      this.component = component;
    }
 
    public Object intercept(final Object target, final Method method, final Object[] params,
@@ -75,7 +73,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
       seamInterceptor.prePassivate( new InvocationContext() {
          
          final Object[] params = {};
-         final Method passivateMethod = component.getPrePassivateMethod();
+         final Method passivateMethod = seamInterceptor.getComponent().getPrePassivateMethod();
          final Map contextData = new HashMap();
          
          public Object getTarget()
@@ -100,7 +98,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
 
          public Object proceed() throws Exception
          {
-            component.callPrePassivateMethod(target);
+            seamInterceptor.getComponent().callPrePassivateMethod(target);
             return null;
          }
 
@@ -117,7 +115,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
       seamInterceptor.postActivate( new InvocationContext() {
          
          final Object[] params = {};
-         final Method activateMethod = component.getPostActivateMethod();
+         final Method activateMethod = seamInterceptor.getComponent().getPostActivateMethod();
          final Map contextData = new HashMap();
          
          public Object getTarget()
@@ -142,7 +140,7 @@ public class JavaBeanInterceptor implements MethodInterceptor, Serializable
 
          public Object proceed() throws Exception
          {
-            component.callPostActivateMethod(target);
+            seamInterceptor.getComponent().callPostActivateMethod(target);
             return null;
          }
 

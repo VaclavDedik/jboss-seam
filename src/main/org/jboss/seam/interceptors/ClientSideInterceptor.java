@@ -41,6 +41,7 @@ public class ClientSideInterceptor implements MethodInterceptor, Serializable
    private Object interceptInvocation(final Object bean, final Method method, final Object[] params, 
          final MethodProxy methodProxy) throws Exception
    {
+      
       return seamInterceptor.aroundInvoke( new InvocationContext() {
          
          Object[] resultParams = params;
@@ -68,6 +69,7 @@ public class ClientSideInterceptor implements MethodInterceptor, Serializable
 
          public Object proceed() throws Exception
          {
+            SeamInterceptor.COMPONENT.set( seamInterceptor.getComponent() );
             try
             {
                return methodProxy.invoke(bean, resultParams);
@@ -84,6 +86,10 @@ public class ClientSideInterceptor implements MethodInterceptor, Serializable
             {
                //only extremely wierd stuff!
                throw new Exception(t);
+            }
+            finally
+            {
+               SeamInterceptor.COMPONENT.set(null);
             }
          }
 

@@ -32,10 +32,11 @@ import org.jboss.seam.interceptors.SeamInvocationContext;
  * for a session bean component
  * 
  * @author Gavin King
- * @version $Revision$
  */
 public class SeamInterceptor implements Serializable
 {
+   
+   public static ThreadLocal<Component> COMPONENT = new ThreadLocal<Component>();
    
    private static final Log log = LogFactory.getLog(SeamInterceptor.class);
    
@@ -64,9 +65,14 @@ public class SeamInterceptor implements Serializable
    public SeamInterceptor(InterceptorType type, Component component)
    {
       this.type = type;
+      init(component);
+   }
+
+   private void init(Component component)
+   {
+      isSeamComponent = true;
       this.component = component;
       userInterceptors = component.createUserInterceptors(type);
-      isSeamComponent = true;
       componentName = component.getName();
    }
    
@@ -80,18 +86,7 @@ public class SeamInterceptor implements Serializable
       // reference
       if (component==null) //ie. if it was instantiated by the EJB container
       {
-         Class<?> beanClass = bean.getClass();
-         if ( beanClass.isAnnotationPresent(Name.class) ) //for session beans, this is a safe test
-         {
-            isSeamComponent = true;
-            componentName = beanClass.getAnnotation(Name.class).value();
-            component = Seam.componentForName(componentName);
-            userInterceptors = component.createUserInterceptors(type);
-         }
-         else
-         {
-            isSeamComponent = false;
-         }
+         initSessionBean(bean);
       }
       
       // initialize the bean instance
@@ -113,7 +108,30 @@ public class SeamInterceptor implements Serializable
       
       invokeAndHandle(invocation, EventType.POST_CONSTRUCT);
    }
-   
+
+   private void initSessionBean(Object bean)
+   {
+      Component invokingComponent = COMPONENT.get();
+      if ( invokingComponent!=null )
+      {
+         //the session bean was obtained by the application by
+         //calling Component.getInstance(), could be a role
+         //other than the default role
+         init(invokingComponent);
+      }
+      else if ( bean.getClass().isAnnotationPresent(Name.class) )
+      {
+         //the session bean was obtained by the application from
+         //JNDI, so assume the default role
+         String defaultComponentName = bean.getClass().getAnnotation(Name.class).value();
+         init( Seam.componentForName( defaultComponentName ) );
+      }
+      else
+      {
+         isSeamComponent = false;
+      }
+   }
+
    @PreDestroy
    public void preDestroy(InvocationContext invocation)
    {
@@ -206,6 +224,11 @@ public class SeamInterceptor implements Serializable
    private boolean isProcessInterceptors(final Component component)
    {
       return component!=null && component.getInterceptionType().isActive();
+   }
+   
+   public Component getComponent()
+   {
+      return component;
    }
    
 }

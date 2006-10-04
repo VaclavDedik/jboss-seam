@@ -77,6 +77,7 @@ import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.databinding.DataBinder;
 import org.jboss.seam.databinding.DataSelector;
+import org.jboss.seam.ejb.SeamInterceptor;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ClientSideInterceptor;
@@ -894,7 +895,15 @@ public class Component
     
    protected Object instantiateSessionBean() throws Exception, NamingException
    {
-      return wrap( Naming.getInitialContext().lookup(jndiName) );
+      SeamInterceptor.COMPONENT.set(this);
+      try
+      {
+         return wrap( Naming.getInitialContext().lookup(jndiName) );
+      }
+      finally
+      {
+         SeamInterceptor.COMPONENT.set(null);
+      }
    }
 
    protected Object instantiateEntityBean() throws Exception
