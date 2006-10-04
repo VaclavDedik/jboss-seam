@@ -26,21 +26,40 @@ public class HotelSearchingAction implements HotelSearching
    
    private String searchString;
    private int pageSize = 10;
+   private int page;
    
    @DataModel
    private List<Hotel> hotels;
    
    public String find()
    {
+      page = 0;
+      queryHotels();   
+      return "main";
+   }
+
+   public String nextPage()
+   {
+      page++;
+      queryHotels();
+      return "main";
+   }
+      
+   private void queryHotels()
+   {
       String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
       hotels = em.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
             .setParameter("search", searchPattern)
             .setMaxResults(pageSize)
+            .setFirstResult( page * pageSize )
             .getResultList();
-      
-      return "main";
    }
-      
+   
+   public boolean isNextPageAvailable()
+   {
+      return hotels!=null && hotels.size()==pageSize;
+   }
+   
    public int getPageSize() {
       return pageSize;
    }

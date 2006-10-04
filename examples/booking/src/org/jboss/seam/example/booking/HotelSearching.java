@@ -12,6 +12,8 @@ public interface HotelSearching
    public String getSearchString();
    public void setSearchString(String searchString);
    public String find();
+   public String nextPage();
+   public boolean isNextPageAvailable();
 
    public void destroy();
    

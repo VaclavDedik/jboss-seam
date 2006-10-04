@@ -51,6 +51,7 @@
 			<s:link value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
 		</h:column>
 	</h:dataTable>
+	<s:link value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
 </div>
 
 <div class="section">
