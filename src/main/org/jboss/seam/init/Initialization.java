@@ -78,6 +78,9 @@ import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.Scanner;
+import org.jboss.seam.framework.CurrentDate;
+import org.jboss.seam.framework.CurrentDatetime;
+import org.jboss.seam.framework.CurrentTime;
 import org.jboss.seam.jms.ManagedQueueSender;
 import org.jboss.seam.jms.ManagedTopicPublisher;
 import org.jboss.seam.jms.QueueConnection;
@@ -381,6 +384,9 @@ public class Initialization
       addComponent( SubscriptionRegistry.class, context );
       addComponent( RemotingConfig.class, context );
       addComponent( TouchedContexts.class, context );
+      addComponent( CurrentDate.class, context );
+      addComponent( CurrentTime.class, context );
+      addComponent( CurrentDatetime.class, context );
 
      try
       {
