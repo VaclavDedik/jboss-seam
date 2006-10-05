@@ -71,9 +71,12 @@ public class ManagedObject
          for ( Map.Entry<String, String> initializer: initialFieldValues.entrySet() )
          {
             Object value = Expressions.instance().createValueBinding( initializer.getValue() ).getValue();
-            Field field = Reflections.getField( objectClass, initializer.getKey() );
-            if ( !field.isAccessible() ) field.setAccessible(true);
-            Reflections.set(field, instance, value);
+            if ( value!=null )
+            {
+               Field field = Reflections.getField( objectClass, initializer.getKey() );
+               if ( !field.isAccessible() ) field.setAccessible(true);
+               Reflections.set(field, instance, value);
+            }
          }
       }
       if (initialPropertyValues!=null)
@@ -82,9 +85,12 @@ public class ManagedObject
          {
             ValueBinding valueBinding = Expressions.instance().createValueBinding( initializer.getValue() );
             Object value = valueBinding.getValue();
-            Method method = Reflections.getSetterMethod( objectClass, initializer.getKey() );
-            if ( !method.isAccessible() ) method.setAccessible(true);
-            Reflections.invoke(method, instance, value);
+            if ( value!=null )
+            {
+               Method method = Reflections.getSetterMethod( objectClass, initializer.getKey() );
+               if ( !method.isAccessible() ) method.setAccessible(true);
+               Reflections.invoke(method, instance, value);
+            }
          }
       }
    }
