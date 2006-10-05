@@ -157,7 +157,20 @@ public class Reflections
             }
          }
       }
-      return null;
+      throw new IllegalArgumentException("no such setter method: " + clazz.getName() + '.' + name);
+   }
+   
+   public static Field getField(Class clazz, String name)
+   {
+      for ( Class superClass = clazz; superClass!=Object.class; superClass=superClass.getSuperclass() )
+      {
+         try
+         {
+            return superClass.getDeclaredField(name);
+         }
+         catch (NoSuchFieldException nsfe) {}
+      }
+      throw new IllegalArgumentException("no such field: " + clazz.getName() + '.' + name);
    }
 
 }

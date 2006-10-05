@@ -6,10 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -22,14 +19,11 @@ import org.jboss.seam.util.Reflections;
  *
  */
 @Intercept(NEVER)
-public class ManagedEntity
+public class ManagedEntity extends ManagedObject
 {
    private EntityManager entityManager;
    private Object id;
-   private String entityClassName;
-   private Class<?> entityClass;
    private String idClass;
-   private Object instance;
    private String idConverterId;
    private Converter idConverter;
    
@@ -53,54 +47,26 @@ public class ManagedEntity
       this.id = id;
    }
    
-   public String getEntityClass()
-   {
-      return entityClassName;
-   }
-
-   public void setEntityClass(String entityClass)
-   {
-      this.entityClassName = entityClass;
-   }
-
-   @Create
-   public void initEntityClass() throws Exception
-   {
-      entityClass = Reflections.classForName(entityClassName);
-   }
-   
-   @Unwrap @Transactional
-   public Object getInstance() throws Exception
+   @Override
+   protected void initInstance() throws Exception
    {
       if ( id==null || "".equals(id) )
       {
-         if (instance==null)
-         {
-            instance = createInstance();
-         }
+         super.initInstance();
       }
       else
       {
-         if (instance==null)
-         {
-            //we cache the instance so that it does not "disappear"
-            //after remove() is called on the instance
-            //is this really a Good Idea??
-            getEntityManager().joinTransaction();
-            instance =loadInstance( getConvertedId() );
-         }
-      }
-      return instance;
-   }
-
-   protected Object createInstance() throws Exception
-   {
-      return entityClass.newInstance();
+         //we cache the instance so that it does not "disappear"
+         //after remove() is called on the instance
+         //is this really a Good Idea??
+         getEntityManager().joinTransaction();
+         instance = loadInstance( getConvertedId() );
+      }            
    }
 
    protected Object loadInstance(Object id)
    {
-      return getEntityManager().find(entityClass, id);
+      return getEntityManager().find( getObjectClass(), id );
    }
    
    //////////// TODO: copy/paste from ManagedHibernateEntity ///////////////////
@@ -163,6 +129,16 @@ public class ManagedEntity
    public void setIdClass(String idClass)
    {
       this.idClass = idClass;
+   }
+
+   public Class<?> getEntityClass()
+   {
+      return getObjectClass();
+   }
+
+   public void setEntityClass(Class<?> entityClass)
+   {
+      setObjectClass(entityClass);
    }
 
 }

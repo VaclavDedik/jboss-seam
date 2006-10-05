@@ -228,7 +228,7 @@ public class Query
 
    public boolean isNextExists()
    {
-      return true; //TODO!
+      return resultList!=null && resultList.size() == maxResults;
    }
 
    public void setFirstResult(Integer firstResult)

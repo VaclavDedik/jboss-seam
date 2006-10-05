@@ -36,6 +36,7 @@ public class Conversions
       //put(Byte.class, new ByteConverter());
       //put(BigInteger.class, new BigIntegerConverter());
       //put(BigDecimal.class, new BigDecimalConverter());
+      put(Class.class, new ClassConverter());
    }};
    
    public static <Y> void putConverter(Class<Y> type, Converter<Y> converter)
@@ -188,6 +189,21 @@ public class Conversions
             map.put(key, element);
          }
          return map;
+      }
+   }
+   
+   public static class ClassConverter implements Converter<Class>
+   {
+      public Class toObject(PropertyValue value, Type type)
+      {
+         try
+         {
+            return Reflections.classForName( value.getSingleValue() );
+         }
+         catch (ClassNotFoundException cnfe)
+         {
+            throw new IllegalArgumentException(cnfe);
+         }
       }
    }
    

@@ -334,16 +334,9 @@ public class Component
             }
             else
             {
-               try
-               {
-                  Field field = beanClass.getField(propertyName);
-                  if ( !field.isAccessible() ) field.setAccessible(true);
-                  initializerFields.put( field, getInitialValue(propertyValue, field.getType(), field.getGenericType()) );
-               }
-               catch (NoSuchFieldException nsfe)
-               {
-                  throw new IllegalArgumentException("no field or setter method for configuration setting: " + key, nsfe);
-               }
+               Field field = Reflections.getField(beanClass, propertyName);
+               if ( !field.isAccessible() ) field.setAccessible(true);
+               initializerFields.put( field, getInitialValue(propertyValue, field.getType(), field.getGenericType()) );
             }
         }
 

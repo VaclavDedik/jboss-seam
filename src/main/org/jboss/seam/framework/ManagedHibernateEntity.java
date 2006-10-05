@@ -6,9 +6,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
 import org.hibernate.Session;
-import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -20,14 +17,11 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
-public class ManagedHibernateEntity
+public class ManagedHibernateEntity extends ManagedObject
 {
    private Session session;
    private Serializable id;
-   private String entityClassName;
-   private Class entityClass;
    private String idClass;
-   private Object instance;
    private String idConverterId;
    private Converter idConverter;
    
@@ -51,53 +45,36 @@ public class ManagedHibernateEntity
       this.id = id;
    }
    
-   public String getEntityClass()
+   public Class getEntityClass()
    {
-      return entityClassName;
+      return getObjectClass();
    }
 
-   public void setEntityClass(String entityClass)
+   public void setEntityClass(Class<?> entityClass)
    {
-      this.entityClassName = entityClass;
+      setObjectClass(entityClass);
    }
 
-   @Create
-   public void initEntityClass() throws Exception
-   {
-      entityClass = Reflections.classForName(entityClassName);
-   }
    
-   @Unwrap @Transactional
-   public Object getInstance() throws Exception
+   @Override
+   public void initInstance() throws Exception
    {
       if ( id==null || "".equals(id) )
       {
-         if (instance==null)
-         {
-            instance = createInstance();
-         }
+         super.initInstance();
       }
       else
       {
-         if (instance==null)
-         {
-            //we cache the instance so that it does not "disappear"
-            //after remove() is called on the instance
-            //is this really a Good Idea??
-            instance = loadInstance( getConvertedId() );
-         }
+         //we cache the instance so that it does not "disappear"
+         //after remove() is called on the instance
+         //is this really a Good Idea??
+         instance = loadInstance( getConvertedId() );
       }
-      return instance;
    }
    
-   protected Object createInstance() throws Exception
-   {
-      return entityClass.newInstance();
-   }
-
    protected Object loadInstance(Serializable id)
    {
-      return getSession().get(entityClass, id);
+      return getSession().get( getObjectClass(), id );
    }
    
    ////////////TODO: copy/paste from ManagedEntity ///////////////////
