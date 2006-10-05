@@ -1,8 +1,14 @@
 package org.jboss.seam.example.crud;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.validator.Length;
 
@@ -32,6 +38,10 @@ public class Contact
    private String businessPhone;
    @Length(max=20)
    private String cellPhone;
+   
+   @OneToMany(mappedBy="contact", cascade=CascadeType.REMOVE)
+   @OrderBy("created")
+   private List<Comment> comments = new ArrayList<Comment>();
    
    public String getAddress()
    {
@@ -120,5 +130,9 @@ public class Contact
    public void setId(Long id)
    {
       this.id = id;
+   }
+   public List<Comment> getComments()
+   {
+      return comments;
    }
 }

@@ -14,4 +14,8 @@
       <param name="contactId" value="#{contact.id}"/>
    </page>
    
+   <page view-id="/comment.xhtml">
+      <param name="contactId" value="#{contact.id}"/>
+   </page>
+   
 </pages>

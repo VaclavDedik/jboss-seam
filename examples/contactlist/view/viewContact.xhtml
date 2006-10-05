@@ -53,7 +53,23 @@
       </tr>
     </table>
     
+    <!-- associations -->
+    
+    <h:dataTable value="#{contact.comments}" var="c" rendered="#{not empty contact.comments}">
+      <h:column>
+        <h:outputText value="#{c.created}">
+          <f:convertDateTime type="both"/>
+        </h:outputText>
+      </h:column>
+      <h:column>
+        <f:facet name="header">Comment</f:facet>
+        #{c.text}
+      </h:column>
+    </h:dataTable>
+    
     <!-- links and actions -->
+    <s:link view="/comment.xhtml" value="Create Comment"/>
+    &#160;&#160;
     <s:link view="/editContact.xhtml" value="Edit Contact"/>
     &#160;&#160;
     <s:link action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">

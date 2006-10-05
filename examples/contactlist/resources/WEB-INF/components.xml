@@ -8,10 +8,25 @@
         <property name="entityManager">#{entityManager}</property>
     </component>
 
+    <component name="comment"
+              class="org.jboss.seam.framework.ManagedEntity">
+        <property name="entityClass">org.jboss.seam.example.crud.Comment</property>
+        <property name="entityManager">#{entityManager}</property>
+        <property name="initialFieldValues">
+        	<key>contact</key><value>#{contact}</value>
+        </property>
+    </component>
+
     <component name="contactActions"
               class="org.jboss.seam.framework.EntityActions">
         <property name="entityManager">#{entityManager}</property>
         <property name="entity">#{contact}</property>
+    </component>
+
+    <component name="commentActions"
+              class="org.jboss.seam.framework.EntityActions">
+        <property name="entityManager">#{entityManager}</property>
+        <property name="entity">#{comment}</property>
     </component>
 
     <component name="exampleContact"
