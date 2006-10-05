@@ -20,26 +20,26 @@ import org.jboss.seam.util.Reflections;
  *
  */
 @Intercept(NEVER)
-public class ManagedObject
+public class ManagedObject<E>
 {
-   private Class<?> objectClass;
-   protected Object instance;
+   private Class<E> objectClass;
+   protected E instance;
    
    private Map<String, String> initialFieldValues;
    private Map<String, String> initialPropertyValues;
    
-   public Class getObjectClass()
+   public Class<E> getObjectClass()
    {
       return objectClass;
    }
 
-   public void setObjectClass(Class<?> objectClass)
+   public void setObjectClass(Class<E> objectClass)
    {
       this.objectClass = objectClass;
    }
 
    @Unwrap @Transactional
-   public final Object getInstance() throws Exception
+   public final E getInstance() throws Exception
    {
       if (instance==null)
       {
@@ -54,17 +54,17 @@ public class ManagedObject
       initialize(instance);
    }
 
-   public void setInstance(Object instance)
+   public void setInstance(E instance)
    {
       this.instance = instance;
    }
 
-   protected Object createInstance() throws Exception
+   protected E createInstance() throws Exception
    {
-      return objectClass.newInstance();
+      return getObjectClass().newInstance();
    }
 
-   protected void initialize(Object instance) throws Exception
+   protected void initialize(E instance) throws Exception
    {
       if (initialFieldValues!=null)
       {
@@ -73,7 +73,7 @@ public class ManagedObject
             Object value = Expressions.instance().createValueBinding( initializer.getValue() ).getValue();
             if ( value!=null )
             {
-               Field field = Reflections.getField( objectClass, initializer.getKey() );
+               Field field = Reflections.getField( getObjectClass(), initializer.getKey() );
                if ( !field.isAccessible() ) field.setAccessible(true);
                Reflections.set(field, instance, value);
             }

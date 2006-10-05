@@ -19,7 +19,7 @@ import org.jboss.seam.util.Reflections;
  *
  */
 @Intercept(NEVER)
-public class ManagedEntity extends ManagedObject
+public class ManagedEntity<E> extends ManagedObject<E>
 {
    private EntityManager entityManager;
    private Object id;
@@ -50,7 +50,7 @@ public class ManagedEntity extends ManagedObject
    @Override
    protected void initInstance() throws Exception
    {
-      if ( id==null || "".equals(id) )
+      if ( getId()==null || "".equals( getId() ) )
       {
          super.initInstance();
       }
@@ -60,11 +60,16 @@ public class ManagedEntity extends ManagedObject
          //after remove() is called on the instance
          //is this really a Good Idea??
          getEntityManager().joinTransaction();
-         instance = loadInstance( getConvertedId() );
+         instance = loadInstance();
       }            
    }
 
-   protected Object loadInstance(Object id)
+   protected E loadInstance() throws Exception
+   {
+      return loadInstance( getConvertedId() );
+   }
+
+   protected E loadInstance(Object id) throws Exception
    {
       return getEntityManager().find( getObjectClass(), id );
    }
@@ -89,14 +94,14 @@ public class ManagedEntity extends ManagedObject
       
       if (idConverter==null)
       {
-         return id;
+         return getId();
       }
       else
       {
          return idConverter.getAsObject( 
                facesContext, 
                facesContext.getViewRoot(), 
-               (String) id 
+               (String) getId() 
             );
       }
    }
@@ -131,12 +136,12 @@ public class ManagedEntity extends ManagedObject
       this.idClass = idClass;
    }
 
-   public Class<?> getEntityClass()
+   public Class<E> getEntityClass()
    {
       return getObjectClass();
    }
 
-   public void setEntityClass(Class<?> entityClass)
+   public void setEntityClass(Class<E> entityClass)
    {
       setObjectClass(entityClass);
    }

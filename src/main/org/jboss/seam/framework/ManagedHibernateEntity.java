@@ -17,7 +17,7 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
-public class ManagedHibernateEntity extends ManagedObject
+public class ManagedHibernateEntity<E> extends ManagedObject<E>
 {
    private Session session;
    private Serializable id;
@@ -45,21 +45,21 @@ public class ManagedHibernateEntity extends ManagedObject
       this.id = id;
    }
    
-   public Class getEntityClass()
+   public Class<E> getEntityClass()
    {
       return getObjectClass();
    }
 
-   public void setEntityClass(Class<?> entityClass)
+   public void setEntityClass(Class<E> entityClass)
    {
       setObjectClass(entityClass);
    }
 
    
    @Override
-   public void initInstance() throws Exception
+   protected void initInstance() throws Exception
    {
-      if ( id==null || "".equals(id) )
+      if ( getId()==null || "".equals( getId() ) )
       {
          super.initInstance();
       }
@@ -68,18 +68,23 @@ public class ManagedHibernateEntity extends ManagedObject
          //we cache the instance so that it does not "disappear"
          //after remove() is called on the instance
          //is this really a Good Idea??
-         instance = loadInstance( getConvertedId() );
+         instance = loadInstance();
       }
    }
-   
-   protected Object loadInstance(Serializable id)
+
+   protected E loadInstance() throws Exception
    {
-      return getSession().get( getObjectClass(), id );
+      return loadInstance( getConvertedId() );
+   }
+   
+   protected E loadInstance(Serializable id)
+   {
+      return (E) getSession().get( getObjectClass(), id );
    }
    
    ////////////TODO: copy/paste from ManagedEntity ///////////////////
 
-   private Serializable getConvertedId() throws Exception
+   protected Serializable getConvertedId() throws Exception
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       if (idConverter==null)
@@ -97,14 +102,14 @@ public class ManagedHibernateEntity extends ManagedObject
       
       if (idConverter==null)
       {
-         return id;
+         return getId();
       }
       else
       {
          return (Serializable) idConverter.getAsObject( 
                facesContext, 
                facesContext.getViewRoot(), 
-               (String) id 
+               (String) getId() 
             );
       }
    }

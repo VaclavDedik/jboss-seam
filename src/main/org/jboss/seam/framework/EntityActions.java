@@ -6,10 +6,10 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.FacesMessages;
 
-public class EntityActions
+public class EntityActions<E>
 {
    private EntityManager entityManager;
-   private Object entity;
+   private E entity;
    
    @In(create=true) 
    private FacesMessages facesMessages; 
@@ -27,7 +27,7 @@ public class EntityActions
    public String persist()
    {
       getEntityManager().joinTransaction();
-      getEntityManager().persist(entity);
+      getEntityManager().persist( getEntity() );
       getEntityManager().flush();
       facesMessages.add("Successfully created");
       return "persisted";
@@ -37,7 +37,7 @@ public class EntityActions
    public String remove()
    {
       getEntityManager().joinTransaction();
-      getEntityManager().remove(entity);
+      getEntityManager().remove( getEntity() );
       getEntityManager().flush();
       facesMessages.add("Successfully deleted");
       return "removed";
@@ -45,7 +45,7 @@ public class EntityActions
    
    public boolean isManaged()
    {
-      return entityManager.contains(entity);
+      return getEntityManager().contains( getEntity() );
    }
 
    public EntityManager getEntityManager()
@@ -58,12 +58,12 @@ public class EntityActions
       this.entityManager = entityManager;
    }
 
-   public Object getEntity()
+   public E getEntity()
    {
       return entity;
    }
 
-   public void setEntity(Object entity)
+   public void setEntity(E entity)
    {
       this.entity = entity;
    }
