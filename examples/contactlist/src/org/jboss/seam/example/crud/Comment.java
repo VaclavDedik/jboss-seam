@@ -23,7 +23,7 @@ public class Comment
    private String text;
    
    @NotNull
-   private Date created = new Date();
+   private Date created;
 
    public Contact getContact()
    {

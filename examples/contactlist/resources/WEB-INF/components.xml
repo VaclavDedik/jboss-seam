@@ -14,6 +14,7 @@
         <property name="entityManager">#{entityManager}</property>
         <property name="initialFieldValues">
         	<key>contact</key><value>#{contact}</value>
+        	<key>created</key><value>#{currentDatetime}</value>
         </property>
     </component>
 
