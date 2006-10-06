@@ -91,7 +91,22 @@ public class HtmlLink extends HtmlOutputLink
          writer.startElement("a", this);
       }
       writer.writeAttribute("id", getClientId(context), null);
-      String viewId = view==null ? context.getViewRoot().getViewId() : view;
+
+      String viewId;
+      ValueBinding viewBinding = getValueBinding("view");
+      if (viewBinding!=null)
+      {
+         viewId = (String) viewBinding.getValue(context);
+      }
+      else if (view!=null)
+      {
+         viewId = view;
+      }
+      else
+      {
+         viewId = context.getViewRoot().getViewId();
+      }
+      
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
       String encodedUrl = context.getExternalContext().encodeActionURL(url);
       
@@ -110,9 +125,7 @@ public class HtmlLink extends HtmlOutputLink
          }
       }
       
-      ValueBinding viewBinding = getValueBinding("view");
-      String view = viewBinding==null ? this.view : (String) viewBinding.getValue(context);
-      if (view!=null)
+      if (viewId!=null)
       {
          Map<String, Object> pageParameters = Pages.instance().getParameters(view, usedParameters);
          for ( Map.Entry<String, Object> me: pageParameters.entrySet() )
