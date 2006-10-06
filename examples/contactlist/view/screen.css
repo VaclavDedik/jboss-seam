@@ -4,47 +4,47 @@ a:active,a:link,a:visited,a:hover {
 
 .menuButton {
 	background-color:#8CAFCD;
-	border: 1px solid white;
-	border-style: none solid none none ;
-	margin-left:0px;
-	padding-bottom: 5px;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.menuButton a {
+    font-weight:bold;
+    text-decoration:none;
+	padding-left:25px;
+	padding-right:25px;
 }
 .menuButton a:active,.menuButton a:link,.menuButton a:visited {
 	font-family:Arial,sans-serif;
-    color: white;
-    font-weight:bold;
-    text-decoration:none;
-	padding:20px;
+	background-color:#8CAFCD;
+	color: white;
+	border-right: 1px solid white;
 }
 .menuButton a:hover {
 	font-family:Arial,sans-serif;
     background-color: white;
     color:#8CAFCD;
-    font-weight:bold;
-    text-decoration:none;
-	padding:20px;
 }
 
-.actionButton a:active,.actionButton a:link,.actionButton a:visited,.actionButton a:hover {
+.actionButton {
+	width:100%;
+	text-align:center;
+}
+.tableControl {
+	width:100%;
+	text-align:right;
+}
+.actionButton a, .tableControl a {
 	font-family:Arial,sans-serif;
-	font-size:0.9em;
 	font-weight:bold;
 	color: #578BB8;
 	border: 1px solid #578BB8;
 	text-decoration:none;
-	padding:3px;
+	padding:5px;
 }
-.actionButton a:hover {
-	font-family:Arial,sans-serif;
-	font-size:0.9em;
-	font-weight:bold;
+.actionButton a:hover, .tableControl a:hover {
 	color: white;
 	background-color: #578BB8;
-	border: 4px solid #578BB8;
-	text-decoration:none;
-	padding:1px;
 }
-
 
 h1 {
 	font-family:Arial,sans-serif;
@@ -57,25 +57,16 @@ body {
 	font-family:Arial,sans-serif;
 	color: #616161;
 }
-textarea {
-	width: 300px;
-	height: 100px;
-}
-table {
-	width: 100%;
-}
+
 .body {
-	padding: 25px;
-}
-.nav {
-	width:100%;
-	margin-top: 30px;
-	background-color:#D6D6D6;
-	height: 30px;
-	border: 2px solid #578BB8;
-	border-style: solid none none none ;	
+	padding: 30px;
 }
 
+
+table {
+	width: 100%;
+	margin-bottom: 20px;
+}
 th {
 	background-color:#578BB8;
 	color:white;
@@ -100,6 +91,7 @@ td {
 .second td {
 	background-color:white;
 }
+
 .dialog 
 {
 	padding: 15px;
@@ -111,42 +103,35 @@ td {
 	width: 120px;
 	font-weight: bold;
 }
-
 .dialog .textfield {
 	width: 180px;
 	margin-bottom: 5px;
 }
 
-.prop {
-	padding: 5px;
-}
-.buttons {
-	margin-top: 15px;
-}
-.actionButtons {
-	width:100px;
-}
-div .errors {
-	border: 2px solid red;
-	padding: 5px;
-	margin-top:10px;
-	margin-bottom:10px;
-}
-td .errors {
-   border: 1px solid red;
-}
 .message {
 	border: 1px solid #FFCC00;
 	padding: 5px;
 	margin-top:10px;
 	margin-bottom:10px;
+	background-color:#F0F0F0;
+}
+
+.prop {
+	padding: 5px;
 }
 .prop .name {
 	font-weight:bold;
 	text-align:left;
-	width:20%;
+	width:110px;
 }
 .prop .value {
 	text-align:left;
-	width:80%;
+	width:200px;
+}
+.value input {
+	width:190px;
+}
+.prop .errors {
+	color: red;
+	text-align:left;
 }
