@@ -312,11 +312,23 @@ public class Pages
       Map<String, String[]> parameters = Parameters.getRequestParameters();
       for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
       {
-         Class type = me.getValue().getType();
-         Object value = Parameters.convertMultiValueRequestParameter( parameters, me.getKey(), type );
-         if (value!=null) 
+         Class type;
+         try
          {
-            me.getValue().setValue(value);
+            type = me.getValue().getType();
+         }
+         catch (RuntimeException e)
+         {
+            type = null;
+         }
+         
+         if (type!=null)
+         {
+            Object value = Parameters.convertMultiValueRequestParameter( parameters, me.getKey(), type );
+            if (value!=null) 
+            {
+               me.getValue().setValue(value);
+            }
          }
       }
    }
