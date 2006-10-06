@@ -52,6 +52,16 @@ public class Query
       return singleResult;
    }
 
+   public Long getResultCount()
+   {
+      if (singleResult==null)
+      {
+         javax.persistence.Query query = createCountQuery();
+         singleResult = query==null ? null : query.getSingleResult();
+      }
+      return (Long) singleResult;
+   }
+
    public DataModel getDataModel()
    {
       if (dataModel==null)
@@ -59,6 +69,31 @@ public class Query
          dataModel = new ListDataModel( getResultList() );
       }
       return dataModel;
+   }
+   
+   private javax.persistence.Query createCountQuery()
+   {
+      prepareEjbql();
+      
+      getEntityManager().joinTransaction();
+      
+      int loc = ejbql.indexOf("from");
+      String countEjbql = "select count(*) " + ejbql.substring(loc);
+      
+      javax.persistence.Query query = getEntityManager().createQuery(countEjbql);
+      for (int i=0; i<queryParameters.size(); i++)
+      {
+         Object parameterValue = queryParameters.get(i).getValue();
+         if (parameterValue==null)
+         {
+            return null;
+         }
+         else
+         {
+            query.setParameter( i, parameterValue );
+         }
+      }
+      return query;
    }
    
    private javax.persistence.Query createQuery()
@@ -96,6 +131,12 @@ public class Query
       dataModel = null;
    }
    
+   public void last()
+   {
+      firstResult = (int) getLastFirstResult();
+      dataModel = null;
+   }
+   
    public void next()
    {
       firstResult = getNextFirstResult();
@@ -107,7 +148,18 @@ public class Query
       firstResult = getPreviousFirstResult();
       dataModel = null;
    }
+   
+   public void first()
+   {
+      firstResult = 0;
+      dataModel = null;
+   }
 
+   public long getLastFirstResult()
+   {
+      return ( getResultCount() / maxResults ) * maxResults;
+   }
+   
    public int getNextFirstResult()
    {
       //TODO: check to see if there are more results
