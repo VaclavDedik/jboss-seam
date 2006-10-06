@@ -81,6 +81,9 @@
         <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="Next Page &gt;">
           <f:param name="firstResult" value="#{contacts.nextFirstResult}"/>
         </s:link>
+        <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="Last Page &gt;&gt;">
+          <f:param name="firstResult" value="#{contacts.lastFirstResult}"/>
+        </s:link>
       </div>
           
       </div>
