@@ -1,12 +1,9 @@
 package org.jboss.seam.framework;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.core.Expressions;
@@ -19,7 +16,6 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
-@Intercept(NEVER)
 public class ManagedObject<E>
 {
    private Class<E> objectClass;
@@ -39,7 +35,7 @@ public class ManagedObject<E>
    }
 
    @Unwrap @Transactional
-   public final E getInstance() throws Exception
+   public E getInstance() throws Exception
    {
       if (instance==null)
       {

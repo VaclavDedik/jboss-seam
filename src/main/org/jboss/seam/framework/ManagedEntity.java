@@ -1,12 +1,9 @@
 package org.jboss.seam.framework;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -18,7 +15,6 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
-@Intercept(NEVER)
 public class ManagedEntity<E> extends ManagedObject<E>
 {
    private EntityManager entityManager;
@@ -71,7 +67,14 @@ public class ManagedEntity<E> extends ManagedObject<E>
 
    protected E loadInstance(Object id) throws Exception
    {
-      return getEntityManager().find( getObjectClass(), id );
+      E result = getEntityManager().find( getObjectClass(), id );
+      if (result==null) result = handleNotFound();
+      return result;
+   }
+
+   protected E handleNotFound()
+   {
+      throw new EntityNotFoundException();
    }
    
    //////////// TODO: copy/paste from ManagedHibernateEntity ///////////////////

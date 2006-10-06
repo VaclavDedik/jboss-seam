@@ -79,7 +79,14 @@ public class ManagedHibernateEntity<E> extends ManagedObject<E>
    
    protected E loadInstance(Serializable id)
    {
-      return (E) getSession().get( getObjectClass(), id );
+      E result = (E) getSession().get( getObjectClass(), id );
+      if (result==null) result = handleNotFound();
+      return result;
+   }
+
+   protected E handleNotFound()
+   {
+      throw new EntityNotFoundException();
    }
    
    ////////////TODO: copy/paste from ManagedEntity ///////////////////
