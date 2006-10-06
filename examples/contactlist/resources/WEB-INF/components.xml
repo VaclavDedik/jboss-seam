@@ -12,7 +12,7 @@
               class="org.jboss.seam.framework.ManagedEntity">
         <property name="entityClass">org.jboss.seam.example.crud.Comment</property>
         <property name="entityManager">#{entityManager}</property>
-        <property name="initialFieldValues">
+        <property name="initialPropertyValues">
         	<key>contact</key><value>#{contact}</value>
         	<key>created</key><value>#{currentDatetime}</value>
         </property>

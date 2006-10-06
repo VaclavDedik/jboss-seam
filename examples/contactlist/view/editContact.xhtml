@@ -8,80 +8,100 @@
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>Edit Contact</title>
+	<link href="screen.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
   
-    <h:form>
-    
-      <h:messages globalOnly="true"/>
-	  
-	  <!-- editable fields --> 
-      <s:validateAll>
-      
-        <table>
-          <tr>
-            <td>First Name</td>
-            <td><h:inputText id="firstName" value="#{contact.firstName}"/></td>
-            <td><h:message for="firstName"/></td>
-          </tr>
-          <tr>
-            <td>Last Name</td>
-            <td><h:inputText id="lastName" value="#{contact.lastName}"/></td>
-            <td><h:message for="lastName"/></td>
-          </tr>
-          <tr>
-            <td>Cell Phone</td>
-            <td><h:inputText id="cellPhone" value="#{contact.cellPhone}"/></td>
-            <td><h:message for="cellPhone"/></td>
-          </tr>
-          <tr>
-            <td>Home Phone</td>
-            <td><h:inputText id="homePhone" value="#{contact.homePhone}"/></td>
-            <td><h:message styleClass="error" for="homePhone"/></td>
-          </tr>
-          <tr>
-            <td>Address</td>
-            <td><h:inputText id="address" value="#{contact.address}"/></td>
-            <td><h:message styleClass="error" for="address"/></td>
-          </tr>
-          <tr>
-            <td>City</td>
-            <td><h:inputText id="city" value="#{contact.city}"/></td>
-            <td><h:message for="city"/></td>
-          </tr>
-          <tr>
-            <td>State</td>
-            <td><h:inputText id="state" value="#{contact.state}"/></td>
-            <td><h:message for="state"/></td>
-          </tr>
-          <tr>
-            <td>Zip</td>
-            <td><h:inputText id="zip" value="#{contact.zip}"/></td>
-            <td><h:message for="zip"/></td>
-          </tr>
-          <tr>
-            <td>Country</td>
-            <td><h:inputText id="country" value="#{contact.country}"/></td>
-            <td><h:message for="country"/></td>
-          </tr>
-        </table>
-    
-      </s:validateAll>
-    
-      <!-- actions -->
-      <h:commandLink action="#{contactActions.update}" value="Update Contact" rendered="#{contactActions.managed}">
-        <f:param name="contactId" value="#{contact.id}"/>
-      </h:commandLink>
-      <h:outputText rendered="#{contactActions.managed}" value="&#160;&#160;"/>
-      <h:commandLink action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">
-        <f:param name="contactId" value="#{contact.id}"/>
-      </h:commandLink>
-      <h:commandLink action="#{contactActions.persist}" value="Create Contact" rendered="#{!contactActions.managed}"/>
-      &#160;&#160;
-      <s:link view="/viewContact.xhtml" value="Cancel" rendered="#{contactActions.managed}"/>
-      <s:link view="/search.xhtml" value="Cancel" rendered="#{!contactActions.managed}"/>
-    
-    </h:form>
+    <div class="menuButton">
+      <s:link view="/search.xhtml" value="Search Contacts"/>
+      <s:link view="/editContact.xhtml" value="Create New Contact">
+        <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
+      </s:link>
+      <s:link view="/viewContact.xhtml" value="View Contact" rendered="#{contactActions.managed}"/>
+      <s:link view="/editContact.xhtml" value="Edit Contact" rendered="#{contactActions.managed}"/>
+    </div> 
    
+    <div class="body">
+    
+      <h1>Edit Contact</h1>
+    
+      <h:form>
+      
+        <h:messages globalOnly="true" styleClass="message"/>
+  	  
+  	    <!-- editable fields --> 
+        <s:validateAll>
+        
+          <div class="dialog">
+            <table>
+              <tr class="prop">
+                <td class="name">First Name:</td>
+                <td class="value"><h:inputText id="firstName" value="#{contact.firstName}"/></td>
+                <td class="errors"><h:message for="firstName"/></td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Last Name:</td>
+                <td class="value"><h:inputText id="lastName" value="#{contact.lastName}"/></td>
+                <td class="errors"><h:message for="lastName"/></td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Cell Phone:</td>
+                <td class="value"><h:inputText id="cellPhone" value="#{contact.cellPhone}"/></td>
+                <td class="errors"><h:message for="cellPhone"/></td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Home Phone:</td>
+                <td class="value"><h:inputText id="homePhone" value="#{contact.homePhone}"/></td>
+                <td class="errors"><h:message styleClass="error" for="homePhone"/></td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Address:</td>
+                <td class="value"><h:inputText id="address" value="#{contact.address}"/></td>
+                <td class="errors"><h:message styleClass="error" for="address"/></td>
+              </tr>
+              <tr class="prop">
+                <td class="name">City:</td>
+                <td class="value"><h:inputText id="city" value="#{contact.city}"/></td>
+                <td class="errors"><h:message for="city"/></td>
+              </tr>
+              <tr class="prop">
+                <td class="name">State:</td>
+                <td class="value"><h:inputText id="state" value="#{contact.state}"/></td>
+                <td class="errors"><h:message for="state"/></td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Zip:</td>
+                <td class="value"><h:inputText id="zip" value="#{contact.zip}"/></td>
+                <td class="errors"><h:message for="zip"/></td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Country:</td>
+                <td class="value"><h:inputText id="country" value="#{contact.country}"/></td>
+                <td class="errors"><h:message for="country"/></td>
+              </tr>
+            </table>
+          </div>
+      
+        </s:validateAll>
+      
+        <!-- actions -->
+        <div class="actionButton">
+           <h:commandLink action="#{contactActions.update}" value="Update Contact" rendered="#{contactActions.managed}">
+             <f:param name="contactId" value="#{contact.id}"/>
+           </h:commandLink>
+           <h:outputText rendered="#{contactActions.managed}" value="&#160;&#160;"/>
+           <h:commandLink action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">
+             <f:param name="contactId" value="#{contact.id}"/>
+           </h:commandLink>
+           <h:commandLink action="#{contactActions.persist}" value="Create Contact" rendered="#{!contactActions.managed}"/>
+           &#160;&#160;
+           <s:link view="/viewContact.xhtml" value="Cancel" rendered="#{contactActions.managed}"/>
+           <s:link view="/search.xhtml" value="Cancel" rendered="#{!contactActions.managed}"/>
+        </div>
+      
+      </h:form>
+    
+    </div>
+    
   </body>
 </html>

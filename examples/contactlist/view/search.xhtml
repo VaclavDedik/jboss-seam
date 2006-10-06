@@ -8,67 +8,82 @@
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>Contact List</title>
+	<link href="screen.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
   
-    <h:messages/>
-    
-    <!-- search box -->
-    <h:form>
-       First Name: <h:inputText value="#{exampleContact.firstName}"/>
-       Last Name : <h:inputText value="#{exampleContact.lastName}"/>
-       <h:commandButton value="Search" action="/search.xhtml"/>
-    </h:form>
-    
-    <!-- search results -->
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Cell Phone</th>
-        <th>Home Phone</th>
-        <th>Address</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip</th>
-        <th>Country</th>
-      </tr>
-      <ui:repeat value="#{contacts.resultList}" var="cont">
-        <tr>
-          <td>
-            <s:link view="/viewContact.xhtml" value="#{cont.firstName} #{cont.lastName}">
-              <f:param name="contactId" value="#{cont.id}"/>
-            </s:link>
-          </td>
-          <td>#{cont.cellPhone}</td>
-          <td>#{cont.homePhone}</td>
-          <td>#{cont.address}</td>
-          <td>#{cont.city}</td>
-          <td>#{cont.state}</td>
-          <td>#{cont.zip}</td>
-          <td>#{cont.country}</td>
-        </tr>
-      </ui:repeat>
-    </table>
-    
-    <!-- pagination control -->
-    <div>
-      <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;&lt;">
-        <f:param name="firstResult" value="0"/>
-      </s:link>
-      <h:outputText rendered="#{!contacts.previousExists}" value="&lt;&lt;"/>
-      &#160;
-      <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;">
-        <f:param name="firstResult" value="#{contacts.previousFirstResult}"/>
-      </s:link>
-      <h:outputText rendered="#{!contacts.previousExists}" value="&lt;"/>
-      &#160;
-      <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="&gt;">
-        <f:param name="firstResult" value="#{contacts.nextFirstResult}"/>
-      </s:link>
-      <h:outputText rendered="#{!contacts.nextExists}" value="&gt;"/>
+    <div class="menuButton">
+      <s:link view="/search.xhtml" value="Search Contacts"/>
+      <s:link view="/editContact.xhtml" value="Create New Contact"/>
     </div>
-    
-    <s:link view="/editContact.xhtml" value="Create New Contact"/>
-    
+
+    <div class="body">
+        
+      <h1>ContactList</h1>
+      
+      <h:messages styleClass="message"/>
+      
+      <!-- search box -->
+      <div class="dialog">
+        <h:form>
+           <span class="prop">
+             <span class="name">First Name:</span> 
+             <span class="value"><h:inputText value="#{exampleContact.firstName}"/></span>
+           </span>
+           <span class="prop">
+             <span class="name">Last Name :</span>
+             <span class="value"><h:inputText value="#{exampleContact.lastName}"/></span>
+           </span>
+           <h:commandButton value="Search" action="/search.xhtml"/>
+        </h:form>
+      </div>
+      
+      <!-- search results -->
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Cell Phone</th>
+          <th>Home Phone</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip</th>
+          <th>Country</th>
+        </tr>
+        <ui:repeat value="#{contacts.resultList}" var="cont">
+          <tr>
+            <td>
+              <s:link view="/viewContact.xhtml" value="#{cont.firstName} #{cont.lastName}">
+                <f:param name="contactId" value="#{cont.id}"/>
+              </s:link>
+            </td>
+            <td>#{cont.cellPhone}</td>
+            <td>#{cont.homePhone}</td>
+            <td>#{cont.address}</td>
+            <td>#{cont.city}</td>
+            <td>#{cont.state}</td>
+            <td>#{cont.zip}</td>
+            <td>#{cont.country}</td>
+          </tr>
+        </ui:repeat>
+      </table>
+      
+      <!-- pagination control -->
+      <div class="actionButton">
+        <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;&lt; First Page">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+        <h:outputText rendered="#{contacts.previousExists}" value="&#160;&#160;"/>
+        <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt; Previous Page">
+          <f:param name="firstResult" value="#{contacts.previousFirstResult}"/>
+        </s:link>
+        <h:outputText rendered="#{contacts.previousExists}" value="&#160;&#160;"/>
+        <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="Next Page &gt;">
+          <f:param name="firstResult" value="#{contacts.nextFirstResult}"/>
+        </s:link>
+      </div>
+          
+      </div>
+      
   </body>
 </html>

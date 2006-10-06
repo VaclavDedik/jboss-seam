@@ -8,79 +8,123 @@
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>View Contact</title>
+	<link href="screen.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
   
-    <h:messages/>
-  
-    <!-- fields -->
-    <table>
-      <tr>
-        <td>First Name</td>
-        <td>#{contact.firstName}</td>
-      </tr>
-      <tr>
-        <td>Last Name</td>
-        <td>#{contact.lastName}</td>
-      </tr>
-      <tr>
-        <td>Cell Phone</td>
-        <td>#{contact.cellPhone}</td>
-      </tr>
-      <tr>
-        <td>Home Phone</td>
-        <td>#{contact.homePhone}</td>
-      </tr>
-      <tr>
-        <td>Address</td>
-        <td>#{contact.address}</td>
-      </tr>
-      <tr>
-        <td>City</td>
-        <td>#{contact.city}</td>
-      </tr>
-      <tr>
-        <td>State</td>
-        <td>#{contact.state}</td>
-      </tr>
-      <tr>
-        <td>Zip</td>
-        <td>#{contact.zip}</td>
-      </tr>
-      <tr>
-        <td>Country</td>
-        <td>#{contact.country}</td>
-      </tr>
-    </table>
+    <div class="menuButton">
+      <s:link view="/search.xhtml" value="Search Contacts"/>
+      <s:link view="/editContact.xhtml" value="Create New Contact">
+        <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
+      </s:link>
+      <s:link view="/viewContact.xhtml" value="View Contact"/>
+      <s:link view="/editContact.xhtml" value="Edit Contact"/>
+    </div>
     
-    <!-- associations -->
+    <div class="body">
     
-    <h:dataTable value="#{contact.comments}" var="c" rendered="#{not empty contact.comments}">
-      <h:column>
-        <h:outputText value="#{c.created}">
-          <f:convertDateTime type="both"/>
-        </h:outputText>
-      </h:column>
-      <h:column>
-        <f:facet name="header">Comment</f:facet>
-        #{c.text}
-      </h:column>
-    </h:dataTable>
+      <h1>View Contact</h1>
     
-    <!-- links and actions -->
-    <s:link view="/comment.xhtml" value="Create Comment"/>
-    &#160;&#160;
-    <s:link view="/editContact.xhtml" value="Edit Contact"/>
-    &#160;&#160;
-    <s:link action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">
-      <f:param name="contactId" value="#{contact.id}"/>
-    </s:link>
-    &#160;&#160;
-    <s:link view="/editContact.xhtml" value="Create New Contact">
-      <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
-    </s:link>
-    &#160;&#160;
-    <s:link view="/search.xhtml" value="Search Contacts"/>
+      <h:messages styleClass="message" globalOnly="true"/>
+    
+      <!-- fields -->
+      <div class="dialog">
+        <table>
+          <tr class="prop">
+            <td class="name">First Name:</td>
+            <td class="value">#{contact.firstName}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Last Name:</td>
+            <td class="value">#{contact.lastName}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Cell Phone:</td>
+            <td class="value">#{contact.cellPhone}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Home Phone:</td>
+            <td class="value">#{contact.homePhone}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Address:</td>
+            <td class="value">#{contact.address}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">City:</td>
+            <td class="value">#{contact.city}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">State:</td>
+            <td class="value">#{contact.state}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Zip:</td>
+            <td class="value">#{contact.zip}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Country:</td>
+            <td class="value">#{contact.country}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <!-- actions -->
+      <div class="actionButton">
+        <s:link view="/editContact.xhtml" value="Edit Contact"/>
+        &#160;&#160;
+        <s:link action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">
+          <f:param name="contactId" value="#{contact.id}"/>
+        </s:link>
+      </div>
+      
+      <!-- associations -->
+      <h3>
+        <h:outputText value="Comments" rendered="#{not empty contact.comments}"/>
+        <h:outputText value="No Comments" rendered="#{empty contact.comments}"/>
+      </h3>
+      
+      <h:dataTable value="#{contact.comments}" var="c" rendered="#{not empty contact.comments}"
+          rowClasses="first,second" columnClasses="narrow,wide">
+        <h:column>
+          <f:facet name="header">Posted</f:facet>
+          <h:outputText value="#{c.created}">
+            <f:convertDateTime type="both"/>
+          </h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Comment</f:facet>
+          #{c.text}
+        </h:column>
+      </h:dataTable>
+      
+      <h:form>
+      	  
+  	  <!-- editable fields --> 
+        <div class="dialog">
+        <s:validateAll>
+        
+          <table>
+            <tr class="prop">
+              <td class="name">New Comment:</td>
+              <td class="value"><h:inputTextarea id="text" value="#{comment.text}" rows="15" cols="100"/></td>
+              <td class="errors"><h:message for="text"/></td>
+            </tr>
+          </table>
+      
+        </s:validateAll>
+        </div>
+      
+        <!-- actions -->
+        <div class="actionButton">
+          <h:commandLink action="#{commentActions.persist}" value="Create Comment">
+            <f:param name="contactId" value="#{contact.id}"/>
+          </h:commandLink>
+        </div>
+        
+      </h:form>
+
+    </div>
     
   </body>
 </html>
