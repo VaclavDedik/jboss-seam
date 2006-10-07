@@ -12,7 +12,7 @@
   </head>
   <body>
   
-    <div class="menuButton">
+    <div class="menuButtons">
       <s:link view="/search.xhtml" value="Search Contacts"/>
       <s:link view="/editContact.xhtml" value="Create New Contact">
         <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
@@ -79,12 +79,9 @@
       </div>
       
       <!-- actions -->
-      <div class="actionButton">
+      <div class="actionButtons">
         <s:link view="/editContact.xhtml" value="Edit Contact"/>
-        &#160;&#160;
-        <s:link action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">
-          <f:param name="contactId" value="#{contact.id}"/>
-        </s:link>
+        <s:link action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}"/>
       </div>
       
       <!-- associations -->
@@ -125,10 +122,8 @@
         </div>
       
         <!-- actions -->
-        <div class="actionButton">
-          <h:commandLink action="#{commentActions.persist}" value="Create Comment">
-            <f:param name="contactId" value="#{contact.id}"/>
-          </h:commandLink>
+        <div class="actionButtons">
+          <h:commandLink action="#{commentActions.persist}" value="Create Comment"/>
         </div>
         
       </h:form>

@@ -12,7 +12,7 @@
   </head>
   <body>
   
-    <div class="menuButton">
+    <div class="menuButtons">
       <s:link view="/search.xhtml" value="Search Contacts"/>
       <s:link view="/editContact.xhtml" value="Create New Contact">
         <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
@@ -85,18 +85,15 @@
         </s:validateAll>
       
         <!-- actions -->
-        <div class="actionButton">
-           <h:commandLink action="#{contactActions.update}" value="Update Contact" rendered="#{contactActions.managed}">
-             <f:param name="contactId" value="#{contact.id}"/>
-           </h:commandLink>
-           <h:outputText rendered="#{contactActions.managed}" value="&#160;&#160;"/>
-           <h:commandLink action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}">
-             <f:param name="contactId" value="#{contact.id}"/>
-           </h:commandLink>
-           <h:commandLink action="#{contactActions.persist}" value="Create Contact" rendered="#{!contactActions.managed}"/>
-           &#160;&#160;
-           <s:link view="/viewContact.xhtml" value="Cancel" rendered="#{contactActions.managed}"/>
-           <s:link view="/search.xhtml" value="Cancel" rendered="#{!contactActions.managed}"/>
+        <div class="actionButtons">
+        
+          <h:commandLink action="#{contactActions.update}" value="Update Contact" rendered="#{contactActions.managed}"/>
+          <s:link action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}"/>
+          <s:link view="/viewContact.xhtml" value="Cancel" rendered="#{contactActions.managed}"/>
+
+          <h:commandLink action="#{contactActions.persist}" value="Create Contact" rendered="#{!contactActions.managed}"/>
+          <s:link view="/search.xhtml" value="Cancel" rendered="#{!contactActions.managed}"/>
+
         </div>
       
       </h:form>

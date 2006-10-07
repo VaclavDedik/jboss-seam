@@ -1,60 +1,67 @@
-a:active,a:link,a:visited,a:hover {
-    color:#0D5798;    
+a:active, a:link, a:visited {
+	color: #0D5798;    
+}
+a:hover {
+	color: #8CAFCD;
 }
 
-.menuButton {
-	background-color:#8CAFCD;
-	padding-top:10px;
-	padding-bottom:10px;
+.menuButtons {
+	background-color: #8CAFCD;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
-.menuButton a {
-    font-weight:bold;
-    text-decoration:none;
-	padding-left:25px;
-	padding-right:25px;
+.menuButtons a {
+    font-weight: bold;
+    text-decoration: none;
+	padding-left: 25px;
+	padding-right: 25px;
 }
-.menuButton a:active,.menuButton a:link,.menuButton a:visited {
-	font-family:Arial,sans-serif;
-	background-color:#8CAFCD;
+.menuButtons a:active, .menuButtons a:link, .menuButtons a:visited {
+	font-family: Arial,sans-serif;
+	background-color: #8CAFCD;
 	color: white;
 	border-right: 1px solid white;
 }
-.menuButton a:hover {
-	font-family:Arial,sans-serif;
+.menuButtons a:hover {
+	font-family: Arial,sans-serif;
     background-color: white;
-    color:#8CAFCD;
+    color: #8CAFCD;
 }
 
-.actionButton {
-	width:100%;
-	text-align:center;
+.actionButtons {
+	width: 100%;
+	text-align: center;
+	padding-top: 10px;
 }
 .tableControl {
-	width:100%;
-	text-align:right;
+	width: 100%;
+	text-align: right;
+	padding-top: 15px;
 }
-.actionButton a, .tableControl a {
-	font-family:Arial,sans-serif;
-	font-weight:bold;
+.actionButtons a, .tableControl a {
+	font-family: Arial,sans-serif;
+	font-weight: bold;
 	color: #578BB8;
 	border: 1px solid #578BB8;
-	text-decoration:none;
-	padding:5px;
+	text-decoration: none;
+	padding: 5px;
+	margin: 5px;
 }
-.actionButton a:hover, .tableControl a:hover {
+.actionButtons a:hover, .tableControl a:hover {
 	color: white;
 	background-color: #578BB8;
+	margin: 5px;
 }
 
 h1 {
-	font-family:Arial,sans-serif;
-	color:#578BB8;
-	font-size:1.6em;
+	font-family: Arial,sans-serif;
+	color: #578BB8;
+	font-size: 1.6em;
 }
 
 body {
-	margin:0px;
-	font-family:Arial,sans-serif;
+	margin: 0px;
+	font-family: Arial,sans-serif;
 	color: #616161;
 }
 
@@ -65,38 +72,36 @@ body {
 
 table {
 	width: 100%;
-	margin-bottom: 20px;
 }
 th {
-	background-color:#578BB8;
-	color:white;
-	width:30px;
-	font-family:Arial,sans-serif;
-	padding:5px;
+	background-color: #578BB8;
+	color: white;
+	font-family: Arial,sans-serif;
+	padding: 5px;
 	
 }
 td {
-	background-color:#F0F0F0;
-	text-align:center;
+	background-color: #F0F0F0;
+	text-align: center;
 }
 .narrow {
-	width:20%;
+	width: 20%;
 }
 .wide {
-	width:80%;
+	width: 80%;
 }
 .first td {
-	background-color:#F0F0F0;
+	background-color: #F0F0F0;
 }
 .second td {
-	background-color:white;
+	background-color: white;
 }
 
 .dialog 
 {
 	padding: 15px;
-	background-color:#F0F0F0;
-	margin:20px;
+	background-color: #F0F0F0;
+	margin: 10px;
 	
 }
 .dialog label{
@@ -105,33 +110,32 @@ td {
 }
 .dialog .textfield {
 	width: 180px;
-	margin-bottom: 5px;
 }
 
 .message {
 	border: 1px solid #FFCC00;
 	padding: 5px;
-	margin-top:10px;
-	margin-bottom:10px;
-	background-color:#F0F0F0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: #F0F0F0;
 }
 
 .prop {
 	padding: 5px;
 }
 .prop .name {
-	font-weight:bold;
-	text-align:left;
-	width:110px;
+	font-weight: bold;
+	text-align: left;
+	width: 110px;
 }
 .prop .value {
-	text-align:left;
-	width:200px;
+	text-align: left;
+	width: 200px;
 }
 .value input {
 	width:190px;
 }
 .prop .errors {
 	color: red;
-	text-align:left;
+	text-align: left;
 }

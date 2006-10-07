@@ -12,7 +12,7 @@
   </head>
   <body>
   
-    <div class="menuButton">
+    <div class="menuButtons">
       <s:link view="/search.xhtml" value="Search Contacts"/>
       <s:link view="/editContact.xhtml" value="Create New Contact"/>
     </div>
@@ -70,20 +70,23 @@
       
       <!-- pagination control -->
       <div class="tableControl">
+      
         <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;&lt; First Page">
           <f:param name="firstResult" value="0"/>
         </s:link>
-        <h:outputText rendered="#{contacts.previousExists}" value="&#160;&#160;"/>
+        
         <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt; Previous Page">
           <f:param name="firstResult" value="#{contacts.previousFirstResult}"/>
         </s:link>
-        <h:outputText rendered="#{contacts.previousExists}" value="&#160;&#160;"/>
+        
         <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="Next Page &gt;">
           <f:param name="firstResult" value="#{contacts.nextFirstResult}"/>
         </s:link>
+        
         <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="Last Page &gt;&gt;">
           <f:param name="firstResult" value="#{contacts.lastFirstResult}"/>
         </s:link>
+        
       </div>
           
       </div>
