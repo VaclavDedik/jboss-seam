@@ -1460,6 +1460,7 @@ public class Component
          {
             if ( !component.isInstance(result) )
             {
+               if ( component.hasUnwrapMethod() ) return result; ///best way???
                throw new IllegalArgumentException( "value of context variable is not an instance of the component bound to the context variable: " + name );
             }
             result = component.unwrap(result);
