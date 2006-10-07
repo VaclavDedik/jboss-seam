@@ -50,20 +50,18 @@
           <th>Zip</th>
           <th>Country</th>
         </tr>
-        <ui:repeat value="#{contacts.resultList}" var="cont">
+        <ui:repeat value="#{contacts.resultList}" var="contact">
           <tr>
             <td>
-              <s:link view="/viewContact.xhtml" value="#{cont.firstName} #{cont.lastName}">
-                <f:param name="contactId" value="#{cont.id}"/>
-              </s:link>
+              <s:link view="/viewContact.xhtml" value="#{contact.firstName} #{contact.lastName}"/>
             </td>
-            <td>#{cont.cellPhone}</td>
-            <td>#{cont.homePhone}</td>
-            <td>#{cont.address}</td>
-            <td>#{cont.city}</td>
-            <td>#{cont.state}</td>
-            <td>#{cont.zip}</td>
-            <td>#{cont.country}</td>
+            <td>#{contact.cellPhone}</td>
+            <td>#{contact.homePhone}</td>
+            <td>#{contact.address}</td>
+            <td>#{contact.city}</td>
+            <td>#{contact.state}</td>
+            <td>#{contact.zip}</td>
+            <td>#{contact.country}</td>
           </tr>
         </ui:repeat>
       </table>
