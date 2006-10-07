@@ -41,9 +41,10 @@ public class SeamStateManager extends StateManager {
       return stateManager.restoreView(ctx, str1, str2);
    }
 
-   public SerializedView saveSerializedView(FacesContext ctx) {
-      AbstractSeamPhaseListener.storeAnyConversationContext(ctx);
-      return stateManager.saveSerializedView(ctx);
+   public SerializedView saveSerializedView(FacesContext facesContext) {
+      AbstractSeamPhaseListener.storePageParameters(facesContext);
+      AbstractSeamPhaseListener.storeAnyConversationContext(facesContext);
+      return stateManager.saveSerializedView(facesContext);
    }
 
    public void writeState(FacesContext ctx, SerializedView sv) throws IOException {

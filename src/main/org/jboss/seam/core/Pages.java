@@ -307,11 +307,11 @@ public class Pages
       return parameters;
    }
    
-   public void applyParameterValues(String viewId)
+   public void applyRequestParameterValues(String viewId)
    {
-      Map<String, String[]> parameters = Parameters.getRequestParameters();
+      Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
-      {
+      {         
          Class type;
          try
          {
@@ -324,12 +324,30 @@ public class Pages
          
          if (type!=null)
          {
-            Object value = Parameters.convertMultiValueRequestParameter( parameters, me.getKey(), type );
+            Object value = Parameters.convertMultiValueRequestParameter( requestParameters, me.getKey(), type );
             if (value!=null) 
             {
                me.getValue().setValue(value);
+            }            
+         }
+      }
+   }
+
+   public void applyViewRootValues(String viewId)
+   {
+      Map<String, Object> pageParameters = (Map<String, Object>) Contexts.getPageContext().get("pageParameters");
+      if (pageParameters!=null)
+      {
+      
+         for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
+         {         
+            Object object = pageParameters.get( me.getKey() );
+            if (object!=null)
+            {
+               me.getValue().setValue(object);
             }
          }
+      
       }
    }
 

@@ -81,6 +81,9 @@ public class ManagedEntity<E> extends ManagedObject<E>
    
    protected Object getConvertedId() throws Exception
    {
+      
+      if ( !(getId() instanceof String) ) return getId();
+      
       FacesContext facesContext = FacesContext.getCurrentInstance();
       if (idConverter==null)
       {

@@ -57,12 +57,28 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          log.debug( "After restoring conversation context: " + Contexts.getConversationContext() );
       }
    }
-
+   
+   /**
+    * Store the page parameters during a JSF request
+    */
+   public static void storePageParameters(FacesContext facesContext)
+   {
+      String viewId = facesContext.getViewRoot().getViewId();
+      if (viewId!=null)
+      {
+         Map<String, Object> parameters = Pages.instance().getParameters(viewId);
+         if ( !parameters.isEmpty() )
+         {
+            Contexts.getPageContext().set( "pageParameters", parameters );
+         }
+      }
+   }
+   
    /**
     * Store the page and conversation contexts during a JSF request
     */
    public static void storeAnyConversationContext(FacesContext facesContext)
-   {
+   {      
       if ( !Contexts.isConversationContextActive() )
       {
          log.debug( "No active conversation context" );
@@ -107,7 +123,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
 
    protected void beforeUpdateModelValues(PhaseEvent event)
    {
-      Pages.instance().applyParameterValues( event.getFacesContext().getViewRoot().getViewId() );
+      Pages.instance().applyViewRootValues( event.getFacesContext().getViewRoot().getViewId() );
       Manager.instance().setUpdateModelValuesCalled(true);
    }
 
@@ -134,7 +150,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
 
       if ( !Manager.instance().isUpdateModelValuesCalled() )
       {
-         Pages.instance().applyParameterValues( facesContext.getViewRoot().getViewId() );
+         Pages.instance().applyRequestParameterValues( facesContext.getViewRoot().getViewId() );
       }
 
       selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );

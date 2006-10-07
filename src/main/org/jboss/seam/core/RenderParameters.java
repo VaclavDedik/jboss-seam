@@ -12,8 +12,9 @@ import org.jboss.seam.InterceptionType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Contexts;
 
-@Name("renderParameters")
+@Name("param")
 @Intercept(InterceptionType.NEVER)
 public class RenderParameters
 {
@@ -40,9 +41,14 @@ public class RenderParameters
             {
                return parameters.get(key);
             }
-            else
+            else if ( requestParameters.containsKey(key) )
             {
                return requestParameters.get(key);
+            }
+            else
+            {
+               Map<String, Object> pageParameters = (Map<String, Object>) Contexts.getPageContext().get("pageParameters");
+               return pageParameters==null ? null : pageParameters.get(key);
             }
          }
 
