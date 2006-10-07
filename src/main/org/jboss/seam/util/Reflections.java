@@ -83,7 +83,6 @@ public class Reflections
       }
       catch (Exception e)
       {
-         e.printStackTrace();
          if (e instanceof RuntimeException)
          {
             throw (RuntimeException) e;

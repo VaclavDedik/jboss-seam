@@ -53,14 +53,6 @@ public class Contexts
    {
       return Manager.instance().getConversationIdEntryMap().values().toArray( new ConversationEntry[0] );
    }
-   
-   public String getStackTrace()
-   {
-      StringWriter sw = new StringWriter();
-      PrintWriter pw = new PrintWriter(sw);
-      getException().printStackTrace(pw);
-      return sw.toString();
-   }
 
    public Exception getException()
    {
