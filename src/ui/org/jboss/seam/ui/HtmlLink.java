@@ -127,7 +127,7 @@ public class HtmlLink extends HtmlOutputLink
       
       if (viewId!=null)
       {
-         Map<String, Object> pageParameters = Pages.instance().getParameters(view, usedParameters);
+         Map<String, Object> pageParameters = Pages.instance().getParameters(viewId, usedParameters);
          for ( Map.Entry<String, Object> me: pageParameters.entrySet() )
          {
             UIParameter uip = new UIParameter();
