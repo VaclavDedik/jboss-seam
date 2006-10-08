@@ -6,7 +6,7 @@ a:hover {
 }
 
 .menuButtons {
-	background-color: #8CAFCD;
+	background-color: #FF6600; /*#8CAFCD*/
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
@@ -18,14 +18,14 @@ a:hover {
 }
 .menuButtons a:active, .menuButtons a:link, .menuButtons a:visited {
 	font-family: Arial,sans-serif;
-	background-color: #8CAFCD;
+	background-color: #FF6600; /*#8CAFCD*/
 	color: white;
 	border-right: 1px solid white;
 }
 .menuButtons a:hover {
 	font-family: Arial,sans-serif;
     background-color: white;
-    color: #8CAFCD;
+    color: #FF6600; /*#8CAFCD*/
 }
 
 .actionButtons {
@@ -57,6 +57,7 @@ h1 {
 	font-family: Arial,sans-serif;
 	color: #578BB8;
 	font-size: 1.6em;
+	margin-top: 0;
 }
 
 body {
