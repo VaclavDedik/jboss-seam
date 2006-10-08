@@ -75,6 +75,25 @@ public class Reflections
       }
    }
    
+   public static void setAndWrap(Field field, Object target, Object value)
+   {
+      try
+      {
+         set(field, target, value);
+      }
+      catch (Exception e)
+      {
+         if (e instanceof RuntimeException)
+         {
+            throw (RuntimeException) e;
+         }
+         else
+         {
+            throw new IllegalArgumentException("exception setting: " + field.getName(), e);
+         }
+      }
+   }
+   
    public static Object invokeAndWrap(Method method, Object target, Object... args)
    {
       try

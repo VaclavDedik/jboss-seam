@@ -12,7 +12,7 @@ import org.jboss.seam.contexts.Lifecycle;
 public class Parameters
 {
 
-   public static Object convertRequestParameter(String requestParameter, Class type)
+   private static Object convertRequestParameter(String requestParameter, Class type)
    {
       if ( String.class.equals(type) ) return requestParameter;
    

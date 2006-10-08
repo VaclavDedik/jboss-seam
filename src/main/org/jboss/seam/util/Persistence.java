@@ -32,7 +32,7 @@ public class Persistence
       }
    }
 
-   public static Object getId(Object bean, EntityManager entityManager) throws Exception
+   public static Object getId(Object bean, EntityManager entityManager) 
    {
       if (entityManager.getDelegate() instanceof Session)
       {

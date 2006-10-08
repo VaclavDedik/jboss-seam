@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.util.Reflections;
@@ -16,7 +15,7 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  *
  */
-public class ManagedObject<E>
+public class Home<E>
 {
    private Class<E> objectClass;
    protected E instance;
@@ -34,8 +33,8 @@ public class ManagedObject<E>
       this.objectClass = objectClass;
    }
 
-   @Unwrap @Transactional
-   public E getInstance() throws Exception
+   @Transactional
+   public E getInstance()
    {
       if (instance==null)
       {
@@ -44,9 +43,9 @@ public class ManagedObject<E>
       return instance;
    }
 
-   protected void initInstance() throws Exception
+   protected void initInstance()
    {
-      instance = createInstance();
+      setInstance( createInstance() );
       initialize(instance);
    }
 
@@ -55,12 +54,19 @@ public class ManagedObject<E>
       this.instance = instance;
    }
 
-   protected E createInstance() throws Exception
+   protected E createInstance()
    {
-      return getObjectClass().newInstance();
+      try
+      {
+         return getObjectClass().newInstance();
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
    }
 
-   protected void initialize(E instance) throws Exception
+   protected void initialize(E instance)
    {
       if (initialFieldValues!=null)
       {
@@ -71,7 +77,7 @@ public class ManagedObject<E>
             {
                Field field = Reflections.getField( getObjectClass(), initializer.getKey() );
                if ( !field.isAccessible() ) field.setAccessible(true);
-               Reflections.set(field, instance, value);
+               Reflections.setAndWrap(field, instance, value);
             }
          }
       }
@@ -83,9 +89,9 @@ public class ManagedObject<E>
             Object value = valueBinding.getValue();
             if ( value!=null )
             {
-               Method method = Reflections.getSetterMethod( objectClass, initializer.getKey() );
+               Method method = Reflections.getSetterMethod( getObjectClass(), initializer.getKey() );
                if ( !method.isAccessible() ) method.setAccessible(true);
-               Reflections.invoke(method, instance, value);
+               Reflections.invokeAndWrap(method, instance, value);
             }
          }
       }

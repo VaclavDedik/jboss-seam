@@ -3,7 +3,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.InputStream;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,6 +14,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,7 +62,37 @@ public class Pages
       MethodBinding action;
       String outcome;
       String noConversationViewId;
-      Map<String, ValueBinding> parameterValueBindings = new HashMap<String, ValueBinding>();
+      List<PageParameter> pageParameters = new ArrayList<PageParameter>();
+   }
+   
+   static final class PageParameter
+   {
+      PageParameter(String name)
+      {
+         this.name = name;
+      }
+      
+      final String name;
+      ValueBinding valueBinding;
+      ValueBinding converterValueBinding;
+      String converterId;
+      
+      Converter getConverter()
+      {
+         if (converterId!=null)
+         {
+            return FacesContext.getCurrentInstance().getApplication().createConverter(converterId);
+         }
+         else if (converterValueBinding!=null)
+         {
+            return (Converter) converterValueBinding.getValue();
+         }
+         else
+         {
+            Class<?> type = valueBinding.getType();
+            return FacesContext.getCurrentInstance().getApplication().createConverter(type);           
+         }
+      }
    }
    
    private Map<String, Page> pagesByViewId = new HashMap<String, Page>();
@@ -136,8 +167,15 @@ public class Pages
             List<Element> children = page.elements("param");
             for (Element param: children)
             {
-               ValueBinding valueBinding = Expressions.instance().createValueBinding( param.attributeValue("value") );
-               entry.parameterValueBindings.put( param.attributeValue("name"), valueBinding );
+               PageParameter pageParameter = new PageParameter( param.attributeValue("name") );
+               pageParameter.valueBinding = Expressions.instance().createValueBinding( param.attributeValue("value") );
+               pageParameter.converterId = param.attributeValue("converterId");
+               String converterExpression = param.attributeValue("converter");
+               if (converterExpression!=null)
+               {
+                  pageParameter.converterValueBinding = Expressions.instance().createValueBinding( converterExpression );
+               }
+               entry.pageParameters.add(pageParameter);
             }
          }
       }
@@ -279,11 +317,6 @@ public class Pages
       return result==null ? noConversationViewId : result;
    }
    
-   private Collection<Map.Entry<String, ValueBinding>> getParameterValueBindings(String viewId)
-   {
-      return getPage(viewId).parameterValueBindings.entrySet();
-   }
-   
    public Map<String, Object> getParameters(String viewId)
    {
       return getParameters(viewId, Collections.EMPTY_SET);
@@ -292,15 +325,14 @@ public class Pages
    public Map<String, Object> getParameters(String viewId, Set<String> overridden)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
-      for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
+      for ( PageParameter pageParameter: getPage(viewId).pageParameters )
       {
-         if ( !overridden.contains( me.getKey() ) )
+         if ( !overridden.contains(pageParameter.name) )
          {
-            Object value = me.getValue().getValue();
-            //TODO: handle multi-values!
+            Object value = pageParameter.valueBinding.getValue();
             if (value!=null)
             {
-               parameters.put( me.getKey(), value );
+               parameters.put(pageParameter.name, value);
             }
          }
       }
@@ -309,27 +341,36 @@ public class Pages
    
    public void applyRequestParameterValues(String viewId)
    {
+      FacesContext context = FacesContext.getCurrentInstance();
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
-      for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
+      for ( PageParameter pageParameter: getPage(viewId).pageParameters )
       {         
-         Class type;
+         String[] parameterValues = requestParameters.get(pageParameter.name);
+         if (parameterValues==null || parameterValues.length==0)
+         {
+            continue;
+         }
+         if (parameterValues.length>1)
+         {
+            throw new IllegalArgumentException("page parameter may not be multi-valued: " + pageParameter.name);
+         }         
+         String stringValue = parameterValues[0];
+
+         Converter converter;
          try
          {
-            type = me.getValue().getType();
+            converter = pageParameter.getConverter();
          }
-         catch (RuntimeException e)
+         catch (RuntimeException re)
          {
-            type = null;
+            //YUCK! due to bad JSF/MyFaces error handling
+            continue;
          }
          
-         if (type!=null)
-         {
-            Object value = Parameters.convertMultiValueRequestParameter( requestParameters, me.getKey(), type );
-            if (value!=null) 
-            {
-               me.getValue().setValue(value);
-            }            
-         }
+         Object value = converter==null ? 
+               stringValue :
+               converter.getAsObject( context, context.getViewRoot(), stringValue );
+         pageParameter.valueBinding.setValue(value);
       }
    }
 
@@ -339,12 +380,12 @@ public class Pages
       if (pageParameters!=null)
       {
       
-         for (Map.Entry<String, ValueBinding> me: getParameterValueBindings(viewId))
+         for (PageParameter pageParameter: getPage(viewId).pageParameters)
          {         
-            Object object = pageParameters.get( me.getKey() );
+            Object object = pageParameters.get(pageParameter.name);
             if (object!=null)
             {
-               me.getValue().setValue(object);
+               pageParameter.valueBinding.setValue(object);
             }
          }
       

@@ -1,7 +1,5 @@
 package org.jboss.seam.framework;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,17 +8,14 @@ import java.util.StringTokenizer;
 import javax.faces.model.DataModel;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Intercept;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.jsf.ListDataModel;
 
-@Intercept(NEVER)
 public class Query
 {
    private String ejbql;
-   private String queryName;
-   private List<ValueBinding> queryParameters;
    private Integer firstResult;
    private Integer maxResults;
    private EntityManager entityManager;
@@ -31,10 +26,17 @@ public class Query
    private List resultList;
    private DataModel dataModel;
    private Object singleResult;
+   private Long resultCount;
    
+   private String parsedEjbql;
+   private List<ValueBinding> queryParameters;
+   private List<String> parsedRestrictions;
+   private List<ValueBinding> restrictionParameters;
+
+   @Transactional
    public List getResultList()
    {
-      //if (resultList==null)
+      if (resultList==null)
       {
          javax.persistence.Query query = createQuery();
          resultList = query==null ? null : query.getResultList();
@@ -42,26 +44,31 @@ public class Query
       return resultList;
    }
    
+   @Transactional
    public Object getSingleResult()
    {
       if (singleResult==null)
       {
          javax.persistence.Query query = createQuery();
-         singleResult = query==null ? null : query.getSingleResult();
+         singleResult = query==null ? 
+               null : query.getSingleResult();
       }
       return singleResult;
    }
 
+   @Transactional
    public Long getResultCount()
    {
-      if (singleResult==null)
+      if (resultCount==null)
       {
          javax.persistence.Query query = createCountQuery();
-         singleResult = query==null ? null : query.getSingleResult();
+         resultCount = query==null ? 
+               null : (Long) query.getSingleResult();
       }
-      return (Long) singleResult;
+      return (Long) resultCount;
    }
 
+   @Transactional
    public DataModel getDataModel()
    {
       if (dataModel==null)
@@ -71,49 +78,14 @@ public class Query
       return dataModel;
    }
    
-   private javax.persistence.Query createCountQuery()
+   protected javax.persistence.Query createQuery()
    {
-      prepareEjbql();
+      parseEjbql();
       
       getEntityManager().joinTransaction();
-      
-      int loc = ejbql.indexOf("from");
-      String countEjbql = "select count(*) " + ejbql.substring(loc);
-      
-      javax.persistence.Query query = getEntityManager().createQuery(countEjbql);
-      for (int i=0; i<queryParameters.size(); i++)
-      {
-         Object parameterValue = queryParameters.get(i).getValue();
-         if (parameterValue==null)
-         {
-            return null;
-         }
-         else
-         {
-            query.setParameter( i, parameterValue );
-         }
-      }
-      return query;
-   }
-   
-   private javax.persistence.Query createQuery()
-   {
-      prepareEjbql();
-      
-      getEntityManager().joinTransaction();
-      javax.persistence.Query query = getEntityManager().createQuery(ejbql);
-      for (int i=0; i<queryParameters.size(); i++)
-      {
-         Object parameterValue = queryParameters.get(i).getValue();
-         if (parameterValue==null)
-         {
-            return null;
-         }
-         else
-         {
-            query.setParameter( i, parameterValue );
-         }
-      }
+      javax.persistence.Query query = getEntityManager().createQuery( getRenderedEjbql() );
+      setParameters(query, queryParameters, 0);
+      setParameters(query, restrictionParameters, queryParameters.size());
       if (firstResult!=null) query.setFirstResult(firstResult);
       if (maxResults!=null) query.setMaxResults(maxResults);
       if (hints!=null)
@@ -126,9 +98,38 @@ public class Query
       return query;
    }
    
+   protected javax.persistence.Query createCountQuery()
+   {
+      parseEjbql();
+      
+      getEntityManager().joinTransaction();
+      
+      String countEjbql = getCountEjbql();
+      
+      javax.persistence.Query query = getEntityManager().createQuery(countEjbql);
+      setParameters(query, queryParameters, 0);
+      setParameters(query, restrictionParameters, queryParameters.size());
+      return query;
+   }
+
+   private void setParameters(javax.persistence.Query query, List<ValueBinding> parameters, int start)
+   {
+      for (int i=0; i<parameters.size(); i++)
+      {
+         Object parameterValue = parameters.get(i).getValue();
+         if (parameterValue!=null)
+         {
+            query.setParameter(start++, parameterValue);
+         }
+      }
+   }
+
    public void refresh()
    {
       dataModel = null;
+      resultCount = null;
+      resultList = null;
+      singleResult = null;
    }
    
    public void last()
@@ -155,6 +156,7 @@ public class Query
       dataModel = null;
    }
 
+   @Transactional
    public long getLastFirstResult()
    {
       return ( getResultCount() / maxResults ) * maxResults;
@@ -162,7 +164,6 @@ public class Query
    
    public int getNextFirstResult()
    {
-      //TODO: check to see if there are more results
       return ( firstResult==null ? 0 : firstResult ) + maxResults;
    }
 
@@ -178,10 +179,11 @@ public class Query
       }
    }
    
-   public void prepareEjbql()
+   protected void parseEjbql()
    {
-      //if (ejbql!=null)
+      if (parsedEjbql==null)
       {
+         
          queryParameters = new ArrayList<ValueBinding>();
          StringTokenizer ejbqlTokens = new StringTokenizer(ejbql, "#}", true);
          StringBuilder ejbqlBuilder = new StringBuilder();
@@ -199,6 +201,10 @@ public class Query
                ejbqlBuilder.append(token);
             }
          }
+         parsedEjbql = ejbqlBuilder.toString();
+         
+         parsedRestrictions = new ArrayList<String>( restrictions.size() );
+         restrictionParameters = new ArrayList<ValueBinding>( restrictions.size() );
          
          for (String restriction: restrictions)
          {
@@ -212,7 +218,7 @@ public class Query
                {
                   String expression = token + tokens.nextToken() + tokens.nextToken();
                   valueBinding = Expressions.instance().createValueBinding(expression);
-                  builder.append("?").append( queryParameters.size() );
+                  builder.append("?").append( queryParameters.size() + restrictionParameters.size() );
                }
                else
                {
@@ -226,28 +232,49 @@ public class Query
                throw new IllegalArgumentException("no value binding in restriction: " + restriction);
             }
             
-            Object parameterValue = valueBinding.getValue();
-            if (parameterValue!=null)
-            {
-               queryParameters.add(valueBinding);
-               if ( ejbqlBuilder.toString().toLowerCase().indexOf("where")>0 )
-               {
-                  ejbqlBuilder.append(" and ");
-               }
-               else
-               {
-                  ejbqlBuilder.append(" where ");
-               }
-               ejbqlBuilder.append(builder);
-            }
+            parsedRestrictions.add(builder.toString());
+            restrictionParameters.add(valueBinding);
          }
          
-         if (order!=null) ejbqlBuilder.append(order);
-         
-         ejbql = ejbqlBuilder.toString();
       }
    }
+   
+   protected String getRenderedEjbql()
+   {
+      StringBuilder builder = new StringBuilder()
+            .append(parsedEjbql);
+      
+      for (int i=0; i<restrictions.size(); i++)
+      {
+         Object parameterValue = restrictionParameters.get(i).getValue();
+         if (parameterValue!=null)
+         {
+            if ( builder.toString().toLowerCase().indexOf("where")>0 )
+            {
+               builder.append(" and ");
+            }
+            else
+            {
+               builder.append(" where ");
+            }
+            builder.append( parsedRestrictions.get(i) );
+         }
+      }
+         
+      if (order!=null) builder.append(" order by ").append(order);
+      
+      return builder.toString();
+   }
 
+   protected String getCountEjbql()
+   {
+      String ejbql = getRenderedEjbql();    
+      int fromLoc = ejbql.indexOf("from");
+      int orderLoc = ejbql.indexOf("order");
+      if (orderLoc<0) orderLoc = ejbql.length();
+      return "select count(*) " + ejbql.substring(fromLoc, orderLoc);
+   }
+   
    public String getEjbql()
    {
       return ejbql;
@@ -308,16 +335,6 @@ public class Query
    public void setHints(Map<String, String> hints)
    {
       this.hints = hints;
-   }
-
-   public String getQueryName()
-   {
-      return queryName;
-   }
-
-   public void setQueryName(String queryName)
-   {
-      this.queryName = queryName;
    }
 
    public List<String> getRestrictions()

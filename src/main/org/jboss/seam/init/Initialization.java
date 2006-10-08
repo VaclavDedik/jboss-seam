@@ -112,6 +112,7 @@ public class Initialization
    private ServletContext servletContext;
    private boolean isScannerEnabled = true;
    private List<ComponentDescriptor> componentDescriptors = new ArrayList<ComponentDescriptor>();
+   private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponents = new HashSet<Class>();
 
    public Initialization(ServletContext servletContext)
@@ -157,13 +158,21 @@ public class Initialization
             for (Element factory: factoryElements)
             {
                String scopeName = factory.attributeValue("scope");
-               Init.instance().addFactory(
-                     factory.attributeValue("name"),
-                     factory.attributeValue("expression"),
-                     scopeName==null ?
-                           ScopeType.UNSPECIFIED :
-                           ScopeType.valueOf( scopeName.toUpperCase() )
-                  );
+               String name = factory.attributeValue("name");
+               if (name==null) 
+               {
+                  throw new IllegalArgumentException("must specify name in <factory/> declaration");
+               }
+               String method = factory.attributeValue("method");
+               String value = factory.attributeValue("value");
+               if (method==null && value==null)
+               {
+                  throw new IllegalArgumentException("must specify either method or value in <factory/> declaration for variable: " + name);
+               }
+               ScopeType scope = scopeName==null ?
+                     ScopeType.UNSPECIFIED :
+                     ScopeType.valueOf( scopeName.toUpperCase() );
+               factoryDescriptors.add( new FactoryDescriptor(name, scope, method, value) );
             }
 
          }
@@ -201,7 +210,7 @@ public class Initialization
       }
       else if (name==null)
       {
-         throw new IllegalArgumentException("must specify either class or name in components.xml");
+         throw new IllegalArgumentException("must specify either class or name in <component/> declaration");
       }
 
       List<Element> props = component.elements("property");
@@ -210,7 +219,7 @@ public class Initialization
          String propName = prop.attributeValue("name");
          if (propName==null)
          {
-            throw new IllegalArgumentException("no name for property of component: " + name);
+            throw new IllegalArgumentException("must specify name in <property/> declaration of component: " + name);
          }
          String qualifiedPropName = name + '.' + propName;
          properties.put( qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements) );
@@ -432,7 +441,7 @@ public class Initialization
          addComponent( QueueSession.class, context );
       }
 
-      for ( ComponentDescriptor componentDescriptor : componentDescriptors )
+      for ( ComponentDescriptor componentDescriptor: componentDescriptors )
       {
          addComponent( componentDescriptor, context );
       }
@@ -443,6 +452,18 @@ public class Initialization
          {
             addComponent(clazz, context);
             addComponentRoles(context, clazz);
+         }
+      }
+      
+      for (FactoryDescriptor factoryDescriptor: factoryDescriptors)
+      {
+         if ( factoryDescriptor.isValueBinding() )
+         {
+            init.addFactoryValueBinding(factoryDescriptor.name, factoryDescriptor.value, factoryDescriptor.scope);
+         }
+         else
+         {
+            init.addFactoryMethodBinding(factoryDescriptor.name, factoryDescriptor.method, factoryDescriptor.scope);
          }
       }
 
@@ -499,6 +520,48 @@ public class Initialization
    {
       this.isScannerEnabled = isScannerEnabled;
       return this;
+   }
+   
+   private static class FactoryDescriptor
+   {
+      private String name;
+      private ScopeType scope;
+      private String method;
+      private String value;
+      
+      public FactoryDescriptor(String name, ScopeType scope, String method, String value)
+      {
+         super();
+         this.name = name;
+         this.scope = scope;
+         this.method = method;
+         this.value = value;
+      }
+
+      public String getMethod()
+      {
+         return method;
+      }
+
+      public String getValue()
+      {
+         return value;
+      }
+
+      public String getName()
+      {
+         return name;
+      }
+
+      public ScopeType getScope()
+      {
+         return scope;
+      }
+      
+      public boolean isValueBinding()
+      {
+         return method==null;
+      }
    }
 
    private static class ComponentDescriptor

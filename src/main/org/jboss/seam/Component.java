@@ -1481,17 +1481,23 @@ public class Component
       else
       {
          Init.FactoryMethod factoryMethod = init.getFactory(name);
-         Init.FactoryMethodBinding methodBinding = init.getFactoryMethodBinding(name);
+         Init.FactoryBinding methodBinding = init.getFactoryMethodBinding(name);
+         Init.FactoryBinding valueBinding = init.getFactoryValueBinding(name);
          if (methodBinding!=null) //let the XML take precedence
          {
-            Object result = methodBinding.methodBinding.invoke(null);
-            return handleFactoryMethodResult(name, null, result, factoryMethod.scope);
+            Object result = methodBinding.getMethodBinding().invoke(null);
+            return handleFactoryMethodResult(name, null, result, methodBinding.getScope());
+         }
+         else if (valueBinding!=null) //let the XML take precedence
+         {
+            Object result = valueBinding.getValueBinding().getValue();
+            return handleFactoryMethodResult(name, null, result, valueBinding.getScope());
          }
          else if (factoryMethod!=null)
          {
-            Object factory = Component.getInstance( factoryMethod.component.getName(), true );
-            Object result = factoryMethod.component.callComponentMethod(factory, factoryMethod.method);
-            return handleFactoryMethodResult(name, factoryMethod.component, result, factoryMethod.scope);
+            Object factory = Component.getInstance( factoryMethod.getComponent().getName(), true );
+            Object result = factoryMethod.getComponent().callComponentMethod(factory, factoryMethod.getMethod());
+            return handleFactoryMethodResult(name, factoryMethod.getComponent(), result, factoryMethod.getScope());
          }
          else
          {
@@ -1509,7 +1515,7 @@ public class Component
          {
             if (component==null)
             {
-               throw new IllegalArgumentException("no scope specified for factory method defined in components.xml: " + name);
+               scope=EVENT;
             }
             else //an @Factory method defaults to the same scope as the component
             {

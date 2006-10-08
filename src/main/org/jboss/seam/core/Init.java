@@ -17,6 +17,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.core.Expressions.ValueBinding;
 
 /**
  * A Seam component that holds Seam configuration settings
@@ -38,7 +39,8 @@ public class Init
    
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
-   private Map<String, FactoryMethodBinding> factoryMethodBindings = new HashMap<String, FactoryMethodBinding>();
+   private Map<String, FactoryBinding> factoryMethodBindings = new HashMap<String, FactoryBinding>();
+   private Map<String, FactoryBinding> factoryValueBindings = new HashMap<String, FactoryBinding>();
    
    public static Init instance()
    {
@@ -66,24 +68,54 @@ public class Init
    }
    
    public static class FactoryMethod {
-	   public Method method;
-	   public Component component;
-      public ScopeType scope;
+	   private Method method;
+	   private Component component;
+      private ScopeType scope;
+      
 	   FactoryMethod(Method method, Component component)
 	   {
 		   this.method = method;
 		   this.component = component;
          scope = method.getAnnotation(org.jboss.seam.annotations.Factory.class).scope();
 	   }
+      
+      public ScopeType getScope()
+      {
+         return scope;
+      }
+      public Component getComponent()
+      {
+         return component;
+      }
+      public Method getMethod()
+      {
+         return method;
+      }
    }
    
-   public static class FactoryMethodBinding {
-      public MethodBinding methodBinding;
-      public ScopeType scope;
-      FactoryMethodBinding(MethodBinding methodBinding, ScopeType scope)
+   public static class FactoryBinding {
+      private String expression;
+      private ScopeType scope;
+      
+      FactoryBinding(String expression, ScopeType scope)
       {
-         this.methodBinding = methodBinding;
+         this.expression = expression;
          this.scope = scope;
+      }
+      
+      public MethodBinding getMethodBinding()
+      {
+         //TODO: figure out some way to cache this!!
+         return Expressions.instance().createMethodBinding(expression);
+      }
+      public ValueBinding getValueBinding()
+      {
+         //TODO: figure out some way to cache this!!
+         return Expressions.instance().createValueBinding(expression);
+      }
+      public ScopeType getScope()
+      {
+         return scope;
       }
    }
    
@@ -92,9 +124,14 @@ public class Init
       return factories.get(variable);
    }
    
-   public FactoryMethodBinding getFactoryMethodBinding(String variable)
+   public FactoryBinding getFactoryMethodBinding(String variable)
    {
       return factoryMethodBindings.get(variable);
+   }
+   
+   public FactoryBinding getFactoryValueBinding(String variable)
+   {
+      return factoryValueBindings.get(variable);
    }
    
    public void addFactoryMethod(String variable, Method method, Component component)
@@ -102,10 +139,14 @@ public class Init
 	   factories.put( variable, new FactoryMethod(method, component) );
    }
    
-   public void addFactory(String variable, String methodBindingExpression, ScopeType scope)
+   public void addFactoryMethodBinding(String variable, String methodBindingExpression, ScopeType scope)
    {
-      MethodBinding methodBinding = Expressions.instance().createMethodBinding(methodBindingExpression);
-      factoryMethodBindings.put( variable, new FactoryMethodBinding(methodBinding, scope) );
+      factoryMethodBindings.put( variable, new FactoryBinding(methodBindingExpression, scope) );
+   }
+   
+   public void addFactoryValueBinding(String variable, String valueBindingExpression, ScopeType scope)
+   {
+      factoryValueBindings.put( variable, new FactoryBinding(valueBindingExpression, scope) );
    }
    
    public static class ObserverMethod {
