@@ -22,11 +22,8 @@
     </component>
     <factory name="contact" value="#{contactHome.instance}"/>
 
-    <component name="exampleContactHome"
-              class="org.jboss.seam.framework.Home">
-        <property name="objectClass">org.jboss.seam.example.crud.Contact</property>
-    </component>
-    <factory name="exampleContact" value="#{exampleContactHome.instance}"/>
+    <component name="exampleContact"
+              class="org.jboss.seam.example.crud.Contact"/>
     
     <component name="contacts" 
               class="org.jboss.seam.framework.Query">
