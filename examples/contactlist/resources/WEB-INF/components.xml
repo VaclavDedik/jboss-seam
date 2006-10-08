@@ -27,7 +27,7 @@
 
 
     <component name="contacts" 
-              class="org.jboss.seam.framework.Query">
+              class="org.jboss.seam.framework.EntityQuery">
         <property name="ejbql">from Contact</property>
         <property name="restrictions">
             <value>lower(firstName) like lower( #{exampleContact.firstName} + '%' )</value>
