@@ -46,6 +46,7 @@ import org.jboss.seam.util.Resources;
 @Name("org.jboss.seam.core.pages")
 public class Pages 
 {
+   public static final String PAGE_PARAMETERS = "org.jboss.seam.core.pageParameters";
    
    private static final Log log = LogFactory.getLog(Pages.class);
    
@@ -376,7 +377,7 @@ public class Pages
 
    public void applyViewRootValues(String viewId)
    {
-      Map<String, Object> pageParameters = (Map<String, Object>) Contexts.getPageContext().get("pageParameters");
+      Map<String, Object> pageParameters = (Map<String, Object>) Contexts.getPageContext().get(PAGE_PARAMETERS);
       if (pageParameters!=null)
       {
       
@@ -400,6 +401,35 @@ public class Pages
    public void setNoConversationViewId(String noConversationViewId)
    {
       this.noConversationViewId = noConversationViewId;
+   }
+   
+   /**
+    * Encode page parameters into a URL
+    * 
+    * @param url the base URL
+    * @param viewId the JSF view id of the page
+    * @return the URL with parameters appended
+    */
+   public String encodePageParameters(String url, String viewId)
+   {
+      Map<String, Object> parameters = getParameters(viewId);
+      return Manager.instance().encodeParameters(url, parameters);
+   }
+
+   /**
+    * Store the page parameters to the JSF view root
+    */
+   public void storePageParameters(FacesContext facesContext)
+   {
+      String viewId = facesContext.getViewRoot().getViewId();
+      if (viewId!=null)
+      {
+         Map<String, Object> parameters = getParameters(viewId);
+         if ( !parameters.isEmpty() )
+         {
+            Contexts.getPageContext().set(PAGE_PARAMETERS, parameters);
+         }
+      }
    }
 
 }

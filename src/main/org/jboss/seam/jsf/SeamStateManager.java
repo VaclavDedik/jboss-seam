@@ -6,6 +6,8 @@ import javax.faces.application.StateManager;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.core.Pages;
+
 /**
  * A wrapper for the JSF implementation's StateManager that allows
  * us to intercept saving of the serialized component tree. This
@@ -42,7 +44,7 @@ public class SeamStateManager extends StateManager {
    }
 
    public SerializedView saveSerializedView(FacesContext facesContext) {
-      AbstractSeamPhaseListener.storePageParameters(facesContext);
+      Pages.instance().storePageParameters(facesContext);
       AbstractSeamPhaseListener.storeAnyConversationContext(facesContext);
       return stateManager.saveSerializedView(facesContext);
    }

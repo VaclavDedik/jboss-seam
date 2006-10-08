@@ -59,22 +59,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    }
    
    /**
-    * Store the page parameters during a JSF request
-    */
-   public static void storePageParameters(FacesContext facesContext)
-   {
-      String viewId = facesContext.getViewRoot().getViewId();
-      if (viewId!=null)
-      {
-         Map<String, Object> parameters = Pages.instance().getParameters(viewId);
-         if ( !parameters.isEmpty() )
-         {
-            Contexts.getPageContext().set( "pageParameters", parameters );
-         }
-      }
-   }
-   
-   /**
     * Store the page and conversation contexts during a JSF request
     */
    public static void storeAnyConversationContext(FacesContext facesContext)

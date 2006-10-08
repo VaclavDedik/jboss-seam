@@ -47,7 +47,7 @@ public class RenderParameters
             }
             else
             {
-               Map<String, Object> pageParameters = (Map<String, Object>) Contexts.getPageContext().get("pageParameters");
+               Map<String, Object> pageParameters = (Map<String, Object>) Contexts.getPageContext().get(Pages.PAGE_PARAMETERS);
                return pageParameters==null ? null : pageParameters.get(key);
             }
          }

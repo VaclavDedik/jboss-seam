@@ -1,7 +1,6 @@
 package org.jboss.seam.servlet;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
@@ -46,13 +45,13 @@ public class SeamRedirectFilter implements Filter
                String viewId = getViewId(url);
                if (viewId!=null)
                {
-                  Map<String, Object> parameters = Pages.instance().getParameters(viewId);
-                  url = Manager.instance().encodeParameters(url, parameters);
+                  url = Pages.instance().encodePageParameters(url, viewId);
                }
                url = Manager.instance().appendConversationIdFromRedirectFilter(url);
             }
             super.sendRedirect(url);
          }
+
       };
    }
 
