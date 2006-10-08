@@ -19,7 +19,15 @@ public class UIConversationId extends UIParameter
    @Override
    public Object getValue()
    {
-      return Conversation.instance().getId();
+      Conversation conversation = Conversation.instance();
+      if ( !conversation.isNested() || conversation.isLongRunning() )
+      {
+         return conversation.getId();
+      }
+      else
+      {
+         return conversation.getParentId();
+      }
    }
 
 }

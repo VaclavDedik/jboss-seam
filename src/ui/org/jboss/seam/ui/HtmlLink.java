@@ -16,7 +16,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 
-import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pages;
 
 public class HtmlLink extends HtmlOutputLink
@@ -150,7 +150,7 @@ public class HtmlLink extends HtmlOutputLink
       
       if ( "default".equals(propagation) || "join".equals(propagation) || "nest".equals(propagation) || "end".equals(propagation) )
       {
-         if ( Manager.instance().isReallyLongRunningConversation() )
+         if ( Conversation.instance().isLongRunning() || Conversation.instance().isNested() )
          {
             encodedUrl += getParameterString(characterEncoding, new UIConversationId(), first);
             first = false;

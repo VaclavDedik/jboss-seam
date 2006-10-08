@@ -3,7 +3,6 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -218,12 +217,19 @@ public class Conversation implements Serializable {
    }
    
    /**
+    * Is this conversation a nested conversation?
+    */
+   public boolean isNested()
+   {
+      return Manager.instance().isNestedConversation();
+   }
+   
+   /**
     * Get the id of the immediate parent of a nested conversation
     */
    public String getParentId()
    {
-      LinkedList<String> conversationIdStack = Manager.instance().getCurrentConversationIdStack();
-      return conversationIdStack.size()>1 ? conversationIdStack.get(1) : null;
+      return Manager.instance().getParentConversationId();
    }
    
    /**
@@ -231,8 +237,7 @@ public class Conversation implements Serializable {
     */
    public String getRootId()
    {
-      LinkedList<String> conversationIdStack = Manager.instance().getCurrentConversationIdStack();
-      return conversationIdStack.get( conversationIdStack.size()-1 );
+      return Manager.instance().getRootConversationId();
    }
    
    /**

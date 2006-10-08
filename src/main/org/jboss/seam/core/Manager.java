@@ -274,14 +274,14 @@ public class Manager
    
    public String getParentConversationId()
    {
-      if ( currentConversationIdStack==null || currentConversationIdStack.size()<2 )
-      {
-         return null;
-      }
-      else
-      {
-         return currentConversationIdStack.get(1);
-      }
+      return currentConversationIdStack==null || currentConversationIdStack.size()<2 ?
+            null : currentConversationIdStack.get(1);
+   }
+
+   public String getRootConversationId()
+   {
+      return currentConversationIdStack==null || currentConversationIdStack.size()<1 ?
+            null : currentConversationIdStack.get( currentConversationIdStack.size()-1 );
    }
 
    @Destroy
@@ -306,6 +306,11 @@ public class Manager
       return isLongRunningConversation() && 
             !getCurrentConversationEntry().isRemoveAfterRedirect() &&
             !Seam.isSessionInvalid();
+   }
+   
+   public boolean isNestedConversation()
+   {
+      return currentConversationIdStack.size()>1;
    }
 
    public void setLongRunningConversation(boolean isLongRunningConversation)
