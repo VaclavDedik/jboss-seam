@@ -53,7 +53,9 @@
         <ui:repeat value="#{contacts.resultList}" var="contact">
           <tr>
             <td>
-              <s:link view="/viewContact.xhtml" value="#{contact.firstName} #{contact.lastName}"/>
+              <s:link view="/viewContact.xhtml" value="#{contact.firstName} #{contact.lastName}">
+                <f:param name="contactId" value="#{contact.id}"/>
+              </s:link>
             </td>
             <td>#{contact.cellPhone}</td>
             <td>#{contact.homePhone}</td>

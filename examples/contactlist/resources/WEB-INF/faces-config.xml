@@ -5,34 +5,27 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 <faces-config>
 
     <navigation-rule>
-    
-    <navigation-case>
-        <from-action>#{contactActions.update}</from-action>
-        <from-outcome>updated</from-outcome>
-        <to-view-id>/viewContact.xhtml</to-view-id>
-        <redirect/>
-    </navigation-case>
-    
-    <navigation-case>
-        <from-action>#{contactActions.persist}</from-action>
-        <from-outcome>persisted</from-outcome>
-        <to-view-id>/viewContact.xhtml</to-view-id>
-        <redirect/>
-    </navigation-case>
-    
-    <navigation-case>
-        <from-action>#{contactActions.remove}</from-action>
-        <from-outcome>removed</from-outcome>
-        <to-view-id>/search.xhtml</to-view-id>
-        <redirect/>
-    </navigation-case>
-    
-    <navigation-case>
-        <from-action>#{commentActions.persist}</from-action>
-        <from-outcome>persisted</from-outcome>
-        <to-view-id>/viewContact.xhtml</to-view-id>
-        <redirect/>
-    </navigation-case>
+     
+        <navigation-case>
+            <from-action>#{contactHome.update}</from-action>
+            <from-outcome>updated</from-outcome>
+            <to-view-id>/viewContact.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-action>#{contactHome.persist}</from-action>
+            <from-outcome>persisted</from-outcome>
+            <to-view-id>/viewContact.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-action>#{contactHome.remove}</from-action>
+            <from-outcome>removed</from-outcome>
+            <to-view-id>/search.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     
     </navigation-rule>
 
@@ -42,10 +35,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
     
-	<!-- Phase listener needed for all Seam applications -->
-	
-	<lifecycle>
-		<phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
-	</lifecycle>
+    <!-- Phase listener needed for all Seam applications -->
+    
+    <lifecycle>
+        <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+    </lifecycle>
 
 </faces-config>

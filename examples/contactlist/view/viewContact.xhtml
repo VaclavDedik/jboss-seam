@@ -81,7 +81,7 @@
       <!-- actions -->
       <div class="actionButtons">
         <s:link view="/editContact.xhtml" value="Edit Contact"/>
-        <s:link action="#{contactActions.remove}" value="Delete Contact" rendered="#{contactActions.managed}"/>
+        <s:link action="#{contactHome.remove}" value="Delete Contact" rendered="#{contactHome.managed}"/>
       </div>
       
       <!-- associations -->
@@ -123,7 +123,7 @@
       
         <!-- actions -->
         <div class="actionButtons">
-          <h:commandLink action="#{commentActions.persist}" value="Create Comment"/>
+          <h:commandLink action="#{commentHome.persist}" value="Create Comment"/>
         </div>
         
       </h:form>

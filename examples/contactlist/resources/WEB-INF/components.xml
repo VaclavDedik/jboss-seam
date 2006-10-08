@@ -1,39 +1,28 @@
 <components>
 
-    <component name="contact"
-              class="org.jboss.seam.framework.ManagedEntity">
-        <property name="id">#{param.contactId}</property>
-        <property name="idClass">java.lang.Long</property>
-        <property name="entityClass">org.jboss.seam.example.crud.Contact</property>
+    <component name="commentHome"
+              class="org.jboss.seam.framework.EntityHome">
         <property name="entityManager">#{entityManager}</property>
-    </component>
-
-    <component name="comment"
-              class="org.jboss.seam.framework.ManagedEntity">
         <property name="entityClass">org.jboss.seam.example.crud.Comment</property>
-        <property name="entityManager">#{entityManager}</property>
         <property name="initialPropertyValues">
         	<key>contact</key><value>#{contact}</value>
         	<key>created</key><value>#{currentDatetime}</value>
         </property>
     </component>
+    <factory name="comment" value="#{commentHome.instance}"/>
 
-    <component name="contactActions"
-              class="org.jboss.seam.framework.EntityActions">
+    <component name="contactHome"
+              class="org.jboss.seam.framework.EntityHome">
         <property name="entityManager">#{entityManager}</property>
-        <property name="entity">#{contact}</property>
+        <property name="entityClass">org.jboss.seam.example.crud.Contact</property>
     </component>
+    <factory name="contact" value="#{contactHome.instance}"/>
 
-    <component name="commentActions"
-              class="org.jboss.seam.framework.EntityActions">
-        <property name="entityManager">#{entityManager}</property>
-        <property name="entity">#{comment}</property>
-    </component>
-
-    <component name="exampleContact"
-              class="org.jboss.seam.framework.ManagedObject">
+    <component name="exampleContactHome"
+              class="org.jboss.seam.framework.Home">
         <property name="objectClass">org.jboss.seam.example.crud.Contact</property>
     </component>
+    <factory name="exampleContact" value="#{exampleContactHome.instance}"/>
     
     <component name="contacts" 
               class="org.jboss.seam.framework.Query">
@@ -42,6 +31,7 @@
             <value>lower(firstName) like lower( #{exampleContact.firstName} + '%' )</value>
             <value>lower(lastName) like lower( #{exampleContact.lastName} + '%' )</value>
         </property>
+        <property name="order">lastName</property>
         <property name="maxResults">20</property>
         <property name="entityManager">#{entityManager}</property>
     </component>
