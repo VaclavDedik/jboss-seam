@@ -36,6 +36,12 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
             <redirect/>
         </navigation-case>
             
+        <navigation-case>
+            <from-outcome>persisted</from-outcome>
+            <to-view-id>/viewContact.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
     </navigation-rule>
         
     <!-- Facelets support -->
