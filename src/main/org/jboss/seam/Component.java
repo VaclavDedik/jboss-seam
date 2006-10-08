@@ -318,10 +318,10 @@ public class Component
          {
             if ( log.isDebugEnabled() ) log.debug( key + "=" + propertyValue );
 
-            if ( type==ENTITY_BEAN )
+            /*if ( type==ENTITY_BEAN )
             {
                throw new IllegalArgumentException("can not configure entity beans: " + name);
-            }
+            }*/
 
             String propertyName = key.substring( name.length()+1, key.length() );
             Method setterMethod = Reflections.getSetterMethod(beanClass, propertyName);
@@ -901,7 +901,9 @@ public class Component
 
    protected Object instantiateEntityBean() throws Exception
    {
-      return beanClass.newInstance();
+      Object bean = beanClass.newInstance();
+      initialize(bean);
+      return bean;
    }
 
    protected Object instantiateJavaBean() throws Exception

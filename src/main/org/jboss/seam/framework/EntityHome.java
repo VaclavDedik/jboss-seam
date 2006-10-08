@@ -10,20 +10,15 @@ import org.jboss.seam.util.Persistence;
 public class EntityHome<E> extends Home<E>
 {
    private EntityManager entityManager;
-   
-   private Object id;
 
    @In(create=true) 
    private FacesMessages facesMessages; 
    
-   private String deletedMessage = "Successfully deleted";
-   private String createdMessage = "Successfully created";
-   private String updatedMessage = "Successfully updated";
-
    @Transactional
    public boolean isManaged()
    {
-      return getEntityManager().contains( getInstance() );
+      return getInstance()!=null && 
+            getEntityManager().contains( getInstance() );
    }
 
    @Transactional
@@ -31,7 +26,7 @@ public class EntityHome<E> extends Home<E>
    {
       getEntityManager().joinTransaction();
       getEntityManager().flush();
-      facesMessages.add(updatedMessage);
+      facesMessages.add( getUpdatedMessage() );
       return "updated";
    }
    
@@ -42,7 +37,7 @@ public class EntityHome<E> extends Home<E>
       getEntityManager().persist( getInstance() );
       getEntityManager().flush();
       setId( Persistence.getId( getInstance(), getEntityManager() ) );
-      facesMessages.add(createdMessage);
+      facesMessages.add( getCreatedMessage() );
       return "persisted";
    }
 
@@ -52,43 +47,17 @@ public class EntityHome<E> extends Home<E>
       getEntityManager().joinTransaction();
       getEntityManager().remove( getInstance() );
       getEntityManager().flush();
-      facesMessages.add(deletedMessage);
+      facesMessages.add( getDeletedMessage() );
       return "removed";
    }
    
    @Transactional
-   public E find(Object id)
+   public E find()
    {
       getEntityManager().joinTransaction();
-      E result = getEntityManager().find( getEntityClass(), id );
+      E result = getEntityManager().find( getEntityClass(), getId() );
       if (result==null) result = handleNotFound();
       return result;
-   }
-   
-   protected E find()
-   {
-      return find( getId() );
-   }
-
-   protected E handleNotFound()
-   {
-      throw new EntityNotFoundException();
-   }
-
-   @Override
-   protected void initInstance()
-   {
-      if ( isIdDefined() )
-      {
-         //we cache the instance so that it does not "disappear"
-         //after remove() is called on the instance
-         //is this really a Good Idea??
-         setInstance( find() );
-      }
-      else
-      {
-         super.initInstance();
-      }            
    }
 
    public EntityManager getEntityManager()
@@ -101,59 +70,4 @@ public class EntityHome<E> extends Home<E>
       this.entityManager = entityManager;
    }
 
-   public Class<E> getEntityClass()
-   {
-      return getObjectClass();
-   }
-
-   public void setEntityClass(Class<E> entityClass)
-   {
-      setObjectClass(entityClass);
-   }
-   
-   public Object getId()
-   {
-      return id;
-   }
-
-   public void setId(Object id)
-   {
-      this.id = id;
-   }
-   
-   public boolean isIdDefined()
-   {
-      return getId()!=null && !"".equals( getId() );
-   }
-
-   public String getCreatedMessage()
-   {
-      return createdMessage;
-   }
-
-   public void setCreatedMessage(String createdMessage)
-   {
-      this.createdMessage = createdMessage;
-   }
-
-   public String getDeletedMessage()
-   {
-      return deletedMessage;
-   }
-
-   public void setDeletedMessage(String deletedMessage)
-   {
-      this.deletedMessage = deletedMessage;
-   }
-
-   public String getUpdatedMessage()
-   {
-      return updatedMessage;
-   }
-
-   public void setUpdatedMessage(String updatedMessage)
-   {
-      this.updatedMessage = updatedMessage;
-   }
-   
 }

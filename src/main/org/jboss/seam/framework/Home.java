@@ -1,13 +1,7 @@
 package org.jboss.seam.framework;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Map;
-
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueBinding;
-import org.jboss.seam.util.Reflections;
 
 /**
  * Manager component for an instance of any class.
@@ -17,21 +11,14 @@ import org.jboss.seam.util.Reflections;
  */
 public class Home<E>
 {
-   private Class<E> objectClass;
+   private Object id;
    protected E instance;
-   
-   private Map<String, String> initialFieldValues;
-   private Map<String, String> initialPropertyValues;
-   
-   public Class<E> getObjectClass()
-   {
-      return objectClass;
-   }
+   private Class<E> entityClass;
+   protected ValueBinding newInstance;   
 
-   public void setObjectClass(Class<E> objectClass)
-   {
-      this.objectClass = objectClass;
-   }
+   private String deletedMessage = "Successfully deleted";
+   private String createdMessage = "Successfully created";
+   private String updatedMessage = "Successfully updated";
 
    @Transactional
    public E getInstance()
@@ -45,8 +32,75 @@ public class Home<E>
 
    protected void initInstance()
    {
-      setInstance( createInstance() );
-      initialize(instance);
+      if ( isIdDefined() )
+      {
+         //we cache the instance so that it does not "disappear"
+         //after remove() is called on the instance
+         //is this really a Good Idea??
+         setInstance( find() );
+      }
+      else
+      {
+         setInstance( createInstance() );
+      }
+   }
+   
+   protected E find()
+   {
+      return null;
+   }
+
+   protected E handleNotFound()
+   {
+      throw new EntityNotFoundException();
+   }
+
+   protected E createInstance()
+   {
+      if (newInstance!=null)
+      {
+         return (E) newInstance.getValue();
+      }
+      else if (entityClass!=null)
+      {
+         try
+         {
+            return entityClass.newInstance();
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   public Class<E> getEntityClass()
+   {
+      return entityClass;
+   }
+
+   public void setEntityClass(Class<E> entityClass)
+   {
+      this.entityClass = entityClass;
+   }
+   
+   public Object getId()
+   {
+      return id;
+   }
+
+   public void setId(Object id)
+   {
+      this.id = id;
+   }
+   
+   public boolean isIdDefined()
+   {
+      return getId()!=null && !"".equals( getId() );
    }
 
    public void setInstance(E instance)
@@ -54,67 +108,44 @@ public class Home<E>
       this.instance = instance;
    }
 
-   protected E createInstance()
+   public ValueBinding getNewInstance()
    {
-      try
-      {
-         return getObjectClass().newInstance();
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException(e);
-      }
+      return newInstance;
    }
 
-   protected void initialize(E instance)
+   public void setNewInstance(ValueBinding newInstance)
    {
-      if (initialFieldValues!=null)
-      {
-         for ( Map.Entry<String, String> initializer: initialFieldValues.entrySet() )
-         {
-            Object value = Expressions.instance().createValueBinding( initializer.getValue() ).getValue();
-            if ( value!=null )
-            {
-               Field field = Reflections.getField( getObjectClass(), initializer.getKey() );
-               if ( !field.isAccessible() ) field.setAccessible(true);
-               Reflections.setAndWrap(field, instance, value);
-            }
-         }
-      }
-      if (initialPropertyValues!=null)
-      {
-         for ( Map.Entry<String, String> initializer: initialPropertyValues.entrySet() )
-         {
-            ValueBinding valueBinding = Expressions.instance().createValueBinding( initializer.getValue() );
-            Object value = valueBinding.getValue();
-            if ( value!=null )
-            {
-               Method method = Reflections.getSetterMethod( getObjectClass(), initializer.getKey() );
-               if ( !method.isAccessible() ) method.setAccessible(true);
-               Reflections.invokeAndWrap(method, instance, value);
-            }
-         }
-      }
+      this.newInstance = newInstance;
+   }
+
+   public String getCreatedMessage()
+   {
+      return createdMessage;
+   }
+
+   public void setCreatedMessage(String createdMessage)
+   {
+      this.createdMessage = createdMessage;
+   }
+
+   public String getDeletedMessage()
+   {
+      return deletedMessage;
+   }
+
+   public void setDeletedMessage(String deletedMessage)
+   {
+      this.deletedMessage = deletedMessage;
+   }
+
+   public String getUpdatedMessage()
+   {
+      return updatedMessage;
+   }
+
+   public void setUpdatedMessage(String updatedMessage)
+   {
+      this.updatedMessage = updatedMessage;
    }
    
-   public Map<String, String> getInitialFieldValues()
-   {
-      return initialFieldValues;
-   }
-
-   public void setInitialFieldValues(Map<String, String> initializers)
-   {
-      this.initialFieldValues = initializers;
-   }
-
-   public Map<String, String> getInitialPropertyValues()
-   {
-      return initialPropertyValues;
-   }
-
-   public void setInitialPropertyValues(Map<String, String> initialPropertyValues)
-   {
-      this.initialPropertyValues = initialPropertyValues;
-   }
-
 }
