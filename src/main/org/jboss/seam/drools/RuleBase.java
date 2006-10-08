@@ -32,22 +32,25 @@ public class RuleBase
       conf.setCompiler(PackageBuilderConfiguration.JANINO);
       PackageBuilder builder = new PackageBuilder(conf);
       
-      for (String ruleFile: ruleFiles)
+      if (ruleFiles!=null)
       {
-         // read in the source
-         Reader drlReader = new InputStreamReader( Resources.getResourceAsStream(ruleFile) );
-         PackageDescr packageDescr;
-         if (dslFile==null)
+         for (String ruleFile: ruleFiles)
          {
-            packageDescr = new DrlParser().parse(drlReader);
+            // read in the source
+            Reader drlReader = new InputStreamReader( Resources.getResourceAsStream(ruleFile) );
+            PackageDescr packageDescr;
+            if (dslFile==null)
+            {
+               packageDescr = new DrlParser().parse(drlReader);
+            }
+            else
+            {
+               Reader dslReader = new InputStreamReader( Resources.getResourceAsStream(dslFile) );
+               packageDescr = new DrlParser().parse(drlReader, dslReader);
+            }
+            // pre build the package
+            builder.addPackage(packageDescr);
          }
-         else
-         {
-            Reader dslReader = new InputStreamReader( Resources.getResourceAsStream(dslFile) );
-            packageDescr = new DrlParser().parse(drlReader, dslReader);
-         }
-         // pre build the package
-         builder.addPackage(packageDescr);
       }
       
       // add the package to a rulebase

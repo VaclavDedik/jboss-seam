@@ -55,12 +55,23 @@ public class ManagedWorkingMemory
    {
       if (workingMemory==null)
       {
-         RuleBase ruleBase = this.ruleBase==null ? 
-               (RuleBase) Component.getInstance(ruleBaseName, true) :
-                this.ruleBase;
+         RuleBase ruleBase;
+         if (this.ruleBase!=null)
+         {
+            ruleBase = this.ruleBase;
+         }
+         else if (ruleBaseName!=null)
+         {
+            ruleBase = (RuleBase) Component.getInstance(ruleBaseName, true);
+         }
+         else
+         {
+            throw new IllegalStateException("No RuleBase");
+         }
+                
          if (ruleBase==null)
          {
-            throw new IllegalArgumentException("RuleBase not found: " + ruleBaseName);
+            throw new IllegalStateException("RuleBase not found: " + ruleBaseName);
          }
          workingMemory = ruleBase.newWorkingMemory();
       }

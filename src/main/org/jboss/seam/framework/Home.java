@@ -1,5 +1,7 @@
 package org.jboss.seam.framework;
 
+import javax.annotation.PostConstruct;
+
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
@@ -19,6 +21,15 @@ public class Home<E>
    private String deletedMessage = "Successfully deleted";
    private String createdMessage = "Successfully created";
    private String updatedMessage = "Successfully updated";
+
+   @PostConstruct
+   public void validate()
+   {
+      if ( getEntityClass()==null )
+      {
+         throw new IllegalStateException("entityClass is null");
+      }
+   }
 
    @Transactional
    public E getInstance()

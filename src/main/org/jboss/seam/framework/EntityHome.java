@@ -10,6 +10,15 @@ import org.jboss.seam.util.Persistence;
 public class EntityHome<E> extends Home<E>
 {
    private EntityManager entityManager;
+   
+   @Override
+   public void validate()
+   {
+      if ( getEntityManager()==null )
+      {
+         throw new IllegalStateException("entityManager is null");
+      }
+   }
 
    @In(create=true) 
    private FacesMessages facesMessages; 
@@ -52,6 +61,7 @@ public class EntityHome<E> extends Home<E>
    }
    
    @Transactional
+   @Override
    public E find()
    {
       getEntityManager().joinTransaction();
