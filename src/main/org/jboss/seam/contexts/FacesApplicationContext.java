@@ -48,9 +48,9 @@ public class FacesApplicationContext implements Context {
 	}
 
 	public void set(String name, Object value) {
-      Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
       externalContext.getApplicationMap().put( getKey(name), value );
-      Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
 	}
 
 	public boolean isSet(String name) {
@@ -58,26 +58,26 @@ public class FacesApplicationContext implements Context {
 	}
 
 	public void remove(String name) {
-      Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
       externalContext.getApplicationMap().remove( getKey(name) );
-      Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
-    public String[] getNames() {
-       Iterator names = externalContext.getApplicationMap().keySet().iterator();
-       ArrayList<String> results = new ArrayList<String>();
-       //String prefix = getPrefix();
-       while ( names.hasNext() )
-       {
-          String name = (String) names.next();
-          /*if ( name.startsWith(prefix) )
-          {
-             results.add( name.substring(prefix.length()) );
-          }*/
-          results.add(name);
-       }
-       return results.toArray(new String[]{});
-    }
+   public String[] getNames() {
+      Iterator names = externalContext.getApplicationMap().keySet().iterator();
+      ArrayList<String> results = new ArrayList<String>();
+      //String prefix = getPrefix();
+      while ( names.hasNext() )
+      {
+         String name = (String) names.next();
+         /*if ( name.startsWith(prefix) )
+         {
+            results.add( name.substring(prefix.length()) );
+         }*/
+         results.add(name);
+      }
+      return results.toArray(new String[]{});
+   }
 
    public Object get(Class clazz)
    {

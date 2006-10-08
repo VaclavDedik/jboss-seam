@@ -1487,7 +1487,7 @@ public class Component
          Init.FactoryBinding valueBinding = init.getFactoryValueBinding(name);
          if (methodBinding!=null) //let the XML take precedence
          {
-            Object result = methodBinding.getMethodBinding().invoke(null);
+            Object result = methodBinding.getMethodBinding().invoke();
             return handleFactoryMethodResult(name, null, result, methodBinding.getScope());
          }
          else if (valueBinding!=null) //let the XML take precedence

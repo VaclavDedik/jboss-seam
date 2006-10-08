@@ -235,7 +235,7 @@ public class Pages
          {
             fromAction = methodBinding.getExpressionString();
             result = true;
-            outcome = toString( methodBinding.invoke(null) );
+            outcome = toString( methodBinding.invoke() );
          }
       }
       
@@ -290,7 +290,7 @@ public class Pages
             if ( !isActionAllowed(facesContext, expression) ) return result;
             result = true;
             MethodBinding actionBinding = Expressions.instance().createMethodBinding(expression);
-            outcome = toString( actionBinding.invoke(null) );
+            outcome = toString( actionBinding.invoke() );
             fromAction = expression;
          }
       }

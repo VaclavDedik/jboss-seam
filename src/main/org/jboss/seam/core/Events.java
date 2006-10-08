@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -25,6 +22,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Init.ObserverMethod;
 import org.jboss.seam.util.Resources;
 
@@ -56,6 +54,10 @@ public class Events
          for (Element event: elements)
          {
             String type = event.attributeValue("type");
+            if (type==null)
+            {
+               throw new IllegalArgumentException("must specify type for <event/> declaration");
+            }
             List<MethodBinding> methodBindings = new ArrayList<MethodBinding>();
             listeners.put(type, methodBindings);
             
@@ -63,8 +65,11 @@ public class Events
             for (Element action: actions)
             {
                String actionExpression = action.attributeValue("expression");
-               MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication()
-                     .createMethodBinding(actionExpression, null);
+               if (actionExpression==null)
+               {
+                  throw new IllegalArgumentException("must specify expression for <action/> declaration");
+               }
+               MethodBinding methodBinding = Expressions.instance().createMethodBinding(actionExpression);
                methodBindings.add(methodBinding);
             }
          }
@@ -73,8 +78,7 @@ public class Events
    
    public void addListener(String type, String methodBindingExpression)
    {
-      MethodBinding methodBinding = FacesContext.getCurrentInstance().getApplication()
-            .createMethodBinding(methodBindingExpression, null);
+      MethodBinding methodBinding = Expressions.instance().createMethodBinding(methodBindingExpression);
       List<MethodBinding> list = listeners.get(type);
       if (list==null)
       {
@@ -92,7 +96,7 @@ public class Events
       {
          for (MethodBinding listener: list )
          {
-            listener.invoke( FacesContext.getCurrentInstance(), null );
+            listener.invoke();
          }
       }
       List<Init.ObserverMethod> observers = Init.instance().getObservers(type);

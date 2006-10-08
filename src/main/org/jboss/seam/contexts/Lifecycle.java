@@ -43,6 +43,7 @@ public class Lifecycle
       Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext, true) ) );
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
+      Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
       try
       {
         Authenticator.instance().beginRequest();
@@ -118,7 +119,8 @@ public class Lifecycle
 
    public static void endInitialization()
    {
-      startup( Component.forName( Seam.getComponentName(Events.class) ) );
+      //TODO: put this back in when we have non-JSF-dependent EL!
+      //startup( Component.forName( Seam.getComponentName(Events.class) ) );
       
 	   //instantiate all application-scoped @Startup components
       Context context = Contexts.getApplicationContext();

@@ -76,9 +76,9 @@ public class Expressions
             return mb.getType( FacesContext.getCurrentInstance() );
          }
 
-         public Object invoke(Object[] aobj)
+         public Object invoke(Object... args)
          {
-            return mb.invoke( FacesContext.getCurrentInstance(), aobj );
+            return mb.invoke( FacesContext.getCurrentInstance(), args );
          }
       
       };
@@ -103,7 +103,7 @@ public class Expressions
       
       public Class getType();
 
-      public Object invoke( Object aobj[] );
+      public Object invoke(Object... args);
    }
    
    public static Expressions instance()
