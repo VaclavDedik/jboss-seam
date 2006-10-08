@@ -101,15 +101,11 @@ td {
 {
 	padding: 15px;
 	background-color: #F0F0F0;
-	margin: 10px;
-	
+	margin: 10px;	
 }
-.dialog label{
-	width: 120px;
-	font-weight: bold;
-}
-.dialog .textfield {
-	width: 180px;
+.dialog table
+{
+	width: auto;
 }
 
 .message {
@@ -126,16 +122,18 @@ td {
 .prop .name {
 	font-weight: bold;
 	text-align: left;
-	width: 110px;
+	width: 115px;
 }
 .prop .value {
 	text-align: left;
-	width: 200px;
-}
-.value input {
-	width:190px;
 }
 .prop .errors {
 	color: red;
 	text-align: left;
+}
+.value input {
+	width:190px;
+}
+.errors input {
+	border: 1px solid red;
 }

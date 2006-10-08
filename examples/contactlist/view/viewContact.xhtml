@@ -25,7 +25,7 @@
     
       <h1>View Contact</h1>
     
-      <h:messages styleClass="message" globalOnly="true"/>
+      <h:messages styleClass="message"/>
     
       <!-- fields -->
       <div class="dialog">
@@ -33,47 +33,38 @@
           <tr class="prop">
             <td class="name">First Name:</td>
             <td class="value">#{contact.firstName}</td>
-            <td/>
           </tr>
           <tr class="prop">
             <td class="name">Last Name:</td>
             <td class="value">#{contact.lastName}</td>
-            <td/>
           </tr>
           <tr class="prop">
             <td class="name">Cell Phone:</td>
             <td class="value">#{contact.cellPhone}</td>
-            <td/>
           </tr>
           <tr class="prop">
             <td class="name">Home Phone:</td>
             <td class="value">#{contact.homePhone}</td>
-            <td/>
           </tr>
           <tr class="prop">
             <td class="name">Address:</td>
             <td class="value">#{contact.address}</td>
-            <td/>
           </tr>
           <tr class="prop">
             <td class="name">City:</td>
             <td class="value">#{contact.city}</td>
-            <td/>
           </tr>
           <tr class="prop">
             <td class="name">State:</td>
             <td class="value">#{contact.state}</td>
-            <td/>
           </tr>
           <tr class="prop">
             <td class="name">Zip:</td>
             <td class="value">#{contact.zip}</td>
-            <td/>
           </tr>
           <tr class="prop">
             <td class="name">Country:</td>
             <td class="value">#{contact.country}</td>
-            <td/>
           </tr>
         </table>
       </div>
@@ -113,8 +104,9 @@
           <table>
             <tr class="prop">
               <td class="name">New Comment:</td>
-              <td class="value"><h:inputTextarea id="text" value="#{comment.text}" rows="15" cols="100"/></td>
-              <td class="errors"><h:message for="text"/></td>
+              <td class="value">
+                <h:inputTextarea id="text" value="#{comment.text}" rows="15" cols="100"/>
+              </td>
             </tr>
           </table>
       

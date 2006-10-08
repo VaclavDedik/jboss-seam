@@ -32,52 +32,68 @@
   	    <!-- editable fields --> 
         <s:validateAll>
         
+          <f:facet name="aroundInvalidField">
+            <s:span styleClass="errors"/>
+          </f:facet>
+          <f:facet name="afterInvalidField">
+            <s:span>&#160;<s:message/></s:span>
+          </f:facet>
+        
           <div class="dialog">
             <table>
               <tr class="prop">
                 <td class="name">First Name:</td>
-                <td class="value"><h:inputText id="firstName" value="#{contact.firstName}"/></td>
-                <td class="errors"><h:message for="firstName"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="firstName" value="#{contact.firstName}"/></s:decorate>
+                </td>
               </tr>
               <tr class="prop">
                 <td class="name">Last Name:</td>
-                <td class="value"><h:inputText id="lastName" value="#{contact.lastName}"/></td>
-                <td class="errors"><h:message for="lastName"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="lastName" value="#{contact.lastName}"/></s:decorate>
+                </td>
               </tr>
               <tr class="prop">
                 <td class="name">Cell Phone:</td>
-                <td class="value"><h:inputText id="cellPhone" value="#{contact.cellPhone}"/></td>
-                <td class="errors"><h:message for="cellPhone"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="cellPhone" value="#{contact.cellPhone}"/></s:decorate>
+                </td>
               </tr>
               <tr class="prop">
                 <td class="name">Home Phone:</td>
-                <td class="value"><h:inputText id="homePhone" value="#{contact.homePhone}"/></td>
-                <td class="errors"><h:message styleClass="error" for="homePhone"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="homePhone" value="#{contact.homePhone}"/></s:decorate>
+                </td>
               </tr>
               <tr class="prop">
                 <td class="name">Address:</td>
-                <td class="value"><h:inputText id="address" value="#{contact.address}"/></td>
-                <td class="errors"><h:message styleClass="error" for="address"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="address" value="#{contact.address}"/></s:decorate>
+                </td>
               </tr>
               <tr class="prop">
                 <td class="name">City:</td>
-                <td class="value"><h:inputText id="city" value="#{contact.city}"/></td>
-                <td class="errors"><h:message for="city"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="city" value="#{contact.city}"/></s:decorate>
+                </td>
               </tr>
               <tr class="prop">
                 <td class="name">State:</td>
-                <td class="value"><h:inputText id="state" value="#{contact.state}"/></td>
-                <td class="errors"><h:message for="state"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="state" value="#{contact.state}"/></s:decorate>
+                </td>
               </tr>
               <tr class="prop">
                 <td class="name">Zip:</td>
-                <td class="value"><h:inputText id="zip" value="#{contact.zip}"/></td>
-                <td class="errors"><h:message for="zip"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="zip" value="#{contact.zip}"/></s:decorate>
+                </td>
               </tr>
               <tr class="prop">
                 <td class="name">Country:</td>
-                <td class="value"><h:inputText id="country" value="#{contact.country}"/></td>
-                <td class="errors"><h:message for="country"/></td>
+                <td class="value">
+                  <s:decorate><h:inputText id="country" value="#{contact.country}"/></s:decorate>
+                </td>
               </tr>
             </table>
           </div>
