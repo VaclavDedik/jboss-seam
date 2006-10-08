@@ -14,6 +14,7 @@ public class EntityHome<E> extends Home<E>
    @Override
    public void validate()
    {
+      super.validate();
       if ( getEntityManager()==null )
       {
          throw new IllegalStateException("entityManager is null");

@@ -14,6 +14,16 @@ public class HibernateEntityHome<E> extends Home<E>
    @In(create=true) 
    private FacesMessages facesMessages; 
    
+   @Override
+   public void validate()
+   {
+      super.validate();
+      if ( getSession()==null )
+      {
+         throw new IllegalStateException("session is null");
+      }
+   }
+
    @Transactional
    public boolean isManaged()
    {

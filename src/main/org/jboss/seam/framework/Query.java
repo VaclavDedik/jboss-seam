@@ -2,72 +2,44 @@ package org.jboss.seam.framework;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.annotation.PostConstruct;
 import javax.faces.model.DataModel;
-import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.jsf.ListDataModel;
 
-public class Query
+public abstract class Query
 {
    private String ejbql;
    private Integer firstResult;
    private Integer maxResults;
-   private EntityManager entityManager;
-   private Map<String, String> hints;
    private List<String> restrictions;
    private String order;
    
-   private List resultList;
    private DataModel dataModel;
-   private Object singleResult;
-   private Long resultCount;
    
    private String parsedEjbql;
    private List<ValueBinding> queryParameters;
    private List<String> parsedRestrictions;
    private List<ValueBinding> restrictionParameters;
+   
+   public abstract List getResultList();
+   public abstract Object getSingleResult();
+   public abstract Long getResultCount();
 
-   @Transactional
-   public List getResultList()
+   @PostConstruct
+   public void validate()
    {
-      if (resultList==null)
+      if ( getEjbql()==null )
       {
-         javax.persistence.Query query = createQuery();
-         resultList = query==null ? null : query.getResultList();
+         throw new IllegalStateException("ejbql is null");
       }
-      return resultList;
    }
    
-   @Transactional
-   public Object getSingleResult()
-   {
-      if (singleResult==null)
-      {
-         javax.persistence.Query query = createQuery();
-         singleResult = query==null ? 
-               null : query.getSingleResult();
-      }
-      return singleResult;
-   }
-
-   @Transactional
-   public Long getResultCount()
-   {
-      if (resultCount==null)
-      {
-         javax.persistence.Query query = createCountQuery();
-         resultCount = query==null ? 
-               null : (Long) query.getSingleResult();
-      }
-      return (Long) resultCount;
-   }
-
    @Transactional
    public DataModel getDataModel()
    {
@@ -78,58 +50,9 @@ public class Query
       return dataModel;
    }
    
-   protected javax.persistence.Query createQuery()
-   {
-      parseEjbql();
-      
-      getEntityManager().joinTransaction();
-      javax.persistence.Query query = getEntityManager().createQuery( getRenderedEjbql() );
-      setParameters(query, queryParameters, 0);
-      setParameters(query, restrictionParameters, queryParameters.size());
-      if (firstResult!=null) query.setFirstResult(firstResult);
-      if (maxResults!=null) query.setMaxResults(maxResults);
-      if (hints!=null)
-      {
-         for (Map.Entry<String, String> me: hints.entrySet())
-         {
-            query.setHint(me.getKey(), me.getValue());
-         }
-      }
-      return query;
-   }
-   
-   protected javax.persistence.Query createCountQuery()
-   {
-      parseEjbql();
-      
-      getEntityManager().joinTransaction();
-      
-      String countEjbql = getCountEjbql();
-      
-      javax.persistence.Query query = getEntityManager().createQuery(countEjbql);
-      setParameters(query, queryParameters, 0);
-      setParameters(query, restrictionParameters, queryParameters.size());
-      return query;
-   }
-
-   private void setParameters(javax.persistence.Query query, List<ValueBinding> parameters, int start)
-   {
-      for (int i=0; i<parameters.size(); i++)
-      {
-         Object parameterValue = parameters.get(i).getValue();
-         if (parameterValue!=null)
-         {
-            query.setParameter(start++, parameterValue);
-         }
-      }
-   }
-
    public void refresh()
    {
       dataModel = null;
-      resultCount = null;
-      resultList = null;
-      singleResult = null;
    }
    
    public void last()
@@ -285,16 +208,6 @@ public class Query
       this.ejbql = ejbql;
    }
 
-   public EntityManager getEntityManager()
-   {
-      return entityManager;
-   }
-
-   public void setEntityManager(EntityManager entityManager)
-   {
-      this.entityManager = entityManager;
-   }
-
    public Integer getFirstResult()
    {
       return firstResult;
@@ -307,7 +220,8 @@ public class Query
 
    public boolean isNextExists()
    {
-      return resultList!=null && resultList.size() == maxResults;
+      return getResultList()!=null && 
+            getResultList().size() == maxResults;
    }
 
    public void setFirstResult(Integer firstResult)
@@ -325,16 +239,6 @@ public class Query
    {
       dataModel = null;
       this.maxResults = maxResults;
-   }
-
-   public Map<String, String> getHints()
-   {
-      return hints;
-   }
-
-   public void setHints(Map<String, String> hints)
-   {
-      this.hints = hints;
    }
 
    public List<String> getRestrictions()
@@ -355,6 +259,16 @@ public class Query
    public void setOrder(String order)
    {
       this.order = order;
+   }
+   
+   protected List<ValueBinding> getQueryParameters()
+   {
+      return queryParameters;
+   }
+   
+   protected List<ValueBinding> getRestrictionParameters()
+   {
+      return restrictionParameters;
    }
 
 }
