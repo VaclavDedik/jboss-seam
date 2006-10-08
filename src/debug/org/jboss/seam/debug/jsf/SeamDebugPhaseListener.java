@@ -53,7 +53,7 @@ public class SeamDebugPhaseListener implements PhaseListener
          }
          catch (IOException ioe)
          {
-            ioe.printStackTrace();
+            throw new RuntimeException(ioe);
          }
       }      
    }
