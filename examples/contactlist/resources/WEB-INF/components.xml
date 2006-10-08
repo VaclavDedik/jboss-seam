@@ -1,29 +1,30 @@
 <components>
 
+    <factory name="comment" value="#{commentHome.instance}"/>
     <component name="commentHome"
               class="org.jboss.seam.framework.EntityHome">
-        <property name="entityManager">#{entityManager}</property>
         <property name="entityClass">org.jboss.seam.example.crud.Comment</property>
-        <property name="initialPropertyValues">
-        	<key>contact</key><value>#{contact}</value>
-        	<key>created</key><value>#{currentDatetime}</value>
-        </property>
+        <property name="newInstance">#{newComment}</property>
+        <property name="entityManager">#{entityManager}</property>
         <property name="createdMessage">New comment posted</property>
+    </component>    
+    <component name="newComment" 
+              class="org.jboss.seam.example.crud.Comment">
+        <property name="contact">#{contact}</property>
+        <property name="created">#{currentDatetime}</property>
     </component>
-    <factory name="comment" value="#{commentHome.instance}"/>
 
+
+    <factory name="contact" value="#{contactHome.instance}"/>
     <component name="contactHome"
               class="org.jboss.seam.framework.EntityHome">
-        <property name="entityManager">#{entityManager}</property>
         <property name="entityClass">org.jboss.seam.example.crud.Contact</property>
+        <property name="entityManager">#{entityManager}</property>
         <property name="createdMessage">New contact #{contact.firstName} #{contact.lastName} created</property>
         <property name="deletedMessage">Contact #{contact.firstName} #{contact.lastName} deleted</property>
         <property name="updatedMessage">Contact #{contact.firstName} #{contact.lastName} updated</property>
     </component>
-    <factory name="contact" value="#{contactHome.instance}"/>
 
-    <component name="exampleContact"
-              class="org.jboss.seam.example.crud.Contact"/>
     
     <component name="contacts" 
               class="org.jboss.seam.framework.Query">
@@ -36,6 +37,9 @@
         <property name="maxResults">20</property>
         <property name="entityManager">#{entityManager}</property>
     </component>
+    <component name="exampleContact"
+              class="org.jboss.seam.example.crud.Contact"/>
+
     
     <component name="entityManager" 
               class="org.jboss.seam.core.ManagedPersistenceContext">
