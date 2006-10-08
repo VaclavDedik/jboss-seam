@@ -5,30 +5,39 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 <faces-config>
 
     <navigation-rule>
-     
+        <from-view-id>/editContact.xhtml</from-view-id>
+        
         <navigation-case>
-            <from-action>#{contactHome.update}</from-action>
             <from-outcome>updated</from-outcome>
             <to-view-id>/viewContact.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
-            <from-action>#{contactHome.persist}</from-action>
             <from-outcome>persisted</from-outcome>
             <to-view-id>/viewContact.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <navigation-case>
-            <from-action>#{contactHome.remove}</from-action>
             <from-outcome>removed</from-outcome>
             <to-view-id>/search.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
-    
+            
     </navigation-rule>
-
+        
+    <navigation-rule>
+        <from-view-id>/viewContact.xhtml</from-view-id>
+        
+        <navigation-case>
+            <from-outcome>removed</from-outcome>
+            <to-view-id>/search.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+            
+    </navigation-rule>
+        
     <!-- Facelets support -->
 
     <application>
