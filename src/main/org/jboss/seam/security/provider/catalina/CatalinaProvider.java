@@ -4,11 +4,15 @@ import java.lang.reflect.Method;
 import java.security.Principal;
 
 /**
- * Wrapper for Tomcat realm authentication
+ * Wrapper for Tomcat realm authentication.  This class uses reflection to
+ * locate a Tomcat realm, and provides wrapper methods to authenticate against
+ * the realm.
+ *
+ * Under construction!
  *
  * @author Shane Bryzak
  */
-public class CatalinaProvider //implements AuthenticationProvider
+public class CatalinaProvider
 {
   private Object realm;
   private Method authenticateMethod1;  // authenticate(String, String)
@@ -70,12 +74,12 @@ public class CatalinaProvider //implements AuthenticationProvider
     catch (ClassNotFoundException ex)
     {
       /** @todo log error and throw exception */
-      ex.printStackTrace();
+
     }
     catch (Exception ex)
     {
       /** @todo log error and throw exception */
-      ex.printStackTrace();
+
     }
   }
 
