@@ -16,6 +16,10 @@ public class EntityHome<E> extends Home<E>
    @In(create=true) 
    private FacesMessages facesMessages; 
    
+   private String deletedMessage = "Successfully deleted";
+   private String createdMessage = "Successfully created";
+   private String updatedMessage = "Successfully updated";
+
    @Transactional
    public boolean isManaged()
    {
@@ -27,7 +31,7 @@ public class EntityHome<E> extends Home<E>
    {
       getEntityManager().joinTransaction();
       getEntityManager().flush();
-      facesMessages.add("Successfully updated");
+      facesMessages.add(updatedMessage);
       return "updated";
    }
    
@@ -38,7 +42,7 @@ public class EntityHome<E> extends Home<E>
       getEntityManager().persist( getInstance() );
       getEntityManager().flush();
       setId( Persistence.getId( getInstance(), getEntityManager() ) );
-      facesMessages.add("Successfully created");
+      facesMessages.add(createdMessage);
       return "persisted";
    }
 
@@ -48,7 +52,7 @@ public class EntityHome<E> extends Home<E>
       getEntityManager().joinTransaction();
       getEntityManager().remove( getInstance() );
       getEntityManager().flush();
-      facesMessages.add("Successfully deleted");
+      facesMessages.add(deletedMessage);
       return "removed";
    }
    
@@ -120,6 +124,36 @@ public class EntityHome<E> extends Home<E>
    public boolean isIdDefined()
    {
       return getId()!=null && !"".equals( getId() );
+   }
+
+   public String getCreatedMessage()
+   {
+      return createdMessage;
+   }
+
+   public void setCreatedMessage(String createdMessage)
+   {
+      this.createdMessage = createdMessage;
+   }
+
+   public String getDeletedMessage()
+   {
+      return deletedMessage;
+   }
+
+   public void setDeletedMessage(String deletedMessage)
+   {
+      this.deletedMessage = deletedMessage;
+   }
+
+   public String getUpdatedMessage()
+   {
+      return updatedMessage;
+   }
+
+   public void setUpdatedMessage(String updatedMessage)
+   {
+      this.updatedMessage = updatedMessage;
    }
    
 }
