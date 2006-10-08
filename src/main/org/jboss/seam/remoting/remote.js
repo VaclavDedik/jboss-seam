@@ -970,6 +970,8 @@ Seam.Remoting.pollCallback = function(doc)
     var node = body.childNodes.item(i);
     if (node.tagName == "messages")
       Seam.Remoting.processMessages(node);
+    else if (node.tagName == "errors")
+      Seam.Remoting.processPollErrors(node);
   }
 
   Seam.Remoting.pollTimeoutFunction = setTimeout("Seam.Remoting.poll()", Math.max(Seam.Remoting.pollInterval * 1000, 1000));
@@ -1020,6 +1022,36 @@ Seam.Remoting.processMessages = function(messages)
 
         callback(Seam.Remoting.createMessage(messageType, value));
       }
+    }
+  }
+}
+
+Seam.Remoting.processErrors = function(errors)
+{
+  var token = errors.getAttribute("token");
+
+  // Unsubscribe to the topic
+  for (var i = 0; i < Seam.Remoting.subscriptionRegistry.length; i++)
+  {
+    if (Seam.Remoting.subscriptionRegistry[i].token == token)
+    {
+      Seam.Remoting.subscriptionRegistry.splice(i, 1);
+      break;
+    }
+  }
+
+  for (var i = 0; i < errors.childNodes.length; i++)
+  {
+    if (errors.childNodes.item(i).tagName == "error")
+    {
+      var errorNode = errors.childNodes.item(i);
+      var code = errorNode.getAttribute("code");
+      var message = errorNode.firstChild.nodeValue;
+
+      if (Seam.Remoting.onPollError)
+        Seam.Remoting.onPollError(code, message);
+      else
+        alert("A polling error occurred: " + code + " " + message);
     }
   }
 }

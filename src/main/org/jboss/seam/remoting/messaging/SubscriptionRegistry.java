@@ -17,6 +17,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
+import javax.jms.ExceptionListener;
+import javax.jms.JMSException;
 
 /**
  *
@@ -90,6 +92,13 @@ public class SubscriptionRegistry
             Class providerClass = Class.forName(providerName);
             JMSConnectionProvider provider = (JMSConnectionProvider) providerClass.newInstance();
             topicConnection = provider.createConnection();
+
+            topicConnection.setExceptionListener(new ExceptionListener() {
+              public void onException(JMSException ex)
+              {
+                // swallow the exception for now - do we need to try and reconnect???
+              }
+            });
             topicConnection.start();
           }
           catch (ClassNotFoundException ex)

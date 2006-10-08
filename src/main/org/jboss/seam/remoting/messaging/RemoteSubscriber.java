@@ -74,6 +74,7 @@ public class RemoteSubscriber
   }
 
   public List<Message> poll(int timeout)
+      throws JMSException
   {
     List<Message> messages = null;
 
@@ -82,16 +83,12 @@ public class RemoteSubscriber
     synchronized(subscriber)
     {
       do {
-        try {
           // Only timeout for the first message.. subsequent messages should be nowait
-          if (messages == null && timeout > 0)
-            m = subscriber.receive(timeout * 1000);
-          else
-            m = subscriber.receiveNoWait();
-        }
-        catch (JMSException ex) {
-          ex.printStackTrace();
-        }
+        if (messages == null && timeout > 0)
+          m = subscriber.receive(timeout * 1000);
+        else
+          m = subscriber.receiveNoWait();
+
         if (m != null) {
           if (messages == null)
             messages = new ArrayList<Message> ();

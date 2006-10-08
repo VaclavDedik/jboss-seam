@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.event.PhaseId;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -21,16 +20,29 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.remoting.messaging.PollError;
 import org.jboss.seam.remoting.messaging.PollRequest;
 import org.jboss.seam.remoting.wrapper.Wrapper;
 
 /**
+ * Handles JMS Message poll requests.
  *
  * @author Shane Bryzak
  */
 public class PollHandler extends BaseRequestHandler implements RequestHandler
 {
   private static final Log log = LogFactory.getLog(SubscriptionHandler.class);
+
+  private static final byte[] ERRORS_TAG_OPEN_START = "<errors token=\"".getBytes();
+  private static final byte[] ERROR_TAG_OPEN_START = "<error code=\"".getBytes();
+  private static final byte[] ERROR_TAG_CLOSE = "</error>".getBytes();
+  private static final byte[] MESSAGES_TAG_OPEN_START = "<messages token=\"".getBytes();
+  private static final byte[] MESSAGES_TAG_CLOSE = "</messages>".getBytes();
+  private static final byte[] MESSAGE_TAG_OPEN = "<message type=\"".getBytes();
+  private static final byte[] MESSAGE_TAG_CLOSE = "</message>".getBytes();
+  private static final byte[] VALUE_TAG_OPEN = "<value>".getBytes();
+  private static final byte[] VALUE_TAG_CLOSE = "</value>".getBytes();
+  private static final byte[] TAG_OPEN_END = "".getBytes();
 
   private ServletContext servletContext;
 
@@ -106,11 +118,21 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
 
     for (PollRequest req : reqs)
     {
-      if (req.getMessages() != null && req.getMessages().size() > 0)
+      if (req.getErrors() != null && req.getErrors().size() > 0)
       {
-        out.write("<messages token=\"".getBytes());
+        out.write(ERRORS_TAG_OPEN_START);
         out.write(req.getToken().getBytes());
-        out.write("\">".getBytes());
+        out.write(TAG_OPEN_END);
+        for (PollError err : req.getErrors())
+        {
+          writeError(err, out);
+        }
+      }
+      else  if (req.getMessages() != null && req.getMessages().size() > 0)
+      {
+        out.write(MESSAGES_TAG_OPEN_START);
+        out.write(req.getToken().getBytes());
+        out.write(TAG_OPEN_END);
         for (Message m : req.getMessages()) {
           try {
             writeMessage(m, out);
@@ -120,7 +142,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
           catch (IOException ex) {
           }
         }
-        out.write("</messages>".getBytes());
+        out.write(MESSAGES_TAG_CLOSE);
       }
     }
 
@@ -132,7 +154,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
   private void writeMessage(Message m, OutputStream out)
       throws IOException, JMSException
   {
-    out.write("<message type=\"".getBytes());
+    out.write(MESSAGE_TAG_OPEN);
 
     // We need one of these to maintain a list of outbound references
     CallContext ctx = new CallContext();
@@ -149,11 +171,11 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
       value = ((ObjectMessage) m).getObject();
     }
 
-    out.write("\">".getBytes());
+    out.write(TAG_OPEN_END);
 
-    out.write("<value>".getBytes());
+    out.write(VALUE_TAG_OPEN);
     ctx.createWrapperFromObject(value, "").marshal(out);
-    out.write("</value>".getBytes());
+    out.write(VALUE_TAG_CLOSE);
 
     out.write(REFS_TAG_OPEN);
 
@@ -173,6 +195,16 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
 
     out.write(REFS_TAG_CLOSE);
 
-    out.write("</message>".getBytes());
+    out.write(MESSAGE_TAG_CLOSE);
+  }
+
+  private void writeError(PollError error, OutputStream out)
+      throws IOException
+  {
+    out.write(ERROR_TAG_OPEN_START);
+    out.write(error.getCode().getBytes());
+    out.write(TAG_OPEN_END);
+    out.write(error.getMessage().getBytes());
+    out.write(ERROR_TAG_CLOSE);
   }
 }
