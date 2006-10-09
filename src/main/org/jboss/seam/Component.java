@@ -78,6 +78,7 @@ import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.databinding.DataBinder;
 import org.jboss.seam.databinding.DataSelector;
 import org.jboss.seam.ejb.SeamInterceptor;
+import org.jboss.seam.interceptors.AsynchronousInterceptor;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ClientSideInterceptor;
@@ -670,6 +671,7 @@ public class Component
 
    private void initDefaultInterceptors()
    {
+      addInterceptor( new Interceptor( new AsynchronousInterceptor(), this ) );
       addInterceptor( new Interceptor( new ExceptionInterceptor(), this ) );
       addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );
       addInterceptor( new Interceptor( new EventInterceptor(), this ) );
@@ -1617,10 +1619,10 @@ public class Component
 
    public Object callComponentMethod(Object instance, Method method) {
       Class[] paramTypes = method.getParameterTypes();
-      String createMethodName = method.getName();
+      String methodName = method.getName();
       try
       {
-         Method interfaceMethod = instance.getClass().getMethod(createMethodName, paramTypes);
+         Method interfaceMethod = instance.getClass().getMethod(methodName, paramTypes);
          if ( paramTypes.length==0 )
          {
             return Reflections.invokeAndWrap( interfaceMethod, instance );

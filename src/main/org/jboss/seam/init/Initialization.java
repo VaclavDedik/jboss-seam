@@ -398,8 +398,10 @@ public class Initialization
       addComponent( CurrentDate.class, context );
       addComponent( CurrentTime.class, context );
       addComponent( CurrentDatetime.class, context );
+      
+      //addComponent( Dispatcher.class, context );
 
-     try
+      try
       {
          addComponent( PojoCache.class, context );
       }
