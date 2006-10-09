@@ -6,9 +6,7 @@
  */
 package org.jboss.seam.contexts;
 
-
 import java.util.Set;
-
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
@@ -25,7 +23,6 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ProcessInstance;
-import org.jboss.seam.security.authenticator.Authenticator;
 
 /**
  * @author Gavin King
@@ -44,11 +41,6 @@ public class Lifecycle
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
       Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
-      try
-      {
-        Authenticator.instance().beginRequest();
-      }
-      catch (Exception ex) {}
    }
 
    public static void beginRequest(ServletContext servletContext, HttpSession session, ServletRequest request) {
@@ -57,11 +49,6 @@ public class Lifecycle
       Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(session) ) );
       Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
-      try
-      {
-        Authenticator.instance().beginRequest();
-      }
-      catch (Exception ex) {}
    }
 
    public static void beginCall()
@@ -93,17 +80,17 @@ public class Lifecycle
       }
 
    }
-   
+
    public static void beginApplication()
    {
       Contexts.applicationContext.set( new WebApplicationContext( getServletContext() ) );
    }
-   
+
    public static void endApplication()
    {
       Contexts.applicationContext.set(null);
    }
-   
+
 
    public static void beginInitialization(ServletContext servletContext)
    {
@@ -121,7 +108,7 @@ public class Lifecycle
    {
       //TODO: put this back in when we have non-JSF-dependent EL!
       //startup( Component.forName( Seam.getComponentName(Events.class) ) );
-      
+
 	   //instantiate all application-scoped @Startup components
       Context context = Contexts.getApplicationContext();
       for ( String name: context.getNames() )
@@ -136,7 +123,7 @@ public class Lifecycle
 	         }
     	   }
       }
-      
+
       Contexts.destroy( Contexts.getEventContext() );
       Contexts.eventContext.set(null);
       Contexts.applicationContext.set(null);
@@ -266,11 +253,6 @@ public class Lifecycle
       log.debug("After render response, destroying contexts");
       try
       {
-        Authenticator.instance().endRequest();
-      }
-      catch (Exception ex) {}
-      try
-      {
          flushAndDestroyContexts();
 
          if ( Seam.isSessionInvalid() )
@@ -290,11 +272,6 @@ public class Lifecycle
    public static void endRequest() {
 
       log.debug("After request, destroying contexts");
-      try
-      {
-         Authenticator.instance().endRequest();
-      }
-      catch (Exception ex) {  }
 
       try
       {
@@ -311,11 +288,7 @@ public class Lifecycle
    public static void endRequest(HttpSession session) {
 
       log.debug("After request, destroying contexts");
-      try
-      {
-        Authenticator.instance().endRequest();
-      }
-      catch (Exception ex) {}
+
       try
       {
          flushAndDestroyContexts();
@@ -347,14 +320,14 @@ public class Lifecycle
 
    private static void flushAndDestroyContexts()
    {
-      
+
       if ( Contexts.isConversationContextActive() )
       {
 
          if ( Contexts.isBusinessProcessContextActive() )
          {
-            boolean destroyBusinessProcessContext = !Init.instance().isJbpmInstalled() || 
-                  !BusinessProcess.instance().hasCurrentProcess() || 
+            boolean destroyBusinessProcessContext = !Init.instance().isJbpmInstalled() ||
+                  !BusinessProcess.instance().hasCurrentProcess() ||
                   //TODO: it would be nice if BP context spanned redirects along with the conversation
                   //      this would also require changes to BusinessProcessContext
                   ProcessInstance.instance().hasEnded();
@@ -375,9 +348,9 @@ public class Lifecycle
             log.debug("flushing server-side conversation context");
             Contexts.getConversationContext().flush();
          }
-         
+
       }
-      
+
       //destroy the event context after the
       //conversation context, since we need
       //the manager to flush() conversation
