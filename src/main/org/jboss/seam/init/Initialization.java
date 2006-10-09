@@ -66,6 +66,7 @@ import org.jboss.seam.core.ProcessInstance;
 import org.jboss.seam.core.Redirect;
 import org.jboss.seam.core.RenderParameters;
 import org.jboss.seam.core.ResourceBundle;
+import org.jboss.seam.core.SafeActions;
 import org.jboss.seam.core.SessionContext;
 import org.jboss.seam.core.StatelessContext;
 import org.jboss.seam.core.Switcher;
@@ -390,6 +391,7 @@ public class Initialization
       addComponent( LocaleSelector.class, context );
       addComponent( UiComponent.class, context );
       addComponent( RenderParameters.class, context );
+      addComponent( SafeActions.class, context );
       addComponent( SubscriptionRegistry.class, context );
       addComponent( RemotingConfig.class, context );
       addComponent( TouchedContexts.class, context );

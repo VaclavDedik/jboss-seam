@@ -282,13 +282,13 @@ public class Pages
       
       if (outcome==null)
       {
-         String action = (String) facesContext.getExternalContext()
+         String actionId = (String) facesContext.getExternalContext()
                .getRequestParameterMap()
                .get("actionMethod");
-         if (action!=null)
+         if (actionId!=null)
          {
-            String expression = "#{" + action + "}";
-            if ( !isActionAllowed(facesContext, expression) ) return result;
+            if ( !SafeActions.instance().isActionSafe(actionId) ) return result;
+            String expression = SafeActions.toAction(actionId);
             result = true;
             MethodBinding actionBinding = Expressions.instance().createMethodBinding(expression);
             outcome = toString( actionBinding.invoke() );
@@ -299,17 +299,6 @@ public class Pages
       handleOutcome(facesContext, outcome, fromAction);
       
       return result;
-   }
-
-   private static boolean isActionAllowed(FacesContext facesContext, String expression)
-   {
-      Map applicationMap = facesContext.getExternalContext().getApplicationMap();
-      Set actions = (Set) applicationMap.get("org.jboss.seam.actions");
-      if (actions==null) return false;
-      synchronized (actions)
-      {
-         return actions.contains(expression);
-      }
    }
    
    public String getNoConversationViewId(String viewId)

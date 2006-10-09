@@ -3,7 +3,9 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.MissingResourceException;
 
 import org.apache.commons.logging.Log;
@@ -62,45 +64,52 @@ public class ResourceBundle implements Serializable {
    
    private void createUberBundle()
    {
-      if ( bundleNames!=null && bundleNames.length>0 )
+      if (bundleNames!=null)
       {
-      
-         final java.util.ResourceBundle[] littleBundles = new java.util.ResourceBundle[bundleNames.length];
-         for (int i=0; i<bundleNames.length; i++)
+         
+         final List<java.util.ResourceBundle> littleBundles = new ArrayList<java.util.ResourceBundle>(bundleNames.length);
+         for (String bundleName: bundleNames)
          {
-            littleBundles[i] = loadBundle( bundleNames[i] );
+            java.util.ResourceBundle littleBundle = loadBundle(bundleName);
+            if (littleBundle!=null) littleBundles.add(littleBundle);
          }
          
-         bundle = new java.util.ResourceBundle()
+         if ( !littleBundles.isEmpty() )
          {
-   
-            @Override
-            public java.util.Locale getLocale()
+            bundle = new java.util.ResourceBundle()
             {
-               return littleBundles[0].getLocale();
-            }
-
-            @Override
-            public Enumeration<String> getKeys()
-            {
-               throw new UnsupportedOperationException();
-            }
-   
-            @Override
-            protected Object handleGetObject(String key)
-            {
-               for (java.util.ResourceBundle littleBundle: littleBundles)
+      
+               @Override
+               public java.util.Locale getLocale()
                {
-                  try
-                  {
-                     return littleBundle.getObject(key);
-                  }
-                  catch (MissingResourceException mre) {}
+                  return Locale.instance();
                }
-               throw new MissingResourceException("Can't find resource in bundles: " + key, getClass().getName(), key );
-            }
-            
-         };
+   
+               @Override
+               public Enumeration<String> getKeys()
+               {
+                  throw new UnsupportedOperationException();
+               }
+      
+               @Override
+               protected Object handleGetObject(String key)
+               {
+                  for (java.util.ResourceBundle littleBundle: littleBundles)
+                  {
+                     if (littleBundle!=null)
+                     {
+                        try
+                        {
+                           return littleBundle.getObject(key);
+                        }
+                        catch (MissingResourceException mre) {}
+                     }
+                  }
+                  throw new MissingResourceException("Can't find resource in bundles: " + key, getClass().getName(), key );
+               }
+               
+            };
+         }
          
       }
    }
