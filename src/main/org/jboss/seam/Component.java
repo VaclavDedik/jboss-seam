@@ -91,6 +91,7 @@ import org.jboss.seam.interceptors.ManagedEntityIdentityInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
+import org.jboss.seam.interceptors.SecurityInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Conversions;
@@ -687,6 +688,10 @@ public class Component
       {
          addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
       }
+      if (SecurityInterceptor.isComponentSecure(this))
+      {
+        addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );
+      }
    }
 
    public Class<?> getBeanClass()
@@ -885,7 +890,7 @@ public class Component
               throw new IllegalStateException();
         }
     }
-    
+
    protected Object instantiateSessionBean() throws Exception, NamingException
    {
       SeamInterceptor.COMPONENT.set(this);
