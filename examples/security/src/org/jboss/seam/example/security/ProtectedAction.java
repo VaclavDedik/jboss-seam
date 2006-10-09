@@ -1,10 +1,9 @@
 package org.jboss.seam.example.security;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 
-import org.jboss.annotation.security.SecurityDomain;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Secure;
 
 /**
  *
@@ -12,10 +11,9 @@ import org.jboss.seam.annotations.Name;
  */
 @Stateless
 @Name("protectedAction")
-@SecurityDomain("seam")
+@Secure(roles = "admin")
 public class ProtectedAction implements ProtectedLocal
 {
-  @RolesAllowed("admin")
   public String foo()
   {
     System.out.println("protected method foo() successfully called");

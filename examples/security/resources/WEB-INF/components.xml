@@ -3,6 +3,7 @@
     <component name="org.jboss.seam.core.init">
         <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
         <property name="jndiPattern">@jndiPattern@</property>
+        <property name="debug">true</property>
     </component>
  
     <component name="org.jboss.seam.core.manager">
@@ -15,7 +16,7 @@
 
     <component class="org.jboss.seam.security.authenticator.ProviderAuthenticator">
       <property name="providers">#{authenticatorAction}</property>
-      <property name="adapters">org.jboss.seam.security.adapter.jboss.JBossAuthenticationAdapter</property>
+      <!--property name="adapters">org.jboss.seam.security.adapter.jboss.JBossAuthenticationAdapter</property-->
     </component>
     
 </components>
