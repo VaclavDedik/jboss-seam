@@ -19,4 +19,5 @@ public @interface Secure
 {
   Permission[] permissions() default {};
   String[] roles() default "";
+  String onfail() default "";
 }

@@ -57,4 +57,21 @@ public abstract class Authentication implements Principal, Serializable
   {
     valid = false;
   }
+
+  /**
+   * Checks if the authenticated user contains the specified role.
+   *
+   * @param role String
+   * @return boolean Returns true if the authenticated user contains the role,
+   * or false if otherwise.
+   */
+  public boolean isUserInRole(String role)
+  {
+    for (String r : getRoles())
+    {
+      if (r.equals(role))
+        return true;
+    }
+    return false;
+  }
 }
