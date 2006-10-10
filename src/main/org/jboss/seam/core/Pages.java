@@ -168,8 +168,18 @@ public class Pages
             List<Element> children = page.elements("param");
             for (Element param: children)
             {
-               PageParameter pageParameter = new PageParameter( param.attributeValue("name") );
-               pageParameter.valueBinding = Expressions.instance().createValueBinding( param.attributeValue("value") );
+               String valueExpression = param.attributeValue("value");
+               if (valueExpression==null)
+               {
+                  throw new IllegalArgumentException("must specify value for page <param/> declaration");
+               }
+               String name = param.attributeValue("name");
+               if (name==null)
+               {
+                  name = valueExpression.substring(2, valueExpression.length()-1);
+               }
+               PageParameter pageParameter = new PageParameter( name );
+               pageParameter.valueBinding = Expressions.instance().createValueBinding( valueExpression );
                pageParameter.converterId = param.attributeValue("converterId");
                String converterExpression = param.attributeValue("converter");
                if (converterExpression!=null)
