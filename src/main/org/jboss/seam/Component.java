@@ -65,6 +65,7 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.contexts.Context;
@@ -93,6 +94,7 @@ import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
 import org.jboss.seam.interceptors.SecurityInterceptor;
+import org.jboss.seam.interceptors.SynchronizationInterceptor;
 import org.jboss.seam.interceptors.TransactionInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 import org.jboss.seam.util.Conversions;
@@ -127,6 +129,7 @@ public class Component
    private boolean startup;
    private String[] dependencies;
    private boolean mutable;
+   private boolean synchronize;
 
    private Method destroyMethod;
    private Method createMethod;
@@ -214,6 +217,12 @@ public class Component
       if (mutable)
       {
          Init.instance().getMutableComponentNames().add(name);
+      }
+      
+      synchronize = beanClass.isAnnotationPresent(Synchronized.class);
+      if (synchronize && scope==STATELESS)
+      {
+         throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
       }
 
       jndiName = getJndiName(applicationContext);
@@ -671,11 +680,15 @@ public class Component
 
    private void initDefaultInterceptors()
    {
+      if (synchronize) 
+      {
+         addInterceptor( new Interceptor( new SynchronizationInterceptor(), this ) );
+      }
       addInterceptor( new Interceptor( new AsynchronousInterceptor(), this ) );
       addInterceptor( new Interceptor( new ExceptionInterceptor(), this ) );
       addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );
       addInterceptor( new Interceptor( new EventInterceptor(), this ) );
-      addInterceptor( new Interceptor( new ConversationalInterceptor(), this ) );
+      addInterceptor( new Interceptor( new ConversationalInterceptor(), this ) ); //legacy!
       addInterceptor( new Interceptor( new BusinessProcessInterceptor(), this ) );
       addInterceptor( new Interceptor( new ConversationInterceptor(), this ) );
       addInterceptor( new Interceptor( new OutcomeInterceptor(), this ) );
