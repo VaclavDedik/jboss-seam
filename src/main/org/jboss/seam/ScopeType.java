@@ -69,7 +69,7 @@ public enum ScopeType
       switch (this)
       {
          case STATELESS: 
-            return Contexts.getStatelessContext();
+            throw new UnsupportedOperationException("Stateless psuedo-scope does not have a Context object");
          case EVENT: 
             if ( !Contexts.isEventContextActive() )
             {

@@ -45,10 +45,6 @@ public class Contexts {
 		return applicationContext.get();
 	}
 
-	public static Context getStatelessContext() {
-		return new StatelessContext();
-	}
-
 	public static Context getConversationContext() {
 		return conversationContext.get();
 	}

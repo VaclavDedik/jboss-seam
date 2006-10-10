@@ -69,7 +69,6 @@ import org.jboss.seam.core.RenderParameters;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.SafeActions;
 import org.jboss.seam.core.SessionContext;
-import org.jboss.seam.core.StatelessContext;
 import org.jboss.seam.core.Switcher;
 import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
@@ -379,7 +378,6 @@ public class Initialization
       addComponent( PageContext.class, context );
       addComponent( EventContext.class, context );
       addComponent( SessionContext.class, context );
-      addComponent( StatelessContext.class, context );
       addComponent( ApplicationContext.class, context );
       addComponent( ConversationContext.class, context );
       addComponent( BusinessProcessContext.class, context );

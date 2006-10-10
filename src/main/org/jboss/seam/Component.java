@@ -1272,6 +1272,13 @@ public class Component
                }
             }
          }
+         else if ( out.scope()==STATELESS )
+         {
+            throw new IllegalArgumentException(
+                  "cannot specify explicit scope=STATELESS on @Out: " + 
+                  getAttributeMessage(name)
+               );
+         }
 
          Context context = component==null ?
                getOutContext( out.scope(), this ) :
@@ -1443,7 +1450,7 @@ public class Component
 
    public static Object getInstance(String name, ScopeType scope, boolean create)
    {
-      Object result = scope.getContext().get(name);
+      Object result = scope==STATELESS ? null : scope.getContext().get(name);
       result = getInstance(name, create, result);
       return result;
    }
@@ -1672,6 +1679,13 @@ public class Component
          {
             throw new IllegalArgumentException(
                   "cannot combine create=true with explicit scope on @In: " +
+                  getAttributeMessage(name)
+               );
+         }
+         if ( in.scope()==STATELESS )
+         {
+            throw new IllegalArgumentException(
+                  "cannot specify explicit scope=STATELESS on @In: " + 
                   getAttributeMessage(name)
                );
          }
