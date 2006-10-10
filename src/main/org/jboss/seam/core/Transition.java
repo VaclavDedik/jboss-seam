@@ -20,7 +20,8 @@ import org.jboss.seam.contexts.Contexts;
 @Name("transition")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-public class Transition implements Serializable {
+public class Transition extends AbstractMutable implements Serializable {
+   
    private String name;
 
    public String getName() 
@@ -31,9 +32,10 @@ public class Transition implements Serializable {
    /**
     * Set the jBPM transition name
     */
-   public void setName(String id) 
+   public void setName(String name) 
    {
-      this.name = id;
+      setDirty(this.name, name);
+      this.name = name;
    }
    
    public static Transition instance()

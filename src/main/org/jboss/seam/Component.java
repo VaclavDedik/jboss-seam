@@ -59,7 +59,6 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
-import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.RequestParameter;
@@ -128,7 +127,6 @@ public class Component
    private InterceptionType interceptionType;
    private boolean startup;
    private String[] dependencies;
-   private boolean mutable;
    private boolean synchronize;
 
    private Method destroyMethod;
@@ -211,12 +209,6 @@ public class Component
             throw new IllegalArgumentException("@Startup only supported for SESSION or APPLICATION scoped components: " + name);
          }
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
-      }
-
-      mutable = beanClass.isAnnotationPresent(Mutable.class);
-      if (mutable)
-      {
-         Init.instance().getMutableComponentNames().add(name);
       }
       
       synchronize = beanClass.isAnnotationPresent(Synchronized.class);
@@ -1765,11 +1757,6 @@ public class Component
    public String[] getDependencies()
    {
       return dependencies;
-   }
-
-   public boolean isMutable()
-   {
-      return mutable;
    }
 
    public static interface InitialValue

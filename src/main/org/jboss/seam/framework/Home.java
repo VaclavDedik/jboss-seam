@@ -1,8 +1,11 @@
 package org.jboss.seam.framework;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
 /**
@@ -11,7 +14,7 @@ import org.jboss.seam.core.Expressions.ValueBinding;
  * @author Gavin King
  *
  */
-public class Home<E>
+public class Home<E> extends AbstractMutable implements Serializable
 {
    private Object id;
    protected E instance;
@@ -106,6 +109,7 @@ public class Home<E>
 
    public void setId(Object id)
    {
+      setDirty(this.id, id);
       this.id = id;
    }
    
@@ -116,6 +120,7 @@ public class Home<E>
 
    public void setInstance(E instance)
    {
+      setDirty(this.instance, instance);
       this.instance = instance;
    }
 

@@ -86,6 +86,7 @@ public class ManagedJbpmContext implements Synchronization
       {
          jbpmContext.save(processInstance);
       }
+      log.debug( "flushing business process context" );
       Contexts.getBusinessProcessContext().flush();
       jbpmContext.getSession().flush();
    }

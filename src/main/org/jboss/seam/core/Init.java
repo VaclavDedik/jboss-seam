@@ -35,7 +35,6 @@ public class Init
    private String jndiPattern;
    private boolean debug;
    private boolean myFacesLifecycleBug;
-   private List<String> mutableComponentNames = new ArrayList<String>();
    
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
@@ -211,11 +210,6 @@ public class Init
    public void setJbpmInstalled(boolean jbpmInstalled)
    {
       this.jbpmInstalled = jbpmInstalled;
-   }
-
-   public List<String> getMutableComponentNames()
-   {
-      return mutableComponentNames;
    }
 
 }

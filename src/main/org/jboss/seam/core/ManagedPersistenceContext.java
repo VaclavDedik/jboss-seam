@@ -20,7 +20,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.Naming;
@@ -36,8 +35,7 @@ import org.jboss.seam.util.Transactions;
  */
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-@Mutable
-public class ManagedPersistenceContext implements Serializable, HttpSessionActivationListener
+public class ManagedPersistenceContext implements Serializable, HttpSessionActivationListener, Mutable
 {
 
    private static final Log log = LogFactory.getLog(ManagedPersistenceContext.class);
@@ -46,6 +44,11 @@ public class ManagedPersistenceContext implements Serializable, HttpSessionActiv
    private String persistenceUnitJndiName;
    private String componentName;
    
+   public boolean clearDirty()
+   {
+      return true;
+   }
+
    @Create
    public void create(Component component)
    {
@@ -57,7 +60,7 @@ public class ManagedPersistenceContext implements Serializable, HttpSessionActiv
       
       createEntityManager();
       
-      TouchedContexts.instance().add(componentName);
+      TouchedContexts.instance().touch(componentName);
       
       if ( log.isDebugEnabled() )
       {

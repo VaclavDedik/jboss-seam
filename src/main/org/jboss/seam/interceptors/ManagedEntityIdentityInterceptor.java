@@ -81,7 +81,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
    
    public void entityRefsToIds(InvocationContext ctx) throws Exception
    {      
-      Set<String> pcs = TouchedContexts.instance();
+      Set<String> pcs = TouchedContexts.instance().getTouchedContexts();
       if ( pcs!=null && pcs.size()>0 )
       {
          Object bean = ctx.getTarget();

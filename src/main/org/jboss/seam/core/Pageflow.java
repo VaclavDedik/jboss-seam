@@ -13,7 +13,6 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -33,8 +32,7 @@ import org.jbpm.graph.exe.Token;
 @Scope(ScopeType.CONVERSATION)
 @Name("pageflow")
 @Intercept(NEVER)
-@Mutable
-public class Pageflow implements Serializable
+public class Pageflow extends AbstractMutable implements Serializable
 {
    
    private static final Log log = LogFactory.getLog(Pageflow.class);
@@ -42,7 +40,7 @@ public class Pageflow implements Serializable
    private int counter;
    
    private ProcessInstance processInstance;
-   
+
    public boolean isInProcess()
    {
       return processInstance!=null;
@@ -54,6 +52,7 @@ public class Pageflow implements Serializable
 
    public void setProcessInstance(ProcessInstance processInstance) {
       this.processInstance = processInstance;
+      setDirty();
    }
    
    public static Pageflow instance()
@@ -142,6 +141,7 @@ public class Pageflow implements Serializable
             );
       }
       processInstance.getRootToken().setNode(node);
+      setDirty();
    }
    
    public Page getPage() 
@@ -169,6 +169,7 @@ public class Pageflow implements Serializable
       }
 
       counter++;
+      setDirty();
    }
 
    public boolean hasDefaultTransition()
@@ -233,6 +234,8 @@ public class Pageflow implements Serializable
         //TODO: this is not actually completely true, what about <s:actionLink/>
     	  //pi.signal();
       //}
+      
+      setDirty();
       
       Events.instance().raiseEvent("org.jboss.seam.beginPageflow." + pageflowDefinitionName);
    }

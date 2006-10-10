@@ -23,7 +23,7 @@ import org.jboss.seam.contexts.Contexts;
 @Name("redirect")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.CONVERSATION)
-public class Redirect implements Serializable
+public class Redirect extends AbstractMutable implements Serializable
 {
    private String viewId;
    private Map<String, Object> parameters = new HashMap<String, Object>();
@@ -44,6 +44,7 @@ public class Redirect implements Serializable
     */
    public void setViewId(String viewId)
    {
+      setDirty(this.viewId, viewId);
       this.viewId = viewId;
    }
    
@@ -62,7 +63,8 @@ public class Redirect implements Serializable
     */
    public void setParameter(String name, Object value)
    {
-      parameters.put(name, value);
+      Object old = parameters.put(name, value);
+      setDirty(old, value);
    }
    
    /**
@@ -76,6 +78,7 @@ public class Redirect implements Serializable
       FacesContext context = FacesContext.getCurrentInstance();
       parameters.putAll( context.getExternalContext().getRequestParameterMap() );
       viewId = context.getViewRoot().getViewId();
+      setDirty();
    }
    
    /**

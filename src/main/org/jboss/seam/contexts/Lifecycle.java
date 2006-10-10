@@ -354,6 +354,12 @@ public class Lifecycle
          }
 
       }
+      
+      if ( Contexts.isSessionContextActive() )
+      {
+         log.debug("flushing session context");
+         Contexts.getSessionContext().flush();
+      }
 
       //destroy the event context after the
       //conversation context, since we need

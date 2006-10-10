@@ -8,9 +8,9 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.core.Mutable;
 
 /**
  * A conversation-scoped Drools WorkingMemory for a named RuleBase
@@ -20,13 +20,17 @@ import org.jboss.seam.annotations.Unwrap;
  */
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-@Mutable
-public class ManagedWorkingMemory
+public class ManagedWorkingMemory implements Mutable
 {
    
    private String ruleBaseName;
    private WorkingMemory workingMemory;
    private RuleBase ruleBase;
+
+   public boolean clearDirty()
+   {
+      return true;
+   }
 
    /**
     * The name of a Seam context variable holding an

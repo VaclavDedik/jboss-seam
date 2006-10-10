@@ -21,10 +21,10 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Locale;
 
 /**
@@ -35,8 +35,7 @@ import org.jboss.seam.core.Locale;
 @Scope(ScopeType.SESSION)
 @Name("themeSelector")
 @Intercept(NEVER)
-@Mutable
-public class ThemeSelector implements Serializable
+public class ThemeSelector extends AbstractMutable implements Serializable
 {
    private static final Log log = LogFactory.getLog(ThemeSelector.class);
    
@@ -99,11 +98,13 @@ public class ThemeSelector implements Serializable
 
    public void setTheme(String themeName)
    {
+      setDirty(this.theme, themeName);
       this.theme = themeName;
    }
 
    public void setAvailableThemes(String[] themeNames)
    {
+      setDirty(this.availableThemes, themeNames);
       this.availableThemes = themeNames;
    }
    
@@ -147,6 +148,7 @@ public class ThemeSelector implements Serializable
 
    public void setCookieEnabled(boolean cookieEnabled)
    {
+      setDirty(this.cookieEnabled, cookieEnabled);
       this.cookieEnabled = cookieEnabled;
    }
 

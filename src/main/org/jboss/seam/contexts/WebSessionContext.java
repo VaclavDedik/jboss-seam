@@ -12,6 +12,7 @@ import java.util.Enumeration;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Mutable;
 
 /**
  * @author Gavin King
@@ -88,6 +89,15 @@ public class WebSessionContext implements Context
       return get( Seam.getComponentName(clazz) );
    }
 
-   public void flush() {}
+   public void flush() {
+      for ( String name: getNames() )
+      {
+         Object attribute = session.getAttribute(name);
+         if ( attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty() )
+         {
+            session.setAttribute(name, attribute);
+         }
+      }      
+   }
   
 }

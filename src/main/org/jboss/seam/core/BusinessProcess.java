@@ -26,7 +26,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 @Scope(ScopeType.CONVERSATION)
 @Name("businessProcess")
 @Intercept(NEVER)
-public class BusinessProcess implements Serializable {
+public class BusinessProcess extends AbstractMutable implements Serializable {
    
    private Long processId;
    private Long taskId;
@@ -55,6 +55,7 @@ public class BusinessProcess implements Serializable {
    }
 
    public void setProcessId(Long processId) {
+      setDirty(this.processId, processId);
       this.processId = processId;
    }
 
@@ -63,6 +64,7 @@ public class BusinessProcess implements Serializable {
    }
 
    public void setTaskId(Long taskId) {
+      setDirty(this.taskId, taskId);
       this.taskId = taskId;
    }
 

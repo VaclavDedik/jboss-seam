@@ -21,7 +21,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.annotations.Mutable;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -36,8 +35,7 @@ import org.jboss.seam.util.Strings;
 @Scope(ScopeType.SESSION)
 @Name("localeSelector")
 @Intercept(NEVER)
-@Mutable
-public class LocaleSelector implements Serializable 
+public class LocaleSelector extends AbstractMutable implements Serializable
 {
 
    private String language;
@@ -164,6 +162,7 @@ public class LocaleSelector implements Serializable
    }
 
    public void setCountry(String country) {
+      setDirty(this.country, country);
       this.country = country;
    }
 
@@ -173,6 +172,7 @@ public class LocaleSelector implements Serializable
    }
 
    public void setLanguage(String language) {
+      setDirty(this.language, language);
       this.language = language;
    }
 
@@ -182,6 +182,7 @@ public class LocaleSelector implements Serializable
    }
 
    public void setVariant(String variant) {
+      setDirty(this.variant, variant);
       this.variant = variant;
    }
 
@@ -192,6 +193,7 @@ public class LocaleSelector implements Serializable
 
    public void setCookieEnabled(boolean cookieEnabled)
    {
+      setDirty(this.cookieEnabled, cookieEnabled);
       this.cookieEnabled = cookieEnabled;
    }
    
