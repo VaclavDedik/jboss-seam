@@ -1050,7 +1050,7 @@ public class Component
    {
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
 
-      Object dataModel = getOutContext(scope).get(name);
+      Object dataModel = getOutContext(scope, this).get(name);
       if ( dataModel != null )
       {
 
@@ -1139,7 +1139,7 @@ public class Component
 
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
 
-      Context context = getOutContext(scope);
+      Context context = getOutContext(scope, this);
       Object existingDataModel = context.get(name);
       boolean dirty = existingDataModel == null || scope==PAGE ||
             wrapper.isDirty(dataModelAnn, existingDataModel, list);
@@ -1158,8 +1158,8 @@ public class Component
 
    }
 
-   private Context getOutContext(ScopeType specifiedScope) {
-      ScopeType scope = this.scope;
+   private static Context getOutContext(ScopeType specifiedScope, Component component) {
+      ScopeType scope = component==null ? EVENT : component.getScope();
       if (scope==STATELESS)
       {
          scope = EVENT;
@@ -1269,7 +1269,7 @@ public class Component
          }
 
          Context context = component==null ?
-               getOutContext( out.scope() ) :
+               getOutContext( out.scope(), this ) :
                component.getScope().getContext();
 
          if (value==null)
@@ -1520,19 +1520,7 @@ public class Component
       Object value = Contexts.lookupInStatefulContexts(name); //see if a value was outjected by the factory method
       if (value==null) //usually a factory method returning a value
       {
-         if (scope==UNSPECIFIED)
-         {
-            if (component==null)
-            {
-               scope=EVENT;
-            }
-            else //an @Factory method defaults to the same scope as the component
-            {
-               scope = component.getScope();
-               if (scope==STATELESS) scope=EVENT;
-            }
-         }
-         scope.getContext().set(name, result);
+         getOutContext(scope, component).set(name, result);
          return result;
       }
       else //usually a factory method with a void return type

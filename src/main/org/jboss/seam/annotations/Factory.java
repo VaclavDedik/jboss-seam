@@ -41,6 +41,12 @@ public @interface Factory {
     * take responsibility for outjecting the value,
     * and then scope() is ignored.
     * 
+    * If the factory method returns a value, but no 
+    * scope is explicitly specified, the scope of 
+    * the component with the @Factory attribute is used. 
+    * But if the component scope is STATELESS, the EVENT 
+    * scope is used.
+    * 
     * @return the scope to outject any returned value
     */
    ScopeType scope() default ScopeType.UNSPECIFIED;

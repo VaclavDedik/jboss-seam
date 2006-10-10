@@ -36,8 +36,13 @@ public @interface Out {
     */
    boolean required() default true;
    /**
-    * Specifies the scope, for values which are not
-    * instances of a Seam component.
+    * Specifies the scope to outject to. If no scope is
+    * explicitly specified, the default scope depends
+    * upon whether the value is an instance of a Seam 
+    * component. If it is, the component scope is 
+    * used. Otherwise, the scope of the component with
+    * the @Out attribute is used. But if the component
+    * scope is STATELESS, the EVENT scope is used.
     */
    ScopeType scope() default ScopeType.UNSPECIFIED;
 }

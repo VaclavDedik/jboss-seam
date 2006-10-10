@@ -44,11 +44,11 @@ public @interface DataModel
    String value() default "";
    
    /**
-    * By default, the DataModel is outjected to the same
-    * scope as the owning component, or to the EVENT scope
-    * in the case of a stateless component. If scope=ScopeType.PAGE
-    * is explicitly specified, the DataModel will be kept
-    * in the PAGE context instead.
+    * Specifies the scope to outject the DataModel to. 
+    * If no scope is explicitly specified, the scope of 
+    * the component with the @DataModel attribute is used. 
+    * But if the component scope is STATELESS, the EVENT 
+    * scope is used.
     * 
     * @return ScopeType.UNSPECIFIED or ScopeType.PAGE
     */
