@@ -57,12 +57,6 @@ public class Manager
    public static final String PAGEFLOW_NODE_NAME = NAME + ".pageflowNodeName";
    public static final String PAGEFLOW_NAME = NAME + ".pageflowName";
 
-   //A map of all conversations for the session,
-   //to the last activity time, which is flushed
-   //stored in the session context at the end
-   //of each request
-   private Map<String, ConversationEntry> conversationIdEntryMap;
-
    //The id of the current conversation
    private String currentConversationId;
    private List<String> currentConversationIdStack;
@@ -95,6 +89,7 @@ public class Manager
    public void setCurrentConversationId(String id)
    {
       currentConversationId = id;
+      currentConversationEntry = null;
    }
    
    public void updateCurrentConversationId(String id)
@@ -108,9 +103,9 @@ public class Manager
       }
       Contexts.getConversationContext().flush();
       
-      ConversationEntries.instance().updateConversationId(currentConversationId, id);
+      ConversationEntries.instance().updateConversationId( getCurrentConversationId(), id );
       currentConversationIdStack.set(0, id);
-      currentConversationId = id;
+      setCurrentConversationId(id);
       //TODO: update nested conversations!!!!!
       
       for (int i=0; i<names.length; i++)
@@ -178,16 +173,14 @@ public class Manager
 
    public String getCurrentConversationDescription()
    {
-      if ( conversationIdEntryMap==null ) return null;
-      ConversationEntry ce = conversationIdEntryMap.get(currentConversationId);
+      ConversationEntry ce = getCurrentConversationEntry();
       if ( ce==null ) return null;
       return ce.getDescription();
    }
 
    public String getCurrentConversationViewId()
    {
-      if ( conversationIdEntryMap==null ) return null;
-      ConversationEntry ce = conversationIdEntryMap.get(currentConversationId);
+      ConversationEntry ce = getCurrentConversationEntry();
       if ( ce==null ) return null;
       return ce.getViewId();
    }
@@ -299,10 +292,19 @@ public class Manager
       }
       conversationAlreadyStored = true;
    }
+   
+   public void unlockConversation()
+   {
+      ConversationEntry ce = getCurrentConversationEntry();
+      if (ce!=null) ce.unlock();
+   }
 
    private void storeLongRunningConversation(Object response)
    {
-      log.debug("Storing conversation state: " + currentConversationId);
+      if ( log.isDebugEnabled() )
+      {
+         log.debug("Storing conversation state: " + getCurrentConversationId());
+      }
       Conversation.instance().flush();
       //if the session is invalid, don't put the conversation id
       //in the view, 'cos we are expecting the conversation to
@@ -313,11 +315,11 @@ public class Manager
          //      RENDER_RESPONSE phase, ie. not before redirects
          if ( isReallyLongRunningConversation() )
          {
-            Contexts.getPageContext().set( CONVERSATION_ID, currentConversationId );
+            Contexts.getPageContext().set( CONVERSATION_ID, getCurrentConversationId() );
             Contexts.getPageContext().set( CONVERSATION_IS_LONG_RUNNING, true );
          }
       }
-      writeConversationIdToResponse(response, currentConversationId);
+      writeConversationIdToResponse( response, getCurrentConversationId() );
       
       if ( Contexts.isPageContextActive() && Init.instance().isJbpmInstalled() )
       {
@@ -333,7 +335,10 @@ public class Manager
 
    private void discardTemporaryConversation(ContextAdaptor session, Object response)
    {
-      log.debug("Discarding conversation state: " + currentConversationId);
+      if (log.isDebugEnabled())
+      {
+         log.debug("Discarding conversation state: " + getCurrentConversationId());
+      }
 
       List<String> stack = getCurrentConversationIdStack();
       if ( stack.size()>1 )
@@ -374,8 +379,8 @@ public class Manager
    }
 
    private void removeCurrentConversationAndDestroyNestedContexts(ContextAdaptor session) {
-      ConversationEntries.instance().removeConversationEntry(currentConversationId);
-      destroyNestedContexts(session, currentConversationId);
+      ConversationEntries.instance().removeConversationEntry( getCurrentConversationId() );
+      destroyNestedContexts( session, getCurrentConversationId() );
    }
 
    private void destroyNestedContexts(ContextAdaptor session, String conversationId) {
@@ -454,7 +459,7 @@ public class Manager
          isLongRunningConversation = false;
       }
 
-      return restoreConversation(storedConversationId, isLongRunningConversation);
+      return restoreAndLockConversation(storedConversationId, isLongRunningConversation);
       
    }
    
@@ -512,17 +517,16 @@ public class Manager
     * Initialize the request conversation context, given the 
     * conversation id.
     */
-   public boolean restoreConversation(String storedConversationId, boolean isLongRunningConversation) {
-      boolean isStoredConversation = storedConversationId!=null &&
-            ConversationEntries.instance().getConversationIds().contains(storedConversationId);
-      if ( isStoredConversation )
+   public boolean restoreAndLockConversation(String storedConversationId, boolean isLongRunningConversation) {
+      ConversationEntry ce = storedConversationId==null ? 
+            null : ConversationEntries.instance().getConversationEntry(storedConversationId);
+      if ( ce!=null && ce.lock() )
       {
 
-         //we found an id, so restore the long-running conversation
+         //we found an id and obtained the lock, so restore the long-running conversation
          log.debug("Restoring conversation with id: " + storedConversationId);
          setLongRunningConversation(true);
          setCurrentConversationId(storedConversationId);
-         ConversationEntry ce = getCurrentConversationEntry();
          setCurrentConversationIdStack( ce.getConversationIdStack() );
 
          boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !(
@@ -543,7 +547,7 @@ public class Manager
       {
          //there was no id in either place, so there is no
          //long-running conversation to restore
-         log.debug("No stored conversation");
+         log.debug("No stored conversation, or concurrent call to the stored conversation");
          initializeTemporaryConversation();
          return !isLongRunningConversation;
       }
@@ -599,7 +603,10 @@ public class Manager
 
    private ConversationEntry createConversationEntry()
    {
-      return ConversationEntries.instance().createConversationEntry( getCurrentConversationId(), getCurrentConversationIdStack() );
+      ConversationEntry entry = ConversationEntries.instance()
+            .createConversationEntry( getCurrentConversationId(), getCurrentConversationIdStack() );
+      entry.lock();
+      return entry;
    }
 
    /**
@@ -639,9 +646,17 @@ public class Manager
       ConversationEntry conversationEntry = createConversationEntry();
       conversationEntry.setInitiatorComponentName(ownerName);
    }
-
+   
+   // two reasons for this: 
+   // (1) a cache
+   // (2) so we can unlock() it after destruction of the session context 
+   private ConversationEntry currentConversationEntry; 
    public ConversationEntry getCurrentConversationEntry() {
-      return ConversationEntries.instance().getConversationEntry(getCurrentConversationId());
+      if (currentConversationEntry==null)
+      {
+         currentConversationEntry = ConversationEntries.instance().getConversationEntry( getCurrentConversationId() );
+      }
+      return currentConversationEntry;
    }
    
    /**
@@ -694,7 +709,7 @@ public class Manager
    {
       if (!destroyBeforeRedirect)
       {
-         ConversationEntry ce = ConversationEntries.instance().getConversationEntry(currentConversationId);
+         ConversationEntry ce = getCurrentConversationEntry();
          if (ce==null)
          {
             ce = createConversationEntry();
@@ -930,7 +945,7 @@ public class Manager
       FacesMessages.instance().addFromResourceBundle( 
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.NoConversation", 
-            "No conversation" 
+            "The conversation ended, timed out or was processing another request" 
          );
       
       //stuff from jPDL takes precedence

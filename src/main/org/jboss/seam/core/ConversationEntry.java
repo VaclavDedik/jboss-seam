@@ -27,7 +27,10 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private String initiatorComponentName;
    private Integer timeout;
    private boolean removeAfterRedirect;
+   
    private ConversationEntries parent;
+   
+   private transient Thread lock;
 
    public ConversationEntry(String id, List<String> stack, ConversationEntries parent)
    {
@@ -169,4 +172,23 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       this.id = id;
    }
+
+   public synchronized boolean lock()
+   {
+      if ( lock!=null && !lock.equals( Thread.currentThread() ) ) 
+      {
+         return false;
+      }
+      this.lock = Thread.currentThread();
+      return true;
+   }
+   
+   public synchronized void unlock()
+   {
+      if ( lock!=null && lock.equals( Thread.currentThread() ) )
+      {
+         this.lock = null;
+      }
+   }
+   
 }

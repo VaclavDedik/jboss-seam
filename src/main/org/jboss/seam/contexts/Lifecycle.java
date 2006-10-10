@@ -273,7 +273,7 @@ public class Lifecycle
    public static void endRequest() {
 
       log.debug("After request, destroying contexts");
-
+      
       try
       {
          flushAndDestroyContexts();
@@ -361,6 +361,8 @@ public class Lifecycle
          log.debug("flushing session context");
          Contexts.getSessionContext().flush();
       }
+      
+      Manager.instance().unlockConversation();
 
       //destroy the event context after the
       //conversation context, since we need
