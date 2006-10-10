@@ -1,7 +1,9 @@
 //$Id$
 package org.jboss.seam.test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.context.ExternalContext;
@@ -17,7 +19,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesApplicationContext;
 import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Conversation;
-import org.jboss.seam.core.ConversationEntry;
+import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -120,6 +122,10 @@ public class PhaseListenerTest
       Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
+            Seam.getComponentName(ConversationEntries.class) + ".component", 
+            new Component(ConversationEntries.class) 
+         );
+      appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
          );
@@ -139,11 +145,12 @@ public class PhaseListenerTest
       setupPageMap(facesContext);
       getPageMap(facesContext).put(Manager.CONVERSATION_ID, "2");
       
-      Map ids = new HashMap();
-      ConversationEntry ce = new ConversationEntry("2");
-      ce.getLastRequestTime();
-      ids.put("2", ce);
-      new WebSessionContext( new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) ).set(Manager.CONVERSATION_ID_MAP, ids);
+      List<String> conversationIdStack = new ArrayList<String>();
+      conversationIdStack.add("2");
+      ConversationEntries entries = new ConversationEntries();
+      entries.createConversationEntry("2", conversationIdStack);
+      WebSessionContext sessionContext = new WebSessionContext( new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) );
+      sessionContext.set( Seam.getComponentName(ConversationEntries.class), entries );
       
       SeamPhaseListener phases = new SeamPhaseListener();
 
