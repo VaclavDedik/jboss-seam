@@ -96,6 +96,9 @@ public class BusinessProcessContext implements Context {
    }
 
    private Set<String> getNamesFromContext() {
+      //TODO: note that this is called from Contexts.destroy(), 
+      //      after the Seam-managed txn was committed, but 
+      //      this implementation requires a hit to the database!
       HashSet<String> results = new HashSet<String>();
       org.jbpm.taskmgmt.exe.TaskInstance taskInstance = getTaskInstance();
       if (taskInstance==null)

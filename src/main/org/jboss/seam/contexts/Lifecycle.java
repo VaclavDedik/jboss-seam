@@ -333,6 +333,10 @@ public class Lifecycle
                   ProcessInstance.instance().hasEnded();
             if ( destroyBusinessProcessContext )
             {
+               //TODO: note that this occurs from Lifecycle.endRequest(), after
+               //      the Seam-managed txn was committed, but Contexts.destroy()
+               //      calls BusinessProcessContext.getNames(), which hits the
+               //      database!
                log.debug("destroying business process context");
                Contexts.destroy( Contexts.getBusinessProcessContext() );
             }

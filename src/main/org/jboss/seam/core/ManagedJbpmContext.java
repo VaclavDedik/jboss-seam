@@ -35,9 +35,9 @@ import org.jbpm.svc.Services;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @version $Revision$
  */
-@Scope( ScopeType.EVENT )
-@Name( "jbpmContext" )
-@Intercept( NEVER )
+@Scope(ScopeType.EVENT)
+@Name("jbpmContext")
+@Intercept(NEVER)
 public class ManagedJbpmContext implements Synchronization
 {
    private static final Log log = LogFactory.getLog(ManagedJbpmContext.class);
@@ -84,7 +84,7 @@ public class ManagedJbpmContext implements Synchronization
       org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
       if (processInstance!=null) 
       {
-         jbpmContext.save( processInstance );
+         jbpmContext.save(processInstance);
       }
       Contexts.getBusinessProcessContext().flush();
       jbpmContext.getSession().flush();

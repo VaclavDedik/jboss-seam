@@ -63,5 +63,4 @@ public class SessionBeanInterceptor extends RootInterceptor
       super.postConstruct(invocation);
    }
 
-   
 }

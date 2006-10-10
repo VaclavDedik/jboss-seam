@@ -34,7 +34,8 @@ public class ClientSideInterceptor extends RootInterceptor
    public Object intercept(final Object proxy, final Method method, final Object[] params,
          final MethodProxy methodProxy) throws Throwable
    {
-      return aroundInvoke( new JavaBeanInvocationContext(bean, method, params)
+      //TODO: handle the finalize method
+      return aroundInvoke( new RootInvocationContext(bean, method, params)
       {
          public Object proceed() throws Exception
          {

@@ -12,14 +12,14 @@ import javax.interceptor.InvocationContext;
  * @author Gavin King
  *
  */
-public abstract class JavaBeanInvocationContext implements InvocationContext
+public abstract class RootInvocationContext implements InvocationContext
 {
    private final Object bean;
    private final Method method;
    private Object[] params;
    private final Map contextData = new HashMap();
 
-   public JavaBeanInvocationContext(Object bean, Method method, Object[] params)
+   public RootInvocationContext(Object bean, Method method, Object[] params)
    {
       this.bean = bean;
       this.method = method;
