@@ -17,6 +17,9 @@ import java.lang.annotation.Target;
  * with the specified name.
  * 
  * @author Gavin King
+ * 
+ * @deprecated use <s:validate/> or <s:validateAll/>
+ * 
  */
 @Target(METHOD)
 @Retention(RUNTIME)
