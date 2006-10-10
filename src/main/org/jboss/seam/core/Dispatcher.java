@@ -41,10 +41,14 @@ public class Dispatcher implements LocalDispatcher
    
    static class AsynchronousInvocation implements Serializable
    {
+      static final long serialVersionUID = 7426196491669891310L;
+      
       private String methodName;
       private Class[] argTypes;
       private Object[] args;
       private String componentName;
+      private Long processId;
+      private Long taskId;
       
       public AsynchronousInvocation(Method method, String componentName, Object[] args)
       {
@@ -52,9 +56,14 @@ public class Dispatcher implements LocalDispatcher
          this.argTypes = method.getParameterTypes();
          this.args = args==null ? new Object[0] : args;
          this.componentName = componentName;
+         if ( Init.instance().isJbpmInstalled() )
+         {
+            processId = BusinessProcess.instance().getProcessId();
+            taskId = BusinessProcess.instance().getTaskId();
+         }
       }
       
-      public void execute()
+      public void execute(Timer timer)
       {
          
          //TODO: shouldn't this take place in a Seam context anyway??!? (bug in EJB3?)
@@ -63,6 +72,16 @@ public class Dispatcher implements LocalDispatcher
          Contexts.getEventContext().set(EXECUTING_ASYNCHRONOUS_CALL, true);
          try
          {
+            if (taskId!=null)
+            {
+               BusinessProcess.instance().initTask(taskId);
+            }
+            else if (processId!=null)
+            {
+               BusinessProcess.instance().initProcess(processId);
+            }
+            
+            Contexts.getEventContext().set("timer", timer);
          
             Object target = Component.getInstance(componentName);
             
@@ -91,7 +110,7 @@ public class Dispatcher implements LocalDispatcher
    @Timeout
    public void dispatch(Timer timer)
    {
-      ( (AsynchronousInvocation) timer.getInfo() ).execute();
+      ( (AsynchronousInvocation) timer.getInfo() ).execute(timer);
    }
    
    public Timer schedule(InvocationContext invocation, Component component)
