@@ -50,6 +50,9 @@ public class Pages
    
    private static final Log log = LogFactory.getLog(Pages.class);
    
+   private Map<String, Page> pagesByViewId = new HashMap<String, Page>();   
+   private String noConversationViewId;
+   
    static final class Page
    {
       Page(String viewId)
@@ -96,10 +99,6 @@ public class Pages
       }
    }
    
-   private Map<String, Page> pagesByViewId = new HashMap<String, Page>();
-   
-   private String noConversationViewId;
-   
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
             public int compare(String x, String y)
@@ -125,6 +124,12 @@ public class Pages
          SAXReader saxReader = new SAXReader();
          saxReader.setMergeAdjacentText(true);
          Document doc = saxReader.read(stream);
+         
+         if (noConversationViewId==null) //let the setting in components.xml override the pages.xml
+         {
+            noConversationViewId = doc.getRootElement().attributeValue("no-conversation-view-id");
+         }
+         
          List<Element> elements = doc.getRootElement().elements("page");
          for (Element page: elements)
          {
