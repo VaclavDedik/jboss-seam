@@ -4,6 +4,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,6 +109,31 @@ public class Events
             observer.component.callComponentMethod(listener, observer.method);
          }
       }
+   }
+   
+   public void raiseAsynchronousEvent(String type)
+   {
+      Dispatcher.instance().scheduleEvent(type, 0l, null, null);
+   }
+   
+   public void raiseTimedEvent(String type, long duration)
+   {
+      Dispatcher.instance().scheduleEvent(type, duration, null, null);
+   }
+   
+   public void raiseTimedEvent(String type, Date expiration)
+   {
+      Dispatcher.instance().scheduleEvent(type, null, expiration, null);
+   }
+   
+   public void raiseTimedEvent(String type, Date expiration, long intervalDuration)
+   {
+      Dispatcher.instance().scheduleEvent(type, null, expiration, intervalDuration);
+   }
+   
+   public void raiseTimedEvent(String type, long duration, long intervalDuration)
+   {
+      Dispatcher.instance().scheduleEvent(type, duration, null, intervalDuration);
    }
    
    public static boolean exists()

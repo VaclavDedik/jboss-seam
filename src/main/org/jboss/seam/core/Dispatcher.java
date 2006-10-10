@@ -39,28 +39,20 @@ public class Dispatcher implements LocalDispatcher
    
    @Resource TimerService timerService;
    
-   static class AsynchronousInvocation implements Serializable
+   public static abstract class Asynchronous implements Serializable
    {
-      static final long serialVersionUID = 7426196491669891310L;
+      static final long serialVersionUID = -551286304424595765L;
       
-      private String methodName;
-      private Class[] argTypes;
-      private Object[] args;
-      private String componentName;
       private Long processId;
       private Long taskId;
       
-      public AsynchronousInvocation(Method method, String componentName, Object[] args)
+      protected Asynchronous()
       {
-         this.methodName = method.getName();
-         this.argTypes = method.getParameterTypes();
-         this.args = args==null ? new Object[0] : args;
-         this.componentName = componentName;
          if ( Init.instance().isJbpmInstalled() )
          {
             processId = BusinessProcess.instance().getProcessId();
             taskId = BusinessProcess.instance().getTaskId();
-         }
+         }        
       }
       
       public void execute(Timer timer)
@@ -83,19 +75,7 @@ public class Dispatcher implements LocalDispatcher
             
             Contexts.getEventContext().set("timer", timer);
          
-            Object target = Component.getInstance(componentName);
-            
-            Method method;
-            try
-            {
-               method = target.getClass().getMethod(methodName, argTypes);
-            }
-            catch (NoSuchMethodException nsme)
-            {
-               throw new IllegalStateException(nsme);
-            }
-            
-            Reflections.invokeAndWrap(method, target, args);
+            call();
             
          }
          finally
@@ -105,15 +85,77 @@ public class Dispatcher implements LocalDispatcher
          }
          
       }
+      
+      protected abstract void call();
+   }
+   
+   static class AsynchronousInvocation extends Asynchronous
+   {
+      static final long serialVersionUID = 7426196491669891310L;
+      
+      private String methodName;
+      private Class[] argTypes;
+      private Object[] args;
+      private String componentName;
+      
+      public AsynchronousInvocation(Method method, String componentName, Object[] args)
+      {
+         this.methodName = method.getName();
+         this.argTypes = method.getParameterTypes();
+         this.args = args==null ? new Object[0] : args;
+         this.componentName = componentName;
+      }
+      
+      @Override
+      protected void call()
+      {
+         Object target = Component.getInstance(componentName);
+         
+         Method method;
+         try
+         {
+            method = target.getClass().getMethod(methodName, argTypes);
+         }
+         catch (NoSuchMethodException nsme)
+         {
+            throw new IllegalStateException(nsme);
+         }
+         
+         Reflections.invokeAndWrap(method, target, args);
+      }
+   }
+   
+   static class AsynchronousEvent extends Asynchronous
+   {
+      static final long serialVersionUID = 2074586442931427819L;
+      
+      private String type;
+
+      public AsynchronousEvent(String type)
+      {
+         this.type = type;
+      }
+
+      @Override
+      public void call()
+      {
+         Events.instance().raiseEvent(type);
+      }
+      
    }
    
    @Timeout
    public void dispatch(Timer timer)
    {
-      ( (AsynchronousInvocation) timer.getInfo() ).execute(timer);
+      ( (Asynchronous) timer.getInfo() ).execute(timer);
    }
    
-   public Timer schedule(InvocationContext invocation, Component component)
+   public Timer scheduleEvent(String type, Long duration, Date expiration, Long intervalDuration)
+   {
+      return schedule( duration, expiration, intervalDuration, new AsynchronousEvent(type) );
+   }
+   
+   public Timer scheduleInvocation(InvocationContext invocation, Component component)
    {
       Long duration = 0l;
       Date expiration = null;
@@ -144,26 +186,31 @@ public class Dispatcher implements LocalDispatcher
             invocation.getParameters()
          );
       
+      return schedule(duration, expiration, intervalDuration, asynchronousInvocation);
+      
+   }
+
+   private Timer schedule(Long duration, Date expiration, Long intervalDuration, Asynchronous asynchronous)
+   {
       if (intervalDuration!=null)
       {
          if (expiration!=null)
          {
-            return timerService.createTimer(expiration, intervalDuration, asynchronousInvocation);
+            return timerService.createTimer(expiration, intervalDuration, asynchronous);
          }
          else
          {
-            return timerService.createTimer(duration, intervalDuration, asynchronousInvocation);
+            return timerService.createTimer(duration, intervalDuration, asynchronous);
          }            
       }
       else if (expiration!=null)
       {
-         return timerService.createTimer(expiration, asynchronousInvocation);
+         return timerService.createTimer(expiration, asynchronous);
       }
       else
       {
-         return timerService.createTimer(duration, asynchronousInvocation);
+         return timerService.createTimer(duration, asynchronous);
       }
-      
    }
 
    public static LocalDispatcher instance()
