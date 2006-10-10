@@ -192,13 +192,13 @@ public class ConversationInterceptor extends AbstractInterceptor
       if ( !Manager.instance().isLongRunningConversation() )
       {
          log.debug("Beginning long-running conversation");
-         Manager.instance().beginConversation( component.getName() );
+         Manager.instance().beginConversation( getComponent().getName() );
          beginNavigation(pageflowName);
       }
       else if (nested)
       {
          log.debug("Beginning nested conversation");
-         Manager.instance().beginNestedConversation( component.getName() );
+         Manager.instance().beginNestedConversation( getComponent().getName() );
          beginNavigation(pageflowName);
       }
    }

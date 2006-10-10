@@ -55,7 +55,7 @@ public class RemoveInterceptor extends AbstractInterceptor
          if ( !exception.getClass().isAnnotationPresent(ApplicationException.class) ) 
          {
             //it is a "system exception"
-            if ( component.getType()==ComponentType.STATEFUL_SESSION_BEAN )
+            if ( getComponent().getType()==ComponentType.STATEFUL_SESSION_BEAN )
             {
                remove();
             }
@@ -81,8 +81,8 @@ public class RemoveInterceptor extends AbstractInterceptor
    private void remove() {
       //TODO: account for roles, by checking which role the component
       //      is actually bound to (need getInvokedBusinessObject())
-      component.getScope().getContext().remove( component.getName() );
-      log.debug("Stateful component was removed: " + component.getName());
+      getComponent().getScope().getContext().remove( getComponent().getName() );
+      log.debug("Stateful component was removed: " + getComponent().getName());
    }
 
 }

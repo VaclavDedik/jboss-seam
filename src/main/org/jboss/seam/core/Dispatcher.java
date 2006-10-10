@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.timer.Expiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.ejb.SeamInterceptor;
+import org.jboss.seam.intercept.RootInterceptor;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -31,7 +31,7 @@ import org.jboss.seam.util.Reflections;
  */
 @Stateless
 @Name("org.jboss.seam.core.dispatcher")
-@Interceptors(SeamInterceptor.class)
+@Interceptors(RootInterceptor.class)
 public class Dispatcher implements LocalDispatcher
 {
    

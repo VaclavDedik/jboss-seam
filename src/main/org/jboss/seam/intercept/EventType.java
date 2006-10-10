@@ -1,4 +1,4 @@
-package org.jboss.seam.interceptors;
+package org.jboss.seam.intercept;
 
 public enum EventType
 {

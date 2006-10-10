@@ -23,7 +23,7 @@ public class AsynchronousInterceptor extends AbstractInterceptor
             !Contexts.getEventContext().isSet(Dispatcher.EXECUTING_ASYNCHRONOUS_CALL);
       if ( scheduleAsync )
       {
-         Timer timer = Dispatcher.instance().scheduleInvocation(invocation, component);
+         Timer timer = Dispatcher.instance().scheduleInvocation(invocation, getComponent());
          //if the method returns a Timer, return it to the client
          return invocation.getMethod().getReturnType().equals(Timer.class) ? timer : null;
       }

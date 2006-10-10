@@ -37,7 +37,7 @@ public class RollbackInterceptor extends AbstractInterceptor
                   outcomeList.contains(result);
             if ( isRollback )
             {
-               if ( component.getType()==ComponentType.JAVA_BEAN )
+               if ( getComponent().getType()==ComponentType.JAVA_BEAN )
                {
                   //For JavaBeans, we assume the UT is accessible
                   Transactions.setUserTransactionRollbackOnly();
@@ -56,7 +56,7 @@ public class RollbackInterceptor extends AbstractInterceptor
       {
          //Any exception that propagates out of a JavaBean component
          //causes a transaction rollback
-         if ( component.getType()==ComponentType.JAVA_BEAN )
+         if ( getComponent().getType()==ComponentType.JAVA_BEAN )
          {
             try
             {

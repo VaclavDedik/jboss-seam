@@ -3,10 +3,6 @@ package org.jboss.seam.interceptors;
 
 import java.io.Serializable;
 
-import javax.ejb.PostActivate;
-import javax.ejb.PrePassivate;
-import javax.interceptor.InvocationContext;
-
 import org.jboss.seam.Component;
 
 /**
@@ -14,50 +10,24 @@ import org.jboss.seam.Component;
  * 
  * @author Gavin King
  */
-class AbstractInterceptor implements Serializable
+public class AbstractInterceptor implements Serializable
 {
-   protected transient Component component;
+   private transient Component component; //a cache of the Component reference
    private String componentName;
 
    public void setComponent(Component component)
    {
+      componentName = component.getName();
       this.component = component;
    }
-   
-   @PrePassivate
-   public void initComponentName(InvocationContext invocation)
+
+   protected Component getComponent()
    {
-      try
+      if (component==null)
       {
-         invocation.proceed();
+         component = Component.forName(componentName);
       }
-      catch (RuntimeException e)
-      {
-         throw e;
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException("exception in @PrePassivate", e);
-      }
-      componentName = component.getName();
-   }
-   
-   @PostActivate
-   public void initComponent(InvocationContext invocation)
-   {
-      component = Component.forName(componentName);
-      try
-      {
-         invocation.proceed();
-      }
-      catch (RuntimeException e)
-      {
-         throw e;
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException("exception in @PostActivate", e);
-      }
+      return component;
    }
 
 }

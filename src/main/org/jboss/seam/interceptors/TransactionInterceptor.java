@@ -21,7 +21,7 @@ public class TransactionInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object doInTransactionIfNecessary(InvocationContext invocation) throws Exception
    {
-      boolean begin = ( isTransactional( invocation.getMethod() ) || isTransactional( component.getBeanClass() ) ) &&
+      boolean begin = ( isTransactional( invocation.getMethod() ) || isTransactional( getComponent().getBeanClass() ) ) &&
             !Transactions.isTransactionActiveOrMarkedRollback();
       UserTransaction userTransaction = begin ? Transactions.getUserTransaction() : null;
 

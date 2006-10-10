@@ -39,7 +39,7 @@ public class ValidationInterceptor extends AbstractInterceptor
       if ( method.isAnnotationPresent(IfInvalid.class) )
       {
          IfInvalid ifInvalid = method.getAnnotation(IfInvalid.class);
-         InvalidValue[] invalidValues = component.getValidator()
+         InvalidValue[] invalidValues = getComponent().getValidator()
                .getInvalidValues( invocation.getTarget() );
          if (invalidValues.length==0)
          {
@@ -47,7 +47,7 @@ public class ValidationInterceptor extends AbstractInterceptor
          }
          else
          {
-            log.debug("invalid component state: " + component.getName());
+            log.debug("invalid component state: " + getComponent().getName());
             for (InvalidValue iv : invalidValues)
             {
                log.debug("invalid value: " + iv);

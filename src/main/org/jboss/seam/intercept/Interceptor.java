@@ -1,5 +1,5 @@
 //$Id$
-package org.jboss.seam.interceptors;
+package org.jboss.seam.intercept;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

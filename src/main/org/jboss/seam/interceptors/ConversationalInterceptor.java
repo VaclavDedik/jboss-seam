@@ -43,11 +43,11 @@ public class ConversationalInterceptor extends AbstractInterceptor
       {
          String outcome = methodIsConversational(method) ? 
                method.getAnnotation(Conversational.class).ifNotBegunOutcome() :
-               component.getBeanClass().getAnnotation(Conversational.class).ifNotBegunOutcome();
+               getComponent().getBeanClass().getAnnotation(Conversational.class).ifNotBegunOutcome();
          
          if ( "".equals(outcome) )
          {
-            throw new IllegalStateException( "no long-running conversation for @Conversational bean: " + component.getName() );
+            throw new IllegalStateException( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
          }
          else
          {
@@ -57,7 +57,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
                
                if ( log.isDebugEnabled() )
                {
-                  log.debug( "no long-running conversation for @Conversational bean: " + component.getName() );
+                  log.debug( "no long-running conversation for @Conversational bean: " + getComponent().getName() );
                }
                FacesMessages.instance().addFromResourceBundle( 
                      FacesMessage.SEVERITY_WARN, 
@@ -110,16 +110,16 @@ public class ConversationalInterceptor extends AbstractInterceptor
    }
 
    private boolean componentIsConversational() {
-      return component.getBeanClass().isAnnotationPresent(Conversational.class);
+      return getComponent().getBeanClass().isAnnotationPresent(Conversational.class);
    }
 
    private boolean componentShouldBeInitiator() {
-      return component.getBeanClass().getAnnotation(Conversational.class).initiator();
+      return getComponent().getBeanClass().getAnnotation(Conversational.class).initiator();
    }
 
    private boolean componentIsInitiator()
    {
-      return component.getName().equals( Manager.instance().getCurrentConversationInitiator() );
+      return getComponent().getName().equals( Manager.instance().getCurrentConversationInitiator() );
    }
 
 }

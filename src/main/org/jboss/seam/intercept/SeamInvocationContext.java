@@ -1,11 +1,12 @@
 //$Id$
-package org.jboss.seam.interceptors;
+package org.jboss.seam.intercept;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
 import javax.interceptor.InvocationContext;
+
 
 /**
  * Adapts from EJB interception to Seam component interceptors

@@ -39,33 +39,33 @@ public class BijectionInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object bijectTargetComponent(InvocationContext invocation) throws Exception
    {
-      if ( component.needsInjection() ) //only needed to hush the log message
+      if ( getComponent().needsInjection() ) //only needed to hush the log message
       {
          if ( log.isTraceEnabled() )
          {
-            log.trace("injecting dependencies of: " + component.getName());
+            log.trace("injecting dependencies of: " + getComponent().getName());
          }
-         component.inject( invocation.getTarget(), !isLifecycleMethod( invocation.getMethod() ) );
+         getComponent().inject( invocation.getTarget(), !isLifecycleMethod( invocation.getMethod() ) );
       }
       
       Object result = invocation.proceed();
       
-      if ( component.needsOutjection() ) //only needed to hush the log message
+      if ( getComponent().needsOutjection() ) //only needed to hush the log message
       {
          if ( log.isTraceEnabled() )
          {
-            log.trace("outjecting dependencies of: " + component.getName());
+            log.trace("outjecting dependencies of: " + getComponent().getName());
          }
-         component.outject( invocation.getTarget(), isLifecycleMethod( invocation.getMethod() ) );
+         getComponent().outject( invocation.getTarget(), isLifecycleMethod( invocation.getMethod() ) );
       }
       
-      if ( component.needsInjection() ) //only needed to hush the log message
+      if ( getComponent().needsInjection() ) //only needed to hush the log message
       {
          if ( log.isTraceEnabled() )
          {
-            log.trace("disinjecting dependencies of: " + component.getName());
+            log.trace("disinjecting dependencies of: " + getComponent().getName());
          }
-         component.disinject( invocation.getTarget() );
+         getComponent().disinject( invocation.getTarget() );
       }
       
       //method parameter injection?
