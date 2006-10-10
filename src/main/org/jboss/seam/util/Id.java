@@ -9,6 +9,7 @@ public class Id
    
    public static String nextId() 
    {
+      //TODO: this is not cluster safe!!!!!
       return Integer.toString( uniqueId.incrementAndGet() );
    }
 }

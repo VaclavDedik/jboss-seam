@@ -19,6 +19,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
@@ -208,7 +209,7 @@ public class Lifecycle
       Context tempSessionContext = new WebSessionContext( session );
       Contexts.sessionContext.set(tempSessionContext);
 
-      Set<String> conversationIds = Manager.instance().getSessionConversationIds();
+      Set<String> conversationIds = ConversationEntries.instance().getConversationIds();
       log.debug("destroying conversation contexts: " + conversationIds);
       for (String conversationId: conversationIds)
       {

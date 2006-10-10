@@ -110,9 +110,12 @@ public class Conversation implements Serializable {
          {
             throw new IllegalStateException("only long-running conversation outcomes are switchable");
          }
-         if (description!=null) manager.setCurrentConversationDescription(description);
-         if (viewId!=null) manager.setCurrentConversationViewId(viewId);
-         if (timeout!=null) manager.setCurrentConversationTimeout(timeout);
+         if (description!=null)
+            manager.getCurrentConversationEntry().setDescription(description);
+         if (viewId!=null)
+            manager.getCurrentConversationEntry().setViewId(viewId);
+         if (timeout!=null)
+            manager.getCurrentConversationEntry().setTimeout(timeout);
          description = null;
          viewId = null;
       }

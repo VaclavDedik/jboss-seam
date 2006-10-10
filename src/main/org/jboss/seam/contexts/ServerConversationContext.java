@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,9 +34,9 @@ public class ServerConversationContext implements Context {
    private final Map<String, Object> additions = new HashMap<String, Object>();
    private final Set<String> removals = new HashSet<String>();
    private final String id;
-   private final LinkedList<String> idStack;
+   private final List<String> idStack;
    
-   private LinkedList<String> getIdStack()
+   private List<String> getIdStack()
    {
       return idStack==null ? Manager.instance().getCurrentConversationIdStack() : idStack;
    }
@@ -85,7 +86,7 @@ public class ServerConversationContext implements Context {
       Object result = additions.get(name);
       if (result!=null) return result;
       if ( removals.contains(name) ) return null;
-      LinkedList<String> stack = getIdStack();
+      List<String> stack = getIdStack();
       if (stack==null)
       {
          return session.getAttribute( getKey(name) );

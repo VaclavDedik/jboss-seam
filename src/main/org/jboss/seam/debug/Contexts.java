@@ -1,14 +1,10 @@
 package org.jboss.seam.debug;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Arrays;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.ConversationEntry;
-import org.jboss.seam.core.Manager;
 
 @Name("org.jboss.seam.debug.contexts")
 @Scope(ScopeType.APPLICATION)
@@ -47,11 +43,6 @@ public class Contexts
       {
          return null;
       }
-   }
-   
-   public ConversationEntry[] getConversationEntries()
-   {
-      return Manager.instance().getConversationIdEntryMap().values().toArray( new ConversationEntry[0] );
    }
 
    public Exception getException()

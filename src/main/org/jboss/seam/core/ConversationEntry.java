@@ -4,8 +4,8 @@
 package org.jboss.seam.core;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,25 +23,18 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private Date startDatetime;
    private Date lastDatetime;
    private String viewId;
-   private LinkedList<String> conversationIdStack;
+   private List<String> conversationIdStack;
    private String initiatorComponentName;
    private Integer timeout;
    private boolean removeAfterRedirect;
+   private ConversationEntries parent;
 
-   public ConversationEntry(String id, LinkedList<String> stack)
+   public ConversationEntry(String id, List<String> stack, ConversationEntries parent)
    {
       this.id = id;
-      conversationIdStack = stack;
-      startDatetime = new Date();
-      touch();
-   }
-
-   public ConversationEntry(String id)
-   {
-      this.id = id;
-      conversationIdStack = new LinkedList<String>();
-      conversationIdStack.add(id);
-      startDatetime = new Date();
+      this.conversationIdStack = Collections.unmodifiableList(stack);
+      this.startDatetime = new Date();
+      this.parent = parent;
       touch();
    }
 
@@ -55,6 +48,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void setDescription(String description) {
+      parent.setDirty(this.description, description);
       this.description = description;
    }
 
@@ -63,6 +57,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void touch() {
+      parent.setDirty();
       this.lastRequestTime = System.currentTimeMillis();
       lastDatetime = new Date();
    }
@@ -95,6 +90,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void setViewId(String viewId) {
+      parent.setDirty(this.viewId, viewId);
       this.viewId = viewId;
    }
 
@@ -112,7 +108,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return lastDatetime;
    }
 
-   public LinkedList<String> getConversationIdStack() {
+   public List<String> getConversationIdStack() {
       return conversationIdStack;
    }
 
@@ -121,6 +117,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void setInitiatorComponentName(String ownerComponentName) {
+      parent.setDirty(this.initiatorComponentName, ownerComponentName);
       this.initiatorComponentName = ownerComponentName;
    }
 
@@ -155,6 +152,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void setTimeout(int conversationTimeout) {
+      parent.setDirty(this.timeout, timeout);
       this.timeout = conversationTimeout;
    }
 
@@ -163,6 +161,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    public void setRemoveAfterRedirect(boolean removeAfterRedirect) {
+      parent.setDirty();
       this.removeAfterRedirect = removeAfterRedirect;
    }
    

@@ -17,6 +17,7 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
@@ -83,7 +84,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       if ( id!=null && !"".equals(id) )
       {
          id = Interpolator.instance().interpolate(id);
-         ConversationEntry ce = Manager.instance().getConversationIdEntryMap().get(id);
+         ConversationEntry ce = ConversationEntries.instance().getConversationEntry(id);
          if (ce==null) 
          {
             Manager.instance().updateCurrentConversationId(id);

@@ -39,6 +39,7 @@ import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.BusinessProcessContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationContext;
+import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.EventContext;
@@ -364,6 +365,7 @@ public class Initialization
       addComponent( Expressions.class, context);
       addComponent( Pages.class, context);
       addComponent( Events.class, context);
+      addComponent( ConversationEntries.class, context );
       addComponent( Manager.class, context );
       addComponent( Switcher.class, context );
       addComponent( Redirect.class, context );

@@ -5,7 +5,6 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -31,10 +30,10 @@ public class ConversationList implements Serializable {
    @Create
    public void createConversationEntryList()
    {
-      Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
+      ConversationEntries conversationEntries = ConversationEntries.instance();
       Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
-      orderedEntries.addAll( map.values() );
-      conversationEntryList = new ArrayList<ConversationEntry>( map.size() );
+      orderedEntries.addAll( conversationEntries.getConversationEntries() );
+      conversationEntryList = new ArrayList<ConversationEntry>( conversationEntries.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
          if ( entry.isDisplayable() && !Seam.isSessionInvalid() )

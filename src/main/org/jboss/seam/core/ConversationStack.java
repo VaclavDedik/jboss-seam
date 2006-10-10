@@ -4,10 +4,8 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -33,17 +31,16 @@ public class ConversationStack implements Serializable {
    @Create
    public void createConversationEntryStack()
    {
-      Manager manager = Manager.instance();
-      Map<String, ConversationEntry> map = manager.getConversationIdEntryMap();
-      ConversationEntry currentConversationEntry = manager.getCurrentConversationEntry();
+      ConversationEntries conversationEntries = ConversationEntries.instance();
+      ConversationEntry currentConversationEntry = Manager.instance().getCurrentConversationEntry();
       if (currentConversationEntry!=null)
       {
-         LinkedList<String> idStack = currentConversationEntry.getConversationIdStack();
-         conversationEntryStack = new ArrayList<ConversationEntry>( map.size() );
+         List<String> idStack = currentConversationEntry.getConversationIdStack();
+         conversationEntryStack = new ArrayList<ConversationEntry>( conversationEntries.size() );
          ListIterator<String> ids = idStack.listIterator( idStack.size() );
          while ( ids.hasPrevious() )
          {
-            ConversationEntry entry = map.get( ids.previous() );
+            ConversationEntry entry = conversationEntries.getConversationEntry( ids.previous() );
             if ( entry.isDisplayable() && !Seam.isSessionInvalid() ) 
             {
                conversationEntryStack.add(entry);

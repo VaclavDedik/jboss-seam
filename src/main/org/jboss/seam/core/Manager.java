@@ -9,12 +9,10 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.faces.application.FacesMessage;
@@ -29,7 +27,6 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -54,7 +51,6 @@ public class Manager
    private static final Log log = LogFactory.getLog(Manager.class);
 
    private static final String NAME = Seam.getComponentName(Manager.class);
-   public static final String CONVERSATION_ID_MAP = NAME + ".conversationIdEntryMap";
    public static final String CONVERSATION_ID = NAME + ".conversationId";
    public static final String CONVERSATION_IS_LONG_RUNNING = NAME + ".conversationIsLongRunning";
    public static final String PAGEFLOW_COUNTER = NAME + ".pageflowCounter";
@@ -66,11 +62,10 @@ public class Manager
    //stored in the session context at the end
    //of each request
    private Map<String, ConversationEntry> conversationIdEntryMap;
-   private boolean dirty = false;
 
    //The id of the current conversation
    private String currentConversationId;
-   private LinkedList<String> currentConversationIdStack;
+   private List<String> currentConversationIdStack;
 
    //Is the current conversation "long-running"?
    private boolean isLongRunningConversation;
@@ -104,7 +99,6 @@ public class Manager
    
    public void updateCurrentConversationId(String id)
    {
-      
       String[] names = Contexts.getConversationContext().getNames();
       Object[] values = new Object[names.length];
       for (int i=0; i<names.length; i++)
@@ -114,75 +108,28 @@ public class Manager
       }
       Contexts.getConversationContext().flush();
       
-      Map<String, ConversationEntry> map = getConversationIdEntryMap();
-      ConversationEntry ce = map.remove(currentConversationId);
-      if (ce!=null){
-         ce.setId(id);
-         map.put(id, ce);
-         dirty();
-      }
+      ConversationEntries.instance().updateConversationId(currentConversationId, id);
       currentConversationIdStack.set(0, id);
       currentConversationId = id;
+      //TODO: update nested conversations!!!!!
       
       for (int i=0; i<names.length; i++)
       {
          Contexts.getConversationContext().set(names[i], values[i]);
       }
-      
-   }
-
-   public Set<String> getSessionConversationIds()
-   {
-      return getConversationIdEntryMap().keySet();
-   }
-
-   public Map<String, ConversationEntry> getConversationIdEntryMap()
-   {
-      if (conversationIdEntryMap==null)
-      {
-         conversationIdEntryMap = (Map<String, ConversationEntry>) Contexts.getSessionContext().get(CONVERSATION_ID_MAP);
-         if (conversationIdEntryMap==null)
-         {
-            conversationIdEntryMap = Collections.synchronizedMap( new HashMap<String, ConversationEntry>() );
-         }
-      }
-      return conversationIdEntryMap;
-   }
-
-   /**
-    * Make sure the session notices that we changed something
-    */
-   private void dirty()
-   {
-      dirty = true;
-   }
-
-   private ConversationEntry removeConversationEntry(String conversationId)
-   {
-      Map<String, ConversationEntry> entryMap = getConversationIdEntryMap();
-      if ( entryMap.containsKey(conversationId) ) //might be a request-only conversationId, not yet existing in session
-      {
-         dirty();
-         return entryMap.remove(conversationId);
-      }
-      else
-      {
-         return null; //does this ever occur??
-      }
    }
 
    private void touchConversationStack()
    {
-      LinkedList<String> stack = getCurrentConversationIdStack();
+      List<String> stack = getCurrentConversationIdStack();
       if ( stack!=null )
       {
          for ( String conversationId: stack )
          {
-            ConversationEntry conversationEntry = getConversationEntry(conversationId);
+            ConversationEntry conversationEntry = ConversationEntries.instance().getConversationEntry(conversationId);
             if (conversationEntry!=null)
             {
                conversationEntry.touch();
-               dirty();
             }
          }
       }
@@ -195,10 +142,6 @@ public class Manager
 
    }
 
-   private ConversationEntry getConversationEntry(String conversationId) {
-      return getConversationIdEntryMap().get(conversationId);
-   }
-   
    /**
     * Get the name of the component that started the current
     * conversation.
@@ -216,38 +159,21 @@ public class Manager
       }
    }
 
-   public LinkedList<String> getCurrentConversationIdStack()
+   public List<String> getCurrentConversationIdStack()
    {
       return currentConversationIdStack;
    }
 
-   private void setCurrentConversationIdStack(LinkedList<String> stack)
+   private void setCurrentConversationIdStack(List<String> stack)
    {
       currentConversationIdStack = stack;
    }
 
-   private void setCurrentConversationIdStack(String id)
+   private List<String> createCurrentConversationIdStack(String id)
    {
-      currentConversationIdStack = new LinkedList<String>();
+      currentConversationIdStack = new ArrayList<String>();
       currentConversationIdStack.add(id);
-   }
-
-   public void setCurrentConversationDescription(String description)
-   {
-      getCurrentConversationEntry().setDescription(description);
-      dirty();
-   }
-
-   public void setCurrentConversationViewId(String viewId)
-   {
-      getCurrentConversationEntry().setViewId(viewId);
-      dirty();
-   }
-
-   public void setCurrentConversationTimeout(int timeout)
-   {
-      getCurrentConversationEntry().setTimeout(timeout);
-      dirty();
+      return currentConversationIdStack;
    }
 
    public String getCurrentConversationDescription()
@@ -268,7 +194,7 @@ public class Manager
    
    public String getParentConversationViewId()
    {
-      ConversationEntry conversationEntry = getConversationEntry( getParentConversationId() );
+      ConversationEntry conversationEntry = ConversationEntries.instance().getConversationEntry(getParentConversationId());
       return conversationEntry==null ? null : conversationEntry.getViewId();
    }
    
@@ -282,18 +208,6 @@ public class Manager
    {
       return currentConversationIdStack==null || currentConversationIdStack.size()<1 ?
             null : currentConversationIdStack.get( currentConversationIdStack.size()-1 );
-   }
-
-   @Destroy
-   public void flushConversationIdMapToSession()
-   {
-      if ( Contexts.isSessionContextActive() ) // this method might be called from the session listener
-      {
-         if (dirty)
-         {
-            Contexts.getSessionContext().set(CONVERSATION_ID_MAP, conversationIdEntryMap);
-         }
-      }
    }
 
    public boolean isLongRunningConversation()
@@ -338,18 +252,15 @@ public class Manager
    public void conversationTimeout(ExternalContext externalContext)
    {
       long currentTime = System.currentTimeMillis();
-      Iterator<Map.Entry<String, ConversationEntry>> entries = getConversationIdEntryMap().entrySet().iterator();
-      while ( entries.hasNext() )
+      List<ConversationEntry> entries = new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
+      for (ConversationEntry conversationEntry: entries)
       {
-         Map.Entry<String, ConversationEntry> entry = entries.next();
-         ConversationEntry conversationEntry = entry.getValue();
          long delta = currentTime - conversationEntry.getLastRequestTime();
          if ( delta > conversationEntry.getTimeout() )
          {
-            String conversationId = entry.getKey();
-            log.debug("conversation timeout for conversation: " + conversationId);
+            log.debug("conversation timeout for conversation: " + conversationEntry.getId());
             ContextAdaptor session = ContextAdaptor.getSession(externalContext, true);
-            destroyConversation(conversationId, session, entries);
+            destroyConversation( conversationEntry.getId(), session );
          }
       }
    }
@@ -357,14 +268,13 @@ public class Manager
    /**
     * Clean up all state associated with a conversation
     */
-   private void destroyConversation(String conversationId, ContextAdaptor session, Iterator iter)
+   private void destroyConversation(String conversationId, ContextAdaptor session)
    {
       ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
       Contexts.destroy( conversationContext );
       conversationContext.clear();
       conversationContext.flush();
-      iter.remove();
-      dirty();
+      ConversationEntries.instance().removeConversationEntry(conversationId);
    }
    
    /**
@@ -425,7 +335,7 @@ public class Manager
    {
       log.debug("Discarding conversation state: " + currentConversationId);
 
-      LinkedList<String> stack = getCurrentConversationIdStack();
+      List<String> stack = getCurrentConversationIdStack();
       if ( stack.size()>1 )
       {
          String outerConversationId = stack.get(1);
@@ -464,20 +374,19 @@ public class Manager
    }
 
    private void removeCurrentConversationAndDestroyNestedContexts(ContextAdaptor session) {
-      removeConversationEntry(currentConversationId);
+      ConversationEntries.instance().removeConversationEntry(currentConversationId);
       destroyNestedContexts(session, currentConversationId);
    }
 
    private void destroyNestedContexts(ContextAdaptor session, String conversationId) {
-      Iterator<ConversationEntry> entries = getConversationIdEntryMap().values().iterator();
-      while ( entries.hasNext() )
+      List<ConversationEntry> entries = new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
+      for  ( ConversationEntry ce: entries )
       {
-         ConversationEntry ce = entries.next();
          if ( ce.getConversationIdStack().contains(conversationId) )
          {
             String entryConversationId = ce.getId();
             log.debug("destroying nested conversation: " + entryConversationId);
-            destroyConversation(entryConversationId, session, entries);
+            destroyConversation(entryConversationId, session);
          }
       }
    }
@@ -605,7 +514,7 @@ public class Manager
     */
    public boolean restoreConversation(String storedConversationId, boolean isLongRunningConversation) {
       boolean isStoredConversation = storedConversationId!=null &&
-            getSessionConversationIds().contains(storedConversationId);
+            ConversationEntries.instance().getConversationIds().contains(storedConversationId);
       if ( isStoredConversation )
       {
 
@@ -684,16 +593,13 @@ public class Manager
    {
       String id = Id.nextId();
       setCurrentConversationId(id);
-      setCurrentConversationIdStack(id);
+      createCurrentConversationIdStack(id);
       setLongRunningConversation(false);
    }
 
    private ConversationEntry createConversationEntry()
    {
-      ConversationEntry ce = new ConversationEntry( getCurrentConversationId(), getCurrentConversationIdStack() );
-      getConversationIdEntryMap().put( getCurrentConversationId() , ce );
-      dirty();
-      return ce;
+      return ConversationEntries.instance().createConversationEntry( getCurrentConversationId(), getCurrentConversationIdStack() );
    }
 
    /**
@@ -726,17 +632,16 @@ public class Manager
     */
    public void beginNestedConversation(String ownerName)
    {
-      LinkedList<String> stack = getCurrentConversationIdStack();
+      List<String> oldStack = getCurrentConversationIdStack();
       String id = Id.nextId();
       setCurrentConversationId(id);
-      setCurrentConversationIdStack(id);
-      getCurrentConversationIdStack().addAll(stack);
+      createCurrentConversationIdStack(id).addAll(oldStack);
       ConversationEntry conversationEntry = createConversationEntry();
       conversationEntry.setInitiatorComponentName(ownerName);
    }
 
    public ConversationEntry getCurrentConversationEntry() {
-      return getConversationEntry( getCurrentConversationId() );
+      return ConversationEntries.instance().getConversationEntry(getCurrentConversationId());
    }
    
    /**
@@ -756,7 +661,7 @@ public class Manager
     */
    public boolean swapConversation(String id)
    {
-      ConversationEntry ce = getConversationEntry(id);
+      ConversationEntry ce = ConversationEntries.instance().getConversationEntry(id);
       if (ce!=null)
       {
          setCurrentConversationId(id);
@@ -789,7 +694,7 @@ public class Manager
    {
       if (!destroyBeforeRedirect)
       {
-         ConversationEntry ce = getConversationEntry(currentConversationId);
+         ConversationEntry ce = ConversationEntries.instance().getConversationEntry(currentConversationId);
          if (ce==null)
          {
             ce = createConversationEntry();

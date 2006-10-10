@@ -36,10 +36,10 @@ public class Switcher implements Serializable {
    @Create
    public void createSelectItems()
    {
-      Map<String, ConversationEntry> map = Manager.instance().getConversationIdEntryMap();
+      ConversationEntries conversationEntries = ConversationEntries.instance();
       Set<ConversationEntry> orderedEntries = new TreeSet<ConversationEntry>();
-      orderedEntries.addAll( map.values() );
-      selectItems = new ArrayList<SelectItem>( map.size() );
+      orderedEntries.addAll( conversationEntries.getConversationEntries() );
+      selectItems = new ArrayList<SelectItem>( conversationEntries.size() );
       for ( ConversationEntry entry: orderedEntries )
       {
          if ( entry.isDisplayable() && !Seam.isSessionInvalid() )
