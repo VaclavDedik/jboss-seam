@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
@@ -20,7 +21,7 @@ import org.jboss.seam.annotations.timer.Expiration;
 import org.jboss.seam.annotations.timer.IntervalDuration;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.intercept.RootInterceptor;
+import org.jboss.seam.ejb.SeamInterceptor;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -31,7 +32,7 @@ import org.jboss.seam.util.Reflections;
  */
 @Stateless
 @Name("org.jboss.seam.core.dispatcher")
-@Interceptors(RootInterceptor.class)
+@Interceptors(SeamInterceptor.class)
 public class Dispatcher implements LocalDispatcher
 {
    
@@ -143,6 +144,9 @@ public class Dispatcher implements LocalDispatcher
       }
       
    }
+   
+   @PostConstruct 
+   public void postConstruct() {} //workaround for a bug in EJB3
    
    @Timeout
    public void dispatch(Timer timer)

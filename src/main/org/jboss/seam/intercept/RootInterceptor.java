@@ -159,7 +159,7 @@ public class RootInterceptor implements Serializable
 
    private Object invokeInContexts(InvocationContext invocation, EventType eventType) throws Exception
    {
-      if ( isProcessInterceptors(getComponent()) )
+      if ( isProcessInterceptors() )
       {
          if ( log.isTraceEnabled() ) 
          {
@@ -176,9 +176,9 @@ public class RootInterceptor implements Serializable
       }
    }
 
-   private boolean isProcessInterceptors(final Component component)
+   private boolean isProcessInterceptors()
    {
-      return component!=null && component.getInterceptionType().isActive();
+      return isSeamComponent && getComponent().getInterceptionType().isActive();
    }
    
    protected Component getComponent()

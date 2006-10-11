@@ -10,7 +10,6 @@ import static org.jboss.seam.ComponentType.ENTITY_BEAN;
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
 import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
-import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.ScopeType.EVENT;
@@ -691,7 +690,7 @@ public class Component
       {
          addInterceptor( new Interceptor( new TransactionInterceptor(), this ) );
       }
-      if ( getType()!=STATELESS_SESSION_BEAN )
+      if ( getScope()!=STATELESS && getScope()!=EVENT )
       {
          addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
       }
@@ -1671,7 +1670,7 @@ public class Component
          {
             log.debug("trying to inject with hierarchical context search: " + name);
          }
-         result = getInstance( name, in.create() );
+         result = getInstance( name, in.create() && !org.jboss.seam.contexts.Lifecycle.isDestroying() );
       }
       else
       {

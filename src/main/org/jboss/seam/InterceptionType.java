@@ -47,7 +47,7 @@ public enum InterceptionType
 
    public boolean isActive()
    {
-      if ( Lifecycle.isDestroying() ) return false;
+      //if ( Lifecycle.isDestroying() ) return false;
       final PhaseId phaseId = Lifecycle.getPhaseId();
       switch(this)
       {
