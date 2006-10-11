@@ -210,6 +210,7 @@
         <ant dir="examples/blog" target="clean" inheritall="false"/>
         <ant dir="examples/issues" target="clean" inheritall="false"/>
         <ant dir="examples/dvdstore" target="clean" inheritall="false"/>
+    	<ant dir="examples/contactlist" target="clean" inheritall="false"/>
         <ant dir="examples/messages" target="clean" inheritall="false"/>
         <ant dir="examples/numberguess" target="clean" inheritall="false"/>
         <ant dir="examples/registration" target="clean" inheritall="false"/>
@@ -229,6 +230,7 @@
         <ant dir="examples/blog" target="undeploy" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy" inheritall="false"/>
         <ant dir="examples/dvdstore" target="undeploy" inheritall="false"/>
+    	<ant dir="examples/contactlist" target="undeploy" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy" inheritall="false"/>
         <ant dir="examples/numberguess" target="undeploy" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy" inheritall="false"/>
@@ -243,6 +245,7 @@
         <ant dir="examples/dvdstore" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/blog" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy.tomcat" inheritall="false"/>
+    	<ant dir="examples/contactlist" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/todo" target="undeploy.tomcat" inheritall="false"/>
