@@ -25,9 +25,9 @@ public class TimeZone {
       return TimeZoneSelector.instance().getTimeZone();
    }
    
-   public static java.util.Locale instance()
+   public static java.util.TimeZone instance()
    {
-      return (java.util.Locale) Component.getInstance(TimeZone.class, ScopeType.STATELESS, true);
+      return (java.util.TimeZone) Component.getInstance(TimeZone.class, ScopeType.STATELESS, true);
    }
    
 }

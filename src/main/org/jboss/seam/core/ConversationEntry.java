@@ -35,7 +35,8 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    public ConversationEntry(String id, List<String> stack, ConversationEntries parent)
    {
       this.id = id;
-      this.conversationIdStack = Collections.unmodifiableList(stack);
+      this.conversationIdStack = stack==null ? 
+            null : Collections.unmodifiableList(stack);
       this.startDatetime = new Date();
       this.parent = parent;
       touch();
