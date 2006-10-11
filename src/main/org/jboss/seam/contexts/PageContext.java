@@ -72,16 +72,16 @@ public class PageContext implements Context {
 
 	public void set(String name, Object value) 
    {
-      Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
       getCurrentWritableMap().put(name, value);
-      Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
 	}
 
 	public void remove(String name) 
    {
-      Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
       getCurrentWritableMap().remove(name);
-      Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
    public String[] getNames() {

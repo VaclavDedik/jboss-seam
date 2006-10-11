@@ -38,8 +38,15 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
    
    public SeamPhaseListener()
    {
-      ApplicationFactory factory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
-      factory.setApplication( new SeamApplication( factory.getApplication() ) );
+      try
+      {
+         ApplicationFactory factory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
+         factory.setApplication( new SeamApplication( factory.getApplication() ) );
+      }
+      catch (RuntimeException re)
+      {
+         log.info("Unable to replace JSF Application object");
+      }
    }
    
    public void beforePhase(PhaseEvent event)

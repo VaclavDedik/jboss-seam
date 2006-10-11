@@ -138,7 +138,8 @@ public class Events
    
    public static boolean exists()
    {
-      return Contexts.getApplicationContext().isSet( Seam.getComponentName(Events.class) );
+      return Contexts.isApplicationContextActive() &&
+            Contexts.getApplicationContext().isSet( Seam.getComponentName(Events.class) );
    }
 
    public static Events instance()

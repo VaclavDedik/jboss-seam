@@ -46,9 +46,9 @@ public class WebRequestContext implements Context {
 	}
 
 	public void set(String name, Object value) {
-      Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
 		request.setAttribute( getKey(name), value);
-      Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
 	}
 
 	public boolean isSet(String name) {
@@ -56,9 +56,9 @@ public class WebRequestContext implements Context {
 	}
 
 	public void remove(String name) {
-      Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
 		request.removeAttribute( getKey(name) );
-      Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
 	public String[] getNames() {

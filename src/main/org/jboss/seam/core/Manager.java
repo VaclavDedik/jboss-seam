@@ -619,7 +619,7 @@ public class Manager
       setLongRunningConversation(true);
       createConversationEntry().setInitiatorComponentName(initiator);
       Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
-      Events.instance().raiseEvent("org.jboss.seam.beginConversation");
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.beginConversation");
    }
 
    /**
@@ -627,7 +627,7 @@ public class Manager
     */
    public void endConversation(boolean beforeRedirect)
    {
-      Events.instance().raiseEvent("org.jboss.seam.endConversation");
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.endConversation");
       setLongRunningConversation(false);
       destroyBeforeRedirect = beforeRedirect;
    }
