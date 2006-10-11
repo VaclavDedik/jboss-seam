@@ -2,7 +2,8 @@
      xmlns:c="http://java.sun.com/jstl/core"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:f="http://java.sun.com/jsf/core"
-     xmlns:h="http://java.sun.com/jsf/html">
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:s="http://jboss.com/products/seam/taglib">
      
 <div class="section">
     <h1><h:outputText rendered="#{not empty conversationList}" value="Workspaces"/></h1>
@@ -17,11 +18,11 @@
             </h:column>
             <h:column>
                 <h:outputText value="#{entry.startDatetime}">
-                    <f:convertDateTime type="time" pattern="hh:mm"/>
+                    <s:convertDateTime type="time" pattern="hh:mm"/>
                 </h:outputText>
                 -
                 <h:outputText value="#{entry.lastDatetime}">
-                    <f:convertDateTime type="time" pattern="hh:mm"/>
+                    <s:convertDateTime type="time" pattern="hh:mm"/>
                 </h:outputText>
             </h:column>
         </h:dataTable>
