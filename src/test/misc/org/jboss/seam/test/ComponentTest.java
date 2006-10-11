@@ -44,7 +44,7 @@ public class ComponentTest
       assert c.getInFields().size()==2;
       assert c.getInMethods().size()==0;
       assert c.getUnwrapMethod()==null;
-      assert c.getOutFields().size()==1;
+      assert c.getOutFields().size()==2;
       assert c.getOutMethods().size()==0;
       assert c.getRemoveMethods().size()==0;
       assert c.getValidateMethods().size()==0;

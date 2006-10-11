@@ -36,6 +36,9 @@ public class Bar
    @Out(required=false)
    String string;
    
+   @Out(required=false, scope=ScopeType.EVENT)
+   String otherString;
+   
    @Begin
    public String begin()
    {
@@ -44,6 +47,7 @@ public class Bar
    public String foo()
    {
       string = "out";
+      otherString = "outAgain";
       return "foo";
    }
    

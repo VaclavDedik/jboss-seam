@@ -45,6 +45,10 @@ public class PhaseListenerTest
       Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
+            Seam.getComponentName(ConversationEntries.class) + ".component", 
+            new Component(ConversationEntries.class, appContext) 
+         );
+      appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
          );
@@ -226,6 +230,10 @@ public class PhaseListenerTest
       
       Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(ConversationEntries.class) + ".component", 
+            new Component(ConversationEntries.class, appContext) 
+         );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
             new Component(Manager.class) 
