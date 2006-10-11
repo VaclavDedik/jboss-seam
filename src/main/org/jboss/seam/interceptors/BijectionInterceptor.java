@@ -56,7 +56,7 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             log.trace("outjecting dependencies of: " + getComponent().getName());
          }
-         getComponent().outject( invocation.getTarget(), isLifecycleMethod( invocation.getMethod() ) );
+         getComponent().outject( invocation.getTarget(), !isLifecycleMethod( invocation.getMethod() ) );
       }
       
       if ( getComponent().needsInjection() ) //only needed to hush the log message
