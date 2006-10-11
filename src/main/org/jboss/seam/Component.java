@@ -238,10 +238,7 @@ public class Component
 
       initInitializers(applicationContext);
 
-      /*if (type==JAVA_BEAN)
-      {*/
-         factory = createProxyFactory();
-      //}
+      //factory = createProxyFactory();
 
    }
 
@@ -928,7 +925,7 @@ public class Component
         }
         else
         {
-           Factory bean = factory.newInstance();
+           Factory bean = getFactory().newInstance();
            initialize(bean);
            bean.setCallback( 0, new JavaBeanInterceptor(this) );
            callPostConstructMethod(bean);
@@ -936,12 +933,21 @@ public class Component
         }
    }
 
-    private Object wrap(Object bean) throws Exception
-    {
-       Factory proxy = factory.newInstance();
-       proxy.setCallback( 0, new ClientSideInterceptor(bean, this) );
-       return proxy;
-    }
+   private Object wrap(Object bean) throws Exception
+   {
+      Factory proxy = getFactory().newInstance();
+      proxy.setCallback( 0, new ClientSideInterceptor(bean, this) );
+      return proxy;
+   }
+    
+   private synchronized Class<Factory> getFactory()
+   {
+      if (factory==null)
+      {
+         factory = createProxyFactory();
+      }
+      return factory;
+   }
 
    public void initialize(Object bean) throws Exception
    {
