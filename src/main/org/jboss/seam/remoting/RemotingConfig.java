@@ -2,7 +2,9 @@ package org.jboss.seam.remoting;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.Component;
+import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
@@ -14,6 +16,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Name("org.jboss.seam.remoting.remotingConfig")
 @Scope(APPLICATION)
+@Intercept(InterceptionType.NEVER)
 public class RemotingConfig
 {
   public static final int DEFAULT_POLL_TIMEOUT = 10; // 10 seconds
