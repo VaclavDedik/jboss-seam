@@ -97,4 +97,11 @@
 		</validator>
 	</tag>
 	
+	<tag>
+		<tag-name>convertDateTime</tag-name>
+		<converter>
+			<converter-id>org.jboss.seam.ui.ConvertDateTime</converter-id>
+		</converter>
+	</tag>
+	
 </facelet-taglib>

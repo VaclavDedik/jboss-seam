@@ -319,5 +319,15 @@
         <validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
         <validator-class>org.jboss.seam.ui.ModelValidator</validator-class>
     </validator>
+    
+    <converter>
+        <converter-for-class>java.util.Date</converter-for-class>
+        <converter-class>org.jboss.seam.ui.ConvertDateTime</converter-class>
+    </converter>
+
+    <converter>
+        <converter-id>org.jboss.seam.ui.ConvertDateTime</converter-id>
+        <converter-class>org.jboss.seam.ui.ConvertDateTime</converter-class>
+    </converter>
 
 </faces-config>
