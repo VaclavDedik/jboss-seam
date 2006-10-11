@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.provider.AuthenticationProvider;
+import org.jboss.seam.util.Reflections;
 
 /**
  * Performs authentication services against one or more providers.
@@ -71,7 +72,7 @@ public class ProviderAuthenticator extends Authenticator
         {
           try
           {
-            provider = Class.forName(provider.toString()).newInstance();
+            provider = Reflections.classForName(provider.toString()).newInstance();
             providers.add( (AuthenticationProvider) provider);
           }
           catch (Exception ex)

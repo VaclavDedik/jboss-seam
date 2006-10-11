@@ -3,6 +3,8 @@ package org.jboss.seam.security.provider.catalina;
 import java.lang.reflect.Method;
 import java.security.Principal;
 
+import org.jboss.seam.util.Reflections;
+
 /**
  * Wrapper for Tomcat realm authentication.  This class uses reflection to
  * locate a Tomcat realm, and provides wrapper methods to authenticate against
@@ -27,7 +29,7 @@ public class CatalinaProvider
     try
     {
       // First get the Server object
-      Class serverFactoryClass = Class.forName("org.apache.catalina.ServerFactory");
+      Class serverFactoryClass = Reflections.classForName("org.apache.catalina.ServerFactory");
       Method getServerMethod = serverFactoryClass.getMethod("getServer");
       Object server = getServerMethod.invoke(null);
 

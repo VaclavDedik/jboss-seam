@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.UsernamePasswordToken;
 import org.jboss.seam.security.adapter.AuthenticationAdapter;
-import org.jboss.seam.Seam;
+import org.jboss.seam.util.Reflections;
 
 /**
  *
@@ -68,7 +69,7 @@ public abstract class Authenticator
     {
       try
       {
-        adapters.add((AuthenticationAdapter) Class.forName(name).newInstance());
+        adapters.add((AuthenticationAdapter) Reflections.classForName(name).newInstance());
       }
       catch (Exception ex)
       {

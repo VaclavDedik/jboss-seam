@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javax.ejb.Local;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -29,7 +30,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.Lifecycle;
-import javax.ejb.Local;
+import org.jboss.seam.util.Reflections;
 
 /**
  * Generates JavaScript interface code.
@@ -83,7 +84,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         {
           try
           {
-            Class c = Class.forName(componentNames[i]);
+            Class c = Reflections.classForName(componentNames[i]);
             appendClassSource(response.getOutputStream(), c, types);
           }
           catch (ClassNotFoundException ex)

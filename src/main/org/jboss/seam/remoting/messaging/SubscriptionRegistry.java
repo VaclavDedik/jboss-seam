@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import javax.jms.ExceptionListener;
+import javax.jms.JMSException;
 import javax.jms.TopicConnection;
 
 import org.apache.commons.logging.Log;
@@ -17,8 +19,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import javax.jms.ExceptionListener;
-import javax.jms.JMSException;
+import org.jboss.seam.util.Reflections;
 
 /**
  *
@@ -89,7 +90,7 @@ public class SubscriptionRegistry
           String providerName = connectionProvider != null ?
                                     connectionProvider : DEFAULT_CONNECTION_PROVIDER;
           try {
-            Class providerClass = Class.forName(providerName);
+            Class providerClass = Reflections.classForName(providerName);
             JMSConnectionProvider provider = (JMSConnectionProvider) providerClass.newInstance();
             topicConnection = provider.createConnection();
 

@@ -18,7 +18,7 @@ import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
 import org.jboss.seam.security.Authentication;
-import org.jboss.seam.security.config.SecurityConfig;
+import org.jboss.seam.util.Reflections;
 
 /**
  *
@@ -40,6 +40,7 @@ public class SeamLoginModule implements LoginModule
   private CallbackHandler callbackHandler;
 
   private Authentication authentication;
+  private Group roles;
 
   public boolean abort()
   {
@@ -89,7 +90,7 @@ public class SeamLoginModule implements LoginModule
   protected Group createGroup(String name, Set<Principal> principals)
       throws Exception
   {
-    Group roles = null;
+    roles = null;
     for (Principal principal : principals)
     {
       if (! (principal instanceof Group))
@@ -121,7 +122,7 @@ public class SeamLoginModule implements LoginModule
   {
     if (simplePrincipalConstructor == null)
     {
-      Class cls = Class.forName(SIMPLE_PRINCIPAL_CLASS);
+      Class cls = Reflections.classForName(SIMPLE_PRINCIPAL_CLASS);
       simplePrincipalConstructor = cls.getConstructor(String.class);
     }
     return (Principal) simplePrincipalConstructor.newInstance(name);
@@ -234,6 +235,8 @@ public class SeamLoginModule implements LoginModule
   {
     Set principals = subject.getPrincipals();
     principals.remove(authentication);
+    if (roles != null)
+      principals.remove(roles);
     return true;
   }
 }

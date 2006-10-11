@@ -3,6 +3,8 @@ package org.jboss.seam.remoting.wrapper;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -10,8 +12,7 @@ import org.dom4j.Element;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.remoting.InterfaceGenerator;
-import java.lang.reflect.Method;
-import java.lang.reflect.*;
+import org.jboss.seam.util.Reflections;
 
 /**
  * @author Shane Bryzak
@@ -48,7 +49,7 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     else
     {
       try {
-        value = Class.forName(beanType).newInstance();
+        value = Reflections.classForName(beanType).newInstance();
       }
       catch (Exception ex) {
         throw new RuntimeException("Could not unmarshal bean element: " + element.getText(), ex);
