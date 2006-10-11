@@ -34,15 +34,22 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
   private static final Log log = LogFactory.getLog(SubscriptionHandler.class);
 
   private static final byte[] ERRORS_TAG_OPEN_START = "<errors token=\"".getBytes();
+  private static final byte[] ERRORS_TAG_OPEN_END = "\">".getBytes();
+
   private static final byte[] ERROR_TAG_OPEN_START = "<error code=\"".getBytes();
+  private static final byte[] ERROR_TAG_OPEN_END = "\">".getBytes();
   private static final byte[] ERROR_TAG_CLOSE = "</error>".getBytes();
+
   private static final byte[] MESSAGES_TAG_OPEN_START = "<messages token=\"".getBytes();
+  private static final byte[] MESSAGES_TAG_OPEN_END = "\">".getBytes();
   private static final byte[] MESSAGES_TAG_CLOSE = "</messages>".getBytes();
-  private static final byte[] MESSAGE_TAG_OPEN = "<message type=\"".getBytes();
+
+  private static final byte[] MESSAGE_TAG_OPEN_START = "<message type=\"".getBytes();
+  private static final byte[] MESSAGE_TAG_OPEN_END = "\">".getBytes();
   private static final byte[] MESSAGE_TAG_CLOSE = "</message>".getBytes();
+
   private static final byte[] VALUE_TAG_OPEN = "<value>".getBytes();
   private static final byte[] VALUE_TAG_CLOSE = "</value>".getBytes();
-  private static final byte[] TAG_OPEN_END = "".getBytes();
 
   private ServletContext servletContext;
 
@@ -122,7 +129,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
       {
         out.write(ERRORS_TAG_OPEN_START);
         out.write(req.getToken().getBytes());
-        out.write(TAG_OPEN_END);
+        out.write(ERRORS_TAG_OPEN_END);
         for (PollError err : req.getErrors())
         {
           writeError(err, out);
@@ -132,7 +139,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
       {
         out.write(MESSAGES_TAG_OPEN_START);
         out.write(req.getToken().getBytes());
-        out.write(TAG_OPEN_END);
+        out.write(MESSAGES_TAG_OPEN_END);
         for (Message m : req.getMessages()) {
           try {
             writeMessage(m, out);
@@ -154,7 +161,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
   private void writeMessage(Message m, OutputStream out)
       throws IOException, JMSException
   {
-    out.write(MESSAGE_TAG_OPEN);
+    out.write(MESSAGE_TAG_OPEN_START);
 
     // We need one of these to maintain a list of outbound references
     CallContext ctx = new CallContext();
@@ -171,7 +178,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
       value = ((ObjectMessage) m).getObject();
     }
 
-    out.write(TAG_OPEN_END);
+    out.write(MESSAGE_TAG_OPEN_END);
 
     out.write(VALUE_TAG_OPEN);
     ctx.createWrapperFromObject(value, "").marshal(out);
@@ -203,7 +210,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
   {
     out.write(ERROR_TAG_OPEN_START);
     out.write(error.getCode().getBytes());
-    out.write(TAG_OPEN_END);
+    out.write(ERROR_TAG_OPEN_END);
     out.write(error.getMessage().getBytes());
     out.write(ERROR_TAG_CLOSE);
   }
