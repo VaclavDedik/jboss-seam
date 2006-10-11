@@ -3,12 +3,16 @@
      xmlns:h="http://java.sun.com/jsf/html"
      xmlns:f="http://java.sun.com/jsf/core">
 
-   <h:inputText value="#{searchService.searchPattern}"/>
-   <h:commandButton value="Search" action="/search.xhtml"/>
-   &#160;&#160;
-   <h:selectOneMenu value="#{themeSelector.theme}">
-      <f:selectItems value="#{themeSelector.themes}"/>
-   </h:selectOneMenu>
-   <h:commandButton action="#{themeSelector.select}" value="Select Theme"/>
+   <span class="menuItem">
+      <h:inputText value="#{searchService.searchPattern}"/>
+      <h:commandButton value="Search" action="/search.xhtml"/>
+   </span>
+   
+   <span class="menuItem">
+      <h:selectOneMenu value="#{themeSelector.theme}">
+         <f:selectItems value="#{themeSelector.themes}"/>
+      </h:selectOneMenu>
+      <h:commandButton action="#{themeSelector.select}" value="Select Theme"/>
+   </span>
 
 </h:form>

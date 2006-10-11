@@ -69,6 +69,19 @@ h6 {
 .blogEntry {
   margin-top: 20px;
 }
+.menuItem {
+  padding-left: 15px;
+}
 .hilite input:focus, .hilite textarea:focus {
   background: #FFFF80;
+}
+.errors {
+  color: red;
+}
+.errors input {
+  color: red;
+  border: 1px solid red;
+}
+.errors textarea {
+  border: 1px solid red;
 }

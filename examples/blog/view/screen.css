@@ -69,6 +69,9 @@ h6 {
 .blogEntry {
   margin-top: 20px;
 }
+.menuItem {
+  padding-left: 15px;
+}
 .errors {
   color: red;
 }
