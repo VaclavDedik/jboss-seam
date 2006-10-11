@@ -18,6 +18,9 @@ p {
   margin-left: auto;
   margin-right: auto;
 }
+#menu form {
+  text-align: right;
+}
 #container {
   background: transparent url(header.png) no-repeat top center;
   width: 600px;

@@ -17,19 +17,7 @@
 
    <body>
       <div id="menu">
-         <h:form>
-            <h:inputText value="#{searchService.searchPattern}"/>
-            <h:commandButton value="Search" action="/search.xhtml"/>
-            &#160;&#160;
-            <h:selectOneMenu value="#{themeSelector.theme}">
-               <f:selectItems value="#{themeSelector.themes}"/>
-            </h:selectOneMenu>
-            <h:commandLink action="#{themeSelector.select}">
-               <h:commandButton value="Select Theme"/>
-               <f:param name="blogEntryId" value="#{blogEntry.id}"/>
-               <f:param name="searchPattern" value="#{searchService.searchPattern}"/>
-            </h:commandLink>
-         </h:form>
+         <ui:include src="menu.xhtml"/>
       </div>
       <div id="container">
          <h1>#{blog.name}</h1>
@@ -37,13 +25,7 @@
          <ui:insert name="content"/>
          <div class="blogEntry">
             #{blog.name}: 
-            <h:outputLink value="search.xhtml">
-               [All posts]
-               <f:param name="searchPattern" value=""/>
-            </h:outputLink>
-            <h:outputLink value="index.xhtml">[Recent posts]</h:outputLink>
-            <h:outputLink value="post.xhtml">[Write new post]</h:outputLink>
-            <h:outputLink value="index.rss">[RSS]</h:outputLink>
+            <ui:include src="nav.xhtml"/>
             <br/>
             Total pageviews: #{blog.hitCount.pageviews}
          </div>
