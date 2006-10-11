@@ -48,27 +48,20 @@ public class ExceptionInterceptor extends AbstractInterceptor
       {
          if ( outermost && FacesContext.getCurrentInstance()!=null )
          {
-            if ( e.getClass().isAnnotationPresent(Redirect.class) )
+            if ( e.getClass().isAnnotationPresent(Redirect.class) && Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE )
             {
                Redirect redirect = e.getClass().getAnnotation(Redirect.class);
                addFacesMessage( e, redirect.message() );
                redirect( redirect.viewId() );
                handled(e);
             }
-            else if ( e.getClass().isAnnotationPresent(Render.class) )
+            else if ( e.getClass().isAnnotationPresent(Render.class) && Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION )
             {
-               if ( Lifecycle.getPhaseId()!=PhaseId.INVOKE_APPLICATION )
-               {
-                  //unfortunately, @Render can only really work during an action invocation
-                  throw e;
-               }
-               else
-               {
-                  Render render = e.getClass().getAnnotation(Render.class);
-                  addFacesMessage( e, render.message() );
-                  render( render.viewId() );
-                  return null;
-               }
+               //unfortunately, @Render can only really work during an action invocation
+               Render render = e.getClass().getAnnotation(Render.class);
+               addFacesMessage( e, render.message() );
+               render( render.viewId() );
+               return null;
             }
             else if ( e.getClass().isAnnotationPresent(HttpError.class) )
             {
@@ -76,7 +69,7 @@ public class ExceptionInterceptor extends AbstractInterceptor
                error( httpError.errorCode(), renderExceptionMessage( e, httpError.message() ) );
                handled(e);
             }
-            else if ( Init.instance().isDebug() )
+            else if ( Init.instance().isDebug() && Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE )
             {
                redirectToDebugPage(e);
                handled(e);
