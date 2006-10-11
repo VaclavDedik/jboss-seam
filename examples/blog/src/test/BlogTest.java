@@ -1,13 +1,11 @@
 package test;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.RenderParameters;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
@@ -35,7 +33,7 @@ public class BlogTest extends SeamTest
          {
             BlogEntry entry = (BlogEntry) Component.getInstance("blogEntry");
             entry.setId("testing");
-            entry.setTitle("Integration testing Seam applications");
+            entry.setTitle("Integration testing Seam applications is easy!");
             entry.setBody("This post is about SeamTest...");
          }
          
@@ -147,7 +145,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            ( (Map) Component.getInstance(RenderParameters.class, true) ).put("searchPattern", "seam");
+            ( (SearchService) Component.getInstance(SearchService.class) ).setSearchPattern("seam");
          }
          
          @Override
@@ -163,7 +161,7 @@ public class BlogTest extends SeamTest
 
       new Script(id)
       {
-         
+                  
          @Override
          protected boolean isGetRequest()
          {
@@ -171,15 +169,10 @@ public class BlogTest extends SeamTest
          }
 
          @Override
-         protected void setup()
-         {
-            getParameters().put("searchPattern", new String[]{"seam"});
-         }
-
-         @Override
          protected void renderResponse() throws Exception
          {
-            List<BlogEntry> results = (List<BlogEntry>) Component.getInstance(SearchService.class, true);
+            ( (SearchService) Component.getInstance(SearchService.class) ).setSearchPattern("seam");
+            List<BlogEntry> results = (List<BlogEntry>) Component.getInstance("searchResults");
             assert results.size()==1;
          }
          
