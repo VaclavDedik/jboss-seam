@@ -67,6 +67,7 @@
           </tr>
         </ui:repeat>
       </table>
+       <h:outputText value="No contacts to display" rendered="#{empty contacts.resultList}" class="message"/>
       
       <!-- pagination control -->
       <div class="tableControl">
