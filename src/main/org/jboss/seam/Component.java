@@ -1060,7 +1060,7 @@ public class Component
    {
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
 
-      Object dataModel = getOutContext(scope, this).get(name);
+      Object dataModel = getOutScope(scope, this).getContext().get(name);
       if ( dataModel != null )
       {
 
@@ -1149,7 +1149,7 @@ public class Component
 
       ScopeType scope = wrapper.getVariableScope(dataModelAnn);
 
-      Context context = getOutContext(scope, this);
+      Context context = getOutScope(scope, this).getContext();
       Object existingDataModel = context.get(name);
       boolean dirty = existingDataModel == null || scope==PAGE ||
             wrapper.isDirty(dataModelAnn, existingDataModel, list);
@@ -1168,7 +1168,8 @@ public class Component
 
    }
 
-   private static Context getOutContext(ScopeType specifiedScope, Component component) {
+   private static ScopeType getOutScope(ScopeType specifiedScope, Component component)
+   {
       ScopeType scope = component==null ? EVENT : component.getScope();
       if (scope==STATELESS)
       {
@@ -1178,7 +1179,7 @@ public class Component
       {
          scope = specifiedScope;
       }
-      return scope.getContext();
+      return scope;
    }
 
    private void injectMethods(Object bean, boolean enforceRequired)
@@ -1284,18 +1285,21 @@ public class Component
                   getAttributeMessage(name)
                );
          }
-
-         Context context = component==null ?
-               getOutContext( out.scope(), this ) :
-               component.getScope().getContext();
-
-         if (value==null)
+         
+         ScopeType outScope = component==null ?
+               getOutScope( out.scope(), this ) :
+               component.getScope();
+         
+         if ( enforceRequired || outScope.isContextActive() )
          {
-            context.remove(name);
-         }
-         else
-         {
-            context.set(name, value);
+            if (value==null)
+            {
+               outScope.getContext().remove(name);
+            }
+            else
+            {
+               outScope.getContext().set(name, value);
+            }
          }
       }
    }
@@ -1537,7 +1541,7 @@ public class Component
       Object value = Contexts.lookupInStatefulContexts(name); //see if a value was outjected by the factory method
       if (value==null) //usually a factory method returning a value
       {
-         getOutContext(scope, component).set(name, result);
+         getOutScope(scope, component).getContext().set(name, result);
          return result;
       }
       else //usually a factory method with a void return type
@@ -1698,7 +1702,14 @@ public class Component
          {
             log.debug("trying to inject from specified context: " + name + ", scope: " + scope);
          }
-         result = in.scope().getContext().get(name);
+         if ( enforceRequired || in.scope().isContextActive() )
+         {
+            result = in.scope().getContext().get(name);
+         }
+         else
+         {
+            return null;
+         }
       }
 
       if ( result==null && enforceRequired && in.required() )

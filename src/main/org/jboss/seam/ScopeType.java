@@ -62,6 +62,29 @@ public enum ScopeType
     */
    UNSPECIFIED;
    
+   public boolean isContextActive()
+   {
+      switch (this)
+      {
+         case STATELESS:
+            return true;
+         case EVENT:
+            return Contexts.isEventContextActive();
+         case PAGE:
+            return Contexts.isPageContextActive();
+         case CONVERSATION:
+            return Contexts.isConversationContextActive();
+         case SESSION:
+            return Contexts.isSessionContextActive();
+         case APPLICATION:
+            return Contexts.isApplicationContextActive();
+         case BUSINESS_PROCESS:
+            return Contexts.isBusinessProcessContextActive();
+         default: 
+            throw new IllegalArgumentException();
+      }
+   }
+   
    /**
     * @return the Context object for this scope
     */
