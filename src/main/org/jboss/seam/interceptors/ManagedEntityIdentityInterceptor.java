@@ -17,7 +17,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.core.TouchedContexts;
-import org.jboss.seam.util.Persistence;
+import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -113,7 +113,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                            {
                               EntityManager em = (EntityManager) persistenceContext;
                               managed = em.contains(value);
-                              id = managed ? Persistence.getId(value, em) : null;
+                              id = managed ? PersistenceProvider.instance().getId(value, em) : null;
                            }
                            else
                            {

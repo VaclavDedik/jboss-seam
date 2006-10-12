@@ -55,6 +55,7 @@ import org.jboss.seam.core.Jbpm;
 import org.jboss.seam.core.Locale;
 import org.jboss.seam.core.LocaleSelector;
 import org.jboss.seam.core.ManagedJbpmContext;
+import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Messages;
 import org.jboss.seam.core.PageContext;
@@ -88,6 +89,8 @@ import org.jboss.seam.jms.QueueConnection;
 import org.jboss.seam.jms.QueueSession;
 import org.jboss.seam.jms.TopicConnection;
 import org.jboss.seam.jms.TopicSession;
+import org.jboss.seam.persistence.HibernatePersistenceProvider;
+import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.remoting.RemotingConfig;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
 import org.jboss.seam.theme.Theme;
@@ -406,6 +409,19 @@ public class Initialization
          addComponent( PojoCache.class, context );
       }
       catch (NoClassDefFoundError ncdfe) {} //swallow
+      
+      if ( installedComponents.contains(ManagedPersistenceContext.class) )
+      {
+         try
+         {
+            Reflections.classForName("org.hibernate.Session");
+            addComponent( HibernatePersistenceProvider.class, context );
+         }
+         catch (ClassNotFoundException cnfe)
+         {
+            addComponent( PersistenceProvider.class, context );
+         }
+      }
 
       if ( installedComponents.contains(Jbpm.class) )
       {

@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.util.Persistence;
+import org.jboss.seam.persistence.PersistenceProvider;
 
 public class EntityHome<E> extends Home<E>
 {
@@ -46,7 +46,7 @@ public class EntityHome<E> extends Home<E>
       getEntityManager().joinTransaction();
       getEntityManager().persist( getInstance() );
       getEntityManager().flush();
-      setId( Persistence.getId( getInstance(), getEntityManager() ) );
+      setId( PersistenceProvider.instance().getId( getInstance(), getEntityManager() ) );
       facesMessages.add( getCreatedMessage() );
       return "persisted";
    }

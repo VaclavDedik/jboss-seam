@@ -22,8 +22,8 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Naming;
-import org.jboss.seam.util.Persistence;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -84,7 +84,7 @@ public class ManagedPersistenceContext implements Serializable, HttpSessionActiv
          case AUTO: 
             break;
          case MANUAL:
-            Persistence.setFlushModeManual(entityManager); 
+            PersistenceProvider.instance().setFlushModeManual(entityManager); 
             break;
          case COMMIT: 
             entityManager.setFlushMode(FlushModeType.COMMIT); 
@@ -105,7 +105,7 @@ public class ManagedPersistenceContext implements Serializable, HttpSessionActiv
    //we can't use @PrePassivate because it is intercept NEVER
    public void sessionWillPassivate(HttpSessionEvent event)
    {
-      if ( !Persistence.isDirty(entityManager) )
+      if ( !PersistenceProvider.instance().isDirty(entityManager) )
       {
          entityManager.close();
          entityManager = null;
