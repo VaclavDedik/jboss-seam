@@ -4,6 +4,7 @@
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
 	  			xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
 				template="template.xhtml">
 
 <!-- content -->
@@ -36,20 +37,22 @@
 		</div>
 		
 		<s:validateAll>
-		
-		    <f:facet name="afterInvalidField">
-		       <s:message/>
-		    </f:facet>
-		    <f:facet name="aroundInvalidField">
-		       <s:span styleClass="errors"/>
-		    </f:facet>
+    
+            <f:facet name="aroundInvalidField">
+               <s:span styleClass="errors"/>
+            </f:facet>
 		    
 			<div class="entry">
 				<div class="label"><h:outputLabel for="checkinDate">Check In Date:</h:outputLabel></div>
 				<div class="input">
 					<s:decorate>
-						<h:inputText id="checkinDate" value="#{booking.checkinDate}" required="true"/>
+						<h:inputText id="checkinDate" value="#{booking.checkinDate}" required="true">
+                            <a:support event="onchange" reRender="checkinDateErrors"/>
+                        </h:inputText>
 						<br/>
+                        <a:outputPanel id="checkinDateErrors">
+                            <h:message for="checkinDate"/>
+                        </a:outputPanel>
 					</s:decorate>
 				</div>
 			</div>
@@ -58,8 +61,13 @@
 				<div class="label"><h:outputLabel for="checkoutDate">Check Out Date:</h:outputLabel></div>
 				<div class="input">
 					<s:decorate>
-						<h:inputText id="checkoutDate" value="#{booking.checkoutDate}" required="true"/>
+						<h:inputText id="checkoutDate" value="#{booking.checkoutDate}" required="true">
+                            <a:support event="onchange" reRender="checkoutDateErrors"/>
+                        </h:inputText>
 						<br/>
+                        <a:outputPanel id="checkoutDateErrors">
+                            <h:message for="checkoutDate"/>
+                        </a:outputPanel>
 					</s:decorate>
 				</div>
 			</div>
@@ -95,18 +103,28 @@
 				<div class="label"><h:outputLabel for="creditCard">Credit Card #:</h:outputLabel></div>
 				<div class="input">
 					<s:decorate>
-						<h:inputText id="creditCard" value="#{booking.creditCard}" required="true"/>
+						<h:inputText id="creditCard" value="#{booking.creditCard}" required="true">
+                           <a:support event="onchange" reRender="creditCardErrors"/>
+                        </h:inputText>
 						<br/>
+                        <a:outputPanel id="creditCardErrors">
+                           <h:message for="creditCard"/>
+                        </a:outputPanel>
 					</s:decorate>
 				</div>
 			</div>
 			
 			<div class="entry">
 				<div class="label"><h:outputLabel for="creditCardName">Credit Card Name:</h:outputLabel></div>
-				<div class="input">
+				<div class="input" id="creditCardNameInput">
 					<s:decorate>
-						<h:inputText id="creditCardName" value="#{booking.creditCardName}" required="true"/>
+						<h:inputText id="creditCardName" value="#{booking.creditCardName}" required="true">
+                           <a:support event="onchange" reRender="creditCardNameErrors"/>
+                        </h:inputText>
 						<br/>
+                        <a:outputPanel id="creditCardNameErrors">
+                           <h:message for="creditCardName"/>
+                        </a:outputPanel>
 					</s:decorate>
 				</div>
 			</div>
@@ -115,12 +133,6 @@
 				<div class="label"><h:outputLabel for="creditCardExpiryMonth">Credit Card Expiry:</h:outputLabel></div>
 				<div class="input">
 					<s:decorate>
-						<f:facet name="afterInvalidField">
-							<f:subview>
-								<h:message for="creditCardExpiryMonth" />
-								<h:message for="creditCardExpiryYear" />
-							</f:subview>
-						</f:facet>
 						<h:selectOneMenu id="creditCardExpiryMonth" value="#{booking.creditCardExpiryMonth}">
 							<f:selectItem itemLabel="Jan" itemValue="1"/>
 							<f:selectItem itemLabel="Feb" itemValue="2"/>

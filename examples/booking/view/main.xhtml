@@ -4,6 +4,7 @@
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
 	  			xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
 				template="template.xhtml">
 
 <!-- content -->
@@ -11,11 +12,24 @@
 
 <div class="section">
   <h:form>
-    <span class="errors"><h:messages globalOnly="true"/></span>
+  
+    <span class="errors">
+       <h:messages globalOnly="true"/>
+    </span>
+    
 	<h1>Search Hotels</h1>
 	<fieldset> 
-	   <h:inputText value="#{hotelSearch.searchString}" style="width: 165px;"/>&#160;
-	   <h:commandButton value="Find Hotels" action="#{hotelSearch.find}" styleClass="button"/>
+	   <h:inputText value="#{hotelSearch.searchString}" style="width: 165px;">
+         <a:support event="onkeyup" actionListener="#{hotelSearch.find}" reRender="searchResults" />
+       </h:inputText>
+       &#160;
+	   <a:commandButton value="Find Hotels" action="#{hotelSearch.find}" styleClass="button" reRender="searchResults"/>
+       &#160;
+       <a:status>
+          <f:facet name="start">
+             <h:graphicImage value="/img/spinner.gif"/>
+          </f:facet>
+       </a:status>
 	   <br/>
        <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
        <h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
@@ -24,10 +38,12 @@
           <f:selectItem itemLabel="20" itemValue="20"/>
        </h:selectOneMenu>
     </fieldset>
+    
   </h:form>
 </div>
 
-<div class="section">
+<a:outputPanel id="searchResults">
+  <div class="section">
 	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
 	<h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
 		<h:column>
@@ -52,7 +68,7 @@
 		</h:column>
 	</h:dataTable>
 	<s:link value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
-</div>
+  </div>
 
 <div class="section">
 	<h1>Current Hotel Bookings</h1>
@@ -92,6 +108,8 @@
 	</h:dataTable>
   </h:form>
 </div>
+</a:outputPanel>
+
 </ui:define>
 
 <!-- sidebar -->

@@ -20,7 +20,7 @@
     
     <zipfileset id="example.war.webinf.lib"
             prefix="WEB-INF/lib"
-               dir="../../facelets/lib">
+               dir="resources/WEB-INF/lib">
         <include name="*.jar"/>
     </zipfileset>
 

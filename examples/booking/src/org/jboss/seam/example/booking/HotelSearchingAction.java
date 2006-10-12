@@ -12,12 +12,14 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.datamodel.DataModel;
 
 @Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
 @LoggedIn
+@Synchronized
 public class HotelSearchingAction implements HotelSearching
 {
    
