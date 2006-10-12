@@ -27,6 +27,8 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
+import javax.faces.event.ActionEvent;
+
 import org.jboss.seam.actionparam.MethodExpressionParser;
 
 /**
@@ -76,6 +78,14 @@ public class SeamExpressionFactory extends ExpressionFactory
         if (parser.isParamExpression())
         {
             return new ParamMethodExpression(parser, elContext);
+        }
+        
+        if (paramTypes.length==1 && ActionEvent.class.equals( paramTypes[0] ) )
+        {
+           return new OptionalParameterMethodExpression(
+                 faceletsExpressionFactory.createMethodExpression(elContext, expression, returnType, paramTypes),
+                 faceletsExpressionFactory.createMethodExpression(elContext, expression, returnType, new Class[0])
+              );
         }
         
         return faceletsExpressionFactory.createMethodExpression(elContext, expression, returnType, paramTypes);
