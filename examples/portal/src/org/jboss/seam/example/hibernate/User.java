@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
@@ -16,6 +17,7 @@ import org.jboss.seam.annotations.Scope;
 @Entity
 @Name("user")
 @Scope(SESSION)
+@Table(name="users")
 public class User implements Serializable
 {
    private String username;

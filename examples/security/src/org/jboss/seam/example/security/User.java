@@ -4,6 +4,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.jboss.seam.annotations.Name;
 import javax.persistence.JoinColumn;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
  */
 @Entity
 @Name("user")
+@Table(name="users")
 public class User
 {
   private String username;
