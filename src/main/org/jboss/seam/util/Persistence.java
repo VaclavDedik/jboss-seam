@@ -2,44 +2,71 @@ package org.jboss.seam.util;
 
 import javax.persistence.EntityManager;
 
-import org.hibernate.FlushMode;
-import org.hibernate.Session;
+import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 
 public class Persistence
 {
+   private static Object hibernateSession(EntityManager entityManager) {
+      try {
+          Object session = entityManager.getDelegate();
+
+          if (Reflections.classForName("org.hibernate.Session").isAssignableFrom(session.getClass())) {
+              return session;
+          }
+      } catch (Exception e) {
+          // eat it
+      }
+
+      return null;
+   }
 
    public static void setFlushModeManual(EntityManager entityManager)
    {
-      if (entityManager.getDelegate() instanceof Session)
-      {
-         ( (Session) entityManager.getDelegate() ).setFlushMode(FlushMode.NEVER);
-      }
-      else
-      {
-         throw new IllegalArgumentException("FlushMode.MANUAL only supported for Hibernate EntityManager");
-      }
+       Object session = hibernateSession(entityManager);
+       if (session != null) {           
+           try {
+               Class flushMode = Reflections.classForName("org.hibernate.FlushMode");
+               Method setFlushMode = Reflections.getSetterMethod(session.getClass(), "flushMode");
+               Object never = Reflections.getField(flushMode,"NEVER").get(null);
+               Reflections.invokeAndWrap(setFlushMode, session, never);
+           } catch (Exception e) {
+               throw new IllegalArgumentException("FlushMode.MANUAL only supported for Hibernate EntityManager", e);
+           }
+
+       }  else {
+           throw new IllegalArgumentException("FlushMode.MANUAL only supported for Hibernate EntityManager");
+       }
+
    }
 
    public static boolean isDirty(EntityManager entityManager)
    {
-      if (entityManager.getDelegate() instanceof Session)
-      {
-         return ( (Session) entityManager.getDelegate() ).isDirty();
-      }
-      else
-      {
+       Object session = hibernateSession(entityManager);
+       if (session != null) {
+           try {
+               Method isDirty = session.getClass().getMethod("isDirty", new Class[] {});
+               return (Boolean) Reflections.invokeAndWrap(isDirty, session);
+           } catch (NoSuchMethodException e) {
+               return true; // same asssumption as below
+           }
+       } else {
          return true; //best we can do!
       }
    }
 
    public static Object getId(Object bean, EntityManager entityManager) 
    {
-      if (entityManager.getDelegate() instanceof Session)
-      {
-         return ( (Session) entityManager.getDelegate() ).getIdentifier(bean);
-      }
-      else
-      {
+      Object session = hibernateSession(entityManager);
+      if (session != null) {
+          try {
+              Method getIdentifier = session.getClass().getMethod("getIdentifier", 
+                                                                  new Class[] {Object.class});
+              return Reflections.invokeAndWrap(getIdentifier, session, bean);
+          } catch (NoSuchMethodException e) {
+              throw new IllegalArgumentException("Please use Hibernate as the persistence provider");
+          }
+      } else {
          throw new IllegalArgumentException("Please use Hibernate as the persistence provider");
       }
       /*for (Class beanClass=entityClass; beanClass!=Object.class; beanClass=beanClass.getSuperclass() )
