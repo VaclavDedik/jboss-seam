@@ -1,5 +1,5 @@
-insert into User (username, password, name) values ('gavin', 'foobar', 'Gavin King')
-insert into User (username, password, name) values ('demo', 'demo', 'Demo User')
+insert into Users (username, password, name) values ('gavin', 'foobar', 'Gavin King')
+insert into Users (username, password, name) values ('demo', 'demo', 'Demo User')
 insert into Hotel (id, name, address, city, state, zip) values (1, 'Marriott Courtyard', 'Tower Place, Buckhead', 'Atlanta', 'GA', '30305')
 insert into Hotel (id, name, address, city, state, zip) values (2, 'Doubletree', 'Tower Place, Buckhead', 'Atlanta', 'GA', '30305')
 insert into Hotel (id, name, address, city, state, zip) values (3, 'W Hotel', 'Union Square, Manhattan', 'NY', 'NY', '10011')

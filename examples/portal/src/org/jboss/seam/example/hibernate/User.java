@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Scope;
 @Entity
 @Name("user")
 @Scope(SESSION)
-@Table(name="users")
+@Table(name="Users")
 public class User implements Serializable
 {
    private String username;

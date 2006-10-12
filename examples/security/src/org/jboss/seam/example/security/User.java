@@ -15,7 +15,7 @@ import javax.persistence.JoinColumn;
  */
 @Entity
 @Name("user")
-@Table(name="users")
+@Table(name="Users")
 public class User
 {
   private String username;
