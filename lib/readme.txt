@@ -14,14 +14,15 @@ Hibernate3:
   hibernate-all.jar
 
 MyFaces:
-  myfaces-impl-1.1.3.jar
-  myfaces-api-1.1.3.jar
+  myfaces-impl-1.1.4.jar
+  myfaces-api-1.1.4.jar
   commons-digester-1.6.jar
   commons-codec-1.3.jar
   commons-beanutils-1.7.0.jar
   commons-lang-2.1.jar
   commons-collections-3.1.jar
-  jstl.jar
+  commons-el-1.0.jar
+  jstl-1.1.0.jar
 
 Or use your preferred JSF 1.1/1.2 implementation.
 
