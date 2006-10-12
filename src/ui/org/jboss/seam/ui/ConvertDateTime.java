@@ -7,6 +7,11 @@ import javax.faces.convert.DateTimeConverter;
 public class ConvertDateTime extends DateTimeConverter
 {
 
+   public ConvertDateTime()
+   {
+      setTimeZone( org.jboss.seam.core.TimeZone.instance() );
+   }
+
    @Override
    public TimeZone getTimeZone()
    {

@@ -29,7 +29,7 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.MethodNotFoundException;
 
-import org.jboss.seam.jsf.SeamApplication;
+import org.jboss.seam.jsf.SeamApplication11;
 
 /**
  * This class assumes that the entire expression is not a string literal.  If
@@ -48,7 +48,7 @@ public class ActionParamMethodBinding extends MethodBinding implements StateHold
     public ActionParamMethodBinding()
     {
         // constructor needed for StateHolder
-        application = ( (SeamApplication) FacesContext.getCurrentInstance().getApplication() ).getDelegate();
+        application = ( (SeamApplication11) FacesContext.getCurrentInstance().getApplication() ).getDelegate();
     }
     
     public ActionParamMethodBinding(Application application, String expWithParams) {

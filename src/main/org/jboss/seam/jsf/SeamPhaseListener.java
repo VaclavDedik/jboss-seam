@@ -34,20 +34,7 @@ import org.jboss.seam.core.Manager;
 public class SeamPhaseListener extends AbstractSeamPhaseListener
 {
 
-   private static final Log log = LogFactory.getLog( SeamPhaseListener.class );
-   
-   public SeamPhaseListener()
-   {
-      try
-      {
-         ApplicationFactory factory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
-         factory.setApplication( new SeamApplication( factory.getApplication() ) );
-      }
-      catch (RuntimeException re)
-      {
-         log.info("Unable to replace JSF Application object");
-      }
-   }
+   private static final Log log = LogFactory.getLog(SeamPhaseListener.class);
    
    public void beforePhase(PhaseEvent event)
    {

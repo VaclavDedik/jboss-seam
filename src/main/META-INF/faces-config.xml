@@ -11,5 +11,9 @@
      <state-manager>org.jboss.seam.jsf.SeamStateManager</state-manager>
      <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
   </application>
+  
+  <factory>
+     <application-factory>org.jboss.seam.jsf.SeamApplicationFactory</application-factory>
+  </factory>
 
 </faces-config>

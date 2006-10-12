@@ -29,7 +29,7 @@ import javax.faces.el.EvaluationException;
 import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.ValueBinding;
 
-import org.jboss.seam.jsf.SeamApplication;
+import org.jboss.seam.jsf.SeamApplication11;
 
 /**
  * This is a sort of bastardized ValueBinding that takes an action expression.
@@ -52,7 +52,7 @@ public class ActionParamValueBinding extends ValueBinding implements StateHolder
     public ActionParamValueBinding()
     {
         // needed for StateHolder
-        application = ( (SeamApplication) FacesContext.getCurrentInstance().getApplication() ).getDelegate();
+        application = ( (SeamApplication11) FacesContext.getCurrentInstance().getApplication() ).getDelegate();
     }
     
     public ActionParamValueBinding(Application application, String expression)

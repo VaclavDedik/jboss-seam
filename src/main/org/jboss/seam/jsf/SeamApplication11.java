@@ -23,17 +23,17 @@ import javax.faces.validator.Validator;
 import org.jboss.seam.actionparam.ActionParamMethodBinding;
 import org.jboss.seam.actionparam.ActionParamValueBinding;
 
-public class SeamApplication extends Application
+public class SeamApplication11 extends Application
 {
 
-   private Application application;
+   protected Application application;
    
    public Application getDelegate()
    {
       return application;
    }
    
-   public SeamApplication(Application app)
+   public SeamApplication11(Application app)
    {
       this.application = app;
    }
