@@ -1,5 +1,7 @@
 package org.jboss.seam.remoting.wrapper;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +48,10 @@ public class WrapperFactory
     registerWrapperClass(StringBuilder.class, StringWrapper.class);
     registerWrapperClass(StringBuffer.class, StringWrapper.class);
     registerWrapperClass(Character.class, StringWrapper.class);
+
+    // Big numbers are handled by StringWrapper
+    registerWrapperClass(BigDecimal.class, StringWrapper.class);
+    registerWrapperClass(BigInteger.class, StringWrapper.class);
 
     // Number types
     registerWrapperClass(Integer.class, NumberWrapper.class);

@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -636,7 +638,8 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
    */
   private String getFieldType(Type type)
   {
-    if (type.equals(String.class) || (type instanceof Class && ((Class) type).isEnum()))
+    if (type.equals(String.class) || (type instanceof Class && ((Class) type).isEnum()) ||
+        type.equals(BigInteger.class) || type.equals(BigDecimal.class))
       return "str";
     else if (type.equals(Boolean.class) || type.equals(Boolean.TYPE))
       return "bool";

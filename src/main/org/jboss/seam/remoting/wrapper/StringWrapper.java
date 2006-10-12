@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * String wrapper class.
@@ -14,10 +18,92 @@ import java.net.URLEncoder;
  */
 public class StringWrapper extends BaseWrapper implements Wrapper
 {
+  private interface StringConverter {
+    Object convert(String value);
+  }
+
+  private static final Map<Class,StringConverter> converters = new HashMap<Class,StringConverter>();
+
+  static {
+    converters.put(String.class, new StringConverter() {
+      public Object convert(String value) { return value; };
+    });
+    converters.put(Object.class, new StringConverter() {
+      public Object convert(String value) { return value; };
+    });
+    converters.put(StringBuilder.class, new StringConverter() {
+      public Object convert(String value) { return new StringBuilder(value); };
+    });
+    converters.put(StringBuffer.class, new StringConverter() {
+      public Object convert(String value) { return new StringBuffer(value); };
+    });
+    converters.put(Integer.class, new StringConverter() {
+      public Object convert(String value) { return Integer.valueOf(value); };
+    });
+    converters.put(Integer.TYPE, new StringConverter() {
+      public Object convert(String value) { return Integer.parseInt(value); };
+    });
+    converters.put(Long.class, new StringConverter() {
+      public Object convert(String value) { return Long.valueOf(value); };
+    });
+    converters.put(Long.TYPE, new StringConverter() {
+      public Object convert(String value) { return Long.parseLong(value); };
+    });
+    converters.put(Short.class, new StringConverter() {
+      public Object convert(String value) { return Short.valueOf(value); };
+    });
+    converters.put(Short.TYPE, new StringConverter() {
+      public Object convert(String value) { return Short.parseShort(value); };
+    });
+    converters.put(Boolean.class, new StringConverter() {
+      public Object convert(String value) { return Boolean.valueOf(value); };
+    });
+    converters.put(Boolean.TYPE, new StringConverter() {
+      public Object convert(String value) { return Boolean.parseBoolean(value); };
+    });
+    converters.put(Double.class, new StringConverter() {
+      public Object convert(String value) { return Double.valueOf(value); };
+    });
+    converters.put(Double.TYPE, new StringConverter() {
+      public Object convert(String value) { return Double.parseDouble(value); };
+    });
+    converters.put(Float.class, new StringConverter() {
+      public Object convert(String value) { return Float.valueOf(value); };
+    });
+    converters.put(Float.TYPE, new StringConverter() {
+      public Object convert(String value) { return Float.parseFloat(value); };
+    });
+    converters.put(Character.class, new StringConverter() {
+      public Object convert(String value) { return Character.valueOf(value.charAt(0)); };
+    });
+    converters.put(Character.TYPE, new StringConverter() {
+      public Object convert(String value) { return value.charAt(0); };
+    });
+    converters.put(Byte.class, new StringConverter() {
+      public Object convert(String value) { return Byte.valueOf(value); };
+    });
+    converters.put(Byte.TYPE, new StringConverter() {
+      public Object convert(String value) { return Byte.parseByte(value); };
+    });
+    converters.put(BigInteger.class, new StringConverter() {
+      public Object convert(String value) { return new BigInteger(value); };
+    });
+    converters.put(BigDecimal.class, new StringConverter() {
+      public Object convert(String value) { return new BigDecimal(value); };
+    });
+  }
+
   public static final String DEFAULT_ENCODING = "UTF-8";
 
   private static final byte[] STRING_TAG_OPEN = "<str>".getBytes();
   private static final byte[] STRING_TAG_CLOSE = "</str>".getBytes();
+
+  private static final Class[] COMPATIBLE_CLASSES = {
+      Integer.class, Integer.TYPE, Long.class, Long.TYPE,
+      Short.class, Short.TYPE, Boolean.class, Boolean.TYPE,
+      Double.class, Double.TYPE, Float.class, Float.TYPE,
+      Character.class, Character.TYPE, Byte.class, Byte.TYPE,
+      BigInteger.class, BigDecimal.class, Object.class};
 
   /**
    *
@@ -38,44 +124,8 @@ public class StringWrapper extends BaseWrapper implements Wrapper
 
     try
     {
-      if (type.equals(String.class) || type.equals(Object.class))
-        value = elementValue;
-      else if (type.equals(StringBuilder.class))
-        value = new StringBuilder(elementValue);
-      else if (type.equals(StringBuffer.class))
-        value = new StringBuffer(elementValue);
-      else if (type.equals(Integer.class))
-        value = Integer.valueOf(elementValue);
-      else if (type.equals(Integer.TYPE))
-        value = Integer.parseInt(elementValue);
-      else if (type.equals(Long.class))
-        value = Long.valueOf(elementValue);
-      else if (type.equals(Long.TYPE))
-        value = Long.parseLong(elementValue);
-      else if (type.equals(Short.class))
-        value = Short.valueOf(elementValue);
-      else if (type.equals(Short.TYPE))
-        value = Short.parseShort(elementValue);
-      else if (type.equals(Boolean.class))
-        value = Boolean.valueOf(elementValue);
-      else if (type.equals(Boolean.TYPE))
-        value = Boolean.parseBoolean(elementValue);
-      else if (type.equals(Double.class))
-        value = Double.valueOf(elementValue);
-      else if (type.equals(Double.TYPE))
-        value = Double.parseDouble(elementValue);
-      else if (type.equals(Float.class))
-        value = Float.valueOf(elementValue);
-      else if (type.equals(Float.TYPE))
-        value = Float.parseFloat(elementValue);
-      else if (type.equals(Character.class))
-        value = Character.valueOf(elementValue.charAt(0));
-      else if (type.equals(Character.TYPE))
-        value = elementValue.charAt(0);
-      else if (type.equals(Byte.class))
-        value = Byte.valueOf(elementValue);
-      else if (type.equals(Byte.TYPE))
-        value = Byte.parseByte(elementValue);
+      if (converters.containsKey(type))
+        value = converters.get(type).convert(elementValue);
       else if (type instanceof Class && ( (Class) type).isEnum())
         value = Enum.valueOf( (Class) type, elementValue);
       else
@@ -106,16 +156,11 @@ public class StringWrapper extends BaseWrapper implements Wrapper
         StringBuffer.class.isAssignableFrom(cls))
       return ConversionScore.exact;
 
-    if (cls.equals(Integer.class) || cls.equals(Integer.TYPE) ||
-        cls.equals(Long.class) || cls.equals(Long.TYPE) ||
-        cls.equals(Short.class) || cls.equals(Short.TYPE) ||
-        cls.equals(Boolean.class) || cls.equals(Boolean.TYPE) ||
-        cls.equals(Double.class) || cls.equals(Double.TYPE) ||
-        cls.equals(Float.class) || cls.equals(Float.TYPE) ||
-        cls.equals(Character.class) || cls.equals(Character.TYPE) ||
-        cls.equals(Byte.class) || cls.equals(Byte.TYPE) ||
-        cls.equals(Object.class))
-      return ConversionScore.compatible;
+    for (Class c : COMPATIBLE_CLASSES)
+    {
+      if (cls.equals(c))
+        return ConversionScore.compatible;
+    }
 
     if (cls.isEnum()) {
       try
