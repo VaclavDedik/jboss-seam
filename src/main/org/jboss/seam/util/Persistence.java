@@ -1,9 +1,8 @@
 package org.jboss.seam.util;
 
-import javax.persistence.EntityManager;
-
 import java.lang.reflect.Method;
-import java.lang.reflect.Field;
+
+import javax.persistence.EntityManager;
 
 public class Persistence
 {
