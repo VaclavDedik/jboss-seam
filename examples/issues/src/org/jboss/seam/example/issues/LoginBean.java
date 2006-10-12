@@ -36,7 +36,7 @@ public class LoginBean implements Login {
  
     public String login() 
     {
-       List results = entityManager.createQuery("from User where username=:username and password=:password")
+       List results = entityManager.createQuery("select u from User u where u.username=:username and u.password=:password")
           .setParameter("username", instance.getUsername())
           .setParameter("password", instance.getPassword())
           .getResultList();

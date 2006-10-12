@@ -37,7 +37,7 @@ public class ProjectFinderBean implements ProjectFinder {
     }
 
     private void executeQuery() {
-       projectList = (List<Project>) entityManager.createQuery("from Project order by name")
+       projectList = (List<Project>) entityManager.createQuery("select project from Project project order by project.name")
             .getResultList();
     }
         

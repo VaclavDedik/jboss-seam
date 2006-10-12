@@ -48,7 +48,7 @@ public class HotelSearchingAction implements HotelSearching
    private void queryHotels()
    {
       String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      hotels = em.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
+      hotels = em.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
             .setParameter("search", searchPattern)
             .setMaxResults(pageSize)
             .setFirstResult( page * pageSize )

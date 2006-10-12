@@ -53,7 +53,7 @@ public class BookingListAction implements BookingList, Serializable
    @Observer("bookingConfirmed")
    public void getBookings()
    {
-      bookings = em.createQuery("from Booking b where b.user.username = :username order by b.checkinDate")
+      bookings = em.createQuery("select b from Booking b where b.user.username = :username order by b.checkinDate")
             .setParameter("username", user.getUsername())
             .getResultList();
    }

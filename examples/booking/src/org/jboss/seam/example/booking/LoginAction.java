@@ -26,7 +26,7 @@ public class LoginAction implements Login
 
    public String login()
    {
-      List<User> results = em.createQuery("from User where username=:username and password=:password")
+      List<User> results = em.createQuery("select u from User u where u.username=:username and u.password=:password")
             .setParameter("username", user.getUsername())
             .setParameter("password", user.getPassword())
             .getResultList();

@@ -37,7 +37,7 @@ public class RegisterAction implements Register
    {
       if ( user.getPassword().equals(verify) )
       {
-         List existing = em.createQuery("select username from User where username=:username")
+         List existing = em.createQuery("select u.username from User u where u.username=:username")
             .setParameter("username", user.getUsername())
             .getResultList();
          if (existing.size()==0)

@@ -39,7 +39,7 @@ public class MessageManagerBean implements Serializable, MessageManager
    @Factory("messageList")
    public void findMessages()
    {
-      messageList = em.createQuery("from Message msg order by msg.datetime desc").getResultList();
+      messageList = em.createQuery("select msg from Message msg order by msg.datetime desc").getResultList();
    }
    
    public void select()

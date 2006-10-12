@@ -33,7 +33,7 @@ public class SearchService
       }
       else
       {
-         return entityManager.createQuery("from BlogEntry be where lower(be.title) like :searchPattern or lower(be.body) like :searchPattern order by be.date desc")
+         return entityManager.createQuery("select be from BlogEntry be where lower(be.title) like :searchPattern or lower(be.body) like :searchPattern order by be.date desc")
                .setParameter( "searchPattern", getSqlSearchPattern() )
                .setMaxResults(100)
                .getResultList();
