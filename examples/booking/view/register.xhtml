@@ -3,7 +3,8 @@
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:s="http://jboss.com/products/seam/taglib">
+	  xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>JBoss Suites: Seam Framework</title>
@@ -42,9 +43,6 @@
 				
 					<s:validateAll>
 
-					    <f:facet name="afterInvalidField">
-					       <s:message/>
-					    </f:facet>
 					    <f:facet name="aroundInvalidField">
 					       <s:span styleClass="errors"/>
 					    </f:facet>
@@ -53,7 +51,13 @@
 							<div class="label"><h:outputLabel for="username">Username:</h:outputLabel></div>
 							<div class="input">
 								<s:decorate>
-									<h:inputText id="username" value="#{user.username}" required="true"/><br/>
+									<h:inputText id="username" value="#{user.username}" required="true">
+                                        <a:support event="onchange" reRender="usernameErrors"/>
+                                    </h:inputText>
+                                    <br/>
+                                    <a:outputPanel id="usernameErrors">
+                                        <h:message for="username"/>
+                                    </a:outputPanel>
 								</s:decorate>
 							</div>
 						</div>
@@ -62,7 +66,13 @@
 							<div class="label"><h:outputLabel for="name">Real Name:</h:outputLabel></div>
 							<div class="input">
 								<s:decorate>
-									<h:inputText id="name" value="#{user.name}" required="true"/><br/>
+									<h:inputText id="name" value="#{user.name}" required="true">
+                                        <a:support event="onchange" reRender="nameErrors"/>
+                                    </h:inputText>
+                                    <br/>
+                                    <a:outputPanel id="nameErrors">
+                                        <h:message for="name"/>
+                                    </a:outputPanel>
 								</s:decorate>
 							</div>
 						</div>
@@ -71,7 +81,9 @@
 							<div class="label"><h:outputLabel for="password">Password:</h:outputLabel></div>
 							<div class="input">
 								<s:decorate>
-									<h:inputSecret id="password" value="#{user.password}" required="true"/><br/>
+									<h:inputSecret id="password" value="#{user.password}" required="true"/>
+                                    <br/>
+                                    <h:message for="password"/>
 								</s:decorate>
 							</div>
 						</div>
@@ -80,7 +92,9 @@
 							<div class="label"><h:outputLabel for="verify">Verify Password:</h:outputLabel></div>
 							<div class="input">
 								<s:decorate>
-									<h:inputSecret id="verify" value="#{register.verify}" required="true"/><br/>
+									<h:inputSecret id="verify" value="#{register.verify}" required="true"/>
+                                    <br/>
+                                    <h:message for="verify"/>
 								</s:decorate>
 							</div>
 						</div>
