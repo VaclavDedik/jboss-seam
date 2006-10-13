@@ -117,7 +117,7 @@ public class HibernateEntityQuery extends Query
          Object parameterValue = parameters.get(i).getValue();
          if (parameterValue!=null)
          {
-            query.setParameter(start++, parameterValue);
+            query.setParameter( "p" + start++, parameterValue );
          }
       }
    }
