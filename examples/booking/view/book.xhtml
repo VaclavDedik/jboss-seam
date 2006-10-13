@@ -104,7 +104,7 @@
 				<div class="input">
 					<s:decorate>
 						<h:inputText id="creditCard" value="#{booking.creditCard}" required="true">
-                           <a:support event="onchange" reRender="creditCardErrors"/>
+                           <a:support event="onblur" reRender="creditCardErrors"/>
                         </h:inputText>
 						<br/>
                         <a:outputPanel id="creditCardErrors">
@@ -119,7 +119,7 @@
 				<div class="input" id="creditCardNameInput">
 					<s:decorate>
 						<h:inputText id="creditCardName" value="#{booking.creditCardName}" required="true">
-                           <a:support event="onchange" reRender="creditCardNameErrors"/>
+                           <a:support event="onblur" reRender="creditCardNameErrors"/>
                         </h:inputText>
 						<br/>
                         <a:outputPanel id="creditCardNameErrors">
