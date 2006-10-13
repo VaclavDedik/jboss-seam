@@ -636,9 +636,10 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
    * @param type Class
    * @return String
    */
-  private String getFieldType(Type type)
+  protected String getFieldType(Type type)
   {
-    if (type.equals(String.class) || (type instanceof Class && ((Class) type).isEnum()) ||
+    if (type.equals(String.class) ||
+        (type instanceof Class && ( (Class) type).isEnum()) ||
         type.equals(BigInteger.class) || type.equals(BigDecimal.class))
       return "str";
     else if (type.equals(Boolean.class) || type.equals(Boolean.TYPE))
@@ -650,15 +651,28 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
              type.equals(Double.class) || type.equals(Double.TYPE) ||
              type.equals(Byte.class) || type.equals(Byte.TYPE))
       return "number";
-    else if (type instanceof Class && Date.class.isAssignableFrom((Class) type))
-      return "date";
-    else if (type instanceof Class && Map.class.isAssignableFrom((Class) type))
-      return "map";
-    else if (type instanceof ParameterizedType ||
-             (type instanceof Class && ((Class) type).isArray() ||
-              Collection.class.isAssignableFrom((Class) type)))
-      return "bag";
-    else
-      return "bean";
+    else if (type instanceof Class)
+    {
+      Class cls = (Class) type;
+      if (Date.class.isAssignableFrom(cls))
+        return "date";
+      else if (cls.isArray())
+        return "bag";
+      else if (cls.isAssignableFrom(Map.class))
+        return "map";
+      else if (cls.isAssignableFrom(Collection.class))
+        return "bag";
+    }
+    else if (type instanceof ParameterizedType)
+    {
+      ParameterizedType pt = (ParameterizedType) type;
+
+      if (pt.getRawType() instanceof Class && Map.class.isAssignableFrom((Class) pt.getRawType()))
+        return "map";
+      else if (pt.getRawType() instanceof Class && Collection.class.isAssignableFrom((Class) pt.getRawType()))
+        return "bag";
+    }
+
+    return "bean";
   }
 }

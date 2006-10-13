@@ -49,6 +49,9 @@ import org.jboss.seam.remoting.wrapper.NumberWrapper;
 import org.jboss.seam.remoting.wrapper.StringWrapper;
 import org.jboss.seam.remoting.wrapper.WrapperFactory;
 import org.testng.annotations.Test;
+import org.jboss.seam.remoting.InterfaceGenerator;
+import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * Unit tests for Seam Remoting
@@ -734,5 +737,87 @@ public class RemotingTest
     {
       Lifecycle.endCall();
     }
+  }
+
+  class ProxyInterfaceGenerator extends InterfaceGenerator
+  {
+    @Override
+    public String getFieldType(Type type)
+    {
+      return super.getFieldType(type);
+    }
+  }
+
+  static class Dummy {
+    enum TestEnum {foo, bar}
+    public String getString() { return null; }
+    public TestEnum getEnum() { return null; }
+    public BigInteger getBigInteger() { return null; }
+    public BigDecimal getBigDecimal() { return null; }
+    public Boolean getBoolean() { return null; }
+    public boolean getBool() { return false; }
+    public Short getShort() { return null; }
+    public short getSht() { return 0; }
+    public Integer getInteger() { return null; }
+    public int getInt() { return 0; }
+    public Long getLong() { return null; }
+    public long getLng() { return 0; }
+    public Float getFloat() { return null; }
+    public float getFlt() { return 0; }
+    public Double getDouble() { return null; }
+    public double getDbl() { return 0; }
+    public Byte getByte() { return null; }
+    public byte getByt() { return 0; }
+    public Date getDate() { return null; }
+    public int[] getIntArray() { return null; }
+    public Map getMap() { return null; }
+    public Collection getCollection() { return null; }
+    public Map<String,String> getGenericMap() { return null; }
+    public Collection<String> getGenericCollection() { return null; }
+  }
+
+  private Type getDummyReturnType(String methodName)
+  {
+    try
+    {
+      return Dummy.class.getMethod(methodName).getGenericReturnType();
+    }
+    catch (NoSuchMethodException ex)
+    {
+      return null;
+    }
+  }
+
+  /**
+   * Test that the correct remoting type is returned for various Java types
+   */
+  @Test
+  public void testInterfaceGenerator()
+  {
+    ProxyInterfaceGenerator gen = new ProxyInterfaceGenerator();
+    assert("str".equals(gen.getFieldType(getDummyReturnType("getString"))));
+    assert("str".equals(gen.getFieldType(getDummyReturnType("getEnum"))));
+    assert("str".equals(gen.getFieldType(getDummyReturnType("getBigInteger"))));
+    assert("str".equals(gen.getFieldType(getDummyReturnType("getBigDecimal"))));
+    assert("bool".equals(gen.getFieldType(getDummyReturnType("getBoolean"))));
+    assert("bool".equals(gen.getFieldType(getDummyReturnType("getBool"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getShort"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getSht"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getInteger"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getInt"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getLong"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getLng"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getFloat"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getFlt"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getDouble"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getDbl"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getByte"))));
+    assert("number".equals(gen.getFieldType(getDummyReturnType("getByt"))));
+    assert("date".equals(gen.getFieldType(getDummyReturnType("getDate"))));
+    assert("bag".equals(gen.getFieldType(getDummyReturnType("getIntArray"))));
+    assert("map".equals(gen.getFieldType(getDummyReturnType("getMap"))));
+    assert("bag".equals(gen.getFieldType(getDummyReturnType("getCollection"))));
+    assert("map".equals(gen.getFieldType(getDummyReturnType("getGenericMap"))));
+    assert("bag".equals(gen.getFieldType(getDummyReturnType("getGenericCollection"))));
   }
 }
