@@ -13,7 +13,6 @@ import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.intercept.RootInterceptor;
 
 /**
  * Controller interceptor for server-side interceptors of

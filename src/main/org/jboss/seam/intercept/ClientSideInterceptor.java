@@ -33,15 +33,26 @@ public class ClientSideInterceptor extends RootInterceptor
          final MethodProxy methodProxy) throws Throwable
    {
       String methodName = method.getName();
-      if ( "finalize".equals(methodName) )
+      if ( params!=null && params.length==0 )
       {
-         return methodProxy.invokeSuper(proxy, params);
+         if ( "finalize".equals(methodName) )
+         {
+            return methodProxy.invokeSuper(proxy, params);
+         }
+         else if ( "writeReplace".equals(methodName) )
+         {
+            return this;
+         }
       }
-      else if ( "writeReplace".equals(methodName) )
-      {
-         return this;
-      }
-      return interceptInvocation(method, params, methodProxy);
+      Object result = interceptInvocation(method, params, methodProxy);
+      return sessionBeanReturnedThis(result) ? proxy : result;
+   }
+
+   private boolean sessionBeanReturnedThis(Object result)
+   {
+      return result==bean || (
+            result!=null && getComponent().getBeanClass().isAssignableFrom( result.getClass() )
+         );
    }
 
    private Object interceptInvocation(final Method method, final Object[] params, final MethodProxy methodProxy) throws Exception

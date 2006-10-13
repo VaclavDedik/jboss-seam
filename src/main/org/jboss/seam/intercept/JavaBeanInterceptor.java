@@ -66,7 +66,8 @@ public class JavaBeanInterceptor extends RootInterceptor
       //TODO: we could support an @ReadOnly annotation
       dirty = true; 
          
-      return interceptInvocation(method, params, methodProxy);
+      Object result = interceptInvocation(method, params, methodProxy);
+      return result==bean ? proxy : result;
 
    }
 
