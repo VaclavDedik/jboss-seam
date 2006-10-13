@@ -330,4 +330,9 @@
         <converter-class>org.jboss.seam.ui.ConvertDateTime</converter-class>
     </converter>
 
+    <component>
+      <component-type>org.jboss.seam.ui.UISecure</component-type>
+      <component-class>org.jboss.seam.ui.UISecure</component-class>
+    </component>
+    
 </faces-config>

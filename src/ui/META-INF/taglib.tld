@@ -1103,5 +1103,19 @@
 			<description>date|time|both</description>
 		</attribute>
 	</tag>
+	
+	<tag>
+	  <name>secure</name>
+	  <tag-class>
+	    org.jboss.seam.ui.tag.SecureTag
+	  </tag-class>
+	  <body-content>JSP</body-content>
+    <attribute>
+      <name>roles</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+	  
+	</tag>
 
 </taglib>
