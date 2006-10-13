@@ -47,7 +47,7 @@
 				<div class="input">
 					<s:decorate>
 						<h:inputText id="checkinDate" value="#{booking.checkinDate}" required="true">
-                            <a:support event="onchange" reRender="checkinDateErrors"/>
+                            <a:support event="onblur" reRender="checkinDateErrors"/>
                         </h:inputText>
 						<br/>
                         <a:outputPanel id="checkinDateErrors">
@@ -62,7 +62,7 @@
 				<div class="input">
 					<s:decorate>
 						<h:inputText id="checkoutDate" value="#{booking.checkoutDate}" required="true">
-                            <a:support event="onchange" reRender="checkoutDateErrors"/>
+                            <a:support event="onblur" reRender="checkoutDateErrors"/>
                         </h:inputText>
 						<br/>
                         <a:outputPanel id="checkoutDateErrors">
