@@ -20,5 +20,11 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Synchronized
 {
-
+   /**
+    * How long should we wait for the lock
+    * before throwing an exception?
+    * 
+    * @return the timeout in milliseconds
+    */
+   long timeout() default 1000;
 }

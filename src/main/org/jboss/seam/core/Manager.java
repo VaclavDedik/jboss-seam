@@ -71,7 +71,7 @@ public class Manager
    private boolean destroyBeforeRedirect;
    
    private int conversationTimeout = 600000; //10 mins
-   private int requestWait = 1000; //one second
+   private int concurrentRequestTimeout = 1000; //one second
    
    private String conversationIdParameter = "conversationId";
    private String conversationIsLongRunningParameter = "conversationIsLongRunning";
@@ -992,14 +992,14 @@ public class Manager
       this.updateModelValuesCalled = updateModelValuesCalled;
    }
 
-   public int getRequestWait()
+   public int getConcurrentRequestTimeout()
    {
-      return requestWait;
+      return concurrentRequestTimeout;
    }
 
-   public void setRequestWait(int requestWait)
+   public void setConcurrentRequestTimeout(int requestWait)
    {
-      this.requestWait = requestWait;
+      this.concurrentRequestTimeout = requestWait;
    }
 
 }

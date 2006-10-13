@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Semaphore;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -127,6 +128,7 @@ public class Component
    private boolean startup;
    private String[] dependencies;
    private boolean synchronize;
+   private long timeout;
 
    private Method destroyMethod;
    private Method createMethod;
@@ -157,7 +159,7 @@ public class Component
 
    private Field logField;
    private org.jboss.seam.log.Log logInstance;
-
+   
    private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
 
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
@@ -211,9 +213,13 @@ public class Component
       }
       
       synchronize = beanClass.isAnnotationPresent(Synchronized.class);
-      if (synchronize && scope==STATELESS)
+      if (synchronize) 
       {
-         throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
+         if (scope==STATELESS)
+         {
+            throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
+         }
+         timeout = beanClass.getAnnotation(Synchronized.class).timeout();
       }
 
       jndiName = getJndiName(applicationContext);
@@ -1901,6 +1907,11 @@ public class Component
    public Method getPreDestroyMethod()
    {
       return preDestroyMethod;
+   }
+
+   public long getTimeout()
+   {
+      return timeout;
    }
 
 }

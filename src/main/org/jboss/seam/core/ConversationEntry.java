@@ -180,7 +180,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       try
       {
-         return semaphore.tryAcquire( Manager.instance().getRequestWait(), TimeUnit.MILLISECONDS );
+         return semaphore.tryAcquire( Manager.instance().getConcurrentRequestTimeout(), TimeUnit.MILLISECONDS );
       }
       catch (InterruptedException ie)
       {
