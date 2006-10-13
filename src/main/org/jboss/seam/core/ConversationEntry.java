@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Metadata about an active conversation. Also used
@@ -32,7 +32,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    
    private ConversationEntries parent;
    
-   private Semaphore semaphore = new Semaphore(1,true);
+   private ReentrantLock lock = new ReentrantLock(true);
 
    public ConversationEntry(String id, List<String> stack, ConversationEntries parent)
    {
@@ -58,13 +58,13 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       this.description = description;
    }
 
-   public long getLastRequestTime() {
+   public synchronized long getLastRequestTime() {
       return lastRequestTime;
    }
 
-   void touch() {
+   synchronized void touch() {
       parent.setDirty();
-      this.lastRequestTime = System.currentTimeMillis();
+      lastRequestTime = System.currentTimeMillis();
       lastDatetime = new Date();
    }
 
@@ -110,7 +110,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return viewId;
    }
 
-   public Date getLastDatetime() {
+   public synchronized Date getLastDatetime() {
       return lastDatetime;
    }
 
@@ -175,12 +175,17 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       this.id = id;
    }
+   
+   public boolean lockNoWait() //not synchronized!
+   {
+      return lock.tryLock();
+   }
 
-   public boolean lock()
+   public boolean lock() //not synchronized!
    {
       try
       {
-         return semaphore.tryAcquire( Manager.instance().getConcurrentRequestTimeout(), TimeUnit.MILLISECONDS );
+         return lock.tryLock( Manager.instance().getConcurrentRequestTimeout(), TimeUnit.MILLISECONDS );
       }
       catch (InterruptedException ie)
       {
@@ -188,9 +193,9 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       }
    }
    
-   public void unlock()
+   public void unlock() //not synchronized!
    {
-      semaphore.release();
+      lock.unlock();
    }
    
 }

@@ -249,15 +249,40 @@ public class Manager
       List<ConversationEntry> entries = new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
       for (ConversationEntry conversationEntry: entries)
       {
-         long delta = currentTime - conversationEntry.getLastRequestTime();
-         if ( delta > conversationEntry.getTimeout() )
+         boolean locked = conversationEntry.lockNoWait(); //we had better not wait for it, or we would be waiting for ALL other requests
+         try
          {
-            if ( conversationEntry.lock() ) //no need to release it...
+            long delta = currentTime - conversationEntry.getLastRequestTime();
+            if ( delta > conversationEntry.getTimeout() )
             {
-               log.debug("conversation timeout for conversation: " + conversationEntry.getId());
+               if ( locked )
+               { 
+                  if ( log.isDebugEnabled() )
+                  {
+                     log.debug("conversation timeout for conversation: " + conversationEntry.getId());
+                  }
+               }
+               else
+               {
+                  //if we could not acquire the lock, someone has left a garbage lock lying around
+                  //the reason garbage locks can exist is that we don't require a servlet filter to
+                  //exist - but if we do use SeamExceptionFilter, it will clean up garbage and this
+                  //case should never occur
+                  
+                  //NOTE: this is slightly broken - in theory there is a window where a new request 
+                  //      could have come in and got the lock just before us but called touch() just 
+                  //      after we check the timeout - but in practice this would be extremely rare, 
+                  //      and that request will get an IllegalMonitorStateException when it tries to 
+                  //      unlock() the CE
+                  log.info("destroying conversation with garbage lock: " + conversationEntry.getId());
+               }
                ContextAdaptor session = ContextAdaptor.getSession(externalContext, true);
                destroyConversation( conversationEntry.getId(), session );
             }
+         }
+         finally
+         {
+            if (locked) conversationEntry.unlock();
          }
       }
    }
@@ -526,6 +551,8 @@ public class Manager
             null : ConversationEntries.instance().getConversationEntry(storedConversationId);
       if ( ce!=null && ce.lock() )
       {
+         
+         touchConversationStack();
 
          //we found an id and obtained the lock, so restore the long-running conversation
          log.debug("Restoring conversation with id: " + storedConversationId);

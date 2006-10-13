@@ -1,8 +1,8 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -19,12 +19,12 @@ import org.jboss.seam.annotations.Interceptor;
 public class SynchronizationInterceptor extends AbstractInterceptor
 {
    
-   private Semaphore semaphore = new Semaphore(1, true);
+   private ReentrantLock lock = new ReentrantLock(true);
    
    @AroundInvoke
    public synchronized Object serialize(InvocationContext invocation) throws Exception
    {
-      if ( semaphore.tryAcquire( getComponent().getTimeout(), TimeUnit.MILLISECONDS ) )
+      if ( lock.tryLock( getComponent().getTimeout(), TimeUnit.MILLISECONDS ) )
       {
          try
          {
@@ -32,7 +32,7 @@ public class SynchronizationInterceptor extends AbstractInterceptor
          }
          finally
          {
-            semaphore.release();
+            lock.unlock();
          }
       }
       else
@@ -40,6 +40,5 @@ public class SynchronizationInterceptor extends AbstractInterceptor
          throw new IllegalStateException("could not acquire lock on @Synchronized component: " + getComponent().getName());
       }
    }
-
 
 }
