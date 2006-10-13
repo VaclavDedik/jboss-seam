@@ -46,7 +46,7 @@ public class ResourceBundle implements Serializable {
    @Deprecated
    public void setBundleName(String bundleName)
    {
-      bundleNames = new String[] { bundleName };
+      bundleNames = bundleName==null ? null : new String[] { bundleName };
    }
    
    @Deprecated
