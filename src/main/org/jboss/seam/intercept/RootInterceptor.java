@@ -189,5 +189,10 @@ public class RootInterceptor implements Serializable
       }
       return component;
    }
+
+   protected String getComponentName()
+   {
+      return componentName;
+   }
    
 }

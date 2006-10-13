@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Semaphore;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -81,6 +80,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 import org.jboss.seam.intercept.ClientSideInterceptor;
 import org.jboss.seam.intercept.Interceptor;
 import org.jboss.seam.intercept.JavaBeanInterceptor;
+import org.jboss.seam.intercept.Proxy;
 import org.jboss.seam.interceptors.AsynchronousInterceptor;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
@@ -905,7 +905,8 @@ public class Component
       SeamInterceptor.COMPONENT.set(this);
       try
       {
-         return wrap( Naming.getInitialContext().lookup(jndiName) );
+         Object bean = Naming.getInitialContext().lookup(jndiName);
+         return wrap( bean, new ClientSideInterceptor(bean, this) );
       }
       finally
       {
@@ -919,33 +920,29 @@ public class Component
       initialize(bean);
       return bean;
    }
-
+   
    protected Object instantiateJavaBean() throws Exception
    {
-      if (interceptionType==InterceptionType.NEVER)
-        {
-           Object bean = beanClass.newInstance();
-           initialize(bean);
-           callPostConstructMethod(bean);
-           return bean;
-        }
-        else
-        {
-           Factory bean = getFactory().newInstance();
-           initialize(bean);
-           bean.setCallback( 0, new JavaBeanInterceptor(this) );
-           callPostConstructMethod(bean);
-           return bean;
-        }
+      Object bean = beanClass.newInstance();
+      initialize(bean);
+      if (interceptionType!=InterceptionType.NEVER)
+      {
+         bean = wrap( bean, new JavaBeanInterceptor(bean, this) );
+      }
+      callPostConstructMethod(bean);
+      return bean;
    }
-
-   private Object wrap(Object bean) throws Exception
+   
+   /**
+    * Wrap a CGLIB interceptor around an instance of the component
+    */
+   public Object wrap(Object bean, MethodInterceptor interceptor) throws Exception
    {
       Factory proxy = getFactory().newInstance();
-      proxy.setCallback( 0, new ClientSideInterceptor(bean, this) );
+      proxy.setCallback(0, interceptor);
       return proxy;
    }
-    
+   
    private synchronized Class<Factory> getFactory()
    {
       if (factory==null)
@@ -954,7 +951,7 @@ public class Component
       }
       return factory;
    }
-
+   
    public void initialize(Object bean) throws Exception
    {
       if ( log.isDebugEnabled() ) log.debug("initializing new instance of: " + name);
@@ -1777,6 +1774,7 @@ public class Component
       {
          interfaces.add(HttpSessionActivationListener.class);
       }
+      interfaces.add(Proxy.class);
       en.setInterfaces( interfaces.toArray( new Class[0] ) );
       return (Class<Factory>) en.createClass();
    }

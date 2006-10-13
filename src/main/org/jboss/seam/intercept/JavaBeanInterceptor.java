@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.intercept;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -16,108 +15,97 @@ import org.jboss.seam.InterceptorType;
  * @author Gavin King
  */
 public class JavaBeanInterceptor extends RootInterceptor
-      implements MethodInterceptor, Serializable
+      implements MethodInterceptor
 {
    
-   private boolean recursive = false;
+   private final Object bean;
    
-   public JavaBeanInterceptor(Component component)
+   public JavaBeanInterceptor(Object bean, Component component)
    {
       super(InterceptorType.ANY);
+      this.bean = bean;
       init(component);
    }
 
-   public Object intercept(final Object target, final Method method, final Object[] params,
+   public Object intercept(final Object proxy, final Method method, final Object[] params,
          final MethodProxy methodProxy) throws Throwable
    {
-      if (recursive) 
+
+      String methodName = method.getName();
+      if ( "finalize".equals(methodName) ) 
       {
-         return methodProxy.invokeSuper(target, params);
+         return methodProxy.invokeSuper(proxy, params);
       }
-      
-      recursive = true;
-      try
+      else if ( "writeReplace".equals(methodName) )
       {
-         String methodName = method.getName();
-         if ( "finalize".equals(methodName) ) 
-         {
-            return methodProxy.invokeSuper(target, params);
-         }
-         else if ( "sessionDidActivate".equals(methodName) )
-         {
-            callPostActivate(target);
-            return null;
-         }
-         else if ( "sessionWillPassivate".equals(methodName) )
-         {
-            callPrePassivate(target);
-            return null;
-         }
-         else
-         {
-            return interceptInvocation(target, method, params, methodProxy);
-         }
+         return this;
       }
-      finally
+      else if ( "sessionDidActivate".equals(methodName) )
       {
-         recursive = false;
+         callPostActivate();
+         return null;
       }
+      else if ( "sessionWillPassivate".equals(methodName) )
+      {
+         callPrePassivate();
+         return null;
+      }
+      else
+      {
+         return interceptInvocation(method, params, methodProxy);
+      }
+
    }
 
-   private void callPrePassivate(final Object target)
+   private void callPrePassivate()
    {
-      prePassivate( new RootInvocationContext(target, getComponent().getPrePassivateMethod(), new Object[0])
+      prePassivate( new RootInvocationContext(bean, getComponent().getPrePassivateMethod(), new Object[0])
       {
          public Object proceed() throws Exception
          {
-            getComponent().callPrePassivateMethod(target);
+            getComponent().callPrePassivateMethod(bean);
             return null;
          }
          
       } );
    }
 
-   private void callPostActivate( final Object target)
+   private void callPostActivate()
    {
-      postActivate( new RootInvocationContext(target, getComponent().getPostActivateMethod(), new Object[0])
+      postActivate( new RootInvocationContext(bean, getComponent().getPostActivateMethod(), new Object[0])
       {
          public Object proceed() throws Exception
          {
-            getComponent().callPostActivateMethod(target);
+            getComponent().callPostActivateMethod(bean);
             return null;
          }
          
       } );
    }
 
-   private Object interceptInvocation(final Object target, final Method method, final Object[] params, 
+   private Object interceptInvocation(final Method method, final Object[] params, 
          final MethodProxy methodProxy) throws Exception
    {
-      return aroundInvoke( new RootInvocationContext(target, method, params)
+      return aroundInvoke( new RootInvocationContext(bean, method, params, methodProxy) );
+   }
+   
+   // TODO: copy/paste from ClientSide interceptor
+   Object readResolve()
+   {
+      Component comp = getComponent();
+      if (comp==null)
       {
-         
-         public Object proceed() throws Exception
-         {
-            try
-            {
-               return methodProxy.invokeSuper(target, params);
-            }
-            catch (Error e)
-            {
-               throw e;
-            }
-            catch (Exception e)
-            {
-               throw e;
-            }
-            catch (Throwable t)
-            {
-               //only extremely wierd stuff!
-               throw new Exception(t);
-            }
-         }
-         
-      } );
+         throw new IllegalStateException("No component found: " + getComponentName());
+      }
+      
+      try
+      {
+         return comp.wrap(bean, this);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
    }
 
 }
