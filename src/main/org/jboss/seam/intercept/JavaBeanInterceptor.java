@@ -8,6 +8,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
+import org.jboss.seam.core.Mutable;
 
 /**
  * Controller interceptor for JavaBean components
@@ -19,6 +20,7 @@ public class JavaBeanInterceptor extends RootInterceptor
 {
    
    private final Object bean;
+   private transient boolean dirty;
    
    public JavaBeanInterceptor(Object bean, Component component)
    {
@@ -31,29 +33,40 @@ public class JavaBeanInterceptor extends RootInterceptor
          final MethodProxy methodProxy) throws Throwable
    {
 
-      String methodName = method.getName();
-      if ( "finalize".equals(methodName) ) 
+      if ( params!=null && params.length==0 )
       {
-         return methodProxy.invokeSuper(proxy, params);
+         String methodName = method.getName();
+         if ( "finalize".equals(methodName) ) 
+         {
+            return methodProxy.invokeSuper(proxy, params);
+         }
+         else if ( "writeReplace".equals(methodName) )
+         {
+            return this;
+         }
+         else if ( "sessionDidActivate".equals(methodName) )
+         {
+            callPostActivate();
+            return null;
+         }
+         else if ( "sessionWillPassivate".equals(methodName) )
+         {
+            callPrePassivate();
+            return null;
+         }
+         else if ( "clearDirty".equals(methodName) && !(bean instanceof Mutable) )
+         {
+            boolean result = dirty;
+            dirty = false;
+            return result;
+         }
       }
-      else if ( "writeReplace".equals(methodName) )
-      {
-         return this;
-      }
-      else if ( "sessionDidActivate".equals(methodName) )
-      {
-         callPostActivate();
-         return null;
-      }
-      else if ( "sessionWillPassivate".equals(methodName) )
-      {
-         callPrePassivate();
-         return null;
-      }
-      else
-      {
-         return interceptInvocation(method, params, methodProxy);
-      }
+
+      //mark it dirty each time it gets called 
+      //TODO: we could support an @ReadOnly annotation
+      dirty = true; 
+         
+      return interceptInvocation(method, params, methodProxy);
 
    }
 

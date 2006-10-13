@@ -71,6 +71,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.ResourceBundle;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
@@ -1773,6 +1774,7 @@ public class Component
       else
       {
          interfaces.add(HttpSessionActivationListener.class);
+         interfaces.add(Mutable.class);
       }
       interfaces.add(Proxy.class);
       en.setInterfaces( interfaces.toArray( new Class[0] ) );
