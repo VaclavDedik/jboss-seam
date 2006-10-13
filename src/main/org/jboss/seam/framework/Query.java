@@ -117,7 +117,7 @@ public abstract class Query
             {
                String expression = token + ejbqlTokens.nextToken() + ejbqlTokens.nextToken();
                queryParameters.add( Expressions.instance().createValueBinding(expression) );
-               ejbqlBuilder.append("?").append( queryParameters.size() );
+               ejbqlBuilder.append(":p").append( queryParameters.size() );
             }
             else
             {
@@ -141,7 +141,7 @@ public abstract class Query
                {
                   String expression = token + tokens.nextToken() + tokens.nextToken();
                   valueBinding = Expressions.instance().createValueBinding(expression);
-                  builder.append("?").append( queryParameters.size() + restrictionParameters.size() );
+                  builder.append(":p").append( queryParameters.size() + restrictionParameters.size() );
                }
                else
                {
