@@ -251,9 +251,12 @@ public class Manager
          long delta = currentTime - conversationEntry.getLastRequestTime();
          if ( delta > conversationEntry.getTimeout() )
          {
-            log.debug("conversation timeout for conversation: " + conversationEntry.getId());
-            ContextAdaptor session = ContextAdaptor.getSession(externalContext, true);
-            destroyConversation( conversationEntry.getId(), session );
+            if ( conversationEntry.lock() ) //no need to release it...
+            {
+               log.debug("conversation timeout for conversation: " + conversationEntry.getId());
+               ContextAdaptor session = ContextAdaptor.getSession(externalContext, true);
+               destroyConversation( conversationEntry.getId(), session );
+            }
          }
       }
    }
