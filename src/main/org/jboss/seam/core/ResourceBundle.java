@@ -43,6 +43,18 @@ public class ResourceBundle implements Serializable {
       this.bundleNames = bundleNames;
    }
    
+   @Deprecated
+   public void setBundleName(String bundleName)
+   {
+      bundleNames = new String[] { bundleName };
+   }
+   
+   @Deprecated
+   public String getBundleName()
+   {
+      return bundleNames==null || bundleNames.length==0 ? null : bundleNames[0];
+   }
+   
    private java.util.ResourceBundle loadBundle(String bundleName) 
    {
       try
