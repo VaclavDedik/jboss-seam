@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Metadata about an active conversation. Also used
@@ -30,7 +32,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    
    private ConversationEntries parent;
    
-   private transient Thread lock;
+   private Semaphore semaphore = new Semaphore(1,true);
 
    public ConversationEntry(String id, List<String> stack, ConversationEntries parent)
    {
@@ -174,22 +176,21 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       this.id = id;
    }
 
-   public synchronized boolean lock()
+   public boolean lock()
    {
-      if ( lock!=null && !lock.equals( Thread.currentThread() ) ) 
+      try
       {
-         return false;
+         return semaphore.tryAcquire( Manager.instance().getRequestWait(), TimeUnit.MILLISECONDS );
       }
-      this.lock = Thread.currentThread();
-      return true;
+      catch (InterruptedException ie)
+      {
+         throw new RuntimeException(ie);
+      }
    }
    
-   public synchronized void unlock()
+   public void unlock()
    {
-      if ( lock!=null && lock.equals( Thread.currentThread() ) )
-      {
-         this.lock = null;
-      }
+      semaphore.release();
    }
    
 }

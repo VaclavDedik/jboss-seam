@@ -71,6 +71,7 @@ public class Manager
    private boolean destroyBeforeRedirect;
    
    private int conversationTimeout = 600000; //10 mins
+   private int requestWait = 1000; //one second
    
    private String conversationIdParameter = "conversationId";
    private String conversationIsLongRunningParameter = "conversationIsLongRunning";
@@ -989,6 +990,16 @@ public class Manager
    public void setUpdateModelValuesCalled(boolean updateModelValuesCalled)
    {
       this.updateModelValuesCalled = updateModelValuesCalled;
+   }
+
+   public int getRequestWait()
+   {
+      return requestWait;
+   }
+
+   public void setRequestWait(int requestWait)
+   {
+      this.requestWait = requestWait;
    }
 
 }
