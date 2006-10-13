@@ -121,7 +121,7 @@ public class PageContext implements Context {
       PhaseId phaseId = Lifecycle.getPhaseId();
       if (phaseId==null)
       {
-         throw new IllegalStateException("No phase id bound to current thread");
+         throw new IllegalStateException("No phase id bound to current thread (make sure you do not have two SeamPhaseListener instances installed)");
       }
       return phaseId;
    }
