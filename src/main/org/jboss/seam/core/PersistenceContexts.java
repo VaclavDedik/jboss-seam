@@ -9,17 +9,24 @@ import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
-@Name("org.jboss.seam.core.touchedContexts")
+@Name("org.jboss.seam.core.persistenceContexts")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-public class TouchedContexts extends AbstractMutable implements Serializable
+public class PersistenceContexts extends AbstractMutable implements Serializable
 {
    private Set<String> set = new HashSet<String>();
+   private FlushModeType flushMode = FlushModeType.AUTO;
+   
+   public FlushModeType getFlushMode()
+   {
+      return flushMode;
+   }
    
    public Set<String> getTouchedContexts()
    {
@@ -31,16 +38,30 @@ public class TouchedContexts extends AbstractMutable implements Serializable
       if ( set.add(context) ) setDirty();
    }
    
-   public static TouchedContexts instance()
+   public static PersistenceContexts instance()
    {
       if ( Contexts.isConversationContextActive() )
       {
-         return (TouchedContexts) Component.getInstance(TouchedContexts.class);
+         return (PersistenceContexts) Component.getInstance(PersistenceContexts.class);
       }
       else
       {
          return null;
       }
+   }
+
+   public void changeFlushMode(FlushModeType flushMode)
+   {
+      this.flushMode = flushMode;
+      for (String name: set)
+      {
+         PersistenceContextManager pcm = (PersistenceContextManager) Contexts.getConversationContext().get(name);
+         if (pcm!=null)
+         {
+            pcm.setFlushMode(flushMode);
+         }
+      }
+      
    }
    
 }

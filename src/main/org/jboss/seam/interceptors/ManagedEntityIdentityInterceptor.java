@@ -16,7 +16,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Interceptor;
-import org.jboss.seam.core.TouchedContexts;
+import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Reflections;
 
@@ -81,7 +81,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
    
    public void entityRefsToIds(InvocationContext ctx) throws Exception
    {      
-      TouchedContexts touchedContexts = TouchedContexts.instance();
+      PersistenceContexts touchedContexts = PersistenceContexts.instance();
       if ( touchedContexts!=null && touchedContexts.getTouchedContexts().size()>0 )
       {
          Set<String> pcs = touchedContexts.getTouchedContexts();

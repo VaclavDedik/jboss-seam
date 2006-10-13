@@ -74,7 +74,7 @@ import org.jboss.seam.core.Switcher;
 import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.TaskInstanceListForType;
-import org.jboss.seam.core.TouchedContexts;
+import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.core.Transition;
 import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
@@ -397,7 +397,7 @@ public class Initialization
       addComponent( SafeActions.class, context );
       addComponent( SubscriptionRegistry.class, context );
       addComponent( RemotingConfig.class, context );
-      addComponent( TouchedContexts.class, context );
+      addComponent( PersistenceContexts.class, context );
       addComponent( CurrentDate.class, context );
       addComponent( CurrentTime.class, context );
       addComponent( CurrentDatetime.class, context );

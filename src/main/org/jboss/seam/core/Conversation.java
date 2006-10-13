@@ -28,7 +28,6 @@ import org.jboss.seam.contexts.Contexts;
 public class Conversation implements Serializable {
    
    private Integer timeout;
-   private FlushModeType flushMode = FlushModeType.AUTO;
    String description;
    String viewId;
 
@@ -286,15 +285,14 @@ public class Conversation implements Serializable {
       root();
       return redirect();
    }
-
-   public FlushModeType getFlushMode()
-   {
-      return flushMode;
-   }
-
-   public void setFlushMode(FlushModeType flushMode)
-   {
-      this.flushMode = flushMode;
-   }
    
+   /**
+    * Change the flush mode of all Seam-managed peristence 
+    * contexts in this conversation.
+    */
+   public void changeFlushMode(FlushModeType flushMode)
+   {
+      PersistenceContexts.instance().changeFlushMode(flushMode);
+   }
+
 }

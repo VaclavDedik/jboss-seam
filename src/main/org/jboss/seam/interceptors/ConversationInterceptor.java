@@ -16,12 +16,12 @@ import org.jboss.seam.annotations.EndTask;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.StartTask;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.core.PersistenceContexts;
 
 /**
  * After the end of the invocation, begin or end a long running
@@ -165,10 +165,7 @@ public class ConversationInterceptor extends AbstractInterceptor
          return;
       }
       
-      if (flushMode!=FlushModeType.AUTO)
-      {
-         Conversation.instance().setFlushMode(flushMode);
-      }
+      PersistenceContexts.instance().changeFlushMode(flushMode);
    }
 
    private String getProcessDefinitionName(Method method) {

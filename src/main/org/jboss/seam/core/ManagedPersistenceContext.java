@@ -8,7 +8,6 @@ import java.io.Serializable;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.FlushModeType;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.transaction.SystemException;
@@ -35,7 +34,8 @@ import org.jboss.seam.util.Transactions;
  */
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-public class ManagedPersistenceContext implements Serializable, HttpSessionActivationListener, Mutable
+public class ManagedPersistenceContext 
+   implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager
 {
 
    private static final Log log = LogFactory.getLog(ManagedPersistenceContext.class);
@@ -60,7 +60,7 @@ public class ManagedPersistenceContext implements Serializable, HttpSessionActiv
       
       createEntityManager();
       
-      TouchedContexts.instance().touch(componentName);
+      PersistenceContexts.instance().touch(componentName);
       
       if ( log.isDebugEnabled() )
       {
@@ -79,17 +79,7 @@ public class ManagedPersistenceContext implements Serializable, HttpSessionActiv
          throw new IllegalArgumentException("EntityManagerFactory not found", ne);
       }
       
-      switch ( Conversation.instance().getFlushMode() )
-      {
-         case AUTO: 
-            break;
-         case MANUAL:
-            PersistenceProvider.instance().setFlushModeManual(entityManager); 
-            break;
-         case COMMIT: 
-            entityManager.setFlushMode(FlushModeType.COMMIT); 
-            break;
-      }
+      setFlushMode( PersistenceContexts.instance().getFlushMode() );
    }
 
    @Unwrap
@@ -154,6 +144,22 @@ public class ManagedPersistenceContext implements Serializable, HttpSessionActiv
       return componentName;
    }
 
+   public void setFlushMode(org.jboss.seam.annotations.FlushModeType flushMode)
+   {
+      switch (flushMode)
+      {
+         case AUTO:
+            entityManager.setFlushMode(javax.persistence.FlushModeType.AUTO);
+            break;
+         case COMMIT:
+            entityManager.setFlushMode(javax.persistence.FlushModeType.COMMIT);
+            break;
+         case MANUAL:
+            PersistenceProvider.instance().setFlushModeManual(entityManager);
+            break;
+      }
+   }
+   
    public String toString()
    {
       return "ManagedPersistenceContext(" + persistenceUnitJndiName + ")";

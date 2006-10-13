@@ -18,6 +18,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
@@ -32,7 +33,8 @@ import org.jboss.seam.util.Naming;
  */
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-public class ManagedHibernateSession implements Serializable, HttpSessionActivationListener, Mutable
+public class ManagedHibernateSession 
+   implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager
 {
    
    /** The serialVersionUID */
@@ -59,7 +61,7 @@ public class ManagedHibernateSession implements Serializable, HttpSessionActivat
       }
       createSession();
       
-      TouchedContexts.instance().touch(componentName);
+      PersistenceContexts.instance().touch(componentName);
       
       if ( log.isDebugEnabled() )
       {
@@ -78,12 +80,7 @@ public class ManagedHibernateSession implements Serializable, HttpSessionActivat
          throw new IllegalArgumentException("SessionFactory not found", ne);
       }
       
-      switch ( Conversation.instance().getFlushMode() )
-      {
-         case AUTO: break;
-         case MANUAL: session.setFlushMode(FlushMode.NEVER); break;
-         case COMMIT: session.setFlushMode(FlushMode.COMMIT); break;
-      }
+      setFlushMode( PersistenceContexts.instance().getFlushMode() );
    }
    
    @Unwrap
@@ -140,6 +137,22 @@ public class ManagedHibernateSession implements Serializable, HttpSessionActivat
 
    public String getComponentName() {
       return componentName;
+   }
+   
+   public void setFlushMode(FlushModeType flushMode)
+   {
+      switch (flushMode)
+      {
+         case AUTO:
+            session.setFlushMode(FlushMode.AUTO);
+            break;
+         case MANUAL:
+            session.setFlushMode(FlushMode.NEVER);
+            break;
+         case COMMIT:
+            session.setFlushMode(FlushMode.COMMIT);
+            break;
+      }
    }
    
    public String toString()
