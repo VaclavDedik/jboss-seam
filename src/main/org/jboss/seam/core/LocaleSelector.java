@@ -69,7 +69,16 @@ public class LocaleSelector extends AbstractMutable implements Serializable
          response.addCookie( new Cookie( "org.jboss.seam.core.Locale", getLocaleString() ) );
       }
    }
-   
+
+    /**
+     * Set the language and force resource bundle reload, useful for quick action links:
+     * <tt>&lt;h:commandLink value="DE" action="#{localeSelector.selectLanguage('de')}"/>"/></tt>
+     */
+   public void selectLanguage(String language) {
+        setLanguage(language);
+        select();
+    }
+
    public Locale calculateLocale(Locale jsfLocale)
    {
       if ( !Strings.isEmpty(variant) )
