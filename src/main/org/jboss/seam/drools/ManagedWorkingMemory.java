@@ -40,6 +40,7 @@ public class ManagedWorkingMemory implements Mutable, Serializable
     * instance of org.drools.RuleBase
     * 
     * @return a context variable name
+    * @deprecated
     */
    public String getRuleBaseName()
    {
@@ -51,6 +52,7 @@ public class ManagedWorkingMemory implements Mutable, Serializable
     * instance of org.drools.RuleBase
     * 
     * @param ruleBaseName a context variable name
+    * @deprecated
     */
    public void setRuleBaseName(String ruleBaseName)
    {
@@ -69,6 +71,7 @@ public class ManagedWorkingMemory implements Mutable, Serializable
          }
          else if (ruleBaseName!=null)
          {
+            //deprecated stuff
             ruleBase = (RuleBase) Component.getInstance(ruleBaseName, true);
          }
          else
