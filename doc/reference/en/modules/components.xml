@@ -324,8 +324,8 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>resourceBundle.bundleName</literal> &mdash; the name of 
-                            the bundle. Default to <literal>messages</literal>.
+                            <literal>resourceBundle.bundleNames</literal> &mdash; the names of 
+                            the Java resource bundles to search. Default to <literal>messages</literal>.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -955,8 +955,8 @@
                 <listitem>
                     <para>
                         Bootstraps a Hibernate <literal>SessionFactory</literal>. Install 
-                        as class <literal>org.jboss.seam.core.Hibernate</literal>. This is
-                        most useful when using Seam with Hibernate inside a Java EE
+                        as class <literal>org.jboss.seam.core.HibernateSessionFactory</literal>. 
+                        This is most useful when using Seam with Hibernate inside a Java EE
                         application server.
                     </para>
                     <itemizedlist>
