@@ -22,6 +22,7 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.util.Naming;
 
 /**
@@ -45,6 +46,7 @@ public class ManagedHibernateSession
    private Session session;
    private String sessionFactoryJndiName;
    private String componentName;
+   private ValueBinding<SessionFactory> sessionFactory;
    
    public boolean clearDirty()
    {
@@ -71,15 +73,7 @@ public class ManagedHibernateSession
 
    private void createSession()
    {
-      try
-      {
-         session = getSessionFactory().openSession();
-      }
-      catch (NamingException ne)
-      {
-         throw new IllegalArgumentException("SessionFactory not found", ne);
-      }
-      
+      session = getSessionFactoryFromJndiOrValueBinding().openSession();
       setFlushMode( PersistenceContexts.instance().getFlushMode() );
    }
    
@@ -119,22 +113,30 @@ public class ManagedHibernateSession
       session.close();
    }
    
-   private SessionFactory getSessionFactory()
-         throws NamingException
+   private SessionFactory getSessionFactoryFromJndiOrValueBinding()
    {
-      return (SessionFactory) Naming.getInitialContext().lookup(sessionFactoryJndiName);
+      if (sessionFactory==null)
+      {
+         try
+         {
+            return (SessionFactory) Naming.getInitialContext().lookup(sessionFactoryJndiName);
+         }
+         catch (NamingException ne)
+         {
+            throw new IllegalArgumentException("SessionFactory not found in JNDI", ne);
+         }
+      }
+      else
+      {
+         SessionFactory result = sessionFactory.getValue();
+         if (result==null)
+         {
+            throw new IllegalStateException("SessionFactory not found");
+         }
+         return result;
+      }
    }
    
-   public String getSessionFactoryJndiName()
-   {
-      return sessionFactoryJndiName;
-   }
-
-   public void setSessionFactoryJndiName(String sessionFactoryName)
-   {
-      this.sessionFactoryJndiName = sessionFactoryName;
-   }
-
    public String getComponentName() {
       return componentName;
    }
@@ -155,6 +157,34 @@ public class ManagedHibernateSession
       }
    }
    
+   /**
+    * The JNDI name of the Hibernate SessionFactory, if it is
+    * to be obtained from JNDI
+    */
+   public String getSessionFactoryJndiName()
+   {
+      return sessionFactoryJndiName;
+   }
+
+   public void setSessionFactoryJndiName(String sessionFactoryName)
+   {
+      this.sessionFactoryJndiName = sessionFactoryName;
+   }
+
+   /**
+    * A value binding expression that returns a SessionFactory,
+    * if it is to be obtained as a Seam component reference
+    */
+   public void setSessionFactory(ValueBinding<SessionFactory> sessionFactory)
+   {
+      this.sessionFactory = sessionFactory;
+   }
+
+   public ValueBinding<SessionFactory> getSessionFactory()
+   {
+      return sessionFactory;
+   }
+
    public String toString()
    {
       return "ManagedHibernateSession(" + sessionFactoryJndiName + ")";

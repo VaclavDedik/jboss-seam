@@ -3,6 +3,8 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.Serializable;
+
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.Component;
@@ -24,86 +26,100 @@ import org.jboss.seam.annotations.Startup;
 public class Expressions
 {
    
-   public ValueBinding createValueBinding(String expression)
+   public ValueBinding createValueBinding(final String expression)
    {
-      final javax.faces.el.ValueBinding vb = FacesContext.getCurrentInstance()
-            .getApplication().createValueBinding(expression);
       
-      return new ValueBinding() {
-
+      return new ValueBinding() 
+      {
+         
+         private transient javax.faces.el.ValueBinding cachedValueBinding;
+         
          public String getExpressionString()
          {
-            return vb.getExpressionString();
+            return expression;
          }
 
          public Class getType()
          {
-            return vb.getType( FacesContext.getCurrentInstance() );
+            return getFacesValueBinding().getType( FacesContext.getCurrentInstance() );
          }
 
          public Object getValue()
          {
-            return vb.getValue( FacesContext.getCurrentInstance() );
+            return getFacesValueBinding().getValue( FacesContext.getCurrentInstance() );
          }
 
          public boolean isReadOnly()
          {
-            return vb.isReadOnly( FacesContext.getCurrentInstance() );
+            return getFacesValueBinding().isReadOnly( FacesContext.getCurrentInstance() );
          }
 
          public void setValue(Object value)
          {
-            vb.setValue( FacesContext.getCurrentInstance(), value );
+            getFacesValueBinding().setValue( FacesContext.getCurrentInstance(), value );
+         }
+
+         javax.faces.el.ValueBinding getFacesValueBinding()
+         {
+            if (cachedValueBinding==null)
+            {
+               cachedValueBinding = FacesContext.getCurrentInstance().getApplication().createValueBinding(expression);
+            }
+            return cachedValueBinding;
          }
          
       };
    }
    
-   public MethodBinding createMethodBinding(String expression)
+   public MethodBinding createMethodBinding(final String expression)
    {
-      final javax.faces.el.MethodBinding mb = FacesContext.getCurrentInstance()
-            .getApplication().createMethodBinding(expression, null);
-
-      return new MethodBinding() {
+      return new MethodBinding() 
+      {
+         
+         private transient javax.faces.el.MethodBinding cachedMethodBinding;
 
          public String getExpressionString()
          {
-            return mb.getExpressionString();
+            return getFacesMethodBinding().getExpressionString();
          }
 
          public Class getType()
          {
-            return mb.getType( FacesContext.getCurrentInstance() );
+            return getFacesMethodBinding().getType( FacesContext.getCurrentInstance() );
          }
 
          public Object invoke(Object... args)
          {
-            return mb.invoke( FacesContext.getCurrentInstance(), args );
+            return getFacesMethodBinding().invoke( FacesContext.getCurrentInstance(), args );
+         }
+
+         javax.faces.el.MethodBinding getFacesMethodBinding()
+         {
+            if (cachedMethodBinding==null)
+            {
+               cachedMethodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(expression, null);
+            }
+            return cachedMethodBinding;
          }
       
       };
       
    }
 
-   public static interface ValueBinding
+   public static interface ValueBinding<T> extends Serializable
    {
        public String getExpressionString();
-
-       public Class getType();
-
-       public Object getValue();
-
+       public Class<T> getType();
+       public T getValue();
        public boolean isReadOnly();
-
-       public void setValue(Object value);
+       public void setValue(T value);
    }
    
-   public static interface MethodBinding {
+   public static interface MethodBinding<T> extends Serializable
+   {
       public String getExpressionString();
-      
-      public Class getType();
-
-      public Object invoke(Object... args);
+      public Class<T> getType();
+      public T invoke(Object... args);
    }
    
    public static Expressions instance()

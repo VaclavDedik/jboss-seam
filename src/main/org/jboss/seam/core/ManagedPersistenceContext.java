@@ -21,6 +21,7 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
@@ -43,6 +44,7 @@ public class ManagedPersistenceContext
    private EntityManager entityManager;
    private String persistenceUnitJndiName;
    private String componentName;
+   private ValueBinding<EntityManagerFactory> entityManagerFactory;
    
    public boolean clearDirty()
    {
@@ -64,21 +66,20 @@ public class ManagedPersistenceContext
       
       if ( log.isDebugEnabled() )
       {
-         log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitJndiName);
+         if (entityManagerFactory==null)
+         {
+            log.debug("created seam managed persistence context for persistence unit: "+ persistenceUnitJndiName);
+         }
+         else 
+         {
+            log.debug("created seam managed persistence context from EntityManagerFactory");
+         }
       }
    }
 
    private void createEntityManager()
    {
-      try
-      {
-         entityManager = getEntityManagerFactory().createEntityManager();
-      }
-      catch (NamingException ne)
-      {
-         throw new IllegalArgumentException("EntityManagerFactory not found", ne);
-      }
-      
+      entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();      
       setFlushMode( PersistenceContexts.instance().getFlushMode() );
    }
 
@@ -121,14 +122,42 @@ public class ManagedPersistenceContext
       entityManager.close();
    }
    
-   private EntityManagerFactory getEntityManagerFactory()
-         throws NamingException
+   public EntityManagerFactory getEntityManagerFactoryFromJndiOrValueBinding()
    {
-      return (EntityManagerFactory) Naming.getInitialContext().lookup(persistenceUnitJndiName);
+      if (entityManagerFactory==null)
+      {
+         try
+         {
+            return (EntityManagerFactory) Naming.getInitialContext().lookup(persistenceUnitJndiName);
+         }
+         catch (NamingException ne)
+         {
+            throw new IllegalArgumentException("EntityManagerFactory not found in JNDI", ne);
+         }
+      }
+      else
+      {
+         return entityManagerFactory.getValue();
+      }
    }
    
    /**
-    * The JNDI name of the EntityManagerFactory
+    * A value binding expression that returns an EntityManagerFactory,
+    * for use of JPA outside of Java EE 5 / Embeddable EJB3.
+    */
+   public ValueBinding<EntityManagerFactory> getEntityManagerFactory()
+   {
+      return entityManagerFactory;
+   }
+
+   public void setEntityManagerFactory(ValueBinding<EntityManagerFactory> entityManagerFactory)
+   {
+      this.entityManagerFactory = entityManagerFactory;
+   }
+   
+   /**
+    * The JNDI name of the EntityManagerFactory, for 
+    * use of JPA in Java EE 5 / Embeddable EJB3.
     */
    public String getPersistenceUnitJndiName()
    {
@@ -164,5 +193,5 @@ public class ManagedPersistenceContext
    {
       return "ManagedPersistenceContext(" + persistenceUnitJndiName + ")";
    }
-   
+
 }
