@@ -20,6 +20,7 @@ import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
 import org.jboss.seam.interceptors.ConversationalInterceptor;
@@ -243,6 +244,10 @@ public class InterceptorTest
       appContext.set( 
             Seam.getComponentName(ConversationEntries.class) + ".component", 
             new Component(ConversationEntries.class, appContext) 
+         );
+      appContext.set( 
+            Seam.getComponentName(PersistenceContexts.class) + ".component", 
+            new Component(PersistenceContexts.class, appContext) 
          );
       appContext.set( 
             Seam.getComponentName(Manager.class) + ".component", 
