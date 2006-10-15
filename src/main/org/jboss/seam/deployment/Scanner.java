@@ -50,9 +50,9 @@ public class Scanner
    /**
     * Returns only Seam components (ie: classes annotated with @Name)
     */
-   public Set<Class<?>> getClasses()
+   public Set<Class<Object>> getClasses()
    {
-      Set<Class<?>> result = new HashSet<Class<?>>();
+      Set<Class<Object>> result = new HashSet<Class<Object>>();
       Enumeration<URL> urls;
       try
       {
@@ -101,7 +101,7 @@ public class Scanner
       return result;
    }
 
-   private void handleArchive(Set<Class<?>> result, File file) throws ZipException, IOException
+   private void handleArchive(Set<Class<Object>> result, File file) throws ZipException, IOException
    {
       log.debug("archive: " + file);
       ZipFile zip = new ZipFile(file);
@@ -115,7 +115,7 @@ public class Scanner
       }
    }
 
-   private void handleDirectory(Set<Class<?>> result, File file, String path)
+   private void handleDirectory(Set<Class<Object>> result, File file, String path)
    {
       log.debug("directory: " + file);
       for ( File child: file.listFiles() )
@@ -133,16 +133,17 @@ public class Scanner
       }
    }
 
-   private void handleItem(Set<Class<?>> result, String name)
+   private void handleItem(Set<Class<Object>> result, String name)
    {
       if ( name.endsWith(".class") && !name.startsWith("org/jboss/seam/core") )
       {
-         String classname = filenameToClassname( name );
+         String classname = filenameToClassname(name);
          try
          {
-            if (hasAnnotation(getClassFile(name), Name.class))
+            ClassFile classFile = getClassFile(name);
+            if ( hasAnnotation(classFile, Name.class) )
             {
-               result.add( classLoader.loadClass( classname ) );
+               result.add( (Class<Object>) classLoader.loadClass(classname) );
             }
          }
          catch (ClassNotFoundException cnfe)
@@ -179,7 +180,8 @@ public class Scanner
    private boolean hasAnnotation(ClassFile cf, Class<? extends Annotation> annotationType)
    { 
       AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute( AnnotationsAttribute.visibleTag ); 
-      if ( visible != null ) { 
+      if ( visible != null ) 
+      {
          return visible.getAnnotation( annotationType.getName() ) != null; 
       } 
       return false; 

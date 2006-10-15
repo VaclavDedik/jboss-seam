@@ -61,6 +61,7 @@ import org.jboss.seam.core.Messages;
 import org.jboss.seam.core.PageContext;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
+import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.core.PooledTask;
 import org.jboss.seam.core.PooledTaskInstanceList;
@@ -74,7 +75,6 @@ import org.jboss.seam.core.Switcher;
 import org.jboss.seam.core.TaskInstance;
 import org.jboss.seam.core.TaskInstanceList;
 import org.jboss.seam.core.TaskInstanceListForType;
-import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.core.Transition;
 import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
@@ -118,7 +118,8 @@ public class Initialization
    private List<ComponentDescriptor> componentDescriptors = new ArrayList<ComponentDescriptor>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponents = new HashSet<Class>();
-
+   private Set<String> importedPackages = new HashSet<String>();
+   
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
@@ -147,6 +148,12 @@ public class Initialization
             SAXReader saxReader = new SAXReader();
             saxReader.setMergeAdjacentText(true);
             Document doc = saxReader.read(stream);
+
+            List<Element> importElements = doc.getRootElement().elements("import-java-package");
+            for (Element importElement: importElements)
+            {
+               importedPackages.add( importElement.getTextTrim() );
+            }
 
             List<Element> componentElements = doc.getRootElement().elements("component");
             for (Element component: componentElements)
@@ -178,7 +185,7 @@ public class Initialization
                      ScopeType.valueOf( scopeName.toUpperCase() );
                factoryDescriptors.add( new FactoryDescriptor(name, scope, method, value) );
             }
-
+            
          }
          catch (Exception e)
          {
@@ -204,7 +211,25 @@ public class Initialization
       ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName.toUpperCase());
       if (className!=null)
       {
-         Class<?> clazz = Reflections.classForName(className);
+         Class<?> clazz = null;
+         try
+         {
+            clazz = Reflections.classForName(className);
+         }
+         catch (ClassNotFoundException cnfe)
+         {
+            for (String pkg: importedPackages)
+            {
+               try
+               {
+                  clazz = Reflections.classForName(pkg + '.' + className);
+                  break;
+               }
+               catch (Exception e) {}
+            }
+            if (clazz==null) throw cnfe;
+         }
+         
          if (name==null)
          {
             name = clazz.getAnnotation(Name.class).value();
@@ -468,7 +493,7 @@ public class Initialization
 
       if (isScannerEnabled)
       {
-         for ( Class clazz: new Scanner().getClasses() )
+         for ( Class<Object> clazz: new Scanner().getClasses() )
          {
             addComponent(clazz, context);
             addComponentRoles(context, clazz);
