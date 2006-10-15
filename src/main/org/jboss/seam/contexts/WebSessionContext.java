@@ -12,7 +12,6 @@ import java.util.Enumeration;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.Mutable;
 
 /**
  * @author Gavin King
@@ -93,7 +92,7 @@ public class WebSessionContext implements Context
       for ( String name: getNames() )
       {
          Object attribute = session.getAttribute(name);
-         if ( attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty() )
+         if ( Lifecycle.isAttributeDirty(attribute) )
          {
             session.setAttribute(name, attribute);
          }

@@ -9,6 +9,7 @@ package org.jboss.seam.contexts;
 import java.util.Set;
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
+import javax.persistence.Entity;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +24,7 @@ import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.ProcessInstance;
 
 /**
@@ -458,6 +460,12 @@ public class Lifecycle
 
    public static void setException(boolean ex) {
       exception.set(ex);
+   }
+
+   public static boolean isAttributeDirty(Object attribute)
+   {
+      return ( attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty() ) || 
+            attribute.getClass().isAnnotationPresent(Entity.class);
    }
 
 }

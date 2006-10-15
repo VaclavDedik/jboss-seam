@@ -18,7 +18,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.Mutable;
 
 /**
  * A conversation context is a logical context that lasts longer than 
@@ -177,7 +176,7 @@ public class ServerConversationContext implements Context {
       {
          String key = getKey(name);
          Object attribute = session.getAttribute(key);
-         if ( attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty() )
+         if ( Lifecycle.isAttributeDirty(attribute) )
          {
             session.setAttribute(key, attribute);
          }
