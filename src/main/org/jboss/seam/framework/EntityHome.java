@@ -2,6 +2,7 @@ package org.jboss.seam.framework;
 
 import javax.persistence.EntityManager;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.FacesMessages;
@@ -73,6 +74,10 @@ public class EntityHome<E> extends Home<E>
 
    public EntityManager getEntityManager()
    {
+      if (entityManager==null)
+      {
+         entityManager = (EntityManager) Component.getInstance("entityManager");
+      }
       return entityManager;
    }
 

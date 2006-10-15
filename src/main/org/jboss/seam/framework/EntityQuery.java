@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
@@ -76,6 +77,10 @@ public class EntityQuery extends Query
    
    public EntityManager getEntityManager()
    {
+      if (entityManager==null)
+      {
+         entityManager = (EntityManager) Component.getInstance("entityManager");
+      }
       return entityManager;
    }
 

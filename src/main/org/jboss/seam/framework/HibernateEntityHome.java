@@ -3,6 +3,7 @@ package org.jboss.seam.framework;
 import java.io.Serializable;
 
 import org.hibernate.Session;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.FacesMessages;
@@ -68,6 +69,10 @@ public class HibernateEntityHome<E> extends Home<E>
 
    public Session getSession()
    {
+      if (session==null)
+      {
+         session = (Session) Component.getInstance("session");
+      }
       return session;
    }
 

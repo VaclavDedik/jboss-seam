@@ -3,6 +3,7 @@ package org.jboss.seam.framework;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
@@ -77,6 +78,10 @@ public class HibernateEntityQuery extends Query
    
    public Session getSession()
    {
+      if (session==null)
+      {
+         session = (Session) Component.getInstance("session");
+      }
       return session;
    }
 
