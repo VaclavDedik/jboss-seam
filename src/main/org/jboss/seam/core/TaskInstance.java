@@ -7,13 +7,15 @@
 package org.jboss.seam.core;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.util.Work;
 
 /**
  * A Seam component that allows injection of the current
@@ -24,27 +26,36 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Scope(ScopeType.APPLICATION)
 @Name("taskInstance")
+@Intercept(InterceptionType.NEVER)
 @Startup
 public class TaskInstance 
 {
    
    @Unwrap
-   @Transactional
-   public org.jbpm.taskmgmt.exe.TaskInstance getTaskInstance()
+   public org.jbpm.taskmgmt.exe.TaskInstance getTaskInstance() throws Exception
    {
       if ( !Contexts.isConversationContextActive() ) return null;
       
-      Long taskId = BusinessProcess.instance().getTaskId();
-      if (taskId!=null)
+      return new Work<org.jbpm.taskmgmt.exe.TaskInstance>()
       {
-         //TODO: do we need to cache this??
-         //TODO: use getTaskInstance(), which returns null!
-         return ManagedJbpmContext.instance().getTaskMgmtSession().loadTaskInstance(taskId);
-      }
-      else
-      {
-         return null;
-      }
+         
+         @Override
+         protected org.jbpm.taskmgmt.exe.TaskInstance work() throws Exception
+         {         
+            Long taskId = BusinessProcess.instance().getTaskId();
+            if (taskId!=null)
+            {
+               //TODO: do we need to cache this??
+               //TODO: use getTaskInstance(), which returns null!
+               return ManagedJbpmContext.instance().getTaskMgmtSession().loadTaskInstance(taskId);
+            }
+            else
+            {
+               return null;
+            }
+         }
+         
+      }.workInTransaction();
    }
    
    public static org.jbpm.taskmgmt.exe.TaskInstance instance()

@@ -4,56 +4,41 @@ import java.lang.reflect.AnnotatedElement;
 
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.transaction.UserTransaction;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.util.Transactions;
+import org.jboss.seam.util.Work;
 
 @Interceptor(stateless=true,
              around={RollbackInterceptor.class, BusinessProcessInterceptor.class, ConversationInterceptor.class})
 public class TransactionInterceptor extends AbstractInterceptor
 {
-   private static final Log log = LogFactory.getLog(TransactionInterceptor.class);
    
    @AroundInvoke
-   public Object doInTransactionIfNecessary(InvocationContext invocation) throws Exception
+   public Object doInTransactionIfNecessary(final InvocationContext invocation) throws Exception
    {
-      boolean begin = ( isTransactional( invocation.getMethod() ) || isTransactional( getComponent().getBeanClass() ) ) &&
-            !Transactions.isTransactionActiveOrMarkedRollback();
-      UserTransaction userTransaction = begin ? Transactions.getUserTransaction() : null;
+      return new Work()
+      {
 
-      if (begin) 
-      {
-         log.debug("beginning transaction");
-         userTransaction.begin();
-      }
-      try
-      {
-         Object result = invocation.proceed();
-         if (begin) 
+         @Override
+         protected Object work() throws Exception
          {
-            log.debug("committing transaction");
-            userTransaction.commit();
+            return invocation.proceed();
          }
-         return result;
-      }
-      catch (Exception e)
-      {
-         if (begin) 
-         {
-            log.debug("rolling back transaction");
-            userTransaction.rollback();
-         }
-         throw e;
-      }
-   }
 
-   private static boolean isTransactional(AnnotatedElement element)
-   {
-      return element.isAnnotationPresent(Transactional.class);
+         @Override
+         protected boolean isTransactional()
+         {
+            return isTransactional( invocation.getMethod() ) || 
+                  isTransactional( getComponent().getBeanClass() );
+         }
+
+         private boolean isTransactional(AnnotatedElement element)
+         {
+            return element.isAnnotationPresent(Transactional.class);
+         }
+         
+      }.workInTransaction();      
    }
 
 }
