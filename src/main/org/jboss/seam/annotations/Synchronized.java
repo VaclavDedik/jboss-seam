@@ -10,7 +10,9 @@ import java.lang.annotation.Target;
 /**
  * Specifies that a stateful component has
  * multiple concurrent clients, and so access 
- * to the component must be synchronized.
+ * to the component must be synchronized. This
+ * annotation is not required session scoped 
+ * components, which are synchronized by default.
  * 
  * @author Gavin King
  *

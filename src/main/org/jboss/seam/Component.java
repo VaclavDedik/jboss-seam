@@ -213,7 +213,7 @@ public class Component
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
       
-      synchronize = beanClass.isAnnotationPresent(Synchronized.class);
+      synchronize = scope==SESSION || beanClass.isAnnotationPresent(Synchronized.class);
       if (synchronize) 
       {
          if (scope==STATELESS)
