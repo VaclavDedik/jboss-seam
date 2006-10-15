@@ -155,6 +155,10 @@
                  grow without bound if the user abandons conversations.
             </para>
             <para>
+                 Seam serializes processing of concurrent requests that take place in the same long-running 
+                 conversation context, in the same process.
+            </para>
+            <para>
                  Alternatively, Seam may be configured to keep conversational state in the client browser.
             </para>
         </sect2>
@@ -267,6 +271,44 @@
             </para>
 
         </sect2>
+        
+        <sect2>
+            <title>Concurrency model</title>
+            <para>
+                Neither the servlet nor EJB specifications define any facilities for managing concurrent requests
+                originating from the same client. The servlet container simply lets all threads run concurrently
+                and leaves enforcing threadsafeness to application code. The EJB container allows stateless 
+                components to be accessed concurrently, and throws an exception if multiple threads access a
+                stateful session bean.
+            </para>
+            <para>
+                This behavior might have been okay in old-style web applications which were based around fine-grained, 
+                synchronous requests. But for modern applications which make heavy use of many fine-grained, 
+                asynchronous (AJAX) requests, concurrency is a fact of life, and must be supported by the programming
+                model. Seam weaves a concurrency management layer into its context model.
+            </para>
+            <para>
+                The Seam session and application contexts are multithreaded. Seam will allow concurrent requests
+                in a context to be processed concurrently. The event and page contexts are by nature single threaded.
+                The business process context is strictly speaking multi-threaded, but in practice concurrency
+                is sufficiently rare that this fact may be disregarded most of the time. Finally, Seam enforces a 
+                <emphasis>single thread per conversation per process</emphasis> model for the conversation context by 
+                serializing concurrent requests in the same long-running conversation context.
+            </para>
+            <para>
+                Since the session context is multithreaded, and often contains volatile state, session scope components
+                are always protected by Seam from concurrent access. Seam serializes requests to session scope session 
+                beans and JavaBeans by default (and detects and breaks any deadlocks that occur). This is not the default
+                behaviour for application scoped components however, since application scoped components do not usually
+                hold volatile state and because synchronization at the global level is <emphasis>extremely</emphasis> 
+                expensive. However, you can force a serialized threading model on any session bean or JavaBean component by
+                adding the <literal>@Synchronized</literal> annotation.
+            </para>
+            <para>
+                This concurrency model means that AJAX clients can safely use volatile session and conversational state, 
+                without the need for any special work on the part of the developer.
+            </para>
+        </sect2>
 
     </sect1>
     
@@ -343,6 +385,9 @@
                 By default, stateful session beans are bound to the conversation context. They may never
                 be bound to the page or stateless contexts.
             </para>
+            <para>
+                Concurrent requests to session-scoped stateful session beans are always serialized by Seam.
+            </para>
         </sect2>
 
         <sect2>
@@ -367,6 +412,12 @@
                 By default, entity beans are bound to the conversation context. They may never be bound to 
                 the stateless context.
             </para>
+            <para>
+                Note that it in a clustered environment is somewhat less efficient to bind an entity bean 
+                directly to a conversation or session scoped Seam context variable than it would be to hold 
+                a reference to the entity bean in a stateful session bean. For this reason, not all Seam 
+                applications define entity beans to be Seam components.
+            </para>
         </sect2>
 
         <sect2>
@@ -374,15 +425,21 @@
             <para>
                 Javabeans may be used just like a stateless or stateful session bean. However, they do
                 not provide the functionality of a session bean (declarative transaction demarcation, 
-                declarative security, automatic clustered state replication, EJB 3.0 persistence, 
+                declarative security, efficient clustered state replication, EJB 3.0 persistence, 
                 timeout methods, etc).
             </para>
             <para>
-                In a later chapter, we show you how to use Seam and Hibernate without an EJB 
-                container. In this use case, components are JavaBeans instead of session beans.
+                In a later chapter, we show you how to use Seam and Hibernate without an EJB container. 
+                In this use case, components are JavaBeans instead of session beans. Note, however, that 
+                in many application servers it is somewhat less efficient to cluster conversation or
+                session scoped Seam JavaBean components than it is to cluster stateful session bean 
+                components.
             </para>
             <para>
                 By default, JavaBeans are bound to the event context.
+            </para>
+            <para>
+                Concurrent requests to session-scoped JavaBeans are always serialized by Seam.
             </para>
         </sect2>
         
@@ -395,8 +452,8 @@
             </para>
             <para>
                 Message-driven beans may not be bound to a Seam context. Nor do they have access to
-                any Seam contexts apart from the <literal>EVENT</literal> and <literal>APPLICATION</literal>
-                contexts. However, they do support bijection and some other Seam functionality.
+                the session or conversation state of their "caller". However, they do support bijection 
+                and some other Seam functionality.
             </para>
         </sect2>
 
@@ -420,6 +477,19 @@ public class LoginAction implements Login {
             <para>
                 But a much better way is to define the interceptor in <literal>ejb-jar.xml</literal>.
             </para>
+
+            <programlisting><![CDATA[<interceptors>
+   <interceptor>
+      <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor>
+</interceptors>
+   
+<assembly-descriptor>
+   <interceptor-binding>
+      <ejb-name>*</ejb-name>
+      <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+   </interceptor-binding>
+</assembly-descriptor>]]></programlisting>
 
         </sect2>
         
@@ -531,10 +601,91 @@ public class User {
 @Entity
 @Scope(CONVERSATION)
 @Roles({@Role(name="currentUser", scope=SESSION)
-   @Role(name="tempUser", scope=EVENT)})
+        @Role(name="tempUser", scope=EVENT)})
 public class User { 
     ... 
 }]]></programlisting>
+
+        </sect2>
+        
+        <sect2>
+            <title>The <literal>Mutable</literal> interface</title>
+            <para>
+                Many application servers feature an amazingly broken implementation of 
+                <literal>HttpSession</literal> clustering, where changes to the state of mutable
+                objects bound to the session are only replicated when the application calls
+                <literal>setAttribute()</literal> explicitly. This is a source of bugs that can
+                not effectively be tested for at development time, since they will only manifest
+                when failover occurs. Furthermore, the actual replication message contains the
+                entire serialized object graph bound to the session attribute, which inefficient.
+            </para>
+            <para>
+                Of course, EJB stateful session beans must perform automatic dirty checking and 
+                replication of mutable state and a sophisticated EJB container can introduce
+                optimizations such as attribute-level replication. Unfortunately, not all Seam
+                users have the good fortune to be working in an environment that supports EJB 3.0.
+                So, for session and conversation scoped JavaBean and entity bean components, 
+                Seam provides an extra layer of cluster-safe state management over the top
+                of the web container session clustering.
+            </para>
+            <para>
+                For session or conversation scoped JavaBean components, Seam automatically forces 
+                replication to occur by calling <literal>setAttribute()</literal> once in every 
+                request that the component was invoked by the application. Of course, this strategy 
+                is inefficient for read-mostly components. You can control this behavior by 
+                implementing the <literal>org.jboss.seam.core.Mutable</literal> interface, or by
+                extending <literal>org.jboss.seam.core.AbstractMutable</literal>, and writing
+                your own dirty-checking logic inside the component. For example,
+            </para>
+            
+            <programlisting><![CDATA[@Name("account")
+public class Account extends AbstractMutable
+{
+    private BigDecimal balance;
+    
+    public void setBalance(BigDecimal balance)
+    {
+        setDirty(this.balance, balance);
+        this.balance = balance;
+    }
+    
+    public BigDecimal getBalance()
+    {
+        return balance;
+    }
+    
+    ...
+    
+}]]></programlisting>
+            
+            <para>
+                For session or conversation scoped entity bean components, Seam automatically forces 
+                replication to occur by calling <literal>setAttribute()</literal> once in every 
+                request. This strategy is not efficient, so session or conversation scope entity
+                beans should be used with care. You can always write a stateful session bean
+                or JavaBean component to "manage" the entity bean instance. For example,
+            </para>
+
+            <programlisting><![CDATA[@Stateful
+@Name("account")
+public class AccountManager extends AbstractMutable
+{
+    private Account account; // an entity bean
+    
+    @Unwrap
+    public void getAccount()
+    {
+        return account;
+    }
+    
+    ...
+    
+}]]></programlisting>
+
+            <para>
+                Note that the <literal>EntityHome</literal> class in the Seam Framework provides
+                a great example of this pattern.
+            </para>
 
         </sect2>
         
@@ -608,9 +759,6 @@ public class User {
                 <literal>locale</literal> attribute whenever it instantiates the component.
             </para>
             <para>
-                Note that it is not possible to configure entity beans.
-            </para>
-            <para>
                 The same mechanism is used to configure Seam itself. For example, to set the conversation
                 timeout, we provide a value for <literal>org.jboss.seam.core.manager.conversationTimeout</literal>
                 in <literal>web.xml</literal> or <literal>seam.properties</literal>. (There is a built-in
@@ -622,8 +770,8 @@ public class User {
         <sect2>
             <title>Configuring components via <literal>components.xml</literal></title>
             <para>
-                The <literal>components.xml</literal> is a bit more powerful than property settings. It
-                lets you:
+                The <literal>components.xml</literal> file is a bit more powerful than property settings. 
+                It lets you:
             </para>
             
             <itemizedlist>
@@ -699,15 +847,24 @@ public class User {
 </components>]]></programlisting>
 
             <para>
+                The <literal>&lt;factory&gt;</literal> declaration lets you specify a
+                value or method binding expression that will be evaluated to initialize
+                the value of a context variable when it is first referenced.
+            </para>
+            
+            <programlisting><![CDATA[<components>
+
+    <factory name="contact" method="#{contactManager.loadContact}" scope="CONVERSATION"/>
+
+</components>]]></programlisting>
+
+            <para>
                 You can create an "alias" (a second name) for a Seam component like so:
             </para>
 
             <programlisting><![CDATA[<components>
 
-    <component name="user"
-              class="org.jboss.seam.core.Alias">
-        <property name="name">actor</property>
-    </component>
+    <factory name="user" value="#{actor}" scope="STATELESS"/>
 
 </components>]]></programlisting>
 
@@ -717,10 +874,7 @@ public class User {
 
             <programlisting><![CDATA[<components>
 
-    <component name="userName"
-              class="org.jboss.seam.core.Alias">
-        <property name="expression">#{actor.id}</property>
-    </component>
+    <factory name="contact" value="#{contactManager.contact}" scope="STATELESS"/>
 
 </components>]]></programlisting>
 
@@ -778,8 +932,8 @@ public class User {
                 Finally, you may wire together components using a value-binding expression. Note 
                 that this is quite different to injection using <literal>@In</literal>, since it
                 happens at component instantiation time instead of invocation time. It is 
-                therefore much more similar to the dependecy injection facilities offered by 
-                traditional IoC containers like Spring.
+                therefore much more similar to the dependency injection facilities offered by 
+                traditional IoC containers like JSF or Spring.
             </para>
 
          <programlisting><![CDATA[<component name="policyPricingWorkingMemory"
@@ -1110,6 +1264,13 @@ public class LoggedInInterceptor
 }]]></programlisting>
 
         <para>
+            EJB interceptors are stateful, with a lifecycle that is the same as the component
+            they intercept. For interceptors which do not need to maintain state, Seam lets
+            you get a performance optimization by specifying 
+            <literal>@Interceptor(stateless=true)</literal>.
+        </para>
+
+        <para>
             Much of the functionality of Seam is implemented as a set of built-in Seam interceptors,
             including the interceptors named in the previous example. You don't have to explicitly 
             specify these interceptors by annotating your components; they exist for all interceptable 
@@ -1118,6 +1279,15 @@ public class LoggedInInterceptor
         
         <para>
             You can even use Seam interceptors with JavaBean components, not just EJB3 beans!
+        </para>
+        
+        <para>
+            EJB defines interception not only for business methods (using <literal>@AroundInvoke</literal>),
+            but also for the lifecycle methods <literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>,
+            <literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam supports all these
+            lifecycle methods on both component and interceptor not only for EJB3 beans, but also for
+            JavaBean components (except <literal>@PreDestroy</literal> which is not meaningful for JavaBean
+            components).
         </para>
 
     </sect1>
@@ -1143,6 +1313,9 @@ public class LoggedInInterceptor
             </listitem>
             <listitem>
                 <para>Seam component-driven events</para>
+            </listitem>
+            <listitem>
+                <para>Seam contextual events</para>
             </listitem>
         </itemizedlist>
         
@@ -1293,6 +1466,40 @@ public class HelloListener {
             
         </sect2>
         
+        <sect2>
+            <title>Contextual events</title>
+            <para>
+                Seam defines a number of built-in events that the application can use to
+                perform special kinds of framework integration. The events are:
+            </para>
+            
+            <itemizedlist>
+            <listitem><para><literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is set</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is set</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is unset</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is unset</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &mdash; called before the &lt;SCOPE&gt; context is destroyed</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &mdash; called after the &lt;SCOPE&gt; context is destroyed</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginConversation </literal>&mdash; called whenever a long-running conversation begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endConversation </literal>&mdash; called whenever a long-running conversation ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&mdash; called when the pageflow &lt;name&gt; begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&mdash; called when the pageflow &lt;name&gt; ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&mdash; called when the process &lt;name&gt; is created</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endProcess.&lt;name&gt; </literal>&mdash; called when the process &lt;name&gt; ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.initProcess.&lt;name&gt; </literal>&mdash; called when the process &lt;name&gt; is associated with the conversation</para></listitem>
+            <listitem><para><literal>org.jboss.seam.initTask.&lt;name&gt; </literal>&mdash; called when the task &lt;name&gt; is associated with the conversation</para></listitem>
+            <listitem><para><literal>org.jboss.seam.startTask.&lt;name&gt; </literal>&mdash; called when the task &lt;name&gt; is started</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&mdash; called when the task &lt;name&gt; is ended</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&mdash; called when the component &lt;name&gt; is created</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&mdash; called when the component &lt;name&gt; is destroyed</para></listitem>
+             </itemizedlist>
+             
+             <para>
+                 Seam components may observe any of these events in just the same way they
+                 observe component-driven events.
+             </para>
+        </sect2>
+        
     </sect1>
     
     <sect1>
@@ -1322,6 +1529,11 @@ public class DocumentNotFoundException extends Exception { ... }]]></programlist
 @ApplicationException(rollback=true)
 public class UnrecoverableException extends RuntimeException { ... }]]></programlisting>
 
+        <para>
+            Note that <literal>@Redirect</literal>  does not work for exceptions
+            which occur during the render phase of the JSF lifecycle.
+        </para>
+
     </sect1>
     
     <sect1>
@@ -1329,7 +1541,8 @@ public class UnrecoverableException extends RuntimeException { ... }]]></program
         <para>
             Session bean and entity bean Seam components support all the usual EJB 3.0 lifecycle
             callback (<literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>, etc).
-            But Seam also defines its own component lifecycle callbacks.
+            Seam extends all of these callbacks except <literal>@PreDestroy</literal> to JavaBean
+            components. But Seam also defines its own component lifecycle callbacks.
         </para>
         <para>
             The <literal>@Create</literal> method is called every time Seam instantiates a
