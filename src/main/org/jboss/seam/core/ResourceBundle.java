@@ -17,6 +17,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.EnumerationEnumeration;
 
 /**
  * Support for an application-global resource bundle
@@ -100,7 +101,12 @@ public class ResourceBundle implements Serializable {
                @Override
                public Enumeration<String> getKeys()
                {
-                  throw new UnsupportedOperationException();
+                  Enumeration<String>[] enumerations = new Enumeration[ littleBundles.size() ];
+                  for (int i=0; i<littleBundles.size(); i++)
+                  {
+                     enumerations[i] = littleBundles.get(i).getKeys();
+                  }
+                  return new EnumerationEnumeration<String>(enumerations);
                }
       
                @Override
