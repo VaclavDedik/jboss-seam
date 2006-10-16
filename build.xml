@@ -13,8 +13,8 @@
     <!-- Name of project and version, used to create filenames -->
     <property name="Name"                 value="JBoss Seam"/>
     <property name="name"                 value="jboss-seam"/>
-    <property name="version"              value="1.0"/>
-    <property name="patchlevel"           value="1.GA"/>
+    <property name="version"              value="1.1"/>
+    <property name="patchlevel"           value="beta1"/>
 
     <!-- set global properties for this build -->
     <property name="build.dir"            value="build"/>
