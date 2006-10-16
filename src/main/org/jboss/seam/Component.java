@@ -160,7 +160,7 @@ public class Component
 
    private Field logField;
    private org.jboss.seam.log.Log logInstance;
-   
+
    private Hashtable<Locale, ClassValidator> validators = new Hashtable<Locale, ClassValidator>();
 
    private List<Interceptor> interceptors = new ArrayList<Interceptor>();
@@ -212,15 +212,16 @@ public class Component
          }
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
-      
+
       synchronize = scope==SESSION || beanClass.isAnnotationPresent(Synchronized.class);
-      if (synchronize) 
+      if (synchronize)
       {
          if (scope==STATELESS)
          {
             throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
          }
-         timeout = beanClass.getAnnotation(Synchronized.class).timeout();
+         timeout = beanClass.isAnnotationPresent(Synchronized.class) ?
+             beanClass.getAnnotation(Synchronized.class).timeout() : Synchronized.DEFAULT_TIMEOUT;
       }
 
       jndiName = getJndiName(applicationContext);
@@ -675,7 +676,7 @@ public class Component
 
    private void initDefaultInterceptors()
    {
-      if (synchronize) 
+      if (synchronize)
       {
          addInterceptor( new Interceptor( new SynchronizationInterceptor(), this ) );
       }
@@ -921,7 +922,7 @@ public class Component
       initialize(bean);
       return bean;
    }
-   
+
    protected Object instantiateJavaBean() throws Exception
    {
       Object bean = beanClass.newInstance();
@@ -933,7 +934,7 @@ public class Component
       callPostConstructMethod(bean);
       return bean;
    }
-   
+
    /**
     * Wrap a CGLIB interceptor around an instance of the component
     */
@@ -943,7 +944,7 @@ public class Component
       proxy.setCallback(0, interceptor);
       return proxy;
    }
-   
+
    private synchronized Class<Factory> getFactory()
    {
       if (factory==null)
@@ -952,7 +953,7 @@ public class Component
       }
       return factory;
    }
-   
+
    public void initialize(Object bean) throws Exception
    {
       if ( log.isDebugEnabled() ) log.debug("initializing new instance of: " + name);
@@ -1285,15 +1286,15 @@ public class Component
          else if ( out.scope()==STATELESS )
          {
             throw new IllegalArgumentException(
-                  "cannot specify explicit scope=STATELESS on @Out: " + 
+                  "cannot specify explicit scope=STATELESS on @Out: " +
                   getAttributeMessage(name)
                );
          }
-         
+
          ScopeType outScope = component==null ?
                getOutScope( out.scope(), this ) :
                component.getScope();
-         
+
          if ( enforceRequired || outScope.isContextActive() )
          {
             if (value==null)
@@ -1698,7 +1699,7 @@ public class Component
          if ( in.scope()==STATELESS )
          {
             throw new IllegalArgumentException(
-                  "cannot specify explicit scope=STATELESS on @In: " + 
+                  "cannot specify explicit scope=STATELESS on @In: " +
                   getAttributeMessage(name)
                );
          }
