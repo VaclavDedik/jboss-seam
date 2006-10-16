@@ -52,7 +52,7 @@
 							<div class="input">
 								<s:decorate>
 									<h:inputText id="username" value="#{user.username}" required="true">
-                                        <a:support event="onchange" reRender="usernameErrors"/>
+                                        <a:support event="onblur" reRender="usernameErrors"/>
                                     </h:inputText>
                                     <br/>
                                     <a:outputPanel id="usernameErrors"><s:message/></a:outputPanel>
@@ -65,7 +65,7 @@
 							<div class="input">
 								<s:decorate>
 									<h:inputText id="name" value="#{user.name}" required="true">
-                                        <a:support event="onchange" reRender="nameErrors"/>
+                                        <a:support event="onblur" reRender="nameErrors"/>
                                     </h:inputText>
                                     <br/>
                                     <s:outputPanel id="nameErrors"><s:message/></a:outputPanel>
