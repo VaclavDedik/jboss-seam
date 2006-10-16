@@ -221,7 +221,8 @@ public class Component
             throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
          }
          timeout = beanClass.isAnnotationPresent(Synchronized.class) ?
-             beanClass.getAnnotation(Synchronized.class).timeout() : Synchronized.DEFAULT_TIMEOUT;
+               beanClass.getAnnotation(Synchronized.class).timeout() : 
+               Synchronized.DEFAULT_TIMEOUT;
       }
 
       jndiName = getJndiName(applicationContext);
