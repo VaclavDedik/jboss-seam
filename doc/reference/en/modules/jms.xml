@@ -1,11 +1,181 @@
 <chapter id="jms">
+    <title>Asynchronicity and messaging</title>
+    <para>
+        Seam makes it very easy to perform work asynchronously from a web request. When most people
+        think of asynchronicity in Java EE, they think of using JMS. This is certainly one way to
+        approach the problem in Seam, and is the right way when you have strict and well-defined
+        quality of service requirements. Seam makes it easy to send and recieve JMS messages using
+        Seam components.
+    </para>
+    
+    <para>
+        But for many usecases, JMS is overkill. Seam layers a simple asynchronous method and event
+        facility over the EJB 3.0 timer service.
+    </para>
+        
+    <sect1>
+        <title>Asynchronicity</title>
+
+        <para>
+            Asynchronous events and method calls have the same quality of service expectations as the 
+            container's EJB timer service. If you're not familiar with the Timer service, don't worry,
+            you don't need to interact with it directly if you want to use asynchronous methods in
+            Seam.
+        </para>
+        
+        <para>
+            Note that this functionality is not available in environments which do not support EJB 3.0.
+        </para>
+        
+        <sect2>
+        <title>Asynchronous methods</title>
+        
+        <para>
+            In simplest form, an asycnhronous call just lets a method call be processed asynchronously 
+            (in a different thread) from the caller. We usually use an asynchronous call when we want 
+            to return an immediate response to the client, and let some expensive work be processed in
+            the background. This pattern works very well in applications which use AJAX, where the
+            client can automatically poll the server for the result of the work.
+        </para>
+        
+        <programlisting><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandler
+{
+    @Asynchronous
+    public void processPayment(Payment payment)
+    {
+        //do some work!
+    }
+}]]></programlisting>
+        
+        <programlisting><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String pay()
+    {
+        paymentHandler.processPayment( new Payment(bill) );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            The asynchronous method is processed in a completely new event context and does
+            not have access to the session or conversation context state of the caller. However,
+            the business process context <emphasis>is</emphasis> propagated.
+        </para>
+        
+        <para>
+            Asynchronous method calls may be scheduled for later execution using the
+            <literal>@Duration</literal>, <literal>@Expiration</literal> and
+            <literal>@IntervalDuration</literal> annotations.
+        </para>
+        
+        <programlisting><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandler
+{
+    @Asynchronous
+    public void processScheduledPayment(Payment payment, @Expiration date)
+    {
+        //do some work!
+    }
+
+    @Asynchronous
+    public void processRecurringPayment(Payment payment, @Expiration date, @IntervalDuration interval)
+    {
+        //do some work!
+    }
+}]]></programlisting>
+        
+        <programlisting><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String schedulePayment()
+    {
+        paymentHandler.processScheduledPayment( new Payment(bill), bill.getDueDate() );
+        return "success";
+    }
+
+    public String scheduleRecurringPayment()
+    {
+        paymentHandler.processRecurringPayment( new Payment(bill), bill.getDueDate(), ONE_MONTH );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            Both client and server may access the <literal>Timer</literal> object associated with
+            the invocation.
+        </para>
+
+        <programlisting><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandler
+{
+    @In Timer timer;
+    
+    @Asynchronous
+    public Timer processScheduledPayment(Payment payment, @Expiration date)
+    {
+        //do some work!
+        
+        return timer; //note that return value is completely ignored
+    }
+
+}]]></programlisting>
+        
+        <programlisting><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String schedulePayment()
+    {
+        Timer timer = paymentHandler.processScheduledPayment( new Payment(bill), bill.getDueDate() );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            Asynchronous methods cannot return any other value to the caller.
+        </para>
+
+        </sect2>
+        
+        <sect2>
+            <title>Asynchronous events</title>
+            <para>
+                Component-driven events may also be asynchronous. To raise an event for asynchronous
+                processing, simply call the <literal>raiseAsynchronousEvent()</literal> methods of 
+                the <literal>Events</literal> class. To schedule a timed event, call one of the 
+                <literal>raiseTimedEvent()</literal> methods. Components may observe asynchronous
+                events in the usual way, but remember that only the business process context is
+                propagated to the asynchronous thread.
+            </para>
+        </sect2>
+
+    </sect1>
+    
+    <sect1>
     <title>Messaging in Seam</title>
+    
     <para>
         Seam makes it easy to send and receive JMS messages to and from
         Seam components.
     </para>
     
-    <section>
+    <sect2>
         <title>Configuration</title>
         <para>
             To configure Seam's infrastructure for sending JMS messages,
@@ -41,9 +211,9 @@
     <property name="queueJndiName">queue/paymentQueue</property>
 </component>]]></programlisting>
 
-    </section>
+    </sect2>
 
-    <section>
+    <sect2>
         <title>Sending messages</title>
         <para>
             Now, you can inject a JMS <literal>TopicPublisher</literal> and
@@ -84,23 +254,24 @@ public void publish(Payment payment) {
       } 
 }]]></programlisting>
 
-    </section>
+    </sect2>
     
-    <section>
+    <sect2>
         <title>Receiving messages using a message-driven bean</title>
         <para>
             You can process messages using any EJB3 message driven bean. Message-driven
             beans may even be Seam components, in which case it is possible to inject
             other event and application scoped Seam components.
         </para>
-    </section>
+    </sect2>
     
-    <section>
+    <sect2>
         <title>Receiving messages in the client</title>
         <para>
             Seam Remoting lets you subscribe to a JMS topic from client-side JavaScript. This is
             described in the next chapter.
         </para>
-    </section>
+    </sect2>
     
+    </sect1>
 </chapter>

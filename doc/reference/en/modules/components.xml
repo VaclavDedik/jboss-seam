@@ -73,14 +73,6 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>statelessContext</literal></term>
-                <listitem>
-                    <para>
-                        Manager component for the stateless context object
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
                 <term><literal>facesContext</literal></term>
                 <listitem>
                     <para>
@@ -222,6 +214,22 @@
                             an event of a particular type and distribute to all
                             observers.
                         </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>raiseAsynchronousEvent(String type)</literal> &mdash; 
+                            raise an event to be processed asynchronously by the EJB3
+                            timer service.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>raiseTimedEvent(String type, ....)</literal> &mdash; 
+                            schedule an event to be processed asynchronously by the EJB3
+                            timer service.
+                        </para>
+                        </listitem>
+                        <listitem>
                         <para>
                             <literal>addListener(String type, String methodBinding)</literal> 
                             &mdash; add an observer for a particular event type.
@@ -249,6 +257,28 @@
                 </listitem>
              </varlistentry>
             <varlistentry>
+                <term><literal>expressions</literal></term>
+                <listitem>
+                    <para>
+                        An API for creating value and method bindings.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>createValueBinding(String expression)</literal> &mdash; create
+                            a value binding object.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>createMethodBinding(String expression)</literal> &mdash; create
+                            a method binding object.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+             </varlistentry>
+            <varlistentry>
                 <term><literal>pojoCache</literal></term>
                 <listitem>
                     <para>
@@ -263,23 +293,6 @@
                         </para>
                         </listitem>
                     </itemizedlist>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term><literal>renderParameters</literal></term>
-                <listitem>
-                    <para>
-                        Allows JSF form controls to be bound to a "render parameter"
-                        which will be accessible via <literal>@RequestParameter</literal>
-                        during the subsequent render phase even if a browser redirect
-                        occurs. 
-                    </para>
-                    <para>
-                        For example, the value entered in this input field: 
-                        <literal>&lt;inputText value="#{renderParameters.searchString}"/&gt;</literal>
-                        will be available via <literal>@RequestParameter("searchString")</literal>
-                        when the form is submitted.
-                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -316,10 +329,20 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><literal>timezone</literal></term>
+                <listitem>
+                    <para>
+                        The Seam timezone. The timezone is session scoped.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><literal>resourceBundle</literal></term>
                 <listitem>
                     <para>
-                        The Seam resource bundle. The resource bundle is session scoped.
+                        The Seam resource bundle. The resource bundle is session scoped. The Seam
+                        resource bundle performs a depth-first search for keys in a list of Java
+                        resource bundles.
                     </para>
                     <itemizedlist>
                         <listitem>
@@ -385,6 +408,40 @@
                         <para>
                             <literal>localeSelector.cookieEnabled</literal> &mdash; specifies
                             that the locale selection should be persisted via a cookie.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>timezoneSelector</literal></term>
+                <listitem>
+                    <para>
+                        Supports selection of the timezone either at configuration time, 
+                        or by the user at runtime.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>select()</literal> &mdash; select the specified locale.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>timezoneSelector.timezone</literal> &mdash; the actual
+                            <literal>java.util.TimeZone</literal>.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>timezoneSelector.timeZoneId</literal> &mdash; the 
+                            stringified representation of the timezone.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>timezoneSelector.cookieEnabled</literal> &mdash; specifies
+                            that the timezone selection should be persisted via a cookie.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -478,6 +535,23 @@
                         </listitem>
                         <listitem>
                         <para>
+                            <literal>isNested()</literal> &mdash; is the current conversation a
+                            nested conversation?
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>isLongRunning()</literal> &mdash; is the current conversation a
+                            long-running conversation?
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>getId()</literal> &mdash; returns the current conversation id
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
                             <literal>getParentId()</literal> &mdash; returns the conversation id
                             of the parent conversation
                         </para>
@@ -528,6 +602,13 @@
                         </listitem>
                         <listitem>
                         <para>
+                            <literal>beginPageflow(String pageflowName)</literal> &mdash; begin a 
+                            long-running conversation with a pageflow (equivalent to 
+                            <literal>@Begin(pageflow="...")</literal>).
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
                             <literal>end()</literal> &mdash; end a long-running conversation
                             (equivalent to <literal>@End</literal>).
                         </para>
@@ -542,6 +623,12 @@
                         <para>
                             <literal>root()</literal> &mdash; return to the root conversation of 
                             the conversation stack.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>changeFlushMode(FlushModeType flushMode)</literal> &mdash; change 
+                            the flush mode of the conversation.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -684,6 +771,18 @@
                         </listitem>
                         <listitem>
                         <para>
+                            <literal>businessProcess.hasCurrentTask()</literal> &mdash; is a task
+                            instance associated with the current conversation?
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>businessProcess.hasCurrentProcess()</literal> &mdash; is a process
+                            instance associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
                             <literal>createProcess(String name)</literal> &mdash; create an
                             instance of the named process definition and associate it with
                             the current conversation.
@@ -699,6 +798,24 @@
                         <para>
                             <literal>endTask(String transitionName)</literal> &mdash; end the task 
                             associated with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>initTask(Long id)</literal> &mdash; associate the task with
+                            the given id with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>initProcess(Long id)</literal> &mdash; associate the process 
+                            with the given id with the current conversation.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>transition(String transitionName)</literal> &mdash; trigger
+                            the transition.
                         </para>
                         </listitem>
                     </itemizedlist>
@@ -842,26 +959,14 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.componentClasses</literal> &mdash; a list of class 
-                            names of Seam components to be installed. (The class name, not the component name!)
+                            <literal>org.jboss.seam.core.init.jndiPattern</literal> &mdash; the JNDI
+                            pattern used for looking up session beans
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.init.managedPersistenceContexts</literal> &mdash; a 
-                            list of component names of Seam managed persistence contexts to be installed.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>org.jboss.seam.core.init.managedSessions</literal> &mdash; a list of 
-                            component names of Seam managed Hibernate sessions to be installed.
-                        </para>
-                        </listitem>
-                        <listitem>
-                        <para>
-                            <literal>org.jboss.seam.core.init.jbpmSessionFactoryName</literal> &mdash; the
-                            name of the jBPM session factory
+                            <literal>org.jboss.seam.core.init.debug</literal> &mdash; enable Seam
+                            debug mode
                         </para>
                         </listitem>
                         <listitem>
@@ -886,6 +991,13 @@
                         <para>
                             <literal>org.jboss.seam.core.manager.conversationTimeout</literal> &mdash; 
                             the conversation context timeout in milliseconds.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.concurrentRequestTimeout</literal> &mdash; 
+                            maximum wait time for a thread attempting to gain a lock on the long-running 
+                            conversation context.
                         </para>
                         </listitem>
                         <listitem>
@@ -951,28 +1063,6 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>org.jboss.seam.core.hibernate</literal></term>
-                <listitem>
-                    <para>
-                        Bootstraps a Hibernate <literal>SessionFactory</literal>. Install 
-                        as class <literal>org.jboss.seam.core.HibernateSessionFactory</literal>. 
-                        This is most useful when using Seam with Hibernate inside a Java EE
-                        application server.
-                    </para>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal>org.jboss.seam.core.hibernate.cfgResourceName</literal> &mdash; 
-                            the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
-                    <para>
-                        See the API JavaDoc for further configuration properties.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
                 <term><literal>org.jboss.seam.core.jbpm</literal></term>
                 <listitem>
                     <para>
@@ -995,6 +1085,24 @@
                         </para>
                         </listitem>
                     </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.conversationEntries</literal></term>
+                <listitem>
+                    <para>
+                        Internal session-scoped component recording the active long-running conversations
+                        between requests.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.persistenceContexts</literal></term>
+                <listitem>
+                    <para>
+                        Internal component recording the persistence contexts which were used in
+                        the current conversation.
+                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -1077,7 +1185,7 @@
         
     	<variablelist spacing="compact">
             <varlistentry>
-                <term><literal><emphasis>&lt;managedPersistenceContext&gt;</emphasis></literal></term>
+                <term><literal><emphasis>&lt;entityManager&gt;</emphasis></literal></term>
                 <term><literal>org.jboss.seam.core.ManagedPersistenceContext</literal></term>
                 <listitem>
                     <para>
@@ -1087,7 +1195,12 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal><emphasis>&lt;managedPersistenceContext&gt;</emphasis>.persistenceUnitJndiName</literal> 
+                            <literal><emphasis>&lt;entityManager&gt;</emphasis>.entityManagerFactory</literal> 
+                            &mdash; a value binding expression that evaluates to an instance of 
+                            <literal>EntityManagerFactory</literal>.
+                        </para>
+                        <para>
+                            <literal><emphasis>&lt;entityManager&gt;</emphasis>.persistenceUnitJndiName</literal> 
                             &mdash; the JNDI name of the entity manager factory, default to 
                             <literal>java:/<emphasis>&lt;managedPersistenceContext&gt;</emphasis></literal>.
                         </para>
@@ -1096,7 +1209,28 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal><emphasis>&lt;managedSession&gt;</emphasis></literal></term>
+                <term><literal><emphasis>&lt;entityManagerFactory&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.core.EntityManagerFactory</literal></term>
+                <listitem>
+                    <para>
+                        Manages a JPA <literal>EntityManagerFactory</literal>. This is most useful
+                        when using JPA outside of an EJB 3.0 supporting environment.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>entityManagerFactory.persistenceUnitName</literal> &mdash; 
+                            the name of the persistence unit.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>
+                        See the API JavaDoc for further configuration properties.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;session&gt;</emphasis></literal></term>
                 <term><literal>org.jboss.seam.core.ManagedSession</literal></term>
                 <listitem>
                     <para>
@@ -1105,12 +1239,37 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal><emphasis>&lt;managedSession&gt;</emphasis>.sessionFactoryJndiName</literal> 
+                            <literal><emphasis>&lt;session&gt;</emphasis>.sessionFactory</literal> 
+                            &mdash; a value binding expression that evaluates to an instance of 
+                            <literal>SessionFactory</literal>.
+                        </para>
+                        <para>
+                            <literal><emphasis>&lt;session&gt;</emphasis>.sessionFactoryJndiName</literal> 
                             &mdash; the JNDI name of the session factory, default to 
                             <literal>java:/<emphasis>&lt;managedSession&gt;</emphasis></literal>.
                         </para>
                         </listitem>
                     </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;sessionFactory&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.core.HibernateSessionFactory</literal></term>
+                <listitem>
+                    <para>
+                        Manages a Hibernate <literal>SessionFactory</literal>.  
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.hibernate.cfgResourceName</literal> &mdash; 
+                            the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>
+                        See the API JavaDoc for further configuration properties.
+                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>

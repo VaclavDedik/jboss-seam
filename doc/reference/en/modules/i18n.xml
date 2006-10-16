@@ -118,8 +118,17 @@
         <para>
             You can select a different name for the resource bundle by setting
             the Seam configuration property named
-            <literal>resourceBundle.bundleName</literal>.
+            <literal>resourceBundle.bundleNames</literal>. You can even specify
+            a list of resource bundle names to be searched (depth first) for
+            messages.
         </para>
+
+        <programlisting><![CDATA[<component name="resourceBundle">
+    <property name="bundlenames">
+        <value>mycompany_messages</value>
+        <value>standard_messages</value>
+    </property>
+</component>]]></programlisting>
 
         <para>
             If you define your labels in this special resource bundle, you'll
@@ -175,6 +184,24 @@ public class HelloBean implements Hello {
             depending upon the user's locale.
         </para>
 
+    </section>
+    
+    <section>
+        <title>Timezones</title>
+        <para>
+            There is also a session-scoped instance of <literal>java.util.Timezone</literal>,
+            named <literal>timezone</literal>, and a Seam component for changing the timezone named
+            <literal>timezoneSelector</literal>. By default, the timezone is the default timezone of
+            the server. Unfortunately, the JSF specification says that all dates and times should be 
+            assumed to be UTC, and displayed as UTC, unless a timezone is explicitly specified using 
+            <literal>&lt;f:convertDateTime&gt;</literal>. This is an extremely inconvenient default 
+            behavior.
+        </para>
+        <para>
+            Seam overrides this behavior, and defaults all dates and times to the Seam timezone.
+            In addition, Seam provides the <literal>&lt;s:convertDateTime&gt;</literal> tag which 
+            always performs conversions in the Seam timezone.
+        </para>
     </section>
     
     <section>
@@ -249,9 +276,9 @@ template template.xhtml]]></programlisting>
     <section>
         <title>Persisting locale and theme preferences via cookies</title>
         <para>
-            Both the locale selector and theme selector support persistence of locale and
-            theme preference to a cookie. Simply set the <literal>cookieEnabled</literal>
-            configuration property:
+            The locale selector, theme selector and timezone selector all support 
+            persistence of locale and theme preference to a cookie. Simply set the 
+            <literal>cookieEnabled</literal> configuration property:
         </para>
         
         <programlisting><![CDATA[<component name="themeSelector">

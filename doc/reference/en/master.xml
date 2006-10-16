@@ -4,6 +4,7 @@
 [
 <!ENTITY tutorial               SYSTEM "modules/tutorial.xml">
 <!ENTITY concepts               SYSTEM "modules/concepts.xml">
+<!ENTITY events                 SYSTEM "modules/events.xml">
 <!ENTITY conversations          SYSTEM "modules/conversations.xml">
 <!ENTITY jbpm                   SYSTEM "modules/jbpm.xml">
 <!ENTITY i18n                   SYSTEM "modules/i18n.xml">
@@ -233,6 +234,7 @@
 
     &tutorial;
     &concepts;
+    &events;
     &conversations;
     &jbpm;
     &i18n;

@@ -164,6 +164,19 @@
                     </itemizedlist>
                 </listitem>
             </varlistentry>   
+            <varlistentry  id="synchronized-annotation">
+                <term><literal>@Synchronized</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Synchronized(timeout=1000)]]></programlisting>
+                    <para>
+                        Specifies that a component is accessed concurrently
+                        by multiple clients, and that Seam should serialize
+                        requests. If a request is not able to obtain its
+                        lock on the component in the given timeout period,
+                        an exception will be raised.
+                    </para>
+                </listitem>
+            </varlistentry>   
         </variablelist>
     </section>
 
@@ -1009,20 +1022,31 @@
     	</para>
     	
     	<variablelist spacing="compact">
-            <varlistentry  id="around-annotation">
-                <term><literal>@Around</literal></term>
+            <varlistentry  id="interceptor-annotation">
+                <term><literal>@Interceptor</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@Around({SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
+                    <programlisting><![CDATA[@Interceptor(stateless=true)]]></programlisting>
+                    <para>
+                        Specifies that this interceptor is stateless and Seam may optimize
+                        replication.
+                    </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Interceptor(type=CLIENT)]]></programlisting>
+                    <para>
+                        Specifies that this interceptor is a "client-side" interceptor that
+                        is called before the EJB container.
+                    </para>
+                </listitem>
+                <listitem>
+                    <programlisting><![CDATA[@Interceptor(around={SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
                     <para>
                         Specifies that this interceptor is positioned higher in the stack than
                         the given interceptors.
                     </para>
                 </listitem>
-            </varlistentry>
-            <varlistentry  id="within-annotation">
-                <term><literal>@Within</literal></term>
                 <listitem>
-                    <programlisting><![CDATA[@Within({SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
+                    <programlisting><![CDATA[@Interceptor(within={SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
                     <para>
                         Specifies that this interceptor is positioned deeper in the stack than
                         the given interceptors.
@@ -1033,6 +1057,58 @@
         
     </section> 
 
+    <section>
+      <title>Annotations for asynchronicity</title>
+      <para>
+          The following annotations are used to declare an asynchronous method:
+      </para>
+
+      <variablelist spacing="compact">
+            <varlistentry id="asynchronous-annotation">
+                <term><literal>@Asynchronous</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Asynchronous]]></programlisting>
+                    <para>
+                        Specifies that the method call is processed asynchronously.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="duration-annotation">
+                <term><literal>@Duration</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Duration]]></programlisting>
+                    <para>
+                        Specifies that a parameter of the asynchronous call is
+                        the duration before the call is processed (or first
+                        processed for recurring calls).
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="expiration-annotation">
+                <term><literal>@Expiration</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@Expiration]]></programlisting>
+                    <para>
+                        Specifies that a parameter of the asynchronous call is
+                        the datetime at which the call is processed (or first
+                        processed for recurring calls).
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry id="intervalduration-annotation">
+                <term><literal>@IntervalDuration</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@IntervalDuration]]></programlisting>
+                    <para>
+                        Specifies that an asynchronous method call recurs, and
+                        that the annotationed parameter is duration between
+                        recurrences.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </section>
+    
     <section>
     	<title>Annotations for use with JSF <literal>dataTable</literal></title>
     	<para>

@@ -27,6 +27,46 @@
            </listitem>
        </varlistentry>
        <varlistentry>
+           <term><literal>&lt;s:convertDateTime&gt;</literal></term>
+           <listitem>
+               <para>
+                   Perform date or time conversions in the Seam timezone.
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:decorate&gt;</literal></term>
+           <listitem>
+               <para>
+                   "Decorate" a JSF input field when validation fails.
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:message&gt;</literal></term>
+           <listitem>
+               <para>
+                   "Decorate" a JSF input field with the validation error message.
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:span&gt;</literal></term>
+           <listitem>
+               <para>
+                   Render a HTML <literal>&lt;span&gt;</literal>.
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:div&gt;</literal></term>
+           <listitem>
+               <para>
+                   Render a HTML <literal>&lt;div&gt;</literal>.
+               </para>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
            <term><literal>&lt;s:cache&gt;</literal></term>
            <listitem>
                <para>
@@ -176,6 +216,16 @@
                    </para>
                    </listitem>
                </itemizedlist>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:selection&gt;</literal></term>
+           <listitem>
+               <para>
+                   Propagate the selected row of a <literal>DataModel</literal> with an 
+                   output link (or similar JSF control).
+                   <emphasis>Facelets only.</emphasis>
+               </para>
            </listitem>
        </varlistentry>
     </variablelist>

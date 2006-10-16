@@ -1,0 +1,456 @@
+<chapter id="events">
+    <title>Events and interceptors</title>
+
+    <para>
+        Complementing the contextual component model, there are two further basic concepts
+        that facilitate the extreme loose-coupling that is the distinctive feature of Seam 
+        applications. The first is a strong event model where events may be mapped to event 
+        listeners via JSF-like method binding expressions. The second is the pervasive use 
+        of annotations and interceptors to apply cross-cutting concerns to components which 
+        implement business logic.
+    </para>
+
+    <sect1>
+        <title>Seam events</title>
+        <para>
+            The Seam component model was developed for use with <emphasis>event-driven 
+            applications</emphasis>, specifically to enable the development of fine-grained, 
+            loosely-coupled components in a fine-grained eventing model. Events in Seam come
+            in several types, most of which we have already seen:
+        </para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>JSF events</para>
+            </listitem>
+            <listitem>
+                <para>jBPM transition events</para>
+            </listitem>
+            <listitem>
+                <para>Seam page actions</para>
+            </listitem>
+            <listitem>
+                <para>Seam component-driven events</para>
+            </listitem>
+            <listitem>
+                <para>Seam contextual events</para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>
+            All of these various kinds of events are mapped to Seam components via JSF EL
+            method binding expressions. For a JSF event, this is defined in the JSF template:
+        </para>
+        
+        <programlisting><![CDATA[<h:commandButton value="Click me!" action="#{helloWorld.sayHello}"/>]]></programlisting>
+        
+        <para>
+            For a jBPM transition event, it is specified in the jBPM process definition or
+            pageflow definition:
+        </para>
+        
+        <programlisting><![CDATA[<start-page name="hello" view-id="/hello.jsp">
+    <transition to="hello">
+        <action expression="#{helloWorld.sayHello}"/>
+    </transition>
+</start-page>]]></programlisting>
+
+        <para>
+            You can find out more information about JSF events and jBPM events elsewhere. 
+            Lets concentrate for now upon the two additional kinds of events defined by Seam.
+        </para>
+        
+        <sect2>
+            <title>Page actions</title>
+
+        <para>
+            A Seam page action is an event that occurs just before we render a page. 
+            We declare page actions in <literal>WEB-INF/pages.xml</literal>. We
+            can define a page action for either a particular JSF view id:
+        </para>
+
+        <programlisting><![CDATA[<pages>
+    <page view-id="/hello.jsp" action="#{helloWorld.sayHello}"/>
+<pages>]]></programlisting>
+
+        <para>
+            Or we can use a wildcard to specify an action that applies to all 
+            view ids that match the pattern:
+        </para>
+
+        <programlisting><![CDATA[<pages>
+    <page view-id="/hello/*" action="#{helloWorld.sayHello}"/>
+<pages>]]></programlisting>
+
+        <para>
+            If multiple wildcarded page actions match the current view-id, Seam
+            will call all the actions, in order of least-specific to most-specific.
+        </para>
+
+        <para>
+            The page action method can return a JSF outcome. If the outcome is
+            non-null, Seam will delegate to the defined JSF navigation rules and
+            a different view may end up being rendered.
+        </para>
+        
+        <para>
+            Furthermore, the view id mentioned in the <literal>&lt;page&gt;</literal>
+            element need not correspond to a real JSP or Facelets page! So, we can
+            reproduce the functionality of a traditional action-oriented framework
+            like Struts or WebWork using page actions. For example:
+        </para>
+        
+        <programlisting><![CDATA[TODO: translate struts action into page action]]></programlisting>
+        
+        <para>
+            This is quite useful if you want to do complex things in response to non-faces
+            requests (for example, HTTP GET requests).
+        </para>
+        
+        <sect3>
+            <title>Page parameters</title>
+            <para>
+                A JSF faces request (a form submission) encapsulates both an "action"
+                (a method binding) and "parameters" (input value bindings). A page 
+                action might also needs parameters!
+            </para>
+            <para>
+                Since GET requests are bookmarkable, page parameters are passed as 
+                human-readable request parameters. (Unlike JSF form inputs, which are
+                anything but!) 
+            </para>
+            <para>
+                Seam lets us provide a value binding that maps a named request parameter 
+                to an attribute of a model object.
+            </para>
+            
+        <programlisting><![CDATA[<pages>
+    <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
+        <param name="firstName" value="#{person.firstName}"/>
+        <param name="lastName" value="#{person.lastName}"/>
+    </page>
+<pages>]]></programlisting>
+
+            <para>
+                The <literal>&lt;param&gt;</literal> declaration is bidirectional, just
+                like a value binding for a JSF input:
+            </para>
+            
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        When a non-faces (GET) request for the view id occurs, Seam sets 
+                        the value of the named request parameter onto the model object, 
+                        after performing appropriate type conversions.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Any <literal>&lt;s:link&gt;</literal> transparently includes the
+                        request parameter. The value of the parameter is determined by 
+                        evaluating the value binding during the render phase (when the 
+                        <literal>&lt;s:link&gt;</literal> is rendered).
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Any navigation rule with a <literal>&lt;redirect/&gt;</literal> to
+                        the view id transparently includes the request parameter. The value 
+                        of the parameter is determined by evaluating the value binding at
+                        the end of the invoke application phase.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        The value is transparently propagated with any JSF form submission
+                        for the page with the given view id. (This means that view parameters
+                        behave like <literal>PAGE</literal>-scoped context variables for
+                        faces requests.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            
+            <para>
+                The essential idea behind all this is that <emphasis>however</emphasis>
+                we get from any other page to <literal>/hello.jsp</literal> (or from 
+                <literal>/hello.jsp</literal> back to <literal>/hello.jsp</literal>), 
+                the value of the model attribute referred to in the value binding is
+                "remembered", without the need for a conversation (or other server-side
+                state).
+            </para>
+            
+            <para>
+                This all sounds pretty complex, and you're probably wondering if such an
+                exotic construct is really worth the effort. Actually, the idea is very
+                natural once you "get it". It is definitely worth taking the time to 
+                understand this stuff. Page parameters are the most elegant way to 
+                propagate state across a non-faces request. They are especially cool for 
+                problems like search screens with bookmarkable results pages, where we 
+                would like to be able to write our application code to handle both POST 
+                and GET requests with the same code. Page parameters eliminate repetitive 
+                listing of request parameters in the view definition and make redirects
+                much easier to code.
+            </para>
+            
+            <para>
+                Note that you don't need an actual page action method binding to use
+                a page parameter. The following is perfectly valid:
+            </para>
+            
+            <programlisting><![CDATA[<pages>
+    <page view-id="/hello.jsp">
+        <param name="firstName" value="#{person.firstName}"/>
+        <param name="lastName" value="#{person.lastName}"/>
+    </page>
+<pages>]]></programlisting>
+
+            <para>
+                You can even specify a JSF converter:
+            </para>
+
+            <programlisting><![CDATA[<pages>
+    <page view-id="/calculator.jsp" action="#{calculator.calculate}">
+        <param name="x" value="#{calculator.lhs}"/>
+        <param name="y" value="#{calculator.rhs}"/>
+        <param name="op" converterId="com.my.calculator.OperatorConverter"/>
+    </page>
+<pages>]]></programlisting>
+
+            <programlisting><![CDATA[<pages>
+    <page view-id="/calculator.jsp" action="#{calculator.calculate}">
+        <param name="x" value="#{calculator.lhs}"/>
+        <param name="y" value="#{calculator.rhs}"/>
+        <param name="op" converter="#{operatorConverter}"/>
+    </page>
+<pages>]]></programlisting>
+
+        </sect3>
+
+        </sect2>
+        
+        <sect2>
+            <title>Component-driven events</title>
+            
+            <para>
+                Seam components can interact by simply calling each others methods.
+                Stateful components may even implement the observer/observable pattern.
+                But to enable components to interact in a more loosely-coupled fashion
+                than is possible when the components call each others methods directly,
+                Seam provides <emphasis>component-driven events</emphasis>.
+            </para>
+            
+            <para>
+                We specify event listeners (observers) in <literal>WEB-INF/events.xml</literal>.
+            </para>
+            
+        <programlisting><![CDATA[<events>
+    <event type="hello">
+        <action expression="#{helloListener.sayHelloBack}"/>
+        <action expression="#{logger.logHello}"/>
+    </event>
+<events>]]></programlisting>
+
+            <para>
+                Where the <emphasis>event type</emphasis> is just an arbitrary string.
+            </para>
+            
+            <para>
+                When an event occurs, the actions registered for that event will be called
+                in the order they appear in <literal>events.xml</literal>. How does a
+                component raise an event? Seam provides a built-in component for this.
+            </para>
+            
+            <programlisting><![CDATA[@Name("helloWorld")
+public class HelloWorld {
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World!");
+        Events.instance().raiseEvent("hello");
+    }
+}]]></programlisting>
+
+            <para>
+                Notice that this event producer has no dependency upon event consumers.
+                The event listener may now be implemented with absolutely no dependency
+                upon the producer:
+            </para>
+
+            <programlisting><![CDATA[@Name("helloListener")
+public class HelloListener {
+    public void sayHelloBack() {
+        FacesMessages.instance().add("Hello to you too!");
+    }
+}]]></programlisting>
+
+            <para>
+                If you don't like the <literal>events.xml</literal> file, we can use an
+                annotation instead:
+            </para>
+
+            <programlisting><![CDATA[@Name("helloListener")
+public class HelloListener {
+    @Observer("hello")
+    public void sayHelloBack() {
+        FacesMessages.instance().add("Hello to you too!");
+    }
+}]]></programlisting>
+
+            <para>
+                You might wonder why I've not mentioned anything about event objects in
+                this discussion. In Seam, there is no need for an event object to propagate
+                state between event producer and listener. All state is held in the Seam
+                contexts, and is shared between components.
+            </para>
+            
+        </sect2>
+        
+        <sect2>
+            <title>Contextual events</title>
+            <para>
+                Seam defines a number of built-in events that the application can use to
+                perform special kinds of framework integration. The events are:
+            </para>
+            
+            <itemizedlist>
+            <listitem><para><literal>org.jboss.seam.preSetVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is set</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postSetVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is set</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preRemoveVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is unset</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postRemoveVariable.&lt;name&gt;</literal> &mdash; called when the context variable &lt;name&gt; is unset</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preDestroyContext.&lt;SCOPE&gt;</literal> &mdash; called before the &lt;SCOPE&gt; context is destroyed</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &mdash; called after the &lt;SCOPE&gt; context is destroyed</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginConversation </literal>&mdash; called whenever a long-running conversation begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endConversation </literal>&mdash; called whenever a long-running conversation ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&mdash; called when the pageflow &lt;name&gt; begins</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&mdash; called when the pageflow &lt;name&gt; ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&mdash; called when the process &lt;name&gt; is created</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endProcess.&lt;name&gt; </literal>&mdash; called when the process &lt;name&gt; ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.initProcess.&lt;name&gt; </literal>&mdash; called when the process &lt;name&gt; is associated with the conversation</para></listitem>
+            <listitem><para><literal>org.jboss.seam.initTask.&lt;name&gt; </literal>&mdash; called when the task &lt;name&gt; is associated with the conversation</para></listitem>
+            <listitem><para><literal>org.jboss.seam.startTask.&lt;name&gt; </literal>&mdash; called when the task &lt;name&gt; is started</para></listitem>
+            <listitem><para><literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&mdash; called when the task &lt;name&gt; is ended</para></listitem>
+            <listitem><para><literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&mdash; called when the component &lt;name&gt; is created</para></listitem>
+            <listitem><para><literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&mdash; called when the component &lt;name&gt; is destroyed</para></listitem>
+             </itemizedlist>
+             
+             <para>
+                 Seam components may observe any of these events in just the same way they
+                 observe component-driven events.
+             </para>
+        </sect2>
+        
+    </sect1>
+    
+    <sect1>
+      <title>Seam interceptors</title>
+      <para>
+        EJB 3.0 introduced a standard interceptor model for session bean components. To add an
+        interceptor to a bean, you need to write a class with a method annotated 
+        <literal>@AroundInvoke</literal> and annotate the bean with an
+        <literal>@Interceptors</literal> annotation that specifies the name of the interceptor
+        class. For example, the following interceptor checks that the user is logged in before
+        allowing invoking an action listener method:
+      </para>
+      
+      <programlisting><![CDATA[public class LoggedInInterceptor {
+
+   @AroundInvoke
+   public Object checkLoggedIn(InvocationContext invocation) throws Exception {
+   
+      boolean isLoggedIn = Contexts.getSessionContext().get("loggedIn")!=null;
+      if (isLoggedIn) {
+         //the user is already logged in
+         return invocation.proceed();
+      }
+      else {
+         //the user is not logged in, fwd to login page
+         return "login";
+      }
+   }
+
+}]]></programlisting>
+
+    <para>
+        To apply this interceptor to a session bean which acts as an action listener, we must
+        annotate the session bean <literal>@Interceptors(LoggedInInterceptor.class)</literal>.
+        This is a somewhat ugly annotation. Seam builds upon the interceptor framework in
+        EJB3 by allowing you to use <literal>@Interceptors</literal> as a meta-annotation. In
+        our example, we would create an <literal>@LoggedIn</literal> annotation, as follows:
+    </para>
+      
+      <programlisting><![CDATA[@Target(TYPE)
+@Retention(RUNTIME)
+@Interceptors(LoggedInInterceptor.class)
+public @interface LoggedIn {}]]></programlisting>
+
+        <para>
+            We can now simply annotate our action listener bean with <literal>@LoggedIn</literal>
+            to apply the interceptor.
+        </para>
+        
+        <programlisting><![CDATA[@Stateless
+@Name("changePasswordAction")
+@LoggedIn
+@Interceptors(SeamInterceptor.class)
+public class ChangePasswordAction implements ChangePassword { 
+    
+    ...
+    
+    public String changePassword() { ... }
+    
+}]]></programlisting>
+
+        <para>
+            If interceptor ordering is important (it usually is), you can add
+            <literal>@Interceptor</literal> annotations to your interceptor 
+            classes to specify a partial order of interceptors.
+        </para>
+        
+<programlisting><![CDATA[@Interceptor(around={BijectionInterceptor.class,
+                     ValidationInterceptor.class,
+                     ConversationInterceptor.class},
+             within=RemoveInterceptor.class)
+public class LoggedInInterceptor
+{
+    ...
+}]]></programlisting>
+
+        <para>
+            You can even have a "client-side" interceptor, that runs around any of the built-in
+            functionality of EJB3:
+        </para>
+
+<programlisting><![CDATA[@Interceptor(type=CLIENT)
+public class LoggedInInterceptor
+{
+    ...
+}]]></programlisting>
+
+        <para>
+            EJB interceptors are stateful, with a lifecycle that is the same as the component
+            they intercept. For interceptors which do not need to maintain state, Seam lets
+            you get a performance optimization by specifying 
+            <literal>@Interceptor(stateless=true)</literal>.
+        </para>
+
+        <para>
+            Much of the functionality of Seam is implemented as a set of built-in Seam interceptors,
+            including the interceptors named in the previous example. You don't have to explicitly 
+            specify these interceptors by annotating your components; they exist for all interceptable 
+            Seam components.
+        </para>
+        
+        <para>
+            You can even use Seam interceptors with JavaBean components, not just EJB3 beans!
+        </para>
+        
+        <para>
+            EJB defines interception not only for business methods (using <literal>@AroundInvoke</literal>),
+            but also for the lifecycle methods <literal>@PostConstruct</literal>, <literal>@PreDestroy</literal>,
+            <literal>@PrePassivate</literal> and <literal>@PostActive</literal>. Seam supports all these
+            lifecycle methods on both component and interceptor not only for EJB3 beans, but also for
+            JavaBean components (except <literal>@PreDestroy</literal> which is not meaningful for JavaBean
+            components).
+        </para>
+
+    </sect1>
+      
+</chapter>

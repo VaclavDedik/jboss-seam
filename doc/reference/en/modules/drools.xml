@@ -3,8 +3,7 @@
     
     <para>
         Seam makes it easy to call JBoss Rules (Drools) rulebases from Seam
-        components or jBPM process definitions. <emphasis>This is an experimental
-        feature of Seam 1.0.</emphasis>
+        components or jBPM process definitions.
     </para>
     
     <section>
