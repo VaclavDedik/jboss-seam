@@ -1293,6 +1293,141 @@ public class LoggedInInterceptor
     </sect1>
     
     <sect1>
+        <title>Asynchronicity</title>
+        <para>
+            Seam makes it very easy to perform work asynchronously from a web request. When most people
+            think of asynchronicity in Java EE, they think of using JMS. This is certainly one way to
+            approach the problem in Seam, and is the right way when you have strict and well-defined
+            quality of service requirements. Seam makes it easy to send and recieve JMS messages using
+            Seam components (see later chapter).
+        </para>
+        <para>
+            But for many usecases, JMS is overkill. Seam layers a simple asynchronous method invocation
+            facility over the EJB 3.0 timer service. In simplest form, this just lets a method call be
+            processed asynchronously from the caller:
+        </para>
+        
+        <programlisting><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandler
+{
+    @Asynchronous
+    public void processPayment(Payment payment)
+    {
+        //do some work!
+    }
+}]]></programlisting>
+        
+        <programlisting><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String pay()
+    {
+        paymentHandler.processPayment( new Payment(bill) );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            The asynchronous method is processed in a completely new event context and does
+            not have access to the session or conversation context state of the caller. However,
+            the business process context <emphasis>is</emphasis> propagated.
+        </para>
+        
+        <para>
+            Asynchronous method calls may be scheduled for later execution using the
+            <literal>@Duration</literal>, <literal>@Expiration</literal> and
+            <literal>@IntervalDuration</literal> annotations.
+        </para>
+        
+        <programlisting><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandler
+{
+    @Asynchronous
+    public void processScheduledPayment(Payment payment, @Expiration date)
+    {
+        //do some work!
+    }
+
+    @Asynchronous
+    public void processRecurringPayment(Payment payment, @Expiration date, @IntervalDuration interval)
+    {
+        //do some work!
+    }
+}]]></programlisting>
+        
+        <programlisting><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String schedulePayment()
+    {
+        paymentHandler.processScheduledPayment( new Payment(bill), bill.getDueDate() );
+        return "success";
+    }
+
+    public String scheduleRecurringPayment()
+    {
+        paymentHandler.processRecurringPayment( new Payment(bill), bill.getDueDate(), ONE_MONTH );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            Both client and server may access the <literal>Timer</literal> object associated with
+            the invocation.
+        </para>
+
+        <programlisting><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandler
+{
+    @In Timer timer;
+    
+    @Asynchronous
+    public Timer processScheduledPayment(Payment payment, @Expiration date)
+    {
+        //do some work!
+        
+        return timer; //note that return value is completely ignored
+    }
+
+}]]></programlisting>
+        
+        <programlisting><![CDATA[@Stateful
+@Name("paymentAction")
+public class CreatePaymentAction
+{
+    @In(create=true) PaymentHandler paymentHandler;
+    @In Bill bill;
+    
+    public String schedulePayment()
+    {
+        Timer timer = paymentHandler.processScheduledPayment( new Payment(bill), bill.getDueDate() );
+        return "success";
+    }
+}]]></programlisting>
+
+        <para>
+            Asynchronous methods cannot return any other value to the caller.
+        </para>
+
+        <para>
+            Of course, Asynchronous method calls have the same quality of service expectations as the
+            container's EJB timer service.
+        </para>
+
+    </sect1>
+    
+    <sect1>
         <title>Seam events</title>
         <para>
             The Seam component model was developed for use with <emphasis>event-driven 
