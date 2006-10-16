@@ -252,21 +252,27 @@
                    <programlisting><![CDATA[@Out]]></programlisting>
                     <para>
                         Specifies that a component attribute that is a Seam component is to be 
-                        outjected to a context variable at the end of the invocation. If the
+                        outjected to its context variable at the end of the invocation. If the 
                         attribute is null, an exception is thrown.
                     </para>
                     <programlisting><![CDATA[@Out(required=false)]]></programlisting>
                     <para>
                         Specifies that a component attribute that is a Seam component is to be 
-                        outjected to a context variable at the end of the invocation. The
+                        outjected to its context variable at the end of the invocation. The 
                         attribute may be null.
                     </para>
                     <programlisting><![CDATA[@Out(scope=ScopeType.SESSION)]]></programlisting>
                     <para>
-                        Specifies that a component attribute that is not a Seam component is to 
-                        be outjected to a specific scope at the end of the invocation.
+                        Specifies that a component attribute that is <emphasis>not</emphasis> 
+                        a Seam component type is to be outjected to a specific scope at the end 
+                        of the invocation.
                     </para>
-                   <programlisting><![CDATA[@Out(value="contextVariableName")]]></programlisting>
+                    <para>
+                        Alternatively, if no scope is explictly specified, the scope of the 
+                        component with the <literal>@Out</literal> attribute is used (or the 
+                        <literal>EVENT</literal> scope if the component is stateless).
+                    </para>
+                    <programlisting><![CDATA[@Out(value="contextVariableName")]]></programlisting>
                     <para>
                         Specifies the name of the context variable explicitly, instead of using
                         the annotated instance variable name.
@@ -338,7 +344,9 @@
                         Specifies that the method returns a value that Seam should use to 
                         initialize the value of the named context variable, when the context 
                         variable has no value. This style is used with methods that return 
-                        a value.
+                        a value. If no scope is explicitly specified, the scope of the component 
+                        with the <literal>@Factory</literal> method is used (unless the component
+                        is stateless, in which case the <literal>EVENT</literal> context is used).
                     </para>
                     <itemizedlist>
                         <listitem>
