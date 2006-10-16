@@ -50,9 +50,7 @@
                             <a:support event="onblur" reRender="checkinDateErrors"/>
                         </h:inputText>
 						<br/>
-                        <a:outputPanel id="checkinDateErrors">
-                            <h:message for="checkinDate"/>
-                        </a:outputPanel>
+                        <a:outputPanel id="checkinDateErrors"><s:message/></a:outputPanel>
 					</s:decorate>
 				</div>
 			</div>
@@ -65,9 +63,7 @@
                             <a:support event="onblur" reRender="checkoutDateErrors"/>
                         </h:inputText>
 						<br/>
-                        <a:outputPanel id="checkoutDateErrors">
-                            <h:message for="checkoutDate"/>
-                        </a:outputPanel>
+                        <a:outputPanel id="checkoutDateErrors"><s:message/></a:outputPanel>
 					</s:decorate>
 				</div>
 			</div>
@@ -107,24 +103,20 @@
                            <a:support event="onblur" reRender="creditCardErrors"/>
                         </h:inputText>
 						<br/>
-                        <a:outputPanel id="creditCardErrors">
-                           <h:message for="creditCard"/>
-                        </a:outputPanel>
+                        <a:outputPanel id="creditCardErrors"><s:message/></a:outputPanel>
 					</s:decorate>
 				</div>
 			</div>
 			
 			<div class="entry">
 				<div class="label"><h:outputLabel for="creditCardName">Credit Card Name:</h:outputLabel></div>
-				<div class="input" id="creditCardNameInput">
+				<div class="input">
 					<s:decorate>
 						<h:inputText id="creditCardName" value="#{booking.creditCardName}" required="true">
                            <a:support event="onblur" reRender="creditCardNameErrors"/>
                         </h:inputText>
 						<br/>
-                        <a:outputPanel id="creditCardNameErrors">
-                           <h:message for="creditCardName"/>
-                        </a:outputPanel>
+                        <a:outputPanel id="creditCardNameErrors"><s:message/></a:outputPanel>
 					</s:decorate>
 				</div>
 			</div>
