@@ -802,13 +802,13 @@
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>initTask(Long id)</literal> &mdash; associate the task with
+                            <literal>resumeTask(Long id)</literal> &mdash; associate the task with
                             the given id with the current conversation.
                         </para>
                         </listitem>
                         <listitem>
                         <para>
-                            <literal>initProcess(Long id)</literal> &mdash; associate the process 
+                            <literal>resumeProcess(Long id)</literal> &mdash; associate the process 
                             with the given id with the current conversation.
                         </para>
                         </listitem>

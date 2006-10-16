@@ -80,13 +80,13 @@ public class CreatePaymentAction
 public class PaymentHandler
 {
     @Asynchronous
-    public void processScheduledPayment(Payment payment, @Expiration date)
+    public void processScheduledPayment(Payment payment, @Expiration Date date)
     {
         //do some work!
     }
 
     @Asynchronous
-    public void processRecurringPayment(Payment payment, @Expiration date, @IntervalDuration interval)
+    public void processRecurringPayment(Payment payment, @Expiration Date date, @IntervalDuration Date interval)
     {
         //do some work!
     }
@@ -124,7 +124,7 @@ public class PaymentHandler
     @In Timer timer;
     
     @Asynchronous
-    public Timer processScheduledPayment(Payment payment, @Expiration date)
+    public Timer processScheduledPayment(Payment payment, @Expiration Date date)
     {
         //do some work!
         
