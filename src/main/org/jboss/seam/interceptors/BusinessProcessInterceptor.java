@@ -57,24 +57,24 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          log.trace( "encountered @StartTask" );
          StartTask tag = method.getAnnotation( StartTask.class );
          Long taskId = getRequestParamValueAsLong( tag.taskIdParameter() );
-         return BusinessProcess.instance().initTask(taskId);
+         return BusinessProcess.instance().resumeTask(taskId);
       }
       else if ( method.isAnnotationPresent( BeginTask.class ) ) {
          log.trace( "encountered @BeginTask" );
          BeginTask tag = method.getAnnotation( BeginTask.class );
          Long taskId = getRequestParamValueAsLong( tag.taskIdParameter() );
-         return BusinessProcess.instance().initTask(taskId);
+         return BusinessProcess.instance().resumeTask(taskId);
       }
       else if ( method.isAnnotationPresent( ResumeProcess.class ) ) {
          log.trace( "encountered @ResumeProcess" );
          ResumeProcess tag = method.getAnnotation( ResumeProcess.class );
          Long processId = getRequestParamValueAsLong( tag.processIdParameter() );
-         return BusinessProcess.instance().initProcess(processId);
+         return BusinessProcess.instance().resumeProcess(processId);
       }
       if ( method.isAnnotationPresent(EndTask.class) )
       {
          log.trace( "encountered @EndTask" );
-         return BusinessProcess.instance().checkTask();
+         return BusinessProcess.instance().validateTask();
       }
       else
       {

@@ -18,7 +18,8 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
- * Holds the task and process ids for the current conversation
+ * Holds the task and process ids for the current conversation,
+ * and provides programmatic control over the business process.
  * 
  * @author Gavin King
  *
@@ -40,34 +41,64 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       return (BusinessProcess) Component.getInstance(BusinessProcess.class, ScopeType.CONVERSATION, true);
    }
    
+   /**
+    * Is there a process instance associated with 
+    * the current conversation?
+    */
    public boolean hasCurrentProcess()
    {
       return processId!=null;
    }
 
+   /**
+    * Is there a task instance associated with 
+    * the current conversation?
+    */
    public boolean hasCurrentTask()
    {
       return taskId!=null;
    }
 
+   /**
+    * The jBPM process instance id associated with
+    * the current conversation.
+    */
    public Long getProcessId() {
       return processId;
    }
 
+   /**
+    * Set the process instance id, without validating
+    * that the process instance actually exists.
+    */
    public void setProcessId(Long processId) {
       setDirty(this.processId, processId);
       this.processId = processId;
    }
 
+   /**
+    * The jBPM task instance id associated with
+    * the current conversation.
+    */
    public Long getTaskId() {
       return taskId;
    }
 
+   /**
+    * Set the task instance id, without validating
+    * that the task instance actually exists.
+    */
    public void setTaskId(Long taskId) {
       setDirty(this.taskId, taskId);
       this.taskId = taskId;
    }
 
+   /**
+    * Create a process instance and associate it with the
+    * current conversation.
+    * 
+    * @param processDefinitionName the jBPM process definition name
+    */
    public void createProcess(String processDefinitionName)
    {
       JbpmContext jbpmContext = ManagedJbpmContext.instance();
@@ -104,20 +135,27 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       Events.instance().raiseEvent("org.jboss.seam.startTask." + task.getTask().getName());
    }
 
+   /**
+    * End a task, via the given transition. If no transition name is given,
+    * check the Transition component for a transition, or use the default
+    * transition.
+    * 
+    * @param transitionName the jBPM transition name, or null
+    */
    public void endTask(String transitionName)
    {
       TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
-      if ( task == null )
+      if (task==null)
       {
          throw new IllegalStateException( "no task instance associated with context" );
       }
       
-      if ( "".equals(transitionName) )
+      if ( transitionName==null || "".equals(transitionName) )
       {
          transitionName = Transition.instance().getName();
       }
       
-      if ( transitionName == null )
+      if (transitionName==null)
       {
          task.end();
       }
@@ -137,6 +175,11 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       }
    }
    
+   /**
+    * Signal the given transition for the current process instance.
+    * 
+    * @param transitionName the jBPM transition name 
+    */
    public void transition(String transitionName)
    {
       ProcessInstance process = org.jboss.seam.core.ProcessInstance.instance();
@@ -147,7 +190,14 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       }
    }
    
-   public boolean initTask(Long taskId)
+   /**
+    * Associate the task instance with the given id with the current
+    * conversation.
+    * 
+    * @param taskId the jBPM task instance id
+    * @return true if the task was found and was not ended
+    */
+   public boolean resumeTask(Long taskId)
    {
       setTaskId(taskId);
       TaskInstance task = org.jboss.seam.core.TaskInstance.instance();
@@ -170,7 +220,14 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       
    }
    
-   public boolean initProcess(Long processId)
+   /**
+    * Associate the process instance with the given id with the 
+    * current conversation.
+    * 
+    * @param processId the jBPM process instance id
+    * @return true if the process was found and was not ended
+    */
+   public boolean resumeProcess(Long processId)
    {
       setProcessId(processId);
       ProcessInstance process = org.jboss.seam.core.ProcessInstance.instance();
@@ -191,7 +248,13 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       }
    }
 
-   public boolean checkTask()
+   /**
+    * Check that the task currently associated with the conversation
+    * exists and has not ended.
+    * 
+    * @return true if the task exists and was not ended
+    */
+   public boolean validateTask()
    {
       if ( !hasCurrentTask() )
       {

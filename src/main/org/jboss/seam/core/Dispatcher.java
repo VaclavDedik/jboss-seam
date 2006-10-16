@@ -67,11 +67,11 @@ public class Dispatcher implements LocalDispatcher
          {
             if (taskId!=null)
             {
-               BusinessProcess.instance().initTask(taskId);
+               BusinessProcess.instance().resumeTask(taskId);
             }
             else if (processId!=null)
             {
-               BusinessProcess.instance().initProcess(processId);
+               BusinessProcess.instance().resumeProcess(processId);
             }
             
             Contexts.getEventContext().set("timer", timer);
