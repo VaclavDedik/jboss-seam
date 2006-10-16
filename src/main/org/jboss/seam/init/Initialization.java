@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
@@ -93,6 +92,7 @@ import org.jboss.seam.persistence.HibernatePersistenceProvider;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.remoting.RemotingConfig;
 import org.jboss.seam.remoting.messaging.SubscriptionRegistry;
+import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.theme.Theme;
 import org.jboss.seam.theme.ThemeSelector;
 import org.jboss.seam.util.Conversions;
@@ -119,7 +119,7 @@ public class Initialization
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponents = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
-   
+
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
@@ -170,7 +170,7 @@ public class Initialization
             {
                String scopeName = factory.attributeValue("scope");
                String name = factory.attributeValue("name");
-               if (name==null) 
+               if (name==null)
                {
                   throw new IllegalArgumentException("must specify name in <factory/> declaration");
                }
@@ -185,7 +185,7 @@ public class Initialization
                      ScopeType.valueOf( scopeName.toUpperCase() );
                factoryDescriptors.add( new FactoryDescriptor(name, scope, method, value) );
             }
-            
+
          }
          catch (Exception e)
          {
@@ -229,7 +229,7 @@ public class Initialization
             }
             if (clazz==null) throw cnfe;
          }
-         
+
          if (name==null)
          {
             name = clazz.getAnnotation(Name.class).value();
@@ -388,7 +388,7 @@ public class Initialization
 
       //force instantiation of Init
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
-      
+
       addComponent( Expressions.class, context);
       addComponent( Pages.class, context);
       addComponent( Events.class, context);
@@ -426,7 +426,8 @@ public class Initialization
       addComponent( CurrentDate.class, context );
       addComponent( CurrentTime.class, context );
       addComponent( CurrentDatetime.class, context );
-      
+      addComponent( SeamSecurityManager.class, context );
+
       //addComponent( Dispatcher.class, context );
 
       try
@@ -434,7 +435,7 @@ public class Initialization
          addComponent( PojoCache.class, context );
       }
       catch (NoClassDefFoundError ncdfe) {} //swallow
-      
+
       if ( installedComponents.contains(ManagedPersistenceContext.class) )
       {
          try
@@ -499,7 +500,7 @@ public class Initialization
             addComponentRoles(context, clazz);
          }
       }
-      
+
       for (FactoryDescriptor factoryDescriptor: factoryDescriptors)
       {
          if ( factoryDescriptor.isValueBinding() )
@@ -566,14 +567,14 @@ public class Initialization
       this.isScannerEnabled = isScannerEnabled;
       return this;
    }
-   
+
    private static class FactoryDescriptor
    {
       private String name;
       private ScopeType scope;
       private String method;
       private String value;
-      
+
       public FactoryDescriptor(String name, ScopeType scope, String method, String value)
       {
          super();
@@ -602,7 +603,7 @@ public class Initialization
       {
          return scope;
       }
-      
+
       public boolean isValueBinding()
       {
          return method==null;

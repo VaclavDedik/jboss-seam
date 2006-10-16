@@ -70,9 +70,7 @@ public class SecurityInterceptor extends AbstractInterceptor
 
       if (redirectToLogin)
       {
-        //          return SeamSecurityManager.instance().getConfiguration().getLoginAction();
-                  /** @todo Get this action from the security config */
-          return "login";
+        return SeamSecurityManager.instance().getLoginAction();
       }
 
       // If roles() are specified check them first
@@ -85,7 +83,7 @@ public class SecurityInterceptor extends AbstractInterceptor
         }
       }
 
-      // No roles matched, check permissions
+      // No roles match, check permissions
       if (sec.permissions().length > 0)
       {
 //        SeamSecurityManager.instance().checkAcls();
@@ -95,8 +93,7 @@ public class SecurityInterceptor extends AbstractInterceptor
       if (sec.onfail() != null && !"".equals(sec.onfail()))
         return sec.onfail();
 
-      /** @todo Get this action from the security config */
-      return "error";
+      return SeamSecurityManager.instance().getSecurityErrorAction();
     }
 
     return invocation.proceed();
