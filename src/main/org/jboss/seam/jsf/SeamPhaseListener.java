@@ -6,13 +6,11 @@
  */
 package org.jboss.seam.jsf;
 
+import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
 import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
-import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
 
-import javax.faces.FactoryFinder;
-import javax.faces.application.ApplicationFactory;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 

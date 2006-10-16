@@ -73,7 +73,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          ContextAdaptor session = ContextAdaptor.getSession( facesContext.getExternalContext(), true );
          Manager.instance().storeConversation( session, facesContext.getExternalContext().getResponse() );
       }
-      Lifecycle.flushPage();
    }
    
    /**
@@ -136,6 +135,8 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       {
          Pages.instance().applyRequestParameterValues( facesContext.getViewRoot().getViewId() );
       }
+      
+      Lifecycle.flushPage();
 
       selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
       

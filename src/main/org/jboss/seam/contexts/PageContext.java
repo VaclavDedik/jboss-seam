@@ -38,33 +38,42 @@ public class PageContext implements Context {
    
    public PageContext()
    {
-      previousPageMap = (Map<String, Object>) getAttributeMap().remove( ScopeType.PAGE.getPrefix() );
-      if (previousPageMap==null) previousPageMap = new HashMap<String, Object>();
+      previousPageMap = (Map<String, Object>) getAttributeMap();
       nextPageMap = new HashMap<String, Object>();
    }
 
    public ScopeType getType()
    {
-      return ScopeType.CONVERSATION;
+      return ScopeType.PAGE;
    }
    
+   private String getKey(String name)
+   {
+      return /*getPrefix() +*/ name;
+   }
+
+   /*private String getPrefix()
+   {
+      return ScopeType.PAGE.getPrefix() + '$';
+   }*/
+
 	public Object get(String name) 
    {
-      return getCurrentReadableMap().get(name);
+      return getCurrentReadableMap().get( getKey(name) );
 	}
    
    public boolean isSet(String name) 
    {
-      return get(name)!=null;
+      return getCurrentReadableMap().containsKey( getKey(name) );
    }
    
-   private Map getCurrentReadableMap()
+   private Map<String, Object> getCurrentReadableMap()
    {
       return isRenderResponsePhase() ?
             nextPageMap : previousPageMap;
    }
 
-   private Map getCurrentWritableMap()
+   private Map<String, Object> getCurrentWritableMap()
    {
       return isBeforeInvokeApplicationPhase() ?
             previousPageMap : nextPageMap;
@@ -73,19 +82,19 @@ public class PageContext implements Context {
 	public void set(String name, Object value) 
    {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
-      getCurrentWritableMap().put(name, value);
+      getCurrentWritableMap().put( getKey(name), value );
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
 	}
 
 	public void remove(String name) 
    {
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preRemoveVariable." + name);
-      getCurrentWritableMap().remove(name);
+      getCurrentWritableMap().remove( getKey(name) );
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postRemoveVariable." + name);
 	}
 
    public String[] getNames() {
-      return previousPageMap.keySet().toArray( new String[]{} );
+      return getCurrentReadableMap().keySet().toArray( new String[]{} );
    }
    
    public String toString()
@@ -99,11 +108,14 @@ public class PageContext implements Context {
    }
 
    /**
-    * Put the context variables in the faces view root.
+    * Put the buffered context variables in the faces view root, 
+    * at the beginning of the render phase.
     */
    public void flush()
    {
-      getAttributeMap().put( ScopeType.PAGE.getPrefix(), nextPageMap );
+      Map attributeMap = getAttributeMap();
+      attributeMap.putAll(nextPageMap);
+      nextPageMap = attributeMap;
    }
 
    private static Map getAttributeMap()
