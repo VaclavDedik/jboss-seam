@@ -11,6 +11,7 @@
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
 <!ENTITY drools                 SYSTEM "modules/drools.xml">
+<!ENTITY validation             SYSTEM "modules/validation.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
@@ -241,6 +242,7 @@
     &jms;
     &remoting;
     &drools;
+    &validation;
     &configuration;
     &annotations;
     &components;

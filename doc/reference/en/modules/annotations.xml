@@ -268,7 +268,7 @@
                         of the invocation.
                     </para>
                     <para>
-                        Alternatively, if no scope is explictly specified, the scope of the 
+                        Alternatively, if no scope is explicitly specified, the scope of the 
                         component with the <literal>@Out</literal> attribute is used (or the 
                         <literal>EVENT</literal> scope if the component is stateless).
                     </para>

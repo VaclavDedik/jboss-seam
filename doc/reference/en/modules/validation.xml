@@ -1,0 +1,258 @@
+<chapter id="validation">
+    <title>JSF form validation in Seam</title>
+    <para>
+        In plain JSF, validation is defined in the view:
+    </para>
+    
+    <programlisting><![CDATA[<h:form>
+    <div>
+        <h:messages/>
+    </div>
+    <div>
+        Country:
+        <h:inputText value="#{location.country}">
+            <my:validateCountry/>
+        </h:inputText>
+    </div>
+    <div>
+        Zip code:
+        <h:inputText value="#{location.zip}">
+            <my:validateZip/>
+        </h:inputText>
+    </div>
+    <div>
+        <h:commandButton/>
+    </div>
+</h:form>]]></programlisting>
+
+    <para>
+        In practice, this approach usually violates DRY, since most
+        "validation" actually enforces constraints that are part of
+        the data model, and exist all the way down to the database
+        schema definition. Seam provides support for model-based
+        constraints defined using Hibernate Validator.
+    </para>
+    
+    <para>
+        Let's start by defining our constraints, on our 
+        <literal>Location</literal> class:
+    </para>
+
+    <programlisting><![CDATA[public class Location {
+    private String country;
+    private String zip;
+    
+    @Length(max=30)
+    public String getCountry() { return country; }
+    public void setCountry(String c) { country = c; }
+
+    @Length(max=6)
+    @Pattern("^\d*$")
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}]]></programlisting>
+
+    <para>
+        Well, that's a decent first cut, but in practice it might be
+        more elegant to use custom constraints instead of the ones
+        built into Hibernate Validator:
+    </para>
+
+    <programlisting><![CDATA[public class Location {
+    private String country;
+    private String zip;
+    
+    @Country
+    public String getCountry() { return country; }
+    public void setCountry(String c) { country = c; }
+
+    @ZipCode
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}]]></programlisting>
+    
+    <para>
+        Whichever route we take, we no longer need to specify the
+        type of validation to be used in the JSF page. Instead, we
+        can use <literal>&lt;s:validate&gt;</literal> to validate
+        against the constraint defined on the model object.
+    </para>
+    
+    <programlisting><![CDATA[<h:form>
+    <div>
+        <h:messages/>
+    </div>
+    <div>
+        Country:
+        <h:inputText value="#{location.country}">
+            <s:validate/>
+        </h:inputText>
+    </div>
+    <div>
+        Zip code:
+        <h:inputText value="#{location.zip}">
+            <s:validate/>
+        </h:inputText>
+    </div>
+    <div>
+        <h:commandButton/>
+    </div>
+</h:form>]]></programlisting>
+
+     <para>
+         This is not much less verbose than what we started with, so
+         let's try <literal>&lt;s:validateAll&gt;</literal>:
+     </para>
+
+    <programlisting><![CDATA[<h:form>
+    <div>
+        <h:messages/>
+    </div>
+    <s:validateAll>
+        <div>
+            Country:
+            <h:inputText value="#{location.country}"/>
+        </div>
+        <div>
+            Zip code:
+            <h:inputText value="#{location.zip}"/>
+        </div>
+        <div>
+            <h:commandButton/>
+        </div>
+    </s:validateAll>
+</h:form>]]></programlisting>
+     
+     <para>
+         This tag simply adds an <literal>&lt;s:validate&gt;</literal>
+         to every input in the form.
+     </para>
+
+     <para>
+         Now we need to do something about displaying feedback to the 
+         user when validation fails. Currently we are displaying all
+         messages at the top of the form. What we would really like to
+         do is display the message next to the field with the error
+         (this is possible in plain JSF), highlight the field (this
+         is not possible) and, for good measure, display some image
+         next the the field (also not possible).
+     </para>
+     
+     <para>
+         Let's try out <literal>&lt;s:decorate&gt;</literal>:
+     </para>
+
+    <programlisting><![CDATA[<h:form>
+    <div>
+        <h:messages globalOnly="true"/>
+    </div>
+    <s:validateAll>
+        <div>
+            Country:
+            <s:decorate>
+                <f:facet name="beforeInvalidField"><h:graphicImage src="img/error.gif"/></f:facet>
+                <f:facet name="afterInvalidField"><s:message/></f:facet>
+                <f:facet name="aroundInvalidField"><s:span class="error"/></f:facet>
+                <h:inputText value="#{location.country}"/>
+            </s:decorate>
+        </div>
+        <div>
+            Zip code:
+            <s:decorate>
+                <f:facet name="beforeInvalidField"><h:graphicImage src="img/error.gif"/></f:facet>
+                <f:facet name="afterInvalidField"><s:message/></f:facet>
+                <f:facet name="aroundInvalidField"><s:span class="error"/></f:facet>
+                <h:inputText value="#{location.zip}"/>
+            </s:decorate>
+        </div>
+        <div>
+            <h:commandButton/>
+        </div>
+    </s:validateAll>
+</h:form>]]></programlisting>
+
+    <para>
+        Well, that looks much better to the user, but it is extremely verbose. Fortunately,
+        the facets of <literal>&lt;s:decorate&gt;</literal> may be defined on any parent
+        element:
+    </para>
+     
+    <programlisting><![CDATA[<h:form>
+    <f:facet name="beforeInvalidField">
+        <h:graphicImage src="img/error.gif"/>
+    </f:facet>
+    <f:facet name="afterInvalidField">
+        <s:message/>
+    </f:facet>
+    <f:facet name="aroundInvalidField">
+        <s:span class="error"/>
+    </f:facet>
+    <div>
+        <h:messages globalOnly="true"/>
+    </div>
+    <s:validateAll>
+        <div>
+            Country:
+            <s:decorate>
+                <h:inputText value="#{location.country}"/>
+            </s:decorate>
+        </div>
+        <div>
+            Zip code:
+            <s:decorate>
+                <h:inputText value="#{location.zip}"/>
+            </s:decorate>
+        </div>
+        <div>
+            <h:commandButton/>
+        </div>
+    </s:validateAll>
+</h:form>]]></programlisting>
+
+    <para>
+        This approach <emphasis>defines</emphasis> constraints on the model, and 
+        <emphasis>presents</emphasis> constraint violations in the view&mdash;a
+        significantly better design.
+    </para>
+    
+    <para>
+        Finally, we can use Ajax4JSF to display validation messages as the user is 
+        typing:
+    </para>
+
+    <programlisting><![CDATA[<h:form>
+    <f:facet name="beforeInvalidField">
+        <h:graphicImage src="img/error.gif"/>
+    </f:facet>
+    <f:facet name="aroundInvalidField">
+        <s:span class="error"/>
+    </f:facet>
+    <div>
+        <h:messages globalOnly="true"/>
+    </div>
+    <s:validateAll>
+        <div>
+            Country:
+            <s:decorate>
+                <h:inputText value="#{location.country}" id="country">
+                    <a:support event="onblur" reRender="countryError"/>
+                </h:inputText>
+                <a:outputPanel id="countryError><s:message/></a:outputPanel>
+            </s:decorate>
+        </div>
+        <div>
+            Zip code:
+            <s:decorate>
+                <h:inputText value="#{location.zip}">
+                    <a:support event="onblur" reRender="zipError"/>
+                </h:inputText>
+                <a:outputPanel id="zipError><s:message/></a:outputPanel>
+            </s:decorate>
+        </div>
+        <div>
+            <h:commandButton/>
+        </div>
+    </s:validateAll>
+</h:form>]]></programlisting>
+
+</chapter>
