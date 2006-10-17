@@ -853,7 +853,8 @@ Seam.Remoting.displayLoadingMessage = function()
 
 Seam.Remoting.hideLoadingMessage = function()
 {
-  Seam.Remoting.loadingMsgDiv.style.visibility = 'hidden';
+  if (Seam.Remoting.loadingMsgDiv)
+    Seam.Remoting.loadingMsgDiv.style.visibility = 'hidden';
 }
 
 /* Messaging API */
