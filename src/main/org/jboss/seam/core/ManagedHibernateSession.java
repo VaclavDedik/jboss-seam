@@ -4,6 +4,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class ManagedHibernateSession
    private String sessionFactoryJndiName;
    private String componentName;
    private ValueBinding<SessionFactory> sessionFactory;
-   private List<Filter> filters;
+   private List<Filter> filters = new ArrayList<Filter>(0);
    
    public boolean clearDirty()
    {

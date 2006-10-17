@@ -1,15 +1,24 @@
 package org.jboss.seam.debug;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.core.ConversationEntries;
+import org.jboss.seam.core.ConversationEntry;
 
 @Name("org.jboss.seam.debug.contexts")
 @Scope(ScopeType.APPLICATION)
 public class Contexts 
 {
+   public List<ConversationEntry> getConversationEntries()
+   {
+      return new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
+   }
+   
    public String[] getApplication()
    {
       String[] names = org.jboss.seam.contexts.Contexts.getApplicationContext().getNames();

@@ -4,6 +4,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -46,7 +47,7 @@ public class ManagedPersistenceContext
    private String persistenceUnitJndiName;
    private String componentName;
    private ValueBinding<EntityManagerFactory> entityManagerFactory;
-   private List<Filter> filters;
+   private List<Filter> filters = new ArrayList<Filter>(0);
   
    public boolean clearDirty()
    {
