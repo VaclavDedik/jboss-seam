@@ -6,10 +6,11 @@ import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.annotations.Permission;
 import org.jboss.seam.annotations.Secure;
-import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.AuthenticationException;
+import org.jboss.seam.security.SeamSecurityManager;
 
 /**
  * Provides authorization services for component invocations.
@@ -84,9 +85,19 @@ public class SecurityInterceptor extends AbstractInterceptor
       }
 
       // No roles match, check permissions
-      if (sec.permissions().length > 0)
+      try
       {
-//        SeamSecurityManager.instance().checkAcls();
+        if (sec.permissions().length > 0)
+        {
+          for (Permission p : sec.permissions())
+          {
+            SeamSecurityManager.instance().checkPermission(p.name(), p.action());
+          }
+        }
+      }
+      catch (SecurityException ex)
+      {
+        // Fall through to error page
       }
 
       // Authorization has failed.. redirect the user to an error page

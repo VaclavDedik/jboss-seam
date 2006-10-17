@@ -1,5 +1,7 @@
 package org.jboss.seam.security;
 
+import java.security.Permissions;
+
 import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -61,5 +63,27 @@ public class SeamSecurityManager
   public void setSecurityErrorAction(String securityErrorAction)
   {
     this.securityErrorAction = securityErrorAction;
+  }
+
+  public void checkPermission(String name, String action)
+      throws SecurityException
+  {
+
+  }
+
+  public void checkPermission(Object obj, String action)
+      throws SecurityException
+  {
+
+  }
+
+  public Permissions getPermissions(Object value)
+  {
+    return null;
+  }
+
+  public Permissions getPermissions(Object value, Authentication auth)
+  {
+    return null;
   }
 }
