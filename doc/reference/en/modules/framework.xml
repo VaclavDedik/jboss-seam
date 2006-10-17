@@ -83,6 +83,18 @@ public class PersonHome extends EntityHome<Person> {
             for queries.
         </para>
         
+        <para>
+            The Home and Query components are written so that they can function
+            with a scope of session, event or conversation. Which scope you
+            use depends upon the state model you wish to use in your application.
+        </para>
+
+        <para>
+            The Seam Application Framework only works with Seam-managed
+            persistence contexts. By default, the components will look
+            for a persistence context named <literal>entityManager</literal>.
+        </para>
+        
     </section>
     
     <section>
@@ -439,6 +451,51 @@ public class PersonHome extends EntityHome<Person> {
             reuse by extension is equally possible for Query objects.
         </para>
 
+    </section>
+    
+    <section>
+        <title>Using Hibernate filters</title>
+        
+        <para>
+            The coolest, and most unique, feature of Hibernate is <emphasis>filters</emphasis>.
+            Filters let you provide a restricted view of the data in the database. You can find 
+            out more about filters in the Hibernate documentation. But we thought we'd mention
+            an easy way to incorporate filters into a Seam application, one that works especially
+            well with the Seam Application Framework.
+        </para>
+        
+        <para>
+            Seam-managed persistence contexts may have a list of filters defined, which will be
+            enabled whenever an <literal>EntityManager</literal> or Hibernate <literal>Session</literal>
+            is first created. (Of course, they may only be used when Hibernate is the underlying
+            persistence provider.)
+        </para>
+        
+        <programlisting><![CDATA[<component name="regionFilter" 
+          class="org.jboss.seam.core.Filter">
+    <property name="name">region</property>
+    <property name="parameters">
+        <key>regionCode</key><value>#{region.code}</value>
+    </property>
+</component>
+
+component name="currentFilter" 
+          class="org.jboss.seam.core.Filter">
+    <property name="name">current</property>
+    <property name="parameters">
+        <key>date</key><value>#{currentDate}</value>
+    </property>
+</component>
+
+<component name="personDatabase"
+          class="org.jboss.seam.core.ManagedPersistenceContext">
+    <property name="persistenceUnitJndiName">java:/EntityManagerFactories/personDatabase</property>
+    <property name="filters">
+       <value>#{regionFilter}</value>
+       <value>#{currentFilter}</value>
+    </property>
+</component>]]></programlisting>
+        
     </section>
     
 </chapter>
