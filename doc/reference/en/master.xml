@@ -13,6 +13,7 @@
 <!ENTITY drools                 SYSTEM "modules/drools.xml">
 <!ENTITY validation             SYSTEM "modules/validation.xml">
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
+<!ENTITY framework              SYSTEM "modules/framework.xml">
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
 <!ENTITY controls               SYSTEM "modules/controls.xml">
@@ -244,6 +245,7 @@
     &drools;
     &validation;
     &configuration;
+    &framework;
     &annotations;
     &components;
     &controls;
