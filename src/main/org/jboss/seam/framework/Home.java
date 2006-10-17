@@ -1,6 +1,8 @@
 package org.jboss.seam.framework;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import javax.annotation.PostConstruct;
 
@@ -94,6 +96,19 @@ public class Home<E> extends AbstractMutable implements Serializable
 
    public Class<E> getEntityClass()
    {
+      if (entityClass==null)
+      {
+         Type type = getClass().getGenericSuperclass();
+         if (type instanceof ParameterizedType)
+         {
+            ParameterizedType paramType = (ParameterizedType) type;
+            entityClass = (Class<E>) paramType.getActualTypeArguments()[0];
+         }
+         else
+         {
+            throw new IllegalArgumentException("Could not guess entity class by reflection");
+         }
+      }
       return entityClass;
    }
 
