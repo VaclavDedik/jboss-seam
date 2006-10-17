@@ -15,12 +15,12 @@ public class EnumerationEnumeration<T> implements Enumeration<T>
 
    public boolean hasMoreElements()
    {
-      return more() || currentHasMoreElements();
+      return loc < enumerations.length-1 || currentHasMoreElements();
    }
 
    public T nextElement()
    {
-      while ( more() )
+      while ( loc < enumerations.length )
       {
          if ( currentHasMoreElements() )
          {
@@ -32,11 +32,6 @@ public class EnumerationEnumeration<T> implements Enumeration<T>
          }
       }
       throw new NoSuchElementException();
-   }
-
-   private boolean more()
-   {
-      return loc<enumerations.length;
    }
 
    private T currentNextElement()
