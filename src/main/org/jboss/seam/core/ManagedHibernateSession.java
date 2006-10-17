@@ -4,6 +4,8 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
@@ -47,6 +49,7 @@ public class ManagedHibernateSession
    private String sessionFactoryJndiName;
    private String componentName;
    private ValueBinding<SessionFactory> sessionFactory;
+   private List<Filter> filters;
    
    public boolean clearDirty()
    {
@@ -75,6 +78,20 @@ public class ManagedHibernateSession
    {
       session = getSessionFactoryFromJndiOrValueBinding().openSession();
       setFlushMode( PersistenceContexts.instance().getFlushMode() );
+      for (Filter f: filters)
+      {
+         enableFilter(f);
+      }
+   }
+
+   private void enableFilter(Filter f)
+   {
+      org.hibernate.Filter filter = session.enableFilter( f.getName() );
+      for ( Map.Entry<String, ValueBinding> me: f.getParameters().entrySet() )
+      {
+         filter.setParameter( me.getKey(), me.getValue().getValue() );
+      }
+      filter.validate();
    }
    
    @Unwrap
@@ -183,6 +200,19 @@ public class ManagedHibernateSession
    public ValueBinding<SessionFactory> getSessionFactory()
    {
       return sessionFactory;
+   }
+
+   /**
+    * Hibernate filters to enable automatically
+    */
+   public List<Filter> getFilters()
+   {
+      return filters;
+   }
+
+   public void setFilters(List<Filter> filters)
+   {
+      this.filters = filters;
    }
 
    public String toString()

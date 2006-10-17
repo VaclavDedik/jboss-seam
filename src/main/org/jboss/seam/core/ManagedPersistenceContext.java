@@ -4,6 +4,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
@@ -45,7 +46,8 @@ public class ManagedPersistenceContext
    private String persistenceUnitJndiName;
    private String componentName;
    private ValueBinding<EntityManagerFactory> entityManagerFactory;
-   
+   private List<Filter> filters;
+  
    public boolean clearDirty()
    {
       return true;
@@ -81,6 +83,10 @@ public class ManagedPersistenceContext
    {
       entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();      
       setFlushMode( PersistenceContexts.instance().getFlushMode() );
+      for (Filter f: filters)
+      {
+         PersistenceProvider.instance().enableFilter(f, entityManager);
+      }
    }
 
    @Unwrap
@@ -171,6 +177,19 @@ public class ManagedPersistenceContext
 
    public String getComponentName() {
       return componentName;
+   }
+
+   /**
+    * Hibernate filters to enable automatically
+    */
+   protected List<Filter> getFilters()
+   {
+      return filters;
+   }
+
+   protected void setFilters(List<Filter> filters)
+   {
+      this.filters = filters;
    }
 
    public void setFlushMode(org.jboss.seam.annotations.FlushModeType flushMode)

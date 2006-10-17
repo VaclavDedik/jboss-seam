@@ -1,5 +1,7 @@
 package org.jboss.seam.persistence;
 
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 
 import org.hibernate.FlushMode;
@@ -9,6 +11,8 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.core.Filter;
+import org.jboss.seam.core.Expressions.ValueBinding;
 
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
@@ -16,19 +20,38 @@ import org.jboss.seam.annotations.Scope;
 public class HibernatePersistenceProvider extends PersistenceProvider
 {
 
+   @Override
    public void setFlushModeManual(EntityManager entityManager)
    {
-      ( (Session) entityManager.getDelegate() ).setFlushMode(FlushMode.NEVER);
+      getSession(entityManager).setFlushMode(FlushMode.NEVER);
    }
 
+   @Override
    public boolean isDirty(EntityManager entityManager)
    {
-      return ( (Session) entityManager.getDelegate() ).isDirty();
+      return getSession(entityManager).isDirty();
    }
 
+   @Override
    public Object getId(Object bean, EntityManager entityManager) 
    {
-      return ( (Session) entityManager.getDelegate() ).getIdentifier(bean);
+      return getSession(entityManager).getIdentifier(bean);
+   }
+
+   @Override
+   public void enableFilter(Filter f, EntityManager entityManager)
+   {
+      org.hibernate.Filter filter = getSession(entityManager).enableFilter( f.getName() );
+      for ( Map.Entry<String, ValueBinding> me: f.getParameters().entrySet() )
+      {
+         filter.setParameter( me.getKey(), me.getValue().getValue() );
+      }
+      filter.validate();
+   }
+   
+   private Session getSession(EntityManager entityManager)
+   {
+      return (Session) entityManager.getDelegate();
    }
 
 }
