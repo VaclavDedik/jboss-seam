@@ -4,10 +4,13 @@ import java.lang.reflect.Method;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Permission;
 import org.jboss.seam.annotations.Secure;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.SeamSecurityManager;
@@ -22,6 +25,8 @@ import org.jboss.seam.security.SeamSecurityManager;
              within = BijectionInterceptor.class)
 public class SecurityInterceptor extends AbstractInterceptor
 {
+  private static final Log log = LogFactory.getLog(SecurityInterceptor.class);
+
   public static boolean isComponentSecure(Component component)
   {
     if (component.getBeanClass().isAnnotationPresent(Secure.class))
@@ -97,6 +102,8 @@ public class SecurityInterceptor extends AbstractInterceptor
       }
       catch (SecurityException ex)
       {
+        log.info(ex.getMessage());
+        FacesMessages.instance().add(ex.getMessage());
         // Fall through to error page
       }
 
