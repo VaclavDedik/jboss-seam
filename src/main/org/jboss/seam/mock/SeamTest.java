@@ -213,7 +213,7 @@ public class SeamTest
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
 
-         if ( !isGetRequest() )
+         if ( !isGetRequest() && !skipToRender() )
          {
          
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE) );
@@ -221,34 +221,46 @@ public class SeamTest
             applyRequestValues();
       
             phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE) );
-            phases.beforePhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
             
-            processValidations();
-            
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
-
-            if ( !FacesContext.getCurrentInstance().getRenderResponse() )
+            if ( !skipToRender() )
             {
-         
-               phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
+            
+               phases.beforePhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
                
-               updateModelValues();
-         
-               phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
-               phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
+               processValidations();
                
-               invokeApplication();
+               phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
+   
+               if ( !skipToRender() )
+               {
+            
+                  phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
+                  
+                  updateModelValues();
+            
+                  phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
+   
+                  if ( !skipToRender() )
+                  {
                
-               String outcome = getInvokeApplicationOutcome();
-               facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
-         
-               phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
+                     phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
+                  
+                     invokeApplication();
+                  
+                     String outcome = getInvokeApplicationOutcome();
+                     facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+            
+                     phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
+                     
+                  }
+                  
+               }
                
             }
             
          }
          
-         if ( !FacesContext.getCurrentInstance().getResponseComplete() )
+         if ( !skipRender() )
          {
          
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE) );
@@ -278,6 +290,17 @@ public class SeamTest
          }
 
          return conversationId;
+      }
+
+      private boolean skipRender()
+      {
+         return FacesContext.getCurrentInstance().getResponseComplete();
+      }
+
+      protected boolean skipToRender()
+      {
+         return FacesContext.getCurrentInstance().getRenderResponse() || 
+               FacesContext.getCurrentInstance().getResponseComplete();
       }
       
    }

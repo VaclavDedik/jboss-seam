@@ -21,7 +21,7 @@ import org.jboss.seam.contexts.Contexts;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Name("oeg.jboss.seam.core.safeActions")
+@Name("org.jboss.seam.core.safeActions")
 public class SafeActions
 {
    
