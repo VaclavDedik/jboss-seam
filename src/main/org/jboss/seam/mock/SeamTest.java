@@ -22,7 +22,6 @@ import javax.transaction.UserTransaction;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
@@ -196,15 +195,14 @@ public class SeamTest
          externalContext = new MockExternalContext(servletContext, session);
          facesContext = new MockFacesContext( externalContext, application );
          facesContext.setCurrent();
-         Map attributes = facesContext.getViewRoot().getAttributes();
+         Map viewRootAttributes = facesContext.getViewRoot().getAttributes();
          
          if ( !isGetRequest() && conversationId!=null ) 
          {
-            if ( conversationStates.containsKey( conversationId ) )
+            if ( conversationStates.containsKey(conversationId) )
             {
-               attributes.putAll(
-                       conversationStates.get( conversationId ).state
-                  );
+               Map state = conversationStates.get(conversationId).state;
+               viewRootAttributes.putAll(state);
             }
          }
                   
@@ -271,13 +269,12 @@ public class SeamTest
             
          }
 
-         Map pageContextMap = (Map) attributes.get( ScopeType.PAGE.getPrefix() );
-         if (pageContextMap!=null)
+         if (viewRootAttributes!=null)
          {
-            conversationId = (String) pageContextMap.get(Manager.CONVERSATION_ID);
+            conversationId = (String) viewRootAttributes.get(Manager.CONVERSATION_ID);
             ConversationState conversationState = new ConversationState();
-            conversationState.state.putAll( attributes );
-            conversationStates.put( conversationId, conversationState );
+            conversationState.state.putAll( viewRootAttributes );
+            conversationStates.put(conversationId, conversationState);
          }
 
          return conversationId;
