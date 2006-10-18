@@ -73,6 +73,11 @@ public class SubscriptionRegistry
     this.allowedTopics = allowedTopics;
   }
 
+  public String getConnectionProvider()
+  {
+    return connectionProvider;
+  }
+
   public void setConnectionProvider(String connectionProvider)
   {
     this.connectionProvider = connectionProvider;
