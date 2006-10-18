@@ -2,7 +2,6 @@
 package org.jboss.seam.test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import javax.faces.event.PhaseId;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -146,7 +144,6 @@ public class PhaseListenerTest
             new Component(Pages.class) 
          );
       
-      setupPageMap(facesContext);
       getPageMap(facesContext).put(Manager.CONVERSATION_ID, "2");
       
       List<String> conversationIdStack = new ArrayList<String>();
@@ -209,14 +206,9 @@ public class PhaseListenerTest
       assert !Contexts.isConversationContextActive();
    }
 
-   private void setupPageMap(MockFacesContext facesContext)
-   {
-      facesContext.getViewRoot().getAttributes().put(ScopeType.PAGE.getPrefix(), new HashMap());
-   }
-
    private Map getPageMap(MockFacesContext facesContext)
    {
-      return ( (Map) facesContext.getViewRoot().getAttributes().get(ScopeType.PAGE.getPrefix()) );
+      return (Map) facesContext.getViewRoot().getAttributes();
    }
 
    @Test
@@ -294,7 +286,7 @@ public class PhaseListenerTest
       
       facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
       
-      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert facesContext.getViewRoot().getAttributes().size()==2;
 
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
 
