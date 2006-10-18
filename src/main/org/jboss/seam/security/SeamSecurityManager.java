@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.DefinePermissions;
+import org.jboss.seam.annotations.PermissionProvider;
 
 /**
  * Holds configuration settings and provides functionality for the security API
@@ -43,7 +44,7 @@ public class SeamSecurityManager
 
   private class PermissionsMetadata {
     private String name;
-    private Map<String,String> providers;
+    private Map<String,String> providerNames;
 
     public PermissionsMetadata(String name)
     {
@@ -57,12 +58,12 @@ public class SeamSecurityManager
 
     public String getProviderName(String action)
     {
-      return providers.get(action);
+      return providerNames.get(action);
     }
 
-    public void addProvider(String action, String providerName)
+    public void addProviderName(String action, String providerName)
     {
-      providers.put(action, providerName);
+      providerNames.put(action, providerName);
     }
   }
 
@@ -109,7 +110,24 @@ public class SeamSecurityManager
   }
 
   public void checkPermission(String name, String action)
-      throws SecurityException
+  {
+    checkPermission(name, action, null, null);
+  }
+
+  public void checkPermission(Object obj, String action)
+  {
+    PermissionsMetadata meta = getClassPermissionMetadata(obj.getClass());
+
+    String providerName = meta.getProviderName(action);
+    Object provider = null;
+
+    if (providerName != null && !"".equals(providerName))
+      provider = Component.getInstance(providerName, true);
+
+    checkPermission(meta.getName(), action, obj, provider);
+  }
+
+  private void checkPermission(String name, String action, Object obj, Object aclProvider)
   {
     for (String role : Authentication.instance().getRoles())
     {
@@ -119,7 +137,12 @@ public class SeamSecurityManager
         for (SeamPermission p : permissions)
         {
           if (p.getName().equals(name) && p.containsAction(action))
-            return;
+          {
+            if (aclProvider == null)
+              return;
+
+
+          }
         }
       }
     }
@@ -127,12 +150,6 @@ public class SeamSecurityManager
     throw new SecurityException(String.format(
       "Authenticated principal does not contain required permission [name=%s,action=%s]",
       name, action));
-  }
-
-  public void checkPermission(Object obj, String action)
-      throws SecurityException
-  {
-    PermissionsMetadata meta = getClassPermissionMetadata(obj.getClass());
   }
 
   private PermissionsMetadata getClassPermissionMetadata(Class cls)
@@ -149,8 +166,12 @@ public class SeamSecurityManager
 
           String name = null;
 
-          if (cls.isAnnotationPresent(DefinePermissions.class) &&
-              !"".equals(((DefinePermissions) cls.getAnnotation(DefinePermissions.class)).name()))
+          DefinePermissions def = null;
+
+          if (cls.isAnnotationPresent(DefinePermissions.class))
+            def = (DefinePermissions) cls.getAnnotation(DefinePermissions.class);
+
+          if (def != null && !"".equals(def.name()))
           {
             name = ((DefinePermissions) cls.getAnnotation(DefinePermissions.class)).name();
           }
@@ -160,6 +181,21 @@ public class SeamSecurityManager
           if (name == null)
             name = cls.getName();
 
+          PermissionsMetadata meta = new PermissionsMetadata(name);
+
+          if (def != null)
+          {
+            for (PermissionProvider p : def.permissions())
+            {
+              for (String action : p.actions().split("[,]"))
+              {
+                meta.addProviderName(action.trim(), p.provider());
+              }
+            }
+          }
+
+          classPermissions.put(cls, meta);
+          return meta;
         }
       }
     }

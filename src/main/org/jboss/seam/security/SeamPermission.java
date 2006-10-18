@@ -1,17 +1,18 @@
 package org.jboss.seam.security;
 
-import java.security.Permission;
+import java.security.acl.Permission;
 import java.util.Arrays;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents permissions for a Seam component.
  *
  * @author Shane Bryzak
  */
-public class SeamPermission extends Permission
+public class SeamPermission implements Permission
 {
+  private String name;
   private String actions;
 
   private Set<String> actionSet = new HashSet<String>();
@@ -22,7 +23,10 @@ public class SeamPermission extends Permission
    */
   public SeamPermission(String name, String actions)
   {
-    super(name);
+    if (name == null || "".equals(name.trim()))
+      throw new IllegalArgumentException("Permission name is required");
+
+    this.name = name;
 
     String[] parts = actions.split(",");
     Arrays.sort(parts);
@@ -40,9 +44,9 @@ public class SeamPermission extends Permission
     this.actions = sorted.toString();
   }
 
-  public boolean implies(Permission permission)
+  public String getName()
   {
-    return false;
+    return name;
   }
 
   public String getActions()
@@ -68,11 +72,11 @@ public class SeamPermission extends Permission
 
     SeamPermission other = (SeamPermission) obj;
 
-    return other.getName().equals(getName()) && other.actions.equals(this.actions);
+    return other.name.equals(name) && other.actions.equals(this.actions);
   }
 
   public int hashCode()
   {
-    return (getName().hashCode() * 11) ^ (actions.hashCode() * 13);
+    return (name.hashCode() * 11) ^ (actions.hashCode() * 13);
   }
 }
