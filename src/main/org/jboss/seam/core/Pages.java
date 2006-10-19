@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
@@ -200,7 +201,18 @@ public class Pages
    private Page getPage(String viewId)
    {
       Page result = pagesByViewId.get(viewId);
+      if (result==null)
+      {
+         //workaround for what I believe is a bug in the JSF RI
+         result = pagesByViewId.get( replaceExtension(viewId) );
+      }
       return result==null ? new Page(viewId) : result;
+   }
+   
+   private static String replaceExtension(String viewId)
+   {
+      int loc = viewId.lastIndexOf('.');
+      return loc<0 ? null : viewId.substring(0, loc) + getSuffix();
    }
    
    public boolean hasDescription(String viewId)
@@ -434,6 +446,14 @@ public class Pages
             Contexts.getPageContext().set(PAGE_PARAMETERS, parameters);
          }
       }
+   }
+
+   public static String getSuffix()
+   {
+      String defaultSuffix = FacesContext.getCurrentInstance().getExternalContext()
+            .getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
+      return defaultSuffix == null ? ViewHandler.DEFAULT_SUFFIX : defaultSuffix;
+   
    }
 
 }

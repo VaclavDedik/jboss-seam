@@ -2,7 +2,6 @@ package org.jboss.seam.servlet;
 
 import java.io.IOException;
 
-import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -74,7 +73,7 @@ public class SeamRedirectFilter implements Filter
          String extension = servletPath.substring( servletPath.indexOf('.') );
          if ( url.endsWith(extension) || url.contains(extension + '?') )
          {
-            String suffix = getSuffix();
+            String suffix = Pages.getSuffix();
             return url.substring(contextPath.length(), getParamLoc(url) - suffix.length() + 1) + suffix;
          }
          else
@@ -93,13 +92,5 @@ public class SeamRedirectFilter implements Filter
       int loc = url.indexOf('?');
       if (loc<0) loc = url.length();
       return loc;
-   }
-   
-   public static String getSuffix()
-   {
-      String defaultSuffix = FacesContext.getCurrentInstance().getExternalContext()
-            .getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
-      return defaultSuffix == null ? ViewHandler.DEFAULT_SUFFIX : defaultSuffix;
-
    }
 }
