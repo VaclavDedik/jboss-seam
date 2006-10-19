@@ -178,6 +178,23 @@ public class Reflections
       throw new IllegalArgumentException("no such setter method: " + clazz.getName() + '.' + name);
    }
    
+   public static Method getGetterMethod(Class clazz, String name)
+   {
+      Method[] methods = clazz.getMethods();
+      for (Method method: methods)
+      {
+         String methodName = method.getName();
+         if ( methodName.matches("^(get|is).*") && method.getParameterTypes().length==0 )
+         {
+            if ( Introspector.decapitalize( methodName.substring(3) ).equals(name) )
+            {
+               return method;
+            }
+         }
+      }
+      throw new IllegalArgumentException("no such getter method: " + clazz.getName() + '.' + name);
+   }
+   
    public static Field getField(Class clazz, String name)
    {
       for ( Class superClass = clazz; superClass!=Object.class; superClass=superClass.getSuperclass() )
