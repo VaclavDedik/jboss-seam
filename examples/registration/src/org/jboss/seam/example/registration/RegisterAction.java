@@ -32,7 +32,8 @@ public class RegisterAction implements Register
       List existing = em.createQuery("select u.username from User u where u.username=:username")
          .setParameter("username", user.getUsername())
          .getResultList();
-      if (existing.size()==0)
+      
+      if ( existing.size()==0 )
       {
          em.persist(user);
          log.info("Registered new user #{user.username}");
