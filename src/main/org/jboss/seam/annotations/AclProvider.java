@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target(ANNOTATION_TYPE)
 @Retention(RUNTIME)
-public @interface PermissionProvider
+public @interface AclProvider
 {
   String actions();
   String provider();

@@ -17,5 +17,5 @@ import java.lang.annotation.Target;
 public @interface DefinePermissions
 {
   String name() default "";
-  PermissionProvider[] permissions() default {};
+  AclProvider[] permissions() default {};
 }

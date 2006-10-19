@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.DefinePermissions;
-import org.jboss.seam.annotations.PermissionProvider;
+import org.jboss.seam.annotations.AclProvider;
 
 /**
  * Holds configuration settings and provides functionality for the security API
@@ -185,7 +185,7 @@ public class SeamSecurityManager
 
           if (def != null)
           {
-            for (PermissionProvider p : def.permissions())
+            for (AclProvider p : def.permissions())
             {
               for (String action : p.actions().split("[,]"))
               {
