@@ -1,9 +1,6 @@
 package org.jboss.seam.security;
 
 import java.security.acl.Permission;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Represents permissions for a Seam component.
@@ -13,35 +10,20 @@ import java.util.Set;
 public class SeamPermission implements Permission
 {
   private String name;
-  private String actions;
+  private String action;
 
-  private Set<String> actionSet = new HashSet<String>();
   /**
    *
    * @param name String
    * @param actions String
    */
-  public SeamPermission(String name, String actions)
+  public SeamPermission(String name, String action)
   {
     if (name == null || "".equals(name.trim()))
       throw new IllegalArgumentException("Permission name is required");
 
     this.name = name;
-
-    String[] parts = actions.split(",");
-    Arrays.sort(parts);
-
-    StringBuilder sorted = new StringBuilder();
-    for (String action : parts)
-    {
-      actionSet.add(action);
-
-      if (sorted.length() > 0)
-        sorted.append(',');
-      sorted.append(action);
-    }
-
-    this.actions = sorted.toString();
+    this.action = action;
   }
 
   public String getName()
@@ -49,20 +31,14 @@ public class SeamPermission implements Permission
     return name;
   }
 
-  public String getActions()
+  public String getAction()
   {
-    return actions;
+    return action;
   }
 
-  /**
-   * Returns true if this permission contains the specified action.
-   *
-   * @param action String
-   * @return boolean
-   */
-  public boolean containsAction(String action)
+  public String toString()
   {
-    return actionSet.contains(action);
+    return String.format("[name=%s,action=%s]", name, action);
   }
 
   public boolean equals(Object obj)
@@ -72,11 +48,11 @@ public class SeamPermission implements Permission
 
     SeamPermission other = (SeamPermission) obj;
 
-    return other.name.equals(name) && other.actions.equals(this.actions);
+    return other.name.equals(name) && other.action.equals(this.action);
   }
 
   public int hashCode()
   {
-    return (name.hashCode() * 11) ^ (actions.hashCode() * 13);
+    return (name.hashCode() * 11) ^ (action.hashCode() * 13);
   }
 }

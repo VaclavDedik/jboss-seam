@@ -1,21 +1,23 @@
 package org.jboss.seam.security;
 
 import java.security.Permissions;
+import java.security.acl.Acl;
+import java.security.acl.Permission;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.Component;
+import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.DefinePermissions;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
-import org.jboss.seam.annotations.Intercept;
-import org.jboss.seam.InterceptionType;
-import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.DefinePermissions;
-import org.jboss.seam.annotations.AclProvider;
+import org.jboss.seam.security.acl.AclProvider;
 
 /**
  * Holds configuration settings and provides functionality for the security API
@@ -38,9 +40,9 @@ public class SeamSecurityManager
   private String securityErrorAction = "securityError";
 
   /**
-   * Maps roles to permissions
+   * Map roles to permissions
    */
-  private Map<String,Set<SeamPermission>> rolePermissions = new HashMap<String,Set<SeamPermission>>();
+  private Map<String,Set<Permission>> rolePermissions = new HashMap<String,Set<Permission>>();
 
   private class PermissionsMetadata {
     private String name;
@@ -124,32 +126,37 @@ public class SeamSecurityManager
     if (providerName != null && !"".equals(providerName))
       provider = Component.getInstance(providerName, true);
 
-    checkPermission(meta.getName(), action, obj, provider);
+    if (!AclProvider.class.isAssignableFrom(provider.getClass()))
+      throw new IllegalStateException(String.format(
+        "Provider [%s] not instance of AclProvider", provider.toString()));
+
+    checkPermission(meta.getName(), action, obj, (AclProvider) provider);
   }
 
-  private void checkPermission(String name, String action, Object obj, Object aclProvider)
+  private void checkPermission(String name, String action, Object obj, AclProvider aclProvider)
   {
+    Permission required = new SeamPermission(name, action);
+
     for (String role : Authentication.instance().getRoles())
     {
-      Set<SeamPermission> permissions = rolePermissions.get(role);
+      Set<Permission> permissions = rolePermissions.get(role);
       if (permissions != null)
       {
-        for (SeamPermission p : permissions)
+        if (permissions.contains(required))
         {
-          if (p.getName().equals(name) && p.containsAction(action))
-          {
-            if (aclProvider == null)
-              return;
+          if (aclProvider == null)
+            return;
 
-
-          }
+          Acl acl = aclProvider.getAcls(obj, Authentication.instance());
+          if (acl.checkPermission(Authentication.instance(), new SeamPermission(name, action)))
+            return;
         }
       }
     }
 
     throw new SecurityException(String.format(
-      "Authenticated principal does not contain required permission [name=%s,action=%s]",
-      name, action));
+      "Authenticated principal does not contain required permission %s",
+      required));
   }
 
   private PermissionsMetadata getClassPermissionMetadata(Class cls)
@@ -185,7 +192,7 @@ public class SeamSecurityManager
 
           if (def != null)
           {
-            for (AclProvider p : def.permissions())
+            for (org.jboss.seam.annotations.AclProvider p : def.permissions())
             {
               for (String action : p.actions().split("[,]"))
               {
