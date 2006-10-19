@@ -545,12 +545,11 @@ public interface Register
                 
         <example>
           <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4"
-    xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app version="2.5"
+    xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-                        http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+                        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
     <!-- Seam -->
 
@@ -617,8 +616,6 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 </faces-config>]]></programlisting>
         </example>
         
-        <indexterm><primary>phase listener</primary></indexterm>
-        
         <para>
             The <literal>faces-config.xml</literal> file integrates Seam into JSF. Note that we don't
             need any JSF managed bean declarations! The managed beans are the Seam components. In Seam 
@@ -650,13 +647,24 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
             in the archive.
         </para>
 
-        <programlisting><![CDATA[<ejb-jar>
+        <programlisting><![CDATA[<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+         version="3.0">
+         
+   <interceptors>
+     <interceptor>
+       <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+     </interceptor>
+   </interceptors>
+   
    <assembly-descriptor>
       <interceptor-binding>
          <ejb-name>*</ejb-name>
          <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
       </interceptor-binding>
    </assembly-descriptor>
+   
 </ejb-jar>]]></programlisting>
 
       </section>
@@ -759,9 +767,6 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 
       <section>
         <title>The EAR deployment descriptor: <literal>application.xml</literal></title>
-        
-        <indexterm><primary>application.xml</primary></indexterm>
-        <indexterm><primary>descriptor file</primary><secondary>application.xml</secondary></indexterm>
         
         <para>
             Finally, since our application is deployed as an EAR, we need a deployment descriptor
@@ -2203,6 +2208,11 @@ public class NumberGuess {
         </para>
         
         <para>
+            The booking example also demonstrates the use of Ajax4JSF to implement rich client behavior
+            without the use of handwritten JavaScript.
+        </para>
+        
+        <para>
             The search functionality is implemented using a session-scope stateful session bean, 
             similar to the one we saw in the message list example above.
         </para>
@@ -2212,14 +2222,14 @@ public class NumberGuess {
                 <areaspec>
                     <area id="booking-stateful-annotation" coords="1"/>
                     <area id="booking-custom-annotation" coords="4"/>
-                    <area id="booking-datamodel-annotation" coords="14"/>
-                    <area id="booking-datamodelselection-annotation" coords="16"/>
-                    <area id="booking-destroy-annotation" coords="53"/>
+                    <area id="booking-datamodel-annotation" coords="16"/>
+                    <area id="booking-destroy-annotation" coords="66"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
 @LoggedIn
+@Synchronized
 public class HotelSearchingAction implements HotelSearching
 {
    
@@ -2228,28 +2238,40 @@ public class HotelSearchingAction implements HotelSearching
    
    private String searchString;
    private int pageSize = 10;
+   private int page;
    
    @DataModel
    private List<Hotel> hotels;
-   @DataModelSelection
-   private Hotel selectedHotel;
    
    public String find()
    {
-      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
-      hotels = em.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
-            .setParameter("search", searchPattern)
-            .setMaxResults(pageSize)
-            .getResultList();
-      
+      page = 0;
+      queryHotels();   
       return "main";
    }
-   
-   public Hotel getSelectedHotel()
+
+   public String nextPage()
    {
-      return selectedHotel;
+      page++;
+      queryHotels();
+      return "main";
    }
       
+   private void queryHotels()
+   {
+      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
+      hotels = em.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
+            .setParameter("search", searchPattern)
+            .setMaxResults(pageSize)
+            .setFirstResult( page * pageSize )
+            .getResultList();
+   }
+   
+   public boolean isNextPageAvailable()
+   {
+      return hotels!=null && hotels.size()==pageSize;
+   }
+   
    public int getPageSize() {
       return pageSize;
    }
@@ -2296,13 +2318,6 @@ public class HotelSearchingAction implements HotelSearching
                         in the conversation variable named <literal>hotels</literal>.
                     </para>
                 </callout>
-                <callout arearefs="booking-datamodelselection-annotation">
-                    <para>
-                        The <link linkend="datamodelselection-annotation"><literal>@DataModelSelection</literal></link> 
-                        annotation defines a field or setter as holding the selected row for the
-                        corresponding <literal>@DataModel</literal> property.
-                    </para>
-                </callout>
                 <callout arearefs="booking-destroy-annotation">
                     <para>
                         The EJB standard <literal>@Remove</literal> annotation specifies that a stateful
@@ -2322,27 +2337,147 @@ public class HotelSearchingAction implements HotelSearching
         </example>
         
         <para>
-            Now lets see how the booking example application uses a conversation-scoped stateful session
-            bean to achieve a natural cache of persistent data related to the conversation. The following
-            code example is pretty long. But if you think of it as a list of scripted actions that
-            implement the various steps of the conversation, it's understandable. Read the class from top 
-            to bottom, as if it were a story.
-            
+            The main page of the application is a Facelets page. Let's look at the fragment which relates
+            to searching for hotels:
         </para>
         
         <example>
             <programlistingco>
                 <areaspec>
-                    <area id="booking-conversational-annotation" coords="3"/>
-                    <area id="booking-extendedpersistencecontext-annotation" coords="8"/>
-                    <area id="booking-out-annotation" coords="11"/>
-                    <area id="booking-begin-annotation" coords="31"/>
-                    <area id="booking-end-annotation" coords="64"/>
-                    <area id="booking-dest-annotation" coords="80"/>
+                    <area id="booking-support-element" coords="11"/>
+                    <area id="booking-status-element" coords="18"/>
+                    <area id="booking-outputpanel-element" coords="35"/>
+                    <area id="booking-link-element" coords="58"/>
+                </areaspec>
+            <programlisting><![CDATA[<div class="section">
+<h:form>
+  
+  <span class="errors">
+    <h:messages globalOnly="true"/>
+  </span>
+    
+  <h1>Search Hotels</h1>
+  <fieldset> 
+     <h:inputText value="#{hotelSearch.searchString}" style="width: 165px;">
+        <a:support event="onkeyup" actionListener="#{hotelSearch.find}" 
+                   reRender="searchResults" />
+     </h:inputText>
+     &#160;
+     <a:commandButton value="Find Hotels" action="#{hotelSearch.find}" 
+                      styleClass="button" reRender="searchResults"/>
+     &#160;
+     <a:status>
+        <f:facet name="start">
+           <h:graphicImage value="/img/spinner.gif"/>
+        </f:facet>
+     </a:status>
+     <br/>
+     <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
+     <h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
+        <f:selectItem itemLabel="5" itemValue="5"/>
+        <f:selectItem itemLabel="10" itemValue="10"/>
+        <f:selectItem itemLabel="20" itemValue="20"/>
+     </h:selectOneMenu>
+  </fieldset>
+    
+</h:form>
+</div>
+
+<a:outputPanel id="searchResults">
+  <div class="section">
+  <h:outputText value="No Hotels Found" 
+                rendered="#{hotels != null and hotels.rowCount==0}"/>
+  <h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
+    <h:column>
+      <f:facet name="header">Name</f:facet>
+      #{hot.name}
+    </h:column>
+    <h:column>
+      <f:facet name="header">Address</f:facet>
+      #{hot.address}
+    </h:column>
+    <h:column>
+      <f:facet name="header">City, State</f:facet>
+      #{hot.city}, #{hot.state}, #{hot.country}
+    </h:column> 
+    <h:column>
+      <f:facet name="header">Zip</f:facet>
+      #{hot.zip}
+    </h:column>
+    <h:column>
+      <f:facet name="header">Action</f:facet>
+      <s:link value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
+    </h:column>
+  </h:dataTable>
+  <s:link value="More results" action="#{hotelSearch.nextPage}" 
+          rendered="#{hotelSearch.nextPageAvailable}"/>
+  </div>
+</a:outputPanel>]]></programlisting>
+            <calloutlist>
+                <callout arearefs="booking-support-element">
+                    <para>
+                        The Ajax4JSF <literal>&lt;a:support&gt;</literal> tag allows a JSF action event
+                        listener to be called by asynchronous <literal>XMLHttpRequest</literal> when
+                        a JavaScript event like <literal>onkeyup</literal> occurs. Even better, the
+                        <literal>reRender</literal> attribute lets us render a fragment of the JSF
+                        page and perform a partial page update when the asynchronous response is
+                        received.
+                    </para>
+                </callout>
+                <callout arearefs="booking-status-element">
+                    <para>
+                        The Ajax4JSF <literal>&lt;a:status&gt;</literal> tag lets us display a cheesy
+                        annimated image while we wait for asynchronous requests to return.
+                    </para>
+                </callout>
+                <callout arearefs="booking-outputpanel-element">
+                    <para>
+                        The Ajax4JSF <literal>&lt;a:outputPanel&gt;</literal> tag defines a region of
+                        the page which can be re-rendered by an asynchronous request.
+                    </para>
+                </callout>
+                <callout arearefs="booking-link-element">
+                    <para>
+                        The Seam <literal>&lt;s:link&gt;</literal> tag lets us attach a JSF action 
+                        listener to an ordinary (non-JavaScript) HTML link. The advantage of this
+                        over the standard JSF <literal>&lt;h:commandLink&gt;</literal> is that it
+                        preserves the operation of "open in new window" and "open in new tab". Also
+                        notice that we use a method binding with a parameter: 
+                        <literal>#{hotelBooking.selectHotel(hot)}</literal>. This is not possible
+                        in the standard Unified EL, but Seam provides an extension to the EL that
+                        lets you use parameters on any method binding expression.
+                    </para>
+                </callout>
+            </calloutlist>
+            </programlistingco>
+        </example>
+        
+        <para>
+            This page displays the search results dynamically as we type, and lets us choose a hotel
+            and pass it to the <literal>selectHotel()</literal> method of the 
+            <literal>HotelBookingAction</literal>, which is where the <emphasis>really</emphasis>
+            interesting stuff is going to happen.
+        </para>
+        
+        <para>
+            Now lets see how the booking example application uses a conversation-scoped stateful session
+            bean to achieve a natural cache of persistent data related to the conversation. The following
+            code example is pretty long. But if you think of it as a list of scripted actions that
+            implement the various steps of the conversation, it's understandable. Read the class from top 
+            to bottom, as if it were a story.
+        </para>
+        
+        <example>
+            <programlistingco>
+                <areaspec>
+                    <area id="booking-extendedpersistencecontext-annotation" coords="7"/>
+                    <area id="booking-out-annotation" coords="10"/>
+                    <area id="booking-begin-annotation" coords="29"/>
+                    <area id="booking-end-annotation" coords="61"/>
+                    <area id="booking-dest-annotation" coords="78"/>
                 </areaspec>    
             <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
-@Conversational(ifNotBegunOutcome="main")
 @LoggedIn
 public class HotelBookingAction implements HotelBooking
 {
@@ -2350,31 +2485,29 @@ public class HotelBookingAction implements HotelBooking
    @PersistenceContext(type=EXTENDED)
    private EntityManager em;
    
+   @In 
+   private User user;
+   
    @In(required=false) @Out
    private Hotel hotel;
    
    @In(required=false) 
    @Out(required=false)
-   @Valid
    private Booking booking;
-   
-   @In
-   private User user;
-   
+     
    @In(create=true)
-   private transient FacesMessages facesMessages;
+   private FacesMessages facesMessages;
       
-   @In(required=false)
-   private BookingList bookingList;
+   @In(create=true)
+   private Events events;
    
-   @In 
-   private HotelSearching hotelSearch;
+   @Logger 
+   private Log log;
    
    @Begin
-   public String selectHotel()
+   public String selectHotel(Hotel selectedHotel)
    {
-      hotel = em.merge( hotelSearch.getSelectedHotel() );
-      //hotel = em.find(Hotel.class, hotelId);
+      hotel = em.merge(selectedHotel);
       return "hotel";
    }
    
@@ -2408,8 +2541,9 @@ public class HotelBookingAction implements HotelBooking
    {
       if (booking==null || hotel==null) return "main";
       em.persist(booking);
-      if (bookingList!=null) bookingList.refresh();
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      log.info("New booking: #{booking.id} for #{user.username}");
+      events.raiseEvent("bookingConfirmed");
       return "confirmed";
    }
    
@@ -2424,15 +2558,6 @@ public class HotelBookingAction implements HotelBooking
 
 }]]></programlisting>
             <calloutlist>
-                <callout arearefs="booking-conversational-annotation">
-                    <para>
-                        The Seam <link linkend="conversational-annotation"><literal>@Conversational</literal></link> 
-                        annotation declares this as a <emphasis>conversational</emphasis> component that cannot 
-                        be invoked outside of a long-running conversation that was started by a call to its 
-                        <literal>@Begin</literal> method. If such an invocation does occur, Seam returns the
-                        <literal>ifNotBegunOutcome</literal> to JSF.
-                    </para>
-                </callout>
                 <callout arearefs="booking-extendedpersistencecontext-annotation">
                     <para>
                         This bean uses an EJB3 <emphasis>extended persistence context</emphasis>, so that
@@ -2511,6 +2636,15 @@ public class HotelBookingAction implements HotelBooking
             The use of <literal>&lt;s:link&gt;</literal> here allows us to attach an action listener
             to a HTML link without breaking the browser's "open in new window" feature. The standard
             JSF <literal>&lt;h:commandLink&gt;</literal> does not work with "open in new window".
+            We'll see later that <literal>&lt;s:link&gt;</literal> also offers a number of other
+            useful features, including conversation propagation rules.
+        </para>
+        
+        <para>
+            The booking application uses some other Seam and Ajax4JSF controls, especially on the 
+            <literal>/book.xhtml</literal> page. We won't get into the details of those controls
+            here, but if you want to understand this code, please refer to the chapter covering
+            Seam's functionality for JSF form validation.
         </para>
     </section>
     
