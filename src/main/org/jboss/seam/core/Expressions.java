@@ -68,6 +68,11 @@ public class Expressions
             return cachedValueBinding;
          }
          
+         public String toString()
+         {
+            return getExpressionString();
+         }
+      
       };
    }
    
@@ -100,6 +105,11 @@ public class Expressions
                cachedMethodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(expression, null);
             }
             return cachedMethodBinding;
+         }
+         
+         public String toString()
+         {
+            return getExpressionString();
          }
       
       };

@@ -153,11 +153,13 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
             if (persistenceContext instanceof EntityManager)
             {
                EntityManager em = (EntityManager) persistenceContext;
+               if ( !em.isOpen() ) continue;
                reference = em.getReference( pe.getEntityClass(), pe.getId() );
             }
             else
             {
                Session session = (Session) persistenceContext;
+               if ( !session.isOpen() ) continue;
                reference = session.load( pe.getEntityClass(), (Serializable) pe.getId() );
             }
             for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
