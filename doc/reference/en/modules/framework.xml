@@ -107,7 +107,7 @@ public class PersonHome extends EntityHome<Person> {
         
         <programlisting><![CDATA[@Entity
 public class Person {
-    private Long id;
+    @Id private Long id;
     private String firstName;
     private String lastName;
     private Country nationality;
