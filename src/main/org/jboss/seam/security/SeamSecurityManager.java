@@ -46,7 +46,7 @@ public class SeamSecurityManager
 
   private class PermissionsMetadata {
     private String name;
-    private Map<String,String> providerNames;
+    private Map<String,String> providerNames = new HashMap<String,String>();
 
     public PermissionsMetadata(String name)
     {

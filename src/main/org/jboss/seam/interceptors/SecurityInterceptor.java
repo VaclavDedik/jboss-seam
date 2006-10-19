@@ -47,73 +47,86 @@ public class SecurityInterceptor extends AbstractInterceptor
   public Object checkSecurity(InvocationContext invocation)
       throws Exception
   {
-    Method method = invocation.getMethod();
-
     Secure sec = null;
-    if (method.isAnnotationPresent(Secure.class))
-      sec = method.getAnnotation(Secure.class);
-    else if (method.getDeclaringClass().isAnnotationPresent(Secure.class))
-      sec = method.getDeclaringClass().getAnnotation(Secure.class);
 
-    if (sec != null)
+    try
     {
-      boolean redirectToLogin = false;
-      Authentication auth = null;
+      Method method = invocation.getMethod();
 
-      try
-      {
-        auth = Authentication.instance();
-        if (!auth.isValid())
-          redirectToLogin = true;
-      }
-      catch (AuthenticationException ex)
-      {
-        if (String.class.equals(method.getReturnType()))
-          redirectToLogin = true;
-        else
-          throw ex;
-      }
+      if (method.isAnnotationPresent(Secure.class))
+        sec = method.getAnnotation(Secure.class);
+      else if (method.getDeclaringClass().isAnnotationPresent(Secure.class))
+        sec = method.getDeclaringClass().getAnnotation(Secure.class);
 
-      if (redirectToLogin)
+      if (sec != null)
       {
-        return SeamSecurityManager.instance().getLoginAction();
-      }
+        boolean redirectToLogin = false;
+        Authentication auth = null;
 
-      // If roles() are specified check them first
-      if (sec.roles().length > 0)
-      {
-        for (String role : sec.roles())
+        try
         {
-          if (auth.isUserInRole(role))
-            return invocation.proceed();
+          auth = Authentication.instance();
+          if (!auth.isValid())
+            redirectToLogin = true;
         }
-      }
-
-      // No roles match, check permissions
-      try
-      {
-        if (sec.permissions().length > 0)
+        catch (AuthenticationException ex)
         {
-          for (Permission p : sec.permissions())
+          if (String.class.equals(method.getReturnType()))
+            redirectToLogin = true;
+          else
+            throw ex;
+        }
+
+        if (redirectToLogin)
+        {
+          return SeamSecurityManager.instance().getLoginAction();
+        }
+
+        // If roles() are specified check them first
+        if (sec.roles().length > 0)
+        {
+          for (String role : sec.roles())
           {
-            SeamSecurityManager.instance().checkPermission(p.name(), p.action());
+            if (auth.isUserInRole(role))
+              return invocation.proceed();
           }
         }
-      }
-      catch (SecurityException ex)
-      {
-        log.info(ex.getMessage());
-        FacesMessages.instance().add(ex.getMessage());
-        // Fall through to error page
+
+        // No roles match, check permissions
+        try
+        {
+          if (sec.permissions().length > 0)
+          {
+            for (Permission p : sec.permissions())
+            {
+              SeamSecurityManager.instance().checkPermission(p.name(), p.action());
+            }
+          }
+        }
+        catch (SecurityException ex)
+        {
+          log.info(ex.getMessage());
+          FacesMessages.instance().add(ex.getMessage());
+          // Fall through to error page
+        }
+
+        forwardToErrorPage(sec);
       }
 
-      // Authorization has failed.. redirect the user to an error page
-      if (sec.onfail() != null && !"".equals(sec.onfail()))
-        return sec.onfail();
-
-      return SeamSecurityManager.instance().getSecurityErrorAction();
+      return invocation.proceed();
     }
+    catch (SecurityException ex)
+    {
+      return forwardToErrorPage(sec);
+    }
+  }
 
-    return invocation.proceed();
+  private String forwardToErrorPage(Secure sec)
+  {
+    // Authorization has failed.. redirect the user to an error page
+    if (sec != null && sec.onfail() != null && !"".equals(sec.onfail()))
+      return sec.onfail();
+
+    return SeamSecurityManager.instance().getSecurityErrorAction();
   }
 }
