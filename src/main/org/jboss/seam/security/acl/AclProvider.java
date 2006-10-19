@@ -1,8 +1,7 @@
 package org.jboss.seam.security.acl;
 
+import java.security.Principal;
 import java.security.acl.Acl;
-
-import org.jboss.seam.security.Authentication;
 
 /**
  * Provides a list of Acls for an object.
@@ -15,16 +14,16 @@ public interface AclProvider
    * Return all Acls for the specified object.
    *
    * @param value Object
-   * @return Permissions
+   * @return Acl
    */
   Acl getAcls(Object value);
 
   /**
-   * Return all Acls for the specified object that apply to the specified Authentication.
+   * Return all Acls for the specified object that apply to the specified Principal.
    *
    * @param value Object
-   * @param auth Authentication
-   * @return Permissions
+   * @param principal Principal
+   * @return Acl
    */
-  Acl getAcls(Object value, Authentication auth);
+  Acl getAcls(Object value, Principal principal);
 }
