@@ -6,9 +6,11 @@
  */
 package org.jboss.seam.contexts;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
@@ -125,7 +127,8 @@ public class PageContext implements Context {
       {
          throw new IllegalStateException("no FacesContext bound to current thread");
       }
-      return facesContext.getViewRoot().getAttributes();
+      UIViewRoot viewRoot = facesContext.getViewRoot();
+      return viewRoot==null ? Collections.EMPTY_MAP : viewRoot.getAttributes();
    }
 
    private static PhaseId getPhaseId()
