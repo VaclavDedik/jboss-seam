@@ -1,0 +1,17 @@
+<application>
+    <display-name>Seam Pay Example</display-name>
+    
+    <module>
+        <web>
+            <web-uri>jboss-seam-pay.war</web-uri>
+            <context-root>/seam-pay</context-root>
+        </web>
+    </module>
+    <module>
+        <ejb>jboss-seam-pay.jar</ejb>D
+    </module>
+    <module>
+        <java>jboss-seam.jar</java>
+    </module>
+
+</application>

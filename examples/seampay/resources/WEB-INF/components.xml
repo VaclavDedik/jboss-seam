@@ -1,0 +1,55 @@
+<components>
+    <component name="paymentHome"
+               class="org.jboss.seam.example.seampay.PaymentController">
+        <property name="newInstance">#{newPayment}</property>
+        <property name="createdMessage">Created a new payment to #{newPayment.payee}</property>
+        <property name="deletedMessage">!p-Deleted</property>
+        <property name="updatedMessage">!p-updated</property>
+    </component>
+
+    <component name="newPayment"
+              class="org.jboss.seam.example.seampay.Payment">
+        <property name="payee">somebody</property>
+        <property name="account">#{selectedAccount}</property> 
+        <property name="paymentDate">#{currentDatetime}</property>
+        <property name="createdDate">#{currentDatetime}</property>
+    </component>
+
+    <factory name="selectedAccount" value="#{accountHome.instance}"/>
+    <component name="accountHome"
+              class="org.jboss.seam.framework.EntityHome">
+        <property name="entityClass">org.jboss.seam.example.seampay.Account</property>
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+    <component name="accounts" 
+              class="org.jboss.seam.framework.EntityQuery">
+        <property name="ejbql">from Account</property>
+     <property name="restrictions" />
+<!--
+            <value>lower(firstName) like lower( #{exampleAccount.firstName} + '%' )</value>
+            <value>lower(lastName) like lower( #{exampleAccount.lastName} + '%' )</value>
+        </property>
+-->
+        <property name="order">accountNumber</property>
+        <property name="maxResults">20</property>
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+        
+    <component name="entityManager" 
+               class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/seampayEntityManagerFactory</property>
+    </component>
+        
+    <component name="org.jboss.seam.core.dispatcher"
+               class="org.jboss.seam.core.Dispatcher" />
+
+    <component name="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
+        <property name="jndiPattern">@jndiPattern@</property>
+    </component>
+    
+    <component class="org.jboss.seam.core.Ejb" 
+               installed="@embeddedEjb@"/>
+</components>

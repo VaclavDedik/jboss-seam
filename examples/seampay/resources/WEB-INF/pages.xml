@@ -1,0 +1,5 @@
+<pages>
+   <page view-id="/search.xhtml">
+          <param name="id" value="#{accountHome.id}" converterId="javax.faces.Long" />
+   </page>
+</pages>

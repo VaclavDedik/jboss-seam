@@ -1,0 +1,120 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Seam Pay</title>
+    <link href="screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+      
+    <div class="menuButtons">
+        <s:link view="/search.xhtml" value="Show Accounts"/>
+    </div>
+    
+    <div class="body">        
+        <h1>Account</h1>
+        
+        <h:messages styleClass="message"/>
+        
+        <!-- search results -->
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Account Number</th>
+                <th>Balance</th>
+            </tr>
+            <ui:repeat value="#{accounts.resultList}" var="account">
+                <tr>
+                    <td>
+                        <s:link view="/search.xhtml" value="#{account.id}">
+                            <f:param name="id" value="#{account.id}"/>
+                        </s:link>
+                    </td>
+                    <td>#{account.accountNumber}</td>
+                    <td>#{account.balance}</td>
+                </tr>
+          </ui:repeat>
+        </table>
+        <h:outputText value="No accounts found" rendered="#{empty accounts.resultList}" class="message"/>
+        
+
+        <f:subview rendered="#{accountHome.idDefined}">
+            <h2>Payments from Account #{accountHome.instance.accountNumber}</h2>
+            <table>
+                <tr>
+                    <th>Payee</th>
+                    <th>Payment Amount</th>
+                    <th>Created Date</th>
+                    <th>Scheduled Date</th>
+                    <th>Paid?</th>
+                </tr>
+                <ui:repeat value="#{accountHome.instance.payments}" var="payment">
+                    <tr>
+                        <td>#{payment.payee}</td>
+                        <td>
+                            <h:outputText value="#{payment.amount}">
+                                <f:convertNumber type="currency" currencySymbol="$"/> 
+                            </h:outputText>
+                        </td>
+                        <td>
+                            <h:outputText value="#{payment.createdDate}">
+                                <f:convertDateTime type="date" dateStyle="medium" />
+                            </h:outputText>
+                        </td>
+                        <td>
+                            <h:outputText value="#{payment.paymentDate}">
+                                <f:convertDateTime type="date" dateStyle="medium" />
+                            </h:outputText>
+                        </td>
+                        <td>#{payment.paid}</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+
+            <h2>Make a payment from account #{accountHome.instance.accountNumber}:</h2>
+            <h:form>
+                <s:validateAll>
+
+                    <table>
+                        <tr>
+                            <td>To:</td>
+                            <td>
+                                <h:inputText id="payee" value="#{newPayment.payee}" required="true"/>
+                            </td>
+                            <td width="60%"><h:message for="payee" /></td>
+                        </tr>
+                        <tr>
+                            <td>Amount:</td>
+                            <td><h:inputText id="amount" value="#{newPayment.amount}" required="true">
+                                <ui:remove>
+                                    <f:convertNumber type="currency" currencySymbol="$"/> 
+                                </ui:remove>
+                            </h:inputText></td>
+                            <td><h:message for="amount" /></td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td>
+                            <td><h:inputText id="paymentDate" value="#{newPayment.paymentDate}" required="true"> 
+                                <f:convertDateTime type="date" dateStyle="short"/>
+                                
+                                </h:inputText>
+                            </td>
+                            <td><h:message for="paymentDate" /></td>
+                        </tr>
+                    </table>
+                </s:validateAll>
+                
+                <h:commandButton value="schedule" 
+                                 action="#{paymentHome.saveAndSchedule}" />
+            </h:form>
+        </f:subview>
+
+    </div>
+    
+</body>
+</html>
