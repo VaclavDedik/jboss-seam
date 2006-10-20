@@ -1,0 +1,126 @@
+<chapter id="elenhancements">
+
+    <title>Action Params</title>
+
+    
+
+    <para>
+
+        The current Unified Expression Language (EL) assumes that any parameters to a MethodExpression will be provided by Java code.  
+        Seam provides an enhancement to the EL that allows parameters to be passed to a MethodExpression from within the expression itself.
+        In a Seam application, this is useful when an action is specified as an attribute to a <![CDATA[<h:commandLink>, <h:commandButton>, <s:link>]]>, or in <literal>pages.xml.</literal>
+
+    </para>  
+    
+    <programlisting><![CDATA[<s:commandButton action="#{hotelBooking.bookHotel(hotel, user)}" class="button" value="Book Hotel" />]]></programlisting>
+
+    <section>
+
+        <title>Setup</title>        
+
+        <para>
+        To enable the action params feature in Facelets, you will need to add Seam's SeamFaceletViewHandler in your faces-config.xml.  
+         For JSP applications using JSF 1.1, this is automatically enabled.
+        </para>
+
+        <programlisting><![CDATA[
+<faces-config>
+    <application>
+        <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
+    </application>
+</faces-config>]]></programlisting>
+    </section>
+
+    
+
+    <section>
+
+        <title>Usage</title>
+        
+        <para>
+            The Action Params feature allows you to specify parameters when using the EL to call an action.  So I can have something like this:                                  
+        </para>        
+
+        <programlisting><![CDATA[
+<h:commandButton action="#{hotelBooking.bookHotel(hotel, user)}" class="button" value="Book Hotel" />]]></programlisting>
+
+        <para>
+            The parameters <literal>hotel</literal> and <literal>user</literal> will be evaluated as ValueExpressions and passed into the bookHotel method of your managed bean.  
+            This gives you an alternative to @In which forces injection to happen on every action method called.                        
+        </para>
+
+        <para>You can also pass in literal Strings using single or double quotes:</para>
+
+        <programlisting><![CDATA[
+ <h:commandLink action=”#{foo.bar( ‘Here is my message’ )}” value=”Click Here” />
+ <h:commandLink action=’#{foo.bar( “Here is my message” )}’ value=’Click Here’ />]]></programlisting>
+
+
+
+        <para>
+            You might want to use this notation for all of your action methods, even when you don’t have params to pass.  
+            This improves readability by making it clear that the expression is a MethodExpression and not a ValueExpression:                        
+        </para>
+        <programlisting><![CDATA[
+ <s:link value="Cancel" action="#{ hotelBooking.cancel() }" buttonClass="button" linkStyle="button"/>]]></programlisting>
+
+        <para>
+            This is also very handy for passing in JSF implicit objects such as <literal>facesContext</literal> and <literal>view</literal>.
+        </para>
+
+        <programlisting><![CDATA[
+ <page view-id="/mypage.jsp" action="#{foo.myMethod(facesContext, view)}" />]]></programlisting>
+
+        <para>
+            If you desire, you can still use the [ ] operator as defined in the EL spec.  
+            If you do, you should put both the method and the params inside the [ ]:                        
+        </para>
+        
+        <programlisting><![CDATA[
+ <h:commandLink action=”#{ foo[ bar( facesContext ) ] }” value=”Click Here” />]]></programlisting>     
+
+    </section>
+
+    <section>
+        
+        <title>Limitations</title>        
+        
+        <para>
+            The action params feature has a couple of limitations to be aware of.
+        </para>
+        
+        <section>
+            <title>Incompatibility with JSP 2.1</title>
+            <para>
+               Action params can not currently be used with JSF 1.2 and JSP 2.1.  If you want to use JSF 1.2 with the action params feature, you will need to use Facelets.
+                Action params will always work with JSF 1.1.
+            </para>
+        </section>
+        
+        <section>
+            <title>Limitations when calling a MethodExpression from Java code</title>
+            <para>
+                Normally, when a MethodExpression or MethodBinding is created, the parameter types are passed in by  the JSF framework.
+                In the case of an action, JSF assumes that there are no params to pass.  With action params in an expression, you can’t know the param types until the parameters are evaluated.  
+                Evaluation of the params doesn’t happen until the MethodExpression is invoked.  This has two minor consequences:          
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            If you call invoke on the MethodExpression by hand, any params you pass may be ignored.  Params defined in the expression will take precedence.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Since Facelets uses MethodExpression instead of MethodBinding, you would normally be able to call 
+                            <literal>myMethodExpression.getMethodInfo().getParamTypes()</literal> at any time.  
+                            For an expression containing action params, you will only be able to do this after the method has been invoked at least once.            
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                Both of these cases are exceedingly rare and only apply when you want to invoke the MethodExpression by hand in Java code.                        
+            </para>
+         </section>
+    </section>
+    
+
+</chapter>
