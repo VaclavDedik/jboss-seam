@@ -7,4 +7,6 @@ package org.jboss.seam.example.security;
 public interface ProtectedLocal
 {
   String foo();
+  String modifyCustomer();
+  String modifyReadonlyCustomer();
 }
