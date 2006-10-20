@@ -9,11 +9,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Marks a method as beginning a conversation, if none
- * exists, and if the method returns without throwing 
- * an exception. If a list of outcomes is specified,
- * the conversation begins only if the outcome is in
- * the list.
+ * Marks a method as beginning a long-running conversation, 
+ * if none exists, and if the method returns a non-null value 
+ * without throwing an exception. If a list of outcomes is 
+ * specified, the conversation begins only if the outcome is 
+ * in the list. A null outcome never begins a conversation.
+ * If the method is of type void, a conversation always
+ * begins.
  * 
  * @author Gavin King
  */
@@ -29,7 +31,7 @@ public @interface Begin {
    /**
     * If enabled, and if a conversation is already active,
     * begin a nested conversation, instead of continuing
-    * in the context of the existing conversation. 
+    * in the context of the existing conversation.
     */
    boolean nested() default false;
    /**

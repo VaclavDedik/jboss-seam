@@ -487,8 +487,9 @@ public class Manager
          storedConversationId = null;
          isLongRunningConversation = false;
       }
-
-      return restoreAndLockConversation(storedConversationId, isLongRunningConversation);
+      
+      return restoreAndLockConversation(storedConversationId, isLongRunningConversation) 
+            || "end".equals(propagation);
       
    }
    

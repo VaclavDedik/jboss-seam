@@ -6,6 +6,8 @@ import java.lang.reflect.Type;
 
 import javax.annotation.PostConstruct;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Expressions.ValueBinding;
@@ -16,6 +18,7 @@ import org.jboss.seam.core.Expressions.ValueBinding;
  * @author Gavin King
  *
  */
+@Scope(ScopeType.CONVERSATION)
 public class Home<E> extends AbstractMutable implements Serializable
 {
    private Object id;
