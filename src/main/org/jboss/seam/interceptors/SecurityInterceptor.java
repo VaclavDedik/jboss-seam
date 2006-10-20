@@ -110,7 +110,7 @@ public class SecurityInterceptor extends AbstractInterceptor
           // Fall through to error page
         }
 
-        forwardToErrorPage(sec);
+        return forwardToErrorPage(sec);
       }
 
       return invocation.proceed();
