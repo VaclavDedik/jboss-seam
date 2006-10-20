@@ -133,24 +133,37 @@ public class SeamSecurityManager
     checkPermission(meta.getName(), action, obj, (AclProvider) provider);
   }
 
+  /**
+   * Checks the permission specified by name and action for an object.  If an
+   * AclProvider is specified, then only an ACL check will be carried out using
+   * the provider.  Otherwise, the permissions implied by the roles held by the
+   * currently authenticated user will be checked.
+   *
+   * A SecurityException is thrown if the currently authenticated user does not
+   * have the necessary permission for the specified object.
+   *
+   * @param name String The name of the permission
+   * @param action String The action
+   * @param obj Object The object to be checked
+   * @param aclProvider AclProvider ACL Provider for the specified object, or null if no provider
+   */
   private void checkPermission(String name, String action, Object obj, AclProvider aclProvider)
   {
     Permission required = new SeamPermission(name, action);
 
-    for (String role : Authentication.instance().getRoles())
+    if (aclProvider != null)
     {
-      Set<Permission> permissions = rolePermissions.get(role);
-      if (permissions != null)
+      Acl acl = aclProvider.getAcls(obj, Authentication.instance());
+      if (acl != null && acl.checkPermission(Authentication.instance(), required))
+        return;
+    }
+    else
+    {
+      for (String role : Authentication.instance().getRoles())
       {
-        if (permissions.contains(required))
-        {
-          if (aclProvider == null)
-            return;
-
-          Acl acl = aclProvider.getAcls(obj, Authentication.instance());
-          if (acl.checkPermission(Authentication.instance(), new SeamPermission(name, action)))
-            return;
-        }
+        Set<Permission> permissions = rolePermissions.get(role);
+        if (permissions != null && permissions.contains(required))
+          return;
       }
     }
 
