@@ -26,8 +26,13 @@ public class PaymentController
         
         Payment payment = getInstance();
         log.info("scheduling instance #0", payment);
-        processor.schedulePayment(payment.getPaymentDate(), payment);
+
+        processor.schedulePayment(payment.getPaymentDate(), 
+                                  payment.getPaymentFrequency().getInterval(), 
+                                  payment);
 
         return result;
     }
+
+    
 }

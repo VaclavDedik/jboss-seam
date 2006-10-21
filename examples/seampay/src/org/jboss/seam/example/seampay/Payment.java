@@ -4,12 +4,15 @@ import javax.persistence.*;
 import org.hibernate.validator.*;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Payment
     implements Serializable
 {
+
+
+
     @Id @GeneratedValue 
     private Long id;
 
@@ -25,21 +28,21 @@ public class Payment
     private Date paymentDate;
     @NotNull
     private Date createdDate;
+    private Date lastPaid;
 
-    private boolean paid = false;
+    private boolean active = true;
+
+    private Frequency paymentFrequency = Frequency.DAILY;
 
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
     
-    public float getAmount()
-    {
+    public float getAmount() {
         return amount;
     }
-    public void setAmount(float amount)
-    {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
     
@@ -48,40 +51,78 @@ public class Payment
         return payee;
     }
 
-    public void setPayee(String payee)
-    {
+    public void setPayee(String payee) {
         this.payee = payee;
     }
 
-    public Account getAccount()
-    {
+    public Account getAccount() {
         return account;
     }
     
-    public void setAccount(Account account)
-    {
+    public void setAccount(Account account) {
         this.account = account;
         account.getPayments().add(this);
     }
 
-    public Date getPaymentDate()
-    {
+    public Date getPaymentDate() {
         return paymentDate;
     }
-    public void setPaymentDate(Date paymentDate)
-    {
+    public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }  
 
-    public Date getCreatedDate()
-    {
+    public Date getCreatedDate() {
         return createdDate;
     }    
-    public void setCreatedDate(Date createdDate)
-    {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }  
+
+
+    public Date getLastPaid() {
+        return lastPaid;
+    }    
+    public void setLastPaid(Date lastPaid) {
+        this.lastPaid = lastPaid;
+    }  
         
-    public boolean getPaid() { return paid;} 
-    public void setPaid(boolean paid) { this.paid = paid; }
+    public boolean getActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+   
+    public Frequency getPaymentFrequency() { 
+        return paymentFrequency; 
+    }
+    public void setPaymentFrequency(Frequency paymentFrequency) {
+        this.paymentFrequency = paymentFrequency;
+    }
+
+    public Map<String,Frequency> getFrequencies() {
+        Map<String,Frequency> result = new HashMap<String,Frequency>();
+        for (Frequency frequency : Frequency.values()) {
+            result.put(frequency.toString(), frequency);
+        }
+        return result;
+    }
+
+    public enum Frequency {
+        ONCE(0), 
+        EVERY_MINUTE(60*1000),
+        HOURLY(60*60*1000), 
+        DAILY(24*60*60*1000), 
+        WEEKLY(7*24*60*60*1000);
+
+        long interval; 
+
+        Frequency(long interval) {
+            this.interval = interval;
+        }
+        
+        public long getInterval() {
+            return interval;
+        }
+    };
 }

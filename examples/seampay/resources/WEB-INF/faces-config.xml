@@ -9,7 +9,12 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
-    
+
+    <converter> 
+        <converter-for-class>org.jboss.seam.example.seampay.Payment$Frequency</converter-for-class> 
+        <converter-class>org.jboss.seam.example.seampay.EnumConverter</converter-class> 
+    </converter> 
+
     <!-- Phase listener needed for all Seam applications -->
     
     <lifecycle>
