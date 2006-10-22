@@ -72,6 +72,20 @@
             manage transaction demarcation (more on this below).
         </para>
         
+        <para>
+            If you are using Sun's JSF 1.2 reference implementation, you should
+            add this to <literal>faces-config.xml</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<application>
+    <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>
+</application>]]></programlisting>
+        
+        <para>
+            (This line should not strictly speaking be necessary, but it works 
+            around a minor bug in the RI.)
+        </para>
+        
         </sect2>
         
         <sect2>
