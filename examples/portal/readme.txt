@@ -7,7 +7,7 @@ in JBoss Portal 2.4+
 How to Build and Deploy the Example on JBoss Portal
 ---------------------------------------------------
 
-1. Download and install JBoss AS 4.0.4, with the JBoss Portal profile
+1. Download and install JBoss AS 4.0.5, with the JBoss Portal profile
 
 2. Download the JBoss Seam distribution from:
 

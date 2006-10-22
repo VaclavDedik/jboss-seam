@@ -6,7 +6,7 @@ management.
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------
 
-1. Download and install JBoss AS 4.0.4, with the EJB 3.0 profile
+1. Download and install JBoss AS 4.0.5, with the EJB 3.0 profile
 
 2. Download the JBoss Seam distribution from:
 

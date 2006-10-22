@@ -1,7 +1,7 @@
 Seam Example Applications
 =========================
 This directory contains the Seam example applications, which have 
-been tested in JBoss 4.0.4.
+been tested in JBoss 4.0.5.
 
 registration/         A trivial example for the tutorial
 

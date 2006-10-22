@@ -34,7 +34,7 @@ How to Build and Deploy the Example on Tomcat
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------
 
-1. Download and install JBoss AS 4.0.4
+1. Download and install JBoss AS 4.0.5
 
 2. Download the JBoss Seam distribution from:
 
