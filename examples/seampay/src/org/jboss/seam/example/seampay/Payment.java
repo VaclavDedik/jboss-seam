@@ -1,18 +1,17 @@
 package org.jboss.seam.example.seampay;
 
+import javax.ejb.*;
 import javax.persistence.*;
-import org.hibernate.validator.*;
 
 import java.io.Serializable;
 import java.util.*;
+
+import org.hibernate.validator.*;
 
 @Entity
 public class Payment
     implements Serializable
 {
-
-
-
     @Id @GeneratedValue 
     private Long id;
 
@@ -33,7 +32,9 @@ public class Payment
     private boolean active = true;
 
     private Frequency paymentFrequency = Frequency.DAILY;
-
+    
+    @Lob
+    private TimerHandle timerHandle;
 
     public Long getId() {
         return id;
@@ -107,6 +108,14 @@ public class Payment
         }
         return result;
     }
+
+    public TimerHandle getTimerHandle() {
+        return timerHandle;
+    }
+    public void setTimerHandle(TimerHandle timerHandle) {
+        this.timerHandle = timerHandle;
+    }
+
 
     public enum Frequency {
         ONCE(0), 

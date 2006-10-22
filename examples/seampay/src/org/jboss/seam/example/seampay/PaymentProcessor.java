@@ -24,7 +24,8 @@ public class PaymentProcessor {
         payment = entityManager.merge(payment);
         
         log.info("[#0] Processing payment #1", System.currentTimeMillis(), payment.getId());
-        
+        log.info("Timer handle is #0", payment.getTimerHandle());
+
         if (payment.getActive()) {
             float balance = payment.getAccount().adjustBalance(-payment.getAmount());
             log.info(":: balance is now #0", balance);

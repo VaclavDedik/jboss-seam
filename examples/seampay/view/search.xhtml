@@ -61,7 +61,15 @@
                 </tr>
                 <ui:repeat value="#{accountHome.instance.payments}" var="payment">
                     <tr>
-                        <td>#{payment.active}</td>
+                        <td>
+                            <s:link action="#{paymentHome.cancel}" value="cancel" linkStyle="button" rendered="#{payment.active}">
+                                <f:param name="paymentId" value="#{payment.id}"/>
+                            </s:link>
+                            <h:outputText value="not active" rendered="#{!payment.active}" />
+                        </td>
+                            
+
+
                         <td>#{payment.payee}</td>
                         <td>
                             <h:outputText value="#{payment.amount}">
@@ -91,7 +99,6 @@
             <h2>Make a payment from account #{accountHome.instance.accountNumber}:</h2>
             <h:form>
                 <s:validateAll>
-
                     <table>
                         <tr>
                             <td>To:</td>
