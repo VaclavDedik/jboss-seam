@@ -71,29 +71,34 @@ body {
 }
 
 
-table {
+table.results {
 	width: 100%;
 }
-th {
+
+table.results th {
 	background-color: #578BB8;
 	color: white;
 	font-family: Arial,sans-serif;
 	padding: 5px;
 	
 }
-td {
+
+table.results td {
 	background-color: #F0F0F0;
 	text-align: center;
 }
+
 .narrow {
 	width: 20%;
 }
 .wide {
 	width: 80%;
 }
+
 .first td {
 	background-color: #F0F0F0;
 }
+
 .second td {
 	background-color: white;
 }

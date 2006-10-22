@@ -41,16 +41,16 @@ public class PaymentController
         return paymentId;
     }
 
+    @Transactional
     public void cancel() {
         Payment payment = getInstance();
-
+        
         TimerHandle handle = payment.getTimerHandle();
         payment.setTimerHandle(null);
+        payment.setActive(false);
         
         Timer timer = Dispatcher.instance().getTimer(handle);
         Dispatcher.instance().cancel(timer);
-
-        payment.setTimerHandle(null);
     }
     
 }

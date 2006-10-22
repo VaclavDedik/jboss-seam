@@ -22,7 +22,7 @@
         <h:messages styleClass="message"/>
         
         <!-- search results -->
-        <table>
+        <table class="results">
             <tr>
                 <th>Id</th>
                 <th>Account Number</th>
@@ -49,9 +49,9 @@
 
         <f:subview rendered="#{accountHome.idDefined}">
             <h2>Payments from Account #{accountHome.instance.accountNumber}</h2>
-            <table>
+            <table class="results">
                 <tr>
-                    <th>Active?</th>
+                    <th>Status</th>
                     <th>Payee</th>
                     <th>Payment Amount</th>
                     <th>Created Date</th>
@@ -62,14 +62,11 @@
                 <ui:repeat value="#{accountHome.instance.payments}" var="payment">
                     <tr>
                         <td>
-                            <s:link action="#{paymentHome.cancel}" value="cancel" linkStyle="button" rendered="#{payment.active}">
+                            <s:link action="#{paymentHome.cancel}" value="Cancel" linkStyle="button" rendered="#{payment.active}">
                                 <f:param name="paymentId" value="#{payment.id}"/>
                             </s:link>
                             <h:outputText value="not active" rendered="#{!payment.active}" />
-                        </td>
-                            
-
-
+                        </td>                            
                         <td>#{payment.payee}</td>
                         <td>
                             <h:outputText value="#{payment.amount}">
@@ -105,7 +102,6 @@
                             <td>
                                 <h:inputText id="payee" value="#{newPayment.payee}" required="true"/>
                             </td>
-                            <td width="60%"><h:message for="payee" /></td>
                         </tr>
                         <tr>
                             <td>Amount:</td>
@@ -114,7 +110,6 @@
                                     <f:convertNumber type="currency" currencySymbol="$"/> 
                                 </ui:remove>
                             </h:inputText></td>
-                            <td><h:message for="amount" /></td>
                         </tr>
                         <tr>
                             <td>Date:</td>
@@ -122,8 +117,8 @@
                                 <f:convertDateTime type="date" dateStyle="short"/>
                                 
                                 </h:inputText>
+                                <h:message for="paymentDate" />
                             </td>
-                            <td><h:message for="paymentDate" /></td>
                         </tr>
 
                         <tr>
@@ -138,7 +133,7 @@
                     </table>
                 </s:validateAll>
                 
-                <h:commandButton value="schedule" 
+                <h:commandButton value="Schedule" 
                                  action="#{paymentHome.saveAndSchedule}" />
             </h:form>
         </f:subview>
