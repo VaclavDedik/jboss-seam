@@ -200,11 +200,15 @@ public class Pages
    
    private Page getPage(String viewId)
    {
-      Page result = pagesByViewId.get(viewId);
-      if (result==null)
+      Page result = null;
+      if (viewId!=null)
       {
-         //workaround for what I believe is a bug in the JSF RI
-         result = pagesByViewId.get( replaceExtension(viewId) );
+         result = pagesByViewId.get(viewId);
+         if (result==null)
+         {
+            //workaround for what I believe is a bug in the JSF RI
+            result = pagesByViewId.get( replaceExtension(viewId) );
+         }
       }
       return result==null ? new Page(viewId) : result;
    }
