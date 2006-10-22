@@ -4,16 +4,13 @@ import javax.ejb.Timer;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.Asynchronous;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Dispatcher;
 
-@Interceptor(around={BijectionInterceptor.class, RemoveInterceptor.class, 
-                     ConversationInterceptor.class, EventInterceptor.class, 
-                     RollbackInterceptor.class, TransactionInterceptor.class,
-                     ExceptionInterceptor.class, BusinessProcessInterceptor.class,
-                     ManagedEntityIdentityInterceptor.class})
+@Interceptor(type=InterceptorType.CLIENT)
 public class AsynchronousInterceptor extends AbstractInterceptor
 {
    @AroundInvoke

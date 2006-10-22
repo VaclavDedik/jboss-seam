@@ -106,7 +106,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
 
    protected void beforeUpdateModelValues(PhaseEvent event)
    {
-      Pages.instance().applyViewRootValues( event.getFacesContext().getViewRoot().getViewId() );
+      Pages.instance().applyViewRootValues( event.getFacesContext() );
       Manager.instance().setUpdateModelValuesCalled(true);
    }
 
@@ -133,7 +133,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
 
       if ( !Manager.instance().isUpdateModelValuesCalled() )
       {
-         Pages.instance().applyRequestParameterValues( facesContext.getViewRoot().getViewId() );
+         Pages.instance().applyRequestParameterValues(facesContext);
       }
       
       Lifecycle.flushPage();

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
@@ -43,6 +44,7 @@ import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.EventContext;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Exceptions;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
@@ -427,6 +429,7 @@ public class Initialization
       addComponent( CurrentTime.class, context );
       addComponent( CurrentDatetime.class, context );
       addComponent( SeamSecurityManager.class, context );
+      addComponent( Exceptions.class, context );
 
       //addComponent( Dispatcher.class, context );
 

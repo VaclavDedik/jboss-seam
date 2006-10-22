@@ -25,6 +25,7 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.util.Naming;
 
@@ -98,7 +99,10 @@ public class ManagedHibernateSession
    @Unwrap
    public Session getSession()
    {
-      session.isOpen();
+      if ( !Lifecycle.isDestroying() ) 
+      {
+         session.isOpen();
+      }
       return session;
    }
    

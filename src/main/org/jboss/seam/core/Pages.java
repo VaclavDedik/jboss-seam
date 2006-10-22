@@ -356,9 +356,9 @@ public class Pages
       return parameters;
    }
    
-   public void applyRequestParameterValues(String viewId)
+   public void applyRequestParameterValues(FacesContext facesContext)
    {
-      FacesContext context = FacesContext.getCurrentInstance();
+      String viewId = facesContext.getViewRoot().getViewId();
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for ( PageParameter pageParameter: getPage(viewId).pageParameters )
       {         
@@ -386,13 +386,15 @@ public class Pages
          
          Object value = converter==null ? 
                stringValue :
-               converter.getAsObject( context, context.getViewRoot(), stringValue );
+               converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
          pageParameter.valueBinding.setValue(value);
       }
    }
 
-   public void applyViewRootValues(String viewId)
+   public void applyViewRootValues(FacesContext facesContext)
    {
+      String viewId = facesContext.getViewRoot().getViewId();
+      
       Map<String, Object> pageParameters = (Map<String, Object>) Contexts.getPageContext().get(PAGE_PARAMETERS);
       if (pageParameters!=null)
       {

@@ -24,6 +24,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.Transactions;
 import org.jbpm.JbpmContext;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
@@ -70,7 +71,7 @@ public class ManagedJbpmContext implements Synchronization
       {
          throw new IllegalStateException("JbpmContext may only be used inside a transaction");
       }
-      if ( !synchronizationRegistered && Transactions.isTransactionActive() )
+      if ( !synchronizationRegistered && !Lifecycle.isDestroying() && Transactions.isTransactionActive() )
       {
          Transactions.registerSynchronization(this);
          synchronizationRegistered = true;
