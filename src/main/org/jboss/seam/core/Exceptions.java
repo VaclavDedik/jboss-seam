@@ -2,6 +2,7 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import javax.faces.event.PhaseId;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -24,6 +28,8 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.jsf.AbstractSeamPhaseListener;
+import org.jboss.seam.util.Reflections;
+import org.jboss.seam.util.Resources;
 
 /**
  * Holds metadata for pages defined in pages.xml, including
@@ -54,8 +60,103 @@ public class Exceptions
    }
    
    @Create
-   public void init()
+   public void initialize() throws Exception 
    {
+      InputStream stream = Resources.getResourceAsStream("/WEB-INF/exceptions.xml");      
+      if (stream==null)
+      {
+         log.info("no exceptions.xml file found");
+      }
+      else
+      {
+         log.info("reading exceptions.xml");
+         SAXReader saxReader = new SAXReader();
+         saxReader.setMergeAdjacentText(true);
+         Document doc = saxReader.read(stream);
+         List<Element> elements = doc.getRootElement().elements("exception");
+         for (Element exception: elements)
+         {
+            String className = exception.attributeValue("class");
+            if (className==null)
+            {
+               throw new IllegalArgumentException("must specify a value for class in <exception/> declaration");
+            }
+            final Class clazz = Reflections.classForName(className);
+            Element render = exception.element("render");
+            if (render!=null)
+            {
+               final String viewId = render.attributeValue("view-id");
+               final String message = render.getTextTrim();
+               exceptionHandlers.add( new RenderHandler()
+               {
+                  @Override
+                  protected String getMessage(Exception e)
+                  {
+                     return message;
+                  }
+                  @Override
+                  protected String getViewId(Exception e)
+                  {
+                     return viewId;
+                  }
+                  @Override
+                  public boolean isHandler(Exception e)
+                  {
+                     return clazz.isInstance(e);
+                  }
+               } );
+            }
+            Element redirect = exception.element("redirect");
+            if (redirect!=null)
+            {
+               final String viewId = redirect.attributeValue("view-id");
+               final String message = redirect.getTextTrim();
+               exceptionHandlers.add( new RedirectHandler()
+               {
+                  @Override
+                  protected String getMessage(Exception e)
+                  {
+                     return message;
+                  }
+                  @Override
+                  protected String getViewId(Exception e)
+                  {
+                     return viewId;
+                  }
+                  @Override
+                  public boolean isHandler(Exception e)
+                  {
+                     return clazz.isInstance(e);
+                  }
+               } );
+            }
+            Element error = exception.element("http-error");
+            if (error!=null)
+            {
+               final int code = Integer.parseInt( error.attributeValue("view-id") );
+               final String message = error.getTextTrim();
+               exceptionHandlers.add( new ErrorHandler()
+               {
+                  @Override
+                  protected String getMessage(Exception e)
+                  {
+                     return message;
+                  }
+                  @Override
+                  protected int getCode(Exception e)
+                  {
+                     return code;
+                  }
+                  @Override
+                  public boolean isHandler(Exception e)
+                  {
+                     return clazz.isInstance(e);
+                  }
+               } );
+            }
+         }
+      }
+      
       exceptionHandlers.add( new RenderHandler() );
       exceptionHandlers.add( new RedirectHandler() );
       exceptionHandlers.add( new ErrorHandler() );
