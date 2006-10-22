@@ -108,7 +108,7 @@ public class AclImpl implements Acl
   private String name;
 
   /**
-   *
+   * Each Principal in this Acl can have at most one positive and one negative entry
    */
   private Map<Principal,AclPair> entries = new HashMap<Principal,AclPair>();
 
