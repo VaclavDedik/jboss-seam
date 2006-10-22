@@ -16,6 +16,7 @@
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
         <patternset refid="meta.files"/>
+    	<include name="classes/tidy.properties"/>
     </zipfileset>
     
     <zipfileset id="example.war.webinf.lib"

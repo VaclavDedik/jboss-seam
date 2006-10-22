@@ -1,7 +1,6 @@
 <components>
 
     <component name="org.jboss.seam.core.init">
-        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
         <property name="debug">true</property>
     </component>
 
