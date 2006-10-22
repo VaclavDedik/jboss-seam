@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
+import javax.ejb.TimerHandle;
 import javax.ejb.TimerService;
 import javax.interceptor.Interceptors;
 import javax.interceptor.InvocationContext;
@@ -184,13 +185,14 @@ public class Dispatcher implements LocalDispatcher
             }
          }
       }
+
       AsynchronousInvocation asynchronousInvocation = new AsynchronousInvocation(
             invocation.getMethod(), 
             component.getName(), 
             invocation.getParameters()
          );
       
-      return schedule(duration, expiration, intervalDuration, asynchronousInvocation);
+       return schedule(duration, expiration, intervalDuration, asynchronousInvocation);
       
    }
 
@@ -216,6 +218,10 @@ public class Dispatcher implements LocalDispatcher
          return timerService.createTimer(duration, asynchronous);
       }
    }
+
+    public TimerHandle getHandle(Timer timer) { return timer.getHandle(); }
+    public Timer getTimer(TimerHandle timerHandle) { return timerHandle.getTimer(); }
+    public void cancel(Timer timer) { timer.cancel(); }
 
    public static LocalDispatcher instance()
    {
