@@ -8,10 +8,10 @@ Public License (see lgpl.txt).
 Get Up And Running Quick
 ------------------------
    
-1. Install JBoss AS 4.0.4.GA with the EJB 3.0 profile selected
+1. Install JBoss AS 4.0.5.GA with the EJB 3.0 profile selected
    using the JEMS installer
    
-   http://sourceforge.net/project/showfiles.php?group_id=22866&package_id=193295
+   http://jboss.sourceforge.net/jnlp/jems-installer-1.2.0.BETA3.jnlp
 
 2. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS installation directory

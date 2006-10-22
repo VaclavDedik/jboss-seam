@@ -5,7 +5,7 @@
     <title>Try the examples</title>
     
     <para>
-      In this tutorial, we'll assume that you have downloaded JBoss AS 4.0.4 and installed the
+      In this tutorial, we'll assume that you have downloaded JBoss AS 4.0.5 and installed the
       EJB 3.0 profile (using the JBoss AS installer). You should also have a copy of Seam
       downloaded and extracted to a work directory.
     </para>
@@ -47,7 +47,7 @@
        <para>
            First, make sure you have Ant correctly installed, with <literal>$ANT_HOME</literal>
            and <literal>$JAVA_HOME</literal> set correctly. Next, make sure you set the
-           location of your JBoss AS 4.0.4 installation in the <literal>build.properties</literal>
+           location of your JBoss AS 4.0.5 installation in the <literal>build.properties</literal>
            file in the root folder of your Seam installation. If you haven't already done so, start 
            JBoss AS now by typing <literal>bin/run.sh</literal> or <literal>bin/run.bat</literal> 
            in the root directory of your JBoss installation.
