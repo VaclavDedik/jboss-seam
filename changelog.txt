@@ -1,5 +1,7 @@
 JBoss Seam Changelog
 ====================
+Changes in version 1.1.0.BETA (October 2006)
+--------------------------------------------
 Changes in version 1.0.1.GA (June 2006)
 ---------------------------------------
 * Allow use of @DataModel with an array, Map or Set
