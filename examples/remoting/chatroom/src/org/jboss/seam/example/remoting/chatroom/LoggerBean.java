@@ -14,8 +14,8 @@ import org.jboss.seam.log.Log;
 @MessageDriven(activationConfig={
       @ActivationConfigProperty(propertyName="messagingType", propertyValue="javax.jms.MessageListener"),
       @ActivationConfigProperty(propertyName="destinationType", propertyValue="javax.jms.Topic"),
-      @ActivationConfigProperty(propertyName="Destination", propertyValue="topic/chatroomTopic"),
-      @ActivationConfigProperty(propertyName="ConnectionFactoryName", propertyValue="UIL2ConnectionFactory")
+      @ActivationConfigProperty(propertyName="destination", propertyValue="topic/chatroomTopic")//,
+      //@ActivationConfigProperty(propertyName="connectionFactoryName", propertyValue="UIL2ConnectionFactory")
    })
 @Name("logger")
 public class LoggerBean implements MessageListener
