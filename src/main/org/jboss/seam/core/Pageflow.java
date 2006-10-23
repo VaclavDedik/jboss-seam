@@ -79,7 +79,7 @@ public class Pageflow extends AbstractMutable implements Serializable
          boolean canReposition = getPage().isBackEnabled() && 
                processInstance.getProcessDefinition().getName().equals(pageflowName) && //probably not necessary
                pageflowNodeName!=null; //probably not necessary
-         if ( canReposition )
+         if (canReposition)
          {
             //check the node name to make sure we are still on the same node
             if ( !pageflowNodeName.equals( getNode().getName() ) )

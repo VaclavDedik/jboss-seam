@@ -347,6 +347,11 @@ public class Manager
             Contexts.getPageContext().set( CONVERSATION_ID, getCurrentConversationId() );
             Contexts.getPageContext().set( CONVERSATION_IS_LONG_RUNNING, true );
          }
+         else
+         {
+            Contexts.getPageContext().remove(CONVERSATION_ID);
+            Contexts.getPageContext().remove(CONVERSATION_IS_LONG_RUNNING);
+         }
       }
       writeConversationIdToResponse( response, getCurrentConversationId() );
       
@@ -358,6 +363,12 @@ public class Manager
             Contexts.getPageContext().set( PAGEFLOW_NAME, pageflow.getProcessInstance().getProcessDefinition().getName() );
             Contexts.getPageContext().set( PAGEFLOW_NODE_NAME, pageflow.getNode().getName() );
             Contexts.getPageContext().set( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
+         }
+         else
+         {
+            Contexts.getPageContext().remove(PAGEFLOW_NAME);
+            Contexts.getPageContext().remove(PAGEFLOW_NODE_NAME);
+            Contexts.getPageContext().remove(PAGEFLOW_COUNTER);
          }
       }
    }
