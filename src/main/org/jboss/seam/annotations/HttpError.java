@@ -36,4 +36,11 @@ public @interface HttpError
     * @return an error code
     */
    int errorCode() default HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+   /**
+    * Should the current long-running conversation end
+    * when this exception occurs.
+    * 
+    * @return true if we should end the conversation
+    */
+   boolean end() default false;
 }

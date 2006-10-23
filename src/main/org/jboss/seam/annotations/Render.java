@@ -35,4 +35,11 @@ public @interface Render
     * @return a JSF view id
     */
    String viewId() default "";
+   /**
+    * Should the current long-running conversation end
+    * when this exception occurs.
+    * 
+    * @return true if we should end the conversation
+    */
+   boolean end() default false;
 }

@@ -1,9 +1,11 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ejb.ApplicationException;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
@@ -28,44 +30,55 @@ public class RollbackInterceptor extends AbstractInterceptor
       try
       {
          final Object result = invocation.proceed();
-         if (invocation.getMethod().isAnnotationPresent(Rollback.class)) 
+         if ( isRollbackRequired( invocation.getMethod(), result ) )
          {
-            String[] outcomes = invocation.getMethod().getAnnotation(Rollback.class).ifOutcome();
-            List<String> outcomeList = Arrays.asList(outcomes);
-            boolean isRollback = outcomes.length==0 || 
-                  ( result==null && outcomeList.contains(Outcome.REDISPLAY) ) || 
-                  outcomeList.contains(result);
-            if ( isRollback )
+            if ( getComponent().getType()==ComponentType.JAVA_BEAN )
             {
-               if ( getComponent().getType()==ComponentType.JAVA_BEAN )
-               {
-                  //For JavaBeans, we assume the UT is accessible
-                  Transactions.setUserTransactionRollbackOnly();
-               }
-               else
-               {
-                  //For session beans, we have to assume it might be
-                  //a CMT, so use the EJBContext
-                  Transactions.getEJBContext().setRollbackOnly();
-               }
+               //For JavaBeans, we assume the UT is accessible
+               Transactions.setUserTransactionRollbackOnly();
+            }
+            else
+            {
+               //For session beans, we have to assume it might be
+               //a CMT, so use the EJBContext
+               Transactions.getEJBContext().setRollbackOnly();
             }
          }
          return result;
       }
       catch (Exception e)
       {
-         //Any exception that propagates out of a JavaBean component
-         //causes a transaction rollback
+         //Reproduce the EJB3 rollback rules for JavaBean components
          if ( getComponent().getType()==ComponentType.JAVA_BEAN )
          {
-            try
+            if ( isRollbackRequired(e) )
             {
-               Transactions.setUserTransactionRollbackOnly();
+               try
+               {
+                  Transactions.setUserTransactionRollbackOnly();
+               }
+               catch (Exception te) {} //swallow
             }
-            catch (Exception te) {} //swallow
          }
          throw e;
       }
+   }
+
+   private boolean isRollbackRequired(Method method, final Object result)
+   {
+      if ( !method.isAnnotationPresent(Rollback.class) ) return false;
+      String[] outcomes = method.getAnnotation(Rollback.class).ifOutcome();
+      List<String> outcomeList = Arrays.asList(outcomes);
+      return outcomes.length==0 || 
+            ( result==null && outcomeList.contains(Outcome.REDISPLAY) ) || 
+            outcomeList.contains(result);
+   }
+
+   private boolean isRollbackRequired(Exception e)
+   {
+      Class<? extends Exception> clazz = e.getClass();
+      return ( (e instanceof RuntimeException) && !clazz.isAnnotationPresent(ApplicationException.class) ) || 
+            ( clazz.isAnnotationPresent(ApplicationException.class) && clazz.getAnnotation(ApplicationException.class).rollback() );
    }
    
 }

@@ -30,6 +30,7 @@ import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.jsf.AbstractSeamPhaseListener;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.Strings;
 
 /**
  * Holds metadata for pages defined in pages.xml, including
@@ -62,7 +63,8 @@ public class Exceptions
    @Create
    public void initialize() throws Exception 
    {
-      InputStream stream = Resources.getResourceAsStream("/WEB-INF/exceptions.xml");      
+      InputStream stream = Resources.getResourceAsStream("/WEB-INF/exceptions.xml");
+      ExceptionHandler anyhandler = null;
       if (stream==null)
       {
          log.info("no exceptions.xml file found");
@@ -79,80 +81,12 @@ public class Exceptions
             String className = exception.attributeValue("class");
             if (className==null)
             {
-               throw new IllegalArgumentException("must specify a value for class in <exception/> declaration");
+               anyhandler = createHandler(exception, Exception.class);
             }
-            final Class clazz = Reflections.classForName(className);
-            Element render = exception.element("render");
-            if (render!=null)
+            else
             {
-               final String viewId = render.attributeValue("view-id");
-               final String message = render.getTextTrim();
-               exceptionHandlers.add( new RenderHandler()
-               {
-                  @Override
-                  protected String getMessage(Exception e)
-                  {
-                     return message;
-                  }
-                  @Override
-                  protected String getViewId(Exception e)
-                  {
-                     return viewId;
-                  }
-                  @Override
-                  public boolean isHandler(Exception e)
-                  {
-                     return clazz.isInstance(e);
-                  }
-               } );
-            }
-            Element redirect = exception.element("redirect");
-            if (redirect!=null)
-            {
-               final String viewId = redirect.attributeValue("view-id");
-               final String message = redirect.getTextTrim();
-               exceptionHandlers.add( new RedirectHandler()
-               {
-                  @Override
-                  protected String getMessage(Exception e)
-                  {
-                     return message;
-                  }
-                  @Override
-                  protected String getViewId(Exception e)
-                  {
-                     return viewId;
-                  }
-                  @Override
-                  public boolean isHandler(Exception e)
-                  {
-                     return clazz.isInstance(e);
-                  }
-               } );
-            }
-            Element error = exception.element("http-error");
-            if (error!=null)
-            {
-               final int code = Integer.parseInt( error.attributeValue("view-id") );
-               final String message = error.getTextTrim();
-               exceptionHandlers.add( new ErrorHandler()
-               {
-                  @Override
-                  protected String getMessage(Exception e)
-                  {
-                     return message;
-                  }
-                  @Override
-                  protected int getCode(Exception e)
-                  {
-                     return code;
-                  }
-                  @Override
-                  public boolean isHandler(Exception e)
-                  {
-                     return clazz.isInstance(e);
-                  }
-               } );
+               ExceptionHandler handler = createHandler( exception, Reflections.classForName(className) );
+               if (handler!=null) exceptionHandlers.add(handler);
             }
          }
       }
@@ -164,6 +98,105 @@ public class Exceptions
       {
          exceptionHandlers.add( new DebugPageHandler() );
       }
+      
+      if (anyhandler!=null) exceptionHandlers.add(anyhandler);
+   }
+
+   private ExceptionHandler createHandler(Element exception, final Class clazz)
+   {
+      final boolean endConversation = exception.elementIterator("end-conversation").hasNext();
+
+      Element render = exception.element("render");
+      if (render!=null)
+      {
+         final String viewId = render.attributeValue("view-id");
+         final String message = render.getTextTrim();
+         return new RenderHandler()
+         {
+            @Override
+            protected String getMessage(Exception e)
+            {
+               return message;
+            }
+            @Override
+            protected String getViewId(Exception e)
+            {
+               return viewId;
+            }
+            @Override
+            public boolean isHandler(Exception e)
+            {
+               return clazz.isInstance(e);
+            }
+            @Override
+            protected boolean isEnd(Exception e)
+            {
+               return endConversation;
+            }
+         };
+      }
+      
+      Element redirect = exception.element("redirect");
+      if (redirect!=null)
+      {
+         final String viewId = redirect.attributeValue("view-id");
+         final String message = redirect.getTextTrim();
+         return new RedirectHandler()
+         {
+            @Override
+            protected String getMessage(Exception e)
+            {
+               return message;
+            }
+            @Override
+            protected String getViewId(Exception e)
+            {
+               return viewId;
+            }
+            @Override
+            public boolean isHandler(Exception e)
+            {
+               return clazz.isInstance(e);
+            }
+            @Override
+            protected boolean isEnd(Exception e)
+            {
+               return endConversation;
+            }
+         };
+      }
+      
+      Element error = exception.element("http-error");
+      if (error!=null)
+      {
+         final int code = Integer.parseInt( error.attributeValue("view-id") );
+         final String message = error.getTextTrim();
+         return new ErrorHandler()
+         {
+            @Override
+            protected String getMessage(Exception e)
+            {
+               return message;
+            }
+            @Override
+            protected int getCode(Exception e)
+            {
+               return code;
+            }
+            @Override
+            public boolean isHandler(Exception e)
+            {
+               return clazz.isInstance(e);
+            }
+            @Override
+            protected boolean isEnd(Exception e)
+            {
+               return endConversation;
+            }
+         };
+      }
+      
+      return null;
    }
 
    public static interface ExceptionHandler
@@ -176,7 +209,8 @@ public class Exceptions
    {
       public void handle(Exception e) throws Exception
       {
-         addFacesMessage(e, getMessage(e));
+         addFacesMessage( e, getMessage(e) );
+         if ( isEnd(e) ) Conversation.instance().end();
          redirect( getViewId(e) );
          handled(e);
          throw e;
@@ -198,30 +232,40 @@ public class Exceptions
          return e.getClass().getAnnotation(Redirect.class).viewId();
       }
       
+      protected boolean isEnd(Exception e)
+      {
+         return e.getClass().getAnnotation(Redirect.class).end();
+      } 
    }
    
    public static class RenderHandler implements ExceptionHandler
    {
       public void handle(Exception e)
       {
-         addFacesMessage(e, getMessage(e));
-         render(getViewId(e));
+         addFacesMessage( e, getMessage(e) );
+         if ( isEnd(e) ) Conversation.instance().end();
+         render( getViewId(e) );
       }
 
       public boolean isHandler(Exception e)
       {
-         return  e.getClass().isAnnotationPresent(Render.class) && 
+         return e.getClass().isAnnotationPresent(Render.class) && 
                Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION;
       }
 
       protected String getMessage(Exception e)
       {
-         return e.getClass().getAnnotation(Redirect.class).message();
+         return e.getClass().getAnnotation(Render.class).message();
       }
       
       protected String getViewId(Exception e)
       {
-         return e.getClass().getAnnotation(Redirect.class).viewId();
+         return e.getClass().getAnnotation(Render.class).viewId();
+      }
+
+      protected boolean isEnd(Exception e)
+      {
+         return e.getClass().getAnnotation(Render.class).end();
       }
    }
    
@@ -229,10 +273,10 @@ public class Exceptions
    {
       public void handle(Exception e) throws Exception
       {
-         String message = getMessage(e); 
-         message = message==null ? 
-               null : Interpolator.instance().interpolate(message);
-         error(getCode(e), message);
+         if ( isEnd(e) ) Conversation.instance().end();
+         String message = getMessage(e);
+         addFacesMessage(e, message);
+         error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage(e, message) ) );
          handled(e);
       }  
 
@@ -243,9 +287,7 @@ public class Exceptions
       
       protected String getMessage(Exception e)
       {
-         String message = e.getClass().getAnnotation(HttpError.class).message();
-         if ( "".equals(message) ) message = e.getMessage();
-         return message;
+         return e.getClass().getAnnotation(HttpError.class).message();
       }
       
       protected int getCode(Exception e)
@@ -253,6 +295,10 @@ public class Exceptions
          return e.getClass().getAnnotation(HttpError.class).errorCode();
       }
       
+      protected boolean isEnd(Exception e)
+      {
+         return e.getClass().getAnnotation(HttpError.class).end();
+      }      
    }
    
    public static class DebugPageHandler implements ExceptionHandler
@@ -282,12 +328,22 @@ public class Exceptions
       
    }
    
+   protected static String getDisplayMessage(Exception e, String message)
+   {
+      if ( Strings.isEmpty(message) ) 
+      {
+         return e.getMessage();
+      }
+      else
+      {
+         return message;
+      }
+   }
+   
    protected static void addFacesMessage(Exception e, String message)
    {
-      String message1 = message;
-      message1 = "".equals(message1) ? e.getMessage() : message1;
-      message = message1==null ? null : Interpolator.instance().interpolate(message1);
-      if (message!=null)
+      message = getDisplayMessage(e, message);
+      if ( !Strings.isEmpty(message) )
       {
          FacesMessages.instance().add(message);
       }
@@ -313,7 +369,7 @@ public class Exceptions
    protected static void redirect(String viewId)
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( "".equals(viewId) )
+      if ( Strings.isEmpty(viewId) )
       {
          viewId = facesContext.getViewRoot().getViewId();
       }
@@ -327,15 +383,19 @@ public class Exceptions
    
    protected static void render(String viewId)
    {
-      FacesContext context = FacesContext.getCurrentInstance();
-      if ( !"".equals(viewId) )
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if ( !Strings.isEmpty(viewId) )
       {
-         if ( log.isDebugEnabled() ) log.debug("rendering: " + viewId);
-         UIViewRoot viewRoot = context.getApplication().getViewHandler()
-               .createView(context, viewId);
-         context.setViewRoot(viewRoot);
+         UIViewRoot viewRoot = facesContext.getApplication().getViewHandler()
+               .createView(facesContext, viewId);
+         facesContext.setViewRoot(viewRoot);
       }
-      context.renderResponse();
+      else
+      {
+         viewId = facesContext.getViewRoot().getViewId(); //just for the log message
+      }
+      if ( log.isDebugEnabled() ) log.debug("rendering: " + viewId);
+      facesContext.renderResponse();
    }
 
    protected static void handled(Exception e)

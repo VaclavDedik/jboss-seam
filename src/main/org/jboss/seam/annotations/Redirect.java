@@ -34,4 +34,11 @@ public @interface Redirect
     * @return a JSF view id
     */
    String viewId();
+   /**
+    * Should the current long-running conversation end
+    * when this exception occurs.
+    * 
+    * @return true if we should end the conversation
+    */
+   boolean end() default false;
 }
