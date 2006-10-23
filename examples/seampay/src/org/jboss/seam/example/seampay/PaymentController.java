@@ -1,15 +1,14 @@
 package org.jboss.seam.example.seampay;
 
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.timer.*;
-import org.jboss.seam.framework.*;
-import org.jboss.seam.core.*;
+import javax.ejb.Timer;
+import javax.ejb.TimerHandle;
+
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
-
-import javax.persistence.*;
-
-import java.util.Date;
-import javax.ejb.*;
 
 
 public class PaymentController 
@@ -31,8 +30,7 @@ public class PaymentController
                                                 payment.getPaymentFrequency().getInterval(), 
                                                 payment);
         
-        TimerHandle handle = Dispatcher.instance().getHandle(timer);
-        payment.setTimerHandle(handle);
+        payment.setTimerHandle( timer.getHandle() );
 
         return result;
     }
@@ -49,8 +47,7 @@ public class PaymentController
         payment.setTimerHandle(null);
         payment.setActive(false);
         
-        Timer timer = Dispatcher.instance().getTimer(handle);
-        Dispatcher.instance().cancel(timer);
+        handle.getTimer().cancel();
     }
     
 }
