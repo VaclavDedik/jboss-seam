@@ -5,7 +5,7 @@
       xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd /opt/SUNWps/dtd/portlet.xsd"
       version="1.0">
    <portlet>
-      <portlet-name>SeamHibPortlet</portlet-name>
+      <portlet-name>SeamBookingPortlet</portlet-name>
       <init-param>
          <name>default-view</name>
          <value>/home.jsp</value>
@@ -16,7 +16,7 @@
          <portlet-mode>VIEW</portlet-mode>
       </supports>
       <portlet-info>
-         <title>SeamHibPortlet</title>
+         <title>Seam Booking Portlet</title>
       </portlet-info>
    </portlet>
 </portlet-app>

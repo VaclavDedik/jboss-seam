@@ -1,6 +1,6 @@
 <portlet-app>
    <portlet>
-      <portlet-name>SeamHibPortlet</portlet-name>
+      <portlet-name>SeamBookingPortlet</portlet-name>
       <header-content>
          <link rel="stylesheet" type="text/css" href="/css/screen.css" title="" media="screen"/>
       </header-content>

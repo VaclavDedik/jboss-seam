@@ -4,10 +4,10 @@
       <if-exists>overwrite</if-exists>
       <parent-ref>default</parent-ref>
       <page>
-         <page-name>SeamHibernate</page-name>
+         <page-name>SeamBooking</page-name>
          <window>
-            <window-name>SeamHibPortletWindow</window-name>
-            <instance-ref>SeamHibPortletInstance</instance-ref>
+            <window-name>SeamBookingWindow</window-name>
+            <instance-ref>SeamBookingInstance</instance-ref>
             <region>left</region>
             <height>0</height>
          </window>
@@ -16,8 +16,8 @@
    <deployment>
       <if-exists>overwrite</if-exists>
       <instance>
-         <instance-name>SeamHibPortletInstance</instance-name>
-         <component-ref>seam-hibernate.SeamHibPortlet</component-ref>
+         <instance-name>SeamBookingInstance</instance-name>
+         <component-ref>seam-portal.SeamBookingPortlet</component-ref>
       </instance>
    </deployment>
 </deployments>
