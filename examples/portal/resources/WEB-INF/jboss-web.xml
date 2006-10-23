@@ -1,8 +1,8 @@
 <jboss-web>
-   <context-root>seam-hibernate</context-root>
+   <context-root>seam-portal</context-root>
    <class-loading> 
       <loader-repository> 
-      seam.jboss.org:loader=seam-hibernate
+      seam.jboss.org:loader=seam-portal
       </loader-repository> 
    </class-loading>
 </jboss-web> 

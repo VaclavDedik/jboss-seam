@@ -13,29 +13,29 @@
       </constructor>
    </bean>
 
-   <bean name="bookingDatasourceFactory" class="org.jboss.seam.microcontainer.DataSourceFactory">
+   <bean name="portalDatasourceFactory" class="org.jboss.seam.microcontainer.DataSourceFactory">
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
       <property name="connectionUrl">jdbc:hsqldb:.</property>
       <property name="userName">sa</property>
-      <property name="jndiName">java:/hibernateDatasource</property>
+      <property name="jndiName">java:/portalDatasource</property>
       <property name="minSize">0</property>
       <property name="maxSize">10</property>
       <property name="blockingTimeout">1000</property>
       <property name="idleTimeout">100000</property>
       <property name="transactionManager"><inject bean="TransactionManager"/></property>
    </bean>
-   <bean name="bookingDatasource" class="java.lang.Object">
+   <bean name="portalDatasource" class="java.lang.Object">
       <constructor factoryMethod="getDataSource">
-         <factory bean="bookingDatasourceFactory"/>
+         <factory bean="portalDatasourceFactory"/>
       </constructor>
    </bean>
    
-   <bean name="bookingDatabaseFactory" class="org.jboss.seam.microcontainer.HibernateFactory"/>
-   <bean name="bookingDatabase" class="java.lang.Object">
+   <bean name="portalDatabaseFactory" class="org.jboss.seam.microcontainer.HibernateFactory"/>
+   <bean name="portalDatabase" class="java.lang.Object">
       <constructor factoryMethod="getSessionFactory">
-         <factory bean="bookingDatabaseFactory"/>
+         <factory bean="portalDatabaseFactory"/>
       </constructor>
-      <depends>bookingDatasource</depends>
+      <depends>portalDatasource</depends>
    </bean>
 
 </deployment>

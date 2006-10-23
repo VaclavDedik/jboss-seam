@@ -3,8 +3,8 @@
 <project name="Portal Booking" default="deploy" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="Seam on JBoss Hibernate3 Example"/>
-    <property name="example.name"           value="jboss-seam-hibernate"/>
+    <property name="Name"                   value="Seam on JBoss Portal/Hibernate3 Example"/>
+    <property name="example.name"           value="jboss-seam-portal"/>
     
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
@@ -45,12 +45,12 @@
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
-        <include name="hibernate-ds.xml"/>
+        <include name="portal-ds.xml"/>
     </fileset>
 
     <!-- Undeploy -->
     <patternset id="example.undeploy">
-        <include name="hibernate-ds.xml"/>
+        <include name="portal-ds.xml"/>
     </patternset>
 
     <!-- Overrides -->
@@ -68,9 +68,8 @@
             <fileset refid="example.war.webinf"/>
             <filterset filtersfile="resources/WEB-INF/web.xml">
                 <filter token="jndiPattern" value="${example.name}/#{ejbName}/local"/>
-                <filter token="embeddedEjb" value=""/>
-                <filter token="microcontainer" value=""/>
-                <filter token="myFacesLifecycleBug" value="${jbossHasMyFacesLifecycleBug}"/>
+                <filter token="embeddedEjb" value="false"/>
+                <filter token="microcontainer" value="false"/>
             </filterset>
         </copy>
         

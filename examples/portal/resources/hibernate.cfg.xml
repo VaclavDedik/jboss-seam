@@ -5,7 +5,7 @@
 <hibernate-configuration>
 	<session-factory name="java:/bookingDatabase">
 		<property name="show_sql">false</property>
-		<property name="connection.datasource">java:/hibernateDatasource</property>
+		<property name="connection.datasource">java:/portalDatasource</property>
 		<property name="hbm2ddl.auto">create-drop</property>
 		<property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
 		<property name="transaction.flush_before_completion">true</property>
