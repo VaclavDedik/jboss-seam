@@ -1210,40 +1210,6 @@ public class AccountManager extends AbstractMutable
         </sect1>
         
     <sect1>
-        <title>Managing exceptions</title>
-        <para>
-            JSF is surprisingly limited when it comes to exception handling. Seam lets you
-            define how a particular class of event is to be treated by annotating the event
-            class. This facility is meant to be combined with the EJB 3.0-standard 
-            <literal>@ApplicationException</literal> annotation which specifies whether 
-            the exception should cause a transaction rollback.
-        </para>
-        
-        <para>
-            This exception results in a HTTP 404 error whenever it propagates out of the
-            Seam component layer. It does not roll back the current transaction.
-        </para>
-        
-        <programlisting><![CDATA[@HttpError(errorCode=404)
-public class DocumentNotFoundException extends Exception { ... }]]></programlisting>
-
-        <para>
-            This exception results in a browser redirect whenever it propagates out of the
-            Seam component layer. It also rolls back the current transaction.
-        </para>
-        
-        <programlisting><![CDATA[@Redirect(viewId="/error.xhtml")
-@ApplicationException(rollback=true)
-public class UnrecoverableException extends RuntimeException { ... }]]></programlisting>
-
-        <para>
-            Note that <literal>@Redirect</literal>  does not work for exceptions
-            which occur during the render phase of the JSF lifecycle.
-        </para>
-
-    </sect1>
-    
-    <sect1>
         <title>Factory and manager components</title>
         <para>
             We often need to work with objects that are not Seam components. But we still want

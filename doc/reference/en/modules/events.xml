@@ -1,5 +1,5 @@
 <chapter id="events">
-    <title>Events and interceptors</title>
+    <title>Events, interceptors and exception handling</title>
 
     <para>
         Complementing the contextual component model, there are two further basic concepts
@@ -453,4 +453,94 @@ public class LoggedInInterceptor
 
     </sect1>
       
+    <sect1>
+        <title>Managing exceptions</title>
+        <para>
+            JSF is surprisingly limited when it comes to exception handling. As a partial 
+            workaround for this problem, Seam lets you define how a particular class of 
+            exception is to be treated by annotating the exception class, or declaring
+            the exception class in an XML file. This facility is meant to be combined with 
+            the EJB 3.0-standard <literal>@ApplicationException</literal> annotation which 
+            specifies whether the exception should cause a transaction rollback.
+        </para>
+        
+        <para>
+            Note that Seam applies the EJB 3.0 exception rollback rules also to Seam JavaBean 
+            components: <emphasis>system exceptions</emphasis> always cause a transaction 
+            rollback, <emphasis>application exceptions</emphasis> do not cause a rollback
+            by default, but do if <literal>@ApplicationException(rollback=true)</literal>
+            is specified. (An application exception is any checked exception, or any
+            unchecked exception annotated <literal>@ApplicationException</literal>.
+            A system exception is any unchecked exception without an 
+            <literal>@ApplicationException</literal> annotation.)
+        </para>
+        
+        <para>
+            This exception results in a HTTP 404 error whenever it propagates out of the
+            Seam component layer. It does not roll back the current transaction.
+        </para>
+        
+        <programlisting><![CDATA[@HttpError(errorCode=404)
+public class ApplicationException extends Exception { ... }]]></programlisting>
+
+        <para>
+            This exception results in a browser redirect whenever it propagates out of the
+            Seam component layer. It also ends the current conversation. It also rolls back 
+            the current transaction.
+        </para>
+        
+        <programlisting><![CDATA[@Redirect(viewId="/failure.xhtml", end=true)
+@ApplicationException(rollback=true)
+public class UnrecoverableApplicationException extends RuntimeException { ... }]]></programlisting>
+
+        <para>
+            Note that <literal>@Redirect</literal> does not work for exceptions
+            which occur during the render phase of the JSF lifecycle.
+        </para>
+
+        <para>
+            This exception results in immediate rendering of the view, along with a
+            message to the user, when it propagates out of the
+            Seam component layer. It also rolls back the current transaction.
+        </para>
+        
+        <programlisting><![CDATA[@Render(viewId="/error.xhtml", message="Unexpected error")
+public class SystemException extends RuntimeException { ... }]]></programlisting>
+
+        <para>
+            Note that <literal>@Render</literal> only works when the exception occurs during the 
+            <literal>INVOKE_APPLICATION</literal> phase.
+        </para>
+
+        <para>
+            Since we can't add annotations to all the exception classes we are interested in,
+            Seam also lets us specify this functionality in <literal>WEB-INF/exceptions.xml</literal>.
+        </para>
+        
+        <programlisting><![CDATA[<exceptions>
+   
+   <exception class="javax.persistence.EntityNotFoundException">
+      <http-error errorCode="404"/>
+   </exception>
+   
+   <exception class="javax.persistence.PersistenceException">
+      <render>Database access failed</render>
+      <end-conversation/>
+   </exception>
+   
+   <exception>
+      <redirect view-id="/search.xhtml">Unexpected failure</redirect>
+      <end-conversation/>
+   </exception>
+   
+</exceptions>]]></programlisting>
+
+        <para>
+            The last <literal>&lt;exception&gt;</literal> declaration does not specify a class,
+            and is a catch-all for any exception for which handling is not otherwise specified
+            via annotations or in <literal>exceptions.xml</literal>.
+        </para>
+
+    </sect1>
+    
 </chapter>
