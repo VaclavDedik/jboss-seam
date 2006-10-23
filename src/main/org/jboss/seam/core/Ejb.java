@@ -30,6 +30,7 @@ public class Ejb
    private static final Log log = LogFactory.getLog(Ejb.class);
    
    private EJB3StandaloneDeployer deployer;
+   private boolean started;
    
    @Create
    public void startup() throws Exception
@@ -49,6 +50,7 @@ public class Ejb
       deployer.create();
       deployer.start();
       //EJB3StandaloneBootstrap.scanClasspath();
+      started = true;
    }
 
    private void deploy(String name)
@@ -62,10 +64,13 @@ public class Ejb
    @Destroy
    public void shutdown() throws Exception
    {
-      log.info("stopping the embedded EJB container");
-      deployer.stop();
-      deployer.destroy();
-      deployer = null;
+      if (started)
+      {
+         log.info("stopping the embedded EJB container");
+         deployer.stop();
+         deployer.destroy();
+         deployer = null;
+      }
       EJB3StandaloneBootstrap.shutdown();
    }
    
