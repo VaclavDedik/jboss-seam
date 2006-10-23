@@ -6,6 +6,6 @@
     <component name="hibernateSessionFactory"
               class="org.jboss.seam.core.HibernateSessionFactory"/> 
     <component class="org.jboss.seam.core.Microcontainer"
-             install="@microcontainer@"/>
+             installed="@microcontainer@"/>
 
 </components>
