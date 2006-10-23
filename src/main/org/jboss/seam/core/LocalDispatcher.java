@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 import javax.ejb.Local;
 import javax.ejb.Timer;
@@ -15,7 +16,5 @@ public interface LocalDispatcher
    public Timer scheduleInvocation(InvocationContext invocation, Component component);
    public Timer scheduleEvent(String type, Long duration, Date expiration, Long intervalDuration);
     
-    public TimerHandle getHandle(Timer timer);
-    public Timer getTimer(TimerHandle timerHandle);
-    public void cancel(Timer timer);
+   public Object call(Callable task);
 }

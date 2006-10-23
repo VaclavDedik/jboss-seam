@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.EJBException;
+import javax.ejb.NoSuchObjectLocalException;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
@@ -202,26 +205,22 @@ public class Dispatcher implements LocalDispatcher
       {
          if (expiration!=null)
          {
-            return timerService.createTimer(expiration, intervalDuration, asynchronous);
+             return new TimerProxy(timerService.createTimer(expiration, intervalDuration, asynchronous));
          }
          else
          {
-            return timerService.createTimer(duration, intervalDuration, asynchronous);
+             return new TimerProxy(timerService.createTimer(duration, intervalDuration, asynchronous));
          }            
       }
       else if (expiration!=null)
       {
-         return timerService.createTimer(expiration, asynchronous);
+          return new TimerProxy(timerService.createTimer(expiration, asynchronous));
       }
       else
       {
-         return timerService.createTimer(duration, asynchronous);
+          return new TimerProxy(timerService.createTimer(duration, asynchronous));
       }
    }
-
-    public TimerHandle getHandle(Timer timer) { return timer.getHandle(); }
-    public Timer getTimer(TimerHandle timerHandle) { return timerHandle.getTimer(); }
-    public void cancel(Timer timer) { timer.cancel(); }
 
    public static LocalDispatcher instance()
    {
@@ -231,5 +230,128 @@ public class Dispatcher implements LocalDispatcher
       }
       return (LocalDispatcher) Component.getInstance(Dispatcher.class);         
    }
+   
+    public Object call(Callable task) {
+        try {
+            return task.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    static class TimerProxy 
+        implements Timer
+    {
+        Timer timer;
+
+        public TimerProxy(Timer timer)    
+            throws  IllegalStateException,
+                    NoSuchObjectLocalException,
+                    EJBException
+        {
+            this.timer = timer;
+        }
+        
+        private Object callInContext(Callable callable) 
+        {
+            return Dispatcher.instance().call(callable);
+        }
+
+        public void cancel() 
+            throws
+                IllegalStateException,
+                NoSuchObjectLocalException,
+                EJBException
+        {
+            callInContext(new Callable() {
+                    public Object call() {
+                        timer.cancel();
+                        return null;
+                    }
+                });
+        }
+
+        public TimerHandle getHandle()
+            throws
+                IllegalStateException,
+                NoSuchObjectLocalException,
+                EJBException
+        {
+            TimerHandle handle = (TimerHandle) 
+                callInContext(new Callable() {
+                        public Object call() {
+                            return timer.getHandle();
+                        }
+                    });
+            return new TimerHandleProxy(handle);
+        }
+
+        public Serializable getInfo() 
+            throws
+                IllegalStateException,
+                NoSuchObjectLocalException,
+                EJBException
+        {
+            return (Serializable) 
+                callInContext(new Callable() {
+                        public Object call() {
+                            return timer.getInfo();
+                        }
+                    });            
+        }
+        public Date getNextTimeout() 
+            throws
+                IllegalStateException,
+                NoSuchObjectLocalException,
+                EJBException
+        {
+            return (Date) 
+                callInContext(new Callable() {
+                        public Object call() {
+                            return timer.getNextTimeout();
+                        }
+                    });            
+        }
+        
+        public long getTimeRemaining()    
+            throws IllegalStateException,
+                   NoSuchObjectLocalException,
+                   EJBException
+        {
+            return (Long) 
+                callInContext(new Callable() {
+                        public Object call() {
+                            return timer.getTimeRemaining();
+                        }
+                    });  
+        }
+    }
+
+    static class TimerHandleProxy
+        implements TimerHandle, 
+                   Serializable
+    {
+        TimerHandle handle;
+
+        public TimerHandleProxy(TimerHandle handle) {
+            this.handle = handle;
+        }
+        
+        private Object callInContext(Callable callable) {
+            return Dispatcher.instance().call(callable);
+        }
+
+        public Timer getTimer() 
+            throws IllegalStateException,
+                   NoSuchObjectLocalException,
+                   EJBException 
+        {
+            Timer timer = (Timer) callInContext(new Callable() {
+                    public Object call() {
+                        return handle.getTimer();
+                    }
+                });
+            return new TimerProxy(timer);  
+        }
+    }
 }
