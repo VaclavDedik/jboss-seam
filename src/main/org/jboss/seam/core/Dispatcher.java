@@ -231,9 +231,13 @@ public class Dispatcher implements LocalDispatcher
       return (LocalDispatcher) Component.getInstance(Dispatcher.class);         
    }
    
-    public Object call(Callable task) {
+    public Object call(Callable task) 
+    {
         try {
             return task.call();
+        } catch (RuntimeException e) {
+            // just pass along runtime exceptions
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
