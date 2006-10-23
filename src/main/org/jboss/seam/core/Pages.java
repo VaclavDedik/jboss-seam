@@ -447,7 +447,11 @@ public class Pages
       if (viewId!=null)
       {
          Map<String, Object> parameters = getParameters(viewId);
-         if ( !parameters.isEmpty() )
+         if ( parameters.isEmpty() )
+         {
+            Contexts.getPageContext().remove(PAGE_PARAMETERS);
+         }
+         else
          {
             Contexts.getPageContext().set(PAGE_PARAMETERS, parameters);
          }
