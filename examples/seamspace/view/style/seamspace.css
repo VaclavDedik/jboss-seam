@@ -1,0 +1,31 @@
+body {
+  font-family: tahoma, arial, helvetica;
+  background-color: #e5e5e5;
+  margin: 0;
+}
+
+#header {
+  margin-left: auto;
+  margin-right: auto;
+  background: url(seamspace.png) left top no-repeat;
+  height: 100px;
+  width: 800px;
+  background-color: #003399;
+}
+
+#menubar {
+  margin-left: auto;
+  margin-right: auto;
+  height: 23px;
+  width: 800px;
+  background-color: #9bbbdd;
+
+}
+
+#content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 800px;
+  background-color: #ffffff;
+  height: 800px;
+}

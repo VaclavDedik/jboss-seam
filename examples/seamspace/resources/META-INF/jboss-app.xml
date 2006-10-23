@@ -1,5 +1,5 @@
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-booking
+      seam.jboss.org:loader=seam-space
       </loader-repository> 
-</jboss-app>
+</jboss-app> 

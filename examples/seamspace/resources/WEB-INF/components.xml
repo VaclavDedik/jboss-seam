@@ -1,0 +1,25 @@
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
+        <property name="jndiPattern">@jndiPattern@</property>
+        <property name="debug">false</property>
+    </component>
+ 
+    <component name="org.jboss.seam.core.manager">
+        <property name="conversationTimeout">120000</property>
+    </component>
+    
+    <component name="entityManager" class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
+    </component>    
+
+    <component class="org.jboss.seam.security.authenticator.ProviderAuthenticator">
+      <property name="providers">#{authenticatorAction}</property>
+    </component>
+
+    <component class="org.jboss.seam.security.SeamSecurityManager">
+    
+    </component>
+        
+</components>

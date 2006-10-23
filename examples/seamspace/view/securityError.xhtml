@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+<head>
+	<title>Seam Security</title>
+</head>
+
+<body>
+  <h1>A security error has occurred</h1>
+
+  <div class="errors"><h:messages globalOnly="true"/></div> 
+
+  <p>
+    You do not have the necessary permissions to carry out the requested action.
+  </p>
+  
+  <h:form>
+    <h:commandButton action="#{protectedAction.foo}" value="Protected action" class="button"/>
+    <h:commandButton action="#{login.logout}" value="Logout" class="button" />      
+    <h:commandButton action="#{protectedAction.modifyCustomer}" value="Modify customer" class="button"/>
+    <h:commandButton action="#{protectedAction.modifyReadonlyCustomer}" value="Modify read-only customer" class="button"/>     
+  </h:form>
+</body>
+</html>
+

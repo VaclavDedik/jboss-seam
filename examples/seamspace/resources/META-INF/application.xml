@@ -1,0 +1,17 @@
+<application>
+	<display-name>SeamSpace</display-name>
+
+	<module>
+		<web>
+			<web-uri>seam-space.war</web-uri>
+			<context-root>/seam-space</context-root>
+		</web>
+	</module>
+	<module>
+		<ejb>seam-space.jar</ejb>
+	</module>
+	<module>
+	    <java>jboss-seam.jar</java>
+	</module>
+
+</application>

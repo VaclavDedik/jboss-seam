@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="2.5"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <!-- Seam -->
+   
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+    </listener>
+
+    
+    <!-- Propagate conversations across redirects -->
+
+    <filter>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Seam Redirect Filter</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
+
+    <!-- MyFaces -->
+
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
+    <!-- Faces Servlet Mapping -->
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
+    
+  <servlet>
+    <servlet-name>Seam Remoting</servlet-name>
+    <servlet-class>org.jboss.seam.remoting.SeamRemotingServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Seam Remoting</servlet-name>
+    <url-pattern>/seam/remoting/*</url-pattern>
+  </servlet-mapping>    
+  
+  <!--security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Entire application</web-resource-name>
+      <url-pattern>/protected/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>manager</role-name>
+    </auth-constraint>
+  </security-constraint>
+  
+  <login-config>
+    <auth-method>SEAM</auth-method>
+    <realm-name>Seam Realm</realm-name>
+  </login-config>
+  
+  <security-role>
+    <description>Manager role</description>
+    <role-name>manager</role-name>
+  </security-role-->
+
+  <!-- Security filter -->
+  
+    <!--filter>
+        <filter-name>Seam Security Filter</filter-name>
+        <filter-class>org.jboss.seam.security.filter.SeamSecurityFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>Seam Security Filter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping-->  
+
+</web-app>
