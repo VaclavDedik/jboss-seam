@@ -1,0 +1,13 @@
+<exceptions>
+   
+   <exception class="javax.persistence.PersistenceException">
+      <render>Database access failed</render>
+      <end-conversation/>
+   </exception>
+   
+   <exception>
+      <redirect view-id="/search.xhtml">Unexpected failure</redirect>
+      <end-conversation/>
+   </exception>
+   
+</exceptions>

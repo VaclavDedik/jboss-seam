@@ -14,7 +14,9 @@
   
     <div class="menuButtons">
       <s:link view="/search.xhtml" value="Search Contacts"/>
-      <s:link view="/editContact.xhtml" value="Create New Contact"/>
+      <s:link view="/editContact.xhtml" value="Create New Contact">
+        <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
+      </s:link>
     </div>
 
     <div class="body">
