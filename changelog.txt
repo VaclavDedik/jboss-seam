@@ -93,6 +93,8 @@ Changes in version 1.1.0.BETA (October 2006)
     * [JBSEAM-405] - timeZone/timeZoneSelector
     * [JBSEAM-410] - Declarative Hibernate filters
     * [JBSEAM-411] - JPA outside EJB3
+    * [JBSEAM-434] - exceptions.xml
+    * [JBSEAM-435] - Use EJB3 exception rollback rules with JavaBean components
 
 ** Patch
     * [JBSEAM-111] - Check for duplicate component name on registration
