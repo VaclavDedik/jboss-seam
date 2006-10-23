@@ -16,7 +16,6 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 
 @Scope(SESSION)
 @Name("bookingList")
-@LoggedIn
 public class BookingListAction implements Serializable
 {
    @In(create=true)

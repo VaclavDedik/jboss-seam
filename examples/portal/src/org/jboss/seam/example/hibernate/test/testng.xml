@@ -2,21 +2,9 @@
 
 <suite name="Hotel Booking" verbose="2" parallel="false">
 
-   <test name="Portal Login">
-     <classes>
-       <class name="org.jboss.seam.example.hibernate.test.LoginTest"/>
-     </classes>
-   </test>
- 
    <test name="Portal Booking">
      <classes>
        <class name="org.jboss.seam.example.hibernate.test.BookingTest"/>
-     </classes>
-   </test>
-	
-   <test name="Portal ChangePassword">
-     <classes>
-       <class name="org.jboss.seam.example.hibernate.test.ChangePasswordTest"/>
      </classes>
    </test>
 
