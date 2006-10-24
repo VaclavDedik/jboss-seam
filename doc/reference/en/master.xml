@@ -4,28 +4,20 @@
 [
 <!ENTITY tutorial               SYSTEM "modules/tutorial.xml">
 <!ENTITY concepts               SYSTEM "modules/concepts.xml">
-
 <!ENTITY events                 SYSTEM "modules/events.xml">
-
 <!ENTITY conversations          SYSTEM "modules/conversations.xml">
 <!ENTITY jbpm                   SYSTEM "modules/jbpm.xml">
 <!ENTITY i18n                   SYSTEM "modules/i18n.xml">
-
 <!ENTITY jms                    SYSTEM "modules/jms.xml">
-
 <!ENTITY remoting               SYSTEM "modules/remoting.xml">
 <!ENTITY drools                 SYSTEM "modules/drools.xml">
-
 <!ENTITY validation             SYSTEM "modules/validation.xml">
-
 <!ENTITY configuration          SYSTEM "modules/configuration.xml">
 <!ENTITY framework              SYSTEM "modules/framework.xml">
-
 <!ENTITY annotations            SYSTEM "modules/annotations.xml">
-<!ENTITY elenhancements   SYSTEM "modules/elenhancements.xml">
 <!ENTITY components             SYSTEM "modules/components.xml">
 <!ENTITY controls               SYSTEM "modules/controls.xml">
-
+<!ENTITY elenhancements         SYSTEM "modules/elenhancements.xml">
 <!ENTITY testing                SYSTEM "modules/testing.xml">
 <!ENTITY tools                  SYSTEM "modules/tools.xml">
 ]>
@@ -245,28 +237,20 @@
 
     &tutorial;
     &concepts;
-
     &events;
     &conversations;
     &jbpm;
-
     &i18n;
-
     &jms;
-
     &remoting;
     &drools;
-
     &validation;
-
     &configuration;
-
     &framework;
     &annotations;
-    &elenhancements;
     &components;
-
     &controls;
+    &elenhancements;
     &testing;
     &tools;
 
