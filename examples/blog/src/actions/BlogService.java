@@ -26,7 +26,7 @@ public class BlogService
    @Unwrap
    public Blog getBlog()
    {
-      return (Blog) entityManager.createQuery("select b from Blog b left join fetch b.blogEntries")
+      return (Blog) entityManager.createQuery("select distinct b from Blog b left join fetch b.blogEntries")
             .setHint("org.hibernate.cacheable", true)
             .getSingleResult();
    }
