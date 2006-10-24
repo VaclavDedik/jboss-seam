@@ -1,8 +1,6 @@
 package org.jboss.seam.security;
 
 /**
- * <p> </p>
- *
  * @author Shane Bryzak
  */
 public class UsernamePasswordToken extends Authentication

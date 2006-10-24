@@ -1,8 +1,6 @@
 package org.jboss.seam.security.filter.handler;
 
 /**
- * <p> </p>
- *
  * @author Shane Bryzak
  */
 public class FormHandler implements Handler

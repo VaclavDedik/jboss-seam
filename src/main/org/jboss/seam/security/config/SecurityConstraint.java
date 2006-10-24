@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * Represents the <security-constraint> element from the configuration.
+ * Represents the &lt;security-constraint&gt; element from the configuration.
  *
  * @author Shane Bryzak
  */

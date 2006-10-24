@@ -1,19 +1,18 @@
 package org.jboss.seam.security.config;
 
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.servlet.ServletContext;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.seam.security.filter.handler.Handler;
 import org.jboss.seam.security.filter.handler.BasicHandler;
 import org.jboss.seam.security.filter.handler.FormHandler;
+import org.jboss.seam.security.filter.handler.Handler;
 
 /**
  * Loads the security configuration from an XML configuration file.

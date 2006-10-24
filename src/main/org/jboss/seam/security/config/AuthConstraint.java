@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Represents the <auth-constraint> settings in the config file.
+ * Represents the &lt;auth-constraint&gt; settings in the config file.
  *
  * @author Shane Bryzak
  */

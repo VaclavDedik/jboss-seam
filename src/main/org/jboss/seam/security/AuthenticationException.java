@@ -3,8 +3,6 @@ package org.jboss.seam.security;
 import javax.ejb.ApplicationException;
 
 /**
- * <p> </p>
- *
  * @author Shane Bryzak
  */
 @ApplicationException

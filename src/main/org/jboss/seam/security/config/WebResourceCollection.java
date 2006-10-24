@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * Represents the <web-resource-collection> element in the config file.
+ * Represents the &lt;web-resource-collection&gt; element in the config file.
  *
  * @author Shane Bryzak
  */
