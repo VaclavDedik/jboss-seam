@@ -40,9 +40,15 @@
       value expressions and passed to the <literal>bookHotel()</literal> method of the component. 
       This gives you an alternative to the use of <literal>@In</literal>.
     </para>
+    
+    <para>
+      Any value expression may be used as a parameter:
+    </para>
+
+    <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel.id, user.username)}" value="Book Hotel"/>]]></programlisting>
 
     <para>
-      You may pass literal strings using single or double quotes:
+      You may even pass literal strings using single or double quotes:
     </para>
 
     <programlisting><![CDATA[<h:commandLink action=”#{printer.println( ‘Hello world!’ )}” value=”Hello”/>]]></programlisting>

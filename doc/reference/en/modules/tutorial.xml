@@ -2840,7 +2840,7 @@ public class HotelBookingAction implements HotelBooking
           <literal>&lt;h:dataTable&gt;</literal> actually get initialized? Well, what
           happens is that the <literal>Blog</literal> is retrieved 
           lazily&mdash;"pulled"&mdash;when needed, by a Seam component named
-          <literal>blog</literal>. This is the opposite flow of control that is 
+          <literal>blog</literal>. This is the opposite flow of control to what is 
           usual in traditional web action-based frameworks like Struts.
       </para>
       
@@ -2901,91 +2901,74 @@ public class BlogService
           
       <para>
           The blog example has a tiny form in the top right of each page that
-          allows the user to search for blog entries. This is defined in the 
-          facelets template, <literal>template.xhtml</literal>:
+          allows the user to search for blog entries. This is defined in a 
+          file, <literal>menu.xhtml</literal>, included by the facelets 
+          template, <literal>template.xhtml</literal>:
       </para>
       
       <example>
       <programlisting><![CDATA[<div id="search">
    <h:form>
       <h:inputText value="#{searchAction.searchPattern}"/>
-      <h:commandButton value="Search" action="#{searchAction.search}"/>
+      <h:commandButton value="Search" action="/search.xhtml"/>
    </h:form>
 </div>]]></programlisting>
       </example>
         
       <para>
           To implement a bookmarkable search results page, we need to perform a browser redirect
-          after processing the search form submission. Seam provides a built-in component
-          named <literal>redirect</literal> that makes it very easy to perform redirects with
-          request parameters.
-      </para>
-      
-      <para>
-          You can either use a templated outcome, with JSF EL expressions as the request parameter
-          values:
+          after processing the search form submission. Because we used the JSF view id as the 
+          action outcome, Seam automatically redirects to the view id when the form is submitted.
+          Alternatively, we could have defined a navigation rule like this:
       </para>
       
       <example>
-      <programlisting><![CDATA[@Name("searchAction")
-public class SearchAction 
-{
-   
-   private String searchPattern;
-   
-   public String getSearchPattern()
-   {
-      return searchPattern;
-   }
-
-   public void setSearchPattern(String searchPattern)
-   {
-      this.searchPattern = searchPattern;
-   }
-
-   public String search()
-   {
-      return "/search.xhtml?searchPattern=#{searchAction.searchPattern}");
-   }
-
-}]]></programlisting>
+      <programlisting><![CDATA[<navigation-rule>
+   <navigation-case>
+      <from-outcome>searchResults</from-outcome>
+      <to-view-id>/search.xhtml</to-view-id>
+      <redirect/>
+   </navigation-case>
+</navigation-rule>]]></programlisting>
       </example>
       
       <para>
-          Or, if that feels too magical, you can inject and call the <literal>redirect</literal>
-          component directly:
+          Then the form would have looked like this:
       </para>
-
+        
       <example>
-      <programlisting><![CDATA[@Name("searchAction")
-public class SearchAction 
-{
-   
-   @In(create=true) 
-   private Redirect redirect;
-   
-   private String searchPattern;
-   
-   public String getSearchPattern()
-   {
-      return searchPattern;
-   }
-
-   public void setSearchPattern(String searchPattern)
-   {
-      this.searchPattern = searchPattern;
-   }
-
-   public void search()
-   {
-      redirect.setViewId("/search.xhtml");
-      redirect.setParameter("searchPattern", searchPattern);
-      redirect.execute();
-   }
-
-}]]></programlisting>
+      <programlisting><![CDATA[<div id="search">
+   <h:form>
+      <h:inputText value="#{searchAction.searchPattern}"/>
+      <h:commandButton value="Search" action="searchResults"/>
+   </h:form>
+</div>]]></programlisting>
       </example>
       
+      <para>
+          But when we redirect, we need to include the values submitted with the form as
+          request parameters, to get a bookmarkable URL like 
+          <literal>http://localhost:8080/seam-blog/search.seam?searchPattern=seam</literal>.
+          JSF does not provide an easy way to do this, but Seam does. We use a Seam
+          <emphasis>page parameter</emphasis>, defined in <literal>WEB-INF/pages.xml</literal>:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[<pages>
+   <page view-id="/search.xhtml">
+      <param name="searchPattern" value="#{searchService.searchPattern}"/>
+   </page>
+   ...
+</pages>]]></programlisting>
+      </example>
+      
+      <para>
+          This tells Seam to include the value of <literal>#{searchService.searchPattern}</literal>
+          as a request parameter named <literal>searchPattern</literal> when redirecting to
+          the page, and then re-apply the value of that parameter to the model before rendering
+          the page.
+      </para>
+            
       <para>
           The redirect takes us to the <literal>search.xhtml</literal> page:
       </para>
@@ -3012,25 +2995,29 @@ public class SearchAction
       </para>
       
       <example>
-      <programlisting><![CDATA[@Name("searchResults")
+      <programlisting><![CDATA[@Name("searchService")
 public class SearchService 
 {
    
    @In(create=true)
    private EntityManager entityManager;
    
-   @RequestParameter
    private String searchPattern;
    
-   private List<BlogEntry> searchResults;
-   
-   @Create
-   public void initSearchResults()
+   @Factory("searchResults")
+   public List<BlogEntry> getSearchResults()
    {
-      searchResults = entityManager.createQuery("from BlogEntry be where lower(be.title) like :searchPattern or lower(be.body) like :searchPattern order by be.date desc")
-            .setParameter( "searchPattern", getSqlSearchPattern() )
-            .setMaxResults(100)
-            .getResultList();
+      if (searchPattern==null)
+      {
+         return null;
+      }
+      else
+      {
+         return entityManager.createQuery("select be from BlogEntry be where lower(be.title) like :searchPattern or lower(be.body) like :searchPattern order by be.date desc")
+               .setParameter( "searchPattern", getSqlSearchPattern() )
+               .setMaxResults(100)
+               .getResultList();
+      }
    }
 
    private String getSqlSearchPattern()
@@ -3038,10 +3025,14 @@ public class SearchService
       return searchPattern==null ? "" : '%' + searchPattern.toLowerCase().replace('*', '%').replace('?', '_') + '%';
    }
 
-   @Unwrap
-   public List<BlogEntry> getSearchResults()
+   public String getSearchPattern()
    {
-      return searchResults;
+      return searchPattern;
+   }
+
+   public void setSearchPattern(String searchPattern)
+   {
+      this.searchPattern = searchPattern;
    }
 
 }]]></programlisting>
@@ -3066,52 +3057,55 @@ public class SearchService
       
       <example>
       <programlisting><![CDATA[@Name("entryAction")
-@Scope(ScopeType.STATELESS)
+@Scope(STATELESS)
 public class EntryAction
 {
    @In(create=true) 
    private Blog blog;
    
-   @RequestParameter
-   private String blogEntryId;
-   
-   @Out(scope=ScopeType.EVENT, required=false)
+   @Out
    private BlogEntry blogEntry;
-
    
-   public void getBlogEntry()
+   public void loadBlogEntry(String id) throws EntryNotFoundException
    {
-      blogEntry = blog.getBlogEntry(blogEntryId);
-      if (blogEntry==null)
-      {
-         HttpError.instance().send(HttpServletResponse.SC_NOT_FOUND);
-      }
+      blogEntry = blog.getBlogEntry(id);
+      if (blogEntry==null) throw new EntryNotFoundException(id);
    }
    
 }]]></programlisting>
       </example>
       
       <para>
-          The page action must be declared a file called <literal>pages.xml</literal>:
+          Page actions are also declared in <literal>pages.xml</literal>:
       </para>
       
       <example>
       <programlisting><![CDATA[<pages>
-   <page view-id="/entry.xhtml" action="#{entryAction.getBlogEntry}"/>
+   ...
+
+   <page view-id="/entry.xhtml" action="#{entryAction.loadBlogEntry(blogEntry.id)}">
+      <param name="blogEntryId" value="#{blogEntry.id}"/>
+   </page>
+
    <page view-id="/post.xhtml" action="#{loginAction.challenge}"/>
+
    <page view-id="*" action="#{blog.hitCount.hit}"/>
+
 </pages>]]></programlisting>
       </example>
       
       <para>
-          (Notice that the example is using page actions for some other functionality&mdash;the
-          login challenge, and the page counter.)
+          Notice that the example is using page actions for some other functionality&mdash;the
+          login challenge, and the pageview counter. Also notice the use of a parameter in
+          the page action method binding. This is not a standard feature of JSF EL, but Seam
+          lets you use it, not just for page actions, but also in JSF method bindings.
       </para>
       
       <para>
-          When the <literal>entry.xhtml</literal> page is requested, Seam first runs the page
-          action, which retrieves the needed data&mdash;the <literal>blogEntry</literal>&mdash;and 
-          places it in the Seam event context. Next, the following is rendered:          
+          When the <literal>entry.xhtml</literal> page is requested, Seam first binds the page parameter
+          <literal>blogEntryId</literal> to the model, then runs the page action, which retrieves the 
+          needed data&mdash;the <literal>blogEntry</literal>&mdash;and places it in the Seam event context. 
+          Finally, the following is rendered:          
       </para>
       
       <example>
@@ -3121,7 +3115,7 @@ public class EntryAction
       <h:outputText escape="false" value="#{blogEntry.body}"/>
    </div>
    <p>
-      [Posted on 
+      [Posted on&#160;
       <h:outputText value="#{blogEntry.date}">
          <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
       </h:outputText>]
@@ -3129,6 +3123,62 @@ public class EntryAction
 </div>]]></programlisting>
       </example>
       
+      <para>
+          If the blog entry is not found in the database, the <literal>EntryNotFoundException</literal>
+          exception is thrown. We want this exception to result in a 404 error, not a 505, so we
+          annotate the exception class:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[@ApplicationException(rollback=true)
+@HttpError(errorCode=HttpServletResponse.SC_NOT_FOUND)
+public class EntryNotFoundException extends Exception
+{
+   EntryNotFoundException(String id)
+   {
+      super("entry not found: " + id);
+   }
+}]]></programlisting>
+      </example>
+
+      <para>
+          An alternative implementation of the example does not use the parameter in the method binding:
+      </para>
+      
+      <example>
+      <programlisting><![CDATA[@Name("entryAction")
+@Scope(STATELESS)
+public class EntryAction
+{
+   @In(create=true) 
+   private Blog blog;
+   
+   @In @Out
+   private BlogEntry blogEntry;
+   
+   public void loadBlogEntry() throws EntryNotFoundException
+   {
+      blogEntry = blog.getBlogEntry( blogEntry.getId() );
+      if (blogEntry==null) throw new EntryNotFoundException(id);
+   }
+   
+}]]></programlisting>
+
+      <programlisting><![CDATA[<pages>
+   ...
+
+   <page view-id="/entry.xhtml" action="#{entryAction.loadBlogEntry}">
+      <param name="blogEntryId" value="#{blogEntry.id}"/>
+   </page>
+   
+   ...
+</pages>]]></programlisting>
+      </example>
+      
+      <para>
+          It is a matter of taste which implementation you prefer.
+      </para>
+
       </section>
             
   </section>
