@@ -891,6 +891,12 @@
                             default to the exception message.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>end</literal> &mdash; specifies that the long-running
+                            conversation should end, default to <literal>false</literal>.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
@@ -916,6 +922,12 @@
                             default to the exception message.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>end</literal> &mdash; specifies that the long-running
+                            conversation should end, default to <literal>false</literal>.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
@@ -938,6 +950,12 @@
                         <para>
                             <literal>message</literal> &mdash; a message to be sent
                             with the HTTP error, default to the exception message.
+                        </para>
+                        </listitem>
+                        <listitem>
+                        <para>
+                            <literal>end</literal> &mdash; specifies that the long-running
+                            conversation should end, default to <literal>false</literal>.
                         </para>
                         </listitem>
                     </itemizedlist>

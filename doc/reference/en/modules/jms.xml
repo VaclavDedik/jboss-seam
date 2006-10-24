@@ -31,23 +31,46 @@
         <title>Asynchronous methods</title>
         
         <para>
-            In simplest form, an asycnhronous call just lets a method call be processed asynchronously 
+            In simplest form, an asynchronous call just lets a method call be processed asynchronously 
             (in a different thread) from the caller. We usually use an asynchronous call when we want 
             to return an immediate response to the client, and let some expensive work be processed in
             the background. This pattern works very well in applications which use AJAX, where the
             client can automatically poll the server for the result of the work.
         </para>
         
-        <programlisting><![CDATA[@Stateless
-@Name("paymentHandler")
-public class PaymentHandler
+        <para>
+            For EJB components, we annotate the local interface to specify that a method is processed
+            asynchronously.
+        </para>
+        
+        <programlisting><![CDATA[@Local
+public interface PaymentHandler
 {
     @Asynchronous
+    public void processPayment(Payment payment);
+}]]></programlisting>
+
+        <para>
+            (For JavaBean components we can annotate the component implementation class if we like.)
+        </para>
+        
+        <para>
+            The use of asynchronicity is transparent to the bean class:
+        </para>
+        
+        <programlisting><![CDATA[@Stateless
+@Name("paymentHandler")
+public class PaymentHandlerBean implements PaymentHandler
+{
     public void processPayment(Payment payment)
     {
         //do some work!
     }
 }]]></programlisting>
+        
+        <para>
+            And also transparent to the client:
+        </para>
         
         <programlisting><![CDATA[@Stateful
 @Name("paymentAction")
@@ -75,21 +98,14 @@ public class CreatePaymentAction
             <literal>@IntervalDuration</literal> annotations.
         </para>
         
-        <programlisting><![CDATA[@Stateless
-@Name("paymentHandler")
-public class PaymentHandler
+        <programlisting><![CDATA[@Local
+public interface PaymentHandler
 {
     @Asynchronous
-    public void processScheduledPayment(Payment payment, @Expiration Date date)
-    {
-        //do some work!
-    }
+    public void processScheduledPayment(Payment payment, @Expiration Date date);
 
     @Asynchronous
-    public void processRecurringPayment(Payment payment, @Expiration Date date, @IntervalDuration Date interval)
-    {
-        //do some work!
-    }
+    public void processRecurringPayment(Payment payment, @Expiration Date date, @IntervalDuration Date interval)'
 }]]></programlisting>
         
         <programlisting><![CDATA[@Stateful
@@ -117,13 +133,19 @@ public class CreatePaymentAction
             the invocation.
         </para>
 
+        <programlisting><![CDATA[@Local
+public interface PaymentHandler
+{
+    @Asynchronous
+    public Timer processScheduledPayment(Payment payment, @Expiration Date date);
+}]]></programlisting>
+        
         <programlisting><![CDATA[@Stateless
 @Name("paymentHandler")
-public class PaymentHandler
+public class PaymentHandlerBean implements PaymentHandler
 {
     @In Timer timer;
     
-    @Asynchronous
     public Timer processScheduledPayment(Payment payment, @Expiration Date date)
     {
         //do some work!
