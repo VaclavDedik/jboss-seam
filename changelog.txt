@@ -1,6 +1,6 @@
 JBoss Seam Changelog
 ====================
-Changes in version 1.1.0.BETA (October 2006)
+Changes in version 1.1.0.BETA1 (October 2006)
 --------------------------------------------
 ** Bug
     * [JBSEAM-78] - destroy() method not called at end of a business process.
