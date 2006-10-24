@@ -866,16 +866,6 @@ public class Manager
       {
          url = encodeParameters(url, parameters);
       }
-      Map<String, Object> renderParameters = RenderParameters.instance();
-      if (renderParameters!=null)
-      {
-         url = encodeParameters(url, renderParameters);
-      }
-      /*Map<String, Object> pageParameters = Pages.instance().getParameters(viewId);
-      if (pageParameters!=null)
-      {
-         url = encodeParameters(url, pageParameters);
-      }*/
       if (includeConversationId)
       {
          url = encodeConversationId(url);

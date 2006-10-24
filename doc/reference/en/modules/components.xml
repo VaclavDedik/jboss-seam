@@ -150,7 +150,7 @@
                 <term><literal>redirect</literal></term>
                 <listitem>
                     <para>
-                        A convenient API for performing redirects with paramaters (this
+                        A convenient API for performing redirects with parameters (this
                         is especially useful for bookmarkable search results screens).
                     </para>
                     <itemizedlist>
