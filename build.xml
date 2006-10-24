@@ -541,6 +541,7 @@
                 <exclude name="booking/build.alter.xml"/>
                 <include name="hibernate/**/*"/>
                 <include name="blog/**/*"/>
+                <include name="contactlist/**/*"/>
                 <include name="issues/**/*"/>
                 <include name="registration/**/*"/>
                 <include name="dvdstore/**/*"/>
@@ -548,11 +549,11 @@
                 <include name="todo/**/*"/>
                 <include name="numberguess/**/*"/>
                 <include name="portal/**/*"/>
-            	  <include name="drools/**/*"/>
+                <include name="drools/**/*"/>
                 <include name="security/**/*"/>
-                <include name="remoting/**/*"/>
-                <exclude name="remoting/stories"/>
-                <exclude name="remoting/stories/**/*"/>
+                <include name="remoting/chatroom/*"/>
+            	<include name="remoting/helloworld/*"/>
+            	<include name="remoting/progressbar/*"/>
                 <include name="readme.txt"/>
                 <include name="seam-examples.html"/>
                 <exclude name="*/build"/>

@@ -11,6 +11,9 @@ hibernate/            The Seam Booking demo ported to Hibernate3
 
 dvdstore/             The Seam DVD Store demo demonstrating jBPM 
                       support in Seam
+                      
+contactlist/          The Seam Contact List demo demonstrating use
+                      of the Seam application framework
                 
 blog/                 The Seam blog example, showing how to write
                       RESTful applications using Seam
