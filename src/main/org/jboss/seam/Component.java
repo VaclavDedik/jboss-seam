@@ -1433,6 +1433,10 @@ public class Component
 
    public static Component forName(String name)
    {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("No application context active");
+      }
       return (Component) Contexts.getApplicationContext().get( name + ".component" );
    }
 
