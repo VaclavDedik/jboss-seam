@@ -8,11 +8,9 @@ import javax.security.auth.login.LoginException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,14 +23,12 @@ import org.apache.commons.logging.LogFactory;
 public class SeamSecurityFilter implements Filter
 {
   private static final Log log = LogFactory.getLog(SeamSecurityFilter.class);
-  private ServletContext servletContext;
 
 //  private static final String CONFIG_RESOURCE = "/WEB-INF/seam-security.xml";
 
   public void init(FilterConfig config)
       throws ServletException
   {
-    servletContext = config.getServletContext();
 
 //    try
 //    {
@@ -71,7 +67,6 @@ public class SeamSecurityFilter implements Filter
                        FilterChain chain)
       throws IOException, ServletException
   {
-    HttpServletRequest hRequest = (HttpServletRequest) request;
 
 //    Context sessionContext = new WebSessionContext(
 //        ContextAdaptor.getSession(hRequest.getSession()));

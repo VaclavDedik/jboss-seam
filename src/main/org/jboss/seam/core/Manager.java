@@ -1031,4 +1031,11 @@ public class Manager
       this.concurrentRequestTimeout = requestWait;
    }
 
+   @Override
+   public String toString()
+   {
+      return "Manager(" + currentConversationIdStack + ")";
+   }
+
+
 }

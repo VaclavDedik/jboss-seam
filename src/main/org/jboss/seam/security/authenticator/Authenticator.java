@@ -75,7 +75,6 @@ public abstract class Authenticator
       {
       }
     }
-    this.adapters = adapters;
   }
 
   public void beginRequest()

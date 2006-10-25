@@ -80,6 +80,7 @@ public final class Interceptor extends Reflections
       return type;
    }
    
+   @Override
    public String toString()
    {
       return "Interceptor(" + userInterceptorClass.getName() + ")";

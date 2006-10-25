@@ -75,6 +75,7 @@ public class JavaBeanInterceptor extends RootInterceptor
    {
       prePassivate( new RootInvocationContext(bean, getComponent().getPrePassivateMethod(), new Object[0])
       {
+         @Override
          public Object proceed() throws Exception
          {
             getComponent().callPrePassivateMethod(bean);
@@ -88,6 +89,7 @@ public class JavaBeanInterceptor extends RootInterceptor
    {
       postActivate( new RootInvocationContext(bean, getComponent().getPostActivateMethod(), new Object[0])
       {
+         @Override
          public Object proceed() throws Exception
          {
             getComponent().callPostActivateMethod(bean);

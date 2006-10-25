@@ -32,8 +32,6 @@ public class SeamRemotingServlet extends HttpServlet
 
   private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 
-  private static final String PARAM_ALLOWABLE_TOPICS = "allowableTopics";
-
   private static final String RESOURCE_PATH = "resource";
 
   private ServletContext servletContext;
@@ -50,18 +48,21 @@ public class SeamRemotingServlet extends HttpServlet
    * @param config ServletConfig
    * @throws ServletException
    */
+  @Override
   public void init(ServletConfig config)
       throws ServletException
   {
     servletContext = config.getServletContext();
   }
 
+  @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException
   {
     doPost(request, response);
   }
 
+  @Override
   protected void doPost(HttpServletRequest request,
                         HttpServletResponse response)
       throws ServletException, IOException

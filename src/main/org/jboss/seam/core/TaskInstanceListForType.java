@@ -37,7 +37,7 @@ public class TaskInstanceListForType
       if ( actorId == null ) return null;
 
       Map<String, List<TaskInstance>> map = new HashMap<String, List<TaskInstance>>();
-      List<TaskInstance> taskInstances = (List<TaskInstance>) ManagedJbpmContext.instance().getTaskMgmtSession().findTaskInstances(actorId);
+      List<TaskInstance> taskInstances = ManagedJbpmContext.instance().getTaskMgmtSession().findTaskInstances(actorId);
       for ( TaskInstance task: taskInstances )
       {
          String name = task.getName();

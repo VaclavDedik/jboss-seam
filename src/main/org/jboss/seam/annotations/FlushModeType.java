@@ -29,6 +29,6 @@ public enum FlushModeType
    public boolean dirtyBetweenTransactions() 
    { 
       return this==MANUAL;
-   };
+   }
     
 }

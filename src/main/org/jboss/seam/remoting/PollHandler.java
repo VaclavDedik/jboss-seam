@@ -53,6 +53,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
 
   private ServletContext servletContext;
 
+  @Override
   public void setServletContext(ServletContext ctx)
   {
     this.servletContext = ctx;
@@ -73,7 +74,7 @@ public class PollHandler extends BaseRequestHandler implements RequestHandler
 
     try
     {
-      HttpSession session = ((HttpServletRequest) request).getSession(true);
+      HttpSession session = request.getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, session, request);

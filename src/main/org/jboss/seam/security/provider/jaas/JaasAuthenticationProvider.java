@@ -1,16 +1,15 @@
 package org.jboss.seam.security.provider.jaas;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
 import javax.security.auth.Subject;
 import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
+import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 
 /**
  * JAAS authentication provider
@@ -30,11 +29,13 @@ public class JaasAuthenticationProvider //implements AuthenticationProvider
           "org.jboss.seam.security.loginmodule.SeamLoginModule",
           LoginModuleControlFlag.REQUIRED, options);
       Configuration config = new Configuration() {
-        public AppConfigurationEntry[] getAppConfigurationEntry(String name)
-        {
-          return new AppConfigurationEntry[] {entry};
-        }
-        public void refresh() {}
+         @Override
+         public AppConfigurationEntry[] getAppConfigurationEntry(String name)
+         {
+            return new AppConfigurationEntry[] {entry};
+         }
+         @Override
+         public void refresh() {}
       };
 
       /** @todo get the JAAS configuration name from the config file? */
@@ -58,7 +59,7 @@ public class JaasAuthenticationProvider //implements AuthenticationProvider
 
   protected Principal createPrincipal(String username, Subject subject)
   {
-    List<String> roles = new ArrayList<String>();
+/*    List<String> roles = new ArrayList<String>();
     Principal userPrincipal = null;
 
     for (Principal principal : subject.getPrincipals())
@@ -71,7 +72,7 @@ public class JaasAuthenticationProvider //implements AuthenticationProvider
 //      {
 //        roles.add(principal.getName());
 //      }
-    }
+    }*/
 
     // Return the resulting Principal for our authenticated user
 //    return new SeamPrincipal(null, username, roles, userPrincipal);

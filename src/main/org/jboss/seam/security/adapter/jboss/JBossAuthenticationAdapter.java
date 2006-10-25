@@ -4,14 +4,11 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
-import org.jboss.seam.annotations.Name;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.adapter.AuthenticationAdapter;
 import org.jboss.security.auth.callback.UsernamePasswordHandler;
 
 /**
- * <p> </p>
- *
  * @author Shane Bryzak
  */
 public class JBossAuthenticationAdapter implements AuthenticationAdapter

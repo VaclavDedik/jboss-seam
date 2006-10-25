@@ -51,4 +51,10 @@ public class Filter
    {
       this.name = name;
    }
+
+   @Override
+   public String toString()
+   {
+      return "Filter(" + name + ")";
+   }
 }

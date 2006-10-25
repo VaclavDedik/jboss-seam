@@ -46,4 +46,10 @@ public class Transition extends AbstractMutable implements Serializable {
       }
       return (Transition) Component.getInstance(Transition.class, ScopeType.CONVERSATION, true);
    }
+
+   @Override
+   public String toString()
+   {
+      return "Transition(" + name + ")";
+   }
 }

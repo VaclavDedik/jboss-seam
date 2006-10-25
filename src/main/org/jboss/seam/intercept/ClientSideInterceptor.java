@@ -59,6 +59,7 @@ public class ClientSideInterceptor extends RootInterceptor
    {
       return aroundInvoke( new RootInvocationContext(bean, method, params, methodProxy)
       {
+         @Override
          public Object proceed() throws Exception
          {
             SeamInterceptor.COMPONENT.set( getComponent() );

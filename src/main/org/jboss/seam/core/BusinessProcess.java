@@ -31,7 +31,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    
    private Long processId;
    private Long taskId;
-
+   
    public static BusinessProcess instance()
    {
       if ( !Contexts.isConversationContextActive() )
@@ -310,6 +310,12 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
             "Process #0 not found", 
             processId
          );
+   }
+
+   @Override
+   public String toString()
+   {
+      return "BusinessProcess(processId=" + processId + ",taskId=" + taskId + ")";
    }
 
 }

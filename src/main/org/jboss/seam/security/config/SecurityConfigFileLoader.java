@@ -39,10 +39,6 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
   private static final String FORM_ERROR_PAGE = "form-error-page";
   private static final String FORM_DEFAULT_PAGE = "form-default-page";
 
-  // SEAM
-  private static final String SEAM_LOGIN_CONFIG = "seam-login-config";
-  private static final String SEAM_LOGIN_PAGE = "seam-login-page";
-
   // <security-role>
   private static final String SECURITY_ROLE = "security-role";
 
@@ -54,8 +50,6 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
 
   private Handler authenticator;
 
-  private ServletContext servletContext;
-
   /**
    * Constructor, loads the configuration from configFile.
    *
@@ -66,7 +60,6 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
   {
     try
     {
-      this.servletContext = servletContext;
 
       // Parse the incoming request as XML
       SAXReader xmlReader = new SAXReader();

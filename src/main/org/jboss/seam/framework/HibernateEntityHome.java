@@ -60,6 +60,7 @@ public class HibernateEntityHome<E> extends Home<E>
    }
    
    @Transactional
+   @Override
    public E find()
    {
       E result = (E) getSession().get( getEntityClass(), (Serializable) getId() );

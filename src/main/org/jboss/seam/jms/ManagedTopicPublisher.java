@@ -65,4 +65,10 @@ public class ManagedTopicPublisher
       return topicPublisher;
    }
    
+   @Override
+   public String toString()
+   {
+      return "TopicConnection(" + topicJndiName + ")";
+   }
+
 }

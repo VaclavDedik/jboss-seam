@@ -87,4 +87,9 @@ public class ConversationEntries extends AbstractMutable implements Serializable
       return (ConversationEntries) Component.getInstance(ConversationEntries.class, ScopeType.SESSION, true);
    }
    
+   @Override
+   public String toString()
+   {
+      return "ConversationEntries(" + conversationIdEntryMap.values() + ")";
+   }
 }

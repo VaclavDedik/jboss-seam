@@ -34,6 +34,7 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
    *
    * @param element Element
    */
+  @Override
   public void setElement(Element element)
   {
     super.setElement(element);
@@ -57,9 +58,7 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     }
   }
 
-  /**
-   *
-   */
+  @Override
   public void unmarshal()
   {
     List members = element.elements("member");
@@ -154,6 +153,7 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
    * @param out OutputStream
    * @throws IOException
    */
+  @Override
   public void serialize(OutputStream out)
       throws IOException
   {

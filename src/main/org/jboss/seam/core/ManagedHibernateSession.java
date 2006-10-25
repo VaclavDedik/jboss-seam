@@ -220,6 +220,7 @@ public class ManagedHibernateSession
       this.filters = filters;
    }
 
+   @Override
    public String toString()
    {
       return "ManagedHibernateSession(" + sessionFactoryJndiName + ")";

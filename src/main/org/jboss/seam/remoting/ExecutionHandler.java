@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import org.dom4j.io.SAXReader;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.remoting.wrapper.BeanWrapper;
 import org.jboss.seam.remoting.wrapper.Wrapper;
 
 /**
@@ -42,6 +42,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
   private ServletContext servletContext;
 
+  @Override
   public void setServletContext(ServletContext ctx)
   {
     this.servletContext = ctx;
@@ -70,7 +71,7 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       RequestContext ctx = unmarshalContext(env);
 
       // Reinstate the Seam conversation
-      HttpSession session = ( (HttpServletRequest) request).getSession(true);
+      HttpSession session = request.getSession(true);
       Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
       Lifecycle.setServletRequest(request);
       Lifecycle.beginRequest(servletContext, session, request);

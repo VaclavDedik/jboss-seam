@@ -6,8 +6,6 @@ import static org.jboss.seam.ScopeType.STATELESS;
 import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
-import javax.faces.context.FacesContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
@@ -66,7 +64,6 @@ public class Interpolator {
 
    private String interpolateExpressions(String string, Object... params)
    {
-      FacesContext context = FacesContext.getCurrentInstance();
       StringTokenizer tokens = new StringTokenizer(string, "#{}", true);
       StringBuilder builder = new StringBuilder(string.length());
       while ( tokens.hasMoreTokens() )

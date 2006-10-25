@@ -26,26 +26,31 @@ public class PortletRequestImpl extends ContextAdaptor
       this.request = request;
    }
    
+   @Override
    public Object getAttribute(String key)
    {
       return request.getAttribute(key);
    }
 
+   @Override
    public void removeAttribute(String key)
    {
       request.removeAttribute(key);
    }
 
+   @Override
    public Enumeration getAttributeNames()
    {
       return request.getAttributeNames();
    }
 
+   @Override
    public void setAttribute(String key, Object value)
    {
       request.setAttribute(key, value);
    }
 
+   @Override
    public void invalidate()
    {
       throw new UnsupportedOperationException();

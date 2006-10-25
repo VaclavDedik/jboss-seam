@@ -55,6 +55,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
   private ServletContext servletContext;
 
+  @Override
   public void setServletContext(ServletContext ctx)
   {
     this.servletContext = ctx;
@@ -505,7 +506,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         for (Type t : ((ParameterizedType) propertyType).getActualTypeArguments())
         {
           if (t instanceof Class)
-            appendTypeSource(out, (Class) t, types);
+            appendTypeSource(out, t, types);
         }
       }
 

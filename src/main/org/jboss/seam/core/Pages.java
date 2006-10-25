@@ -68,6 +68,12 @@ public class Pages
       String outcome;
       String noConversationViewId;
       List<PageParameter> pageParameters = new ArrayList<PageParameter>();
+      
+      @Override
+      public String toString()
+      {
+         return "Page(" + viewId + ")";
+      }
    }
    
    static final class PageParameter
@@ -97,6 +103,12 @@ public class Pages
             Class<?> type = valueBinding.getType();
             return FacesContext.getCurrentInstance().getApplication().createConverter(type);           
          }
+      }
+
+      @Override
+      public String toString()
+      {
+         return "PageParameter(" + name + ")";
       }
    }
    

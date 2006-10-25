@@ -36,6 +36,7 @@ public class SeamVariableResolver extends VariableResolver
       this.jsfVariableResolver = jsfVariableResolver;
    }
 
+   @Override
    public Object resolveVariable(FacesContext facesContext, String name) throws EvaluationException
    {
       name = name.replace('$', '.');

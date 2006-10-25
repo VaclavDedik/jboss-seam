@@ -73,4 +73,11 @@ public class QueueConnection
    {
       return (javax.jms.QueueConnection) Component.getInstance( Seam.getComponentName(QueueConnection.class), true );
    }
+
+   @Override
+   public String toString()
+   {
+      return "TopicConnection(" + queueConnectionFactoryJndiName + ")";
+   }
+
 }

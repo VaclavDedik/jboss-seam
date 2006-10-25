@@ -92,8 +92,8 @@ public class Pageflow extends AbstractMutable implements Serializable
          {
             //check the counter to detect illegal use of backbutton
             //Integer counter = (Integer) attributes.get(Manager.PAGEFLOW_COUNTER);
-            Integer counter = (Integer) Contexts.getPageContext().get(Manager.PAGEFLOW_COUNTER);
-            if ( counter!=null && getPageflowCounter()!=counter )
+            Integer pageCounter = (Integer) Contexts.getPageContext().get(Manager.PAGEFLOW_COUNTER);
+            if ( pageCounter!=null && getPageflowCounter()!=pageCounter )
             {
                illegalNavigationError();
             }
@@ -265,6 +265,7 @@ public class Pageflow extends AbstractMutable implements Serializable
       return pageflowProcessDefinition;
    }
    
+   @Override
    public String toString()
    {
       String name = processInstance==null ? 

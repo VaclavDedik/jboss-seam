@@ -63,7 +63,7 @@ public class EntityQuery extends Query
          resultCount = query==null ? 
                null : (Long) query.getSingleResult();
       }
-      return (Long) resultCount;
+      return resultCount;
    }
 
    @Override

@@ -114,6 +114,7 @@ import org.jboss.seam.util.Conversions.PropertyValue;
  * @version $Revision$
  */
 @Scope(ScopeType.APPLICATION)
+@SuppressWarnings("deprecation")
 public class Component
 {
    public static final String PROPERTIES = "org.jboss.seam.properties";
@@ -1760,6 +1761,7 @@ public class Component
       return name;
    }
 
+   @Override
    public String toString()
    {
       return "Component(" + name + ")";
@@ -1784,7 +1786,7 @@ public class Component
       }
       interfaces.add(Proxy.class);
       en.setInterfaces( interfaces.toArray( new Class[0] ) );
-      return (Class<Factory>) en.createClass();
+      return en.createClass();
    }
 
    public InterceptionType getInterceptionType()
@@ -1820,6 +1822,7 @@ public class Component
          return value;
       }
 
+      @Override
       public String toString()
       {
          return "ConstantInitialValue(" + value + ")";
@@ -1888,6 +1891,7 @@ public class Component
          return Expressions.instance().createMethodBinding(expression);
       }
 
+      @Override
       public String toString()
       {
          return "ELInitialValue(" + expression + ")";

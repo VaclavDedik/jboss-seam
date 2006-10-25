@@ -38,7 +38,7 @@ public class PooledTask
    private TaskInstance getTaskInstance()
    {
       String taskId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("taskId");
-      return (TaskInstance) ManagedJbpmContext.instance().getTaskMgmtSession().loadTaskInstance( Long.parseLong(taskId) );
+      return ManagedJbpmContext.instance().getTaskMgmtSession().loadTaskInstance( Long.parseLong(taskId) );
    }
    
 }

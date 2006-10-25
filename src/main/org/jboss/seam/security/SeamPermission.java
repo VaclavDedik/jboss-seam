@@ -36,11 +36,13 @@ public class SeamPermission implements Permission
     return action;
   }
 
+  @Override
   public String toString()
   {
     return String.format("[name=%s,action=%s]", name, action);
   }
 
+  @Override
   public boolean equals(Object obj)
   {
     if (!(obj instanceof SeamPermission))
@@ -51,6 +53,7 @@ public class SeamPermission implements Permission
     return other.name.equals(name) && other.action.equals(this.action);
   }
 
+  @Override
   public int hashCode()
   {
     return (name.hashCode() * 11) ^ (action.hashCode() * 13);

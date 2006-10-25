@@ -29,16 +29,19 @@ public class UsernamePasswordToken extends Authentication
     return principal.toString();
   }
 
+  @Override
   public String[] getRoles()
   {
     return roles;
   }
 
+  @Override
   public Object getCredentials()
   {
     return credentials;
   }
 
+  @Override
   public Object getPrincipal()
   {
     return principal;

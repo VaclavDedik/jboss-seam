@@ -23,6 +23,7 @@
 package org.jboss.seam.actionparam;
 
 import java.lang.reflect.Method;
+
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.faces.el.EvaluationException;
@@ -68,7 +69,7 @@ class ActionParamBindingHelper
         {
             String param = params[i].trim();
             
-            if (parser.isQuotedString(param)) 
+            if ( MethodExpressionParser.isQuotedString(param) ) 
             {
                 // strip quotes
                 results[i] = param.substring(1, param.length() - 1);

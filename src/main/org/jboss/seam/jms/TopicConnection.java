@@ -73,4 +73,11 @@ public class TopicConnection
    {
       return (javax.jms.TopicConnection) Component.getInstance( Seam.getComponentName(TopicConnection.class), true );
    }
+
+   @Override
+   public String toString()
+   {
+      return "TopicConnection(" + topicConnectionFactoryJndiName + ")";
+   }
+
 }

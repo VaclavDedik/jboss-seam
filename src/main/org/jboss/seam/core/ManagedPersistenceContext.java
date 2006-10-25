@@ -23,7 +23,6 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.persistence.PersistenceProvider;
@@ -211,6 +210,7 @@ public class ManagedPersistenceContext
       }
    }
    
+   @Override
    public String toString()
    {
       return "ManagedPersistenceContext(" + persistenceUnitJndiName + ")";

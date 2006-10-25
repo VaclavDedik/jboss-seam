@@ -40,7 +40,7 @@ public class PageContext implements Context {
    
    public PageContext()
    {
-      previousPageMap = (Map<String, Object>) getAttributeMap();
+      previousPageMap = getAttributeMap();
       nextPageMap = new HashMap<String, Object>();
    }
 
@@ -99,6 +99,7 @@ public class PageContext implements Context {
       return getCurrentReadableMap().keySet().toArray( new String[]{} );
    }
    
+   @Override
    public String toString()
    {
       return "PageContext";

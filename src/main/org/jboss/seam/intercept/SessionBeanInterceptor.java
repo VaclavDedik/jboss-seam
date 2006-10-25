@@ -37,6 +37,7 @@ public class SessionBeanInterceptor extends RootInterceptor
    }
    
    @PostConstruct
+   @Override
    public void postConstruct(InvocationContext invocation)
    {
       Component invokingComponent = SessionBeanInterceptor.COMPONENT.get();

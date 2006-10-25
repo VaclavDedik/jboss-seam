@@ -21,9 +21,6 @@ import org.jboss.seam.util.Reflections;
 @Scope(APPLICATION)
 public class ProviderAuthenticator extends Authenticator
 {
-  /**
-   *
-   */
   private List<Object> providers = new ArrayList<Object> ();
 
   /**
@@ -32,6 +29,7 @@ public class ProviderAuthenticator extends Authenticator
    * @return Authentication
    * @throws AuthenticationException
    */
+  @Override
   public Authentication doAuthentication(Authentication authentication)
       throws AuthenticationException
   {
@@ -73,7 +71,7 @@ public class ProviderAuthenticator extends Authenticator
           try
           {
             provider = Reflections.classForName(provider.toString()).newInstance();
-            providers.add( (AuthenticationProvider) provider);
+            providers.add(provider);
           }
           catch (Exception ex)
           {

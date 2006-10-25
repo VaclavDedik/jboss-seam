@@ -55,6 +55,7 @@ public class Actor extends AbstractMutable implements Serializable
       return (Actor) Component.getInstance(Actor.class, true);
    }
    
+   @Override
    public String toString()
    {
       return "Actor(" + id + ")";

@@ -26,70 +26,70 @@ public class StringWrapper extends BaseWrapper implements Wrapper
 
   static {
     converters.put(String.class, new StringConverter() {
-      public Object convert(String value) { return value; };
+      public Object convert(String value) { return value; }
     });
     converters.put(Object.class, new StringConverter() {
-      public Object convert(String value) { return value; };
+      public Object convert(String value) { return value; }
     });
     converters.put(StringBuilder.class, new StringConverter() {
-      public Object convert(String value) { return new StringBuilder(value); };
+      public Object convert(String value) { return new StringBuilder(value); }
     });
     converters.put(StringBuffer.class, new StringConverter() {
-      public Object convert(String value) { return new StringBuffer(value); };
+      public Object convert(String value) { return new StringBuffer(value); }
     });
     converters.put(Integer.class, new StringConverter() {
-      public Object convert(String value) { return Integer.valueOf(value); };
+      public Object convert(String value) { return Integer.valueOf(value); }
     });
     converters.put(Integer.TYPE, new StringConverter() {
-      public Object convert(String value) { return Integer.parseInt(value); };
+      public Object convert(String value) { return Integer.parseInt(value); }
     });
     converters.put(Long.class, new StringConverter() {
-      public Object convert(String value) { return Long.valueOf(value); };
+      public Object convert(String value) { return Long.valueOf(value); }
     });
     converters.put(Long.TYPE, new StringConverter() {
-      public Object convert(String value) { return Long.parseLong(value); };
+      public Object convert(String value) { return Long.parseLong(value); }
     });
     converters.put(Short.class, new StringConverter() {
-      public Object convert(String value) { return Short.valueOf(value); };
+      public Object convert(String value) { return Short.valueOf(value); }
     });
     converters.put(Short.TYPE, new StringConverter() {
-      public Object convert(String value) { return Short.parseShort(value); };
+      public Object convert(String value) { return Short.parseShort(value); }
     });
     converters.put(Boolean.class, new StringConverter() {
-      public Object convert(String value) { return Boolean.valueOf(value); };
+      public Object convert(String value) { return Boolean.valueOf(value); }
     });
     converters.put(Boolean.TYPE, new StringConverter() {
-      public Object convert(String value) { return Boolean.parseBoolean(value); };
+      public Object convert(String value) { return Boolean.parseBoolean(value); }
     });
     converters.put(Double.class, new StringConverter() {
-      public Object convert(String value) { return Double.valueOf(value); };
+      public Object convert(String value) { return Double.valueOf(value); }
     });
     converters.put(Double.TYPE, new StringConverter() {
-      public Object convert(String value) { return Double.parseDouble(value); };
+      public Object convert(String value) { return Double.parseDouble(value); }
     });
     converters.put(Float.class, new StringConverter() {
-      public Object convert(String value) { return Float.valueOf(value); };
+      public Object convert(String value) { return Float.valueOf(value); }
     });
     converters.put(Float.TYPE, new StringConverter() {
-      public Object convert(String value) { return Float.parseFloat(value); };
+      public Object convert(String value) { return Float.parseFloat(value); }
     });
     converters.put(Character.class, new StringConverter() {
-      public Object convert(String value) { return Character.valueOf(value.charAt(0)); };
+      public Object convert(String value) { return Character.valueOf(value.charAt(0)); }
     });
     converters.put(Character.TYPE, new StringConverter() {
-      public Object convert(String value) { return value.charAt(0); };
+      public Object convert(String value) { return value.charAt(0); }
     });
     converters.put(Byte.class, new StringConverter() {
-      public Object convert(String value) { return Byte.valueOf(value); };
+      public Object convert(String value) { return Byte.valueOf(value); }
     });
     converters.put(Byte.TYPE, new StringConverter() {
-      public Object convert(String value) { return Byte.parseByte(value); };
+      public Object convert(String value) { return Byte.parseByte(value); }
     });
     converters.put(BigInteger.class, new StringConverter() {
-      public Object convert(String value) { return new BigInteger(value); };
+      public Object convert(String value) { return new BigInteger(value); }
     });
     converters.put(BigDecimal.class, new StringConverter() {
-      public Object convert(String value) { return new BigDecimal(value); };
+      public Object convert(String value) { return new BigDecimal(value); }
     });
   }
 

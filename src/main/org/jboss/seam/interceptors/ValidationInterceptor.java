@@ -27,6 +27,7 @@ import org.jboss.seam.core.FacesMessages;
  */
 @Interceptor(stateless=true,
              within={BijectionInterceptor.class, OutcomeInterceptor.class})
+@SuppressWarnings("deprecation")
 public class ValidationInterceptor extends AbstractInterceptor
 {
 

@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.resource.connectionmanager.TransactionSynchronizer;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
-import org.jboss.tm.TxManager;
+import org.jboss.tm.TMUtil;
 import org.jboss.tm.usertx.client.ServerVMClientUserTransaction;
 import org.jboss.util.naming.NonSerializableFactory;
 
@@ -30,7 +30,7 @@ public class TransactionManagerFactory
       InitialContext initialContext = Naming.getInitialContext();
 
       //create a TransactionManager and bind to JNDI
-      TransactionManager transactionManager = TxManager.getInstance();
+      TransactionManager transactionManager = TMUtil.getTransactionManager();
       TransactionSynchronizer.setTransactionManager(transactionManager);
       NonSerializableFactory.rebind( initialContext, "java:/TransactionManager", transactionManager );
       

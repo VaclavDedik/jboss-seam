@@ -27,6 +27,7 @@ public class HibernateSessionFactory extends HibernateFactory
    private SessionFactory sessionFactory;
    
    @Unwrap
+   @Override
    public SessionFactory getSessionFactory()
    {
       return sessionFactory;

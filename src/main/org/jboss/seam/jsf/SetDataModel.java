@@ -33,6 +33,7 @@ public class SetDataModel extends javax.faces.model.DataModel implements
       setWrappedData(set);
    }
 
+   @Override
    public int getRowCount()
    {
       if (set==null)
@@ -42,6 +43,7 @@ public class SetDataModel extends javax.faces.model.DataModel implements
       return set.size();
    }
 
+   @Override
    public Object getRowData()
    {
       if (set == null)
@@ -55,21 +57,25 @@ public class SetDataModel extends javax.faces.model.DataModel implements
       return entries.get(rowIndex);
    }
 
+   @Override
    public int getRowIndex()
    {
       return rowIndex;
    }
 
+   @Override
    public Object getWrappedData()
    {
       return set;
    }
 
+   @Override
    public boolean isRowAvailable()
    {
       return entries!=null && rowIndex >= 0 && rowIndex < entries.size();
    }
 
+   @Override
    public void setRowIndex(int newRowIndex)
    {
       if (newRowIndex < -1)
@@ -90,6 +96,7 @@ public class SetDataModel extends javax.faces.model.DataModel implements
       }
    }
 
+   @Override
    public void setWrappedData(Object data)
    {
       set = (Set) data;

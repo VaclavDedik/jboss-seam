@@ -26,26 +26,31 @@ public class PortletSessionImpl extends ContextAdaptor
       this.session = session;
    }
    
+   @Override
    public Object getAttribute(String key)
    {
       return session.getAttribute(key);
    }
 
+   @Override
    public void removeAttribute(String key)
    {
       session.removeAttribute(key);
    }
 
+   @Override
    public Enumeration getAttributeNames()
    {
       return session.getAttributeNames();
    }
 
+   @Override
    public void setAttribute(String key, Object value)
    {
       session.setAttribute(key, value);
    }
 
+   @Override
    public void invalidate()
    {
       session.invalidate();

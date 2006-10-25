@@ -198,4 +198,9 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       lock.unlock();
    }
    
+   @Override
+   public String toString()
+   {
+      return "ConversationEntry(" + id + ")";
+   }
 }

@@ -72,6 +72,7 @@ public class AclEntryImpl implements AclEntry
     return true;
   }
 
+  @Override
   public String toString()
   {
     final String hdr = "AclEntry[";
@@ -87,6 +88,7 @@ public class AclEntryImpl implements AclEntry
     return sb.toString();
   }
 
+  @Override
   public Object clone()
   {
     AclEntryImpl clone = new AclEntryImpl();

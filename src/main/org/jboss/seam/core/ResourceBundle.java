@@ -18,6 +18,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.util.EnumerationEnumeration;
+import org.jboss.seam.util.Strings;
 
 /**
  * Support for an application-global resource bundle
@@ -139,6 +140,13 @@ public class ResourceBundle implements Serializable {
       return bundle;
    }
    
+   @Override
+   public String toString()
+   {
+      String concat = bundleNames==null ? "" : Strings.toString( ", ", (Object[]) bundleNames );
+      return "ResourceBundle(" + concat + ")";
+   }
+
    public static java.util.ResourceBundle instance()
    {
       return (java.util.ResourceBundle) Component.getInstance( Seam.getComponentName(ResourceBundle.class), true );

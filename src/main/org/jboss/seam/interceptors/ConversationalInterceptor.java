@@ -41,6 +41,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
 
       if ( isNoConversationForConversationalBean(method) )
       {
+         @SuppressWarnings("deprecation")
          String outcome = methodIsConversational(method) ? 
                method.getAnnotation(Conversational.class).ifNotBegunOutcome() :
                getComponent().getBeanClass().getAnnotation(Conversational.class).ifNotBegunOutcome();
@@ -105,6 +106,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
       return method.isAnnotationPresent(Conversational.class);
    }
 
+   @SuppressWarnings("deprecation")
    private boolean componentShouldBeInitiator(Method method) {
       return method.getAnnotation(Conversational.class).initiator();
    }
@@ -113,6 +115,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
       return getComponent().getBeanClass().isAnnotationPresent(Conversational.class);
    }
 
+   @SuppressWarnings("deprecation")
    private boolean componentShouldBeInitiator() {
       return getComponent().getBeanClass().getAnnotation(Conversational.class).initiator();
    }

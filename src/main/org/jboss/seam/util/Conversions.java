@@ -245,6 +245,7 @@ public class Conversions
          throw new UnsupportedOperationException("not a keyed property value");
       }
       
+      @Override
       public String toString()
       {
          return string;
@@ -282,9 +283,10 @@ public class Conversions
          return false;
       }
       
+      @Override
       public String toString()
       {
-         return Strings.toString(", ", strings);
+         return Strings.toString( ", ", (Object[]) strings );
       }
       
    }
@@ -319,6 +321,7 @@ public class Conversions
          return false;
       }
       
+      @Override
       public String toString()
       {
          return keyedValues.toString();

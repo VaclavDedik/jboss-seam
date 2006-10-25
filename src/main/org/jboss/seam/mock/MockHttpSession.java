@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSessionContext;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @version $Revision$
  */
+@SuppressWarnings("deprecation")
 public class MockHttpSession implements HttpSession
 {
    
@@ -63,7 +64,6 @@ public class MockHttpSession implements HttpSession
       return maxInactiveInterval;
    }
    
-   @SuppressWarnings("deprecation")
    public HttpSessionContext getSessionContext()
    {
       throw new UnsupportedOperationException();

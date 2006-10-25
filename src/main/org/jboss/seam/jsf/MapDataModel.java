@@ -33,6 +33,7 @@ public class MapDataModel extends javax.faces.model.DataModel implements
       setWrappedData(map);
    }
 
+   @Override
    public int getRowCount()
    {
       if (map == null)
@@ -45,6 +46,7 @@ public class MapDataModel extends javax.faces.model.DataModel implements
    /**
     * Returns a Map.Entry
     */
+   @Override
    public Object getRowData()
    {
       if (map == null)
@@ -58,21 +60,25 @@ public class MapDataModel extends javax.faces.model.DataModel implements
       return entries.get(rowIndex);
    }
 
+   @Override
    public int getRowIndex()
    {
       return rowIndex;
    }
 
+   @Override
    public Object getWrappedData()
    {
       return map;
    }
 
+   @Override
    public boolean isRowAvailable()
    {
       return entries!=null && rowIndex >= 0 && rowIndex < entries.size();
    }
 
+   @Override
    public void setRowIndex(int newRowIndex)
    {
       if (newRowIndex < -1)
@@ -93,6 +99,7 @@ public class MapDataModel extends javax.faces.model.DataModel implements
       }
    }
 
+   @Override
    public void setWrappedData(Object data)
    {
       map = (Map) data;
