@@ -53,9 +53,6 @@ public class Manager
    private static final String NAME = Seam.getComponentName(Manager.class);
    public static final String CONVERSATION_ID = NAME + ".conversationId";
    public static final String CONVERSATION_IS_LONG_RUNNING = NAME + ".conversationIsLongRunning";
-   public static final String PAGEFLOW_COUNTER = NAME + ".pageflowCounter";
-   public static final String PAGEFLOW_NODE_NAME = NAME + ".pageflowNodeName";
-   public static final String PAGEFLOW_NAME = NAME + ".pageflowName";
 
    //The id of the current conversation
    private String currentConversationId;
@@ -357,19 +354,7 @@ public class Manager
       
       if ( Contexts.isPageContextActive() && Init.instance().isJbpmInstalled() )
       {
-         Pageflow pageflow = Pageflow.instance();
-         if ( pageflow.isInProcess() )
-         {
-            Contexts.getPageContext().set( PAGEFLOW_NAME, pageflow.getProcessInstance().getProcessDefinition().getName() );
-            Contexts.getPageContext().set( PAGEFLOW_NODE_NAME, pageflow.getNode().getName() );
-            Contexts.getPageContext().set( PAGEFLOW_COUNTER, pageflow.getPageflowCounter() );
-         }
-         else
-         {
-            Contexts.getPageContext().remove(PAGEFLOW_NAME);
-            Contexts.getPageContext().remove(PAGEFLOW_NODE_NAME);
-            Contexts.getPageContext().remove(PAGEFLOW_COUNTER);
-         }
+         Pageflow.instance().store();
       }
    }
 
@@ -984,8 +969,8 @@ public class Manager
       noConversation();
       
       //stuff from jPDL takes precedence
-      String pageflowName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NAME);
-      String pageflowNodeName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NODE_NAME);
+      String pageflowName = (String) Contexts.getPageContext().get(Pageflow.PAGEFLOW_NAME);
+      String pageflowNodeName = (String) Contexts.getPageContext().get(Pageflow.PAGEFLOW_NODE_NAME);
       
       String noConversationViewId = null;
       if (pageflowName==null || pageflowNodeName==null)
