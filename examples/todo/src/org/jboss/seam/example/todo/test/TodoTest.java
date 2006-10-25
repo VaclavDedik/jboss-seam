@@ -23,7 +23,7 @@ public class TodoTest extends SeamTest
    public void testTodo() throws Exception
    {
       
-      new Script() {
+      new FacesRequest() {
 
          @Override
          protected void updateModelValues() throws Exception
@@ -46,7 +46,7 @@ public class TodoTest extends SeamTest
          
       }.run();
       
-      new Script()
+      new FacesRequest()
       {
 
          @Override
@@ -74,11 +74,11 @@ public class TodoTest extends SeamTest
       }.run();
 
    
-      new Script()
+      new FacesRequest()
       {
    
          @Override
-         protected void setup()
+         protected void beforeRequest()
          {
             getParameters().put( "taskId", new String[] { Long.toString(taskId) } );
          }
