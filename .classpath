@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
-	<classpathentry kind="src" path="src/ui"/>
-	<classpathentry kind="src" path="src/test/misc"/>
-	<classpathentry kind="src" path="examples/blog/src"/>
 	<classpathentry kind="src" path="examples/booking/src"/>
-	<classpathentry kind="src" path="examples/dvdstore/src"/>
-	<classpathentry kind="src" path="examples/issues/src"/>
-	<classpathentry kind="src" path="examples/jbms/src"/>
-	<classpathentry kind="src" path="examples/messages/src"/>
-	<classpathentry kind="src" path="examples/numberguess/src"/>
-	<classpathentry kind="src" path="examples/portal/src"/>
-	<classpathentry kind="src" path="examples/registration/src"/>
-	<classpathentry kind="src" path="examples/todo/src"/>
-	<classpathentry kind="src" path="examples/remoting/chatroom/src"/>
-	<classpathentry kind="src" path="examples/remoting/helloworld/src"/>
-	<classpathentry kind="src" path="examples/remoting/progressbar/src"/>
+	<classpathentry kind="src" path="examples/booking/resources"/>
+	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="embedded-ejb/conf"/>
+	<classpathentry kind="src" path="src/ui"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
-	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
-	<classpathentry kind="lib" path="lib/jbpm-3.1.1.jar"/>
 	<classpathentry kind="lib" path="facelets/lib/jsf-facelets.jar"/>
-	<classpathentry kind="lib" path="facelets/lib/el-api.jar"/>
 	<classpathentry kind="lib" path="lib/mailstuff.jar"/>
-	<classpathentry kind="lib" path="lib/myfaces-api-1.1.3.jar"/>
-	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-all.jar" sourcepath="C:/hibernate-3.2/src"/>
+	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
+	<classpathentry kind="lib" path="lib/jgroups.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-aop-jdk50.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
-	<classpathentry kind="lib" path="drools/lib/drools-compiler-3.0.1.jar"/>
-	<classpathentry kind="lib" path="drools/lib/drools-core-3.0.1.jar"/>
+	<classpathentry kind="lib" path="drools/lib/drools-compiler-3.0.3.jar"/>
+	<classpathentry kind="lib" path="drools/lib/drools-core-3.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/jbpm-3.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/el-api.jar"/>
+	<classpathentry kind="lib" path="lib/el-ri.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-api-1.1.4.jar" sourcepath="/MyFaces/source"/>
+	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.4.jar"/>
+	<classpathentry kind="lib" path="examples/xulcontactlist/resources/WEB-INF/lib/xulfaces-0.7.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
