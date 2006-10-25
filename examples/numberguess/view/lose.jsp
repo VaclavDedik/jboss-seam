@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
-<html xmlns:jsp="http://java.sun.com/JSP/Page"
-      xmlns="http://www.w3.org/1999/xhtml">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
   <jsp:output doctype-root-element="html"
               doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
               doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
@@ -14,4 +15,4 @@
     <a href="http://mathworld.wolfram.com/Bisection.html">bisection algorithm</a>.
     Would you like to <a href="numberGuess.seam">play again</a>?
   </body>
-</html>
+</jsp:root>
