@@ -14,7 +14,7 @@ public class MessageListTest extends SeamTest
    @Test
    public void testMessageList() throws Exception 
    {
-      new Script()
+      new NonFacesRequest()
       {
 
          @Override
@@ -25,7 +25,7 @@ public class MessageListTest extends SeamTest
          
       }.run();
 
-      new Script()
+      new FacesRequest()
       {
 
          @Override
@@ -54,7 +54,7 @@ public class MessageListTest extends SeamTest
          
       }.run();
 
-      new Script()
+      new FacesRequest()
       {
 
          @Override
@@ -80,7 +80,7 @@ public class MessageListTest extends SeamTest
          
       }.run();
 
-      new Script()
+      new NonFacesRequest()
       {
 
          @Override
