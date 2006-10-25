@@ -163,17 +163,23 @@ public class RootInterceptor implements Serializable
       {
          if ( log.isTraceEnabled() ) 
          {
-            log.trace("intercepted: " + getComponent().getName() + '.' + invocation.getMethod().getName());
+            log.trace( "intercepted: " + getInterceptionMessage(invocation, eventType) );
          }
          return new SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) ).proceed();
       }
       else {
          if ( log.isTraceEnabled() ) 
          {
-            log.trace("not intercepted: " + getComponent().getName() + '.' + invocation.getMethod().getName());
+            log.trace( "not intercepted: " + getInterceptionMessage(invocation, eventType) );
          }
          return invocation.proceed();
       }
+   }
+
+   private String getInterceptionMessage(InvocationContext invocation, EventType eventType)
+   {
+      return getComponent().getName() + '.' + 
+            (eventType==EventType.AROUND_INVOKE ? invocation.getMethod().getName() : eventType );
    }
 
    private boolean isProcessInterceptors()
