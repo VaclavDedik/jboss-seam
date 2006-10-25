@@ -16,14 +16,18 @@ public class ChangePasswordTest extends SeamTest
    public void testChangePassword() throws Exception
    {
       
-      new Script() {
+      new FacesRequest() {
          
          @Override
-         protected void applyRequestValues() throws Exception
+         protected void invokeApplication() throws Exception
          {
             Contexts.getSessionContext().set("loggedIn", true);
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
          }
+         
+      }.run();
+      
+      new FacesRequest() {
          
          @Override
          protected void processValidations() throws Exception
@@ -46,7 +50,7 @@ public class ChangePasswordTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest() {
 
          ChangePassword changePassword;
 
@@ -79,7 +83,7 @@ public class ChangePasswordTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest() {
 
          ChangePassword changePassword;
 
@@ -113,7 +117,7 @@ public class ChangePasswordTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest() {
 
          ChangePassword changePassword;
 

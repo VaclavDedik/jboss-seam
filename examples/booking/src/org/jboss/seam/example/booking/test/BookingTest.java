@@ -29,16 +29,20 @@ public class BookingTest extends SeamTest
    public void testBookHotel() throws Exception
    {
       
-      new Script() {
-
-         HotelSearching hotelSearch;
-         
+      new FacesRequest()
+      {
          @Override
-         protected void applyRequestValues()
+         protected void invokeApplication() throws Exception
          {
             Contexts.getSessionContext().set("loggedIn", true);
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
          }
+         
+      }.run();
+      
+      new FacesRequest("/main.xhtml") {
+
+         HotelSearching hotelSearch;
 
          @Override
          protected void updateModelValues() throws Exception
@@ -66,30 +70,16 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      String id = new Script() {
-
-         HotelSearching hotelSearch;
-         
-         @Override
-         protected void updateModelValues() throws Exception
-         {
-            hotelSearch = (HotelSearching) Component.getInstance("hotelSearch", true);
-            hotelSearch.setSearchString("Union Square");
-         }
+      String id = new NonFacesRequest("/hotel.xhtml") {
 
          @Override
-         protected void invokeApplication()
+         protected void renderResponse()
          {
             HotelBooking hotelBooking = (HotelBooking) Component.getInstance("hotelBooking", true);
             DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
             assert hotels.getRowCount()==1;
             String outcome = hotelBooking.selectHotel( (Hotel) hotels.getRowData() );
             assert "hotel".equals(outcome);
-         }
-
-         @Override
-         protected void renderResponse()
-         {
             Hotel hotel = (Hotel) Contexts.getConversationContext().get("hotel");
             assert hotel.getCity().equals("NY");
             assert hotel.getZip().equals("10011");
@@ -98,14 +88,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      id = new Script(id) {
-
-         @Override
-         protected void applyRequestValues()
-         {
-            Contexts.getSessionContext().set("loggedIn", true);
-            Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
-         }
+      id = new FacesRequest("/hotel.xhtml", id) {
 
          @Override
          protected void invokeApplication()
@@ -130,7 +113,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/book.xhtml", id) {
 
          @Override
          protected void processValidations() throws Exception
@@ -151,7 +134,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/book.xhtml", id) {
 
          @Override
          protected void processValidations() throws Exception
@@ -172,7 +155,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/book.xhtml", id) {
          
          @Override @SuppressWarnings("deprecation")
          protected void updateModelValues() throws Exception
@@ -207,7 +190,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/book.xhtml", id) {
          
          @Override @SuppressWarnings("deprecation")
          protected void updateModelValues() throws Exception
@@ -234,7 +217,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/confirm.xhtml", id) {
         
          @Override
          protected void applyRequestValues()
@@ -259,7 +242,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new NonFacesRequest("/confirmed.xhtml") {
 
          @Override
          protected void renderResponse()
@@ -275,7 +258,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest("/main.xhtml") {
          
          @Override
          protected void invokeApplication()
