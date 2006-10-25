@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.Unwrap;
 public class TimeZone {
 
    @Unwrap
-   public java.util.TimeZone getLocale()
+   public java.util.TimeZone getTimeZone()
    {
       return TimeZoneSelector.instance().getTimeZone();
    }

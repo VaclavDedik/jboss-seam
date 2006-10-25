@@ -763,7 +763,10 @@ public class Manager
       }
    }
 
-   private String encodeConversationId(String url) {
+   /**
+    * Add the conversation id to a URL, if necessary
+    */
+   public String encodeConversationId(String url) {
       if ( destroyBeforeRedirect || Seam.isSessionInvalid() )
       {
          return url;
@@ -816,6 +819,9 @@ public class Manager
       redirect(url, parameters, true);
    }
    
+   /**
+    * Add the parameters to a URL
+    */
    public String encodeParameters(String url, Map<String, Object> parameters)
    {
       if ( parameters.isEmpty() ) return url;
