@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -24,7 +25,9 @@ import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamPhaseListener;
@@ -49,9 +52,18 @@ public class SeamTest
    private MockServletContext servletContext;
    private MockApplication application;
    private SeamPhaseListener phases;
-   private MockFacesContext facesContext;
    private MockHttpSession session;
    private Map<String, Map> conversationViewRootAttributes;
+   
+   protected Map<String, String[]> getParameters()
+   {
+      return ( (MockHttpServletRequest) externalContext.getRequest() ).getParameters();
+   }
+   
+   protected Map<String, String[]> getHeaders()
+   {
+      return ( (MockHttpServletRequest) externalContext.getRequest() ).getHeaders();
+   }
    
    protected HttpSession getSession()
    {
@@ -63,9 +75,22 @@ public class SeamTest
       return ( (MockHttpSession) getSession() ).isInvalid();
    }
    
-   protected FacesContext getFacesContext()
+   /**
+    * Helper method for resolving components in
+    * the test script.
+    */
+   protected Object getInstance(Class clazz)
    {
-      return facesContext;
+      return Component.getInstance(clazz);
+   }
+
+   /**
+    * Helper method for resolving components in
+    * the test script.
+    */
+   protected Object getInstance(String name)
+   {
+      return Component.getInstance(name);
    }
    
    /**
@@ -79,6 +104,8 @@ public class SeamTest
       private String conversationId;
       private String outcome;
       private boolean validationFailed;
+      private MockFacesContext facesContext;
+
       
       /**
        * A script for a JSF interaction with
@@ -91,11 +118,17 @@ public class SeamTest
        * scope of an existing long-running
        * conversation.
        */
-      protected Script(String id)
+      protected Script(String conversationId)
       {
-         conversationId = id;
+         this.conversationId = conversationId;
       }
       
+      /**
+       * Is this a non-faces request? Override
+       * if it is.
+       * 
+       * @return false by default
+       */
       protected boolean isGetRequest()
       {
          return false;
@@ -103,30 +136,14 @@ public class SeamTest
       
       /**
        * The JSF view id of the form that is being submitted
+       * or of the page that is being rendered in a non-faces
+       * request.
        * (override if you need page actions to be called,
        * and page parameters applied)
        */
       protected String getViewId()
       {
          return null;
-      }
-      
-      /**
-       * Helper method for resolving components in
-       * the test script.
-       */
-      protected Object getInstance(Class clazz)
-      {
-         return Component.getInstance(clazz, true);
-      }
-
-      /**
-       * Helper method for resolving components in
-       * the test script.
-       */
-      protected Object getInstance(String name)
-      {
-         return Component.getInstance(name, true);
       }
       
       /**
@@ -153,7 +170,13 @@ public class SeamTest
        * during the invoke application phase.
        */
       protected void invokeApplication() throws Exception {}
+      /**
+       * Set the outcome of the INVOKE_APPLICATION phase
+       */
       protected void setOutcome(String outcome) { this.outcome = outcome; }
+      /**
+       * Get the outcome of the INVOKE_APPLICATION phase
+       */
       protected String getInvokeApplicationOutcome() { return outcome; }
       /**
        * Override to implement the interactions between
@@ -164,17 +187,38 @@ public class SeamTest
       /**
        * Override to set up any request parameters for
        * the request.
+       * 
+       * @deprecated use beforeRequest()
        */
       protected void setup() {}
-      
-      public Map<String, String[]> getParameters()
-      {
-         return ( (MockHttpServletRequest) externalContext.getRequest() ).getParameters();
+      /**
+       * Make some assertions, after the end of the request.
+       */
+      protected void afterRequest(boolean skippedRender, String viewId) {}
+      /**
+       * Do anything you like, after the start of the request.
+       * Especially, set up any request parameters for the 
+       * request.
+       */
+      protected void beforeRequest() {
+         setup();
       }
-      
-      public Map<String, String[]> getHeaders()
+      /**
+       * Assert the current view id
+       * 
+       * @param viewId the JSF view id
+       */
+      protected String getRenderedViewId()
       {
-         return ( (MockHttpServletRequest) externalContext.getRequest() ).getHeaders();
+         if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
+         {
+            return Pageflow.instance().getPage().getViewId();
+         }
+         else
+         {
+            //TODO: not working right now, 'cos no mock navigation handler!
+            return getFacesContext().getViewRoot().getViewId();
+         }
       }
       
       protected void validate(Class modelClass, String property, Object value)
@@ -190,31 +234,57 @@ public class SeamTest
          }
       }
       
-      public boolean isValidationFailure()
+      protected boolean isValidationFailure()
       {
          return validationFailed;
       }
       
+      protected FacesContext getFacesContext()
+      {
+         return facesContext;
+      }
+      
+      protected String getConversationId()
+      {
+         return conversationId;
+      }
+
+      /**
+       * @return the conversation id
+       * @throws Exception to fail the test
+       */
       public String run() throws Exception
       {   
          externalContext = new MockExternalContext(servletContext, session);
-         facesContext = new MockFacesContext( externalContext, application );
+         facesContext = new MockFacesContext(externalContext, application);
          facesContext.setCurrent();
-         if ( !isGetRequest() && conversationId!=null ) 
-         {
-            if ( conversationViewRootAttributes.containsKey(conversationId) )
-            {
-               Map state = conversationViewRootAttributes.get(conversationId);
-               facesContext.getViewRoot().getAttributes().putAll(state);
-            }
-         }
-                  
-         setup();
          
-         facesContext.getViewRoot().setViewId( getViewId() );
+         beforeRequest();
 
          phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
+         
+         UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView( facesContext, getViewId() );
+         facesContext.setViewRoot(viewRoot);
+         if ( conversationId!=null )
+         {
+            if ( isGetRequest() ) 
+            {
+               getParameters().put( Manager.instance().getConversationIdParameter(), new String[] {conversationId} );
+               //TODO: what about conversationIsLongRunning????
+            }
+            else
+            {
+               if ( conversationViewRootAttributes.containsKey(conversationId) )
+               {
+                  Map state = conversationViewRootAttributes.get(conversationId);
+                  facesContext.getViewRoot().getAttributes().putAll(state);
+               }
+            }
+         }
+         
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
+         
+         String renderedViewId = getRenderedViewId();
 
          if ( !isGetRequest() && !skipToRender() )
          {
@@ -252,6 +322,8 @@ public class SeamTest
                   
                      String outcome = getInvokeApplicationOutcome();
                      facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
+                     
+                     renderedViewId = getRenderedViewId();
             
                      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
                      
@@ -263,18 +335,11 @@ public class SeamTest
             
          }
          
-         if ( !skipRender() )
+         boolean skipRender = skipRender();
+         if ( !skipRender )
          {
          
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE) );
-            
-            //TODO: hackish workaround for the fact that page actions don't get called!
-            if ( isGetRequest() )
-            {
-               Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-               invokeApplication();
-               Lifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
-            }
             
             renderResponse();
             
@@ -283,6 +348,8 @@ public class SeamTest
             phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
             
          }
+         
+         afterRequest(skipRender, renderedViewId);
 
          Map attributes = facesContext.getViewRoot().getAttributes();
          if (attributes!=null)
@@ -301,7 +368,7 @@ public class SeamTest
          return FacesContext.getCurrentInstance().getResponseComplete();
       }
 
-      protected boolean skipToRender()
+      private boolean skipToRender()
       {
          return FacesContext.getCurrentInstance().getRenderResponse() || 
                FacesContext.getCurrentInstance().getResponseComplete();
@@ -309,6 +376,101 @@ public class SeamTest
       
    }
    
+   public class NonFacesRequest extends Script
+   {
+      private String viewId;
+
+      public NonFacesRequest() {}
+
+      /**
+       * @param viewId the view id to be rendered
+       */
+      public NonFacesRequest(String viewId)
+      {
+         this.viewId = viewId;
+      }
+
+      /**
+       * @param viewId the view id to be rendered
+       * @param conversationId the conversation id
+       */
+      public NonFacesRequest(String viewId, String conversationId)
+      {
+         super(conversationId);
+         this.viewId = viewId;
+      }
+
+      @Override
+      protected final boolean isGetRequest()
+      {
+         return true;
+      }
+
+      @Override
+      protected final void applyRequestValues() throws Exception
+      {
+         throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected final void processValidations() throws Exception
+      {
+         throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected final void updateModelValues() throws Exception
+      {
+         throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected final String getViewId()
+      {
+         return viewId;
+      }
+
+   }
+
+   public class FacesRequest extends Script
+   {
+      
+      private String viewId;
+      
+      public FacesRequest() {}
+
+      /**
+       * @param viewId the view id of the form that was submitted
+       */
+      public FacesRequest(String viewId)
+      {
+         this.viewId = viewId;
+      }
+
+      /**
+       * @param viewId the view id of the form that was submitted
+       * @param conversationId the conversation id
+       */
+      public FacesRequest(String viewId, String conversationId)
+      {
+         super(conversationId);
+         this.viewId = viewId;
+      }
+
+      @Override
+      protected final boolean isGetRequest()
+      {
+         return false;
+      }
+
+      @Override
+      protected final String getViewId()
+      {
+         return viewId;
+      }
+
+   }
+
    @Configuration(beforeTestMethod=true)
    public void begin()
    {

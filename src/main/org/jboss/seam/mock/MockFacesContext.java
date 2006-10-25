@@ -30,7 +30,7 @@ import javax.faces.render.RenderKit;
 public class MockFacesContext extends FacesContext
 {
    
-   private UIViewRoot viewRoot = new UIViewRoot();
+   private UIViewRoot viewRoot;// = new UIViewRoot();
    private Map<FacesMessage, String> messages = new HashMap<FacesMessage, String>();
    private ExternalContext externalContext;
    
