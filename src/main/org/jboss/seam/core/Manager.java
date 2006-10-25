@@ -339,22 +339,27 @@ public class Manager
       {
          //TODO: we really only need to execute this code when we are in the 
          //      RENDER_RESPONSE phase, ie. not before redirects
-         if ( isReallyLongRunningConversation() )
-         {
-            Contexts.getPageContext().set( CONVERSATION_ID, getCurrentConversationId() );
-            Contexts.getPageContext().set( CONVERSATION_IS_LONG_RUNNING, true );
-         }
-         else
-         {
-            Contexts.getPageContext().remove(CONVERSATION_ID);
-            Contexts.getPageContext().remove(CONVERSATION_IS_LONG_RUNNING);
-         }
+         store();
       }
       writeConversationIdToResponse( response, getCurrentConversationId() );
       
       if ( Contexts.isPageContextActive() && Init.instance().isJbpmInstalled() )
       {
          Pageflow.instance().store();
+      }
+   }
+
+   private void store()
+   {
+      if ( isReallyLongRunningConversation() )
+      {
+         Contexts.getPageContext().set( CONVERSATION_ID, getCurrentConversationId() );
+         Contexts.getPageContext().set( CONVERSATION_IS_LONG_RUNNING, true );
+      }
+      else
+      {
+         Contexts.getPageContext().remove(CONVERSATION_ID);
+         Contexts.getPageContext().remove(CONVERSATION_IS_LONG_RUNNING);
       }
    }
 
