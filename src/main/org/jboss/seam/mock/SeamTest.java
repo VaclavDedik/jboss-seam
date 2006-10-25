@@ -51,7 +51,7 @@ public class SeamTest
    private SeamPhaseListener phases;
    private MockFacesContext facesContext;
    private MockHttpSession session;
-   private Map<String, ConversationState> conversationStates;
+   private Map<String, Map> conversationViewRootAttributes;
    
    protected HttpSession getSession()
    {
@@ -101,6 +101,11 @@ public class SeamTest
          return false;
       }
       
+      /**
+       * The JSF view id of the form that is being submitted
+       * (override if you need page actions to be called,
+       * and page parameters applied)
+       */
       protected String getViewId()
       {
          return null;
@@ -195,14 +200,12 @@ public class SeamTest
          externalContext = new MockExternalContext(servletContext, session);
          facesContext = new MockFacesContext( externalContext, application );
          facesContext.setCurrent();
-         Map viewRootAttributes = facesContext.getViewRoot().getAttributes();
-         
          if ( !isGetRequest() && conversationId!=null ) 
          {
-            if ( conversationStates.containsKey(conversationId) )
+            if ( conversationViewRootAttributes.containsKey(conversationId) )
             {
-               Map state = conversationStates.get(conversationId).state;
-               viewRootAttributes.putAll(state);
+               Map state = conversationViewRootAttributes.get(conversationId);
+               facesContext.getViewRoot().getAttributes().putAll(state);
             }
          }
                   
@@ -281,12 +284,13 @@ public class SeamTest
             
          }
 
-         if (viewRootAttributes!=null)
+         Map attributes = facesContext.getViewRoot().getAttributes();
+         if (attributes!=null)
          {
-            conversationId = (String) viewRootAttributes.get(Manager.CONVERSATION_ID);
-            ConversationState conversationState = new ConversationState();
-            conversationState.state.putAll( viewRootAttributes );
-            conversationStates.put(conversationId, conversationState);
+            conversationId = (String) attributes.get(Manager.CONVERSATION_ID);
+            Map conversationState = new HashMap();
+            conversationState.putAll(attributes);
+            conversationViewRootAttributes.put(conversationId, conversationState);
          }
 
          return conversationId;
@@ -341,7 +345,7 @@ public class SeamTest
       new Initialization(servletContext).init();
       Lifecycle.setServletContext(servletContext);
 
-      conversationStates = new HashMap<String, ConversationState>();
+      conversationViewRootAttributes = new HashMap<String, Map>();
    }
 
    @Configuration(afterTestClass=true)
@@ -349,19 +353,13 @@ public class SeamTest
    {
       Lifecycle.endApplication(servletContext);
       externalContext = null;
-      conversationStates.clear();
-      conversationStates = null;
+      conversationViewRootAttributes = null;
    }
    
    /**
     * Override to set up any servlet context attributes.
     */
    public void initServletContext(Map initParams) {}
-
-   private class ConversationState
-   {
-      Map state = new HashMap();
-   }
    
    protected InitialContext getInitialContext() throws NamingException {
       return Naming.getInitialContext();
