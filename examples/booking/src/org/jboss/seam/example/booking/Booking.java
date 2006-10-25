@@ -168,6 +168,7 @@ public class Booking implements Serializable
       this.creditCardExpiryYear = creditCardExpiryYear;
    }
    
+   @Override
    public String toString()
    {
       return "Booking(" + user + ","+ hotel + ")";
