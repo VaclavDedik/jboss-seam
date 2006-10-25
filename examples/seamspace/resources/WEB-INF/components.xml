@@ -1,7 +1,6 @@
 <components>
 
     <component name="org.jboss.seam.core.init">
-        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
         <property name="jndiPattern">@jndiPattern@</property>
         <property name="debug">false</property>
     </component>
@@ -14,12 +13,12 @@
         <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
     </component>    
 
-    <component class="org.jboss.seam.security.authenticator.ProviderAuthenticator">
-      <property name="providers">#{authenticatorAction}</property>
-    </component>
+    <!--component class="org.jboss.seam.security.authenticator.ProviderAuthenticator"-->
+      <!--property name="providers">#{authenticatorAction}</property-->
+    <!--/component-->
 
-    <component class="org.jboss.seam.security.SeamSecurityManager">
+    <!--component class="org.jboss.seam.security.SeamSecurityManager">
     
-    </component>
+    </component-->
         
 </components>

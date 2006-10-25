@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+<head>
+  <title>SeamSpace</title>
+  <link href="style/seamspace.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+  <div id="header">
+    <div class="headerRight">
+      <div class="headerMenu">
+        <s:link action="" value="SignUp"/>
+      </div>
+      <br style="clear:both"/>
+      <h:form>
+        <div>
+          <a href="#">SeamSpace</a>|
+          <a href="#">People</a>|
+          <a href="#">Music</a>|
+          <a href="#">Blogs</a>|
+          <a href="#">Video</a>
+        </div>
+        <div id="search">
+          <h:inputText type="text" styleClass="searchField"/>
+          <h:commandButton value="Search SeamSpace"/>
+        </div>
+      </h:form>
+    </div>
+  </div>
+  
+  <div id="menubar">
+    <s:link action="" value="Home"/>|
+    <s:link action="" value="Browse"/>|
+    <s:link action="" value="Blog"/>|
+    <s:link action="" value="Videos"/>|
+    <s:link action="" value="Music"/>
+  </div>
+
+  <div id="content">
+    <ui:insert name="content"/>
+  </div>
+   
+</body>
+</html>
+

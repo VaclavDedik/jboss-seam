@@ -1,6 +1,7 @@
 body {
-  font-family: tahoma, arial, helvetica;
+  font-family: verdana, arial, sans-serif, helvetica;
   background-color: #e5e5e5;
+  font-size:11px;
   margin: 0;
 }
 
@@ -18,8 +19,9 @@ body {
   margin-right: auto;
   height: 23px;
   width: 800px;
-  background-color: #9bbbdd;
-
+  background-color: #5a8cc0;
+  text-align: center;
+  padding-top: 6px;
 }
 
 #content {
@@ -28,4 +30,44 @@ body {
   width: 800px;
   background-color: #ffffff;
   height: 800px;
+}
+
+div.headerRight {
+  float: right;
+  width: 440px;
+  padding-right: 4px;
+  padding-top: 4px;
+}
+
+div.headerMenu {
+  float: right;
+}
+
+a, a:visited, a:hover {
+  color: #ffffff;
+  text-decoration: none;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+#header a:hover {
+  text-decoration: underline;
+}
+
+#search {
+  margin-top: 2px;
+}
+
+#search a:hover {
+  margin-bottom: 4px;
+  text-decoration: none;
+}
+
+input.searchField {
+  width: 290px;
+}
+
+#menubar a:hover {
+  color: #003399;
+  text-decoration: underline;
 }
