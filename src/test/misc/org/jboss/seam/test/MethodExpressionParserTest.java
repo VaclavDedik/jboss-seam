@@ -36,20 +36,18 @@ public class MethodExpressionParserTest
    
    @Test 
    public void testStaticMEParserMethods()
-   {
-       MethodExpressionParser parser = new MethodExpressionParser("");
-       
+   {   
        // is a param a quoted String or a value expression?
-       assert parser.isQuotedString("'foo'");
-       assert !parser.isQuotedString("foo");
-       assert parser.isQuotedString("\"foo\"");
+       assert MethodExpressionParser.isQuotedString("'foo'");
+       assert !MethodExpressionParser.isQuotedString("foo");
+       assert MethodExpressionParser.isQuotedString("\"foo\"");
        
        // is the entire expression just a String literal?
-       assert parser.isStringLiteral("foo");
-       assert parser.isStringLiteral("#{foo");
-       assert parser.isStringLiteral("\\#{foo}");
-       assert !parser.isStringLiteral("${foo}");
-       assert !parser.isStringLiteral("#{foo}");
+       assert MethodExpressionParser.isStringLiteral("foo");
+       assert MethodExpressionParser.isStringLiteral("#{foo");
+       assert MethodExpressionParser.isStringLiteral("\\#{foo}");
+       assert !MethodExpressionParser.isStringLiteral("${foo}");
+       assert !MethodExpressionParser.isStringLiteral("#{foo}");
    }
     
    @Test

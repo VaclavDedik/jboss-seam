@@ -58,20 +58,16 @@ public class HtmlLink extends HtmlOutputLink
    
    public UIData getParentUIData()
    {
-      UIComponent parent = (UIComponent) this.getParent();
+      UIComponent parent = this.getParent();
       while (parent!=null)
       {
          if (parent instanceof UIData)
          {
             return (UIData) parent;
          }
-         else if (parent instanceof UIComponent)
+         else 
          {
             parent = parent.getParent();
-         }
-         else
-         {
-            return null;
          }
       }
       return null;
@@ -247,6 +243,7 @@ public class HtmlLink extends HtmlOutputLink
       }
    }
 
+   @SuppressWarnings("deprecation")
    private String getParameterString(String characterEncoding, UIParameter param, boolean first) 
          throws UnsupportedEncodingException
    {

@@ -57,6 +57,7 @@ public abstract class HtmlOutputLinkTagBase
 
     //HtmlCommandLink Attributes
 
+    @Override
     public void release() {
         super.release();
         _accesskey=null;
@@ -73,6 +74,7 @@ public abstract class HtmlOutputLinkTagBase
         _onfocus=null;
     }
 
+    @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);

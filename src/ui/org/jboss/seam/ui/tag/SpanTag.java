@@ -29,11 +29,13 @@ import org.jboss.seam.ui.HtmlSpan;
 
 public class SpanTag extends HtmlComponentTagBase
 {
+    @Override
     public String getComponentType()
     {
         return HtmlSpan.COMPONENT_TYPE;
     }
 
+    @Override
     public String getRendererType()
     {
         return null;
@@ -42,6 +44,7 @@ public class SpanTag extends HtmlComponentTagBase
     private String styleClass;
     private String style;
 
+    @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);
@@ -49,14 +52,16 @@ public class SpanTag extends HtmlComponentTagBase
         setStringProperty(component, "style", style);
     }
 
-   public void setStyle(String style)
-   {
-      this.style = style;
-   }
+    @Override
+    public void setStyle(String style)
+    {
+        this.style = style;
+    }
 
-   public void setStyleClass(String styleClass)
-   {
-      this.styleClass = styleClass;
-   }
+    @Override
+    public void setStyleClass(String styleClass)
+    {
+        this.styleClass = styleClass;
+    }
 
 }

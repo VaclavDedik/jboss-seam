@@ -60,7 +60,7 @@ class MethodExpressionHelper implements Serializable
         this.expWithParams = parser.getUnparsedExpression();
         this.parser = parser;
         
-        if (parser.isStringLiteral(expWithParams)) 
+        if ( MethodExpressionParser.isStringLiteral(expWithParams) ) 
         {
             setMethodExpression(elContext, new Class[0]);
             this.isStringLiteral = true;
@@ -69,7 +69,7 @@ class MethodExpressionHelper implements Serializable
         }
         
         // if there are no params, we can go ahead and create the expression
-        if (parser.getParams().length == 0) 
+        if ( parser.getParams().length == 0 ) 
         {
             setMethodExpression(elContext, new Class[0]);
             this.expressionInitializedInCtor = true;
@@ -118,7 +118,7 @@ class MethodExpressionHelper implements Serializable
         {
             String param = params[i].trim();
             
-            if (parser.isQuotedString(param)) 
+            if ( MethodExpressionParser.isQuotedString(param) ) 
             {
                 // strip quotes
                 results[i] = param.substring(1, param.length() - 1);
@@ -238,6 +238,7 @@ class MethodExpressionHelper implements Serializable
             super(methodName, Object.class, new Class[0]);
         }
         
+        @Override
         public Class<?>[] getParamTypes() 
         {
             throw new IllegalStateException("paramTypes unknown until MethodExpression is invoked.");

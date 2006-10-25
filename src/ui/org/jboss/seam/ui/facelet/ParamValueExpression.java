@@ -51,36 +51,43 @@ public class ParamValueExpression extends ValueExpression
                                           .createValueExpression(elContext, parser.getCombinedExpression(), expectedType);
     }
 
+    @Override
     public void setValue(ELContext elContext, Object object) 
     {
         this.wrappedExpression.setValue(elContext, object);
     }
 
+    @Override
     public boolean isReadOnly(ELContext elContext) 
     {
         return this.wrappedExpression.isReadOnly(elContext);
     }
 
+    @Override
     public Object getValue(ELContext elContext) 
     {
         return this.wrappedExpression.getValue(elContext);
     }
 
+    @Override
     public Class getType(ELContext elContext) 
     {
         return this.wrappedExpression.getType(elContext);
     }
 
+    @Override
     public boolean isLiteralText() 
     {
         return this.wrappedExpression.isLiteralText();
     }
 
+    @Override
     public String getExpressionString() 
     {
         return this.parser.getUnparsedExpression();
     }
 
+    @Override
     public Class getExpectedType() 
     {
         return this.wrappedExpression.getExpectedType();

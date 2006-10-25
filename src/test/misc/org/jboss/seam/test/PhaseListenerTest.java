@@ -208,7 +208,7 @@ public class PhaseListenerTest
 
    private Map getPageMap(MockFacesContext facesContext)
    {
-      return (Map) facesContext.getViewRoot().getAttributes();
+      return facesContext.getViewRoot().getAttributes();
    }
 
    @Test

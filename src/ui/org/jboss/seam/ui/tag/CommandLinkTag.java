@@ -26,11 +26,13 @@ import javax.faces.component.html.HtmlCommandLink;
 public class CommandLinkTag
     extends HtmlCommandLinkTagBase
 {
+    @Override
     public String getComponentType()
     {
         return HtmlCommandLink.COMPONENT_TYPE;
     }
 
+    @Override
     public String getRendererType()
     {
         return "javax.faces.Link";

@@ -26,6 +26,7 @@ public class DecorateTag extends UIComponentTagBase
       this.forId = forId;
    }
 
+   @Override
    protected void setProperties(UIComponent component)
    {
        super.setProperties(component);

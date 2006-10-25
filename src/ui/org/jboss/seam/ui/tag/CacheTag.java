@@ -7,11 +7,13 @@ import org.jboss.seam.ui.UICache;
 
 public class CacheTag extends UIComponentTagBase
 {
+   @Override
    public String getComponentType()
    {
       return UICache.COMPONENT_TYPE;
    }
 
+   @Override
    public String getRendererType()
    {
       return null;
@@ -41,6 +43,7 @@ public class CacheTag extends UIComponentTagBase
       this.region = region;
    }
 
+   @Override
    protected void setProperties(UIComponent component)
    {
       super.setProperties(component);

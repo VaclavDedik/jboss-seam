@@ -47,6 +47,7 @@ public abstract class HtmlComponentBodyTagBase
     private String _onmouseover;
     private String _onmouseup;
 
+    @Override
     public void release() {
         super.release();
         _dir=null;
@@ -66,6 +67,7 @@ public abstract class HtmlComponentBodyTagBase
         _onmouseup=null;
     }
 
+    @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);

@@ -28,6 +28,7 @@ public class SecureTag extends UIComponentTag
     return null;
   }
 
+  @Override
   protected void setProperties(UIComponent component)
   {
     super.setProperties(component);

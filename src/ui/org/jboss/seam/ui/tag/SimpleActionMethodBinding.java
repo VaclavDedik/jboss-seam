@@ -38,11 +38,13 @@ public class SimpleActionMethodBinding
         _outcome = outcome;
     }
 
+    @Override
     public Object invoke(FacesContext facescontext, Object aobj[]) throws EvaluationException, MethodNotFoundException
     {
         return _outcome;
     }
 
+    @Override
     public Class getType(FacesContext facescontext) throws MethodNotFoundException
     {
         return String.class;

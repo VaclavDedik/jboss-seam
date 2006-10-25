@@ -59,6 +59,7 @@ public abstract class HtmlCommandButtonTagBase
     // HtmlCommandButton attributes
     private String _image;
 
+    @Override
     public void release() {
         super.release();
         _accesskey=null;
@@ -77,6 +78,7 @@ public abstract class HtmlCommandButtonTagBase
         _image=null;
     }
 
+    @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);

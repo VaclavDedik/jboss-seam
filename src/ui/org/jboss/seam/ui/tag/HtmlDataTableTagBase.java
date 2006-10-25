@@ -67,6 +67,7 @@ public abstract class HtmlDataTableTagBase
     private String _var;
     private String _first;
 
+    @Override
     public void release() {
         super.release();
         _align=null;
@@ -91,6 +92,7 @@ public abstract class HtmlDataTableTagBase
         _first=null;
     }
 
+    @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);

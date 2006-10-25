@@ -60,6 +60,7 @@ public abstract class HtmlCommandLinkTagBase
     private String _immediate;
     private String _actionListener;
 
+    @Override
     public void release() {
         super.release();
         _accesskey=null;
@@ -79,6 +80,7 @@ public abstract class HtmlCommandLinkTagBase
         _actionListener=null;
     }
 
+    @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);

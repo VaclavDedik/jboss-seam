@@ -35,6 +35,7 @@ public abstract class UIComponentBodyTagBase extends UIComponentBodyTag
 {
    private static final Log log = LogFactory.getLog(UIComponentBodyTagBase.class);
 
+   @Override
    public int doEndTag() throws JspException
    {
       if (log.isWarnEnabled())
@@ -93,6 +94,7 @@ public abstract class UIComponentBodyTagBase extends UIComponentBodyTag
 
    // attributes id, rendered and binding are handled by UIComponentTag
 
+   @Override
    protected void setProperties(UIComponent component)
    {
       super.setProperties(component);

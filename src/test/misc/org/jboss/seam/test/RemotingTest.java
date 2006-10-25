@@ -71,7 +71,7 @@ public class RemotingTest
     return e;
   }
 
-  private enum TestEnum {red, green, blue};
+  private enum TestEnum {red, green, blue}
 
   @Test
   public void testBooleanWrapper()
@@ -389,7 +389,7 @@ public class RemotingTest
       wrapper.convert(InvalidList.class);
       assert false;
     }
-    catch (ConversionException ex) {};
+    catch (ConversionException ex) {}
 
     t = RemotingTest.class.getMethod("dummyInvalid").getGenericReturnType();
     try {
@@ -397,7 +397,7 @@ public class RemotingTest
       wrapper.convert(t);
       assert false;
     }
-    catch (ConversionException ex) { };
+    catch (ConversionException ex) { }
 
     int[] intValues = new int[2];
     intValues[0] = 44444;

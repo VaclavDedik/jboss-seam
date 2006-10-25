@@ -25,15 +25,14 @@ import javax.faces.component.html.HtmlCommandButton;
  */
 public class CommandButtonTag
     extends HtmlCommandButtonTagBase
-        
-    
-
 {
+    @Override
     public String getComponentType()
     {
         return HtmlCommandButton.COMPONENT_TYPE;
     }
 
+    @Override
     public String getRendererType()
     {
         return "javax.faces.Button";

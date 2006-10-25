@@ -59,6 +59,7 @@ public abstract class HtmlComponentTagBase extends UIComponentTagBase
 
    private String _onmouseup;
 
+   @Override
    public void release()
    {
       super.release();
@@ -81,6 +82,7 @@ public abstract class HtmlComponentTagBase extends UIComponentTagBase
 
    }
 
+   @Override
    protected void setProperties(UIComponent component)
    {
       super.setProperties(component);

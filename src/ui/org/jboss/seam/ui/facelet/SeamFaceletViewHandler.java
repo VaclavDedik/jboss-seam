@@ -42,6 +42,7 @@ public class SeamFaceletViewHandler extends FaceletViewHandler
         super(parent);
     }
     
+    @Override
     protected Compiler createCompiler() 
     {
         Compiler compiler = super.createCompiler();

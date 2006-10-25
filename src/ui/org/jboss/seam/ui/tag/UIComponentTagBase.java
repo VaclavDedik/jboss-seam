@@ -51,6 +51,7 @@ public abstract class UIComponentTagBase extends UIComponentTag
 
    // attributes id, rendered and binding are handled by UIComponentTag
 
+   @Override
    public void release()
    {
       super.release();
@@ -58,6 +59,7 @@ public abstract class UIComponentTagBase extends UIComponentTag
       _converter = null;
    }
 
+   @Override
    protected void setProperties(UIComponent component)
    {
       super.setProperties(component);

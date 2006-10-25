@@ -94,6 +94,9 @@ public class PageflowTest {
     Page confirm = (Page) pageflowDefinition.getNode("confirm");
     Page complete = (Page) pageflowDefinition.getNode("complete");
     Page cont = (Page) pageflowDefinition.getNode("continue");
+    assert confirm!=null;
+    assert complete!=null;
+    assert cont!=null;
     
     ProcessInstance pageflowInstance = new ProcessInstance(pageflowDefinition);
     Token token = pageflowInstance.getRootToken();

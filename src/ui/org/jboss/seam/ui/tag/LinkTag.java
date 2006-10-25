@@ -29,11 +29,13 @@ import org.jboss.seam.ui.HtmlLink;
 
 public class LinkTag extends HtmlOutputLinkTagBase
 {
+    @Override
     public String getComponentType()
     {
         return HtmlLink.COMPONENT_TYPE;
     }
 
+    @Override
     public String getRendererType()
     {
         return null;
@@ -48,6 +50,7 @@ public class LinkTag extends HtmlOutputLinkTagBase
     private String taskInstance;
     private String fragment;
 
+    @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);

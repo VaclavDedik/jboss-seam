@@ -22,6 +22,7 @@ import org.jboss.seam.annotations.Scope;
  */
 @Name("foo")
 @Scope(ScopeType.SESSION)
+@SuppressWarnings("deprecation")
 public class Foo
 {
    

@@ -22,11 +22,13 @@ import org.jboss.seam.ui.HtmlMessageDecoration;
  */
 public class MessageTag extends HtmlMessageTagBase
 {
+    @Override
     public String getComponentType()
     {
         return HtmlMessageDecoration.COMPONENT_TYPE;
     }
 
+    @Override
     public String getRendererType()
     {
         return "javax.faces.Message";

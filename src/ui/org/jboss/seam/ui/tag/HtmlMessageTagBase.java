@@ -52,6 +52,7 @@ public abstract class HtmlMessageTagBase
     private String _fatalStyle;
     private String _tooltip;
 
+    @Override
     public void release() {
         super.release();
         _for=null;
@@ -68,6 +69,7 @@ public abstract class HtmlMessageTagBase
         _tooltip=null;
     }
 
+    @Override
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);
