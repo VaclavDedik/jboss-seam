@@ -11,21 +11,17 @@ import org.testng.annotations.Test;
 public class NumberGuessTest extends SeamTest
 {
    
+   private int guess;
+   
    @Test
    public void testNumberGuessWin() throws Exception
    {
-      String id = new Script()
+      String id = new NonFacesRequest("/numberGuess.jspx")
       {
 
          @Override
-         protected boolean isGetRequest()
-         {
-            return true;
-         }
-
-         @Override
          protected void renderResponse() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class, true);
+            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ng.getBiggest()==100;
             assert ng.getSmallest()==1;
@@ -38,15 +34,12 @@ public class NumberGuessTest extends SeamTest
          
       }.run();
 
-      new Script(id)
+      String id2 = new FacesRequest("/numberGuess.jspx", id)
       {
-         
-         NumberGuess ng;
-         int guess;
 
          @Override
          protected void applyRequestValues() throws Exception {
-            ng = (NumberGuess) Component.getInstance(NumberGuess.class, true);
+            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
             guess = ng.getRandomNumber() > 50 ? 25 : 75;
             ng.setCurrentGuess(guess);
          }
@@ -56,9 +49,23 @@ public class NumberGuessTest extends SeamTest
             setOutcome("guess");
             //ng.guess();
          }
-
+         
+         @Override
+         protected void afterRequest(boolean skippedRender, String viewId) {
+            assert skippedRender;
+            assert "/numberGuess.jspx".equals(viewId);
+         }
+         
+      }.run();
+      
+      assert id2.equals(id);
+      
+      new NonFacesRequest("/numberGuess.jspx", id)
+      {
+         
          @Override
          protected void renderResponse() throws Exception {
+            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ( guess > ng.getRandomNumber() && ng.getBiggest()==guess-1 ) 
                   || ( guess < ng.getRandomNumber() && ng.getSmallest()==guess+1 );
@@ -74,14 +81,12 @@ public class NumberGuessTest extends SeamTest
          
       }.run();
 
-      new Script(id)
+      id2 = new FacesRequest("/numberGuess.jspx", id)
       {
-         
-         NumberGuess ng;
 
          @Override
          protected void applyRequestValues() throws Exception {
-            ng = (NumberGuess) Component.getInstance(NumberGuess.class, true);
+            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
             ng.setCurrentGuess( ng.getRandomNumber() );
          }
 
@@ -90,9 +95,23 @@ public class NumberGuessTest extends SeamTest
             setOutcome("guess");
             //ng.guess();
          }
-
+         
+         @Override
+         protected void afterRequest(boolean skippedRender, String viewId)
+         {
+            assert skippedRender;
+            assert "/win.jspx".equals(viewId);
+         }
+         
+      }.run();
+      
+      assert id2.equals(id);
+      
+      new NonFacesRequest("/win.jspx", id)
+      {
          @Override
          protected void renderResponse() throws Exception {
+            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ng.isCorrectGuess();
             assert ng.getCurrentGuess()==ng.getRandomNumber();
@@ -109,18 +128,12 @@ public class NumberGuessTest extends SeamTest
    @Test
    public void testNumberGuessLose() throws Exception
    {
-      String id = new Script()
+      String id = new NonFacesRequest("/numberGuess.jspx")
       {
 
          @Override
-         protected boolean isGetRequest()
-         {
-            return true;
-         }
-
-         @Override
          protected void renderResponse() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class, true);
+            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ng.getBiggest()==100;
             assert ng.getSmallest()==1;
@@ -136,15 +149,12 @@ public class NumberGuessTest extends SeamTest
          
          final int count = i;
 
-         new Script(id)
+         new FacesRequest("/numberGuess.jspx", id)
          {
-            
-            NumberGuess ng;
-            int guess;
    
             @Override
             protected void applyRequestValues() throws Exception {
-               ng = (NumberGuess) Component.getInstance(NumberGuess.class, true);
+               NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
                guess = ng.getRandomNumber() > 50 ? 25+count : 75-count;
                ng.setCurrentGuess(guess);
             }
@@ -156,9 +166,22 @@ public class NumberGuessTest extends SeamTest
                assert Pageflow.instance().getProcessInstance().getRootToken()
                      .getNode().getName().equals("displayGuess");
             }
+            
+            @Override
+            protected void afterRequest(boolean skippedRender, String viewId)
+            {
+               assert skippedRender;
+               assert "/numberGuess.jspx".equals(viewId);
+            }
+            
+         }.run();
+         
+         new NonFacesRequest("/numberGuess.jspx", id)
+         {
    
             @Override
             protected void renderResponse() throws Exception {
+               NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
                assert ng.getMaxGuesses()==10;
                assert ( guess > ng.getRandomNumber() && ng.getBiggest()==guess-1 ) 
                      || ( guess < ng.getRandomNumber() && ng.getSmallest()==guess+1 );
@@ -176,15 +199,12 @@ public class NumberGuessTest extends SeamTest
       
       }
 
-      new Script(id)
+      new FacesRequest("/numberGuess.jspx", id)
       {
-         
-         NumberGuess ng;
-         int guess;
 
          @Override
          protected void applyRequestValues() throws Exception {
-            ng = (NumberGuess) Component.getInstance(NumberGuess.class, true);
+            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
             guess = ng.getRandomNumber() > 50 ? 49 : 51;
             ng.setCurrentGuess(guess);
          }
@@ -198,7 +218,20 @@ public class NumberGuessTest extends SeamTest
          }
 
          @Override
+         protected void afterRequest(boolean skippedRender, String viewId)
+         {
+            assert skippedRender;
+            assert "/lose.jspx".equals(viewId);
+         }
+         
+      }.run();
+
+      new NonFacesRequest("/lose.jspx", id)
+      {
+
+         @Override
          protected void renderResponse() throws Exception {
+            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ( guess > ng.getRandomNumber() && ng.getBiggest()==guess-1 ) 
                   || ( guess < ng.getRandomNumber() && ng.getSmallest()==guess+1 );
