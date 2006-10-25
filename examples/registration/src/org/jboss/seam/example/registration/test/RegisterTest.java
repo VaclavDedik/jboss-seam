@@ -14,7 +14,7 @@ public class RegisterTest extends SeamTest
    public void testLogin() throws Exception
    {
             
-      new Script() {
+      new FacesRequest() {
 
          @Override
          protected void updateModelValues() throws Exception
