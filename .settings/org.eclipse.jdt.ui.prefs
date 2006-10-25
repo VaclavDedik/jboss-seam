@@ -1,3 +1,6 @@
-#Thu Sep 01 14:36:48 CEST 2005
+#Tue Sep 19 00:35:32 CEST 2006
 eclipse.preferences.version=1
-internal.default.compliance=user
+formatter_profile=_Seam
+formatter_settings_version=10
+internal.default.compliance=default
+org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8"?><templates/>
