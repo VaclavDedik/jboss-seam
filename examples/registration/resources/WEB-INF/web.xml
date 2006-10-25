@@ -22,6 +22,11 @@
         <param-value>client</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.jspx</param-value>
+    </context-param>
+  
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -33,13 +38,5 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.seam</url-pattern>
 	</servlet-mapping>
-	
-	<!-- JSP -->
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<is-xml>true</is-xml>
-		</jsp-property-group>
-	</jsp-config>
 	
 </web-app>

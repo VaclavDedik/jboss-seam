@@ -31,7 +31,7 @@ public class RegisterTest extends SeamTest
          {
             Register register = (Register) Component.getInstance("register", true);
             String outcome = register.register();
-            assert "/registered.jsp".equals( outcome );
+            assert "/registered.jspx".equals( outcome );
          }
 
          @Override
