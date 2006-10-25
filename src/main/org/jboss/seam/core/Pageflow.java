@@ -106,12 +106,17 @@ public class Pageflow extends AbstractMutable implements Serializable
    {
       FacesContext context = FacesContext.getCurrentInstance();
       navigate(context);
+      illegalNavigation();
+      context.renderResponse();
+   }
+
+   protected void illegalNavigation()
+   {
       FacesMessages.instance().addFromResourceBundle( 
             FacesMessage.SEVERITY_WARN, 
             "org.jboss.seam.IllegalNavigation", 
             "Illegal navigation" 
          );
-      context.renderResponse();
    }
    
    public Node getNode() 

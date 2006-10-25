@@ -22,7 +22,10 @@ public class MockViewHandler extends ViewHandler {
 
 	@Override
 	public UIViewRoot createView(FacesContext ctx, String viewId) {
-		return null;
+		UIViewRoot viewRoot = new UIViewRoot();
+      viewRoot.setViewId(viewId);
+      //TODO: set locale?
+      return viewRoot;
 	}
 
 	@Override

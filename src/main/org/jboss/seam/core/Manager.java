@@ -981,11 +981,7 @@ public class Manager
 
    public void redirectToNoConversationView()
    {
-      FacesMessages.instance().addFromResourceBundle( 
-            FacesMessage.SEVERITY_WARN, 
-            "org.jboss.seam.NoConversation", 
-            "The conversation ended, timed out or was processing another request" 
-         );
+      noConversation();
       
       //stuff from jPDL takes precedence
       String pageflowName = (String) Contexts.getPageContext().get(Manager.PAGEFLOW_NAME);
@@ -1010,6 +1006,15 @@ public class Manager
       {
          redirect( noConversationViewId );
       }
+   }
+
+   protected void noConversation()
+   {
+      FacesMessages.instance().addFromResourceBundle( 
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.NoConversation", 
+            "The conversation ended, timed out or was processing another request" 
+         );
    }
 
    public boolean isConversationAlreadyStored()

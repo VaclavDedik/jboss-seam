@@ -272,7 +272,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       }
    }
 
-   private void taskNotFound(Long taskId)
+   protected void taskNotFound(Long taskId)
    {
       FacesMessages.instance().addFromResourceBundle(
             FacesMessage.SEVERITY_WARN, 
@@ -282,7 +282,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
          );
    }
 
-   private void taskEnded(Long taskId)
+   protected void taskEnded(Long taskId)
    {
       FacesMessages.instance().addFromResourceBundle(
             FacesMessage.SEVERITY_WARN, 
@@ -292,7 +292,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
          );
    }
 
-   private void processEnded(Long processId)
+   protected void processEnded(Long processId)
    {
       FacesMessages.instance().addFromResourceBundle(
             FacesMessage.SEVERITY_WARN, 
@@ -302,7 +302,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
          );
    }
 
-   private void processNotFound(Long processId)
+   protected void processNotFound(Long processId)
    {
       FacesMessages.instance().addFromResourceBundle(
             FacesMessage.SEVERITY_WARN, 
