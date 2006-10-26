@@ -7,7 +7,7 @@ public class MockNavigationHandler extends NavigationHandler
 {
 
    @Override
-   public void handleNavigation(FacesContext arg0, String arg1, String arg2)
+   public void handleNavigation(FacesContext context, String action, String outcome)
    {
 
    }

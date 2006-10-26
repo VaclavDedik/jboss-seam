@@ -29,6 +29,7 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.init.Initialization;
+import org.jboss.seam.jsf.SeamApplication11;
 import org.jboss.seam.jsf.SeamNavigationHandler;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
@@ -105,7 +106,11 @@ public class SeamTest
       private String outcome;
       private boolean validationFailed;
       private MockFacesContext facesContext;
-
+      private String viewId;
+      private boolean renderResponseBegun;
+      private boolean renderResponseComplete;
+      private boolean invokeApplicationBegun;
+      private boolean invokeApplicationComplete;
       
       /**
        * A script for a JSF interaction with
@@ -143,7 +148,12 @@ public class SeamTest
        */
       protected String getViewId()
       {
-         return null;
+         return viewId;
+      }
+      
+      protected void setViewId(String viewId)
+      {
+         this.viewId = viewId;
       }
       
       /**
@@ -194,7 +204,7 @@ public class SeamTest
       /**
        * Make some assertions, after the end of the request.
        */
-      protected void afterRequest(boolean skippedRender, String viewId) {}
+      protected void afterRequest() {}
       /**
        * Do anything you like, after the start of the request.
        * Especially, set up any request parameters for the 
@@ -234,6 +244,9 @@ public class SeamTest
          }
       }
       
+      /**
+       * Did a validation failure occur during a call to validate()?
+       */
       protected boolean isValidationFailure()
       {
          return validationFailed;
@@ -248,6 +261,12 @@ public class SeamTest
       {
          return conversationId;
       }
+      
+      /**
+       * Test harness cannot currently evaluate EL, so for a temporary
+       * solution, call page actions here.
+       */
+      protected void callPageActions() throws Exception {}
 
       /**
        * @return the conversation id
@@ -256,7 +275,7 @@ public class SeamTest
       public String run() throws Exception
       {   
          externalContext = new MockExternalContext(servletContext, session);
-         facesContext = new MockFacesContext(externalContext, application);
+         facesContext = new MockFacesContext( externalContext, new SeamApplication11(application) );
          facesContext.setCurrent();
          
          beforeRequest();
@@ -284,8 +303,6 @@ public class SeamTest
          
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
          
-         String renderedViewId = getRenderedViewId();
-
          if ( !isGetRequest() && !skipToRender() )
          {
          
@@ -318,12 +335,16 @@ public class SeamTest
                
                      phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
                   
+                     invokeApplicationBegun = true;
+                     
                      invokeApplication();
+                     
+                     invokeApplicationComplete = true;
                   
                      String outcome = getInvokeApplicationOutcome();
                      facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
                      
-                     renderedViewId = getRenderedViewId();
+                     viewId = getRenderedViewId();
             
                      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
                      
@@ -335,13 +356,21 @@ public class SeamTest
             
          }
          
-         boolean skipRender = skipRender();
-         if ( !skipRender )
+         if ( !skipRender() )
          {
          
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE) );
             
+            //TODO: fix temp hack!
+            Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
+            callPageActions();
+            Lifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
+            
+            renderResponseBegun = true;
+            
             renderResponse();
+            
+            renderResponseComplete = true;
             
             facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
             
@@ -349,7 +378,7 @@ public class SeamTest
             
          }
          
-         afterRequest(skipRender, renderedViewId);
+         afterRequest();
 
          Map attributes = facesContext.getViewRoot().getAttributes();
          if (attributes!=null)
@@ -373,13 +402,31 @@ public class SeamTest
          return FacesContext.getCurrentInstance().getRenderResponse() || 
                FacesContext.getCurrentInstance().getResponseComplete();
       }
+
+      protected boolean isInvokeApplicationBegun()
+      {
+         return invokeApplicationBegun;
+      }
+
+      protected boolean isInvokeApplicationComplete()
+      {
+         return invokeApplicationComplete;
+      }
+
+      protected boolean isRenderResponseBegun()
+      {
+         return renderResponseBegun;
+      }
+
+      protected boolean isRenderResponseComplete()
+      {
+         return renderResponseComplete;
+      }
       
    }
    
    public class NonFacesRequest extends Script
    {
-      private String viewId;
-
       public NonFacesRequest() {}
 
       /**
@@ -387,7 +434,7 @@ public class SeamTest
        */
       public NonFacesRequest(String viewId)
       {
-         this.viewId = viewId;
+         setViewId(viewId);
       }
 
       /**
@@ -397,7 +444,7 @@ public class SeamTest
       public NonFacesRequest(String viewId, String conversationId)
       {
          super(conversationId);
-         this.viewId = viewId;
+         setViewId(viewId);
       }
 
       @Override
@@ -424,18 +471,10 @@ public class SeamTest
          throw new UnsupportedOperationException();
       }
 
-      @Override
-      protected final String getViewId()
-      {
-         return viewId;
-      }
-
    }
 
    public class FacesRequest extends Script
    {
-      
-      private String viewId;
       
       public FacesRequest() {}
 
@@ -444,7 +483,7 @@ public class SeamTest
        */
       public FacesRequest(String viewId)
       {
-         this.viewId = viewId;
+         setViewId(viewId);
       }
 
       /**
@@ -454,19 +493,13 @@ public class SeamTest
       public FacesRequest(String viewId, String conversationId)
       {
          super(conversationId);
-         this.viewId = viewId;
+         setViewId(viewId);
       }
 
       @Override
       protected final boolean isGetRequest()
       {
          return false;
-      }
-
-      @Override
-      protected final String getViewId()
-      {
-         return viewId;
       }
 
    }
