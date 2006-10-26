@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
@@ -12,8 +11,6 @@ import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
 import actions.BlogService;
-import actions.EntryAction;
-import actions.PostAction;
 import actions.SearchService;
 import domain.Blog;
 import domain.BlogEntry;
@@ -31,7 +28,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            BlogEntry entry = (BlogEntry) Component.getInstance("blogEntry");
+            BlogEntry entry = (BlogEntry) getInstance("blogEntry");
             entry.setId("testing");
             entry.setTitle("Integration testing Seam applications is easy!");
             entry.setBody("This post is about SeamTest...");
@@ -40,8 +37,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            PostAction action = (PostAction) Component.getInstance(PostAction.class);
-            assert action.post().equals("/index.xhtml");
+            assert invokeMethod("#{postAction.post}").equals("/index.xhtml");
             setOutcome("/index.xhtml");
          }
          
@@ -60,7 +56,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void renderResponse() throws Exception
          {
-            List<BlogEntry> blogEntries = ( (Blog) Component.getInstance(BlogService.class, true) ).getBlogEntries();
+            List<BlogEntry> blogEntries = ( (Blog) getInstance(BlogService.class) ).getBlogEntries();
             assert blogEntries.size()==4;
             BlogEntry blogEntry = blogEntries.get(0);
             assert blogEntry.getId().equals("testing");
@@ -90,7 +86,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ( (Blog) Component.getInstance(BlogService.class, true) ).getBlogEntries().size()==3;
+            assert ( (Blog) getInstance(BlogService.class) ).getBlogEntries().size()==3;
          }
          
       }.run();
@@ -99,22 +95,15 @@ public class BlogTest extends SeamTest
    @Test
    public void testEntry() throws Exception
    {
-      new NonFacesRequest(/*"/entry.xhtml"*/)
+      new NonFacesRequest("/entry.xhtml")
       {
          
          @Override
          protected void beforeRequest()
          {
-            getParameters().put("blogEntryId", new String[] {"i18n"});
+            setParameter("blogEntryId", "i18n");
          }
-
-         //temp because page actions cannot be tested
-         @Override
-         protected void callPageActions() throws Exception
-         {
-            ( (EntryAction) Component.getInstance(EntryAction.class, true) ).loadBlogEntry("i18n");
-         }
-
+         
          @Override
          protected void renderResponse() throws Exception
          {
@@ -135,7 +124,7 @@ public class BlogTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            ( (SearchService) Component.getInstance(SearchService.class) ).setSearchPattern("seam");
+            ( (SearchService) getInstance(SearchService.class) ).setSearchPattern("seam");
          }
          
          @Override
@@ -156,10 +145,15 @@ public class BlogTest extends SeamTest
       {
 
          @Override
+         protected void beforeRequest()
+         {
+            setParameter("searchPattern", "seam");
+         }
+         
+         @Override
          protected void renderResponse() throws Exception
          {
-            ( (SearchService) Component.getInstance(SearchService.class) ).setSearchPattern("seam"); //temp because page parameters cannot be tested
-            List<BlogEntry> results = (List<BlogEntry>) Component.getInstance("searchResults");
+            List<BlogEntry> results = (List<BlogEntry>) getInstance("searchResults");
             assert results.size()==1;
          }
          
