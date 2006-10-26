@@ -30,7 +30,7 @@ public class ChangePasswordTest extends SeamTest
          @Override
          protected void processValidations() throws Exception
          {
-            validate(User.class, "password", "xxx");
+            validateValue("#{user.password}", "xxx");
             assert isValidationFailure();
          }
 

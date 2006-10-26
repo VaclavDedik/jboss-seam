@@ -109,7 +109,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void processValidations() throws Exception
          {
-            validate(Booking.class, "creditCard", "123");
+            validateValue("#{booking.creditCard}", "123");
             assert isValidationFailure();
          }
 
@@ -130,7 +130,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void processValidations() throws Exception
          {
-            validate(Booking.class, "creditCardName", "");
+            validateValue("#{booking.creditCardName}", "");
             assert isValidationFailure();
          }
 
