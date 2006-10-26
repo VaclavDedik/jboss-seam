@@ -38,7 +38,7 @@ public class PhaseListenerTest
    {
       ExternalContext externalContext = new MockExternalContext();
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
-      facesContext.setCurrent();
+      facesContext.setCurrent().createViewRoot();
       
       Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
@@ -119,7 +119,7 @@ public class PhaseListenerTest
       ExternalContext externalContext = new MockExternalContext();
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
-      facesContext.setCurrent();
+      facesContext.setCurrent().createViewRoot();
       
       Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
@@ -218,7 +218,7 @@ public class PhaseListenerTest
       
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
-      facesContext.setCurrent();
+      facesContext.setCurrent().createViewRoot();
       
       Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );

@@ -599,7 +599,7 @@ public class InterceptorTest
    {
       MockServletContext servletContext = new MockServletContext();
       ExternalContext externalContext = new MockExternalContext(servletContext);
-      new MockFacesContext( externalContext, new MockApplication() ).setCurrent();
+      new MockFacesContext( externalContext, new MockApplication() ).setCurrent().createViewRoot();
       
       Context appContext = new FacesApplicationContext(externalContext);
       appContext.set( Seam.getComponentName(Init.class), new Init() );
