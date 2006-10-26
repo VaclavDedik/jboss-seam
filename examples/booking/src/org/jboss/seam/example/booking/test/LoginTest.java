@@ -1,14 +1,9 @@
 //$Id$
 package org.jboss.seam.example.booking.test;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.example.booking.HotelSearching;
-import org.jboss.seam.example.booking.Login;
-import org.jboss.seam.example.booking.Logout;
-import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -25,9 +20,7 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            HotelSearching hb = (HotelSearching) Component.getInstance("hotelSearch", true);
-            String outcome = hb.find();
-            assert "login".equals( outcome );
+            assert invokeMethod("#{hotelSearch.find}").equals("login");
          }
 
          @Override
@@ -46,26 +39,22 @@ public class LoginTest extends SeamTest
          protected void updateModelValues() throws Exception
          {
             assert !isSessionInvalid();
-            User user = (User) Component.getInstance("user", true);
-            user.setUsername("gavin");
-            user.setPassword("foobar");
+            setValue("#{user.username}", "gavin");
+            setValue("#{user.password}", "foobar");
          }
 
          @Override
          protected void invokeApplication()
          {
-            Login login = (Login) Component.getInstance("login", true);
-            String outcome = login.login();
-            assert "main".equals( outcome );
+            assert invokeMethod("#{login.login}").equals("main");
          }
 
          @Override
          protected void renderResponse()
          {
-            User user = (User) Component.getInstance("user", false);
-            assert user.getName().equals("Gavin King");
-            assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("foobar");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.username}").equals("gavin");
+            assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 
@@ -78,9 +67,8 @@ public class LoginTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            HotelSearching hb = (HotelSearching) Component.getInstance("hotelSearch", true);
-            String outcome = hb.find();
-            assert "main".equals( outcome );
+            assert !isSessionInvalid();
+            assert invokeMethod("#{hotelSearch.find}").equals("main");
          }
 
          @Override
@@ -99,9 +87,8 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !Manager.instance().isLongRunningConversation();
-            Logout logout = (Logout) Component.getInstance("logout", true);
-            String outcome = logout.logout();
-            assert "login".equals( outcome );
+            assert !isSessionInvalid();
+            assert invokeMethod("#{logout.logout}").equals("login");
             assert Seam.isSessionInvalid();
          }
 

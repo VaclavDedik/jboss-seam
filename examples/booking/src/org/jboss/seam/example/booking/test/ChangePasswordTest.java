@@ -1,10 +1,8 @@
 //$Id$
 package org.jboss.seam.example.booking.test;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.example.booking.ChangePassword;
 import org.jboss.seam.example.booking.User;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
@@ -39,10 +37,9 @@ public class ChangePasswordTest extends SeamTest
          @Override
          protected void renderResponse()
          {
-            User user = (User) Component.getInstance("user", false);
-            assert user.getName().equals("Gavin King");
-            assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("foobar");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.username}").equals("gavin");
+            assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 
@@ -52,31 +49,25 @@ public class ChangePasswordTest extends SeamTest
       
       new FacesRequest() {
 
-         ChangePassword changePassword;
-
          @Override
          protected void updateModelValues() throws Exception
          {
-            User user = (User) Component.getInstance("user", true);
-            user.setPassword("xxxyyy");
-            changePassword = (ChangePassword) Component.getInstance("changePassword", true);
-            changePassword.setVerify("xxyyyx");
+            setValue("#{user.password}", "xxxyyy");
+            setValue("#{changePassword.verify}", "xxyyyx");
          }
 
          @Override
          protected void invokeApplication()
          {
-            String outcome = changePassword.changePassword();
-            assert outcome==null;
+            assert invokeMethod("#{changePassword.changePassword}")==null;
          }
 
          @Override
          protected void renderResponse()
          {
-            User user = (User) Component.getInstance("user", false);
-            assert user.getName().equals("Gavin King");
-            assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("foobar");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.username}").equals("gavin");
+            assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
          }
@@ -85,31 +76,25 @@ public class ChangePasswordTest extends SeamTest
       
       new FacesRequest() {
 
-         ChangePassword changePassword;
-
          @Override
          protected void updateModelValues() throws Exception
          {
-            User user = (User) Component.getInstance("user", true);
-            user.setPassword("xxxyyy");
-            changePassword = (ChangePassword) Component.getInstance("changePassword", true);
-            changePassword.setVerify("xxxyyy");
+            setValue("#{user.password}", "xxxyyy");
+            setValue("#{changePassword.verify}", "xxxyyy");
          }
 
          @Override
          protected void invokeApplication()
          {
-            String outcome = changePassword.changePassword();
-            assert outcome.equals("main");
+            assert invokeMethod("#{changePassword.changePassword}").equals("main");
          }
 
          @Override
          protected void renderResponse()
          {
-            User user = (User) Component.getInstance("user", false);
-            assert user.getName().equals("Gavin King");
-            assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("xxxyyy");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.username}").equals("gavin");
+            assert getValue("#{user.password}").equals("xxxyyy");
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 
@@ -119,32 +104,26 @@ public class ChangePasswordTest extends SeamTest
       
       new FacesRequest() {
 
-         ChangePassword changePassword;
-
          @Override
          protected void updateModelValues() throws Exception
          {
-            User user = (User) Component.getInstance("user", true);
-            assert user.getPassword().equals("xxxyyy");
-            user.setPassword("foobar");
-            changePassword = (ChangePassword) Component.getInstance("changePassword", true);
-            changePassword.setVerify("foobar");
+            assert getValue("#{user.password}").equals("xxxyyy");
+            setValue("#{user.password}", "foobar");
+            setValue("#{changePassword.verify}", "foobar");
          }
 
          @Override
          protected void invokeApplication()
          {
-            String outcome = changePassword.changePassword();
-            assert outcome.equals("main");
+            assert invokeMethod("#{changePassword.changePassword}").equals("main");
          }
 
          @Override
          protected void renderResponse()
          {
-            User user = (User) Component.getInstance("user", false);
-            assert user.getName().equals("Gavin King");
-            assert user.getUsername().equals("gavin");
-            assert user.getPassword().equals("foobar");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.username}").equals("gavin");
+            assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
             assert Contexts.getSessionContext().get("loggedIn").equals(true);
 
