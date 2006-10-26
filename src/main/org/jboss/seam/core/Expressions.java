@@ -2,6 +2,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.util.EL.*;
 
 import java.io.Serializable;
 

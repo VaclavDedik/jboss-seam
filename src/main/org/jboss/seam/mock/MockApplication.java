@@ -1,5 +1,8 @@
 package org.jboss.seam.mock;
 
+import static org.jboss.seam.util.EL.EL_CONTEXT;
+import static org.jboss.seam.util.EL.EXPRESSION_FACTORY;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -9,6 +12,8 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.el.MethodExpression;
+import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.NavigationHandler;
@@ -217,9 +222,11 @@ public class MockApplication extends Application {
    }
 
    @Override
-   public MethodBinding createMethodBinding(final String methodExpression, Class[] args)
+   public MethodBinding createMethodBinding(final String methodExpression, final Class[] args)
          throws ReferenceSyntaxException {
       return new MethodBinding() {
+         
+         private MethodExpression me = EXPRESSION_FACTORY.createMethodExpression(EL_CONTEXT, methodExpression, Object.class, args);
 
          @Override
          public String getExpressionString()
@@ -230,13 +237,13 @@ public class MockApplication extends Application {
          @Override
          public Class getType(FacesContext ctx) throws MethodNotFoundException
          {
-            throw new UnsupportedOperationException();
+            return me.getMethodInfo(EL_CONTEXT).getReturnType();
          }
 
          @Override
          public Object invoke(FacesContext ctx, Object[] args) throws EvaluationException, MethodNotFoundException
          {
-            return null; //TODO: big big todo!!
+            return me.invoke(EL_CONTEXT, args);
          }
          
       };
@@ -271,6 +278,8 @@ public class MockApplication extends Application {
    public ValueBinding createValueBinding(final String valueExpression)
          throws ReferenceSyntaxException {
       return new ValueBinding() {
+         
+         private ValueExpression ve = EXPRESSION_FACTORY.createValueExpression(EL_CONTEXT, valueExpression, Object.class);
 
    		@Override
          public String getExpressionString()
@@ -280,22 +289,22 @@ public class MockApplication extends Application {
 
          @Override
    		public Class getType(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-            throw new UnsupportedOperationException();
+            return ve.getType(EL_CONTEXT);
    		}
    
    		@Override
    		public Object getValue(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-   			return valueExpression; //TODO: big todo!
+   			return ve.getValue(EL_CONTEXT);
    		}
    
    		@Override
    		public boolean isReadOnly(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-   			return false;
+   			return ve.isReadOnly(EL_CONTEXT);
    		}
    
    		@Override
    		public void setValue(FacesContext ctx, Object value) throws EvaluationException, PropertyNotFoundException {
-            //TODO: big todo!
+            ve.setValue(EL_CONTEXT, value);
    		}
     	  
       };

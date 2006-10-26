@@ -35,7 +35,12 @@ public class SeamELResolver extends ELResolver
       {
          String name = (String) property;
          name = name.replace('$', '.');
-         return Component.getInstance(name);
+         Object result = Component.getInstance(name);
+         if (result!=null)
+         {
+            context.setPropertyResolved(true);
+         }
+         return result;
       }
       else
       {

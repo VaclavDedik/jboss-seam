@@ -173,9 +173,16 @@ public class MockFacesContext extends FacesContext
       responseComplete = true;
    }
    
-   public void setCurrent()
+   public MockFacesContext setCurrent()
    {
       setCurrentInstance(this);
+      return this;
+   }
+   
+   public MockFacesContext createViewRoot()
+   {
+      viewRoot = new UIViewRoot();
+      return this;
    }
 
 }
