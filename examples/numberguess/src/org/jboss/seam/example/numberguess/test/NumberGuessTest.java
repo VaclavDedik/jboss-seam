@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.example.numberguess.test;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.example.numberguess.NumberGuess;
@@ -21,7 +20,7 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void renderResponse() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+            NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ng.getBiggest()==100;
             assert ng.getSmallest()==1;
@@ -39,7 +38,7 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void applyRequestValues() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+            NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
             guess = ng.getRandomNumber() > 50 ? 25 : 75;
             ng.setCurrentGuess(guess);
          }
@@ -65,7 +64,7 @@ public class NumberGuessTest extends SeamTest
          
          @Override
          protected void renderResponse() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+            NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ( guess > ng.getRandomNumber() && ng.getBiggest()==guess-1 ) 
                   || ( guess < ng.getRandomNumber() && ng.getSmallest()==guess+1 );
@@ -86,7 +85,7 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void applyRequestValues() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+            NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
             ng.setCurrentGuess( ng.getRandomNumber() );
          }
 
@@ -111,7 +110,7 @@ public class NumberGuessTest extends SeamTest
       {
          @Override
          protected void renderResponse() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+            NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ng.isCorrectGuess();
             assert ng.getCurrentGuess()==ng.getRandomNumber();
@@ -133,7 +132,7 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void renderResponse() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+            NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ng.getBiggest()==100;
             assert ng.getSmallest()==1;
@@ -154,7 +153,7 @@ public class NumberGuessTest extends SeamTest
    
             @Override
             protected void applyRequestValues() throws Exception {
-               NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+               NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
                guess = ng.getRandomNumber() > 50 ? 25+count : 75-count;
                ng.setCurrentGuess(guess);
             }
@@ -181,7 +180,7 @@ public class NumberGuessTest extends SeamTest
    
             @Override
             protected void renderResponse() throws Exception {
-               NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+               NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
                assert ng.getMaxGuesses()==10;
                assert ( guess > ng.getRandomNumber() && ng.getBiggest()==guess-1 ) 
                      || ( guess < ng.getRandomNumber() && ng.getSmallest()==guess+1 );
@@ -204,7 +203,7 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void applyRequestValues() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+            NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
             guess = ng.getRandomNumber() > 50 ? 49 : 51;
             ng.setCurrentGuess(guess);
          }
@@ -231,7 +230,7 @@ public class NumberGuessTest extends SeamTest
 
          @Override
          protected void renderResponse() throws Exception {
-            NumberGuess ng = (NumberGuess) Component.getInstance(NumberGuess.class);
+            NumberGuess ng = (NumberGuess) getInstance(NumberGuess.class);
             assert ng.getMaxGuesses()==10;
             assert ( guess > ng.getRandomNumber() && ng.getBiggest()==guess-1 ) 
                   || ( guess < ng.getRandomNumber() && ng.getSmallest()==guess+1 );
