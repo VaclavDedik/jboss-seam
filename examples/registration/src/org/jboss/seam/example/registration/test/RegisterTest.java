@@ -14,7 +14,7 @@ public class RegisterTest extends SeamTest
    public void testLogin() throws Exception
    {
             
-      new FacesRequest() {
+      new FacesRequest("/register.jspx") {
 
          @Override
          protected void updateModelValues() throws Exception
@@ -31,8 +31,21 @@ public class RegisterTest extends SeamTest
          {
             Register register = (Register) Component.getInstance("register", true);
             String outcome = register.register();
-            assert "/registered.jspx".equals( outcome );
+            assert "/registered.jspx".equals(outcome);
+            setOutcome(outcome);
          }
+         
+         @Override
+         protected void afterRequest()
+         {
+            assert isInvokeApplicationComplete();
+            assert !isRenderResponseBegun();
+         }
+         
+      }.run();
+      
+      new NonFacesRequest("/registered.jspx")
+      {
 
          @Override
          protected void renderResponse()

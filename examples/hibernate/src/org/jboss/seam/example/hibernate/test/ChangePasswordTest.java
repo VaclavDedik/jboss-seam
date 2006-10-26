@@ -18,7 +18,7 @@ public class ChangePasswordTest extends SeamTest
    public void testChangePassword() throws Exception
    {
       
-      new Script() {
+      new FacesRequest() {
 
          ChangePasswordAction changePassword;
          
@@ -58,7 +58,7 @@ public class ChangePasswordTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest() {
 
     	  ChangePasswordAction changePassword;
 
@@ -92,7 +92,7 @@ public class ChangePasswordTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest() {
 
     	  ChangePasswordAction changePassword;
 
@@ -126,7 +126,7 @@ public class ChangePasswordTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest() {
 
     	  ChangePasswordAction changePassword;
 

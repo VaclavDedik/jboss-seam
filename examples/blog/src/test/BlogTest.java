@@ -25,7 +25,7 @@ public class BlogTest extends SeamTest
    public void testPost() throws Exception
    {
       
-      new Script()
+      new FacesRequest("/post.xhtml")
       {
 
          @Override
@@ -42,18 +42,20 @@ public class BlogTest extends SeamTest
          {
             PostAction action = (PostAction) Component.getInstance(PostAction.class);
             assert action.post().equals("/index.xhtml");
+            setOutcome("/index.xhtml");
+         }
+         
+         @Override
+         protected void afterRequest()
+         {
+            assert isInvokeApplicationComplete();
+            assert !isRenderResponseBegun();
          }
          
       }.run();
 
-      new Script()
+      new NonFacesRequest("/index.xhtml")
       {
-
-         @Override
-         protected boolean isGetRequest()
-         {
-            return true;
-         }
 
          @Override
          protected void renderResponse() throws Exception
@@ -68,7 +70,7 @@ public class BlogTest extends SeamTest
 
       }.run();
       
-      new Script()
+      new FacesRequest()
       {
          @Override
          protected void invokeApplication() throws Exception
@@ -82,14 +84,8 @@ public class BlogTest extends SeamTest
    @Test
    public void testLatest() throws Exception
    {
-      new Script()
+      new NonFacesRequest("/index.xhtml")
       {
-
-         @Override
-         protected boolean isGetRequest()
-         {
-            return true;
-         }
 
          @Override
          protected void renderResponse() throws Exception
@@ -103,24 +99,18 @@ public class BlogTest extends SeamTest
    @Test
    public void testEntry() throws Exception
    {
-      new Script()
+      new NonFacesRequest(/*"/entry.xhtml"*/)
       {
          
          @Override
-         protected void setup()
+         protected void beforeRequest()
          {
             getParameters().put("blogEntryId", new String[] {"i18n"});
          }
 
+         //temp because page actions cannot be tested
          @Override
-         protected boolean isGetRequest()
-         {
-            return true;
-         }
-
-         //TODO: workaround for the fact that page actions don't get called!
-         @Override
-         protected void invokeApplication() throws Exception
+         protected void callPageActions() throws Exception
          {
             ( (EntryAction) Component.getInstance(EntryAction.class, true) ).loadBlogEntry("i18n");
          }
@@ -139,7 +129,7 @@ public class BlogTest extends SeamTest
    @Test
    public void testSearch() throws Exception
    {
-      String id = new Script()
+      String id = new FacesRequest()
       {
          
          @Override
@@ -155,23 +145,20 @@ public class BlogTest extends SeamTest
          }
 
          @Override
-         protected void renderResponse() { assert false; }
+         protected void afterRequest()
+         {
+            assert !isRenderResponseBegun();
+         }
          
       }.run();
 
-      new Script(id)
+      new NonFacesRequest("/search.xhtml", id)
       {
-                  
-         @Override
-         protected boolean isGetRequest()
-         {
-            return true;
-         }
 
          @Override
          protected void renderResponse() throws Exception
          {
-            ( (SearchService) Component.getInstance(SearchService.class) ).setSearchPattern("seam");
+            ( (SearchService) Component.getInstance(SearchService.class) ).setSearchPattern("seam"); //temp because page parameters cannot be tested
             List<BlogEntry> results = (List<BlogEntry>) Component.getInstance("searchResults");
             assert results.size()==1;
          }

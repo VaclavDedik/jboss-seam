@@ -51,9 +51,9 @@ public class NumberGuessTest extends SeamTest
          }
          
          @Override
-         protected void afterRequest(boolean skippedRender, String viewId) {
-            assert skippedRender;
-            assert "/numberGuess.jspx".equals(viewId);
+         protected void afterRequest() {
+            assert !isRenderResponseBegun();
+            assert getViewId().equals("/numberGuess.jspx");
          }
          
       }.run();
@@ -97,10 +97,10 @@ public class NumberGuessTest extends SeamTest
          }
          
          @Override
-         protected void afterRequest(boolean skippedRender, String viewId)
+         protected void afterRequest()
          {
-            assert skippedRender;
-            assert "/win.jspx".equals(viewId);
+            assert !isRenderResponseBegun();
+            assert getViewId().equals("/win.jspx");
          }
          
       }.run();
@@ -168,10 +168,10 @@ public class NumberGuessTest extends SeamTest
             }
             
             @Override
-            protected void afterRequest(boolean skippedRender, String viewId)
+            protected void afterRequest()
             {
-               assert skippedRender;
-               assert "/numberGuess.jspx".equals(viewId);
+               assert !isRenderResponseBegun();
+               assert getViewId().equals("/numberGuess.jspx");
             }
             
          }.run();
@@ -218,10 +218,10 @@ public class NumberGuessTest extends SeamTest
          }
 
          @Override
-         protected void afterRequest(boolean skippedRender, String viewId)
+         protected void afterRequest()
          {
-            assert skippedRender;
-            assert "/lose.jspx".equals(viewId);
+            assert !isRenderResponseBegun();
+            assert getViewId().equals("/lose.jspx");
          }
          
       }.run();

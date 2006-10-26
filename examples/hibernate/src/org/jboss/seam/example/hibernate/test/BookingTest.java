@@ -29,18 +29,23 @@ public class BookingTest extends SeamTest
    @Test
    public void testBookHotel() throws Exception
    {
-
-      String id = new Script() {
-
-         HotelBookingAction hotelBooking;
-         
+      
+      new FacesRequest()
+      {
          @Override
-         protected void applyRequestValues()
+         protected void invokeApplication()
          {
             Contexts.getSessionContext().set("loggedIn", true);
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
          }
 
+      }.run();
+
+      String id = new FacesRequest("/main.xhtml") 
+      {
+
+         HotelBookingAction hotelBooking;
+         
          @Override
          protected void updateModelValues() throws Exception
          {
@@ -52,7 +57,7 @@ public class BookingTest extends SeamTest
          protected void invokeApplication()
          {
             String outcome = hotelBooking.find();
-            assert "main".equals( outcome );
+            assert "main".equals(outcome);
          }
 
          @Override
@@ -67,7 +72,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/main.xhtml", id) {
 
          @Override
          protected void invokeApplication()
@@ -89,7 +94,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/hotel.xhtml", id) {
 
          @Override
          protected void invokeApplication()
@@ -114,7 +119,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/book.xhtml", id) {
 
          @Override
          protected void processValidations() throws Exception
@@ -135,7 +140,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/book.xhtml", id) {
 
          @Override
          protected void processValidations() throws Exception
@@ -156,7 +161,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/book.xhtml", id) {
          
          @Override @SuppressWarnings("deprecation")
          protected void updateModelValues() throws Exception
@@ -190,7 +195,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/book.xhtml", id) {
          
          @Override @SuppressWarnings("deprecation")
          protected void updateModelValues() throws Exception
@@ -206,7 +211,7 @@ public class BookingTest extends SeamTest
          {
         	   HotelBookingAction hotelBooking = (HotelBookingAction) Contexts.getConversationContext().get("hotelBooking");
             String outcome = hotelBooking.setBookingDetails();
-            assert "confirm".equals( outcome );
+            assert "confirm".equals(outcome);
          }
 
          @Override
@@ -217,7 +222,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/confirm.xhtml", id) {
         
          @Override
          protected void invokeApplication()
@@ -235,7 +240,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new NonFacesRequest("/main.xhtml") {
 
          @Override
          protected void renderResponse()
@@ -251,7 +256,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest("/main.xhtml") {
          
          @Override
          protected void invokeApplication()

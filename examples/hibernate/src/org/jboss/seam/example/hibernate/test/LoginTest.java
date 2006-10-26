@@ -21,7 +21,7 @@ public class LoginTest extends SeamTest
    public void testLogin() throws Exception
    {
       
-      new Script() {
+      new FacesRequest("/home.xhtml") {
          
          @Override
          protected void invokeApplication()
@@ -42,7 +42,7 @@ public class LoginTest extends SeamTest
          
       }.run();
       
-      new Script() {
+      new FacesRequest("/home.xhtml") {
 
          @Override
          protected void updateModelValues() throws Exception
@@ -75,7 +75,7 @@ public class LoginTest extends SeamTest
          
       }.run();
       
-      String id = new Script() {
+      String id = new FacesRequest("/home.xhtml") {
 
          @Override
          protected void invokeApplication()
@@ -95,7 +95,7 @@ public class LoginTest extends SeamTest
          
       }.run();
       
-      new Script(id) {
+      new FacesRequest("/main.xhtml", id) {
 
          @Override
          protected void invokeApplication()
