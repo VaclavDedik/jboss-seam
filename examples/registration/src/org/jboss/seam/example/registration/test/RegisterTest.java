@@ -16,6 +16,14 @@ public class RegisterTest extends SeamTest
       new FacesRequest("/register.jspx") {
 
          @Override
+         protected void processValidations() throws Exception
+         {
+            validateValue("#{user.username}", "1ovthafew");
+            validateValue("#{user.name}", "Gavin King");
+            validateValue("#{user.password}", "secret");
+         }
+         
+         @Override
          protected void updateModelValues() throws Exception
          {
             setValue("#{user.username}", "1ovthafew");
@@ -54,6 +62,14 @@ public class RegisterTest extends SeamTest
       
       new FacesRequest("/register.jspx") {
 
+         @Override
+         protected void processValidations() throws Exception
+         {
+            validateValue("#{user.username}", "1ovthafew");
+            validateValue("#{user.name}", "Gavin A King");
+            validateValue("#{user.password}", "password");
+         }
+         
          @Override
          protected void updateModelValues() throws Exception
          {
