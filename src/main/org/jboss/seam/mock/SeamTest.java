@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -56,6 +57,11 @@ public class SeamTest
    private MockHttpSession session;
    private Map<String, Map> conversationViewRootAttributes;
    
+   protected void setParameter(String name, String value)
+   {
+      getParameters().put( name, new String[] {value} );
+   }
+   
    protected Map<String, String[]> getParameters()
    {
       return ( (MockHttpServletRequest) externalContext.getRequest() ).getParameters();
@@ -84,7 +90,7 @@ public class SeamTest
    {
       return Component.getInstance(clazz);
    }
-
+   
    /**
     * Helper method for resolving components in
     * the test script.
@@ -111,6 +117,7 @@ public class SeamTest
       private boolean renderResponseComplete;
       private boolean invokeApplicationBegun;
       private boolean invokeApplicationComplete;
+      private Application application;
       
       /**
        * A script for a JSF interaction with
@@ -263,10 +270,28 @@ public class SeamTest
       }
       
       /**
-       * Test harness cannot currently evaluate EL, so for a temporary
-       * solution, call page actions here.
+       * Evaluate (get) a value binding
        */
-      protected void callPageActions() throws Exception {}
+      protected Object getValue(String valueExpression)
+      {
+         return application.createValueBinding(valueExpression).getValue(facesContext);
+      }
+
+      /**
+       * Set a value binding
+       */
+      protected void setValue(String valueExpression, Object value)
+      {
+         application.createValueBinding(valueExpression).setValue(facesContext, value);
+      }
+      
+      /**
+       * Call a method binding
+       */
+      protected Object invokeMethod(String methodExpression)
+      {
+         return application.createMethodBinding(methodExpression, null).invoke(facesContext, null);
+      }
 
       /**
        * @return the conversation id
@@ -275,7 +300,8 @@ public class SeamTest
       public String run() throws Exception
       {   
          externalContext = new MockExternalContext(servletContext, session);
-         facesContext = new MockFacesContext( externalContext, new SeamApplication11(application) );
+         application = new SeamApplication11(SeamTest.this.application);
+         facesContext = new MockFacesContext( externalContext, application );
          facesContext.setCurrent();
          
          beforeRequest();
@@ -360,11 +386,6 @@ public class SeamTest
          {
          
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE) );
-            
-            //TODO: fix temp hack!
-            Lifecycle.setPhaseId(PhaseId.INVOKE_APPLICATION);
-            callPageActions();
-            Lifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
             
             renderResponseBegun = true;
             
