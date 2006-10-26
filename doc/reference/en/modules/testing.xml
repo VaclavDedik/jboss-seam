@@ -189,7 +189,7 @@ public class RegisterAction implements Register
    public void testRegister() throws Exception
    {
             
-      new Script() {
+      new FacesRequest() {
 
          @Override
          protected void updateModelValues() throws Exception
@@ -206,7 +206,7 @@ public class RegisterAction implements Register
          {
             Register register = (Register) Component.getInstance("register", true);
             String outcome = register.register();
-            assert "success".equals( outcome );
+            assert "success".equals(outcome);
          }
 
          @Override
@@ -230,11 +230,12 @@ public class RegisterAction implements Register
         <para>
             Notice that we've extended <literal>SeamTest</literal>, which provides a 
             Seam environment for our components, and written our test script as an 
-            anonymous class that extends <literal>SeamTest.Script</literal>, which 
-            provides an emulated JSF request lifecycle. We've written our code in 
-            methods which are named for the various JSF phases, to emulate the calls 
-            that JSF would make to our components. Then we've thrown in various 
-            assertions.
+            anonymous class that extends <literal>SeamTest.FacesRequest</literal>, 
+            which provides an emulated JSF request lifecycle. (There is also a
+            <literal>SeamTest.NonFacesRequest</literal> for testing GET requests.)
+            We've written our code in methods which are named for the various JSF 
+            phases, to emulate the calls that JSF would make to our components. Then 
+            we've thrown in various assertions.
         </para>
         
         <para>
