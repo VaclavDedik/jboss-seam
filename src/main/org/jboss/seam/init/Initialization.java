@@ -78,6 +78,7 @@ import org.jboss.seam.core.TaskInstanceListForType;
 import org.jboss.seam.core.Transition;
 import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
+import org.jboss.seam.core.Validation;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.Scanner;
 import org.jboss.seam.framework.CurrentDate;
@@ -415,6 +416,7 @@ public class Initialization
       addComponent( Theme.class, context);
       addComponent( ThemeSelector.class, context);
       addComponent( Interpolator.class, context );
+      addComponent( Validation.class, context );
       addComponent( FacesMessages.class, context );
       addComponent( ResourceBundle.class, context );
       addComponent( LocaleSelector.class, context );

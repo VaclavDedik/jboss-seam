@@ -29,6 +29,7 @@ import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.core.Validation;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamApplication11;
 import org.jboss.seam.jsf.SeamNavigationHandler;
@@ -37,7 +38,6 @@ import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.servlet.ServletSessionImpl;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
-import org.jboss.seam.util.Validation;
 import org.testng.annotations.Configuration;
 
 /**
@@ -101,12 +101,24 @@ public class SeamTest
    }
    
    /**
+    * @deprecated use FacesRequest or NonFacesRequest
+    * @author Gavin King
+    */
+   public abstract class Script extends Request {
+      public Script() {}
+      public Script(String conversationId)
+      {
+         super(conversationId);
+      }
+   }
+   
+   /**
     * Script is an abstract superclass for usually anonymous  
     * inner classes that test JSF interactions.
     * 
     * @author Gavin King
     */
-   public abstract class Script
+   abstract class Request
    {
       private String conversationId;
       private String outcome;
@@ -123,14 +135,14 @@ public class SeamTest
        * A script for a JSF interaction with
        * no existing long-running conversation.
        */
-      protected Script() {}
+      protected Request() {}
       
       /**
        * A script for a JSF interaction in the
        * scope of an existing long-running
        * conversation.
        */
-      protected Script(String conversationId)
+      protected Request(String conversationId)
       {
          this.conversationId = conversationId;
       }
@@ -238,9 +250,12 @@ public class SeamTest
          }
       }
       
+      /**
+       * @deprecated use validateValue()
+       */
       protected void validate(Class modelClass, String property, Object value)
       {
-         ClassValidator validator = Validation.getValidator(modelClass);
+         ClassValidator validator = Validation.instance().getValidator(modelClass);
          InvalidValue[] ivs = validator.getPotentialInvalidValues(property, value);
          if (ivs.length>0)
          {
@@ -285,6 +300,25 @@ public class SeamTest
          application.createValueBinding(valueExpression).setValue(facesContext, value);
       }
       
+      /**
+       * Validate the value against model-based constraints
+       * return true if the value is valid
+       */
+      protected boolean validateValue(String valueExpression, Object value)
+      {
+         InvalidValue[] ivs = Validation.instance().validate(facesContext, valueExpression, value);
+         if (ivs.length>0)
+         {
+            validationFailed = true;
+            facesContext.addMessage( null, FacesMessages.createFacesMessage( FacesMessage.SEVERITY_WARN, ivs[0].getMessage() ) );
+            return false;
+         }
+         else
+         {
+            return true;
+         }
+      }
+
       /**
        * Call a method binding
        */
@@ -446,7 +480,7 @@ public class SeamTest
       
    }
    
-   public class NonFacesRequest extends Script
+   public class NonFacesRequest extends Request
    {
       public NonFacesRequest() {}
 
@@ -494,7 +528,7 @@ public class SeamTest
 
    }
 
-   public class FacesRequest extends Script
+   public class FacesRequest extends Request
    {
       
       public FacesRequest() {}
@@ -599,7 +633,7 @@ public class SeamTest
          throw new IllegalArgumentException("could not get field value: " + fieldName, e);
       }
    }
-
+   
    protected void setField(Object object, String fieldName, Object value)
    {
       try
