@@ -3,11 +3,8 @@ package org.jboss.seam.example.todo.test;
 
 import java.util.List;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.core.Actor;
 import org.jboss.seam.core.TaskInstanceList;
-import org.jboss.seam.example.todo.Login;
-import org.jboss.seam.example.todo.TodoList;
 import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
@@ -28,20 +25,20 @@ public class TodoTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            ( (Login) Component.getInstance(Login.class, true) ).setUser("gavin");
+            setValue("#{login.user}", "gavin");
          }
 
          @Override
          protected void invokeApplication() throws Exception
          {
-            assert "/todo.jsp".equals( ( (Login) Component.getInstance(Login.class, false) ).login() );
+            assert invokeMethod("#{login.login}").equals("/todo.jsp");
             assert Actor.instance().getId().equals("gavin");
          }
 
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ( (List) Component.getInstance(TaskInstanceList.class, true) ).size()==0;
+            assert ( (List) getInstance(TaskInstanceList.class) ).size()==0;
          }
          
       }.run();
@@ -52,19 +49,19 @@ public class TodoTest extends SeamTest
          @Override
          protected void updateModelValues() throws Exception
          {
-            ( (TodoList) Component.getInstance(TodoList.class, true) ).setDescription("Kick Roy out of my office");
+            setValue("#{todoList.description}", "Kick Roy out of my office");
          }
 
          @Override
          protected void invokeApplication() throws Exception
          {
-            ( (TodoList) Component.getInstance(TodoList.class, false) ).createTodo();
+            invokeMethod("#{todoList.createTodo}");
          }
          
          @Override
          protected void renderResponse() throws Exception
          {
-            List<TaskInstance> tasks = (List<TaskInstance>) Component.getInstance(TaskInstanceList.class, true);
+            List<TaskInstance> tasks = (List<TaskInstance>) getInstance(TaskInstanceList.class);
             assert tasks.size()==1;
             TaskInstance taskInstance = tasks.get(0);
             assert taskInstance.getDescription().equals("Kick Roy out of my office");
@@ -80,19 +77,19 @@ public class TodoTest extends SeamTest
          @Override
          protected void beforeRequest()
          {
-            getParameters().put( "taskId", new String[] { Long.toString(taskId) } );
+            setParameter("taskId", Long.toString(taskId));
          }
 
          @Override
          protected void invokeApplication() throws Exception
          {
-            ( (TodoList) Component.getInstance(TodoList.class, true) ).done();
+            invokeMethod("#{todoList.done}");
          }
          
          @Override
          protected void renderResponse() throws Exception
          {
-            assert ( (List) Component.getInstance(TaskInstanceList.class, true) ).size()==0;
+            assert ( (List) getInstance(TaskInstanceList.class) ).size()==0;
          }
          
       }.run();
