@@ -2,7 +2,6 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.util.EL.*;
 
 import java.io.Serializable;
 
@@ -14,6 +13,8 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.util.UnifiedELMethodBinding;
+import org.jboss.seam.util.UnifiedELValueBinding;
 
 /**
  * Factory for method and value bindings
@@ -64,7 +65,10 @@ public class Expressions
          {
             if (cachedValueBinding==null)
             {
-               cachedValueBinding = FacesContext.getCurrentInstance().getApplication().createValueBinding(expression);
+               FacesContext context = FacesContext.getCurrentInstance();
+               cachedValueBinding = context==null ? 
+                     new UnifiedELValueBinding(expression) : 
+                     context.getApplication().createValueBinding(expression);
             }
             return cachedValueBinding;
          }
@@ -104,7 +108,10 @@ public class Expressions
          {
             if (cachedMethodBinding==null)
             {
-               cachedMethodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(expression, null);
+               FacesContext context = FacesContext.getCurrentInstance();
+               cachedMethodBinding = context==null ? 
+                     new UnifiedELMethodBinding(expression, null) : 
+                     context.getApplication().createMethodBinding(expression, null);
             }
             return cachedMethodBinding;
          }

@@ -1,7 +1,5 @@
 package org.jboss.seam.mock;
 
-import static org.jboss.seam.util.EL.EL_CONTEXT;
-import static org.jboss.seam.util.EL.EXPRESSION_FACTORY;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,8 +10,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.el.MethodExpression;
-import javax.el.ValueExpression;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.NavigationHandler;
@@ -32,10 +28,7 @@ import javax.faces.convert.FloatConverter;
 import javax.faces.convert.IntegerConverter;
 import javax.faces.convert.LongConverter;
 import javax.faces.convert.ShortConverter;
-import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
-import javax.faces.el.MethodNotFoundException;
-import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.PropertyResolver;
 import javax.faces.el.ReferenceSyntaxException;
 import javax.faces.el.ValueBinding;
@@ -43,7 +36,9 @@ import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.validator.Validator;
 
+import org.jboss.seam.util.UnifiedELMethodBinding;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.util.UnifiedELValueBinding;
 
 public class MockApplication extends Application {
 
@@ -224,29 +219,7 @@ public class MockApplication extends Application {
    @Override
    public MethodBinding createMethodBinding(final String methodExpression, final Class[] args)
          throws ReferenceSyntaxException {
-      return new MethodBinding() {
-         
-         private MethodExpression me = EXPRESSION_FACTORY.createMethodExpression(EL_CONTEXT, methodExpression, Object.class, args);
-
-         @Override
-         public String getExpressionString()
-         {
-            return methodExpression;
-         }
-
-         @Override
-         public Class getType(FacesContext ctx) throws MethodNotFoundException
-         {
-            return me.getMethodInfo(EL_CONTEXT).getReturnType();
-         }
-
-         @Override
-         public Object invoke(FacesContext ctx, Object[] args) throws EvaluationException, MethodNotFoundException
-         {
-            return me.invoke(EL_CONTEXT, args);
-         }
-         
-      };
+      return new UnifiedELMethodBinding(methodExpression, args);
    }
 
    @Override
@@ -277,37 +250,7 @@ public class MockApplication extends Application {
    @Override
    public ValueBinding createValueBinding(final String valueExpression)
          throws ReferenceSyntaxException {
-      return new ValueBinding() {
-         
-         private ValueExpression ve = EXPRESSION_FACTORY.createValueExpression(EL_CONTEXT, valueExpression, Object.class);
-
-   		@Override
-         public String getExpressionString()
-         {
-            return valueExpression;
-         }
-
-         @Override
-   		public Class getType(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-            return ve.getType(EL_CONTEXT);
-   		}
-   
-   		@Override
-   		public Object getValue(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-   			return ve.getValue(EL_CONTEXT);
-   		}
-   
-   		@Override
-   		public boolean isReadOnly(FacesContext ctx) throws EvaluationException, PropertyNotFoundException {
-   			return ve.isReadOnly(EL_CONTEXT);
-   		}
-   
-   		@Override
-   		public void setValue(FacesContext ctx, Object value) throws EvaluationException, PropertyNotFoundException {
-            ve.setValue(EL_CONTEXT, value);
-   		}
-    	  
-      };
+      return new UnifiedELValueBinding(valueExpression);
    }
 
 }
