@@ -1,4 +1,4 @@
-package org.jboss.seam.example.crud;
+package org.jboss.seam.example.contactlist;
 
 import java.util.Date;
 

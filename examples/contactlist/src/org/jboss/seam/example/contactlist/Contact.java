@@ -1,4 +1,4 @@
-package org.jboss.seam.example.crud;
+package org.jboss.seam.example.contactlist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Version;
 
 import org.hibernate.validator.Length;
 
@@ -38,6 +39,9 @@ public class Contact
    private String businessPhone;
    @Length(max=20)
    private String cellPhone;
+   
+   @Version
+   private int version;
    
    @OneToMany(mappedBy="contact", cascade=CascadeType.REMOVE)
    @OrderBy("created")

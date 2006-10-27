@@ -3,7 +3,7 @@
     <factory name="contact" value="#{contactHome.instance}"/>
     <component name="contactHome"
               class="org.jboss.seam.framework.EntityHome">
-        <property name="entityClass">org.jboss.seam.example.crud.Contact</property>
+        <property name="entityClass">org.jboss.seam.example.contactlist.Contact</property>
         <property name="entityManager">#{entityManager}</property>
         <property name="createdMessage">New contact #{contact.firstName} #{contact.lastName} created</property>
         <property name="deletedMessage">Contact #{contact.firstName} #{contact.lastName} deleted</property>
@@ -14,13 +14,13 @@
     <factory name="comment" value="#{commentHome.instance}"/>
     <component name="commentHome"
               class="org.jboss.seam.framework.EntityHome">
-        <property name="entityClass">org.jboss.seam.example.crud.Comment</property>
+        <property name="entityClass">org.jboss.seam.example.contactlist.Comment</property>
         <property name="newInstance">#{newComment}</property>
         <property name="entityManager">#{entityManager}</property>
         <property name="createdMessage">New comment posted</property>
     </component>    
     <component name="newComment" 
-              class="org.jboss.seam.example.crud.Comment">
+              class="org.jboss.seam.example.contactlist.Comment">
         <property name="contact">#{contact}</property>
         <property name="created">#{currentDatetime}</property>
     </component>
@@ -38,7 +38,7 @@
         <property name="entityManager">#{entityManager}</property>
     </component>
     <component name="exampleContact"
-              class="org.jboss.seam.example.crud.Contact"/>
+              class="org.jboss.seam.example.contactlist.Contact"/>
 
     
     <component name="entityManager" 
@@ -47,7 +47,6 @@
     </component>
     
     <component name="org.jboss.seam.core.init">
-        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
         <property name="jndiPattern">@jndiPattern@</property>
     </component>
     
