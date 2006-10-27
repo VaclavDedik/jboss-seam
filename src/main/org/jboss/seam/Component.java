@@ -439,7 +439,7 @@ public class Component
                Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
                for ( String eventType : method.getAnnotation(Observer.class).value() )
                {
-                  if ( eventType.length()==0 ) eventType = method.getName();
+                  if ( eventType.length()==0 ) eventType = method.getName(); //TODO: new defaulting rule to map @Observer onFooEvent() -> event type "fooEvent"
                   init.addObserverMethod(eventType, method, this);
                }
             }
@@ -1637,7 +1637,7 @@ public class Component
       }
    }
 
-   public Object callComponentMethod(Object instance, Method method) {
+   public Object callComponentMethod(Object instance, Method method, Object... parameters) {
       Class[] paramTypes = method.getParameterTypes();
       String methodName = method.getName();
       try
@@ -1645,10 +1645,15 @@ public class Component
          Method interfaceMethod = instance.getClass().getMethod(methodName, paramTypes);
          if ( paramTypes.length==0 )
          {
-            return Reflections.invokeAndWrap( interfaceMethod, instance );
+            return Reflections.invokeAndWrap(interfaceMethod, instance);
          }
-         else {
-            return Reflections.invokeAndWrap( interfaceMethod, instance, this );
+         else if ( parameters.length>0 )
+         {
+            return Reflections.invokeAndWrap(interfaceMethod, instance, parameters);
+         }
+         else 
+         {
+            return Reflections.invokeAndWrap(interfaceMethod, instance, this);
          }
       }
       catch (NoSuchMethodException e)

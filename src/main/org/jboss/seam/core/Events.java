@@ -89,7 +89,7 @@ public class Events
       list.add(methodBinding);
    }
    
-   public void raiseEvent(String type)
+   public void raiseEvent(String type, Object... parameters)
    {
       log.debug("Processing event:" + type);
       List<MethodBinding> list = listeners.get(type);
@@ -97,7 +97,7 @@ public class Events
       {
          for (MethodBinding listener: list )
          {
-            listener.invoke();
+            listener.invoke(parameters);
          }
       }
       List<Init.ObserverMethod> observers = Init.instance().getObservers(type);
@@ -106,29 +106,29 @@ public class Events
          for (ObserverMethod observer: observers)
          {
             Object listener = Component.getInstance( observer.component.getName(), true );
-            observer.component.callComponentMethod(listener, observer.method);
+            observer.component.callComponentMethod(listener, observer.method, parameters);
          }
       }
    }
    
-   public void raiseAsynchronousEvent(String type)
+   public void raiseAsynchronousEvent(String type, Object... parameters)
    {
-      Dispatcher.instance().scheduleEvent(type, 0l, null, null);
+      Dispatcher.instance().scheduleEvent(type, 0l, null, null, parameters);
    }
    
-   public void raiseTimedEvent(String type, long duration)
+   public void raiseTimedEvent(String type, long duration, Object... parameters)
    {
-      Dispatcher.instance().scheduleEvent(type, duration, null, null);
+      Dispatcher.instance().scheduleEvent(type, duration, null, null, parameters);
    }
    
-   public void raiseTimedEvent(String type, Date expiration)
+   public void raiseTimedEvent(String type, Date expiration, Object... parameters)
    {
-      Dispatcher.instance().scheduleEvent(type, null, expiration, null);
+      Dispatcher.instance().scheduleEvent(type, null, expiration, null, parameters);
    }
    
-   public void raiseTimedEvent(String type, Date expiration, long intervalDuration)
+   public void raiseTimedEvent(String type, Date expiration, long intervalDuration, Object... parameters)
    {
-      Dispatcher.instance().scheduleEvent(type, null, expiration, intervalDuration);
+      Dispatcher.instance().scheduleEvent(type, null, expiration, intervalDuration, parameters);
    }
    
    public void raiseTimedEvent(String type, long duration, long intervalDuration)

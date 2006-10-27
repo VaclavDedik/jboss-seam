@@ -135,16 +135,18 @@ public class Dispatcher implements LocalDispatcher
       static final long serialVersionUID = 2074586442931427819L;
       
       private String type;
+      private Object[] parameters;
 
-      public AsynchronousEvent(String type)
+      public AsynchronousEvent(String type, Object[] parameters)
       {
          this.type = type;
+         this.parameters = parameters;
       }
 
       @Override
       public void call()
       {
-         Events.instance().raiseEvent(type);
+         Events.instance().raiseEvent(type, parameters);
       }
       
    }
@@ -158,9 +160,9 @@ public class Dispatcher implements LocalDispatcher
       ( (Asynchronous) timer.getInfo() ).execute(timer);
    }
    
-   public Timer scheduleEvent(String type, Long duration, Date expiration, Long intervalDuration)
+   public Timer scheduleEvent(String type, Long duration, Date expiration, Long intervalDuration, Object... parameters)
    {
-      return schedule( duration, expiration, intervalDuration, new AsynchronousEvent(type) );
+      return schedule( duration, expiration, intervalDuration, new AsynchronousEvent(type, parameters) );
    }
    
    public Timer scheduleInvocation(InvocationContext invocation, Component component)

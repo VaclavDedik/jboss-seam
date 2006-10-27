@@ -33,7 +33,6 @@ public class Expressions
       
       return new ValueBinding() 
       {
-         
          private transient javax.faces.el.ValueBinding cachedValueBinding;
          
          public String getExpressionString()
@@ -86,32 +85,36 @@ public class Expressions
    {
       return new MethodBinding() 
       {
-         
          private transient javax.faces.el.MethodBinding cachedMethodBinding;
 
          public String getExpressionString()
          {
-            return getFacesMethodBinding().getExpressionString();
-         }
-
-         public Class getType()
-         {
-            return getFacesMethodBinding().getType( FacesContext.getCurrentInstance() );
+            return expression;
          }
 
          public Object invoke(Object... args)
          {
-            return getFacesMethodBinding().invoke( FacesContext.getCurrentInstance(), args );
+            return getFacesMethodBinding(args).invoke( FacesContext.getCurrentInstance(), args );
          }
 
-         javax.faces.el.MethodBinding getFacesMethodBinding()
+         private javax.faces.el.MethodBinding getFacesMethodBinding(Object... args)
          {
+            Class[] types = new Class[args.length];
+            for (int i=0; i<args.length;i++)
+            {
+               if (args[i]==null)
+               {
+                  throw new IllegalArgumentException("Null parameter");
+               }
+               types[i] = args[i].getClass();
+            }
+            
             if (cachedMethodBinding==null)
             {
                FacesContext context = FacesContext.getCurrentInstance();
                cachedMethodBinding = context==null ? 
-                     new UnifiedELMethodBinding(expression, null) : 
-                     context.getApplication().createMethodBinding(expression, null);
+                     new UnifiedELMethodBinding(expression, types) : 
+                     context.getApplication().createMethodBinding(expression, types);
             }
             return cachedMethodBinding;
          }
@@ -138,7 +141,6 @@ public class Expressions
    public static interface MethodBinding<T> extends Serializable
    {
       public String getExpressionString();
-      public Class<T> getType();
       public T invoke(Object... args);
    }
    

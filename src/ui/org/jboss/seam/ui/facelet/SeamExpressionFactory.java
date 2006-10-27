@@ -49,9 +49,7 @@ public class SeamExpressionFactory extends ExpressionFactory
         faceletsExpressionFactory = compiler.createExpressionFactory();
     }
     
-    public SeamExpressionFactory() 
-    {
-    }
+    public SeamExpressionFactory() {}
     
     /**
      * Note default access.  Other classes in this package use this factory
@@ -75,13 +73,15 @@ public class SeamExpressionFactory extends ExpressionFactory
                                                    Class[] paramTypes) 
     {
         MethodExpressionParser parser = new MethodExpressionParser(expression);
-        if (parser.isParamExpression())
+        if ( parser.isParamExpression() )
         {
             return new ParamMethodExpression(parser, elContext);
         }
         
-        if (paramTypes.length==1 && ActionEvent.class.equals( paramTypes[0] ) )
+        if ( paramTypes.length==1 && paramTypes[0].equals(ActionEvent.class) )
         {
+           //so that JSF action listeners don't have to declare 
+           //the totally frickin useless ActionEvent parameter
            return new OptionalParameterMethodExpression(
                  faceletsExpressionFactory.createMethodExpression(elContext, expression, returnType, paramTypes),
                  faceletsExpressionFactory.createMethodExpression(elContext, expression, returnType, new Class[0])
