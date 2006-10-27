@@ -19,6 +19,7 @@ import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pages;
@@ -33,36 +34,38 @@ import org.testng.annotations.Test;
 
 public class PhaseListenerTest
 {
-   @Test
-   public void testSeamPhaseListener()
+   private void installComponents(Context appContext)
+   {
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      installComponent(appContext, Manager.class);
+      installComponent(appContext, ConversationEntries.class);
+      installComponent(appContext, FacesPage.class);
+      installComponent(appContext, Conversation.class);
+      installComponent(appContext, FacesMessages.class);
+      installComponent(appContext, Pages.class);
+   }
+   
+   private void installComponent(Context appContext, Class clazz)
+   {
+      appContext.set( Seam.getComponentName(clazz) + ".component", new Component(clazz) );
+   }
+   
+   private MockFacesContext createFacesContext()
    {
       ExternalContext externalContext = new MockExternalContext();
       MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
       facesContext.setCurrent().createViewRoot();
+      facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
       
       Context appContext = new FacesApplicationContext(externalContext);
-      appContext.set( Seam.getComponentName(Init.class), new Init() );
-      appContext.set( 
-            Seam.getComponentName(ConversationEntries.class) + ".component", 
-            new Component(ConversationEntries.class, appContext) 
-         );
-      appContext.set( 
-            Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(Conversation.class) + ".component", 
-            new Component(Conversation.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(FacesMessages.class) + ".component", 
-            new Component(FacesMessages.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(Pages.class) + ".component", 
-            new Component(Pages.class) 
-         );
-      
+      installComponents(appContext);
+      return facesContext;
+   }
+   
+   @Test
+   public void testSeamPhaseListener()
+   {
+      MockFacesContext facesContext = createFacesContext();
       SeamPhaseListener phases = new SeamPhaseListener();
 
       assert !Contexts.isEventContextActive();
@@ -97,7 +100,8 @@ public class PhaseListenerTest
       
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
-      assert facesContext.getViewRoot().getAttributes().size()==0;
+      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert ( (FacesPage) getPageMap(facesContext).get( Seam.getComponentName(FacesPage.class) ) ).getConversationId()==null;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
@@ -116,41 +120,15 @@ public class PhaseListenerTest
    @Test
    public void testSeamPhaseListenerLongRunning()
    {
-      ExternalContext externalContext = new MockExternalContext();
-      MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
-      facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
-      facesContext.setCurrent().createViewRoot();
+      MockFacesContext facesContext = createFacesContext();
       
-      Context appContext = new FacesApplicationContext(externalContext);
-      appContext.set( Seam.getComponentName(Init.class), new Init() );
-      appContext.set( 
-            Seam.getComponentName(ConversationEntries.class) + ".component", 
-            new Component(ConversationEntries.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(Conversation.class) + ".component", 
-            new Component(Conversation.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(FacesMessages.class) + ".component", 
-            new Component(FacesMessages.class) 
-         );      
-      appContext.set( 
-            Seam.getComponentName(Pages.class) + ".component", 
-            new Component(Pages.class) 
-         );
-      
-      getPageMap(facesContext).put(Manager.CONVERSATION_ID, "2");
+      getPageMap(facesContext).put( Seam.getComponentName(FacesPage.class), new FacesPage() { public String getConversationId() { return "2"; } });
       
       List<String> conversationIdStack = new ArrayList<String>();
       conversationIdStack.add("2");
       ConversationEntries entries = new ConversationEntries();
       entries.createConversationEntry("2", conversationIdStack);
-      WebSessionContext sessionContext = new WebSessionContext( new ServletSessionImpl( (HttpSession) externalContext.getSession(true) ) );
+      WebSessionContext sessionContext = new WebSessionContext( new ServletSessionImpl( (HttpSession) facesContext.getExternalContext().getSession(true) ) );
       sessionContext.set( Seam.getComponentName(ConversationEntries.class), entries );
       
       SeamPhaseListener phases = new SeamPhaseListener();
@@ -198,7 +176,7 @@ public class PhaseListenerTest
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
-      assert getPageMap(facesContext).get(Manager.CONVERSATION_ID).equals("2");
+      assert ( (FacesPage) getPageMap(facesContext).get( Seam.getComponentName(FacesPage.class) ) ).getConversationId().equals("2");
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -214,34 +192,7 @@ public class PhaseListenerTest
    @Test
    public void testSeamPhaseListenerNewLongRunning()
    {
-      ExternalContext externalContext = new MockExternalContext();
-      
-      MockFacesContext facesContext = new MockFacesContext( externalContext, new MockApplication() );
-      facesContext.getApplication().setStateManager( new SeamStateManager( facesContext.getApplication().getStateManager() ) );
-      facesContext.setCurrent().createViewRoot();
-      
-      Context appContext = new FacesApplicationContext(externalContext);
-      appContext.set( Seam.getComponentName(Init.class), new Init() );
-      appContext.set( 
-            Seam.getComponentName(ConversationEntries.class) + ".component", 
-            new Component(ConversationEntries.class, appContext) 
-         );
-      appContext.set( 
-            Seam.getComponentName(Manager.class) + ".component", 
-            new Component(Manager.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(Conversation.class) + ".component", 
-            new Component(Conversation.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(FacesMessages.class) + ".component", 
-            new Component(FacesMessages.class) 
-         );
-      appContext.set( 
-            Seam.getComponentName(Pages.class) + ".component", 
-            new Component(Pages.class) 
-         );
+      MockFacesContext facesContext = createFacesContext();
 
       SeamPhaseListener phases = new SeamPhaseListener();
 
@@ -286,10 +237,94 @@ public class PhaseListenerTest
       
       facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
       
-      assert facesContext.getViewRoot().getAttributes().size()==2;
+      assert facesContext.getViewRoot().getAttributes().size()==1;
 
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
 
+      assert !Contexts.isEventContextActive();
+      assert !Contexts.isSessionContextActive();
+      assert !Contexts.isApplicationContextActive();
+      assert !Contexts.isConversationContextActive();
+   }
+
+   @Test
+   public void testSeamPhaseListenerRedirect()
+   {
+      MockFacesContext facesContext = createFacesContext();
+      SeamPhaseListener phases = new SeamPhaseListener();
+
+      assert !Contexts.isEventContextActive();
+      assert !Contexts.isSessionContextActive();
+      assert !Contexts.isApplicationContextActive();
+      assert !Contexts.isConversationContextActive();
+
+      phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
+      
+      assert Contexts.isEventContextActive();
+      assert Contexts.isSessionContextActive();
+      assert Contexts.isApplicationContextActive();
+      assert !Contexts.isConversationContextActive();
+      
+      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
+      
+      assert Contexts.isConversationContextActive();
+      assert !Manager.instance().isLongRunningConversation();
+      
+      phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE ) );
+      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE ) );
+      phases.beforePhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE ) );
+      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE ) );
+      phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE ) );
+      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE ) );
+            
+      phases.beforePhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE ) );
+      
+      facesContext.responseComplete();
+            
+      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE ) );
+      
+      assert !Contexts.isEventContextActive();
+      assert !Contexts.isSessionContextActive();
+      assert !Contexts.isApplicationContextActive();
+      assert !Contexts.isConversationContextActive();
+   }
+
+   @Test
+   public void testSeamPhaseListenerNonFacesRequest()
+   {
+      MockFacesContext facesContext = createFacesContext();
+      SeamPhaseListener phases = new SeamPhaseListener();
+
+      assert !Contexts.isEventContextActive();
+      assert !Contexts.isSessionContextActive();
+      assert !Contexts.isApplicationContextActive();
+      assert !Contexts.isConversationContextActive();
+
+      phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
+      
+      assert Contexts.isEventContextActive();
+      assert Contexts.isSessionContextActive();
+      assert Contexts.isApplicationContextActive();
+      assert !Contexts.isConversationContextActive();
+      
+      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE ) );
+      
+      assert Contexts.isConversationContextActive();
+      assert !Manager.instance().isLongRunningConversation();
+      
+      phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
+      
+      assert facesContext.getViewRoot().getAttributes().size()==1;
+      assert ( (FacesPage) getPageMap(facesContext).get( Seam.getComponentName(FacesPage.class) ) ).getConversationId()==null;
+      assert Contexts.isEventContextActive();
+      assert Contexts.isSessionContextActive();
+      assert Contexts.isApplicationContextActive();
+      assert Contexts.isConversationContextActive();
+      
+      facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
+      
+      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
+      
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
       assert !Contexts.isApplicationContextActive();
