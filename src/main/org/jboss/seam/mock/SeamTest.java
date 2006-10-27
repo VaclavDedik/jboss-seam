@@ -24,10 +24,12 @@ import javax.transaction.UserTransaction;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.init.Initialization;
@@ -56,10 +58,16 @@ public class SeamTest
    private SeamPhaseListener phases;
    private MockHttpSession session;
    private Map<String, Map> conversationViewRootAttributes;
+   private Map<String, Object> pageParameters = new HashMap<String, Object>();
    
    protected void setParameter(String name, String value)
    {
       getParameters().put( name, new String[] {value} );
+   }
+   
+   protected void setPageParameter(String name, Object value)
+   {
+      pageParameters.put(name, value);
    }
    
    protected Map<String, String[]> getParameters()
@@ -344,21 +352,27 @@ public class SeamTest
          
          UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView( facesContext, getViewId() );
          facesContext.setViewRoot(viewRoot);
+         Map viewRootAttributes = facesContext.getViewRoot().getAttributes();
          if ( conversationId!=null )
          {
             if ( isGetRequest() ) 
             {
-               getParameters().put( Manager.instance().getConversationIdParameter(), new String[] {conversationId} );
+               setParameter( Manager.instance().getConversationIdParameter(), conversationId );
                //TODO: what about conversationIsLongRunning????
             }
             else
             {
                if ( conversationViewRootAttributes.containsKey(conversationId) )
                {
+                  //should really only do this if the view id matches (not really possible to implement)
                   Map state = conversationViewRootAttributes.get(conversationId);
-                  facesContext.getViewRoot().getAttributes().putAll(state);
+                  viewRootAttributes.putAll(state);
                }
             }
+         }
+         if ( !isGetRequest() )
+         {
+            viewRootAttributes.putAll(pageParameters);
          }
          
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
@@ -435,13 +449,17 @@ public class SeamTest
          
          afterRequest();
 
-         Map attributes = facesContext.getViewRoot().getAttributes();
+         Map attributes = viewRootAttributes;
          if (attributes!=null)
          {
-            conversationId = (String) attributes.get(Manager.CONVERSATION_ID);
-            Map conversationState = new HashMap();
-            conversationState.putAll(attributes);
-            conversationViewRootAttributes.put(conversationId, conversationState);
+            FacesPage facesPage = (FacesPage) attributes.get( Seam.getComponentName(FacesPage.class) );
+            if (facesPage!=null)
+            {
+               conversationId = facesPage.getConversationId();
+               Map conversationState = new HashMap();
+               conversationState.putAll(attributes);
+               conversationViewRootAttributes.put(conversationId, conversationState);
+            }
          }
 
          return conversationId;

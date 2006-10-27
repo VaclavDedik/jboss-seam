@@ -135,7 +135,13 @@ public class Scanner
 
    private void handleItem(Set<Class<Object>> result, String name)
    {
-      if ( name.endsWith(".class") && !name.startsWith("org/jboss/seam/core") )
+      if ( 
+            name.endsWith(".class") && 
+            !name.startsWith("org/jboss/seam/core") 
+            && !name.startsWith("org/jboss/seam/persistence")
+            && !name.startsWith("org/jboss/seam/debug")
+            && !name.startsWith("org/jboss/seam/theme")
+         )
       {
          String classname = filenameToClassname(name);
          try

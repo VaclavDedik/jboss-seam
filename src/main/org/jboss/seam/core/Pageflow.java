@@ -12,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -35,11 +34,6 @@ import org.jbpm.graph.exe.Token;
 @Intercept(NEVER)
 public class Pageflow extends AbstractMutable implements Serializable
 {
-   private static final String NAME = Seam.getComponentName(Pageflow.class);
-   public static final String PAGEFLOW_COUNTER = NAME + ".counter";
-   public static final String PAGEFLOW_NODE_NAME = NAME + ".nodeName";
-   public static final String PAGEFLOW_NAME = NAME + ".name";
-
    private static final Log log = LogFactory.getLog(Pageflow.class);
    
    private int counter;
@@ -78,9 +72,9 @@ public class Pageflow extends AbstractMutable implements Serializable
    {
       if ( processInstance!=null )
       {
-         
-         String pageflowName = (String) Contexts.getPageContext().get(PAGEFLOW_NAME);
-         String pageflowNodeName = (String) Contexts.getPageContext().get(PAGEFLOW_NODE_NAME);
+         org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
+         String pageflowName = page.getPageflowName();
+         String pageflowNodeName = page.getPageflowNodeName();
          boolean canReposition = getPage().isBackEnabled() && 
                processInstance.getProcessDefinition().getName().equals(pageflowName) && //probably not necessary
                pageflowNodeName!=null; //probably not necessary
@@ -96,8 +90,7 @@ public class Pageflow extends AbstractMutable implements Serializable
          else
          {
             //check the counter to detect illegal use of backbutton
-            //Integer counter = (Integer) attributes.get(Manager.PAGEFLOW_COUNTER);
-            Integer pageCounter = (Integer) Contexts.getPageContext().get(PAGEFLOW_COUNTER);
+            Integer pageCounter = org.jboss.seam.core.FacesPage.instance().getPageflowCounter();
             if ( pageCounter!=null && getPageflowCounter()!=pageCounter )
             {
                illegalNavigationError();
@@ -281,25 +274,6 @@ public class Pageflow extends AbstractMutable implements Serializable
       String name = processInstance==null ? 
             "null" : processInstance.getProcessDefinition().getName();
       return "Pageflow(" + name + ")";
-   }
-
-   /**
-    * Store the current pageflow state in the page context
-    */
-   public void store()
-   {
-      if ( isInProcess() )
-      {
-         Contexts.getPageContext().set( PAGEFLOW_NAME, getProcessInstance().getProcessDefinition().getName() );
-         Contexts.getPageContext().set( PAGEFLOW_NODE_NAME, getNode().getName() );
-         Contexts.getPageContext().set( PAGEFLOW_COUNTER, getPageflowCounter() );
-      }
-      else
-      {
-         Contexts.getPageContext().remove(PAGEFLOW_NAME);
-         Contexts.getPageContext().remove(PAGEFLOW_NODE_NAME);
-         Contexts.getPageContext().remove(PAGEFLOW_COUNTER);
-      }
    }
 
 }

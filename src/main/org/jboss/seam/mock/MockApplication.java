@@ -179,16 +179,35 @@ public class MockApplication extends Application {
       converters.put(BigInteger.class, new BigIntegerConverter());
    }
 
+   private final Map<String, Converter> convertersById = new HashMap<String, Converter>();
+   {
+      convertersById.put(IntegerConverter.CONVERTER_ID, new IntegerConverter());
+      convertersById.put(LongConverter.CONVERTER_ID, new LongConverter());
+      convertersById.put(FloatConverter.CONVERTER_ID, new FloatConverter());
+      convertersById.put(DoubleConverter.CONVERTER_ID, new DoubleConverter());
+      convertersById.put(BooleanConverter.CONVERTER_ID, new BooleanConverter());
+      convertersById.put(ShortConverter.CONVERTER_ID, new ShortConverter());
+      convertersById.put(ByteConverter.CONVERTER_ID, new ByteConverter());
+      convertersById.put(CharacterConverter.CONVERTER_ID, new CharacterConverter());
+      convertersById.put(BigDecimalConverter.CONVERTER_ID, new BigDecimalConverter());
+      convertersById.put(BigIntegerConverter.CONVERTER_ID, new BigIntegerConverter());
+   }
+
    @Override
    public void addConverter(String id, String converterClass) {
-      throw new UnsupportedOperationException();
+      convertersById.put( id, instantiateConverter(converterClass) );
    }
 
    @Override
    public void addConverter(Class type, String converterClass) {
+      converters.put( type, instantiateConverter(converterClass) );
+   }
+
+   private Converter instantiateConverter(String converterClass)
+   {
       try
       {
-         converters.put( type, (Converter) Reflections.classForName(converterClass).newInstance() );
+         return (Converter) Reflections.classForName(converterClass).newInstance();
       }
       catch (Exception e)
       {
@@ -198,7 +217,7 @@ public class MockApplication extends Application {
 
    @Override
    public Converter createConverter(String id) {
-      throw new UnsupportedOperationException();
+      return convertersById.get(id);
    }
 
    @Override
@@ -208,7 +227,7 @@ public class MockApplication extends Application {
 
    @Override
    public Iterator getConverterIds() {
-      throw new UnsupportedOperationException();
+      return convertersById.keySet().iterator();
    }
 
    @Override

@@ -19,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
 import javax.portlet.ActionResponse;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,6 +33,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.pageflow.Page;
 import org.jboss.seam.util.Id;
@@ -49,10 +51,6 @@ import org.jboss.seam.util.Id;
 public class Manager
 {
    private static final Log log = LogFactory.getLog(Manager.class);
-
-   private static final String NAME = Seam.getComponentName(Manager.class);
-   public static final String CONVERSATION_ID = NAME + ".conversationId";
-   public static final String CONVERSATION_IS_LONG_RUNNING = NAME + ".conversationIsLongRunning";
 
    //The id of the current conversation
    private String currentConversationId;
@@ -335,32 +333,13 @@ public class Manager
       //if the session is invalid, don't put the conversation id
       //in the view, 'cos we are expecting the conversation to
       //be destroyed by the servlet session listener
-      if ( Contexts.isPageContextActive() ) 
+      if ( Contexts.isPageContextActive() && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE ) 
       {
          //TODO: we really only need to execute this code when we are in the 
          //      RENDER_RESPONSE phase, ie. not before redirects
-         store();
+         org.jboss.seam.core.FacesPage.instance().storeConversation();
       }
       writeConversationIdToResponse( response, getCurrentConversationId() );
-      
-      if ( Contexts.isPageContextActive() && Init.instance().isJbpmInstalled() )
-      {
-         Pageflow.instance().store();
-      }
-   }
-
-   private void store()
-   {
-      if ( isReallyLongRunningConversation() )
-      {
-         Contexts.getPageContext().set( CONVERSATION_ID, getCurrentConversationId() );
-         Contexts.getPageContext().set( CONVERSATION_IS_LONG_RUNNING, true );
-      }
-      else
-      {
-         Contexts.getPageContext().remove(CONVERSATION_ID);
-         Contexts.getPageContext().remove(CONVERSATION_IS_LONG_RUNNING);
-      }
    }
 
    private void discardTemporaryConversation(ContextAdaptor session, Object response)
@@ -369,29 +348,29 @@ public class Manager
       {
          log.debug("Discarding conversation state: " + getCurrentConversationId());
       }
-
+         
       List<String> stack = getCurrentConversationIdStack();
       if ( stack.size()>1 )
       {
          String outerConversationId = stack.get(1);
-         if ( Contexts.isPageContextActive() )
+         if ( Contexts.isPageContextActive() && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE  )
          {
-            Contexts.getPageContext().set(CONVERSATION_ID, outerConversationId);
+            org.jboss.seam.core.FacesPage.instance().discardNestedConversation(outerConversationId);
          }
          writeConversationIdToResponse(response, outerConversationId);
       }
       else
       {
-         if ( Contexts.isPageContextActive() )
+         if ( Contexts.isPageContextActive() && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE  )
          {
-            Contexts.getPageContext().remove(CONVERSATION_ID);
+            org.jboss.seam.core.FacesPage.instance().discardTemporaryConversation();
          }
       }
 
       //now safe to remove the entry
       removeCurrentConversationAndDestroyNestedContexts(session);
    }
-   
+
    /**
     * Write out the conversation id as a servlet response header or portlet
     * render parameter.
@@ -400,20 +379,22 @@ public class Manager
    {
       if (response instanceof HttpServletResponse)
       {
-         ( (HttpServletResponse) response ).setHeader(conversationIdParameter, conversationId);
+         ( (HttpServletResponse) response ).setHeader( getConversationIdParameter(), conversationId );
       }
       else if (response instanceof ActionResponse)
       {
-         ( (ActionResponse) response ).setRenderParameter(conversationIdParameter, conversationId);
+         ( (ActionResponse) response ).setRenderParameter( getConversationIdParameter(), conversationId );
       }
-   }
-
-   private void removeCurrentConversationAndDestroyNestedContexts(ContextAdaptor session) {
+   }  
+   
+   private void removeCurrentConversationAndDestroyNestedContexts(ContextAdaptor session) 
+   {
       ConversationEntries.instance().removeConversationEntry( getCurrentConversationId() );
       destroyNestedContexts( session, getCurrentConversationId() );
    }
 
-   private void destroyNestedContexts(ContextAdaptor session, String conversationId) {
+   private void destroyNestedContexts(ContextAdaptor session, String conversationId) 
+   {
       List<ConversationEntry> entries = new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
       for  ( ConversationEntry ce: entries )
       {
@@ -464,9 +445,10 @@ public class Manager
       {
          //if it is not passed as a request parameter,
          //try to get it from the page context
-         storedConversationId = (String) Contexts.getPageContext().get(CONVERSATION_ID);
-         isLongRunningConversation = (Boolean) Contexts.getPageContext().get(CONVERSATION_IS_LONG_RUNNING);
-         if (isLongRunningConversation==null) isLongRunningConversation = false;
+         org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
+         storedConversationId = page.getConversationId();
+         isLongRunningConversation = page.isConversationLongRunning();
+         //if (isLongRunningConversation==null) isLongRunningConversation = false;
       }
 
       else if (storedConversationId!=null)
@@ -974,8 +956,9 @@ public class Manager
       noConversation();
       
       //stuff from jPDL takes precedence
-      String pageflowName = (String) Contexts.getPageContext().get(Pageflow.PAGEFLOW_NAME);
-      String pageflowNodeName = (String) Contexts.getPageContext().get(Pageflow.PAGEFLOW_NODE_NAME);
+      org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
+      String pageflowName = page.getPageflowName();
+      String pageflowNodeName = page.getPageflowNodeName();
       
       String noConversationViewId = null;
       if (pageflowName==null || pageflowNodeName==null)

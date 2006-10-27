@@ -411,19 +411,13 @@ public class Pages
    {
       String viewId = facesContext.getViewRoot().getViewId();
       
-      Map<String, Object> pageParameters = (Map<String, Object>) Contexts.getPageContext().get(PAGE_PARAMETERS);
-      if (pageParameters!=null)
-      {
-      
-         for (PageParameter pageParameter: getPage(viewId).pageParameters)
-         {         
-            Object object = pageParameters.get(pageParameter.name);
-            if (object!=null)
-            {
-               pageParameter.valueBinding.setValue(object);
-            }
+      for (PageParameter pageParameter: getPage(viewId).pageParameters)
+      {         
+         Object object = Contexts.getPageContext().get(pageParameter.name);
+         if (object!=null)
+         {
+            pageParameter.valueBinding.setValue(object);
          }
-      
       }
    }
 
@@ -458,15 +452,10 @@ public class Pages
       String viewId = facesContext.getViewRoot().getViewId();
       if (viewId!=null)
       {
-         Map<String, Object> parameters = getParameters(viewId);
-         if ( parameters.isEmpty() )
-         {
-            Contexts.getPageContext().remove(PAGE_PARAMETERS);
-         }
-         else
-         {
-            Contexts.getPageContext().set(PAGE_PARAMETERS, parameters);
-         }
+        for ( Map.Entry<String, Object> param: getParameters(viewId).entrySet() )
+        {
+           Contexts.getPageContext().set( param.getKey(), param.getValue() );
+        }
       }
    }
 

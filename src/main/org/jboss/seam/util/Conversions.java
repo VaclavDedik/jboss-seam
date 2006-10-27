@@ -222,6 +222,10 @@ public class Conversions
 
       public FlatPropertyValue(String string)
       {
+         if (string==null)
+         {
+            throw new IllegalArgumentException();
+         }
          this.string = string;
       }
 
@@ -260,6 +264,7 @@ public class Conversions
 
       public MultiPropertyValue(String[] strings)
       {
+         if (strings==null) throw new IllegalArgumentException();
          this.strings = strings;
       }
 
@@ -298,6 +303,7 @@ public class Conversions
 
       public AssociativePropertyValue(Map<String, String> keyedValues)
       {
+         if (keyedValues==null) throw new IllegalArgumentException();
          this.keyedValues = keyedValues;
       }
 

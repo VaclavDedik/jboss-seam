@@ -59,6 +59,7 @@ import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Messages;
+import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.PageContext;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
@@ -393,6 +394,7 @@ public class Initialization
 
       addComponent( Expressions.class, context);
       addComponent( Pages.class, context);
+      addComponent( FacesPage.class, context);
       addComponent( Events.class, context);
       addComponent( ConversationEntries.class, context );
       addComponent( Manager.class, context );
