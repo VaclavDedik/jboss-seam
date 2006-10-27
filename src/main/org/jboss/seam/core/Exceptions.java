@@ -126,7 +126,8 @@ public class Exceptions
             @Override
             public boolean isHandler(Exception e)
             {
-               return clazz.isInstance(e);
+               return clazz.isInstance(e) && 
+                     Lifecycle.getPhaseId()==PhaseId.INVOKE_APPLICATION;
             }
             @Override
             protected boolean isEnd(Exception e)
@@ -156,7 +157,8 @@ public class Exceptions
             @Override
             public boolean isHandler(Exception e)
             {
-               return clazz.isInstance(e);
+               return clazz.isInstance(e) && 
+                     Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE;
             }
             @Override
             protected boolean isEnd(Exception e)
