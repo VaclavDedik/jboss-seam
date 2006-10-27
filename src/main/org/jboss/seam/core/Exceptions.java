@@ -47,17 +47,16 @@ public class Exceptions
    
    private List<ExceptionHandler> exceptionHandlers = new ArrayList<ExceptionHandler>();
    
-   public ExceptionHandler handle(Exception e) throws Exception
+   public Object handle(Exception e) throws Exception
    {
       for (ExceptionHandler eh: exceptionHandlers)
       {
          if ( eh.isHandler(e) )
          {
-            eh.handle(e);
-            break;
+            return eh.handle(e);
          }
       }
-      return null;
+      throw e;
    }
    
    @Create
@@ -203,13 +202,13 @@ public class Exceptions
 
    public static interface ExceptionHandler
    {
-      public void handle(Exception e) throws Exception;
+      public Object handle(Exception e) throws Exception;
       public boolean isHandler(Exception e);
    }
    
    public static class RedirectHandler implements ExceptionHandler
    {
-      public void handle(Exception e) throws Exception
+      public Object handle(Exception e) throws Exception
       {
          addFacesMessage( e, getMessage(e) );
          if ( isEnd(e) ) Conversation.instance().end();
@@ -242,11 +241,12 @@ public class Exceptions
    
    public static class RenderHandler implements ExceptionHandler
    {
-      public void handle(Exception e)
+      public Object handle(Exception e)
       {
          addFacesMessage( e, getMessage(e) );
          if ( isEnd(e) ) Conversation.instance().end();
          render( getViewId(e) );
+         return null;
       }
 
       public boolean isHandler(Exception e)
@@ -273,13 +273,14 @@ public class Exceptions
    
    public static class ErrorHandler implements ExceptionHandler
    {
-      public void handle(Exception e) throws Exception
+      public Object handle(Exception e) throws Exception
       {
          if ( isEnd(e) ) Conversation.instance().end();
          String message = getMessage(e);
          addFacesMessage(e, message);
          error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage(e, message) ) );
          handled(e);
+         throw e;
       }  
 
       public boolean isHandler(Exception e)
@@ -306,7 +307,7 @@ public class Exceptions
    public static class DebugPageHandler implements ExceptionHandler
    {
 
-      public void handle(Exception e)
+      public Object handle(Exception e) throws Exception
       {
          log.error("redirecting to debug page", e);
          Contexts.getConversationContext().set("org.jboss.seam.debug.lastException", e);
@@ -321,6 +322,7 @@ public class Exceptions
          FacesMessages.afterPhase();
          AbstractSeamPhaseListener.storeAnyConversationContext(facesContext);
          handled(e);
+         throw e;
       }
 
       public boolean isHandler(Exception e)
