@@ -57,7 +57,7 @@ public class BookingUnitTest extends SeamTest
       //setField(hb, "hotelSearch", hs);
       setField(hb, "user", em.getReference(User.class, "gavin"));
       setField(hb, "facesMessages", new FacesMessages());
-      setField(hb, "events", new Events() { @Override public void raiseEvent(String type) { assert "bookingConfirmed".equals(type); } } );
+      setField(hb, "events", new Events() { @Override public void raiseEvent(String type, Object... params) { assert "bookingConfirmed".equals(type); } } );
       setField(hb, "log", new LogImpl(HotelBookingAction.class));
       
       assert hb.selectHotel(hotel).equals("hotel");
