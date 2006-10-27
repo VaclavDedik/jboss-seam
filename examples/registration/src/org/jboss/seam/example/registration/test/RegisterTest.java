@@ -21,6 +21,7 @@ public class RegisterTest extends SeamTest
             validateValue("#{user.username}", "1ovthafew");
             validateValue("#{user.name}", "Gavin King");
             validateValue("#{user.password}", "secret");
+            assert !isValidationFailure();
          }
          
          @Override

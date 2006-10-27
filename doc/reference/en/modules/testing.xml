@@ -192,11 +192,20 @@ public class RegisterAction implements Register
       new FacesRequest() {
 
          @Override
+         protected void processValidations() throws Exception
+         {
+            validateValue("#{user.username}", "1ovthafew");
+            validateValue("#{user.name}", "Gavin King");
+            validateValue("#{user.password}", "secret");
+            assert !isValidationFailure();
+         }
+         
+         @Override
          protected void updateModelValues() throws Exception
          {
             setValue("#{user.username}", "1ovthafew");
-            setValue("#{user.password}", "secret");
             setValue("#{user.name}", "Gavin King");
+            setValue("#{user.password}", "secret");
          }
 
          @Override
@@ -209,8 +218,8 @@ public class RegisterAction implements Register
          protected void renderResponse()
          {
             assert getValue("#{user.username}").equals("1ovthafew");
-            assert getValue("#{user.password}").equals("secret");
             assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.password}").equals("secret");
          }
          
       }.run();
