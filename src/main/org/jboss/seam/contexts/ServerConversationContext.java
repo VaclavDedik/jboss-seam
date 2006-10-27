@@ -170,28 +170,29 @@ public class ServerConversationContext implements Context {
     * attributes if it is a temporary conversation.
     */
    public void flush()
-   {
-      
-      for ( String name: getNamesFromSession() )
-      {
-         String key = getKey(name);
-         Object attribute = session.getAttribute(key);
-         if ( Lifecycle.isAttributeDirty(attribute) )
-         {
-            session.setAttribute(key, attribute);
-         }
-      }
-      
+   {      
       Manager manager = Manager.instance();
       boolean longRunning = manager.isLongRunningConversation() ||
             !manager.getCurrentConversationId().equals( getId() );  
       if ( longRunning )
       {
+         //force update for dirty mutable objects
+         for ( String name: getNamesFromSession() )
+         {
+            String key = getKey(name);
+            Object attribute = session.getAttribute(key);
+            if ( Lifecycle.isAttributeDirty(attribute) )
+            {
+               session.setAttribute(key, attribute);
+            }
+         }
+         //remove removed objects
          for (String name: removals)
          {
             session.removeAttribute( getKey(name) );
          }
          removals.clear();
+         //add new objects
          for (Map.Entry<String, Object> entry: additions.entrySet())
          {
             session.setAttribute( getKey( entry.getKey() ), entry.getValue() );
