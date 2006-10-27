@@ -1023,6 +1023,15 @@
                     <para>
                         Internal component for Seam workspace management. Always installed.
                     </para>
+                    <itemizedlist>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.pages.noConversationViewId</literal> 
+                            &mdash; global setting for the view id to redirect to when a 
+                            conversation entry is not found on the server side.
+                        </para>
+                        </listitem>
+                    </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -1097,6 +1106,15 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><literal>org.jboss.seam.core.facesPage</literal></term>
+                <listitem>
+                    <para>
+                        Internal page-scoped component recording the conversation context associated
+                        with a page.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><literal>org.jboss.seam.core.persistenceContexts</literal></term>
                 <listitem>
                     <para>
@@ -1139,6 +1157,14 @@
                         </para>
                         </listitem>
                     </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal>org.jboss.seam.core.validation</literal></term>
+                <listitem>
+                    <para>
+                        Internal component for Hibernate Validator support.
+                    </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -1368,6 +1394,26 @@
                         </para>
                         </listitem>
                     </itemizedlist>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;entityHome&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.framework.EntityHome</literal></term>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;hibernateEntityHome&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.framework.HibernateEntityHome</literal></term>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;entityQuery&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.framework.EntityQuery</literal></term>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term><literal><emphasis>&lt;hibernateEntityQuery&gt;</emphasis></literal></term>
+                <term><literal>org.jboss.seam.framework.HibernateEntityQuery</literal></term>
                 </listitem>
             </varlistentry>
         </variablelist>
