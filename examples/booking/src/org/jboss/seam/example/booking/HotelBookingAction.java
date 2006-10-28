@@ -4,6 +4,7 @@ package org.jboss.seam.example.booking;
 import static javax.persistence.PersistenceContextType.EXTENDED;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
@@ -70,7 +71,15 @@ public class HotelBookingAction implements HotelBooking
    public String setBookingDetails()
    {
       if (booking==null || hotel==null) return "main";
-      if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
+      
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_MONTH, -1);
+      if ( booking.getCheckinDate().before( calendar.getTime() ) )
+      {
+         facesMessages.add("Check in date must be a future date");
+         return null;
+      }
+      else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
          facesMessages.add("Check out date must be later than check in date");
          return null;
