@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<project name="seam-gen" default="project-setup-input" basedir=".">
+
+	<target name="project-setup-input">
+		<input addproperty="workspace.home" message="Enter your java project workspace:" />
+		<input addproperty="eclipse.wtp" message="Is this an eclipse WTP workspace:" validargs="Y,N" />
+		<input addproperty="jboss.home" message="Enter your jboss home directory:" />
+		<input addproperty="action.package" message="Enter java package name for your business logic:" />
+		<input addproperty="model.package" message="Enter java package name for your model objects:" />
+		<input addproperty="bpm.package" message="Enter java package name for your BPM objects:" />
+		<input addproperty="mdb.package" message="Enter java package name for your MDB objects:" />
+		<input addproperty="test.package" message="Enter java package name for your test cases:" />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="set-properties" />
+			<arg value="${workspace.home}" />
+			<arg value="${jboss.home}" />
+			<arg value="${action.package}" />
+			<arg value="${model.package}" />
+			<arg value="${test.package}" />
+			<arg value="${bpm.package}" />
+			<arg value="${mdb.package}" />			
+			<arg value="${eclipse.wtp}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+</project>

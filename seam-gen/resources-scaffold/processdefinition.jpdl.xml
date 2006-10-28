@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<process-definition name="submitOrderProcess">
+
+  <start-state name="start">
+      <transition name="start order" to="fork1"></transition>
+  </start-state>
+  
+  <node name="submit order">
+    <action class="org.jboss.seam.example.bpm.SubmitOrder"/>
+    <transition name="join1" to="join1"></transition>
+  </node>  
+  
+  <node name="update shopper tracker">
+    <action class="org.jboss.seam.example.bpm.UpdateShopperTracker"/>
+    <transition name="join1" to="join1"></transition>
+  </node>    
+  
+   <fork name="fork1">
+      <transition name="transition-submit" to="submit order"/>      
+      <transition name="transition-update" to="update shopper tracker"/>      
+   </fork>
+   
+   <join name="join1">
+      <transition name="" to="end"></transition>
+   </join>
+   
+   <end-state name="end"/>
+
+</process-definition>

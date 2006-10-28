@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pageflow-diagram name="shellflow" width="836" height="681">
+  <node name="start" x="183" y="26" width="140" height="40">
+    <transition name="first-page">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="first-page" x="313" y="160" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+      <bendpoint w1="91" h1="-44" w2="91" h2="-44"/>
+      <bendpoint w1="50" h1="-70" w2="50" h2="-70"/>
+    </transition>
+    <transition name="continue-flow">
+      <label x="-37" y="-26"/>
+    </transition>
+  </node>
+  <node name="continue-flow-decision" x="63" y="162" width="140" height="40">
+    <transition name="true">
+      <label x="5" y="-10"/>
+    </transition>
+    <transition name="false">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="second-page" x="220" y="273" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+      <bendpoint w1="70" h1="-16" w2="70" h2="-16"/>
+      <bendpoint w1="96" h1="-28" w2="96" h2="-28"/>
+      <bendpoint w1="85" h1="-50" w2="85" h2="-50"/>
+    </transition>
+    <transition name="third-page">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="third-page" x="221" y="417" width="140" height="40"/>
+</pageflow-diagram>

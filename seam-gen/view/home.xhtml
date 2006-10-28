@@ -1,0 +1,31 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="WEB-INF/layout/template.xhtml">
+
+<ui:define name="body">
+    <p>This empty shell application contains:</p>
+    <ul>
+    	<li>Facelets - with an empty home page</li>
+    	<li>Datasource - configured for HSQL with commented mySQL entries</li>
+    	<li>Embedded EJB - For testng unit tests</li>
+    	<li>i18n - With an empty properties file for english</li>
+    	<li>CSS - empty stylesheet</li>
+    </ul>
+    <p>For a sample scaffold app, "seam scaffold-project myProjectName". 
+       This app will include the above plus:</p>
+    <ul>
+    	<li>Facelets - with templating</li>
+    	<li>BPM - with working source/config files for a sample jBPM workflow</li>
+    	<li>Pageflow - with working source/config files for a sample pageflow</li>
+    	<li>Database - with working ejb3/config files for a sample DB insert</li>
+    	<li>Embedded EJB - with sample testng tests</li>
+    	<li>i18n - With populated properties file for english</li>
+    	<li>CSS - stylesheet with sample styles</li>
+    </ul>
+</ui:define> 
+</ui:composition>

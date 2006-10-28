@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-diagram name="submitOrderProcess" width="836" height="681">
+  <node name="start" x="164" y="22" width="140" height="40">
+    <transition name="start order">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="submit order" x="65" y="270" width="140" height="40">
+    <transition name="join1">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="update shopper tracker" x="287" y="262" width="140" height="40">
+    <transition name="join1">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="fork1" x="145" y="149" width="200" height="25">
+    <transition name="transition-submit">
+      <label x="-118" y="-13"/>
+    </transition>
+    <transition name="transition-update">
+      <label x="39" y="-10"/>
+    </transition>
+  </node>
+  <node name="join1" x="161" y="440" width="200" height="25">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="end" x="186" y="532" width="140" height="40"/>
+</process-diagram>

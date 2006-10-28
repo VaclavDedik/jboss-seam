@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<body>
+<ui:composition template="/WEB-INF/layout/template.xhtml">
+
+	<ui:define name="header">
+		<ui:include src="/WEB-INF/layout/header.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+		<f:view>
+			<h:form>
+			   <h2>EJB3</h2>
+				<p>Enterprise Java Beans (EJB) 3.0 is a deep overhaul and
+				simplification of the EJB specification. EJB 3.0's goals are to
+				simplify development, facilitate test driven development, and focus
+				more on writing plain old java objects (POJOs) rather than on
+				complex EJB APIs. EJB 3.0 has fully embraced Java Annotations
+				introduced in JDK 5.0 and also simplifies the API for CMP entity
+				beans by using Hibernate as the EJB 3.0 Java Persistence engine.</p>				
+				<div class="formField"><h:selectBooleanCheckbox
+					value="#{flowBean.continueFlow}" />Continue Flow?</div>
+				<div class="formField"><h:commandButton styleClass="formButton"
+					type="submit" value="Next"
+					action="#{simpleFlow.continueFlowDecision}" />
+					
+					</div>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+	<ui:define name="footer">
+		<ui:include src="/WEB-INF/layout/footer.xhtml" />
+	</ui:define>
+
+</ui:composition>
+</body>
+</html>

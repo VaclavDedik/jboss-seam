@@ -1,0 +1,39 @@
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+        <!-- For use with JBoss AS -->
+        <property name="jndiPattern">@projectName@/#{ejbName}/local</property>
+        <!-- For use with JBoss Embeddable EJB3 -->
+        <!--
+        <property name="jndiPattern">#{ejbName}/local</property>
+        -->
+    </component>    
+     
+    <component name="org.jboss.seam.core.manager">
+        <!-- half second wait for conversation lock on concurrent requests -->
+        <property name="concurrentRequestTimeout">500</property>
+        <!-- 120 second conversation timeout -->
+        <property name="conversationTimeout">120000</property>
+        <property name="conversationIdParameter">cid</property>
+        <property name="conversationIsLongRunningParameter">clr</property>
+    </component>
+    
+    <component name="org.jboss.seam.core.pages">
+        <property name="noConversationViewId">/home.xhtml</property>
+    </component>
+
+    <!-- For use with JBoss Embeddable EJB3 -->
+    <!--
+    <component class="org.jboss.seam.core.Ejb" />
+    -->
+    
+    <!-- For use with jBPM pageflow or process management -->
+    <!--  
+    <component class="org.jboss.seam.core.Jbpm">
+        <property name="processDefinitions"></property>
+        <property name="pageflowDefinitions"></property>
+    </component>
+  -->
+      
+</components>

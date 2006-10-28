@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf"
+      xmlns:h="http://java.sun.com/jsf/html">
+<body>
+    <ui:composition template="/WEB-INF/layout/template.xhtml">
+                   
+       <ui:define name="header">
+         <ui:include src="/WEB-INF/layout/header.xhtml" />
+       </ui:define>
+       
+       <ui:define name="body">
+		   <h1>Seam Generated Application</h1>
+		  
+		   <p>This scaffold Seam application contains:</p>
+		   <ul>
+		    	<li>Facelets - with templating</li>
+		    	<li>BPM - with working source/config files for a sample jBPM workflow</li>
+		    	<li>Pageflow - with working source/config files for a sample pageflow</li>
+		    	<li>Database - with working ejb3/config files for a sample DB insert</li>
+		    	<li>Embedded EJB - with sample testng tests</li>
+		    	<li>i18n - With populated properties file for english</li>
+		    	<li>CSS - stylesheet with sample styles</li>
+		   </ul>
+		    <p>For an empty shell application, "ant create-project"</p>
+		   <ul>
+		    	<li>Facelets - with an empty home page</li>
+		    	<li>Datasource - configured for HSQL with commented mySQL entries</li>
+		    	<li>Embedded EJB - For testng unit tests</li>
+		    	<li>i18n - With an empty properties file for english</li>
+		    	<li>CSS - empty stylesheet</li>
+		   </ul>
+       	<h:form>
+     			<div align="center">
+     				<h:commandButton styleClass="formButton" action="register" value="Registeration Form"/>     
+     			   &nbsp;
+     			   <h:commandButton styleClass="formButton" type="submit" 
+                         value="Start Pageflow" 
+                         action="#{simpleFlow.gotoFirstPage}"/> 
+               &nbsp;   
+     			   <h:commandButton styleClass="formButton" 
+                         value="Order Submission Process" 
+                         action="order-submit"/>
+            </div>
+   		</h:form>
+       </ui:define>
+       
+       <ui:define name="footer">
+            <ui:include src="/WEB-INF/layout/footer.xhtml" />
+       </ui:define>        
+        
+    </ui:composition> 
+</body> 
+</html>

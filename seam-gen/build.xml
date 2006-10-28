@@ -1,0 +1,440 @@
+<?xml version="1.0"?>
+
+<project name="seam-gen" default="new-project" basedir=".">
+
+	<!-- Give user a chance to override without editing this file or typing -D -->
+	<property file="${basedir}/build.properties" />
+
+	<target name="create-folders">
+		<echo message="Creating Project Folders ..." />
+		<mkdir dir="${workspace.home}/${project.name}" />
+		<mkdir dir="${workspace.home}/${project.name}/exploded-archives/${project.name}.ear" />
+		<mkdir dir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war" />
+		<mkdir dir="${workspace.home}/${project.name}/exploded-archives/${project.name}.jar" />
+	</target>
+
+	<target name="create-folders-wtp">
+		<echo message="Creating Project Folders ..." />
+		<mkdir dir="${workspace.home}/${project.name}" />
+		<mkdir dir="${workspace.home}/${project.name}EJB" />
+		<mkdir dir="${workspace.home}/${project.name}Web" />
+	</target>
+
+	<target name="file-copy" depends="create-folders">
+		<echo message="Copying project jars and resources ..." />
+		<copy todir="${workspace.home}/${project.name}/lib">
+			<fileset dir="../lib/" />
+			<fileset dir="../facelets/lib/" />
+			<fileset dir="../">
+				<include name="jboss-seam*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/src">
+			<fileset dir="${basedir}/src/" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/resources">
+			<fileset dir="${basedir}/resources/">
+				<exclude name="META-INF/application-wtp.xml" />
+			</fileset>
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+		<move tofile="${workspace.home}/${project.name}/resources/${project.name}-ds.xml" file="${workspace.home}/${project.name}/resources/datasource-ds.xml" />
+		<copy todir="${workspace.home}/${project.name}/view">
+			<fileset dir="${basedir}/view/" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/">
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+				<filter token="jbossHome" value="${jboss.home}" />
+			</filterset>
+			<fileset dir="${basedir}/build-scripts/" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/embedded-ejb">
+			<fileset dir="../embedded-ejb/" />
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="file-copy-wtp" depends="create-folders-wtp">
+		<echo message="Copying project jars and resources ..." />
+		<copy todir="${workspace.home}/${project.name}/lib">
+			<fileset dir="../lib/" />
+			<fileset dir="../facelets/lib/" />
+			<fileset dir="../">
+				<include name="jboss-seam*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/ejbModule">
+			<fileset dir="${basedir}/src/" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}EJB/ejbModule" overwrite="true">
+			<fileset dir="${basedir}/resources/">
+				<exclude name="WEB-INF/**" />
+				<exclude name="META-INF/application.xml" />
+				<exclude name="META-INF/application-wtp.xml" />
+				<exclude name="META-INF/jboss-app.xml" />
+				<exclude name="META-INF/jboss-beans.xml" />
+				<exclude name="datasource-ds.xml" />
+				<exclude name="messages*.properties" />
+			</fileset>
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/EarContent" overwrite="true">
+			<fileset dir="${basedir}/resources">
+				<exclude name="WEB-INF/**" />
+				<exclude name="META-INF/ejb-jar.xml" />
+				<exclude name="META-INF/persistence.xml" />
+				<exclude name="META-INF/application.xml" />
+			</fileset>
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+		<move file="${workspace.home}/${project.name}/EarContent/META-INF/application-wtp.xml" tofile="${workspace.home}/${project.name}/EarContent/META-INF/application.xml" />
+		<copy todir="${workspace.home}/${project.name}/EarContent" overwrite="true">
+			<fileset dir="../lib">
+				<include name="jbpm-*.jar" />
+			</fileset>
+			<fileset dir="../">
+				<include name="jboss-seam.jar" />
+			</fileset>
+		</copy>
+		<move tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml" file="${workspace.home}/${project.name}/EarContent/datasource-ds.xml" />
+		<copy todir="${workspace.home}/${project.name}Web/WebContent">
+			<fileset dir="${basedir}/view/" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}Web/WebContent/WEB-INF" overwrite="true">
+			<fileset dir="${basedir}/resources/WEB-INF" />
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}Web/WebContent/WEB-INF/lib" overwrite="true">
+			<fileset dir="../facelets/lib" />
+			<fileset file="../jboss-seam-debug.jar" />
+			<fileset file="../jboss-seam-ui.jar" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/">
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+				<filter token="jbossHome" value="${jboss.home}" />
+			</filterset>
+			<fileset dir="${basedir}/build-scripts-wtp/" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/embedded-ejb">
+			<fileset dir="../embedded-ejb/" />
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="scaffold-copy" depends="file-copy" if="scaffold">
+		<echo message="Copying scaffold resources ..." />
+		<copy todir="${workspace.home}/${project.name}/resources" overwrite="true">
+			<fileset dir="${basedir}/resources-scaffold/" />
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/view" overwrite="true">
+			<fileset dir="${basedir}/view-scaffold/" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/src" overwrite="true">
+			<fileset dir="${basedir}/src-scaffold/" />
+		</copy>
+	</target>
+
+	<target name="scaffold-copy-wtp" depends="file-copy-wtp" if="scaffold">
+		<echo message="Copying scaffold resources ..." />
+		<copy todir="${workspace.home}/${project.name}/EarContent" overwrite="true">
+			<fileset dir="${basedir}/resources-scaffold/">
+				<exclude name="WEB-INF/**" />
+			</fileset>
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}Web/WebContent" overwrite="true">
+			<fileset dir="${basedir}/view-scaffold/" />
+
+		</copy>
+		<copy todir="${workspace.home}/${project.name}Web/WebContent/WEB-INF" overwrite="true">
+			<fileset dir="${basedir}/resources-scaffold/WEB-INF" />
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${workspace.home}/${project.name}EJB/ejbModule" overwrite="true">
+			<fileset dir="${basedir}/src-scaffold/" />
+		</copy>
+	</target>
+
+	<target name="exploded-jar-copy">
+		<echo message="Creating project's exploded jar ..." />
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.jar" overwrite="false">
+			<fileset dir="${workspace.home}/${project.name}/resources">
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.jar/META-INF" overwrite="false">
+			<fileset dir="${workspace.home}/${project.name}/resources/META-INF">
+				<include name="ejb-jar.xml" />
+				<include name="persistence.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="exploded-war-copy">
+		<echo message="Creating project's exploded war ..." />
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war" overwrite="false">
+			<fileset dir="${workspace.home}/${project.name}/view" />
+			<fileset dir="${workspace.home}/${project.name}/view/WEB-INF" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war/WEB-INF" overwrite="false">
+			<fileset dir="${workspace.home}/${project.name}/resources/WEB-INF" />
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war/WEB-INF/lib" overwrite="false">
+			<fileset dir="../">
+				<include name="jboss-seam-ui.jar" />
+				<include name="jboss-seam-debug.jar" />
+			</fileset>
+			<fileset dir="../facelets/lib">
+				<include name="el-api.jar" />
+				<include name="el-ri.jar" />
+				<include name="jsf-facelets.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="exploded-ear-copy">
+		<echo message="Creating project's exploded ear ..." />
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.ear" overwrite="false">
+			<fileset dir="${workspace.home}/${project.name}/resources">
+				<include name="*jpdl.xml" />
+				<include name="hibernate.cfg.xml" />
+				<include name="jbpm.cfg.xml" />
+			</fileset>
+			<fileset dir="../">
+				<include name="jboss-seam.jar" />
+			</fileset>
+			<fileset dir="../lib">
+				<include name="jbpm-3.1.1.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.ear/META-INF" overwrite="false">
+			<fileset dir="${workspace.home}/${project.name}/resources/META-INF">
+				<include name="application.xml" />
+				<include name="jboss-app.xml" />
+				<include name="jboss-beans.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="new-project" depends="file-copy,scaffold-copy,exploded-jar-copy,exploded-war-copy,exploded-ear-copy">
+		<echo message="Your new Seam project called '${project.name}' has been created" />
+	</target>
+
+	<target name="new-wtp-project" depends="file-copy-wtp,scaffold-copy-wtp">
+		<echo message="Your new Seam project called '${project.name}' has been created" />
+	</target>
+
+	<target name="update-project">
+		<echo message="Copying jars to project /lib directory ..." />
+		<copy todir="${workspace.home}/${project.name}/lib" overwrite="true">
+			<fileset dir="../lib/" />
+		</copy>
+
+		<echo message="Copying new components.xml to project ..." />
+		<copy todir="${workspace.home}/${project.name}/resources/WEB-INF" overwrite="false" file="${basedir}/resources/WEB-INF/components.xml/" />
+
+		<echo message="Copying ebmedded-ejb to project ..." />
+		<copy todir="${workspace.home}/${project.name}/embedded-ejb" overwrite="true">
+			<fileset dir="../embedded-ejb/" />
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+		<copy todir="${workspace.home}/${project.name}/embedded-ejb" overwrite="true">
+			<fileset dir="${basedir}/resources/embedded-ejb/" />
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
+		</copy>
+
+		<echo message="Copying jbpm jars to project's exploded jar archive ..." />
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.jar" overwrite="true">
+			<fileset dir="../lib">
+				<include name="jbpm-*.jar" />
+			</fileset>
+		</copy>
+
+		<echo message="Copying seam/jsf jars to project's exploded war archive ..." />
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war/WEB-INF/lib" overwrite="true">
+			<fileset dir="../">
+				<include name="jboss-seam-ui.jar" />
+				<include name="jboss-seam-debug.jar" />
+			</fileset>
+			<fileset dir="../facelets/lib">
+				<include name="el-api.jar" />
+				<include name="el-ri.jar" />
+				<include name="jsf-facelets.jar" />
+			</fileset>
+		</copy>
+
+		<echo message="Copying seam jar to project's exploded ear archive ..." />
+		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.ear" overwrite="true">
+			<fileset dir="../">
+				<include name="jboss-seam.jar" />
+			</fileset>
+		</copy>
+		<echo message="'${project.name}' has been updated with the latest/seam jars" />
+	</target>
+
+	<target name="delete-project">
+		<echo message="Deleting the entire project's contents ..." />
+		<delete dir="${workspace.home}/${project.name}" />
+	</target>
+
+	<target name="new-action" depends="new-sfsb-action" />
+
+	<target name="new-sfsb-action">
+		<echo message="Creating a stateful session bean Seam component with an action method" />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-action" />
+			<arg value="${project.name}" />
+			<arg value="${action.name}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="new-slsb-action">
+		<echo message="Creating a stateless session bean Seam component with an action method" />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-stateless-action" />
+			<arg value="${project.name}" />
+			<arg value="${action.name}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="new-conversation">
+		<echo message="Create a @Conversational stateful session bean Seam component with @Begin and @End methods" />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-conversation" />
+			<arg value="${project.name}" />
+			<arg value="${action.name}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="new-page">
+		<echo message="Create a JSF page that extends the template." />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-page" />
+			<arg value="${project.name}" />
+			<arg value="${page.name}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="new-action-page">
+		<echo message="Create a JSF page that extends the template, and has a form with action button." />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-action-page" />
+			<arg value="${project.name}" />
+			<arg value="${page.name}" />
+			<arg value="${action.name}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="new-testcase">
+		<echo message="Create a TestNG test case with XML file." />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-testcase" />
+			<arg value="${project.name}" />
+			<arg value="${action.name}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="new-bpm-action">
+		<echo message="Create a new jBPM action class that implements ActionHandler" />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-bpm-action" />
+			<arg value="${project.name}" />
+			<arg value="${action.name}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="new-entity">
+		<echo message="Create a new entity bean with a couple attributes" />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-entity" />
+			<arg value="${project.name}" />
+			<arg value="${action.name}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="new-mdb">
+		<echo message="Create a new mdb bean with a couple attributes" />
+		<input addproperty="destination.type" message="Enter destination type 'Queue' or 'Topic':" validargs="Queue,Topic" />
+		<input addproperty="destination" message="Enter destination:" />
+		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
+			<arg value="new-mdb" />
+			<arg value="${project.name}" />
+			<arg value="${action.name}" />
+			<arg value="${destination}" />
+			<arg value="${destination.type}" />
+			<classpath>
+				<pathelement location="lib/freemarker.jar" />
+				<pathelement path="lib/seam-gen.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="deploy-project">
+		<echo message="Deploy project to JBoss" />
+		<ant antfile="${workspace.home}/${project.name}/build.xml" target="deploy" inheritall="false">
+		</ant>
+	</target>
+
+	<target name="help">
+		<echo message="Refer to README doc" />
+	</target>
+
+</project>
