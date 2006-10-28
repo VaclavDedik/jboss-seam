@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/debug"/>
 	<classpathentry kind="src" path="examples/booking/src"/>
 	<classpathentry kind="src" path="examples/booking/resources"/>
-	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="embedded-ejb/conf"/>
 	<classpathentry kind="src" path="src/ui"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -25,7 +25,7 @@
 	<classpathentry kind="lib" path="lib/el-api.jar"/>
 	<classpathentry kind="lib" path="lib/el-ri.jar"/>
 	<classpathentry kind="lib" path="lib/myfaces-api-1.1.4.jar" sourcepath="/MyFaces/source"/>
-	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.4.jar" sourcepath="/MyFaces"/>
 	<classpathentry kind="lib" path="examples/xulcontactlist/resources/WEB-INF/lib/xulfaces-0.7.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
