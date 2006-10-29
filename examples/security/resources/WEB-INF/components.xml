@@ -1,13 +1,17 @@
 <components>
 
     <component name="org.jboss.seam.core.init">
-        <property name="myFacesLifecycleBug">@myFacesLifecycleBug@</property>
         <property name="jndiPattern">@jndiPattern@</property>
-        <property name="debug">false</property>
+        <property name="debug">true</property>
     </component>
  
     <component name="org.jboss.seam.core.manager">
+        <!-- half second wait for conversation lock on concurrent requests -->
+        <property name="concurrentRequestTimeout">500</property>
+        <!-- 120 second conversation timeout -->
         <property name="conversationTimeout">120000</property>
+        <property name="conversationIdParameter">cid</property>
+        <property name="conversationIsLongRunningParameter">clr</property>
     </component>
     
     <component name="entityManager" class="org.jboss.seam.core.ManagedPersistenceContext">
