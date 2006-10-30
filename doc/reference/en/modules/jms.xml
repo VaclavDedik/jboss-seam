@@ -24,6 +24,13 @@
         </para>
         
         <para>
+            To use asynchronous methods and events, you need to add the following line to
+            <literal>components.xml</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<component class="org.jboss.seam.core.Dispatcher"/>]]></programlisting>
+        
+        <para>
             Note that this functionality is not available in environments which do not support EJB 3.0.
         </para>
         
