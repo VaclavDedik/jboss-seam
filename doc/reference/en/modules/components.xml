@@ -1399,22 +1399,30 @@
             <varlistentry>
                 <term><literal><emphasis>&lt;entityHome&gt;</emphasis></literal></term>
                 <term><literal>org.jboss.seam.framework.EntityHome</literal></term>
-                </listitem>
+                  <listitem>
+                     <!-- TODO: Document this -->
+                  </listitem>
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;hibernateEntityHome&gt;</emphasis></literal></term>
                 <term><literal>org.jboss.seam.framework.HibernateEntityHome</literal></term>
-                </listitem>
+               <listitem>
+                  <!-- TODO: Document this -->
+               </listitem>
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;entityQuery&gt;</emphasis></literal></term>
                 <term><literal>org.jboss.seam.framework.EntityQuery</literal></term>
-                </listitem>
+               <listitem>
+                  <!-- TODO: Document this -->
+               </listitem>
             </varlistentry>
             <varlistentry>
                 <term><literal><emphasis>&lt;hibernateEntityQuery&gt;</emphasis></literal></term>
                 <term><literal>org.jboss.seam.framework.HibernateEntityQuery</literal></term>
-                </listitem>
+               <listitem>
+                  <!-- TODO: Document this -->
+               </listitem>
             </varlistentry>
         </variablelist>
     </section>
