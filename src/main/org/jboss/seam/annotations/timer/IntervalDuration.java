@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
  * The interval between occurrences of a repeating
  * asynchronous call.
  * 
- * This annotation occurs on a parameter of type Date
- * of a method marked @Asynchronous.
+ * This annotation occurs on a parameter of type long
+ * or Long of a method marked @Asynchronous.
  * 
  * @author Gavin King
  *
