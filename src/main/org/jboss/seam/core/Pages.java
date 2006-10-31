@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -67,7 +68,24 @@ public class Pages
       MethodBinding action;
       String outcome;
       String noConversationViewId;
+      String resourceBundleName;
       List<PageParameter> pageParameters = new ArrayList<PageParameter>();
+      
+      java.util.ResourceBundle getResourceBundle()
+      {
+         try
+         {
+            return java.util.ResourceBundle.getBundle(
+                  resourceBundleName, 
+                  Locale.instance(), 
+                  Thread.currentThread().getContextClassLoader()
+               );
+         }
+         catch (MissingResourceException mre)
+         {
+            return null;
+         }
+      }
       
       @Override
       public String toString()
@@ -182,6 +200,9 @@ public class Pages
                   entry.outcome = action;
                }
             }
+            
+            String bundle = page.attributeValue("bundle");
+            entry.resourceBundleName = bundle==null ? viewId.substring(1, viewId.indexOf('.')) : bundle;
             
             List<Element> children = page.elements("param");
             for (Element param: children)
@@ -301,6 +322,11 @@ public class Pages
          facesContext.getApplication().getNavigationHandler()
                .handleNavigation(facesContext, fromAction, outcome);
       }
+   }
+   
+   public java.util.ResourceBundle getResourceBundle(String viewId)
+   {
+      return getPage(viewId).getResourceBundle();
    }
    
    public static Pages instance()

@@ -8,6 +8,9 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.MissingResourceException;
 
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
@@ -113,6 +116,29 @@ public class ResourceBundle implements Serializable {
                @Override
                protected Object handleGetObject(String key)
                {
+                  FacesContext facesContext = FacesContext.getCurrentInstance();
+                  if (facesContext!=null)
+                  {
+                     UIViewRoot viewRoot = facesContext.getViewRoot();
+                     if (viewRoot!=null)
+                     {
+                        String viewId = viewRoot.getViewId();
+                        if (viewId!=null)
+                        {
+                           java.util.ResourceBundle pageBundle = Pages.instance().getResourceBundle(viewId);
+                           if (pageBundle!=null)
+                           {
+                              try
+                              {
+                                 return pageBundle.getObject(key);
+                              }
+                              catch (MissingResourceException mre) {}
+                           
+                           }
+                        }
+                     }
+                  }
+                  
                   for (java.util.ResourceBundle littleBundle: littleBundles)
                   {
                      if (littleBundle!=null)
@@ -124,6 +150,7 @@ public class ResourceBundle implements Serializable {
                         catch (MissingResourceException mre) {}
                      }
                   }
+                  
                   throw new MissingResourceException("Can't find resource in bundles: " + key, getClass().getName(), key );
                }
                
