@@ -90,6 +90,11 @@ public class ResourceBundle implements Serializable {
             if (littleBundle!=null) littleBundles.add(littleBundle);
          }
       }
+      
+      java.util.ResourceBundle validatorBundle = loadBundle("ValidatorMessages");
+      if (validatorBundle!=null) littleBundles.add(validatorBundle);
+      java.util.ResourceBundle validatorDefaultBundle = loadBundle("org/hibernate/validator/resources/DefaultValidatorMessages");
+      if (validatorDefaultBundle!=null) littleBundles.add(validatorDefaultBundle);
          
       bundle = new java.util.ResourceBundle()
       {
