@@ -56,7 +56,7 @@
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
-      <include name="security-ds.xml"/>
+      <include name="seamspace-ds.xml"/>
     </fileset>
 
     <!-- Undeploy -->
@@ -69,7 +69,7 @@
 	<property name="src.test.dir" value="src"/>
 	<property name="test.classpath" value="test.eejb.classpath"/>
 
-    <import file="../../build.xml"/>
+  <import file="../../build.xml"/>
 
 </project>
 

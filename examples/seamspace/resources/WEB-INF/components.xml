@@ -13,9 +13,9 @@
         <property name="persistenceUnitJndiName">java:/seamspaceEntityManagerFactory</property>
     </component>    
 
-    <!--component class="org.jboss.seam.security.authenticator.ProviderAuthenticator"-->
-      <!--property name="providers">#{authenticatorAction}</property-->
-    <!--/component-->
+    <component class="org.jboss.seam.security.authenticator.ProviderAuthenticator">
+      <property name="providers">#{authenticatorAction}</property>
+    </component>
 
     <!--component class="org.jboss.seam.security.SeamSecurityManager">
     

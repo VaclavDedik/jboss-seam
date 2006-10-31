@@ -1,15 +1,18 @@
 package org.jboss.seam.example.seamspace;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.DefinePermissions;
 import org.jboss.seam.annotations.AclProvider;
+import org.jboss.seam.annotations.DefinePermissions;
+import org.jboss.seam.annotations.Name;
 
 /**
- * A user account
+ * A member account
  *
  * @author Shane Bryzak
  */
@@ -24,6 +27,8 @@ public class Member implements Serializable
   private Integer memberId;
   private String username;
   private String password;
+
+  private Set<Role> roles;
 
   @Id
   public Integer getMemberId()
@@ -54,5 +59,17 @@ public class Member implements Serializable
   public void setPassword(String password)
   {
     this.password = password;
+  }
+
+  @ManyToMany
+  @JoinTable(name = "MemberRoles")
+  public Set<Role> getRoles()
+  {
+    return roles;
+  }
+
+  public void setRoles(Set<Role> roles)
+  {
+    this.roles = roles;
   }
 }
