@@ -35,7 +35,6 @@ import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServerConversationContext;
-import org.jboss.seam.pageflow.Page;
 import org.jboss.seam.util.Id;
 
 /**
@@ -689,7 +688,7 @@ public class Manager
     * @param id the id of the conversation to switch to
     * @return true if the conversation exists
     */
-   public boolean swapConversation(String id)
+   public boolean switchConversation(String id)
    {
       ConversationEntry ce = ConversationEntries.instance().getConversationEntry(id);
       if (ce!=null)
@@ -889,6 +888,7 @@ public class Manager
    /**
     * If a page description is defined, remember the description and
     * view id for the current page, to support conversation switching.
+    * Called just before the render phase.
     */
    public void prepareBackswitch(PhaseEvent event) {
       if ( isLongRunningConversation() )
@@ -900,32 +900,39 @@ public class Manager
          Conversation conversation = Conversation.instance();
 
          //stuff from jPDL takes precedence
-         Page page = Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() ?
+         org.jboss.seam.pageflow.Page pageflowPage = Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() ?
                Pageflow.instance().getPage() : null;
-         if (page==null)
+         if (pageflowPage==null)
          {
             //handle stuff defined in pages.xml
             String viewId = event.getFacesContext().getViewRoot().getViewId();
             Pages pages = Pages.instance();
             if (pages!=null) //for tests
             {
-               if ( pages.hasDescription(viewId) )
+               org.jboss.seam.core.Page pageEntry = pages.getPage(viewId);
+               if ( pageEntry.isSwitchEnabled() )
                {
-                  conversation.setDescription( pages.getDescription(viewId) );
                   conversation.setViewId(viewId);
                }
-               conversation.setTimeout( pages.getTimeout(viewId) );
+               if ( pageEntry.hasDescription() )
+               {
+                  conversation.setDescription( pageEntry.renderDescription() );
+               }
+               conversation.setTimeout( pageEntry.getTimeout() );
             }
          }
          else
          {
             //use stuff from the pageflow definition
-            if ( page.hasDescription() )
+            if ( pageflowPage.isSwitchEnabled() )
             {
-               conversation.setDescription( page.getDescription() );
-               conversation.setViewId( page.getViewId() );
+               conversation.setViewId( pageflowPage.getViewId() );
             }
-            conversation.setTimeout( page.getTimeout() );
+            if ( pageflowPage.hasDescription() )
+            {
+               conversation.setDescription( pageflowPage.getDescription() );
+            }
+            conversation.setTimeout( pageflowPage.getTimeout() );
          }
 
       }
@@ -967,7 +974,7 @@ public class Manager
          Pages pages = Pages.instance();
          if (pages!=null) //for tests
          {
-            noConversationViewId = pages.getNoConversationViewId(viewId);
+            noConversationViewId = pages.getPage(viewId).getNoConversationViewId();
          }
       }
       else

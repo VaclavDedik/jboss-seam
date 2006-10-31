@@ -74,9 +74,14 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
    public Object aroundInvoke(InvocationContext ctx) throws Exception
    {
       entityIdsToRefs(ctx);
-      Object result = ctx.proceed();
-      entityRefsToIds(ctx);
-      return result;
+      try
+      {
+         return ctx.proceed();
+      }
+      finally
+      {
+         entityRefsToIds(ctx);
+      }
    }
    
    public void entityRefsToIds(InvocationContext ctx) throws Exception
@@ -112,13 +117,13 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                            if (persistenceContext instanceof EntityManager)
                            {
                               EntityManager em = (EntityManager) persistenceContext;
-                              managed = em.contains(value);
+                              managed = em.isOpen() && em.contains(value);
                               id = managed ? PersistenceProvider.instance().getId(value, em) : null;
                            }
                            else
                            {
                               Session session = (Session) persistenceContext;
-                              managed = session.contains(value);
+                              managed = session.isOpen() && session.contains(value);
                               id = managed ? session.getIdentifier(value) : null;
                            }
                            if (managed)

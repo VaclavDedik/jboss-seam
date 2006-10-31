@@ -77,21 +77,34 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    public String destroy() {
-      boolean success = Manager.instance().swapConversation( getId() );
+      boolean success = Manager.instance().switchConversation( getId() );
       if (success) Manager.instance().endConversation(false);
       return null;
    }
 
-   public String select() {
-      boolean success = Manager.instance().swapConversation( getId() );
+   public void select() {
+      switchConversation();
+   }
+   
+   public boolean switchConversation()
+   {
+      boolean success = Manager.instance().switchConversation( getId() );
       if (success)
       {
-         Manager.instance().redirect( getViewId() );
-         return "org.jboss.seam.switch";
+         String viewId = getViewId();
+         if (viewId!=null)
+         {
+            Manager.instance().redirect(viewId);
+            return true;
+         }
+         else
+         {
+            return false;
+         }
       }
       else
       {
-         return null;
+         return false;
       }
    }
 

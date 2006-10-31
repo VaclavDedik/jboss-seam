@@ -109,12 +109,18 @@ public class Conversation implements Serializable {
          {
             throw new IllegalStateException("only long-running conversation outcomes are switchable");
          }
-         if (description!=null)
-            manager.getCurrentConversationEntry().setDescription(description);
          if (viewId!=null)
+         {
             manager.getCurrentConversationEntry().setViewId(viewId);
+         }
+         if (description!=null)
+         {
+            manager.getCurrentConversationEntry().setDescription(description);
+         }
          if (timeout!=null)
+         {
             manager.getCurrentConversationEntry().setTimeout(timeout);
+         }
          description = null;
          viewId = null;
       }
@@ -123,32 +129,36 @@ public class Conversation implements Serializable {
    /**
     * Switch back to the last defined view-id for the
     * current conversation.
+    * 
+    * @return true if a redirect occurred
     */
-   public String redirect()
+   public boolean redirect()
    {
       Manager manager = Manager.instance();
       String viewId = manager.getCurrentConversationViewId();
       return redirect(manager, viewId);
    }
 
-   private String redirect(Manager manager, String viewId)
+   private boolean redirect(Manager manager, String viewId)
    {
-      if (viewId!=null)
+      if (viewId==null)
       {
-         manager.redirect( viewId );
-         return "org.jboss.seam.switch";
+         return false;
       }
       else
       {
-         return null;
-      }
+         manager.redirect(viewId);
+         return true;
+      }         
    }
    
    /**
     * End a child conversation and redirect to the last defined
     * view-id for the parent conversation.
+    * 
+    * @return true if a redirect occurred
     */
-   public String endAndRedirect()
+   public boolean endAndRedirect()
    {
       end();
       Manager manager = Manager.instance();
@@ -250,15 +260,17 @@ public class Conversation implements Serializable {
       String parentId = getParentId();
       if (parentId!=null)
       {
-         Manager.instance().swapConversation(parentId);
+         Manager.instance().switchConversation(parentId);
       }
    }
    
    /**
     * Pop the conversation stack and redirect to the last defined
     * view-id for the parent conversation.
+    * 
+    * @return true if a redirect occurred
     */
-   public String redirectToParent()
+   public boolean redirectToParent()
    {
       pop();
       return redirect();
@@ -272,15 +284,17 @@ public class Conversation implements Serializable {
       String rootId = getRootId();
       if (rootId!=null)
       {
-         Manager.instance().swapConversation(rootId);
+         Manager.instance().switchConversation(rootId);
       }
    }
 
    /**
     * Switch to the root conversation and redirect to the 
     * last defined view-id for the root conversation.
+    * 
+    * @return true if a redirect occurred
     */
-   public String redirectToRoot()
+   public boolean redirectToRoot()
    {
       root();
       return redirect();

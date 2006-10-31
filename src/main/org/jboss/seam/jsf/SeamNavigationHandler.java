@@ -18,7 +18,6 @@ public class SeamNavigationHandler extends NavigationHandler {
 
    @Override
    public void handleNavigation(FacesContext context, String fromAction, String outcome) {
-      //if ( !"org.jboss.seam.switch".equals(outcome) ) 
       if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces
       {
          boolean outcomeIsViewId = outcome!=null && outcome.startsWith("/");

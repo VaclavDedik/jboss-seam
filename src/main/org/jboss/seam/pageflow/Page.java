@@ -31,6 +31,7 @@ public class Page extends Node implements Parsable
    private String description;
    private Integer timeout;
    private boolean backEnabled;
+   private boolean switchEnabled;
    private String noConversationViewId;
 
    /**
@@ -42,6 +43,7 @@ public class Page extends Node implements Parsable
       viewId = pageElement.attributeValue("view-id");
       noConversationViewId = pageElement.attributeValue("no-conversation-view-id");
       backEnabled = "enabled".equals( pageElement.attributeValue("back") );
+      switchEnabled = !"disabled".equals( pageElement.attributeValue("switch") );
       Element conversationEndElement = pageElement.element("end-conversation");
       if (conversationEndElement!=null) 
       {
@@ -135,6 +137,11 @@ public class Page extends Node implements Parsable
    public boolean isBackEnabled()
    {
       return backEnabled;
+   }
+
+   public boolean isSwitchEnabled()
+   {
+      return switchEnabled;
    }
 
    public String getNoConversationViewId()

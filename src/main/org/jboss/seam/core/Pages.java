@@ -3,13 +3,11 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -32,7 +30,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
-import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 
@@ -54,89 +51,6 @@ public class Pages
    
    private Map<String, Page> pagesByViewId = new HashMap<String, Page>();   
    private String noConversationViewId;
-   
-   static final class Page
-   {
-      Page(String viewId)
-      {
-         this.viewId = viewId;
-         if (viewId!=null)
-         {
-            int loc = viewId.lastIndexOf('.');
-            if ( loc>0 && viewId.startsWith("/") )
-            {
-               this.resourceBundleName = viewId.substring(1, loc);
-            }
-         }
-      }
-      
-      final String viewId;
-      String description;
-      Integer timeout;
-      MethodBinding action;
-      String outcome;
-      String noConversationViewId;
-      String resourceBundleName;
-      List<PageParameter> pageParameters = new ArrayList<PageParameter>();
-      
-      java.util.ResourceBundle getResourceBundle()
-      {
-         try
-         {
-            return java.util.ResourceBundle.getBundle(
-                  resourceBundleName, 
-                  Locale.instance(), 
-                  Thread.currentThread().getContextClassLoader()
-               );
-         }
-         catch (MissingResourceException mre)
-         {
-            return null;
-         }
-      }
-      
-      @Override
-      public String toString()
-      {
-         return "Page(" + viewId + ")";
-      }
-   }
-   
-   static final class PageParameter
-   {
-      PageParameter(String name)
-      {
-         this.name = name;
-      }
-      
-      final String name;
-      ValueBinding valueBinding;
-      ValueBinding converterValueBinding;
-      String converterId;
-      
-      Converter getConverter()
-      {
-         if (converterId!=null)
-         {
-            return FacesContext.getCurrentInstance().getApplication().createConverter(converterId);
-         }
-         else if (converterValueBinding!=null)
-         {
-            return (Converter) converterValueBinding.getValue();
-         }
-         else
-         {
-            Class<?> type = valueBinding.getType();
-            return FacesContext.getCurrentInstance().getApplication().createConverter(type);           
-         }
-      }
-
-      @Override
-      public String toString()
-      {
-         return "PageParameter(" + name + ")";
-      }
-   }
    
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
          new Comparator<String>() {
@@ -180,20 +94,22 @@ public class Pages
             Page entry = new Page(viewId);
             pagesByViewId.put(viewId, entry);
             
+            entry.setSwitchEnabled(!"disabled".equals( page.attributeValue("switch") ));
+            
             String description = page.getTextTrim();
             if (description!=null && description.length()>0)
             {
-               entry.description = description;
+               entry.setDescription(description);
             }
             
             String timeoutString = page.attributeValue("timeout");
             if (timeoutString!=null)
             {
-               entry.timeout = Integer.parseInt(timeoutString);
+               entry.setTimeout(Integer.parseInt(timeoutString));
             }
             
             String noConversationViewId = page.attributeValue("no-conversation-view-id");
-            entry.noConversationViewId = noConversationViewId;
+            entry.setNoConversationViewId(noConversationViewId);
             
             String action = page.attributeValue("action");
             if (action!=null)
@@ -201,18 +117,18 @@ public class Pages
                if ( action.startsWith("#{") )
                {
                   MethodBinding methodBinding = Expressions.instance().createMethodBinding(action);
-                  entry.action = methodBinding;
+                  entry.setAction(methodBinding);
                }
                else
                {
-                  entry.outcome = action;
+                  entry.setOutcome(action);
                }
             }
             
             String bundle = page.attributeValue("bundle");
             if (bundle!=null)
             {
-               entry.resourceBundleName = bundle;
+               entry.setResourceBundleName(bundle);
             }
             
             List<Element> children = page.elements("param");
@@ -228,21 +144,21 @@ public class Pages
                {
                   name = valueExpression.substring(2, valueExpression.length()-1);
                }
-               PageParameter pageParameter = new PageParameter( name );
-               pageParameter.valueBinding = Expressions.instance().createValueBinding( valueExpression );
+               Page.PageParameter pageParameter = new Page.PageParameter(name);
+               pageParameter.valueBinding = Expressions.instance().createValueBinding(valueExpression);
                pageParameter.converterId = param.attributeValue("converterId");
                String converterExpression = param.attributeValue("converter");
                if (converterExpression!=null)
                {
-                  pageParameter.converterValueBinding = Expressions.instance().createValueBinding( converterExpression );
+                  pageParameter.converterValueBinding = Expressions.instance().createValueBinding(converterExpression);
                }
-               entry.pageParameters.add(pageParameter);
+               entry.getPageParameters().add(pageParameter);
             }
          }
       }
    }
    
-   private Page getPage(String viewId)
+   public Page getPage(String viewId)
    {
       Page result = null;
       if (viewId!=null)
@@ -261,21 +177,6 @@ public class Pages
    {
       int loc = viewId.lastIndexOf('.');
       return loc<0 ? null : viewId.substring(0, loc) + getSuffix();
-   }
-   
-   public boolean hasDescription(String viewId)
-   {
-      return getPage(viewId).description!=null;
-   }
-   
-   public String getDescription(String viewId)
-   {
-      return Interpolator.instance().interpolate( getPage(viewId).description );
-   }
-
-   public Integer getTimeout(String viewId)
-   {
-      return getPage(viewId).timeout;
    }
    
    public boolean callAction()
@@ -301,12 +202,12 @@ public class Pages
    {
       boolean result = false;
       
-      String outcome = getPage(viewId).outcome;
+      String outcome = getPage(viewId).getOutcome();
       String fromAction = outcome;
       
       if (outcome==null)
       {
-         MethodBinding methodBinding = getPage(viewId).action;
+         MethodBinding methodBinding = getPage(viewId).getAction();
          if (methodBinding!=null) 
          {
             fromAction = methodBinding.getExpressionString();
@@ -333,11 +234,6 @@ public class Pages
          facesContext.getApplication().getNavigationHandler()
                .handleNavigation(facesContext, fromAction, outcome);
       }
-   }
-   
-   public java.util.ResourceBundle getResourceBundle(String viewId)
-   {
-      return getPage(viewId).getResourceBundle();
    }
    
    public static Pages instance()
@@ -381,12 +277,6 @@ public class Pages
       return result;
    }
    
-   public String getNoConversationViewId(String viewId)
-   {
-      String result = getPage(viewId).noConversationViewId;
-      return result==null ? noConversationViewId : result;
-   }
-   
    public Map<String, Object> getParameters(String viewId)
    {
       return getParameters(viewId, Collections.EMPTY_SET);
@@ -395,7 +285,7 @@ public class Pages
    public Map<String, Object> getParameters(String viewId, Set<String> overridden)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
-      for ( PageParameter pageParameter: getPage(viewId).pageParameters )
+      for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
       {
          if ( !overridden.contains(pageParameter.name) )
          {
@@ -413,7 +303,7 @@ public class Pages
    {
       String viewId = facesContext.getViewRoot().getViewId();
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
-      for ( PageParameter pageParameter: getPage(viewId).pageParameters )
+      for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
       {         
          String[] parameterValues = requestParameters.get(pageParameter.name);
          if (parameterValues==null || parameterValues.length==0)
@@ -448,7 +338,7 @@ public class Pages
    {
       String viewId = facesContext.getViewRoot().getViewId();
       
-      for (PageParameter pageParameter: getPage(viewId).pageParameters)
+      for (Page.PageParameter pageParameter: getPage(viewId).getPageParameters())
       {         
          Object object = Contexts.getPageContext().get(pageParameter.name);
          if (object!=null)

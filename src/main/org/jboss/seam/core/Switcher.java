@@ -92,17 +92,18 @@ public class Switcher implements Serializable {
       }
       else
       {
-         boolean success = manager.swapConversation(conversationIdOrOutcome);
+         boolean success = manager.switchConversation(conversationIdOrOutcome);
          if (success)
          {
             resultingConversationIdOrOutcome = manager.getCurrentConversationId();
-            Manager.instance().redirect( manager.getCurrentConversationViewId() );
-            actualOutcome = "org.jboss.seam.switch";
+            
+            String viewId = manager.getCurrentConversationViewId();
+            if (viewId!=null)
+            {
+               Manager.instance().redirect(viewId);
+            }
          }
-         else
-         {
-            actualOutcome = null;
-         }
+         actualOutcome = null;
       }
       Lifecycle.resumeConversation( FacesContext.getCurrentInstance().getExternalContext() ); //TODO: remove, unnecessary
       return actualOutcome;

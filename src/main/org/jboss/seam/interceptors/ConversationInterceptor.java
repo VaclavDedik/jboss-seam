@@ -47,25 +47,20 @@ public class ConversationInterceptor extends AbstractInterceptor
          throw new IllegalStateException("begin method invoked from a long running conversation, try using @Begin(join=true)");
       }
       
-      String outcome = getOutcomeForConversationId(method);
-      if (outcome!=null) 
+      if ( redirectToExistingConversation(method) ) 
       {
-         if ( !method.getReturnType().equals(String.class) )
-         {
-            throw new IllegalStateException("begin method return type was not a string");
-         }
-         return outcome;
+         return null;
       }
-
-      Object result = invocation.proceed();
-
-      beginConversationIfNecessary(method, result);
-      endConversationIfNecessary(method, result);
-      return result;
-   
+      else
+      {
+         Object result = invocation.proceed();   
+         beginConversationIfNecessary(method, result);
+         endConversationIfNecessary(method, result);
+         return result;
+      }
    }
    
-   public String getOutcomeForConversationId(Method method)
+   public boolean redirectToExistingConversation(Method method)
    {
       String id = null;
       if ( method.isAnnotationPresent(Begin.class) )
@@ -91,11 +86,11 @@ public class ConversationInterceptor extends AbstractInterceptor
          }
          else
          {
-            return ce.select();
+            return ce.switchConversation();
          }
       }
       
-      return null;
+      return false;
    }
 
    private boolean isMissingJoin(Method method) {

@@ -161,7 +161,7 @@ public class ResourceBundle implements Serializable {
                   String viewId = viewRoot.getViewId();
                   if (viewId!=null)
                   {
-                     return Pages.instance().getResourceBundle(viewId);
+                     return Pages.instance().getPage(viewId).getResourceBundle();
                   }
                }
             }
