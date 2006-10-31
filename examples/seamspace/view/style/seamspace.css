@@ -104,3 +104,48 @@ input.searchButton {
   color: #003399;
   text-decoration: underline;
 }
+
+div.memberLogin {
+  margin-top: 16px;
+  width: 300px;
+  border: 1px solid #003399;
+  padding: 0px;
+}
+
+div.loginHeader {
+  color: #ffffff;
+  font-weight: bold;
+  background-color: #003399;
+  height: 18px;
+  padding: 2px 2px 2px 2px;
+}
+
+div.loginRow {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+label.loginLabel {
+  float: left;
+  width: 100px; 
+  padding: 2px 2px 2px 2px;
+}
+
+input.loginButton {
+  float: right;
+  margin-right: 100px;
+  margin-top: 4px;
+  margin-bottom: 4px;  
+  border: 1px solid #003399;
+  background-color: #ffffff;
+  color: #003399;
+}
+
+div.loginRow input {
+  width: 180px;
+}
+
+.clear {
+	clear: both;
+	font-size: 0px;
+}

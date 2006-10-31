@@ -15,6 +15,37 @@
 
       <div id="contentSide">
         <div class="advertising"></div>
+        
+        <h:form>
+          <div class="memberLogin">
+            <div class="loginHeader">Member Login</div>
+            
+            <h:messages globalOnly="true"/>
+            
+            <div class="loginRow">
+              <h:outputLabel for="name" value="Member name" styleClass="loginLabel"/>
+              <h:inputText id="name" value="#{member.username}"/>
+            </div>
+            
+            <div class="validationMsg">
+              <h:message for="name"/>
+            </div>
+            
+            <div class="loginRow">
+              <h:outputLabel for="password" value="Password" styleClass="loginLabel"/>
+              <h:inputSecret id="password" value="#{member.password}"/>
+            </div>
+            
+            <div class="validationMsg">
+              <h:message for="password"/>
+            </div>          
+            
+            <h:commandButton value="LOGIN" action="#{loginAction.login}" styleClass="loginButton"/>
+
+            <br class="clear"/>
+          
+          </div>
+        </h:form>
       </div>
      
     </ui:define>
