@@ -207,10 +207,7 @@ public class SeamSecurityManager
           {
             for (org.jboss.seam.annotations.AclProvider p : def.permissions())
             {
-              for (String action : p.actions().split("[,]"))
-              {
-                meta.addProviderName(action.trim(), p.provider());
-              }
+              meta.addProviderName(p.action(), p.provider());
             }
           }
 
