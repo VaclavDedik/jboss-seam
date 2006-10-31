@@ -152,7 +152,7 @@
             <s:decorate>
                 <f:facet name="beforeInvalidField"><h:graphicImage src="img/error.gif"/></f:facet>
                 <f:facet name="afterInvalidField"><s:message/></f:facet>
-                <f:facet name="aroundInvalidField"><s:span class="error"/></f:facet>
+                <f:facet name="aroundInvalidField"><s:span styleClass="error"/></f:facet>
                 <h:inputText value="#{location.country}"/>
             </s:decorate>
         </div>
@@ -161,7 +161,7 @@
             <s:decorate>
                 <f:facet name="beforeInvalidField"><h:graphicImage src="img/error.gif"/></f:facet>
                 <f:facet name="afterInvalidField"><s:message/></f:facet>
-                <f:facet name="aroundInvalidField"><s:span class="error"/></f:facet>
+                <f:facet name="aroundInvalidField"><s:span styleClass="error"/></f:facet>
                 <h:inputText value="#{location.zip}"/>
             </s:decorate>
         </div>
@@ -185,7 +185,7 @@
         <s:message/>
     </f:facet>
     <f:facet name="aroundInvalidField">
-        <s:span class="error"/>
+        <s:span styleClass="error"/>
     </f:facet>
     <div>
         <h:messages globalOnly="true"/>
@@ -225,7 +225,7 @@
         <h:graphicImage src="img/error.gif"/>
     </f:facet>
     <f:facet name="aroundInvalidField">
-        <s:span class="error"/>
+        <s:span styleClass="error"/>
     </f:facet>
     <div>
         <h:messages globalOnly="true"/>
