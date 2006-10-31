@@ -60,6 +60,11 @@ public class Pages
       Page(String viewId)
       {
          this.viewId = viewId;
+         int loc = viewId.lastIndexOf('.');
+         if ( loc>0 && viewId.startsWith("/") )
+         {
+            this.resourceBundleName = viewId.substring(1, loc);
+         }
       }
       
       final String viewId;
@@ -202,7 +207,10 @@ public class Pages
             }
             
             String bundle = page.attributeValue("bundle");
-            entry.resourceBundleName = bundle==null ? viewId.substring(1, viewId.indexOf('.')) : bundle;
+            if (bundle!=null)
+            {
+               entry.resourceBundleName = bundle;
+            }
             
             List<Element> children = page.elements("param");
             for (Element param: children)

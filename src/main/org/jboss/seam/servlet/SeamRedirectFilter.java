@@ -70,7 +70,7 @@ public class SeamRedirectFilter implements Filter
       //for *.seam style servlet mappings
       if ( url.startsWith(contextPath) )
       {
-         String extension = servletPath.substring( servletPath.indexOf('.') );
+         String extension = servletPath.substring( servletPath.lastIndexOf('.') );
          if ( url.endsWith(extension) || url.contains(extension + '?') )
          {
             String suffix = Pages.getSuffix();

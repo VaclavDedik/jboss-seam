@@ -213,7 +213,7 @@ public class FacesMessages implements Serializable
    {
       String messageTemplate = defaultMessageTemplate;
       java.util.ResourceBundle resourceBundle = ResourceBundle.instance();
-      if (resourceBundle!=null) 
+      if ( resourceBundle!=null && key!=null ) 
       {
          try
          {

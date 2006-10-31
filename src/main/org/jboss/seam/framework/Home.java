@@ -1,5 +1,7 @@
 package org.jboss.seam.framework;
 
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -7,9 +9,11 @@ import java.lang.reflect.Type;
 import javax.annotation.PostConstruct;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.AbstractMutable;
+import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
 /**
@@ -24,11 +28,29 @@ public class Home<E> extends AbstractMutable implements Serializable
    private Object id;
    protected E instance;
    private Class<E> entityClass;
-   protected ValueBinding newInstance;   
+   protected ValueBinding newInstance;
 
    private String deletedMessage = "Successfully deleted";
    private String createdMessage = "Successfully created";
    private String updatedMessage = "Successfully updated";
+
+   @In(create=true) 
+   private FacesMessages facesMessages; 
+   
+   protected void updatedMessage()
+   {
+      facesMessages.addFromResourceBundle( SEVERITY_INFO, getUpdatedMessageKey(), getUpdatedMessage() );
+   }
+   
+   protected void deletedMessage()
+   {
+      facesMessages.addFromResourceBundle( SEVERITY_INFO, getDeletedMessageKey(), getDeletedMessage() );
+   }
+   
+   protected void createdMessage()
+   {
+      facesMessages.addFromResourceBundle( SEVERITY_INFO, getCreatedMessageKey(), getCreatedMessage() );
+   }
 
    @PostConstruct
    public void validate()
@@ -180,6 +202,27 @@ public class Home<E> extends AbstractMutable implements Serializable
    public void setUpdatedMessage(String updatedMessage)
    {
       this.updatedMessage = updatedMessage;
+   }
+   
+   protected String getMessageKeyPrefix()
+   {
+      String className = getEntityClass().getName();
+      return className.substring( className.lastIndexOf('.') + 1 ) + '_';
+   }
+   
+   protected String getCreatedMessageKey()
+   {
+      return getMessageKeyPrefix() + "created";
+   }
+   
+   protected String getUpdatedMessageKey()
+   {
+      return getMessageKeyPrefix() + "updated";
+   }
+   
+   protected String getDeletedMessageKey()
+   {
+      return getMessageKeyPrefix() + "deleted";
    }
    
 }

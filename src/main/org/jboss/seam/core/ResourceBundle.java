@@ -81,83 +81,95 @@ public class ResourceBundle implements Serializable {
    
    private void createUberBundle()
    {
+      final List<java.util.ResourceBundle> littleBundles = new ArrayList<java.util.ResourceBundle>();
       if (bundleNames!=null)
-      {
-         
-         final List<java.util.ResourceBundle> littleBundles = new ArrayList<java.util.ResourceBundle>(bundleNames.length);
+      {  
          for (String bundleName: bundleNames)
          {
             java.util.ResourceBundle littleBundle = loadBundle(bundleName);
             if (littleBundle!=null) littleBundles.add(littleBundle);
          }
+      }
          
-         if ( !littleBundles.isEmpty() )
+      bundle = new java.util.ResourceBundle()
+      {
+
+         @Override
+         public java.util.Locale getLocale()
          {
-            bundle = new java.util.ResourceBundle()
+            return Locale.instance();
+         }
+
+         @Override
+         public Enumeration<String> getKeys()
+         {
+            int size = littleBundles.size();
+            java.util.ResourceBundle pageBundle = getPageResourceBundle();
+            if (pageBundle!=null)
             {
-      
-               @Override
-               public java.util.Locale getLocale()
+               ++size;
+            }
+            Enumeration<String>[] enumerations = new Enumeration[ littleBundles.size() + 1 ];
+            int i=0;
+            if (pageBundle!=null)
+            {
+               enumerations[i++] = pageBundle.getKeys();
+            }
+            for (; i<littleBundles.size(); i++)
+            {
+               enumerations[i] = littleBundles.get(i).getKeys();
+            }
+            return new EnumerationEnumeration<String>(enumerations);
+         }
+
+         @Override
+         protected Object handleGetObject(String key)
+         {
+            java.util.ResourceBundle pageBundle = getPageResourceBundle();
+            if (pageBundle!=null)
+            {
+               try
                {
-                  return Locale.instance();
+                  return pageBundle.getObject(key);
                }
-   
-               @Override
-               public Enumeration<String> getKeys()
+               catch (MissingResourceException mre) {}
+            }
+            
+            for (java.util.ResourceBundle littleBundle: littleBundles)
+            {
+               if (littleBundle!=null)
                {
-                  Enumeration<String>[] enumerations = new Enumeration[ littleBundles.size() ];
-                  for (int i=0; i<littleBundles.size(); i++)
+                  try
                   {
-                     enumerations[i] = littleBundles.get(i).getKeys();
+                     return littleBundle.getObject(key);
                   }
-                  return new EnumerationEnumeration<String>(enumerations);
+                  catch (MissingResourceException mre) {}
                }
-      
-               @Override
-               protected Object handleGetObject(String key)
+            }
+            
+            throw new MissingResourceException("Can't find resource in bundles: " + key, getClass().getName(), key );
+         }
+
+         private java.util.ResourceBundle getPageResourceBundle()
+         {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            if (facesContext!=null)
+            {
+               UIViewRoot viewRoot = facesContext.getViewRoot();
+               if (viewRoot!=null)
                {
-                  FacesContext facesContext = FacesContext.getCurrentInstance();
-                  if (facesContext!=null)
+                  String viewId = viewRoot.getViewId();
+                  if (viewId!=null)
                   {
-                     UIViewRoot viewRoot = facesContext.getViewRoot();
-                     if (viewRoot!=null)
-                     {
-                        String viewId = viewRoot.getViewId();
-                        if (viewId!=null)
-                        {
-                           java.util.ResourceBundle pageBundle = Pages.instance().getResourceBundle(viewId);
-                           if (pageBundle!=null)
-                           {
-                              try
-                              {
-                                 return pageBundle.getObject(key);
-                              }
-                              catch (MissingResourceException mre) {}
-                           
-                           }
-                        }
-                     }
+                     return Pages.instance().getResourceBundle(viewId);
                   }
-                  
-                  for (java.util.ResourceBundle littleBundle: littleBundles)
-                  {
-                     if (littleBundle!=null)
-                     {
-                        try
-                        {
-                           return littleBundle.getObject(key);
-                        }
-                        catch (MissingResourceException mre) {}
-                     }
-                  }
-                  
-                  throw new MissingResourceException("Can't find resource in bundles: " + key, getClass().getName(), key );
                }
-               
-            };
+            }
+            return null;
          }
          
-      }
+      };
+  
    }
 
    @Unwrap

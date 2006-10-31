@@ -3,9 +3,7 @@ package org.jboss.seam.framework;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.persistence.PersistenceProvider;
 
 public class EntityHome<E> extends Home<E>
@@ -21,9 +19,6 @@ public class EntityHome<E> extends Home<E>
          throw new IllegalStateException("entityManager is null");
       }
    }
-
-   @In(create=true) 
-   private FacesMessages facesMessages; 
    
    @Transactional
    public boolean isManaged()
@@ -37,7 +32,7 @@ public class EntityHome<E> extends Home<E>
    {
       getEntityManager().joinTransaction();
       getEntityManager().flush();
-      facesMessages.add( getUpdatedMessage() );
+      updatedMessage();
       return "updated";
    }
    
@@ -48,7 +43,7 @@ public class EntityHome<E> extends Home<E>
       getEntityManager().persist( getInstance() );
       getEntityManager().flush();
       setId( PersistenceProvider.instance().getId( getInstance(), getEntityManager() ) );
-      facesMessages.add( getCreatedMessage() );
+      createdMessage();
       return "persisted";
    }
 
@@ -58,7 +53,7 @@ public class EntityHome<E> extends Home<E>
       getEntityManager().joinTransaction();
       getEntityManager().remove( getInstance() );
       getEntityManager().flush();
-      facesMessages.add( getDeletedMessage() );
+      deletedMessage();
       return "removed";
    }
    

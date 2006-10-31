@@ -4,17 +4,12 @@ import java.io.Serializable;
 
 import org.hibernate.Session;
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.FacesMessages;
 
 public class HibernateEntityHome<E> extends Home<E>
 {
    private Session session;
 
-   @In(create=true) 
-   private FacesMessages facesMessages; 
-   
    @Override
    public void validate()
    {
@@ -36,17 +31,17 @@ public class HibernateEntityHome<E> extends Home<E>
    public String update()
    {
       getSession().flush();
-      facesMessages.add( getUpdatedMessage() );
+      updatedMessage();
       return "updated";
    }
-   
+
    @Transactional
    public String persist()
    {
       getSession().persist( getInstance() );
       getSession().flush();
       setId( getSession().getIdentifier( getInstance() ) );
-      facesMessages.add( getCreatedMessage() );
+      createdMessage();
       return "persisted";
    }
 
@@ -55,10 +50,10 @@ public class HibernateEntityHome<E> extends Home<E>
    {
       getSession().delete( getInstance() );
       getSession().flush();
-      facesMessages.add( getDeletedMessage() );
+      deletedMessage();
       return "removed";
    }
-   
+
    @Transactional
    @Override
    public E find()
