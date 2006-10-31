@@ -60,10 +60,13 @@ public class Pages
       Page(String viewId)
       {
          this.viewId = viewId;
-         int loc = viewId.lastIndexOf('.');
-         if ( loc>0 && viewId.startsWith("/") )
+         if (viewId!=null)
          {
-            this.resourceBundleName = viewId.substring(1, loc);
+            int loc = viewId.lastIndexOf('.');
+            if ( loc>0 && viewId.startsWith("/") )
+            {
+               this.resourceBundleName = viewId.substring(1, loc);
+            }
          }
       }
       

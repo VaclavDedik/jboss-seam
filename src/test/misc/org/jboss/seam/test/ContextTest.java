@@ -39,23 +39,24 @@ public class ContextTest
       MockServletContext servletContext = new MockServletContext();
       MockExternalContext externalContext = new MockExternalContext(servletContext);
       Context appContext = new FacesApplicationContext(externalContext);
+      //appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( 
             Seam.getComponentName(ConversationEntries.class) + ".component", 
             new Component(ConversationEntries.class, appContext) 
          );
       appContext.set(
             Seam.getComponentName(Manager.class) + ".component",
-            new Component(Manager.class)
+            new Component(Manager.class, appContext)
          );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       
       appContext.set( 
             Seam.getComponentName(Bar.class) + ".component",
-            new Component(Bar.class)
+            new Component(Bar.class, appContext)
       );
       appContext.set( 
             Seam.getComponentName(Foo.class) + ".component",
-            new Component(Foo.class)
+            new Component(Foo.class, appContext)
       );
       appContext.set("otherFoo", new Foo());
       

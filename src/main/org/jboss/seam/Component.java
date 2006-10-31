@@ -710,9 +710,12 @@ public class Component
       {
          addInterceptor( new Interceptor( new ConversationalInterceptor(), this ) );
       }
-      if ( Init.instance().isJbpmInstalled() )
+      if ( Contexts.isApplicationContextActive() ) //ugh, for unit tests
       {
-         addInterceptor( new Interceptor( new BusinessProcessInterceptor(), this ) );
+         if ( Init.instance().isJbpmInstalled() )
+         {
+            addInterceptor( new Interceptor( new BusinessProcessInterceptor(), this ) );
+         }
       }
       addInterceptor( new Interceptor( new ConversationInterceptor(), this ) );
       addInterceptor( new Interceptor( new OutcomeInterceptor(), this ) );
