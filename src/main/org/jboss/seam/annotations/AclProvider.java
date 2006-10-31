@@ -15,6 +15,7 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface AclProvider
 {
-  String actions();
+  String action();
   String provider();
+  int mask();
 }
