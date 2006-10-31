@@ -51,6 +51,8 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.validator.ClassValidator;
+import org.jboss.seam.annotations.Asynchronous;
+import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.DataBinderClass;
 import org.jboss.seam.annotations.DataSelectorClass;
@@ -60,10 +62,14 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.RequestParameter;
+import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Secure;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Synchronized;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.contexts.Context;
@@ -656,11 +662,13 @@ public class Component
             org.jboss.seam.annotations.Interceptor interceptorAnn = clazz.getAnnotation(org.jboss.seam.annotations.Interceptor.class);
             for (Class<?> cl : Arrays.asList( interceptorAnn.around() ) )
             {
-               si.getAround().add( ht.get(cl) );
+               SortItem<Interceptor> sortItem = ht.get(cl);
+               if (sortItem!=null) si.getAround().add( sortItem );
             }
             for (Class<?> cl : Arrays.asList( interceptorAnn.within() ) )
             {
-               si.getWithin().add( ht.get(cl) );
+               SortItem<Interceptor> sortItem = ht.get(cl);
+               if (sortItem!=null) si.getWithin().add( sortItem );
             }
          }
       }
@@ -682,18 +690,45 @@ public class Component
       {
          addInterceptor( new Interceptor( new SynchronizationInterceptor(), this ) );
       }
-      addInterceptor( new Interceptor( new AsynchronousInterceptor(), this ) );
+      if ( 
+            ( getType().isEjb() && businessInterfaceHasAnnotation(Asynchronous.class) ) ||
+            ( getType()==JAVA_BEAN && beanClassHasAnnotation(Asynchronous.class) )
+         )
+      {
+         addInterceptor( new Interceptor( new AsynchronousInterceptor(), this ) );
+      }
       addInterceptor( new Interceptor( new ExceptionInterceptor(), this ) );
-      addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );
-      addInterceptor( new Interceptor( new EventInterceptor(), this ) );
-      addInterceptor( new Interceptor( new ConversationalInterceptor(), this ) ); //legacy!
-      addInterceptor( new Interceptor( new BusinessProcessInterceptor(), this ) );
+      if ( getType()==STATEFUL_SESSION_BEAN )
+      {
+         addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );
+      }
+      if ( beanClassHasAnnotation(RaiseEvent.class) )
+      {
+         addInterceptor( new Interceptor( new EventInterceptor(), this ) );
+      }
+      if ( beanClassHasAnnotation(Conversational.class) )
+      {
+         addInterceptor( new Interceptor( new ConversationalInterceptor(), this ) );
+      }
+      if ( Init.instance().isJbpmInstalled() )
+      {
+         addInterceptor( new Interceptor( new BusinessProcessInterceptor(), this ) );
+      }
       addInterceptor( new Interceptor( new ConversationInterceptor(), this ) );
       addInterceptor( new Interceptor( new OutcomeInterceptor(), this ) );
-      addInterceptor( new Interceptor( new BijectionInterceptor(), this ) );
-      addInterceptor( new Interceptor( new ValidationInterceptor(), this ) );
-      addInterceptor( new Interceptor( new RollbackInterceptor(), this ) );
-      if ( getType()==JAVA_BEAN )
+      if ( needsInjection() || needsOutjection() )
+      {
+         addInterceptor( new Interceptor( new BijectionInterceptor(), this ) );
+      }
+      if ( beanClassHasAnnotation(IfInvalid.class) )
+      {
+         addInterceptor( new Interceptor( new ValidationInterceptor(), this ) );
+      }
+      if ( getType()==JAVA_BEAN || beanClassHasAnnotation(Rollback.class) )
+      {
+         addInterceptor( new Interceptor( new RollbackInterceptor(), this ) );
+      }
+      if ( getType()==JAVA_BEAN && beanClassHasAnnotation(Transactional.class))
       {
          addInterceptor( new Interceptor( new TransactionInterceptor(), this ) );
       }
@@ -701,10 +736,46 @@ public class Component
       {
          addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
       }
-      if (SecurityInterceptor.isComponentSecure(this))
+      if ( beanClassHasAnnotation(Secure.class) )
       {
         addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );
       }
+   }
+
+   private static boolean hasAnnotation(Class clazz, Class annotationType)
+   {
+      if ( clazz.isAnnotationPresent(annotationType) )
+      {
+         return true;
+      }
+      else
+      {
+         for ( Method method: clazz.getMethods() )
+         {
+            if ( method.isAnnotationPresent(annotationType) ) 
+            {
+               return true;
+            }
+         }
+         return false;
+      }
+   }
+
+   public boolean beanClassHasAnnotation(Class annotationType)
+   {
+      return hasAnnotation( getBeanClass(), annotationType );
+   }
+
+   public boolean businessInterfaceHasAnnotation(Class annotationType)
+   {
+      for (Class businessInterface: getBusinessInterfaces() )
+      {
+         if ( hasAnnotation(businessInterface, annotationType) )
+         {
+            return true;
+         }
+      }
+      return false;
    }
 
    public Class<?> getBeanClass()
@@ -876,8 +947,7 @@ public class Component
             !dataModelSelectionSetters.isEmpty() ||
             !dataModelSelectionFields.isEmpty() ||
             !parameterFields.isEmpty() ||
-            !parameterSetters.isEmpty() ||
-            logField!=null;
+            !parameterSetters.isEmpty();
     }
 
     public boolean needsOutjection() {
@@ -1320,9 +1390,9 @@ public class Component
             return beanClass.isInstance(bean);
          default:
             Class clazz = bean.getClass();
-            for (Class intfc: businessInterfaces)
+            for ( Class businessInterface: businessInterfaces )
             {
-               if (intfc.isAssignableFrom(clazz))
+               if ( businessInterface.isAssignableFrom(clazz) )
                {
                   return true;
                }

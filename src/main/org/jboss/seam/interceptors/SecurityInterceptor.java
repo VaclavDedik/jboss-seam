@@ -1,12 +1,12 @@
 package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
+
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Permission;
 import org.jboss.seam.annotations.Secure;
@@ -26,22 +26,6 @@ import org.jboss.seam.security.SeamSecurityManager;
 public class SecurityInterceptor extends AbstractInterceptor
 {
   private static final Log log = LogFactory.getLog(SecurityInterceptor.class);
-
-  public static boolean isComponentSecure(Component component)
-  {
-    if (component.getBeanClass().isAnnotationPresent(Secure.class))
-      return true;
-    else
-    {
-      for (Method m : component.getBeanClass().getDeclaredMethods())
-      {
-        if (m.isAnnotationPresent(Secure.class))
-          return true;
-      }
-    }
-
-    return false;
-  }
 
   @AroundInvoke
   public Object checkSecurity(InvocationContext invocation)
