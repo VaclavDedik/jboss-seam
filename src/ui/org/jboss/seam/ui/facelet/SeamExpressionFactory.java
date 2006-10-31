@@ -78,7 +78,7 @@ public class SeamExpressionFactory extends ExpressionFactory
             return new ParamMethodExpression(parser, elContext);
         }
         
-        if ( paramTypes.length==1 && paramTypes[0].equals(ActionEvent.class) )
+        if ( paramTypes.length==1 && ActionEvent.class.isAssignableFrom( paramTypes[0] ) )
         {
            //so that JSF action listeners don't have to declare 
            //the totally frickin useless ActionEvent parameter
