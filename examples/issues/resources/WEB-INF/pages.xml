@@ -1,4 +1,5 @@
 <pages>
+    <page view-id="/login.jsp" switch="disabled"/>
 	<page view-id="/editIssue.jsp">#{issueEditor.description}</page>
 	<page view-id="/editComment.jsp">#{commentEditor.description}</page>
 	<page view-id="/editProject.jsp">#{projectEditor.description}</page>

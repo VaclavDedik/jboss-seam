@@ -118,7 +118,7 @@ public class ProjectEditorBean implements ProjectEditor {
 
     @DataModel
     public List getIssuesList() {
-       return project.getIssues()==null ?
+       return project==null || project.getIssues()==null ?
              null : new ArrayList( project.getIssues() );
     }
 

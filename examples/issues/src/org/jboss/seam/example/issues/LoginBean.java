@@ -49,8 +49,7 @@ public class LoginBean implements Login {
        {
           Contexts.getSessionContext().set("loggedIn", true);
           instance = (User) results.get(0);
-          String outcome = conversation.redirect();
-          return outcome==null ? "home" : outcome;
+          return conversation.redirect() ? null : "home";
        }
     }
     
