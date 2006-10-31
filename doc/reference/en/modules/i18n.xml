@@ -88,6 +88,8 @@
             display templated labels with embedded EL expressions.
         </para>
         
+    <section>
+        <title>Defining labels</title>
         <para>
             Each login session has an associated instance of 
             <literal>java.util.ResourceBundle</literal> (available to the 
@@ -131,7 +133,31 @@
 </component>]]></programlisting>
 
         <para>
-            If you define your labels in this special resource bundle, you'll
+            If you want to define a message just for a particular page, you
+            can specify it in a resource bundle with the same name as the
+            JSF view id, with the leading <literal>/</literal> and trailing
+            file extension removed. So we could put our message in 
+            <literal>welcome/hello_en.properties</literal> if we only needed
+            to display the message on <literal>/welcome/hello.jsp</literal>.
+        </para>
+        
+        <para>
+            You can even specify an explicit bundle name in <literal>pages.xml</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<page view-id="/welcome/hello.jsp" bundle="HelloMessages"/>]]></programlisting>
+        
+        <para>
+            Then we could use messages defined in <literal>HelloMessages.properties</literal>
+            on <literal>/welcome/hello.jsp</literal>.
+        </para>
+    </section>
+    
+    <section>
+        <title>Displaying labels</title>
+
+        <para>
+            If you define your labels using the Seam resource bundle, you'll
             be able to use them without having to type <literal>&lt;f:loadBundle ... /&gt;</literal>
             on every page. Instead, you can simply type:
         </para>
@@ -184,6 +210,7 @@ public class HelloBean implements Hello {
             depending upon the user's locale.
         </para>
 
+    </section>
     </section>
     
     <section>

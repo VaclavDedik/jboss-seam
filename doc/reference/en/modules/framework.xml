@@ -338,6 +338,21 @@ public class PersonHome extends EntityHome<Person> {
 }]]></programlisting>
 
         <para>
+            But the best way to specify the messages is to put them in a resource
+            bundle known to Seam (the bundle named <literal>messages</literal>,
+            by default).
+        </para>
+
+        <programlisting><![CDATA[Person_created=New person #{person.firstName} #{person.lastName} created
+Person_deleted=Person #{person.firstName} #{person.lastName} deleted
+Person_updated=Person #{person.firstName} #{person.lastName} updated]]></programlisting>
+
+        <para>
+            This enables internationalization, and keeps your code and configuration clean of
+            presentation concerns.
+        </para>
+
+        <para>
             The final step is to add validation functionality to the page, using
             <literal>&lt;s:validateAll&gt;</literal> and <literal>&lt;s:decorate&gt;</literal>,
             but I'll leave that for you to figure out.
