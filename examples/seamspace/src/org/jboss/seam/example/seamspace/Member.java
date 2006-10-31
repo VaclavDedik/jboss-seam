@@ -1,11 +1,12 @@
 package org.jboss.seam.example.seamspace;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.DefinePermissions;
+import org.jboss.seam.annotations.AclProvider;
 
 /**
  * A user account
@@ -14,6 +15,10 @@ import org.jboss.seam.annotations.Name;
  */
 @Entity
 @Name("member")
+@DefinePermissions(permissions = {
+  @AclProvider(action = "update", provider = "persistentAclProvider", mask = 0x0002),
+  @AclProvider(action = "delete", provider = "persistentAclProvider", mask = 0x0004)
+})
 public class Member implements Serializable
 {
   private Integer memberId;
