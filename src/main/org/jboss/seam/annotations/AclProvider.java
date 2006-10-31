@@ -17,5 +17,5 @@ public @interface AclProvider
 {
   String action();
   String provider();
-  int mask();
+  int mask() default 0;
 }
