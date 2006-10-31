@@ -29,18 +29,31 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private String initiatorComponentName;
    private Integer timeout;
    private boolean removeAfterRedirect;
+   private boolean ended;
    
-   private ConversationEntries parent;
+   private ConversationEntries entries;
    
-   private ReentrantLock lock = new ReentrantLock(true);
+   private ReentrantLock lock;
 
-   public ConversationEntry(String id, List<String> stack, ConversationEntries parent)
+   public ConversationEntry(String id, List<String> stack, ConversationEntries entries)
    {
       this.id = id;
       this.conversationIdStack = stack==null ? 
             null : Collections.unmodifiableList(stack);
       this.startDatetime = new Date();
-      this.parent = parent;
+      this.entries = entries;
+      
+      if ( conversationIdStack.size()>1 )
+      {
+         // get the root conversation entry lock (we want to share the same lock  
+         // among all nested conversations in the same conversation stack)
+         lock = entries.getConversationEntry( conversationIdStack.get( conversationIdStack.size()-1 ) ).lock;
+      }
+      else
+      {
+         lock = new ReentrantLock(true);
+      }
+
       touch();
    }
 
@@ -54,7 +67,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void setDescription(String description) {
-      parent.setDirty(this.description, description);
+      entries.setDirty(this.description, description);
       this.description = description;
    }
 
@@ -63,7 +76,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    synchronized void touch() {
-      parent.setDirty();
+      entries.setDirty();
       lastRequestTime = System.currentTimeMillis();
       lastDatetime = new Date();
    }
@@ -76,10 +89,9 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return startDatetime;
    }
 
-   public String destroy() {
+   public void destroy() {
       boolean success = Manager.instance().switchConversation( getId() );
       if (success) Manager.instance().endConversation(false);
-      return null;
    }
 
    public void select() {
@@ -109,7 +121,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void setViewId(String viewId) {
-      parent.setDirty(this.viewId, viewId);
+      entries.setDirty(this.viewId, viewId);
       this.viewId = viewId;
    }
 
@@ -136,14 +148,12 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void setInitiatorComponentName(String ownerComponentName) {
-      parent.setDirty(this.initiatorComponentName, ownerComponentName);
+      entries.setDirty(this.initiatorComponentName, ownerComponentName);
       this.initiatorComponentName = ownerComponentName;
    }
 
    public boolean isDisplayable() {
-      Manager manager = Manager.instance();
-      return getDescription()!=null &&
-         ( manager.isLongRunningConversation() || !id.equals( manager.getCurrentConversationId() ) );
+      return !isEnded() && getDescription()!=null;
    }
 
    public boolean isCurrent()
@@ -171,7 +181,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    void setTimeout(int conversationTimeout) {
-      parent.setDirty(this.timeout, timeout);
+      entries.setDirty(this.timeout, timeout);
       this.timeout = conversationTimeout;
    }
 
@@ -180,7 +190,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    }
 
    public void setRemoveAfterRedirect(boolean removeAfterRedirect) {
-      parent.setDirty();
+      entries.setDirty();
       this.removeAfterRedirect = removeAfterRedirect;
    }
    
@@ -211,9 +221,20 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       lock.unlock();
    }
    
+   public void end()
+   {
+      ended = true;
+   }
+   
+   public boolean isEnded()
+   {
+      return ended;
+   }
+
    @Override
    public String toString()
    {
       return "ConversationEntry(" + id + ")";
    }
+
 }

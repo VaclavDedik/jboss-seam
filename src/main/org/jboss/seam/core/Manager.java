@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -109,13 +110,16 @@ public class Manager
       }
    }
 
-   private void touchConversationStack()
+   private static void touchConversationStack(List<String> stack)
    {
-      List<String> stack = getCurrentConversationIdStack();
       if ( stack!=null )
       {
-         for ( String conversationId: stack )
+         //iterate in reverse order, so that current conversation 
+         //sits at top of conversation lists
+         ListIterator<String> iter = stack.listIterator( stack.size() );
+         while ( iter.hasPrevious() )
          {
+            String conversationId = iter.previous();
             ConversationEntry conversationEntry = ConversationEntries.instance().getConversationEntry(conversationId);
             if (conversationEntry!=null)
             {
@@ -123,15 +127,19 @@ public class Manager
             }
          }
       }
-
-      //do this last, to bring it to the top of the conversation list
-      if ( isLongRunningConversation() )
-      {
-         getCurrentConversationEntry().touch();
-      }
-
    }
-
+   
+   private static void endNestedConversations(String id)
+   {
+      for ( ConversationEntry ce: ConversationEntries.instance().getConversationEntries() )
+      {
+         if ( ce.getConversationIdStack().contains(id) )
+         {
+            ce.end();
+         }
+      }
+   }
+   
    /**
     * Get the name of the component that started the current
     * conversation.
@@ -303,7 +311,7 @@ public class Manager
    {
       if ( isLongRunningConversation() )
       {
-         touchConversationStack();
+         touchConversationStack( getCurrentConversationIdStack() );
          if ( !Seam.isSessionInvalid() ) 
          {
             storeLongRunningConversation(response);
@@ -389,10 +397,10 @@ public class Manager
    private void removeCurrentConversationAndDestroyNestedContexts(ContextAdaptor session) 
    {
       ConversationEntries.instance().removeConversationEntry( getCurrentConversationId() );
-      destroyNestedContexts( session, getCurrentConversationId() );
+      destroyNestedConversationContexts( session, getCurrentConversationId() );
    }
 
-   private void destroyNestedContexts(ContextAdaptor session, String conversationId) 
+   private void destroyNestedConversationContexts(ContextAdaptor session, String conversationId) 
    {
       List<ConversationEntry> entries = new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
       for  ( ConversationEntry ce: entries )
@@ -534,8 +542,9 @@ public class Manager
             null : ConversationEntries.instance().getConversationEntry(storedConversationId);
       if ( ce!=null && ce.lock() )
       {
-         
-         touchConversationStack();
+         // do this asap, since there is a window where conversationTimeout() might  
+         // try to destroy the conversation, even if he cannot obtain the lock!
+         touchConversationStack( ce.getConversationIdStack() );
 
          //we found an id and obtained the lock, so restore the long-running conversation
          log.debug("Restoring conversation with id: " + storedConversationId);
@@ -644,6 +653,7 @@ public class Manager
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.endConversation");
       setLongRunningConversation(false);
       destroyBeforeRedirect = beforeRedirect;
+      endNestedConversations( getCurrentConversationId() );
    }
    
    /**
@@ -693,10 +703,18 @@ public class Manager
       ConversationEntry ce = ConversationEntries.instance().getConversationEntry(id);
       if (ce!=null)
       {
-         setCurrentConversationId(id);
-         setCurrentConversationIdStack( ce.getConversationIdStack() );
-         setLongRunningConversation(true);
-         return true;
+         if ( ce.lock() )
+         {
+            unlockConversation();
+            setCurrentConversationId(id);
+            setCurrentConversationIdStack( ce.getConversationIdStack() );
+            setLongRunningConversation(true);
+            return true;
+         }
+         else
+         {
+            return false;
+         }
       }
       else
       {

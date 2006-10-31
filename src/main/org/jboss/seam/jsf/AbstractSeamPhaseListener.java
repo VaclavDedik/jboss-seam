@@ -13,14 +13,19 @@ import javax.faces.model.DataModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.ConversationList;
+import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
+import org.jboss.seam.core.Switcher;
 import org.jboss.seam.util.Transactions;
 
 public abstract class AbstractSeamPhaseListener implements PhaseListener
@@ -137,6 +142,14 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
       
       Lifecycle.flushPage();
+      if ( Contexts.isPageContextActive() )
+      {
+         //force refresh of the conversation lists (they are kept in PAGE context)
+         Context pageContext = Contexts.getPageContext();
+         pageContext.remove( Seam.getComponentName(ConversationList.class) );
+         pageContext.remove( Seam.getComponentName(Switcher.class) );
+         pageContext.remove( Seam.getComponentName(ConversationStack.class) );
+      }
 
       selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
       
@@ -160,6 +173,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          FacesMessages.instance().beforeRenderResponse();
          Manager.instance().prepareBackswitch(event);
       }
+      
    }
    
    private boolean callPageActions(PhaseEvent event)

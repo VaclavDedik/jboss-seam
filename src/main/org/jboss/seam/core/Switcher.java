@@ -31,7 +31,9 @@ import org.jboss.seam.contexts.Lifecycle;
 public class Switcher implements Serializable {
    
    private List<SelectItem> selectItems;
-   
+   private String conversationIdOrOutcome;
+   private String resultingConversationIdOrOutcome;
+      
    @Create
    public void createSelectItems()
    {
@@ -53,9 +55,6 @@ public class Switcher implements Serializable {
       return selectItems;
    }
       
-   private String conversationIdOrOutcome;
-   private String resultingConversationIdOrOutcome;
-   
    private String getLongRunningConversationId()
    {
       if ( Manager.instance().isLongRunningConversation() )
