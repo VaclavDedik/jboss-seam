@@ -12,7 +12,7 @@
 	<h1>Confirm Hotel Booking</h1>
 </div>
 <div class="section">
-	<h:form>
+	<h:form id="confirm">
 	<fieldset>
 		<div class="entry">
 			<div class="label">Name:</div>
@@ -49,9 +49,9 @@
 		<div class="entry">
 			<div class="label">&#160;</div>
 			<div class="input">
-				<h:commandButton value="Confirm" action="#{hotelBooking.confirm}" class="button"/>&#160;
-    			<h:commandButton value="Revise" action="back" class="button"/>&#160;
-    			<h:commandButton value="Cancel" action="#{hotelBooking.cancel}" class="button"/>
+				<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}" class="button"/>&#160;
+    			<h:commandButton id="revise" value="Revise" action="back" class="button"/>&#160;
+    			<h:commandButton id="cancel" value="Cancel" action="#{hotelBooking.cancel}" class="button"/>
 			</div>
 		</div>
 	</fieldset>

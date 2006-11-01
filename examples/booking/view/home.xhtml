@@ -16,7 +16,7 @@
 	</div>
 	<div id="container">
 		<div id="sidebar">
-            <h:form>
+            <h:form id="login">
 			<fieldset>
 				<div>
 					<h:outputLabel for="username">Login Name</h:outputLabel>
@@ -28,8 +28,8 @@
 					<h:inputSecret id="password" value="#{user.password}" style="width: 175px;"/>
 				</div>
 				<div class="errors"><h:messages globalOnly="true"/></div>
-				<div class="buttonBox"><h:commandButton action="#{login.login}" value="Account Login" class="button" /></div>
-				<div class="notes"><h:commandLink action="register">Register New User</h:commandLink></div>
+				<div class="buttonBox"><h:commandButton id="login" action="#{login.login}" value="Account Login" class="button" /></div>
+				<div class="notes"><h:commandLink id="register" action="register">Register New User</h:commandLink></div>
 			</fieldset>
             </h:form>
 		</div>

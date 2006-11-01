@@ -11,7 +11,6 @@
 	<link href="css/screen.css" rel="stylesheet" type="text/css" />
 </head>
 <body id="pgHome">
-<h:form>
 <div id="document">
 	<div id="header">
 		<div id="title"><img src="img/hdr.title.gif" /></div>
@@ -39,9 +38,11 @@
 				<h1>Register</h1>
 			</div>
 			<div class="section">
+                
+                <h:form id="register">
 				<fieldset>
 				
-					<s:validateAll>
+					   <s:validateAll>
 
 					    <f:facet name="aroundInvalidField">
 					       <s:span styleClass="errors"/>
@@ -104,17 +105,18 @@
 					<div class="entry">
 						<div class="label">&#160;</div>
 						<div class="input">
-							<h:commandButton value="Register" action="#{register.register}" class="button"/>&#160;
-							<s:link value="Cancel" action="login" linkStyle="button" buttonClass="button"/>
+							<h:commandButton id="register" value="Register" action="#{register.register}" class="button"/>&#160;
+							<s:link id="cancel" value="Cancel" action="login" linkStyle="button" buttonClass="button"/>
 						</div>
 					</div>
 					
 				</fieldset>
+                </h:form>
+                
 			</div>			
 		</div>
 	</div>
 	<div id="footer">Created with JBoss EJB 3.0, Seam, MyFaces, and Facelets</div>
 </div>
-</h:form>
 </body>
 </html>

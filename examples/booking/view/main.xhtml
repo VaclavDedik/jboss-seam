@@ -11,7 +11,7 @@
 <ui:define name="content">
 
 <div class="section">
-  <h:form>
+  <h:form id="main">
   
     <span class="errors">
        <h:messages globalOnly="true"/>
@@ -19,11 +19,11 @@
     
 	<h1>Search Hotels</h1>
 	<fieldset> 
-	   <h:inputText value="#{hotelSearch.searchString}" style="width: 165px;">
+	   <h:inputText id="searchString" value="#{hotelSearch.searchString}" style="width: 165px;">
          <a:support event="onkeyup" actionListener="#{hotelSearch.find}" reRender="searchResults" />
        </h:inputText>
        &#160;
-	   <a:commandButton value="Find Hotels" action="#{hotelSearch.find}" styleClass="button" reRender="searchResults"/>
+	   <a:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" styleClass="button" reRender="searchResults"/>
        &#160;
        <a:status>
           <f:facet name="start">
@@ -45,7 +45,7 @@
 <a:outputPanel id="searchResults">
   <div class="section">
 	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
-	<h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
+	<h:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
 		<h:column>
 			<f:facet name="header">Name</f:facet>
 			#{hot.name}
@@ -64,7 +64,7 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<s:link value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
+			<s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
 		</h:column>
 	</h:dataTable>
 	<s:link value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
@@ -75,9 +75,9 @@
 	<h1>Current Hotel Bookings</h1>
 </div>
 <div class="section">
-  <h:form>
+  <h:form id="bookings">
 	<h:outputText value="No Bookings Found" rendered="#{bookings.rowCount==0}"/>
-	<h:dataTable value="#{bookings}" var="book" rendered="#{bookings.rowCount>0}">
+	<h:dataTable id="bookings" value="#{bookings}" var="book" rendered="#{bookings.rowCount>0}">
 		<h:column>
 			<f:facet name="header">Name</f:facet>
 			#{book.hotel.name}
@@ -104,7 +104,7 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<h:commandLink value="Cancel" action="#{bookingList.cancel}"/>
+			<h:commandLink id="cancel" value="Cancel" action="#{bookingList.cancel}"/>
 		</h:column>
 	</h:dataTable>
   </h:form>
