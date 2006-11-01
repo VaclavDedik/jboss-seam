@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import javax.ejb.Local;
 import javax.faces.event.PhaseId;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -32,6 +31,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -273,7 +273,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     {
       for (Class c : component.getBusinessInterfaces())
       {
-        if (c.isAnnotationPresent(Local.class))
+        if (c.isAnnotationPresent(EJB.LOCAL))
         {
           type = component.getBusinessInterfaces().iterator().next();
           break;

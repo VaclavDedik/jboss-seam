@@ -2,6 +2,7 @@
 package org.jboss.seam.util;
 
 import java.beans.Introspector;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -206,6 +207,18 @@ public class Reflections
          catch (NoSuchFieldException nsfe) {}
       }
       throw new IllegalArgumentException("no such field: " + clazz.getName() + '.' + name);
+   }
+
+   public static Method getMethod(Annotation annotation, String name)
+   {
+      try
+      {
+         return annotation.annotationType().getMethod(name);
+      }
+      catch (NoSuchMethodException nsme)
+      {
+         return null;
+      }
    }
 
 }

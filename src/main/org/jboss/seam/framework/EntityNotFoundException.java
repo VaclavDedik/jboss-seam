@@ -5,7 +5,7 @@ import javax.ejb.ApplicationException;
 import org.jboss.seam.annotations.HttpError;
 
 @HttpError(errorCode=404)
-@ApplicationException(rollback=true)
+@ApplicationException(rollback=true) 
 public class EntityNotFoundException extends RuntimeException
 {
 }

@@ -9,10 +9,6 @@ package org.jboss.seam.intercept;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.PostActivate;
-import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
@@ -41,13 +37,7 @@ public class RootInterceptor implements Serializable
    
    private transient Component component; //a cache of the Component reference for performance
 
-   /**
-    * Called when instatiated by EJB container.
-    * (In this case it might be a Seam component,
-    * but we won't know until postConstruct() is
-    * called.)
-    */
-   public RootInterceptor(InterceptorType type)
+   protected RootInterceptor(InterceptorType type)
    {
       this.type = type;
    }
@@ -65,15 +55,14 @@ public class RootInterceptor implements Serializable
       isSeamComponent = false;
    }
    
-   @PostConstruct
-   public void postConstruct(InvocationContext invocation)
+   protected void postConstruct(Object bean)
    {
       // initialize the bean instance
       if (isSeamComponent)
       {
          try
          {
-            getComponent().initialize( invocation.getTarget() );
+            getComponent().initialize(bean);
          }
          catch (RuntimeException e)
          {
@@ -83,30 +72,10 @@ public class RootInterceptor implements Serializable
          {
             throw new RuntimeException("exception initializing EJB component", e);
          }
-      }
-      
-      invokeAndHandle(invocation, EventType.POST_CONSTRUCT);
+      }      
    }
 
-   @PreDestroy
-   public void preDestroy(InvocationContext invocation)
-   {
-      invokeAndHandle(invocation, EventType.PRE_DESTORY);
-   }
-   
-   @PrePassivate
-   public void prePassivate(InvocationContext invocation)
-   {
-      invokeAndHandle(invocation, EventType.PRE_PASSIVATE);
-   }
-   
-   @PostActivate
-   public void postActivate(InvocationContext invocation)
-   {
-      invokeAndHandle(invocation, EventType.POST_ACTIVATE);
-   }
-   
-   private void invokeAndHandle(InvocationContext invocation, EventType invocationType)
+   protected void invokeAndHandle(InvocationContext invocation, EventType invocationType)
    {
       try
       {

@@ -3,6 +3,8 @@ package org.jboss.seam.intercept;
 
 import java.lang.reflect.Method;
 
+import javax.interceptor.InvocationContext;
+
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -70,10 +72,31 @@ public class JavaBeanInterceptor extends RootInterceptor
       return result==bean ? proxy : result;
 
    }
+   
+   public void postConstruct()
+   {
+      super.postConstruct(bean);
+      callPostConstruct();
+   }
+
+   private void callPostConstruct()
+   {
+      InvocationContext context = new RootInvocationContext( bean, getComponent().getPostConstructMethod(), new Object[0] )
+      {
+         @Override
+         public Object proceed() throws Exception
+         {
+            getComponent().callPostConstructMethod(bean);
+            return null;
+         }
+         
+      };
+      invokeAndHandle(context, EventType.POST_CONSTRUCT);
+   }
 
    private void callPrePassivate()
    {
-      prePassivate( new RootInvocationContext(bean, getComponent().getPrePassivateMethod(), new Object[0])
+      InvocationContext context = new RootInvocationContext( bean, getComponent().getPrePassivateMethod(), new Object[0] )
       {
          @Override
          public Object proceed() throws Exception
@@ -82,12 +105,13 @@ public class JavaBeanInterceptor extends RootInterceptor
             return null;
          }
          
-      } );
+      };
+      invokeAndHandle(context, EventType.PRE_PASSIVATE);
    }
 
    private void callPostActivate()
    {
-      postActivate( new RootInvocationContext(bean, getComponent().getPostActivateMethod(), new Object[0])
+      RootInvocationContext context = new RootInvocationContext(bean, getComponent().getPostActivateMethod(), new Object[0])
       {
          @Override
          public Object proceed() throws Exception
@@ -96,7 +120,8 @@ public class JavaBeanInterceptor extends RootInterceptor
             return null;
          }
          
-      } );
+      };
+      invokeAndHandle(context, EventType.POST_ACTIVATE);
    }
 
    private Object interceptInvocation(final Method method, final Object[] params, 

@@ -6,9 +6,8 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import javax.annotation.PostConstruct;
-
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
@@ -52,7 +51,7 @@ public class Home<E> extends AbstractMutable implements Serializable
       facesMessages.addFromResourceBundle( SEVERITY_INFO, getCreatedMessageKey(), getCreatedMessage() );
    }
 
-   @PostConstruct
+   @Create
    public void validate()
    {
       if ( getEntityClass()==null )

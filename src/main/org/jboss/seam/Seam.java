@@ -3,13 +3,14 @@ package org.jboss.seam;
 
 import static org.jboss.seam.ComponentType.ENTITY_BEAN;
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
+import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
 import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
 import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
-import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
+import static org.jboss.seam.util.EJB.MESSAGE_DRIVEN;
+import static org.jboss.seam.util.EJB.STATEFUL;
+import static org.jboss.seam.util.EJB.STATELESS;
+import static org.jboss.seam.util.EJB.name;
 
-import javax.ejb.MessageDriven;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 import javax.persistence.Entity;
 
 import org.jboss.seam.annotations.Intercept;
@@ -58,15 +59,15 @@ public class Seam
     */
    public static ComponentType getComponentType(Class<?> clazz)
    {
-      if ( clazz.isAnnotationPresent(Stateful.class) )
+      if ( clazz.isAnnotationPresent(STATEFUL) )
       {
          return STATEFUL_SESSION_BEAN;
       }
-      else if ( clazz.isAnnotationPresent(Stateless.class) )
+      else if ( clazz.isAnnotationPresent(STATELESS) )
       {
          return STATELESS_SESSION_BEAN;
       }
-      else if ( clazz.isAnnotationPresent(MessageDriven.class) )
+      else if ( clazz.isAnnotationPresent(MESSAGE_DRIVEN) )
       {
          return MESSAGE_DRIVEN_BEAN;
       }
@@ -132,14 +133,14 @@ public class Seam
          case JAVA_BEAN:
             return null;
          case STATEFUL_SESSION_BEAN:
-            Stateful stateful = clazz.getAnnotation(Stateful.class);
-            return stateful.name().equals("") ? unqualifyClassName(clazz) : stateful.name();
+            String statefulName = name( clazz.getAnnotation(STATEFUL) );
+            return statefulName.equals("") ? unqualifyClassName(clazz) : statefulName;
          case STATELESS_SESSION_BEAN:
-            Stateless stateless = clazz.getAnnotation(Stateless.class);
-            return stateless.name().equals("") ? unqualifyClassName(clazz) : stateless.name();
+            String statelessName = name( clazz.getAnnotation(STATELESS) );
+            return statelessName.equals("") ? unqualifyClassName(clazz) : statelessName;
          case MESSAGE_DRIVEN_BEAN:
-            MessageDriven md = clazz.getAnnotation(MessageDriven.class);
-            return md.name().equals("") ? unqualifyClassName(clazz) : md.name();
+            String mdName = name( clazz.getAnnotation(MESSAGE_DRIVEN) );
+            return mdName.equals("") ? unqualifyClassName(clazz) : mdName;
          default:
             throw new IllegalArgumentException();
       }

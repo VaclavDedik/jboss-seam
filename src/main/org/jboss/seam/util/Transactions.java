@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.util;
 
-import javax.ejb.EJBContext;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.transaction.RollbackException;
@@ -12,9 +11,7 @@ import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 public class Transactions
-{
-   public static final String EJBCONTEXT_NAME = "java:comp.ejb3/EJBContext";
-   
+{   
    private static String userTransactionName = "UserTransaction";
    private static final String STANDARD_USER_TRANSACTION_NAME = "java:comp/UserTransaction";
    
@@ -51,11 +48,6 @@ public class Transactions
       {
          return (UserTransaction) Naming.getInitialContext().lookup(STANDARD_USER_TRANSACTION_NAME);
       }
-   }
-
-   public static EJBContext getEJBContext() throws NamingException
-   {
-      return (EJBContext) Naming.getInitialContext().lookup(EJBCONTEXT_NAME);
    }
 
    public static void setUserTransactionRollbackOnly() throws SystemException, NamingException {

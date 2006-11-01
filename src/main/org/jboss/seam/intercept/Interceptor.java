@@ -4,16 +4,13 @@ package org.jboss.seam.intercept;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.PostActivate;
-import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptors;
 import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
+import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -131,19 +128,19 @@ public final class Interceptor extends Reflections
          {
             aroundInvokeMethod = method;
          }
-         if ( method.isAnnotationPresent(PostConstruct.class) )
+         if ( method.isAnnotationPresent(EJB.POST_CONSTRUCT) )
          {
             postConstructMethod = method;
          }
-         if ( method.isAnnotationPresent(PreDestroy.class) )
+         if ( method.isAnnotationPresent(EJB.PRE_DESTROY) )
          {
             preDestroyMethod = method;
          }
-         if ( method.isAnnotationPresent(PrePassivate.class) )
+         if ( method.isAnnotationPresent(EJB.PRE_PASSIVATE) )
          {
             prePassivateMethod = method;
          }
-         if ( method.isAnnotationPresent(PostActivate.class) )
+         if ( method.isAnnotationPresent(EJB.POST_ACTIVATE) )
          {
             postActivateMethod = method;
          }

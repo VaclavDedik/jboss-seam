@@ -7,6 +7,9 @@
 package org.jboss.seam.intercept;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
 import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
@@ -36,11 +39,29 @@ public class SessionBeanInterceptor extends RootInterceptor
       super(InterceptorType.SERVER);
    }
    
+   @PrePassivate
+   public void prePassivate(InvocationContext invocation)
+   {
+      invokeAndHandle(invocation, EventType.PRE_PASSIVATE);
+   }
+   
+   @PostActivate
+   public void postActivate(InvocationContext invocation)
+   {
+      invokeAndHandle(invocation, EventType.POST_ACTIVATE);
+   }
+   
+   @PreDestroy
+   public void preDestroy(InvocationContext invocation)
+   {
+      invokeAndHandle(invocation, EventType.PRE_DESTORY);
+   }
+   
    @PostConstruct
-   @Override
    public void postConstruct(InvocationContext invocation)
    {
       Component invokingComponent = SessionBeanInterceptor.COMPONENT.get();
+      Object bean = invocation.getTarget();
       if ( invokingComponent!=null )
       {
          //the session bean was obtained by the application by
@@ -48,11 +69,11 @@ public class SessionBeanInterceptor extends RootInterceptor
          //other than the default role
          init(invokingComponent);
       }
-      else if ( invocation.getTarget().getClass().isAnnotationPresent(Name.class) )
+      else if ( bean.getClass().isAnnotationPresent(Name.class) )
       {
          //the session bean was obtained by the application from
          //JNDI, so assume the default role
-         String defaultComponentName = invocation.getTarget().getClass().getAnnotation(Name.class).value();
+         String defaultComponentName = bean.getClass().getAnnotation(Name.class).value();
          init( Seam.componentForName( defaultComponentName ) );
       }
       else
@@ -60,7 +81,8 @@ public class SessionBeanInterceptor extends RootInterceptor
          initNonSeamComponent();
       }
       
-      super.postConstruct(invocation);
+      postConstruct(bean);
+      invokeAndHandle(invocation, EventType.POST_CONSTRUCT);
    }
 
 }

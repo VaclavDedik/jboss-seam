@@ -1,12 +1,13 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
+import static org.jboss.seam.util.EJB.POST_ACTIVATE;
+import static org.jboss.seam.util.EJB.POST_CONSTRUCT;
+import static org.jboss.seam.util.EJB.PRE_DESTROY;
+import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
+
 import java.lang.reflect.Method;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.PostActivate;
-import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
@@ -32,8 +33,8 @@ public class BijectionInterceptor extends AbstractInterceptor
    {
       return method==null || //EJB 3 JavaDoc says InvocationContext.getMethod() returns null for lifecycle callbacks!
             method.isAnnotationPresent(Create.class) || method.isAnnotationPresent(Destroy.class) ||
-            method.isAnnotationPresent(PostConstruct.class) || method.isAnnotationPresent(PreDestroy.class) ||
-            method.isAnnotationPresent(PrePassivate.class) || method.isAnnotationPresent(PostActivate.class);
+            method.isAnnotationPresent(POST_CONSTRUCT) || method.isAnnotationPresent(PRE_DESTROY) ||
+            method.isAnnotationPresent(PRE_PASSIVATE) || method.isAnnotationPresent(POST_ACTIVATE);
    }
 
    @AroundInvoke

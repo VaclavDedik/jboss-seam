@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import javax.annotation.PostConstruct;
 import javax.faces.model.DataModel;
 
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueBinding;
@@ -31,7 +31,7 @@ public abstract class Query
    public abstract Object getSingleResult();
    public abstract Long getResultCount();
 
-   @PostConstruct
+   @Create
    public void validate()
    {
       if ( getEjbql()==null )

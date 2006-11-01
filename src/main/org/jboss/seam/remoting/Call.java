@@ -7,13 +7,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Local;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.WebRemote;
 import org.jboss.seam.remoting.wrapper.ConversionException;
 import org.jboss.seam.remoting.wrapper.ConversionScore;
 import org.jboss.seam.remoting.wrapper.Wrapper;
+import org.jboss.seam.util.EJB;
 
 /**
  *
@@ -122,7 +122,7 @@ public class Call
       // going to assume we're invoking against.
       for (Class c : component.getBusinessInterfaces())
       {
-        if (c.isAnnotationPresent(Local.class))
+        if (c.isAnnotationPresent(EJB.LOCAL))
         {
           type = component.getBusinessInterfaces().iterator().next();
           break;

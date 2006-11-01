@@ -17,6 +17,14 @@ import static org.jboss.seam.ScopeType.PAGE;
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.ScopeType.UNSPECIFIED;
+import static org.jboss.seam.util.EJB.LOCAL;
+import static org.jboss.seam.util.EJB.POST_ACTIVATE;
+import static org.jboss.seam.util.EJB.POST_CONSTRUCT;
+import static org.jboss.seam.util.EJB.PRE_DESTROY;
+import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
+import static org.jboss.seam.util.EJB.REMOTE;
+import static org.jboss.seam.util.EJB.REMOVE;
+import static org.jboss.seam.util.EJB.value;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -33,13 +41,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Local;
-import javax.ejb.PostActivate;
-import javax.ejb.PrePassivate;
-import javax.ejb.Remote;
-import javax.ejb.Remove;
 import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
@@ -386,7 +387,7 @@ public class Component
             {
                validateMethods.add(method);
             }
-            if ( method.isAnnotationPresent(Remove.class) )
+            if ( method.isAnnotationPresent(REMOVE) )
             {
                removeMethods.add(method);
             }
@@ -453,19 +454,19 @@ public class Component
             {
                parameterSetters.add(method);
             }
-            if ( method.isAnnotationPresent(PrePassivate.class) )
+            if ( method.isAnnotationPresent(PRE_PASSIVATE) )
             {
                prePassivateMethod = method;
             }
-            if ( method.isAnnotationPresent(PostActivate.class) )
+            if ( method.isAnnotationPresent(POST_ACTIVATE) )
             {
                postActivateMethod = method;
             }
-            if ( method.isAnnotationPresent(PostConstruct.class) )
+            if ( method.isAnnotationPresent(POST_CONSTRUCT) )
             {
                postConstructMethod = method;
             }
-            if ( method.isAnnotationPresent(PreDestroy.class) )
+            if ( method.isAnnotationPresent(PRE_DESTROY) )
             {
                preDestroyMethod = method;
             }
@@ -1001,12 +1002,17 @@ public class Component
    protected Object instantiateJavaBean() throws Exception
    {
       Object bean = beanClass.newInstance();
-      initialize(bean);
-      if (interceptionType!=InterceptionType.NEVER)
+      if (interceptionType==InterceptionType.NEVER)
       {
-         bean = wrap( bean, new JavaBeanInterceptor(bean, this) );
+         initialize(bean);
+         callPostConstructMethod(bean);
       }
-      callPostConstructMethod(bean);
+      else
+      {
+         JavaBeanInterceptor interceptor = new JavaBeanInterceptor(bean, this);
+         bean = wrap(bean, interceptor);
+         interceptor.postConstruct();
+      }
       return bean;
    }
 
@@ -1408,18 +1414,16 @@ public class Component
    {
       Set<Class> result = new HashSet<Class>();
 
-      if ( clazz.isAnnotationPresent(Local.class) )
+      if ( clazz.isAnnotationPresent(LOCAL) )
       {
-         Local local = (Local) clazz.getAnnotation(Local.class);
-         for ( Class iface: local.value() ) {
+         for ( Class iface: value( clazz.getAnnotation(LOCAL) ) ) {
             result.add(iface);
          }
       }
 
-      if ( clazz.isAnnotationPresent(Remote.class) )
+      if ( clazz.isAnnotationPresent(REMOTE) )
       {
-         Remote remote = (Remote) clazz.getAnnotation(Remote.class);
-         for ( Class iface: remote.value() )
+         for ( Class iface: value( clazz.getAnnotation(REMOTE) ) )
          {
             result.add(iface);
          }
@@ -1427,7 +1431,7 @@ public class Component
 
       for ( Class iface: clazz.getInterfaces() )
       {
-         if ( iface.isAnnotationPresent(Local.class) || iface.isAnnotationPresent(Remote.class) )
+         if ( iface.isAnnotationPresent(LOCAL) || iface.isAnnotationPresent(REMOTE) )
          {
             result.add(iface);
          }

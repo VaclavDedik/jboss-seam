@@ -1,11 +1,13 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
+import static org.jboss.seam.util.EJB.APPLICATION_EXCEPTION;
+import static org.jboss.seam.util.EJB.rollback;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ejb.ApplicationException;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
@@ -13,6 +15,7 @@ import org.jboss.seam.ComponentType;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
+import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -41,7 +44,7 @@ public class RollbackInterceptor extends AbstractInterceptor
             {
                //For session beans, we have to assume it might be
                //a CMT, so use the EJBContext
-               Transactions.getEJBContext().setRollbackOnly();
+               EJB.getEJBContext().setRollbackOnly();
             }
          }
          return result;
@@ -77,8 +80,8 @@ public class RollbackInterceptor extends AbstractInterceptor
    private boolean isRollbackRequired(Exception e)
    {
       Class<? extends Exception> clazz = e.getClass();
-      return ( (e instanceof RuntimeException) && !clazz.isAnnotationPresent(ApplicationException.class) ) || 
-            ( clazz.isAnnotationPresent(ApplicationException.class) && clazz.getAnnotation(ApplicationException.class).rollback() );
+      return ( (e instanceof RuntimeException) && !clazz.isAnnotationPresent(APPLICATION_EXCEPTION) ) || 
+            ( clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && rollback( clazz.getAnnotation(APPLICATION_EXCEPTION) ) );
    }
    
 }
