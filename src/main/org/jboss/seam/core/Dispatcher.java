@@ -16,7 +16,6 @@ import javax.ejb.Timer;
 import javax.ejb.TimerHandle;
 import javax.ejb.TimerService;
 import javax.interceptor.Interceptors;
-import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Name;
@@ -26,6 +25,7 @@ import org.jboss.seam.annotations.timer.IntervalDuration;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.ejb.SeamInterceptor;
+import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Reflections;
 
 /**

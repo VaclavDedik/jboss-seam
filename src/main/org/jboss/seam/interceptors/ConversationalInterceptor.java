@@ -5,11 +5,10 @@ import java.lang.reflect.Method;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.event.PhaseId;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.Conversational;
@@ -20,6 +19,7 @@ import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * Check that a conversational bean is not being invoked

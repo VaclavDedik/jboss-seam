@@ -4,11 +4,9 @@ package org.jboss.seam.interceptors;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.End;
@@ -22,6 +20,7 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.PersistenceContexts;
+import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * After the end of the invocation, begin or end a long running

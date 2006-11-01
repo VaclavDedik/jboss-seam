@@ -3,8 +3,6 @@ package org.jboss.seam.intercept;
 
 import java.lang.reflect.Method;
 
-import javax.interceptor.InvocationContext;
-
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -127,7 +125,7 @@ public class JavaBeanInterceptor extends RootInterceptor
    private Object interceptInvocation(final Method method, final Object[] params, 
          final MethodProxy methodProxy) throws Exception
    {
-      return aroundInvoke( new RootInvocationContext(bean, method, params, methodProxy) );
+      return invoke( new RootInvocationContext(bean, method, params, methodProxy), EventType.AROUND_INVOKE );
    }
    
    // TODO: copy/paste from ClientSide interceptor

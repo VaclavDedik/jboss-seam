@@ -6,13 +6,13 @@ import java.rmi.RemoteException;
 
 import javax.ejb.ApplicationException;
 import javax.ejb.Remove;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ComponentType;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * Removes components from the Seam context after invocation

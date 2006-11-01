@@ -2,12 +2,12 @@
 package org.jboss.seam.interceptors;
 
 import javax.faces.context.FacesContext;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.InterceptorType;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.core.Exceptions;
+import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * Handles exceptions annotation @Redirect, @HttpError or @Render.

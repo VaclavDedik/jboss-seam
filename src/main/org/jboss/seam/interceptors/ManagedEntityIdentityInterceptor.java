@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.core.PersistenceContexts;
+import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Reflections;
 

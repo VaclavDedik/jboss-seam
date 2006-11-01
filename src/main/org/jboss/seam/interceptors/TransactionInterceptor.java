@@ -2,11 +2,10 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.AnnotatedElement;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
-
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Work;
 
 @Interceptor(stateless=true,

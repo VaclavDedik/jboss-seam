@@ -5,8 +5,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
-import javax.interceptor.InvocationContext;
-
 
 /**
  * Adapts from EJB interception to Seam component interceptors
@@ -17,14 +15,14 @@ public class SeamInvocationContext implements InvocationContext
 {
    
    private final EventType eventType;
-   private final InvocationContext ejbInvocationContext;
+   private final InvocationContext context;
    private final List<Interceptor> interceptors;
    private final List<Object> userInterceptors;
    int location = 0;
 
-   public SeamInvocationContext(InvocationContext ejbInvocationContext, EventType type, List<Object> userInterceptors, List<Interceptor> interceptors)
+   public SeamInvocationContext(InvocationContext context, EventType type, List<Object> userInterceptors, List<Interceptor> interceptors)
    {
-      this.ejbInvocationContext = ejbInvocationContext;
+      this.context = context;
       this.interceptors = interceptors;
       this.userInterceptors = userInterceptors;
       this.eventType = type;
@@ -32,29 +30,29 @@ public class SeamInvocationContext implements InvocationContext
    
    public Object getTarget()
    {
-      return ejbInvocationContext.getTarget();
+      return context.getTarget();
    }
 
    public Map getContextData()
    {
-      return ejbInvocationContext.getContextData();
+      return context.getContextData();
    }
 
    public Method getMethod()
    {
-      return ejbInvocationContext.getMethod();
+      return context.getMethod();
    }
 
    public Object[] getParameters()
    {
-      return ejbInvocationContext.getParameters();
+      return context.getParameters();
    }
 
    public Object proceed() throws Exception
    {
       if ( location==interceptors.size() )
       {
-         return ejbInvocationContext.proceed();
+         return context.proceed();
       }
       else
       {
@@ -75,7 +73,7 @@ public class SeamInvocationContext implements InvocationContext
 
    public void setParameters(Object[] params)
    {
-      ejbInvocationContext.setParameters(params);
+      context.setParameters(params);
    }
 
 }

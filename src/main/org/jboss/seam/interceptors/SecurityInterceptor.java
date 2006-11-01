@@ -2,15 +2,14 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Permission;
 import org.jboss.seam.annotations.Secure;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.SeamSecurityManager;

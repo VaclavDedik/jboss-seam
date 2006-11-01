@@ -12,11 +12,10 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.CreateProcess;
 import org.jboss.seam.annotations.EndTask;
@@ -24,6 +23,7 @@ import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
+import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.

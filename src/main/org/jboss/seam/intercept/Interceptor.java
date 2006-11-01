@@ -1,16 +1,20 @@
 //$Id$
 package org.jboss.seam.intercept;
 
+import static org.jboss.seam.util.EJB.AROUND_INVOKE;
+import static org.jboss.seam.util.EJB.INTERCEPTORS;
+import static org.jboss.seam.util.EJB.POST_ACTIVATE;
+import static org.jboss.seam.util.EJB.POST_CONSTRUCT;
+import static org.jboss.seam.util.EJB.PRE_DESTROY;
+import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
+import static org.jboss.seam.util.EJB.value;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptors;
-import javax.interceptor.InvocationContext;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
-import org.jboss.seam.util.EJB;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -93,9 +97,7 @@ public final class Interceptor extends Reflections
    
    public Interceptor(Annotation annotation, Component component) 
    {
-      Interceptors interceptorAnnotation = annotation.annotationType()
-            .getAnnotation(Interceptors.class);
-      Class[] classes = interceptorAnnotation.value();
+      Class[] classes = value( annotation.annotationType().getAnnotation(INTERCEPTORS) );
       if (classes.length!=1)
       {
          //TODO: remove this silly restriction!
@@ -124,23 +126,23 @@ public final class Interceptor extends Reflections
       for (Method method : userInterceptorClass.getMethods())
       {
          if ( !method.isAccessible() ) method.setAccessible(true);
-         if ( method.isAnnotationPresent(AroundInvoke.class) )
+         if ( method.isAnnotationPresent(AROUND_INVOKE) || method.isAnnotationPresent(AroundInvoke.class) )
          {
             aroundInvokeMethod = method;
          }
-         if ( method.isAnnotationPresent(EJB.POST_CONSTRUCT) )
+         if ( method.isAnnotationPresent(POST_CONSTRUCT) )
          {
             postConstructMethod = method;
          }
-         if ( method.isAnnotationPresent(EJB.PRE_DESTROY) )
+         if ( method.isAnnotationPresent(PRE_DESTROY) )
          {
             preDestroyMethod = method;
          }
-         if ( method.isAnnotationPresent(EJB.PRE_PASSIVATE) )
+         if ( method.isAnnotationPresent(PRE_PASSIVATE) )
          {
             prePassivateMethod = method;
          }
-         if ( method.isAnnotationPresent(EJB.POST_ACTIVATE) )
+         if ( method.isAnnotationPresent(POST_ACTIVATE) )
          {
             postActivateMethod = method;
          }

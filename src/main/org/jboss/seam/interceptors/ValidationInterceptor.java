@@ -3,8 +3,6 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 
@@ -13,9 +11,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * Validate the method receiver using Hibernate validator before

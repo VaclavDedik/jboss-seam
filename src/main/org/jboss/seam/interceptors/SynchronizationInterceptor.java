@@ -4,11 +4,10 @@ package org.jboss.seam.interceptors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
-
 import org.jboss.seam.InterceptorType;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * Serializes calls to a component.

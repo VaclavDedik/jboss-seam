@@ -8,14 +8,13 @@ import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
 
 import java.lang.reflect.Method;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.intercept.InvocationContext;
 
 /**
  * Before invoking the component, inject all dependencies. After

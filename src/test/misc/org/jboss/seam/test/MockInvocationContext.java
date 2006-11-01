@@ -4,8 +4,7 @@ package org.jboss.seam.test;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.ejb.EJBContext;
-import javax.interceptor.InvocationContext;
+import org.jboss.seam.intercept.InvocationContext;
 
 public class MockInvocationContext implements InvocationContext
 {
@@ -17,12 +16,6 @@ public class MockInvocationContext implements InvocationContext
    }
 
    public Map getContextData()
-   {
-      //TODO
-      return null;
-   }
-
-   public EJBContext getEJBContext()
    {
       //TODO
       return null;

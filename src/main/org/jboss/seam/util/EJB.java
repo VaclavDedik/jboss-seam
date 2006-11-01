@@ -23,6 +23,9 @@ public class EJB
    public static final Class<Annotation> REMOVE;
    public static final Class<Annotation> LOCAL;
    public static final Class<Annotation> APPLICATION_EXCEPTION;
+   public static final Class<Annotation> INTERCEPTORS;
+   public static final Class<Annotation> AROUND_INVOKE;
+   public static boolean INVOCATION_CONTEXT_AVAILABLE;
    
    private static Class classForName(String name)
    {
@@ -40,14 +43,17 @@ public class EJB
       STATELESS = classForName("javax.ejb.Stateless");
       STATEFUL = classForName("javax.ejb.Stateful");
       MESSAGE_DRIVEN = classForName("javax.ejb.MessageDriven");
+      APPLICATION_EXCEPTION = classForName("javax.ejb.ApplicationException");
+      REMOVE = classForName("javax.ejb.Remove");
+      REMOTE = classForName("javax.ejb.Remote");
+      LOCAL = classForName("javax.ejb.Local");
       PRE_PASSIVATE = classForName("javax.ejb.PrePassivate");
       POST_ACTIVATE = classForName("javax.ejb.PostActivate");
-      PRE_DESTROY = classForName("javax.ejb.PreDestroy");
-      POST_CONSTRUCT = classForName("javax.ejb.PostConstruct");
-      REMOTE = classForName("javax.ejb.Remote");
-      REMOVE = classForName("javax.ejb.Remove");
-      LOCAL = classForName("javax.ejb.Local");
-      APPLICATION_EXCEPTION = classForName("javax.ejb.ApplicationException");
+      PRE_DESTROY = classForName("javax.annotation.PreDestroy");
+      POST_CONSTRUCT = classForName("javax.annotation.PostConstruct");
+      INTERCEPTORS = classForName("javax.interceptor.Interceptors");
+      AROUND_INVOKE = classForName("javax.interceptor.AroundInvoke");
+      INVOCATION_CONTEXT_AVAILABLE = !classForName("javax.interceptor.InvocationContext").equals(Dummy.class);
    }
    
    public static String name(Annotation annotation)

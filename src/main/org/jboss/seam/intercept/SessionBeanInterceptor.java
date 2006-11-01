@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.PostActivate;
 import javax.ejb.PrePassivate;
+import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
 import org.jboss.seam.Component;
@@ -39,22 +40,28 @@ public class SessionBeanInterceptor extends RootInterceptor
       super(InterceptorType.SERVER);
    }
    
+   @AroundInvoke
+   public Object aroundInvoke(InvocationContext invocation) throws Exception
+   {
+      return invoke( new EJBInvocationContext(invocation), EventType.AROUND_INVOKE);
+   }
+   
    @PrePassivate
    public void prePassivate(InvocationContext invocation)
    {
-      invokeAndHandle(invocation, EventType.PRE_PASSIVATE);
+      invokeAndHandle( new EJBInvocationContext(invocation), EventType.PRE_PASSIVATE);
    }
    
    @PostActivate
    public void postActivate(InvocationContext invocation)
    {
-      invokeAndHandle(invocation, EventType.POST_ACTIVATE);
+      invokeAndHandle( new EJBInvocationContext(invocation), EventType.POST_ACTIVATE);
    }
    
    @PreDestroy
    public void preDestroy(InvocationContext invocation)
    {
-      invokeAndHandle(invocation, EventType.PRE_DESTORY);
+      invokeAndHandle( new EJBInvocationContext(invocation), EventType.PRE_DESTORY);
    }
    
    @PostConstruct
@@ -82,7 +89,7 @@ public class SessionBeanInterceptor extends RootInterceptor
       }
       
       postConstruct(bean);
-      invokeAndHandle(invocation, EventType.POST_CONSTRUCT);
+      invokeAndHandle( new EJBInvocationContext(invocation), EventType.POST_CONSTRUCT );
    }
 
 }

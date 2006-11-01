@@ -57,7 +57,7 @@ public class ClientSideInterceptor extends RootInterceptor
 
    private Object interceptInvocation(final Method method, final Object[] params, final MethodProxy methodProxy) throws Exception
    {
-      return aroundInvoke( new RootInvocationContext(bean, method, params, methodProxy)
+      RootInvocationContext context = new RootInvocationContext(bean, method, params, methodProxy)
       {
          @Override
          public Object proceed() throws Exception
@@ -73,7 +73,8 @@ public class ClientSideInterceptor extends RootInterceptor
             }
          }
       
-      });
+      };
+      return invoke(context, EventType.AROUND_INVOKE);
    }
    
    //TODO: copy/paste from JavaBean interceptor

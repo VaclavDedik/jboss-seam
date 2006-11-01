@@ -24,6 +24,7 @@ import static org.jboss.seam.util.EJB.PRE_DESTROY;
 import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
 import static org.jboss.seam.util.EJB.REMOTE;
 import static org.jboss.seam.util.EJB.REMOVE;
+import static org.jboss.seam.util.EJB.INTERCEPTORS;
 import static org.jboss.seam.util.EJB.value;
 
 import java.io.Serializable;
@@ -41,7 +42,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.interceptor.Interceptors;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
 
@@ -620,7 +620,7 @@ public class Component
 
       for (Annotation annotation: beanClass.getAnnotations())
       {
-         if ( annotation.annotationType().isAnnotationPresent(Interceptors.class) )
+         if ( annotation.annotationType().isAnnotationPresent(INTERCEPTORS) )
          {
             addInterceptor( new Interceptor(annotation, this) );
          }

@@ -4,8 +4,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.interceptor.InvocationContext;
-
 import net.sf.cglib.proxy.MethodProxy;
 
 /**

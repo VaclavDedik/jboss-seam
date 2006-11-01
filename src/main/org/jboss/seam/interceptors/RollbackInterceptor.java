@@ -8,13 +8,12 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
-
 import org.jboss.seam.ComponentType;
+import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
+import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Transactions;
 

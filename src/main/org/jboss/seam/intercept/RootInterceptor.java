@@ -9,9 +9,6 @@ package org.jboss.seam.intercept;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
@@ -19,6 +16,7 @@ import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.util.EJB;
 
 /**
  * Abstract superclass of all controller interceptors
@@ -91,13 +89,7 @@ public class RootInterceptor implements Serializable
       }
    }
    
-   @AroundInvoke
-   public Object aroundInvoke(InvocationContext invocation) throws Exception
-   {
-      return invoke(invocation, EventType.AROUND_INVOKE);
-   }
-   
-   private Object invoke(InvocationContext invocation, EventType invocationType) throws Exception
+   protected Object invoke(InvocationContext invocation, EventType invocationType) throws Exception
    {
       if ( !isSeamComponent )
       {
@@ -134,7 +126,7 @@ public class RootInterceptor implements Serializable
          {
             log.trace( "intercepted: " + getInterceptionMessage(invocation, eventType) );
          }
-         return new SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) ).proceed();
+         return createSeamInvocationContext(invocation, eventType);
       }
       else {
          if ( log.isTraceEnabled() ) 
@@ -142,6 +134,18 @@ public class RootInterceptor implements Serializable
             log.trace( "not intercepted: " + getInterceptionMessage(invocation, eventType) );
          }
          return invocation.proceed();
+      }
+   }
+
+   private Object createSeamInvocationContext(InvocationContext invocation, EventType eventType) throws Exception
+   {
+      if ( EJB.INVOCATION_CONTEXT_AVAILABLE )
+      {
+         return new EE5SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) ).proceed();
+      }
+      else
+      {
+         return new SeamInvocationContext( invocation, eventType, userInterceptors, getComponent().getInterceptors(type) ).proceed();
       }
    }
 
