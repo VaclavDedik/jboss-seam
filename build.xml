@@ -22,10 +22,13 @@
     <property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
 	<property name="debugclasses.dir"     value="${build.dir}/debugclasses"/>
     <property name="coverage.dir"         value="${build.dir}/coverage"/>
+	
+	<property name="genclasses.dir"     value="${build.dir}/genclasses"/>
 
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
 	<property name="src.debug.dir"        value="src/debug"/>
+	<property name="src.gen.dir"          value="src/gen"/>
     <property name="src.test.dir"         value="src/test"/>
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
@@ -301,6 +304,18 @@
         </copy>
         
     </target>
+	
+	<target name="initgen"
+	            description="Initialize the build for the seam-gen package">
+	        <echo message="Build ${Name} GEN ${version}"/>
+
+	        <mkdir dir="${genclasses.dir}"/>
+	        <copy todir="${genclasses.dir}">
+	            <fileset dir="${src.gen.dir}">
+	                <patternset refid="meta.files"/>
+	            </fileset>
+	        </copy>	        
+	</target>
 
     <target name="compile" depends="init"
             description="Compile the Java source code">
@@ -340,6 +355,18 @@
             <src path="${src.debug.dir}"/>
         </javac>
     </target>
+	
+	 <target name="compilegen" depends="initgen"
+	            description="Compile the Java source code for the seam-gen package">
+	        <javac
+	            destdir="${genclasses.dir}"
+	            classpathref="build.classpath"
+	        	debug="${javac.debug}"
+	            deprecation="${javac.deprecation}"
+	            nowarn="on">
+	            <src path="${src.gen.dir}"/>
+	        </javac>
+	    </target>
     
     <target name="testcore" depends="compile"
             description="Run the core unit tests">
@@ -564,8 +591,8 @@
         </copy>
     </target>
     
-    <target name="build" depends="jar,jarui,jardebug"
-        description="Build all three distribution .jar files"/>
+    <target name="build" depends="jar,jarui,jardebug,jargen"
+        description="Build all four distribution .jar files"/>
 
     <target name="jar" depends="compile"
             description="Build the distribution .jar file">
@@ -612,6 +639,21 @@
         <copy file="${basedir}/${name}-debug.jar" todir="${dist.dir}"/>
         
     </target>
+	
+	<target name="jargen" depends="compilegen"
+	            description="Build the distribution .jar file for the seam-gen package">
+	        <mkdir dir="${dist.dir}"/>
+	        
+	        <jar jarfile="${basedir}/${name}-gen.jar" basedir="${genclasses.dir}">
+	            <include name="**/*.class"/>
+	            <patternset refid="meta.files"/>
+	            <manifest>
+	                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+	            </manifest>
+	        </jar>
+	        <copy file="${basedir}/${name}-gen.jar" todir="${dist.dir}"/>
+	        
+	</target>
 
     <target name="javadoc"
         description="Compile the Javadoc API documentation to dist dir">
