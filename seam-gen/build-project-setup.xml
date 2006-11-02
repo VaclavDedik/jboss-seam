@@ -22,8 +22,8 @@
 			<arg value="${mdb.package}" />			
 			<arg value="${eclipse.wtp}" />
 			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
+				<pathelement location="../lib/freemarker.jar" />
+				<pathelement path="../jboss-seam-gen.jar" />
 			</classpath>
 		</java>
 	</target>
