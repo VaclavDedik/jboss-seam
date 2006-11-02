@@ -1,5 +1,6 @@
 <application>
-	<display-name>Seam Shell</display-name>
+	<display-name>Seam Generated Application</display-name>
+    <description>created by seam-gen</description>
 
 	<module>
 		<web>
