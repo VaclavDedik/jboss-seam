@@ -25,6 +25,7 @@ import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.FacesPage;
@@ -106,6 +107,21 @@ public class SeamTest
    protected Object getInstance(String name)
    {
       return Component.getInstance(name);
+   }
+   
+   /**
+    * Is there a long running conversation associated
+    * with the current request?
+    */
+   protected boolean isLongRunningConversation() {
+      return Manager.instance().isLongRunningConversation();
+   }
+   
+   /**
+    * Search in all contexts
+    */
+   public Object lookup(String name) {
+      return Contexts.lookupInStatefulContexts(name);
    }
    
    /**
