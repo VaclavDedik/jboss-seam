@@ -123,6 +123,7 @@
 			<fileset dir="../facelets/lib" />
 			<fileset file="../jboss-seam-debug.jar" />
 			<fileset file="../jboss-seam-ui.jar" />
+			<fileset file="../jboss-seam-debug.jar" />
 		</copy>
 		<copy todir="${workspace.home}/${project.name}/">
 			<filterset>
@@ -180,6 +181,7 @@
 		<echo message="Copying seam/jsf jars to project's exploded war archive ..." />
 		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war/WEB-INF/lib" overwrite="true">
 			<fileset dir="../">
+				<fileset file="jboss-seam-debug.jar" />
 				<include name="jboss-seam-ui.jar" />
 				<include name="jboss-seam-debug.jar" />
 			</fileset>

@@ -12,10 +12,10 @@ public class ${actionName}Action implements ${actionName} {
     @Logger private Log log;
 	
     //seam-gen method
-	public String go()
+	public String ${componentName}()
 	{
 		//implement your business logic here
-		log.info("go() action called");
+		log.info("${componentName}() action called");
 		return "success";
 	}
 	

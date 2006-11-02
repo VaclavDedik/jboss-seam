@@ -12,6 +12,17 @@
     <h1>${pageName}</h1>
     <p>Action page created by seam-gen.</p>
     <h:form>
+        <f:facet name="aroundInvalidField">
+            <s:span styleClass="errors"/>
+        </f:facet>
+        <f:facet name="afterInvalidField">
+            <s:message/>
+        </f:facet>
+        <s:validateAll>
+            <s:decorate>
+                <h:inputText value="${pound}{${componentName}.value}"/>
+            </s:decorate>
+        </s:validateAll>
         <div>
             <h:commandButton id="go" value="Go!" 
                 action="${pound}{${componentName}.${componentName}}"/>     			  

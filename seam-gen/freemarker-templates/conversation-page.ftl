@@ -11,14 +11,15 @@
 <ui:define name="body">
     <h1>${pageName}</h1>
     <p>Action page created by seam-gen.</p>
+    <p>${pound}{${componentName}.value}</p>
     <h:form>
-        <s:validateAll>
-        </s:validateAll>
         <div>
-            <h:commandButton id="begin" styleClass="formButton"
-                  value="Begin" action="${pound}{${componentName}.begin}"/>     			  
-            <h:commandButton id="end" styleClass="formButton"
-                  value="End" action="${pound}{${componentName}.end}"/>     			  
+            <h:commandButton id="begin" value="Begin" 
+                action="${pound}{${componentName}.begin}"/>     			  
+            <h:commandButton id="inc" value="Increment" 
+                action="${pound}{${componentName}.increment}"/>     			  
+            <h:commandButton id="end" value="End" 
+                action="${pound}{${componentName}.end}"/>     			  
         </div>
     </h:form>
 </ui:define>

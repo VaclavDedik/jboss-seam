@@ -71,6 +71,7 @@
 				<include name="el-ri.jar" />
 				<include name="jsf-facelets.jar" />
 				<include name="jboss-seam-ui.jar" />
+				<include name="jboss-seam-debug.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${basedir}/exploded-archives/@projectName@.war/WEB-INF">

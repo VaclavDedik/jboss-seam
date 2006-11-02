@@ -14,13 +14,22 @@ import org.jboss.seam.log.Log;
 public class ${actionName}Action implements ${actionName} {
 	
     @Logger private Log log;
+    
+    private int value;
 	
 	@Begin
 	public String begin()
 	{
-       //implement your begin conversation business logic
-       log.info("beginning conversation");
-	   return "success";
+		//implement your begin conversation business logic
+		log.info("beginning conversation");
+		return "success";
+	}
+	
+	public String increment()
+	{
+		log.info("incrementing");
+		value++;
+		return "success";
 	}
 	
 	//add additional action methods that participate in this conversation
@@ -30,8 +39,13 @@ public class ${actionName}Action implements ${actionName} {
 	{
         //implement your end conversation business logic
         log.info("ending conversation");
-		return "success";
-	}	
+		return "home";
+	}
+	
+	public int getValue()
+	{
+		return value;
+	}
 	
 	@Destroy @Remove                                                                      
 	public void destroy() {}	

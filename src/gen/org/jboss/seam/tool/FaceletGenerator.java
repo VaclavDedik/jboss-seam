@@ -72,6 +72,16 @@ public class FaceletGenerator extends AbstractSeamGen {
 		generateFile("action-page.ftl", page, getModel());
 	}	
 	
+   public void newFormPage() throws IOException, TemplateException {
+      logger.info("Generating a new action Facelet Page");
+      String pageTemplate = getFaceletPath( this.projectProps.getWorkspaceHome(),
+            this.projectName, "template", this.projectProps.getWtp());
+      String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
+            this.projectName, this.pageName, this.projectProps.getWtp());     
+
+      generateFile("form-page.ftl", page, getModel());
+   }  
+   
    public void newConversationPage() throws IOException, TemplateException {
       logger.info("Generating a new conversation Facelet Page");
       String pageTemplate = getFaceletPath( this.projectProps.getWorkspaceHome(),

@@ -42,7 +42,7 @@ public class SeamGenCommandLine {
             JavaClassGenerator actionGen = new JavaClassGenerator(args);            
             FaceletGenerator faceletGen = new FaceletGenerator(args);
             
-            faceletGen.newActionPage();
+            faceletGen.newFormPage();
             actionGen.newStatefulAction();            
             actionGen.newTestcase();
          } else {
