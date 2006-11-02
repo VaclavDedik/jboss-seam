@@ -230,6 +230,11 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       return ended;
    }
+   
+   public boolean isNested()
+   {
+      return conversationIdStack.size()>1;
+   }
 
    @Override
    public String toString()

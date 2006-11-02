@@ -628,7 +628,13 @@ public class Manager
    {
       ConversationEntry entry = ConversationEntries.instance()
             .createConversationEntry( getCurrentConversationId(), getCurrentConversationIdStack() );
-      entry.lock();
+      if ( !entry.isNested() ) 
+      {
+         //if it is a newly created nested 
+         //conversation, we already own the
+         //lock
+         entry.lock();
+      }
       return entry;
    }
 
