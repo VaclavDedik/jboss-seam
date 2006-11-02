@@ -40,11 +40,6 @@ if [ "${seamtask}" = new-conversation ]
 		ant new-conversation -Dproject.name=${projectname} -Dconversation.name=${taskinput} -Dpage.name=${taskinput2}
 fi
 
-if [ "${seamtask}" = new-bpm-action ] 
-	then
-		ant new-bpm-action -Dproject.name=${projectname} -Daction.name=${taskinput} 
-fi
-
 if [ "${seamtask}" = new-entity ] 
 	then
 		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} 

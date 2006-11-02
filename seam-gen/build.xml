@@ -247,19 +247,6 @@
 		</java>
 	</target>
 
-	<target name="new-bpm-action">
-		<echo message="Create a new jBPM action class that implements ActionHandler" />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-bpm-action" />
-			<arg value="${project.name}" />
-			<arg value="${action.name}" />
-			<classpath>
-				<pathelement location="../lib/freemarker.jar" />
-				<pathelement path="../jboss-seam-gen.jar" />
-			</classpath>
-		</java>
-	</target>
-
 	<target name="new-entity">
 		<echo message="Create a new entity bean with a couple attributes" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">

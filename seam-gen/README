@@ -54,12 +54,6 @@ SEAM CODE GENERATION COMMANDS
 	     
       Example: seam new-page [PROJECT NAME] [PAGE NAME]	     
      	     
-   new-bpm-action
-      Create a new POJO that implements jBPM's ActionHandler interface.
-      This action class can be bound to a jBPM business process.
-	     
-      Example: seam new-bpm-action [PROJECT NAME] [BPM ACTION NAME] 
-	     
    new-entity
       Create a new EJB3 entity bean with key Seam/EJB3 annotations
       and a couple stub attributes (column1, column2).

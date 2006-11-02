@@ -8,7 +8,6 @@
 		<input addproperty="jboss.home" message="Enter your jboss home directory:" />
 		<input addproperty="action.package" message="Enter java package name for your business logic:" />
 		<input addproperty="model.package" message="Enter java package name for your model objects:" />
-		<input addproperty="bpm.package" message="Enter java package name for your BPM objects:" />
 		<input addproperty="mdb.package" message="Enter java package name for your MDB objects:" />
 		<input addproperty="test.package" message="Enter java package name for your test cases:" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
@@ -18,7 +17,6 @@
 			<arg value="${action.package}" />
 			<arg value="${model.package}" />
 			<arg value="${test.package}" />
-			<arg value="${bpm.package}" />
 			<arg value="${mdb.package}" />			
 			<arg value="${eclipse.wtp}" />
 			<classpath>
