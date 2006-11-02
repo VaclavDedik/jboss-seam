@@ -7,7 +7,7 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
 
 @Stateless
-@Name("${actionName}")
+@Name("${componentName}")
 public class ${actionName}Action implements ${actionName} {
 	
     @Logger private Log log;

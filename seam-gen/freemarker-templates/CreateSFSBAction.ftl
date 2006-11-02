@@ -7,8 +7,8 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
 
-@Stateful
-@Name("${actionName}")
+@Stateful 
+@Name("${componentName}")
 public class ${actionName}Action implements ${actionName} {
 
     @Logger private Log log;

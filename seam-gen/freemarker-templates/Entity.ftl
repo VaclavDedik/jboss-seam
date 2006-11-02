@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import org.jboss.seam.annotations.Name;
 
 @Entity
-@Name("${actionName}")
+@Name("${componentName}")
 public class ${actionName} implements Serializable {
 	
 	//seam-gen attributes (you should probably edit these)

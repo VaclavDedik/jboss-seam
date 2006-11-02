@@ -16,7 +16,7 @@
         </s:validateAll>
         <div>
             <h:commandButton id="go" styleClass="formButton"
-                  value="Go!" action="${pound}{${actionName}.go}"/>     			  
+                  value="Go!" action="${pound}{${componentName}.go}"/>     			  
         </div>
     </h:form>
 </ui:define>
