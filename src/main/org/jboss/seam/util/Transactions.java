@@ -87,5 +87,15 @@ public class Transactions
          return false;
       }
    }
+
+   public static String getTransactionManagerName()
+   {
+      return transactionManagerName;
+   }
+
+   public static void setTransactionManagerName(String transactionManagerName)
+   {
+      Transactions.transactionManagerName = transactionManagerName;
+   }
    
 }

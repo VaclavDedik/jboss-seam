@@ -356,7 +356,11 @@ public class Initialization
    private static void initUserTransactionName(Properties properties)
    {
       String userTransactionName = properties.getProperty("jta.UserTransaction");
-      if (userTransactionName!=null) Transactions.setUserTransactionName( userTransactionName );
+      if (userTransactionName!=null) Transactions.setUserTransactionName(userTransactionName);
+      userTransactionName = properties.getProperty("org.jboss.seam.userTransactionName");
+      if (userTransactionName!=null) Transactions.setUserTransactionName(userTransactionName);
+      String transactionManagerName = properties.getProperty("org.jboss.seam.transactionManagerName");
+      if (userTransactionName!=null) Transactions.setTransactionManagerName(transactionManagerName);
    }
 
    private Properties loadFromResource(String resource)
