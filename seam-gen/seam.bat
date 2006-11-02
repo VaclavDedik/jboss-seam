@@ -21,17 +21,9 @@ if %SEAMTASK% == new-wtp-project ant new-wtp-project -Dproject.name=%PROJECTNAME
 
 if %SEAMTASK% == deploy-project ant deploy-project -Dproject.name=%PROJECTNAME% 
 	
-if %SEAMTASK% == new-action ant new-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
+if %SEAMTASK% == new-stateless-action ant new-slsb-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
 
-if %SEAMTASK% == new-stateless-action ant new-slsb-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
-
-if %SEAMTASK% == new-conversation ant new-conversation -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
-
-if %SEAMTASK% == new-page ant new-page -Dproject.name=%PROJECTNAME% -Dpage.name=%TASKINPUT%
-
-if %SEAMTASK% == new-action-page ant new-action-page -Dproject.name=%PROJECTNAME% -Dpage.name=%TASKINPUT% -Daction.name=%TASKINPUT2%
-
-if %SEAMTASK% == new-testcase ant new-testcase -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
+if %SEAMTASK% == new-conversation ant new-conversation -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
 
 if %SEAMTASK% == new-bpm-action ant new-bpm-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
 

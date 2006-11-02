@@ -30,34 +30,14 @@ if [ "${seamtask}" = deploy-project ]
 		ant deploy-project -Dproject.name=${projectname}
 fi
 
-if [ "${seamtask}" = new-action ] 
+if [ "${seamtask}" = new-stateless-action ] 
 	then
-		ant new-action -Dproject.name=${projectname} -Daction.name=${taskinput}
-fi
-
-if [ "${seamtask}" = new-slsb-action ] 
-	then
-		ant new-slsb-action -Dproject.name=${projectname} -Daction.name=${taskinput}
+		ant new-slsb-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
 fi
 
 if [ "${seamtask}" = new-conversation ] 
 	then
-		ant new-conversation -Dproject.name=${projectname} -Dconversation.name=${taskinput}
-fi
-
-if [ "${seamtask}" = new-page ] 
-	then
-		ant new-page -Dproject.name=${projectname} -Dpage.name=${taskinput}
-fi
-
-if [ "${seamtask}" = new-action-page ] 
-	then
-		ant new-action-page -Dproject.name=${projectname} -Dpage.name=${taskinput} -Daction.name=${taskinput2}
-fi
-
-if [ "${seamtask}" = new-testcase ] 
-	then
-		ant new-testcase -Dproject.name=${projectname} -Daction.name=${taskinput} 
+		ant new-conversation -Dproject.name=${projectname} -Dconversation.name=${taskinput} -Dpage.name=${taskinput2}
 fi
 
 if [ "${seamtask}" = new-bpm-action ] 
