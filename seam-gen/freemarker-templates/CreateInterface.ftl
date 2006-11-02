@@ -6,7 +6,7 @@ import javax.ejb.Local;
 public interface ${interfaceName} {  
     
 	//seam-gen method
-	public String doAction();  
+	public String go();  
 	
     //add additional interface methods here
 }

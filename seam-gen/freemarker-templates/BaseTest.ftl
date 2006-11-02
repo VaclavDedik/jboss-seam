@@ -8,11 +8,4 @@ public class BaseTest
     extends SeamTest
 {
 
-    public Object lookup(String name) {
-        return Contexts.lookupInStatefulContexts(name);
-    }
-    
-    public boolean inConversation() {
-        return Manager.instance().isLongRunningConversation();
-    }
 }

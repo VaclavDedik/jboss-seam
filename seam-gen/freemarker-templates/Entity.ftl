@@ -3,6 +3,7 @@ package ${entityPackage};
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
 import org.jboss.seam.annotations.Name;
 
 @Entity
@@ -10,27 +11,38 @@ import org.jboss.seam.annotations.Name;
 public class ${actionName} implements Serializable {
 	
 	//seam-gen attributes (you should probably edit these)
-	private String column1;
-	private String column2;
+	private Long id;
+	private Integer version;
+	private String name;
 	
     //add additional entity attributes
 	
 	//seam-gen attribute getters/setters with annotations (you probably should edit)
 		
-	@Id 	   
-	public String getColumn1() {
-	     return column1;
+	@Id @GeneratedValue
+	public Long getId() {
+	     return id;
 	}
 
-	public void setColumn1(String column1) {
-	     this.column1 = column1;
+	public void setId(Long id) {
+	     this.id = id;
 	}
 	
-	public String getColumn2() {
-	     return column2;
+	@Version
+	public Integer getVersion() {
+	     return version;
 	}
 
-	public void setColumn2(String column2) {
-	     this.column2 = column2;
+	private void setVersion(Integer version) {
+	     this.version = version;
+	}   	
+	
+	
+	public String getName() {
+	     return name;
+	}
+
+	public void setName(String name) {
+	     this.name = name;
 	}   	
 }

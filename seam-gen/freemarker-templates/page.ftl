@@ -8,10 +8,7 @@
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-                       
-    <ui:define name="body">
-        <h1>Seam Generated Page named: ${pageName}</h1>
-    </ui:define>
+    <h1>Seam Generated Page named: ${pageName}</h1>
+</ui:define>
 
-</ui:define> 
 </ui:composition>

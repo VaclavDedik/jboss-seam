@@ -6,8 +6,8 @@ import javax.ejb.Local;
 public interface ${interfaceName} {  
 	
 	//seam-gen methods
-	public String beginAction();
-	public String endAction();
+	public String begin();
+	public String end();
 	public void destroy();
 	
    //add additional interface methods here	

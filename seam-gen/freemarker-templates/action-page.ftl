@@ -8,15 +8,15 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/layout/template.xhtml">
                        
-   <ui:define name="body">
-      <h1>Seam Generated Page named: "${pageName}"</h1>
-      <h:form>
-         <div>
+<ui:define name="body">
+    <h1>Seam Generated Page named: "${pageName}"</h1>
+    <h:form>
+        <div>
             <h:commandButton styleClass="formButton" type="submit"
-                  value="Test Action" action="${pound}{${actionName}.doAction}"/>     			  
-         </div>
-      </h:form>
-   </ui:define>
+                  value="Test Action" action="${pound}{${actionName}.go}"/>     			  
+        </div>
+    </h:form>
+</ui:define>
 
 </ui:composition>
 
