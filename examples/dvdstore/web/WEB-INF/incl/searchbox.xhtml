@@ -4,17 +4,17 @@
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:h="http://java.sun.com/jsf/html">
     <dl>
-        <dt class="menuHeader">#{msgs.browseSearchHeader}</dt>
+        <dt class="menuHeader">#{messages.browseSearchHeader}</dt>
         <dd class="menuForm">
             <h:form>
                 <dl>
-                    <dt><h:outputText value="#{msgs.searchTitle}" /></dt>
+                    <dt><h:outputText value="#{messages.searchTitle}" /></dt>
                     <dd><h:inputText value="#{search.title}" size="15"/></dd>
 
-                    <dt><h:outputText value="#{msgs.searchActor}" /></dt>
+                    <dt><h:outputText value="#{messages.searchActor}" /></dt>
                     <dd><h:inputText value="#{search.actor}" size="15"/></dd>
                     
-                    <dt><h:outputText value="#{msgs.searchCategory}" /></dt>
+                    <dt><h:outputText value="#{messages.searchCategory}" /></dt>
                     <dd>
                         <h:selectOneMenu value="#{search.category}"
                                          converter="#{catbean.converter}">
@@ -22,7 +22,7 @@
                             <f:selectItems value="#{catbean.categories}" />
                         </h:selectOneMenu>
                     </dd>
-                    <dt><h:outputText value="#{msgs.searchPageSize}" /></dt>
+                    <dt><h:outputText value="#{messages.searchPageSize}" /></dt>
                     <dd>
                         <h:selectOneMenu value="#{search.pageSize}">
                             <f:selectItem itemLabel="10" itemValue="10" />
@@ -34,7 +34,7 @@
                     
                     <dd>
                         <h:commandButton action="#{search.doSearch}" 
-                                         value="#{msgs.searchButton}"
+                                         value="#{messages.searchButton}"
                                          class="formButton" style="width: 166px;"/>
                     </dd>
                 </dl>

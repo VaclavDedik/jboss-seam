@@ -58,7 +58,7 @@
                 
                 <c:when test="#{empty searchResults}">
                     <h2>
-                        <h:outputText value="#{msgs.noSearchResultsHeader}" />
+                        <h:outputText value="#{messages.noSearchResultsHeader}" />
                     </h2>
                 </c:when>
                 
@@ -81,7 +81,7 @@
                             </div>
                             
                             <div class="message">
-                                #{msgs.searchResultsHeader}
+                                #{messages.searchResultsHeader}
                             </div>
                         </div>
                         
@@ -93,13 +93,13 @@
                                      columnClasses="dvdtablecol">
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.searchResultsAdd}" />
+                                    <h:outputText value="#{messages.searchResultsAdd}" />
                                 </f:facet>
                                 <h:selectBooleanCheckbox value="#{searchSelections[product]}"/>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.searchResultsTitle}" />
+                                    <h:outputText value="#{messages.searchResultsTitle}" />
                                 </f:facet>
 
                                 <s:link view="/dvd.xhtml" value="#{product.title}">
@@ -116,7 +116,7 @@
                             
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.searchResultsPrice}" />
+                                    <h:outputText value="#{messages.searchResultsPrice}" />
                                 </f:facet>
                                 <h:outputText value="#{product.price}">
                                     <f:convertNumber type="currency" currencySymbol="$" />
@@ -125,7 +125,7 @@
                         </h:dataTable>
                         
                         <h:commandButton action="#{search.addAllToCart}" 
-                                         value="#{msgs.searchUpdateButton}"/>
+                                         value="#{messages.searchUpdateButton}"/>
                         
                     </h:form>        
                 </c:otherwise>

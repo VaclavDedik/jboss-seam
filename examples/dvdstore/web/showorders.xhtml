@@ -101,25 +101,25 @@
                                      columnClasses="dvdtablecol">
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.cartTitleColumn}" />
+                                    <h:outputText value="#{messages.cartTitleColumn}" />
                                 </f:facet>
                                 <h:outputText value="#{item.product.title}" />
                             </h:column>                        
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.cartActorColumn}" />
+                                    <h:outputText value="#{messages.cartActorColumn}" />
                                 </f:facet>
                                 <h:outputText value="#{item.product.actors[0].name}" />
                             </h:column>                        
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.cartQuantityColumn}" />
+                                    <h:outputText value="#{messages.cartQuantityColumn}" />
                                 </f:facet>
                                 <h:outputText value="#{item.quantity}" />
                             </h:column>                                        
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs.cartPriceColumn}" />
+                                    <h:outputText value="#{messages.cartPriceColumn}" />
                                 </f:facet>
                                 <h:outputText value="#{item.product.price}">
                                     <f:convertNumber type="currency" currencySymbol="$" />

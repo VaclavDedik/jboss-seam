@@ -9,16 +9,16 @@
         <div class="menu">
             <h:form>
                 <dl>
-                    <dt class="menuHeader">#{msgs.loginPagePrompt}</dt>
+                    <dt class="menuHeader">#{messages.loginPagePrompt}</dt>
                     <dd class="menuForm">
                         <dl>
-                            <dt><h:outputText value="#{msgs.loginUser}" /></dt>
+                            <dt><h:outputText value="#{messages.loginUser}" /></dt>
                             <dd><h:inputText value="#{login.userName}" size="16" /></dd>
-                            <dt><h:outputText value="#{msgs.loginPass}" /></dt>
+                            <dt><h:outputText value="#{messages.loginPass}" /></dt>
                             <dd><h:inputSecret value="#{login.password}" size="16"/></dd>
                             
                             <dd>
-                                <h:commandButton action="#{login.login}" value="#{msgs.loginPrompt}"
+                                <h:commandButton action="#{login.login}" value="#{messages.loginPrompt}"
                                                  class="formButton" style="width: 166px;"/>
                             </dd>
                             

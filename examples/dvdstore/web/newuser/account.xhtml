@@ -18,9 +18,9 @@
         </ui:define>
         
         <ui:define name="body">
-            <h2><h:outputText value="#{msgs.newCustomerHeader}" /></h2>
+            <h2><h:outputText value="#{messages.newCustomerHeader}" /></h2>
             
-            <p><em><h:outputText value="#{msgs.newCustomerInfo}" /></em></p>
+            <p><em><h:outputText value="#{messages.newCustomerInfo}" /></em></p>
             
 
             <p>
@@ -34,7 +34,7 @@
                 <h:form>
                     <table border="0">
                         <tr>
-                            <td class="cntForm">#{msgs.newCustomerUN}</td>
+                            <td class="cntForm">#{messages.newCustomerUN}</td>
                             <td class="cntForm">
                                 <h:inputText id="userName" required="true"
                                              value="#{customer.userName}">
@@ -45,7 +45,7 @@
                         </tr>
                         
                         <tr>
-                            <td class="cntForm">#{msgs.newCustomerPW}</td>
+                            <td class="cntForm">#{messages.newCustomerPW}</td>
                             <td class="cntForm">
                                 <h:inputSecret id="password" required="true"
                                                value="#{customer.password}">
@@ -56,7 +56,7 @@
                         </tr>
                         
                         <tr>
-                            <td class="cntForm">#{msgs.newCustomerP2}</td>
+                            <td class="cntForm">#{messages.newCustomerP2}</td>
                             <td class="cntForm">
                                 <h:inputSecret id="passwordVerify"
                                                value="#{editCustomer.passwordVerify}">

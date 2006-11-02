@@ -6,7 +6,7 @@
            rendered="#{!cart.isEmpty}">
     <div class="menu">
             <dl>
-                <dt class="menuHeader">#{msgs.searchCartHeader}</dt>
+                <dt class="menuHeader">#{messages.searchCartHeader}</dt>
                 <dd class="menuForm">
                     <h:dataTable value="#{cart.cart}" var="item"
                                  styleClass="dvdtable" 
@@ -28,7 +28,7 @@
                 </dd>
                 
                 <dd>
-                    <h:outputText value="#{msgs.checkoutTotal}" />
+                    <h:outputText value="#{messages.checkoutTotal}" />
                     <h:outputText value="#{cart.total}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
@@ -36,7 +36,7 @@
 
                 <h:form>
                     <dd>
-                        <h:commandButton action="checkout" value="#{msgs.checkoutButton}" 
+                        <h:commandButton action="checkout" value="#{messages.checkoutButton}" 
                                          class="formButton" style="width: 166px;" />
                     </dd>
                 </h:form>

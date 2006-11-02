@@ -1,16 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-
 <!DOCTYPE faces-config PUBLIC
           "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
           "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
 <faces-config>
-    <application>
-        <message-bundle>messages</message-bundle>
-        <locale-config>
-            <default-locale>en_US</default-locale>
-            <supported-locale>en</supported-locale>
-        </locale-config>
-    </application>
     
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
@@ -20,68 +13,4 @@
         <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
     </lifecycle>
 
-    <navigation-rule>
-        <navigation-case>
-            <from-outcome>home</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>browse</from-outcome>
-            <to-view-id>/browse.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>checkout</from-outcome>
-            <to-view-id>/checkout.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>showorders</from-outcome>
-            <to-view-id>/showorders.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>newcustomer</from-outcome>
-            <to-view-id>/newuser/account.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-        
-        <navigation-case>
-            <from-outcome>logout</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>ship</from-outcome>
-            <to-view-id>/admin/ship.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>accept</from-outcome>
-            <to-view-id>/admin/accept.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>  
-            <from-outcome>admin</from-outcome> 
-            <to-view-id>/admin/admin.xhtml</to-view-id>
-            <redirect />
-        </navigation-case> 
-    </navigation-rule>
-
-    <!-- temp workaround for facelets/myfaces bug -->
-    <navigation-rule>
-    	<navigation-case>
-    		<from-action>#{pooledTask.assignToCurrentActor}</from-action>
-    		<from-outcome>taskAssignedToActor</from-outcome>
-    		<to-view-id>/admin/admin.xhtml</to-view-id>
-    	</navigation-case>
-    </navigation-rule>
 </faces-config>
