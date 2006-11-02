@@ -17,10 +17,6 @@ if %SEAMTASK% == set-properties ant -buildfile=build-project-setup.xml
 
 if %SEAMTASK% == new-project ant new-project -Dproject.name=%PROJECTNAME%
 
-if %SEAMTASK% == scaffold-project ant new-project -Dscaffold=true -Dproject.name=%PROJECTNAME%
-
-if %SEAMTASK% == scaffold-wtp-project ant new-wtp-project -Dscaffold=true -Dproject.name=%PROJECTNAME%
-
 if %SEAMTASK% == new-wtp-project ant new-wtp-project -Dproject.name=%PROJECTNAME%
 
 if %SEAMTASK% == deploy-project ant deploy-project -Dproject.name=%PROJECTNAME% 

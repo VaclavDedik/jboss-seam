@@ -25,16 +25,6 @@ if [ "${seamtask}" = new-wtp-project ]
 		ant new-wtp-project -Dproject.name=${projectname}
 fi
 
-if [ "${seamtask}" = scaffold-project ] 
-	then
-		ant new-project -Dscaffold=true -Dproject.name=${projectname}
-fi
-
-if [ "${seamtask}" = scaffold-wtp-project ]
-   then
-      ant new-wtp-project -Dproject.name=${projectname} -Dscaffold=true
-fi 
-
 if [ "${seamtask}" = deploy-project ] 
 	then
 		ant deploy-project -Dproject.name=${projectname}

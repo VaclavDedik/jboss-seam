@@ -23,13 +23,7 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
       configuration. Refers to build.properties for project attributes.
 	     
       Example: seam new-project [PROJECT  NAME]
-     
-   scaffold-project
-      Create a new seam project that has all dependencies and a working
-      entity bean, page-flow, BPM and a TestNG example. 
-	     
-      Example: seam scaffold-project [PROJECTNAME]
-      
+         
    deploy-project
       Deploy the project EAR and datasource to JBoss. This command
       will not work if you created a WTP project.

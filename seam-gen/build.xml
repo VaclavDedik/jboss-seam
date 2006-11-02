@@ -139,48 +139,6 @@
 		</copy>
 	</target>
 
-	<target name="scaffold-copy" depends="file-copy" if="scaffold">
-		<echo message="Copying scaffold resources ..." />
-		<copy todir="${workspace.home}/${project.name}/resources" overwrite="true">
-			<fileset dir="${basedir}/resources-scaffold/" />
-			<filterset>
-				<filter token="projectName" value="${project.name}" />
-			</filterset>
-		</copy>
-		<copy todir="${workspace.home}/${project.name}/view" overwrite="true">
-			<fileset dir="${basedir}/view-scaffold/" />
-		</copy>
-		<copy todir="${workspace.home}/${project.name}/src" overwrite="true">
-			<fileset dir="${basedir}/src-scaffold/" />
-		</copy>
-	</target>
-
-	<target name="scaffold-copy-wtp" depends="file-copy-wtp" if="scaffold">
-		<echo message="Copying scaffold resources ..." />
-		<copy todir="${workspace.home}/${project.name}/EarContent" overwrite="true">
-			<fileset dir="${basedir}/resources-scaffold/">
-				<exclude name="WEB-INF/**" />
-			</fileset>
-			<filterset>
-				<filter token="projectName" value="${project.name}" />
-			</filterset>
-		</copy>
-		<copy todir="${workspace.home}/${project.name}Web/WebContent" overwrite="true">
-			<fileset dir="${basedir}/view-scaffold/" />
-
-		</copy>
-		<copy todir="${workspace.home}/${project.name}Web/WebContent/WEB-INF" overwrite="true">
-			<fileset dir="${basedir}/resources-scaffold/WEB-INF" />
-			<filterset>
-				<filter token="projectName" value="${project.name}" />
-			</filterset>
-		</copy>
-
-		<copy todir="${workspace.home}/${project.name}EJB/ejbModule" overwrite="true">
-			<fileset dir="${basedir}/src-scaffold/" />
-		</copy>
-	</target>
-
 	<target name="exploded-jar-copy">
 		<echo message="Creating project's exploded jar ..." />
 		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.jar" overwrite="false">
@@ -241,11 +199,11 @@
 		</copy>
 	</target>
 
-	<target name="new-project" depends="file-copy,scaffold-copy,exploded-jar-copy,exploded-war-copy,exploded-ear-copy">
+	<target name="new-project" depends="file-copy,exploded-jar-copy,exploded-war-copy,exploded-ear-copy">
 		<echo message="Your new Seam project called '${project.name}' has been created" />
 	</target>
 
-	<target name="new-wtp-project" depends="file-copy-wtp,scaffold-copy-wtp">
+	<target name="new-wtp-project" depends="file-copy-wtp">
 		<echo message="Your new Seam project called '${project.name}' has been created" />
 	</target>
 
