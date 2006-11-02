@@ -6,7 +6,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/WEB-INF/layout/template.xhtml">
+                template="layout/template.xhtml">
                        
 <ui:define name="body">
     <h1>Seam Generated Page named: "${pageName}"</h1>

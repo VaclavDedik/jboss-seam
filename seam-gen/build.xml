@@ -29,6 +29,7 @@
 				<include name="jboss-seam*.jar" />
 			</fileset>
 		</copy>
+		<mkdir dir="${basedir}/src/" />
 		<copy todir="${workspace.home}/${project.name}/src">
 			<fileset dir="${basedir}/src/" />
 		</copy>
