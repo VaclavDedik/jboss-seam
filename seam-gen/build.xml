@@ -197,7 +197,6 @@
 		<echo message="Creating project's exploded war ..." />
 		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war" overwrite="false">
 			<fileset dir="${workspace.home}/${project.name}/view" />
-			<fileset dir="${workspace.home}/${project.name}/view/WEB-INF" />
 		</copy>
 		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war/WEB-INF" overwrite="false">
 			<fileset dir="${workspace.home}/${project.name}/resources/WEB-INF" />
