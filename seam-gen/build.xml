@@ -139,67 +139,7 @@
 		</copy>
 	</target>
 
-	<target name="exploded-jar-copy">
-		<echo message="Creating project's exploded jar ..." />
-		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.jar" overwrite="false">
-			<fileset dir="${workspace.home}/${project.name}/resources">
-				<include name="*.properties" />
-			</fileset>
-		</copy>
-		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.jar/META-INF" overwrite="false">
-			<fileset dir="${workspace.home}/${project.name}/resources/META-INF">
-				<include name="ejb-jar.xml" />
-				<include name="persistence.xml" />
-			</fileset>
-		</copy>
-	</target>
-
-	<target name="exploded-war-copy">
-		<echo message="Creating project's exploded war ..." />
-		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war" overwrite="false">
-			<fileset dir="${workspace.home}/${project.name}/view" />
-		</copy>
-		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war/WEB-INF" overwrite="false">
-			<fileset dir="${workspace.home}/${project.name}/resources/WEB-INF" />
-		</copy>
-		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.war/WEB-INF/lib" overwrite="false">
-			<fileset dir="../">
-				<include name="jboss-seam-ui.jar" />
-				<include name="jboss-seam-debug.jar" />
-			</fileset>
-			<fileset dir="../facelets/lib">
-				<include name="el-api.jar" />
-				<include name="el-ri.jar" />
-				<include name="jsf-facelets.jar" />
-			</fileset>
-		</copy>
-	</target>
-
-	<target name="exploded-ear-copy">
-		<echo message="Creating project's exploded ear ..." />
-		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.ear" overwrite="false">
-			<fileset dir="${workspace.home}/${project.name}/resources">
-				<include name="*jpdl.xml" />
-				<include name="hibernate.cfg.xml" />
-				<include name="jbpm.cfg.xml" />
-			</fileset>
-			<fileset dir="../">
-				<include name="jboss-seam.jar" />
-			</fileset>
-			<fileset dir="../lib">
-				<include name="jbpm-3.1.1.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${workspace.home}/${project.name}/exploded-archives/${project.name}.ear/META-INF" overwrite="false">
-			<fileset dir="${workspace.home}/${project.name}/resources/META-INF">
-				<include name="application.xml" />
-				<include name="jboss-app.xml" />
-				<include name="jboss-beans.xml" />
-			</fileset>
-		</copy>
-	</target>
-
-	<target name="new-project" depends="file-copy,exploded-jar-copy,exploded-war-copy,exploded-ear-copy">
+	<target name="new-project" depends="file-copy">
 		<echo message="Your new Seam project called '${project.name}' has been created" />
 	</target>
 

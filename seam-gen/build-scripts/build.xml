@@ -44,7 +44,7 @@
 	<target name="build-jar" depends="compile" description="Build the distribution .jar file">
 		<copy todir="${classes.dir}">
 			<fileset dir="${basedir}/resources">
-				<include name="*.properties" />
+				<include name="seam.properties" />
 			</fileset>
 		</copy>
 		<copy todir="${classes.dir}/META-INF">
@@ -79,6 +79,11 @@
                 <filter token="jndiPattern" value="@projectName@/#{ejbName}/local"/>
                 <filter token="embeddedEjb" value="false"/>
             </filterset>
+		</copy>
+		<copy todir="${basedir}/exploded-archives/MyDomain.war/WEB-INF/classes">
+			<fileset dir="${basedir}/resources"> 
+				<include name="messages*.properties"/>
+			</fileset>
 		</copy>
 	</target>
 
