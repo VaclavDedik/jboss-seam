@@ -44,6 +44,9 @@
 		<move tofile="${workspace.home}/${project.name}/resources/${project.name}-ds.xml" file="${workspace.home}/${project.name}/resources/datasource-ds.xml" />
 		<copy todir="${workspace.home}/${project.name}/view">
 			<fileset dir="${basedir}/view/" />
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
 		</copy>
 		<copy todir="${workspace.home}/${project.name}/">
 			<filterset>

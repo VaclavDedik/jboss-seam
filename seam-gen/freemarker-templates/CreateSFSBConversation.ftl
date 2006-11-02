@@ -15,7 +15,7 @@ import org.jboss.seam.log.Log;
 @Name("${actionName}")
 public class ${actionName}Action implements ${actionName} {
 	
-    private @Logger log;
+    @Logger private Log log;
 	
 	@Begin
 	public String begin()

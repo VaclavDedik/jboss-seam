@@ -9,11 +9,14 @@
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
-    <h1>Seam Generated Page named: "${pageName}"</h1>
+    <h1>${pageName}</h1>
+    <p>Action page created by seam-gen.</p>
     <h:form>
+        <s:validateAll>
+        </s:validateAll>
         <div>
-            <h:commandButton styleClass="formButton" type="submit"
-                  value="Test Action" action="${pound}{${actionName}.go}"/>     			  
+            <h:commandButton id="go" styleClass="formButton"
+                  value="Go!" action="${pound}{${actionName}.go}"/>     			  
         </div>
     </h:form>
 </ui:define>

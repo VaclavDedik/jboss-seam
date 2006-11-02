@@ -33,7 +33,6 @@ public class FaceletGenerator extends AbstractSeamGen {
 		String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
 				this.projectName, this.pageName, this.projectProps.getWtp());		
 
-		generateFile("template.ftl", pageTemplate, getModel());
 		generateFile("page.ftl", page, getModel());
 	}	
 	
@@ -44,7 +43,6 @@ public class FaceletGenerator extends AbstractSeamGen {
 		String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
 				this.projectName, this.pageName, this.projectProps.getWtp());		
 
-		generateFile("template.ftl", pageTemplate, getModel());
 		generateFile("action-page.ftl", page, getModel());
 	}	
 	

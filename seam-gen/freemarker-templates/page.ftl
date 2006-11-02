@@ -8,7 +8,12 @@
                 template="layout/template.xhtml">
 
 <ui:define name="body">
-    <h1>Seam Generated Page named: ${pageName}</h1>
+    <h1>${pageName}</h1>
+    <p>Page created by seam-gen.</p>
+    <h:form>
+        <s:validateAll>
+        </s:validateAll>
+    </h:form>
 </ui:define>
 
 </ui:composition>
