@@ -12,12 +12,14 @@ import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.util.Transactions;
 
 /**
  * A Seam component that holds Seam configuration settings
@@ -35,11 +37,26 @@ public class Init
    private String jndiPattern;
    private boolean debug;
    private boolean myFacesLifecycleBug;
+   private String userTransactionName;
+   private String transactionManagerName;
    
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
    private Map<String, FactoryBinding> factoryMethodBindings = new HashMap<String, FactoryBinding>();
    private Map<String, FactoryBinding> factoryValueBindings = new HashMap<String, FactoryBinding>();
+   
+   @Create
+   public void create()
+   {
+      if (transactionManagerName!=null)
+      {
+         Transactions.setTransactionManagerName(transactionManagerName);
+      }
+      if (userTransactionName!=null)
+      {
+         Transactions.setUserTransactionName(userTransactionName);
+      }
+   }
    
    public static Init instance()
    {
@@ -210,6 +227,32 @@ public class Init
    public void setJbpmInstalled(boolean jbpmInstalled)
    {
       this.jbpmInstalled = jbpmInstalled;
+   }
+
+   /**
+    * The JNDI name of the JTA TransactionManager
+    */
+   protected String getTransactionManagerName()
+   {
+      return transactionManagerName;
+   }
+
+   protected void setTransactionManagerName(String transactionManagerName)
+   {
+      this.transactionManagerName = transactionManagerName;
+   }
+
+   /**
+    * The JNDI name of the JTA UserTransaction
+    */
+   protected String getUserTransactionName()
+   {
+      return userTransactionName;
+   }
+
+   protected void setUserTransactionName(String userTransactionName)
+   {
+      this.userTransactionName = userTransactionName;
    }
 
 }

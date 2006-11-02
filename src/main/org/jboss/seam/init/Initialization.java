@@ -48,6 +48,7 @@ import org.jboss.seam.core.Exceptions;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.FacesContext;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.HttpError;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
@@ -59,7 +60,6 @@ import org.jboss.seam.core.ManagedJbpmContext;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Messages;
-import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.PageContext;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
@@ -102,7 +102,6 @@ import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
-import org.jboss.seam.util.Transactions;
 
 /**
  * @author Gavin King
@@ -352,17 +351,7 @@ public class Initialization
       jndiProperties.putAll( loadFromResource("/seam-jndi.properties") );
       Naming.setInitialContextProperties(jndiProperties);
    }
-
-   private static void initUserTransactionName(Properties properties)
-   {
-      String userTransactionName = properties.getProperty("jta.UserTransaction");
-      if (userTransactionName!=null) Transactions.setUserTransactionName(userTransactionName);
-      userTransactionName = properties.getProperty("org.jboss.seam.userTransactionName");
-      if (userTransactionName!=null) Transactions.setUserTransactionName(userTransactionName);
-      String transactionManagerName = properties.getProperty("org.jboss.seam.transactionManagerName");
-      if (userTransactionName!=null) Transactions.setTransactionManagerName(transactionManagerName);
-   }
-
+   
    private Properties loadFromResource(String resource)
    {
       Properties props = new Properties();
@@ -378,7 +367,6 @@ public class Initialization
          {
             log.error("could not read " + resource, ioe);
          }
-         initUserTransactionName(props); //TODO: this is very fragile!!!
       }
       else
       {
