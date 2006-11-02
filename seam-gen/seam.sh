@@ -13,44 +13,43 @@ taskinput2=${4}
 if [ "${seamtask}" = set-properties ] 
 	then
 		ant -buildfile build-project-setup.xml
-fi
 
-if [ "${seamtask}" = new-project ] 
+elif [ "${seamtask}" = new-project ] 
 	then
 		ant new-project -Dproject.name=${projectname}
-fi
 
-if [ "${seamtask}" = new-wtp-project ] 
+elif [ "${seamtask}" = new-wtp-project ] 
 	then
 		ant new-wtp-project -Dproject.name=${projectname}
-fi
 
-if [ "${seamtask}" = deploy-project ] 
+elif [ "${seamtask}" = deploy-project ] 
 	then
 		ant deploy-project -Dproject.name=${projectname}
-fi
 
-if [ "${seamtask}" = new-stateless-action ] 
+elif [ "${seamtask}" = new-stateful-action ] 
 	then
-		ant new-slsb-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
-fi
+		ant new-stateful-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
 
-if [ "${seamtask}" = new-conversation ] 
+elif [ "${seamtask}" = new-stateless-action ] 
+	then
+		ant new-stateless-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
+
+elif [ "${seamtask}" = new-conversation ] 
 	then
 		ant new-conversation -Dproject.name=${projectname} -Dconversation.name=${taskinput} -Dpage.name=${taskinput2}
-fi
 
-if [ "${seamtask}" = new-entity ] 
+elif [ "${seamtask}" = new-entity ] 
 	then
 		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} 
-fi
 
-if [ "${seamtask}" = new-mdb ] 
+elif [ "${seamtask}" = new-mdb ] 
 	then
 		ant new-mdb -Dproject.name=${projectname} -Daction.name=${taskinput} 
-fi
 
-if [ "${seamtask}" = help ] 
+elif [ "${seamtask}" = help ] 
 	then
 		cat README
+
+else
+		cat USAGE
 fi

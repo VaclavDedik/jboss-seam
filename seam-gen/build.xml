@@ -204,14 +204,13 @@
 		<delete dir="${workspace.home}/${project.name}" />
 	</target>
 
-	<target name="new-action" depends="new-sfsb-action" />
-
-	<target name="new-sfsb-action">
+	<target name="new-stateful-action">
 		<echo message="Creating a stateful session bean Seam component with an action method" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-action" />
+			<arg value="new-stateful-action" />
 			<arg value="${project.name}" />
 			<arg value="${action.name}" />
+			<arg value="${page.name}" />
 			<classpath>
 				<pathelement location="../lib/freemarker.jar" />
 				<pathelement path="../jboss-seam-gen.jar" />
@@ -219,7 +218,7 @@
 		</java>
 	</target>
 
-	<target name="new-slsb-action">
+	<target name="new-stateless-action">
 		<echo message="Creating a stateless session bean Seam component with an action method" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-stateless-action" />

@@ -31,8 +31,6 @@ public class BuildPropertiesBean {
 	private String modelDir;
 	private String testDir;
 	private String testPackage;
-	private String bpmDir;
-	private String bpmPackage;
 	private String mdbDir;
 	private String mdbPackage;
 	private String wtp;	
@@ -50,8 +48,6 @@ public class BuildPropertiesBean {
 		this.modelDir = args[4].replace(".", "/");
 		this.testDir = args[5].replace(".", "/");
 		this.testPackage = args[5];
-		this.bpmDir = args[6].replace(".", "/");
-		this.bpmPackage = args[6];
 		this.mdbDir = args[7].replace(".", "/");
 		this.mdbPackage = args[7];
 		this.wtp = args[8];
@@ -73,18 +69,6 @@ public class BuildPropertiesBean {
 	}
 	public void setActionPackage(String actionPackage) {
 		this.actionPackage = actionPackage;
-	}
-	public String getBpmDir() {
-		return bpmDir;
-	}
-	public void setBpmDir(String bpmDir) {
-		this.bpmDir = bpmDir;
-	}
-	public String getBpmPackage() {
-		return bpmPackage;
-	}
-	public void setBpmPackage(String bpmPackage) {
-		this.bpmPackage = bpmPackage;
 	}
 	public String getJbossHome() {
 		return jbossHome;

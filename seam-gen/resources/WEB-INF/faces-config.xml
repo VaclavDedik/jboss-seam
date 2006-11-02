@@ -22,19 +22,4 @@
     </lifecycle>
     -->
 
-  <application>
-    <message-bundle>messages</message-bundle>
-    <locale-config>
-      <default-locale>en</default-locale>
-      <supported-locale>en</supported-locale>
-    </locale-config>
-  </application>
-  
-  <navigation-rule>
-    <navigation-case>
-      <from-outcome>home</from-outcome>
-      <to-view-id>/home.xhtml</to-view-id>
-      <redirect />
-    </navigation-case>
-  </navigation-rule>
 </faces-config>

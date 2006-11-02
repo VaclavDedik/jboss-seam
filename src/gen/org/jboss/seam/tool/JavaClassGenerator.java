@@ -43,7 +43,6 @@ public class JavaClassGenerator extends AbstractSeamGen {
 		this.projectName = args[1];
 		this.actionName = args[2];
 		this.interfaceName = args[2];	    
-      
       //make the component name same as action name but first char lower case
       this.componentName = this.actionName.substring(0,1).toLowerCase() + this.actionName.substring(1);
 	}
@@ -56,14 +55,12 @@ public class JavaClassGenerator extends AbstractSeamGen {
 		map.put("interfaceName", this.interfaceName);
 		map.put("packageName", this.projectProps.getActionPackage());
 		map.put("testPackageName", this.projectProps.getTestPackage());
-		map.put("bpmPackage", this.projectProps.getBpmPackage());
 		map.put("mdbPackage", this.projectProps.getMdbPackage());
 		map.put("entityPackage", this.projectProps.getModelPackage());
-		
 		return map;
 	}
 
-	public void newAction() throws IOException, TemplateException {
+	public void newStatefulAction() throws IOException, TemplateException {
 		logger.info("Generating a new SFSB and interface");
 		String sfsbAction = getJavaFilePath(this.projectProps.getWorkspaceHome(),
 				this.projectName, this.projectProps.getActionDir(),
@@ -114,15 +111,6 @@ public class JavaClassGenerator extends AbstractSeamGen {
 		
 		generateFile("TestCase.ftl", testAction, getModel());
 		generateFile("testng.ftl", testNgXml, getModel());
-	}
-	
-	public void newBpmAction() throws IOException, TemplateException {
-		logger.info("Generating a new jBPM Action Class");
-		String bpmAction = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getBpmDir(),
-				this.actionName,  this.projectProps.getWtp());
-		
-		generateFile("BpmAction.ftl", bpmAction, getModel());
 	}
 	
 	public void newEntity() throws IOException, TemplateException {

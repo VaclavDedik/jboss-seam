@@ -13,23 +13,27 @@ set PROJECTNAME=%2%
 set TASKINPUT=%3%
 set TASKINPUT2=%4%
 
-if %SEAMTASK% == set-properties ant -buildfile=build-project-setup.xml
+if "%SEAMTASK%" == "" more USAGE
 
-if %SEAMTASK% == new-project ant new-project -Dproject.name=%PROJECTNAME%
+if "%SEAMTASK%" == "set-properties" ant -buildfile=build-project-setup.xml
 
-if %SEAMTASK% == new-wtp-project ant new-wtp-project -Dproject.name=%PROJECTNAME%
+if "%SEAMTASK%" == "new-project" ant new-project -Dproject.name=%PROJECTNAME%
 
-if %SEAMTASK% == deploy-project ant deploy-project -Dproject.name=%PROJECTNAME% 
+if "%SEAMTASK%" == "new-wtp-project" ant new-wtp-project -Dproject.name=%PROJECTNAME%
+
+if "%SEAMTASK%" == "deploy-project" ant deploy-project -Dproject.name=%PROJECTNAME% 
 	
-if %SEAMTASK% == new-stateless-action ant new-slsb-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
+if "%SEAMTASK%" == "new-stateful-action" ant new-stateful-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
 
-if %SEAMTASK% == new-conversation ant new-conversation -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
+if "%SEAMTASK%" == "new-stateless-action" ant new-stateless-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
 
-if %SEAMTASK% == new-entity ant new-entity -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
+if "%SEAMTASK%" == "new-conversation" ant new-conversation -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
 
-if %SEAMTASK% == new-mdb ant new-mdb -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
+if "%SEAMTASK%" == "new-entity" ant new-entity -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
 
-if %SEAMTASK% == help more README
+if "%SEAMTASK%" == "new-mdb" ant new-mdb -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
+
+if "%SEAMTASK%" == "help" more README
 
 goto END_NO_PAUSE
 

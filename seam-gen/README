@@ -56,7 +56,7 @@ SEAM CODE GENERATION COMMANDS
      	     
    new-entity
       Create a new EJB3 entity bean with key Seam/EJB3 annotations
-      and a couple stub attributes (column1, column2).
+      and a couple of stub attributes.
 	     
       Example: seam new-entity [PROJECT NAME] [ENTITY NAME] 
 	     

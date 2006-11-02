@@ -37,8 +37,10 @@ public class FaceletGenerator extends AbstractSeamGen {
 
 	public FaceletGenerator(String[] args) throws IOException {
 		this.projectName = args[1];
-		this.pageName = args[3];
       this.actionName = args[2];
+      this.pageName = args[3];
+      //make the component name same as action name but first char lower case
+      this.componentName = this.actionName.substring(0,1).toLowerCase() + this.actionName.substring(1);
 	}
 	
 	private HashMap getModel() throws IOException {
@@ -46,11 +48,7 @@ public class FaceletGenerator extends AbstractSeamGen {
 		map.put("projectName", this.projectName);
 		map.put("pageName", this.pageName);
 		map.put("actionName", this.actionName);
-      map.put("componentName", this.componentName);
-      
-      //make the component name same as action name but first char lower case
-      this.componentName = this.actionName.substring(0,1).toLowerCase() + this.actionName.substring(1);
-      
+      map.put("componentName", this.componentName);      
 		return map;
 	}
 
@@ -74,6 +72,16 @@ public class FaceletGenerator extends AbstractSeamGen {
 		generateFile("action-page.ftl", page, getModel());
 	}	
 	
+   public void newConversationPage() throws IOException, TemplateException {
+      logger.info("Generating a new conversation Facelet Page");
+      String pageTemplate = getFaceletPath( this.projectProps.getWorkspaceHome(),
+            this.projectName, "template", this.projectProps.getWtp());
+      String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
+            this.projectName, this.pageName, this.projectProps.getWtp());     
+
+      generateFile("conversation-page.ftl", page, getModel());
+   }  
+   
 	public String getProjectName() {
 		return projectName;
 	}

@@ -68,8 +68,6 @@ public abstract class AbstractSeamGen {
 		this.projectProps.setActionDir(buildProps.getProperty("action.dir"));
 		this.projectProps.setActionPackage(buildProps
 				.getProperty("action.package"));
-		this.projectProps.setBpmDir(buildProps.getProperty("bpm.dir"));
-		this.projectProps.setBpmPackage(buildProps.getProperty("bpm.package"));
 		this.projectProps.setJbossHome(buildProps.getProperty("jboss.home"));
 		this.projectProps.setMdbDir(buildProps.getProperty("mdb.dir"));
 		this.projectProps.setMdbPackage(buildProps.getProperty("mdb.package"));

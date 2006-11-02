@@ -1,6 +1,5 @@
 package ${packageName};
 
-import javax.ejb.Remove;
 import javax.ejb.Stateless;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Logger;

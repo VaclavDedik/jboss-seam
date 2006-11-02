@@ -37,12 +37,25 @@ public class SeamGenCommandLine {
 			}
 		} 
 
+      else if (args[0].equals("new-stateful-action")) {
+         if (args.length == 4) {
+            JavaClassGenerator actionGen = new JavaClassGenerator(args);            
+            FaceletGenerator faceletGen = new FaceletGenerator(args);
+            
+            faceletGen.newActionPage();
+            actionGen.newStatefulAction();            
+            actionGen.newTestcase();
+         } else {
+            throw new Exception("Wrong number of arguments");
+         }
+      }
+
 		else if (args[0].equals("new-stateless-action")) {
 			if (args.length == 4) {
 				JavaClassGenerator actionGen = new JavaClassGenerator(args);            
             FaceletGenerator faceletGen = new FaceletGenerator(args);
             
-            faceletGen.newPage();
+            faceletGen.newActionPage();
             actionGen.newStatelessAction();            
             actionGen.newTestcase();
 			} else {
@@ -55,17 +68,9 @@ public class SeamGenCommandLine {
 				JavaClassGenerator actionGen = new JavaClassGenerator(args);
             FaceletGenerator faceletGen = new FaceletGenerator(args);
                        
-            faceletGen.newPage();
+            faceletGen.newConversationPage();
 				actionGen.newConversation();
             actionGen.newTestcase();
-			} else {
-				throw new Exception("Wrong number of arguments");
-			}
-		}
-		else if (args[0].equals("new-bpm-action")) {
-			if (args.length == 3) {
-				JavaClassGenerator actionGen = new JavaClassGenerator(args);
-				actionGen.newBpmAction();
 			} else {
 				throw new Exception("Wrong number of arguments");
 			}
