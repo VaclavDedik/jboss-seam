@@ -3,9 +3,9 @@ package org.jboss.seam.example.hibernate;
 
 import java.lang.reflect.Method;
 
+import javax.faces.event.PhaseId;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.faces.event.PhaseId;
 
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.contexts.Contexts;
@@ -13,7 +13,6 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.BijectionInterceptor;
 import org.jboss.seam.interceptors.BusinessProcessInterceptor;
 import org.jboss.seam.interceptors.ConversationInterceptor;
-import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.ValidationInterceptor;
 
 @Interceptor(around={BijectionInterceptor.class, ValidationInterceptor.class, 
