@@ -213,8 +213,8 @@
 			<arg value="${project.name}" />
 			<arg value="${action.name}" />
 			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
+				<pathelement location="../lib/freemarker.jar" />
+				<pathelement path="../jboss-seam-gen.jar" />
 			</classpath>
 		</java>
 	</target>
@@ -225,9 +225,10 @@
 			<arg value="new-stateless-action" />
 			<arg value="${project.name}" />
 			<arg value="${action.name}" />
+			<arg value="${page.name}" />
 			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
+				<pathelement location="../lib/freemarker.jar" />
+				<pathelement path="../jboss-seam-gen.jar" />
 			</classpath>
 		</java>
 	</target>
@@ -238,49 +239,10 @@
 			<arg value="new-conversation" />
 			<arg value="${project.name}" />
 			<arg value="${action.name}" />
-			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
-			</classpath>
-		</java>
-	</target>
-
-	<target name="new-page">
-		<echo message="Create a JSF page that extends the template." />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-page" />
-			<arg value="${project.name}" />
 			<arg value="${page.name}" />
 			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
-			</classpath>
-		</java>
-	</target>
-
-	<target name="new-action-page">
-		<echo message="Create a JSF page that extends the template, and has a form with action button." />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-action-page" />
-			<arg value="${project.name}" />
-			<arg value="${page.name}" />
-			<arg value="${action.name}" />
-			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
-			</classpath>
-		</java>
-	</target>
-
-	<target name="new-testcase">
-		<echo message="Create a TestNG test case with XML file." />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-testcase" />
-			<arg value="${project.name}" />
-			<arg value="${action.name}" />
-			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
+				<pathelement location="../lib/freemarker.jar" />
+				<pathelement path="../jboss-seam-gen.jar" />
 			</classpath>
 		</java>
 	</target>
@@ -292,8 +254,8 @@
 			<arg value="${project.name}" />
 			<arg value="${action.name}" />
 			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
+				<pathelement location="../lib/freemarker.jar" />
+				<pathelement path="../jboss-seam-gen.jar" />
 			</classpath>
 		</java>
 	</target>
@@ -305,8 +267,8 @@
 			<arg value="${project.name}" />
 			<arg value="${action.name}" />
 			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
+				<pathelement location="../lib/freemarker.jar" />
+				<pathelement path="../jboss-seam-gen.jar" />
 			</classpath>
 		</java>
 	</target>
@@ -322,8 +284,8 @@
 			<arg value="${destination}" />
 			<arg value="${destination.type}" />
 			<classpath>
-				<pathelement location="lib/freemarker.jar" />
-				<pathelement path="lib/seam-gen.jar" />
+				<pathelement location="../lib/freemarker.jar" />
+				<pathelement path="../jboss-seam-gen.jar" />
 			</classpath>
 		</java>
 	</target>
