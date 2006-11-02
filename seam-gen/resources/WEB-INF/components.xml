@@ -2,12 +2,7 @@
 
     <component name="org.jboss.seam.core.init">
         <property name="debug">true</property>
-        <!-- For use with JBoss AS -->
-        <property name="jndiPattern">@projectName@/#{ejbName}/local</property>
-        <!-- For use with JBoss Embeddable EJB3 -->
-        <!--
-        <property name="jndiPattern">#{ejbName}/local</property>
-        -->
+        <property name="jndiPattern">@jndiPattern@</property>
     </component>    
      
     <component name="org.jboss.seam.core.manager">
@@ -23,10 +18,7 @@
         <property name="noConversationViewId">/home.xhtml</property>
     </component>
 
-    <!-- For use with JBoss Embeddable EJB3 -->
-    <!--
-    <component class="org.jboss.seam.core.Ejb" />
-    -->
+    <component class="org.jboss.seam.core.Ejb" installed="@embeddedEjb@"/>
     
     <!-- For use with jBPM pageflow or process management -->
     <!--  

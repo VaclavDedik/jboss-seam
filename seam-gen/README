@@ -74,7 +74,7 @@ SEAM CODE GENERATION COMMANDS
       Create a new TestNG test case that can be used to simulate
       a JSF request/response and standard JUnit type tests.
 	     
-      Example: seam new-testcase [PROJECT NAME] [TESTCASE NAME] 
+      Example: seam new-testcase [PROJECT NAME] [ACTION NAME] 
 	     
    new-bpm-action
       Create a new POJO that implements jBPM's ActionHandler interface.

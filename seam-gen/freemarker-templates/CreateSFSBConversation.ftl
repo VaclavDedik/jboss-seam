@@ -1,7 +1,5 @@
 package ${packageName};
 
-import java.io.Serializable;
-
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import org.jboss.seam.annotations.Name;
