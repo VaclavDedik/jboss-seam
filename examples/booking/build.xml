@@ -73,6 +73,7 @@
             prefix="WEB-INF"
                dir="resources/WEB-INF" >
         <include name="faces-config.xml"/>
+        <include name="navigation.xml"/>
         <include name="pages.xml"/>
     	<include name="components.xml"/>
         <include name="web.xml"/>

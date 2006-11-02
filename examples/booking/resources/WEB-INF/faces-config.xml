@@ -4,86 +4,8 @@
     "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
     
 <faces-config>
-
-    <!-- Navigation rules for the Booking demo app -->
-
-    <navigation-rule>
-
-        <navigation-case>
-            <from-outcome>login</from-outcome>
-            <to-view-id>/home.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-        
-        <navigation-case>
-            <from-outcome>register</from-outcome>
-            <to-view-id>/register.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>password</from-outcome>
-            <to-view-id>/password.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>main</from-outcome>
-            <to-view-id>/main.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>hotel</from-outcome>
-            <to-view-id>/hotel.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-    </navigation-rule>
-
-    <navigation-rule>
-
-        <from-view-id>/hotel.xhtml</from-view-id>
-
-        <navigation-case>
-            <from-outcome>book</from-outcome>
-            <to-view-id>/book.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-    </navigation-rule>
-
-    <navigation-rule>
-
-        <from-view-id>/book.xhtml</from-view-id>
-
-        <navigation-case>
-            <from-outcome>confirm</from-outcome>
-            <to-view-id>/confirm.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-    </navigation-rule>
-
-    <navigation-rule>
-
-        <from-view-id>/confirm.xhtml</from-view-id>
-
-        <navigation-case>
-            <from-outcome>confirmed</from-outcome>
-            <to-view-id>/main.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-        <navigation-case>
-            <from-outcome>back</from-outcome>
-            <to-view-id>/book.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-
-    </navigation-rule>
     
-    <!-- Select one of the two standard persistence lifecycle models for the Seam application -->
+    <!-- Select one of the standard transaction models for the Seam application -->
 
     <lifecycle>
         <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>

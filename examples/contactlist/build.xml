@@ -68,6 +68,7 @@
        <include name="pages.xml"/>
        <include name="components.xml"/>
        <include name="faces-config.xml"/>
+       <include name="navigation.xml"/>
     </zipfileset>
   
     <fileset id="example.tomcat.resources"
