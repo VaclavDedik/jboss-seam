@@ -86,12 +86,7 @@ public class JavaClassGenerator extends AbstractSeamGen {
 				this.projectName, this.projectProps.getTestDir(),
 				this.actionName+"Test",  this.projectProps.getWtp(), true);
 		
-		String baseTest = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getTestDir(),
-				"BaseTest",  this.projectProps.getWtp());
-		
 		generateFile("TestCase.ftl", testAction, getModel());
-		generateFile("BaseTest.ftl", baseTest, getModel());
 		generateFile("testng.ftl", testNgXml, getModel());
 	}
 	

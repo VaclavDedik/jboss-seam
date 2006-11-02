@@ -3,8 +3,9 @@ package org.jboss.seam.example.test;
 import org.jboss.seam.example.registration.Register;
 import org.jboss.seam.example.registration.User;
 import org.testng.annotations.Test;
+import org.jboss.seam.mock.SeamTest;
 
-public class RegisterTest extends BaseTest {
+public class RegisterTest extends SeamTest {
 
 	@Test
 	public void testRegistration() throws Exception {

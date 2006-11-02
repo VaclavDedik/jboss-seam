@@ -1,8 +1,10 @@
+<#assign pound = "#">
 package ${testPackageName};
 
 import org.testng.annotations.Test;
+import org.jboss.seam.mock.SeamTest;
 
-public class ${actionName}Test extends BaseTest {
+public class ${actionName}Test extends SeamTest {
 
 	@Test
 	public void test() throws Exception {
