@@ -577,7 +577,6 @@
                 <include name="numberguess/**/*"/>
                 <include name="portal/**/*"/>
                 <include name="drools/**/*"/>
-                <include name="security/**/*"/>
                 <include name="remoting/chatroom/*"/>
             	<include name="remoting/helloworld/*"/>
             	<include name="remoting/progressbar/*"/>
