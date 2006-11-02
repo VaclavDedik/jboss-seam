@@ -2,27 +2,27 @@ package com.jboss.dvd.seam.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
 import com.jboss.dvd.seam.StoreManager;
 
 public class StoreManagerTest 
-    extends BaseTest
+    extends SeamTest
 {
     @Test
     public void testTopProducts() 
         throws Exception
     {
         
-        String id =  new Script() {
+        new FacesRequest() {
             StoreManager manager;
-
+            @Override
             protected void updateModelValues()
             {
                 manager = (StoreManager) getInstance("stats");
             }
-                
-
+            @Override
             protected void renderResponse()
             {
                 // these are from order instances - 

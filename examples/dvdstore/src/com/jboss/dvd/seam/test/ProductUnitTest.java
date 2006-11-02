@@ -11,12 +11,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
+import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
 import com.jboss.dvd.seam.Product;
 
 public class ProductUnitTest 
-    extends BaseTest
+    extends SeamTest
 {   
     EntityManager em() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("dvdDatabase");

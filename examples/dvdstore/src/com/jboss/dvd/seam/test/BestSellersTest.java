@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.faces.model.ListDataModel;
 
+import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
 import com.jboss.dvd.seam.BestSellers;
@@ -16,14 +17,15 @@ import com.jboss.dvd.seam.Product;
 import com.jboss.dvd.seam.ShoppingCart;
 
 public class BestSellersTest 
-    extends BaseTest
+    extends SeamTest
 {
     @Test
     public void testTopProducts() 
         throws Exception
     {
         
-        String id =  new Script() {
+        new NonFacesRequest() {
+            @Override
             protected void renderResponse()
             {
                 ListDataModel model = (ListDataModel) getInstance("topProducts");
@@ -57,8 +59,9 @@ public class BestSellersTest
     public void testAddToCart() 
         throws Exception
     {
-        String id = new Script() {
-            protected void invokeApplication() {
+        String id = new FacesRequest() {
+           @Override 
+           protected void invokeApplication() {
                 ListDataModel model = (ListDataModel) getInstance("topProducts");
                 model.setRowIndex(1);
 
@@ -67,7 +70,7 @@ public class BestSellersTest
                 BestSellers best = (BestSellers) getInstance("bestsellers");
                 best.addToCart();
             }
-
+            @Override
             protected void renderResponse() {
                 ShoppingCart cart = (ShoppingCart) getInstance("cart");
 
@@ -80,7 +83,8 @@ public class BestSellersTest
             }
         }.run();
 
-        id = new Script(id) {
+        id = new FacesRequest(null, id) {
+           @Override
             protected void invokeApplication() {
                 ListDataModel model = (ListDataModel) getInstance("topProducts");
                 model.setRowIndex(2);
@@ -88,7 +92,7 @@ public class BestSellersTest
                 BestSellers best = (BestSellers) getInstance("bestsellers");
                 best.addToCart();
             }
-
+           @Override
             protected void renderResponse() {
                 ShoppingCart cart = (ShoppingCart) getInstance("cart");
 
@@ -100,7 +104,8 @@ public class BestSellersTest
             }
         }.run();
 
-        id = new Script(id) {
+        id = new FacesRequest(null, id) {
+           @Override
             protected void invokeApplication() {
                 ListDataModel model = (ListDataModel) getInstance("topProducts");
                 model.setRowIndex(1);
@@ -108,7 +113,7 @@ public class BestSellersTest
                 BestSellers best = (BestSellers) getInstance("bestsellers");
                 best.addToCart();
             }
-
+           @Override
             protected void renderResponse() {
                 ShoppingCart cart = (ShoppingCart) getInstance("cart");
 
