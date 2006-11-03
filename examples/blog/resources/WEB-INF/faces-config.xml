@@ -8,6 +8,7 @@
     <!-- Facelets support -->
 
     <application>
+        <message-bundle>messages</message-bundle>
         <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
     </application>
     
