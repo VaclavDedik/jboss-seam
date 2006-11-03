@@ -177,6 +177,13 @@ public class Manager
       return ce.getDescription();
    }
 
+   public Integer getCurrentConversationTimeout()
+   {
+      ConversationEntry ce = getCurrentConversationEntry();
+      if ( ce==null ) return null;
+      return ce.getTimeout();
+   }
+
    public String getCurrentConversationViewId()
    {
       ConversationEntry ce = getCurrentConversationEntry();
@@ -216,7 +223,8 @@ public class Manager
    
    public boolean isNestedConversation()
    {
-      return currentConversationIdStack.size()>1;
+      return currentConversationIdStack!=null && 
+            currentConversationIdStack.size()>1;
    }
 
    public void setLongRunningConversation(boolean isLongRunningConversation)
@@ -297,9 +305,8 @@ public class Manager
    }
    
    /**
-    * Touch the conversation stack and flush some state to the 
-    * conversation context, destroy ended conversations, and
-    * timeout inactive conversations.
+    * Touch the conversation stack, destroy ended conversations, 
+    * and timeout inactive conversations.
     */
    public void endRequest(ContextAdaptor session)
    {
@@ -310,7 +317,6 @@ public class Manager
             log.debug("Storing conversation state: " + getCurrentConversationId());
          }
          touchConversationStack( getCurrentConversationIdStack() );
-         Conversation.instance().flush();
       }
       else
       {
@@ -909,52 +915,58 @@ public class Manager
     * view id for the current page, to support conversation switching.
     * Called just before the render phase.
     */
-   public void prepareBackswitch(PhaseEvent event) {
+   public void prepareBackswitch(FacesContext facesContext) {
+      
+      Conversation conversation = Conversation.instance();
+
+      //stuff from jPDL takes precedence
+      org.jboss.seam.pageflow.Page pageflowPage = 
+            isLongRunningConversation() &&
+            Init.instance().isJbpmInstalled() && 
+            Pageflow.instance().isInProcess() ?
+                  Pageflow.instance().getPage() : null;
+      
+      if (pageflowPage==null)
+      {
+         //handle stuff defined in pages.xml
+         String viewId = facesContext.getViewRoot().getViewId();
+         Pages pages = Pages.instance();
+         if (pages!=null) //for tests
+         {
+            org.jboss.seam.core.Page pageEntry = pages.getPage(viewId);
+            if ( pageEntry.isSwitchEnabled() )
+            {
+               conversation.setViewId(viewId);
+            }
+            if ( pageEntry.hasDescription() )
+            {
+               conversation.setDescription( pageEntry.renderDescription() );
+            }
+            conversation.setTimeout( pageEntry.getTimeout() );
+         }
+      }
+      else
+      {
+         //use stuff from the pageflow definition
+         if ( pageflowPage.isSwitchEnabled() )
+         {
+            conversation.setViewId( pageflowPage.getViewId() );
+         }
+         if ( pageflowPage.hasDescription() )
+         {
+            conversation.setDescription( pageflowPage.getDescription() );
+         }
+         conversation.setTimeout( pageflowPage.getTimeout() );
+      }
+      
       if ( isLongRunningConversation() )
       {
          //important: only do this stuff when a long-running
          //           conversation exists, otherwise we would
          //           force creation of a conversation entry
-         
-         Conversation conversation = Conversation.instance();
-
-         //stuff from jPDL takes precedence
-         org.jboss.seam.pageflow.Page pageflowPage = Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() ?
-               Pageflow.instance().getPage() : null;
-         if (pageflowPage==null)
-         {
-            //handle stuff defined in pages.xml
-            String viewId = event.getFacesContext().getViewRoot().getViewId();
-            Pages pages = Pages.instance();
-            if (pages!=null) //for tests
-            {
-               org.jboss.seam.core.Page pageEntry = pages.getPage(viewId);
-               if ( pageEntry.isSwitchEnabled() )
-               {
-                  conversation.setViewId(viewId);
-               }
-               if ( pageEntry.hasDescription() )
-               {
-                  conversation.setDescription( pageEntry.renderDescription() );
-               }
-               conversation.setTimeout( pageEntry.getTimeout() );
-            }
-         }
-         else
-         {
-            //use stuff from the pageflow definition
-            if ( pageflowPage.isSwitchEnabled() )
-            {
-               conversation.setViewId( pageflowPage.getViewId() );
-            }
-            if ( pageflowPage.hasDescription() )
-            {
-               conversation.setDescription( pageflowPage.getDescription() );
-            }
-            conversation.setTimeout( pageflowPage.getTimeout() );
-         }
-
+         conversation.flush();
       }
+
    }
 
    public String getConversationIdParameter()

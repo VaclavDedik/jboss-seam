@@ -57,7 +57,8 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       touch();
    }
 
-   public String getDescription() {
+   public String getDescription() 
+   {
       if ( isCurrent() )
       {
          String desc = Conversation.instance().description;
@@ -66,35 +67,42 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return description;
    }
 
-   void setDescription(String description) {
+   void setDescription(String description) 
+   {
       entries.setDirty(this.description, description);
       this.description = description;
    }
 
-   public synchronized long getLastRequestTime() {
+   public synchronized long getLastRequestTime() 
+   {
       return lastRequestTime;
    }
 
-   synchronized void touch() {
+   synchronized void touch() 
+   {
       entries.setDirty();
       lastRequestTime = System.currentTimeMillis();
       lastDatetime = new Date();
    }
 
-   public String getId() {
+   public String getId() 
+   {
       return id;
    }
 
-   public Date getStartDatetime() {
+   public Date getStartDatetime() 
+   {
       return startDatetime;
    }
 
-   public void destroy() {
+   public void destroy() 
+   {
       boolean success = Manager.instance().switchConversation( getId() );
       if (success) Manager.instance().endConversation(false);
    }
 
-   public void select() {
+   public void select() 
+   {
       switchConversation();
    }
    
@@ -120,7 +128,8 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       }
    }
 
-   void setViewId(String viewId) {
+   void setViewId(String viewId) 
+   {
       entries.setDirty(this.viewId, viewId);
       this.viewId = viewId;
    }
@@ -135,15 +144,18 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return viewId;
    }
 
-   public synchronized Date getLastDatetime() {
+   public synchronized Date getLastDatetime() 
+   {
       return lastDatetime;
    }
 
-   public List<String> getConversationIdStack() {
+   public List<String> getConversationIdStack() 
+   {
       return conversationIdStack;
    }
 
-   public String getInitiatorComponentName() {
+   public String getInitiatorComponentName() 
+   {
       return initiatorComponentName;
    }
 
@@ -152,7 +164,8 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       this.initiatorComponentName = ownerComponentName;
    }
 
-   public boolean isDisplayable() {
+   public boolean isDisplayable() 
+   {
       return !isEnded() && getDescription()!=null;
    }
 
@@ -170,26 +183,31 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       }
    }
 
-   public int compareTo(ConversationEntry entry) {
+   public int compareTo(ConversationEntry entry) 
+   {
       int result = new Long ( getLastRequestTime() ).compareTo( entry.getLastRequestTime() );
       return - ( result==0 ? getId().compareTo( entry.getId() ) : result );
    }
 
-   public int getTimeout() {
+   public int getTimeout() 
+   {
       return timeout==null ?
             Manager.instance().getConversationTimeout() : timeout;
    }
 
-   void setTimeout(int conversationTimeout) {
+   void setTimeout(int conversationTimeout) 
+   {
       entries.setDirty(this.timeout, timeout);
       this.timeout = conversationTimeout;
    }
 
-   public boolean isRemoveAfterRedirect() {
+   public boolean isRemoveAfterRedirect() 
+   {
       return removeAfterRedirect;
    }
 
-   public void setRemoveAfterRedirect(boolean removeAfterRedirect) {
+   public void setRemoveAfterRedirect(boolean removeAfterRedirect) 
+   {
       entries.setDirty();
       this.removeAfterRedirect = removeAfterRedirect;
    }

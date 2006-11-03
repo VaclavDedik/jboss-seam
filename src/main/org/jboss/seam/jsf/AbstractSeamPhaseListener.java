@@ -150,13 +150,19 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       else //if the page actions did not call responseComplete()
       {
          FacesMessages.instance().beforeRenderResponse();
-         Manager.instance().prepareBackswitch(event);
+         //do this both before and after render, since conversations 
+         //and pageflows can begin during render
+         Manager.instance().prepareBackswitch(facesContext); 
       }
       
    }
    
    protected void afterRender(FacesContext facesContext)
    {
+      //do this both before and after render, since conversations 
+      //and pageflows can begin during render
+      Manager.instance().prepareBackswitch(facesContext);
+      
       ExternalContext externalContext = facesContext.getExternalContext();
       Manager.instance().endRequest( ContextAdaptor.getSession(externalContext, true) );
       Lifecycle.endRequest(externalContext);

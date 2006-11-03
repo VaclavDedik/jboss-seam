@@ -36,7 +36,9 @@ public class Conversation implements Serializable {
     * @return the timeout in millis
     */
    public Integer getTimeout() {
-      return timeout;
+      return timeout==null ?
+            Manager.instance().getCurrentConversationTimeout() :
+            timeout;
    }
    
    /**
@@ -101,29 +103,30 @@ public class Conversation implements Serializable {
    void flush()
    {
       //we need to flush this stuff asynchronously to handle 
-      //nested and temporary conversations nicely
-      if ( description!=null || viewId!=null )
+      //nested and temporary conversations which have no
+      //ConversationEntry
+      if ( !Manager.instance().isLongRunningConversation() )
       {
-         Manager manager = Manager.instance();
-         if ( !manager.isLongRunningConversation() )
-         {
-            throw new IllegalStateException("only long-running conversation outcomes are switchable");
-         }
-         if (viewId!=null)
-         {
-            manager.getCurrentConversationEntry().setViewId(viewId);
-         }
-         if (description!=null)
-         {
-            manager.getCurrentConversationEntry().setDescription(description);
-         }
-         if (timeout!=null)
-         {
-            manager.getCurrentConversationEntry().setTimeout(timeout);
-         }
-         description = null;
-         viewId = null;
+         throw new IllegalStateException("only long-running conversation outcomes are switchable");
       }
+      
+      ConversationEntry entry = Manager.instance().getCurrentConversationEntry();
+      if (viewId!=null)
+      {
+         entry.setViewId(viewId);
+      }
+      if (description!=null)
+      {
+         entry.setDescription(description);
+      }
+      if (timeout!=null)
+      {
+         entry.setTimeout(timeout);
+      }
+      
+      description = null;
+      viewId = null;
+      timeout = null;
    }
    
    /**
