@@ -4,6 +4,9 @@
 
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="${basedir}/build.properties" />
+	
+	<property name="page.name" value=""/>
+	<property name="masterPage.name" value=""/>
 
 	<target name="create-folders">
 		<echo message="Creating Project Folders ..." />

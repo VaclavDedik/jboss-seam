@@ -29,19 +29,19 @@ elif [ "${seamtask}" = deploy-project ]
 
 elif [ "${seamtask}" = new-action ] 
 	then
-		ant new-stateless-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
+		ant new-stateless-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
 
 elif [ "${seamtask}" = new-form ] 
 	then
-		ant new-stateful-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
+		ant new-stateful-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
 
 elif [ "${seamtask}" = new-conversation ] 
 	then
-		ant new-conversation -Dproject.name=${projectname} -Dconversation.name=${taskinput} -Dpage.name=${taskinput2}
+		ant new-conversation -Dproject.name=${projectname} -Dconversation.name=${taskinput} -Dpage.name="${taskinput2}"
 
 elif [ "${seamtask}" = new-entity ] 
 	then
-		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2} -DmasterPage.name=${taskinput2}
+		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name="${taskinput2}" -DmasterPage.name="${taskinput3}"
 
 elif [ "${seamtask}" = new-mdb ] 
 	then

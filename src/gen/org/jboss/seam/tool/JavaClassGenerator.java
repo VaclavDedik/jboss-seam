@@ -40,34 +40,33 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	public JavaClassGenerator() {};
 
 	public JavaClassGenerator(String[] args) throws IOException {
-		this.projectName = args[1];
-		this.actionName = args[2];
-		this.interfaceName = args[2];	    
-      //make the component name same as action name but first char lower case
-      this.componentName = this.actionName.substring(0,1).toLowerCase() + this.actionName.substring(1);
+		projectName = args[1];
+		actionName = args[2];
+		interfaceName = actionName;
+      componentName = lower(actionName);
 	}
 	
 	private HashMap getModel() throws IOException {
 		HashMap map = new HashMap();
-		map.put("projectName", this.projectName);
-		map.put("actionName", this.actionName);
-      map.put("componentName", this.componentName);
-		map.put("interfaceName", this.interfaceName);
-		map.put("packageName", this.projectProps.getActionPackage());
-		map.put("testPackageName", this.projectProps.getTestPackage());
-		map.put("mdbPackage", this.projectProps.getMdbPackage());
-		map.put("entityPackage", this.projectProps.getModelPackage());
+		map.put("projectName", projectName);
+		map.put("actionName", actionName);
+      map.put("componentName", componentName);
+		map.put("interfaceName", interfaceName);
+		map.put("packageName", projectProps.getActionPackage());
+		map.put("testPackageName", projectProps.getTestPackage());
+		map.put("mdbPackage", projectProps.getMdbPackage());
+		map.put("entityPackage", projectProps.getModelPackage());
 		return map;
 	}
 
 	public void newStatefulAction() throws IOException, TemplateException {
 		logger.info("Generating a new SFSB and interface");
-		String sfsbAction = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getActionDir(),
-				this.actionName+"Action",  this.projectProps.getWtp());
-		String sfsbInterface = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getActionDir(),
-				this.interfaceName, this.projectProps.getWtp());		
+		String sfsbAction = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getActionDir(),
+				actionName+"Action",  projectProps.getWtp());
+		String sfsbInterface = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getActionDir(),
+				interfaceName, projectProps.getWtp());		
 
 		generateFile("CreateSFSBAction.ftl", sfsbAction, getModel());
 		generateFile("CreateSFSBInterface.ftl", sfsbInterface, getModel());
@@ -75,12 +74,12 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	
 	public void newStatelessAction() throws IOException, TemplateException {
 		logger.info("Generating a new SLSB and interface");
-		String slsbAction = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getActionDir(),
-				this.actionName+"Action",  this.projectProps.getWtp());
-		String slsbInterface = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getActionDir(),
-				this.interfaceName, this.projectProps.getWtp());		
+		String slsbAction = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getActionDir(),
+				actionName+"Action",  projectProps.getWtp());
+		String slsbInterface = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getActionDir(),
+				interfaceName, projectProps.getWtp());		
 
 		generateFile("CreateSLSBAction.ftl", slsbAction, getModel());
 		generateFile("CreateInterface.ftl", slsbInterface, getModel());
@@ -88,12 +87,12 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	
 	public void newConversation() throws IOException, TemplateException {
 		logger.info("Generating a new SFSB and interface");
-		String sfsbAction = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getActionDir(),
-				this.actionName+"Action",  this.projectProps.getWtp());
-		String sfsbInterface = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getActionDir(),
-				this.interfaceName, this.projectProps.getWtp());		
+		String sfsbAction = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getActionDir(),
+				actionName+"Action",  projectProps.getWtp());
+		String sfsbInterface = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getActionDir(),
+				interfaceName, projectProps.getWtp());		
 
 		generateFile("CreateSFSBConversation.ftl", sfsbAction, getModel());
 		generateFile("CreateInterfaceConversation.ftl", sfsbInterface, getModel());
@@ -101,13 +100,13 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	
 	public void newTestcase() throws IOException, TemplateException {
 		logger.info("Generating a new TestNG test case");
-		String testAction = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getTestDir(),
-				this.actionName+"Test",  this.projectProps.getWtp());
+		String testAction = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getTestDir(),
+				actionName+"Test",  projectProps.getWtp());
 		
-		String testNgXml = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getTestDir(),
-				this.actionName+"Test",  this.projectProps.getWtp(), true);
+		String testNgXml = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getTestDir(),
+				actionName+"Test",  projectProps.getWtp(), true);
 		
 		generateFile("TestCase.ftl", testAction, getModel());
 		generateFile("testng.ftl", testNgXml, getModel());
@@ -115,27 +114,27 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	
 	public void newEntity() throws IOException, TemplateException {
 		logger.info("Generating a new entity bean");
-		String entity = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getModelDir(),
-				this.actionName,  this.projectProps.getWtp());
+		String entity = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getModelDir(),
+				actionName,  projectProps.getWtp());
 		
 		generateFile("Entity.ftl", entity, getModel());
 	}
 	
    public void newEntityHome() throws IOException, TemplateException {
       logger.info("Generating a new EntityHome");
-      String entity = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-            this.projectName, this.projectProps.getActionDir(),
-            this.actionName + "Home",  this.projectProps.getWtp());
+      String entity = getJavaFilePath(projectProps.getWorkspaceHome(),
+            projectName, projectProps.getActionDir(),
+            actionName + "Home",  projectProps.getWtp());
       
       generateFile("EntityHome.ftl", entity, getModel());
    }
    
    public void newEntityList() throws IOException, TemplateException {
       logger.info("Generating a new EntityList");
-      String entity = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-            this.projectName, this.projectProps.getActionDir(),
-            this.actionName + "List",  this.projectProps.getWtp());
+      String entity = getJavaFilePath(projectProps.getWorkspaceHome(),
+            projectName, projectProps.getActionDir(),
+            actionName + "List",  projectProps.getWtp());
       
       generateFile("EntityList.ftl", entity, getModel());
    }
@@ -143,11 +142,11 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	public void newMdb() throws IOException, TemplateException {
 		logger.info("Generating a new MDB");
 		HashMap model = getModel();
-		String mdb = getJavaFilePath(this.projectProps.getWorkspaceHome(),
-				this.projectName, this.projectProps.getMdbDir(),
-				this.actionName,  this.projectProps.getWtp());
-		model.put("destination", this.mdbDestination);
-		model.put("destinationType", this.mdbDestinationType);	
+		String mdb = getJavaFilePath(projectProps.getWorkspaceHome(),
+				projectName, projectProps.getMdbDir(),
+				actionName,  projectProps.getWtp());
+		model.put("destination", mdbDestination);
+		model.put("destinationType", mdbDestinationType);	
 					
 		generateFile("Mdb.ftl", mdb, model);
 	}

@@ -45,6 +45,11 @@ public abstract class AbstractSeamGen {
 	private static Level logLevel = Level.INFO;
 
 	private static Configuration cfg = new Configuration();
+   
+   protected String lower(String name)
+   {
+      return name.substring(0, 1).toLowerCase() + name.substring(1);
+   }
 
 	public AbstractSeamGen() {
 		logger.setLevel(logLevel);

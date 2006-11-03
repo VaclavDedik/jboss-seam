@@ -37,68 +37,81 @@ public class FaceletGenerator extends AbstractSeamGen {
 	public FaceletGenerator() {};
 
 	public FaceletGenerator(String[] args) throws IOException {
-		this.projectName = args[1];
-      this.actionName = args[2];
-      this.pageName = args[3];
-      if (args.length>4) this.masterPageName = args[4];
-      //make the component name same as action name but first char lower case
-      this.componentName = this.actionName.substring(0,1).toLowerCase() + this.actionName.substring(1);
+		projectName = args[1];
+      actionName = args[2];
+      componentName = lower(actionName);
+      if ( !"".equals(args[3]) )
+      {
+         pageName = args[3];
+      }
+      else
+      {
+         pageName = componentName;
+      }
+      if ( !"".equals(args[4]) )
+      {
+         masterPageName = args[4];
+      }
+      else
+      {
+         masterPageName = componentName + "List";
+      }
 	}
 	
 	private HashMap getModel() throws IOException {
 		HashMap map = new HashMap();
-		map.put("projectName", this.projectName);
-		map.put("pageName", this.pageName);
-      map.put("masterPageName", this.masterPageName);
-		map.put("actionName", this.actionName);
-      map.put("componentName", this.componentName);      
+		map.put("projectName", projectName);
+		map.put("pageName", pageName);
+      map.put("masterPageName", masterPageName);
+		map.put("actionName", actionName);
+      map.put("componentName", componentName);      
 		return map;
 	}
 
 	public void newPage() throws IOException, TemplateException {
 		logger.info("Generating a new page");
-		String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
-				this.projectName, this.pageName, this.projectProps.getWtp());		
+		String page = getFaceletPath( projectProps.getWorkspaceHome(),
+				projectName, pageName, projectProps.getWtp());		
 
 		generateFile("page.ftl", page, getModel());
 	}	
 	
 	public void newActionPage() throws IOException, TemplateException {
 		logger.info("Generating a new action page");
-		String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
-				this.projectName, this.pageName, this.projectProps.getWtp());		
+		String page = getFaceletPath( projectProps.getWorkspaceHome(),
+				projectName, pageName, projectProps.getWtp());		
 
 		generateFile("action-page.ftl", page, getModel());
 	}	
 	
    public void newEditPage() throws IOException, TemplateException {
       logger.info("Generating a new edit page");
-      String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
-            this.projectName, this.pageName, this.projectProps.getWtp());     
+      String page = getFaceletPath( projectProps.getWorkspaceHome(),
+            projectName, pageName, projectProps.getWtp());     
 
       generateFile("edit-page.ftl", page, getModel());
    }  
    
    public void newListPage() throws IOException, TemplateException {
-      logger.info("Generating a new edit page");
-      String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
-            this.projectName, this.masterPageName, this.projectProps.getWtp());     
+      logger.info("Generating a new list page");
+      String page = getFaceletPath( projectProps.getWorkspaceHome(),
+            projectName, masterPageName, projectProps.getWtp());     
 
       generateFile("list-page.ftl", page, getModel());
    }  
    
    public void newFormPage() throws IOException, TemplateException {
       logger.info("Generating a new form page");
-      String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
-            this.projectName, this.pageName, this.projectProps.getWtp());     
+      String page = getFaceletPath( projectProps.getWorkspaceHome(),
+            projectName, pageName, projectProps.getWtp());     
 
       generateFile("form-page.ftl", page, getModel());
    }  
    
    public void newConversationPage() throws IOException, TemplateException {
       logger.info("Generating a new conversation page");
-      String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
-            this.projectName, this.pageName, this.projectProps.getWtp());     
+      String page = getFaceletPath( projectProps.getWorkspaceHome(),
+            projectName, pageName, projectProps.getWtp());     
 
       generateFile("conversation-page.ftl", page, getModel());
    }  
