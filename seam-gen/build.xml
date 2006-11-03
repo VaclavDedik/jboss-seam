@@ -259,6 +259,7 @@
 			<arg value="${project.name}" />
 			<arg value="${action.name}" />
 			<arg value="${page.name}" />
+			<arg value="${masterPage.name}" />
 			<classpath>
 				<pathelement location="../lib/freemarker.jar" />
 				<pathelement path="../jboss-seam-gen.jar" />

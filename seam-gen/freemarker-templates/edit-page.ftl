@@ -12,6 +12,7 @@
 
     <h1>${pageName}</h1>
     <p>Generated edit page.</p>
+    
     <h:form id="${componentName}">
         <div class="dialog">
         <s:validateAll>
@@ -29,12 +30,14 @@
             <h:commandButton id="save" value="Save" 
                 action="${pound}{${componentName}Home.persist}"
                 rendered="${pound}{!${componentName}Home.managed}"/>     			  
-            <h:commandButton id="update" value="Update" 
+            <h:commandButton id="update" value="Save" 
                 action="${pound}{${componentName}Home.update}"
                 rendered="${pound}{${componentName}Home.managed}"/>    			  
             <h:commandButton id="delete" value="Delete" 
                 action="${pound}{${componentName}Home.remove}"
-                rendered="${pound}{${componentName}Home.managed}"/>     			  
+                rendered="${pound}{${componentName}Home.managed}"/>
+            <s:link id="done" value="Done" linkStyle="button"
+                propagation="end" view="/${masterPageName}.xhtml"/>			  
         </div>
     </h:form>
     

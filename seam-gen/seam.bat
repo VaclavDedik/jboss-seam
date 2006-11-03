@@ -12,6 +12,7 @@ set SEAMTASK=%1%
 set PROJECTNAME=%2%
 set TASKINPUT=%3%
 set TASKINPUT2=%4%
+set TASKINPUT3=%5%
 
 if "%SEAMTASK%" == "" more USAGE
 
@@ -29,7 +30,7 @@ if "%SEAMTASK%" == "new-form" ant new-stateful-action -Dproject.name=%PROJECTNAM
 
 if "%SEAMTASK%" == "new-conversation" ant new-conversation -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
 
-if "%SEAMTASK%" == "new-entity" ant new-entity -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
+if "%SEAMTASK%" == "new-entity" ant new-entity -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2% -DmasterPage.name=%TASKINPUT3%
 
 if "%SEAMTASK%" == "new-mdb" ant new-mdb -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
 

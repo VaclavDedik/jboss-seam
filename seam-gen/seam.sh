@@ -9,6 +9,7 @@ seamtask=${1}
 projectname=${2}
 taskinput=${3}
 taskinput2=${4}
+taskinput3=${5}
 
 if [ "${seamtask}" = set-properties ] 
 	then
@@ -40,7 +41,7 @@ elif [ "${seamtask}" = new-conversation ]
 
 elif [ "${seamtask}" = new-entity ] 
 	then
-		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
+		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2} -DmasterPage.name=${taskinput2}
 
 elif [ "${seamtask}" = new-mdb ] 
 	then
