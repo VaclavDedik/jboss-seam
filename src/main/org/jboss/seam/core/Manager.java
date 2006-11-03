@@ -327,7 +327,14 @@ public class Manager
    public void unlockConversation()
    {
       ConversationEntry ce = getCurrentConversationEntry();
-      if (ce!=null) ce.unlock();
+      if (ce!=null) 
+      {
+         ce.unlock();
+      }
+      else if ( isNestedConversation() )
+      {
+         ConversationEntries.instance().getConversationEntry( getParentConversationId() ).unlock();
+      }
    }
 
    private void storeLongRunningConversation(Object response)
