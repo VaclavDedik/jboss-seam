@@ -23,6 +23,7 @@ import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pages;
+import org.jboss.seam.jsf.AbstractSeamPhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.jsf.SeamStateManager;
 import org.jboss.seam.mock.MockApplication;
@@ -66,7 +67,7 @@ public class PhaseListenerTest
    public void testSeamPhaseListener()
    {
       MockFacesContext facesContext = createFacesContext();
-      SeamPhaseListener phases = new SeamPhaseListener();
+      AbstractSeamPhaseListener phases = new SeamPhaseListener();
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -131,7 +132,7 @@ public class PhaseListenerTest
       WebSessionContext sessionContext = new WebSessionContext( new ServletSessionImpl( (HttpSession) facesContext.getExternalContext().getSession(true) ) );
       sessionContext.set( Seam.getComponentName(ConversationEntries.class), entries );
       
-      SeamPhaseListener phases = new SeamPhaseListener();
+      AbstractSeamPhaseListener phases = new SeamPhaseListener();
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -194,7 +195,7 @@ public class PhaseListenerTest
    {
       MockFacesContext facesContext = createFacesContext();
 
-      SeamPhaseListener phases = new SeamPhaseListener();
+      AbstractSeamPhaseListener phases = new SeamPhaseListener();
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -251,7 +252,7 @@ public class PhaseListenerTest
    public void testSeamPhaseListenerRedirect()
    {
       MockFacesContext facesContext = createFacesContext();
-      SeamPhaseListener phases = new SeamPhaseListener();
+      AbstractSeamPhaseListener phases = new SeamPhaseListener();
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -293,7 +294,7 @@ public class PhaseListenerTest
    public void testSeamPhaseListenerNonFacesRequest()
    {
       MockFacesContext facesContext = createFacesContext();
-      SeamPhaseListener phases = new SeamPhaseListener();
+      AbstractSeamPhaseListener phases = new SeamPhaseListener();
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();

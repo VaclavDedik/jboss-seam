@@ -47,7 +47,7 @@ public class SeamServletFilter implements Filter {
       {
          chain.doFilter(request, response);
          //TODO: conversation timeout
-         Manager.instance().storeConversation( ContextAdaptor.getSession(session), response );
+         Manager.instance().endRequest( ContextAdaptor.getSession(session)  );
          Lifecycle.endRequest(session);
       }
       catch (Exception e)

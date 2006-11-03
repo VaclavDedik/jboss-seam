@@ -20,7 +20,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
-import javax.faces.event.PhaseId;
 import javax.portlet.ActionResponse;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,7 +33,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.util.Id;
 
@@ -70,8 +68,6 @@ public class Manager
    
    private String conversationIdParameter = "conversationId";
    private String conversationIsLongRunningParameter = "conversationIsLongRunning";
-
-   private boolean conversationAlreadyStored;
 
    public String getCurrentConversationId()
    {
@@ -245,7 +241,7 @@ public class Manager
    /**
     * Clean up timed-out conversations
     */
-   public void conversationTimeout(ExternalContext externalContext)
+   public void conversationTimeout(ContextAdaptor session)
    {
       long currentTime = System.currentTimeMillis();
       List<ConversationEntry> entries = new ArrayList<ConversationEntry>( ConversationEntries.instance().getConversationEntries() );
@@ -278,7 +274,6 @@ public class Manager
                   //      unlock() the CE
                   log.info("destroying conversation with garbage lock: " + conversationEntry.getId());
                }
-               ContextAdaptor session = ContextAdaptor.getSession(externalContext, true);
                destroyConversation( conversationEntry.getId(), session );
             }
          }
@@ -302,26 +297,67 @@ public class Manager
    }
    
    /**
-    * Flush the server-side conversation context to the session and
-    * write the conversation id and pageflow info to the response
-    * if we have a long running conversation, or discard the state
-    * of a temporary conversation.
+    * Touch the conversation stack and flush some state to the 
+    * conversation context, destroy ended conversations, and
+    * timeout inactive conversations.
     */
-   public void storeConversation(ContextAdaptor session, Object response)
+   public void endRequest(ContextAdaptor session)
    {
       if ( isLongRunningConversation() )
       {
-         touchConversationStack( getCurrentConversationIdStack() );
-         if ( !Seam.isSessionInvalid() ) 
+         if ( log.isDebugEnabled() )
          {
-            storeLongRunningConversation(response);
+            log.debug("Storing conversation state: " + getCurrentConversationId());
          }
+         touchConversationStack( getCurrentConversationIdStack() );
+         Conversation.instance().flush();
       }
       else
       {
-         discardTemporaryConversation(session, response);
+         if ( log.isDebugEnabled() )
+         {
+            log.debug("Discarding conversation state: " + getCurrentConversationId());
+         }
+         //now safe to remove the entry
+         removeCurrentConversationAndDestroyNestedContexts(session);
       }
-      conversationAlreadyStored = true;
+
+      if ( !Init.instance().isClientSideConversations() ) 
+      {
+         // difficult question: is it really safe to do this here?
+         // right now we do have to do it after committing the Seam
+         // transaction because we can't close EMs inside a txn
+         // (this might be a bug in HEM)
+         Manager.instance().conversationTimeout(session);
+      }
+   }
+   
+   /**
+    * Write the conversation id and pageflow info to the response
+    * if we have a long running conversation.
+    */
+   public void writeValuesToViewRoot(ContextAdaptor session, Object response)
+   {
+      //we only need to execute this code when we are in the 
+      //RENDER_RESPONSE phase, ie. not before redirects
+      if ( isLongRunningConversation() )
+      {
+         if ( !Seam.isSessionInvalid() ) 
+         {
+            //if the session is invalid, don't put the conversation id
+            //in the view, 'cos we are expecting the conversation to
+            //be destroyed by the servlet session listener
+            org.jboss.seam.core.FacesPage.instance().storeConversation();
+         }
+      }
+      else if ( isNestedConversation() )
+      {
+         org.jboss.seam.core.FacesPage.instance().discardNestedConversation( getParentConversationId() );
+      }
+      else
+      {
+         org.jboss.seam.core.FacesPage.instance().discardTemporaryConversation();
+      }
    }
    
    public void unlockConversation()
@@ -335,54 +371,6 @@ public class Manager
       {
          ConversationEntries.instance().getConversationEntry( getParentConversationId() ).unlock();
       }
-   }
-
-   private void storeLongRunningConversation(Object response)
-   {
-      if ( log.isDebugEnabled() )
-      {
-         log.debug("Storing conversation state: " + getCurrentConversationId());
-      }
-      Conversation.instance().flush();
-      //if the session is invalid, don't put the conversation id
-      //in the view, 'cos we are expecting the conversation to
-      //be destroyed by the servlet session listener
-      if ( Contexts.isPageContextActive() && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE ) 
-      {
-         //TODO: we really only need to execute this code when we are in the 
-         //      RENDER_RESPONSE phase, ie. not before redirects
-         org.jboss.seam.core.FacesPage.instance().storeConversation();
-      }
-      writeConversationIdToResponse( response, getCurrentConversationId() );
-   }
-
-   private void discardTemporaryConversation(ContextAdaptor session, Object response)
-   {
-      if (log.isDebugEnabled())
-      {
-         log.debug("Discarding conversation state: " + getCurrentConversationId());
-      }
-         
-      List<String> stack = getCurrentConversationIdStack();
-      if ( stack.size()>1 )
-      {
-         String outerConversationId = stack.get(1);
-         if ( Contexts.isPageContextActive() && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE  )
-         {
-            org.jboss.seam.core.FacesPage.instance().discardNestedConversation(outerConversationId);
-         }
-         writeConversationIdToResponse(response, outerConversationId);
-      }
-      else
-      {
-         if ( Contexts.isPageContextActive() && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE  )
-         {
-            org.jboss.seam.core.FacesPage.instance().discardTemporaryConversation();
-         }
-      }
-
-      //now safe to remove the entry
-      removeCurrentConversationAndDestroyNestedContexts(session);
    }
 
    /**
@@ -1028,11 +1016,6 @@ public class Manager
          );
    }
 
-   public boolean isConversationAlreadyStored()
-   {
-      return conversationAlreadyStored;
-   }
-
    public boolean isUpdateModelValuesCalled()
    {
       return updateModelValuesCalled;
@@ -1058,6 +1041,5 @@ public class Manager
    {
       return "Manager(" + currentConversationIdStack + ")";
    }
-
 
 }

@@ -231,28 +231,6 @@ public class Lifecycle
       Contexts.applicationContext.set(null);
    }
 
-   public static void flushClientConversation()
-   {
-      boolean flushNeeded = Contexts.isConversationContextActive() &&
-            !Seam.isSessionInvalid() &&
-            Init.instance().isClientSideConversations();
-
-      if ( flushNeeded )
-      {
-         log.debug("flushing client-side conversation context");
-         Contexts.getConversationContext().flush();
-      }
-   }
-
-   public static void flushPage()
-   {
-      if ( Contexts.isPageContextActive() )
-      {
-         log.debug("flushing page context");
-         Contexts.getPageContext().flush();
-      }
-   }
-
    public static void endRequest(ExternalContext externalContext) {
 
       log.debug("After render response, destroying contexts");

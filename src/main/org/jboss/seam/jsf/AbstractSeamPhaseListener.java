@@ -5,6 +5,7 @@ import static javax.faces.event.PhaseId.ANY_PHASE;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -41,7 +42,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    /**
     * Restore the page and conversation contexts during a JSF request
     */
-   public static void restoreAnyConversationContext(FacesContext facesContext)
+   public void afterRestoreView(FacesContext facesContext)
    {
       Lifecycle.resumePage();
       Map parameters = facesContext.getExternalContext().getRequestParameterMap();
@@ -64,29 +65,12 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
    }
    
    /**
-    * Store the page and conversation contexts during a JSF request
-    */
-   public static void storeAnyConversationContext(FacesContext facesContext)
-   {      
-      if ( !Contexts.isConversationContextActive() )
-      {
-         log.debug( "No active conversation context" );
-      }
-      else
-      {
-         Lifecycle.flushClientConversation();
-         ContextAdaptor session = ContextAdaptor.getSession( facesContext.getExternalContext(), true );
-         Manager.instance().storeConversation( session, facesContext.getExternalContext().getResponse() );
-      }
-   }
-   
-   /**
     * Look for a DataModel row selection in the request parameters,
     * and apply it to the DataModel.
     * 
     * @param parameters the request parameters
     */
-   private static void selectDataModelRow(Map parameters)
+   private void selectDataModelRow(Map parameters)
    {
       String dataModelSelection = (String) parameters.get("dataModelSelection");
       if (dataModelSelection!=null)
@@ -141,11 +125,11 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          Pages.instance().applyRequestParameterValues(facesContext);
       }
       
-      Lifecycle.flushPage();
       if ( Contexts.isPageContextActive() )
       {
-         //force refresh of the conversation lists (they are kept in PAGE context)
          Context pageContext = Contexts.getPageContext();
+         pageContext.flush();
+         //force refresh of the conversation lists (they are kept in PAGE context)
          pageContext.remove( Seam.getComponentName(ConversationList.class) );
          pageContext.remove( Seam.getComponentName(Switcher.class) );
          pageContext.remove( Seam.getComponentName(ConversationStack.class) );
@@ -157,11 +141,6 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       
       if ( facesContext.getResponseComplete() )
       {
-         //if the page actions called responseComplete(),
-         //we need to call beforeSaveState(), since the
-         //component tree will not get rendered
-         storeAnyConversationContext(facesContext);
-         
          //workaround for a bug in MyFaces prior to 1.1.3
          if ( Init.instance().isMyFacesLifecycleBug() ) 
          {
@@ -176,6 +155,24 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       
    }
    
+   protected void afterRender(FacesContext facesContext)
+   {
+      ExternalContext externalContext = facesContext.getExternalContext();
+      Manager.instance().endRequest( ContextAdaptor.getSession(externalContext, true) );
+      Lifecycle.endRequest(externalContext);
+   }
+
+   protected void afterResponseComplete(FacesContext facesContext)
+   {
+      //responseComplete() was called by one of the other phases, 
+      //so we will never get to the RENDER_RESPONSE phase
+      //Note: we can't call Manager.instance().beforeRedirect() here, 
+      //since a redirect is not the only reason for a responseComplete
+      ExternalContext externalContext = facesContext.getExternalContext();
+      Manager.instance().endRequest( ContextAdaptor.getSession(externalContext, true) );
+      Lifecycle.endRequest( facesContext.getExternalContext() );
+   }
+
    private boolean callPageActions(PhaseEvent event)
    {
       Lifecycle.setPhaseId( PhaseId.INVOKE_APPLICATION );

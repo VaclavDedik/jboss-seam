@@ -18,8 +18,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.Init;
-import org.jboss.seam.core.Manager;
 
 /**
  * Manages the Seam contexts associated with a JSF request.
@@ -66,7 +64,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
-         restoreAnyConversationContext(facesContext);
+         afterRestoreView(facesContext);
       }      
       else if ( event.getPhaseId() == INVOKE_APPLICATION )
       {
@@ -82,31 +80,11 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
             
       if ( event.getPhaseId() == RENDER_RESPONSE )
       {
-         if ( !Manager.instance().isConversationAlreadyStored() ) 
-         {
-            //for JSF pages with no form, storeAnyConversationContext()
-            //will not get called from SeamStateManager.saveSerializedView()
-            storeAnyConversationContext(facesContext);
-         }
-         
-         if ( !Init.instance().isClientSideConversations() ) 
-         {
-            // difficult question: is it really safe to do this here?
-            // right now we do have to do it after committing the Seam
-            // transaction because we can't close EMs inside a txn
-            // (this might be a bug in HEM)
-            Manager.instance().conversationTimeout( facesContext.getExternalContext() );
-         }
-         Lifecycle.endRequest( facesContext.getExternalContext() );
+         afterRender(facesContext);
       }
       else if ( facesContext.getResponseComplete() )
       {
-         //responseComplete() was called by one of the other phases, 
-         //so we will never get to the RENDER_RESPONSE phase
-         //Note: we can't call Manager.instance().beforeRedirect() here, 
-         //since a redirect is not the only reason for a responseComplete
-         storeAnyConversationContext(facesContext);
-         Lifecycle.endRequest( facesContext.getExternalContext() );
+         afterResponseComplete(facesContext);
       }
       
       Lifecycle.setPhaseId(null);

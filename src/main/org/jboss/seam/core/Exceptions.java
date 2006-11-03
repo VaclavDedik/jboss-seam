@@ -27,7 +27,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.ExceptionInterceptor;
-import org.jboss.seam.jsf.AbstractSeamPhaseListener;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
@@ -213,8 +212,7 @@ public class Exceptions
          addFacesMessage( e, getMessage(e) );
          if ( isEnd(e) ) Conversation.instance().end();
          redirect( getViewId(e) );
-         handled(e);
-         throw e;
+         return rethrow(e);
       }
 
       public boolean isHandler(Exception e)
@@ -279,8 +277,7 @@ public class Exceptions
          String message = getMessage(e);
          addFacesMessage(e, message);
          error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage(e, message) ) );
-         handled(e);
-         throw e;
+         return rethrow(e);
       }  
 
       public boolean isHandler(Exception e)
@@ -312,17 +309,13 @@ public class Exceptions
          log.error("redirecting to debug page", e);
          Contexts.getConversationContext().set("org.jboss.seam.debug.lastException", e);
          Contexts.getConversationContext().set("org.jboss.seam.debug.phaseId", Lifecycle.getPhaseId().toString());
-         FacesContext facesContext = FacesContext.getCurrentInstance();
          org.jboss.seam.core.Redirect redirect = org.jboss.seam.core.Redirect.instance();
          redirect.setViewId("/debug.xhtml");
          Manager manager = Manager.instance();
          manager.beforeRedirect();
          redirect.setParameter( manager.getConversationIdParameter(), manager.getCurrentConversationId() );
          redirect.execute();
-         FacesMessages.afterPhase();
-         AbstractSeamPhaseListener.storeAnyConversationContext(facesContext);
-         handled(e);
-         throw e;
+         return rethrow(e);
       }
 
       public boolean isHandler(Exception e)
@@ -356,7 +349,6 @@ public class Exceptions
    protected static void error(int code, String message)
    {
       if ( log.isDebugEnabled() ) log.debug("sending error: " + code);
-      FacesContext facesContext = FacesContext.getCurrentInstance();
       org.jboss.seam.core.HttpError httpError = org.jboss.seam.core.HttpError.instance();
       if (message==null)
       {
@@ -366,23 +358,18 @@ public class Exceptions
       {
          httpError.send(code, message);
       }
-      FacesMessages.afterPhase();
-      AbstractSeamPhaseListener.storeAnyConversationContext(facesContext);
    }
 
    protected static void redirect(String viewId)
    {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
       if ( Strings.isEmpty(viewId) )
       {
-         viewId = facesContext.getViewRoot().getViewId();
+         viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
       }
       if ( log.isDebugEnabled() ) log.debug("redirecting to: " + viewId);
       org.jboss.seam.core.Redirect redirect = org.jboss.seam.core.Redirect.instance();
       redirect.setViewId(viewId);
       redirect.execute();
-      FacesMessages.afterPhase();
-      AbstractSeamPhaseListener.storeAnyConversationContext(facesContext);
    }
    
    protected static void render(String viewId)
@@ -402,9 +389,22 @@ public class Exceptions
       facesContext.renderResponse();
    }
 
-   protected static void handled(Exception e)
+   private static Object rethrow(Exception e) throws Exception
    {
-      FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("org.jboss.seam.exceptionHandled", e);
+      //SeamExceptionFilter does *not* do these things, which 
+      //would normally happen in the phase listener after a 
+      //responseComplete() call, but because we are rethrowing,
+      //the phase listener might not get called (due to a bug!)
+      /*FacesMessages.afterPhase();
+      if ( Contexts.isConversationContextActive() )
+      {
+         Manager.instance().endRequest( ContextAdaptor.getSession( externalContext, true ) );
+      }*/
+      
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      facesContext.responseComplete();
+      facesContext.getExternalContext().getRequestMap().put("org.jboss.seam.exceptionHandled", e);
+      throw e;
    }
 
    public static Exceptions instance()
