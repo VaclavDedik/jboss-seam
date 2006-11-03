@@ -123,12 +123,21 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	}
 	
    public void newEntityHome() throws IOException, TemplateException {
-      logger.info("Generating a new EntityHome SFSB");
+      logger.info("Generating a new EntityHome");
       String entity = getJavaFilePath(this.projectProps.getWorkspaceHome(),
             this.projectName, this.projectProps.getActionDir(),
             this.actionName + "Home",  this.projectProps.getWtp());
       
       generateFile("EntityHome.ftl", entity, getModel());
+   }
+   
+   public void newEntityList() throws IOException, TemplateException {
+      logger.info("Generating a new EntityList");
+      String entity = getJavaFilePath(this.projectProps.getWorkspaceHome(),
+            this.projectName, this.projectProps.getActionDir(),
+            this.actionName + "List",  this.projectProps.getWtp());
+      
+      generateFile("EntityList.ftl", entity, getModel());
    }
    
 	public void newMdb() throws IOException, TemplateException {

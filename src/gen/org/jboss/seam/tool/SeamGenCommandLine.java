@@ -77,13 +77,15 @@ public class SeamGenCommandLine {
 		}
 
 		else if (args[0].equals("new-entity")) {
-			if (args.length == 4) {
+			if (args.length == 5) {
 				JavaClassGenerator actionGen = new JavaClassGenerator(args);
             FaceletGenerator faceletGen = new FaceletGenerator(args);
             
 				actionGen.newEntity();
             actionGen.newEntityHome();
+            actionGen.newEntityList();
             faceletGen.newEditPage();
+            faceletGen.newListPage();
 			} else {
 				throw new Exception("Wrong number of arguments");
 			}

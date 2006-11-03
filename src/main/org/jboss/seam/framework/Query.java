@@ -17,7 +17,7 @@ public abstract class Query
    private String ejbql;
    private Integer firstResult;
    private Integer maxResults;
-   private List<String> restrictions;
+   private List<String> restrictions = new ArrayList<String>(0);
    private String order;
    
    private DataModel dataModel;
@@ -108,7 +108,7 @@ public abstract class Query
       {
          
          queryParameters = new ArrayList<ValueBinding>();
-         StringTokenizer ejbqlTokens = new StringTokenizer(ejbql, "#}", true);
+         StringTokenizer ejbqlTokens = new StringTokenizer( getEjbql(), "#}", true );
          StringBuilder ejbqlBuilder = new StringBuilder();
          while ( ejbqlTokens.hasMoreTokens() )
          {

@@ -29,6 +29,7 @@ import freemarker.template.TemplateException;
 public class FaceletGenerator extends AbstractSeamGen {
 
 	private String pageName;
+   private String masterPageName;
 	private String projectName;
 	private String actionName;
    private String componentName;
@@ -39,6 +40,7 @@ public class FaceletGenerator extends AbstractSeamGen {
 		this.projectName = args[1];
       this.actionName = args[2];
       this.pageName = args[3];
+      if (args.length>4) this.masterPageName = args[4];
       //make the component name same as action name but first char lower case
       this.componentName = this.actionName.substring(0,1).toLowerCase() + this.actionName.substring(1);
 	}
@@ -47,6 +49,7 @@ public class FaceletGenerator extends AbstractSeamGen {
 		HashMap map = new HashMap();
 		map.put("projectName", this.projectName);
 		map.put("pageName", this.pageName);
+      map.put("masterPageName", this.masterPageName);
 		map.put("actionName", this.actionName);
       map.put("componentName", this.componentName);      
 		return map;
@@ -74,6 +77,14 @@ public class FaceletGenerator extends AbstractSeamGen {
             this.projectName, this.pageName, this.projectProps.getWtp());     
 
       generateFile("edit-page.ftl", page, getModel());
+   }  
+   
+   public void newListPage() throws IOException, TemplateException {
+      logger.info("Generating a new edit page");
+      String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
+            this.projectName, this.masterPageName, this.projectProps.getWtp());     
+
+      generateFile("list-page.ftl", page, getModel());
    }  
    
    public void newFormPage() throws IOException, TemplateException {
@@ -124,6 +135,16 @@ public class FaceletGenerator extends AbstractSeamGen {
    public void setComponentName(String componentName)
    {
       this.componentName = componentName;
+   }
+
+   protected String getMasterPageName()
+   {
+      return masterPageName;
+   }
+
+   protected void setMasterPageName(String masterPageName)
+   {
+      this.masterPageName = masterPageName;
    }
 	
 	
