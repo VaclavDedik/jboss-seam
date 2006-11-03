@@ -48,9 +48,9 @@ public class BuildPropertiesBean {
 		this.modelDir = args[4].replace(".", "/");
 		this.testDir = args[5].replace(".", "/");
 		this.testPackage = args[5];
-		this.mdbDir = args[7].replace(".", "/");
-		this.mdbPackage = args[7];
-		this.wtp = args[8];
+		this.mdbDir = args[6].replace(".", "/");
+		this.mdbPackage = args[6];
+		this.wtp = args[7];
 	}
    
    private String fixPath(String aPath)

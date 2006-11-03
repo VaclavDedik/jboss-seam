@@ -19,10 +19,6 @@ model.package=${projectProps.modelPackage}
 test.dir=${projectProps.testDir}
 test.package=${projectProps.testPackage}
 
-#Java package for jBPM Actions (Implement jbpm's ActionHandler)
-bpm.dir=${projectProps.bpmDir}
-bpm.package=${projectProps.bpmPackage}
-
 #Java package for messaging objects (MDBs)
 mdb.dir=${projectProps.mdbDir}
 mdb.package=${projectProps.mdbPackage}

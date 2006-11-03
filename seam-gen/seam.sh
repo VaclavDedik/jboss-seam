@@ -26,13 +26,13 @@ elif [ "${seamtask}" = deploy-project ]
 	then
 		ant deploy-project -Dproject.name=${projectname}
 
-elif [ "${seamtask}" = new-stateful-action ] 
-	then
-		ant new-stateful-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
-
-elif [ "${seamtask}" = new-stateless-action ] 
+elif [ "${seamtask}" = new-action ] 
 	then
 		ant new-stateless-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
+
+elif [ "${seamtask}" = new-form ] 
+	then
+		ant new-stateful-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
 
 elif [ "${seamtask}" = new-conversation ] 
 	then

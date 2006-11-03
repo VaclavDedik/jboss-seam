@@ -3,13 +3,13 @@
 <project name="seam-gen" default="project-setup-input" basedir=".">
 
 	<target name="project-setup-input">
-		<input addproperty="workspace.home" message="Enter your java project workspace:" />
-		<input addproperty="eclipse.wtp" message="Is this an eclipse WTP workspace:" validargs="Y,N" />
-		<input addproperty="jboss.home" message="Enter your jboss home directory:" />
-		<input addproperty="action.package" message="Enter java package name for your business logic:" />
-		<input addproperty="model.package" message="Enter java package name for your model objects:" />
-		<input addproperty="mdb.package" message="Enter java package name for your MDB objects:" />
-		<input addproperty="test.package" message="Enter java package name for your test cases:" />
+		<input addproperty="workspace.home" message="Enter your Java project workspace:" defaultvalue="C:/Projects" />
+		<input addproperty="eclipse.wtp" message="Is this an Eclipse WTP workspace:" validargs="Y,N," defaultvalue="N"/>
+		<input addproperty="jboss.home" message="Enter your JBoss home directory:" defaultvalue="C:/Program Files/jboss-4.0.5.GA"/>
+		<input addproperty="action.package" message="Enter the Java package name for your session beans:" defaultvalue="com.mydomain.biz"/>
+		<input addproperty="model.package" message="Enter the Java package name for your entity beans:" defaultvalue="com.mydomain.mdl"/>
+		<input addproperty="mdb.package" message="Enter the Java package name for your message drive beans:" defaultvalue="com.mydomain.mdb"/>
+		<input addproperty="test.package" message="Enter the Java package name for your test cases:" defaultvalue="com.mydomain.tst" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="set-properties" />
 			<arg value="${workspace.home}" />

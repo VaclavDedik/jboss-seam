@@ -15,10 +15,8 @@ public class ${actionName}Test extends SeamTest {
 			}
 			@Override
 			protected void invokeApplication() {
-				//simulate HTTP request (POST)
-				
 				//call action methods here
-				invokeMethod("${pound}{${actionName}.go}");
+				invokeMethod("${pound}{${componentName}.${componentName}}");
 			}
 			@Override
 			protected void renderResponse() {

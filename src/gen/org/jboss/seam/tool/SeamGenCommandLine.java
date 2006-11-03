@@ -27,7 +27,7 @@ public class SeamGenCommandLine {
 
 		if (args[0].equals("set-properties")) {
 			// check to make sure we have right # of arguments
-			if (args.length == 9) {
+			if (args.length == 8) {
 				BuildPropertiesBean projectProps = new BuildPropertiesBean(args);
 				BuildPropertiesGenerator propsGen = new BuildPropertiesGenerator(
 						projectProps);
