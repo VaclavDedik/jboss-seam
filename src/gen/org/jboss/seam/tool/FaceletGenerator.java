@@ -40,7 +40,7 @@ public class FaceletGenerator extends AbstractSeamGen {
 		projectName = args[1];
       actionName = args[2];
       componentName = lower(actionName);
-      if ( !"".equals(args[3]) )
+      if ( args.length>3 && !"".equals(args[3]) )
       {
          pageName = args[3];
       }
@@ -48,7 +48,7 @@ public class FaceletGenerator extends AbstractSeamGen {
       {
          pageName = componentName;
       }
-      if ( !"".equals(args[4]) )
+      if ( args.length>4 && !"".equals(args[4]) )
       {
          masterPageName = args[4];
       }

@@ -23,88 +23,96 @@ package org.jboss.seam.tool;
 
 public class SeamGenCommandLine {
 
-	public static void main(String[] args) throws Exception {
-
-		if (args[0].equals("set-properties")) {
-			// check to make sure we have right # of arguments
-			if (args.length == 8) {
-				BuildPropertiesBean projectProps = new BuildPropertiesBean(args);
-				BuildPropertiesGenerator propsGen = new BuildPropertiesGenerator(
-						projectProps);
-				propsGen.generate();
-			} else {
-				throw new Exception("Wrong number of arguments");
-			}
-		} 
-
-      else if (args[0].equals("new-stateful-action")) {
-         if (args.length == 4) {
+	public static void main(String[] args) {
+      
+      try
+      {
+      
+         validateArgs(args, 2);
+   
+   		if ( args[0].equals("set-properties") ) 
+         {
+   			new BuildPropertiesGenerator( new BuildPropertiesBean(args) ).generate();
+   		} 
+   
+         else if ( args[0].equals("new-stateful-action") ) 
+         {
+            validateArgs(args, 3);
             JavaClassGenerator actionGen = new JavaClassGenerator(args);            
             FaceletGenerator faceletGen = new FaceletGenerator(args);
-            
             faceletGen.newFormPage();
             actionGen.newStatefulAction();            
             actionGen.newTestcase();
-         } else {
-            throw new Exception("Wrong number of arguments");
          }
-      }
-
-		else if (args[0].equals("new-stateless-action")) {
-			if (args.length == 4) {
-				JavaClassGenerator actionGen = new JavaClassGenerator(args);            
+   
+   		else if ( args[0].equals("new-stateless-action") ) 
+         {
+            validateArgs(args, 3);
+   			JavaClassGenerator actionGen = new JavaClassGenerator(args);            
             FaceletGenerator faceletGen = new FaceletGenerator(args);
-            
             faceletGen.newActionPage();
             actionGen.newStatelessAction();            
             actionGen.newTestcase();
-			} else {
-				throw new Exception("Wrong number of arguments");
-			}
-		}
-
-		else if (args[0].equals("new-conversation")) {
-			if (args.length == 4) {
-				JavaClassGenerator actionGen = new JavaClassGenerator(args);
+   		}
+   
+   		else if ( args[0].equals("new-conversation") ) 
+         {
+            validateArgs(args, 3);
+   			JavaClassGenerator actionGen = new JavaClassGenerator(args);
             FaceletGenerator faceletGen = new FaceletGenerator(args);
-                       
             faceletGen.newConversationPage();
-				actionGen.newConversation();
+   			actionGen.newConversation();
             actionGen.newTestcase();
-			} else {
-				throw new Exception("Wrong number of arguments");
-			}
-		}
-
-		else if (args[0].equals("new-entity")) {
-			if (args.length == 5) {
-				JavaClassGenerator actionGen = new JavaClassGenerator(args);
+   		}
+   
+   		else if ( args[0].equals("new-entity") ) 
+         {
+            validateArgs(args, 3);
+   			JavaClassGenerator actionGen = new JavaClassGenerator(args);
             FaceletGenerator faceletGen = new FaceletGenerator(args);
-            
-				actionGen.newEntity();
+   			actionGen.newEntity();
             actionGen.newEntityHome();
             actionGen.newEntityList();
             faceletGen.newEditPage();
             faceletGen.newListPage();
-			} else {
-				throw new Exception("Wrong number of arguments");
-			}
-		}
-
-		else if (args[0].equals("new-mdb")) {
-			if (args.length == 5) {
-				JavaClassGenerator actionGen = new JavaClassGenerator(args);
-				actionGen.setMdbDestination(args[3]);
-				actionGen.setMdbDestinationType(args[4]);
-				actionGen.newMdb();
-			} else {
-				throw new Exception("Wrong number of arguments");
-			}
-		} 
-		
-		else {
-			System.out.println("No command executed");
-		}
+   		}
+   
+   		else if ( args[0].equals("new-mdb") ) 
+         {
+            validateArgs(args, 5);
+   			JavaClassGenerator actionGen = new JavaClassGenerator(args);
+   			actionGen.setMdbDestination(args[3]);
+   			actionGen.setMdbDestinationType(args[4]);
+   			actionGen.newMdb();
+   		} 
+   		
+   		else {
+   			throw new Exception("Unknown command");
+   		}
+         
+      }
+      catch (Exception e)
+      {
+         System.out.println( "ERROR: " + e.getMessage() );
+      }
 	}
+   
+   private static void validateArgs(String[] args, int length)
+   {
+      if ( args.length>=length )
+      {
+         for (int i=0; i<length; i++)
+         {
+            if ( args[i].length()==0 )
+            {
+               throw new IllegalArgumentException("Missing parameter");
+            }
+         }
+      }
+      else
+      {
+         throw new IllegalArgumentException("Not enough parameters");
+      }
+   }
 
 }

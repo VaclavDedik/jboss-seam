@@ -214,7 +214,7 @@
 	</target>
 
 	<target name="new-stateful-action">
-		<echo message="Creating a stateful session bean Seam component with an action method" />
+		<echo message="Creating a new stateful session bean component with an action method" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-stateful-action" />
 			<arg value="${project.name}" />
@@ -228,7 +228,7 @@
 	</target>
 
 	<target name="new-stateless-action">
-		<echo message="Creating a stateless session bean Seam component with an action method" />
+		<echo message="Creating a new stateless session bean component with an action method" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-stateless-action" />
 			<arg value="${project.name}" />
@@ -242,7 +242,7 @@
 	</target>
 
 	<target name="new-conversation">
-		<echo message="Create a @Conversational stateful session bean Seam component with @Begin and @End methods" />
+		<echo message="Creating a new stateful session bean component with @Begin and @End methods" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-conversation" />
 			<arg value="${project.name}" />
@@ -256,7 +256,7 @@
 	</target>
 
 	<target name="new-entity">
-		<echo message="Create a new entity bean with a couple attributes" />
+		<echo message="Creating a new entity bean, with home and list components" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-entity" />
 			<arg value="${project.name}" />
@@ -271,7 +271,7 @@
 	</target>
 
 	<target name="new-mdb">
-		<echo message="Create a new mdb bean with a couple attributes" />
+		<echo message="Creating a new message driven bean" />
 		<input addproperty="destination.type" message="Enter destination type 'Queue' or 'Topic':" validargs="Queue,Topic" />
 		<input addproperty="destination" message="Enter destination:" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
@@ -294,7 +294,7 @@
 	</target>
 
 	<target name="help">
-		<echo message="Refer to README doc" />
+		<echo message="Refer to README doc, or type `seam help'" />
 	</target>
 
 </project>

@@ -1,8 +1,8 @@
 NAME
-   seam - execute seam code generation. There is a seam.bat(windows) and 
-   seam.sh(linux/unix) that make calls to ANT targets for seam project setup 
-   and seam source code generation commands. You must have Ant 1.6 and
-   jbossAS with EJB3 installed.
+   seam - execute seam code generation. There are seam.bat (Windows) and 
+   seam (Linux/Unix) scripts that make calls to Ant targets for seam project 
+   setup and seam source code generation commands. You must have Ant 1.6 and
+   JBoss AS with EJB3 installed.
      
 SYNOPSIS
    seam COMMAND PROJECT_NAME OPTIONS...
