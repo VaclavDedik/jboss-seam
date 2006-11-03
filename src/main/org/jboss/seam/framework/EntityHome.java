@@ -11,9 +11,9 @@ public class EntityHome<E> extends Home<E>
    private EntityManager entityManager;
    
    @Override
-   public void validate()
+   public void create()
    {
-      super.validate();
+      super.create();
       if ( getEntityManager()==null )
       {
          throw new IllegalStateException("entityManager is null");

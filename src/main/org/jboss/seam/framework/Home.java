@@ -52,7 +52,7 @@ public class Home<E> extends AbstractMutable implements Serializable
    }
 
    @Create
-   public void validate()
+   public void create()
    {
       if ( getEntityClass()==null )
       {

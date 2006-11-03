@@ -11,9 +11,9 @@ public class HibernateEntityHome<E> extends Home<E>
    private Session session;
 
    @Override
-   public void validate()
+   public void create()
    {
-      super.validate();
+      super.create();
       if ( getSession()==null )
       {
          throw new IllegalStateException("session is null");
