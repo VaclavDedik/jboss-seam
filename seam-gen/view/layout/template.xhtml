@@ -12,9 +12,24 @@
 </head>
 
 <body>
-    <h1>@projectName@</h1>
+
+    <div class="menuButtons">
+        <s:link view="/home.xhtml" value="Home"/>
+    </div>
+
 	<div class="body">
+  
+        <f:facet name="aroundInvalidField">
+            <s:span styleClass="errors"/>
+        </f:facet>
+        <f:facet name="afterInvalidField">
+            <s:span>&#160;<s:message/></s:span>
+        </f:facet>
+
+        <h1>@projectName@</h1>
 		<ui:insert name="body"/>
+    
 	</div>
+
 </body>
 </html>

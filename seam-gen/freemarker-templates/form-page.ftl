@@ -9,25 +9,28 @@
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
+
     <h1>${pageName}</h1>
     <p>Action page created by seam-gen.</p>
     <h:form>
-        <f:facet name="aroundInvalidField">
-            <s:span styleClass="errors"/>
-        </f:facet>
-        <f:facet name="afterInvalidField">
-            <s:message/>
-        </f:facet>
+        <div class="dialog">
         <s:validateAll>
-            <s:decorate>
-                <h:inputText value="${pound}{${componentName}.value}"/>
-            </s:decorate>
+            <div class="prop">
+                <span class="name">Value</span>
+                <span class="value">
+                    <s:decorate>
+                        <h:inputText value="${pound}{${componentName}.value}" required="true"/>
+                    </s:decorate>
+                </span>
+            </div>
         </s:validateAll>
-        <div>
-            <h:commandButton id="go" value="Go!" 
+        </div>
+        <div class="actionButtons">
+            <h:commandButton id="${componentName}" value="${actionName}" 
                 action="${pound}{${componentName}.${componentName}}"/>     			  
         </div>
     </h:form>
+    
 </ui:define>
 
 </ui:composition>

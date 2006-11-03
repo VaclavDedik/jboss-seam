@@ -9,11 +9,17 @@
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
+
     <h1>${pageName}</h1>
     <p>Action page created by seam-gen.</p>
-    <p>${pound}{${componentName}.value}</p>
+    <div class="dialog">
+        <div class="prop">
+            <span class="name">Value</span>
+            <span class="value">${pound}{${componentName}.value}</span>
+        </div>
+    </div>
     <h:form>
-        <div>
+        <div class="actionButtons">
             <h:commandButton id="begin" value="Begin" 
                 action="${pound}{${componentName}.begin}"/>     			  
             <h:commandButton id="inc" value="Increment" 
@@ -22,6 +28,7 @@
                 action="${pound}{${componentName}.end}"/>     			  
         </div>
     </h:form>
+    
 </ui:define>
 
 </ui:composition>

@@ -9,14 +9,16 @@
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
+
     <h1>${pageName}</h1>
     <p>Action page created by seam-gen.</p>
     <h:form>
         <div>
-            <h:commandButton id="go" value="Go!" 
+            <h:commandButton id="${componentName}" value="${actionName}!" 
                 action="${pound}{${componentName}.${componentName}}"/>     			  
         </div>
     </h:form>
+    
 </ui:define>
 
 </ui:composition>
