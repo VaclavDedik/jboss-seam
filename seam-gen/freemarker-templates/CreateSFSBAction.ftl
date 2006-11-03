@@ -4,9 +4,11 @@ package ${packageName};
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.core.FacesMessages;
 import org.hibernate.validator.Length;
 
 @Stateful 
@@ -15,6 +17,9 @@ public class ${actionName}Action implements ${actionName} {
 
     @Logger private Log log;
     
+    @In(create=true) 
+    FacesMessages facesMessages;
+    
     private String value;
 	
 	//seam-gen method
@@ -22,6 +27,7 @@ public class ${actionName}Action implements ${actionName} {
 	{
 		//implement your business logic here
 		log.info("${componentName}() action called with: ${pound}0", value);
+		facesMessages.add( "${componentName} ${pound}0", (Object) value );
 		return "success";
 	}
 	

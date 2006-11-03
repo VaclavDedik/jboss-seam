@@ -13,6 +13,8 @@
     <h1>${pageName}</h1>
     <p>Generated edit page.</p>
     
+    <h:messages globalOnly="true" styleClass="message"/>
+    
     <h:form id="${componentName}">
         <div class="dialog">
         <s:validateAll>
@@ -20,7 +22,8 @@
                 <span class="name">Name</span>
                 <span class="value">
                     <s:decorate>
-                        <h:inputText value="${pound}{${componentName}Home.instance.name}" required="true"/>
+                        <h:inputText id="name" required="true"
+                            value="${pound}{${componentName}Home.instance.name}"/>
                     </s:decorate>
                 </span>
             </div>

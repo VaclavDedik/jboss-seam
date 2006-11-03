@@ -12,12 +12,16 @@
 
     <h1>${pageName}</h1>
     <p>Generated conversation page.</p>
+    
+    <h:messages globalOnly="true" styleClass="message"/>
+    
     <div class="dialog">
         <div class="prop">
             <span class="name">Value</span>
             <span class="value">${pound}{${componentName}.value}</span>
         </div>
     </div>
+    
     <h:form id="${componentName}">
         <div class="actionButtons">
             <h:commandButton id="begin" value="Begin" 

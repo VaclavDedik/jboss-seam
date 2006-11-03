@@ -13,18 +13,25 @@
     <h1>${masterPageName}</h1>
     <p>Generated list page.</p>
     
-    <h:dataTable value="${pound}{${componentName}List.resultList}" var="item">
+    <h:messages globalOnly="true" styleClass="message"/>
+    
+    <h:outputText value="No ${componentName} exists" 
+            rendered="${pound}{empty ${componentName}List.resultList}"/>
+    <h:dataTable id="${componentName}List" var="${componentName}"
+            value="${pound}{${componentName}List.resultList}" 
+            rendered="${pound}{not empty ${componentName}List.resultList}">
         <h:column>
             <f:facet name="header">Id</f:facet>
-            ${pound}{item.id}
+            ${pound}{${componentName}.id}
         </h:column>
         <h:column>
             <f:facet name="header">Name</f:facet>
-            <s:link value="${pound}{item.name}" view="/${pageName}.xhtml">
-                <f:param name="${componentName}Id" value="${pound}{item.id}"/>
+            <s:link id="${componentName}" value="${pound}{${componentName}.name}" view="/${pageName}.xhtml">
+                <f:param name="${componentName}Id" value="${pound}{${componentName}.id}"/>
             </s:link>
         </h:column>
     </h:dataTable>
+    
     <div class="actionButtons">
         <s:link id="done" value="Create ${actionName}" linkStyle="button"
             view="/${pageName}.xhtml"/>			  

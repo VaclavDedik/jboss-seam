@@ -6,7 +6,8 @@
 
 <faces-config>
 
-  <application>
+    <application>
+        <message-bundle>messages</message-bundle>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
 

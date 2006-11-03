@@ -12,6 +12,9 @@
 
     <h1>${pageName}</h1>
     <p>Generated action page</p>
+
+    <h:messages globalOnly="true" styleClass="message"/>
+    
     <h:form id="${componentName}">
         <div>
             <h:commandButton id="${componentName}" value="${actionName}!" 
