@@ -11,23 +11,30 @@
 <ui:define name="body">
 
     <h1>${pageName}</h1>
-    <p>Generated form page.</p>
+    <p>Generated edit page.</p>
     <h:form id="${componentName}">
         <div class="dialog">
         <s:validateAll>
             <div class="prop">
-                <span class="name">Value</span>
+                <span class="name">Name</span>
                 <span class="value">
                     <s:decorate>
-                        <h:inputText value="${pound}{${componentName}.value}" required="true"/>
+                        <h:inputText value="${pound}{${componentName}Home.instance.name}" required="true"/>
                     </s:decorate>
                 </span>
             </div>
         </s:validateAll>
         </div>
         <div class="actionButtons">
-            <h:commandButton id="${componentName}" value="${actionName}" 
-                action="${pound}{${componentName}.${componentName}}"/>     			  
+            <h:commandButton id="save" value="Save" 
+                action="${pound}{${componentName}Home.persist}"
+                rendered="!${pound}{${componentName}Home.managed}"/>     			  
+            <h:commandButton id="update" value="Update" 
+                action="${pound}{${componentName}Home.update}"
+                rendered="${pound}{${componentName}Home.managed}"/>    			  
+            <h:commandButton id="delete" value="Delete" 
+                action="${pound}{${componentName}Home.remove}"
+                rendered="${pound}{${componentName}Home.managed}"/>     			  
         </div>
     </h:form>
     

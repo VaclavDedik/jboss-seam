@@ -11,14 +11,14 @@
 <ui:define name="body">
 
     <h1>${pageName}</h1>
-    <p>Action page created by seam-gen.</p>
+    <p>Generated conversation page.</p>
     <div class="dialog">
         <div class="prop">
             <span class="name">Value</span>
             <span class="value">${pound}{${componentName}.value}</span>
         </div>
     </div>
-    <h:form>
+    <h:form id="${componentName}">
         <div class="actionButtons">
             <h:commandButton id="begin" value="Begin" 
                 action="${pound}{${componentName}.begin}"/>     			  

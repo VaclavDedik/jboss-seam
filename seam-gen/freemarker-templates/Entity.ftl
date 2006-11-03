@@ -4,10 +4,10 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
-import org.jboss.seam.annotations.Name;
+import javax.persistence.Version;
+import org.hibernate.validator.Length;
 
 @Entity
-@Name("${componentName}")
 public class ${actionName} implements Serializable {
 	
 	//seam-gen attributes (you should probably edit these)
@@ -37,7 +37,7 @@ public class ${actionName} implements Serializable {
 	     this.version = version;
 	}   	
 	
-	
+	@Length(max=20)
 	public String getName() {
 	     return name;
 	}

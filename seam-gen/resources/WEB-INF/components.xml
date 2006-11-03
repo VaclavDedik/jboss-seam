@@ -17,6 +17,11 @@
     <component name="org.jboss.seam.core.pages">
         <property name="noConversationViewId">/home.xhtml</property>
     </component>
+    
+    <component name="entityManager"
+            class="org.jboss.seam.core.ManagedPersistenceContext">
+        <property name="persistenceUnitJndiName">java:/@projectName@EntityManagerFactory</property>
+    </component>
 
     <component class="org.jboss.seam.core.Ejb" installed="@embeddedEjb@"/>
     

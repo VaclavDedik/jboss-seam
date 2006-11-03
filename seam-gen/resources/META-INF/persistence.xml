@@ -1,11 +1,12 @@
 <persistence>
-	<persistence-unit name="userDatabase">
+	<persistence-unit name="@projectName@">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/@projectName@Datasource</jta-data-source>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create"/>
          <property name="hibernate.cache.use_query_cache" value="true"/>
          <property name="hibernate.show_sql" value="true"/>
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/@projectName@EntityManagerFactory"/>
       </properties>
 	</persistence-unit>
 </persistence>

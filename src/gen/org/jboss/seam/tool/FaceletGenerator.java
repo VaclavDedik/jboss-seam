@@ -53,9 +53,7 @@ public class FaceletGenerator extends AbstractSeamGen {
 	}
 
 	public void newPage() throws IOException, TemplateException {
-		logger.info("Generating a new Facelet Page");
-		String pageTemplate = getFaceletPath( this.projectProps.getWorkspaceHome(),
-				this.projectName, "template", this.projectProps.getWtp());
+		logger.info("Generating a new page");
 		String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
 				this.projectName, this.pageName, this.projectProps.getWtp());		
 
@@ -63,19 +61,23 @@ public class FaceletGenerator extends AbstractSeamGen {
 	}	
 	
 	public void newActionPage() throws IOException, TemplateException {
-		logger.info("Generating a new action Facelet Page");
-		String pageTemplate = getFaceletPath( this.projectProps.getWorkspaceHome(),
-				this.projectName, "template", this.projectProps.getWtp());
+		logger.info("Generating a new action page");
 		String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
 				this.projectName, this.pageName, this.projectProps.getWtp());		
 
 		generateFile("action-page.ftl", page, getModel());
 	}	
 	
+   public void newEditPage() throws IOException, TemplateException {
+      logger.info("Generating a new edit page");
+      String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
+            this.projectName, this.pageName, this.projectProps.getWtp());     
+
+      generateFile("edit-page.ftl", page, getModel());
+   }  
+   
    public void newFormPage() throws IOException, TemplateException {
-      logger.info("Generating a new action Facelet Page");
-      String pageTemplate = getFaceletPath( this.projectProps.getWorkspaceHome(),
-            this.projectName, "template", this.projectProps.getWtp());
+      logger.info("Generating a new form page");
       String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
             this.projectName, this.pageName, this.projectProps.getWtp());     
 
@@ -83,9 +85,7 @@ public class FaceletGenerator extends AbstractSeamGen {
    }  
    
    public void newConversationPage() throws IOException, TemplateException {
-      logger.info("Generating a new conversation Facelet Page");
-      String pageTemplate = getFaceletPath( this.projectProps.getWorkspaceHome(),
-            this.projectName, "template", this.projectProps.getWtp());
+      logger.info("Generating a new conversation page");
       String page = getFaceletPath( this.projectProps.getWorkspaceHome(),
             this.projectName, this.pageName, this.projectProps.getWtp());     
 

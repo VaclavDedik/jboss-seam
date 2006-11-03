@@ -29,7 +29,7 @@ if "%SEAMTASK%" == "new-form" ant new-stateful-action -Dproject.name=%PROJECTNAM
 
 if "%SEAMTASK%" == "new-conversation" ant new-conversation -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
 
-if "%SEAMTASK%" == "new-entity" ant new-entity -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
+if "%SEAMTASK%" == "new-entity" ant new-entity -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name=%TASKINPUT2%
 
 if "%SEAMTASK%" == "new-mdb" ant new-mdb -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
 

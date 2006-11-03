@@ -258,6 +258,7 @@
 			<arg value="new-entity" />
 			<arg value="${project.name}" />
 			<arg value="${action.name}" />
+			<arg value="${page.name}" />
 			<classpath>
 				<pathelement location="../lib/freemarker.jar" />
 				<pathelement path="../jboss-seam-gen.jar" />

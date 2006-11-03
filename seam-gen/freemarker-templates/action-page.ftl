@@ -11,8 +11,8 @@
 <ui:define name="body">
 
     <h1>${pageName}</h1>
-    <p>Action page created by seam-gen.</p>
-    <h:form>
+    <p>Generated action page</p>
+    <h:form id="${componentName}">
         <div>
             <h:commandButton id="${componentName}" value="${actionName}!" 
                 action="${pound}{${componentName}.${componentName}}"/>     			  

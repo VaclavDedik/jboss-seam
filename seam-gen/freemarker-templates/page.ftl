@@ -10,7 +10,7 @@
 <ui:define name="body">
 
     <h1>${pageName}</h1>
-    <p>Page created by seam-gen.</p>
+    <p>Generated page.</p>
 
 </ui:define>
 

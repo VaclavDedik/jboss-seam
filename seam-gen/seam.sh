@@ -40,7 +40,7 @@ elif [ "${seamtask}" = new-conversation ]
 
 elif [ "${seamtask}" = new-entity ] 
 	then
-		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} 
+		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name=${taskinput2}
 
 elif [ "${seamtask}" = new-mdb ] 
 	then

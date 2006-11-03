@@ -87,7 +87,7 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	}	
 	
 	public void newConversation() throws IOException, TemplateException {
-		logger.info("Generating a new SFSB Conversation and interface");
+		logger.info("Generating a new SFSB and interface");
 		String sfsbAction = getJavaFilePath(this.projectProps.getWorkspaceHome(),
 				this.projectName, this.projectProps.getActionDir(),
 				this.actionName+"Action",  this.projectProps.getWtp());
@@ -114,7 +114,7 @@ public class JavaClassGenerator extends AbstractSeamGen {
 	}
 	
 	public void newEntity() throws IOException, TemplateException {
-		logger.info("Generating a new Entity EJB");
+		logger.info("Generating a new entity bean");
 		String entity = getJavaFilePath(this.projectProps.getWorkspaceHome(),
 				this.projectName, this.projectProps.getModelDir(),
 				this.actionName,  this.projectProps.getWtp());
@@ -122,6 +122,15 @@ public class JavaClassGenerator extends AbstractSeamGen {
 		generateFile("Entity.ftl", entity, getModel());
 	}
 	
+   public void newEntityHome() throws IOException, TemplateException {
+      logger.info("Generating a new EntityHome SFSB");
+      String entity = getJavaFilePath(this.projectProps.getWorkspaceHome(),
+            this.projectName, this.projectProps.getActionDir(),
+            this.actionName + "Home",  this.projectProps.getWtp());
+      
+      generateFile("EntityHome.ftl", entity, getModel());
+   }
+   
 	public void newMdb() throws IOException, TemplateException {
 		logger.info("Generating a new MDB");
 		HashMap model = getModel();
