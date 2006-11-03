@@ -11,7 +11,6 @@ import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -25,21 +24,21 @@ public class Validation
 
    private Map<Class, ClassValidator> classValidators = Collections.synchronizedMap( new HashMap<Class, ClassValidator>() ); 
    
-   public ClassValidator getValidator(Class modelClass)
+   public ClassValidator getValidator(Class modelClass, String name)
    {
       ClassValidator result = classValidators.get(modelClass);
       if (result==null)
       {
-         result = createValidator(modelClass);
+         result = createValidator(modelClass, name);
          classValidators.put(modelClass, result);
       }
       return result;
    }
    
-   public ClassValidator createValidator(Class modelClass)
+   public ClassValidator createValidator(Class modelClass, String name)
    {
-      String componentName = Seam.getComponentName(modelClass);
-      if (componentName==null)
+      Component component = name==null ? null : Component.forName(name);
+      if (component==null)
       {
          java.util.ResourceBundle bundle = ResourceBundle.instance();
          return bundle==null ? 
@@ -48,7 +47,7 @@ public class Validation
       }
       else
       {
-         return Component.forName(componentName).getValidator();
+         return component.getValidator();
       }
    }
 
@@ -59,11 +58,12 @@ public class Validation
       {
          throw new RuntimeException("not an attribute value binding: " + propertyExpression);
       }
+      String componentName = propertyExpression.substring(2, sep);
       String modelExpression = propertyExpression.substring(0, sep) + '}';
       String propertyName = propertyExpression.substring( modelExpression.length(), propertyExpression.length()-1 );
    
       Object model = context.getApplication().createValueBinding(modelExpression).getValue(context);
-      ClassValidator validator = getValidator( model.getClass() );    
+      ClassValidator validator = getValidator( model.getClass(), componentName );    
       return validator.getPotentialInvalidValues(propertyName, value);
    }
 

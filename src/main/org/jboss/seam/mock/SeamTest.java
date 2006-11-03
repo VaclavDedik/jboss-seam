@@ -279,7 +279,7 @@ public class SeamTest
        */
       protected void validate(Class modelClass, String property, Object value)
       {
-         ClassValidator validator = Validation.instance().getValidator(modelClass);
+         ClassValidator validator = Validation.instance().getValidator(modelClass, null);
          InvalidValue[] ivs = validator.getPotentialInvalidValues(property, value);
          if (ivs.length>0)
          {
