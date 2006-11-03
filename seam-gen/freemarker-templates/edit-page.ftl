@@ -28,7 +28,7 @@
         <div class="actionButtons">
             <h:commandButton id="save" value="Save" 
                 action="${pound}{${componentName}Home.persist}"
-                rendered="!${pound}{${componentName}Home.managed}"/>     			  
+                rendered="${pound}{!${componentName}Home.managed}"/>     			  
             <h:commandButton id="update" value="Update" 
                 action="${pound}{${componentName}Home.update}"
                 rendered="${pound}{${componentName}Home.managed}"/>    			  
