@@ -54,10 +54,10 @@
         <programlisting><![CDATA[@Stateful
 @Name("personHome")
 public class PersonHome extends EntityHome<Person> {
-    @RequestParameter Long id;
+    @RequestParameter Long personId;
     @In(create=true) EntityManager personDatabase;
     
-    public Object getId() { return id; }
+    public Object getId() { return personId; }
     public EntityManager getEntityManager() { return personDatabase; }
     
 }]]></programlisting>
