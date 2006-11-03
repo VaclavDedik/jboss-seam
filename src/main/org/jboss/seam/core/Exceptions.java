@@ -334,7 +334,7 @@ public class Exceptions
    
    protected static String getDisplayMessage(Exception e, String message)
    {
-      if ( Strings.isEmpty(message) ) 
+      if ( Strings.isEmpty(message) && e.getMessage()!=null ) 
       {
          return e.getMessage();
       }

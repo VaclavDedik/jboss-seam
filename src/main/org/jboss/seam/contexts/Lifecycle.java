@@ -12,6 +12,7 @@ import javax.faces.event.PhaseId;
 import javax.persistence.Entity;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -101,10 +102,11 @@ public class Lifecycle
       Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
    }
 
-   public static void beginExceptionRecovery(ServletContext servletContext, ServletRequest request)
+   public static void beginExceptionRecovery(ServletContext servletContext, HttpServletRequest request)
    {
       Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
       Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(request) ) );
+      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession( request.getSession() ) ) );
    }
 
    public static void endInitialization()
@@ -358,14 +360,15 @@ public class Lifecycle
 
       }
       
+      //uses the event and session contexts
+      Manager.instance().unlockConversation();
+
       if ( Contexts.isSessionContextActive() )
       {
          log.debug("flushing session context");
          Contexts.getSessionContext().flush();
       }
       
-      Manager.instance().unlockConversation();
-
       //destroy the event context after the
       //conversation context, since we need
       //the manager to flush() conversation

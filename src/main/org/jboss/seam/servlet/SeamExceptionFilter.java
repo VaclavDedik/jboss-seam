@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -77,7 +78,7 @@ public class SeamExceptionFilter implements Filter
       Lifecycle.setException(true);
       try 
       {
-         Lifecycle.beginExceptionRecovery(context, request); //the faces ExternalContext is useless to us at this point
+         Lifecycle.beginExceptionRecovery( context, (HttpServletRequest) request ); //the faces ExternalContext is useless to us at this point
          Lifecycle.endRequest();
       }
       catch (Exception ee)
