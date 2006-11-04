@@ -10,7 +10,7 @@
     </application>
 
     <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+        <phase-listener>org.jboss.seam.jsf.TransactionalSeamPhaseListener</phase-listener>
     </lifecycle>
 
 </faces-config>
