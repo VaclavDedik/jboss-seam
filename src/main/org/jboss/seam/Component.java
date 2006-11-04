@@ -34,6 +34,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -146,7 +147,7 @@ public class Component
    private Method postConstructMethod;
    private Method prePassivateMethod;
    private Method postActivateMethod;
-   private Set<Method> removeMethods = new HashSet<Method>();
+   private Map<String, Method> removeMethods = new HashMap<String, Method>();
    private Set<Method> validateMethods = new HashSet<Method>();
    private Set<Method> inMethods = new HashSet<Method>();
    private Set<Field> inFields = new HashSet<Field>();
@@ -288,7 +289,7 @@ public class Component
 
    private void checkDestroyMethod()
    {
-      if ( type==STATEFUL_SESSION_BEAN && ( destroyMethod==null || !removeMethods.contains(destroyMethod) ) )
+      if ( type==STATEFUL_SESSION_BEAN && ( destroyMethod==null || !removeMethods.values().contains(destroyMethod) ) )
       {
          throw new IllegalArgumentException("Stateful session bean component should have a method marked @Remove @Destroy: " + name);
       }
@@ -389,7 +390,7 @@ public class Component
             }
             if ( method.isAnnotationPresent(REMOVE) )
             {
-               removeMethods.add(method);
+               removeMethods.put( method.getName(), method );
             }
             if ( method.isAnnotationPresent(Destroy.class) )
             {
@@ -870,9 +871,14 @@ public class Component
       return destroyMethod;
    }
 
-   public Set<Method> getRemoveMethods()
+   public Collection<Method> getRemoveMethods()
    {
-      return removeMethods;
+      return removeMethods.values();
+   }
+   
+   public Method getRemoveMethod(String name)
+   {
+      return removeMethods.get(name);
    }
 
    public Set<Method> getValidateMethods()

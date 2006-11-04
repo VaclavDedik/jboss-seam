@@ -9,31 +9,30 @@ import javax.ejb.Remove;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.ComponentType;
+import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.intercept.InvocationContext;
 
 /**
- * Removes components from the Seam context after invocation
- * of an EJB @Remove method.
+ * Removes SFSB components from the Seam context after invocation
+ * of an EJB @Remove method, or when a system exception is thrown
+ * from the bean.
  * 
  * @author Gavin King
  */
-@Interceptor(stateless=true,
-             around={ValidationInterceptor.class, BijectionInterceptor.class, ConversationInterceptor.class})
+@Interceptor(type=InterceptorType.CLIENT)
 public class RemoveInterceptor extends AbstractInterceptor
 {
-    
-   //TODO: note that this implementation is a bit broken, since it assumes that
-   //      the thing is always bound to its component name and scope
-   //      (We are waiting for getInvokedBusinessObject() in EJB3)
    
    private static final Log log = LogFactory.getLog(RemoveInterceptor.class);
 
    @AroundInvoke
    public Object removeIfNecessary(InvocationContext invocation) throws Exception
    {
+      //we have the method from the local interface, get the corresponding one
+      //for the actual bean class (it has the @Remove annotation)
+      Method removeMethod = getComponent().getRemoveMethod( invocation.getMethod().getName() );
       Object result;
       try
       {
@@ -41,48 +40,45 @@ public class RemoveInterceptor extends AbstractInterceptor
       }
       catch (Exception exception)
       {
-         removeIfNecessary( invocation.getMethod(), exception );
+         removeIfNecessary(removeMethod, exception);
          throw exception;
       }
-
-      removeIfNecessary( invocation.getMethod() );
+      removeIfNecessary(removeMethod);
       return result;
    }
 
-   private void removeIfNecessary(Method method, Exception exception) {
+   private void removeIfNecessary(Method removeMethod, Exception exception) {
       if ( exception instanceof RuntimeException || exception instanceof RemoteException )
       {
          if ( !exception.getClass().isAnnotationPresent(ApplicationException.class) ) 
          {
             //it is a "system exception"
-            if ( getComponent().getType()==ComponentType.STATEFUL_SESSION_BEAN )
-            {
-               remove();
-            }
+            remove();
          }
       }
-      else if ( method.isAnnotationPresent(Remove.class) )
+      else if ( removeMethod!=null )
       {
-         if ( !method.getAnnotation(Remove.class).retainIfException() ) 
+         if ( !removeMethod.getAnnotation(Remove.class).retainIfException() ) 
          {
             remove();
          }
       }
    }
 
-   private void removeIfNecessary(Method method)
+   private void removeIfNecessary(Method removeMethod)
    {
-      if ( method.isAnnotationPresent(Remove.class) ) 
+      if ( removeMethod!=null ) 
       {
          remove();
       }
    }
 
    private void remove() {
-      //TODO: account for roles, by checking which role the component
-      //      is actually bound to (need getInvokedBusinessObject())
       getComponent().getScope().getContext().remove( getComponent().getName() );
-      log.debug("Stateful component was removed: " + getComponent().getName());
+      if ( log.isDebugEnabled() )
+      {
+         log.debug( "Stateful component was removed: " + getComponent().getName() );
+      }
    }
 
 }
