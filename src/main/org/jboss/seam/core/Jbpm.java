@@ -9,6 +9,8 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.naming.NamingException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.cfg.Environment;
@@ -49,6 +51,7 @@ public class Jbpm
    private static final Log log = LogFactory.getLog( Jbpm.class );
    
    private JbpmConfiguration jbpmConfiguration;
+   private String jbpmConfigurationJndiName;
    private String[] processDefinitions;
    private String[] pageflowDefinitions;
    private Map<String, ProcessDefinition> pageflowProcessDefinitions = new HashMap<String, ProcessDefinition>();
@@ -82,7 +85,22 @@ public class Jbpm
 
    private void initJbpmConfiguration()
    {
-      jbpmConfiguration = JbpmConfiguration.getInstance();
+      if (jbpmConfigurationJndiName==null)
+      {
+         jbpmConfiguration = JbpmConfiguration.getInstance();
+      }
+      else
+      {
+         try
+         {
+            jbpmConfiguration = (JbpmConfiguration) Naming.getInitialContext().lookup(jbpmConfigurationJndiName);
+         }
+         catch (NamingException ne)
+         {
+            throw new IllegalArgumentException("JbpmConfiguration not found in JNDI", ne);
+         }
+      }
+
       DbPersistenceServiceFactory dbpsf = (DbPersistenceServiceFactory) jbpmConfiguration.getServiceFactory("persistence");
       if (Naming.getInitialContextProperties()!=null)
       {
@@ -223,6 +241,16 @@ public class Jbpm
    public static Jbpm instance()
    {
       return (Jbpm) Contexts.getApplicationContext().get(Jbpm.class);
+   }
+
+   protected String getJbpmConfigurationJndiName()
+   {
+      return jbpmConfigurationJndiName;
+   }
+
+   protected void setJbpmConfigurationJndiName(String jbpmConfigurationJndiName)
+   {
+      this.jbpmConfigurationJndiName = jbpmConfigurationJndiName;
    }
    
 }
