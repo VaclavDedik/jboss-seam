@@ -6,9 +6,12 @@
  */
 package org.jboss.seam.contexts;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -51,13 +54,13 @@ public class PageContext implements Context {
    
    private String getKey(String name)
    {
-      return /*getPrefix() +*/ name;
+      return getPrefix() + name;
    }
 
-   /*private String getPrefix()
+   private String getPrefix()
    {
       return ScopeType.PAGE.getPrefix() + '$';
-   }*/
+   }
 
 	public Object get(String name) 
    {
@@ -96,7 +99,17 @@ public class PageContext implements Context {
 	}
 
    public String[] getNames() {
-      return getCurrentReadableMap().keySet().toArray( new String[]{} );
+      Set<String> keys = getCurrentReadableMap().keySet();
+      List<String> names = new ArrayList<String>( keys.size() );
+      String prefix = getPrefix();
+      for (String key: keys)
+      {
+         if ( key.startsWith(prefix) )
+         {
+            names.add( key.substring( prefix.length() ) );
+         }
+      }
+      return names.toArray( new String[ names.size() ] );
    }
    
    @Override
