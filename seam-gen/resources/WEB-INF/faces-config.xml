@@ -13,7 +13,7 @@
 
     <!-- Seam transaction management -->
     <lifecycle>
-        <phase-listener>org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener</phase-listener>
+        <phase-listener>org.jboss.seam.jsf.TransactionalSeamPhaseListener</phase-listener>
     </lifecycle>
     
     <!-- No Seam transaction management -->
