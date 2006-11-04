@@ -49,6 +49,6 @@ public class BuildPropertiesGenerator extends AbstractSeamGen {
 		HashMap map = new HashMap();
 		map.put("projectProps", this.projectProps);
 	
-		generateFile("build-properties.ftl", "build.properties", map);
+		generateFile("buildproperties.ftl", "build.properties", map);
 	}
 }

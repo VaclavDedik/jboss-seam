@@ -81,7 +81,7 @@ public class FaceletGenerator extends AbstractSeamGen {
 		String page = getFaceletPath( projectProps.getWorkspaceHome(),
 				projectName, pageName, projectProps.getWtp());		
 
-		generateFile("action-page.ftl", page, getModel());
+		generateFile("actionPage.ftl", page, getModel());
 	}	
 	
    public void newEditPage() throws IOException, TemplateException {
@@ -89,7 +89,7 @@ public class FaceletGenerator extends AbstractSeamGen {
       String page = getFaceletPath( projectProps.getWorkspaceHome(),
             projectName, pageName, projectProps.getWtp());     
 
-      generateFile("edit-page.ftl", page, getModel());
+      generateFile("entityEditPage.ftl", page, getModel());
    }  
    
    public void newListPage() throws IOException, TemplateException {
@@ -97,7 +97,7 @@ public class FaceletGenerator extends AbstractSeamGen {
       String page = getFaceletPath( projectProps.getWorkspaceHome(),
             projectName, masterPageName, projectProps.getWtp());     
 
-      generateFile("list-page.ftl", page, getModel());
+      generateFile("entityListPage.ftl", page, getModel());
    }  
    
    public void newFormPage() throws IOException, TemplateException {
@@ -105,7 +105,7 @@ public class FaceletGenerator extends AbstractSeamGen {
       String page = getFaceletPath( projectProps.getWorkspaceHome(),
             projectName, pageName, projectProps.getWtp());     
 
-      generateFile("form-page.ftl", page, getModel());
+      generateFile("formPage.ftl", page, getModel());
    }  
    
    public void newConversationPage() throws IOException, TemplateException {
@@ -113,7 +113,7 @@ public class FaceletGenerator extends AbstractSeamGen {
       String page = getFaceletPath( projectProps.getWorkspaceHome(),
             projectName, pageName, projectProps.getWtp());     
 
-      generateFile("conversation-page.ftl", page, getModel());
+      generateFile("conversationPage.ftl", page, getModel());
    }  
    
 	public String getProjectName() {

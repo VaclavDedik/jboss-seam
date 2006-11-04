@@ -68,8 +68,8 @@ public class JavaClassGenerator extends AbstractSeamGen {
 				projectName, projectProps.getActionDir(),
 				interfaceName, projectProps.getWtp());		
 
-		generateFile("CreateSFSBAction.ftl", sfsbAction, getModel());
-		generateFile("CreateSFSBInterface.ftl", sfsbInterface, getModel());
+		generateFile("FormActionBean.ftl", sfsbAction, getModel());
+		generateFile("FormAction.ftl", sfsbInterface, getModel());
 	}	
 	
 	public void newStatelessAction() throws IOException, TemplateException {
@@ -81,8 +81,8 @@ public class JavaClassGenerator extends AbstractSeamGen {
 				projectName, projectProps.getActionDir(),
 				interfaceName, projectProps.getWtp());		
 
-		generateFile("CreateSLSBAction.ftl", slsbAction, getModel());
-		generateFile("CreateInterface.ftl", slsbInterface, getModel());
+		generateFile("Action.ftl", slsbAction, getModel());
+		generateFile("ActionBean.ftl", slsbInterface, getModel());
 	}	
 	
 	public void newConversation() throws IOException, TemplateException {
@@ -94,8 +94,8 @@ public class JavaClassGenerator extends AbstractSeamGen {
 				projectName, projectProps.getActionDir(),
 				interfaceName, projectProps.getWtp());		
 
-		generateFile("CreateSFSBConversation.ftl", sfsbAction, getModel());
-		generateFile("CreateInterfaceConversation.ftl", sfsbInterface, getModel());
+		generateFile("ConversationBean.ftl", sfsbAction, getModel());
+		generateFile("Conversation.ftl", sfsbInterface, getModel());
 	}	
 	
 	public void newTestcase() throws IOException, TemplateException {
@@ -148,7 +148,7 @@ public class JavaClassGenerator extends AbstractSeamGen {
 		model.put("destination", mdbDestination);
 		model.put("destinationType", mdbDestinationType);	
 					
-		generateFile("Mdb.ftl", mdb, model);
+		generateFile("MessageDrivenBean.ftl", mdb, model);
 	}
 
 	public String getActionName() {
