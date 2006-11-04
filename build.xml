@@ -39,6 +39,7 @@
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
     <property name="facelets.dir"         value="${imported.basedir}/facelets"/>
     <property name="drools.dir"           value="${imported.basedir}/drools"/>
+    <property name="seamgen.dir"          value="${imported.basedir}/seam-gen"/>
 
     <property name="doc.dir"              value="doc"/>
     <property name="doc.api.dir"          value="${doc.dir}/api"/>
@@ -60,6 +61,7 @@
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
     <property name="dist.facelets.dir"    value="${dist.dir}/facelets"/>
 	<property name="dist.drools.dir"      value="${dist.dir}/drools"/>
+	<property name="dist.seamgen.dir"      value="${dist.dir}/seam-gen"/>
 
     <property name="deploy.dir"           value="${jboss.home}/server/default/deploy"/>
     <property name="webroot.dir"          value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
@@ -688,9 +690,16 @@
         </copy>
 
     </target>
+	
+	<target name="copyseamgen"
+	        description="Copy seam-gen directory to dist dir">
+		<copy todir="${dist.seamgen.dir}">
+			<fileset dir="${seamgen.dir}"/>
+		</copy>
+	</target>
 
     <target name="extras"
-            description="Copy miscellaneous files to root dir">
+            description="Copy miscellaneous files to dist dir">
         <copy file="readme.txt"                 todir="${dist.dir}"/>
         <copy file="microcontainer/readme.txt"  todir="${dist.dir}/microcontainer"/>
         <copy file="embedded-ejb/readme.txt"    todir="${dist.dir}/embedded-ejb"/>
@@ -700,6 +709,8 @@
         <copy file="changelog.txt"              todir="${dist.dir}"/>
         <copy file="build.properties"           todir="${dist.dir}"/>
         <copy file="build.xml"                  todir="${dist.dir}"/>
+        <copy file="seam"                       todir="${dist.dir}"/>
+        <copy file="seam.bat"                   todir="${dist.dir}"/>
         <replace file="${dist.dir}/build.xml">
             <replacetoken><![CDATA[${name}-${version}.${patchlevel}]]></replacetoken>
             <replacevalue><![CDATA[${name}-${TODAY}]]></replacevalue>
@@ -707,7 +718,7 @@
     </target>
 
     <target name="dist"
-        depends="cleandist,build,javadoc,copysource,copylib,copyexamples,refdoc,extras"
+        depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,refdoc,extras"
         description="Build everything and package">
         <zip zipfile="${dist.dir}.zip">
           <zipfileset prefix="${dist.name}" dir="${dist.dir}"/>
