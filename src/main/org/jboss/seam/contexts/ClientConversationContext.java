@@ -87,6 +87,10 @@ public class ClientConversationContext implements Context {
       {
          getAttributeMap().put( ScopeType.CONVERSATION.getPrefix(), map );
       }
+      else
+      {
+         getAttributeMap().remove( ScopeType.CONVERSATION.getPrefix() );
+      }
    }
 
    private Map getAttributeMap()

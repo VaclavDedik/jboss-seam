@@ -22,6 +22,7 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationStack;
 import org.jboss.seam.core.FacesMessages;
+import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
@@ -155,6 +156,9 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          Manager.instance().prepareBackswitch(facesContext); 
       }
       
+      FacesPage.instance().storeConversation();
+      FacesPage.instance().storePageflow();
+      
    }
    
    protected void afterRender(FacesContext facesContext)
@@ -164,7 +168,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       Manager.instance().prepareBackswitch(facesContext);
       
       ExternalContext externalContext = facesContext.getExternalContext();
-      Manager.instance().endRequest( ContextAdaptor.getSession(externalContext, true) );
+      Manager.instance().endRequest( ContextAdaptor.getSession(externalContext) );
       Lifecycle.endRequest(externalContext);
    }
 
@@ -175,7 +179,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       //Note: we can't call Manager.instance().beforeRedirect() here, 
       //since a redirect is not the only reason for a responseComplete
       ExternalContext externalContext = facesContext.getExternalContext();
-      Manager.instance().endRequest( ContextAdaptor.getSession(externalContext, true) );
+      Manager.instance().endRequest( ContextAdaptor.getSession(externalContext) );
       Lifecycle.endRequest( facesContext.getExternalContext() );
    }
 

@@ -37,7 +37,7 @@ public abstract class ContextAdaptor
 
    public abstract void invalidate();
    
-   public static ContextAdaptor getSession(ExternalContext externalContext, boolean create)
+   public static ContextAdaptor getSession(ExternalContext externalContext)
    {
       Object session = externalContext.getSession(true);
       if (session instanceof HttpSession)

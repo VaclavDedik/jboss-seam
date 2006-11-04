@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -49,20 +50,14 @@ public class FacesPage implements Serializable
       conversationIsLongRunning = true;
    }
    
-   public void storeConversation()
+   public void storeConversation(String conversationId)
    {
-      Manager manager = Manager.instance();
-      if ( manager.isReallyLongRunningConversation() )
-      {
-         conversationId = manager.getCurrentConversationId();
-         conversationIsLongRunning = true;
-      }
-      else
-      {
-         conversationId = null;
-         conversationIsLongRunning = false;
-      }
-      
+      this.conversationId = conversationId;
+      conversationIsLongRunning = true;
+   }
+   
+   public void storePageflow()
+   {
       if ( Init.instance().isJbpmInstalled() )
       {
          Pageflow pageflow = Pageflow.instance();
@@ -80,7 +75,7 @@ public class FacesPage implements Serializable
          }
       }
    }
-   
+
    public static FacesPage instance()
    {
       if ( !Contexts.isPageContextActive() )
@@ -108,6 +103,38 @@ public class FacesPage implements Serializable
    public String getPageflowNodeName()
    {
       return pageflowNodeName;
+   }
+
+   public void storeConversation()
+   {
+      Manager manager = Manager.instance();
+      
+      //we only need to execute this code when we are in the 
+      //RENDER_RESPONSE phase, ie. not before redirects
+   
+      boolean sessionValid = !Seam.isSessionInvalid();
+      if ( sessionValid && manager.isLongRunningConversation() )
+      {
+         storeConversation( manager.getCurrentConversationId() );
+      }
+      else if ( sessionValid && manager.isNestedConversation() )
+      {
+         discardNestedConversation( manager.getParentConversationId() );
+      }
+      else
+      {
+         discardTemporaryConversation();
+      }
+
+      if ( sessionValid && Init.instance().isClientSideConversations()  )
+      {
+         // if we are using client-side conversations, put the
+         // map containing the conversation context variables 
+         // into the view root (or remove it for a temp 
+         // conversation context)
+         Contexts.getConversationContext().flush();
+      }
+
    }
 
    /*public Map<String, Object> getPageParameters()

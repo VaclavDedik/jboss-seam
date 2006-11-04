@@ -41,7 +41,7 @@ public class Lifecycle
    public static void beginRequest(ExternalContext externalContext) {
       log.debug( ">>> Begin web request" );
       Contexts.eventContext.set( new WebRequestContext( ContextAdaptor.getRequest(externalContext) ) );
-      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext, true) ) );
+      Contexts.sessionContext.set( new WebSessionContext( ContextAdaptor.getSession(externalContext) ) );
       Contexts.applicationContext.set( new FacesApplicationContext(externalContext) );
       Contexts.conversationContext.set(null); //in case endRequest() was never called
       Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
@@ -240,7 +240,7 @@ public class Lifecycle
 
          if ( Seam.isSessionInvalid() )
          {
-            ContextAdaptor.getSession(externalContext, true).invalidate(); //huh? we create a session just to invalidate it?
+            ContextAdaptor.getSession(externalContext).invalidate(); //huh? we create a session just to invalidate it?
             //actual session context will be destroyed from the listener
          }
       }
@@ -368,7 +368,7 @@ public class Lifecycle
       Init init = Init.instance();
       Context conversationContext = init.isClientSideConversations() ?
             (Context) new ClientConversationContext() :
-            (Context) new ServerConversationContext( ContextAdaptor.getSession(externalContext, true) );
+            (Context) new ServerConversationContext( ContextAdaptor.getSession(externalContext) );
       Contexts.conversationContext.set( conversationContext );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
    }

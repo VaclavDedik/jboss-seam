@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
 import javax.portlet.ActionResponse;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,6 +33,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.util.Id;
 
@@ -338,34 +339,6 @@ public class Manager
       }
    }
    
-   /**
-    * Write the conversation id and pageflow info to the response
-    * if we have a long running conversation.
-    */
-   public void writeValuesToViewRoot(ContextAdaptor session, Object response)
-   {
-      //we only need to execute this code when we are in the 
-      //RENDER_RESPONSE phase, ie. not before redirects
-      if ( isLongRunningConversation() )
-      {
-         if ( !Seam.isSessionInvalid() ) 
-         {
-            //if the session is invalid, don't put the conversation id
-            //in the view, 'cos we are expecting the conversation to
-            //be destroyed by the servlet session listener
-            org.jboss.seam.core.FacesPage.instance().storeConversation();
-         }
-      }
-      else if ( isNestedConversation() )
-      {
-         org.jboss.seam.core.FacesPage.instance().discardNestedConversation( getParentConversationId() );
-      }
-      else
-      {
-         org.jboss.seam.core.FacesPage.instance().discardTemporaryConversation();
-      }
-   }
-   
    public void unlockConversation()
    {
       ConversationEntry ce = getCurrentConversationEntry();
@@ -649,20 +622,10 @@ public class Manager
       setLongRunningConversation(true);
       createConversationEntry().setInitiatorComponentName(initiator);
       Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
+      storeConversationToViewRootIfNecessary();
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.beginConversation");
    }
 
-   /**
-    * Make a long-running conversation temporary.
-    */
-   public void endConversation(boolean beforeRedirect)
-   {
-      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.endConversation");
-      setLongRunningConversation(false);
-      destroyBeforeRedirect = beforeRedirect;
-      endNestedConversations( getCurrentConversationId() );
-   }
-   
    /**
     * Begin a new nested conversation.
     * 
@@ -676,8 +639,31 @@ public class Manager
       createCurrentConversationIdStack(id).addAll(oldStack);
       ConversationEntry conversationEntry = createConversationEntry();
       conversationEntry.setInitiatorComponentName(ownerName);
+      storeConversationToViewRootIfNecessary();
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.beginConversation");
    }
    
+   /**
+    * Make a long-running conversation temporary.
+    */
+   public void endConversation(boolean beforeRedirect)
+   {
+      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.endConversation");
+      setLongRunningConversation(false);
+      destroyBeforeRedirect = beforeRedirect;
+      endNestedConversations( getCurrentConversationId() );
+      storeConversationToViewRootIfNecessary();
+   }
+   
+   private void storeConversationToViewRootIfNecessary()
+   {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if ( facesContext!=null && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
+      {
+         FacesPage.instance().storeConversation();
+      }
+   }
+
    // two reasons for this: 
    // (1) a cache
    // (2) so we can unlock() it after destruction of the session context 

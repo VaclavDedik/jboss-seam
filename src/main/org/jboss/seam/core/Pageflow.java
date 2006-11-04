@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +17,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.pageflow.Page;
 import org.jboss.seam.pageflow.PageflowHelper;
 import org.jbpm.graph.def.Node;
@@ -241,6 +243,18 @@ public class Pageflow extends AbstractMutable implements Serializable
       setDirty();
       
       Events.instance().raiseEvent("org.jboss.seam.beginPageflow." + pageflowDefinitionName);
+      
+      storePageflowToViewRootIfNecessary();
+
+   }
+
+   private void storePageflowToViewRootIfNecessary()
+   {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      if ( facesContext!=null && Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
+      {
+         FacesPage.instance().storePageflow();
+      }
    }
    
    public String getNoConversationViewId(String pageflowName, String pageflowNodeName)
