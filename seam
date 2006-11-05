@@ -6,48 +6,51 @@
 ############################################
 
 seamtask=${1}
-projectname=${2}
-taskinput=${3}
-taskinput2=${4}
-taskinput3=${5}
+taskinput=${2}
+taskinput2=${3}
+taskinput3=${4}
 
 cd seam-gen
 
 if [ "${seamtask}" = setup ] 
 	then
-		ant -buildfile build-project-setup.xml
+		ant -buildfile build-setup.xml
 
 elif [ "${seamtask}" = new-project ] 
 	then
-		ant new-project -Dproject.name=${projectname}
+		ant new-project -Dproject.name=${taskinput}
 
 elif [ "${seamtask}" = new-wtp-project ] 
 	then
-		ant new-wtp-project -Dproject.name=${projectname}
+		ant new-wtp-project -Dproject.name=${taskinput}
 
-elif [ "${seamtask}" = deploy-project ] 
+elif [ "${seamtask}" = deploy ] 
 	then
-		ant deploy-project -Dproject.name=${projectname}
+		ant deploy
+
+elif [ "${seamtask}" = undeploy ] 
+	then
+		ant undeploy
 
 elif [ "${seamtask}" = new-action ] 
 	then
-		ant new-stateless-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
+		ant new-stateless-action -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
 
 elif [ "${seamtask}" = new-form ] 
 	then
-		ant new-stateful-action -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
+		ant new-stateful-action -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
 
 elif [ "${seamtask}" = new-conversation ] 
 	then
-		ant new-conversation -Dproject.name=${projectname} -Dconversation.name=${taskinput} -Dpage.name="${taskinput2}"
+		ant new-conversation -Dconversation.name=${taskinput} -Dpage.name="${taskinput2}"
 
 elif [ "${seamtask}" = new-entity ] 
 	then
-		ant new-entity -Dproject.name=${projectname} -Daction.name=${taskinput} -Dpage.name="${taskinput2}" -DmasterPage.name="${taskinput3}"
+		ant new-entity -Daction.name=${taskinput} -Dpage.name="${taskinput2}" -DmasterPage.name="${taskinput3}"
 
 elif [ "${seamtask}" = new-mdb ] 
 	then
-		ant new-mdb -Dproject.name=${projectname} -Daction.name=${taskinput} 
+		ant new-mdb -Daction.name=${taskinput} 
 
 elif [ "${seamtask}" = help ] 
 	then

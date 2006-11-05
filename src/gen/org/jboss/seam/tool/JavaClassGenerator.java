@@ -81,8 +81,8 @@ public class JavaClassGenerator extends AbstractSeamGen {
 				projectName, projectProps.getActionDir(),
 				interfaceName, projectProps.getWtp());		
 
-		generateFile("Action.ftl", slsbAction, getModel());
-		generateFile("ActionBean.ftl", slsbInterface, getModel());
+		generateFile("ActionBean.ftl", slsbAction, getModel());
+		generateFile("Action.ftl", slsbInterface, getModel());
 	}	
 	
 	public void newConversation() throws IOException, TemplateException {

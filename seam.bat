@@ -9,32 +9,33 @@ if "%OS%" == "Windows_NT" set PROGNAME=%~nx0%
 
 rem Read all command line arguments
 set SEAMTASK=%1%
-set PROJECTNAME=%2%
-set TASKINPUT=%3%
-set TASKINPUT2=%4%
-set TASKINPUT3=%5%
+set TASKINPUT=%2%
+set TASKINPUT2=%3%
+set TASKINPUT3=%4%
 
 cd seam-gen
 
 if "%SEAMTASK%" == "" more USAGE
 
-if "%SEAMTASK%" == "setup" ant -buildfile=build-project-setup.xml
+if "%SEAMTASK%" == "setup" ant -buildfile=build-setup.xml
 
-if "%SEAMTASK%" == "new-project" ant new-project -Dproject.name=%PROJECTNAME%
+if "%SEAMTASK%" == "new-project" ant new-project -Dproject.name=%TASKINPUT%
 
-if "%SEAMTASK%" == "new-wtp-project" ant new-wtp-project -Dproject.name=%PROJECTNAME%
+if "%SEAMTASK%" == "new-wtp-project" ant new-wtp-project -Dproject.name=%TASKINPUT%
 
-if "%SEAMTASK%" == "deploy-project" ant deploy-project -Dproject.name=%PROJECTNAME% 
+if "%SEAMTASK%" == "deploy" ant deploy
 	
-if "%SEAMTASK%" == "new-action" ant new-stateless-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%"
+if "%SEAMTASK%" == "deploy" ant undeploy
+	
+if "%SEAMTASK%" == "new-action" ant new-stateless-action -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%"
 
-if "%SEAMTASK%" == "new-form" ant new-stateful-action -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%"
+if "%SEAMTASK%" == "new-form" ant new-stateful-action -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%"
 
-if "%SEAMTASK%" == "new-conversation" ant new-conversation -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%"
+if "%SEAMTASK%" == "new-conversation" ant new-conversation -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%"
 
-if "%SEAMTASK%" == "new-entity" ant new-entity -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%" -DmasterPage.name="%TASKINPUT3%"
+if "%SEAMTASK%" == "new-entity" ant new-entity -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%" -DmasterPage.name="%TASKINPUT3%"
 
-if "%SEAMTASK%" == "new-mdb" ant new-mdb -Dproject.name=%PROJECTNAME% -Daction.name=%TASKINPUT%
+if "%SEAMTASK%" == "new-mdb" ant new-mdb -Daction.name=%TASKINPUT%
 
 if "%SEAMTASK%" == "help" more README
 

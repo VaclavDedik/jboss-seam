@@ -146,13 +146,30 @@
 			</filterset>
 		</copy>
 	</target>
-
-	<target name="new-project" depends="file-copy">
-		<echo message="Your new Seam project called '${project.name}' has been created" />
+	
+	<target name="set-default-project">
+		<propertyfile file="build.properties">
+			<entry key="project.name" value="${project.name}"/>
+		</propertyfile>
+	</target>
+	
+	<target name="validate-project">
+	    <fail message="No project name specified">
+	    	<condition>
+	    		<or>
+	    			<not><isset property="project.name"/></not>
+	    			<equals arg1="${project.name}" arg2=""/>
+	    		</or>
+	    	</condition>
+		</fail>
 	</target>
 
-	<target name="new-wtp-project" depends="file-copy-wtp">
-		<echo message="Your new Seam project called '${project.name}' has been created" />
+	<target name="new-project" depends="validate-project,file-copy,set-default-project">
+		<echo message="A new Seam project called '${project.name}' was created in the ${workspace.home} directory"/>
+	</target>
+
+	<target name="new-wtp-project" depends="validate-project,file-copy-wtp,set-default-project">
+		<echo message="A new WTP project was created in the ${workspace.home} directory"/>
 	</target>
 
 	<target name="update-project">
@@ -287,10 +304,14 @@
 		</java>
 	</target>
 
-	<target name="deploy-project">
-		<echo message="Deploy project to JBoss" />
-		<ant antfile="${workspace.home}/${project.name}/build.xml" target="deploy" inheritall="false">
-		</ant>
+	<target name="deploy">
+		<echo message="Deploying project '${project.name}' to JBoss" />
+		<ant antfile="${workspace.home}/${project.name}/build.xml" target="deploy" inheritall="false"/>
+	</target>
+
+	<target name="undeploy">
+		<echo message="Undeploying project '${project.name}'" />
+		<ant antfile="${workspace.home}/${project.name}/build.xml" target="undeploy" inheritall="false"/>
 	</target>
 
 	<target name="help">

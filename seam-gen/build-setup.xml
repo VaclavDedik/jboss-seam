@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <project name="seam-gen" default="setup" basedir=".">
-	
+
 	<taskdef name="packageDirectory" 
 		classname="org.jboss.seam.tool.PackageDirectoryTask" 
 		classpath="../jboss-seam-gen.jar"/>
@@ -41,22 +41,19 @@
 		<packageDirectory property="mdb.dir" package="${mdb.package}"/>
 		<packageDirectory property="test.dir" package="${test.package}"/>
 		
-		<copy file="build.properties.template" tofile="build.properties" overwrite="true">
-			<filterset>
-				<filter token="projectName" value="${project.name}"/>
-				<filter token="workspaceHome" value="${workspace.home}"/>
-				<filter token="jbossHome" value="${jboss.home}"/>
-				<filter token="wtp" value="${eclipse.wtp}"/>
-				<filter token="actionPackage" value="${action.package}"/>
-				<filter token="actionDir" value="${action.dir}"/>
-				<filter token="modelPackage" value="${model.package}"/>
-				<filter token="modelDir" value="${model.dir}"/>
-				<filter token="mdbPackage" value="${mdb.package}"/>
-				<filter token="mdbDir" value="${mdb.dir}"/>
-				<filter token="testPackage" value="${test.package}"/>
-				<filter token="testDir" value="${test.dir}"/>
-		    </filterset>
-		</copy>
+		<propertyfile file="build.properties">
+			<entry key="workspace.home" value="${workspace.home}"/>
+			<entry key="jboss.home" value="${jboss.home}"/>
+			<entry key="eclipse.wtp" value="${eclipse.wtp}"/>
+			<entry key="action.package" value="${action.package}"/>
+			<entry key="action.dir" value="${action.dir}"/>
+			<entry key="model.package" value="${model.package}"/>
+			<entry key="model.dir" value="${model.dir}"/>
+			<entry key="mdb.package" value="${mdb.package}"/>
+			<entry key="mdb.dir" value="${mdb.dir}"/>
+			<entry key="test.package" value="${test.package}"/>
+			<entry key="test.dir" value="${test.dir}"/>
+		</propertyfile>
 		
 	</target>
 
