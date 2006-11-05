@@ -1,29 +1,39 @@
 <?xml version="1.0"?>
 
-<project name="seam-gen" default="project-setup-input" basedir=".">
-
-	<target name="project-setup-input">
-		<input addproperty="workspace.home" message="Enter your Java project workspace:" defaultvalue="C:/Projects" />
-		<input addproperty="eclipse.wtp" message="Is this an Eclipse WTP workspace:" validargs="Y,N," defaultvalue="N"/>
-		<input addproperty="jboss.home" message="Enter your JBoss home directory:" defaultvalue="C:/Program Files/jboss-4.0.5.GA"/>
-		<input addproperty="action.package" message="Enter the Java package name for your session beans:" defaultvalue="com.mydomain.biz"/>
-		<input addproperty="model.package" message="Enter the Java package name for your entity beans:" defaultvalue="com.mydomain.mdl"/>
-		<input addproperty="mdb.package" message="Enter the Java package name for your message drive beans:" defaultvalue="com.mydomain.mdb"/>
-		<input addproperty="test.package" message="Enter the Java package name for your test cases:" defaultvalue="com.mydomain.tst" />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="set-properties" />
-			<arg value="${workspace.home}" />
-			<arg value="${jboss.home}" />
-			<arg value="${action.package}" />
-			<arg value="${model.package}" />
-			<arg value="${test.package}" />
-			<arg value="${mdb.package}" />			
-			<arg value="${eclipse.wtp}" />
-			<classpath>
-				<pathelement location="../lib/freemarker.jar" />
-				<pathelement path="../jboss-seam-gen.jar" />
-			</classpath>
-		</java>
+<project name="seam-gen" default="setup" basedir=".">
+	
+	<taskdef name="packageDirectory" 
+		classname="org.jboss.seam.tool.PackageDirectoryTask" 
+		classpath="../jboss-seam-gen.jar"/>
+	
+	<target name="setup">
+		<input addproperty="workspace.home" message="Enter your Java project workspace [C:/Projects]" defaultvalue="C:/Projects"/>
+		<input addproperty="eclipse.wtp" message="Is this an Eclipse WTP workspace [N] " validargs="Y,N," defaultvalue="N"/>
+		<input addproperty="jboss.home" message="Enter your JBoss home directory [C:/Program Files/jboss-4.0.5.GA]" defaultvalue="C:/Program Files/jboss-4.0.5.GA"/>
+		<input addproperty="action.package" message="Enter the Java package name for your session beans [com.mydomain]" defaultvalue="com.mydomain"/>
+		<input addproperty="model.package" message="Enter the Java package name for your entity beans [${action.package}]" defaultvalue="${action.package}"/>
+		<input addproperty="mdb.package" message="Enter the Java package name for your message drive beans [${action.package}]" defaultvalue="${action.package}"/>
+		<input addproperty="test.package" message="Enter the Java package name for your test cases [${action.package}.test]" defaultvalue="${action.package}.test"/>
+		<packageDirectory property="action.dir" package="${action.package}"/>
+		<packageDirectory property="model.dir" package="${model.package}"/>
+		<packageDirectory property="mdb.dir" package="${mdb.package}"/>
+		<packageDirectory property="test.dir" package="${test.package}"/>
+		<copy file="build.properties.template" tofile="build.properties">
+			<filterset>
+				<filter token="projectName" value="${project.name}"/>
+				<filter token="workspaceHome" value="${workspace.home}"/>
+				<filter token="jbossHome" value="${jboss.home}"/>
+				<filter token="wtp" value="${eclipse.wtp}"/>
+				<filter token="actionPackage" value="${action.package}"/>
+				<filter token="actionDir" value="${action.dir}"/>
+				<filter token="modelPackage" value="${model.package}"/>
+				<filter token="modelDir" value="${model.dir}"/>
+				<filter token="mdbPackage" value="${mdb.package}"/>
+				<filter token="mdbDir" value="${mdb.dir}"/>
+				<filter token="testPackage" value="${test.package}"/>
+				<filter token="testDir" value="${test.dir}"/>
+		    </filterset>
+		</copy>
 	</target>
 
 </project>

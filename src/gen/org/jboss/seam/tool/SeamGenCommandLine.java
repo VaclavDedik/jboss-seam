@@ -28,16 +28,10 @@ public class SeamGenCommandLine {
       try
       {
       
-         validateArgs(args, 2);
+         validateArgs(args, 3);
    
-   		if ( args[0].equals("set-properties") ) 
+         if ( args[0].equals("new-stateful-action") ) 
          {
-   			new BuildPropertiesGenerator( new BuildPropertiesBean(args) ).generate();
-   		} 
-   
-         else if ( args[0].equals("new-stateful-action") ) 
-         {
-            validateArgs(args, 3);
             JavaClassGenerator actionGen = new JavaClassGenerator(args);            
             FaceletGenerator faceletGen = new FaceletGenerator(args);
             faceletGen.newFormPage();
@@ -47,7 +41,6 @@ public class SeamGenCommandLine {
    
    		else if ( args[0].equals("new-stateless-action") ) 
          {
-            validateArgs(args, 3);
    			JavaClassGenerator actionGen = new JavaClassGenerator(args);            
             FaceletGenerator faceletGen = new FaceletGenerator(args);
             faceletGen.newActionPage();
@@ -57,7 +50,6 @@ public class SeamGenCommandLine {
    
    		else if ( args[0].equals("new-conversation") ) 
          {
-            validateArgs(args, 3);
    			JavaClassGenerator actionGen = new JavaClassGenerator(args);
             FaceletGenerator faceletGen = new FaceletGenerator(args);
             faceletGen.newConversationPage();
@@ -67,7 +59,6 @@ public class SeamGenCommandLine {
    
    		else if ( args[0].equals("new-entity") ) 
          {
-            validateArgs(args, 3);
    			JavaClassGenerator actionGen = new JavaClassGenerator(args);
             FaceletGenerator faceletGen = new FaceletGenerator(args);
    			actionGen.newEntity();

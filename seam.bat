@@ -18,7 +18,7 @@ cd seam-gen
 
 if "%SEAMTASK%" == "" more USAGE
 
-if "%SEAMTASK%" == "set-properties" ant -buildfile=build-project-setup.xml
+if "%SEAMTASK%" == "setup" ant -buildfile=build-project-setup.xml
 
 if "%SEAMTASK%" == "new-project" ant new-project -Dproject.name=%PROJECTNAME%
 

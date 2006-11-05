@@ -8,7 +8,7 @@ SYNOPSIS
    seam COMMAND PROJECT_NAME OPTIONS...
 	    
 SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
-   set-properties
+   setup
       Set various seam-gen properties in build.properties. This task
       sets the various source code packages, target directories
       and jboss home. You can hand edit build.properties. There is support
@@ -16,7 +16,7 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
       If you select 'Y' for WTP, then some build tasks, like "compile",
       "build", "deploy" will not work.
 	   
-      Example: seam set-properties
+      Example: seam setup
 	     
    new-project
       Create a new seam project that has all dependencies and minimal

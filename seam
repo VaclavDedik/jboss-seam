@@ -13,7 +13,7 @@ taskinput3=${5}
 
 cd seam-gen
 
-if [ "${seamtask}" = set-properties ] 
+if [ "${seamtask}" = setup ] 
 	then
 		ant -buildfile build-project-setup.xml
 

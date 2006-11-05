@@ -1,0 +1,27 @@
+#Name of your project - cannot be "jboss-seam"
+project.name=@projectName@
+
+#Location for the project files
+workspace.home=@workspaceHome@
+
+#Is this an Eclipse WTP project?
+eclipse.wtp=@wtp@
+
+#JBoss AS installation home (must be an ejb3 profile)
+jboss.home=@jbossHome@
+
+#Java package for session beans (Seam components)
+action.dir=@actionDir@
+action.package=@actionPackage@
+
+#Java package for entity beans
+model.dir=@modelDir@
+model.package=@modelPackage@
+
+#Java package for TestNG tests
+test.dir=@testDir@
+test.package=@testPackage@
+
+#Java package for messaging driven beans
+mdb.dir=@mdbDir@
+mdb.package=@mdbPackage@
