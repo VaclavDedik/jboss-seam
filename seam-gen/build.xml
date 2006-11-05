@@ -147,7 +147,7 @@
 		</copy>
 	</target>
 	
-	<target name="set-default-project">
+	<target name="set-default-project" depends="validate-project">
 		<propertyfile file="build.properties">
 			<entry key="project.name" value="${project.name}"/>
 		</propertyfile>
@@ -172,7 +172,7 @@
 		<echo message="A new WTP project was created in the ${workspace.home} directory"/>
 	</target>
 
-	<target name="update-project">
+	<target name="update-project" depends="validate-project">
 		<echo message="Copying jars to project /lib directory ..." />
 		<copy todir="${workspace.home}/${project.name}/lib" overwrite="true">
 			<fileset dir="../lib/" />
@@ -225,12 +225,12 @@
 		<echo message="'${project.name}' has been updated with the latest/seam jars" />
 	</target>
 
-	<target name="delete-project">
+	<target name="delete-project" depends="validate-project">
 		<echo message="Deleting the entire project's contents ..." />
 		<delete dir="${workspace.home}/${project.name}" />
 	</target>
 
-	<target name="new-stateful-action">
+	<target name="new-stateful-action" depends="validate-project">
 		<echo message="Creating a new stateful session bean component with an action method" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-stateful-action" />
@@ -244,7 +244,7 @@
 		</java>
 	</target>
 
-	<target name="new-stateless-action">
+	<target name="new-stateless-action" depends="validate-project">
 		<echo message="Creating a new stateless session bean component with an action method" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-stateless-action" />
@@ -258,7 +258,7 @@
 		</java>
 	</target>
 
-	<target name="new-conversation">
+	<target name="new-conversation" depends="validate-project">
 		<echo message="Creating a new stateful session bean component with @Begin and @End methods" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-conversation" />
@@ -272,7 +272,7 @@
 		</java>
 	</target>
 
-	<target name="new-entity">
+	<target name="new-entity" depends="validate-project">
 		<echo message="Creating a new entity bean, with home and list components" />
 		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
 			<arg value="new-entity" />
@@ -287,7 +287,7 @@
 		</java>
 	</target>
 
-	<target name="new-mdb">
+	<target name="new-mdb" depends="validate-project">
 		<echo message="Creating a new message driven bean" />
 		<input addproperty="destination.type" message="Enter destination type 'Queue' or 'Topic':" validargs="Queue,Topic" />
 		<input addproperty="destination" message="Enter destination:" />
@@ -304,12 +304,12 @@
 		</java>
 	</target>
 
-	<target name="deploy">
+	<target name="deploy" depends="validate-project">
 		<echo message="Deploying project '${project.name}' to JBoss" />
 		<ant antfile="${workspace.home}/${project.name}/build.xml" target="deploy" inheritall="false"/>
 	</target>
 
-	<target name="undeploy">
+	<target name="undeploy" depends="validate-project">
 		<echo message="Undeploying project '${project.name}'" />
 		<ant antfile="${workspace.home}/${project.name}/build.xml" target="undeploy" inheritall="false"/>
 	</target>
