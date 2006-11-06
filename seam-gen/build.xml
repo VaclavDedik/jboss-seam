@@ -1,13 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="seam-gen" default="new-project" basedir=".">
+<project name="seam-gen" default="help" basedir=".">
 
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="${basedir}/build.properties" />
 	
-	<property name="page.name" value=""/>
-	<property name="masterPage.name" value=""/>
-
 	<taskdef name="packageDirectory" 
 		classname="org.jboss.seam.tool.PackageDirectoryTask" 
 		classpath="../jboss-seam-gen.jar"/>
@@ -16,44 +13,100 @@
 		classname="org.jboss.seam.tool.LowercasePropertyTask" 
 		classpath="../jboss-seam-gen.jar"/>
 	
+	<taskdef name="uppercaseProperty" 
+		classname="org.jboss.seam.tool.UppercasePropertyTask" 
+		classpath="../jboss-seam-gen.jar"/>
+	
+	<taskdef name="print" 
+		classname="org.jboss.seam.tool.PrintTask"
+		classpath="../jboss-seam-gen.jar"/>
+	
+	<filterset id="jdbc">
+		<filter token="jdbcUrl" value="${hibernate.connection.url}"/>
+		<filter token="driverClass" value="${hibernate.connection.driver_class}"/>
+		<filter token="username" value="${hibernate.connection.username}"/>
+		<filter token="password" value="${hibernate.connection.password}"/>
+    </filterset>
+
 	<packageDirectory property="action.dir" package="${action.package}"/>
 	<packageDirectory property="model.dir" package="${model.package}"/>
 	<packageDirectory property="mdb.dir" package="${mdb.package}"/>
 	<packageDirectory property="test.dir" package="${test.package}"/>
 	
-	<property name="interface.name" value="${action.name}"/>
-	<property name="bean.name" value="${action.name}Bean"/>
-	<property name="entity.name" value="${action.name}"/>
-	<lowercaseProperty name="method.name" value="${action.name}"/>
-	<lowercaseProperty name="component.name" value="${action.name}"/>
-	<lowercaseProperty name="page.name" value="${action.name}"/>
-	<lowercaseProperty name="masterPage.name" value="${action.name}"/>
+	<target name="action-input">
+		
+		<input addproperty="component.name" message="Enter the Seam component name"/>
+		
+		<uppercaseProperty name="interface.name.default" value="${component.name}"/>
+		<input message="Enter the local interface name [${interface.name.default}]"
+		   addproperty="interface.name"
+		  defaultvalue="${interface.name.default}"/>
+		
+		<uppercaseProperty name="bean.name.default" value="${component.name}Bean"/>
+		<input message="Enter the bean class name [${bean.name.default}]" 
+			addproperty="bean.name" 
+          defaultvalue="${bean.name.default}"/>
+		
+		<lowercaseProperty name="method.name.default" value="${component.name}"/>
+		<input message="Enter the action method name [${method.name.default}]" 
+			addproperty="method.name" 
+          defaultvalue="${method.name.default}"/>
+		
+		<lowercaseProperty name="page.name.default" value="${component.name}"/>
+		<input message="Enter the page name [${page.name.default}]" 
+			addproperty="page.name" 
+          defaultvalue="${page.name.default}"/>
+			
+		<property name="bean.file" value="${workspace.home}/${project.name}/src/${action.dir}/${bean.name}.java"/>
+		<property name="interface.file" value="${workspace.home}/${project.name}/src/${action.dir}/${interface.name}.java"/>
+		<property name="page.file" value="${workspace.home}/${project.name}/view/${page.name}.xhtml"/>
+		<property name="test.file" value="${workspace.home}/${project.name}/src/${test.dir}/${interface.name}Test.java"/>
+		<property name="testng.file" value="${workspace.home}/${project.name}/src/${test.dir}/testng.xml"/>
+
+	</target>
 	
-	<property name="bean.file" value="${workspace.home}/${project.name}/src/${action.dir}/${bean.name}.java"/>
-	<property name="interface.file" value="${workspace.home}/${project.name}/src/${action.dir}/${interface.name}.java"/>
-	<property name="entity.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}.java"/>
-	<property name="home.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}Home.java"/>
-	<property name="list.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}List.java"/>
-	<property name="page.file" value="${workspace.home}/${project.name}/view/${page.name}.xhtml"/>
-	<property name="masterPage.file" value="${workspace.home}/${project.name}/view/${masterPage.name}.xhtml"/>
-	<property name="test.file" value="${workspace.home}/${project.name}/src/${test.dir}/${interface.name}Test.java"/>
-	<property name="testng.file" value="${workspace.home}/${project.name}/src/${test.dir}/testng.xml"/>
+	<target name="entity-input">
 	
-	<filterset id="filters">
-		<filter token="interfaceName" value="${interface.name}"/>
-		<filter token="beanName" value="${bean.name}"/>
-		<filter token="entityName" value="${entity.name}"/>
-		<filter token="methodName" value="${method.name}"/>
-		<filter token="componentName" value="${component.name}"/>
-		<filter token="pageName" value="${page.name}"/>
-		<filter token="masterPageName" value="${masterPage.name}"/>
-		<filter token="actionPackage" value="${action.package}"/>
-		<filter token="modelPackage" value="${model.package}"/>
-		<filter token="mdbPackage" value="${mdb.package}"/>
-		<filter token="testPackage" value="${test.package}"/>
-		<filter token="listName" value="${component.name}List"/>
-		<filter token="homeName" value="${component.name}Home"/>
-	</filterset>
+		<input addproperty="entity.name" message="Enter the entity class name"/>
+		<lowercaseProperty name="component.name" value="${entity.name}"/>
+		
+		<lowercaseProperty name="masterPage.name.default" value="${component.name}List"/>
+		<input message="Enter the master page name [${masterPage.name.default}]" 
+			addproperty="masterPage.name" 
+          defaultvalue="${masterPage.name.default}"/>
+				
+		<lowercaseProperty name="page.name.default" value="${component.name}"/>
+		<input message="Enter the detail page name [${page.name.default}]" 
+			addproperty="page.name" 
+          defaultvalue="${page.name.default}"/>
+				
+		<property name="entity.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}.java"/>
+		<property name="home.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}Home.java"/>
+		<property name="list.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}List.java"/>
+		<property name="page.file" value="${workspace.home}/${project.name}/view/${page.name}.xhtml"/>
+		<property name="masterPage.file" value="${workspace.home}/${project.name}/view/${masterPage.name}.xhtml"/>
+
+	</target>
+	
+	<target name="setup-filters">
+	
+		<filterset id="filters">
+			<filter token="interfaceName" value="${interface.name}"/>
+			<filter token="beanName" value="${bean.name}"/>
+			<filter token="entityName" value="${entity.name}"/>
+			<filter token="methodName" value="${method.name}"/>
+			<filter token="componentName" value="${component.name}"/>
+			<filter token="pageName" value="${page.name}"/>
+			<filter token="masterPageName" value="${masterPage.name}"/>
+			<filter token="actionPackage" value="${action.package}"/>
+			<filter token="modelPackage" value="${model.package}"/>
+			<filter token="mdbPackage" value="${mdb.package}"/>
+			<filter token="testPackage" value="${test.package}"/>
+			<filter token="listName" value="${component.name}List"/>
+			<filter token="homeName" value="${component.name}Home"/>
+		</filterset>
+	
+	</target>
 	
 	<target name="create-folders">
 		<echo message="Creating Project Folders ..." />
@@ -89,11 +142,14 @@
 				<filter token="projectName" value="${project.name}" />
 			</filterset>
 		</copy>
-		<move tofile="${workspace.home}/${project.name}/resources/${project.name}-ds.xml" file="${workspace.home}/${project.name}/resources/datasource-ds.xml" />
+		<move tofile="${workspace.home}/${project.name}/resources/${project.name}-ds.xml" 
+			    file="${workspace.home}/${project.name}/resources/datasource-ds.xml">
+			<filterset refid="jdbc"/>
+		</move>
 		<copy todir="${workspace.home}/${project.name}/view">
 			<fileset dir="${basedir}/view">
 				<include name="home.xhtml"/>
-				<include name="index.xhtml"/>
+				<include name="index.html"/>
 				<include name="layout/*"/>
 				<include name="stylesheet/*"/>
 			</fileset>
@@ -114,6 +170,7 @@
 				<filter token="projectName" value="${project.name}" />
 			</filterset>
 		</copy>
+		<mkdir dir="${workspace.home}/${project.name}/src"/>
 	</target>
 
 	<target name="file-copy-wtp" depends="create-folders-wtp">
@@ -152,7 +209,8 @@
 				<filter token="projectName" value="${project.name}" />
 			</filterset>
 		</copy>
-		<move file="${workspace.home}/${project.name}/EarContent/META-INF/application-wtp.xml" tofile="${workspace.home}/${project.name}/EarContent/META-INF/application.xml" />
+		<move file="${workspace.home}/${project.name}/EarContent/META-INF/application-wtp.xml" 
+			tofile="${workspace.home}/${project.name}/EarContent/META-INF/application.xml" />
 		<copy todir="${workspace.home}/${project.name}/EarContent" overwrite="true">
 			<fileset dir="../lib">
 				<include name="jbpm-*.jar" />
@@ -161,11 +219,14 @@
 				<include name="jboss-seam.jar" />
 			</fileset>
 		</copy>
-		<move tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml" file="${workspace.home}/${project.name}/EarContent/datasource-ds.xml" />
+		<move tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml" 
+			    file="${workspace.home}/${project.name}/EarContent/datasource-ds.xml">
+			<filterset refid="jdbc"/>
+		</move>
 		<copy todir="${workspace.home}/${project.name}Web/WebContent">
 			<fileset dir="${basedir}/view">
 				<include name="home.xhtml"/>
-				<include name="index.xhtml"/>
+				<include name="index.html"/>
 				<include name="layout/*"/>
 				<include name="stylesheet/*"/>
 			</fileset>
@@ -206,8 +267,8 @@
 		</propertyfile>
 	</target>
 	
-	<target name="validate-project">
-	    <fail message="No project name specified">
+	<target name="validate-project" depends="validate-workspace">
+	    <fail message="No project name specified (run 'seam new-project' first)">
 	    	<condition>
 	    		<or>
 	    			<not><isset property="project.name"/></not>
@@ -217,11 +278,22 @@
 		</fail>
 	</target>
 
-	<target name="new-project" depends="validate-project,file-copy,set-default-project">
+	<target name="validate-workspace">
+	    <fail message="No eclipse workspace specified (run 'seam setup' first)">
+	    	<condition>
+	    		<or>
+	    			<not><isset property="workspace.home"/></not>
+	    			<equals arg1="${workspace.home}" arg2=""/>
+	    		</or>
+	    	</condition>
+		</fail>
+	</target>
+
+	<target name="new-project" depends="validate-workspace,file-copy,set-default-project">
 		<echo message="A new Seam project called '${project.name}' was created in the ${workspace.home} directory"/>
 	</target>
 
-	<target name="new-wtp-project" depends="validate-project,file-copy-wtp,set-default-project">
+	<target name="new-wtp-project" depends="validate-workspace,file-copy-wtp,set-default-project">
 		<echo message="A new WTP project was created in the ${workspace.home} directory"/>
 	</target>
 
@@ -283,7 +355,7 @@
 		<delete dir="${workspace.home}/${project.name}" />
 	</target>
 
-	<target name="new-stateless-action" depends="validate-project">
+	<target name="new-action" depends="validate-project,action-input,setup-filters">
 		<echo message="Creating a new stateless session bean component with an action method" />
 		<copy file="src/ActionBean.java" tofile="${bean.file}">
 			<filterset refid="filters"/>
@@ -300,9 +372,10 @@
 		<copy file="view/action.xhtml" tofile="${page.file}">
 			<filterset refid="filters"/>
 		</copy>
+		<echo message="Go to http://localhost:8080/${project.name}/${page.name}.seam"/>
 	</target>
 
-	<target name="new-stateful-action" depends="validate-project">
+	<target name="new-form" depends="validate-project,action-input,setup-filters">
 		<echo message="Creating a new stateful session bean component with an action method" />
 		<echo message="Creating a new stateless session bean component with an action method" />
 		<copy file="src/FormActionBean.java" tofile="${bean.file}">
@@ -314,9 +387,10 @@
 		<copy file="view/form.xhtml" tofile="${page.file}">
 			<filterset refid="filters"/>
 		</copy>
+		<echo message="Go to http://localhost:8080/${project.name}/${page.name}.seam"/>
 	</target>
 
-	<target name="new-conversation" depends="validate-project">
+	<target name="new-conversation" depends="validate-project,action-input,setup-filters">
 		<echo message="Creating a new stateful session bean component with @Begin and @End methods" />
 		<copy file="src/ConversationBean.java" tofile="${bean.file}">
 			<filterset refid="filters"/>
@@ -327,9 +401,10 @@
 		<copy file="view/conversation.xhtml" tofile="${page.file}">
 			<filterset refid="filters"/>
 		</copy>
+		<echo message="Go to http://localhost:8080/${project.name}/${page.name}.seam"/>
 	</target>
 
-	<target name="new-entity" depends="validate-project">
+	<target name="new-entity" depends="validate-project,entity-input,setup-filters">
 		<echo message="Creating a new entity bean, with home and list components" />
 		<copy file="src/Entity.java" tofile="${entity.file}">
 			<filterset refid="filters"/>
@@ -346,6 +421,7 @@
 		<copy file="view/list.xhtml" tofile="${masterPage.file}">
 			<filterset refid="filters"/>
 		</copy>
+		<echo message="Go to http://localhost:8080/${project.name}/${masterPage.name}.seam"/>
 	</target>
 
 	<target name="deploy" depends="validate-project">
@@ -372,9 +448,9 @@
 		<echo message="Undeploying exploded directory for project '${project.name}'" />
 		<ant antfile="${workspace.home}/${project.name}/build.xml" target="unexplode" inheritall="false"/>
 	</target>
-
+	
 	<target name="help">
-		<echo message="Refer to README doc, or type `seam help'" />
+		<print file="README"/>
 	</target>
 
 	<target name="setup">

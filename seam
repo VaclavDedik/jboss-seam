@@ -1,75 +1,26 @@
 #/bin/sh
 ############################################
 #
-# Seam-gen tasks script. 
+# seam-gen
 #
 ############################################
 
-seamtask=${1}
-taskinput=${2}
-taskinput2=${3}
-taskinput3=${4}
-
 cd seam-gen
 
-if [ "${seamtask}" = setup ] 
-	then
-		ant setup
+if [ "${1}" = new-project ] 
+then
 
-elif [ "${seamtask}" = new-project ] 
-	then
-		ant new-project -Dproject.name=${taskinput}
+  ant new-project -Dproject.name=${2} 
 
-elif [ "${seamtask}" = new-wtp-project ] 
-	then
-		ant new-wtp-project -Dproject.name=${taskinput}
+elif [ "${1}" = new-wtp-project ] 
+then
 
-elif [ "${seamtask}" = deploy ] 
-	then
-		ant deploy
-
-elif [ "${seamtask}" = undeploy ] 
-	then
-		ant undeploy
-
-elif [ "${seamtask}" = explode ] 
-	then
-		ant explode
-
-elif [ "${seamtask}" = restart ] 
-	then
-		ant restart
-
-elif [ "${seamtask}" = unexplode ] 
-	then
-		ant unexplode
-
-elif [ "${seamtask}" = generate-entities ] 
-	then
-		ant generate-entities
-
-elif [ "${seamtask}" = new-action ] 
-	then
-		ant new-stateless-action -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
-
-elif [ "${seamtask}" = new-form ] 
-	then
-		ant new-stateful-action -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
-
-elif [ "${seamtask}" = new-conversation ] 
-	then
-		ant new-conversation -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
-
-elif [ "${seamtask}" = new-entity ] 
-	then
-		ant new-entity -Daction.name=${taskinput} -Dpage.name="${taskinput2}" -DmasterPage.name="${taskinput3}"
-
-elif [ "${seamtask}" = help ] 
-	then
-		cat README
+  ant new-wtp-project -Dproject.name=${2} 
 
 else
-		cat USAGE
+
+   ant ${1} ${2} ${3} ${4} ${5} ${6} ${7}
+
 fi
 
 cd ..
