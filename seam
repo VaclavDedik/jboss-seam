@@ -44,6 +44,10 @@ elif [ "${seamtask}" = unexplode ]
 	then
 		ant unexplode
 
+elif [ "${seamtask}" = generate-entities ] 
+	then
+		ant generate-entities
+
 elif [ "${seamtask}" = new-action ] 
 	then
 		ant new-stateless-action -Daction.name=${taskinput} -Dpage.name="${taskinput2}"

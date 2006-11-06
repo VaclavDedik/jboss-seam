@@ -375,6 +375,36 @@
 			       message="Enter the Java package name for your test cases [${test.package}]" 
 			  defaultvalue="${test.package}"/>
 		
+		<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+		<input addproperty="hibernate.dialect.new" 
+			       message="Enter the Hibernate dialect for your database [${hibernate.dialect}]" 
+			  defaultvalue="${hibernate.dialect}"/>
+		
+		<property name="driver.jar" value="lib/hsqldb.jar"/>
+		<input addproperty="driver.jar.new"
+			       message="Enter the filesystem path to the JDBC driver jar [${driver.jar}]" 
+			  defaultvalue="${driver.jar}"/>
+				
+		<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
+		<input addproperty="hibernate.connection.driver_class.new" 
+			       message="Enter JDBC driver class for your database [${hibernate.connection.driver_class}]" 
+			  defaultvalue="${hibernate.connection.driver_class}"/>
+		
+		<property name="hibernate.connection.url" value="jdbc:hsqldb:."/>
+		<input addproperty="hibernate.connection.url.new" 
+			       message="Enter the JDBC URL for your database [${hibernate.connection.url}]" 
+			  defaultvalue="${hibernate.connection.url}"/>
+		
+		<property name="hibernate.connection.username" value="sa"/>
+		<input addproperty="hibernate.connection.username.new" 
+			       message="Enter database username [${hibernate.connection.username}]" 
+			  defaultvalue="${hibernate.connection.username}"/>
+				
+		<property name="hibernate.connection.password" value=""/>
+		<input addproperty="hibernate.connection.password.new" 
+			       message="Enter database password [${hibernate.connection.password}]" 
+			  defaultvalue="${hibernate.connection.password}"/>
+				
 		<packageDirectory property="action.dir.new" package="${action.package.new}"/>
 		<packageDirectory property="model.dir.new" package="${model.package.new}"/>
 		<packageDirectory property="mdb.dir.new" package="${mdb.package.new}"/>
@@ -392,8 +422,31 @@
 			<entry key="mdb.dir" value="${mdb.dir.new}"/>
 			<entry key="test.package" value="${test.package.new}"/>
 			<entry key="test.dir" value="${test.dir.new}"/>
+			<entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
+			<entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
+			<entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>
+			<entry key="hibernate.connection.username" value="${hibernate.connection.username.new}"/>
+			<entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
+			<entry key="driver.jar" value="${driver.jar.new}"/>
 		</propertyfile>
 		
+	</target>
+	
+	<taskdef name="hibernatetool" 
+	         classname="org.hibernate.tool.ant.HibernateToolTask">
+		<classpath>
+			<fileset dir="lib">
+				<include name="*.jar"/>
+			</fileset>
+			<path path="${driver.jar.new}"/>
+		</classpath>
+	</taskdef>
+	
+	<target name="generate-entities">
+		<hibernatetool destdir="${workspace.home}/${project.name}/src">
+			<jdbcconfiguration propertyfile="build.properties" packagename="${model.package}"/>
+			<hbm2java jdk5="true" ejb3="true"/> 
+		</hibernatetool>
 	</target>
 
 </project>
