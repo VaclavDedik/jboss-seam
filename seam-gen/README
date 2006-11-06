@@ -5,7 +5,7 @@ NAME
    JBoss AS with EJB3 installed.
      
 SYNOPSIS
-   seam COMMAND [OPTION...]
+   seam COMMAND [OPTION]
 	    
 SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
    setup
@@ -22,7 +22,7 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
       Create a new seam project that has all dependencies and minimal
       configuration. Refers to build.properties for project attributes.
 	     
-      Example: seam new-project
+      Example: seam new-project hello-world
          
    deploy
       Deploy the project EAR and datasource to JBoss. This command
@@ -57,6 +57,18 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
       Example: seam unexplode
 
 SEAM CODE GENERATION COMMANDS
+   new-action
+      Create a new Java interface and SLSB with key Seam/EJB3 
+      annotations.
+	     
+      Example: seam new-action
+	     
+   new-form
+      Create a new Java interface and SFSB with key Seam/EJB3 
+      annotations.
+	     
+      Example: seam new-form
+	     
    new-conversation
       Create a new Java interface and SFSB with key Seam/EJB3 
       annotations. Adds annotations and stub methods for 
@@ -64,32 +76,16 @@ SEAM CODE GENERATION COMMANDS
       can be used to simulate a JSF request/response and standard 
       JUnit type tests.
 	     
-      Example: seam new-conversation CLASS_NAME [PAGE_NAME]
+      Example: seam new-conversation
 	
-   new-action
-      Create a new Java interface and SLSB with key Seam/EJB3 
-      annotations. Also, Create a new TestNG test case that 
-      can be used to simulate a JSF request/response and standard 
-      JUnit type tests.
-	     
-      Example: seam new-action CLASS_NAME [PAGE_NAME]
-	     
-   new-form
-      Create a new Java interface and SFSB with key Seam/EJB3 
-      annotations. Also, Create a new TestNG test case that 
-      can be used to simulate a JSF request/response and standard 
-      JUnit type tests.
-	     
-      Example: seam new-form CLASS_NAME [PAGE_NAME]
-	     
-   new-page
-      Create a new facelet that refers to template.xhtml for its
-      layout. If no template.xhtml exists, create one.
-	     
-      Example: seam new-page PAGE_NAME
-     	     
    new-entity
-      Create a new EJB3 entity bean with key Seam/EJB3 annotations
-      and a couple of stub attributes.
+      Create a new entity bean with key Seam/EJB3 annotations
+      with example attributes.
 	     
-      Example: seam new-entity CLASS_NAME [PAGE_NAME] [LIST_PAGE_NAME]
+      Example: seam new-entity
+      
+   generate-entities
+      Generate entity beans from an existing data model in the
+      database.
+
+      Example: seam generate-entities
