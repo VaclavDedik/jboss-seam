@@ -43,8 +43,6 @@ if "%SEAMTASK%" == "new-conversation" ant new-conversation -Daction.name=%TASKIN
 
 if "%SEAMTASK%" == "new-entity" ant new-entity -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%" -DmasterPage.name="%TASKINPUT3%"
 
-if "%SEAMTASK%" == "new-mdb" ant new-mdb -Daction.name=%TASKINPUT%
-
 if "%SEAMTASK%" == "help" more README
 
 goto END_NO_PAUSE

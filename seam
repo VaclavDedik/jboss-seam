@@ -58,15 +58,11 @@ elif [ "${seamtask}" = new-form ]
 
 elif [ "${seamtask}" = new-conversation ] 
 	then
-		ant new-conversation -Dconversation.name=${taskinput} -Dpage.name="${taskinput2}"
+		ant new-conversation -Daction.name=${taskinput} -Dpage.name="${taskinput2}"
 
 elif [ "${seamtask}" = new-entity ] 
 	then
 		ant new-entity -Daction.name=${taskinput} -Dpage.name="${taskinput2}" -DmasterPage.name="${taskinput3}"
-
-elif [ "${seamtask}" = new-mdb ] 
-	then
-		ant new-mdb -Daction.name=${taskinput} 
 
 elif [ "${seamtask}" = help ] 
 	then
