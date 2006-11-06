@@ -11,7 +11,7 @@ public class LowercasePropertyTask extends Task
    @Override
    public void execute() throws BuildException
    {
-      if (value!=null)
+      if ( value!=null && !"".equals(value) )
       {
          getProject().setProperty( name, lower(value) );
       }
