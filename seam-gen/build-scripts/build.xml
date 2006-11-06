@@ -157,7 +157,9 @@
 		</delete>
 	</target>
 	
-	<target name="restart" depends="unexplode,explode" description="Restart the exploded archive"/>
+	<target name="restart" depends="unexplode,explode" description="Restart the exploded archive">
+		<touch file="${ear.deploy.dir}/application.xml"/>
+	</target>
 
 	<target name="deploy" depends="archive,datasource" description="Deploy to JBoss AS">
 		<fail unless="jboss.home">jboss.home not set</fail>
