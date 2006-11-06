@@ -14,7 +14,7 @@ cd seam-gen
 
 if [ "${seamtask}" = setup ] 
 	then
-		ant -buildfile build-setup.xml
+		ant setup
 
 elif [ "${seamtask}" = new-project ] 
 	then

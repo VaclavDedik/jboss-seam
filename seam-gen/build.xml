@@ -318,4 +318,67 @@
 		<echo message="Refer to README doc, or type `seam help'" />
 	</target>
 
+	<taskdef name="packageDirectory" 
+		classname="org.jboss.seam.tool.PackageDirectoryTask" 
+		classpath="../jboss-seam-gen.jar"/>
+	
+	<target name="setup">
+		
+		<property name="workspace.home" value="C:/Projects"/>
+		<input addproperty="workspace.home.new" 
+			       message="Enter your Java project workspace [${workspace.home}]" 
+			  defaultvalue="${workspace.home}"/>
+		
+		<property name="eclipse.wtp" value="N"/>
+		<input addproperty="eclipse.wtp.new" 
+			       message="Is this an Eclipse WTP workspace [${eclipse.wtp}] " 
+			     validargs="Y,N," 
+			  defaultvalue="${eclipse.wtp}"/>
+		
+		<property name="jboss.home" value="C:/Program Files/jboss-4.0.5.GA"/>
+		<input addproperty="jboss.home.new" 
+			       message="Enter your JBoss home directory [${jboss.home}]" 
+			  defaultvalue="${jboss.home}"/>
+		
+		<property name="action.package" value="com.mydomain"/>
+		<input addproperty="action.package.new" 
+			       message="Enter the Java package name for your session beans [${action.package}]" 
+			  defaultvalue="${action.package}"/>
+		
+		<property name="model.package" value="${action.package.new}"/>
+		<input addproperty="model.package.new" 
+			       message="Enter the Java package name for your entity beans [${model.package}]" 
+			  defaultvalue="${model.package}"/>
+		
+		<property name="mdb.package" value="${action.package.new}"/>
+		<input addproperty="mdb.package.new" 
+			       message="Enter the Java package name for your message drive beans [${mdb.package}]" 
+			  defaultvalue="${mdb.package}"/>
+		
+		<property name="test.package" value="${action.package.new}.test"/>
+		<input addproperty="test.package.new" 
+			       message="Enter the Java package name for your test cases [${test.package}]" 
+			  defaultvalue="${test.package}"/>
+		
+		<packageDirectory property="action.dir.new" package="${action.package.new}"/>
+		<packageDirectory property="model.dir.new" package="${model.package.new}"/>
+		<packageDirectory property="mdb.dir.new" package="${mdb.package.new}"/>
+		<packageDirectory property="test.dir.new" package="${test.package.new}"/>
+		
+		<propertyfile file="build.properties">
+			<entry key="workspace.home" value="${workspace.home.new}"/>
+			<entry key="jboss.home" value="${jboss.home.new}"/>
+			<entry key="eclipse.wtp" value="${eclipse.wtp.new}"/>
+			<entry key="action.package" value="${action.package.new}"/>
+			<entry key="action.dir" value="${action.dir.new}"/>
+			<entry key="model.package" value="${model.package.new}"/>
+			<entry key="model.dir" value="${model.dir.new}"/>
+			<entry key="mdb.package" value="${mdb.package.new}"/>
+			<entry key="mdb.dir" value="${mdb.dir.new}"/>
+			<entry key="test.package" value="${test.package.new}"/>
+			<entry key="test.dir" value="${test.dir.new}"/>
+		</propertyfile>
+		
+	</target>
+
 </project>
