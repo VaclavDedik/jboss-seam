@@ -11,8 +11,10 @@ public class PackageDirectoryTask extends Task
    @Override
    public void execute() throws BuildException
    {
-      this.getProject().setProperty( propertyName, packageName.replace('.', '/') );
-      super.execute();
+      if (packageName!=null)
+      {
+         getProject().setProperty( propertyName, packageName.replace('.', '/') );
+      }
    }
 
    public void setPackage(String packageName)
