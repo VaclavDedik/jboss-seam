@@ -1,4 +1,3 @@
-<#assign pound = "#">
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
@@ -10,12 +9,12 @@
                        
 <ui:define name="body">
 
-    <h1>${pageName}</h1>
-    <p>Generated form page.</p>
+    <h1>@pageName@</h1>
+    <p>Generated form page</p>
     
     <h:messages globalOnly="true" styleClass="message"/>
     
-    <h:form id="${componentName}">
+    <h:form id="@componentName@">
         <div class="dialog">
         <s:validateAll>
             <div class="prop">
@@ -23,15 +22,15 @@
                 <span class="value">
                     <s:decorate>
                         <h:inputText id="value" required="true"
-                            value="${pound}{${componentName}.value}"/>
+                            value="#{@componentName@.value}"/>
                     </s:decorate>
                 </span>
             </div>
         </s:validateAll>
         </div>
         <div class="actionButtons">
-            <h:commandButton id="${componentName}" value="${actionName}" 
-                action="${pound}{${componentName}.${componentName}}"/>     			  
+            <h:commandButton id="@methodName@" value="@methodName@" 
+                action="#{@componentName@.@methodName@}"/>     			  
         </div>
     </h:form>
     

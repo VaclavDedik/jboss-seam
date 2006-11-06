@@ -1,12 +1,12 @@
-package ${packageName};
+package @actionPackage@;
 
 import javax.ejb.Local;
 
 @Local
-public interface ${interfaceName} {  
+public interface @interfaceName@ {  
     
 	//seam-gen method
-	public String ${componentName}();  
+	public String @methodName@();  
 	
     //add additional interface methods here
 }

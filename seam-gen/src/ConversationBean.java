@@ -1,4 +1,4 @@
-package ${packageName};
+package @actionPackage@;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
@@ -10,8 +10,8 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.log.Log;
 
 @Stateful
-@Name("${componentName}")
-public class ${actionName}Action implements ${actionName} {
+@Name("@componentName@")
+public class @beanName@ implements @interfaceName@ {
 	
     @Logger private Log log;
     

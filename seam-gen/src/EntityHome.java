@@ -1,29 +1,29 @@
-package ${packageName};
+package @actionPackage@;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.framework.EntityHome;
 
-import ${entityPackage}.${actionName};
+import @modelPackage@.@entityName@;
 
-@Name("${componentName}Home")
-public class ${actionName}Home extends EntityHome<${actionName}>
+@Name("@homeName@")
+public class @entityName@Home extends EntityHome<@entityName@>
 {
 
     @RequestParameter 
-    Long ${componentName}Id;
+    Long @componentName@Id;
     
     @Override
     public Object getId() 
     { 
-        if (${componentName}Id==null)
+        if (@componentName@Id==null)
         {
             return super.getId();
         }
         else
         {
-            return ${componentName}Id;
+            return @componentName@Id;
         }
     }
     

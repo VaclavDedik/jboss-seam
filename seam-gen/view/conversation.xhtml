@@ -1,4 +1,3 @@
-<#assign pound = "#">
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
@@ -10,7 +9,7 @@
                        
 <ui:define name="body">
 
-    <h1>${pageName}</h1>
+    <h1>@pageName@</h1>
     <p>Generated conversation page.</p>
     
     <h:messages globalOnly="true" styleClass="message"/>
@@ -18,18 +17,18 @@
     <div class="dialog">
         <div class="prop">
             <span class="name">Value</span>
-            <span class="value">${pound}{${componentName}.value}</span>
+            <span class="value">#{@componentName@.value}</span>
         </div>
     </div>
     
-    <h:form id="${componentName}">
+    <h:form id="@componentName@">
         <div class="actionButtons">
             <h:commandButton id="begin" value="Begin" 
-                action="${pound}{${componentName}.begin}"/>     			  
+                action="#{@componentName@.begin}"/>     			  
             <h:commandButton id="inc" value="Increment" 
-                action="${pound}{${componentName}.increment}"/>     			  
+                action="#{@componentName@.increment}"/>     			  
             <h:commandButton id="end" value="End" 
-                action="${pound}{${componentName}.end}"/>     			  
+                action="#{@componentName@.end}"/>     			  
         </div>
     </h:form>
     

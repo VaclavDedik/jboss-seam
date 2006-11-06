@@ -1,9 +1,9 @@
-package ${packageName};
+package @actionPackage@;
 
 import javax.ejb.Local;
 
 @Local
-public interface ${interfaceName} {  
+public interface @interfaceName@ {  
 	
 	//seam-gen methods
 	public String begin();

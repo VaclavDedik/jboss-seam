@@ -1,10 +1,9 @@
-<#assign pound = "#">
-package ${testPackageName};
+package @testPackage@;
 
 import org.testng.annotations.Test;
 import org.jboss.seam.mock.SeamTest;
 
-public class ${actionName}Test extends SeamTest {
+public class @interfaceName@Test extends SeamTest {
 
 	@Test
 	public void test() throws Exception {
@@ -16,7 +15,7 @@ public class ${actionName}Test extends SeamTest {
 			@Override
 			protected void invokeApplication() {
 				//call action methods here
-				invokeMethod("${pound}{${componentName}.${componentName}}");
+				invokeMethod("#{@componentName@.@methodName@}");
 			}
 			@Override
 			protected void renderResponse() {

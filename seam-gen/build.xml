@@ -8,6 +8,53 @@
 	<property name="page.name" value=""/>
 	<property name="masterPage.name" value=""/>
 
+	<taskdef name="packageDirectory" 
+		classname="org.jboss.seam.tool.PackageDirectoryTask" 
+		classpath="../jboss-seam-gen.jar"/>
+	
+	<taskdef name="lowercaseProperty" 
+		classname="org.jboss.seam.tool.LowercasePropertyTask" 
+		classpath="../jboss-seam-gen.jar"/>
+	
+	<packageDirectory property="action.dir" package="${action.package}"/>
+	<packageDirectory property="model.dir" package="${model.package}"/>
+	<packageDirectory property="mdb.dir" package="${mdb.package}"/>
+	<packageDirectory property="test.dir" package="${test.package}"/>
+	
+	<property name="interface.name" value="${action.name}"/>
+	<property name="bean.name" value="${action.name}Bean"/>
+	<property name="entity.name" value="${action.name}"/>
+	<lowercaseProperty name="method.name" value="${action.name}"/>
+	<lowercaseProperty name="component.name" value="${action.name}"/>
+	<lowercaseProperty name="page.name" value="${action.name}"/>
+	<lowercaseProperty name="masterPage.name" value="${action.name}"/>
+	
+	<property name="bean.file" value="${workspace.home}/${project.name}/src/${action.dir}/${bean.name}.java"/>
+	<property name="interface.file" value="${workspace.home}/${project.name}/src/${action.dir}/${interface.name}.java"/>
+	<property name="entity.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}.java"/>
+	<property name="home.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}Home.java"/>
+	<property name="list.file" value="${workspace.home}/${project.name}/src/${action.dir}/${entity.name}List.java"/>
+	<property name="page.file" value="${workspace.home}/${project.name}/view/${page.name}.xhtml"/>
+	<property name="masterPage.file" value="${workspace.home}/${project.name}/view/${masterPage.name}.xhtml"/>
+	<property name="test.file" value="${workspace.home}/${project.name}/src/${test.dir}/${interface.name}Test.java"/>
+	<property name="testng.file" value="${workspace.home}/${project.name}/src/${test.dir}/testng.xml"/>
+	
+	<filterset id="filters">
+		<filter token="interfaceName" value="${interface.name}"/>
+		<filter token="beanName" value="${bean.name}"/>
+		<filter token="entityName" value="${entity.name}"/>
+		<filter token="methodName" value="${method.name}"/>
+		<filter token="componentName" value="${component.name}"/>
+		<filter token="pageName" value="${page.name}"/>
+		<filter token="masterPageName" value="${masterPage.name}"/>
+		<filter token="actionPackage" value="${action.package}"/>
+		<filter token="modelPackage" value="${model.package}"/>
+		<filter token="mdbPackage" value="${mdb.package}"/>
+		<filter token="testPackage" value="${test.package}"/>
+		<filter token="listName" value="${component.name}List"/>
+		<filter token="homeName" value="${component.name}Home"/>
+	</filterset>
+	
 	<target name="create-folders">
 		<echo message="Creating Project Folders ..." />
 		<mkdir dir="${workspace.home}/${project.name}" />
@@ -34,10 +81,6 @@
 				<include name="jboss-seam-debug.jar" />
 			</fileset>
 		</copy>
-		<mkdir dir="${basedir}/src/" />
-		<copy todir="${workspace.home}/${project.name}/src">
-			<fileset dir="${basedir}/src/" />
-		</copy>
 		<copy todir="${workspace.home}/${project.name}/resources">
 			<fileset dir="${basedir}/resources/">
 				<exclude name="META-INF/application-wtp.xml" />
@@ -48,7 +91,12 @@
 		</copy>
 		<move tofile="${workspace.home}/${project.name}/resources/${project.name}-ds.xml" file="${workspace.home}/${project.name}/resources/datasource-ds.xml" />
 		<copy todir="${workspace.home}/${project.name}/view">
-			<fileset dir="${basedir}/view/" />
+			<fileset dir="${basedir}/view">
+				<include name="home.xhtml"/>
+				<include name="index.xhtml"/>
+				<include name="layout/*"/>
+				<include name="stylesheet/*"/>
+			</fileset>
 			<filterset>
 				<filter token="projectName" value="${project.name}" />
 			</filterset>
@@ -78,9 +126,6 @@
 				<include name="jboss-seam-ui.jar" />
 				<include name="jboss-seam-debug.jar" />
 			</fileset>
-		</copy>
-		<copy todir="${workspace.home}/${project.name}/ejbModule">
-			<fileset dir="${basedir}/src/" />
 		</copy>
 		<copy todir="${workspace.home}/${project.name}EJB/ejbModule" overwrite="true">
 			<fileset dir="${basedir}/resources/">
@@ -118,7 +163,15 @@
 		</copy>
 		<move tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml" file="${workspace.home}/${project.name}/EarContent/datasource-ds.xml" />
 		<copy todir="${workspace.home}/${project.name}Web/WebContent">
-			<fileset dir="${basedir}/view/" />
+			<fileset dir="${basedir}/view">
+				<include name="home.xhtml"/>
+				<include name="index.xhtml"/>
+				<include name="layout/*"/>
+				<include name="stylesheet/*"/>
+			</fileset>
+			<filterset>
+				<filter token="projectName" value="${project.name}" />
+			</filterset>
 		</copy>
 		<copy todir="${workspace.home}/${project.name}Web/WebContent/WEB-INF" overwrite="true">
 			<fileset dir="${basedir}/resources/WEB-INF" />
@@ -230,78 +283,69 @@
 		<delete dir="${workspace.home}/${project.name}" />
 	</target>
 
-	<target name="new-stateful-action" depends="validate-project">
-		<echo message="Creating a new stateful session bean component with an action method" />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-stateful-action" />
-			<arg value="${project.name}" />
-			<arg value="${action.name}" />
-			<arg value="${page.name}" />
-			<classpath>
-				<pathelement location="../lib/freemarker.jar" />
-				<pathelement path="../jboss-seam-gen.jar" />
-			</classpath>
-		</java>
-	</target>
-
 	<target name="new-stateless-action" depends="validate-project">
 		<echo message="Creating a new stateless session bean component with an action method" />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-stateless-action" />
-			<arg value="${project.name}" />
-			<arg value="${action.name}" />
-			<arg value="${page.name}" />
-			<classpath>
-				<pathelement location="../lib/freemarker.jar" />
-				<pathelement path="../jboss-seam-gen.jar" />
-			</classpath>
-		</java>
+		<copy file="src/ActionBean.java" tofile="${bean.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="src/Action.java" tofile="${interface.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="src/TestCase.java" tofile="${test.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="src/testng.xml" tofile="${testng.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="view/action.xhtml" tofile="${page.file}">
+			<filterset refid="filters"/>
+		</copy>
+	</target>
+
+	<target name="new-stateful-action" depends="validate-project">
+		<echo message="Creating a new stateful session bean component with an action method" />
+		<echo message="Creating a new stateless session bean component with an action method" />
+		<copy file="src/FormActionBean.java" tofile="${bean.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="src/FormAction.java" tofile="${interface.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="view/form.xhtml" tofile="${page.file}">
+			<filterset refid="filters"/>
+		</copy>
 	</target>
 
 	<target name="new-conversation" depends="validate-project">
 		<echo message="Creating a new stateful session bean component with @Begin and @End methods" />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-conversation" />
-			<arg value="${project.name}" />
-			<arg value="${action.name}" />
-			<arg value="${page.name}" />
-			<classpath>
-				<pathelement location="../lib/freemarker.jar" />
-				<pathelement path="../jboss-seam-gen.jar" />
-			</classpath>
-		</java>
+		<copy file="src/ConversationBean.java" tofile="${bean.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="src/Conversation.java" tofile="${interface.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="view/conversation.xhtml" tofile="${page.file}">
+			<filterset refid="filters"/>
+		</copy>
 	</target>
 
 	<target name="new-entity" depends="validate-project">
 		<echo message="Creating a new entity bean, with home and list components" />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-entity" />
-			<arg value="${project.name}" />
-			<arg value="${action.name}" />
-			<arg value="${page.name}" />
-			<arg value="${masterPage.name}" />
-			<classpath>
-				<pathelement location="../lib/freemarker.jar" />
-				<pathelement path="../jboss-seam-gen.jar" />
-			</classpath>
-		</java>
-	</target>
-
-	<target name="new-mdb" depends="validate-project">
-		<echo message="Creating a new message driven bean" />
-		<input addproperty="destination.type" message="Enter destination type 'Queue' or 'Topic':" validargs="Queue,Topic" />
-		<input addproperty="destination" message="Enter destination:" />
-		<java classname="org.jboss.seam.tool.SeamGenCommandLine">
-			<arg value="new-mdb" />
-			<arg value="${project.name}" />
-			<arg value="${action.name}" />
-			<arg value="${destination}" />
-			<arg value="${destination.type}" />
-			<classpath>
-				<pathelement location="../lib/freemarker.jar" />
-				<pathelement path="../jboss-seam-gen.jar" />
-			</classpath>
-		</java>
+		<copy file="src/Entity.java" tofile="${entity.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="src/EntityHome.java" tofile="${home.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="src/EntityList.java" tofile="${list.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="view/edit.xhtml" tofile="${page.file}">
+			<filterset refid="filters"/>
+		</copy>
+		<copy file="view/list.xhtml" tofile="${masterPage.file}">
+			<filterset refid="filters"/>
+		</copy>
 	</target>
 
 	<target name="deploy" depends="validate-project">
@@ -333,10 +377,6 @@
 		<echo message="Refer to README doc, or type `seam help'" />
 	</target>
 
-	<taskdef name="packageDirectory" 
-		classname="org.jboss.seam.tool.PackageDirectoryTask" 
-		classpath="../jboss-seam-gen.jar"/>
-	
 	<target name="setup">
 		
 		<property name="workspace.home" value="C:/Projects"/>
@@ -405,23 +445,14 @@
 			       message="Enter database password [${hibernate.connection.password}]" 
 			  defaultvalue="${hibernate.connection.password}"/>
 				
-		<packageDirectory property="action.dir.new" package="${action.package.new}"/>
-		<packageDirectory property="model.dir.new" package="${model.package.new}"/>
-		<packageDirectory property="mdb.dir.new" package="${mdb.package.new}"/>
-		<packageDirectory property="test.dir.new" package="${test.package.new}"/>
-		
 		<propertyfile file="build.properties">
 			<entry key="workspace.home" value="${workspace.home.new}"/>
 			<entry key="jboss.home" value="${jboss.home.new}"/>
 			<entry key="eclipse.wtp" value="${eclipse.wtp.new}"/>
 			<entry key="action.package" value="${action.package.new}"/>
-			<entry key="action.dir" value="${action.dir.new}"/>
 			<entry key="model.package" value="${model.package.new}"/>
-			<entry key="model.dir" value="${model.dir.new}"/>
 			<entry key="mdb.package" value="${mdb.package.new}"/>
-			<entry key="mdb.dir" value="${mdb.dir.new}"/>
 			<entry key="test.package" value="${test.package.new}"/>
-			<entry key="test.dir" value="${test.dir.new}"/>
 			<entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
 			<entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
 			<entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>

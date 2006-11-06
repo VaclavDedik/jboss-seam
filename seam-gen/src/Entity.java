@@ -1,4 +1,4 @@
-package ${entityPackage};
+package @modelPackage@;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Version;
 import org.hibernate.validator.Length;
 
 @Entity
-public class ${actionName} implements Serializable {
+public class @entityName@ implements Serializable {
 	
 	//seam-gen attributes (you should probably edit these)
 	private Long id;

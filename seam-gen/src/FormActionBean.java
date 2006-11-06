@@ -1,5 +1,4 @@
-<#assign pound = "#">
-package ${packageName};
+package @actionPackage@;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
@@ -12,8 +11,8 @@ import org.jboss.seam.core.FacesMessages;
 import org.hibernate.validator.Length;
 
 @Stateful 
-@Name("${componentName}")
-public class ${actionName}Action implements ${actionName} {
+@Name("@componentName@")
+public class @beanName@ implements @interfaceName@ {
 
     @Logger private Log log;
     
@@ -23,11 +22,11 @@ public class ${actionName}Action implements ${actionName} {
     private String value;
 	
 	//seam-gen method
-	public String ${componentName}()
+	public String @methodName@()
 	{
 		//implement your business logic here
-		log.info("${componentName}() action called with: ${pound}0", value);
-		facesMessages.add( "${componentName} ${pound}0", (Object) value );
+		log.info("@componentName@.@methodName@() action called with: #0", value);
+		facesMessages.add( "@methodName@ #0", (Object) value );
 		return "success";
 	}
 	

@@ -93,10 +93,3 @@ SEAM CODE GENERATION COMMANDS
       and a couple of stub attributes.
 	     
       Example: seam new-entity CLASS_NAME [PAGE_NAME] [LIST_PAGE_NAME]
-	     
-   new-mdb
-      Create a new EJB3 MDB with key Seam/EJB3 annotations. 
-      Input prompt for destination type (Topic or Queue).
-      Input prompt for JMS destination.
-	     
-      Example: seam new-mdb CLASS_NAME
