@@ -54,11 +54,11 @@
 			</filterset>
 		</copy>
 		<copy todir="${workspace.home}/${project.name}/">
-			<filterset>
+			<fileset dir="${basedir}/build-scripts/" />
+				<filterset>
 				<filter token="projectName" value="${project.name}" />
 				<filter token="jbossHome" value="${jboss.home}" />
 			</filterset>
-			<fileset dir="${basedir}/build-scripts/" />
 		</copy>
 		<copy todir="${workspace.home}/${project.name}/embedded-ejb">
 			<fileset dir="../embedded-ejb/" />
@@ -312,6 +312,21 @@
 	<target name="undeploy" depends="validate-project">
 		<echo message="Undeploying project '${project.name}'" />
 		<ant antfile="${workspace.home}/${project.name}/build.xml" target="undeploy" inheritall="false"/>
+	</target>
+
+	<target name="explode" depends="validate-project">
+		<echo message="Deploying project '${project.name}' to JBoss as an exploded directory" />
+		<ant antfile="${workspace.home}/${project.name}/build.xml" target="explode" inheritall="false"/>
+	</target>
+
+	<target name="restart" depends="validate-project">
+		<echo message="Restarting project '${project.name}'" />
+		<ant antfile="${workspace.home}/${project.name}/build.xml" target="restart" inheritall="false"/>
+	</target>
+
+	<target name="unexplode" depends="validate-project">
+		<echo message="Undeploying exploded directory for project '${project.name}'" />
+		<ant antfile="${workspace.home}/${project.name}/build.xml" target="unexplode" inheritall="false"/>
 	</target>
 
 	<target name="help">

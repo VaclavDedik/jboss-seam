@@ -32,6 +32,18 @@ elif [ "${seamtask}" = undeploy ]
 	then
 		ant undeploy
 
+elif [ "${seamtask}" = explode ] 
+	then
+		ant explode
+
+elif [ "${seamtask}" = restart ] 
+	then
+		ant restart
+
+elif [ "${seamtask}" = unexplode ] 
+	then
+		ant unexplode
+
 elif [ "${seamtask}" = new-action ] 
 	then
 		ant new-stateless-action -Daction.name=${taskinput} -Dpage.name="${taskinput2}"

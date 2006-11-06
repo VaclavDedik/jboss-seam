@@ -36,6 +36,26 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
 	     
       Example: seam undeploy
 
+   explode
+      Deploy the project and datasource to JBoss as an exploded
+      directory structure. This command will not work if you created 
+      a WTP project.
+	     
+      Example: seam explode
+
+   restart
+      Restart the project that was deployed as an exploded directory 
+      structure. This command will not work if you created a WTP 
+      project.
+	     
+      Example: seam restart
+
+   unexplode
+      Undeploy the exploded directory and datasource. This command
+      will not work if you created a WTP project.
+	     
+      Example: seam unexplode
+
 SEAM CODE GENERATION COMMANDS
    new-conversation
       Create a new Java interface and SFSB with key Seam/EJB3 

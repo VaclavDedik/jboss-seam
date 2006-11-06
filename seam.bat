@@ -27,6 +27,12 @@ if "%SEAMTASK%" == "deploy" ant deploy
 	
 if "%SEAMTASK%" == "deploy" ant undeploy
 	
+if "%SEAMTASK%" == "explode" ant explode
+	
+if "%SEAMTASK%" == "restart" ant restart
+	
+if "%SEAMTASK%" == "unexplode" ant unexplode
+	
 if "%SEAMTASK%" == "new-action" ant new-stateless-action -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%"
 
 if "%SEAMTASK%" == "new-form" ant new-stateful-action -Daction.name=%TASKINPUT% -Dpage.name="%TASKINPUT2%"
