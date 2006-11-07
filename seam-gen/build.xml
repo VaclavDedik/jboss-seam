@@ -508,6 +508,8 @@
             <entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
             <entry key="driver.jar" value="${driver.jar.new}"/>
         </propertyfile>
+    	
+    	<copy file="${driver.jar.new}" todir="${jboss.home.new}/server/default/lib"/>
         
     </target>
     
@@ -522,10 +524,24 @@
     </taskdef>
     
     <target name="generate-entities">
-        <hibernatetool destdir="${project.home}/src">
-            <jdbcconfiguration propertyfile="build.properties" packagename="${model.package}"/>
-            <hbm2java jdk5="true" ejb3="true"/> 
-        </hibernatetool>
+        <hibernatetool classpath="../jboss-seam-gen.jar">
+            <jdbcconfiguration propertyfile="build.properties" 
+            	                packagename="${model.package}"/>
+        	<property key="hibernatetool.util.toolclass" value="org.jboss.seam.tool.Util"/>
+            <hbm2java jdk5="true" ejb3="true" destdir="${project.home}/src"/> 
+        	<hbmtemplate filepattern="{class-name}List.xhtml"
+        	                template="view/list.xhtml.ftl" 
+        		             destdir="${project.home}/view"/>
+        	<hbmtemplate filepattern="{class-name}.xhtml"
+        	                template="view/edit.xhtml.ftl" 
+        		             destdir="${project.home}/view"/>
+        	<hbmtemplate filepattern="{package-name}/{class-name}List.java"
+        	                template="src/EntityList.java.ftl" 
+        		             destdir="${project.home}/src"/>
+        	<hbmtemplate filepattern="{package-name}/{class-name}Home.java"
+        	                template="src/EntityHome.java.ftl" 
+        		             destdir="${project.home}/src"/>
+		</hibernatetool>
     </target>
 
 </project>
