@@ -137,7 +137,8 @@
     <fileset id="view" dir="${basedir}/view">
         <include name="home.xhtml"/>
         <include name="index.html"/>
-        <include name="layout/*"/>
+        <include name="layout/template.xhtml"/>
+    	<include name="layout/menu.xhtml"/>
         <include name="stylesheet/*"/>
     </fileset>
 
@@ -268,11 +269,11 @@
         </fail>
     </target>
 
-    <target name="new-project" depends="validate-workspace,file-copy,set-default-project">
+    <target name="new-project" depends="validate-project,file-copy,set-default-project">
         <echo message="A new Seam project called '${project.name}' was created in the ${workspace.home} directory"/>
     </target>
 
-    <target name="new-wtp-project" depends="validate-workspace,file-copy-wtp,set-default-project">
+    <target name="new-wtp-project" depends="validate-project,file-copy-wtp,set-default-project">
         <echo message="A new WTP project was created in the ${workspace.home} directory"/>
     </target>
 
@@ -416,6 +417,11 @@
         <ant antfile="${project.home}/build.xml" target="restart" inheritall="false"/>
     </target>
 
+    <target name="clean" depends="validate-project">
+        <echo message="Cleaning project '${project.name}'" />
+        <ant antfile="${project.home}/build.xml" target="clean" inheritall="false"/>
+    </target>
+
     <target name="unexplode" depends="validate-project">
         <echo message="Undeploying exploded directory for project '${project.name}'" />
         <ant antfile="${project.home}/build.xml" target="unexplode" inheritall="false"/>
@@ -544,6 +550,9 @@
         	<hbmtemplate filepattern="{package-name}/{class-name}Home.java"
         	                template="src/EntityHome.java.ftl" 
         		             destdir="${project.home}/src"/>
+        	<hbmtemplate filepattern="menu.xhtml"
+        	                template="view/layout/menu.xhtml.ftl" 
+        		             destdir="${project.home}/view/layout"/>
 		</hibernatetool>
     </target>
 
