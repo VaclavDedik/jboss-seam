@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <project name="Seam" default="build" basedir=".">
-	
-	<tstamp/>
+    
+    <tstamp/>
 
     <!-- Allow this to be overriden by others importing this project. -->
     <dirname property="imported.basedir" file="${ant.file.Seam}"/>
@@ -20,15 +20,15 @@
     <property name="build.dir"            value="build"/>
     <property name="classes.dir"          value="${build.dir}/classes"/>    
     <property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
-	<property name="debugclasses.dir"     value="${build.dir}/debugclasses"/>
+    <property name="debugclasses.dir"     value="${build.dir}/debugclasses"/>
     <property name="coverage.dir"         value="${build.dir}/coverage"/>
-	
-	<property name="genclasses.dir"     value="${build.dir}/genclasses"/>
+    
+    <property name="genclasses.dir"     value="${build.dir}/genclasses"/>
 
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
-	<property name="src.debug.dir"        value="src/debug"/>
-	<property name="src.gen.dir"          value="src/gen"/>
+    <property name="src.debug.dir"        value="src/debug"/>
+    <property name="src.gen.dir"          value="src/gen"/>
     <property name="src.test.dir"         value="src/test"/>
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
@@ -54,14 +54,14 @@
     <property name="dist.ref.dir"         value="${dist.dir}/doc/reference"/>
     <property name="dist.src.java.dir"    value="${dist.dir}/src/main"/>
     <property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
-	<property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
+    <property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
     <property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
     <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
     <property name="dist.facelets.dir"    value="${dist.dir}/facelets"/>
-	<property name="dist.drools.dir"      value="${dist.dir}/drools"/>
-	<property name="dist.seamgen.dir"      value="${dist.dir}/seam-gen"/>
+    <property name="dist.drools.dir"      value="${dist.dir}/drools"/>
+    <property name="dist.seamgen.dir"      value="${dist.dir}/seam-gen"/>
 
     <property name="deploy.dir"           value="${jboss.home}/server/default/deploy"/>
     <property name="webroot.dir"          value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
@@ -70,14 +70,14 @@
 
     <property name="javac.debug"          value="true"/>
     <property name="javac.deprecation"    value="false"/>
-	
+    
     <path id="example.path" />
     
     <fileset id="lib" 
-    	    dir="${imported.basedir}"
+            dir="${imported.basedir}"
         description="compile-time dependencies">
         <include name="lib/*.jar"/>
-    	<include name="drools/lib/*.jar"/>
+        <include name="drools/lib/*.jar"/>
       <include name="facelets/lib/*.jar"/>
     </fileset>
     
@@ -91,7 +91,7 @@
             dir="${imported.basedir}"
             description="the Seam debug and UI jars">
         <include name="${name}-ui.jar" />
-    	<include name="${name}-debug.jar" />
+        <include name="${name}-debug.jar" />
     </fileset>
     
     <fileset id="ui.seam.jar" 
@@ -213,13 +213,13 @@
         <ant dir="examples/blog" target="clean" inheritall="false"/>
         <ant dir="examples/issues" target="clean" inheritall="false"/>
         <ant dir="examples/dvdstore" target="clean" inheritall="false"/>
-    	<ant dir="examples/contactlist" target="clean" inheritall="false"/>
+        <ant dir="examples/contactlist" target="clean" inheritall="false"/>
         <ant dir="examples/messages" target="clean" inheritall="false"/>
         <ant dir="examples/numberguess" target="clean" inheritall="false"/>
         <ant dir="examples/registration" target="clean" inheritall="false"/>
         <ant dir="examples/todo" target="clean" inheritall="false"/>
         <ant dir="examples/portal" target="clean" inheritall="false"/>
-    	<ant dir="examples/drools" target="clean" inheritall="false"/>
+        <ant dir="examples/drools" target="clean" inheritall="false"/>
         <ant dir="examples/remoting/helloworld" target="clean" inheritall="false"/>
         <ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
         <ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
@@ -233,12 +233,12 @@
         <ant dir="examples/blog" target="undeploy" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy" inheritall="false"/>
         <ant dir="examples/dvdstore" target="undeploy" inheritall="false"/>
-    	<ant dir="examples/contactlist" target="undeploy" inheritall="false"/>
+        <ant dir="examples/contactlist" target="undeploy" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy" inheritall="false"/>
         <ant dir="examples/numberguess" target="undeploy" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy" inheritall="false"/>
         <ant dir="examples/todo" target="undeploy" inheritall="false"/>
-    	<ant dir="examples/drools" target="undeploy" inheritall="false"/>
+        <ant dir="examples/drools" target="undeploy" inheritall="false"/>
         <ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false"/>
         <ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false"/>
         <ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false"/>
@@ -248,11 +248,11 @@
         <ant dir="examples/dvdstore" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/blog" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/issues" target="undeploy.tomcat" inheritall="false"/>
-    	<ant dir="examples/contactlist" target="undeploy.tomcat" inheritall="false"/>
+        <ant dir="examples/contactlist" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/registration" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/messages" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/todo" target="undeploy.tomcat" inheritall="false"/>
-    	<ant dir="examples/drools" target="undeploy.tomcat" inheritall="false"/>
+        <ant dir="examples/drools" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/numberguess" target="undeploy.tomcat" inheritall="false"/>
     </target>
 
@@ -306,18 +306,18 @@
         </copy>
         
     </target>
-	
-	<target name="initgen"
-	            description="Initialize the build for the seam-gen package">
-	        <echo message="Build ${Name} GEN ${version}"/>
+    
+    <target name="initgen"
+                description="Initialize the build for the seam-gen package">
+            <echo message="Build ${Name} GEN ${version}"/>
 
-	        <mkdir dir="${genclasses.dir}"/>
-	        <copy todir="${genclasses.dir}">
-	            <fileset dir="${src.gen.dir}">
-	                <patternset refid="meta.files"/>
-	            </fileset>
-	        </copy>	        
-	</target>
+            <mkdir dir="${genclasses.dir}"/>
+            <copy todir="${genclasses.dir}">
+                <fileset dir="${src.gen.dir}">
+                    <patternset refid="meta.files"/>
+                </fileset>
+            </copy>            
+    </target>
 
     <target name="compile" depends="init"
             description="Compile the Java source code">
@@ -337,7 +337,7 @@
         <javac
             destdir="${uiclasses.dir}"
             classpathref="build.classpath"
-        	classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
+            classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
             nowarn="on">
@@ -350,25 +350,25 @@
         <javac
             destdir="${debugclasses.dir}"
             classpathref="build.classpath"
-        	classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
+            classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
             nowarn="on">
             <src path="${src.debug.dir}"/>
         </javac>
     </target>
-	
-	 <target name="compilegen" depends="initgen"
-	            description="Compile the Java source code for the seam-gen package">
-	        <javac
-	            destdir="${genclasses.dir}"
-	            classpathref="build.classpath"
-	        	debug="${javac.debug}"
-	            deprecation="${javac.deprecation}"
-	            nowarn="on">
-	            <src path="${src.gen.dir}"/>
-	        </javac>
-	    </target>
+    
+     <target name="compilegen" depends="initgen"
+                description="Compile the Java source code for the seam-gen package">
+            <javac
+                destdir="${genclasses.dir}"
+                classpathref="build.classpath"
+                debug="${javac.debug}"
+                deprecation="${javac.deprecation}"
+                nowarn="on">
+                <src path="${src.gen.dir}"/>
+            </javac>
+        </target>
     
     <target name="testcore" depends="compile"
             description="Run the core unit tests">
@@ -580,8 +580,8 @@
                 <include name="portal/**/*"/>
                 <include name="drools/**/*"/>
                 <include name="remoting/chatroom/*"/>
-            	<include name="remoting/helloworld/*"/>
-            	<include name="remoting/progressbar/*"/>
+                <include name="remoting/helloworld/*"/>
+                <include name="remoting/progressbar/*"/>
                 <include name="readme.txt"/>
                 <include name="seam-examples.html"/>
                 <exclude name="*/build"/>
@@ -640,21 +640,21 @@
         <copy file="${basedir}/${name}-debug.jar" todir="${dist.dir}"/>
         
     </target>
-	
-	<target name="jargen" depends="compilegen"
-	            description="Build the distribution .jar file for the seam-gen package">
-	        <mkdir dir="${dist.dir}"/>
-	        
-	        <jar jarfile="${basedir}/${name}-gen.jar" basedir="${genclasses.dir}">
-	            <include name="**/*.class"/>
-	            <patternset refid="meta.files"/>
-	            <manifest>
-	                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
-	            </manifest>
-	        </jar>
-	        <copy file="${basedir}/${name}-gen.jar" todir="${dist.dir}"/>
-	        
-	</target>
+    
+    <target name="jargen" depends="compilegen"
+                description="Build the distribution .jar file for the seam-gen package">
+            <mkdir dir="${dist.dir}"/>
+            
+            <jar jarfile="${basedir}/${name}-gen.jar" basedir="${genclasses.dir}">
+                <include name="**/*.class"/>
+                <patternset refid="meta.files"/>
+                <manifest>
+                    <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+                </manifest>
+            </jar>
+            <copy file="${basedir}/${name}-gen.jar" todir="${dist.dir}"/>
+            
+    </target>
 
     <target name="javadoc"
         description="Compile the Javadoc API documentation to dist dir">
@@ -690,13 +690,15 @@
         </copy>
 
     </target>
-	
-	<target name="copyseamgen"
-	        description="Copy seam-gen directory to dist dir">
-		<copy todir="${dist.seamgen.dir}">
-			<fileset dir="${seamgen.dir}"/>
-		</copy>
-	</target>
+    
+    <target name="copyseamgen"
+            description="Copy seam-gen directory to dist dir">
+        <copy todir="${dist.seamgen.dir}">
+            <fileset dir="${seamgen.dir}">
+                <exclude name="build.properties"/>
+            </fileset>
+        </copy>
+    </target>
 
     <target name="extras"
             description="Copy miscellaneous files to dist dir">
