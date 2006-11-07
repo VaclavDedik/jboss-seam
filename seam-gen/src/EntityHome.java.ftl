@@ -8,6 +8,9 @@ import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.framework.EntityHome;
 
+import java.util.List;
+import java.util.ArrayList;
+
 @Name("${homeName}")
 public class ${entityName}Home extends EntityHome<${entityName}>
 {
@@ -28,9 +31,19 @@ public class ${entityName}Home extends EntityHome<${entityName}>
         }
     }
     
-    @Override @Begin
+    @Override @Begin(join=true)
     public void create() {
         super.create();
     }
  	
+<#foreach property in pojo.allPropertiesIterator>
+<#assign getter = "get" + pojo.getPropertyName(property)>
+<#if c2h.isOneToManyCollection(property)>
+    public List ${getter}() {
+        return getInstance() == null ? 
+            null : new ArrayList( getInstance().${getter}() );
+    }
+</#if>
+</#foreach>
+
 }

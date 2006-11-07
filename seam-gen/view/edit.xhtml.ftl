@@ -77,6 +77,74 @@
         </div>
     </h:form>
     
+    <!-- work in progress -->
+    
+<#foreach property in pojo.allPropertiesIterator>
+
+<#if c2h.isManyToOne(property)>
+<#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
+<#assign parentPageName = parentPojo.shortName>
+<#assign parentName = util.lower(parentPojo.shortName)>
+           <h2>${property.name}</h2>
+           <h:outputText value="No ${property.name}" rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
+           <h:dataTable var="${parentName}" 
+                      value="${'#'}{${homeName}.instance.${property.name}}" 
+                   rendered="${'#'}{${homeName}.instance.${property.name} != null}"
+                   rowClasses="rvgRowOne,rvgRowTwo"
+                   id="${property.name}">
+<#foreach parentProperty in parentPojo.allPropertiesIterator>
+<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty)>
+               <h:column>
+                   <f:facet name="header">${parentProperty.name}</f:facet>
+                   ${'#'}{${parentName}.${parentProperty.name}}
+               </h:column>
+</#if>
+<#if c2h.isManyToOne(parentProperty)>
+<#assign parentParentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
+               <h:column>
+		           <f:facet name="header">${parentProperty.name}} ${parentParentPojo.identifierProperty.name}</f:facet>
+			       ${'#'}{${parentName}.${parentProperty.name}.${parentPojo.identifierProperty.name}}
+			   </h:column>
+</#if>
+</#foreach>
+               <h:column>
+                   <f:facet name="header">action</f:facet>
+		           <s:link id="${parentName}" value="View" view="/${parentPageName}.xhtml">
+		               <f:param name="${parentName}Id" value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
+		           </s:link>
+               </h:column>
+           </h:dataTable>
+</#if>
+
+<#if c2h.isOneToManyCollection(property)>
+          <h2>${property.name}</h2>
+<#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
+<#assign childPageName = childPojo.shortName>
+<#assign childName = util.lower(childPojo.shortName)>
+          <h:outputText value="No ${property.name}" rendered="${'#'}{empty ${homeName}.${property.name}}"/>
+          <h:dataTable value="${'#'}{${homeName}.${property.name}}" 
+                         var="${childName}" 
+                    rendered="${'#'}{not empty ${homeName}.${property.name}}" 
+                  rowClasses="rvgRowOne,rvgRowTwo"
+                          id="${property.name}">
+<#foreach childProperty in childPojo.allPropertiesIterator>
+<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
+            <h:column>
+                <f:facet name="header">${childProperty.name}</f:facet>
+                <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
+            </h:column>
+</#if>
+</#foreach>
+            <h:column>
+                <f:facet name="header">action</f:facet>
+		        <s:link id="${childName}" value="Select" view="/${childPageName}.xhtml">
+		            <f:param name="${childName}Id" value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
+		        </s:link>
+            </h:column>
+          </h:dataTable>
+</#if>
+</#foreach>
+    
 </ui:define>
 
 </ui:composition>
