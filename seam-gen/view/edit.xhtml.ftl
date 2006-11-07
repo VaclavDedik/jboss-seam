@@ -21,12 +21,13 @@
     
     <h:form id="${componentName}">
         <div class="dialog">
+        <table>
         <s:validateAll>
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
-            <div class="prop">
-                <span class="name">${property.name}</span>
-                <span class="value">
+            <tr class="prop">
+                <td class="name">${property.name}</td>
+                <td class="value">
                     <s:decorate>
 <#if property.equals(pojo.identifierProperty)>
 <#if property.value.identifierGeneratorStrategy == "assigned">
@@ -56,11 +57,12 @@
 </#if>
 </#if>
                     </s:decorate>
-                </span>
-            </div>
+                </td>
+            </tr>
 </#if>
 </#foreach>
         </s:validateAll>
+        </table>
         </div>
         <div class="actionButtons">
             <h:commandButton id="save" value="Save" 
@@ -69,9 +71,11 @@
             <h:commandButton id="update" value="Save" 
                 action="${'#'}{${homeName}.update}"
                 rendered="${'#'}{${homeName}.managed}"/>    			  
-            <h:commandButton id="delete" value="Delete" 
+            <s:link id="delete" value="Delete" 
                 action="${'#'}{${homeName}.remove}"
-                rendered="${'#'}{${homeName}.managed}"/>
+                rendered="${'#'}{${homeName}.managed}"
+                propagation="end" linkStyle="button"
+                view="/${masterPageName}.xhtml"/>
             <s:link id="done" value="Done" linkStyle="button"
                 propagation="end" view="/${masterPageName}.xhtml"/>			  
         </div>
@@ -109,7 +113,7 @@
 </#foreach>
                <h:column>
                    <f:facet name="header">action</f:facet>
-		           <s:link id="${parentName}" value="View" view="/${parentPageName}.xhtml">
+		           <s:link id="${parentName}" value="View" view="/${parentPageName}.xhtml" propagation="nest">
 		               <f:param name="${parentName}Id" value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
 		           </s:link>
                </h:column>
@@ -137,7 +141,7 @@
 </#foreach>
             <h:column>
                 <f:facet name="header">action</f:facet>
-		        <s:link id="${childName}" value="Select" view="/${childPageName}.xhtml">
+		        <s:link id="${childName}" value="Select" view="/${childPageName}.xhtml" propagation="nest">
 		            <f:param name="${childName}Id" value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
 		        </s:link>
             </h:column>

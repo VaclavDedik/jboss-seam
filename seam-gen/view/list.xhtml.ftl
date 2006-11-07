@@ -41,7 +41,7 @@
 </#foreach>
         <h:column>
             <f:facet name="header">action</f:facet>
-            <s:link id="${componentName}" value="Select" view="/${pageName}.xhtml">
+            <s:link id="${componentName}" value="Select" view="/${pageName}.xhtml" propagation="begin">
                 <f:param name="${componentName}Id" value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
             </s:link>
         </h:column>
