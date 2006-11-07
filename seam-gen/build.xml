@@ -115,20 +115,9 @@
     
     </target>
     
-    <target name="create-folders">
-        <echo message="Creating Project Folders ..." />
-    </target>
+    <target name="copy-lib">
+        <echo message="Copying project jars ..." />
 
-    <target name="create-folders-wtp">
-        <echo message="Creating Project Folders ..." />
-        <mkdir dir="${project.home}" />
-        <mkdir dir="${project.home}EJB" />
-        <mkdir dir="${project.home}Web" />
-    </target>
-
-    <target name="file-copy" depends="create-folders">
-        <echo message="Copying project jars and resources ..." />
-        
         <copy todir="${project.home}/lib">
             <fileset dir="../lib"/>
             <fileset dir="../facelets/lib"/>
@@ -138,7 +127,23 @@
                 <include name="jboss-seam-debug.jar"/>
             </fileset>
         </copy>
+
+        <copy todir="${project.home}/embedded-ejb">
+            <fileset dir="../embedded-ejb" />
+        </copy>
         
+    </target>
+    
+    <fileset id="view" dir="${basedir}/view">
+        <include name="home.xhtml"/>
+        <include name="index.html"/>
+        <include name="layout/*"/>
+        <include name="stylesheet/*"/>
+    </fileset>
+
+    <target name="file-copy" depends="copy-lib">
+        <echo message="Copying project resources ..." />
+                
         <copy todir="${project.home}/resources">
             <fileset dir="${basedir}/resources/">
                 <exclude name="META-INF/application-wtp.xml" />
@@ -152,12 +157,7 @@
         </move>
         
         <copy todir="${project.home}/view">
-            <fileset dir="${basedir}/view">
-                <include name="home.xhtml"/>
-                <include name="index.html"/>
-                <include name="layout/*"/>
-                <include name="stylesheet/*"/>
-            </fileset>
+            <fileset refid="view"/>
             <filterset refid="project"/>
         </copy>
         
@@ -166,26 +166,12 @@
             <filterset refid="project"/>
         </copy>
         
-        <copy todir="${project.home}/embedded-ejb">
-            <fileset dir="../embedded-ejb" />
-        </copy>
-        
         <mkdir dir="${project.home}/src"/>
         
     </target>
 
-    <target name="file-copy-wtp" depends="create-folders-wtp">
-        <echo message="Copying project jars and resources ..." />
-        
-        <copy todir="${project.home}/lib">
-            <fileset dir="../lib/" />
-            <fileset dir="../facelets/lib/" />
-            <fileset dir="../">
-                <include name="jboss-seam.jar" />
-                <include name="jboss-seam-ui.jar" />
-                <include name="jboss-seam-debug.jar" />
-            </fileset>
-        </copy>
+    <target name="file-copy-wtp" depends="copy-lib">
+        <echo message="Copying project resources ..." />
         
         <copy todir="${project.home}EJB/ejbModule" overwrite="true">
             <fileset dir="${basedir}/resources/">
@@ -228,12 +214,7 @@
         </move>
         
         <copy todir="${project.home}Web/WebContent">
-            <fileset dir="${basedir}/view">
-                <include name="home.xhtml"/>
-                <include name="index.html"/>
-                <include name="layout/*"/>
-                <include name="stylesheet/*"/>
-            </fileset>
+            <fileset refid="view"/>
             <filterset refid="project"/>
         </copy>
         
@@ -243,10 +224,9 @@
         </copy>
         
         <copy todir="${project.home}Web/WebContent/WEB-INF/lib" overwrite="true">
-            <fileset dir="../facelets/lib" />
-            <fileset file="../jboss-seam-debug.jar" />
-            <fileset file="../jboss-seam-ui.jar" />
-            <fileset file="../jboss-seam-debug.jar" />
+            <fileset dir="../facelets/lib"/>
+            <fileset file="../jboss-seam-debug.jar"/>
+            <fileset file="../jboss-seam-ui.jar"/>
         </copy>
         
         <copy todir="${project.home}">
