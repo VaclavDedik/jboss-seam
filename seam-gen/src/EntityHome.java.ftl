@@ -4,7 +4,7 @@
 ${pojo.packageDeclaration}
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.framework.EntityHome;
 
@@ -18,6 +18,15 @@ public class ${entityName}Home extends EntityHome<${entityName}>
     @RequestParameter 
     ${pojo.identifierProperty.type.returnedClass.name} ${componentName}Id;
     
+<#foreach property in pojo.allPropertiesIterator>
+<#if c2h.isManyToOne(property)>
+<#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
+<#assign parentHomeName = util.lower(parentPojo.shortName) + "Home">
+    @In(value="${'#'}{${parentHomeName}.instance}", required=false)
+    ${parentPojo.shortName} ${property.name};
+</#if>
+</#foreach>
+
     @Override
     public Object getId() 
     { 
@@ -31,9 +40,17 @@ public class ${entityName}Home extends EntityHome<${entityName}>
         }
     }
     
-    @Override @Begin(join=true)
-    public void create() {
-        super.create();
+    @Override
+    protected ${entityName} createInstance()
+    {
+        ${entityName} result = new ${entityName}();
+<#foreach property in pojo.allPropertiesIterator>
+<#if c2h.isManyToOne(property)>
+<#assign setter = "set" + pojo.getPropertyName(property)>
+        result.${setter}(${property.name});
+</#if>
+</#foreach>
+        return result;
     }
  	
 <#foreach property in pojo.allPropertiesIterator>

@@ -4,7 +4,7 @@
 <#assign componentName = util.lower(entityName)>
 <#assign homeName = componentName + "Home">
 <#assign masterPageName = entityName + "List">
-<#assign pageName = entityName>
+<#assign editPageName = entityName + "Edit">
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:s="http://jboss.com/products/seam/taglib"
@@ -16,7 +16,7 @@
 <ui:define name="body">
 
     <h1>${entityName}</h1>
-    <p>Generated edit page</p>
+    <p>Generated view page</p>
     
     <h:messages globalOnly="true" styleClass="message"/>
     
@@ -29,35 +29,27 @@
             <tr class="prop">
                 <td class="name">${property.name}</td>
                 <td class="value">
-                    <s:decorate>
 <#if property.equals(pojo.identifierProperty)>
 <#if property.value.identifierGeneratorStrategy == "assigned">
-                        <h:inputText id="${property.name}"
-                            value="${'#'}{${homeName}.instance.${property.name}}" 
-                            disabled="${'#'}{${homeName}.managed}"/>
+                        ${'#'}{${homeName}.instance.${property.name}}
 </#if>
 <#else>
 <#if property.value.typeName == "date">
-			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			           <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertDateTime type="date" dateStyle="short"/>
-			           </h:inputText>
+			           </h:outputText>
 <#elseif property.value.typeName == "time">
-			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			           <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertDateTime type="time"/>
-			           </h:inputText>
+			           </h:outputText>
 <#elseif property.value.typeName == "timestamp">
-			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			           <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertDateTime type="both" dateStyle="short"/>
-			           </h:inputText>
-<#elseif property.value.typeName == "boolean">
-			           <h:selectBooleanCheckbox id="${property.name}"
-			               value="${'#'}{${homeName}.instance.${property.name}}"/>
+			           </h:outputText>
 <#else>
-                        <h:inputText id="${property.name}"
-                            value="${'#'}{${homeName}.instance.${property.name}}"/>
+                       ${'#'}{${homeName}.instance.${property.name}}
 </#if>
 </#if>
-                    </s:decorate>
                 </td>
             </tr>
 </#if>
@@ -65,20 +57,25 @@
         </s:validateAll>
         </table>
         </div>
-        <div class="actionButtons">
-            <h:commandButton id="save" value="Save" 
-                action="${'#'}{${homeName}.persist}"
-                rendered="${'#'}{!${homeName}.managed}"/>     			  
-            <h:commandButton id="update" value="Save" 
-                action="${'#'}{${homeName}.update}"
-                rendered="${'#'}{${homeName}.managed}"/>    			  
+        <div class="actionButtons">  			  
+            <s:link id="edit" value="Edit" 
+                view="/${editPageName}.xhtml" 
+                propagation="begin" 
+                linkStyle="button">
+            	<f:param name="${componentName}Id" 
+            	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
+            </s:link>		  
             <s:link id="delete" value="Delete" 
                 action="${'#'}{${homeName}.remove}"
                 rendered="${'#'}{${homeName}.managed}"
-                propagation="end" linkStyle="button"
-                view="/${masterPageName}.xhtml"/>
-            <s:link id="done" value="Done" linkStyle="button"
-                propagation="end" view="/${pageName}.xhtml"/>			  
+                linkStyle="button"
+                view="/${masterPageName}.xhtml">
+            	<f:param name="${componentName}Id" 
+            	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
+            </s:link>
+            <!--s:link id="back" value="Back" 
+                view="/${masterPageName}.xhtml" 
+                linkStyle="button"/-->			  
         </div>
     </h:form>
     
@@ -112,7 +109,7 @@
 </#foreach>
                <h:column>
                    <f:facet name="header">action</f:facet>
-		           <s:link id="${parentName}" value="View" view="/${parentPageName}.xhtml" propagation="end">
+		           <s:link id="${parentName}" value="View" view="/${parentPageName}.xhtml">
 		               <f:param name="${parentName}Id" value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
 		           </s:link>
                </h:column>
@@ -125,6 +122,7 @@
 <#assign childPageName = childPojo.shortName>
 <#assign childEditPageName = childPojo.shortName + "Edit">
 <#assign childName = util.lower(childPojo.shortName)>
+<#assign childHomeName = childName + "Home">
           <h:outputText value="No ${property.name}" rendered="${'#'}{empty ${homeName}.${property.name}}"/>
           <h:dataTable value="${'#'}{${homeName}.${property.name}}" 
                          var="${childName}" 
@@ -141,12 +139,12 @@
 </#foreach>
             <h:column>
                 <f:facet name="header">action</f:facet>
-		        <s:link id="${childName}" value="Select" view="/${childPageName}.xhtml" propagation="end">
+		        <s:link id="${childName}" value="Select" view="/${childPageName}.xhtml">
 		            <f:param name="${childName}Id" value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
 		        </s:link>
             </h:column>
           </h:dataTable>
-          
+
 		    <div class="actionButtons">
 		        <s:link id="add" value="Add ${childName}" linkStyle="button"
 		            view="/${childEditPageName}.xhtml" propagation="begin">

@@ -4,6 +4,7 @@
 <#assign componentName = util.lower(entityName)>
 <#assign listName = componentName + "List">
 <#assign pageName = entityName>
+<#assign editPageName = entityName + "Edit">
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:s="http://jboss.com/products/seam/taglib"
@@ -41,15 +42,15 @@
 </#foreach>
         <h:column>
             <f:facet name="header">action</f:facet>
-            <s:link id="${componentName}" value="Select" view="/${pageName}.xhtml" propagation="begin">
+            <s:link id="${componentName}" value="Select" view="/${pageName}.xhtml">
                 <f:param name="${componentName}Id" value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
             </s:link>
         </h:column>
     </h:dataTable>
     
     <div class="actionButtons">
-        <s:link id="done" value="Create ${componentName}" linkStyle="button"
-            view="/${pageName}.xhtml"/>			  
+        <s:link id="create" value="Create ${componentName}" linkStyle="button"
+            view="/${editPageName}.xhtml" propagation="begin"/>			  
     </div>
     
 </ui:define>

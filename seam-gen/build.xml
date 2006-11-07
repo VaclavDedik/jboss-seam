@@ -533,6 +533,9 @@
         	                template="view/list.xhtml.ftl" 
         		             destdir="${project.home}/view"/>
         	<hbmtemplate filepattern="{class-name}.xhtml"
+        	                template="view/view.xhtml.ftl" 
+        		             destdir="${project.home}/view"/>
+        	<hbmtemplate filepattern="{class-name}Edit.xhtml"
         	                template="view/edit.xhtml.ftl" 
         		             destdir="${project.home}/view"/>
         	<hbmtemplate filepattern="{package-name}/{class-name}List.java"
