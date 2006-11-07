@@ -2,11 +2,15 @@ package org.jboss.seam.security.acl;
 
 import java.security.Principal;
 import java.security.acl.Permission;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.transaction.SystemException;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
@@ -15,6 +19,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
+import org.jboss.seam.persistence.PersistenceProvider;
+import org.jboss.seam.security.Authentication;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
 
@@ -27,14 +33,14 @@ import org.jboss.seam.util.Transactions;
 @Scope(APPLICATION)
 public class PersistentAclProvider extends AbstractAclProvider
 {
-  private enum PersistenceType {
+  protected enum PersistenceType {
     managedPersistenceContext,
     managedHibernateSession,
     entityManagerFactory };
 
-  private PersistenceType persistenceType;
-  private Object pcm;
+  protected PersistenceType persistenceType;
 
+  private Object pcm;
   private String aclUserQuery;
   private String aclQuery;
 
@@ -117,19 +123,72 @@ public class PersistentAclProvider extends AbstractAclProvider
     throw new IllegalStateException("Unknown persistence type");
   }
 
-  protected void bindQueryParams(Object query, Principal principal)
+  protected void bindQueryParams(Object query, Object target, Principal principal)
   {
+    List<String> roles = new ArrayList<String>();
 
+    if (Authentication.class.isAssignableFrom(principal.getClass()))
+    {
+      for (String role : ((Authentication) principal).getRoles())
+      {
+        roles.add(role);
+      }
+    }
+
+    switch (persistenceType)
+    {
+      case managedPersistenceContext:
+        ((Query) query).setParameter("recipient", principal.getName())
+          .setParameter("roles", roles)
+          .setParameter("identity", getObjectIdentity(target));
+        break;
+      case managedHibernateSession:
+        /** @todo implement */
+        break;
+      case entityManagerFactory:
+        /** @todo implement */
+        break;
+    }
+  }
+
+  protected Object getObjectIdentity(Object obj)
+  {
+    switch (persistenceType)
+    {
+      case managedPersistenceContext:
+        try
+        {
+          return PersistenceProvider.instance().getId(obj,
+              ( (ManagedPersistenceContext) pcm).getEntityManager());
+        }
+        catch (SystemException ex) {  /** @todo  */
+        }
+        catch (NamingException ex) { /** @todo  */
+        }
+
+      /** @todo Implement hibernate and emf support */
+    }
+
+    return null;
   }
 
   protected Object executeQuery(Object query)
   {
+    switch (persistenceType)
+    {
+      case managedPersistenceContext:
+        return ((Query) query).getResultList();
+      /** @todo Implement hibernate and emf support */
+    }
+
     return null;
   }
 
-  protected void closeQuery(Object query)
+  protected Set<Permission> convertToPermissions(Object target, Object perms)
   {
-
+    /** @todo use the @AclProvider specified on the target object to convert
+     * the specified permissions param to a set of actual permissions */
+    return null;
   }
 
   public Set<Permission> getPermissions(Object obj, Principal principal)
@@ -138,11 +197,11 @@ public class PersistentAclProvider extends AbstractAclProvider
     {
       Object q = createAclQuery(principal);
 
-      bindQueryParams(q, principal);
+      bindQueryParams(q, obj, principal);
 
-      executeQuery(q);
+      Object result = executeQuery(q);
 
-      closeQuery(q);
+      return convertToPermissions(obj, result);
     }
     catch (Exception ex) { }
 
@@ -151,6 +210,7 @@ public class PersistentAclProvider extends AbstractAclProvider
 
   public Map<Principal,Set<Permission>> getPermissions(Object obj)
   {
+    /** @todo implement this */
     return null;
   }
 }
