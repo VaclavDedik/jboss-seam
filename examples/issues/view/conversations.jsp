@@ -11,7 +11,7 @@
 			        <h:outputText value="#{messages.Workspace}"/>
 			    </f:facet>
                 <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
-                <!-- h:outputText value="[current]" rendered="#{entry.current}"/-->
+                <%-- h:outputText value="[current]" rendered="#{entry.current}"/--%>
             </h:column>
             <h:column>
 			    <f:facet name="header">

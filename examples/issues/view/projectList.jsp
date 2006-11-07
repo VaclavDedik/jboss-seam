@@ -1,7 +1,7 @@
 	 <div class="rvgList">
      
 	 <span class="rvgResultsNone">
-	   <h:outputText value="#{messages.No} #{messages.Project}" rendered="#{projectList.rowCount==0"/>
+	   <h:outputText value="#{messages.No} #{messages.Project}" rendered="#{projectList.rowCount==0}"/>
 	 </span>
 	 
 	 <h:dataTable value="#{projectList}" var="project" rendered="#{projectList.rowCount>0}" 
