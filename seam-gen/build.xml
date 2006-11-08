@@ -339,6 +339,7 @@
                 <include name="jboss-seam-ui.jar"/>
                 <include name="jboss-seam-debug.jar"/>
             </fileset>
+        	<fileset file="${driver.jar}"/>
         </copy>
 
         <copy todir="${project.home}/embedded-ejb">
@@ -355,12 +356,11 @@
                 <exclude name="META-INF/application-wtp.xml" />
             </fileset>
             <filterset refid="project"/>
+            <filterset refid="jdbc"/>
         </copy>
         
         <move tofile="${project.home}/resources/${project.name}-ds.xml" 
-                file="${project.home}/resources/datasource-ds.xml">
-            <filterset refid="jdbc"/>
-        </move>
+                file="${project.home}/resources/datasource-ds.xml"/>
         
         <copy todir="${project.home}/view">
             <fileset refid="view"/>
@@ -400,11 +400,15 @@
                 <exclude name="META-INF/application.xml" />
             </fileset>
             <filterset refid="project"/>
+            <filterset refid="jdbc"/>
         </copy>
         
         <move file="${project.home}/EarContent/META-INF/application-wtp.xml" 
             tofile="${project.home}/EarContent/META-INF/application.xml" />
             
+        <move tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml" 
+                file="${project.home}/EarContent/datasource-ds.xml"/>
+        
         <copy todir="${project.home}/EarContent" overwrite="true">
             <fileset dir="../lib">
                 <include name="jbpm-*.jar" />
@@ -413,11 +417,6 @@
                 <include name="jboss-seam.jar" />
             </fileset>
         </copy>
-        
-        <move tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml" 
-                file="${project.home}/EarContent/datasource-ds.xml">
-            <filterset refid="jdbc"/>
-        </move>
         
         <copy todir="${project.home}Web/WebContent">
             <fileset refid="view"/>
