@@ -79,7 +79,7 @@ public class ProjectEditorBean implements ProjectEditor {
     
     @TransactionAttribute(NOT_SUPPORTED)
     public String getDescription() {
-       return project.getName()==null ? 
+       return project==null || project.getName()==null ? 
              "New Project" : "Project [" + project.getName() + "]";
     }
 

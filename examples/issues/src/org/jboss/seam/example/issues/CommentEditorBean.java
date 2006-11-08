@@ -102,7 +102,7 @@ public class CommentEditorBean implements CommentEditor {
     
     @TransactionAttribute(NOT_SUPPORTED)
     public String getDescription() {
-       return comment.getId()==null ?
+       return comment==null || comment.getId()==null ?
              "Comment on " + issueEditor.getDescription() :
              "Comment [" + comment.getId() + "] for " + issueEditor.getDescription();
     }

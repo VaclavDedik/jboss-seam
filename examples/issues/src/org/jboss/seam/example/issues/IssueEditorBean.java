@@ -86,10 +86,17 @@ public class IssueEditorBean implements IssueEditor {
     
     @TransactionAttribute(NOT_SUPPORTED)
     public String getDescription() {
-       String projectName = issue.getProject().getName();
-       return issue.getId()==null ?
-             "New Issue for Project [" + projectName + "]" :
-             "Issue [" + issue.getId() + "] for Project [" + projectName + "]";
+       if (issue==null || issue.getProject()==null)
+       {
+          return "New Issue";
+       }
+       else
+       {
+          String projectName = issue.getProject().getName();
+          return issue.getId()==null ?
+                "New Issue for Project [" + projectName + "]" :
+                "Issue [" + issue.getId() + "] for Project [" + projectName + "]";
+       }
     }
     
     @LoggedIn
