@@ -19,6 +19,10 @@
     <taskdef name="print" 
         classname="org.jboss.seam.tool.PrintTask"
         classpath="../jboss-seam-gen.jar"/>
+	
+	<taskdef name="pathFixer" 
+		        classname="org.jboss.seam.tool.FixPathTask" 
+		        classpath="../jboss-seam-gen.jar"/>
     
 	<!-- properties -->
     
@@ -90,6 +94,7 @@
         <input addproperty="workspace.home.new" 
                    message="Enter your Java project workspace [${workspace.home}]" 
               defaultvalue="${workspace.home}"/>
+    	<pathFixer property="workspace.home.new" />
         
         <property name="eclipse.wtp" value="N"/>
         <input addproperty="eclipse.wtp.new" 
@@ -101,6 +106,7 @@
         <input addproperty="jboss.home.new" 
                    message="Enter your JBoss home directory [${jboss.home}]" 
               defaultvalue="${jboss.home}"/>
+    	<pathFixer property="jboss.home.new" />
         
         <property name="action.package" value="com.mydomain"/>
         <input addproperty="action.package.new" 
