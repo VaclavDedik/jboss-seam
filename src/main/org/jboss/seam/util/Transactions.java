@@ -3,19 +3,14 @@ package org.jboss.seam.util;
 
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
-import javax.transaction.RollbackException;
 import javax.transaction.Status;
-import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
-import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 public class Transactions
 {   
    private static String userTransactionName = "UserTransaction";
    private static final String STANDARD_USER_TRANSACTION_NAME = "java:comp/UserTransaction";
-   
-   private static String transactionManagerName = "java:/TransactionManager";
    
    public static boolean isTransactionActive() throws SystemException, NamingException
    {
@@ -33,11 +28,6 @@ public class Transactions
       return getUserTransaction().getStatus() == Status.STATUS_MARKED_ROLLBACK;
    }
    
-   public static TransactionManager getTransactionManager() throws NamingException
-   {
-      return (TransactionManager) Naming.getInitialContext().lookup(transactionManagerName);
-   }
-
    public static UserTransaction getUserTransaction() throws NamingException
    {
       try
@@ -58,12 +48,6 @@ public class Transactions
       }
    }
    
-   public static void registerSynchronization(Synchronization sync) 
-         throws SystemException, RollbackException, NamingException
-   {
-      getTransactionManager().getTransaction().registerSynchronization(sync);
-   }
-
    private Transactions() {}
 
    public static void setUserTransactionName(String userTransactionName)
@@ -88,6 +72,19 @@ public class Transactions
       }
    }
 
+   /*private static String transactionManagerName = "java:/TransactionManager";
+   
+   public static TransactionManager getTransactionManager() throws NamingException
+   {
+      return (TransactionManager) Naming.getInitialContext().lookup(transactionManagerName);
+   }
+
+   public static void registerSynchronization(Synchronization sync) 
+         throws SystemException, RollbackException, NamingException
+   {
+      getTransactionManager().getTransaction().registerSynchronization(sync);
+   }
+
    public static String getTransactionManagerName()
    {
       return transactionManagerName;
@@ -96,6 +93,6 @@ public class Transactions
    public static void setTransactionManagerName(String transactionManagerName)
    {
       Transactions.transactionManagerName = transactionManagerName;
-   }
+   }*/
    
 }

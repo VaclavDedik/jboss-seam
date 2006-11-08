@@ -38,7 +38,7 @@ public class Init
    private boolean debug;
    private boolean myFacesLifecycleBug;
    private String userTransactionName;
-   private String transactionManagerName;
+   //private String transactionManagerName;
    
    private Map<String, List<ObserverMethod>> observers = new HashMap<String, List<ObserverMethod>>();
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
@@ -48,10 +48,10 @@ public class Init
    @Create
    public void create()
    {
-      if (transactionManagerName!=null)
+      /*if (transactionManagerName!=null)
       {
          Transactions.setTransactionManagerName(transactionManagerName);
-      }
+      }*/
       if (userTransactionName!=null)
       {
          Transactions.setUserTransactionName(userTransactionName);
@@ -232,7 +232,7 @@ public class Init
    /**
     * The JNDI name of the JTA TransactionManager
     */
-   protected String getTransactionManagerName()
+   /*protected String getTransactionManagerName()
    {
       return transactionManagerName;
    }
@@ -240,7 +240,7 @@ public class Init
    protected void setTransactionManagerName(String transactionManagerName)
    {
       this.transactionManagerName = transactionManagerName;
-   }
+   }*/
 
    /**
     * The JNDI name of the JTA UserTransaction
