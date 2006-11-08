@@ -3,10 +3,13 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
 
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import javax.persistence.Persistence;
 
+import org.hibernate.cfg.Environment;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -14,6 +17,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
+import org.jboss.seam.util.Naming;
 
 /**
  * A Seam component that boostraps an EntityManagerFactory,
@@ -40,13 +44,28 @@ public class EntityManagerFactory
    @Create
    public void startup() throws Exception
    {
-      if (persistenceUnitProperties==null)
+      Map properties = new HashMap();
+      Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
+      if ( jndiProperties!=null )
+      {
+         // Prefix regular JNDI properties for Hibernate
+         for (Map.Entry<String, String> entry : jndiProperties.entrySet())
+         {
+            properties.put( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
+         }
+      }
+      if (persistenceUnitProperties!=null)
+      {
+         properties.putAll(persistenceUnitProperties);
+      }
+
+      if ( properties.isEmpty() )
       {
          entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
       }
       else
       {
-         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName, persistenceUnitProperties);
+         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName, properties);
       }
    }
    

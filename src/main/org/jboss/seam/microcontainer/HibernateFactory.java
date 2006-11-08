@@ -67,11 +67,11 @@ public class HibernateFactory
          configuration.setProperties(cfgProperties);
       }
 
-      if (Naming.getInitialContextProperties() != null)
+      Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
+      if ( jndiProperties!=null )
       {
          // Prefix regular JNDI properties for Hibernate
-         Hashtable<String, String> hash = Naming.getInitialContextProperties();
-         for (Map.Entry<String, String> entry : hash.entrySet())
+         for (Map.Entry<String, String> entry : jndiProperties.entrySet())
          {
             configuration.setProperty( Environment.JNDI_PREFIX + "." + entry.getKey(), entry.getValue() );
          }
