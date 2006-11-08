@@ -468,26 +468,118 @@
         <input addproperty="test.package.new" 
                    message="Enter the Java package name for your test cases [${test.package}]" 
               defaultvalue="${test.package}"/>
+    	
+    	<condition property="database.type.default" value="${database.type}">
+    		<isset property="database.type"/>
+    	</condition>
+    	<property name="database.type.default" value="hsql"/>
+        <input addproperty="database.type.new" 
+                   message="Enter the database to be used [${database.type.default}] " 
+        	     validargs="hsql,mysql,oracle,postgres,mssql,db2,sybase,"
+              defaultvalue="${database.type.default}"/>
+    	
+    	<!-- if the database type did not change, default to the previous values -->
+    	
+    	<condition property="hibernate.dialect.default" value="${hibernate.dialect}">
+    		<equals arg1="${database.type}" arg2="${database.type.new}"/>
+    	</condition>
+    	<condition property="hibernate.connection.url.default" value="${hibernate.connection.url}">
+    		<equals arg1="${database.type}" arg2="${database.type.new}"/>
+    	</condition>
+    	<condition property="hibernate.connection.driver_class.default" value="${hibernate.connection.driver_class}">
+    		<equals arg1="${database.type}" arg2="${database.type.new}"/>
+    	</condition>
+    	
+    	<!-- otherwise default to the defaults for the database type -->
+    	
+    	<condition property="hibernate.dialect.default" value="org.hibernate.dialect.HSQLDialect">
+    		<equals arg1="${database.type.new}" arg2="hsql"/>
+    	</condition>
+        <condition property="hibernate.dialect.default" value="org.hibernate.dialect.MySQLDialect">
+        	<equals arg1="${database.type.new}" arg2="mysql"/>
+        </condition>
+        <condition property="hibernate.dialect.default" value="org.hibernate.dialect.OracleDialect">
+        	<equals arg1="${database.type.new}" arg2="oracle"/>
+        </condition>
+        <condition property="hibernate.dialect.default" value="org.hibernate.dialect.PostgreSQLDialect">
+        	<equals arg1="${database.type.new}" arg2="postgres"/>
+        </condition>
+        <condition property="hibernate.dialect.default" value="org.hibernate.dialect.SQLServerDialect">
+        	<equals arg1="${database.type.new}" arg2="mssql"/>
+        </condition>
+        <condition property="hibernate.dialect.default" value="org.hibernate.dialect.DB2Dialect">
+        	<equals arg1="${database.type.new}" arg2="db2"/>
+        </condition>
+        <condition property="hibernate.dialect.default" value="org.hibernate.dialect.SybaseDialect">
+        	<equals arg1="${database.type.new}" arg2="sybase"/>
+        </condition>
+    	
+    	<condition property="hibernate.connection.driver_class.default" value="org.hsqldb.jdbcDriver">
+    		<equals arg1="${database.type.new}" arg2="hsql"/>
+    	</condition>
+        <condition property="hibernate.connection.driver_class.default" value="com.mysql.jdbc.Driver">
+        	<equals arg1="${database.type.new}" arg2="mysql"/>
+        </condition>
+        <condition property="hibernate.connection.driver_class.default" value="oracle.jdbc.driver.OracleDriver">
+        	<equals arg1="${database.type.new}" arg2="oracle"/>
+        </condition>
+        <condition property="hibernate.connection.driver_class.default" value="org.postgresql.Driver">
+        	<equals arg1="${database.type.new}" arg2="postgres"/>
+        </condition>
+        <condition property="hibernate.connection.driver_class.default" value="com.microsoft.sqlserver.jdbc.SQLServerDriver">
+        	<equals arg1="${database.type.new}" arg2="mssql"/>
+        </condition>
+        <condition property="hibernate.connection.driver_class.default" value="COM.ibm.db2.jdbc.app.DB2Driver">
+        	<equals arg1="${database.type.new}" arg2="db2"/>
+        </condition>
+        <condition property="hibernate.connection.driver_class.default" value="com.sybase.jdbc2.jdbc.SybDriver">
+        	<equals arg1="${database.type.new}" arg2="sybase"/>
+        </condition>
+
+    	<condition property="hibernate.connection.url.default" value="jdbc:hsqldb:.">
+    		<equals arg1="${database.type.new}" arg2="hsql"/>
+    	</condition>
+        <condition property="hibernate.connection.url.default" value="jdbc:mysql:///test">
+        	<equals arg1="${database.type.new}" arg2="mysql"/>
+        </condition>
+        <condition property="hibernate.connection.url.default" value="jdbc:oracle:thin:@localhost:1521:test">
+        	<equals arg1="${database.type.new}" arg2="oracle"/>
+        </condition>
+        <condition property="hibernate.connection.url.default" value="jdbc:postgresql:template1">
+        	<equals arg1="${database.type.new}" arg2="postgres"/>
+        </condition>
+        <condition property="hibernate.connection.url.default" value="jdbc:sqlserver://localhost">
+        	<equals arg1="${database.type.new}" arg2="mssql"/>
+        </condition>
+        <condition property="hibernate.connection.url.default" value="jdbc:db2:test">
+        	<equals arg1="${database.type.new}" arg2="db2"/>
+        </condition>
+        <condition property="hibernate.connection.url.default" value="jdbc:sybase:Tds:localhost:5000/test">
+        	<equals arg1="${database.type.new}" arg2="sybase"/>
+        </condition>
+		
+    	<!-- finally, default them to HSQL -->
+    	
+        <property name="hibernate.dialect.default" value="org.hibernate.dialect.HSQLDialect"/>
+        <property name="hibernate.connection.driver_class.default" value="org.hsqldb.jdbcDriver"/>
+        <property name="hibernate.connection.url.default" value="jdbc:hsqldb:."/>
         
-        <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-        <input addproperty="hibernate.dialect.new" 
-                   message="Enter the Hibernate dialect for your database [${hibernate.dialect}]" 
-              defaultvalue="${hibernate.dialect}"/>
+    	<input addproperty="hibernate.dialect.new" 
+                   message="Enter the Hibernate dialect for your database [${hibernate.dialect.default}]" 
+              defaultvalue="${hibernate.dialect.default}"/>
         
         <property name="driver.jar" value="lib/hsqldb.jar"/>
         <input addproperty="driver.jar.new"
                    message="Enter the filesystem path to the JDBC driver jar [${driver.jar}]" 
               defaultvalue="${driver.jar}"/>
                 
-        <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
         <input addproperty="hibernate.connection.driver_class.new" 
-                   message="Enter JDBC driver class for your database [${hibernate.connection.driver_class}]" 
-              defaultvalue="${hibernate.connection.driver_class}"/>
+                   message="Enter JDBC driver class for your database [${hibernate.connection.driver_class.default}]" 
+              defaultvalue="${hibernate.connection.driver_class.default}"/>
         
-        <property name="hibernate.connection.url" value="jdbc:hsqldb:."/>
         <input addproperty="hibernate.connection.url.new" 
-                   message="Enter the JDBC URL for your database [${hibernate.connection.url}]" 
-              defaultvalue="${hibernate.connection.url}"/>
+                   message="Enter the JDBC URL for your database [${hibernate.connection.url.default}]" 
+              defaultvalue="${hibernate.connection.url.default}"/>
         
         <property name="hibernate.connection.username" value="sa"/>
         <input addproperty="hibernate.connection.username.new" 
@@ -507,6 +599,7 @@
             <entry key="model.package" value="${model.package.new}"/>
             <entry key="mdb.package" value="${mdb.package.new}"/>
             <entry key="test.package" value="${test.package.new}"/>
+            <entry key="database.type" value="${database.type.new}"/>
             <entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
             <entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
             <entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>
@@ -515,6 +608,7 @@
             <entry key="driver.jar" value="${driver.jar.new}"/>
         </propertyfile>
     	
+    	<echo message="Installing JDBC driver jar to JBoss server"/>
     	<copy file="${driver.jar.new}" todir="${jboss.home.new}/server/default/lib"/>
         
     </target>
@@ -525,15 +619,19 @@
             <fileset dir="lib">
                 <include name="*.jar"/>
             </fileset>
-            <path path="${driver.jar.new}"/>
+            <pathelement path="${driver.jar}"/>
+        	<pathelement path="../jboss-seam-gen.jar"/>
         </classpath>
     </taskdef>
     
-    <target name="generate-entities">
-        <hibernatetool classpath="../jboss-seam-gen.jar">
+	<target name="generate-entities" depends="validate-project">
+        <hibernatetool>
             <jdbcconfiguration propertyfile="build.properties" 
             	                packagename="${model.package}"/>
-        	<property key="hibernatetool.util.toolclass" value="org.jboss.seam.tool.Util"/>
+        	
+        	<property key="hibernatetool.util.toolclass" 
+        		    value="org.jboss.seam.tool.Util"/>
+        	
             <hbm2java jdk5="true" ejb3="true" destdir="${project.home}/src"/> 
         	<hbmtemplate filepattern="{class-name}List.xhtml"
         	                template="view/list.xhtml.ftl" 
@@ -555,5 +653,19 @@
         		             destdir="${project.home}/view/layout"/>
 		</hibernatetool>
     </target>
+	
+	<target name="reset">
+		<delete file="build.properties"/>
+	</target>
+	
+	<target name="settings">
+		<echo message="Java project workspace: ${workspace.home}"/>
+		<echo message="JBoss home: ${jboss.home}"/>
+		<echo message="Hibernate dialect: ${hibernate.dialect}"/>
+		<echo message="JDBC URL: ${hibernate.connection.url}"/>
+		<echo message="JDBC driver class: ${hibernate.connection.driver_class}"/>
+		<echo message="Database username: ${hibernate.connection.username}"/>
+		<echo message="Database password: ${hibernate.connection.password}"/>
+	</target>
 
 </project>

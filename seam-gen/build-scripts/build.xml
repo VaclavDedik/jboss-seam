@@ -38,8 +38,13 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 
-	<target name="compile" depends="init" description="Compile the Java source code">
-		<javac classpathref="build.classpath" destdir="${jar.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+	<target name="compile" depends="init" description="Compile the Java source code" unless="${eclipse.running}">
+		
+		<javac classpathref="build.classpath" 
+			        destdir="${jar.dir}" 
+			          debug="${javac.debug}" 
+			    deprecation="${javac.deprecation}" 
+			        nowarn="on">
 			<src path="${src.java.dir}" />
 		</javac>
 	</target>
@@ -149,15 +154,12 @@
 				<exclude name="**/*.jar"/>
 			</fileset>
 		</delete>
-		<delete failonerror="no">
-			<fileset dir="${ear.deploy.dir}">
-				<include name="**/*.jar"/>
-			</fileset>
-		</delete>
+		<delete file="${deploy.dir}/${project.name}-ds.xml" failonerror="no"/>
+		<delete dir="${ear.deploy.dir}" failonerror="no"/>
 	</target>
 	
-	<target name="restart" depends="unexplode,explode" description="Restart the exploded archive">
-		<touch file="${ear.deploy.dir}/application.xml"/>
+	<target name="restart" depends="explode" description="Restart the exploded archive">
+		<touch file="${ear.deploy.dir}/META-INF/application.xml"/>
 	</target>
 
 	<target name="deploy" depends="archive,datasource" description="Deploy to JBoss AS">
