@@ -55,5 +55,10 @@ public class TransactionalSeamPhaseListener extends SeamPhaseListener
          begin(PhaseId.INVOKE_APPLICATION);
       }
    }
+   
+   @Override
+   protected void afterInvokeApplication() {
+      addTransactionFailedMessage();
+   }
 
 }

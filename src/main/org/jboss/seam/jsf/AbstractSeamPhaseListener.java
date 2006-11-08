@@ -100,11 +100,19 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       Manager.instance().setUpdateModelValuesCalled(true);
    }
 
-   protected void afterInvokeApplication()
+   /**
+    * Give the subclasses an opportunity to do stuff
+    */
+   protected void afterInvokeApplication() {}
+
+   /**
+    * Add a faces message when Seam-managed transactions fail.
+    */
+   protected void addTransactionFailedMessage()
    {
       try
       {
-         if ( Transactions.isTransactionAvailableAndMarkedRollback() )
+         if ( Transactions.isTransactionMarkedRollback() )
          {
             FacesMessages.instance().addFromResourceBundle(
                      FacesMessage.SEVERITY_WARN, 

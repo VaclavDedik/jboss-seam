@@ -1,19 +1,21 @@
 package org.jboss.seam.security.acl;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.ScopeType.APPLICATION;
+
 import java.security.Principal;
 import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.transaction.SystemException;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Lifecycle;
@@ -33,10 +35,12 @@ import org.jboss.seam.util.Transactions;
 @Scope(APPLICATION)
 public class PersistentAclProvider extends AbstractAclProvider
 {
-  protected enum PersistenceType {
+  protected enum PersistenceType 
+  {
     managedPersistenceContext,
     managedHibernateSession,
-    entityManagerFactory };
+    entityManagerFactory 
+  }
 
   protected PersistenceType persistenceType;
 
@@ -191,6 +195,7 @@ public class PersistentAclProvider extends AbstractAclProvider
     return null;
   }
 
+  @Override
   public Set<Permission> getPermissions(Object obj, Principal principal)
   {
     try
@@ -208,6 +213,7 @@ public class PersistentAclProvider extends AbstractAclProvider
     return null;
   }
 
+  @Override
   public Map<Principal,Set<Permission>> getPermissions(Object obj)
   {
     /** @todo implement this */

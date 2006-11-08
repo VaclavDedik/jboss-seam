@@ -39,7 +39,8 @@ public class EJB
       }
    }
    
-   static {
+   static 
+   {
       STATELESS = classForName("javax.ejb.Stateless");
       STATEFUL = classForName("javax.ejb.Stateful");
       MESSAGE_DRIVEN = classForName("javax.ejb.MessageDriven");

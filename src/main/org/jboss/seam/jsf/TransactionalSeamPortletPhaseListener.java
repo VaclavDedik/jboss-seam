@@ -55,4 +55,9 @@ public class TransactionalSeamPortletPhaseListener extends SeamPortletPhaseListe
       }
    }
 
+   @Override
+   protected void afterInvokeApplication() {
+      addTransactionFailedMessage();
+   }
+
 }

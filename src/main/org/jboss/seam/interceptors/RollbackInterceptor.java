@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.interceptors;
 
+import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.util.EJB.APPLICATION_EXCEPTION;
 import static org.jboss.seam.util.EJB.rollback;
 
@@ -8,13 +9,11 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jboss.seam.ComponentType;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Transactions;
 
 /**
@@ -34,30 +33,20 @@ public class RollbackInterceptor extends AbstractInterceptor
          final Object result = invocation.proceed();
          if ( isRollbackRequired( invocation.getMethod(), result ) )
          {
-            if ( getComponent().getType()==ComponentType.JAVA_BEAN )
-            {
-               //For JavaBeans, we assume the UT is accessible
-               Transactions.setUserTransactionRollbackOnly();
-            }
-            else
-            {
-               //For session beans, we have to assume it might be
-               //a CMT, so use the EJBContext
-               EJB.getEJBContext().setRollbackOnly();
-            }
+            Transactions.setTransactionRollbackOnly();
          }
          return result;
       }
       catch (Exception e)
       {
          //Reproduce the EJB3 rollback rules for JavaBean components
-         if ( getComponent().getType()==ComponentType.JAVA_BEAN )
+         if ( getComponent().getType()==JAVA_BEAN )
          {
             if ( isRollbackRequired(e) )
             {
                try
                {
-                  Transactions.setUserTransactionRollbackOnly();
+                  Transactions.setTransactionRollbackOnly();
                }
                catch (Exception te) {} //swallow
             }
