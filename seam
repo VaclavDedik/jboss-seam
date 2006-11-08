@@ -10,12 +10,12 @@ cd seam-gen
 if [ "${1}" = new-project ] 
 then
 
-  ant new-project -Dproject.name=${2} 
+  ant new-project ${3} ${4} ${5} ${6} ${7} -Dproject.name=${2} 
 
 elif [ "${1}" = new-wtp-project ] 
 then
 
-  ant new-wtp-project -Dproject.name=${2} 
+  ant new-wtp-project ${3} ${4} ${5} ${6} ${7} -Dproject.name=${2}
 
 else
 
