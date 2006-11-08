@@ -12,7 +12,7 @@ public class FixPathTask extends Task
    {
       String path = getProject().getProperty(propertyName);
       
-      if ( path!=null && !"".equals(path) )
+      if ( path!=null )
       {
          getProject().setProperty( propertyName, path.replace('\\', '/') );  
       }      
