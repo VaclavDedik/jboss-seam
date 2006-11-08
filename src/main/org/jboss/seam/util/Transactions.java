@@ -1,9 +1,12 @@
 //$Id$
 package org.jboss.seam.util;
 
+import static javax.transaction.Status.STATUS_ACTIVE;
+import static javax.transaction.Status.STATUS_MARKED_ROLLBACK;
+import static javax.transaction.Status.STATUS_NO_TRANSACTION;
+
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
-import javax.transaction.Status;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
@@ -14,18 +17,18 @@ public class Transactions
    
    public static boolean isTransactionActive() throws SystemException, NamingException
    {
-      return getUserTransaction().getStatus()==Status.STATUS_ACTIVE;
+      return getUserTransaction().getStatus()==STATUS_ACTIVE;
    }
 
    public static boolean isTransactionActiveOrMarkedRollback() throws SystemException, NamingException
    {
       int status = getUserTransaction().getStatus();
-      return status==Status.STATUS_ACTIVE || status == Status.STATUS_MARKED_ROLLBACK;
+      return status==STATUS_ACTIVE || status == STATUS_MARKED_ROLLBACK;
    }
    
    public static boolean isTransactionMarkedRollback() throws SystemException, NamingException
    {
-      return getUserTransaction().getStatus() == Status.STATUS_MARKED_ROLLBACK;
+      return getUserTransaction().getStatus() == STATUS_MARKED_ROLLBACK;
    }
    
    public static UserTransaction getUserTransaction() throws NamingException
@@ -42,7 +45,7 @@ public class Transactions
 
    public static void setUserTransactionRollbackOnly() throws SystemException, NamingException {
       UserTransaction userTransaction = getUserTransaction();
-      if ( userTransaction.getStatus()!=Status.STATUS_NO_TRANSACTION )
+      if ( userTransaction.getStatus()!=STATUS_NO_TRANSACTION )
       {
          userTransaction.setRollbackOnly();         
       }
@@ -64,7 +67,7 @@ public class Transactions
    {
       try
       {
-         return getUserTransaction().getStatus() == Status.STATUS_MARKED_ROLLBACK;
+         return getUserTransaction().getStatus() == STATUS_MARKED_ROLLBACK;
       }
       catch (NamingException ne)
       {
