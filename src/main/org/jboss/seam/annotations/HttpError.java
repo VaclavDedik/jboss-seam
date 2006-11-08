@@ -43,4 +43,11 @@ public @interface HttpError
     * @return true if we should end the conversation
     */
    boolean end() default false;
+   /**
+    * Should the transaction be rolled back when this 
+    * exception occurs.
+    * 
+    * @return true if we should end the conversation
+    */
+   boolean rollback() default false;
 }

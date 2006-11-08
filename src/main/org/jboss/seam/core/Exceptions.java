@@ -30,6 +30,7 @@ import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
+import org.jboss.seam.util.Transactions;
 
 /**
  * Holds metadata for pages defined in pages.xml, including
@@ -211,6 +212,7 @@ public class Exceptions
       {
          addFacesMessage( e, getMessage(e) );
          if ( isEnd(e) ) Conversation.instance().end();
+         if ( isRollback(e) ) Transactions.setTransactionRollbackOnly();
          redirect( getViewId(e) );
          return rethrow(e);
       }
@@ -236,6 +238,11 @@ public class Exceptions
          return e.getClass().getAnnotation(Redirect.class).end();
       } 
 
+      protected boolean isRollback(Exception e)
+      {
+         return e.getClass().getAnnotation(HttpError.class).rollback();
+      }
+      
       @Override
       public String toString()
       {
@@ -245,10 +252,11 @@ public class Exceptions
    
    public static class RenderHandler implements ExceptionHandler
    {
-      public Object handle(Exception e)
+      public Object handle(Exception e) throws Exception
       {
          addFacesMessage( e, getMessage(e) );
          if ( isEnd(e) ) Conversation.instance().end();
+         if ( isRollback(e) ) Transactions.setTransactionRollbackOnly();
          render( getViewId(e) );
          return null;
       }
@@ -274,6 +282,11 @@ public class Exceptions
          return e.getClass().getAnnotation(Render.class).end();
       }
 
+      protected boolean isRollback(Exception e)
+      {
+         return e.getClass().getAnnotation(HttpError.class).rollback();
+      }
+      
       @Override
       public String toString()
       {
@@ -286,6 +299,7 @@ public class Exceptions
       public Object handle(Exception e) throws Exception
       {
          if ( isEnd(e) ) Conversation.instance().end();
+         if ( isRollback(e) ) Transactions.setTransactionRollbackOnly();
          String message = getMessage(e);
          //addFacesMessage(e, message);
          error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage(e, message) ) );
@@ -310,6 +324,11 @@ public class Exceptions
       protected boolean isEnd(Exception e)
       {
          return e.getClass().getAnnotation(HttpError.class).end();
+      }
+      
+      protected boolean isRollback(Exception e)
+      {
+         return e.getClass().getAnnotation(HttpError.class).rollback();
       }
       
       @Override
