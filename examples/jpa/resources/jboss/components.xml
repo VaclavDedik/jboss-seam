@@ -1,0 +1,33 @@
+<components>
+  
+    <component name="em"
+          class="org.jboss.seam.core.ManagedPersistenceContext">
+      <!-- alernative     
+      <property name="persistenceUnitJndiName">java:/jpaBookingEntityManagerFactory</property>
+      -->
+      <property name="entityManagerFactory">#{emf}</property>
+    </component>
+    
+    <component name="emf" class="org.jboss.seam.core.EntityManagerFactory"/>
+    
+    <component name="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+        <!--
+        <property name="jndiPattern">#{ejbName}/local</property>
+        -->
+    </component>
+    
+    <component name="org.jboss.seam.core.manager">
+        <!-- half second wait for conversation lock on concurrent requests -->
+        <property name="concurrentRequestTimeout">500</property>
+        <!-- 120 second conversation timeout -->
+        <property name="conversationTimeout">120000</property>
+        <property name="conversationIdParameter">cid</property>
+        <property name="conversationIsLongRunningParameter">clr</property>
+    </component>
+    
+    <component name="org.jboss.seam.core.pages">
+        <property name="noConversationViewId">/main.xhtml</property>
+    </component>
+
+</components>
