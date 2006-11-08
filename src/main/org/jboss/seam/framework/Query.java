@@ -52,53 +52,58 @@ public abstract class Query
    
    public void refresh()
    {
-      dataModel = null;
+      clearDataModel();
    }
    
    public void last()
    {
-      firstResult = (int) getLastFirstResult();
-      dataModel = null;
+      setFirstResult( (int) getLastFirstResult() );
+      clearDataModel();
    }
    
    public void next()
    {
-      firstResult = getNextFirstResult();
-      dataModel = null;
+      setFirstResult( getNextFirstResult() );
+      clearDataModel();
    }
 
    public void previous()
    {
-      firstResult = getPreviousFirstResult();
-      dataModel = null;
+      setFirstResult( getPreviousFirstResult() );
+      clearDataModel();
    }
    
    public void first()
    {
-      firstResult = 0;
+      setFirstResult(0);
+      clearDataModel();
+   }
+   
+   protected void clearDataModel()
+   {
       dataModel = null;
    }
 
    @Transactional
    public long getLastFirstResult()
    {
-      return ( getResultCount() / maxResults ) * maxResults;
+      return ( getResultCount() / getMaxResults() ) * getMaxResults();
    }
    
    public int getNextFirstResult()
    {
-      return ( firstResult==null ? 0 : firstResult ) + maxResults;
+      return ( getFirstResult()==null ? 0 : getFirstResult() ) + getMaxResults();
    }
 
    public int getPreviousFirstResult()
    {
-      if (maxResults>firstResult) 
+      if ( getMaxResults() > getFirstResult() ) 
       {
          return 0;
       }
       else
       {
-         return firstResult - maxResults;
+         return getFirstResult() - getMaxResults();
       }
    }
    
@@ -126,10 +131,11 @@ public abstract class Query
          }
          parsedEjbql = ejbqlBuilder.toString();
          
-         parsedRestrictions = new ArrayList<String>( restrictions.size() );
-         restrictionParameters = new ArrayList<ValueBinding>( restrictions.size() );
+         List<String> restrictionFragments = getRestrictions();
+         parsedRestrictions = new ArrayList<String>( restrictionFragments.size() );
+         restrictionParameters = new ArrayList<ValueBinding>( restrictionFragments.size() );
          
-         for (String restriction: restrictions)
+         for ( String restriction: restrictionFragments )
          {
             StringTokenizer tokens = new StringTokenizer(restriction, "#}", true);
             StringBuilder builder = new StringBuilder();
@@ -164,10 +170,9 @@ public abstract class Query
    
    protected String getRenderedEjbql()
    {
-      StringBuilder builder = new StringBuilder()
-            .append(parsedEjbql);
+      StringBuilder builder = new StringBuilder().append(parsedEjbql);
       
-      for (int i=0; i<restrictions.size(); i++)
+      for (int i=0; i<getRestrictions().size(); i++)
       {
          Object parameterValue = restrictionParameters.get(i).getValue();
          if (parameterValue!=null)
@@ -184,7 +189,7 @@ public abstract class Query
          }
       }
          
-      if (order!=null) builder.append(" order by ").append(order);
+      if ( getOrder()!=null ) builder.append(" order by ").append( getOrder() );
       
       return builder.toString();
    }
@@ -215,19 +220,19 @@ public abstract class Query
    
    public boolean isPreviousExists()
    {
-      return firstResult!=null && firstResult!=0;
+      return getFirstResult()!=null && getFirstResult()!=0;
    }
 
    public boolean isNextExists()
    {
       return getResultList()!=null && 
-            getResultList().size() == maxResults;
+            getResultList().size() == getMaxResults();
    }
 
    public void setFirstResult(Integer firstResult)
    {
-      dataModel = null;
       this.firstResult = firstResult;
+      clearDataModel();
    }
 
    public Integer getMaxResults()
@@ -237,8 +242,8 @@ public abstract class Query
 
    public void setMaxResults(Integer maxResults)
    {
-      dataModel = null;
       this.maxResults = maxResults;
+      clearDataModel();
    }
 
    public List<String> getRestrictions()
