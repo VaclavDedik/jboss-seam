@@ -112,7 +112,7 @@
 </#foreach>
                <h:column>
                    <f:facet name="header">action</f:facet>
-		           <s:link id="${parentName}" value="View" view="/${parentPageName}.xhtml" propagation="end">
+		           <s:link id="view${parentName}" value="View" view="/${parentPageName}.xhtml" propagation="end">
 		               <f:param name="${parentName}Id" value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
 		           </s:link>
                </h:column>
@@ -141,14 +141,14 @@
 </#foreach>
             <h:column>
                 <f:facet name="header">action</f:facet>
-		        <s:link id="${childName}" value="Select" view="/${childPageName}.xhtml" propagation="end">
+		        <s:link id="select${childName}" value="Select" view="/${childPageName}.xhtml" propagation="end">
 		            <f:param name="${childName}Id" value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
 		        </s:link>
             </h:column>
           </h:dataTable>
           
 		    <div class="actionButtons">
-		        <s:link id="add" value="Add ${childName}" linkStyle="button"
+		        <s:link id="add${childName}" value="Add ${childName}" linkStyle="button"
 		            view="/${childEditPageName}.xhtml" propagation="begin">
 	            	<f:param name="${componentName}Id" 
 	            	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
