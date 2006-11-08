@@ -69,7 +69,7 @@ import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Secure;
+import org.jboss.seam.annotations.security.Secure;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.Transactional;
@@ -231,7 +231,7 @@ public class Component
             throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + name);
          }
          timeout = beanClass.isAnnotationPresent(Synchronized.class) ?
-               beanClass.getAnnotation(Synchronized.class).timeout() : 
+               beanClass.getAnnotation(Synchronized.class).timeout() :
                Synchronized.DEFAULT_TIMEOUT;
       }
 
@@ -699,7 +699,7 @@ public class Component
       {
          addInterceptor( new Interceptor( new SynchronizationInterceptor(), this ) );
       }
-      if ( 
+      if (
             ( getType().isEjb() && businessInterfaceHasAnnotation(Asynchronous.class) ) ||
             ( getType()==JAVA_BEAN && beanClassHasAnnotation(Asynchronous.class) )
          )
@@ -764,7 +764,7 @@ public class Component
       {
          for ( Method method: clazz.getMethods() )
          {
-            if ( method.isAnnotationPresent(annotationType) ) 
+            if ( method.isAnnotationPresent(annotationType) )
             {
                return true;
             }
@@ -882,7 +882,7 @@ public class Component
    {
       return removeMethods.values();
    }
-   
+
    public Method getRemoveMethod(String name)
    {
       return removeMethods.get(name);
@@ -1741,7 +1741,7 @@ public class Component
          {
             return Reflections.invokeAndWrap(interfaceMethod, instance, parameters);
          }
-         else 
+         else
          {
             return Reflections.invokeAndWrap(interfaceMethod, instance, this);
          }

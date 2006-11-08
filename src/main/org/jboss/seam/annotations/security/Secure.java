@@ -1,4 +1,4 @@
-package org.jboss.seam.annotations;
+package org.jboss.seam.annotations.security;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
@@ -6,6 +6,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import org.jboss.seam.annotations.*;
 
 /**
  * Used to configure security for a Seam component or component method.

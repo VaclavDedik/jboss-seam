@@ -12,12 +12,15 @@ import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.DefinePermissions;
+import org.jboss.seam.annotations.security.DefinePermissions;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.acl.AclProvider;
+import org.jboss.seam.security.acl.IdentityGenerator;
+import org.jboss.seam.security.acl.DefaultIdentityGenerator;
+import org.jboss.seam.annotations.security.*;
 
 /**
  * Holds configuration settings and provides functionality for the security API
@@ -38,6 +41,8 @@ public class SeamSecurityManager
    * An action code that directs the user to a security error page.
    */
   private String securityErrorAction = "securityError";
+
+  private IdentityGenerator identityGenerator = new DefaultIdentityGenerator();
 
   /**
    * Map roles to permissions
@@ -104,6 +109,16 @@ public class SeamSecurityManager
   public String getSecurityErrorAction()
   {
     return securityErrorAction;
+  }
+
+  public IdentityGenerator getIdentityGenerator()
+  {
+    return identityGenerator;
+  }
+
+  public void setIdentityGenerator(IdentityGenerator identityGenerator)
+  {
+    this.identityGenerator = identityGenerator;
   }
 
   public void setSecurityErrorAction(String securityErrorAction)
@@ -205,7 +220,7 @@ public class SeamSecurityManager
 
           if (def != null)
           {
-            for (org.jboss.seam.annotations.AclProvider p : def.permissions())
+            for (org.jboss.seam.annotations.security.AclProvider p : def.permissions())
             {
               meta.addProviderName(p.action(), p.provider());
             }
@@ -228,5 +243,10 @@ public class SeamSecurityManager
   public Permissions getPermissions(Object value, Authentication auth)
   {
     return null;
+  }
+
+  public String getObjectIdentity(Object obj)
+  {
+    return identityGenerator.generateIdentity(obj);
   }
 }

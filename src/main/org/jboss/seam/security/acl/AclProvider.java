@@ -10,6 +10,8 @@ import java.security.acl.Acl;
  */
 public interface AclProvider
 {
+  public enum RecipientType {role, user};
+
   /**
    * Return all Acls for the specified object.
    *

@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Permission;
-import org.jboss.seam.annotations.Secure;
+import org.jboss.seam.annotations.security.Secure;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.security.Authentication;

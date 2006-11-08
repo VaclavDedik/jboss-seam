@@ -25,6 +25,7 @@ import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
+import org.jboss.seam.security.SeamSecurityManager;
 
 /**
  * Persistent Acl provider.
@@ -144,7 +145,7 @@ public class PersistentAclProvider extends AbstractAclProvider
       case managedPersistenceContext:
         ((Query) query).setParameter("recipient", principal.getName())
           .setParameter("roles", roles)
-          .setParameter("identity", getObjectIdentity(target));
+          .setParameter("identity", SeamSecurityManager.instance().getObjectIdentity(target));
         break;
       case managedHibernateSession:
         /** @todo implement */
@@ -153,27 +154,6 @@ public class PersistentAclProvider extends AbstractAclProvider
         /** @todo implement */
         break;
     }
-  }
-
-  protected Object getObjectIdentity(Object obj)
-  {
-    switch (persistenceType)
-    {
-      case managedPersistenceContext:
-        try
-        {
-          return PersistenceProvider.instance().getId(obj,
-              ( (ManagedPersistenceContext) pcm).getEntityManager());
-        }
-        catch (SystemException ex) {  /** @todo  */
-        }
-        catch (NamingException ex) { /** @todo  */
-        }
-
-      /** @todo Implement hibernate and emf support */
-    }
-
-    return null;
   }
 
   protected Object executeQuery(Object query)
