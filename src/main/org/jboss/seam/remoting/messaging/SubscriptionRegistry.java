@@ -1,17 +1,19 @@
 package org.jboss.seam.remoting.messaging;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
 import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
 import javax.jms.TopicConnection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import static org.jboss.seam.InterceptionType.NEVER;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;

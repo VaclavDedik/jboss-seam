@@ -416,23 +416,19 @@ public class Initialization
       addComponent( LocaleSelector.class, context );
       addComponent( UiComponent.class, context );
       addComponent( SafeActions.class, context );
-      addComponent( SubscriptionRegistry.class, context );
-      addComponent( RemotingConfig.class, context );
       addComponent( PersistenceContexts.class, context );
       addComponent( CurrentDate.class, context );
       addComponent( CurrentTime.class, context );
       addComponent( CurrentDatetime.class, context );
-      addComponent( SeamSecurityManager.class, context );
       addComponent( Exceptions.class, context );
 
       //addComponent( Dispatcher.class, context );
-
-      try
-      {
-         addComponent( PojoCache.class, context );
-      }
-      catch (NoClassDefFoundError ncdfe) {} //swallow
-
+      
+      addComponentIfPossible( SeamSecurityManager.class, context );
+      addComponentIfPossible( RemotingConfig.class, context );
+      addComponentIfPossible( SubscriptionRegistry.class, context );
+      addComponentIfPossible( PojoCache.class, context );
+      
       if ( installedComponents.contains(ManagedPersistenceContext.class) )
       {
          try
@@ -547,6 +543,23 @@ public class Initialization
          );
       context.set(componentName, component);
 
+   }
+
+   protected void addComponentIfPossible(Class<?> clazz, Context context)
+   {
+      try
+      {
+         addComponent(clazz, context);
+      }
+      catch (NoClassDefFoundError ncdfe)
+      {
+         log.info(
+               "could not install component: " + 
+               clazz.getAnnotation(Name.class).value() +
+               "due to missing class: " +
+               ncdfe.getMessage()
+            );
+      }
    }
 
    protected void addComponent(Class clazz, Context context)
