@@ -5,6 +5,7 @@
 <#assign listName = componentName + "List">
 <#assign pageName = entityName>
 <#assign editPageName = entityName + "Edit">
+<#assign listPageName = entityName + "List">
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:s="http://jboss.com/products/seam/taglib"
@@ -47,6 +48,26 @@
             </s:link>
         </h:column>
     </h:dataTable>
+
+    <div class="tableControl">
+      
+        <s:link view="/${listPageName}.xhtml" rendered="${'#'}{${listName}.previousExists}" value="&lt;&lt; First Page">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+        
+        <s:link view="/${listPageName}.xhtml" rendered="${'#'}{${listName}.previousExists}" value="&lt; Previous Page">
+          <f:param name="firstResult" value="${'#'}{${listName}.previousFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/${listPageName}.xhtml" rendered="${'#'}{${listName}.nextExists}" value="Next Page &gt;">
+          <f:param name="firstResult" value="${'#'}{${listName}.nextFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/${listPageName}.xhtml" rendered="${'#'}{${listName}.nextExists}" value="Last Page &gt;&gt;">
+          <f:param name="firstResult" value="${'#'}{${listName}.lastFirstResult}"/>
+        </s:link>
+        
+    </div>
     
     <div class="actionButtons">
         <s:link id="create" value="Create ${componentName}" linkStyle="button"
