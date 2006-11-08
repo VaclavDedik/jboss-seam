@@ -49,7 +49,7 @@ public class Pages
    
    private static final Log log = LogFactory.getLog(Pages.class);
    
-   private Map<String, Page> pagesByViewId = new HashMap<String, Page>();   
+   private Map<String, Page> pagesByViewId = Collections.synchronizedMap( new HashMap<String, Page>() );   
    private String noConversationViewId;
    
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
@@ -64,7 +64,7 @@ public class Pages
       );
    
    @Create
-   public void initialize() throws DocumentException
+   public void initialize()
    {
       InputStream stream = Resources.getResourceAsStream("/WEB-INF/pages.xml");      
       if (stream==null)
@@ -74,109 +74,168 @@ public class Pages
       else
       {
          log.info("reading pages.xml");
-         SAXReader saxReader = new SAXReader();
-         saxReader.setMergeAdjacentText(true);
-         Document doc = saxReader.read(stream);
-         
-         if (noConversationViewId==null) //let the setting in components.xml override the pages.xml
+         parse(stream);
+      }
+   }
+
+   private void parse(InputStream stream)
+   {
+      Element root = getDocumentRoot(stream);
+      if (noConversationViewId==null) //let the setting in components.xml override the pages.xml
+      {
+         noConversationViewId = root.attributeValue("no-conversation-view-id");
+      }
+      List<Element> elements = root.elements("page");
+      for (Element page: elements)
+      {
+         parse( page, page.attributeValue("view-id") );
+      } 
+   }
+
+   private void parse(InputStream stream, String viewId)
+   {
+      parse( getDocumentRoot(stream), viewId );
+   }
+
+   private Element getDocumentRoot(InputStream stream)
+   {
+      Document doc;
+      SAXReader saxReader = new SAXReader();
+      saxReader.setMergeAdjacentText(true);
+      try
+      {
+         doc = saxReader.read(stream);
+      }
+      catch (DocumentException de)
+      {
+         throw new RuntimeException(de);
+      }
+      Element root = doc.getRootElement();
+      return root;
+   }
+
+   private void parse(Element page, String viewId)
+   {
+      if ( viewId.endsWith("*") )
+      {
+         wildcardViewIds.add(viewId);
+      }
+      Page entry = new Page(viewId);
+      pagesByViewId.put(viewId, entry);
+      
+      entry.setSwitchEnabled(!"disabled".equals( page.attributeValue("switch") ));
+      
+      String description = page.getTextTrim();
+      if (description!=null && description.length()>0)
+      {
+         entry.setDescription(description);
+      }
+      
+      String timeoutString = page.attributeValue("timeout");
+      if (timeoutString!=null)
+      {
+         entry.setTimeout(Integer.parseInt(timeoutString));
+      }
+      
+      String noConversationViewId = page.attributeValue("no-conversation-view-id");
+      entry.setNoConversationViewId(noConversationViewId);
+      
+      String action = page.attributeValue("action");
+      if (action!=null)
+      {
+         if ( action.startsWith("#{") )
          {
-            noConversationViewId = doc.getRootElement().attributeValue("no-conversation-view-id");
+            MethodBinding methodBinding = Expressions.instance().createMethodBinding(action);
+            entry.setAction(methodBinding);
          }
-         
-         List<Element> elements = doc.getRootElement().elements("page");
-         for (Element page: elements)
+         else
          {
-            String viewId = page.attributeValue("view-id");
-            if ( viewId.endsWith("*") )
-            {
-               wildcardViewIds.add(viewId);
-            }
-            Page entry = new Page(viewId);
-            pagesByViewId.put(viewId, entry);
-            
-            entry.setSwitchEnabled(!"disabled".equals( page.attributeValue("switch") ));
-            
-            String description = page.getTextTrim();
-            if (description!=null && description.length()>0)
-            {
-               entry.setDescription(description);
-            }
-            
-            String timeoutString = page.attributeValue("timeout");
-            if (timeoutString!=null)
-            {
-               entry.setTimeout(Integer.parseInt(timeoutString));
-            }
-            
-            String noConversationViewId = page.attributeValue("no-conversation-view-id");
-            entry.setNoConversationViewId(noConversationViewId);
-            
-            String action = page.attributeValue("action");
-            if (action!=null)
-            {
-               if ( action.startsWith("#{") )
-               {
-                  MethodBinding methodBinding = Expressions.instance().createMethodBinding(action);
-                  entry.setAction(methodBinding);
-               }
-               else
-               {
-                  entry.setOutcome(action);
-               }
-            }
-            
-            String bundle = page.attributeValue("bundle");
-            if (bundle!=null)
-            {
-               entry.setResourceBundleName(bundle);
-            }
-            
-            List<Element> children = page.elements("param");
-            for (Element param: children)
-            {
-               String valueExpression = param.attributeValue("value");
-               if (valueExpression==null)
-               {
-                  throw new IllegalArgumentException("must specify value for page <param/> declaration");
-               }
-               String name = param.attributeValue("name");
-               if (name==null)
-               {
-                  name = valueExpression.substring(2, valueExpression.length()-1);
-               }
-               Page.PageParameter pageParameter = new Page.PageParameter(name);
-               pageParameter.valueBinding = Expressions.instance().createValueBinding(valueExpression);
-               pageParameter.converterId = param.attributeValue("converterId");
-               String converterExpression = param.attributeValue("converter");
-               if (converterExpression!=null)
-               {
-                  pageParameter.converterValueBinding = Expressions.instance().createValueBinding(converterExpression);
-               }
-               entry.getPageParameters().add(pageParameter);
-            }
+            entry.setOutcome(action);
          }
+      }
+      
+      String bundle = page.attributeValue("bundle");
+      if (bundle!=null)
+      {
+         entry.setResourceBundleName(bundle);
+      }
+      
+      List<Element> children = page.elements("param");
+      for (Element param: children)
+      {
+         String valueExpression = param.attributeValue("value");
+         if (valueExpression==null)
+         {
+            throw new IllegalArgumentException("must specify value for page <param/> declaration");
+         }
+         String name = param.attributeValue("name");
+         if (name==null)
+         {
+            name = valueExpression.substring(2, valueExpression.length()-1);
+         }
+         Page.PageParameter pageParameter = new Page.PageParameter(name);
+         pageParameter.valueBinding = Expressions.instance().createValueBinding(valueExpression);
+         pageParameter.converterId = param.attributeValue("converterId");
+         String converterExpression = param.attributeValue("converter");
+         if (converterExpression!=null)
+         {
+            pageParameter.converterValueBinding = Expressions.instance().createValueBinding(converterExpression);
+         }
+         entry.getPageParameters().add(pageParameter);
       }
    }
    
    public Page getPage(String viewId)
    {
-      Page result = null;
-      if (viewId!=null)
+      if (viewId==null)
       {
-         result = pagesByViewId.get(viewId);
+         return null;
+      }
+      else
+      {
+         Page result = getCachedPage(viewId);
          if (result==null)
          {
-            //workaround for what I believe is a bug in the JSF RI
-            result = pagesByViewId.get( replaceExtension(viewId) );
+            return createPage(viewId);
+         }
+         else
+         {
+            return result;
          }
       }
-      return result==null ? new Page(viewId) : result;
+   }
+
+   private Page createPage(String viewId)
+   {
+      InputStream stream = Resources.getResourceAsStream( replaceExtension(viewId, ".page.xml").substring(1) );
+      if ( stream==null ) 
+      {
+         Page result = new Page(viewId);
+         pagesByViewId.put(viewId, result);
+         return result;
+      }
+      else
+      {
+         parse(stream, viewId);
+         return getCachedPage(viewId);
+      }
+   }
+
+   private Page getCachedPage(String viewId)
+   {
+      Page result = pagesByViewId.get(viewId);
+      if (result==null)
+      {
+         //workaround for what I believe is a bug in the JSF RI
+         result = pagesByViewId.get( replaceExtension( viewId, getSuffix() ) );
+      }
+      return result;
    }
    
-   private static String replaceExtension(String viewId)
+   private static String replaceExtension(String viewId, String suffix)
    {
       int loc = viewId.lastIndexOf('.');
-      return loc<0 ? null : viewId.substring(0, loc) + getSuffix();
+      return loc<0 ? null : viewId.substring(0, loc) + suffix;
    }
    
    public boolean callAction()

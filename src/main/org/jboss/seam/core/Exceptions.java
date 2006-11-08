@@ -169,7 +169,7 @@ public class Exceptions
       Element error = exception.element("http-error");
       if (error!=null)
       {
-         final int code = Integer.parseInt( error.attributeValue("view-id") );
+         final int code = Integer.parseInt( error.attributeValue("code") );
          final String message = error.getTextTrim();
          return new ErrorHandler()
          {
@@ -235,6 +235,12 @@ public class Exceptions
       {
          return e.getClass().getAnnotation(Redirect.class).end();
       } 
+
+      @Override
+      public String toString()
+      {
+         return "RedirectHandler";
+      }
    }
    
    public static class RenderHandler implements ExceptionHandler
@@ -267,6 +273,12 @@ public class Exceptions
       {
          return e.getClass().getAnnotation(Render.class).end();
       }
+
+      @Override
+      public String toString()
+      {
+         return "RenderHandler";
+      }
    }
    
    public static class ErrorHandler implements ExceptionHandler
@@ -275,7 +287,7 @@ public class Exceptions
       {
          if ( isEnd(e) ) Conversation.instance().end();
          String message = getMessage(e);
-         addFacesMessage(e, message);
+         //addFacesMessage(e, message);
          error( getCode(e), Interpolator.instance().interpolate( getDisplayMessage(e, message) ) );
          return rethrow(e);
       }  
@@ -298,7 +310,13 @@ public class Exceptions
       protected boolean isEnd(Exception e)
       {
          return e.getClass().getAnnotation(HttpError.class).end();
-      }      
+      }
+      
+      @Override
+      public String toString()
+      {
+         return "ErrorHandler";
+      }
    }
    
    public static class DebugPageHandler implements ExceptionHandler
@@ -323,6 +341,11 @@ public class Exceptions
          return Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE;
       }
       
+      @Override
+      public String toString()
+      {
+         return "Debug";
+      }
    }
    
    protected static String getDisplayMessage(Exception e, String message)
