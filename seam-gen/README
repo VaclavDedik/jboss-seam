@@ -19,7 +19,7 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
       Example: seam setup
 	     
    new-project
-      Create a new seam project that has all dependencies and minimal
+      Create a new eclipse project that has all dependencies and basic
       configuration. Refers to build.properties for project attributes.
 	     
       Example: seam new-project hello-world

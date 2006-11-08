@@ -142,7 +142,7 @@
         <include name="stylesheet/*"/>
     </fileset>
 
-    <target name="file-copy" depends="copy-lib">
+    <target name="file-copy" unless="${wtp}">
         <echo message="Copying project resources ..." />
                 
         <copy todir="${project.home}/resources">
@@ -171,7 +171,7 @@
         
     </target>
 
-    <target name="file-copy-wtp" depends="copy-lib">
+    <target name="file-copy-wtp" if="${wtp}">
         <echo message="Copying project resources ..." />
         
         <copy todir="${project.home}EJB/ejbModule" overwrite="true">
@@ -269,12 +269,11 @@
         </fail>
     </target>
 
-    <target name="new-project" depends="validate-project,file-copy,set-default-project">
-        <echo message="A new Seam project called '${project.name}' was created in the ${workspace.home} directory"/>
-    </target>
-
-    <target name="new-wtp-project" depends="validate-project,file-copy-wtp,set-default-project">
-        <echo message="A new WTP project was created in the ${workspace.home} directory"/>
+    <target name="new-project" depends="validate-project,copy-lib,file-copy-wtp,file-copy,set-default-project">
+    	<condition property="wtp">
+    		<equals arg1="${eclipse.wtp}" arg2="Y"/>
+    	</condition>
+        <echo message="A new Seam project was created in the ${workspace.home} directory"/>
     </target>
 
     <target name="update-project" depends="validate-project">
