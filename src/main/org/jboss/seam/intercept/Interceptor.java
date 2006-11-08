@@ -2,12 +2,10 @@
 package org.jboss.seam.intercept;
 
 import static org.jboss.seam.util.EJB.AROUND_INVOKE;
-import static org.jboss.seam.util.EJB.INTERCEPTORS;
 import static org.jboss.seam.util.EJB.POST_ACTIVATE;
 import static org.jboss.seam.util.EJB.POST_CONSTRUCT;
 import static org.jboss.seam.util.EJB.PRE_DESTROY;
 import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
-import static org.jboss.seam.util.EJB.value;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -95,9 +93,8 @@ public final class Interceptor extends Reflections
       init();
    }
    
-   public Interceptor(Annotation annotation, Component component) 
+   public Interceptor(Class[] classes, Annotation annotation, Component component) 
    {
-      Class[] classes = value( annotation.annotationType().getAnnotation(INTERCEPTORS) );
       if (classes.length!=1)
       {
          //TODO: remove this silly restriction!

@@ -61,6 +61,7 @@ import org.jboss.seam.annotations.DataSelectorClass;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.IfInvalid;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Interceptors;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
@@ -619,11 +620,17 @@ public class Component
    {
       initDefaultInterceptors();
 
-      for (Annotation annotation: beanClass.getAnnotations())
+      for ( Annotation annotation: beanClass.getAnnotations() )
       {
          if ( annotation.annotationType().isAnnotationPresent(INTERCEPTORS) )
          {
-            addInterceptor( new Interceptor(annotation, this) );
+            Class[] classes = value( annotation.annotationType().getAnnotation(INTERCEPTORS) );
+            addInterceptor( new Interceptor(classes, annotation, this) );
+         }
+         if ( annotation.annotationType().isAnnotationPresent(Interceptors.class) )
+         {
+            Class[] classes = annotation.annotationType().getAnnotation(Interceptors.class).value();
+            addInterceptor( new Interceptor(classes, annotation, this) );
          }
       }
 
