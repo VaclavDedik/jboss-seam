@@ -1,0 +1,18 @@
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+    </component>
+
+    <!-- 120 second conversation timeout -->
+    <component name="org.jboss.seam.core.manager">
+        <property name="conversationTimeout">120000</property>
+    </component>
+    
+    <!-- Bootstrap Hibernate -->
+    <component name="bookingDatabase" 
+              class="org.jboss.seam.core.ManagedHibernateSession"/>
+    <component name="hibernateSessionFactory"
+              class="org.jboss.seam.core.HibernateSessionFactory"/> 
+    
+</components>
