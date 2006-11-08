@@ -354,13 +354,17 @@
         <copy todir="${project.home}/resources">
             <fileset dir="${basedir}/resources/">
                 <exclude name="META-INF/application-wtp.xml" />
+            	<exclude name="datasource-ds.xml"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
         
-        <move tofile="${project.home}/resources/${project.name}-ds.xml" 
-                file="${project.home}/resources/datasource-ds.xml"/>
+        <copy tofile="${project.home}/resources/${project.name}-ds.xml" 
+                file="${basedir}/resources/datasource-ds.xml">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
         
         <copy todir="${project.home}/view">
             <fileset refid="view"/>
@@ -398,16 +402,23 @@
                 <exclude name="META-INF/ejb-jar.xml" />
                 <exclude name="META-INF/persistence.xml" />
                 <exclude name="META-INF/application.xml" />
+            	<exclude name="datasource-ds.xml"/>
+            	<exclude name="application-wtp.xml"/>
             </fileset>
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
         
-        <move file="${project.home}/EarContent/META-INF/application-wtp.xml" 
-            tofile="${project.home}/EarContent/META-INF/application.xml" />
+        <copy file="${basedir}/resources/META-INF/application-wtp.xml" 
+            tofile="${project.home}/EarContent/META-INF/application.xml">
+            <filterset refid="project"/>
+        </copy>
             
-        <move tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml" 
-                file="${project.home}/EarContent/datasource-ds.xml"/>
+        <copy file="${basedir}/resources/datasource-ds.xml"
+    	    tofile="${jboss.home}/server/default/deploy/${project.name}-ds.xml">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
         
         <copy todir="${project.home}/EarContent" overwrite="true">
             <fileset dir="../lib">
