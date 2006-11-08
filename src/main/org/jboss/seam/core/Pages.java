@@ -277,12 +277,26 @@ public class Pages
       return result;
    }
    
-   public Map<String, Object> getParameters(String viewId)
+   public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId)
    {
-      return getParameters(viewId, Collections.EMPTY_SET);
+      return getConvertedParameters(facesContext, viewId, Collections.EMPTY_SET);
    }
    
-   public Map<String, Object> getParameters(String viewId, Set<String> overridden)
+   public Map<String, Object> getParameters(String viewId)
+   {
+      Map<String, Object> parameters = new HashMap<String, Object>();
+      for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
+      {
+         Object value = pageParameter.valueBinding.getValue();
+         if (value!=null)
+         {
+            parameters.put(pageParameter.name, value);
+         }
+      }
+      return parameters;
+   }
+   
+   public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId, Set<String> overridden)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
@@ -292,7 +306,19 @@ public class Pages
             Object value = pageParameter.valueBinding.getValue();
             if (value!=null)
             {
-               parameters.put(pageParameter.name, value);
+               Converter converter;
+               try
+               {
+                  converter = pageParameter.getConverter();
+               }
+               catch (RuntimeException re)
+               {
+                  //YUCK! due to bad JSF/MyFaces error handling
+                  continue;
+               }
+               Object convertedValue = converter==null ? 
+                     value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
+               parameters.put(pageParameter.name, convertedValue);
             }
          }
       }
@@ -367,7 +393,7 @@ public class Pages
     */
    public String encodePageParameters(String url, String viewId)
    {
-      Map<String, Object> parameters = getParameters(viewId);
+      Map<String, Object> parameters = getConvertedParameters( FacesContext.getCurrentInstance(), viewId );
       return Manager.instance().encodeParameters(url, parameters);
    }
 
