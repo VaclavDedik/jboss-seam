@@ -5,6 +5,10 @@
       <end-conversation/>
    </exception>
    
+   <exception class="org.jboss.seam.framework.EntityNotFoundException">
+      <http-error code="404"/>
+   </exception>
+   
    <exception>
       <redirect view-id="/search.xhtml">Unexpected failure</redirect>
       <end-conversation/>
