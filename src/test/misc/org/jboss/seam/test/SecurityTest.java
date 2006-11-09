@@ -1,5 +1,6 @@
 package org.jboss.seam.test;
 
+import java.io.Serializable;
 import javax.persistence.Id;
 
 import org.jboss.seam.annotations.Name;
@@ -21,6 +22,24 @@ public class SecurityTest
     public MockSecureEntityFieldId(Integer id) { this.id = id; }
   }
 
+  class MockCompositeId implements Serializable {
+    private int fieldA;
+    private String fieldB;
+    public String toString() {
+      return String.format("%s,%s", fieldA, fieldB);
+    }
+    public MockCompositeId(int fieldA, String fieldB) {
+      this.fieldA = fieldA;
+      this.fieldB = fieldB;
+    }
+  }
+
+  @Name("mock")
+  class MockSecureEntityCompositeId {
+    @Id private MockCompositeId id;
+    public MockSecureEntityCompositeId(MockCompositeId id) { this.id = id; }
+  }
+
   @Test
   public void testJPAIdentityGenerator()
   {
@@ -28,5 +47,7 @@ public class SecurityTest
     assert("mock:1234".equals(gen.generateIdentity(new MockSecureEntityMethodId(1234))));
     assert("mock:1234".equals(gen.generateIdentity(new MockSecureEntityFieldId(1234))));
     assert(null == gen.generateIdentity(new MockSecureEntityMethodId(null)));
+    assert("mock:1234,abc".equals(gen.generateIdentity(new MockSecureEntityCompositeId(
+      new MockCompositeId(1234, "abc")))));
   }
 }
