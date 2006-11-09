@@ -37,7 +37,6 @@
       </property>
    </bean>
    
-   
    <bean name="DefaultDSBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
       <property name="connectionURL">jdbc:hsqldb:.</property>

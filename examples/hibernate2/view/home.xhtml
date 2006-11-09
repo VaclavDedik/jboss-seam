@@ -12,7 +12,7 @@
 <f:view>
 <div id="document">
 	<div id="header">
-		<div id="title"><img src="img/hdr.title.gif" /></div>
+		<div id="title"><img src="img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>
 	</div>
 	<div id="container">
 		<div id="sidebar">
@@ -28,7 +28,7 @@
 					<h:inputSecret id="password" value="#{user.password}" style="width: 175px;"/>
 				</div>
 				<div class="errors"><h:messages globalOnly="true"/></div>
-				<div class="buttonBox"><h:commandButton id="login" action="#{login.login}" value="Account Login" class="button" /></div>
+				<div class="buttonBox"><h:commandButton id="login" action="#{login.login}" value="Account Login" styleClass="button"/></div>
 				<div class="notes"><h:commandLink id="register" action="register">Register New User</h:commandLink></div>
 			</fieldset>
             </h:form>
@@ -54,7 +54,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="footer">Created with JBoss EJB 3.0, Seam, MyFaces, and Facelets</div>
+	<div id="footer">Created with JBoss Seam, Hibernate, MyFaces, Facelets, and Ajax4jsf</div>
 </div>
 </f:view>
 </body>
