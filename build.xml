@@ -601,6 +601,8 @@
                 <exclude name="booking/alter.config/**/*"/>
                 <exclude name="booking/build.alter.xml"/>
                 <include name="hibernate/**/*"/>
+            	<include name="hibernate2/**/*"/>
+            	<include name="jpa/**/*"/>
                 <include name="blog/**/*"/>
                 <include name="contactlist/**/*"/>
                 <include name="issues/**/*"/>
