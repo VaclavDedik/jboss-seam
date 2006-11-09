@@ -14,31 +14,46 @@ rem Read all command line arguments
 set SEAMTASK=%1%
 set PROJECTNAME=%2%
 
-if %SEAMTASK% == setup ant setup -buildfile=%SEAMGENDIR%\build.xml
+if %SEAMTASK% == setup ( ant setup -buildfile=%SEAMGENDIR%\build.xml ) else (goto new-project)
 
-if %SEAMTASK% == new-project ant new-project -buildfile=%SEAMGENDIR%\build.xml -Dproject.name=%PROJECTNAME%
+:new-project
+if %SEAMTASK% == new-project ( ant new-project -buildfile=%SEAMGENDIR%\build.xml -Dproject.name=%PROJECTNAME% ) else (goto explode)
 
-if %SEAMTASK% == explode ant explode -buildfile=%SEAMGENDIR%\build.xml
+:explode
+if %SEAMTASK% == explode ( ant explode -buildfile=%SEAMGENDIR%\build.xml ) else (goto unexplode)
 
-if %SEAMTASK% == unexplode ant unexplode -buildfile=%SEAMGENDIR%\build.xml
+:unexplode
+if %SEAMTASK% == unexplode ( ant unexplode -buildfile=%SEAMGENDIR%\build.xml ) else (goto deploy)
 
-if %SEAMTASK% == deploy ant deploy -buildfile=%SEAMGENDIR%\build.xml
+:deploy
+if %SEAMTASK% == deploy ( ant deploy -buildfile=%SEAMGENDIR%\build.xml ) else (goto undeploy)
 
-if %SEAMTASK% == undeploy ant undeploy -buildfile=%SEAMGENDIR%\build.xml
+:undeploy
+if %SEAMTASK% == undeploy ( ant undeploy -buildfile=%SEAMGENDIR%\build.xml ) else (goto restart)
 
-if %SEAMTASK% == restart ant restart -buildfile=%SEAMGENDIR%\build.xml
+:restart
+if %SEAMTASK% == restart ( ant restart -buildfile=%SEAMGENDIR%\build.xml ) else (goto new-action)
 
-if %SEAMTASK% == new-action ant new-action -buildfile=%SEAMGENDIR%\build.xml
+:new-action
+if %SEAMTASK% == new-action ( ant new-action -buildfile=%SEAMGENDIR%\build.xml ) else (goto new-form)
 
-if %SEAMTASK% == new-form ant new-form -buildfile=%SEAMGENDIR%\build.xml
+:new-form
+if %SEAMTASK% == new-form ( ant new-form -buildfile=%SEAMGENDIR%\build.xml ) else (goto new-conversation)
 
-if %SEAMTASK% == new-conversation ant new-conversation -buildfile=%SEAMGENDIR%\build.xml
+:new-conversation
+if %SEAMTASK% == new-conversation ( ant new-conversation -buildfile=%SEAMGENDIR%\build.xml ) else (goto new-entity)
 
-if %SEAMTASK% == new-entity ant new-entity -buildfile=%SEAMGENDIR%\build.xml
+:new-entity
+if %SEAMTASK% == new-entity ( ant new-entity -buildfile=%SEAMGENDIR%\build.xml ) else (goto generate-entities)
 
-if %SEAMTASK% == generate-entities ant generate-entities -buildfile=%SEAMGENDIR%\build.xml
+:generate-entities
+if %SEAMTASK% == generate-entities ( ant generate-entities -buildfile=%SEAMGENDIR%\build.xml ) else (goto help)
 
-if %SEAMTASK% == help more %SEAMGENDIR%\README
+:help
+if %SEAMTASK% == help ( more %SEAMGENDIR%\README ) else (goto usage)
+
+:usage
+more %SEAMGENDIR%\USAGE
 
 goto END_NO_PAUSE
 
