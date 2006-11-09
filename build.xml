@@ -575,6 +575,24 @@
             
     </target>
     
+    <target name="corecoverage" depends="instrument,testcore"
+              description="Generate a test coverage report for the core tests">
+
+        <!-- Move the runtime coverage metadata to the coverage dir -->
+        <move file="coverage.ec" todir="${coverage.dir}"/>        
+        
+        <!-- Generate code coverage report -->
+        <emma>     
+          <report sourcepath="${src.java.dir}" depth="method">
+            <infileset dir="${coverage.dir}" includes="coverage.em,coverage.ec" />
+            <html outfile="./report/coverage.html"/>
+          </report>
+        </emma>
+        
+        <echo>Code coverage report for core classes available at ${basedir}/report/coverage.html</echo>        
+                        
+    </target>
+    
     <target name="copyexamples" description="Copy examples to dist dir">
         <copy todir="${dist.dir}/examples">
             <fileset dir="${imported.basedir}/examples">
