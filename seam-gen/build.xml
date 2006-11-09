@@ -636,7 +636,7 @@
 	        </classpath>
 	    </taskdef>
 		
-		<hibernate>
+		<hibernate templatepath=".">
             <jdbcconfiguration propertyfile="build.properties" 
             	                packagename="${model.package}"/>
         	
