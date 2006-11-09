@@ -239,6 +239,11 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       lock.unlock();
    }
    
+   public boolean isLockedByCurrentThread()
+   {
+      return lock.isHeldByCurrentThread();
+   }
+   
    public void end()
    {
       ended = true;

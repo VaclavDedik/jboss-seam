@@ -344,7 +344,10 @@ public class Manager
       ConversationEntry ce = getCurrentConversationEntry();
       if (ce!=null) 
       {
-         ce.unlock();
+         if ( ce.isLockedByCurrentThread() )
+         {
+            ce.unlock();
+         }
       }
       else if ( isNestedConversation() )
       {
