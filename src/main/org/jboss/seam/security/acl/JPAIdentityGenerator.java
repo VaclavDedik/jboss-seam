@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.Id;
@@ -45,6 +44,9 @@ public class JPAIdentityGenerator implements IdentityGenerator
             return (Serializable) identityField.get(obj);
           }
           catch (IllegalAccessException ex) { // shouldn't occur
+            throw new IdentityException(String.format(
+                "IllegalAccessException reading identifier field on object [%s]",
+                obj), ex);
           }
         case method:
           try
@@ -52,10 +54,14 @@ public class JPAIdentityGenerator implements IdentityGenerator
             return identityMethod.invoke(obj);
           }
           catch (IllegalAccessException ex) {
-            // won't occur - already checked that method is public
+            throw new IdentityException(String.format(
+                "IllegalAccessException invoking identifier method on object [%s]",
+                obj), ex);
           }
           catch (InvocationTargetException ex) {
-
+            throw new IdentityException(String.format(
+                "InvocationTargetException invoking identifier method on object [%s]",
+                obj), ex);
           }
         default:
           throw new IllegalStateException("Invalid identifier type");
@@ -111,13 +117,10 @@ public class JPAIdentityGenerator implements IdentityGenerator
                     "Specified class [%s] has illegal identifier method - must accept no parameters.",
                     cls.getName()));
 
-              if (!Modifier.isPublic(m.getModifiers()))
-                throw new IllegalArgumentException(String.format(
-                    "Specified class [%s] has illegal identifier method - must be public.",
-                    cls.getName()));
-
               meta.idType = IdentityType.method;
               meta.identityMethod = m;
+
+              m.setAccessible(true);
               break;
             }
           }
@@ -125,8 +128,9 @@ public class JPAIdentityGenerator implements IdentityGenerator
           // If there is no @Id method, check the fields
           if (meta.identityMethod == null)
           {
-            for (Field f : cls.getFields())
+            for (Field f : cls.getDeclaredFields())
             {
+              System.out.println("Field: " + f.getName());
               if (f.isAnnotationPresent(Id.class))
               {
                 meta.idType = IdentityType.field;

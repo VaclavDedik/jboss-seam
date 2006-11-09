@@ -13,6 +13,7 @@
        <class name="org.jboss.seam.test.PhaseListenerTest"/>
        <class name="org.jboss.seam.test.RemotingTest"/>
        <class name="org.jboss.seam.test.MethodExpressionParserTest"/>
+       <class name="org.jboss.seam.test.SecurityTest"/>
      </classes>
    </test>
 	
