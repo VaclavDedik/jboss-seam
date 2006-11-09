@@ -8,6 +8,8 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.authenticator.Authenticator;
+import org.jboss.seam.Seam;
+import javax.faces.application.FacesMessage;
 
 /**
  * Authenticates the user.
@@ -37,6 +39,7 @@ public class LoginAction implements LoginLocal
   public String logout()
   {
     Authenticator.instance().unauthenticateSession();
+    Seam.invalidateSession();
     return "login";
   }
 }

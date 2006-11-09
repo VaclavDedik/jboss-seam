@@ -3,8 +3,8 @@ package org.jboss.seam.example.security;
 import javax.ejb.Stateless;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Secure;
-import org.jboss.seam.annotations.Permission;
+import org.jboss.seam.annotations.security.Secure;
+import org.jboss.seam.annotations.security.Permission;
 import org.jboss.seam.security.SeamSecurityManager;
 
 /**

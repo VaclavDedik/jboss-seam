@@ -1,8 +1,8 @@
 package org.jboss.seam.example.security;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.DefinePermissions;
-import org.jboss.seam.annotations.AclProvider;
+import org.jboss.seam.annotations.security.DefinePermissions;
+import org.jboss.seam.annotations.security.AclProvider;
 
 /**
  * <p>PROPRIETARY/CONFIDENTIAL Use of this product is subject to license terms.
@@ -13,7 +13,8 @@ import org.jboss.seam.annotations.AclProvider;
  */
 @Name("customer")
 @DefinePermissions(permissions = {
-  @AclProvider(actions = "modify", provider = "customerAclProvider")
+  @AclProvider(action = "modify", provider = "customerAclProvider"),
+  @AclProvider(action = "view", provider = "persistentAclProvider", mask = 0x02)
 })
 public class Customer
 {
