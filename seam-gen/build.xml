@@ -663,6 +663,23 @@
         	                template="view/layout/menu.xhtml.ftl" 
         		             destdir="${project.home}/view/layout"/>
 		</hibernate>
+
+		<taskdef name="javaformatter" 
+			 classname="org.hibernate.tool.ant.JavaFormatterTask">
+	        <classpath>
+	            <fileset dir="lib">
+	                <include name="*.jar"/>
+	            </fileset>
+	        </classpath>
+		</taskdef>
+
+		<javaformatter> 
+		  <fileset dir="${project.home}/src">
+		   	   <include name="**/*.java"/>
+		  </fileset>
+		</javaformatter>
+
+
     </target>
 	
     <target name="deploy" depends="validate-project">
