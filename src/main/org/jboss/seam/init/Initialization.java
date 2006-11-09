@@ -22,6 +22,7 @@ import javax.servlet.ServletContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
@@ -125,13 +126,13 @@ public class Initialization
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
-      initPropertiesFromXml();
+      initComponentsFromXmlDocument();
       initPropertiesFromServletContext();
       initPropertiesFromResource();
       initJndiProperties();
    }
 
-   private void initPropertiesFromXml()
+   private void initComponentsFromXmlDocument()
    {
       InputStream stream = Resources.getResourceAsStream("/WEB-INF/components.xml", servletContext);
       if (stream==null)
@@ -146,54 +147,66 @@ public class Initialization
             Properties replacements = new Properties();
             InputStream replaceStream = Resources.getResourceAsStream("components.properties");
             if (replaceStream!=null) replacements.load( replaceStream );
-
-            SAXReader saxReader = new SAXReader();
-            saxReader.setMergeAdjacentText(true);
-            Document doc = saxReader.read(stream);
-
-            List<Element> importElements = doc.getRootElement().elements("import-java-package");
-            for (Element importElement: importElements)
-            {
-               importedPackages.add( importElement.getTextTrim() );
-            }
-
-            List<Element> componentElements = doc.getRootElement().elements("component");
-            for (Element component: componentElements)
-            {
-               String installed = component.attributeValue("installed");
-               if (installed==null || "true".equals( replace(installed, replacements) ) )
-               {
-                  installComponent(component, replacements);
-               }
-            }
-
-            List<Element> factoryElements = doc.getRootElement().elements("factory");
-            for (Element factory: factoryElements)
-            {
-               String scopeName = factory.attributeValue("scope");
-               String name = factory.attributeValue("name");
-               if (name==null)
-               {
-                  throw new IllegalArgumentException("must specify name in <factory/> declaration");
-               }
-               String method = factory.attributeValue("method");
-               String value = factory.attributeValue("value");
-               if (method==null && value==null)
-               {
-                  throw new IllegalArgumentException("must specify either method or value in <factory/> declaration for variable: " + name);
-               }
-               ScopeType scope = scopeName==null ?
-                     ScopeType.UNSPECIFIED :
-                     ScopeType.valueOf( scopeName.toUpperCase() );
-               factoryDescriptors.add( new FactoryDescriptor(name, scope, method, value) );
-            }
-
+            installComponentsFromXmlElements( getDocument(stream), replacements );
          }
          catch (Exception e)
          {
             throw new RuntimeException("error while reading components.xml", e);
          }
       }
+   }
+
+   private void installComponentsFromXmlElements(Document doc, Properties replacements) throws DocumentException, ClassNotFoundException
+   {
+      List<Element> importElements = doc.getRootElement().elements("import-java-package");
+      for (Element importElement: importElements)
+      {
+         importedPackages.add( importElement.getTextTrim() );
+      }
+
+      List<Element> componentElements = doc.getRootElement().elements("component");
+      for (Element component: componentElements)
+      {
+         String installed = component.attributeValue("installed");
+         if (installed==null || "true".equals( replace(installed, replacements) ) )
+         {
+            installComponentFromXmlElement(component, component.attributeValue("class"), replacements);
+         }
+      }
+
+      List<Element> factoryElements = doc.getRootElement().elements("factory");
+      for (Element factory: factoryElements)
+      {
+         installFactoryFromXmlElement(factory);
+      }
+   }
+
+   private void installFactoryFromXmlElement(Element factory)
+   {
+      String scopeName = factory.attributeValue("scope");
+      String name = factory.attributeValue("name");
+      if (name==null)
+      {
+         throw new IllegalArgumentException("must specify name in <factory/> declaration");
+      }
+      String method = factory.attributeValue("method");
+      String value = factory.attributeValue("value");
+      if (method==null && value==null)
+      {
+         throw new IllegalArgumentException("must specify either method or value in <factory/> declaration for variable: " + name);
+      }
+      ScopeType scope = scopeName==null ?
+            ScopeType.UNSPECIFIED :
+            ScopeType.valueOf( scopeName.toUpperCase() );
+      factoryDescriptors.add( new FactoryDescriptor(name, scope, method, value) );
+   }
+
+   private Document getDocument(InputStream stream) throws DocumentException
+   {
+      SAXReader saxReader = new SAXReader();
+      saxReader.setMergeAdjacentText(true);
+      Document doc = saxReader.read(stream);
+      return doc;
    }
 
    private String replace(String value, Properties replacements)
@@ -205,10 +218,9 @@ public class Initialization
       return value;
    }
 
-   private void installComponent(Element component, Properties replacements) throws ClassNotFoundException
+   private void installComponentFromXmlElement(Element component, String className, Properties replacements) throws ClassNotFoundException
    {
       String name = component.attributeValue("name");
-      String className = component.attributeValue("class");
       String scopeName = component.attributeValue("scope");
       ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName.toUpperCase());
       if (className!=null)
@@ -317,12 +329,81 @@ public class Initialization
    public Initialization init()
    {
       log.info("initializing Seam");
+      installScannedComponents();
       Lifecycle.beginInitialization(servletContext);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       addComponents();
       Lifecycle.endInitialization();
       log.info("done initializing Seam");
       return this;
+   }
+
+   private void installScannedComponents()
+   {
+      if ( isScannerEnabled )
+      {
+         for ( Class<Object> scannedClass: new Scanner().getClasses() )
+         {
+            installScannedComponentAndRoles(scannedClass);
+            installComponentsFromDescriptor( descriptorFilename(scannedClass), scannedClass.getName() );
+         }
+      }
+   }
+
+   private static String descriptorFilename(Class<Object> scannedClass)
+   {
+      return scannedClass.getName().replace('.', '/') + ".component.xml";
+   }
+
+   private void installComponentsFromDescriptor(String fileName, String className)
+   {
+      InputStream stream = Resources.getResourceAsStream(fileName);
+      if (stream!=null)
+      {
+         try
+         {
+            Properties replacements = new Properties(); //TODO: use components.properties
+            Document doc = getDocument(stream);
+            if ( doc.getRootElement().getName().equals("component") )
+            {
+               installComponentFromXmlElement( doc.getRootElement(), className, replacements );
+            }
+            else
+            {
+               installComponentsFromXmlElements(doc, replacements);
+            }
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
+   }
+
+   private void installScannedComponentAndRoles(Class<Object> scannedClass)
+   {
+      if ( scannedClass.isAnnotationPresent(Name.class) )
+      {
+         componentDescriptors.add( new ComponentDescriptor(scannedClass) );
+      }
+      if ( scannedClass.isAnnotationPresent(Role.class) )
+      {
+         installRole( scannedClass, scannedClass.getAnnotation(Role.class) );
+      }
+      if ( scannedClass.isAnnotationPresent(Roles.class) )
+      {
+         Role[] roles = scannedClass.getAnnotation(Roles.class).value();
+         for (Role role: roles)
+         {
+            installRole(scannedClass, role);
+         }
+      }
+   }
+
+   private void installRole(Class<Object> scannedClass, Role role)
+   {
+      ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
+      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope) );
    }
 
    private void initPropertiesFromServletContext()
@@ -482,16 +563,7 @@ public class Initialization
 
       for ( ComponentDescriptor componentDescriptor: componentDescriptors )
       {
-         addComponent( componentDescriptor, context );
-      }
-
-      if (isScannerEnabled)
-      {
-         for ( Class<Object> clazz: new Scanner().getClasses() )
-         {
-            addComponent(clazz, context);
-            addComponentRoles(context, clazz);
-         }
+         addComponent(componentDescriptor, context);
       }
 
       for (FactoryDescriptor factoryDescriptor: factoryDescriptors)
@@ -506,24 +578,6 @@ public class Initialization
          }
       }
 
-   }
-
-   private void addComponentRoles(Context context, Class<Object> componentClass) {
-      if ( componentClass.isAnnotationPresent(Role.class) )
-      {
-         Role role = componentClass.getAnnotation(Role.class);
-         ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
-         addComponent( new ComponentDescriptor( role.name(), componentClass, scope), context );
-      }
-      if ( componentClass.isAnnotationPresent(Roles.class) )
-      {
-         Role[] roles =componentClass.getAnnotation(Roles.class).value();
-         for (Role role: roles)
-         {
-            ScopeType scope = Seam.getComponentRoleScope(componentClass, role);
-            addComponent( new ComponentDescriptor( role.name(), componentClass, scope), context );
-         }
-      }
    }
 
    protected void addComponent(ComponentDescriptor descriptor, Context context)

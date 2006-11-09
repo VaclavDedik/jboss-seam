@@ -144,10 +144,11 @@ public class Scanner
          )
       {
          String classname = filenameToClassname(name);
+         String filename = Scanner.componentFilename(name);
          try
          {
             ClassFile classFile = getClassFile(name);
-            if ( hasAnnotation(classFile, Name.class) )
+            if (  hasAnnotation(classFile, Name.class) || classLoader.getResources(filename).hasMoreElements() )
             {
                result.add( (Class<Object>) classLoader.loadClass(classname) );
             }
@@ -166,7 +167,7 @@ public class Scanner
          }
       }
    }
-   
+
    private ClassFile getClassFile(String name) throws IOException 
    {
       InputStream stream = classLoader.getResourceAsStream(name);
@@ -191,6 +192,11 @@ public class Scanner
          return visible.getAnnotation( annotationType.getName() ) != null; 
       } 
       return false; 
+   }
+
+   public static String componentFilename(String name)
+   {
+      return name.substring( 0, name.lastIndexOf(".class") ) + ".component.xml";
    }
 
 }

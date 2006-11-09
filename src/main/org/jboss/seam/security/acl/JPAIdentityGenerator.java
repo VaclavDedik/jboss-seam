@@ -1,11 +1,11 @@
 package org.jboss.seam.security.acl;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.persistence.Id;
 
 import org.jboss.seam.annotations.Name;
@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Name;
  */
 public class JPAIdentityGenerator implements IdentityGenerator
 {
-  private enum IdentityType {field, method};
+  private enum IdentityType {field, method}
 
   /**
    * Used to cache identity metadata for a Class
@@ -41,7 +41,7 @@ public class JPAIdentityGenerator implements IdentityGenerator
         case field:
           try
           {
-            return (Serializable) identityField.get(obj);
+            return identityField.get(obj);
           }
           catch (IllegalAccessException ex) { // shouldn't occur
             throw new IdentityException(String.format(
