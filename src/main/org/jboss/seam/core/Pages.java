@@ -189,7 +189,8 @@ public class Pages
    {
       if (viewId==null)
       {
-         return null;
+         //for tests
+         return new Page(viewId);
       }
       else
       {
