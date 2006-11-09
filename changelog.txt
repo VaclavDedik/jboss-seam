@@ -2,7 +2,47 @@ JBoss Seam Changelog
 ====================
 Changes in version 1.1.0.BETA2 (November 2006)
 ---------------------------------------------
+** Bug
+    * [JBSEAM-438] - When setting log level to trace, NullPointer occurs in RootInterceptor
+    * [JBSEAM-443] - EL bug in use of resource bundles
+    * [JBSEAM-445] - Exceptions component just swallows all exceptions!
+    * [JBSEAM-447] - PAGE scope context variables with same name as UIViewRoot attribites
+    * [JBSEAM-450] - Invalid s:span attribute in chapter 10 (JSF form validation in Seam) examples
+    * [JBSEAM-451] - @Begin(id="...') throws NPE if no view id has been stored
+    * [JBSEAM-452] - FacesRequest does not return conversation id after a redirect
+    * [JBSEAM-454] - Locking model is broken for nested conversations
+    * [JBSEAM-456] - Interceptor tries to access UserTransaction interface, but this is not allowed for CMT
+    * [JBSEAM-458] - Hibernate Validator annotations on session bean class do not get enforced by s:validate
+    * [JBSEAM-459] - Exception thrown by EJB3 container does not get processed by RemoveInterceptor
+    * [JBSEAM-463] - Seam + Ajax4JSF broken when using server-side state saving
+    * [JBSEAM-470] - Examples: XHTML issues  
+    * [JBSEAM-472] - Minor JSP bugs in issues example
+    * [JBSEAM-473] - page parameter converter ignored when rendering URL
 
+
+** Feature Request
+    * [JBSEAM-387] - Migrate to use of unified EL
+    * [JBSEAM-414] - "Reduce" dependency to EJB3 classes
+    * [JBSEAM-431] - Add jBPM configuration from jndi
+    * [JBSEAM-440] - Support use of EL in SeamTest
+    * [JBSEAM-441] - Make model-based validation be properly testable in SeamTest
+    * [JBSEAM-442] - Don't shove stuff in the PAGE context from Manager and Pageflow
+    * [JBSEAM-444] - Parameters for events
+    * [JBSEAM-448] - page-scoped resource bundles
+    * [JBSEAM-449] - Get CRUD messages out of components.xml and into resource bundles
+    * [JBSEAM-453] - introduce <page switch="disabled"/> in pages.xml and pageflows, and make switchability the default  behavior
+    * [JBSEAM-461] - Rename SeamExtendedManagedPersistencePhaseListener
+    * [JBSEAM-462] - Package seam-gen with seam distribution
+    * [JBSEAM-464] - Use Hibernate TransactionManagerLookup stuff in J2EE environment
+    * [JBSEAM-465] - fine-grained components.xml files
+    * [JBSEAM-467] - Alternative @ApplicationException and @Interceptors for non-EE5 environments
+    * [JBSEAM-475] - Make Query class more extensible
+    * [JBSEAM-476] - fine-grained specification of page actions and parameters
+    * [JBSEAM-480] - Document seam-gen!
+
+** Patch
+    * [JBSEAM-437] - Registration example does not conform to jspx
+    
 Changes in version 1.1.0.BETA1 (October 2006)
 --------------------------------------------
 ** Bug
