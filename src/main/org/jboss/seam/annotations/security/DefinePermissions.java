@@ -6,8 +6,6 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.jboss.seam.annotations.*;
-
 /**
  * Used to explicitly define permissions for a component
  *
