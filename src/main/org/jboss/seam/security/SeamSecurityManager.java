@@ -12,15 +12,14 @@ import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.security.DefinePermissions;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.security.DefinePermissions;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.acl.AclProvider;
 import org.jboss.seam.security.acl.IdentityGenerator;
-import org.jboss.seam.security.acl.DefaultIdentityGenerator;
-import org.jboss.seam.annotations.security.*;
+import org.jboss.seam.security.acl.JPAIdentityGenerator;
 
 /**
  * Holds configuration settings and provides functionality for the security API
@@ -42,7 +41,7 @@ public class SeamSecurityManager
    */
   private String securityErrorAction = "securityError";
 
-  private IdentityGenerator identityGenerator = new DefaultIdentityGenerator();
+  private IdentityGenerator identityGenerator = new JPAIdentityGenerator();
 
   /**
    * Map roles to permissions

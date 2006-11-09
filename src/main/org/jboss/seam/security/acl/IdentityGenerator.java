@@ -1,9 +1,7 @@
 package org.jboss.seam.security.acl;
 
-import java.io.Serializable;
-
 /**
- * Identity generator
+ * Classes implementing this interface generate ACL Identities
  *
  * @author Shane Bryzak
  */
