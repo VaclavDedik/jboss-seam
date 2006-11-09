@@ -97,10 +97,11 @@
     	<pathFixer property="workspace.home.new" />
         
         <property name="eclipse.wtp" value="N"/>
-        <input addproperty="eclipse.wtp.new" 
+        <!--input addproperty="eclipse.wtp.new" 
                    message="Is this an Eclipse WTP workspace [${eclipse.wtp}] " 
                  validargs="Y,N," 
-              defaultvalue="${eclipse.wtp}"/>
+              defaultvalue="${eclipse.wtp}"/-->
+    	<property name="eclipse.wtp.new" value="N"/>
         
         <property name="jboss.home" value="C:/Program Files/jboss-4.0.5.GA"/>
         <input addproperty="jboss.home.new" 
