@@ -42,7 +42,6 @@ public class PersistentAclProvider extends AbstractAclProvider
   protected PersistenceType persistenceType;
 
   private Object pcm;
-  private String aclUserQuery;
   private String aclQuery;
 
   public Object getPersistenceContextManager()
@@ -85,16 +84,6 @@ public class PersistentAclProvider extends AbstractAclProvider
         "ManagedHibernateSession or String value specifying the JNDI name of an EntityManagerFactory");
   }
 
-  public String getAclUserQuery()
-  {
-    return aclUserQuery;
-  }
-
-  public void setAclUserQuery(String aclUserQuery)
-  {
-    this.aclUserQuery = aclUserQuery;
-  }
-
   public String getAclQuery()
   {
     return aclQuery;
@@ -105,20 +94,20 @@ public class PersistentAclProvider extends AbstractAclProvider
     this.aclQuery = aclQuery;
   }
 
-  protected Object createAclQuery(Principal principal)
+  protected Object createAclQuery()
       throws Exception
   {
     switch (persistenceType)
     {
       case managedPersistenceContext:
-        return ((ManagedPersistenceContext) pcm).getEntityManager().createQuery(aclUserQuery);
+        return ((ManagedPersistenceContext) pcm).getEntityManager().createQuery(aclQuery);
       case managedHibernateSession:
-        return ((ManagedHibernateSession) pcm).getSession().createQuery(aclUserQuery);
+        return ((ManagedHibernateSession) pcm).getSession().createQuery(aclQuery);
       case entityManagerFactory:
         EntityManager em = ((EntityManagerFactory) pcm).createEntityManager();
         if ( !Lifecycle.isDestroying() && Transactions.isTransactionActive() )
            em.joinTransaction();
-        return em.createQuery(aclUserQuery);
+        return em.createQuery(aclQuery);
     }
 
     throw new IllegalStateException("Unknown persistence type");
@@ -140,14 +129,12 @@ public class PersistentAclProvider extends AbstractAclProvider
     {
       case managedPersistenceContext:
       case entityManagerFactory:
-        ((Query) query).setParameter("recipient", principal.getName())
-          .setParameter("roles", roles)
-          .setParameter("identity", SeamSecurityManager.instance().getObjectIdentity(target));
+        ((Query) query).setParameter("identity",
+            SeamSecurityManager.instance().getObjectIdentity(target));
         break;
       case managedHibernateSession:
-        ((org.hibernate.Query) query).setParameter("recipient", principal.getName())
-            .setParameter("roles", roles)
-            .setParameter("identity", SeamSecurityManager.instance().getObjectIdentity(target));
+        ((org.hibernate.Query) query).setParameter("identity",
+            SeamSecurityManager.instance().getObjectIdentity(target));
         break;
     }
   }
@@ -168,6 +155,8 @@ public class PersistentAclProvider extends AbstractAclProvider
 
   protected Set<Permission> convertToPermissions(Object target, Object perms)
   {
+
+
     /** @todo use the @AclProvider specified on the target object to convert
      * the specified permissions param to a set of actual permissions */
     return null;
@@ -178,7 +167,7 @@ public class PersistentAclProvider extends AbstractAclProvider
   {
     try
     {
-      Object q = createAclQuery(principal);
+      Object q = createAclQuery();
 
       bindQueryParams(q, obj, principal);
 

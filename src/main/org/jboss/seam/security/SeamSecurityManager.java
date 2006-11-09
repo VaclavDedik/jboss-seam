@@ -248,4 +248,16 @@ public class SeamSecurityManager
   {
     return identityGenerator.generateIdentity(obj);
   }
+
+  public void grantPermission(Object target, String action, String recipient,
+                               AclProvider.RecipientType recipientType)
+  {
+    /** @todo  */
+  }
+
+  public void revokePermission(Object target, String action, String recipient,
+                               AclProvider.RecipientType recipientType)
+  {
+    /** @todo  */
+  }
 }
