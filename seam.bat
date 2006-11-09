@@ -14,6 +14,8 @@ rem Read all command line arguments
 set SEAMTASK=%1%
 set PROJECTNAME=%2%
 
+if [%1] == [] (goto usage)
+
 if %SEAMTASK% == setup ( ant setup -buildfile=%SEAMGENDIR%\build.xml ) else (goto new-project)
 
 :new-project
