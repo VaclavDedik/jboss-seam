@@ -22,13 +22,6 @@
         select p.mask, p.recipient, p.recipientType from AclPermission p
         where p.identity.objectIdentity = :identity
       </property>
-    
-      <property name="aclUserQuery">
-        select p.mask from AclPermission p 
-        where p.identity.objectIdentity = :identity and 
-          ((p.recipient = :recipient and p.recipientType = RecipientType.user) or
-          (p.recipient in :roles and p.recipientType = RecipientType.role))
-      </property>
       
       <property name="persistenceContextManager">#{entityManager}</property>      
       

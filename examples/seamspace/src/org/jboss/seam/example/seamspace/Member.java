@@ -7,8 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import org.jboss.seam.annotations.AclProvider;
-import org.jboss.seam.annotations.DefinePermissions;
+import org.jboss.seam.annotations.security.AclProvider;
+import org.jboss.seam.annotations.security.DefinePermissions;
 import org.jboss.seam.annotations.Name;
 
 /**

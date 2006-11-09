@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.jboss.seam.security.acl.AclProvider.RecipientType;
 
 /**
  * Defines permissions for an object
@@ -13,8 +14,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class AclPermission implements Serializable
 {
-  public enum RecipientType {role, user};
-
   private Integer id;
   private AclObjectIdentity identity;
   private RecipientType recipientType;
