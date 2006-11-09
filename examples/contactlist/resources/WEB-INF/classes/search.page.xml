@@ -1,0 +1,8 @@
+<page>
+   <param name="firstName" 
+          value="#{exampleContact.firstName}"/>
+   <param name="lastName" 
+          value="#{exampleContact.lastName}"/>
+   <param name="firstResult" 
+          value="#{contacts.firstResult}"/>
+</page>

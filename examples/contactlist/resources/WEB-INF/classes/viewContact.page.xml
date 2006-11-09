@@ -1,0 +1,5 @@
+<page>
+   <param name="contactId" 
+          value="#{contactHome.id}" 
+          converterId="javax.faces.Long"/>
+</page>
