@@ -170,7 +170,7 @@ public class Exceptions
       Element error = exception.element("http-error");
       if (error!=null)
       {
-         final int code = Integer.parseInt( error.attributeValue("code") );
+         final int code = Integer.parseInt( error.attributeValue("errorCode") );
          final String message = error.getTextTrim();
          return new ErrorHandler()
          {
