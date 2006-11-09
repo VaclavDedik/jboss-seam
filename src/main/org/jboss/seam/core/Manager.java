@@ -20,8 +20,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
-import javax.portlet.ActionResponse;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -355,22 +353,6 @@ public class Manager
       }
    }
 
-   /**
-    * Write out the conversation id as a servlet response header or portlet
-    * render parameter.
-    */
-   private void writeConversationIdToResponse(Object response, String conversationId)
-   {
-      if (response instanceof HttpServletResponse)
-      {
-         ( (HttpServletResponse) response ).setHeader( getConversationIdParameter(), conversationId );
-      }
-      else if (response instanceof ActionResponse)
-      {
-         ( (ActionResponse) response ).setRenderParameter( getConversationIdParameter(), conversationId );
-      }
-   }  
-   
    private void removeCurrentConversationAndDestroyNestedContexts(ContextAdaptor session) 
    {
       ConversationEntries.instance().removeConversationEntry( getCurrentConversationId() );
