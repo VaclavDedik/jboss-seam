@@ -35,10 +35,10 @@
     <packageDirectory property="test.dir" package="${test.package}"/>
 	
 	<condition property="hibernate.hbm2ddl.auto" value="update">
-		<equals arg1="${database.exists}" arg2="N"/>
+		<equals arg1="${database.exists}" arg2="n"/>
 	</condition>
 	<condition property="hibernate.hbm2ddl.auto" value="validate">
-		<equals arg1="${database.exists}" arg2="Y"/>
+		<equals arg1="${database.exists}" arg2="y"/>
 	</condition>
     
     <property name="project.home" value="${workspace.home}/${project.name}"/>
@@ -96,12 +96,12 @@
               defaultvalue="${workspace.home}"/>
     	<pathFixer property="workspace.home.new" />
         
-        <property name="eclipse.wtp" value="N"/>
+        <property name="eclipse.wtp" value="n"/>
         <!--input addproperty="eclipse.wtp.new" 
                    message="Is this an Eclipse WTP workspace [${eclipse.wtp}] " 
-                 validargs="Y,N," 
+                 validargs="y,n," 
               defaultvalue="${eclipse.wtp}"/-->
-    	<property name="eclipse.wtp.new" value="N"/>
+    	<property name="eclipse.wtp.new" value="n"/>
         
         <property name="jboss.home" value="C:/Program Files/jboss-4.0.5.GA"/>
         <input addproperty="jboss.home.new" 
@@ -251,10 +251,10 @@
                    message="Enter database password [${hibernate.connection.password}]" 
               defaultvalue="${hibernate.connection.password}"/>
                 
-        <property name="database.exists" value="N"/>
+        <property name="database.exists" value="n"/>
         <input addproperty="database.exists.new" 
                    message="Are you working with tables that already exist in the database? [${database.exists}] "
-        	     validargs="Y,N,"
+        	     validargs="y,n,"
               defaultvalue="${database.exists}"/>
                 
         <propertyfile file="build.properties">
@@ -493,7 +493,7 @@
 
     <target name="new-project" depends="validate-project,copy-lib,file-copy-wtp,file-copy,set-default-project">
     	<condition property="wtp">
-    		<equals arg1="${eclipse.wtp}" arg2="Y"/>
+    		<equals arg1="${eclipse.wtp}" arg2="y"/>
     	</condition>
         <echo message="A new Seam project was created in the ${workspace.home} directory"/>
     </target>
