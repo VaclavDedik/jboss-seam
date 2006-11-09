@@ -11,6 +11,7 @@ import javax.faces.event.PhaseId;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -102,7 +103,7 @@ public class PhaseListenerTest
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
       assert facesContext.getViewRoot().getAttributes().size()==1;
-      assert ( (FacesPage) getPageMap(facesContext).get( Seam.getComponentName(FacesPage.class) ) ).getConversationId()==null;
+      assert ( (FacesPage) getPageMap(facesContext).get( getPrefix() + Seam.getComponentName(FacesPage.class) ) ).getConversationId()==null;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();
@@ -118,12 +119,17 @@ public class PhaseListenerTest
       assert !Contexts.isConversationContextActive();
    }
 
+   private String getPrefix()
+   {
+      return ScopeType.PAGE.getPrefix() + '$';
+   }
+
    @Test
    public void testSeamPhaseListenerLongRunning()
    {
       MockFacesContext facesContext = createFacesContext();
       
-      getPageMap(facesContext).put( Seam.getComponentName(FacesPage.class), new FacesPage() { public String getConversationId() { return "2"; } });
+      getPageMap(facesContext).put( getPrefix() + Seam.getComponentName(FacesPage.class), new FacesPage() { public String getConversationId() { return "2"; } });
       
       List<String> conversationIdStack = new ArrayList<String>();
       conversationIdStack.add("2");
@@ -177,7 +183,7 @@ public class PhaseListenerTest
       
       phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
-      assert ( (FacesPage) getPageMap(facesContext).get( Seam.getComponentName(FacesPage.class) ) ).getConversationId().equals("2");
+      assert ( (FacesPage) getPageMap(facesContext).get( getPrefix() + Seam.getComponentName(FacesPage.class) ) ).getConversationId().equals("2");
 
       assert !Contexts.isEventContextActive();
       assert !Contexts.isSessionContextActive();
@@ -316,7 +322,7 @@ public class PhaseListenerTest
       phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
       
       assert facesContext.getViewRoot().getAttributes().size()==1;
-      assert ( (FacesPage) getPageMap(facesContext).get( Seam.getComponentName(FacesPage.class) ) ).getConversationId()==null;
+      assert ( (FacesPage) getPageMap(facesContext).get( getPrefix() + Seam.getComponentName(FacesPage.class) ) ).getConversationId()==null;
       assert Contexts.isEventContextActive();
       assert Contexts.isSessionContextActive();
       assert Contexts.isApplicationContextActive();

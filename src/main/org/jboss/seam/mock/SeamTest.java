@@ -24,11 +24,9 @@ import javax.transaction.UserTransaction;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
-import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
@@ -369,7 +367,7 @@ public class SeamTest
          
          UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView( facesContext, getViewId() );
          facesContext.setViewRoot(viewRoot);
-         Map viewRootAttributes = facesContext.getViewRoot().getAttributes();
+         Map restoredViewRootAttributes = facesContext.getViewRoot().getAttributes();
          if ( conversationId!=null )
          {
             if ( isGetRequest() ) 
@@ -383,14 +381,16 @@ public class SeamTest
                {
                   //should really only do this if the view id matches (not really possible to implement)
                   Map state = conversationViewRootAttributes.get(conversationId);
-                  viewRootAttributes.putAll(state);
+                  restoredViewRootAttributes.putAll(state);
                }
             }
          }
          if ( !isGetRequest() )
          {
-            viewRootAttributes.putAll(pageParameters);
+            restoredViewRootAttributes.putAll(pageParameters);
          }
+         
+         updateConversationId();
          
          phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE) );
          
@@ -400,6 +400,8 @@ public class SeamTest
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE) );
             
             applyRequestValues();
+            
+            updateConversationId();
       
             phases.afterPhase( new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE) );
             
@@ -410,6 +412,8 @@ public class SeamTest
                
                processValidations();
                
+               updateConversationId();
+               
                phases.afterPhase( new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE) );
    
                if ( !skipToRender() )
@@ -418,6 +422,8 @@ public class SeamTest
                   phases.beforePhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
                   
                   updateModelValues();
+                  
+                  updateConversationId();
             
                   phases.afterPhase( new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE) );
    
@@ -437,6 +443,8 @@ public class SeamTest
                      
                      viewId = getRenderedViewId();
             
+                     updateConversationId();
+                     
                      phases.afterPhase( new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE) );
                      
                   }
@@ -447,7 +455,11 @@ public class SeamTest
             
          }
          
-         if ( !skipRender() )
+         if ( skipRender() )
+         {
+            //we really should look at redirect parameters here!
+         }
+         else
          {
          
             phases.beforePhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE) );
@@ -460,26 +472,28 @@ public class SeamTest
             
             facesContext.getApplication().getStateManager().saveSerializedView(facesContext);
             
-            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE ) );
+            updateConversationId();
+
+            phases.afterPhase( new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE) );
             
+            Map renderedViewRootAttributes = facesContext.getViewRoot().getAttributes();
+            if (renderedViewRootAttributes!=null)
+            {
+               Map conversationState = new HashMap();
+               conversationState.putAll(renderedViewRootAttributes);
+               conversationViewRootAttributes.put(conversationId, conversationState);
+            }
+
          }
          
          afterRequest();
 
-         Map attributes = viewRootAttributes;
-         if (attributes!=null)
-         {
-            FacesPage facesPage = (FacesPage) attributes.get( Seam.getComponentName(FacesPage.class) );
-            if (facesPage!=null)
-            {
-               conversationId = facesPage.getConversationId();
-               Map conversationState = new HashMap();
-               conversationState.putAll(attributes);
-               conversationViewRootAttributes.put(conversationId, conversationState);
-            }
-         }
-
          return conversationId;
+      }
+      
+      private void updateConversationId()
+      {
+         conversationId = Manager.instance().getCurrentConversationId();
       }
 
       private boolean skipRender()
