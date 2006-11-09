@@ -318,10 +318,18 @@
                 </fileset>
             </copy>            
     </target>
+	
+	<target name="select-compiler">
+    	<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" 
+    			property="build.compiler" 
+    			value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+	</target>
 
-    <target name="compile" depends="init"
+    <target name="compile" depends="init,select-compiler"
             description="Compile the Java source code">
         <javac
+        	source="1.5"
+        	target="1.5"
             destdir="${classes.dir}"
             classpathref="build.classpath"
             debug="${javac.debug}"
@@ -332,9 +340,11 @@
         </javac>
     </target>
     
-    <target name="compileui" depends="initui"
+    <target name="compileui" depends="initui,select-compiler"
             description="Compile the Java source code for the UI package">
         <javac
+        	source="1.5"
+        	target="1.5"
             destdir="${uiclasses.dir}"
             classpathref="build.classpath"
             classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
@@ -345,9 +355,11 @@
         </javac>
     </target>
     
-    <target name="compiledebug" depends="initdebug"
+    <target name="compiledebug" depends="initdebug,select-compiler"
             description="Compile the Java source code for the debug package">
         <javac
+        	source="1.5"
+        	target="1.5"
             destdir="${debugclasses.dir}"
             classpathref="build.classpath"
             classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
@@ -358,9 +370,11 @@
         </javac>
     </target>
     
-     <target name="compilegen" depends="initgen"
+     <target name="compilegen" depends="initgen,select-compiler"
                 description="Compile the Java source code for the seam-gen package">
             <javac
+            	source="1.5"
+            	target="1.5"
                 destdir="${genclasses.dir}"
                 classpathref="build.classpath"
                 debug="${javac.debug}"
