@@ -42,3 +42,7 @@ remoting/chatroom/    The Seam Chat Room example, demostrating Seam
                       Remoting
                       
 remoting/progressbar/ An example of an Ajax progress bar
+
+hibernate2/            A revised version of the hibernate example (runs on J2EE)
+
+jpa/                   An example of the use of Hibernate JPA (runs on J2EE)
