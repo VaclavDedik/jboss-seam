@@ -40,7 +40,7 @@
             Seam is an application framework for Java EE 5. It is inspired by the following principles:
         </para>
 
-        <variablelist spacing="compact">
+        <variablelist>
             <varlistentry>
                 <term><emphasis>Integrate JSF with EJB 3.0</emphasis></term>
                 <listitem>

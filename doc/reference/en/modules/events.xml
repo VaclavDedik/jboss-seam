@@ -540,7 +540,7 @@ public class SystemException extends RuntimeException { ... }]]></programlisting
         <programlisting><![CDATA[<exceptions>
    
    <exception class="javax.persistence.EntityNotFoundException">
-      <http-error errorCode="404"/>
+      <http-error error-code="404"/>
    </exception>
    
    <exception class="javax.persistence.PersistenceException">
