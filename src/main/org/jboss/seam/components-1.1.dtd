@@ -1,0 +1,27 @@
+<!--
+
+<!DOCTYPE components PUBLIC
+	"-//JBoss/Seam Component Configuration DTD 1.1//EN"
+	"http://jboss.com/products/seam/components-1.1.dtd">
+
+-->
+
+<!ELEMENT components (component|factory)*>
+
+<!ELEMENT component (property*)>
+<!ATTLIST component name CDATA #IMPLIED>
+<!ATTLIST component class CDATA #IMPLIED>
+<!ATTLIST component scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
+<!ATTLIST component installed CDATA "true">
+
+<!ELEMENT factory EMPTY>
+<!ATTLIST factory name CDATA #REQUIRED>
+<!ATTLIST factory method CDATA #IMPLIED>
+<!ATTLIST factory value CDATA #IMPLIED>
+<!ATTLIST factory scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
+
+<!ELEMENT property (#PCDATA|key|value)*>
+<!ATTLIST property name CDATA #REQUIRED>
+
+<!ELEMENT key (#PCDATA)>
+<!ELEMENT value (#PCDATA)>

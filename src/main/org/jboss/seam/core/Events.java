@@ -25,6 +25,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Init.ObserverMethod;
+import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Resources;
 
 @Scope(ScopeType.APPLICATION)
@@ -49,6 +50,7 @@ public class Events
       {
          log.info("reading events.xml");
          SAXReader saxReader = new SAXReader();
+         saxReader.setEntityResolver( new DTDEntityResolver() );
          saxReader.setMergeAdjacentText(true);
          Document doc = saxReader.read(stream);
          List<Element> elements = doc.getRootElement().elements("event");

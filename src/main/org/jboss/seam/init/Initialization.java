@@ -100,6 +100,7 @@ import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.theme.Theme;
 import org.jboss.seam.theme.ThemeSelector;
 import org.jboss.seam.util.Conversions;
+import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
@@ -204,6 +205,7 @@ public class Initialization
    private Document getDocument(InputStream stream) throws DocumentException
    {
       SAXReader saxReader = new SAXReader();
+      saxReader.setEntityResolver( new DTDEntityResolver() );
       saxReader.setMergeAdjacentText(true);
       Document doc = saxReader.read(stream);
       return doc;

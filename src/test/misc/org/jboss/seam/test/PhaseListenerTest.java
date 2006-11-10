@@ -129,7 +129,7 @@ public class PhaseListenerTest
    {
       MockFacesContext facesContext = createFacesContext();
       
-      getPageMap(facesContext).put( getPrefix() + Seam.getComponentName(FacesPage.class), new FacesPage() { public String getConversationId() { return "2"; } });
+      getPageMap(facesContext).put( getPrefix() + Seam.getComponentName(FacesPage.class), new FacesPage() { @Override public String getConversationId() { return "2"; } });
       
       List<String> conversationIdStack = new ArrayList<String>();
       conversationIdStack.add("2");

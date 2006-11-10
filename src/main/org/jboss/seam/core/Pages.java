@@ -30,6 +30,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 
@@ -45,7 +46,6 @@ import org.jboss.seam.util.Resources;
 @Name("org.jboss.seam.core.pages")
 public class Pages 
 {
-   public static final String PAGE_PARAMETERS = "org.jboss.seam.core.pageParameters";
    
    private static final Log log = LogFactory.getLog(Pages.class);
    
@@ -101,6 +101,7 @@ public class Pages
    {
       Document doc;
       SAXReader saxReader = new SAXReader();
+      saxReader.setEntityResolver( new DTDEntityResolver() );
       saxReader.setMergeAdjacentText(true);
       try
       {

@@ -25,6 +25,7 @@ public class SecurityTest
   class MockCompositeId implements Serializable {
     private int fieldA;
     private String fieldB;
+    @Override
     public String toString() {
       return String.format("%s,%s", fieldA, fieldB);
     }

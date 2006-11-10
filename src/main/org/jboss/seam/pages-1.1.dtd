@@ -1,0 +1,24 @@
+<!--
+
+<!DOCTYPE pages PUBLIC
+	"-//JBoss/Seam Pages Configuration DTD 1.1//EN"
+	"http://jboss.com/products/seam/pages-1.1.dtd">
+
+-->
+
+<!ELEMENT pages (page*)>
+<!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
+
+<!ELEMENT page (#PCDATA|param)*>
+<!ATTLIST page action CDATA #IMPLIED>
+<!ATTLIST page view-id CDATA #IMPLIED>
+<!ATTLIST page switch (enabled|disabled) "enabled">
+<!ATTLIST page no-conversation-view-id CDATA #IMPLIED>
+<!ATTLIST page timeout CDATA #IMPLIED>
+<!ATTLIST page bundle CDATA #IMPLIED>
+
+<!ELEMENT param EMPTY>
+<!ATTLIST param name CDATA #REQUIRED>
+<!ATTLIST param value CDATA #REQUIRED>
+<!ATTLIST param converter CDATA #IMPLIED>
+<!ATTLIST param converterId CDATA #IMPLIED>

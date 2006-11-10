@@ -27,6 +27,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.interceptors.ExceptionInterceptor;
+import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
@@ -72,6 +73,7 @@ public class Exceptions
       {
          log.info("reading exceptions.xml");
          SAXReader saxReader = new SAXReader();
+         saxReader.setEntityResolver( new DTDEntityResolver() );
          saxReader.setMergeAdjacentText(true);
          Document doc = saxReader.read(stream);
          List<Element> elements = doc.getRootElement().elements("exception");
@@ -104,6 +106,7 @@ public class Exceptions
    private ExceptionHandler createHandler(Element exception, final Class clazz)
    {
       final boolean endConversation = exception.elementIterator("end-conversation").hasNext();
+      final boolean rollback = exception.elementIterator("rollback").hasNext();
 
       Element render = exception.element("render");
       if (render!=null)
@@ -132,6 +135,11 @@ public class Exceptions
             protected boolean isEnd(Exception e)
             {
                return endConversation;
+            }
+            @Override
+            protected boolean isRollback(Exception e)
+            {
+               return rollback;
             }
          };
       }
@@ -164,13 +172,20 @@ public class Exceptions
             {
                return endConversation;
             }
+            @Override
+            protected boolean isRollback(Exception e)
+            {
+               return rollback;
+            }
          };
       }
       
       Element error = exception.element("http-error");
       if (error!=null)
       {
-         final int code = Integer.parseInt( error.attributeValue("errorCode") );
+         String errorCode = error.attributeValue("error-code");
+         final int code = Strings.isEmpty(errorCode) ? 
+               500 : Integer.parseInt(errorCode);
          final String message = error.getTextTrim();
          return new ErrorHandler()
          {
@@ -193,6 +208,11 @@ public class Exceptions
             protected boolean isEnd(Exception e)
             {
                return endConversation;
+            }
+            @Override
+            protected boolean isRollback(Exception e)
+            {
+               return rollback;
             }
          };
       }

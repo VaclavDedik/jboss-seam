@@ -1,0 +1,15 @@
+<!--
+
+<!DOCTYPE events PUBLIC
+	"-//JBoss/Seam Events Configuration DTD 1.1//EN"
+	"http://jboss.com/products/seam/events-1.1.dtd">
+
+-->
+
+<!ELEMENT events (event*)>
+
+<!ELEMENT event (action*)>
+<!ATTLIST event type CDATA #REQUIRED>
+
+<!ELEMENT action EMPTY>
+<!ATTLIST action expression CDATA #REQUIRED>
