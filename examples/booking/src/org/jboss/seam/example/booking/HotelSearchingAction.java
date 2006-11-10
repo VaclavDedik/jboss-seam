@@ -31,11 +31,10 @@ public class HotelSearchingAction implements HotelSearching
    @DataModel
    private List<Hotel> hotels;
    
-   public String find()
+   public void find()
    {
       page = 0;
-      queryHotels();   
-      return "main";
+      queryHotels();
    }
 
    public String nextPage()

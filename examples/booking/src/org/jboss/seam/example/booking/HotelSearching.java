@@ -12,7 +12,7 @@ public interface HotelSearching
    public String getSearchString();
    public void setSearchString(String searchString);
    
-   public String find();
+   public void find();
    public String nextPage();
    public boolean isNextPageAvailable();
 
