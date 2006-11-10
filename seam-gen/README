@@ -5,7 +5,7 @@ NAME
    JBoss AS with EJB3 installed.
      
 SYNOPSIS
-   seam COMMAND [OPTION]
+   seam COMMAND
 	    
 SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
    setup
@@ -22,7 +22,7 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
       Create a new eclipse project that has all dependencies and basic
       configuration. Refers to build.properties for project attributes.
 	     
-      Example: seam new-project hello-world
+      Example: seam new-project
          
    deploy
       Deploy the project EAR and datasource to JBoss. This command

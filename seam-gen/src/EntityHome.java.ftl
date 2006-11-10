@@ -56,9 +56,10 @@ public class ${entityName}Home extends EntityHome<${entityName}>
 <#foreach property in pojo.allPropertiesIterator>
 <#assign getter = "get" + pojo.getPropertyName(property)>
 <#if c2h.isOneToManyCollection(property)>
-    public List ${getter}() {
+<#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
+    public List<${childPojo.shortName}> ${getter}() {
         return getInstance() == null ? 
-            null : new ArrayList( getInstance().${getter}() );
+            null : new ArrayList<${childPojo.shortName}>( getInstance().${getter}() );
     }
 </#if>
 </#foreach>

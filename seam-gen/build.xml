@@ -31,7 +31,6 @@
     
     <packageDirectory property="action.dir" package="${action.package}"/>
     <packageDirectory property="model.dir" package="${model.package}"/>
-    <packageDirectory property="mdb.dir" package="${mdb.package}"/>
     <packageDirectory property="test.dir" package="${test.package}"/>
 	
 	<condition property="hibernate.hbm2ddl.auto" value="update">
@@ -80,7 +79,6 @@
             <filter token="masterPageName" value="${masterPage.name}"/>
             <filter token="actionPackage" value="${action.package}"/>
             <filter token="modelPackage" value="${model.package}"/>
-            <filter token="mdbPackage" value="${mdb.package}"/>
             <filter token="testPackage" value="${test.package}"/>
             <filter token="listName" value="${component.name}List"/>
             <filter token="homeName" value="${component.name}Home"/>
@@ -89,7 +87,7 @@
     </target>
     
     <target name="setup">
-        
+        <echo message="Welcome to seam-gen :-)"/>
         <property name="workspace.home" value="C:/Projects"/>
         <input addproperty="workspace.home.new" 
                    message="Enter your Java project workspace [${workspace.home}]" 
@@ -109,7 +107,12 @@
               defaultvalue="${jboss.home}"/>
     	<pathFixer property="jboss.home.new" />
         
-        <property name="action.package" value="com.mydomain"/>
+        <property name="project.name" value="myproject"/>
+        <input addproperty="project.name.new" 
+                   message="Enter the project name [${project.name}]" 
+              defaultvalue="${project.name}"/>
+        
+        <property name="action.package" value="com.mydomain.${project.name.new}"/>
         <input addproperty="action.package.new" 
                    message="Enter the Java package name for your session beans [${action.package}]" 
               defaultvalue="${action.package}"/>
@@ -118,11 +121,6 @@
         <input addproperty="model.package.new" 
                    message="Enter the Java package name for your entity beans [${model.package}]" 
               defaultvalue="${model.package}"/>
-        
-        <property name="mdb.package" value="${action.package.new}"/>
-        <input addproperty="mdb.package.new" 
-                   message="Enter the Java package name for your message drive beans [${mdb.package}]" 
-              defaultvalue="${mdb.package}"/>
         
         <property name="test.package" value="${action.package.new}.test"/>
         <input addproperty="test.package.new" 
@@ -259,11 +257,11 @@
                 
         <propertyfile file="build.properties">
             <entry key="workspace.home" value="${workspace.home.new}"/>
+            <entry key="project.name" value="${project.name.new}"/>
             <entry key="jboss.home" value="${jboss.home.new}"/>
             <entry key="eclipse.wtp" value="${eclipse.wtp.new}"/>
             <entry key="action.package" value="${action.package.new}"/>
             <entry key="model.package" value="${model.package.new}"/>
-            <entry key="mdb.package" value="${mdb.package.new}"/>
             <entry key="test.package" value="${test.package.new}"/>
             <entry key="database.type" value="${database.type.new}"/>
         	<entry key="database.exists" value="${database.exists.new}"/>
@@ -278,6 +276,7 @@
     	<echo message="Installing JDBC driver jar to JBoss server"/>
     	<copy file="${driver.jar.new}" todir="${jboss.home.new}/server/default/lib"/>
         
+    	<echo message="Type 'seam new-project' to create the new project"/>
     </target>
     
     <target name="action-input">
@@ -463,12 +462,6 @@
         
     </target>
     
-    <target name="set-default-project" depends="validate-project">
-        <propertyfile file="build.properties">
-            <entry key="project.name" value="${project.name}"/>
-        </propertyfile>
-    </target>
-    
     <target name="validate-project" depends="validate-workspace">
         <fail message="No project name specified (run 'seam new-project' first)">
             <condition>
@@ -491,11 +484,12 @@
         </fail>
     </target>
 
-    <target name="new-project" depends="validate-project,copy-lib,file-copy-wtp,file-copy,set-default-project">
+    <target name="new-project" depends="validate-project,copy-lib,file-copy-wtp,file-copy">
     	<condition property="wtp">
     		<equals arg1="${eclipse.wtp}" arg2="y"/>
     	</condition>
         <echo message="A new Seam project was created in the ${workspace.home} directory"/>
+    	<echo message="Add the project from inside Eclipse (or type 'seam explode') and go to http://localhost:8080/${project.name}"/>
     </target>
 
     <target name="update-project" depends="validate-project">
@@ -571,7 +565,6 @@
 
     <target name="new-form" depends="validate-project,action-input,setup-filters">
         <echo message="Creating a new stateful session bean component with an action method" />
-        <echo message="Creating a new stateless session bean component with an action method" />
         <copy file="src/FormActionBean.java" tofile="${bean.file}">
             <filterset refid="filters"/>
         </copy>
@@ -680,6 +673,7 @@
 		  </fileset>
 		</javaformatter>
 
+        <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}"/>
 
     </target>
 	
@@ -720,6 +714,7 @@
 	<target name="settings">
 		<echo message="Java project workspace: ${workspace.home}"/>
 		<echo message="JBoss home: ${jboss.home}"/>
+		<echo message="Project name: ${project.name}"/>
 		<echo message="Hibernate dialect: ${hibernate.dialect}"/>
 		<echo message="JDBC URL: ${hibernate.connection.url}"/>
 		<echo message="JDBC driver class: ${hibernate.connection.driver_class}"/>

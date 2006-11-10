@@ -11,18 +11,14 @@ if "%OS%" == "Windows_NT" set PROGNAME=%~nx0%
 set SEAMGENDIR=%DIRNAME%\seam-gen
 
 set SEAMTASK=%1%
-set PROJECTNAME=%2%
 set ARGS=%ARGS% %*
 
 if [%1] == [] (goto usage)
 
 :help
-if %SEAMTASK% == help ( goto help ) else (goto new-project)
+if %SEAMTASK% == help (goto help) else (goto tasks)
 
-:new-project
-if %SEAMTASK% == new-project ( ant new-project -buildfile=%SEAMGENDIR%\build.xml -Dproject.name=%PROJECTNAME% ) else (goto other-tasks)
-
-:other-tasks
+:tasks
 ant %ARGS% -buildfile=%SEAMGENDIR%\build.xml 
 
 :usage

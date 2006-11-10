@@ -7,20 +7,11 @@
 
 cd seam-gen
 
-if [ "${1}" = new-project ] 
+if [ "${1}" == help ]
 then
-
-  ant new-project ${3} ${4} ${5} ${6} ${7} -Dproject.name=${2} 
-
-elif [ "${1}" = new-wtp-project ] 
-then
-
-  ant new-wtp-project ${3} ${4} ${5} ${6} ${7} -Dproject.name=${2}
-
+   cat README
 else
-
    ant ${1} ${2} ${3} ${4} ${5} ${6} ${7}
-
 fi
 
 cd ..
