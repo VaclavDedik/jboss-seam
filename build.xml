@@ -223,6 +223,8 @@
         <ant dir="examples/remoting/helloworld" target="clean" inheritall="false"/>
         <ant dir="examples/remoting/chatroom" target="clean" inheritall="false"/>
         <ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
+        <ant dir="examples/hibernate2" target="clean" inheritall="false"/>
+        <ant dir="examples/jpa" target="clean" inheritall="false"/>
 
     </target>
     
@@ -242,6 +244,8 @@
         <ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false"/>
         <ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false"/>
         <ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false"/>
+        <ant dir="examples/hibernate2" target="undeploy" inheritall="false"/>
+        <ant dir="examples/jpa" target="undeploy" inheritall="false"/>
 
         <ant dir="examples/booking" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false"/>
