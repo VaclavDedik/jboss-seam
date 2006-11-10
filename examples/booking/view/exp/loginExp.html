@@ -2,9 +2,6 @@
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
-<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>In-depth Explanation</title>
 	<link href="../css/trailblazer_main.css" rel="stylesheet" type="text/css" />
@@ -18,13 +15,9 @@
     <h2>What happens when you login?</h2>
     <img src="../img/header_line.gif" />
     
-    <p>
-       <center>
        <form>
-       <INPUT type="button" value="Close Window" onClick="window.close()">
+          <input type="button" value="Close Window" onclick="window.close()"/>
        </form>
-       </center>
-    </p>
     
     <p>
        The login page is defined using pure XHTML with JSF controls. 
@@ -37,21 +30,21 @@
     </p>
 
 <code class="block">
-&lt;div>
+&lt;div&gt;
     &lt;h:outputLabel for="username">Login Name&lt;/h:outputLabel>
     &lt;h:inputText id="username" value="#{user.username}" />
-&lt;/div>
-&lt;div>
+&lt;/div&gt;
+&lt;div&gt;
     &lt;h:outputLabel for="password">Password&lt;/h:outputLabel>
     &lt;h:inputSecret id="password" value="#{user.password}" />
-&lt;/div>
+&lt;/div&gt;
 
 ... ...
 
-&lt;div class="buttonBox">
+&lt;div class="buttonBox"&gt;
     &lt;h:commandButton action="#{login.login}" 
-                     value="Account Login" class="button" />
-&lt;/div>
+                     value="Account Login" class="button" /&gt;
+&lt;/div&gt;
 </code>
 
     <p>
@@ -148,13 +141,9 @@ public class LoginAction implements Login
        available to other session beans and JSF pages.
     </p>
 
-    <p>
-       <center>
        <form>
-       <INPUT type="button" value="Close Window" onClick="window.close()">
+          <input type="button" value="Close Window" onclick="window.close()"/>
        </form>
-       </center>
-    </p>
 
   </div>
 </div>

@@ -2,9 +2,6 @@
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
-<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>In-depth Explanation</title>
 	<link href="../css/trailblazer_main.css" rel="stylesheet" type="text/css" />
@@ -21,7 +18,7 @@
     <p>
        <center>
        <form>
-          <INPUT type="button" value="Close Window" onClick="window.close()">
+          <INPUT type="button" value="Close Window" onclick="window.close()">
        </form>
        </center>
     </p>
@@ -33,22 +30,22 @@
     </p>
 
 <code class="block">
-&lt;h:dataTable value="#{conversationList}" var="entry">
-  &lt;h:column>
-    &lt;h:commandLink action="#{entry.select}" value="#{entry.description}"/>
+&lt;h:dataTable value="#{conversationList}" var="entry"&gt;
+  &lt;h:column&gt;
+    &lt;h:commandLink action="#{entry.select}" value="#{entry.description}"/&gt;
     &nbsp;
-    &lt;h:outputText value="[current]" rendered="#{entry.current}"/>
-  &lt;/h:column>
-  &lt;h:column>
-    &lt;h:outputText value="#{entry.startDatetime}">
-      &lt;f:convertDateTime type="time" pattern="hh:mm"/>
-    &lt;/h:outputText>
+    &lt;h:outputText value="[current]" rendered="#{entry.current}"/&gt;
+  &lt;/h:column&gt;
+  &lt;h:column&gt;
+    &lt;h:outputText value="#{entry.startDatetime}"&gt;
+      &lt;f:convertDateTime type="time" pattern="hh:mm"/&gt;
+    &lt;/h:outputText&gt;
     -
-    &lt;h:outputText value="#{entry.lastDatetime}">
-      &lt;f:convertDateTime type="time" pattern="hh:mm"/>
-    &lt;/h:outputText>
-  &lt;/h:column>
-&lt;/h:dataTable>
+    &lt;h:outputText value="#{entry.lastDatetime}"&gt;
+      &lt;f:convertDateTime type="time" pattern="hh:mm"/&gt;
+    &lt;/h:outputText&gt;
+  &lt;/h:column&gt;
+&lt;/h:dataTable&gt;
 </code>
 
     <p>
@@ -58,11 +55,11 @@
     </p>
 
 <code class="block">
-&lt;pages>
-  &lt;page view-id="/hotel.xhtml">View hotel: #{hotel.name}&lt;/page>
-  &lt;page view-id="/book.xhtml">Book hotel: #{hotel.name}&lt;/page>
-  &lt;page view-id="/confirm.xhtml">Confirm: #{booking.description}&lt;/page>
-&lt;/pages>
+&lt;pages&gt;
+  &lt;page view-id="/hotel.xhtml"&gt;View hotel: #{hotel.name}&lt;/page&gt;
+  &lt;page view-id="/book.xhtml"&gt;Book hotel: #{hotel.name}&lt;/page&gt;
+  &lt;page view-id="/confirm.xhtml"&gt;Confirm: #{booking.description}&lt;/page&gt;
+&lt;/pages&gt;
 </code>
 
     <p>
@@ -71,11 +68,9 @@
     </p>
 
     <p>
-       <center>
        <form>
-          <INPUT type="button" value="Close Window" onClick="window.close()">
+          <input type="button" value="Close Window" onclick="window.close()"/>
        </form>
-       </center>
     </p>
 
   </div>

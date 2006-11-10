@@ -1,3 +1,7 @@
+<!DOCTYPE pages PUBLIC
+  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/pages-1.1.dtd">
+
 <pages>
     <page view-id="/login.jsp" switch="disabled"/>
 	<page view-id="/editIssue.jsp">#{issueEditor.description}</page>

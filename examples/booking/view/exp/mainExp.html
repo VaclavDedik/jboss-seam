@@ -2,9 +2,6 @@
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
-<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>In-depth Explanation</title>
 	<link href="../css/trailblazer_main.css" rel="stylesheet" type="text/css" />
@@ -18,13 +15,9 @@
     <h2>Stateful components</h2>
     <img src="../img/header_line.gif" />
     
-    <p>
-       <center>
        <form>
-          <INPUT type="button" value="Close Window" onClick="window.close()">
+          <input type="button" value="Close Window" onclick="window.close()"/>
        </form>
-       </center>
-    </p>
 
     <p>
        The hotel search page is backed by the a stateful session bean named
@@ -33,16 +26,16 @@
     </p>
 
 <code class="block">
-&lt;h:inputText value="#{hotelSearch.searchString}" />
+&lt;h:inputText value="#{hotelSearch.searchString}" /&gt;
 &lt;h:commandButton value="Find Hotels" 
     action="#{hotelBooking.find}" 
-    styleClass="button" />
-&lt;h:outputLabel for="pageSize">Maximum results:&lt;/h:outputLabel>
-&lt;h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
-    &lt;f:selectItem itemLabel="5" itemValue="5"/>
-    &lt;f:selectItem itemLabel="10" itemValue="10"/>
-    &lt;f:selectItem itemLabel="20" itemValue="20"/>
-&lt;/h:selectOneMenu>
+    styleClass="button" /&gt;
+&lt;h:outputLabel for="pageSize"&gt;Maximum results:&lt;/h:outputLabel&gt;
+&lt;h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize"&gt;
+    &lt;f:selectItem itemLabel="5" itemValue="5"/&gt;
+    &lt;f:selectItem itemLabel="10" itemValue="10"/&gt;
+    &lt;f:selectItem itemLabel="20" itemValue="20"/&gt;
+&lt;/h:selectOneMenu&gt;
 </code>
 
     <p>
@@ -129,39 +122,39 @@ public class HotelSearchingAction implements HotelSearching
     </p>
 
 <code class="block">
-&lt;h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
-&lt;h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
-	&lt;h:column>
-		&lt;f:facet name="header">Name&lt;/f:facet>
+&lt;h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/&gt;
+&lt;h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}"&gt;
+	&lt;h:column&gt;
+		&lt;f:facet name="header"&gt;Name&lt;/f:facet&gt;
 		#{hot.name}
-	&lt;/h:column>
-	&lt;h:column>
-		&lt;f:facet name="header">Address&lt;/f:facet>
+	&lt;/h:column&gt;
+	&lt;h:column&gt;
+		&lt;f:facet name="header"&gt;Address&lt;/f:facet&gt;
 		#{hot.address}
-	&lt;/h:column>
-	&lt;h:column>
-		&lt;f:facet name="header">City, State&lt;/f:facet>
+	&lt;/h:column&gt;
+	&lt;h:column&gt;
+		&lt;f:facet name="header"&gt;City, State&lt;/f:facet&gt;
 		#{hot.city}, #{hot.state}
-	&lt;/h:column> 
-	&lt;h:column>
-		&lt;f:facet name="header">Zip&lt;/f:facet>
+	&lt;/h:column&gt;
+	&lt;h:column&gt;
+		&lt;f:facet name="header"&gt;Zip&lt;/f:facet&gt;
 		#{hot.zip}
-	&lt;/h:column>
-	&lt;h:column>
-		&lt;f:facet name="header">Action&lt;/f:facet>
-		&lt;s:link value="View Hotel" action="#{hotelBooking.selectHotel}"/>
-	&lt;/h:column>
-&lt;/h:dataTable>
+	&lt;/h:column&gt;
+	&lt;h:column&gt;
+		&lt;f:facet name="header"&gt;Action&lt;/f:facet&gt;
+		&lt;s:link value="View Hotel" action="#{hotelBooking.selectHotel}"/&gt;
+	&lt;/h:column&gt;
+&lt;/h:dataTable&gt;
 </code>
 
     <p>
        The "View Hotel" link is the above mentioned command link associated
        with each row of the data table. It is implemented 
-       using a Seam <code>&lt;s:Link></code>, which is part of Seam's 
+       using a Seam <code>&lt;s:Link&gt;</code>, which is part of Seam's 
        extension of JSF controls.
        This JSF control let's us call an action, and pass a request parameter, without 
-       submitting any JSF form. The advantage of <code>&lt;s:link></code> is that, 
-       unlike a standard JSF <code>&lt;h:commandLink></code>, there is no JavaScript 
+       submitting any JSF form. The advantage of <code>&lt;s:link&gt;</code> is that, 
+       unlike a standard JSF <code>&lt;h:commandLink&gt;</code>, there is no JavaScript 
        used, so "open link in new tab" works seamlessly.
     </p>
     <p>
@@ -192,13 +185,9 @@ public class HotelBookingAction implements HotelBooking
 }
 </code>
 
-   <p>
-      <center>
-      <form>
-         <INPUT type="button" value="Close Window" onClick="window.close()">
-      </form>
-      </center>
-   </p>
+       <form>
+          <input type="button" value="Close Window" onclick="window.close()"/>
+       </form>
 
   </div>
 </div>

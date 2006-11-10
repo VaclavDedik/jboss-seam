@@ -2,9 +2,6 @@
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
-<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>In-depth Explanation</title>
 	<link href="../css/trailblazer_main.css" rel="stylesheet" type="text/css" />
@@ -18,13 +15,9 @@
     <h2>What happens in the registration process?</h2>
     <img src="img/header_line.gif" />
     
-    <p>
-       <center>
        <form>
-          <INPUT type="button" value="Close Window" onClick="window.close()">
+          <input type="button" value="Close Window" onclick="window.close()"/>
        </form>
-       </center>
-    </p>
 
     <p>
        The register.xhtml JSF form captures the user input for new account
@@ -34,35 +27,35 @@
     </p>
     
 <code class="block">
-&lt;s:validateAll>
-&lt;div class="entry">
-    &lt;div class="label">
-        &lt;h:outputLabel for="username">Username:&lt;/h:outputLabel>
-    &lt;/div>
-    &lt;div class="input">
-        &lt;h:inputText id="username" value="#{user.username}"/>&lt;br/>
-        &lt;span class="errors">&lt;h:message for="username" />&lt;/span>
-    &lt;/div>
-&lt;/div>
-&lt;div class="entry">
-    &lt;div class="label">
-        &lt;h:outputLabel for="name">Real Name:&lt;/h:outputLabel>
-    &lt;/div>
-    &lt;div class="input">
-        &lt;h:inputText id="name" value="#{user.name}" />&lt;br/>
-        &lt;span class="errors">&lt;h:message for="name" />&lt;/span>
-    &lt;/div>
-&lt;/div>
-&lt;/s:validateAll>
+&lt;s:validateAll&gt;
+&lt;div class="entry"&gt;
+    &lt;div class="label"&gt;
+        &lt;h:outputLabel for="username">Username:&lt;/h:outputLabel&gt;
+    &lt;/div&gt;
+    &lt;div class="input"&gt;
+        &lt;h:inputText id="username" value="#{user.username}"/&gt;&lt;br/&gt;
+        &lt;span class="errors"&gt;&lt;h:message for="username" /&gt;&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="entry"&gt;
+    &lt;div class="label"&gt;
+        &lt;h:outputLabel for="name">Real Name:&lt;/h:outputLabel&gt;
+    &lt;/div&gt;
+    &lt;div class="input"&gt;
+        &lt;h:inputText id="name" value="#{user.name}" /&gt;&lt;br/&gt;
+        &lt;span class="errors">&lt;h:message for="name" /&gt;&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/s:validateAll&gt;
 
 ... ...
 
-    &lt;div class="input">
+    &lt;div class="input"&gt;
         &lt;h:commandButton value="Register" 
                          action="#{register.register}" 
-                         class="button"/>
-        &lt;h:commandButton value="Cancel" action="login" class="button"/>
-    &lt;/div>
+                         class="button"/&gt;
+        &lt;h:commandButton value="Cancel" action="login" class="button"/&gt;
+    &lt;/div&gt;
 </code>
 
    <p>
@@ -81,7 +74,7 @@
        The validation conditions are specified on the entity bean classes
        those input fields map to (e.g., here the validation condition is
        on the <code>User</code> class, see later).
-       This JSF form also includes <code>&lt;h:message></code> tags that
+       This JSF form also includes <code>&lt;h:message&gt;</code> tags that
        will display the results of any JSF validation failures.
     </p>
 
@@ -224,13 +217,9 @@ public class RegisterAction implements Register
        messages to the user, even when redirect after post is used.
     </p>
 
-    <p>
-       <center>
        <form>
-          <INPUT type="button" value="Close Window" onClick="window.close()">
+          <input type="button" value="Close Window" onclick="window.close()"/>
        </form>
-       </center>
-    </p>
 
   </div>
 </div>

@@ -1,3 +1,7 @@
+<!DOCTYPE pages PUBLIC
+  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/pages-1.1.dtd">
+
 <pages>
 	<page view-id="/main.xhtml" timeout="300000">Search hotels: #{hotelBooking.searchString}</page>
 	<page view-id="/hotel.xhtml" timeout="300000">View hotel: #{hotel.name}</page>

@@ -2,9 +2,6 @@
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
-<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>In-depth Explanation</title>
 	<link href="../css/trailblazer_main.css" rel="stylesheet" type="text/css" />
@@ -18,13 +15,9 @@
     <h2>Ending Conversations</h2>
     <img src="../img/header_line.gif" />
     
-    <p>
-       <center>
        <form>
-          <INPUT type="button" value="Close Window" onClick="window.close()">
+          <input type="button" value="Close Window" onclick="window.close()"/>
        </form>
-       </center>
-    </p>
 
     <p>
        The "Confirm" button is bound to the action method <code>confirm()</code>
@@ -34,7 +27,7 @@
 <code class="block">
 &lt;h:commandButton value="Confirm" 
                  action="#{hotelBooking.confirm}" 
-                 class="button"/>
+                 class="button"/&gt;
 </code>
 
     <p>
@@ -101,13 +94,9 @@ public class BookingListAction implements BookingList, Serializable
 }
 </code>
    
-   <p>
-      <center>
-      <form>
-         <INPUT type="button" value="Close Window" onClick="window.close()">
-      </form>
-      </center>
-   </p>
+       <form>
+          <input type="button" value="Close Window" onclick="window.close()"/>
+       </form>
 
   </div>
 </div>

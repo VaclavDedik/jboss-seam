@@ -4,7 +4,6 @@ package org.jboss.seam.example.booking;
 import static javax.persistence.PersistenceContextType.EXTENDED;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;

@@ -19,8 +19,6 @@
 
      <%@ include file="switcher.jsp" %> 
      <%@ include file="projectList.jsp" %>
-	 
-	 </div>
 
    </h:form>
 

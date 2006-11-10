@@ -1,3 +1,7 @@
+<!DOCTYPE exceptions PUBLIC
+  "-//JBoss/Seam Exceptions Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/exceptions-1.1.dtd">
+
 <exceptions>
    
    <exception class="javax.persistence.PersistenceException">
@@ -6,7 +10,7 @@
    </exception>
    
    <exception class="org.jboss.seam.framework.EntityNotFoundException">
-      <http-error code="404"/>
+      <http-error error-code="404"/>
    </exception>
    
    <exception>
