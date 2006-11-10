@@ -53,7 +53,7 @@
 
         <programlisting><![CDATA[@Stateful
 @Name("personHome")
-public class PersonHome extends EntityHome<Person> {
+public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
     @RequestParameter Long personId;
     @In(create=true) EntityManager personDatabase;
     
@@ -260,7 +260,7 @@ public class PersonHome extends EntityHome<Person> {
     @Factory("person")
     public Person initPerson() { return getInstance(); }
     
-    protected Person getNewInstance() {
+    protected Person createInstance() {
         return new Person(country);
     }
     
@@ -284,7 +284,7 @@ public class PersonHome extends EntityHome<Person> {
     @Factory("person")
     public Person initPerson() { return getInstance(); }
     
-    protected Person getNewInstance() {
+    protected Person createInstance() {
         return new Person(country);
     }
     
@@ -327,7 +327,7 @@ public class PersonHome extends EntityHome<Person> {
     @Factory("person")
     public Person initPerson() { return getInstance(); }
     
-    protected Person getNewInstance() {
+    protected Person createInstance() {
         return new Person(country);
     }
     
