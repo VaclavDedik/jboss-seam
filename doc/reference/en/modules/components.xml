@@ -976,6 +976,12 @@
                             variables in the client instead of in the <literal>HttpSession</literal>.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.init.userTransactionName</literal> &mdash; the JNDI
+                            name to use when looking up the JTA <literal>UserTransaction</literal> object.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>

@@ -226,6 +226,26 @@
 
         </sect3>
 
+        <sect3>
+            <title>Fine-grained files for definition of page actions and parameters</title>
+            <para>
+                If you have a lot of different page actions and page parameters,
+                you will almost certainly want to split the declarations up over
+                multiple files. You can define actions and parameters for a page
+                with the view id <literal>/calc/calculator.jsp</literal> in a 
+                resource named <literal>calc/calculator.page.xml</literal>. The
+                root element in this case is the <literal>&lt;page&gt;</literal>
+                element, and the view id is implied:
+            </para>
+            
+            <programlisting><![CDATA[<page action="#{calculator.calculate}">
+    <param name="x" value="#{calculator.lhs}"/>
+    <param name="y" value="#{calculator.rhs}"/>
+    <param name="op" converter="#{operatorConverter}"/>
+</page>]]></programlisting>
+
+        </sect3>
+        
         </sect2>
         
         <sect2>

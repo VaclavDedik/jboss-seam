@@ -3,6 +3,7 @@
                       "../support/docbook-dtd/docbookx.dtd"
 [
 <!ENTITY tutorial               SYSTEM "modules/tutorial.xml">
+<!ENTITY gettingstarted         SYSTEM "modules/gettingstarted.xml">
 <!ENTITY concepts               SYSTEM "modules/concepts.xml">
 <!ENTITY events                 SYSTEM "modules/events.xml">
 <!ENTITY conversations          SYSTEM "modules/conversations.xml">
@@ -236,6 +237,7 @@
     </preface>
 
     &tutorial;
+    &gettingstarted;
     &concepts;
     &events;
     &conversations;

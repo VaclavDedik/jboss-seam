@@ -809,6 +809,47 @@ public class User {
         </sect2>
         
         <sect2>
+            <title>Fine-grained configuration files</title>
+            <para>
+                If you have a large number of components that need to be configured in XML, it
+                makes much more sense to split up the information in 
+                <literal>components.properties</literal> into many small files. Seam lets you
+                put configuration for a class named, for example, 
+                <literal>com.helloworld.Hello</literal> in a resource named 
+                <literal>com/helloworld/Hello.component.xml</literal>. (You might be familiar
+                with this pattern, since it is the same one we use in Hibernate.) The root
+                element of the file may be either a <literal>&lt;components&gt;</literal> or
+                <literal>&lt;component&gt;</literal> element.
+            </para>
+            
+            <para>
+                The first option lets you define multiple components in the file:
+            </para>
+            
+            <programlisting><![CDATA[<components>
+    <component class="com.helloworld.Hello" name="hello">
+        <property name="name">#{user.name}</property>
+    </component>
+    <factory name="message" value="#{hello.message}"/>
+</components>]]></programlisting>
+            
+            <para>
+                The second option only lets you define or configure one component,
+                but is less noisy:
+            </para>
+            
+            <programlisting><![CDATA[<component name="hello">
+    <property name="name">#{user.name}</property>
+</component>]]></programlisting>
+
+            <para>
+                In the second option, the class name is implied by the file in which the
+                component definition appears.
+            </para>
+
+        </sect2>
+
+        <sect2>
             <title>Configurable property types</title>
             <para>
                 Properties of string, primitive or primitive wrapper type may be configured just 
