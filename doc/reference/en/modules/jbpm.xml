@@ -522,14 +522,14 @@ public void begin() { ... }]]></programlisting>
 </page>]]></programlisting>
 
         <para>
-            Optionally, we can specify a <literal>transition</literal> name. In this
-            case, Seam will signal the end of the current task in the overarching
-            business process.
+            Optionally, we can end a task, specify a jBPM <literal>transition</literal> 
+            name. In this case, Seam will signal the end of the current task in the 
+            overarching business process.
         </para>
         
 <programlisting><![CDATA[<page name="win" view-id="/win.jsp">
     <redirect/>
-    <end-conversation transition="success"/>
+    <end-task transition="success"/>
 </page>]]></programlisting>
 
         </section>
