@@ -26,7 +26,9 @@ public class Page extends Node implements Parsable
    
    private String viewId;
    private boolean isConversationEnd = false;
+   private boolean isTaskEnd = false;
    private String transition;
+   private String processToCreate;
    private boolean redirect;
    private String description;
    private Integer timeout;
@@ -44,11 +46,17 @@ public class Page extends Node implements Parsable
       noConversationViewId = pageElement.attributeValue("no-conversation-view-id");
       backEnabled = "enabled".equals( pageElement.attributeValue("back") );
       switchEnabled = !"disabled".equals( pageElement.attributeValue("switch") );
-      Element conversationEndElement = pageElement.element("end-conversation");
-      if (conversationEndElement!=null) 
+      Element endConversationElement = pageElement.element("end-conversation");
+      if ( endConversationElement!=null )
       {
          isConversationEnd = true;
-         transition = conversationEndElement.attributeValue("transition");
+         processToCreate = endConversationElement.attributeValue("create-process");
+      }
+      Element endTaskElement = pageElement.element("end-task");
+      if (endTaskElement!=null) 
+      {
+         isTaskEnd = true;
+         transition = endTaskElement.attributeValue("transition");
       }
       redirect = "true".equals( pageElement.attributeValue("redirect") );
       if ( pageElement.element("redirect")!=null )
@@ -73,30 +81,18 @@ public class Page extends Node implements Parsable
    @Override
    public void execute(ExecutionContext executionContext) 
    {
-      if (isConversationEnd) {
+      if ( isConversationEnd && processToCreate!=null )
+      {
+         BusinessProcess.instance().createProcess(processToCreate);
+      }
+      
+      if ( isTaskEnd ) 
+      {
+         BusinessProcess.instance().endTask(transition);         
+      }
 
-         org.jbpm.taskmgmt.exe.TaskInstance task = TaskInstance.instance();
-         if ( task != null )
-         {
-            
-            if ( transition==null || "".equals(transition) )
-            {
-               transition = Transition.instance().getName();
-            }
-            
-            if ( transition == null )
-            {
-               task.end();
-            }
-            else
-            {
-               task.end(transition);
-            }
-         
-            BusinessProcess.instance().setTaskId(null);
-            
-         }
-         
+      if (isConversationEnd || isTaskEnd ) 
+      {
          Manager.instance().endConversation(false);
       }
    }
@@ -147,5 +143,15 @@ public class Page extends Node implements Parsable
    public String getNoConversationViewId()
    {
       return noConversationViewId;
+   }
+
+   protected boolean isTaskEnd()
+   {
+      return isTaskEnd;
+   }
+
+   protected String getProcessToCreate()
+   {
+      return processToCreate;
    }
 }
