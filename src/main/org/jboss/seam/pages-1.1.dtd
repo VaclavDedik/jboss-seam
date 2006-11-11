@@ -9,7 +9,7 @@
 <!ELEMENT pages (page*)>
 <!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
 
-<!ELEMENT page (#PCDATA|param)*>
+<!ELEMENT page (#PCDATA|param|end-conversation|begin-conversation)*>
 <!ATTLIST page action CDATA #IMPLIED>
 <!ATTLIST page view-id CDATA #IMPLIED>
 <!ATTLIST page switch (enabled|disabled) "enabled">
@@ -22,3 +22,6 @@
 <!ATTLIST param value CDATA #REQUIRED>
 <!ATTLIST param converter CDATA #IMPLIED>
 <!ATTLIST param converterId CDATA #IMPLIED>
+
+<!ELEMENT end-conversation EMPTY>
+<!ELEMENT begin-conversation EMPTY>

@@ -4,8 +4,6 @@ import org.dom4j.Element;
 import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.core.TaskInstance;
-import org.jboss.seam.core.Transition;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;

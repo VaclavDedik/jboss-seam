@@ -155,6 +155,21 @@ public class Pages
          }
       }
       
+      if ( page.elementIterator("end-conversation").hasNext() )
+      {
+         entry.setEndConversation(true);
+      }
+      
+      if ( page.elementIterator("begin-conversation").hasNext() )
+      {
+         entry.setBeginConversation(true);
+      }
+      
+      if ( entry.isBeginConversation() && entry.isEndConversation() )
+      {
+         throw new IllegalStateException("cannot use both <begin-conversation/> and <end-conversation/>");
+      }
+      
       String bundle = page.attributeValue("bundle");
       if (bundle!=null)
       {
@@ -175,12 +190,12 @@ public class Pages
             name = valueExpression.substring(2, valueExpression.length()-1);
          }
          Page.PageParameter pageParameter = new Page.PageParameter(name);
-         pageParameter.valueBinding = Expressions.instance().createValueBinding(valueExpression);
-         pageParameter.converterId = param.attributeValue("converterId");
+         pageParameter.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
+         pageParameter.setConverterId(param.attributeValue("converterId"));
          String converterExpression = param.attributeValue("converter");
          if (converterExpression!=null)
          {
-            pageParameter.converterValueBinding = Expressions.instance().createValueBinding(converterExpression);
+            pageParameter.setConverterValueBinding(Expressions.instance().createValueBinding(converterExpression));
          }
          entry.getPageParameters().add(pageParameter);
       }
@@ -263,12 +278,15 @@ public class Pages
    {
       boolean result = false;
       
-      String outcome = getPage(viewId).getOutcome();
+      Page page = getPage(viewId);
+      page.beginOrEndConversation();
+
+      String outcome = page.getOutcome();
       String fromAction = outcome;
       
       if (outcome==null)
       {
-         MethodBinding methodBinding = getPage(viewId).getAction();
+         MethodBinding methodBinding = page.getAction();
          if (methodBinding!=null) 
          {
             fromAction = methodBinding.getExpressionString();
@@ -348,10 +366,10 @@ public class Pages
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
       {
-         Object value = pageParameter.valueBinding.getValue();
+         Object value = pageParameter.getValueBinding().getValue();
          if (value!=null)
          {
-            parameters.put(pageParameter.name, value);
+            parameters.put(pageParameter.getName(), value);
          }
       }
       return parameters;
@@ -362,9 +380,9 @@ public class Pages
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
       {
-         if ( !overridden.contains(pageParameter.name) )
+         if ( !overridden.contains(pageParameter.getName()) )
          {
-            Object value = pageParameter.valueBinding.getValue();
+            Object value = pageParameter.getValueBinding().getValue();
             if (value!=null)
             {
                Converter converter;
@@ -379,7 +397,7 @@ public class Pages
                }
                Object convertedValue = converter==null ? 
                      value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
-               parameters.put(pageParameter.name, convertedValue);
+               parameters.put(pageParameter.getName(), convertedValue);
             }
          }
       }
@@ -392,14 +410,14 @@ public class Pages
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
       {         
-         String[] parameterValues = requestParameters.get(pageParameter.name);
+         String[] parameterValues = requestParameters.get(pageParameter.getName());
          if (parameterValues==null || parameterValues.length==0)
          {
             continue;
          }
          if (parameterValues.length>1)
          {
-            throw new IllegalArgumentException("page parameter may not be multi-valued: " + pageParameter.name);
+            throw new IllegalArgumentException("page parameter may not be multi-valued: " + pageParameter.getName());
          }         
          String stringValue = parameterValues[0];
 
@@ -417,7 +435,7 @@ public class Pages
          Object value = converter==null ? 
                stringValue :
                converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
-         pageParameter.valueBinding.setValue(value);
+         pageParameter.getValueBinding().setValue(value);
       }
    }
 
@@ -427,10 +445,10 @@ public class Pages
       
       for (Page.PageParameter pageParameter: getPage(viewId).getPageParameters())
       {         
-         Object object = Contexts.getPageContext().get(pageParameter.name);
+         Object object = Contexts.getPageContext().get(pageParameter.getName());
          if (object!=null)
          {
-            pageParameter.valueBinding.setValue(object);
+            pageParameter.getValueBinding().setValue(object);
          }
       }
    }

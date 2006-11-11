@@ -23,10 +23,10 @@ public final class Page
          this.name = name;
       }
       
-      final String name;
-      ValueBinding valueBinding;
-      ValueBinding converterValueBinding;
-      String converterId;
+      private final String name;
+      private ValueBinding valueBinding;
+      private ValueBinding converterValueBinding;
+      private String converterId;
       
       Converter getConverter()
       {
@@ -45,11 +45,47 @@ public final class Page
          }
       }
    
+      public String getName()
+      {
+         return name;
+      }
+
+      public void setValueBinding(ValueBinding valueBinding)
+      {
+         this.valueBinding = valueBinding;
+      }
+
+      public ValueBinding getValueBinding()
+      {
+         return valueBinding;
+      }
+
+      public void setConverterValueBinding(ValueBinding converterValueBinding)
+      {
+         this.converterValueBinding = converterValueBinding;
+      }
+
+      public ValueBinding getConverterValueBinding()
+      {
+         return converterValueBinding;
+      }
+
+      public void setConverterId(String converterId)
+      {
+         this.converterId = converterId;
+      }
+
+      public String getConverterId()
+      {
+         return converterId;
+      }
+
       @Override
       public String toString()
       {
          return "PageParameter(" + name + ")";
       }
+
    }
 
    private final String viewId;
@@ -61,6 +97,8 @@ public final class Page
    private String resourceBundleName;
    private boolean switchEnabled = true;
    private List<Page.PageParameter> pageParameters = new ArrayList<Page.PageParameter>();
+   private boolean isBeginConversation;
+   private boolean isEndConversation;
    
    Page(String viewId)
    {
@@ -187,5 +225,31 @@ public final class Page
    public boolean hasDescription()
    {
       return description!=null;
+   }
+
+   public boolean isBeginConversation()
+   {
+      return isBeginConversation;
+   }
+
+   public void setBeginConversation(boolean isBeginConversation)
+   {
+      this.isBeginConversation = isBeginConversation;
+   }
+
+   public boolean isEndConversation()
+   {
+      return isEndConversation;
+   }
+
+   public void setEndConversation(boolean isEndConversation)
+   {
+      this.isEndConversation = isEndConversation;
+   }
+   
+   public void beginOrEndConversation()
+   {
+      if ( isEndConversation ) Conversation.instance().end();
+      if ( isBeginConversation ) Conversation.instance().begin();
    }
 }
