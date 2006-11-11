@@ -217,7 +217,10 @@ public class Lifecycle
       log.debug("destroying conversation contexts: " + conversationIds);
       for (String conversationId: conversationIds)
       {
-         Contexts.destroy( new ServerConversationContext(session, conversationId) );
+         ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
+         Contexts.conversationContext.set(conversationContext);
+         Contexts.destroy(conversationContext);
+         Contexts.conversationContext.set(null);
       }
 
       log.debug("destroying session context");
