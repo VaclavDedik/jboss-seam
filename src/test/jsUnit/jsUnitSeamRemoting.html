@@ -10,11 +10,11 @@
 <script language="JavaScript" type="text/javascript" src="../../main/org/jboss/seam/remoting/remote.js"></script>
 <script language="JavaScript" type="text/javascript">
 
-/** URL Encode/decode tests **/
+/** Confirm that the URL encoding/decoding function we are using works **/
 
 function testURLEncodeDecode() {
   var val = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!@#$%^&*()_-;',./:\"<>?~`\|[]{}+= ";
-  assertEquals(val, Seam.Remoting.URLDecode(Seam.Remoting.URLEncode(val)));  
+  assertEquals(val, decodeURIComponent(encodeURIComponent(val)));  
 }
 
 /** Seam.Remoting.Map tests **/
