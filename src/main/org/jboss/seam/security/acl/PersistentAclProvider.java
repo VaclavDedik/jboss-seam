@@ -54,12 +54,17 @@ public class PersistentAclProvider extends AbstractAclProvider
     if (ManagedPersistenceContext.class.isAssignableFrom(value.getClass()))
     {
       persistenceType = PersistenceType.managedPersistenceContext;
-      this.pcm = value;
+      pcm = value;
     }
     else if (ManagedHibernateSession.class.isAssignableFrom(value.getClass()))
     {
       persistenceType = PersistenceType.managedHibernateSession;
-      this.pcm = value;
+      pcm = value;
+    }
+    else if (EntityManagerFactory.class.isAssignableFrom(value.getClass()))
+    {
+      persistenceType = PersistenceType.entityManagerFactory;
+      pcm = value;
     }
     else if (value instanceof String)
     {
@@ -70,7 +75,7 @@ public class PersistentAclProvider extends AbstractAclProvider
         if (EntityManagerFactory.class.isAssignableFrom(obj.getClass()))
         {
           persistenceType = PersistenceType.entityManagerFactory;
-          this.pcm = obj;
+          pcm = obj;
           return;
         }
       }
