@@ -996,6 +996,7 @@ public class Component
 
    protected Object instantiateSessionBean() throws Exception, NamingException
    {
+      Component old = SeamInterceptor.COMPONENT.get();
       SeamInterceptor.COMPONENT.set(this);
       try
       {
@@ -1004,7 +1005,7 @@ public class Component
       }
       finally
       {
-         SeamInterceptor.COMPONENT.set(null);
+         SeamInterceptor.COMPONENT.set(old);
       }
    }
 
