@@ -38,7 +38,7 @@ public class RegisterAction implements Register
    }
    
    @PersistenceContext
-   public void setBookingDatabase(User em) {
+   public void setBookingDatabase(EntityManager em) {
        this.em = em;
    }
    
