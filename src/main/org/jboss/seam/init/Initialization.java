@@ -706,7 +706,8 @@ public class Initialization
       {
          return componentClass;
       }       
-      public String getJndiName() {
+      public String getJndiName() 
+      {
          return jndiName;
       }
    }

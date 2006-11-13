@@ -208,11 +208,13 @@ public class Component
       beanClass = clazz;
       name = componentName;
       scope = componentScope;
-      jndiName = componentJndiName;
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
       
       checkScopeForComponentType();
+
+      jndiName = componentJndiName == null ? 
+            getJndiName(applicationContext) : componentJndiName;
 
       startup = beanClass.isAnnotationPresent(Startup.class);
       if (startup)
@@ -236,10 +238,6 @@ public class Component
                Synchronized.DEFAULT_TIMEOUT;
       }
       
-      if (jndiName == null) {
-          jndiName = getJndiName(applicationContext);
-      }
-
       log.info(
             "Component: " + getName() +
             ", scope: " + getScope() +
