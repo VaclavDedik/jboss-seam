@@ -189,28 +189,29 @@ public class Component
    // only used for tests
    public Component(Class<?> clazz, String componentName)
    {
-      this(clazz, componentName, Seam.getComponentScope(clazz));
+      this(clazz, componentName, Seam.getComponentScope(clazz), null);
    }
 
    // only used for tests
    public Component(Class<?> clazz, Context applicationContext)
    {
-      this( clazz, Seam.getComponentName(clazz), Seam.getComponentScope(clazz), applicationContext );
+      this( clazz, Seam.getComponentName(clazz), Seam.getComponentScope(clazz), null, applicationContext );
    }
 
-   public Component(Class<?> clazz, String componentName, ScopeType componentScope)
+   public Component(Class<?> clazz, String componentName, ScopeType componentScope, String jndiName)
    {
-      this(clazz, componentName, componentScope, Contexts.getApplicationContext());
+      this(clazz, componentName, componentScope, jndiName, Contexts.getApplicationContext());
    }
 
-   private Component(Class<?> clazz, String componentName, ScopeType componentScope, Context applicationContext)
+   private Component(Class<?> clazz, String componentName, ScopeType componentScope, String componentJndiName, Context applicationContext)
    {
       beanClass = clazz;
       name = componentName;
       scope = componentScope;
+      jndiName = componentJndiName;
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
-
+      
       checkScopeForComponentType();
 
       startup = beanClass.isAnnotationPresent(Startup.class);
@@ -234,8 +235,10 @@ public class Component
                beanClass.getAnnotation(Synchronized.class).timeout() :
                Synchronized.DEFAULT_TIMEOUT;
       }
-
-      jndiName = getJndiName(applicationContext);
+      
+      if (jndiName == null) {
+          jndiName = getJndiName(applicationContext);
+      }
 
       log.info(
             "Component: " + getName() +

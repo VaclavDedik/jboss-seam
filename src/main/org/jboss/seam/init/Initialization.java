@@ -224,6 +224,7 @@ public class Initialization
    {
       String name = component.attributeValue("name");
       String scopeName = component.attributeValue("scope");
+      String jndiName = component.attributeValue("jndi-name");
       ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName.toUpperCase());
       if (className!=null)
       {
@@ -250,7 +251,7 @@ public class Initialization
          {
             name = clazz.getAnnotation(Name.class).value();
          }
-         componentDescriptors.add( new ComponentDescriptor(name, clazz, scope) );
+         componentDescriptors.add( new ComponentDescriptor(name, clazz, scope, jndiName) );
          installedComponents.add(clazz);
       }
       else if (name==null)
@@ -402,7 +403,7 @@ public class Initialization
    private void installRole(Class<Object> scannedClass, Role role)
    {
       ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
-      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope) );
+      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope, null) );
    }
 
    private void initPropertiesFromServletContext()
@@ -592,7 +593,8 @@ public class Initialization
       Component component = new Component(
             descriptor.getComponentClass(),
             name,
-            descriptor.getScope()
+            descriptor.getScope(),
+            descriptor.getJndiName()
          );
       context.set(componentName, component);
 
@@ -678,12 +680,14 @@ public class Initialization
       private String name;
       private Class componentClass;
       private ScopeType scope;
+      private String jndiName;
 
-      public ComponentDescriptor(String name, Class componentClass, ScopeType scope)
+      public ComponentDescriptor(String name, Class componentClass, ScopeType scope, String jndiName)
       {
          this.name = name;
          this.componentClass = componentClass;
          this.scope = scope;
+         this.jndiName = jndiName;
       }
       public ComponentDescriptor(Class componentClass)
       {
@@ -701,6 +705,9 @@ public class Initialization
       public Class getComponentClass()
       {
          return componentClass;
+      }       
+      public String getJndiName() {
+         return jndiName;
       }
    }
 
