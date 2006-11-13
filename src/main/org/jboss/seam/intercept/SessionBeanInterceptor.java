@@ -79,7 +79,8 @@ public class SessionBeanInterceptor extends RootInterceptor
       else if ( bean.getClass().isAnnotationPresent(Name.class) )
       {
          //the session bean was obtained by the application from
-         //JNDI, so assume the default role
+         //JNDI (or it was an MDB), so assume the default role
+         //TODO: look at more than just @Name, consider components.xml
          String defaultComponentName = bean.getClass().getAnnotation(Name.class).value();
          init( Seam.componentForName( defaultComponentName ) );
       }
