@@ -1,32 +1,27 @@
 package org.jboss.seam.test;
 
 import java.io.Serializable;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Id;
-import javax.servlet.ServletContext;
 
 import org.hibernate.ejb.Ejb3Configuration;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.init.Initialization;
 import org.jboss.seam.mock.MockAclObjectIdentity;
 import org.jboss.seam.mock.MockAclPermission;
-import org.jboss.seam.mock.MockHttpSession;
+import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockSecureEntity;
 import org.jboss.seam.mock.MockServletContext;
 import org.jboss.seam.security.UsernamePasswordToken;
-import org.jboss.seam.security.acl.AclProvider.RecipientType;
 import org.jboss.seam.security.acl.JPAIdentityGenerator;
-import org.testng.annotations.Test;
-import org.jboss.seam.security.SeamSecurityManager;
-import org.jboss.seam.Component;
 import org.jboss.seam.security.acl.PersistentAclProvider;
-import org.hibernate.ejb.EventListenerConfigurator;
-import org.jboss.seam.mock.MockExternalContext;
-import org.jboss.seam.core.Manager;
-import org.jboss.seam.init.Initialization;
+import org.jboss.seam.security.acl.AclProvider.RecipientType;
+import org.testng.annotations.Test;
 
 public class SecurityTest
 {
