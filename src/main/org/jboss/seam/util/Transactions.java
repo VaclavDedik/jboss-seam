@@ -18,30 +18,28 @@ public class Transactions
    {
       try
       {
-         getUserTransaction().setRollbackOnly();
+         setUTRollbackOnly();
       }
-      catch (NamingException ne)
+      catch (NameNotFoundException ne)
       {
-         EJB.getEJBContext().setRollbackOnly();
+         setEJBCRollbackOnly();
       }
    }
-   
+
    public static boolean isTransactionActive() throws SystemException, NamingException
    {
       try
       {
-         return getUserTransaction().getStatus()==STATUS_ACTIVE;
+         return isUTTransactionActive();
       }
-      catch (NamingException ne)
+      catch (NameNotFoundException ne)
       {
-         try
-         {
-            return !EJB.getEJBContext().getRollbackOnly();
-         }
-         catch (IllegalStateException ise)
-         {
-            return false;
-         }
+         return isEJBCTransactionActive();
+      }
+      //temporary workaround for a bad bug in Glassfish!
+      catch (IllegalStateException ise)
+      {
+         return isEJBCTransactionActive();
       }
    }
 
@@ -49,51 +47,116 @@ public class Transactions
    {
       try
       {
-         int status = getUserTransaction().getStatus();
-         return status==STATUS_ACTIVE || status == STATUS_MARKED_ROLLBACK;
+         return isUTTransactionActiveOrMarkedRollback();
       }
-      catch (NamingException ne)
+      catch (NameNotFoundException ne)
       {
-         try
-         {
-            EJB.getEJBContext().getRollbackOnly();
-            return true;
-         }
-         catch (IllegalStateException ise)
-         {
-            return false;
-         }
+         return isEJBCTransactionActiveOrMarkedRollback();
+      }
+      //temporary workaround for a bad bug in Glassfish!
+      catch (IllegalStateException ise)
+      {
+         return isEJBCTransactionActiveOrMarkedRollback();
       }
    }
-   
+
    public static boolean isTransactionMarkedRollback() throws SystemException, NamingException
    {
       try
       {
-         return getUserTransaction().getStatus() == STATUS_MARKED_ROLLBACK;
+         return isUTTransactionMarkedRollback();
       }
-      catch (NamingException ne)
+      catch (NameNotFoundException ne)
       {
-         try
-         {
-            return EJB.getEJBContext().getRollbackOnly();
-         }
-         catch (IllegalStateException ise)
-         {
-            return false;
-         }
+         return isEJBCTransactionMarkedRollback();
       }
+      //temporary workaround for a bad bug in Glassfish!
+      catch (IllegalStateException ise)
+      {
+         return isEJBCTransactionMarkedRollback();
+      }
+   }
+
+   private static void setEJBCRollbackOnly() throws NamingException
+   {
+      EJB.getEJBContext().setRollbackOnly();
+   }
+
+   private static void setUTRollbackOnly() throws SystemException, NamingException
+   {
+      getUserTransaction().setRollbackOnly();
+   }
+   
+   private static boolean isEJBCTransactionActive() throws NamingException
+   {
+      try
+      {
+         return !EJB.getEJBContext().getRollbackOnly();
+      }
+      catch (IllegalStateException ise)
+      {
+         return false;
+      }
+   }
+
+   private static boolean isUTTransactionActive() throws SystemException, NamingException
+   {
+      return getUserTransaction().getStatus() == STATUS_ACTIVE;
+   }
+
+   private static boolean isEJBCTransactionActiveOrMarkedRollback() throws NamingException
+   {
+      try
+      {
+         EJB.getEJBContext().getRollbackOnly();
+         return true;
+      }
+      catch (IllegalStateException ise)
+      {
+         return false;
+      }
+   }
+
+   private static boolean isUTTransactionActiveOrMarkedRollback() throws SystemException, NamingException
+   {
+      int status = getUserTransaction().getStatus();
+      return status==STATUS_ACTIVE || status == STATUS_MARKED_ROLLBACK;
+   }
+   
+   private static boolean isEJBCTransactionMarkedRollback() throws NamingException
+   {
+      try
+      {
+         return EJB.getEJBContext().getRollbackOnly();
+      }
+      catch (IllegalStateException ise)
+      {
+         return false;
+      }
+   }
+
+   private static boolean isUTTransactionMarkedRollback() throws SystemException, NamingException
+   {
+      return getUserTransaction().getStatus() == STATUS_MARKED_ROLLBACK;
    }
    
    public static UserTransaction getUserTransaction() throws NamingException
    {
       try
       {
-         return (UserTransaction) Naming.getInitialContext().lookup(userTransactionName);
+         try
+         {
+            return (UserTransaction) Naming.getInitialContext().lookup(userTransactionName);
+         }
+         catch (NameNotFoundException nnfe)
+         {
+            return (UserTransaction) Naming.getInitialContext().lookup(STANDARD_USER_TRANSACTION_NAME);
+         }
       }
-      catch (NameNotFoundException nnfe)
+      //not really necessary, but just in case...
+      catch (IllegalStateException ise)
       {
-         return (UserTransaction) Naming.getInitialContext().lookup(STANDARD_USER_TRANSACTION_NAME);
+         throw new NameNotFoundException("Lookup " + userTransactionName + " threw IllegalStateException: " + ise.getMessage());
       }
    }
    
