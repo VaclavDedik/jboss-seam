@@ -1070,6 +1070,8 @@ public class Component
          Object initialValue = me.getValue().getValue( field.getType() );
          setFieldValue(bean, field, field.getName(), initialValue );
       }
+
+      if ( log.isDebugEnabled() ) log.debug("done initializing: " + name);
    }
 
    /**

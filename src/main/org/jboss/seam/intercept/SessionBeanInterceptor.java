@@ -13,6 +13,8 @@ import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
@@ -26,6 +28,7 @@ import org.jboss.seam.annotations.Name;
  */
 public class SessionBeanInterceptor extends RootInterceptor
 {
+   private static final Log log = LogFactory.getLog(SessionBeanInterceptor.class);
    
    public static ThreadLocal<Component> COMPONENT = new ThreadLocal<Component>();
 
@@ -74,6 +77,10 @@ public class SessionBeanInterceptor extends RootInterceptor
          //the session bean was obtained by the application by
          //calling Component.getInstance(), could be a role
          //other than the default role
+         if ( log.isTraceEnabled() ) 
+         {
+            log.trace("post construct phase for instance of component: " + invokingComponent.getName());
+         }
          init(invokingComponent);
       }
       else if ( bean.getClass().isAnnotationPresent(Name.class) )
@@ -82,10 +89,18 @@ public class SessionBeanInterceptor extends RootInterceptor
          //JNDI (or it was an MDB), so assume the default role
          //TODO: look at more than just @Name, consider components.xml
          String defaultComponentName = bean.getClass().getAnnotation(Name.class).value();
+         if ( log.isTraceEnabled() ) 
+         {
+            log.trace("post construct phase for component instantiated outside Seam, assuming default role: " + defaultComponentName);
+         }
          init( Seam.componentForName( defaultComponentName ) );
       }
       else
       {
+         if ( log.isTraceEnabled() ) 
+         {
+            log.trace("post construct phase for non-component bean");
+         }
          initNonSeamComponent();
       }
       
