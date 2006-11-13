@@ -62,6 +62,7 @@ public class ClientSideInterceptor extends RootInterceptor
          @Override
          public Object proceed() throws Exception
          {
+            Component old = SessionBeanInterceptor.COMPONENT.get();
             SeamInterceptor.COMPONENT.set( getComponent() );
             try
             {
@@ -69,7 +70,7 @@ public class ClientSideInterceptor extends RootInterceptor
             }
             finally
             {
-               SeamInterceptor.COMPONENT.set(null);
+               SeamInterceptor.COMPONENT.set(old);
             }
          }
       
