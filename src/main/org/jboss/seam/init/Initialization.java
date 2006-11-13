@@ -258,16 +258,13 @@ public class Initialization
          throw new IllegalArgumentException("must specify either class or name in <component/> declaration");
       }
 
-      List<Element> props = component.elements("property");
-      for( Element prop: props )
-      {
-         String propName = prop.attributeValue("name");
-         if (propName==null)
-         {
-            throw new IllegalArgumentException("must specify name in <property/> declaration of component: " + name);
-         }
-         String qualifiedPropName = name + '.' + propName;
-         properties.put( qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements) );
+      for (Element prop: (List<Element>) component.elements()) {
+          String propName = prop.attributeValue("name");
+          if (propName==null) {
+              propName = prop.getQName().getName();
+          }
+          String qualifiedPropName = name + '.' + propName;
+          properties.put( qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements) );
       }
    }
 
