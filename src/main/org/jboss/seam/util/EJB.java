@@ -3,12 +3,14 @@ package org.jboss.seam.util;
 import java.lang.annotation.Annotation;
 
 import javax.ejb.EJBContext;
+import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 
 
 public class EJB
 {
-   public static final String EJBCONTEXT_NAME = "java:comp.ejb3/EJBContext";
+   public static String ejbContextName = "java:comp.ejb3/EJBContext";
+   public static final String STANDARD_EJB_CONTEXT_NAME = "java:comp/EJBContext";
 
    public @interface Dummy {}
    
@@ -74,7 +76,24 @@ public class EJB
 
    public static EJBContext getEJBContext() throws NamingException
    {
-      return (EJBContext) Naming.getInitialContext().lookup(EJBCONTEXT_NAME);
+      try
+      {
+         return (EJBContext) Naming.getInitialContext().lookup(ejbContextName);
+      }
+      catch (NameNotFoundException nnfe)
+      {
+         return (EJBContext) Naming.getInitialContext().lookup(STANDARD_EJB_CONTEXT_NAME);
+      }
+   }
+
+   protected static String getEjbContextName()
+   {
+      return ejbContextName;
+   }
+
+   protected static void setEjbContextName(String ejbContextName)
+   {
+      EJB.ejbContextName = ejbContextName;
    }
 
 }
