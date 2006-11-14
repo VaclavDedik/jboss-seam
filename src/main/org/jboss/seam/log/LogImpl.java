@@ -19,6 +19,8 @@ public class LogImpl implements Log, Externalizable
    private transient org.apache.commons.logging.Log log;
    private String category;
 
+   public LogImpl() {} //for Externalizable
+   
    public LogImpl(Class clazz)
    {
       this( clazz.getName() );
