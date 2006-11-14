@@ -224,7 +224,9 @@ public class Pages
 
    private Page createPage(String viewId)
    {
-      InputStream stream = Resources.getResourceAsStream( replaceExtension(viewId, ".page.xml").substring(1) );
+      String resourceName = replaceExtension(viewId, ".page.xml");
+      InputStream stream = resourceName==null ? 
+            null : Resources.getResourceAsStream( resourceName.substring(1) );
       if ( stream==null ) 
       {
          Page result = new Page(viewId);
@@ -244,7 +246,11 @@ public class Pages
       if (result==null)
       {
          //workaround for what I believe is a bug in the JSF RI
-         result = pagesByViewId.get( replaceExtension( viewId, getSuffix() ) );
+         viewId = replaceExtension( viewId, getSuffix() );
+         if (viewId!=null)
+         {
+            result = pagesByViewId.get( viewId );
+         }
       }
       return result;
    }
