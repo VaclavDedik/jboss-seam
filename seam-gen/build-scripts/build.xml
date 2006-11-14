@@ -55,6 +55,7 @@
 		<copy todir="${jar.dir}">
 			<fileset dir="${basedir}/resources">
 				<include name="seam.properties" />
+				<include name="import.sql" />
 			</fileset>
 		</copy>
 		<copy todir="${jar.dir}/META-INF">

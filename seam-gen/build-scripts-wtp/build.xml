@@ -45,6 +45,7 @@
 		<copy todir="${classes.dir}">
 			<fileset dir="${basedir}/resources">
 				<include name="seam.properties" />
+				<include name="import.sql" />
 			</fileset>
 		</copy>
 		<copy todir="${classes.dir}/META-INF">
