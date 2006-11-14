@@ -774,6 +774,7 @@
              dir="${classes.dir}">
         <include name="**/*.class"/>
     	<include name="**/*.component.xml"/>
+    	<include name="**/components.xml"/>
         <exclude name="**/test/*.class"/>
     </fileset>
 
