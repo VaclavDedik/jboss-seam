@@ -3,6 +3,7 @@ package org.jboss.seam.security.acl;
 import java.security.Principal;
 import java.security.acl.Permission;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,10 +16,12 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.security.DefinePermissions;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.SeamPermission;
 import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
@@ -110,8 +113,8 @@ public class PersistentAclProvider extends AbstractAclProvider
         return ((ManagedHibernateSession) pcm).getSession().createQuery(aclQuery);
       case entityManagerFactory:
         EntityManager em = ((EntityManagerFactory) pcm).createEntityManager();
-        if ( !Lifecycle.isDestroying() && Transactions.isTransactionActive() )
-           em.joinTransaction();
+//        if ( !Lifecycle.isDestroying() && Transactions.isTransactionActive() )
+//           em.joinTransaction();
         return em.createQuery(aclQuery);
     }
 
@@ -158,13 +161,48 @@ public class PersistentAclProvider extends AbstractAclProvider
     return null;
   }
 
-  protected Set<Permission> convertToPermissions(Object target, Object perms)
+  /**
+   * Converts the result of a
+   * 
+   * @param target
+   * @param perms
+   * @return
+   */
+  protected Set<Permission> convertToPermissions(Principal principal, Object target, Object perms)
   {
-
-
-    /** @todo use the @AclProvider specified on the target object to convert
-     * the specified permissions param to a set of actual permissions */
-    return null;
+    if (perms == null)
+      return null;
+    
+    //SeamSecurityManager.instance().get
+    
+  	if (List.class.isAssignableFrom(perms.getClass()))
+  	{
+      Set<Permission> permissions = new HashSet<Permission>();
+      
+      for (Object o : (List) perms)
+      {
+        if (o instanceof Object[])
+        {
+          Object[] values = (Object[]) o;
+          int mask = (Integer) values[0];
+          String recipient = (String) values[1];
+          RecipientType recipientType = (RecipientType) values[2];
+          
+          DefinePermissions def = (DefinePermissions) target.getClass().getAnnotation(DefinePermissions.class);
+          for (org.jboss.seam.annotations.security.AclProvider provider : def.permissions())
+          {
+            if ((provider.mask() & mask) > 0)
+              /** todo - use the correct name to create the permission */
+              permissions.add(new SeamPermission("permissionName", provider.action()));
+          }                   
+        }
+      }
+      
+      return permissions;
+  	}
+    else
+      throw new IllegalArgumentException(String.format(
+          "Permissions [%s] must be an instance of java.util.List", perms));
   }
 
   @Override
@@ -178,11 +216,12 @@ public class PersistentAclProvider extends AbstractAclProvider
 
       Object result = executeQuery(q);
 
-      return convertToPermissions(obj, result);
+      return convertToPermissions(principal, obj, result);
     }
-    catch (Exception ex) { }
-
-    return null;
+    catch (Exception ex) 
+    { 
+      throw new SecurityException(String.format("Error determining permissions: %s", ex.getMessage()), ex);
+    }
   }
 
   @Override

@@ -46,4 +46,10 @@ public class UsernamePasswordToken extends Authentication
   {
     return principal;
   }
+  
+  @Override
+  public String toString()
+  {
+    return String.format("UsernamePasswordToken[%s]", principal.toString()); 
+  }
 }

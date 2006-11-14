@@ -1,21 +1,19 @@
 package org.jboss.seam.security;
 
+import static org.jboss.seam.ScopeType.APPLICATION;
+
 import java.security.Permissions;
-import java.security.acl.Acl;
 import java.security.acl.Permission;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.security.DefinePermissions;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.acl.AclProvider;
 import org.jboss.seam.security.acl.IdentityGenerator;
@@ -48,35 +46,10 @@ public class SeamSecurityManager
    */
   private Map<String,Set<Permission>> rolePermissions = new HashMap<String,Set<Permission>>();
 
-  private class PermissionsMetadata {
-    private String name;
-    private Map<String,String> providerNames = new HashMap<String,String>();
-
-    public PermissionsMetadata(String name)
-    {
-      this.name = name;
-    }
-
-    public String getName()
-    {
-      return name;
-    }
-
-    public String getProviderName(String action)
-    {
-      return providerNames.get(action);
-    }
-
-    public void addProviderName(String action, String providerName)
-    {
-      providerNames.put(action, providerName);
-    }
-  }
-
   /**
    *
    */
-  private Map<Class,PermissionsMetadata> classPermissions = new HashMap<Class,PermissionsMetadata>();
+  private Map<Class,PermissionHandler> permissionHandlers = new HashMap<Class,PermissionHandler>();
 
   public static SeamSecurityManager instance()
   {
@@ -125,113 +98,55 @@ public class SeamSecurityManager
     this.securityErrorAction = securityErrorAction;
   }
 
-  public void checkPermission(String name, String action)
+  public void checkPermission(String permissionName, String action)
   {
-    checkPermission(name, action, null, null);
+    checkRolePermissions(permissionName, action);
   }
 
   public void checkPermission(Object obj, String action)
   {
-    PermissionsMetadata meta = getClassPermissionMetadata(obj.getClass());
+    PermissionHandler handler = getPermissionHandler(obj.getClass());
 
-    String providerName = meta.getProviderName(action);
-    Object provider = null;
-
-    if (providerName != null && !"".equals(providerName))
-      provider = Component.getInstance(providerName, true);
-
-    if (!AclProvider.class.isAssignableFrom(provider.getClass()))
-      throw new IllegalStateException(String.format(
-        "Provider [%s] not instance of AclProvider", provider.toString()));
-
-    checkPermission(meta.getName(), action, obj, (AclProvider) provider);
+    String providerName = handler.getProviderName(action);
+    
+    if (handler.supportsAclCheck(action))
+      handler.aclCheck(obj, action);
+    else
+      checkRolePermissions(handler.getPermissionName(), action);   
   }
-
+  
   /**
-   * Checks the permission specified by name and action for an object.  If an
-   * AclProvider is specified, then only an ACL check will be carried out using
-   * the provider.  Otherwise, the permissions implied by the roles held by the
-   * currently authenticated user will be checked.
-   *
-   * A SecurityException is thrown if the currently authenticated user does not
-   * have the necessary permission for the specified object.
-   *
-   * @param name String The name of the permission
-   * @param action String The action
-   * @param obj Object The object to be checked
-   * @param aclProvider AclProvider ACL Provider for the specified object, or null if no provider
+   * 
+   * @param permissionName
+   * @param action
    */
-  private void checkPermission(String name, String action, Object obj, AclProvider aclProvider)
+  private void checkRolePermissions(String permissionName, String action)
   {
-    Permission required = new SeamPermission(name, action);
-
-    if (aclProvider != null)
+    Permission required = new SeamPermission(permissionName, action);
+    for (String role : Authentication.instance().getRoles())
     {
-      Acl acl = aclProvider.getAcls(obj, Authentication.instance());
-      if (acl != null && acl.checkPermission(Authentication.instance(), required))
+      Set<Permission> permissions = rolePermissions.get(role);
+      if (permissions != null && permissions.contains(required))
         return;
     }
-    else
-    {
-      for (String role : Authentication.instance().getRoles())
-      {
-        Set<Permission> permissions = rolePermissions.get(role);
-        if (permissions != null && permissions.contains(required))
-          return;
-      }
-    }
-
-    throw new SecurityException(String.format(
-      "Authenticated principal does not contain required permission %s",
-      required));
   }
 
-  private PermissionsMetadata getClassPermissionMetadata(Class cls)
+  protected PermissionHandler getPermissionHandler(Class cls)
   {
-    if (!classPermissions.containsKey(cls))
+    if (!permissionHandlers.containsKey(cls))
     {
-      synchronized(classPermissions)
+      synchronized(permissionHandlers)
       {
-        if (!classPermissions.containsKey(cls))
+        if (!permissionHandlers.containsKey(cls))
         {
-          // Determine the permission name.  If it is specified in a @DefinePermissions
-          // annotation, use that one, otherwise use the component name.  If the object
-          // is not a Seam component, use its fully qualified class name.
-
-          String name = null;
-
-          DefinePermissions def = null;
-
-          if (cls.isAnnotationPresent(DefinePermissions.class))
-            def = (DefinePermissions) cls.getAnnotation(DefinePermissions.class);
-
-          if (def != null && !"".equals(def.name()))
-          {
-            name = ((DefinePermissions) cls.getAnnotation(DefinePermissions.class)).name();
-          }
-          else
-            name = Seam.getComponentName(cls);
-
-          if (name == null)
-            name = cls.getName();
-
-          PermissionsMetadata meta = new PermissionsMetadata(name);
-
-          if (def != null)
-          {
-            for (org.jboss.seam.annotations.security.AclProvider p : def.permissions())
-            {
-              meta.addProviderName(p.action(), p.provider());
-            }
-          }
-
-          classPermissions.put(cls, meta);
-          return meta;
+          PermissionHandler handler = new PermissionHandler(cls);
+          permissionHandlers.put(cls, handler);
+          return handler;
         }
       }
     }
 
-    return classPermissions.get(cls);
+    return permissionHandlers.get(cls);
   }
 
   public Permissions getPermissions(Object value)
