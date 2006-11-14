@@ -72,11 +72,16 @@ public class SessionBeanInterceptor extends RootInterceptor
    {
       Component invokingComponent = SessionBeanInterceptor.COMPONENT.get();
       Object bean = invocation.getTarget();
-      if ( invokingComponent!=null )
+      if ( invokingComponent!=null && invokingComponent.getBeanClass().isInstance(bean) )
       {
          //the session bean was obtained by the application by
          //calling Component.getInstance(), could be a role
          //other than the default role
+         //note: minor bug here, since if we got another instance of the same
+         //      bean from JNDI or @EJB while constructing a component,
+         //      or in an interceptor while calling a component,
+         //      this will cause that bean to think it is an instance of the
+         //      component role (rather than the default role)
          if ( log.isTraceEnabled() ) 
          {
             log.trace("post construct phase for instance of component: " + invokingComponent.getName());
@@ -86,7 +91,7 @@ public class SessionBeanInterceptor extends RootInterceptor
       else if ( bean.getClass().isAnnotationPresent(Name.class) )
       {
          //the session bean was obtained by the application from
-         //JNDI (or it was an MDB), so assume the default role
+         //JNDI, or @EJB (or it was an MDB), so assume the default role
          //TODO: look at more than just @Name, consider components.xml
          String defaultComponentName = bean.getClass().getAnnotation(Name.class).value();
          if ( log.isTraceEnabled() ) 
