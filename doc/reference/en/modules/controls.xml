@@ -131,6 +131,11 @@
                    </listitem>
                    <listitem>
                    <para>
+                       <literal>disabled</literal> &mdash; is the link disabled?
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
                        <literal>linkStyle</literal> &mdash; either <literal>link</literal>,
                        the default, or <literal>button</literal>.
                    </para>
