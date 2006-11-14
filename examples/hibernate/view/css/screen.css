@@ -88,7 +88,7 @@ fieldset {
 }
 /* General
 ----------------------------------------------- */
-.button {
+input[type="submit"], input[type="button"] {
 	font-weight: bold;
 	color: #fff;
 	border: 1px solid #5D1414;
@@ -242,6 +242,6 @@ fieldset {
 #pgHome #content {
 	margin-top: 183px;
 }
-#pgHome .button {
+#pgHome input[type="submit"] {
 	height: 30px;
 }
