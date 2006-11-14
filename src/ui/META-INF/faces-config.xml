@@ -113,6 +113,10 @@
             <property-class>java.lang.String</property-class>
         </property>
         <property>
+            <property-name>disabled</property-name>
+            <property-class>boolean</property-class>
+        </property>
+        <property>
             <property-name>buttonClass</property-name>
             <property-class>java.lang.String</property-class>
         </property>

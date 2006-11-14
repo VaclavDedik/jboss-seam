@@ -30,6 +30,7 @@ public class HtmlLink extends HtmlOutputLink
    private String buttonClass;
    private String propagation = "default";
    private String fragment;
+   private boolean disabled;
 
    private UISelection getSelection()
    {
@@ -81,6 +82,7 @@ public class HtmlLink extends HtmlOutputLink
       {
          writer.startElement("input", this);
          writer.writeAttribute("type", "button", null);
+         if (isDisabled(context)) writer.writeAttribute("disabled", true, "disabled");
       }
       else
       {
@@ -195,12 +197,18 @@ public class HtmlLink extends HtmlOutputLink
          {
              onclick += ";";
          }
-         onclick += "location.href='" + encodedUrl + "'";
+         if ( !isDisabled(context) )
+         {
+            onclick += "location.href='" + encodedUrl + "'";
+         }
          writer.writeAttribute("onclick", onclick, null);
       }
       else
       {
-         writer.writeAttribute("href", encodedUrl, null);
+         if ( !isDisabled(context) )
+         {
+            writer.writeAttribute("href", encodedUrl, null);
+         }
          HTML.renderHTMLAttributes(writer, this, HTML.ANCHOR_PASSTHROUGH_ATTRIBUTES);
       }
       
@@ -209,10 +217,10 @@ public class HtmlLink extends HtmlOutputLink
       {
          if ( "button".equals(style) )
          {
-            writer.writeAttribute("value", label, null);
+            writer.writeAttribute("value", label, "label");
             if (buttonClass!=null) 
             {
-               writer.writeAttribute("class", buttonClass, null);
+               writer.writeAttribute("class", buttonClass, "buttonClass");
             }
             writer.flush();
          }
@@ -265,6 +273,13 @@ public class HtmlLink extends HtmlOutputLink
       this.view = viewId;
    }
 
+   private boolean isDisabled(FacesContext facesContext)
+   {
+      ValueBinding disabledValueBinding = getValueBinding("disabled");
+      return disabledValueBinding==null ? 
+            disabled : (Boolean) disabledValueBinding.getValue(facesContext);
+   }
+
    @Override
    public void restoreState(FacesContext context, Object state) {
       Object[] values = (Object[]) state;
@@ -275,11 +290,12 @@ public class HtmlLink extends HtmlOutputLink
       action =  (String) values[4];
       style = (String) values[5];
       buttonClass = (String) values[6];
+      disabled = (Boolean) values[7];
    }
 
    @Override
    public Object saveState(FacesContext context) {
-      Object[] values = new Object[7];
+      Object[] values = new Object[8];
       values[0] = super.saveState(context);
       values[1] = view;
       values[2] = pageflow;
@@ -287,6 +303,7 @@ public class HtmlLink extends HtmlOutputLink
       values[4] = action;
       values[5] = style;
       values[6] = buttonClass;
+      values[7] = disabled;
       return values;
    }
 
@@ -348,6 +365,16 @@ public class HtmlLink extends HtmlOutputLink
    public void setFragment(String fragment)
    {
       this.fragment = fragment;
+   }
+
+   public boolean isDisabled()
+   {
+      return disabled;
+   }
+
+   public void setDisabled(boolean disabled)
+   {
+      this.disabled = disabled;
    }
 
 }

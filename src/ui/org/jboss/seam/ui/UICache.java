@@ -38,8 +38,8 @@ public class UICache extends UIComponentBase
    
    private boolean isEnabled(FacesContext facesContext)
    {
-      ValueBinding ifValueBinding = getValueBinding("enabled");
-      return ifValueBinding==null || (Boolean) ifValueBinding.getValue(facesContext);
+      ValueBinding enabledValueBinding = getValueBinding("enabled");
+      return enabledValueBinding==null || (Boolean) enabledValueBinding.getValue(facesContext);
    }
 
    @Override

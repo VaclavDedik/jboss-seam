@@ -49,6 +49,7 @@ public class LinkTag extends HtmlOutputLinkTagBase
     private String pageflow;
     private String taskInstance;
     private String fragment;
+    private String disabled;
 
     @Override
     protected void setProperties(UIComponent component)
@@ -62,6 +63,7 @@ public class LinkTag extends HtmlOutputLinkTagBase
         setStringProperty(component, "propagation", propagation);
         setStringProperty(component, "pageflow", pageflow);
         setStringProperty(component, "fragment", fragment);
+        setBooleanProperty(component, "disabled", disabled);
     }
 
     public void setAction(String action)
@@ -102,5 +104,10 @@ public class LinkTag extends HtmlOutputLinkTagBase
    public void setFragment(String fragment)
    {
       this.fragment = fragment;
+   }
+
+   public void setDisabled(String disabled)
+   {
+      this.disabled = disabled;
    }
 }
