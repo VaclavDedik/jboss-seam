@@ -4,111 +4,118 @@
    "facelet-taglib_1_0.dtd">
    
 <facelet-taglib>
-	<namespace>http://jboss.com/products/seam/taglib</namespace>
-	
-	<tag>
-		<tag-name>cache</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UICache</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>validateAll</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UIValidateAll</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>decorate</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UIDecorate</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>action</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UIAction</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>selection</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UISelection</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>conversationId</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UIConversationId</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>taskId</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UITaskId</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>conversationPropagation</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.UIConversationPropagation</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>link</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.HtmlLink</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>message</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.HtmlMessageDecoration</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>span</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.HtmlSpan</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>div</tag-name>
-		<component>
-			<component-type>org.jboss.seam.ui.HtmlDiv</component-type>
-		</component>
-	</tag>
-	
-	<tag>
-		<tag-name>validate</tag-name>
-		<validator>
-			<validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
-		</validator>
-	</tag>
-	
-	<tag>
-		<tag-name>convertDateTime</tag-name>
-		<converter>
-			<converter-id>org.jboss.seam.ui.ConvertDateTime</converter-id>
-		</converter>
-	</tag>
-	
-	<tag>
-	  <tag-name>secure</tag-name>
-	  <component>
-	    <component-type>org.jboss.seam.ui.UISecure</component-type>
-	  </component>
-	</tag>
-	
+    <namespace>http://jboss.com/products/seam/taglib</namespace>
+    
+    <tag>
+        <tag-name>cache</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UICache</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>validateAll</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UIValidateAll</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>decorate</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UIDecorate</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>action</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UIAction</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>selection</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UISelection</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>conversationId</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UIConversationId</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>taskId</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UITaskId</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>conversationPropagation</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UIConversationPropagation</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>link</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.HtmlLink</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>button</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.HtmlButton</component-type>
+        </component>
+    </tag>
+  
+    <tag>
+        <tag-name>message</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.HtmlMessageDecoration</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>span</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.HtmlSpan</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>div</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.HtmlDiv</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>validate</tag-name>
+        <validator>
+            <validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
+        </validator>
+    </tag>
+    
+    <tag>
+        <tag-name>convertDateTime</tag-name>
+        <converter>
+            <converter-id>org.jboss.seam.ui.ConvertDateTime</converter-id>
+        </converter>
+    </tag>
+    
+    <tag>
+      <tag-name>secure</tag-name>
+      <component>
+        <component-type>org.jboss.seam.ui.UISecure</component-type>
+      </component>
+    </tag>
+    
 </facelet-taglib>

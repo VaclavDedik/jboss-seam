@@ -43,8 +43,6 @@ public class LinkTag extends HtmlOutputLinkTagBase
 
     private String view;
     private String action;
-    private String buttonClass;
-    private String linkStyle;
     private String propagation;
     private String pageflow;
     private String taskInstance;
@@ -58,8 +56,6 @@ public class LinkTag extends HtmlOutputLinkTagBase
         setStringProperty(component, "view", view);
         setStringProperty(component, "action", action);
         setValueBinding(component, "taskInstance", taskInstance);
-        setStringProperty(component, "buttonClass", buttonClass);
-        setStringProperty(component, "linkStyle", linkStyle);
         setStringProperty(component, "propagation", propagation);
         setStringProperty(component, "pageflow", pageflow);
         setStringProperty(component, "fragment", fragment);
@@ -70,16 +66,6 @@ public class LinkTag extends HtmlOutputLinkTagBase
     {
         this.action = action;
     }
-
-   public void setButtonClass(String buttonClass)
-   {
-      this.buttonClass = buttonClass;
-   }
-
-   public void setLinkStyle(String linkStyle)
-   {
-      this.linkStyle = linkStyle;
-   }
 
    public void setPageflow(String pageflow)
    {

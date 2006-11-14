@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
 
 /**
  * Constant declarations for JSF tags
@@ -177,6 +178,16 @@ public class JSF
          }
          child.encodeEnd(facesContext);
       }
+   }
+
+   static String getStringValue(FacesContext context, ValueBinding vb)
+   {
+       Object value = vb.getValue(context);
+       if (value == null)
+       {
+           return null;
+       }
+       return value.toString();
    }
 
 }

@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIParameter;
-import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
@@ -19,16 +18,15 @@ import javax.faces.model.DataModel;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pages;
 
-public class HtmlLink extends HtmlOutputLink
+public class HtmlButton extends HtmlOutputButton
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlLink";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlButton";
 
    private String view;
    private String action;
    private String pageflow;
    private String propagation = "default";
    private String fragment;
-   private boolean disabled;
 
    private UISelection getSelection()
    {
@@ -76,7 +74,9 @@ public class HtmlLink extends HtmlOutputLink
    public void encodeBegin(FacesContext context) throws IOException
    {
       ResponseWriter writer = context.getResponseWriter();
-      writer.startElement("a", this);
+      writer.startElement("input", this);
+      writer.writeAttribute("type", "button", null);
+      if ( isDisabled() ) writer.writeAttribute("disabled", true, "disabled");
       writer.writeAttribute("id", getClientId(context), null);
 
       String viewId;
@@ -175,25 +175,35 @@ public class HtmlLink extends HtmlOutputLink
          encodedUrl += '#' + fragment;
       }
       
-      if ( !isDisabled(context) )
+      String onclick = getOnclick();
+      if (onclick==null)
       {
-         writer.writeAttribute("href", encodedUrl, null);
+         onclick = "";
       }
-      HTML.renderHTMLAttributes(writer, this, HTML.ANCHOR_PASSTHROUGH_ATTRIBUTES);
+      else if ( onclick.length()>0 && !onclick.endsWith(";") )
+      {
+          onclick += ";";
+      }
+      if ( !isDisabled() )
+      {
+         onclick += "location.href='" + encodedUrl + "'";
+      }
+      writer.writeAttribute("onclick", onclick, null);
+      HTML.renderHTMLAttributes(writer, this, HTML.BUTTON_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED);
       
       Object label = getValue();
-      writer.flush();
       if (label!=null) 
       {
-         writer.writeText( label, null );
+         writer.writeAttribute("value", label, "label");
       }
+      writer.flush();
       
    }
    
    @Override
    public void encodeEnd(FacesContext context) throws IOException
    {
-      context.getResponseWriter().endElement("a");
+      context.getResponseWriter().endElement("input");
    }
 
    @SuppressWarnings("deprecation")
@@ -218,13 +228,6 @@ public class HtmlLink extends HtmlOutputLink
       this.view = viewId;
    }
 
-   private boolean isDisabled(FacesContext facesContext)
-   {
-      ValueBinding disabledValueBinding = getValueBinding("disabled");
-      return disabledValueBinding==null ? 
-            disabled : (Boolean) disabledValueBinding.getValue(facesContext);
-   }
-
    @Override
    public void restoreState(FacesContext context, Object state) {
       Object[] values = (Object[]) state;
@@ -233,7 +236,6 @@ public class HtmlLink extends HtmlOutputLink
       pageflow = (String) values[2];
       propagation = (String) values[3];
       action =  (String) values[4];
-      disabled = (Boolean) values[7];
    }
 
    @Override
@@ -244,7 +246,6 @@ public class HtmlLink extends HtmlOutputLink
       values[2] = pageflow;
       values[3] = propagation;
       values[4] = action;
-      values[7] = disabled;
       return values;
    }
 
@@ -286,16 +287,6 @@ public class HtmlLink extends HtmlOutputLink
    public void setFragment(String fragment)
    {
       this.fragment = fragment;
-   }
-
-   public boolean isDisabled()
-   {
-      return disabled;
-   }
-
-   public void setDisabled(boolean disabled)
-   {
-      this.disabled = disabled;
    }
 
 }

@@ -320,15 +320,14 @@ public abstract class UIComponentTagBase extends UIComponentTag
             throw new IllegalArgumentException("Component "
                   + component.getClientId(context) + " is no UICommand");
          }
-         MethodBinding mb;
          if (isValueReference(action))
          {
-            mb = context.getApplication().createMethodBinding(action, null);
+            MethodBinding mb = context.getApplication().createMethodBinding(action, null);
+            ((UICommand) component).setAction(mb);
          } else
          {
-            mb = new SimpleActionMethodBinding(action);
+            log.error("Invalid expression " + action);
          }
-         ((UICommand) component).setAction(mb);
       }
    }
 
