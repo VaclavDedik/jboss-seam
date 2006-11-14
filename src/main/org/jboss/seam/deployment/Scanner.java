@@ -30,9 +30,9 @@ public class Scanner
    private String resourceName;
    private ClassLoader classLoader;
    
-   public Scanner()
+   public Scanner(String resourceName)
    {
-      this("seam.properties", Thread.currentThread().getContextClassLoader());
+      this( resourceName, Thread.currentThread().getContextClassLoader() );
    }
    
    public Scanner(String resourceName, ClassLoader classLoader)

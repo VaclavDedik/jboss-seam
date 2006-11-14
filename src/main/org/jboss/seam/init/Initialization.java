@@ -8,6 +8,7 @@ package org.jboss.seam.init;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -128,9 +129,39 @@ public class Initialization
    {
       this.servletContext = servletContext;
       initComponentsFromXmlDocument();
+      initComponentsFromXmlDocuments();
       initPropertiesFromServletContext();
       initPropertiesFromResource();
       initJndiProperties();
+   }
+   
+   private void initComponentsFromXmlDocuments()
+   {
+      Enumeration<URL> resources;
+      try
+      {
+         resources = Thread.currentThread().getContextClassLoader().getResources("META-INF/components.xml");
+      }
+      catch (IOException ioe)
+      {
+         throw new RuntimeException("error scanning META-INF/components.xml files", ioe);
+      }
+      
+      Properties replacements = getReplacements();
+      while ( resources.hasMoreElements() )
+      {
+         URL url = resources.nextElement();
+         try
+         {
+            log.info("reading " + url);
+            installComponentsFromXmlElements( getDocument( url.openStream() ), replacements );
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException("error while reading " + url, e);
+         }
+      }
+      
    }
 
    private void initComponentsFromXmlDocument()
@@ -138,22 +169,34 @@ public class Initialization
       InputStream stream = Resources.getResourceAsStream("/WEB-INF/components.xml", servletContext);
       if (stream==null)
       {
-         log.info("no components.xml file found");
+         log.info("no /WEB-INF/components.xml file found");
       }
       else
       {
-         log.info("reading components.xml");
+         log.info("reading /WEB-INF/components.xml");
          try
          {
-            Properties replacements = new Properties();
-            InputStream replaceStream = Resources.getResourceAsStream("components.properties");
-            if (replaceStream!=null) replacements.load( replaceStream );
-            installComponentsFromXmlElements( getDocument(stream), replacements );
+            installComponentsFromXmlElements( getDocument(stream), getReplacements() );
          }
          catch (Exception e)
          {
-            throw new RuntimeException("error while reading components.xml", e);
+            throw new RuntimeException("error while reading /WEB-INF/components.xml", e);
          }
+      }
+   }
+
+   private Properties getReplacements()
+   {
+      try
+      {
+         Properties replacements = new Properties();
+         InputStream replaceStream = Resources.getResourceAsStream("components.properties");
+         if (replaceStream!=null) replacements.load( replaceStream );
+         return replacements;
+      }
+      catch (IOException ioe)
+      {
+         throw new RuntimeException("error reading components.properties", ioe);
       }
    }
 
@@ -194,7 +237,10 @@ public class Initialization
       String value = factory.attributeValue("value");
       if (method==null && value==null)
       {
-         throw new IllegalArgumentException("must specify either method or value in <factory/> declaration for variable: " + name);
+         throw new IllegalArgumentException(
+               "must specify either method or value in <factory/> declaration for variable: " + 
+               name
+            );
       }
       ScopeType scope = scopeName==null ?
             ScopeType.UNSPECIFIED :
@@ -220,7 +266,8 @@ public class Initialization
       return value;
    }
 
-   private void installComponentFromXmlElement(Element component, String className, Properties replacements) throws ClassNotFoundException
+   private void installComponentFromXmlElement(Element component, String className, Properties replacements) 
+         throws ClassNotFoundException
    {
       String name = component.attributeValue("name");
       String scopeName = component.attributeValue("scope");
@@ -340,37 +387,57 @@ public class Initialization
 
    private void installScannedComponents()
    {
+      Set<Package> scannedPackages = new HashSet<Package>();
       if ( isScannerEnabled )
       {
-         for ( Class<Object> scannedClass: new Scanner().getClasses() )
+         for ( Class<Object> scannedClass: new Scanner("seam.properties").getClasses() )
          {
-            installScannedComponentAndRoles(scannedClass);
-            installComponentsFromDescriptor( descriptorFilename(scannedClass), scannedClass.getName() );
+            installScannedClass(scannedPackages, scannedClass);
+         }
+         for ( Class<Object> scannedClass: new Scanner("META-INF/components.xml").getClasses() )
+         {
+            installScannedClass(scannedPackages, scannedClass);
          }
       }
    }
 
-   private static String descriptorFilename(Class<Object> scannedClass)
+   private void installScannedClass(Set<Package> scannedPackages, Class<Object> scannedClass)
+   {
+      installScannedComponentAndRoles(scannedClass);
+      installComponentsFromDescriptor( classDescriptorFilename(scannedClass), scannedClass );
+      Package pkg = scannedClass.getPackage();
+      if ( pkg!=null && scannedPackages.add(pkg) )
+      {
+         installComponentsFromDescriptor( packageDescriptorFilename(pkg), scannedClass );
+      }
+   }
+
+   private static String classDescriptorFilename(Class<Object> scannedClass)
    {
       return scannedClass.getName().replace('.', '/') + ".component.xml";
    }
 
-   private void installComponentsFromDescriptor(String fileName, String className)
+   private static String packageDescriptorFilename(Package pkg)
    {
-      InputStream stream = Resources.getResourceAsStream(fileName);
+      return pkg.getName().replace('.', '/') + "/components.xml";
+   }
+
+   private void installComponentsFromDescriptor(String fileName, Class clazz)
+   {
+      InputStream stream = clazz.getClassLoader().getResourceAsStream(fileName); //note: this is correct, we do not need to scan other classloaders!
       if (stream!=null)
       {
          try
          {
-            Properties replacements = new Properties(); //TODO: use components.properties
+            Properties replacements = getReplacements();
             Document doc = getDocument(stream);
-            if ( doc.getRootElement().getName().equals("component") )
+            if ( doc.getRootElement().getName().equals("components") )
             {
-               installComponentFromXmlElement( doc.getRootElement(), className, replacements );
+               installComponentsFromXmlElements( doc, replacements );
             }
             else
             {
-               installComponentsFromXmlElements(doc, replacements);
+               installComponentFromXmlElement( doc.getRootElement(), clazz.getName(), replacements );
             }
          }
          catch (Exception e)
@@ -403,7 +470,7 @@ public class Initialization
    private void installRole(Class<Object> scannedClass, Role role)
    {
       ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
-      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope, null) );
+      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope, null ) );
    }
 
    private void initPropertiesFromServletContext()
@@ -673,6 +740,12 @@ public class Initialization
       {
          return method==null;
       }
+      
+      @Override
+      public String toString()
+      {
+         return "FactoryDescriptor(" + name + ')';
+      }
    }
 
    private static class ComponentDescriptor
@@ -709,6 +782,12 @@ public class Initialization
       public String getJndiName() 
       {
          return jndiName;
+      }
+
+      @Override
+      public String toString()
+      {
+         return "ComponentDescriptor(" + name + ')';
       }
    }
 

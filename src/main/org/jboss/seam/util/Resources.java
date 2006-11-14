@@ -24,25 +24,9 @@ public class Resources {
       
       if (stream==null)
       {
-         stream = getResourceAsString(resource, stripped);
+         stream = getResourceAsStream(resource, stripped);
       }
       
-      return stream;
-   }
-
-   private static InputStream getResourceAsString(String resource, String stripped)
-   {
-      ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-      InputStream stream = null;
-      if (classLoader!=null) {
-         stream = classLoader.getResourceAsStream( stripped );
-      }
-      if ( stream == null ) {
-         Seam.class.getResourceAsStream( resource );
-      }
-      if ( stream == null ) {
-         stream = Seam.class.getClassLoader().getResourceAsStream( stripped );
-      }
       return stream;
    }
 
@@ -60,9 +44,25 @@ public class Resources {
       
       if (stream==null)
       {
-         stream = getResourceAsString(resource, stripped);
+         stream = getResourceAsStream(resource, stripped);
       }
       
+      return stream;
+   }
+
+   private static InputStream getResourceAsStream(String resource, String stripped)
+   {
+      ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+      InputStream stream = null;
+      if (classLoader!=null) {
+         stream = classLoader.getResourceAsStream(stripped);
+      }
+      if ( stream == null ) {
+         Seam.class.getResourceAsStream(resource);
+      }
+      if ( stream == null ) {
+         stream = Seam.class.getClassLoader().getResourceAsStream(stripped);
+      }
       return stream;
    }
 
