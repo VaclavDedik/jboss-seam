@@ -62,9 +62,9 @@
                 <ui:repeat value="#{accountHome.instance.payments}" var="payment">
                     <tr>
                         <td>
-                            <s:link action="#{paymentHome.cancel}" value="Cancel" linkStyle="button" rendered="#{payment.active}">
+                            <s:button action="#{paymentHome.cancel}" value="Cancel" rendered="#{payment.active}">
                                 <f:param name="paymentId" value="#{payment.id}"/>
-                            </s:link>
+                            </s:button>
                             <h:outputText value="not active" rendered="#{!payment.active}" />
                         </td>                            
                         <td>#{payment.payee}</td>

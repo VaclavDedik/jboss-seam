@@ -41,7 +41,7 @@
                 </h:inputText>
             </h:column>
             <h:column>
-                <s:link action="#{todoList.done}" taskInstance="#{task}" value="Done" linkStyle="button"/>
+                <s:button action="#{todoList.done}" taskInstance="#{task}" value="Done"/>
             </h:column>
          </h:dataTable>
       </div>

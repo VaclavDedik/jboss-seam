@@ -49,10 +49,10 @@
                 </h:column>                        
 
                 <h:column>
-                    <s:link linkStyle="button" action="#{showorders.detailOrder}" value="Show Details" />
+                    <s:button action="#{showorders.detailOrder}" value="Show Details" />
                 </h:column>
                 <h:column>
-                    <s:link linkStyle="button" action="#{showorders.cancelOrder}" value="Cancel" rendered="#{item.open}"/>
+                    <s:button action="#{showorders.cancelOrder}" value="Cancel" rendered="#{item.open}"/>
                 </h:column>
             </h:dataTable>
 

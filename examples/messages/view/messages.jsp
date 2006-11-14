@@ -31,7 +31,7 @@
            </h:outputText>
         </h:column>
         <h:column>
-           <s:link value="Delete" action="#{messageManager.delete}" linkStyle="button"/>
+           <s:button value="Delete" action="#{messageManager.delete}"/>
         </h:column>
      </h:dataTable>
      <h3><h:outputText value="#{message.title}"/></h3>
