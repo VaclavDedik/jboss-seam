@@ -146,9 +146,9 @@
                 </listitem>
                 <listitem>
                     <para>
-                        Any <literal>&lt;s:link&gt;</literal> transparently includes the
-                        request parameter. The value of the parameter is determined by 
-                        evaluating the value binding during the render phase (when the 
+                        Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> 
+                        transparently includes the request parameter. The value of the parameter is 
+                        determined by evaluating the value binding during the render phase (when the 
                         <literal>&lt;s:link&gt;</literal> is rendered).
                     </para>
                 </listitem>

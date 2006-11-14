@@ -1618,7 +1618,7 @@ public class TodoList {
 </h:column>]]></programlisting>
 
         <para>
-            (Note that this is using a Seam <literal>&lt;s:link&gt;</literal> JSF control
+            (Note that this is using a Seam <literal>&lt;s:button&gt;</literal> JSF control
             from the <literal>seam-ui.jar</literal> package.)
         </para>
         
