@@ -1,8 +1,9 @@
 package org.jboss.seam.log;
 
+import java.io.Externalizable;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.core.Interpolator;
@@ -12,11 +13,11 @@ import org.jboss.seam.core.Interpolator;
  * 
  * @author Gavin King
  */
-public class LogImpl implements Log, Serializable
+public class LogImpl implements Log, Externalizable
 {
    
    private transient org.apache.commons.logging.Log log;
-   private final String category;
+   private String category;
 
    public LogImpl(Class clazz)
    {
@@ -166,12 +167,25 @@ public class LogImpl implements Log, Serializable
          return object;
       }
    }
+
+   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
+   {
+      category = (String) in.readObject();
+      log = LogFactory.getLog(category);
+   }
+
+   public void writeExternal(ObjectOutput out) throws IOException
+   {
+      out.writeObject(category);
+   }
    
-   void readObject(ObjectInputStream ois) 
+   /*void readObject(ObjectInputStream ois) 
          throws ClassNotFoundException, IOException
    {
       ois.defaultReadObject();
       log = LogFactory.getLog(category);
-   }
+   }*/
+   
+   
 
 }
