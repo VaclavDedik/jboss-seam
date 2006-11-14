@@ -717,6 +717,24 @@ public class User {
             </itemizedlist>
             
             <para>
+                A <literal>components.xml</literal> file may appear in one of three different
+                places:
+            </para>
+            
+            <itemizedlist>
+                <listitem><para>
+                    The <literal>WEB-INF</literal> directory of a <literal>war</literal>.
+                </para></listitem>
+                <listitem><para>
+                    The <literal>META-INF</literal> directory of a <literal>jar</literal>.
+                </para></listitem>
+                <listitem><para>
+                    Any directory of a <literal>jar</literal> that contains classes with
+                    an <literal>@Name</literal> annotation.
+                </para></listitem>
+            </itemizedlist>
+            
+            <para>
                 Usually, Seam components are installed when the deployment scanner discovers a
                 class with a <literal>@Name</literal> annotation sitting in an archive with a
                 <literal>seam.properties</literal> file. The <literal>components.xml</literal>
@@ -846,7 +864,12 @@ public class User {
                 In the second option, the class name is implied by the file in which the
                 component definition appears.
             </para>
-
+            
+            <para>
+                Alternatively, you may put configuration for all classes in the
+                <literal>com.helloworld</literal> package in 
+                <literal>com/helloworld/components.xml</literal>.
+            </para>
         </sect2>
 
         <sect2>
