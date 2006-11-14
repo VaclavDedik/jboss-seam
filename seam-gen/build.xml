@@ -383,6 +383,12 @@
         </copy>
         
         <mkdir dir="${project.home}/src"/>
+
+        <mkdir dir="${project.home}/nbproject"/>
+        <copy tofile="${project.home}/nbproject/project.xml" 
+                file="${basedir}/nbproject/project.xml">
+            <filterset refid="project"/>
+        </copy>
         
     </target>
 
