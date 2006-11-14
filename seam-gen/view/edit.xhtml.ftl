@@ -72,13 +72,14 @@
             <h:commandButton id="update" value="Save" 
                 action="${'#'}{${homeName}.update}"
                 rendered="${'#'}{${homeName}.managed}"/>    			  
-            <s:link id="delete" value="Delete" 
+            <s:button id="delete" value="Delete" 
                 action="${'#'}{${homeName}.remove}"
                 rendered="${'#'}{${homeName}.managed}"
-                propagation="end" linkStyle="button"
+                propagation="end"
                 view="/${masterPageName}.xhtml"/>
-            <s:link id="done" value="Done" linkStyle="button"
-                propagation="end" view="/${pageName}.xhtml"/>			  
+            <s:button id="done" value="Done"
+                propagation="end" 
+                view="/${pageName}.xhtml"/>			  
         </div>
     </h:form>
     
@@ -148,7 +149,7 @@
           </h:dataTable>
           
 		    <div class="actionButtons">
-		        <s:link id="add${childName}" value="Add ${childName}" linkStyle="button"
+		        <s:button id="add${childName}" value="Add ${childName}"
 		            view="/${childEditPageName}.xhtml" propagation="begin">
 	            	<f:param name="${componentName}Id" 
 	            	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>

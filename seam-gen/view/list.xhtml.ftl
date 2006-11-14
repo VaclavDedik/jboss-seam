@@ -70,7 +70,7 @@
     </div>
     
     <div class="actionButtons">
-        <s:link id="create" value="Create ${componentName}" linkStyle="button"
+        <s:button id="create" value="Create ${componentName}"
             view="/${editPageName}.xhtml" propagation="begin"/>			  
     </div>
     

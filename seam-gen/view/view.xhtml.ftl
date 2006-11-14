@@ -58,24 +58,19 @@
         </table>
         </div>
         <div class="actionButtons">  			  
-            <s:link id="edit" value="Edit" 
+            <s:button id="edit" value="Edit" 
                 view="/${editPageName}.xhtml" 
-                propagation="begin" 
-                linkStyle="button">
+                propagation="begin">
             	<f:param name="${componentName}Id" 
             	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
-            </s:link>		  
-            <s:link id="delete" value="Delete" 
+            </s:button>		  
+            <s:button id="delete" value="Delete" 
                 action="${'#'}{${homeName}.remove}"
                 rendered="${'#'}{${homeName}.managed}"
-                linkStyle="button"
                 view="/${masterPageName}.xhtml">
             	<f:param name="${componentName}Id" 
             	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
-            </s:link>
-            <!--s:link id="back" value="Back" 
-                view="/${masterPageName}.xhtml" 
-                linkStyle="button"/-->			  
+            </s:button>		  
         </div>
     </h:form>
     
@@ -146,11 +141,11 @@
           </h:dataTable>
 
 		    <div class="actionButtons">
-		        <s:link id="add${childName}" value="Add ${childName}" linkStyle="button"
+		        <s:button id="add${childName}" value="Add ${childName}"
 		            view="/${childEditPageName}.xhtml" propagation="begin">
 	            	<f:param name="${componentName}Id" 
 	            	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
-	            </s:link>
+	            </s:button>
 		    </div>
 </#if>
 </#foreach>
