@@ -37,7 +37,7 @@
     <fileset id="example.ejb3.root"
             dir="resources">
         <include name="import.sql"/>
-        <include name="seam.properties"/>
+        <include name="META-INF/components.xml"/>
     	<include name="META-INF/ejb-jar.xml"/>
         <include name="META-INF/persistence.xml"/>
     </fileset>
@@ -46,9 +46,8 @@
     <zipfileset id="example.ear.resources"
             prefix="META-INF"
                dir="resources/META-INF">
-        <include name="*"/>
-        <exclude name="persistence.xml"/>
-    	<exclude name="META-INF/ejb-jar.xml"/>
+        <include name="application.xml"/>
+        <include name="jboss-app.xml"/>
     </zipfileset>
 
     <fileset id="example.ejb3.lib" dir="../../lib">
@@ -74,7 +73,7 @@
   
     <fileset id="example.tomcat.resources"
           dir="resources">
-       <include name="seam.properties"/>
+       <include name="META-INF/components.xml"/>
        <include name="META-INF/persistence.xml"/>
        <include name="META-INF/ejb-jar.xml"/>
        <include name="import.sql"/>

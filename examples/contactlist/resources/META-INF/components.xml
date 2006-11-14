@@ -1,0 +1,43 @@
+<!DOCTYPE components PUBLIC
+  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/components-1.1.dtd">
+
+<components>
+
+    <factory name="contact" value="#{contactHome.instance}"/>
+    <component name="contactHome"
+              class="org.jboss.seam.framework.EntityHome">
+        <property name="entityClass">org.jboss.seam.example.contactlist.Contact</property>
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+    
+    <factory name="comment" value="#{commentHome.instance}"/>
+    <component name="commentHome"
+              class="org.jboss.seam.framework.EntityHome">
+        <property name="entityClass">org.jboss.seam.example.contactlist.Comment</property>
+        <property name="newInstance">#{newComment}</property>
+        <property name="entityManager">#{entityManager}</property>
+    </component>    
+    <component name="newComment" 
+              class="org.jboss.seam.example.contactlist.Comment">
+        <property name="contact">#{contact}</property>
+        <property name="created">#{currentDatetime}</property>
+    </component>
+
+
+    <component name="contacts" 
+              class="org.jboss.seam.framework.EntityQuery">
+        <property name="ejbql">from Contact</property>
+        <property name="restrictions">
+            <value>lower(firstName) like lower( #{exampleContact.firstName} + '%' )</value>
+            <value>lower(lastName) like lower( #{exampleContact.lastName} + '%' )</value>
+        </property>
+        <property name="order">lastName</property>
+        <property name="maxResults">20</property>
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+    <component name="exampleContact"
+              class="org.jboss.seam.example.contactlist.Contact"/>
+
+</components>

@@ -8,6 +8,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
 
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+        <!-- JSF RI -->
+        <!--
+        <el-resolver>org.jboss.seam.jsf.SeamELResolver</el-resolver>
+        -->
     </application>
     
     <!-- Phase listener needed for all Seam applications -->
