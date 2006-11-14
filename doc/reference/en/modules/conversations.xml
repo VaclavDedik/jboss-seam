@@ -354,7 +354,7 @@
     </section>
     
     <section>
-        <title>Using <literal>&lt;s:link&gt;</literal></title>
+        <title>Using <literal>&lt;s:link&gt;</literal> and <literal>&lt;s:button&gt;</literal></title>
         
         <para>
             JSF command links always perform a form submission via JavaScript, 
@@ -420,12 +420,6 @@
         <programlisting><![CDATA[<s:link view="/loggedOut.xhtml"  action=“#{login.logout}” value=“Logout”/>]]></programlisting>
         
         <para>
-            The link may be rendered as a button:
-        </para>
-        
-        <programlisting><![CDATA[<s:link action=“#{login.logout}” value=“Logout” style=“button”/>]]></programlisting>
-        
-        <para>
             The link automatically propagates the selected row of a <literal>DataModel</literal>
             using inside <literal>&lt;h:dataTable&gt;</literal>:
         </para>
@@ -460,6 +454,12 @@
         <para>
             (See the DVD Store demo application for examples of this.)
         </para>
+        
+        <para>
+            Finally, if you need the "link" to be rendered as a button, use <literal>&lt;s:button&gt;</literal>:
+        </para>
+        
+        <programlisting><![CDATA[<s:button action=“#{login.logout}” value=“Logout”/>]]></programlisting>
         
     </section>
     

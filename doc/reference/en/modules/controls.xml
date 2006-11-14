@@ -104,8 +104,8 @@
            <term><literal>&lt;s:link&gt;</literal></term>
            <listitem>
                <para>
-                   A link or button that supports invocation of an action with control
-                   over conversation propagation.
+                   A link that supports invocation of an action with control over conversation 
+                   propagation. Does not submit the form.
                </para>
                <itemizedlist>
                    <listitem>
@@ -136,13 +136,53 @@
                    </listitem>
                    <listitem>
                    <para>
-                       <literal>linkStyle</literal> &mdash; either <literal>link</literal>,
-                       the default, or <literal>button</literal>.
+                       <literal>propagation</literal> &mdash; determines the conversation
+                       propagation style: <literal>begin</literal>, <literal>join</literal>,
+                       <literal>nest</literal>, <literal>none</literal> or <literal>end</literal>.
                    </para>
                    </listitem>
                    <listitem>
                    <para>
-                       <literal>buttonClass</literal> &mdash; the css class for the button.
+                       <literal>pageflow</literal> &mdash; a pageflow definition to begin.
+                       (This is only useful when <literal>propagation="begin"</literal> or 
+                       <literal>propagation="join"</literal>.)
+                   </para>
+                   </listitem>
+               </itemizedlist>
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:button&gt;</literal></term>
+           <listitem>
+               <para>
+                   A button that supports invocation of an action with control
+                   over conversation propagation. Does not submit the form.
+               </para>
+               <itemizedlist>
+                   <listitem>
+                   <para>
+                       <literal>value</literal> &mdash; the label.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>action</literal> &mdash; a method binding that specified
+                       the action listener.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>view</literal> &mdash; the JSF view id to link to.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>fragment</literal> &mdash; the fragment identifier to link to.
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>disabled</literal> &mdash; is the link disabled?
                    </para>
                    </listitem>
                    <listitem>

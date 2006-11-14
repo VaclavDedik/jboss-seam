@@ -1530,7 +1530,7 @@ public class TodoList {
                 </h:inputText>
             </h:column>
             <h:column>
-                <s:link value="Done" action="#{todoList.done}" taskInstance="#{task}" linkStyle="button"/>
+                <s:button value="Done" action="#{todoList.done}" taskInstance="#{task}"/>
             </h:column>
          </h:dataTable>
       </div>
@@ -1614,7 +1614,7 @@ public class TodoList {
         </para>
 
         <programlisting><![CDATA[<h:column>
-    <s:link value="Done" action="#{todoList.done}" taskInstance="#{task}" linkStyle="button"/>
+    <s:button value="Done" action="#{todoList.done}" taskInstance="#{task}"/>
 </h:column>]]></programlisting>
 
         <para>
