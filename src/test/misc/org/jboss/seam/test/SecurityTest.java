@@ -17,6 +17,7 @@ import org.jboss.seam.mock.MockAclPermission;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockSecureEntity;
 import org.jboss.seam.mock.MockServletContext;
+import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.security.UsernamePasswordToken;
 import org.jboss.seam.security.acl.JPAIdentityGenerator;
 import org.jboss.seam.security.acl.PersistentAclProvider;
@@ -72,6 +73,7 @@ public class SecurityTest
   public void testPersistentAcls()
   {
     Ejb3Configuration ac = new Ejb3Configuration();
+    System.setProperty("java.naming.factory.initial", "org.jnp.interfaces.LocalOnlyContextFactory");
 
     ac.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
     ac.setProperty("hibernate.connection.url", "jdbc:hsqldb:mem:aname");
@@ -108,12 +110,11 @@ public class SecurityTest
     perm.setIdentity(ident);
     perm.setRecipient("testUser");
     perm.setRecipientType(RecipientType.user);
-    perm.setMask(0x01 & 0x02);  // read/delete permission only
+    perm.setMask(0x01 | 0x02);  // read/delete permission only
     em.persist(perm);
     em.flush();
     em.getTransaction().commit();
 
-    // Create an Authentication object in session scope
     MockServletContext ctx = new MockServletContext();
     MockExternalContext eCtx = new MockExternalContext(ctx);
 
@@ -121,6 +122,7 @@ public class SecurityTest
 
     Lifecycle.beginRequest(eCtx);
 
+    // Create an Authentication object in session scope
     Contexts.getSessionContext().set("org.jboss.seam.security.authentication",
                                      new UsernamePasswordToken("testUser", "",
                                      new String[] {}));
@@ -129,10 +131,23 @@ public class SecurityTest
                                               "persistentAclProvider");
     PersistentAclProvider aclProvider = (PersistentAclProvider) aclProviderComp.newInstance();
     aclProvider.setPersistenceContextManager(factory);
+    aclProvider.setAclQuery("select p.mask, p.recipient, p.recipientType from MockAclPermission p " +
+        "where p.identity.objectIdentity = :identity");
 
-    /** @todo Under construction */
+    MockSecureEntity e2 = em.find(MockSecureEntity.class, 123);
 
-    //    SeamSecurityManager.instance().set
+    // This check should pass
+
+    // --> will reinstate once PersistentAclProvider.convertToPermissions() works
+    //SeamSecurityManager.instance().checkPermission(e2, "read");
+
+    // This check should fail
+    //try
+    //{
+      //SeamSecurityManager.instance().checkPermission(e2, "special");
+      //assert(false);
+    //}
+    //catch (SecurityException ex) { }
 
     Lifecycle.endRequest();
   }
