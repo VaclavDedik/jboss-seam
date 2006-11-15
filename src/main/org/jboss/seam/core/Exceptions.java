@@ -260,7 +260,7 @@ public class Exceptions
 
       protected boolean isRollback(Exception e)
       {
-         return e.getClass().getAnnotation(HttpError.class).rollback();
+         return e.getClass().getAnnotation(Redirect.class).rollback();
       }
       
       @Override
@@ -304,7 +304,7 @@ public class Exceptions
 
       protected boolean isRollback(Exception e)
       {
-         return e.getClass().getAnnotation(HttpError.class).rollback();
+         return e.getClass().getAnnotation(Render.class).rollback();
       }
       
       @Override
