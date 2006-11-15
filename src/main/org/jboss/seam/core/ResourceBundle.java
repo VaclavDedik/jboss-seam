@@ -60,7 +60,14 @@ public class ResourceBundle implements Serializable {
       return bundleNames==null || bundleNames.length==0 ? null : bundleNames[0];
    }
    
-   private java.util.ResourceBundle loadBundle(String bundleName) 
+   /**
+    * Load a resource bundle by name (may be overridden by subclasses
+    * who want to use non-standard resource bundle types).
+    * 
+    * @param bundleName the name of the resource bundle
+    * @return an instance of java.util.ResourceBundle
+    */
+   protected java.util.ResourceBundle loadBundle(String bundleName) 
    {
       try
       {
