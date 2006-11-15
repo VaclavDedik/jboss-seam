@@ -117,6 +117,8 @@ td {
 	background-color: #F0F0F0;
 }
 
+.message:empty { display: none; }
+
 .prop {
 	padding: 5px;
 }
