@@ -55,6 +55,40 @@ public class FacesMessages implements Serializable
       clear();
    }
    
+   /**
+    * Get all faces messages that have already been added
+    * to the context.
+    * 
+    * @return a list of messages
+    */
+   public List<FacesMessage> getCurrentMessages()
+   {
+      List<FacesMessage> result = new ArrayList<FacesMessage>();
+      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages();
+      while ( iter.hasNext() )
+      {
+         result.add( iter.next() );
+      }
+      return result;
+   }
+   
+   /**
+    * Get all faces global messages that have already been added
+    * to the context.
+    * 
+    * @return a list of global messages
+    */
+   public List<FacesMessage> getCurrentGlobalMessages()
+   {
+      List<FacesMessage> result = new ArrayList<FacesMessage>();
+      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(null);
+      while ( iter.hasNext() )
+      {
+         result.add( iter.next() );
+      }
+      return result;
+   }
+   
    private void runTasks()
    {
       if (tasks!=null)
