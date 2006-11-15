@@ -22,13 +22,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.Name;
 
-public class Scanner
+public abstract class Scanner
 {
+    private static final Log log = LogFactory.getLog(Scanner.class);
 
-   private static final Log log = LogFactory.getLog(Scanner.class);
-
-   private String resourceName;
-   private ClassLoader classLoader;
+    protected  String resourceName;
+    protected  ClassLoader classLoader;
    
    public Scanner(String resourceName)
    {
@@ -47,12 +46,8 @@ public class Scanner
             .replace('/', '.').replace('\\', '.');
    }
    
-   /**
-    * Returns only Seam components (ie: classes annotated with @Name)
-    */
-   public Set<Class<Object>> getClasses()
-   {
-      Set<Class<Object>> result = new HashSet<Class<Object>>();
+
+    protected void scan() {
       Enumeration<URL> urls;
       try
       {
@@ -60,7 +55,7 @@ public class Scanner
       }
       catch (IOException ioe) {
          log.warn("could not read: " + resourceName, ioe);
-         return result;
+         return;
       }
       
       while (urls.hasMoreElements())
@@ -87,21 +82,21 @@ public class Scanner
             File file = new File(urlPath);
             if ( file.isDirectory() )
             {
-               handleDirectory(result, file, null);
+               handleDirectory(file, null);
             }
             else
             {
-               handleArchive(result, file);
+               handleArchive(file);
             }
          }
          catch (IOException ioe) {
             log.warn("could not read entries", ioe);
          }
       }
-      return result;
    }
 
-   private void handleArchive(Set<Class<Object>> result, File file) throws ZipException, IOException
+
+   private void handleArchive(File file) throws ZipException, IOException
    {
       log.debug("archive: " + file);
       ZipFile zip = new ZipFile(file);
@@ -111,11 +106,11 @@ public class Scanner
          ZipEntry entry = entries.nextElement();
          String name = entry.getName();
          log.debug("found: " + name);
-         handleItem(result, name);
+         handleItem(name);
       }
    }
 
-   private void handleDirectory(Set<Class<Object>> result, File file, String path)
+   private void handleDirectory(File file, String path)
    {
       log.debug("directory: " + file);
       for ( File child: file.listFiles() )
@@ -124,51 +119,18 @@ public class Scanner
                   child.getName() : path + '/' + child.getName();
          if ( child.isDirectory() )
          {
-            handleDirectory( result, child, newPath );
+            handleDirectory(child, newPath);
          }
          else
          {
-            handleItem( result, newPath );
+            handleItem(newPath);
          }
       }
    }
 
-   private void handleItem(Set<Class<Object>> result, String name)
-   {
-      if ( 
-            name.endsWith(".class") && 
-            !name.startsWith("org/jboss/seam/core") 
-            && !name.startsWith("org/jboss/seam/persistence")
-            && !name.startsWith("org/jboss/seam/debug")
-            && !name.startsWith("org/jboss/seam/theme")
-         )
-      {
-         String classname = filenameToClassname(name);
-         String filename = Scanner.componentFilename(name);
-         try
-         {
-            ClassFile classFile = getClassFile(name);
-            if (  hasAnnotation(classFile, Name.class) || classLoader.getResources(filename).hasMoreElements() )
-            {
-               result.add( (Class<Object>) classLoader.loadClass(classname) );
-            }
-         }
-         catch (ClassNotFoundException cnfe)
-         {
-            log.debug( "could not load class: " + classname, cnfe );
-         }
-         catch (NoClassDefFoundError ncdfe)
-         {
-            log.debug( "could not load class (missing dependency): " + classname, ncdfe );
-         }
-         catch (IOException ioe)
-         {
-            log.debug( "could not load classfile: " + classname, ioe );
-         }
-      }
-   }
+   abstract void handleItem(String name);
 
-   private ClassFile getClassFile(String name) throws IOException 
+   protected ClassFile getClassFile(String name) throws IOException 
    {
       InputStream stream = classLoader.getResourceAsStream(name);
       DataInputStream dstream = new DataInputStream(stream); 
@@ -184,7 +146,7 @@ public class Scanner
       }
    }
    
-   private boolean hasAnnotation(ClassFile cf, Class<? extends Annotation> annotationType)
+   protected boolean hasAnnotation(ClassFile cf, Class<? extends Annotation> annotationType)
    { 
       AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute( AnnotationsAttribute.visibleTag ); 
       if ( visible != null ) 

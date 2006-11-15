@@ -30,6 +30,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Namespace;
 import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Roles;
 import org.jboss.seam.contexts.Context;
@@ -83,7 +84,8 @@ import org.jboss.seam.core.UiComponent;
 import org.jboss.seam.core.UserPrincipal;
 import org.jboss.seam.core.Validation;
 import org.jboss.seam.debug.Introspector;
-import org.jboss.seam.deployment.Scanner;
+import org.jboss.seam.deployment.ComponentScanner;
+import org.jboss.seam.deployment.NamespaceScanner;
 import org.jboss.seam.framework.CurrentDate;
 import org.jboss.seam.framework.CurrentDatetime;
 import org.jboss.seam.framework.CurrentTime;
@@ -125,9 +127,14 @@ public class Initialization
    private Set<Class> installedComponents = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
 
+
+   private Map<String,NamespaceInfo> namespaceMap = new HashMap<String, NamespaceInfo>();
+
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
+
+      addNamespaces();
       initComponentsFromXmlDocument();
       initComponentsFromXmlDocuments();
       initPropertiesFromServletContext();
@@ -205,7 +212,9 @@ public class Initialization
       List<Element> importElements = doc.getRootElement().elements("import-java-package");
       for (Element importElement: importElements)
       {
-         importedPackages.add( importElement.getTextTrim() );
+          String pkgName = importElement.getTextTrim();
+          importedPackages.add(pkgName);
+          addNamespace(Package.getPackage(pkgName));
       }
 
       List<Element> componentElements = doc.getRootElement().elements("component");
@@ -214,7 +223,10 @@ public class Initialization
          String installed = component.attributeValue("installed");
          if (installed==null || "true".equals( replace(installed, replacements) ) )
          {
-            installComponentFromXmlElement(component, component.attributeValue("class"), replacements);
+            installComponentFromXmlElement(component, 
+                                           component.attributeValue("name"), 
+                                           component.attributeValue("class"), 
+                                           replacements);
          }
       }
 
@@ -222,6 +234,39 @@ public class Initialization
       for (Element factory: factoryElements)
       {
          installFactoryFromXmlElement(factory);
+      }
+
+      // assume anything with a namespace is a component
+      // ok for now - might need to change later
+      for (Element elem: (List<Element>) doc.getRootElement().elements()) {
+          String ns = elem.getNamespace().getURI();
+          NamespaceInfo nsInfo = namespaceMap.get(ns);
+          if (nsInfo != null) {
+              String installed = elem.attributeValue("installed");
+              if (installed==null || "true".equals(replace(installed, replacements))) {
+                  String className = nsInfo.getPackage().getName() + "." + elem.getName();
+                  try {
+                      Class clazz = Reflections.classForName(className);
+                  } catch (ClassNotFoundException e) {
+                      // if it isn't a classname, set 
+                      className = null; 
+                  }
+
+                  String name = elem.attributeValue("name");
+                  if (name == null) {
+                      name = elem.getName();
+                      String prefix = nsInfo.getNamespace().prefix();
+                      if ((prefix!=null) && (prefix.length()>0)) {
+                          name = prefix + "." + name;
+                      }
+                  }
+                  
+                  installComponentFromXmlElement(elem, 
+                                                 name,
+                                                 className, 
+                                                 replacements);
+              }
+          }
       }
    }
 
@@ -266,10 +311,12 @@ public class Initialization
       return value;
    }
 
-   private void installComponentFromXmlElement(Element component, String className, Properties replacements) 
-         throws ClassNotFoundException
+   private void installComponentFromXmlElement(Element component, 
+                                               String name, 
+                                               String className, 
+                                               Properties replacements) 
+       throws ClassNotFoundException
    {
-      String name = component.attributeValue("name");
       String scopeName = component.attributeValue("scope");
       String jndiName = component.attributeValue("jndi-name");
       ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName.toUpperCase());
@@ -390,11 +437,11 @@ public class Initialization
       Set<Package> scannedPackages = new HashSet<Package>();
       if ( isScannerEnabled )
       {
-         for ( Class<Object> scannedClass: new Scanner("seam.properties").getClasses() )
+         for ( Class<Object> scannedClass: new ComponentScanner("seam.properties").getClasses() )
          {
             installScannedClass(scannedPackages, scannedClass);
          }
-         for ( Class<Object> scannedClass: new Scanner("META-INF/components.xml").getClasses() )
+         for ( Class<Object> scannedClass: new ComponentScanner("META-INF/components.xml").getClasses() )
          {
             installScannedClass(scannedPackages, scannedClass);
          }
@@ -437,7 +484,10 @@ public class Initialization
             }
             else
             {
-               installComponentFromXmlElement( doc.getRootElement(), clazz.getName(), replacements );
+               installComponentFromXmlElement(doc.getRootElement(), 
+                                              doc.getRootElement().attributeValue("name"),
+                                              clazz.getName(), 
+                                              replacements );
             }
          }
          catch (Exception e)
@@ -472,6 +522,31 @@ public class Initialization
       ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
       componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope, null ) );
    }
+
+    private void addNamespace(Package pkg) {
+        if (pkg != null) {
+            Namespace ns = (Namespace) pkg.getAnnotation(Namespace.class);
+            if (ns != null) {
+                log.info("Mapping namespace " + ns.value() + "  to package " + 
+                         pkg.getName() + " with prefix=" + ns.prefix());
+                namespaceMap.put(ns.value(), new NamespaceInfo(ns, pkg));
+            }
+        }
+    }
+
+    private void addNamespaces() {
+        addNamespace(Package.getPackage("org.jboss.seam.core"));
+        
+        if (isScannerEnabled) {
+            for (Package pkg: new NamespaceScanner("seam.properties").getPackages()) { 
+                addNamespace(pkg);
+            }
+            for (Package pkg: new NamespaceScanner("META-INF/components.xml").getPackages()) {
+                addNamespace(pkg);
+            }
+        }
+    }
+
 
    private void initPropertiesFromServletContext()
    {
@@ -747,6 +822,23 @@ public class Initialization
          return "FactoryDescriptor(" + name + ')';
       }
    }
+
+    private static class NamespaceInfo {
+        private Namespace namespace;
+        private Package pkg;
+
+        public NamespaceInfo(Namespace namespace, Package pkg) {
+            this.namespace = namespace;
+            this.pkg = pkg;
+        }
+        public Namespace getNamespace() {
+            return namespace;
+        }
+        public Package getPackage() {
+            return pkg;
+        }
+
+    }
 
    private static class ComponentDescriptor
    {
