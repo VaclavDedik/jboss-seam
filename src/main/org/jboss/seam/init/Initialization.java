@@ -536,6 +536,9 @@ public class Initialization
 
     private void addNamespaces() {
         addNamespace(Package.getPackage("org.jboss.seam.core"));
+        // need to solve the problem of forcing a package to load
+        Class c = org.jboss.seam.framework.Home.class;
+        addNamespace(Package.getPackage("org.jboss.seam.framework"));
         
         if (isScannerEnabled) {
             for (Package pkg: new NamespaceScanner("seam.properties").getPackages()) { 
