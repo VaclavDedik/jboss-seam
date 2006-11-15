@@ -240,6 +240,14 @@ public class Jbpm
    
    public static Jbpm instance()
    {
+      if ( !Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("No application context active");
+      }
+      if ( !Init.instance().isJbpmInstalled() )
+      {
+         throw new IllegalStateException("jBPM support is not installed (use components.xml to install it)");
+      }
       return (Jbpm) Contexts.getApplicationContext().get(Jbpm.class);
    }
 
