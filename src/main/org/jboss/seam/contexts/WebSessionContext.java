@@ -74,7 +74,7 @@ public class WebSessionContext implements Context
       String prefix = ScopeType.CONVERSATION.getPrefix();
       while ( names.hasMoreElements() ) {
          String name = (String) names.nextElement();
-         if ( !name.startsWith(prefix) )
+         if ( !name.contains(prefix) )
          {
             results.add(name);
             //results.add( name.substring(prefix.length()) );
