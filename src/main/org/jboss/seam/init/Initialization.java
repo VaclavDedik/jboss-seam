@@ -244,23 +244,31 @@ public class Initialization
           if (nsInfo != null) {
               String installed = elem.attributeValue("installed");
               if (installed==null || "true".equals(replace(installed, replacements))) {
+                  String name = elem.attributeValue("name");
+
                   String className = nsInfo.getPackage().getName() + "." + elem.getName();
                   try {
-                      Class clazz = Reflections.classForName(className);
+                      Class<Object> clazz = Reflections.classForName(className);
+                      if (name == null) {
+                          Name  anno = clazz.getAnnotation(Name.class);
+                          if (anno != null) {
+                              name = anno.value();
+                          }
+                      }
                   } catch (ClassNotFoundException e) {
                       // if it isn't a classname, set 
                       className = null; 
                   }
-
-                  String name = elem.attributeValue("name");
+                  
                   if (name == null) {
-                      name = elem.getName();
                       String prefix = nsInfo.getNamespace().prefix();
-                      if ((prefix!=null) && (prefix.length()>0)) {
-                          name = prefix + "." + name;
+                      if ((prefix==null) || (prefix.length()==0)) {
+                          name = elem.getName();
+                      } else { 
+                          name = prefix + "." + elem.getName();
                       }
                   }
-                  
+
                   installComponentFromXmlElement(elem, 
                                                  name,
                                                  className, 
