@@ -116,10 +116,9 @@ public class Call
 
     Class type = null;
 
-    if (component.getBusinessInterfaces().size() > 0)
+    if (component.getType().isSessionBean() &&
+        component.getBusinessInterfaces().size() > 0)
     {
-      // Get the local interface for the component - this is the type that we're
-      // going to assume we're invoking against.
       for (Class c : component.getBusinessInterfaces())
       {
         if (c.isAnnotationPresent(EJB.LOCAL))
@@ -128,6 +127,10 @@ public class Call
           break;
         }
       }
+
+      if (type == null)
+        throw new RuntimeException(String.format(
+        "Type cannot be determined for component [%s]. Please ensure that it has a local interface.", component));
     }
 
     if (type == null)
