@@ -106,8 +106,6 @@ public class SeamSecurityManager
   public void checkPermission(Object obj, String action)
   {
     PermissionHandler handler = getPermissionHandler(obj.getClass());
-
-    String providerName = handler.getProviderName(action);
     
     if (handler.supportsAclCheck(action))
       handler.aclCheck(obj, action);

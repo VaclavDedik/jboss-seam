@@ -1,5 +1,8 @@
 package org.jboss.seam.security.acl;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.ScopeType.APPLICATION;
+
 import java.security.Principal;
 import java.security.acl.Permission;
 import java.util.ArrayList;
@@ -7,24 +10,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.DefinePermissions;
-import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.security.Authentication;
 import org.jboss.seam.security.SeamPermission;
 import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.util.Naming;
-import org.jboss.seam.util.Transactions;
 
 /**
  * Persistent Acl provider.

@@ -17,6 +17,7 @@ import static org.jboss.seam.ScopeType.PAGE;
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.ScopeType.UNSPECIFIED;
+import static org.jboss.seam.util.EJB.INTERCEPTORS;
 import static org.jboss.seam.util.EJB.LOCAL;
 import static org.jboss.seam.util.EJB.POST_ACTIVATE;
 import static org.jboss.seam.util.EJB.POST_CONSTRUCT;
@@ -24,7 +25,6 @@ import static org.jboss.seam.util.EJB.PRE_DESTROY;
 import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
 import static org.jboss.seam.util.EJB.REMOTE;
 import static org.jboss.seam.util.EJB.REMOVE;
-import static org.jboss.seam.util.EJB.INTERCEPTORS;
 import static org.jboss.seam.util.EJB.value;
 
 import java.io.Serializable;
@@ -69,12 +69,12 @@ import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.security.Secure;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.security.Secure;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
@@ -226,7 +226,8 @@ public class Component
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
 
-      synchronize = scope==SESSION || beanClass.isAnnotationPresent(Synchronized.class);
+      synchronize = ( scope==SESSION /*&& ! beanClass.isAnnotationPresent(ReadOnly.class)*/ ) || 
+            beanClass.isAnnotationPresent(Synchronized.class);
       if (synchronize)
       {
          if (scope==STATELESS)

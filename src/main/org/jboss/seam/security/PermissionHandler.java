@@ -5,7 +5,6 @@ import java.security.acl.Acl;
 import java.security.acl.Permission;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
