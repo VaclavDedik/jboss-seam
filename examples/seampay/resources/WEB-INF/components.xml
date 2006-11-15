@@ -1,57 +1,43 @@
-<!DOCTYPE components PUBLIC
-  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
-  "http://jboss.com/products/seam/components-1.1.dtd">
+<components xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pay:paymentHome>
+        <pay:newInstance>#{newPayment}</pay:newInstance>
+        <pay:createdMessage>Created a new payment to #{newPayment.payee}</pay:createdMessage>
+    </pay:paymentHome>
 
-<components>
-    <component name="paymentHome"
-               class="org.jboss.seam.example.seampay.PaymentController">
-        <property name="newInstance">#{newPayment}</property>
-        <property name="createdMessage">Created a new payment to #{newPayment.payee}</property>
-        <property name="deletedMessage">!p-Deleted</property>
-        <property name="updatedMessage">!p-updated</property>
-    </component>
-
-    <component name="newPayment"
-              class="org.jboss.seam.example.seampay.Payment">
-        <property name="payee">somebody</property>
-        <property name="account">#{selectedAccount}</property> 
-        <property name="paymentDate">#{currentDatetime}</property>
-        <property name="createdDate">#{currentDatetime}</property>
-    </component>
+    <pay:Payment name="newPayment">
+        <pay:payee>Somebody</pay:payee>
+        <pay:account>#{selectedAccount}</pay:account>
+        <pay:paymentDate>#{currentDatetime}</pay:paymentDate>
+        <pay:createdDate>#{currentDatetime}</pay:createdDate>
+    </pay:Payment>
 
     <factory name="selectedAccount" value="#{accountHome.instance}"/>
-    <component name="accountHome"
-              class="org.jboss.seam.framework.EntityHome">
-        <property name="entityClass">org.jboss.seam.example.seampay.Account</property>
-        <property name="entityManager">#{entityManager}</property>
-    </component>
+    <framework:EntityHome name="accountHome">
+        <framework:entityClass>org.jboss.seam.example.seampay.Account</framework:entityClass>
+        <framework:entityManager>#{entityManager}</framework:entityManager>
+    </framework:EntityHome>
 
-    <component name="accounts" 
-              class="org.jboss.seam.framework.EntityQuery">
-        <property name="ejbql">from Account</property>
-     <property name="restrictions" />
-<!--
-            <value>lower(firstName) like lower( #{exampleAccount.firstName} + '%' )</value>
-            <value>lower(lastName) like lower( #{exampleAccount.lastName} + '%' )</value>
-        </property>
--->
-        <property name="order">accountNumber</property>
-        <property name="maxResults">20</property>
-        <property name="entityManager">#{entityManager}</property>
-    </component>
+    <framework:EntityQuery name="accounts">
+        <framework:ejbql>from Account</framework:ejbql>
+        <framework:restrictions />
+        <framework:order>accountNumber</framework:order>
+        <framework:maxResults>20</framework:maxResults>
+        <framework:entityManager>#{entityManager}</framework:entityManager>
+    </framework:EntityQuery>
         
-    <component name="entityManager" 
-               class="org.jboss.seam.core.ManagedPersistenceContext">
-        <property name="persistenceUnitJndiName">java:/seampayEntityManagerFactory</property>
-    </component>
+    <core:ManagedPersistenceContext name="entityManager" >
+        <core:persistenceUnitJndiName>java:/seampayEntityManagerFactory</core:persistenceUnitJndiName>
+    </core:ManagedPersistenceContext>
         
-    <component class="org.jboss.seam.core.Dispatcher"/>
+    <core:Dispatcher />
 
-    <component name="org.jboss.seam.core.init">
-        <property name="debug">true</property>
-        <property name="jndiPattern">@jndiPattern@</property>
-    </component>
-    
-    <component class="org.jboss.seam.core.Ejb" 
-               installed="@embeddedEjb@"/>
+     <core:init>
+        <core:debug>true</core:debug>
+        <core:jndiPattern>@jndiPattern@</core:jndiPattern>
+    </core:init>
+
+    <core:Ejb installed="@embeddedEjb@" /> 
 </components>
