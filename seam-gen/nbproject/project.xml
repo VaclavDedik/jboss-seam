@@ -18,7 +18,7 @@
                     <target>clean</target>
                 </action>
                 <action name="build">
-                    <target>ear</target>
+                    <target>archive</target>
                 </action>
                 <action name="deploy">
                     <target>explode</target>
