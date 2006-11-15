@@ -8,6 +8,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
+import org.jboss.seam.annotations.ReadOnly;
 import org.jboss.seam.core.Mutable;
 
 /**
@@ -56,19 +57,30 @@ public class JavaBeanInterceptor extends RootInterceptor
          }
          else if ( "clearDirty".equals(methodName) && !(bean instanceof Mutable) )
          {
+            //clear and return the dirty flag
             boolean result = dirty;
             dirty = false;
             return result;
          }
       }
 
-      //mark it dirty each time it gets called 
-      //TODO: we could support an @ReadOnly annotation
-      dirty = true; 
+      if ( markDirty(method) )
+      {
+         //mark it dirty each time it gets called 
+         //this flag will be ignored if the bean 
+         //implements Mutable
+         dirty = true;
+      }
          
       Object result = interceptInvocation(method, params, methodProxy);
       return result==bean ? proxy : result;
 
+   }
+
+   private boolean markDirty(Method method)
+   {
+      return !getComponent().getBeanClass().isAnnotationPresent(ReadOnly.class) && 
+            !method.isAnnotationPresent(ReadOnly.class);
    }
    
    public void postConstruct()
