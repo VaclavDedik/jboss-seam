@@ -35,6 +35,7 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
 
    private static final Log log = LogFactory.getLog( SeamPortletPhaseListener.class );
 
+   @Override
    public void beforePhase(PhaseEvent event)
    {
       log.trace( "before phase: " + event.getPhaseId() );
@@ -60,12 +61,17 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       {
          beforeUpdateModelValues(event);
       }
+      
+      super.beforePhase(event);
 
    }
 
+   @Override
    public void afterPhase(PhaseEvent event)
    {
       log.trace( "after phase: " + event.getPhaseId() );
+      
+      super.afterPhase(event);
       
       FacesContext facesContext = event.getFacesContext();
       

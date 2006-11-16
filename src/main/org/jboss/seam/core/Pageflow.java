@@ -3,6 +3,7 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
@@ -21,8 +22,11 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.pageflow.Page;
 import org.jboss.seam.pageflow.PageflowHelper;
+import org.jbpm.graph.def.Action;
+import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
@@ -220,6 +224,25 @@ public class Pageflow extends AbstractMutable implements Serializable
       if ( processInstance.hasEnded() )
       {
          Events.instance().raiseEvent("org.jboss.seam.endPageflow." + processInstance.getProcessDefinition().getName());
+      }
+   }
+
+   public void processEvents(String type)
+   {
+      Event event = getNode().getEvent(type);
+      if (event!=null)
+      {
+         for ( Action action: (List<Action>) event.getActions() )
+         {
+            try
+            {
+               action.execute( ExecutionContext.currentExecutionContext() );
+            }
+            catch (Exception e)
+            {
+               throw new RuntimeException(e);
+            }
+         }
       }
    }
    

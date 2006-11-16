@@ -21,6 +21,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationList;
 import org.jboss.seam.core.ConversationStack;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.FacesPage;
 import org.jboss.seam.core.Init;
@@ -91,6 +92,49 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
                Contexts.getEventContext().set( var, dataModel.getRowData() );
             }
          }
+      }
+   }
+   
+   public void beforePhase(PhaseEvent event)
+   {
+      if ( Contexts.isApplicationContextActive() )
+      {
+         Events.instance().raiseEvent("org.jboss.seam.beforePhase", event);
+      }
+      
+      if ( Contexts.isConversationContextActive() && Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
+      {
+         String name;
+         PhaseId phaseId = event.getPhaseId();
+         if ( phaseId == PhaseId.PROCESS_VALIDATIONS )
+         {
+            name = "process-validations";
+         }
+         else if ( phaseId == PhaseId.UPDATE_MODEL_VALUES )
+         {
+            name = "update-model-values";
+         }
+         else if ( phaseId == PhaseId.INVOKE_APPLICATION )
+         {
+            name = "invoke-application";
+         }
+         else if ( phaseId == PhaseId.RENDER_RESPONSE )
+         {
+            name = "render-response";
+         }
+         else
+         {
+            return;
+         }
+         Pageflow.instance().processEvents(name);
+      }
+   }
+
+   public void afterPhase(PhaseEvent event)
+   {
+      if ( Contexts.isApplicationContextActive() )
+      {
+         Events.instance().raiseEvent("org.jboss.seam.afterPhase", event);
       }
    }
 
