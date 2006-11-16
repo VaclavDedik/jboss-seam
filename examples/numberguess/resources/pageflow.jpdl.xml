@@ -14,7 +14,7 @@
    <start-page name="displayGuess" view-id="/numberGuess.jspx">
       <redirect/>
       <transition name="guess" to="evaluateGuess">
-         <action expression="#{numberGuess.guess}" />
+         <action expression="#{numberGuess.guess}"/>
       </transition>
    </start-page>
    
@@ -30,12 +30,12 @@
    
    <page name="win" view-id="/win.jspx">
       <redirect/>
-      <end-conversation />
+      <end-conversation/>
    </page>
    
    <page name="lose" view-id="/lose.jspx">
       <redirect/>
-      <end-conversation />
+      <end-conversation/>
    </page>
    
 </pageflow-definition>

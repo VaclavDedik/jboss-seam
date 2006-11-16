@@ -9,15 +9,16 @@
               doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
   <jsp:directive.page contentType="text/html"/>
   <head>
-    <title>You won!</title>
+    <title>Do you really want to cheat?</title>
   </head>
   <body>
-    <h1>You won!</h1>
+    <h1>Do you really want to cheat?</h1>
     <f:view>
-      Yes, the answer was <h:outputText value="#{numberGuess.currentGuess}" />.
-      It took you <h:outputText value="#{numberGuess.guessCount}" /> guesses.
-      <h:outputText value="But you cheated, so it doesn't count!" rendered="#{numberGuess.cheat}"/>
-      Would you like to <a href="numberGuess.seam">play again</a>?
+    <h:form>
+      I'll be really disappointed if you do this...
+      <h:commandButton value="Yes" action="yes"/>
+      <h:commandButton value="No" action="no"/>
+    </h:form>
     </f:view>
   </body>
 </jsp:root>

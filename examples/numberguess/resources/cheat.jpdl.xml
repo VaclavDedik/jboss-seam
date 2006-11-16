@@ -11,7 +11,7 @@
 
 <pageflow-definition name="cheat">
    
-   <start-state>
+   <start-state name="start">
       <transition to="confirm"/>
    </start-state>
    

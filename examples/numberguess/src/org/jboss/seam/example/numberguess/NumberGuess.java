@@ -18,6 +18,7 @@ public class NumberGuess {
    private int smallest;
    private int guessCount;
    private int maxGuesses;
+   private boolean cheated;
    
    @Create 
    @Begin(pageflow="numberGuess")
@@ -92,4 +93,17 @@ public class NumberGuess {
    public int getRandomNumber() {
       return randomNumber;
    }
+   
+   @Begin(nested=true, pageflow="cheat")
+   public void beginCheat() {}
+   
+   public void cheated()
+   {
+      cheated = true;
+   }
+   
+   public boolean isCheat() {
+      return cheated;
+   }
+   
 }

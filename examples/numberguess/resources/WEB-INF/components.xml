@@ -13,7 +13,10 @@
     </component>
     
     <component class="org.jboss.seam.core.Jbpm">
-        <property name="pageflowDefinitions">pageflow.jpdl.xml</property>
+        <property name="pageflowDefinitions">
+            <value>pageflow.jpdl.xml</value>
+            <value>cheat.jpdl.xml</value>
+        </property>
     </component>
 
     <component class="org.jboss.seam.core.Microcontainer" 

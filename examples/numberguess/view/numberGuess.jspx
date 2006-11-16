@@ -30,7 +30,8 @@
           <f:validateLongRange maximum="#{numberGuess.biggest}" 
                                minimum="#{numberGuess.smallest}"/>
         </h:inputText>
-		<h:commandButton type="submit" value="Guess" action="guess"/>
+		<h:commandButton value="Guess" action="guess"/>
+        <h:commandButton value="Cheat" action="#{numberGuess.beginCheat}" immediate="true"/>
 		<br/>
         <h:message for="guess" style="color: red"/>
 	  </h:form>

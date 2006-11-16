@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<pageflow-diagram name="cheat" width="770" height="755">
-  <node x="0" y="0" width="140" height="40">
+<pageflow-diagram name="cheat" width="769" height="754">
+  <node name="start" x="61" y="34" width="140" height="40">
     <transition>
       <label x="5" y="-10"/>
     </transition>
   </node>
-  <node name="confirm" x="0" y="0" width="140" height="40">
+  <node name="confirm" x="60" y="144" width="140" height="40">
     <transition name="yes">
-      <label x="5" y="-10"/>
+      <label x="26" y="-13"/>
     </transition>
     <transition name="no">
       <label x="5" y="-10"/>
     </transition>
   </node>
-  <node name="cheat" x="201" y="143" width="140" height="40">
+  <node name="cheat" x="208" y="260" width="140" height="40">
     <transition>
       <label x="5" y="-10"/>
     </transition>
   </node>
-  <node name="end" x="40" y="263" width="140" height="40"/>
+  <node name="end" x="60" y="371" width="140" height="40"/>
 </pageflow-diagram>
