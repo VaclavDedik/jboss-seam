@@ -188,7 +188,7 @@ public class PersistentAclProvider extends AbstractAclProvider
           String recipient = (String) values[1];
           RecipientType recipientType = (RecipientType) values[2];
           
-          DefinePermissions def = (DefinePermissions) target.getClass().getAnnotation(DefinePermissions.class);
+          DefinePermissions def = target.getClass().getAnnotation(DefinePermissions.class);
           for (org.jboss.seam.annotations.security.AclProvider provider : def.permissions())
           {
             if ((provider.mask() & mask) > 0)

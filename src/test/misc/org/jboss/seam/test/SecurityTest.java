@@ -17,7 +17,6 @@ import org.jboss.seam.mock.MockAclPermission;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockSecureEntity;
 import org.jboss.seam.mock.MockServletContext;
-import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.security.UsernamePasswordToken;
 import org.jboss.seam.security.acl.JPAIdentityGenerator;
 import org.jboss.seam.security.acl.PersistentAclProvider;

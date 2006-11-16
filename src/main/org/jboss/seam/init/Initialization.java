@@ -533,7 +533,7 @@ public class Initialization
 
     private void addNamespace(Package pkg) {
         if (pkg != null) {
-            Namespace ns = (Namespace) pkg.getAnnotation(Namespace.class);
+            Namespace ns = pkg.getAnnotation(Namespace.class);
             if (ns != null) {
                 log.info("Mapping namespace " + ns.value() + "  to package " + 
                          pkg.getName() + " with prefix=" + ns.prefix());
