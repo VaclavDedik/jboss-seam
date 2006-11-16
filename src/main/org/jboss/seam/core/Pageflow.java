@@ -15,6 +15,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.PerNestedConversation;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -32,6 +33,7 @@ import org.jbpm.graph.exe.Token;
  * @author Gavin King
  */
 @Scope(ScopeType.CONVERSATION)
+@PerNestedConversation
 @Name("pageflow")
 @Intercept(NEVER)
 public class Pageflow extends AbstractMutable implements Serializable

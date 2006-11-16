@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.PerNestedConversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
 
@@ -92,10 +93,13 @@ public class ServerConversationContext implements Context {
       }
       else
       {
-         for ( String id: stack )
+         for ( int i=0; i<stack.size(); i++ )
          {
+            String id = stack.get(i);
             result = session.getAttribute( getKey(name, id) );
-            if (result!=null) return result;
+            boolean found = result!=null && 
+                  ( i==0 || !result.getClass().isAnnotationPresent(PerNestedConversation.class) );
+            if (found) return result;
          }
          return null;
       }
@@ -167,7 +171,9 @@ public class ServerConversationContext implements Context {
    /**
     * Propagate additions and removals to the HttpSession if 
     * the current conversation is long-running, or remove all 
-    * attributes if it is a temporary conversation.
+    * attributes if it is a temporary conversation. This work
+    * may only be done at the end of the request, since we
+    * don't know for sure the conversation id until then.
     */
    public void flush()
    {      
