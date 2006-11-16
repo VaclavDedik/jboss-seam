@@ -15,6 +15,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
@@ -34,10 +35,19 @@ public class MockHttpServletRequest implements HttpServletRequest
    private Map<String, Object> attributes = new HashMap<String, Object>();
    private HttpSession session;
    private Map<String, String[]> headers = new HashMap<String, String[]>();
+   private String principalName;
+   private Set<String> principalRoles;
    
    public MockHttpServletRequest(HttpSession session)
    {
       this.session = session;
+   }
+
+   public MockHttpServletRequest(HttpSession session, String principalName, Set<String> principalRoles)
+   {
+      this.session = session;
+      this.principalName = principalName;
+      this.principalRoles = principalRoles;
    }
 
    public Map<String, String[]> getParameters()
@@ -124,15 +134,19 @@ public class MockHttpServletRequest implements HttpServletRequest
       return null;
    }
 
-   public boolean isUserInRole(String arg0)
+   public boolean isUserInRole(String role)
    {
-      return true;
+      return principalRoles.contains(role);
    }
 
    public Principal getUserPrincipal()
    {
-      //TODO
-      return null;
+      return new Principal() {
+         public String getName()
+         {
+            return principalName;
+         }
+      };
    }
 
    public String getRequestedSessionId()

@@ -7,8 +7,11 @@
 package org.jboss.seam.mock;
 
 import java.lang.reflect.Field;
+import java.util.AbstractSet;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -18,6 +21,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
@@ -153,6 +157,42 @@ public class SeamTest
       private boolean invokeApplicationBegun;
       private boolean invokeApplicationComplete;
       private Application application;
+      
+      /**
+       * Override to define the name of the current principal
+       * 
+       * @return "gavin" by default
+       */
+      public String getPrincipalName() 
+      {
+         return "gavin";
+      }
+      
+      /**
+       * Override to define the roles assigned to the current principal
+       * 
+       * @return a Set of all roles by default
+       */
+      public Set<String> getPrincipalRoles()
+      {
+         return new AbstractSet<String>() {
+            @Override
+            public boolean contains(Object o)
+            {
+               return true;
+            }
+            @Override
+            public Iterator<String> iterator()
+            {
+               throw new UnsupportedOperationException();
+            }
+            @Override
+            public int size()
+            {
+               throw new UnsupportedOperationException();
+            }
+         };
+      }
       
       /**
        * A script for a JSF interaction with
@@ -356,7 +396,8 @@ public class SeamTest
        */
       public String run() throws Exception
       {   
-         externalContext = new MockExternalContext(servletContext, session);
+         HttpServletRequest request = new MockHttpServletRequest( session, getPrincipalName(), getPrincipalRoles() );
+         externalContext = new MockExternalContext(servletContext, request);
          application = new SeamApplication11(SeamTest.this.application);
          facesContext = new MockFacesContext( externalContext, application );
          facesContext.setCurrent();
