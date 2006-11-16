@@ -23,7 +23,7 @@ import org.jboss.seam.annotations.Unwrap;
  */
 @Scope(ScopeType.EVENT)
 @Intercept(NEVER)
-@Name("org.jboss.seam.core.topicSession")
+@Name("org.jboss.seam.jms.topicSession")
 public class TopicSession
 {
    
