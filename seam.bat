@@ -19,7 +19,8 @@ if [%1] == [] (goto usage)
 if %SEAMTASK% == help (goto help) else (goto tasks)
 
 :tasks
-ant %ARGS% -buildfile=%SEAMGENDIR%\build.xml 
+java -cp %JAVA_HOME%\lib\tools.jar;.\lib\ant.jar;.\lib\ant-nodeps.jar;.\lib\ant-launcher.jar -Dant.home=%DIRNAME%\lib org.apache.tools.ant.launch.Launcher -buildfile %SEAMGENDIR%\build.xml %ARGS%  
+goto END_NO_PAUSE
 
 :usage
 more %SEAMGENDIR%\USAGE
