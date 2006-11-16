@@ -8,7 +8,7 @@
         <property name="debug">true</property>
     </component>
     
-    <component name="themeSelector">
+    <component name="org.jboss.seam.theme.themeSelector">
         <property name="availableThemes">
             <value>default</value>
             <value>accessible</value>
