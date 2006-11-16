@@ -168,7 +168,7 @@ public class Pages
       {
          entry.setBeginConversation(true);
          entry.setJoin( "true".equals( beginConversation.attributeValue("join") ) );
-         entry.setNested( "nested".equals( beginConversation.attributeValue("nested") ) );
+         entry.setNested( "true".equals( beginConversation.attributeValue("nested") ) );
          entry.setPageflow( beginConversation.attributeValue("pageflow") );
          String flushMode = beginConversation.attributeValue("flush-mode");
          if (flushMode!=null)
