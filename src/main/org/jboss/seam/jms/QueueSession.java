@@ -38,7 +38,7 @@ public class QueueSession
    }
    
    @Destroy
-   public void destory() throws JMSException
+   public void destroy() throws JMSException
    {
       queueSession.close();
    }

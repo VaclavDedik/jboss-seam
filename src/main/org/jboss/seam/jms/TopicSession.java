@@ -38,7 +38,7 @@ public class TopicSession
    }
    
    @Destroy
-   public void destory() throws JMSException
+   public void destroy() throws JMSException
    {
       topicSession.close();
    }
