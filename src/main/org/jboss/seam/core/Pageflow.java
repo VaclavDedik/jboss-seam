@@ -38,7 +38,7 @@ import org.jbpm.graph.exe.Token;
  */
 @Scope(ScopeType.CONVERSATION)
 @PerNestedConversation
-@Name("pageflow")
+@Name("org.jboss.seam.core.pageflow")
 @Intercept(NEVER)
 public class Pageflow extends AbstractMutable implements Serializable
 {

@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Unwrap;
  * @version $Revision$
  */
 @Scope(ScopeType.PAGE)
-@Name("conversationList")
+@Name("org.jboss.seam.core.conversationList")
 @Intercept(NEVER)
 public class ConversationList implements Serializable {
    

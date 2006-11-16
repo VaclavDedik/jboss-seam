@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.Unwrap;
  * @author Gavin King
  */
 @Scope(ScopeType.STATELESS)
-@Name("timeZone")
+@Name("org.jboss.seam.core.timeZone")
 @Intercept(NEVER)
 public class TimeZone {
 

@@ -29,7 +29,7 @@ import org.jboss.seam.contexts.Contexts;
  * @author Gavin King
  */
 @Scope(ScopeType.CONVERSATION)
-@Name("facesMessages")
+@Name("org.jboss.seam.core.facesMessages")
 @Intercept(NEVER)
 public class FacesMessages implements Serializable
 {

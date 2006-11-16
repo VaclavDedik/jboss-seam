@@ -8,7 +8,6 @@ import javax.naming.NamingException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
@@ -71,7 +70,7 @@ public class QueueConnection
    
    public static javax.jms.QueueConnection instance()
    {
-      return (javax.jms.QueueConnection) Component.getInstance( Seam.getComponentName(QueueConnection.class), true );
+      return (javax.jms.QueueConnection) Component.getInstance(QueueConnection.class, true );
    }
 
    @Override

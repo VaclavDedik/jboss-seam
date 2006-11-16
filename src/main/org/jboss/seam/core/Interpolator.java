@@ -21,7 +21,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Intercept(NEVER)
 @Scope(STATELESS)
-@Name("interpolator")
+@Name("org.jboss.seam.core.interpolator")
 public class Interpolator {
 
    private static final Log log = LogFactory.getLog(Interpolator.class);

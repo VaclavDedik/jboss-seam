@@ -20,7 +20,7 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author Gavin King
  */
-@Name("redirect")
+@Name("org.jboss.seam.core.redirect")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.CONVERSATION)
 public class Redirect extends AbstractMutable implements Serializable

@@ -23,7 +23,7 @@ import org.jboss.seam.contexts.Contexts;
  *
  */
 @Scope(ScopeType.CONVERSATION)
-@Name("conversation")
+@Name("org.jboss.seam.core.conversation")
 @Intercept(NEVER)
 public class Conversation implements Serializable {
    

@@ -26,7 +26,7 @@ import org.jboss.seam.contexts.Lifecycle;
  * @version $Revision$
  */
 @Scope(ScopeType.PAGE)
-@Name("switcher")
+@Name("org.jboss.seam.core.switcher")
 @Intercept(NEVER)
 public class Switcher implements Serializable {
    

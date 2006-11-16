@@ -8,7 +8,6 @@ import javax.naming.NamingException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
@@ -71,7 +70,7 @@ public class TopicConnection
    
    public static javax.jms.TopicConnection instance()
    {
-      return (javax.jms.TopicConnection) Component.getInstance( Seam.getComponentName(TopicConnection.class), true );
+      return (javax.jms.TopicConnection) Component.getInstance(TopicConnection.class, true );
    }
 
    @Override

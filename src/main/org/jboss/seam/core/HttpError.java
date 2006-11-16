@@ -22,7 +22,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Name("httpError")
+@Name("org.jboss.seam.core.httpError")
 public class HttpError
 {
    /**

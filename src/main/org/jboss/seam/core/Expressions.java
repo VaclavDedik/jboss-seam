@@ -23,7 +23,7 @@ import org.jboss.seam.util.UnifiedELValueBinding;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Name("expressions")
+@Name("org.jboss.seam.core.expressions")
 @Startup
 public class Expressions
 {

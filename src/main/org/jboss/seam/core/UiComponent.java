@@ -16,7 +16,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.util.NotImplementedException;
 
-@Name("uiComponent")
+@Name("org.jboss.seam.core.uiComponent")
 @Intercept(NEVER)
 @Scope(STATELESS)
 public class UiComponent

@@ -8,7 +8,6 @@ import javax.naming.NamingException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Intercept;
@@ -24,7 +23,7 @@ import org.jboss.seam.annotations.Unwrap;
  */
 @Scope(ScopeType.EVENT)
 @Intercept(NEVER)
-@Name("queueSession")
+@Name("org.jboss.seam.jms.queueSession")
 public class QueueSession
 {
    
@@ -51,7 +50,7 @@ public class QueueSession
    
    public static javax.jms.QueueSession instance()
    {
-      return (javax.jms.QueueSession) Component.getInstance( Seam.getComponentName(QueueSession.class), true );
+      return (javax.jms.QueueSession) Component.getInstance(QueueSession.class, true );
    }
    
 }

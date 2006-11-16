@@ -19,7 +19,7 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author Gavin King
  */
-@Name("actor")
+@Name("org.jboss.seam.core.actor")
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
 public class Actor extends AbstractMutable implements Serializable

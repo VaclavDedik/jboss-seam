@@ -20,7 +20,7 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("conversationContext")
+@Name("org.jboss.seam.core.conversationContext")
 public class ConversationContext
 {
    @Unwrap

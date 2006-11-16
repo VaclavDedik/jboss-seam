@@ -20,7 +20,7 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("eventContext")
+@Name("org.jboss.seam.core.eventContext")
 public class EventContext
 {
    @Unwrap

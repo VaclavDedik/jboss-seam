@@ -12,7 +12,6 @@ import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -26,7 +25,7 @@ import org.jboss.seam.core.Interpolator;
  */
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
-@Name("theme")
+@Name("org.jboss.seam.theme.theme")
 public class Theme implements Serializable {
    
    private transient Map messages;
@@ -105,6 +104,6 @@ public class Theme implements Serializable {
    
    public static java.util.Map instance()
    {
-      return (java.util.Map) Component.getInstance( Seam.getComponentName(Theme.class), true );
+      return (java.util.Map) Component.getInstance(Theme.class, true );
    }
 }

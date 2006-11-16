@@ -17,8 +17,8 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @see TaskInstanceList
  * @author Gavin King
  */
-@Name( "pooledTaskInstanceList" )
-@Scope( ScopeType.APPLICATION )
+@Name("org.jboss.seam.core.pooledTaskInstanceList")
+@Scope(ScopeType.APPLICATION)
 public class PooledTaskInstanceList
 {
    

@@ -37,7 +37,7 @@ import org.jbpm.svc.Services;
  * @version $Revision$
  */
 @Scope(ScopeType.EVENT)
-@Name("jbpmContext")
+@Name("org.jboss.seam.core.jbpmContext")
 @Intercept(NEVER)
 public class ManagedJbpmContext implements Synchronization
 {

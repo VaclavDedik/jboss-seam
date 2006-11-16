@@ -15,7 +15,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -30,7 +29,7 @@ import org.jboss.seam.util.Strings;
  */
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
-@Name("resourceBundle")
+@Name("org.jboss.seam.core.resourceBundle")
 public class ResourceBundle implements Serializable {
    
    private static final Log log = LogFactory.getLog(ResourceBundle.class);
@@ -200,6 +199,6 @@ public class ResourceBundle implements Serializable {
 
    public static java.util.ResourceBundle instance()
    {
-      return (java.util.ResourceBundle) Component.getInstance( Seam.getComponentName(ResourceBundle.class), true );
+      return (java.util.ResourceBundle) Component.getInstance(ResourceBundle.class, true);
    }
 }

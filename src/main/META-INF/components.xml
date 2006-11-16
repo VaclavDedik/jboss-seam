@@ -1,0 +1,49 @@
+<!DOCTYPE components PUBLIC
+  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/components-1.1.dtd">
+
+<components>
+  <factory scope="stateless" name="actor" value="#{org$jboss$seam$core$actor}"/>
+  <factory scope="stateless" name="applicationContext" value="#{org$jboss$seam$core$applicationContext}"/>
+  <factory scope="stateless" name="businessProcess" value="#{org$jboss$seam$core$businessProcess}"/>
+  <factory scope="stateless" name="businessProcessContext" value="#{org$jboss$seam$core$businessProcessContext}"/>
+  <factory scope="stateless" name="conversation" value="#{org$jboss$seam$core$conversation}"/>
+  <factory scope="stateless" name="conversationContext" value="#{org$jboss$seam$core$conversationContext}"/>
+  <factory scope="stateless" name="conversationList" value="#{org$jboss$seam$core$conversationList}"/>
+  <factory scope="stateless" name="conversationStack" value="#{org$jboss$seam$core$conversationStack}"/>
+  <factory scope="stateless" name="eventContext" value="#{org$jboss$seam$core$eventContext}"/>
+  <factory scope="stateless" name="events" value="#{org$jboss$seam$core$events}"/>
+  <factory scope="stateless" name="expressions" value="#{org$jboss$seam$core$expressions}"/>
+  <factory scope="stateless" name="facesContext" value="#{org$jboss$seam$core$facesContext}"/>
+  <factory scope="stateless" name="facesMessages" value="#{org$jboss$seam$core$facesMessages}"/>
+  <factory scope="stateless" name="httpError" value="#{org$jboss$seam$core$httpError}"/>
+  <factory scope="stateless" name="interpolator" value="#{org$jboss$seam$core$interpolator}"/>
+  <factory scope="stateless" name="locale" value="#{org$jboss$seam$core$locale}"/>
+  <factory scope="stateless" name="localeSelector" value="#{org$jboss$seam$core$localeSelector}"/>
+  <factory scope="stateless" name="messages" value="#{org$jboss$seam$core$messages}"/>
+  <factory scope="stateless" name="jbpmContext" value="#{org$jboss$seam$core$jbpmContext}"/>
+  <factory scope="stateless" name="pageContext" value="#{org$jboss$seam$core$pageContext}"/>
+  <factory scope="stateless" name="pageflow" value="#{org$jboss$seam$core$pageflow}"/>
+  <factory scope="stateless" name="pojoCache" value="#{org$jboss$seam$core$pojoCache}"/>
+  <factory scope="stateless" name="pooledTask" value="#{org$jboss$seam$core$pooledTask}"/>
+  <factory scope="stateless" name="pooledTaskInstanceList" value="#{org$jboss$seam$core$pooledTaskInstanceList}"/>
+  <factory scope="stateless" name="processInstance" value="#{org$jboss$seam$core$processInstance}"/>
+  <factory scope="stateless" name="redirect" value="#{org$jboss$seam$core$redirect}"/>
+  <factory scope="stateless" name="resourceBundle" value="#{org$jboss$seam$core$resourceBundle}"/>
+  <factory scope="stateless" name="sessionContext" value="#{org$jboss$seam$core$sessionContext}"/>
+  <factory scope="stateless" name="switcher" value="#{org$jboss$seam$core$switcher}"/>
+  <factory scope="stateless" name="taskInstance" value="#{org$jboss$seam$core$taskInstance}"/>
+  <factory scope="stateless" name="taskInstanceList" value="#{org$jboss$seam$core$taskInstanceList}"/>
+  <factory scope="stateless" name="taskInstanceListForType" value="#{org$jboss$seam$core$taskInstanceListForType}"/>
+  <factory scope="stateless" name="timeZone" value="#{org$jboss$seam$core$timeZone}"/>
+  <factory scope="stateless" name="timeZoneSelector" value="#{org$jboss$seam$core$timeZoneSelector}"/>
+  <factory scope="stateless" name="transition" value="#{org$jboss$seam$core$transition}"/>
+  <factory scope="stateless" name="uiComponent" value="#{org$jboss$seam$core$uiComponent}"/>
+  <factory scope="stateless" name="userPrincipal" value="#{org$jboss$seam$core$userPrincipal}"/>
+
+  <factory scope="stateless" name="theme" value="#{org$jboss$seam$theme$theme}"/>
+  <factory scope="stateless" name="themeSelector" value="#{org$jboss$seam$theme$themeSelector}"/>
+
+  <factory scope="stateless" name="queueSession" value="#{org$jboss$seam$jms$queueSession}"/>
+  <factory scope="stateless" name="topicSession" value="#{org$jboss$seam$jms$topicSession}"/>
+</components>

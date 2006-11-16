@@ -33,7 +33,7 @@ import org.jboss.seam.core.Locale;
  * @author Gavin King
  */
 @Scope(ScopeType.SESSION)
-@Name("themeSelector")
+@Name("org.jboss.seam.theme.themeSelector")
 @Intercept(NEVER)
 public class ThemeSelector extends AbstractMutable implements Serializable
 {
@@ -133,7 +133,7 @@ public class ThemeSelector extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active session context");
       }
-      return (ThemeSelector) Component.getInstance( Seam.getComponentName(ThemeSelector.class), ScopeType.SESSION, true );
+      return (ThemeSelector) Component.getInstance(ThemeSelector.class, ScopeType.SESSION, true );
    }
 
    public String[] getAvailableThemes()

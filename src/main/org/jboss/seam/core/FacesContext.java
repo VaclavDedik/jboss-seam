@@ -18,7 +18,7 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("facesContext")
+@Name("org.jboss.seam.core.facesContext")
 public class FacesContext
 {
    @Unwrap

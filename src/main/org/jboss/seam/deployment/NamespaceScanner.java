@@ -1,21 +1,13 @@
 package org.jboss.seam.deployment;
 
-import org.jboss.seam.annotations.Namespace;
-
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javassist.bytecode.ClassFile;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.annotations.Namespace;
 
 public class NamespaceScanner
     extends Scanner 
 {
-    private static final Log log = LogFactory.getLog(NamespaceScanner.class);
-
     private Set<Package> packages;
     
     public NamespaceScanner(String resourceName)
@@ -46,6 +38,7 @@ public class NamespaceScanner
             .replace('/', '.').replace('\\', '.');
     }
     
+    @Override
     protected void handleItem(String name)
     {
         if (name.endsWith("/package-info.class")) {

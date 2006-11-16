@@ -27,7 +27,7 @@ import org.jboss.seam.contexts.Lifecycle;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("userPrincipal")
+@Name("org.jboss.seam.core.userPrincipal")
 public class UserPrincipal
 {
    @Unwrap

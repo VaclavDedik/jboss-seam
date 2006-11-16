@@ -30,7 +30,7 @@ import org.jboss.seam.util.Resources;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Name("events")
+@Name("org.jboss.seam.core.events")
 public class Events 
 {
    

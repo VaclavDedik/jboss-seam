@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
@@ -24,7 +23,7 @@ import org.jboss.seam.contexts.Contexts;
  * @author Gavin King
  */
 @Scope(ScopeType.SESSION)
-@Name("timeZoneSelector")
+@Name("org.jboss.seam.core.timeZoneSelector")
 @Intercept(NEVER)
 public class TimeZoneSelector extends AbstractMutable implements Serializable
 {
@@ -90,7 +89,7 @@ public class TimeZoneSelector extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active session context");
       }
-      return (TimeZoneSelector) Component.getInstance( Seam.getComponentName(TimeZoneSelector.class), ScopeType.SESSION, true );
+      return (TimeZoneSelector) Component.getInstance(TimeZoneSelector.class, ScopeType.SESSION, true );
    }
 
    public boolean isCookieEnabled()

@@ -33,7 +33,7 @@ import org.jboss.seam.util.Strings;
  * @author Gavin King
  */
 @Scope(ScopeType.SESSION)
-@Name("localeSelector")
+@Name("org.jboss.seam.core.localeSelector")
 @Intercept(NEVER)
 public class LocaleSelector extends AbstractMutable implements Serializable
 {
@@ -162,7 +162,7 @@ public class LocaleSelector extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active session context");
       }
-      return (LocaleSelector) Component.getInstance( Seam.getComponentName(LocaleSelector.class), ScopeType.SESSION, true );
+      return (LocaleSelector) Component.getInstance(LocaleSelector.class, ScopeType.SESSION, true);
    }
 
    public String getCountry() {

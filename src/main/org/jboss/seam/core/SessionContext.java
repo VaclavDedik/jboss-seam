@@ -20,7 +20,7 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("sessionContext")
+@Name("org.jboss.seam.core.sessionContext")
 public class SessionContext
 {
    @Unwrap

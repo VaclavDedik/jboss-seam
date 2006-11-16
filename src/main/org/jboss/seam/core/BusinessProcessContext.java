@@ -20,7 +20,7 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("businessProcessContext")
+@Name("org.jboss.seam.core.businessProcessContext")
 public class BusinessProcessContext
 {
    @Unwrap

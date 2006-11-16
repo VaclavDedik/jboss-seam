@@ -764,7 +764,7 @@ public class Initialization
          log.info(
                "could not install component: " + 
                clazz.getAnnotation(Name.class).value() +
-               "due to missing class: " +
+               " due to missing class: " +
                ncdfe.getMessage()
             );
       }

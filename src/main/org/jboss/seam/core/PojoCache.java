@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
 
-@Name("pojoCache")
+@Name("org.jboss.seam.core.pojoCache")
 @Scope(ScopeType.APPLICATION)
 @Intercept(InterceptionType.NEVER)
 public class PojoCache 

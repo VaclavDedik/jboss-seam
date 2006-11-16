@@ -28,7 +28,7 @@ import org.jboss.seam.contexts.Lifecycle;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("isUserInRole")
+@Name("org.jboss.seam.core.isUserInRole")
 public class IsUserInRole
 {
    @Unwrap

@@ -1647,7 +1647,11 @@ public class Component
       Object value = Contexts.lookupInStatefulContexts(name); //see if a value was outjected by the factory method
       if (value==null) //usually a factory method returning a value
       {
-         getOutScope(scope, component).getContext().set(name, result);
+         ScopeType outScope = getOutScope(scope, component);
+         if ( outScope!=STATELESS )
+         {
+            outScope.getContext().set(name, result);
+         }
          return result;
       }
       else //usually a factory method with a void return type

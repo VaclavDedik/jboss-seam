@@ -40,6 +40,7 @@ public class ComponentScanner
         return classes;
     }
 
+    @Override
     protected void handleItem(String name)
     {
         if (name.endsWith(".class") && 

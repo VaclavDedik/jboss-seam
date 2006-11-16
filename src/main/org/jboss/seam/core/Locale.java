@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.Unwrap;
  * @author Gavin King
  */
 @Scope(ScopeType.STATELESS)
-@Name("locale")
+@Name("org.jboss.seam.core.locale")
 @Intercept(NEVER)
 public class Locale {
 

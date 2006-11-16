@@ -22,7 +22,7 @@ import org.jboss.seam.annotations.Unwrap;
  * @version $Revision$
  */
 @Scope(ScopeType.PAGE)
-@Name("conversationStack")
+@Name("org.jboss.seam.core.conversationStack")
 @Intercept(NEVER)
 public class ConversationStack implements Serializable {
    

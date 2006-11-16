@@ -25,7 +25,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  *
  */
 @Scope(ScopeType.CONVERSATION)
-@Name("businessProcess")
+@Name("org.jboss.seam.core.businessProcess")
 @Intercept(NEVER)
 public class BusinessProcess extends AbstractMutable implements Serializable {
    

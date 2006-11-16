@@ -17,7 +17,7 @@ import org.jboss.seam.contexts.Contexts;
  * 
  * @author Gavin King
  */
-@Name("transition")
+@Name("org.jboss.seam.core.transition")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
 public class Transition extends AbstractMutable implements Serializable {

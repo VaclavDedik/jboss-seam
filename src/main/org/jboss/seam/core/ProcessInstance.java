@@ -25,7 +25,7 @@ import org.jboss.seam.util.Work;
  * @version $Revision$
  */
 @Scope(ScopeType.APPLICATION)
-@Name("processInstance")
+@Name("org.jboss.seam.core.processInstance")
 @Intercept(InterceptionType.NEVER)
 @Startup
 public class ProcessInstance 

@@ -19,8 +19,8 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
  * @author Gavin King
  */
-@Name( "taskInstanceList" )
-@Scope( APPLICATION )
+@Name("org.jboss.seam.core.taskInstanceList")
+@Scope(APPLICATION)
 public class TaskInstanceList
 {
    

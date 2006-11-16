@@ -25,7 +25,7 @@ import org.jboss.seam.util.Work;
  * @version $Revision$
  */
 @Scope(ScopeType.APPLICATION)
-@Name("taskInstance")
+@Name("org.jboss.seam.core.taskInstance")
 @Intercept(InterceptionType.NEVER)
 @Startup
 public class TaskInstance 

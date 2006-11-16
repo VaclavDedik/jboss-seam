@@ -20,7 +20,7 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup
-@Name("pageContext")
+@Name("org.jboss.seam.core.pageContext")
 public class PageContext
 {
    @Unwrap
