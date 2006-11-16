@@ -154,11 +154,18 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       return conversationIdStack;
    }
 
+   /**
+    * @deprecated
+    * @return a component name
+    */
    public String getInitiatorComponentName() 
    {
       return initiatorComponentName;
    }
 
+   /**
+    * @deprecated
+    */
    void setInitiatorComponentName(String ownerComponentName) {
       entries.setDirty(this.initiatorComponentName, ownerComponentName);
       this.initiatorComponentName = ownerComponentName;

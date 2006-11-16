@@ -120,6 +120,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
       return getComponent().getBeanClass().getAnnotation(Conversational.class).initiator();
    }
 
+   @SuppressWarnings("deprecation")
    private boolean componentIsInitiator()
    {
       return getComponent().getName().equals( Manager.instance().getCurrentConversationInitiator() );

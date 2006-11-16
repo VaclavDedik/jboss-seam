@@ -178,26 +178,68 @@ public class Conversation implements Serializable {
    }
    
    /**
-    * Start a long-running conversation.
+    * Start a long-running conversation, if no long-running
+    * conversation is active.
+    * 
+    * @return true if a new long-running conversation was begin
     */
-   public void begin()
+   public boolean begin()
    {
-      begin( Seam.getComponentName(Conversation.class) );
-      //TODO: let them pass a pageflow name as a request parameter
+      if ( Manager.instance().isLongRunningConversation() )
+      {
+         return false;
+      }
+      else
+      {
+         Manager.instance().beginConversation( Seam.getComponentName(Conversation.class) );
+         return true;
+      }
    }
    
    /**
-    * Start a long-running conversation.
+    * Start a nested conversation.
+    * 
+    * @throws IllegalStateException if no long-running conversation was active
     */
-   public void begin(String componentName)
+   public void beginNested()
    {
-      if ( !Manager.instance().isLongRunningConversation() )
+      if ( Manager.instance().isLongRunningConversation() )
       {
-         Manager.instance().beginConversation(componentName);
+         Manager.instance().beginNestedConversation( Seam.getComponentName(Conversation.class) );
       }
-      //TODO: let them pass a pageflow name as a request parameter
+      else
+      {
+         throw new IllegalStateException("beginNested() called with no long-running conversation");
+      }
    }
    
+   /**
+    * Begin or join a conversation, or begin a new nested conversation.
+    * 
+    * @param join if a conversation is active, should we join it?
+    * @param nested if a conversation is active, should we start a new nested conversation?
+    */
+   public void begin(boolean join, boolean nested)
+   {
+      boolean longRunningConversation = Manager.instance().isLongRunningConversation();
+      if ( !join && !nested && longRunningConversation  )
+      {
+         throw new IllegalStateException("begin() called from long-running conversation, try join=true");
+      }
+      else if ( !longRunningConversation )
+      {
+         begin();
+      }
+      else if (nested)
+      {
+         beginNested();
+      }
+   }
+   
+   /**
+    * @deprecated use org.jboss.seam.core.Pageflow.begin(String)
+    * @param pageflowName
+    */
    public void beginPageflow(String pageflowName)
    {
       Pageflow.instance().begin(pageflowName);
@@ -304,7 +346,7 @@ public class Conversation implements Serializable {
    }
    
    /**
-    * Change the flush mode of all Seam-managed peristence 
+    * Change the flush mode of all Seam-managed persistence 
     * contexts in this conversation.
     */
    public void changeFlushMode(FlushModeType flushMode)

@@ -4,8 +4,6 @@ package org.jboss.seam.interceptors;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.BeginTask;
@@ -33,8 +31,6 @@ import org.jboss.seam.intercept.InvocationContext;
              within=BusinessProcessInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {
-
-   private static final Log log = LogFactory.getLog(ConversationInterceptor.class);
 
    @AroundInvoke
    public Object endOrBeginLongRunningConversation(InvocationContext invocation) throws Exception
@@ -183,13 +179,11 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       if ( !Manager.instance().isLongRunningConversation() )
       {
-         log.debug("Beginning long-running conversation");
          Manager.instance().beginConversation( getComponent().getName() );
          beginNavigation(pageflowName);
       }
       else if (nested)
       {
-         log.debug("Beginning nested conversation");
          Manager.instance().beginNestedConversation( getComponent().getName() );
          beginNavigation(pageflowName);
       }
@@ -242,7 +236,6 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void endConversation(boolean beforeRedirect)
    {
-      log.debug("Ending long-running conversation");
       Manager.instance().endConversation(beforeRedirect);
    }
 

@@ -138,6 +138,8 @@ public class Manager
    /**
     * Get the name of the component that started the current
     * conversation.
+    * 
+    * @deprecated
     */
    public Object getCurrentConversationInitiator()
    {
@@ -602,8 +604,10 @@ public class Manager
     * 
     * @param initiator the name of the component starting the conversation.
     */
+   @SuppressWarnings("deprecation")
    public void beginConversation(String initiator)
    {
+      log.debug("Beginning long-running conversation");
       setLongRunningConversation(true);
       createConversationEntry().setInitiatorComponentName(initiator);
       Conversation.instance(); //force instantiation of the Conversation in the outer (non-nested) conversation
@@ -616,9 +620,15 @@ public class Manager
     * 
     * @param ownerName the name of the component starting the conversation
     */
+   @SuppressWarnings("deprecation")
    public void beginNestedConversation(String ownerName)
    {
+      log.debug("Beginning nested conversation");
       List<String> oldStack = getCurrentConversationIdStack();
+      if (oldStack==null)
+      {
+         throw new IllegalStateException("No long-running conversation active");
+      }
       String id = Id.nextId();
       setCurrentConversationId(id);
       createCurrentConversationIdStack(id).addAll(oldStack);
@@ -633,6 +643,7 @@ public class Manager
     */
    public void endConversation(boolean beforeRedirect)
    {
+      log.debug("Ending long-running conversation");
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.endConversation");
       setLongRunningConversation(false);
       destroyBeforeRedirect = beforeRedirect;

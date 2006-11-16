@@ -25,6 +25,7 @@ import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -155,14 +156,25 @@ public class Pages
          }
       }
       
-      if ( page.elementIterator("end-conversation").hasNext() )
+      Element endConversation = page.element("end-conversation");
+      if ( endConversation!=null )
       {
          entry.setEndConversation(true);
+         entry.setBeforeRedirect( "true".equals( endConversation.attributeValue("before-redirect") ) );
       }
       
-      if ( page.elementIterator("begin-conversation").hasNext() )
+      Element beginConversation = page.element("begin-conversation");
+      if ( beginConversation!=null )
       {
          entry.setBeginConversation(true);
+         entry.setJoin( "true".equals( beginConversation.attributeValue("join") ) );
+         entry.setNested( "nested".equals( beginConversation.attributeValue("nested") ) );
+         entry.setPageflow( beginConversation.attributeValue("pageflow") );
+         String flushMode = beginConversation.attributeValue("flush-mode");
+         if (flushMode!=null)
+         {
+            entry.setFlushMode( FlushModeType.valueOf( flushMode.toUpperCase() ) );
+         }
       }
       
       if ( entry.isBeginConversation() && entry.isEndConversation() )

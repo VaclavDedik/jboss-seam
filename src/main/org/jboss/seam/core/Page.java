@@ -7,6 +7,7 @@ import java.util.MissingResourceException;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
@@ -99,6 +100,11 @@ public final class Page
    private List<Page.PageParameter> pageParameters = new ArrayList<Page.PageParameter>();
    private boolean isBeginConversation;
    private boolean isEndConversation;
+   private boolean join;
+   private boolean nested;
+   private FlushModeType flushMode;
+   private String pageflow;
+   private boolean beforeRedirect;
    
    Page(String viewId)
    {
@@ -249,7 +255,78 @@ public final class Page
    
    public void beginOrEndConversation()
    {
-      if ( isEndConversation ) Conversation.instance().end();
-      if ( isBeginConversation ) Conversation.instance().begin();
+      if ( isEndConversation )
+      {
+         if (beforeRedirect)
+         {
+            Conversation.instance().endBeforeRedirect();
+         }
+         else
+         {
+            Conversation.instance().end();
+         }
+      }
+      if ( isBeginConversation )
+      {
+         Conversation.instance().begin(join, nested);
+         if (flushMode!=null)
+         {
+            Conversation.instance().changeFlushMode(flushMode);
+         }
+         if (pageflow!=null)
+         {
+            Pageflow.instance().begin(pageflow);
+         }
+      }
+   }
+
+   protected FlushModeType getFlushMode()
+   {
+      return flushMode;
+   }
+
+   protected void setFlushMode(FlushModeType flushMode)
+   {
+      this.flushMode = flushMode;
+   }
+
+   protected boolean isJoin()
+   {
+      return join;
+   }
+
+   protected void setJoin(boolean join)
+   {
+      this.join = join;
+   }
+
+   protected boolean isNested()
+   {
+      return nested;
+   }
+
+   protected void setNested(boolean nested)
+   {
+      this.nested = nested;
+   }
+
+   protected String getPageflow()
+   {
+      return pageflow;
+   }
+
+   protected void setPageflow(String pageflow)
+   {
+      this.pageflow = pageflow;
+   }
+
+   protected boolean isBeforeRedirect()
+   {
+      return beforeRedirect;
+   }
+
+   protected void setBeforeRedirect(boolean beforeRedirect)
+   {
+      this.beforeRedirect = beforeRedirect;
    }
 }
