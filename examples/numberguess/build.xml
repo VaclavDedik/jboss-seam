@@ -27,9 +27,7 @@
     
     <zipfileset id="example.war.webinf.lib.extra" 
             prefix="WEB-INF/lib"
-               dir=".">
-        <include name="_NONE_"/>
-    </zipfileset>
+               refid="ui.seam.jar"/>
 
     <!-- EJB3 -->
     <fileset id="example.ejb3.root"

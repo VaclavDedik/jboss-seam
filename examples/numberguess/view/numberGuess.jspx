@@ -2,6 +2,7 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
           xmlns:h="http://java.sun.com/jsf/html"
           xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:s="http://jboss.com/products/seam/taglib"
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
   <jsp:output doctype-root-element="html"
@@ -31,7 +32,7 @@
                                minimum="#{numberGuess.smallest}"/>
         </h:inputText>
 		<h:commandButton value="Guess" action="guess"/>
-        <h:commandButton value="Cheat" action="#{numberGuess.beginCheat}" immediate="true"/>
+        <s:button value="Cheat" view="/confirm.jspx"/>
 		<br/>
         <h:message for="guess" style="color: red"/>
 	  </h:form>

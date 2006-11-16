@@ -11,17 +11,12 @@
 
 <pageflow-definition name="cheat">
    
-   <start-state name="start">
-      <transition to="confirm"/>
-   </start-state>
-   
-   <page name="confirm" view-id="/confirm.jspx">
-      <redirect/>
+   <start-page name="confirm" view-id="/confirm.jspx">
       <transition name="yes" to="cheat">
          <action expression="#{numberGuess.cheated}"/>
       </transition>
       <transition name="no" to="end"/>
-   </page>
+   </start-page>
    
    <page name="cheat" view-id="/cheat.jspx">
       <redirect/>

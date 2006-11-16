@@ -20,8 +20,7 @@ public class NumberGuess {
    private int maxGuesses;
    private boolean cheated;
    
-   @Create 
-   @Begin(pageflow="numberGuess")
+   @Create
    public void begin()
    {
       randomNumber = new Random().nextInt(100);
@@ -93,10 +92,7 @@ public class NumberGuess {
    public int getRandomNumber() {
       return randomNumber;
    }
-   
-   @Begin(nested=true, pageflow="cheat")
-   public void beginCheat() {}
-   
+
    public void cheated()
    {
       cheated = true;
