@@ -317,10 +317,28 @@ public class HelloListener {
             <para>
                 You might wonder why I've not mentioned anything about event objects in
                 this discussion. In Seam, there is no need for an event object to propagate
-                state between event producer and listener. All state is held in the Seam
-                contexts, and is shared between components.
+                state between event producer and listener. State is held in the Seam
+                contexts, and is shared between components. However, if you really want
+                to pass an event object, you can:
             </para>
             
+            <programlisting><![CDATA[@Name("helloWorld")
+public class HelloWorld {
+    private String name;
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World, my name is #0.", name);
+        Events.instance().raiseEvent("hello", name);
+    }
+}]]></programlisting>
+
+            <programlisting><![CDATA[@Name("helloListener")
+public class HelloListener {
+    @Observer("hello")
+    public void sayHelloBack(String name) {
+        FacesMessages.instance().add("Hello #0!", name);
+    }
+}]]></programlisting>
+
         </sect2>
         
         <sect2>
@@ -349,7 +367,9 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.endTask.&lt;name&gt; </literal>&mdash; called when the task &lt;name&gt; is ended</para></listitem>
             <listitem><para><literal>org.jboss.seam.postCreate.&lt;name&gt; </literal>&mdash; called when the component &lt;name&gt; is created</para></listitem>
             <listitem><para><literal>org.jboss.seam.preDestroy.&lt;name&gt; </literal>&mdash; called when the component &lt;name&gt; is destroyed</para></listitem>
-             </itemizedlist>
+            <listitem><para><literal>org.jboss.seam.beforePhase </literal>&mdash; called before the start of a JSF phase</para></listitem>
+            <listitem><para><literal>org.jboss.seam.afterPhase </literal>&mdash; called after the end of a JSF phase</para></listitem>
+            </itemizedlist>
              
              <para>
                  Seam components may observe any of these events in just the same way they
