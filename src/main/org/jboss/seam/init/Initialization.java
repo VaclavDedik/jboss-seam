@@ -547,7 +547,13 @@ public class Initialization
         // need to solve the problem of forcing a package to load
         Class c = org.jboss.seam.framework.Home.class;
         addNamespace(Package.getPackage("org.jboss.seam.framework"));
-        
+        c = org.jboss.seam.jms.TopicSession.class;
+        addNamespace(Package.getPackage("org.jboss.seam.jms"));
+        c = org.jboss.seam.remoting.RequestContext.class;
+        addNamespace(Package.getPackage("org.jboss.seam.remoting"));
+        c = org.jboss.seam.theme.Theme.class;
+        addNamespace(Package.getPackage("org.jboss.seam.theme"));
+
         if (isScannerEnabled) {
             for (Package pkg: new NamespaceScanner("seam.properties").getPackages()) { 
                 addNamespace(pkg);
