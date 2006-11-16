@@ -7,7 +7,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 
-@Name("currentDate")
+@Name("org.jboss.seam.framework.currentDate")
 @Scope(ScopeType.STATELESS)
 public class CurrentDate
 {

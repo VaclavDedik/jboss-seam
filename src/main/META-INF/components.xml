@@ -41,6 +41,10 @@
   <factory scope="stateless" name="uiComponent" value="#{org$jboss$seam$core$uiComponent}"/>
   <factory scope="stateless" name="userPrincipal" value="#{org$jboss$seam$core$userPrincipal}"/>
 
+  <factory scope="stateless" name="currentTime" value="#{org$jboss$seam$framework$currentTime}"/>
+  <factory scope="stateless" name="currentDate" value="#{org$jboss$seam$framework$currentDate}"/>
+  <factory scope="stateless" name="currentDatetime" value="#{org$jboss$seam$framework$currentDatetime}"/>
+
   <factory scope="stateless" name="theme" value="#{org$jboss$seam$theme$theme}"/>
   <factory scope="stateless" name="themeSelector" value="#{org$jboss$seam$theme$themeSelector}"/>
 
