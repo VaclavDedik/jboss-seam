@@ -61,7 +61,7 @@ public class FacesPage implements Serializable
       if ( Init.instance().isJbpmInstalled() )
       {
          Pageflow pageflow = Pageflow.instance();
-         if ( pageflow.isInProcess() )
+         if ( pageflow.isInProcess() /*&& !pageflow.getProcessInstance().hasEnded()*/ && Manager.instance().isLongRunningConversation() )
          {
             pageflowName = pageflow.getProcessInstance().getProcessDefinition().getName();
             pageflowNodeName = pageflow.getNode().getName();
