@@ -28,7 +28,7 @@ public abstract class Authentication implements Principal, Serializable
        throw new IllegalStateException("No active session context");
 
     Authentication instance = (Authentication) Component.getInstance(
-        Authentication.class, ScopeType.SESSION, true);
+        Authentication.class, ScopeType.SESSION);
 
     if (instance==null)
     {

@@ -150,7 +150,7 @@ public class Events
       {
          throw new IllegalStateException("No active application context");
       }
-      return (Events) Component.getInstance(Events.class, ScopeType.APPLICATION, true);
+      return (Events) Component.getInstance(Events.class, ScopeType.APPLICATION);
    }
    
 }

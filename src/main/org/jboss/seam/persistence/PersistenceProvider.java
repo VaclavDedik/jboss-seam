@@ -38,7 +38,7 @@ public class PersistenceProvider
    
    public static PersistenceProvider instance()
    {
-      return (PersistenceProvider) Component.getInstance(PersistenceProvider.class, ScopeType.STATELESS, true);
+      return (PersistenceProvider) Component.getInstance(PersistenceProvider.class, ScopeType.STATELESS);
    }
 
 }

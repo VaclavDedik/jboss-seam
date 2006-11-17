@@ -68,7 +68,7 @@ public class Pageflow extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active conversation context");
       }
-      return (Pageflow) Component.getInstance(Pageflow.class, ScopeType.CONVERSATION, true);
+      return (Pageflow) Component.getInstance(Pageflow.class, ScopeType.CONVERSATION);
    }
    
    public int getPageflowCounter()

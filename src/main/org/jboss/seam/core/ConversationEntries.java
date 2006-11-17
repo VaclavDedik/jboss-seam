@@ -84,7 +84,7 @@ public class ConversationEntries extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No session context active");
       }
-      return (ConversationEntries) Component.getInstance(ConversationEntries.class, ScopeType.SESSION, true);
+      return (ConversationEntries) Component.getInstance(ConversationEntries.class, ScopeType.SESSION);
    }
    
    @Override

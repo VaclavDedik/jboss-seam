@@ -82,7 +82,7 @@ public class FacesPage implements Serializable
       {
          throw new IllegalStateException("No page context active");
       }
-      return (FacesPage) Component.getInstance(FacesPage.class, ScopeType.PAGE, true);
+      return (FacesPage) Component.getInstance(FacesPage.class, ScopeType.PAGE);
    }
 
    public boolean isConversationLongRunning()

@@ -66,7 +66,7 @@ public class PojoCache
       {
          throw new IllegalStateException("No active application scope");
       }
-      return (org.jboss.cache.aop.PojoCache) Component.getInstance(PojoCache.class, ScopeType.APPLICATION, true);
+      return (org.jboss.cache.aop.PojoCache) Component.getInstance(PojoCache.class, ScopeType.APPLICATION);
    }
    
 }

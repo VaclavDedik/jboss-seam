@@ -32,7 +32,7 @@ public class RemotingConfig
        throw new IllegalStateException("No active application context");
 
     RemotingConfig instance = (RemotingConfig) Component.getInstance(
-        RemotingConfig.class, ScopeType.APPLICATION, true);
+        RemotingConfig.class, ScopeType.APPLICATION);
 
     if (instance==null)
     {

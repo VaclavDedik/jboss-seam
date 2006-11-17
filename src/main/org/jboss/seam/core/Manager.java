@@ -239,7 +239,7 @@ public class Manager
       {
          throw new IllegalStateException("No active event context");
       }
-      Manager instance = (Manager) Component.getInstance(Manager.class, ScopeType.EVENT, true);
+      Manager instance = (Manager) Component.getInstance(Manager.class, ScopeType.EVENT);
       if (instance==null)
       {
          throw new IllegalStateException("No Manager could be created, make sure the Component exists in application scope");

@@ -57,7 +57,7 @@ public class SeamSecurityManager
        throw new IllegalStateException("No active application context");
 
     SeamSecurityManager instance = (SeamSecurityManager) Component.getInstance(
-        SeamSecurityManager.class, ScopeType.APPLICATION, true);
+        SeamSecurityManager.class, ScopeType.APPLICATION);
 
     if (instance==null)
     {

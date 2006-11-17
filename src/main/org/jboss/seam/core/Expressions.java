@@ -144,7 +144,7 @@ public class Expressions
    
    public static Expressions instance()
    {
-      return (Expressions) Component.getInstance(Expressions.class, ScopeType.APPLICATION, true);
+      return (Expressions) Component.getInstance(Expressions.class, ScopeType.APPLICATION);
    }
    
 }

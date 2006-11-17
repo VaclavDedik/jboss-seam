@@ -112,7 +112,7 @@ public class ManagedJbpmContext implements Synchronization
       {
          throw new IllegalStateException("no active event context");
       }
-      return (JbpmContext) Component.getInstance(ManagedJbpmContext.class, ScopeType.EVENT, true);
+      return (JbpmContext) Component.getInstance(ManagedJbpmContext.class, ScopeType.EVENT);
    }
 
 }

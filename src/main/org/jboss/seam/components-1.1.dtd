@@ -14,12 +14,14 @@
 <!ATTLIST component scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
 <!ATTLIST component jndi-name CDATA #IMPLIED>
 <!ATTLIST component installed CDATA "true">
+<!ATTLIST component auto-create (true|false) "false">
 
 <!ELEMENT factory EMPTY>
 <!ATTLIST factory name CDATA #REQUIRED>
 <!ATTLIST factory method CDATA #IMPLIED>
 <!ATTLIST factory value CDATA #IMPLIED>
 <!ATTLIST factory scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
+<!ATTLIST factory auto-create (true|false) "false">
 
 <!ELEMENT property (#PCDATA|key|value)*>
 <!ATTLIST property name CDATA #REQUIRED>

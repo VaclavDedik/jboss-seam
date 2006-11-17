@@ -90,7 +90,7 @@ public class SafeActions
       {
          throw new IllegalStateException("No active application context");
       }
-      return (SafeActions) Component.getInstance(SafeActions.class, ScopeType.APPLICATION, true);
+      return (SafeActions) Component.getInstance(SafeActions.class, ScopeType.APPLICATION);
    }
    
 }

@@ -475,7 +475,7 @@ public class Exceptions
       {
          throw new IllegalStateException("No active application context");
       }
-      return (Exceptions) Component.getInstance(Exceptions.class, ScopeType.APPLICATION, true);
+      return (Exceptions) Component.getInstance(Exceptions.class, ScopeType.APPLICATION);
    }
 
 

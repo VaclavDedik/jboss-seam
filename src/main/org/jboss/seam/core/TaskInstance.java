@@ -64,7 +64,7 @@ public class TaskInstance
       {
          throw new IllegalStateException("No active application context");
       }
-      return (org.jbpm.taskmgmt.exe.TaskInstance) Component.getInstance(TaskInstance.class, ScopeType.APPLICATION, true);
+      return (org.jbpm.taskmgmt.exe.TaskInstance) Component.getInstance(TaskInstance.class, ScopeType.APPLICATION);
    }
    
 }

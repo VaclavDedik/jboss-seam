@@ -27,7 +27,7 @@ public class TimeZone {
    
    public static java.util.TimeZone instance()
    {
-      return (java.util.TimeZone) Component.getInstance(TimeZone.class, ScopeType.STATELESS, true);
+      return (java.util.TimeZone) Component.getInstance(TimeZone.class, ScopeType.STATELESS);
    }
    
 }

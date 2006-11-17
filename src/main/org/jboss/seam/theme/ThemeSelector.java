@@ -133,7 +133,7 @@ public class ThemeSelector extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active session context");
       }
-      return (ThemeSelector) Component.getInstance(ThemeSelector.class, ScopeType.SESSION, true );
+      return (ThemeSelector) Component.getInstance(ThemeSelector.class, ScopeType.SESSION);
    }
 
    public String[] getAvailableThemes()

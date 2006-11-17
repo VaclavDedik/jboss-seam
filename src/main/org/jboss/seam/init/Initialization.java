@@ -298,7 +298,8 @@ public class Initialization
       ScopeType scope = scopeName==null ?
             ScopeType.UNSPECIFIED :
             ScopeType.valueOf( scopeName.toUpperCase() );
-      factoryDescriptors.add( new FactoryDescriptor(name, scope, method, value) );
+      boolean autoCreate = "true".equals( factory.attributeValue("auto-create") );
+      factoryDescriptors.add( new FactoryDescriptor(name, scope, method, value, autoCreate) );
    }
 
    private Document getDocument(InputStream stream) throws DocumentException
@@ -328,6 +329,7 @@ public class Initialization
       String scopeName = component.attributeValue("scope");
       String jndiName = component.attributeValue("jndi-name");
       ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName.toUpperCase());
+      boolean autoCreate = "true".equals( component.attributeValue("auto-create") );
       if (className!=null)
       {
          Class<?> clazz = null;
@@ -353,7 +355,7 @@ public class Initialization
          {
             name = clazz.getAnnotation(Name.class).value();
          }
-         componentDescriptors.add( new ComponentDescriptor(name, clazz, scope, jndiName) );
+         componentDescriptors.add( new ComponentDescriptor(name, clazz, scope, autoCreate, jndiName) );
          installedComponents.add(clazz);
       }
       else if (name==null)
@@ -528,7 +530,7 @@ public class Initialization
    private void installRole(Class<Object> scannedClass, Role role)
    {
       ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
-      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope, null ) );
+      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope, false, null ) );
    }
 
     private void addNamespace(Package pkg) {
@@ -543,16 +545,12 @@ public class Initialization
     }
 
     private void addNamespaces() {
-        addNamespace(Package.getPackage("org.jboss.seam.core"));
+        addNamespace(Init.class.getPackage());
         // need to solve the problem of forcing a package to load
-        Class c = org.jboss.seam.framework.Home.class;
-        addNamespace(Package.getPackage("org.jboss.seam.framework"));
-        c = org.jboss.seam.jms.TopicSession.class;
-        addNamespace(Package.getPackage("org.jboss.seam.jms"));
-        c = org.jboss.seam.remoting.RequestContext.class;
-        addNamespace(Package.getPackage("org.jboss.seam.remoting"));
-        c = org.jboss.seam.theme.Theme.class;
-        addNamespace(Package.getPackage("org.jboss.seam.theme"));
+        addNamespace(org.jboss.seam.framework.Home.class.getPackage());
+        addNamespace(org.jboss.seam.jms.TopicSession.class.getPackage());
+        addNamespace(org.jboss.seam.remoting.RequestContext.class.getPackage());
+        addNamespace(org.jboss.seam.theme.Theme.class.getPackage());
 
         if (isScannerEnabled) {
             for (Package pkg: new NamespaceScanner("seam.properties").getPackages()) { 
@@ -622,7 +620,7 @@ public class Initialization
       addComponent( Init.class, context );
 
       //force instantiation of Init
-      Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION, true);
+      Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);
 
       addComponent( Expressions.class, context);
       addComponent( Pages.class, context);
@@ -723,17 +721,25 @@ public class Initialization
       for ( ComponentDescriptor componentDescriptor: componentDescriptors )
       {
          addComponent(componentDescriptor, context);
+         if ( componentDescriptor.isAutoCreate() )
+         {
+            init.addAutocreateVariable( componentDescriptor.getName() );
+         }
       }
 
       for (FactoryDescriptor factoryDescriptor: factoryDescriptors)
       {
          if ( factoryDescriptor.isValueBinding() )
          {
-            init.addFactoryValueBinding(factoryDescriptor.name, factoryDescriptor.value, factoryDescriptor.scope);
+            init.addFactoryValueBinding(factoryDescriptor.getName(), factoryDescriptor.getValue(), factoryDescriptor.getScope());
          }
          else
          {
-            init.addFactoryMethodBinding(factoryDescriptor.name, factoryDescriptor.method, factoryDescriptor.scope);
+            init.addFactoryMethodBinding(factoryDescriptor.getName(), factoryDescriptor.getMethod(), factoryDescriptor.getScope());
+         }
+         if ( factoryDescriptor.isAutoCreate() )
+         {
+            init.addAutocreateVariable(factoryDescriptor.getName());
          }
       }
 
@@ -798,14 +804,16 @@ public class Initialization
       private ScopeType scope;
       private String method;
       private String value;
+      private boolean autoCreate;
 
-      public FactoryDescriptor(String name, ScopeType scope, String method, String value)
+      public FactoryDescriptor(String name, ScopeType scope, String method, String value, boolean autoCreate)
       {
          super();
          this.name = name;
          this.scope = scope;
          this.method = method;
          this.value = value;
+         this.autoCreate = autoCreate;
       }
 
       public String getMethod()
@@ -833,6 +841,11 @@ public class Initialization
          return method==null;
       }
       
+      public boolean isAutoCreate()
+      {
+         return autoCreate;
+      }
+
       @Override
       public String toString()
       {
@@ -863,13 +876,15 @@ public class Initialization
       private Class componentClass;
       private ScopeType scope;
       private String jndiName;
+      private boolean autoCreate;
 
-      public ComponentDescriptor(String name, Class componentClass, ScopeType scope, String jndiName)
+      public ComponentDescriptor(String name, Class componentClass, ScopeType scope, boolean autoCreate, String jndiName)
       {
          this.name = name;
          this.componentClass = componentClass;
          this.scope = scope;
          this.jndiName = jndiName;
+         this.autoCreate = autoCreate;
       }
       public ComponentDescriptor(Class componentClass)
       {
@@ -891,6 +906,10 @@ public class Initialization
       public String getJndiName() 
       {
          return jndiName;
+      }
+      public boolean isAutoCreate()
+      {
+         return autoCreate;
       }
 
       @Override

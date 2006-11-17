@@ -30,7 +30,7 @@ public abstract class Authenticator
        throw new IllegalStateException("No active application context");
 
     Authenticator instance = (Authenticator) Component.getInstance(
-        Authenticator.class, ScopeType.APPLICATION, true);
+        Authenticator.class, ScopeType.APPLICATION);
 
     if (instance==null)
     {

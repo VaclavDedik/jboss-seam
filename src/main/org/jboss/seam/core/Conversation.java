@@ -97,7 +97,7 @@ public class Conversation implements Serializable {
       {
          throw new IllegalStateException("No active conversation context");
       }
-      return (Conversation) Component.getInstance(Conversation.class, ScopeType.CONVERSATION, true);
+      return (Conversation) Component.getInstance(Conversation.class, ScopeType.CONVERSATION);
    }
    
    void flush()

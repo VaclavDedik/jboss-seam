@@ -65,6 +65,6 @@ public class ProcessInstance
       {
          throw new IllegalStateException("No active application context");
       }
-      return (org.jbpm.graph.exe.ProcessInstance) Component.getInstance(ProcessInstance.class, ScopeType.APPLICATION, true);
+      return (org.jbpm.graph.exe.ProcessInstance) Component.getInstance(ProcessInstance.class, ScopeType.APPLICATION);
    }
 }

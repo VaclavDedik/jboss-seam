@@ -339,7 +339,7 @@ public class Pages
       {
          throw new IllegalStateException("No active application context");
       }
-      return (Pages) Component.getInstance(Pages.class, ScopeType.APPLICATION, true);
+      return (Pages) Component.getInstance(Pages.class, ScopeType.APPLICATION);
    }
 
    public static boolean callAction(FacesContext facesContext)

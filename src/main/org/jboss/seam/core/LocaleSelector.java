@@ -162,7 +162,7 @@ public class LocaleSelector extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active session context");
       }
-      return (LocaleSelector) Component.getInstance(LocaleSelector.class, ScopeType.SESSION, true);
+      return (LocaleSelector) Component.getInstance(LocaleSelector.class, ScopeType.SESSION);
    }
 
    public String getCountry() {

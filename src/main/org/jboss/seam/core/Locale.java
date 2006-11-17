@@ -27,7 +27,7 @@ public class Locale {
    
    public static java.util.Locale instance()
    {
-      return (java.util.Locale) Component.getInstance(Locale.class, ScopeType.STATELESS, true);
+      return (java.util.Locale) Component.getInstance(Locale.class, ScopeType.STATELESS);
    }
    
 }

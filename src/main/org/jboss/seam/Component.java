@@ -1546,6 +1546,11 @@ public class Component
       return getInstance( Seam.getComponentName(clazz), create );
    }
 
+   public static Object getInstance(Class<?> clazz, ScopeType scope)
+   {
+      return getInstance(clazz, scope, true);
+   }
+   
    public static Object getInstance(Class<?> clazz, ScopeType scope, boolean create)
    {
       return getInstance( Seam.getComponentName(clazz), scope, create );
@@ -1563,6 +1568,11 @@ public class Component
       return result;
    }
 
+   public static Object getInstance(String name, ScopeType scope)
+   {
+      return getInstance(name, scope, true);
+   }
+   
    public static Object getInstance(String name, ScopeType scope, boolean create)
    {
       Object result = scope==STATELESS ? null : scope.getContext().get(name);
@@ -1572,6 +1582,8 @@ public class Component
 
    private static Object getInstance(String name, boolean create, Object result) {
       Component component = Component.forName(name);
+      
+      create = create || Init.instance().isAutocreateVariable(name);
 
       if (result==null && create)
       {

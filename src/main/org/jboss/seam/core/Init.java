@@ -7,8 +7,10 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -44,6 +46,8 @@ public class Init
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
    private Map<String, FactoryBinding> factoryMethodBindings = new HashMap<String, FactoryBinding>();
    private Map<String, FactoryBinding> factoryValueBindings = new HashMap<String, FactoryBinding>();
+   
+   private Set<String> autocreateVariables = new HashSet<String>();
    
    @Create
    public void create()
@@ -268,6 +272,16 @@ public class Init
    protected void setUserTransactionName(String userTransactionName)
    {
       this.userTransactionName = userTransactionName;
+   }
+
+   public boolean isAutocreateVariable(String name)
+   {
+      return autocreateVariables.contains(name);
+   }
+   
+   public void addAutocreateVariable(String name)
+   {
+      autocreateVariables.add(name);
    }
 
 }

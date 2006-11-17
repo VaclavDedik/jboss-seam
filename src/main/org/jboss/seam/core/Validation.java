@@ -73,7 +73,7 @@ public class Validation
       {
          throw new IllegalStateException("No active application scope");
       }
-      return (Validation) Component.getInstance(Validation.class, ScopeType.APPLICATION, true);
+      return (Validation) Component.getInstance(Validation.class, ScopeType.APPLICATION);
    }
 
 }

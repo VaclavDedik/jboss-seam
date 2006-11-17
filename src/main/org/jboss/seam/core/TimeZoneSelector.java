@@ -89,7 +89,7 @@ public class TimeZoneSelector extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active session context");
       }
-      return (TimeZoneSelector) Component.getInstance(TimeZoneSelector.class, ScopeType.SESSION, true );
+      return (TimeZoneSelector) Component.getInstance(TimeZoneSelector.class, ScopeType.SESSION);
    }
 
    public boolean isCookieEnabled()

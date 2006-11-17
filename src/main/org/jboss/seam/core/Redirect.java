@@ -112,7 +112,7 @@ public class Redirect extends AbstractMutable implements Serializable
       {
          throw new IllegalStateException("No active conversation context");
       }
-      return (Redirect) Component.getInstance(Redirect.class, ScopeType.CONVERSATION, true);
+      return (Redirect) Component.getInstance(Redirect.class, ScopeType.CONVERSATION);
    }
 
 }

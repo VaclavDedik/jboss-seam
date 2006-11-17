@@ -52,7 +52,7 @@ public class UserPrincipal
       {
          throw new IllegalStateException("No active application scope");
       }
-      return (Principal) Component.getInstance(UserPrincipal.class, ScopeType.APPLICATION, true);
+      return (Principal) Component.getInstance(UserPrincipal.class, ScopeType.APPLICATION);
    }
    
 }

@@ -38,7 +38,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       {
          throw new IllegalStateException("No active conversation context");
       }
-      return (BusinessProcess) Component.getInstance(BusinessProcess.class, ScopeType.CONVERSATION, true);
+      return (BusinessProcess) Component.getInstance(BusinessProcess.class, ScopeType.CONVERSATION);
    }
    
    /**
