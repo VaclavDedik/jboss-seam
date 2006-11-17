@@ -506,20 +506,36 @@ public class Manager
       }
 
    }
+   
+   /**
+    * Initialize the request conversation context, given the 
+    * conversation id. If no conversation entry is found, or
+    * conversationId is null, initialize a new temporary
+    * conversation context.
+    * 
+    * @return true if the conversation with the given id was found
+    */
+   public boolean restoreConversation(String conversationId)
+   {
+      return restoreConversation(conversationId, null, false);
+   }
 
    /**
     * Initialize the request conversation context, given the 
-    * conversation id.
+    * conversation id and optionally a parent conversation id.
+    * If no conversation entry is found for the first id, try
+    * the parent, and if that also fails, initialize a new 
+    * temporary conversation context.
     */
-   public boolean restoreConversation(String storedConversationId, String storedParentConversationId, boolean isLongRunningConversation) {
+   private boolean restoreConversation(String conversationId, String parentConversationId, boolean isLongRunningConversation) {
       ConversationEntry ce = null;
-      if (storedConversationId!=null)
+      if (conversationId!=null)
       {
          ConversationEntries entries = ConversationEntries.instance();
-         ce = entries.getConversationEntry(storedConversationId);
+         ce = entries.getConversationEntry(conversationId);
          if (ce==null)
          {
-            ce = entries.getConversationEntry(storedParentConversationId);
+            ce = entries.getConversationEntry(parentConversationId);
          }
       }
       
