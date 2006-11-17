@@ -20,8 +20,7 @@ import domain.Blog;
 public class BlogService 
 {
    
-   @In(create=true)
-   private EntityManager entityManager;
+   @In EntityManager entityManager;
   
    @Unwrap
    public Blog getBlog()

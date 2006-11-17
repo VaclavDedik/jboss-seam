@@ -18,6 +18,7 @@
     </component>
     
     <component name="entityManager" 
+        auto-create="true"
               class="org.jboss.seam.core.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/blogEntityManagerFactory</property>
     </component>

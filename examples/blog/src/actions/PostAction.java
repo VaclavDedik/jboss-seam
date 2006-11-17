@@ -22,11 +22,11 @@ import domain.BlogEntry;
 @Scope(ScopeType.STATELESS)
 public class PostAction
 {
-   @In(create=true) private Blog blog;
-   @In(create=true) private EntityManager entityManager;
+   @In(create=true) Blog blog;
    
-   @In(required=false) 
-   private BlogEntry blogEntry;
+   @In EntityManager entityManager;
+   
+   @In(required=false) BlogEntry blogEntry;
    
    public String post() throws IOException
    {

@@ -3,8 +3,6 @@ package actions;
 import java.io.IOException;
 import java.io.Serializable;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotNull;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -17,14 +15,12 @@ import domain.Blog;
 @Scope(ScopeType.SESSION)
 public class LoginAction implements Serializable
 {
-   @In(create=true) private Blog blog;
-   
-   @NotNull @Length(min=5, max=50)
-   private String password;
-   
+   @In(create=true) Blog blog;
+      
    @In FacesMessages facesMessages;
    
-   private boolean loggedIn;
+   String password;
+   boolean loggedIn;
    
    public String login() throws IOException
    {

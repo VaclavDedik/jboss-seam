@@ -20,11 +20,9 @@ import domain.BlogEntry;
 @Scope(STATELESS)
 public class EntryAction
 {
-   @In(create=true) 
-   private Blog blog;
+   @In(create=true) Blog blog;
    
-   @Out
-   private BlogEntry blogEntry;
+   @Out BlogEntry blogEntry;
    
    public void loadBlogEntry(String id) throws EntryNotFoundException
    {
