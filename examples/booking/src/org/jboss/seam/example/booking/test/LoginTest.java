@@ -20,7 +20,7 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            assert invokeMethod("#{hotelSearch.find}").equals("login");
+            assert invokeMethod("#{hotelBooking.bookHotel}").equals("login");
          }
 
          @Override
@@ -68,7 +68,12 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            assert invokeMethod("#{hotelSearch.find}").equals("main");
+            try
+            {
+               invokeMethod("#{hotelBooking.bookHotel}");
+               assert false;
+            }
+            catch (Exception e) {}
          }
 
          @Override

@@ -48,7 +48,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{hotelSearch.find}").equals("main");
+            assert invokeMethod("#{hotelSearch.find}")==null;
          }
 
          @Override
