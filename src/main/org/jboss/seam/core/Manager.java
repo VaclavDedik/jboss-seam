@@ -66,6 +66,7 @@ public class Manager
    private int concurrentRequestTimeout = 1000; //one second
    
    private String conversationIdParameter = "conversationId";
+   private String parentConversationIdParameter = "parentConversationId";
    private String conversationIsLongRunningParameter = "conversationIsLongRunning";
 
    public String getCurrentConversationId()
@@ -407,6 +408,7 @@ public class Manager
       
       //First, try to get the conversation id from a request parameter
       String storedConversationId = getRequestParameterValue(parameters, conversationIdParameter);
+      String storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
       Boolean isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
       
       if ( isMissing(storedConversationId) && Contexts.isPageContextActive() )
@@ -439,7 +441,7 @@ public class Manager
          isLongRunningConversation = false;
       }
       
-      return restoreAndLockConversation(storedConversationId, isLongRunningConversation) 
+      return restoreAndLockConversation(storedConversationId, storedParentConversationId, isLongRunningConversation) 
             || "end".equals(propagation);
       
    }
@@ -498,9 +500,15 @@ public class Manager
     * Initialize the request conversation context, given the 
     * conversation id.
     */
-   public boolean restoreAndLockConversation(String storedConversationId, boolean isLongRunningConversation) {
-      ConversationEntry ce = storedConversationId==null ? 
-            null : ConversationEntries.instance().getConversationEntry(storedConversationId);
+   public boolean restoreAndLockConversation(String storedConversationId, String storedParentConversationId, boolean isLongRunningConversation) {
+      ConversationEntry ce = null;
+      if (storedConversationId!=null)
+      {
+         ConversationEntries entries = ConversationEntries.instance();
+         ce = entries.getConversationEntry(storedConversationId);
+         if (ce==null) ce = entries.getConversationEntry(storedParentConversationId);
+      }
+      
       if ( ce!=null && ce.lock() )
       {
          // do this asap, since there is a window where conversationTimeout() might  
@@ -745,9 +753,29 @@ public class Manager
     * Add the conversation id to a URL, if necessary
     */
    public String encodeConversationId(String url) {
-      if ( destroyBeforeRedirect || Seam.isSessionInvalid() )
+      if ( Seam.isSessionInvalid() )
       {
          return url;
+      }
+      else if (destroyBeforeRedirect)
+      {
+         if ( isNestedConversation() )
+         {
+            return new StringBuilder( url.length() + conversationIdParameter.length() + 5 )
+                  .append(url)
+                  .append( url.contains("?") ? '&' : '?' )
+                  .append(conversationIdParameter)
+                  .append('=')
+                  .append( getParentConversationId() )
+                  .append('&')
+                  .append(conversationIsLongRunningParameter)
+                  .append("=true")
+                  .toString();
+         }
+         else
+         {
+            return url;
+         }
       }
       else
       {
@@ -757,12 +785,18 @@ public class Manager
                .append(conversationIdParameter)
                .append('=')
                .append( getCurrentConversationId() );
+         if ( isNestedConversation() && !isReallyLongRunningConversation() )
+         {
+            builder.append('&')
+                  .append(parentConversationIdParameter)
+                  .append('=')
+                  .append( getParentConversationId() );
+         }
          if ( isReallyLongRunningConversation() )
          {
             builder.append('&')
                   .append(conversationIsLongRunningParameter)
-                  .append('=')
-                  .append("true");
+                  .append("=true");
          }
          return builder.toString();
       }
@@ -1034,6 +1068,16 @@ public class Manager
    public String toString()
    {
       return "Manager(" + currentConversationIdStack + ")";
+   }
+
+   protected String getParentConversationIdParameter()
+   {
+      return parentConversationIdParameter;
+   }
+
+   protected void setParentConversationIdParameter(String nestedConversationIdParameter)
+   {
+      this.parentConversationIdParameter = nestedConversationIdParameter;
    }
 
 }
