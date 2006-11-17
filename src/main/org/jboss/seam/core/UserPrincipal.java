@@ -13,7 +13,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -26,7 +25,6 @@ import org.jboss.seam.contexts.Lifecycle;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup
 @Name("org.jboss.seam.core.userPrincipal")
 public class UserPrincipal
 {
@@ -54,7 +52,7 @@ public class UserPrincipal
       {
          throw new IllegalStateException("No active application scope");
       }
-      return (Principal) Component.getInstance(UserPrincipal.class, ScopeType.APPLICATION, false);
+      return (Principal) Component.getInstance(UserPrincipal.class, ScopeType.APPLICATION, true);
    }
    
 }

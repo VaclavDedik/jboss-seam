@@ -7,7 +7,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
@@ -19,7 +18,6 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-@Startup
 @Name("org.jboss.seam.core.conversationContext")
 public class ConversationContext
 {

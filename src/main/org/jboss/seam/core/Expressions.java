@@ -12,7 +12,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.util.UnifiedELMethodBinding;
 import org.jboss.seam.util.UnifiedELValueBinding;
 
@@ -24,7 +23,6 @@ import org.jboss.seam.util.UnifiedELValueBinding;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.core.expressions")
-@Startup
 public class Expressions
 {
    
@@ -146,7 +144,7 @@ public class Expressions
    
    public static Expressions instance()
    {
-      return (Expressions) Component.getInstance(Expressions.class);
+      return (Expressions) Component.getInstance(Expressions.class, ScopeType.APPLICATION, true);
    }
    
 }

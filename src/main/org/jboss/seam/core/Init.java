@@ -107,6 +107,11 @@ public class Init
       {
          return method;
       }
+      @Override
+      public String toString()
+      {
+         return "FactoryMethod(" + method + ')';
+      }
    }
    
    public static class FactoryBinding {
@@ -132,6 +137,11 @@ public class Init
       public ScopeType getScope()
       {
          return scope;
+      }
+      @Override
+      public String toString()
+      {
+         return "FactoryBinding(" + expression + ')';
       }
    }
    
@@ -172,6 +182,11 @@ public class Init
       {
          this.method = method;
          this.component = component;
+      }
+      @Override
+      public String toString()
+      {
+         return "ObserverMethod(" + method + ')';
       }
    }
    
