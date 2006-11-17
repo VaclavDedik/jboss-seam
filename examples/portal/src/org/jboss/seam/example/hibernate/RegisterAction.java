@@ -22,7 +22,7 @@ public class RegisterAction
    @In(create=true)
    private Session bookingDatabase;
    
-   @In(create=true)
+   @In
    private FacesMessages facesMessages;
    
    private String verify;

@@ -19,7 +19,7 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 @LoggedIn
 public class BookingListAction implements Serializable
 {
-   @In(create=true)
+   @In
    private Session bookingDatabase;
    
    @In

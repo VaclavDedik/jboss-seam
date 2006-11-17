@@ -21,13 +21,13 @@ public class LoginAction
    @In @Out
    private User user;
    
-   @In(create=true)
+   @In 
    private Session bookingDatabase;
    
-   @In
+   @In 
    private Context sessionContext;
    
-   @In(create=true)
+   @In 
    private FacesMessages facesMessages;
 
    public String login()

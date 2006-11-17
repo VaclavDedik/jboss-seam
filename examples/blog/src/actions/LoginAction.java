@@ -22,7 +22,7 @@ public class LoginAction implements Serializable
    @NotNull @Length(min=5, max=50)
    private String password;
    
-   @In(create=true) FacesMessages facesMessages;
+   @In FacesMessages facesMessages;
    
    private boolean loggedIn;
    

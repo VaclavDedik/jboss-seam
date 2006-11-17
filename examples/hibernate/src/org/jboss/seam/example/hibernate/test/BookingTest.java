@@ -18,8 +18,8 @@ import org.jboss.seam.example.hibernate.BookingListAction;
 import org.jboss.seam.example.hibernate.Hotel;
 import org.jboss.seam.example.hibernate.HotelBookingAction;
 import org.jboss.seam.example.hibernate.User;
-import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -124,7 +124,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void processValidations() throws Exception
          {
-            validate(Booking.class, "creditCard", "123");
+            validateValue("#{booking.creditCard}", "123");
             assert isValidationFailure();
          }
 
@@ -145,7 +145,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void processValidations() throws Exception
          {
-            validate(Booking.class, "creditCardName", "");
+            validateValue("#{booking.creditCardName}", "");
             assert isValidationFailure();
          }
 
@@ -283,7 +283,7 @@ public class BookingTest extends SeamTest
    @Override
    public SeamPhaseListener createPhaseListener()
    {
-	   return new SeamExtendedManagedPersistencePhaseListener();
+	   return new TransactionalSeamPhaseListener();
    }
    
 }

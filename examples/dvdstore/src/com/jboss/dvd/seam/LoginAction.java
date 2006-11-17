@@ -31,11 +31,9 @@ public class LoginAction
     @PersistenceContext
     private EntityManager em;
 
-    @In
-    Context sessionContext;
+    @In Context sessionContext;
     
-    @In(create=true) 
-    Actor actor;
+    @In Actor actor;
     
     String username = "";
     String password = "";

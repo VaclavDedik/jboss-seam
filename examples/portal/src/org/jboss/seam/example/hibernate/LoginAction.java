@@ -27,7 +27,7 @@ public class LoginAction
    @In
    private Context sessionContext;
    
-   @In(create=true)
+   @In
    private FacesMessages facesMessages;
 
    public String login()

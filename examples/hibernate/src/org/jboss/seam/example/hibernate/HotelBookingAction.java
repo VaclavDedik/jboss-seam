@@ -24,7 +24,7 @@ import org.jboss.seam.core.FacesMessages;
 public class HotelBookingAction implements Serializable
 {
 
-   @In(create=true)
+   @In
    private Session bookingDatabase;
    
    private String searchString;
@@ -47,7 +47,7 @@ public class HotelBookingAction implements Serializable
    @In(required=false)
    private transient BookingListAction bookingList;
    
-   @In(create=true)
+   @In
    private transient FacesMessages facesMessages;
 
    public String getSearchString()

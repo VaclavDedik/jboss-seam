@@ -66,6 +66,7 @@ public class User implements Serializable
       this.username = username;
    }
    
+   @Override
    public String toString() 
    {
       return "User(" + username + ")";

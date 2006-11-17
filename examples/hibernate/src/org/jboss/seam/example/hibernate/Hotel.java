@@ -84,6 +84,7 @@ public class Hotel implements Serializable
       this.state = state;
    }
 
+   @Override
    public String toString()
    {
       return "Hotel(" + name + "," + address + "," + city + "," + state + "," + zip + ")";

@@ -15,6 +15,7 @@
     
     <!-- Bootstrap Hibernate -->
     <component name="bookingDatabase" 
+        auto-create="true"
               class="org.jboss.seam.core.ManagedHibernateSession"/>
     <component name="hibernateSessionFactory"
               class="org.jboss.seam.core.HibernateSessionFactory"/> 

@@ -9,8 +9,8 @@ import org.jboss.seam.example.hibernate.HotelBookingAction;
 import org.jboss.seam.example.hibernate.LoginAction;
 import org.jboss.seam.example.hibernate.LogoutAction;
 import org.jboss.seam.example.hibernate.User;
-import org.jboss.seam.jsf.SeamExtendedManagedPersistencePhaseListener;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.jsf.TransactionalSeamPhaseListener;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -122,6 +122,6 @@ public class LoginTest extends SeamTest
    @Override
    public SeamPhaseListener createPhaseListener()
    {
-	   return new SeamExtendedManagedPersistencePhaseListener();
+	   return new TransactionalSeamPhaseListener();
    }
 }

@@ -28,8 +28,8 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
-   @In(create=true)
-   private transient FacesMessages facesMessages;
+   @In
+   private FacesMessages facesMessages;
    
    private String verify;
    

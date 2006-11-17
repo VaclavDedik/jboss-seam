@@ -7,8 +7,7 @@ import org.jboss.seam.core.Actor;
 @Name("login")
 public class Login {
    
-   @In(create=true) 
-   private Actor actor;
+   @In private Actor actor;
    
    private String user;
 

@@ -40,10 +40,10 @@ public class HotelBookingAction implements HotelBooking
    @Out(required=false)
    private Booking booking;
      
-   @In(create=true)
+   @In
    private FacesMessages facesMessages;
       
-   @In(create=true)
+   @In
    private Events events;
    
    @Logger 

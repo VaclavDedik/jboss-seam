@@ -22,8 +22,8 @@ public class RegisterAction {
    @In (create=true)
    private Session bookingDatabase;
    
-   @In(create=true)
-   private transient FacesMessages facesMessages;
+   @In
+   private FacesMessages facesMessages;
    
    private String verify;
    

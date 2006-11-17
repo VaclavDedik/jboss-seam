@@ -25,10 +25,10 @@ public class ProcessDefinitionSwitcher
           "ordermanagement3.jpdl.xml" 
        };
 
-    @In(create=true, value="org.jboss.seam.core.jbpm")
+    @In(value="org.jboss.seam.core.jbpm")
     private Jbpm jbpm;
     
-    @In(create=true)
+    @In
     private JbpmContext jbpmContext;
     
     public List<SelectItem> getProcessDefinitions()
