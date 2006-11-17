@@ -21,10 +21,6 @@ public interface Wrapper
    */
   public void setPath(String path);
 
-  /**
-   *
-   * @param call Call
-   */
   public void setCallContext(CallContext context);
 
   /**
@@ -54,8 +50,6 @@ public interface Wrapper
   /**
    * Convert the wrapped parameter value to the specified target class.
    *
-   * @param targetClass Class
-   * @return Object
    */
   public Object convert(Type type) throws ConversionException;
 
@@ -72,8 +66,6 @@ public interface Wrapper
    * 1 - Can be converted to this type
    * 2 - Param is this exact type
    *
-   * @param target Class
-   * @return int
    */
   public ConversionScore conversionScore(Class cls);
 }

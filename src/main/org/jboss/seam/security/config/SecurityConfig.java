@@ -76,10 +76,6 @@ public final class SecurityConfig
     }
   }
 
-  /**
-   *
-   * @param servletContext ServletContext
-   */
   public void setApplicationContext(Context ctx)
   {
     this.applicationContext = ctx;

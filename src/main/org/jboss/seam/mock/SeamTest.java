@@ -296,9 +296,9 @@ public class SeamTest
          setup();
       }
       /**
-       * Assert the current view id
+       * Get the view id to be rendered
        * 
-       * @param viewId the JSF view id
+       * @return the JSF view id
        */
       protected String getRenderedViewId()
       {

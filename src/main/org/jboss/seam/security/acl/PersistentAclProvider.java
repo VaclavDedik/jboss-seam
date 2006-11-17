@@ -161,13 +161,6 @@ public class PersistentAclProvider extends AbstractAclProvider
     return null;
   }
 
-  /**
-   * Converts the result of a
-   * 
-   * @param target
-   * @param perms
-   * @return
-   */
   protected Set<Permission> convertToPermissions(Principal principal, Object target, Object perms)
   {
     if (perms == null)

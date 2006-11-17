@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  * is specified, the task ends only if the outcome is in the list. A null
  * outcome never ends the task.
  *
- * @see org.jbpm.taskmgmt.exe.TaskInstance#end
+ * @see org.jbpm.taskmgmt.exe.TaskInstance#end(String)
  */
 @Target(METHOD)
 @Retention(RUNTIME)

@@ -52,8 +52,6 @@ public class SecurityConfigFileLoader implements SecurityConfigLoader
 
   /**
    * Constructor, loads the configuration from configFile.
-   *
-   * @param configFile File
    */
   public SecurityConfigFileLoader(InputStream config, ServletContext servletContext)
       throws SecurityConfigException

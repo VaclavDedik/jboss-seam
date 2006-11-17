@@ -30,10 +30,6 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
   private static final byte[] MEMBER_START_TAG_CLOSE = "\">".getBytes();
   private static final byte[] MEMBER_CLOSE_TAG = "</member>".getBytes();
 
-  /**
-   *
-   * @param element Element
-   */
   @Override
   public void setElement(Element element)
   {
@@ -118,11 +114,6 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     }
   }
 
-  /**
-   *
-   * @param cls Class
-   * @return Object
-   */
   public Object convert(Type type)
       throws ConversionException
   {
@@ -133,11 +124,6 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
         "Value [%s] cannot be converted to type [%s].", value, type));
   }
 
-  /**
-   *
-   * @param out OutputStream
-   * @throws IOException
-   */
   public void marshal(OutputStream out)
     throws IOException
   {
@@ -148,11 +134,6 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     out.write(REF_START_TAG_END);
   }
 
-  /**
-   *
-   * @param out OutputStream
-   * @throws IOException
-   */
   @Override
   public void serialize(OutputStream out)
       throws IOException
@@ -160,11 +141,6 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     serialize(out, null);
   }
 
-  /**
-   *
-   * @param out OutputStream
-   * @throws IOException
-   */
   public void serialize(OutputStream out, List<String> constraints)
     throws IOException
   {
@@ -271,11 +247,6 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     out.write(BEAN_CLOSE_TAG);
   }
 
-  /**
-   *
-   * @param cls Class
-   * @return int
-   */
   public ConversionScore conversionScore(Class cls) {
     if (cls.equals(value.getClass()))
       return ConversionScore.exact;

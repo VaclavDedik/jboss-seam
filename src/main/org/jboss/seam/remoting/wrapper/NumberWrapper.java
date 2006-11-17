@@ -14,11 +14,6 @@ public class NumberWrapper extends BaseWrapper implements Wrapper
   private static final byte[] NUMBER_TAG_OPEN = "<number>".getBytes();
   private static final byte[] NUMBER_TAG_CLOSE = "</number>".getBytes();
 
-  /**
-   *
-   * @param cls Class
-   * @return Object
-   */
   public Object convert(Type type)
       throws ConversionException
   {

@@ -23,9 +23,6 @@ public class WrapperFactory
    */
   private Map<String,Class> wrapperRegistry = new HashMap<String,Class>();
 
-  /**
-   *
-   */
   private Map<Class,Class> classRegistry = new HashMap<Class,Class>();
 
   /**
@@ -62,40 +59,21 @@ public class WrapperFactory
     registerWrapperClass(Byte.class, NumberWrapper.class);
   }
 
-  /**
-   *
-   * @param type String
-   * @param wrapperClass Class
-   */
   public void registerWrapper(String type, Class wrapperClass)
   {
     wrapperRegistry.put(type, wrapperClass);
   }
 
-  /**
-   *
-   * @param cls Class
-   * @param wrapperClass Class
-   */
   public void registerWrapperClass(Class cls, Class wrapperClass)
   {
     classRegistry.put(cls, wrapperClass);
   }
 
-  /**
-   *
-   * @return WrapperFactory
-   */
   public static WrapperFactory getInstance()
   {
     return factory;
   }
 
-  /**
-   *
-   * @param element Element
-   * @return BaseWrapper
-   */
   public Wrapper createWrapper(String type)
   {
     Class wrapperClass = wrapperRegistry.get(type);
@@ -113,11 +91,6 @@ public class WrapperFactory
                                type));
   }
 
-  /**
-   *
-   * @param obj Object
-   * @return Wrapper
-   */
   public Wrapper getWrapperForObject(Object obj)
   {
     if (obj == null)

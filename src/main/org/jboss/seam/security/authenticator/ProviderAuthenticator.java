@@ -50,10 +50,6 @@ public class ProviderAuthenticator extends Authenticator
     throw new AuthenticationException("Provider not found");
   }
 
-  /**
-   *
-   * @param providerNames List
-   */
   public void setProviders(Object values)
   {
     if (values instanceof AuthenticationProvider)

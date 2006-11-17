@@ -105,11 +105,6 @@ public class StringWrapper extends BaseWrapper implements Wrapper
       Character.class, Character.TYPE, Byte.class, Byte.TYPE,
       BigInteger.class, BigDecimal.class, Object.class};
 
-  /**
-   *
-   * @param targetClass Class
-   * @return Object
-   */
   public Object convert(Type type)
       throws ConversionException
   {
@@ -145,11 +140,6 @@ public class StringWrapper extends BaseWrapper implements Wrapper
     }
   }
 
-  /**
-   *
-   * @param target Class
-   * @return int
-   */
   public ConversionScore conversionScore(Class cls)
   {
     if (cls.equals(String.class) ||

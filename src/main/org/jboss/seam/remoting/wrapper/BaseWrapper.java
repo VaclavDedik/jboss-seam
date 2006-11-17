@@ -65,8 +65,6 @@ public abstract class BaseWrapper implements Wrapper
 
   /**
    * Sets the call context
-   *
-   * @param call Call
    */
   public void setCallContext(CallContext context)
   {

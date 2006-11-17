@@ -12,11 +12,6 @@ public class SeamPermission implements Permission
   private String name;
   private String action;
 
-  /**
-   *
-   * @param name String
-   * @param actions String
-   */
   public SeamPermission(String name, String action)
   {
     if (name == null || "".equals(name.trim()))
