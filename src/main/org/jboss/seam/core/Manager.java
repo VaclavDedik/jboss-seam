@@ -411,17 +411,21 @@ public class Manager
       String storedParentConversationId = getRequestParameterValue(parameters, parentConversationIdParameter);
       Boolean isLongRunningConversation = "true".equals( getRequestParameterValue(parameters, conversationIsLongRunningParameter) );
       
-      if ( isMissing(storedConversationId) && Contexts.isPageContextActive() )
+      if ( isMissing(storedConversationId) )
       {
-         //if it is not passed as a request parameter,
-         //try to get it from the page context
-         org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
-         storedConversationId = page.getConversationId();
-         isLongRunningConversation = page.isConversationLongRunning();
-         //if (isLongRunningConversation==null) isLongRunningConversation = false;
+         if ( Contexts.isPageContextActive() )
+         {
+            //if it is not passed as a request parameter,
+            //try to get it from the page context
+            org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
+            storedConversationId = page.getConversationId();
+            storedParentConversationId = null;
+            isLongRunningConversation = page.isConversationLongRunning();
+            //if (isLongRunningConversation==null) isLongRunningConversation = false;
+         }
       }
 
-      else if (storedConversationId!=null)
+      else
       {
          log.debug("Found conversation id in request parameter: " + storedConversationId);
       }
@@ -430,6 +434,7 @@ public class Manager
       if ( "new".equals(storedConversationId) )
       {
          storedConversationId = null;
+         storedParentConversationId = null;
          isLongRunningConversation = false;
       }
       //end code to remove
@@ -438,10 +443,11 @@ public class Manager
       if ( "none".equals(propagation) )
       {
          storedConversationId = null;
+         storedParentConversationId = null;
          isLongRunningConversation = false;
       }
       
-      return restoreAndLockConversation(storedConversationId, storedParentConversationId, isLongRunningConversation) 
+      return restoreConversation(storedConversationId, storedParentConversationId, isLongRunningConversation) 
             || "end".equals(propagation);
       
    }
@@ -500,15 +506,23 @@ public class Manager
     * Initialize the request conversation context, given the 
     * conversation id.
     */
-   public boolean restoreAndLockConversation(String storedConversationId, String storedParentConversationId, boolean isLongRunningConversation) {
+   public boolean restoreConversation(String storedConversationId, String storedParentConversationId, boolean isLongRunningConversation) {
       ConversationEntry ce = null;
       if (storedConversationId!=null)
       {
          ConversationEntries entries = ConversationEntries.instance();
          ce = entries.getConversationEntry(storedConversationId);
-         if (ce==null) ce = entries.getConversationEntry(storedParentConversationId);
+         if (ce==null)
+         {
+            ce = entries.getConversationEntry(storedParentConversationId);
+         }
       }
       
+      return restoreAndLockConversation(ce, isLongRunningConversation);
+   }
+
+   private boolean restoreAndLockConversation(ConversationEntry ce, boolean isLongRunningConversation)
+   {
       if ( ce!=null && ce.lock() )
       {
          // do this asap, since there is a window where conversationTimeout() might  
@@ -516,9 +530,9 @@ public class Manager
          touchConversationStack( ce.getConversationIdStack() );
 
          //we found an id and obtained the lock, so restore the long-running conversation
-         log.debug("Restoring conversation with id: " + storedConversationId);
+         log.debug("Restoring conversation with id: " + ce.getId());
          setLongRunningConversation(true);
-         setCurrentConversationId(storedConversationId);
+         setCurrentConversationId( ce.getId() );
          setCurrentConversationIdStack( ce.getConversationIdStack() );
 
          boolean removeAfterRedirect = ce.isRemoveAfterRedirect() && !(
