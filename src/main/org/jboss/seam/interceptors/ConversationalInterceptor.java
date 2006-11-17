@@ -86,7 +86,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
    private boolean isNoConversationForConversationalBean(Method method)
    {
       boolean classlevelViolation = componentIsConversational() && 
-            ( !Manager.instance().isLongRunningConversation() || ( componentShouldBeInitiator() && !componentIsInitiator() ) ) &&
+            ( !Manager.instance().isLongRunningOrNestedConversation() || ( componentShouldBeInitiator() && !componentIsInitiator() ) ) &&
             !method.isAnnotationPresent(Begin.class) &&
             !method.isAnnotationPresent(StartTask.class) &&
             !method.isAnnotationPresent(BeginTask.class) &&
@@ -96,7 +96,7 @@ public class ConversationalInterceptor extends AbstractInterceptor
       if (classlevelViolation) return true;
       
       boolean methodlevelViolation = methodIsConversational(method) &&
-            ( !Manager.instance().isLongRunningConversation() || ( componentShouldBeInitiator(method) && !componentIsInitiator() ) );
+            ( !Manager.instance().isLongRunningOrNestedConversation() || ( componentShouldBeInitiator(method) && !componentIsInitiator() ) );
       
       return methodlevelViolation;
       

@@ -183,10 +183,13 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       {
          return id.equals( manager.getCurrentConversationId() );
       }
+      else if ( manager.isNestedConversation() )
+      {
+         return id.equals( manager.getParentConversationId() );
+      }
       else
       {
-         List<String> stack = manager.getCurrentConversationIdStack();
-         return stack!=null && stack.size()>1 && stack.get(1).equals(id);
+         return false;
       }
    }
 

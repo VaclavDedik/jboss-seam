@@ -216,6 +216,11 @@ public class Manager
       return isLongRunningConversation;
    }
 
+   public boolean isLongRunningOrNestedConversation()
+   {
+      return isLongRunningConversation() || isNestedConversation();
+   }
+
    public boolean isReallyLongRunningConversation()
    {
       return isLongRunningConversation() && 

@@ -181,11 +181,11 @@ public class Conversation implements Serializable {
     * Start a long-running conversation, if no long-running
     * conversation is active.
     * 
-    * @return true if a new long-running conversation was begin
+    * @return true if a new long-running conversation was begun
     */
    public boolean begin()
    {
-      if ( Manager.instance().isLongRunningConversation() )
+      if ( Manager.instance().isLongRunningOrNestedConversation() )
       {
          return false;
       }
@@ -221,7 +221,7 @@ public class Conversation implements Serializable {
     */
    public void begin(boolean join, boolean nested)
    {
-      boolean longRunningConversation = Manager.instance().isLongRunningConversation();
+      boolean longRunningConversation = Manager.instance().isLongRunningOrNestedConversation();
       if ( !join && !nested && longRunningConversation  )
       {
          throw new IllegalStateException("begin() called from long-running conversation, try join=true");

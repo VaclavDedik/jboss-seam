@@ -57,14 +57,19 @@ public class Switcher implements Serializable {
       
    private String getLongRunningConversationId()
    {
-      if ( Manager.instance().isLongRunningConversation() )
+      Manager manager = Manager.instance();
+      if ( manager.isLongRunningConversation() )
       {
-         return Manager.instance().getCurrentConversationId();
+         return manager.getCurrentConversationId();
+      }
+      else if ( manager.isNestedConversation() )
+      {
+         return manager.getParentConversationId();
       }
       else
       {
-         List<String> stack = Manager.instance().getCurrentConversationIdStack();
-         return stack.size()==1 ? null : stack.get(1); //TODO: is there any way to set it to the current outcome, instead of null?
+         //TODO: is there any way to set it to the current outcome, instead of null?
+         return null;
       }
    }
 

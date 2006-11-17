@@ -89,7 +89,7 @@ public class ConversationInterceptor extends AbstractInterceptor
    }
 
    private boolean isMissingJoin(Method method) {
-      return Manager.instance().isLongRunningConversation() && ( 
+      return Manager.instance().isLongRunningOrNestedConversation() && ( 
             ( 
                   method.isAnnotationPresent(Begin.class) && 
                   !method.getAnnotation(Begin.class).join() && 
@@ -177,7 +177,7 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void beginConversation(boolean nested, String pageflowName)
    {
-      if ( !Manager.instance().isLongRunningConversation() )
+      if ( !Manager.instance().isLongRunningOrNestedConversation() )
       {
          Manager.instance().beginConversation( getComponent().getName() );
          beginNavigation(pageflowName);
