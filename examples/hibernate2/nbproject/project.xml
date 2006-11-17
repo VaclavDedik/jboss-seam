@@ -31,6 +31,14 @@
                         <label>src</label>
                         <location>src</location>
                     </source-folder>
+                    <source-folder style="tree">
+                        <label>view</label>
+                        <location>view</location>
+                    </source-folder>
+                    <source-folder style="tree">
+                        <label>resources</label>
+                        <location>resources</location>
+                    </source-folder>
                     <source-file>
                         <location>build.xml</location>
                     </source-file>

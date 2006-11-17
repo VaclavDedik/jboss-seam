@@ -56,7 +56,9 @@
   </target>
   
   <!--
-    Only for JBoss AS 4.0.2+.
+    Works for JBoss 4.0.5 by default
+    
+    See notes for which JARs to add for JBoss AS 4.0.2 to 4.0.4
     
     JBoss AS 4.0.0: need to remove cglib.jar and hibernate2.jar from server/default/lib
       the isolated classloader in jboss-web.xml does not seem to work. If we force it
@@ -77,7 +79,9 @@
         <include name="components.xml" />
       </webinf>
       <lib dir="${seamlib}">
-        <include name="jboss-seam*.jar" />
+        <include name="jboss-seam.jar" />
+        <include name="jboss-seam-ui.jar" />
+        <include name="jboss-seam-debug.jar" />
       </lib>
       <lib dir="${applib}">
         <include name="el-api.jar" />
@@ -85,15 +89,17 @@
         <include name="jsf-facelets.jar" />
         <include name="ajax4jsf.jar" />
         <include name="oscache-2.3.2.jar" />
-        <!-- do not need the following for 4.0.4 and 4.0.5 -->
+        <!-- do not need the following for 4.0.4 and 4.0.5
         <include name="cglib.jar" />
+        -->
       </lib>
       <lib dir="${lib}">
-        <!-- do not need the following 4 jars for 4.0.4 and 4.0.5 -->
+        <include name="hibernate-all.jar" />
+        <!-- do not need the following jars for 4.0.4 and 4.0.5 
         <include name="myfaces-api-1.1.4.jar" />
         <include name="myfaces-impl-1.1.4.jar" />
-        <include name="hibernate-all.jar" />
         <include name="commons*.jar" />
+        -->
       </lib>
       <lib dir="${build.jars}">
         <include name="${projname}.jar" />
@@ -115,7 +121,9 @@
         <include name="components.xml" />
       </webinf>
       <lib dir="${seamlib}">
-        <include name="jboss-seam*.jar" />
+        <include name="jboss-seam.jar" />
+        <include name="jboss-seam-ui.jar" />
+        <include name="jboss-seam-debug.jar" />
       </lib>
       <lib dir="${applib}">
         <include name="el-api.jar" />
@@ -123,7 +131,9 @@
         <include name="jsf-facelets.jar" />
         <include name="ajax4jsf.jar" />
         <include name="oscache-2.3.2.jar" />
-        <include name="jboss-tomcat-support.jar" />
+      </lib>
+      <lib dir="${applib}/mc">
+        <include name="*.jar" />
       </lib>
       <lib dir="${lib}">
         <include name="myfaces-api-1.1.4.jar" />
