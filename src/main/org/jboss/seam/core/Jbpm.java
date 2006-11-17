@@ -48,7 +48,7 @@ import org.xml.sax.InputSource;
 @Name("org.jboss.seam.core.jbpm")
 public class Jbpm 
 {
-   private static final Log log = LogFactory.getLog( Jbpm.class );
+   private static final Log log = LogFactory.getLog(Jbpm.class);
    
    private JbpmConfiguration jbpmConfiguration;
    private String jbpmConfigurationJndiName;
