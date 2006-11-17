@@ -102,11 +102,12 @@ public class SeamExpressionFactory extends ExpressionFactory
                                                  String expression,
                                                  Class expectedType) 
     {
+       /*
         MethodExpressionParser parser = new MethodExpressionParser(expression);
         if (parser.isParamExpression())
         {
             return new ParamValueExpression(parser, elContext, expectedType);
-        }
+        } */
         
         return faceletsExpressionFactory.createValueExpression(elContext, expression, expectedType);
     }

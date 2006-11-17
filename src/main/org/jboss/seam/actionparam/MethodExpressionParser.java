@@ -133,7 +133,8 @@ public class MethodExpressionParser implements Serializable
     
     public boolean isParamExpression()
     {
-        return (!isStringLiteral(this.unparsedExpression)) && hasParamsInExpression();
+        return (!isStringLiteral(this.unparsedExpression)) && 
+                (hasParamsInExpression() || hasNoArgParens(this.unparsedExpression));
     }
     
     //---------- Static methods used for parsing ---------------------------------
@@ -217,6 +218,17 @@ public class MethodExpressionParser implements Serializable
         return !expression.substring(openParen + 1, closeParen).trim().equals("");
     }
 
+    // expects full expression
+    // see if expression contains a no-arg method call
+    private static boolean hasNoArgParens(String expression) 
+    {
+        int openParen = expression.indexOf('(');
+        int closeParen = expression.lastIndexOf(')');
+        
+        if ( (openParen == -1) || (closeParen == -1) ) return false;
+        return expression.substring(openParen + 1, closeParen).trim().equals("");
+    }
+    
     // extract each param
     private static String[] getParams(String exp) 
     {

@@ -60,6 +60,7 @@ public class MethodExpressionParserTest
        assert parser.getParams().length == 0;
        assert parser.getMethodName().equals("");
        assert parser.getCombinedExpression().equals("");
+       assert !parser.isParamExpression();
        
        parser = new MethodExpressionParser("foobar");
        assert parser.getUnparsedExpression().equals("foobar");
@@ -68,6 +69,7 @@ public class MethodExpressionParserTest
        assert parser.getParams().length == 0;
        assert parser.getMethodName().equals("");
        assert parser.getCombinedExpression().equals("foobar");
+       assert !parser.isParamExpression();
        
        parser = new MethodExpressionParser("${foo}");
        assert parser.getUnparsedExpression().equals("${foo}");
@@ -76,6 +78,7 @@ public class MethodExpressionParserTest
        assert parser.getParams().length == 0;
        assert parser.getMethodName().equals("");
        assert parser.getCombinedExpression().equals("#{foo}");
+       assert !parser.isParamExpression();
        
        parser = new MethodExpressionParser("  #{foo}   ");
        assert parser.getUnparsedExpression().equals("  #{foo}   ");
@@ -84,6 +87,7 @@ public class MethodExpressionParserTest
        assert parser.getParams().length == 0;
        assert parser.getMethodName().equals("");
        assert parser.getCombinedExpression().equals("#{foo}");
+       assert !parser.isParamExpression();
 
        parser = new MethodExpressionParser("#{foo.bar}");
        assert parser.getUnparsedExpression().equals("#{foo.bar}");
@@ -92,6 +96,7 @@ public class MethodExpressionParserTest
        assert !parser.hasParamsInExpression();
        assert parser.getParams().length == 0;
        assert parser.getCombinedExpression().equals("#{foo.bar}");
+       assert !parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo[bar]}");
        assert parser.getUnparsedExpression().equals("#{foo[bar]}");
@@ -100,6 +105,7 @@ public class MethodExpressionParserTest
        assert !parser.hasParamsInExpression();
        assert parser.getParams().length == 0;
        assert parser.getCombinedExpression().equals("#{foo.bar}");
+       assert !parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo[bar()]}");
        assert parser.getUnparsedExpression().equals("#{foo[bar()]}");
@@ -108,6 +114,7 @@ public class MethodExpressionParserTest
        assert !parser.hasParamsInExpression();
        assert parser.getParams().length == 0;
        assert parser.getCombinedExpression().equals("#{foo.bar}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo.bar(baz)}");
        assert parser.getUnparsedExpression().equals("#{foo.bar(baz)}");
@@ -117,6 +124,7 @@ public class MethodExpressionParserTest
        assert parser.getParams().length == 1;
        assert parser.getParams()[0].equals("baz");
        assert parser.getCombinedExpression().equals("#{foo.bar}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo.bar.baz(  )}");
        assert parser.getUnparsedExpression().equals("#{foo.bar.baz(  )}");
@@ -125,6 +133,7 @@ public class MethodExpressionParserTest
        assert !parser.hasParamsInExpression();
        assert parser.getParams().length == 0;
        assert parser.getCombinedExpression().equals("#{foo.bar.baz}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo.bar.baz(bum)}");
        assert parser.getUnparsedExpression().equals("#{foo.bar.baz(bum)}");
@@ -134,6 +143,7 @@ public class MethodExpressionParserTest
        assert parser.getParams().length == 1;
        assert parser.getParams()[0].equals("bum");
        assert parser.getCombinedExpression().equals("#{foo.bar.baz}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo.bar[baz(bum)]}");
        assert parser.getUnparsedExpression().equals("#{foo.bar[baz(bum)]}");
@@ -143,6 +153,7 @@ public class MethodExpressionParserTest
        assert parser.getParams().length == 1;
        assert parser.getParams()[0].equals("bum");
        assert parser.getCombinedExpression().equals("#{foo.bar.baz}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo.bar.baz(\"bum\")}");
        assert parser.getUnparsedExpression().equals("#{foo.bar.baz(\"bum\")}");
@@ -152,6 +163,7 @@ public class MethodExpressionParserTest
        assert parser.getParams().length == 1;
        assert parser.getParams()[0].equals("\"bum\"");
        assert parser.getCombinedExpression().equals("#{foo.bar.baz}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo.bar.baz(bum, booger, 'foo')}");
        assert parser.getUnparsedExpression().equals("#{foo.bar.baz(bum, booger, 'foo')}");
@@ -163,6 +175,7 @@ public class MethodExpressionParserTest
        assert parser.getParams()[1].equals("booger");
        assert parser.getParams()[2].equals("'foo'");
        assert parser.getCombinedExpression().equals("#{foo.bar.baz}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo[1].bar[2].baz(bum, booger, 'foo')}");
        assert parser.getUnparsedExpression().equals("#{foo[1].bar[2].baz(bum, booger, 'foo')}");
@@ -174,6 +187,7 @@ public class MethodExpressionParserTest
        assert parser.getParams()[1].equals("booger");
        assert parser.getParams()[2].equals("'foo'");
        assert parser.getCombinedExpression().equals("#{foo[1].bar[2].baz}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo[\"one\"].bar[\"two\"].baz(bum, booger, 'foo')}");
        assert parser.getUnparsedExpression().equals("#{foo[\"one\"].bar[\"two\"].baz(bum, booger, 'foo')}");
@@ -185,6 +199,7 @@ public class MethodExpressionParserTest
        assert parser.getParams()[1].equals("booger");
        assert parser.getParams()[2].equals("'foo'");
        assert parser.getCombinedExpression().equals("#{foo[\"one\"].bar[\"two\"].baz}");
+       assert parser.isParamExpression();
        
        parser = new MethodExpressionParser("#{foo[1].bar[2][baz(bum, booger, 'foo')]}");
        assert parser.getUnparsedExpression().equals("#{foo[1].bar[2][baz(bum, booger, 'foo')]}");
@@ -196,6 +211,7 @@ public class MethodExpressionParserTest
        assert parser.getParams()[1].equals("booger");
        assert parser.getParams()[2].equals("'foo'");
        assert parser.getCombinedExpression().equals("#{foo[1].bar[2].baz}");
+       assert parser.isParamExpression();
        
    }
     
