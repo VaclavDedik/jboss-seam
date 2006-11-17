@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/gen"/>
+	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/debug"/>
-	<classpathentry kind="src" path="examples/booking/src"/>
-	<classpathentry kind="src" path="examples/booking/resources"/>
-	<classpathentry kind="src" path="embedded-ejb/conf"/>
 	<classpathentry kind="src" path="src/ui"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/portlet-api-lib.jar"/>
@@ -13,8 +12,7 @@
 	<classpathentry kind="lib" path="lib/testng-4.5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
 	<classpathentry kind="lib" path="facelets/lib/jsf-facelets.jar"/>
-	<classpathentry kind="lib" path="lib/mailstuff.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-all.jar" sourcepath="C:/hibernate-3.2/src"/>
+	<classpathentry kind="lib" path="lib/hibernate-all.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-ejb3-all.jar"/>
 	<classpathentry kind="lib" path="lib/jgroups.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-aop-jdk50.jar"/>
@@ -24,8 +22,9 @@
 	<classpathentry kind="lib" path="lib/jbpm-3.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/el-api.jar"/>
 	<classpathentry kind="lib" path="lib/el-ri.jar"/>
-	<classpathentry kind="lib" path="lib/myfaces-api-1.1.4.jar" sourcepath="/MyFaces/source"/>
-	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.4.jar" sourcepath="/MyFaces"/>
-	<classpathentry kind="lib" path="examples/xulcontactlist/resources/WEB-INF/lib/xulfaces-0.7.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-api-1.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/ant.jar"/>
+	<classpathentry kind="lib" path="embedded-ejb/conf"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>
