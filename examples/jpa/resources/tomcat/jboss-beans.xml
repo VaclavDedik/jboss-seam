@@ -3,58 +3,35 @@
 <deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
             xmlns="urn:jboss:bean-deployer">
-              
-   <bean name="Naming" class="org.jnp.server.SingletonNamingServer"/>
- 
-   <bean name="TransactionManagerFactory" class="org.jboss.seam.microcontainer.TransactionManagerFactory"/>
-   <bean name="TransactionManager" class="java.lang.Object">
-      <constructor factoryMethod="getTransactionManager">
-         <factory bean="TransactionManagerFactory"/>
-      </constructor>
-   </bean>
-   
-   <bean name="InitialContextProperties" class="java.util.Hashtable">
-      <constructor>
-      <parameter class="java.util.Map">
-            <map keyClass="java.lang.String" valueClass="java.lang.String">
-               <entry>
-                  <key>java.naming.factory.initial</key>
-                  <value>org.jnp.interfaces.LocalOnlyContextFactory</value>
-               </entry>
-               <entry>
-                   <key>java.naming.factory.url.pkgs</key>
-                   <value>org.jboss.naming:org.jnp.interfaces</value>
-               </entry>
-            </map>
-      </parameter>
-      </constructor>
-   </bean>
-   
-   <bean name="CachedConnectionManager" 
-         class="org.jboss.resource.connectionmanager.CachedConnectionManagerReference">
-      <property name="transactionManager">
-        <inject bean="TransactionManager"/>
-      </property>
-   </bean>
-   
-   <bean name="DefaultDSBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
-      <property name="driverClass">org.hsqldb.jdbcDriver</property>
-      <property name="connectionURL">jdbc:hsqldb:.</property>
-      <property name="userName">sa</property>
-      <property name="jndiName">java:/DefaultDS</property>
-      <property name="minSize">0</property>
-      <property name="maxSize">10</property>
-      <property name="blockingTimeout">1000</property>
-      <property name="idleTimeout">100000</property>
-      <property name="transactionManager"><inject bean="TransactionManager"/></property>
-      <property name="cachedConnectionManager"><inject bean="CachedConnectionManager"/></property>
-      <property name="initialContextProperties"><inject bean="InitialContextProperties"/></property>
-   </bean>
-   
-   <bean name="DefaultDS" class="java.lang.Object">
-      <constructor factoryMethod="getDatasource">
-         <factory bean="DefaultDSBootstrap"/>
-      </constructor>
-   </bean>
+            
+  <bean name="Naming" class="org.jnp.server.SingletonNamingServer"/>
+
+  <bean name="TransactionManagerFactory" 
+    class="org.jboss.seam.microcontainer.TransactionManagerFactory"/>
+  <bean name="TransactionManager" class="java.lang.Object">
+    <constructor factoryMethod="getTransactionManager">
+      <factory bean="TransactionManagerFactory"/>
+    </constructor>
+  </bean>
+
+  <bean name="bookingDatasourceFactory" 
+       class="org.jboss.seam.microcontainer.DataSourceFactory">
+    <property name="driverClass">org.hsqldb.jdbcDriver</property>
+    <property name="connectionUrl">jdbc:hsqldb:.</property>
+    <property name="userName">sa</property>
+    <property name="jndiName">java:/DefaultDS</property>
+    <property name="minSize">0</property>
+    <property name="maxSize">10</property>
+    <property name="blockingTimeout">1000</property>
+    <property name="idleTimeout">100000</property>
+    <property name="transactionManager">
+      <inject bean="TransactionManager"/>
+    </property>
+  </bean>
+  <bean name="bookingDatasource" class="java.lang.Object">
+    <constructor factoryMethod="getDataSource">
+      <factory bean="bookingDatasourceFactory"/>
+    </constructor>
+  </bean>
 
 </deployment>
