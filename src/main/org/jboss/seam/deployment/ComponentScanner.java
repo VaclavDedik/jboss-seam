@@ -43,12 +43,7 @@ public class ComponentScanner
     @Override
     protected void handleItem(String name)
     {
-        if (name.endsWith(".class") && 
-            !name.startsWith("org/jboss/seam/core") &&
-            !name.startsWith("org/jboss/seam/persistence") &&
-            !name.startsWith("org/jboss/seam/debug") &&
-            !name.startsWith("org/jboss/seam/theme"))
-        {
+        if (name.endsWith(".class")) {
             String classname = filenameToClassname(name);
             String filename = Scanner.componentFilename(name);
             try {
@@ -69,7 +64,4 @@ public class ComponentScanner
             }
         }
     }
-
-
-    
 }

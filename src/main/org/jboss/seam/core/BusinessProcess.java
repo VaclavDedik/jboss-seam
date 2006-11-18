@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -27,6 +28,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.businessProcess")
 @Intercept(NEVER)
+@Install(depends="org.jboss.seam.core.jbpm")
 public class BusinessProcess extends AbstractMutable implements Serializable {
    
    private Long processId;

@@ -12,12 +12,12 @@ public class InitializationTest
    public void testEmptyInitialization()
    {
       MockServletContext servletContext = new MockServletContext();
-      new Initialization(servletContext).setScannerEnabled(false).init();
+      new Initialization(servletContext).init();
+
       assert servletContext.getAttributes().size()==44;
       assert !Contexts.isApplicationContextActive();
    }
 
    //TODO: write a test for components.xml
-
 }
 

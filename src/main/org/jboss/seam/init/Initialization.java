@@ -29,6 +29,7 @@ import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Namespace;
 import org.jboss.seam.annotations.Role;
@@ -121,7 +122,6 @@ public class Initialization
 
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
    private ServletContext servletContext;
-   private boolean isScannerEnabled = true;
    private List<ComponentDescriptor> componentDescriptors = new ArrayList<ComponentDescriptor>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponents = new HashSet<Class>();
@@ -220,14 +220,10 @@ public class Initialization
       List<Element> componentElements = doc.getRootElement().elements("component");
       for (Element component: componentElements)
       {
-         String installed = component.attributeValue("installed");
-         if (installed==null || "true".equals( replace(installed, replacements) ) )
-         {
             installComponentFromXmlElement(component, 
                                            component.attributeValue("name"), 
                                            component.attributeValue("class"), 
                                            replacements);
-         }
       }
 
       List<Element> factoryElements = doc.getRootElement().elements("factory");
@@ -242,8 +238,6 @@ public class Initialization
           String ns = elem.getNamespace().getURI();
           NamespaceInfo nsInfo = namespaceMap.get(ns);
           if (nsInfo != null) {
-              String installed = elem.attributeValue("installed");
-              if (installed==null || "true".equals(replace(installed, replacements))) {
                   String name = elem.attributeValue("name");
 
                   String className = nsInfo.getPackage().getName() + "." + elem.getName();
@@ -273,7 +267,7 @@ public class Initialization
                                                  name,
                                                  className, 
                                                  replacements);
-              }
+//               }
           }
       }
    }
@@ -326,6 +320,12 @@ public class Initialization
                                                Properties replacements) 
        throws ClassNotFoundException
    {
+      String installText = component.attributeValue("installed");
+      boolean installed = false;
+      if (installText == null || "true".equals(replace(installText, replacements))) {
+          installed = true;
+      }
+
       String scopeName = component.attributeValue("scope");
       String jndiName = component.attributeValue("jndi-name");
       ScopeType scope = scopeName==null ? null : ScopeType.valueOf(scopeName.toUpperCase());
@@ -355,7 +355,8 @@ public class Initialization
          {
             name = clazz.getAnnotation(Name.class).value();
          }
-         componentDescriptors.add( new ComponentDescriptor(name, clazz, scope, autoCreate, jndiName) );
+
+         componentDescriptors.add( new ComponentDescriptor(name, clazz, scope, autoCreate, jndiName, installed) );
          installedComponents.add(clazz);
       }
       else if (name==null)
@@ -433,7 +434,7 @@ public class Initialization
    public Initialization init()
    {
       log.info("initializing Seam");
-      installScannedComponents();
+      scanForComponents();
       Lifecycle.beginInitialization(servletContext);
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       addComponents();
@@ -442,19 +443,14 @@ public class Initialization
       return this;
    }
 
-   private void installScannedComponents()
+   private void scanForComponents()
    {
       Set<Package> scannedPackages = new HashSet<Package>();
-      if ( isScannerEnabled )
-      {
-         for ( Class<Object> scannedClass: new ComponentScanner("seam.properties").getClasses() )
-         {
-            installScannedClass(scannedPackages, scannedClass);
-         }
-         for ( Class<Object> scannedClass: new ComponentScanner("META-INF/components.xml").getClasses() )
-         {
-            installScannedClass(scannedPackages, scannedClass);
-         }
+      for (Class<Object> scannedClass: new ComponentScanner("seam.properties").getClasses()) {
+          installScannedClass(scannedPackages, scannedClass);
+      }
+      for (Class<Object> scannedClass: new ComponentScanner("META-INF/components.xml").getClasses()) {
+          installScannedClass(scannedPackages, scannedClass);
       }
    }
 
@@ -530,7 +526,7 @@ public class Initialization
    private void installRole(Class<Object> scannedClass, Role role)
    {
       ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
-      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope, false, null ) );
+      componentDescriptors.add( new ComponentDescriptor( role.name(), scannedClass, scope, false, null, null ) );
    }
 
     private void addNamespace(Package pkg) {
@@ -552,13 +548,11 @@ public class Initialization
         addNamespace(org.jboss.seam.remoting.RequestContext.class.getPackage());
         addNamespace(org.jboss.seam.theme.Theme.class.getPackage());
 
-        if (isScannerEnabled) {
-            for (Package pkg: new NamespaceScanner("seam.properties").getPackages()) { 
-                addNamespace(pkg);
-            }
-            for (Package pkg: new NamespaceScanner("META-INF/components.xml").getPackages()) {
-                addNamespace(pkg);
-            }
+        for (Package pkg: new NamespaceScanner("seam.properties").getPackages()) { 
+            addNamespace(pkg);
+        }
+        for (Package pkg: new NamespaceScanner("META-INF/components.xml").getPackages()) {
+            addNamespace(pkg);
         }
     }
 
@@ -613,119 +607,84 @@ public class Initialization
       return props;
    }
 
+   protected ComponentDescriptor findDescriptor(Class<?> componentClass) {
+       for (ComponentDescriptor component: componentDescriptors) {
+           if (component.getComponentClass().equals(componentClass)) {
+               return component;
+           }
+       }
+       return null;
+   }
+
+
    protected void addComponents()
    {
       Context context = Contexts.getApplicationContext();
 
-      addComponent( Init.class, context );
-
       //force instantiation of Init
+      addComponent(new ComponentDescriptor(Init.class), context);
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);
 
-      addComponent( Expressions.class, context);
-      addComponent( Pages.class, context);
-      addComponent( FacesPage.class, context);
-      addComponent( Events.class, context);
-      addComponent( ConversationEntries.class, context );
-      addComponent( Manager.class, context );
-      addComponent( Switcher.class, context );
-      addComponent( Redirect.class, context );
-      addComponent( HttpError.class, context );
-      addComponent( UserPrincipal.class, context );
-      addComponent( IsUserInRole.class, context );
-      addComponent( Conversation.class, context );
-      addComponent( ConversationList.class, context );
-      addComponent( ConversationStack.class, context );
-      addComponent( FacesContext.class, context );
-      addComponent( PageContext.class, context );
-      addComponent( EventContext.class, context );
-      addComponent( SessionContext.class, context );
-      addComponent( ApplicationContext.class, context );
-      addComponent( ConversationContext.class, context );
-      addComponent( BusinessProcessContext.class, context );
-      addComponent( Locale.class, context );
-      addComponent( Messages.class, context );
-      addComponent( Theme.class, context);
-      addComponent( ThemeSelector.class, context);
-      addComponent( Interpolator.class, context );
-      addComponent( Validation.class, context );
-      addComponent( FacesMessages.class, context );
-      addComponent( ResourceBundle.class, context );
-      addComponent( LocaleSelector.class, context );
-      addComponent( UiComponent.class, context );
-      addComponent( SafeActions.class, context );
-      addComponent( PersistenceContexts.class, context );
-      addComponent( CurrentDate.class, context );
-      addComponent( CurrentTime.class, context );
-      addComponent( CurrentDatetime.class, context );
-      addComponent( Exceptions.class, context );
-
-      //addComponent( Dispatcher.class, context );
-      
-      addComponentIfPossible( SeamSecurityManager.class, context );
-      addComponentIfPossible( RemotingConfig.class, context );
-      addComponentIfPossible( SubscriptionRegistry.class, context );
-      addComponentIfPossible( PojoCache.class, context );
-      
-      if ( installedComponents.contains(ManagedPersistenceContext.class) )
-      {
-         try
-         {
-            Reflections.classForName("org.hibernate.Session");
-            addComponent( HibernatePersistenceProvider.class, context );
-         }
-         catch (ClassNotFoundException cnfe)
-         {
-            addComponent( PersistenceProvider.class, context );
-         }
+      ComponentDescriptor desc = findDescriptor(Jbpm.class);
+      if (desc != null && desc.isInstalled()) {
+          init.setJbpmInstalled(true);
       }
 
-      if ( installedComponents.contains(Jbpm.class) )
-      {
-         init.setJbpmInstalled(true);
+//       addComponentIfPossible( SeamSecurityManager.class, context );
+//       addComponentIfPossible( RemotingConfig.class, context );
+//       addComponentIfPossible( SubscriptionRegistry.class, context );
+
+      try {
+          Reflections.classForName("org.jboss.cache.aop.PojoCache");
+          componentDescriptors.add(new ComponentDescriptor(PojoCache.class, true));
+      } catch (ClassNotFoundException e) {
       }
 
-      if ( init.isDebug() )
-      {
-         addComponent( Introspector.class, context );
-         addComponent( org.jboss.seam.debug.Contexts.class, context );
+      if (installedComponents.contains(ManagedPersistenceContext.class)) {
+          try {
+              Reflections.classForName("org.hibernate.Session");
+              componentDescriptors.add(new ComponentDescriptor(HibernatePersistenceProvider.class, true));
+          } catch (ClassNotFoundException cnfe) {
+              componentDescriptors.add(new ComponentDescriptor(PersistenceProvider.class, true));
+          }
+       }
+
+      if (init.isDebug()) {
+          componentDescriptors.add(new ComponentDescriptor(Introspector.class, true));
+          componentDescriptors.add(new ComponentDescriptor(org.jboss.seam.debug.Contexts.class, true));
       }
 
-      if ( init.isJbpmInstalled() )
-      {
-         addComponent( Actor.class, context);
-         addComponent( BusinessProcess.class, context );
-         addComponent( Pageflow.class, context );
-         addComponent( Transition.class, context);
-         addComponent( PooledTask.class, context );
-         addComponent( TaskInstance.class, context );
-         addComponent( ProcessInstance.class, context );
-         addComponent( TaskInstanceList.class, context );
-         addComponent( PooledTaskInstanceList.class, context );
-         addComponent( TaskInstanceListForType.class, context );
-         addComponent( ManagedJbpmContext.class, context );
+      if (installedComponents.contains(ManagedTopicPublisher.class)) {
+          componentDescriptors.add(new ComponentDescriptor(TopicConnection.class, true));
+          componentDescriptors.add(new ComponentDescriptor(TopicSession.class, true));
       }
 
-      if ( installedComponents.contains(ManagedTopicPublisher.class) )
-      {
-         addComponent( TopicConnection.class, context );
-         addComponent( TopicSession.class, context );
+      if (installedComponents.contains(ManagedQueueSender.class)) {
+          componentDescriptors.add(new ComponentDescriptor(QueueConnection.class, true));
+          componentDescriptors.add(new ComponentDescriptor(QueueSession.class, true));
       }
 
-      if ( installedComponents.contains(ManagedQueueSender.class) )
-      {
-         addComponent( QueueConnection.class, context );
-         addComponent( QueueSession.class, context );
-      }
 
-      for ( ComponentDescriptor componentDescriptor: componentDescriptors )
-      {
-         addComponent(componentDescriptor, context);
-         if ( componentDescriptor.isAutoCreate() )
-         {
-            init.addAutocreateVariable( componentDescriptor.getName() );
-         }
-      }
+      boolean installedSomething = false;
+      do {
+          installedSomething = false;
+          log.info("Instantiating components...");
+          for (ComponentDescriptor componentDescriptor: componentDescriptors) {
+              String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
+              if (!context.isSet(compName)) {
+                  if (componentDescriptor.isInstalled() &&
+                      dependenciesMet(context, componentDescriptor.getDependencies())) 
+                  {
+                      addComponent(componentDescriptor, context);
+                      if (componentDescriptor.isAutoCreate()) {
+                          init.addAutocreateVariable(componentDescriptor.getName());
+                      }
+                      installedSomething = true;
+                  } 
+              }
+          }
+
+      } while (installedSomething);
 
       for (FactoryDescriptor factoryDescriptor: factoryDescriptors)
       {
@@ -742,9 +701,26 @@ public class Initialization
             init.addAutocreateVariable(factoryDescriptor.getName());
          }
       }
-
    }
 
+   protected boolean dependenciesMet(Context context, String[] dependencies) {
+       if (dependencies == null) {
+           return true;
+       }
+
+       for (String dependency: dependencies) {
+           if (!context.isSet(dependency + COMPONENT_SUFFIX)) {
+               return false;
+           }
+       }
+
+       return true;
+   }
+
+    /** 
+     * This actually creates a propert component and should only be called
+     * when we want to install a component
+     */
    protected void addComponent(ComponentDescriptor descriptor, Context context)
    {
       String name = descriptor.getName();
@@ -762,40 +738,6 @@ public class Initialization
             descriptor.getJndiName()
          );
       context.set(componentName, component);
-
-   }
-
-   protected void addComponentIfPossible(Class<?> clazz, Context context)
-   {
-      try
-      {
-         addComponent(clazz, context);
-      }
-      catch (NoClassDefFoundError ncdfe)
-      {
-         log.info(
-               "could not install component: " + 
-               clazz.getAnnotation(Name.class).value() +
-               " due to missing class: " +
-               ncdfe.getMessage()
-            );
-      }
-   }
-
-   protected void addComponent(Class clazz, Context context)
-   {
-      addComponent( new ComponentDescriptor(clazz), context );
-   }
-
-   public boolean isScannerEnabled()
-   {
-      return isScannerEnabled;
-   }
-
-   public Initialization setScannerEnabled(boolean isScannerEnabled)
-   {
-      this.isScannerEnabled = isScannerEnabled;
-      return this;
    }
 
    private static class FactoryDescriptor
@@ -873,22 +815,35 @@ public class Initialization
    private static class ComponentDescriptor
    {
       private String name;
-      private Class componentClass;
+      private Class<?> componentClass;
       private ScopeType scope;
       private String jndiName;
+      private Boolean installed;
       private boolean autoCreate;
 
-      public ComponentDescriptor(String name, Class componentClass, ScopeType scope, boolean autoCreate, String jndiName)
+      public ComponentDescriptor(String name, 
+                                 Class<?> componentClass, 
+                                 ScopeType scope, 
+                                 boolean autoCreate,
+                                 String jndiName, 
+                                 Boolean installed)
       {
          this.name = name;
          this.componentClass = componentClass;
          this.scope = scope;
          this.jndiName = jndiName;
+         this.installed = installed;
          this.autoCreate = autoCreate;
       }
       public ComponentDescriptor(Class componentClass)
       {
          this.componentClass = componentClass;
+      }
+      public ComponentDescriptor(Class componentClass, Boolean installed)
+      {
+          this.componentClass = componentClass;
+          this.installed = installed;
+          
       }
 
       public String getName()
@@ -912,10 +867,29 @@ public class Initialization
          return autoCreate;
       }
 
+      public String[] getDependencies() {
+          Install anno = componentClass.getAnnotation(Install.class);
+          if (anno == null) {
+              return null;
+          }
+          return anno.depends();
+      }
+
+      public boolean isInstalled() {
+          if (installed != null) {
+              return installed;
+          }
+          Install anno = componentClass.getAnnotation(Install.class);
+          if (anno == null) {
+              return true;
+          }
+          return anno.value();
+      }
+
       @Override
       public String toString()
       {
-         return "ComponentDescriptor(" + name + ')';
+         return "ComponentDescriptor(" + getName() + ')';
       }
    }
 

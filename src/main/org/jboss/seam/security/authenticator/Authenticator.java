@@ -6,6 +6,7 @@ import java.util.List;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.Authentication;
@@ -20,6 +21,7 @@ import org.jboss.seam.util.Reflections;
  * @author Shane Bryzak
  */
 @Name("org.jboss.seam.security.authenticator")
+@Install(false)
 public abstract class Authenticator
 {
   private List<AuthenticationAdapter> adapters = new ArrayList<AuthenticationAdapter>();

@@ -117,7 +117,7 @@ public class SecurityTest
     MockServletContext ctx = new MockServletContext();
     MockExternalContext eCtx = new MockExternalContext(ctx);
 
-    new Initialization(ctx).setScannerEnabled(false).init();
+    new Initialization(ctx).init();
 
     Lifecycle.beginRequest(eCtx);
 

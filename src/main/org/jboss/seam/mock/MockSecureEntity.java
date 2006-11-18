@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.AclProvider;
 import org.jboss.seam.annotations.security.DefinePermissions;
@@ -14,6 +15,7 @@ import org.jboss.seam.annotations.security.DefinePermissions;
  * @author Shane Bryzak
  */
 @Name("mockSecureEntity")
+@Install(false)
 @DefinePermissions(
     permissions = {
   @AclProvider(action = "read", provider = "persistentAclProvider", mask = 0x01),

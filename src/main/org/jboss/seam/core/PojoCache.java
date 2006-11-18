@@ -9,6 +9,7 @@ import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -18,12 +19,13 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.pojoCache")
 @Scope(ScopeType.APPLICATION)
 @Intercept(InterceptionType.NEVER)
+@Install(false)
 public class PojoCache 
 {
 
-	private static final Log log = LogFactory.getLog(PojoCache.class);
+   private static final Log log = LogFactory.getLog(PojoCache.class);
 
-	private org.jboss.cache.aop.PojoCache cache;
+   private org.jboss.cache.aop.PojoCache cache;
    private String cfgResourceName = "treecache.xml";
 
    @Create

@@ -10,6 +10,7 @@ import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -25,6 +26,7 @@ import org.jboss.seam.util.Naming;
 @Intercept(NEVER)
 @Startup
 @Name("org.jboss.seam.core.ejb")
+@Install(false)
 public class Ejb
 {
    private static final Log log = LogFactory.getLog(Ejb.class);

@@ -20,6 +20,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
@@ -38,6 +39,7 @@ import org.jboss.seam.util.Transactions;
  */
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
+@Install(false)
 public class ManagedPersistenceContext 
    implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager
 {

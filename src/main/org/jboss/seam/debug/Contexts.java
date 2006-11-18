@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.ConversationEntries;
@@ -12,6 +13,7 @@ import org.jboss.seam.core.ConversationEntry;
 
 @Name("org.jboss.seam.debug.contexts")
 @Scope(ScopeType.APPLICATION)
+@Install(false)
 public class Contexts 
 {
    public List<ConversationEntry> getConversationEntries()

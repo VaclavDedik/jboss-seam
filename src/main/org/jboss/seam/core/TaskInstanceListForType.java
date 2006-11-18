@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
@@ -22,6 +23,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name("org.jboss.seam.core.taskInstanceListForType")
 @Scope(APPLICATION)
+@Install(depends="org.jboss.seam.core.jbpm")
 public class TaskInstanceListForType
 {
    

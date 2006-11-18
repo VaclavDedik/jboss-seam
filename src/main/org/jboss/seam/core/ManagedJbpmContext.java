@@ -19,6 +19,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -39,6 +40,7 @@ import org.jbpm.svc.Services;
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.jbpmContext")
 @Intercept(NEVER)
+@Install(depends="org.jboss.seam.core.jbpm")
 public class ManagedJbpmContext implements Synchronization
 {
    private static final Log log = LogFactory.getLog(ManagedJbpmContext.class);

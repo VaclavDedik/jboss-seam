@@ -620,7 +620,7 @@ public class RemotingTest
   {
     // Initialize Seam
     MockServletContext servletContext = new MockServletContext();
-    new Initialization(servletContext).setScannerEnabled(false).init();
+    new Initialization(servletContext).init();
     Lifecycle.setServletContext(servletContext);
 
     try

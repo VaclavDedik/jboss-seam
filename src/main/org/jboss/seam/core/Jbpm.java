@@ -18,6 +18,7 @@ import org.hibernate.lob.ReaderInputStream;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -46,6 +47,7 @@ import org.xml.sax.InputSource;
 @Intercept(NEVER)
 @Startup(depends={"org.jboss.seam.core.microcontainer", "org.jboss.seam.core.ejb"})
 @Name("org.jboss.seam.core.jbpm")
+@Install(false)
 public class Jbpm 
 {
    private static final Log log = LogFactory.getLog(Jbpm.class);

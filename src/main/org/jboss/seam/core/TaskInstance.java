@@ -9,6 +9,7 @@ package org.jboss.seam.core;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -26,6 +27,7 @@ import org.jboss.seam.util.Work;
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.core.taskInstance")
 @Intercept(InterceptionType.NEVER)
+@Install(depends="org.jboss.seam.core.jbpm")
 public class TaskInstance 
 {
    

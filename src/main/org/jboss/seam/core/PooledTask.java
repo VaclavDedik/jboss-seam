@@ -3,6 +3,7 @@ package org.jboss.seam.core;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
@@ -16,6 +17,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name("org.jboss.seam.core.pooledTask")
 @Scope(ScopeType.APPLICATION)
+@Install(depends="org.jboss.seam.core.jbpm")
 public class PooledTask
 {
    

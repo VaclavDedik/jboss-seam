@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
@@ -19,6 +20,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name("org.jboss.seam.core.pooledTaskInstanceList")
 @Scope(ScopeType.APPLICATION)
+@Install(depends="org.jboss.seam.core.jbpm")
 public class PooledTaskInstanceList
 {
    

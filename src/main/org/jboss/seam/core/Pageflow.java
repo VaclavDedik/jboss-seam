@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.PerNestedConversation;
@@ -40,6 +41,7 @@ import org.jbpm.graph.exe.Token;
 @PerNestedConversation
 @Name("org.jboss.seam.core.pageflow")
 @Intercept(NEVER)
+@Install(depends="org.jboss.seam.core.jbpm")
 public class Pageflow extends AbstractMutable implements Serializable
 {
    private static final Log log = LogFactory.getLog(Pageflow.class);

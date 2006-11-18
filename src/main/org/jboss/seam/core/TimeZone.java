@@ -4,6 +4,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -17,6 +18,7 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.STATELESS)
 @Name("org.jboss.seam.core.timeZone")
 @Intercept(NEVER)
+@Install(false)
 public class TimeZone {
 
    @Unwrap

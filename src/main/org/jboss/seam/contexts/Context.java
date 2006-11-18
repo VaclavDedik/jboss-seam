@@ -16,12 +16,12 @@ import org.jboss.seam.ScopeType;
  * @version $Revision$
  */
 public interface Context {
-	public Object get(String name);
-   public Object get(Class clazz);
-	public void set(String name, Object value);
-	public void remove(String name);
-	public boolean isSet(String name);
-	public String[] getNames();
-   public void flush();
-   public ScopeType getType();
+    public Object get(String name);
+    public Object get(Class clazz);
+    public void set(String name, Object value);
+    public void remove(String name);
+    public boolean isSet(String name);
+    public String[] getNames();
+    public void flush();
+    public ScopeType getType();
 }

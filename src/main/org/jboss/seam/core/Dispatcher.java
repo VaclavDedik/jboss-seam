@@ -18,6 +18,7 @@ import javax.ejb.TimerService;
 import javax.interceptor.Interceptors;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.timer.Duration;
 import org.jboss.seam.annotations.timer.Expiration;
@@ -37,6 +38,7 @@ import org.jboss.seam.util.Reflections;
 @Stateless
 @Name("org.jboss.seam.core.dispatcher")
 @Interceptors(SeamInterceptor.class)
+@Install(false)
 public class Dispatcher implements LocalDispatcher
 {
    

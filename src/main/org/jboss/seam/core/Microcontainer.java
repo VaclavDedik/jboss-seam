@@ -6,6 +6,7 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import org.jboss.kernel.plugins.bootstrap.standalone.StandaloneBootstrap;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -20,6 +21,7 @@ import org.jboss.seam.annotations.Startup;
 @Intercept(NEVER)
 @Startup
 @Name("org.jboss.seam.core.microcontainer")
+@Install(false)
 public class Microcontainer
 {
    @Create 
