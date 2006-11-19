@@ -22,6 +22,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -311,18 +312,37 @@ public class Initialization
          String qualifiedPropName = name + '.' + toCamelCase(propName);
          properties.put(qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements));
       }
+      
+      for (Attribute prop: (List<Attribute>) component.attributes())
+      {
+         String attributeName = prop.getName();
+         boolean isProperty = !"name".equals(attributeName) && 
+               !"installed".equals(attributeName) && 
+               !"scope".equals(attributeName) &&
+               !"jndi-name".equals(attributeName) &&
+               !"auto-create".equals(attributeName);
+         if (isProperty)
+         {
+            String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName() );
+            properties.put(qualifiedPropName, getPropertyValue(prop, replacements));
+         }
+      }
    }
 
+   private Conversions.PropertyValue getPropertyValue(Attribute prop, Properties replacements)
+   {
+      return new Conversions.FlatPropertyValue( trimmedText(prop, replacements) );
+   }
+   
    private Conversions.PropertyValue getPropertyValue(Element prop, String propName,
             Properties replacements)
    {
       List<Element> keyElements = prop.elements("key");
       List<Element> valueElements = prop.elements("value");
 
-      Conversions.PropertyValue propertyValue;
       if (valueElements.isEmpty() && keyElements.isEmpty())
       {
-         propertyValue = new Conversions.FlatPropertyValue(
+         return new Conversions.FlatPropertyValue(
                   trimmedText(prop, propName, replacements));
       }
       else if (keyElements.isEmpty())
@@ -334,7 +354,7 @@ public class Initialization
          {
             values[i] = trimmedText(valueElements.get(i), propName, replacements);
          }
-         propertyValue = new Conversions.MultiPropertyValue(values);
+         return new Conversions.MultiPropertyValue(values);
       }
       else
       {
@@ -351,10 +371,8 @@ public class Initialization
             String value = trimmedText(valueElements.get(i), propName, replacements);
             keyedValues.put(key, value);
          }
-         propertyValue = new Conversions.AssociativePropertyValue(keyedValues);
+         return new Conversions.AssociativePropertyValue(keyedValues);
       }
-      return propertyValue;
-
    }
 
    private String trimmedText(Element element, String propName, Properties replacements)
@@ -366,6 +384,11 @@ public class Initialization
                   + propName);
       }
       return replace(text, replacements);
+   }
+
+   private String trimmedText(Attribute attribute, Properties replacements)
+   {
+      return replace( attribute.getText(), replacements );
    }
 
    public Initialization setProperty(String name, Conversions.PropertyValue value)
