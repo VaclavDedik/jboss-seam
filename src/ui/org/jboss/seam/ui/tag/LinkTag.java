@@ -54,7 +54,7 @@ public class LinkTag extends HtmlOutputLinkTagBase
     {
         super.setProperties(component);
         setStringProperty(component, "view", view);
-        setStringProperty(component, "action", action);
+        setActionProperty(component, action);
         setValueBinding(component, "taskInstance", taskInstance);
         setStringProperty(component, "propagation", propagation);
         setStringProperty(component, "pageflow", pageflow);

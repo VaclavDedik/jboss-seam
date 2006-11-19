@@ -27,12 +27,12 @@
         </component>
     </tag>
     
-    <tag>
+    <!--tag>
         <tag-name>action</tag-name>
         <component>
             <component-type>org.jboss.seam.ui.UIAction</component-type>
         </component>
-    </tag>
+    </tag-->
     
     <tag>
         <tag-name>selection</tag-name>

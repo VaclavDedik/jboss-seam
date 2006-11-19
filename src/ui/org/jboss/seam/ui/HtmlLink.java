@@ -7,24 +7,27 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlOutputLink;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pages;
 
-public class HtmlLink extends HtmlOutputLink
+public class HtmlLink extends HtmlOutputLink implements ActionSource
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlLink";
 
    private String view;
-   private String action;
+   private MethodBinding action;
    private String pageflow;
    private String propagation = "default";
    private String fragment;
@@ -125,12 +128,10 @@ public class HtmlLink extends HtmlOutputLink
          }
       }
       
-      ValueBinding actionValueBinding = getValueBinding("action");
-      if (actionValueBinding!=null || action!=null)
+      if (action!=null)
       {
          UIAction uiAction = new UIAction();
-         uiAction.setValueBinding( "action", actionValueBinding );
-         uiAction.setAction(action);
+         uiAction.setAction( action.getExpressionString() );
          encodedUrl += getParameterString(characterEncoding, uiAction, first);
          first = false;
       }
@@ -232,19 +233,19 @@ public class HtmlLink extends HtmlOutputLink
       view = (String) values[1];
       pageflow = (String) values[2];
       propagation = (String) values[3];
-      action =  (String) values[4];
-      disabled = (Boolean) values[7];
+      action = (MethodBinding) restoreAttachedState(context, values[4]);
+      disabled = (Boolean) values[5];
    }
 
    @Override
    public Object saveState(FacesContext context) {
-      Object[] values = new Object[8];
+      Object[] values = new Object[6];
       values[0] = super.saveState(context);
       values[1] = view;
       values[2] = pageflow;
       values[3] = propagation;
-      values[4] = action;
-      values[7] = disabled;
+      values[4] = saveAttachedState(context, action);
+      values[5] = disabled;
       return values;
    }
 
@@ -268,12 +269,12 @@ public class HtmlLink extends HtmlOutputLink
       this.propagation = propagation;
    }
 
-   public String getAction()
+   public MethodBinding getAction()
    {
       return action;
    }
 
-   public void setAction(String action)
+   public void setAction(MethodBinding action)
    {
       this.action = action;
    }
@@ -296,6 +297,47 @@ public class HtmlLink extends HtmlOutputLink
    public void setDisabled(boolean disabled)
    {
       this.disabled = disabled;
+   }
+
+   
+   //IMPLEMENT ActionSource:
+   
+   public void addActionListener(ActionListener listener)
+   {
+      // TODO Auto-generated method stub 
+   }
+
+   public MethodBinding getActionListener()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   public ActionListener[] getActionListeners()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   public boolean isImmediate()
+   {
+      // TODO Auto-generated method stub
+      return false;
+   }
+
+   public void setImmediate(boolean immediate)
+   {
+      // TODO Auto-generated method stub
+   }
+
+   public void removeActionListener(ActionListener listener)
+   {
+      // TODO Auto-generated method stub
+   }
+
+   public void setActionListener(MethodBinding actionListener)
+   {
+      // TODO Auto-generated method stub
    }
 
 }

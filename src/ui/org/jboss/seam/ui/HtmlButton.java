@@ -7,23 +7,26 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Pages;
 
-public class HtmlButton extends HtmlOutputButton
+public class HtmlButton extends HtmlOutputButton implements ActionSource
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.HtmlButton";
 
    private String view;
-   private String action;
+   private MethodBinding action;
    private String pageflow;
    private String propagation = "default";
    private String fragment;
@@ -125,12 +128,10 @@ public class HtmlButton extends HtmlOutputButton
          }
       }
       
-      ValueBinding actionValueBinding = getValueBinding("action");
-      if (actionValueBinding!=null || action!=null)
+      if (action!=null)
       {
          UIAction uiAction = new UIAction();
-         uiAction.setValueBinding( "action", actionValueBinding );
-         uiAction.setAction(action);
+         uiAction.setAction( action.getExpressionString() );
          encodedUrl += getParameterString(characterEncoding, uiAction, first);
          first = false;
       }
@@ -235,7 +236,7 @@ public class HtmlButton extends HtmlOutputButton
       view = (String) values[1];
       pageflow = (String) values[2];
       propagation = (String) values[3];
-      action =  (String) values[4];
+      action = (MethodBinding) restoreAttachedState(context, values[4]);
    }
 
    @Override
@@ -245,7 +246,7 @@ public class HtmlButton extends HtmlOutputButton
       values[1] = view;
       values[2] = pageflow;
       values[3] = propagation;
-      values[4] = action;
+      values[4] = saveAttachedState(context, action);
       return values;
    }
 
@@ -269,12 +270,12 @@ public class HtmlButton extends HtmlOutputButton
       this.propagation = propagation;
    }
 
-   public String getAction()
+   public MethodBinding getAction()
    {
       return action;
    }
 
-   public void setAction(String action)
+   public void setAction(MethodBinding action)
    {
       this.action = action;
    }
@@ -287,6 +288,46 @@ public class HtmlButton extends HtmlOutputButton
    public void setFragment(String fragment)
    {
       this.fragment = fragment;
+   }
+
+   //IMPLEMENT ActionSource:
+   
+   public void addActionListener(ActionListener listener)
+   {
+      // TODO Auto-generated method stub 
+   }
+
+   public MethodBinding getActionListener()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   public ActionListener[] getActionListeners()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   public boolean isImmediate()
+   {
+      // TODO Auto-generated method stub
+      return false;
+   }
+
+   public void setImmediate(boolean immediate)
+   {
+      // TODO Auto-generated method stub
+   }
+
+   public void removeActionListener(ActionListener listener)
+   {
+      // TODO Auto-generated method stub
+   }
+
+   public void setActionListener(MethodBinding actionListener)
+   {
+      // TODO Auto-generated method stub
    }
 
 }

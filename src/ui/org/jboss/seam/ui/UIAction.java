@@ -10,26 +10,21 @@ public class UIAction extends UIParameter
    
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UIAction";
    
-   private String outcome;
+   private String action;
    
    public void setAction(String action)
    {
-      this.outcome = action;
+      this.action = action;
    }
    
    public String getAction()
    {
-      return outcome;
+      return action;
    }
    
    private boolean isMethodBinding()
    {
-      return outcome==null;
-   }
-
-   private String getMethodBindingExpression()
-   {
-      return getValueBinding("action").getExpressionString();
+      return action.startsWith("#{");
    }
 
    @Override
@@ -44,13 +39,13 @@ public class UIAction extends UIParameter
       String viewId = getFacesContext().getViewRoot().getViewId();
       if ( isMethodBinding() )
       {
-         String actionId = SafeActions.toActionId( viewId, getMethodBindingExpression() );
+         String actionId = SafeActions.toActionId( viewId, action );
          SafeActions.instance().addSafeAction(actionId);
          return actionId;
       }
       else
       {
-         return outcome;
+         return action;
       }
    }
    
@@ -58,14 +53,14 @@ public class UIAction extends UIParameter
    public void restoreState(FacesContext context, Object state) {
       Object[] values = (Object[]) state;
       super.restoreState(context, values[0]);
-      outcome = (String) values[1];
+      action = (String) values[1];
    }
 
    @Override
    public Object saveState(FacesContext context) {
       Object[] values = new Object[2];
       values[0] = super.saveState(context);
-      values[1] = outcome;
+      values[1] = action;
       return values;
    }
 

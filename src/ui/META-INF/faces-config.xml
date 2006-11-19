@@ -36,14 +36,14 @@
         </property>
     </component>
 
-    <component>
+    <!--component>
         <component-type>org.jboss.seam.ui.UIAction</component-type>
         <component-class>org.jboss.seam.ui.UIAction</component-class>
         <property>
             <property-name>action</property-name>
             <property-class>java.lang.String</property-class>
         </property>
-    </component>
+    </component-->
 
     <component>
         <component-type>org.jboss.seam.ui.UIConversationId</component-type>

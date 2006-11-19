@@ -29,7 +29,8 @@ import org.jboss.seam.ui.JSF;
 public abstract class HtmlOutputButtonTagBase
     extends HtmlComponentTagBase
 {
-    // UIComponent attributes --> already implemented in UIComponentTagBase
+
+   // UIComponent attributes --> already implemented in UIComponentTagBase
     // user role attributes --> already implemented in UIComponentTagBase
     // HTML universal attributes --> already implemented in HtmlComponentTagBase
     // HTML event handler attributes --> already implemented in HtmlComponentTagBase
@@ -67,7 +68,6 @@ public abstract class HtmlOutputButtonTagBase
     protected void setProperties(UIComponent component)
     {
         super.setProperties(component);
-
         setStringProperty(component, HTML.ACCESSKEY_ATTR, _accesskey);
         setStringProperty(component, HTML.ALT_ATTR, _alt);
         setBooleanProperty(component, HTML.DISABLED_ATTR, _disabled);
@@ -79,7 +79,7 @@ public abstract class HtmlOutputButtonTagBase
         setStringProperty(component, HTML.TABINDEX_ATTR, _tabindex);
         setStringProperty(component, HTML.TYPE_ATTR, _type);
         setStringProperty(component, JSF.IMAGE_ATTR, _image);
-   }
+    }
 
     public void setAccesskey(String accesskey)
     {

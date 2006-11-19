@@ -29,7 +29,8 @@ import org.jboss.seam.ui.HtmlButton;
 
 public class ButtonTag extends HtmlOutputButtonTagBase
 {
-    @Override
+
+   @Override
     public String getComponentType()
     {
         return HtmlButton.COMPONENT_TYPE;
@@ -53,13 +54,13 @@ public class ButtonTag extends HtmlOutputButtonTagBase
     {
         super.setProperties(component);
         setStringProperty(component, "view", view);
-        setStringProperty(component, "action", action);
+        setActionProperty(component, action);
         setValueBinding(component, "taskInstance", taskInstance);
         setStringProperty(component, "propagation", propagation);
         setStringProperty(component, "pageflow", pageflow);
         setStringProperty(component, "fragment", fragment);
     }
-
+    
     public void setAction(String action)
     {
         this.action = action;

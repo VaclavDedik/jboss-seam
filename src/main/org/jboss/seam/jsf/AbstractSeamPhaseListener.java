@@ -88,8 +88,16 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
             if (value!=null)
             {
                DataModel dataModel = (DataModel) value;
-               dataModel.setRowIndex(index);
-               Contexts.getEventContext().set( var, dataModel.getRowData() );
+               if ( index<dataModel.getRowCount() )
+               {
+                  dataModel.setRowIndex(index);
+                  Contexts.getEventContext().set( var, dataModel.getRowData() );
+               }
+               else
+               {
+                  log.warn("DataModel row was unavailable");
+                  Contexts.getEventContext().remove(var);
+               }
             }
          }
       }
