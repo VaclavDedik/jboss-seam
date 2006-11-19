@@ -44,14 +44,17 @@ public class MessageManagerBean implements Serializable, MessageManager
    
    public void select()
    {
-      message.setRead(true);
+      if (message!=null) message.setRead(true);
    }
    
    public void delete()
    {
-      messageList.remove(message);
-      em.remove(message);
-      message=null;
+      if (message!=null)
+      {
+         messageList.remove(message);
+         em.remove(message);
+         message=null;
+      }
    }
    
    @Remove @Destroy
