@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
@@ -50,6 +51,7 @@ import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.Strings;
 
 /**
  * @author Gavin King
@@ -171,8 +173,6 @@ public class Initialization
          installFactoryFromXmlElement(factory);
       }
 
-      // assume anything with a namespace is a component
-      // ok for now - might need to change later
       for (Element elem : (List<Element>) doc.getRootElement().elements())
       {
          String ns = elem.getNamespace().getURI();
@@ -180,21 +180,18 @@ public class Initialization
          if (nsInfo != null)
          {
             String name = elem.attributeValue("name");
-
-            String className = nsInfo.getPackage().getName() + "." + elem.getName();
+            String elemName = toCamelCase( elem.getName() );
+            String className = nsInfo.getPackage().getName() + '.' + elemName;
             try
             {
                Class<Object> clazz = Reflections.classForName(className);
                if (name == null)
                {
-                  Name anno = clazz.getAnnotation(Name.class);
-                  if (anno != null)
-                  {
-                     name = anno.value();
-                  }
+                  Name nameAnnotation = clazz.getAnnotation(Name.class);
+                  if (nameAnnotation!=null) name = nameAnnotation.value();
                }
             }
-            catch (ClassNotFoundException e)
+            catch (ClassNotFoundException cnfe)
             {
                // if it isn't a classname, set
                className = null;
@@ -203,14 +200,8 @@ public class Initialization
             if (name == null)
             {
                String prefix = nsInfo.getNamespace().prefix();
-               if ((prefix == null) || (prefix.length() == 0))
-               {
-                  name = elem.getName();
-               }
-               else
-               {
-                  name = prefix + "." + elem.getName();
-               }
+               name = Strings.isEmpty(prefix) ? 
+                     elemName : prefix + '.' + elemName;
             }
 
             installComponentFromXmlElement(elem, name, className, replacements);
@@ -317,7 +308,7 @@ public class Initialization
          {
             propName = prop.getQName().getName();
          }
-         String qualifiedPropName = name + '.' + propName;
+         String qualifiedPropName = name + '.' + toCamelCase(propName);
          properties.put(qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements));
       }
    }
@@ -446,6 +437,7 @@ public class Initialization
             }
             else
             {
+               //TODO: namespaced components!!!
                installComponentFromXmlElement(doc.getRootElement(), doc.getRootElement()
                         .attributeValue("name"), clazz.getName(), replacements);
             }
@@ -708,6 +700,20 @@ public class Initialization
       Component component = new Component(descriptor.getComponentClass(), name, descriptor
                .getScope(), descriptor.getJndiName());
       context.set(componentName, component);
+   }
+
+   private static String toCamelCase(String hyphenated)
+   {
+      StringTokenizer tokens = new StringTokenizer(hyphenated, "-");
+      StringBuilder result = new StringBuilder( hyphenated.length() )
+            .append( tokens.nextToken() );
+      while ( tokens.hasMoreTokens() )
+      {
+         String token = tokens.nextToken();
+         result.append( Character.toUpperCase( token.charAt(0) ) )
+               .append( token.substring(1) );
+      }
+      return result.toString();
    }
 
    private static class FactoryDescriptor
