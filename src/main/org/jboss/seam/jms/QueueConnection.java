@@ -26,7 +26,7 @@ import org.jboss.seam.util.Naming;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.jms.queueConnection")
-@Install(false)
+@Install(genericDependencies=ManagedQueueSender.class)
 public class QueueConnection
 {
    private String queueConnectionFactoryJndiName = "UIL2ConnectionFactory";

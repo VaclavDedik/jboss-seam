@@ -595,10 +595,6 @@ public class Initialization
          init.setJbpmInstalled(true);
       }
 
-      // addComponentIfPossible( SeamSecurityManager.class, context );
-      // addComponentIfPossible( RemotingConfig.class, context );
-      // addComponentIfPossible( SubscriptionRegistry.class, context );
-
       try
       {
          Reflections.classForName("org.jboss.cache.aop.PojoCache");

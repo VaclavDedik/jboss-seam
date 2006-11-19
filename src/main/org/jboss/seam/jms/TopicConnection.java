@@ -26,7 +26,7 @@ import org.jboss.seam.util.Naming;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.jms.topicConnection")
-@Install(false)
+@Install(genericDependencies=ManagedTopicPublisher.class)
 public class TopicConnection
 {
    private String topicConnectionFactoryJndiName = "UIL2ConnectionFactory";

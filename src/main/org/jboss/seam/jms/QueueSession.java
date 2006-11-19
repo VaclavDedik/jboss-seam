@@ -25,7 +25,7 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.EVENT)
 @Intercept(NEVER)
 @Name("org.jboss.seam.jms.queueSession")
-@Install(false)
+@Install(genericDependencies=ManagedQueueSender.class)
 public class QueueSession
 {
    

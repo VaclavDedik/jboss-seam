@@ -25,7 +25,7 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.EVENT)
 @Intercept(NEVER)
 @Name("org.jboss.seam.jms.topicSession")
-@Install(false)
+@Install(genericDependencies=ManagedTopicPublisher.class)
 public class TopicSession
 {
    
