@@ -28,7 +28,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.businessProcess")
 @Intercept(NEVER)
-@Install(depends="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm")
 public class BusinessProcess extends AbstractMutable implements Serializable {
    
    private Long processId;

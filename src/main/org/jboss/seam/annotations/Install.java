@@ -25,7 +25,8 @@ public @interface Install {
      *  indicates that the component should not be installed unless the
      *  dependent components are installed
      */
-    String[] depends() default {};
+    String[] dependencies() default {};
+    Class[] genericDependencies() default {};
 }
 
 

@@ -23,7 +23,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name("org.jboss.seam.core.taskInstanceListForType")
 @Scope(APPLICATION)
-@Install(depends="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm")
 public class TaskInstanceListForType
 {
    

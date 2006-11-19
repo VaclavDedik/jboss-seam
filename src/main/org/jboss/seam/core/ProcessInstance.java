@@ -27,7 +27,7 @@ import org.jboss.seam.util.Work;
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.core.processInstance")
 @Intercept(InterceptionType.NEVER)
-@Install(depends="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm")
 public class ProcessInstance 
 {
    

@@ -22,7 +22,7 @@ import org.jboss.seam.microcontainer.HibernateFactory;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup(depends="org.jboss.seam.core.microcontainer")
-@Install(depends="org.jboss.seam.core.microcontainer")
+@Install(dependencies="org.jboss.seam.core.microcontainer")
 public class HibernateSessionFactory extends HibernateFactory
 {
 

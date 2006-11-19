@@ -23,7 +23,7 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.actor")
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
-@Install(depends="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm")
 public class Actor extends AbstractMutable implements Serializable
 {
    

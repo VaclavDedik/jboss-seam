@@ -17,7 +17,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name("org.jboss.seam.core.pooledTask")
 @Scope(ScopeType.APPLICATION)
-@Install(depends="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm")
 public class PooledTask
 {
    

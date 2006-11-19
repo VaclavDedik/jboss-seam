@@ -21,7 +21,7 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.transition")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-@Install(depends="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm")
 public class Transition extends AbstractMutable implements Serializable {
    
    private String name;

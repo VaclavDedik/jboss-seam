@@ -20,7 +20,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name("org.jboss.seam.core.pooledTaskInstanceList")
 @Scope(ScopeType.APPLICATION)
-@Install(depends="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm")
 public class PooledTaskInstanceList
 {
    
