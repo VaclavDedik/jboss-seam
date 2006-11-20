@@ -1,4 +1,4 @@
-//$Id: HotelSearching.java,v 1.1 2006/11/20 05:19:01 gavin Exp $
+//$Id: HotelSearching.java,v 1.2 2006/11/20 08:57:11 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import java.util.List;
@@ -10,8 +10,8 @@ import javax.faces.model.SelectItem;
 @Local
 public interface HotelSearching
 {
-   public int getPageSize();
-   public void setPageSize(int pageSize);
+   public String getPageSize();
+   public void setPageSize(String pageSize);
    
    public String getSearchString();
    public void setSearchString(String searchString);

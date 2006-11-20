@@ -1,4 +1,4 @@
-//$Id: HotelSearchingAction.java,v 1.1 2006/11/20 05:19:01 gavin Exp $
+//$Id: HotelSearchingAction.java,v 1.2 2006/11/20 08:57:11 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public class HotelSearchingAction implements HotelSearching
 
    private String getSearchPattern()
    {
-      return searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
+      return searchString==null ? "%" : searchString.toLowerCase().replace('*', '%') + '%';
    }
    
    public boolean isNextPageAvailable()
@@ -69,18 +69,18 @@ public class HotelSearchingAction implements HotelSearching
    
    public SelectItem[] getPageSizes() {
       return new SelectItem[] { 
-            new SelectItem(5, "5"), 
-            new SelectItem(10, "10"), 
-            new SelectItem(20, "20") 
+            new SelectItem("5"), 
+            new SelectItem("10"), 
+            new SelectItem("20") 
          };
    }
    
-   public int getPageSize() {
-      return pageSize;
+   public String getPageSize() {
+      return Integer.toString(pageSize);
    }
 
-   public void setPageSize(int pageSize) {
-      this.pageSize = pageSize;
+   public void setPageSize(String pageSize) {
+      this.pageSize = Integer.parseInt(pageSize);
    }
 
    public String getSearchString()
@@ -95,7 +95,7 @@ public class HotelSearchingAction implements HotelSearching
 
    public void handleSearchStringChange(ValueChangeEvent e) {
       page = 0;
-      searchString = (String) e.getNewValue();
+      setSearchString( (String) e.getNewValue() );
       queryHotels();
    }
    
@@ -106,7 +106,7 @@ public class HotelSearchingAction implements HotelSearching
    }
    
    public void handlePageSizeChange(ValueChangeEvent e)  {
-      pageSize = ( (Long) e.getNewValue() ).intValue();
+      setPageSize( (String) e.getNewValue() );
       queryHotels();
    }
    
