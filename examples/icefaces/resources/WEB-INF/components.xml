@@ -1,0 +1,28 @@
+<!DOCTYPE components PUBLIC
+  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/components-1.1.dtd">
+
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+        <property name="jndiPattern">@jndiPattern@</property>
+    </component>
+    
+    <component name="org.jboss.seam.core.manager">
+        <!-- half second wait for conversation lock on concurrent requests -->
+        <property name="concurrentRequestTimeout">500</property>
+        <!-- 120 second conversation timeout -->
+        <property name="conversationTimeout">120000</property>
+        <property name="conversationIdParameter">cid</property>
+        <property name="conversationIsLongRunningParameter">clr</property>
+    </component>
+    
+    <component name="org.jboss.seam.core.pages">
+        <property name="noConversationViewId">/main.xhtml</property>
+    </component>
+
+    <component class="org.jboss.seam.core.Ejb" 
+           installed="@embeddedEjb@"/>
+
+</components>
