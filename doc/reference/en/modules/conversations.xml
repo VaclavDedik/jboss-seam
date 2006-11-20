@@ -369,6 +369,7 @@
                 <literal>@Begin</literal>
             </para>
             </listitem>
+            <listitem>
             <para>
                 Use <literal>&lt;begin-conversation&gt;</literal> in
                 <literal>pages.xml</literal>.
@@ -380,7 +381,6 @@
                 the Seam page action method
             </para>
             </listitem>
-            <listitem>
         </itemizedlist>
         
     </section>
