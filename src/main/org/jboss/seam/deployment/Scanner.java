@@ -73,7 +73,13 @@ public abstract class Scanner
             }
             else
             {
-               urlPath = new File(urlPath).getParent();
+               File dirOrArchive = new File(urlPath);
+               if ( resourceName.lastIndexOf('/')>0 )
+               {
+                  //for META-INF/components.xml
+                  dirOrArchive = dirOrArchive.getParentFile();
+               }
+               urlPath = dirOrArchive.getParent();
             }
             log.info("scanning: " + urlPath);
             File file = new File(urlPath);
