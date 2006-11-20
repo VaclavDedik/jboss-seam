@@ -55,7 +55,7 @@
 @Name("personHome")
 public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
     @RequestParameter Long personId;
-    @In(create=true) EntityManager personDatabase;
+    @In EntityManager personDatabase;
     
     public Object getId() { return personId; }
     public EntityManager getEntityManager() { return personDatabase; }

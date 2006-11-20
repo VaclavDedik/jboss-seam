@@ -230,12 +230,12 @@ public class CreatePaymentAction
             <literal>QueueSender</literal>s:
         </para>
         
-        <programlisting><![CDATA[<component name="stockTickerPublisher"
+        <programlisting><![CDATA[<component name="stockTickerPublisher" auto-create="true"
           class="org.jboss.seam.jms.ManagedTopicPublisher">
     <property name="topicJndiName">topic/stockTickerTopic</property>
 </component>
 
-<component name="paymentQueueSender"
+<component name="paymentQueueSender" auto-create="true"
           class="org.jboss.seam.jms.ManagedQueueSender">
     <property name="queueJndiName">queue/paymentQueue</property>
 </component>]]></programlisting>
@@ -249,10 +249,10 @@ public class CreatePaymentAction
             <literal>TopicSession</literal> into any component:
         </para>
         
-        <programlisting><![CDATA[@In(create=true)
-private transient TopicPublisher stockTickerPublisher;   
-@In(create=true)
-private transient TopicSession topicSession;
+        <programlisting><![CDATA[@In 
+private TopicPublisher stockTickerPublisher;   
+@In 
+private TopicSession topicSession;
 
 public void publish(StockPrice price) {
       try
@@ -267,10 +267,10 @@ public void publish(StockPrice price) {
 
         <para>Or, for working with a queue:</para>
 
-        <programlisting><![CDATA[@In(create=true)
-private transient QueueSender paymentQueueSender;   
-@In(create=true)
-private transient QueueSession queueSession;
+        <programlisting><![CDATA[@In
+private QueueSender paymentQueueSender;   
+@In
+private QueueSession queueSession;
 
 public void publish(Payment payment) {
       try

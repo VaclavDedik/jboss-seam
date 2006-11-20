@@ -547,7 +547,19 @@ public class LoginAction implements Login {
             
             <programlisting><![CDATA[<h:commandButton type="submit" value="Login"
                  action="#{com$jboss$myapp$loginAction.login}"/>]]></programlisting>
+                 
+            <para>
+                Since this is ugly, Seam also provides a means of aliasing a qualified name to a simple 
+                name. Add a line like this to the <literal>components.xml</literal> file:
+            </para>
 
+            <programlisting><![CDATA[<factory name="loginAction" scope="STATELESS" value="#{com$jboss$myapp$loginAction}"/>]]></programlisting>
+                
+            <para>
+                All of the built-in Seam components have qualified names, but most of them are aliased
+                to a simple name by the <literal>components.xml</literal> file included in the Seam jar.
+            </para>
+                 
         </sect2>
         
         <sect2>

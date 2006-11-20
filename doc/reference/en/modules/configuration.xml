@@ -529,7 +529,7 @@
             <literal>components.xml</literal>, we can write:
         </para>
 
-        <programlisting><![CDATA[<component name="bookingDatabase"
+        <programlisting><![CDATA[<component name="bookingDatabase" auto-create="true"
           class="org.jboss.seam.core.ManagedPersistenceContext">
     <property name="persistenceUnitJndiName">java:/EntityManagerFactories/bookingData</property>
 </component>]]></programlisting>
@@ -554,7 +554,7 @@
             Now we can have our <literal>EntityManager</literal> injected using:
         </para>
 
-        <programlisting><![CDATA[@In(create=true) EntityManager bookingDatabase;]]></programlisting>
+        <programlisting><![CDATA[@In EntityManager bookingDatabase;]]></programlisting>
         
         </sect2>
                 
@@ -618,7 +618,7 @@
             To configure our Seam component, as usual, we use <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<component name="hibernateSessionFactory"
+        <programlisting><![CDATA[<component name="hibernateSessionFactory" auto-create="true"
           class="org.jboss.seam.core.HibernateSessionFactory"/> 
 
 <component name="bookingDatabase"
@@ -652,7 +652,7 @@
             JavaBean components using the following code:
         </para>
         
-        <programlisting><![CDATA[@In(create=true) Session bookingDatabase;]]></programlisting>
+        <programlisting><![CDATA[@In Session bookingDatabase;]]></programlisting>
 
         </sect2>
         

@@ -61,12 +61,22 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><emphasis>Integrated AJAX-based Remoting</emphasis></term>
+                <term><emphasis>Integrated AJAX</emphasis></term>
                 <listitem>
                     <para>
-                        Seam provides a built-in JavaScript remoting layer for EJB3 components. AJAX clients 
+                        Seam supports two open source JSF-based AJAX solutions: ICEfaces and Ajax4JSF. These
+                        solutions let you add AJAX capability to your user interface without the need to
+                        write any JavaScript code.
+                    </para>
+                    <para>
+                        Seam also provides a built-in JavaScript remoting layer for EJB3 components. AJAX clients 
                         can easily call server-side components and subscribe to JMS topics, without the need 
                         for an intermediate action layer.
+                    </para>
+                    <para>
+                        Neither of these approaches would work well, were it not for Seam's built-in concurrency 
+                        and state management, which ensures that many concurrent fine-grained, asynchronous AJAX 
+                        requests are handled safely and efficiently on the server side
                     </para>
                 </listitem>
             </varlistentry>

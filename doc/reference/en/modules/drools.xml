@@ -50,7 +50,7 @@
              accumulates facts relating to the current conversation.)
          </para>
 
-         <programlisting><![CDATA[<component name="policyPricingWorkingMemory"
+         <programlisting><![CDATA[<component name="policyPricingWorkingMemory" auto-create="true"
           class="org.jboss.seam.drools.ManagedWorkingMemory">
     <property name="ruleBase">#{policyPricingRules}</property>
 </component>]]></programlisting>
@@ -71,8 +71,7 @@
              assert facts, and fire rules:
          </para>
          
-         <programlisting><![CDATA[@In(create=true) 
-WorkingMemory policyPricingWorkingMemory;
+         <programlisting><![CDATA[@In WorkingMemory policyPricingWorkingMemory;
 
 @In Policy policy;
 @In Customer customer;

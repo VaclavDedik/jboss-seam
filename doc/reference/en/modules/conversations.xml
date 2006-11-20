@@ -483,9 +483,9 @@
         <programlisting><![CDATA[@Name("editDocumentAction")
 @Stateless
 public class EditDocumentBean implements EditDocument {
-    @In(create=true) EntityManager em;
+    @In EntityManager em;
     @In Document document;
-    @In(create=true) FacesMessages facesMessages;
+    @In FacesMessages facesMessages;
     
     public String update() {
         em.merge(document);
@@ -819,7 +819,7 @@ public String approveDocument() { ... }]]></programlisting>
             persistence provider, but we plan to support other equivalent vendor extensions.
         </para>
         
-        <programlisting><![CDATA[@In(create=true) EntityManager em; //a Seam-managed persistence context
+        <programlisting><![CDATA[@In EntityManager em; //a Seam-managed persistence context
 
 @Begin(flushMode=MANUAL)
 public void beginClaimWizard() {

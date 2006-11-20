@@ -38,10 +38,10 @@
         <para>
             It is <emphasis>possible</emphasis> to set the locale
             manually via the Seam configuration properties
-            <literal>localeSelector.language</literal>,
-            <literal>localeSelector.country</literal> and
-            <literal>localeSelector.variant</literal>, but we
-            can't think of any good reason to ever do this.
+            <literal>org.jboss.seam.core.localeSelector.language</literal>,
+            <literal>org.jboss.seam.core.localeSelector.country</literal> and
+            <literal>org.jboss.seam.core.localeSelector.variant</literal>, but 
+            we can't think of any good reason to ever do this.
         </para>
         
         <para>
@@ -94,9 +94,9 @@
             Each login session has an associated instance of 
             <literal>java.util.ResourceBundle</literal> (available to the 
             application as a session-scoped component named 
-            <literal>resourceBundle</literal>). You'll need to make your 
-            internationalized labels available via this special resource bundle. 
-            By default, the resource bundle used by Seam is named 
+            <literal>org.jboss.seam.core.resourceBundle</literal>). You'll need to 
+            make your internationalized labels available via this special resource 
+            bundle. By default, the resource bundle used by Seam is named 
             <literal>messages</literal> and so you'll need to define your labels 
             in files named <literal>messages.properties</literal>, 
             <literal>messages_en.properties</literal>,
@@ -120,12 +120,12 @@
         <para>
             You can select a different name for the resource bundle by setting
             the Seam configuration property named
-            <literal>resourceBundle.bundleNames</literal>. You can even specify
+            <literal>org.jboss.seam.core.resourceBundle.bundleNames</literal>. You can even specify
             a list of resource bundle names to be searched (depth first) for
             messages.
         </para>
 
-        <programlisting><![CDATA[<component name="resourceBundle">
+        <programlisting><![CDATA[<component name="org.jboss.seam.core.resourceBundle">
     <property name="bundlenames">
         <value>mycompany_messages</value>
         <value>standard_messages</value>
@@ -181,7 +181,7 @@
             You can even use the messages in your code:
         </para>
 
-        <programlisting><![CDATA[@In(create=true) private Map<String, String> messages;]]></programlisting>
+        <programlisting><![CDATA[@In private Map<String, String> messages;]]></programlisting>
         <programlisting><![CDATA[@In("#{messages['Hello']}") private String helloMessage;]]></programlisting>
 
     </section>
@@ -197,8 +197,7 @@
         <programlisting><![CDATA[@Name("hello")
 @Stateless
 public class HelloBean implements Hello {
-    @In(create=true) 
-    FacesMessages facesMessages;
+    @In FacesMessages facesMessages;
     
     public String sayIt() {
         facesMessages.addFromResourceBundle("Hello");
@@ -217,12 +216,12 @@ public class HelloBean implements Hello {
         <title>Timezones</title>
         <para>
             There is also a session-scoped instance of <literal>java.util.Timezone</literal>,
-            named <literal>timezone</literal>, and a Seam component for changing the timezone named
-            <literal>timezoneSelector</literal>. By default, the timezone is the default timezone of
-            the server. Unfortunately, the JSF specification says that all dates and times should be 
-            assumed to be UTC, and displayed as UTC, unless a timezone is explicitly specified using 
-            <literal>&lt;f:convertDateTime&gt;</literal>. This is an extremely inconvenient default 
-            behavior.
+            named <literal>org.jboss.seam.core.timezone</literal>, and a Seam component for changing 
+            the timezone named <literal>org.jboss.seam.core.timezoneSelector</literal>. By default, 
+            the timezone is the default timezone of the server. Unfortunately, the JSF specification 
+            says that all dates and times should be assumed to be UTC, and displayed as UTC, unless 
+            a timezone is explicitly specified using <literal>&lt;f:convertDateTime&gt;</literal>. 
+            This is an extremely inconvenient default behavior.
         </para>
         <para>
             Seam overrides this behavior, and defaults all dates and times to the Seam timezone.

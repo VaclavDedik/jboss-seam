@@ -623,7 +623,7 @@ public void begin() { ... }]]></programlisting>
             <literal>actor</literal>:
         </para>
         
-        <programlisting><![CDATA[@In(create=true) Actor actor;
+        <programlisting><![CDATA[@In Actor actor;
 
 public String login() {
     ...

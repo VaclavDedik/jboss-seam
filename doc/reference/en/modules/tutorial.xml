@@ -1365,7 +1365,7 @@ public interface MessageManager
         <programlisting><![CDATA[@Name("login")
 public class Login {
    
-   @In(create=true) 
+   @In
    private Actor actor;
    
    private String user;
@@ -1387,9 +1387,8 @@ public class Login {
         </example>
 
         <para>
-            Here we see the use of <literal>@In(create=true)</literal>, which tells
-            Seam to create an instance of a component, in this case the component
-            named <literal>actor</literal>, if none currently exists in the context.
+            Here we see the use of <literal>@In</literal> to inject the built-in
+            <literal>Actor</literal> component.
         </para>
         
         <para>
@@ -2495,10 +2494,10 @@ public class HotelBookingAction implements HotelBooking
    @Out(required=false)
    private Booking booking;
      
-   @In(create=true)
+   @In
    private FacesMessages facesMessages;
       
-   @In(create=true)
+   @In
    private Events events;
    
    @Logger 
@@ -2855,7 +2854,7 @@ public class HotelBookingAction implements HotelBooking
 public class BlogService 
 {
    
-   @In(create=true)
+   @In
    private EntityManager entityManager;
   
    @Unwrap
@@ -2999,7 +2998,7 @@ public class BlogService
 public class SearchService 
 {
    
-   @In(create=true)
+   @In
    private EntityManager entityManager;
    
    private String searchPattern;

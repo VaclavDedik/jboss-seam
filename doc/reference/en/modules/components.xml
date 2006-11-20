@@ -25,7 +25,7 @@
     
     	<variablelist spacing="compact">
             <varlistentry>
-                <term><literal>eventContext</literal></term>
+                <term><literal>org.jboss.seam.core.eventContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for the event context object
@@ -33,7 +33,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>pageContext</literal></term>
+                <term><literal>org.jboss.seam.core.pageContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for the page context object
@@ -41,7 +41,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>conversationContext</literal></term>
+                <term><literal>org.jboss.seam.core.conversationContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for the conversation context object
@@ -49,7 +49,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>sessionContext</literal></term>
+                <term><literal>org.jboss.seam.core.sessionContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for the session context object
@@ -57,7 +57,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>applicationContext</literal></term>
+                <term><literal>org.jboss.seam.core.applicationContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for the appication context object
@@ -65,7 +65,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>businessProcessContext</literal></term>
+                <term><literal>org.jboss.seam.core.businessProcessContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for the business process context object
@@ -73,7 +73,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>facesContext</literal></term>
+                <term><literal>org.jboss.seam.core.facesContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for the <literal>FacesContext</literal> context 
@@ -97,7 +97,7 @@
         
          <variablelist>
             <varlistentry>
-                <term><literal>facesMessages</literal></term>
+                <term><literal>org.jboss.seam.core.facesMessages</literal></term>
                 <listitem>
                     <para>
                         Allows faces success messages to propagate across a browser redirect.
@@ -147,7 +147,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>redirect</literal></term>
+                <term><literal>org.jboss.seam.core.redirect</literal></term>
                 <listitem>
                     <para>
                         A convenient API for performing redirects with parameters (this
@@ -192,7 +192,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>httpError</literal></term>
+                <term><literal>org.jboss.seam.core.httpError</literal></term>
                 <listitem>
                     <para>
                         A convenient API for sending HTTP errors.
@@ -200,7 +200,7 @@
                 </listitem>
              </varlistentry>
             <varlistentry>
-                <term><literal>events</literal></term>
+                <term><literal>org.jboss.seam.core.events</literal></term>
                 <listitem>
                     <para>
                         An API for raising events that can be observed via
@@ -239,7 +239,7 @@
                 </listitem>
              </varlistentry>
             <varlistentry>
-                <term><literal>interpolator</literal></term>
+                <term><literal>org.jboss.seam.core.interpolator</literal></term>
                 <listitem>
                     <para>
                         An API for interpolating the values of JSF EL expressions in
@@ -257,7 +257,7 @@
                 </listitem>
              </varlistentry>
             <varlistentry>
-                <term><literal>expressions</literal></term>
+                <term><literal>org.jboss.seam.core.expressions</literal></term>
                 <listitem>
                     <para>
                         An API for creating value and method bindings.
@@ -279,7 +279,7 @@
                 </listitem>
              </varlistentry>
             <varlistentry>
-                <term><literal>pojoCache</literal></term>
+                <term><literal>org.jboss.seam.core.pojoCache</literal></term>
                 <listitem>
                     <para>
                         Manager component for a JBoss Cache <literal>PojoCache</literal> 
@@ -296,7 +296,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>uiComponent</literal></term>
+                <term><literal>org.jboss.seam.core.uiComponent</literal></term>
                 <listitem>
                     <para>
                         Allows access to a JSF <literal>UIComponent</literal> by its id
@@ -321,7 +321,7 @@
         
     	<variablelist spacing="compact">
             <varlistentry>
-                <term><literal>locale</literal></term>
+                <term><literal>org.jboss.seam.core.locale</literal></term>
                 <listitem>
                     <para>
                         The Seam locale. The locale is session scoped.
@@ -329,7 +329,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>timezone</literal></term>
+                <term><literal>org.jboss.seam.core.timezone</literal></term>
                 <listitem>
                     <para>
                         The Seam timezone. The timezone is session scoped.
@@ -337,7 +337,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>resourceBundle</literal></term>
+                <term><literal>org.jboss.seam.core.resourceBundle</literal></term>
                 <listitem>
                     <para>
                         The Seam resource bundle. The resource bundle is session scoped. The Seam
@@ -355,7 +355,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>localeSelector</literal></term>
+                <term><literal>org.jboss.seam.core.localeSelector</literal></term>
                 <listitem>
                     <para>
                         Supports selection of the locale either at configuration time, 
@@ -414,7 +414,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>timezoneSelector</literal></term>
+                <term><literal>org.jboss.seam.core.timezoneSelector</literal></term>
                 <listitem>
                     <para>
                         Supports selection of the timezone either at configuration time, 
@@ -448,7 +448,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>messages</literal></term>
+                <term><literal>org.jboss.seam.core.messages</literal></term>
                 <listitem>
                     <para>
                         A map containing internationalized messages rendered from message
@@ -457,7 +457,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>themeSelector</literal></term>
+                <term><literal>org.jboss.seam.theme.themeSelector</literal></term>
                 <listitem>
                     <para>
                         Supports selection of the theme either at configuration time, 
@@ -498,7 +498,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>theme</literal></term>
+                <term><literal>org.jboss.seam.theme.theme</literal></term>
                 <listitem>
                     <para>
                         A map containing theme entries.
@@ -522,7 +522,7 @@
         
     	<variablelist spacing="compact">
             <varlistentry>
-                <term><literal>conversation</literal></term>
+                <term><literal>org.jboss.seam.core.conversation</literal></term>
                 <listitem>
                     <para>
                         API for application control of attributes of the current Seam conversation.
@@ -635,7 +635,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>conversationList</literal></term>
+                <term><literal>org.jboss.seam.core.conversationList</literal></term>
                 <listitem>
                     <para>
                         Manager component for the conversation list.
@@ -643,7 +643,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>conversationStack</literal></term>
+                <term><literal>org.jboss.seam.core.conversationStack</literal></term>
                 <listitem>
                     <para>
                         Manager component for the conversation stack (breadcrumbs).
@@ -651,7 +651,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>switcher</literal></term>
+                <term><literal>org.jboss.seam.core.switcher</literal></term>
                 <listitem>
                     <para>
                         The conversation switcher.
@@ -674,7 +674,7 @@
         
         <variablelist spacing="compact">
             <varlistentry>
-                <term><literal>pageflow</literal></term>
+                <term><literal>org.jboss.seam.core.pageflow</literal></term>
                 <listitem>
                     <para>
                         API control of Seam pageflows.
@@ -708,7 +708,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>actor</literal></term>
+                <term><literal>org.jboss.seam.core.actor</literal></term>
                 <listitem>
                     <para>
                         API for application control of attributes of the jBPM actor associated
@@ -732,7 +732,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>transition</literal></term>
+                <term><literal>org.jboss.seam.core.transition</literal></term>
                 <listitem>
                     <para>
                         API for application control of the jBPM transition for the current
@@ -750,7 +750,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>businessProcess</literal></term>
+                <term><literal>org.jboss.seam.core.businessProcess</literal></term>
                 <listitem>
                     <para>
                         API for programmatic control of the association between the
@@ -822,7 +822,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>taskInstance</literal></term>
+                <term><literal>org.jboss.seam.core.taskInstance</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM <literal>TaskInstance</literal>.
@@ -830,7 +830,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>processInstance</literal></term>
+                <term><literal>org.jboss.seam.core.processInstance</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM <literal>ProcessInstance</literal>.
@@ -838,7 +838,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>jbpmContext</literal></term>
+                <term><literal>org.jboss.seam.core.jbpmContext</literal></term>
                 <listitem>
                     <para>
                         Manager component for an event-scoped <literal>JbpmContext</literal>.
@@ -846,7 +846,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>taskInstanceList</literal></term>
+                <term><literal>org.jboss.seam.core.taskInstanceList</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM task list.
@@ -854,7 +854,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>pooledTaskInstanceList</literal></term>
+                <term><literal>org.jboss.seam.core.pooledTaskInstanceList</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM pooled task list.
@@ -862,7 +862,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>taskInstanceListForType</literal></term>
+                <term><literal>org.jboss.seam.core.taskInstanceListForType</literal></term>
                 <listitem>
                     <para>
                         Manager component for the jBPM task lists.
@@ -870,7 +870,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>pooledTask</literal></term>
+                <term><literal>org.jboss.seam.core.pooledTask</literal></term>
                 <listitem>
                     <para>
                         Action handler for pooled task assignment.
@@ -894,7 +894,7 @@
         
         <variablelist spacing="compact">
             <varlistentry>
-                <term><literal>userPrincipal</literal></term>
+                <term><literal>org.jboss.seam.core.userPrincipal</literal></term>
                 <listitem>
                     <para>
                         Manager component for the current user <literal>Principal</literal>.
@@ -902,7 +902,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>isUserInRole</literal></term>
+                <term><literal>org.jboss.seam.core.isUserInRole</literal></term>
                 <listitem>
                     <para>
                         Allows JSF pages to choose to render a control, depending upon
@@ -923,7 +923,7 @@
         
         <variablelist>
             <varlistentry>
-                <term><literal>queueSession</literal></term>
+                <term><literal>org.jboss.seam.jms.queueSession</literal></term>
                 <listitem>
                     <para>
                         Manager component for a JMS <literal>QueueSession</literal> .
@@ -931,7 +931,7 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
-                <term><literal>topicSession</literal></term>
+                <term><literal>org.jboss.seam.jms.topicSession</literal></term>
                 <listitem>
                     <para>
                         Manager component for a JMS <literal>TopicSession</literal> .
