@@ -128,15 +128,6 @@
                         a long-running conversation started by this component is active 
                         (unless the method would begin a new long-running conversation).
                     </para>
-                    <itemizedlist>
-                        <listitem>
-                        <para>
-                            <literal>ifNotBegunOutcome</literal> &mdash; specifies a JSF
-                            outcome for the action when the component is invoked and no
-                            long-running conversation is active.
-                        </para>
-                        </listitem>
-                    </itemizedlist>
                 </listitem>
             </varlistentry>   
             <varlistentry  id="startup-annotation">
@@ -174,6 +165,16 @@
                         requests. If a request is not able to obtain its
                         lock on the component in the given timeout period,
                         an exception will be raised.
+                    </para>
+                </listitem>
+            </varlistentry>   
+            <varlistentry  id="synchronized-annotation">
+                <term><literal>@ReadOnly</literal></term>
+                <listitem>
+                    <programlisting><![CDATA[@ReadOnly]]></programlisting>
+                    <para>
+                        Specifies that a JavaBean component or component method does not
+                        require state replication at the end of the invocation.
                     </para>
                 </listitem>
             </varlistentry>   

@@ -1174,6 +1174,14 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><literal>org.jboss.seam.persistence.persistenceProvider</literal></term>
+                <listitem>
+                    <para>
+                        Abstraction layer for non-standardized features of JPA provider.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><literal>org.jboss.seam.core.validation</literal></term>
                 <listitem>
                     <para>

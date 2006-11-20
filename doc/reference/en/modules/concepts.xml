@@ -1205,7 +1205,7 @@ public Order createOrder(User user, Product product, int quantity) {
     </sect1>
     
         <sect1>
-            <title>The <literal>Mutable</literal> interface</title>
+            <title>The <literal>Mutable</literal> interface and <literal>@ReadOnly</literal></title>
             <para>
                 Many application servers feature an amazingly broken implementation of 
                 <literal>HttpSession</literal> clustering, where changes to the state of mutable
@@ -1215,6 +1215,7 @@ public Order createOrder(User user, Product product, int quantity) {
                 when failover occurs. Furthermore, the actual replication message contains the
                 entire serialized object graph bound to the session attribute, which inefficient.
             </para>
+            
             <para>
                 Of course, EJB stateful session beans must perform automatic dirty checking and 
                 replication of mutable state and a sophisticated EJB container can introduce
@@ -1224,6 +1225,7 @@ public Order createOrder(User user, Product product, int quantity) {
                 Seam provides an extra layer of cluster-safe state management over the top
                 of the web container session clustering.
             </para>
+            
             <para>
                 For session or conversation scoped JavaBean components, Seam automatically forces 
                 replication to occur by calling <literal>setAttribute()</literal> once in every 
@@ -1253,7 +1255,33 @@ public class Account extends AbstractMutable
     ...
     
 }]]></programlisting>
+
+            <para>
+                Or, you can use the <literal>@ReadOnly</literal> annotation to achieve
+                a similar effect:
+            </para>
             
+            <programlisting><![CDATA[@Name("account")
+public class Account
+{
+    private BigDecimal balance;
+    
+    public void setBalance(BigDecimal balance)
+    {
+        setDirty(this.balance, balance);
+        this.balance = balance;
+    }
+    
+    @ReadOnly
+    public BigDecimal getBalance()
+    {
+        return balance;
+    }
+    
+    ...
+    
+}]]></programlisting>
+
             <para>
                 For session or conversation scoped entity bean components, Seam automatically forces 
                 replication to occur by calling <literal>setAttribute()</literal> once in every 
