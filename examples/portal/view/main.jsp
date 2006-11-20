@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
 <f:view>
 
 <div class="section">
@@ -64,13 +65,13 @@
         <h:column>
             <f:facet name="header">Check in date</f:facet>
             <h:outputText value="#{book.checkinDate}">
-                <f:convertDateTime type="date"/>
+                <s:convertDateTime type="date"/>
             </h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">Check out date</f:facet>
             <h:outputText value="#{book.checkoutDate}">
-                <f:convertDateTime type="date"/>
+                <s:convertDateTime type="date"/>
             </h:outputText>
         </h:column>
         <h:column>

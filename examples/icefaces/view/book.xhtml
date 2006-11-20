@@ -48,7 +48,7 @@
 				<div class="input">
 					<s:decorate>
 						<ice:inputText partialSubmit="true" id="checkinDate" value="#{booking.checkinDate}" required="true">
-                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                            <s:convertDateTime pattern="MM/dd/yyyy"/>
                         </ice:inputText>
                         <h:graphicImage url="img/dtpick.gif" onclick="displayDatePicker('booking:checkinDate');" style="margin-left:5px"/>
 						<br/>
@@ -62,7 +62,7 @@
 				<div class="input">
 					<s:decorate>
 						<ice:inputText partialSubmit="true" id="checkoutDate" value="#{booking.checkoutDate}" required="true">
-                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                            <s:convertDateTime pattern="MM/dd/yyyy"/>
                         </ice:inputText>
                         <h:graphicImage url="img/dtpick.gif" onclick="displayDatePicker('booking:checkoutDate');" style="margin-left:5px"/>
 						<br/>

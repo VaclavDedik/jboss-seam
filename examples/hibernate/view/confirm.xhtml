@@ -3,6 +3,7 @@
 	    		xmlns:ui="http://java.sun.com/jsf/facelets"
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"
 				template="template.xhtml">
 
 <!-- content -->
@@ -31,11 +32,11 @@
 		</div>
 		<div class="entry">
 			<div class="label">Check In Date:</div>
-			<div class="output"><h:outputText value="#{booking.checkinDate}"><f:convertDateTime type="date"/></h:outputText></div>
+			<div class="output"><h:outputText value="#{booking.checkinDate}"><s:convertDateTime type="date"/></h:outputText></div>
 		</div>
 		<div class="entry">
 			<div class="label">Check Out Date:</div>
-			<div class="output"><h:outputText value="#{booking.checkoutDate}"><f:convertDateTime type="date"/></h:outputText></div>
+			<div class="output"><h:outputText value="#{booking.checkoutDate}"><s:convertDateTime type="date"/></h:outputText></div>
 		</div>
 		<div class="entry">
 			<div class="label">Credit Card #:</div>

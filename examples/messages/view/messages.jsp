@@ -27,7 +27,7 @@
               <h:outputText value="Date/Time"/>
            </f:facet>
            <h:outputText value="#{msg.datetime}">
-              <f:convertDateTime type="both" dateStyle="medium" timeStyle="short"/>
+              <s:convertDateTime type="both" dateStyle="medium" timeStyle="short"/>
            </h:outputText>
         </h:column>
         <h:column>

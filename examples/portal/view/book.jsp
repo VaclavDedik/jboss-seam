@@ -28,11 +28,11 @@
 		<s:validateAll>
 		<div class="entry">
 			<div class="label"><h:outputLabel for="checkinDate">Check In Date:</h:outputLabel></div>
-			<div class="input"><h:inputText id="checkinDate" value="#{booking.checkinDate}"><f:convertDateTime type="date"/></h:inputText><br/><span class="errors"><h:message for="checkinDate" /></span></div>
+			<div class="input"><h:inputText id="checkinDate" value="#{booking.checkinDate}"><s:convertDateTime type="date"/></h:inputText><br/><span class="errors"><h:message for="checkinDate" /></span></div>
 		</div>
 		<div class="entry">
 			<div class="label"><h:outputLabel for="checkoutDate">Check Out Date:</h:outputLabel></div>
-			<div class="input"><h:inputText id="checkoutDate" value="#{booking.checkoutDate}"><f:convertDateTime type="date"/></h:inputText><br/><span class="errors"><h:message for="checkoutDate" /></span></div>
+			<div class="input"><h:inputText id="checkoutDate" value="#{booking.checkoutDate}"><s:convertDateTime type="date"/></h:inputText><br/><span class="errors"><h:message for="checkoutDate" /></span></div>
 		</div>
 		<div class="entry">
 			<div class="label"><h:outputLabel for="creditCard">Credit Card #:</h:outputLabel></div>

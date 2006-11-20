@@ -3,6 +3,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"
                 template="template.xhtml">
 
 <!-- content -->
@@ -69,13 +70,13 @@
         <h:column>
             <f:facet name="header">Check in date</f:facet>
             <h:outputText value="#{book.checkinDate}">
-                <f:convertDateTime type="date"/>
+                <s:convertDateTime type="date"/>
             </h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">Check out date</f:facet>
             <h:outputText value="#{book.checkoutDate}">
-                <f:convertDateTime type="date"/>
+                <s:convertDateTime type="date"/>
             </h:outputText>
         </h:column>
         <h:column>

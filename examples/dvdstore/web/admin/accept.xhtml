@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib">
 <body>
     <ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="topnav">
@@ -28,7 +29,7 @@
                     
                     <h:outputText value="Order date:" />
                     <h:outputText value="#{order.orderDate}">
-                        <f:convertDateTime type="both" dateStyle="full"/> 
+                        <s:convertDateTime type="both" dateStyle="full"/> 
                     </h:outputText>
                     
                     <h:outputText value="Net Amount:" />
