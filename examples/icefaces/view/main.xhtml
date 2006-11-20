@@ -19,16 +19,22 @@
     
 	<h1>Search Hotels</h1>
 	<fieldset> 
-	   <ice:selectInputText id="searchString" valueChangeListener="#{hotelSearch.handleSearchStringChange}" 
-                            value="#{hotelSearch.searchString}" style="display: inline; width: 165px;"/>
+	   <ice:selectInputText id="searchString" 
+             valueChangeListener="#{hotelSearch.handleSearchStringChange}" 
+             value="#{hotelSearch.searchString}"
+             style="display: inline; width: 165px;">
+          <f:selectItems value="#{hotelSearch.cities}"/>
+       </ice:selectInputText>
        &#160;
 	   <br/>
        <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
-       <h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
-          <f:selectItem itemLabel="5" itemValue="5"/>
-          <f:selectItem itemLabel="10" itemValue="10"/>
-          <f:selectItem itemLabel="20" itemValue="20"/>
-       </h:selectOneMenu>
+       <ice:selectOneMenu id="pageSize" 
+             value="#{hotelSearch.pageSize}" 
+             valueChangeListener="#{hotelSearch.handlePageSizeChange}"
+             partialSubmit="true">
+          <f:convertNumber/>
+          <f:selectItems value="#{hotelSearch.pageSizes}"/>
+       </ice:selectOneMenu>
     </fieldset>
     
   </h:form>
@@ -36,7 +42,7 @@
 
   <div class="section">
 	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
-	<h:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
+	<ice:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
 		<h:column>
 			<f:facet name="header">Name</f:facet>
 			#{hot.name}
@@ -57,8 +63,7 @@
 			<f:facet name="header">Action</f:facet>
 			<s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
 		</h:column>
-	</h:dataTable>
-	<s:link value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
+	</ice:dataTable>
   </div>
 
 <div class="section">

@@ -1,8 +1,11 @@
-//$Id: HotelSearching.java,v 1.7 2006/10/04 19:19:13 gavin Exp $
+//$Id: HotelSearching.java,v 1.1 2006/11/20 05:19:01 gavin Exp $
 package org.jboss.seam.example.booking;
+
+import java.util.List;
 
 import javax.ejb.Local;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 
 @Local
 public interface HotelSearching
@@ -13,6 +16,9 @@ public interface HotelSearching
    public String getSearchString();
    public void setSearchString(String searchString);
    public void handleSearchStringChange(ValueChangeEvent e);
+   public void handlePageSizeChange(ValueChangeEvent e);
+   public SelectItem[] getPageSizes();
+   public List<SelectItem> getCities();
    
    public String find();
    public String nextPage();

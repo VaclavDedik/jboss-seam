@@ -1,4 +1,4 @@
-//$Id: HotelSearchingAction.java,v 1.13 2006/10/19 20:11:09 gavin Exp $
+//$Id: HotelSearchingAction.java,v 1.1 2006/11/20 05:19:01 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 
 @Stateful
 @Name("hotelSearch")
@@ -49,17 +50,29 @@ public class HotelSearchingAction implements HotelSearching
       
    private void queryHotels()
    {
-      String searchPattern = searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
       hotels = em.createQuery("select h from Hotel h where lower(h.name) like :search or lower(h.city) like :search or lower(h.zip) like :search or lower(h.address) like :search")
-            .setParameter("search", searchPattern)
+            .setParameter( "search", getSearchPattern() )
             .setMaxResults(pageSize)
             .setFirstResult( page * pageSize )
             .getResultList();
+   }
+
+   private String getSearchPattern()
+   {
+      return searchString==null ? "%" : '%' + searchString.toLowerCase().replace('*', '%') + '%';
    }
    
    public boolean isNextPageAvailable()
    {
       return hotels!=null && hotels.size()==pageSize;
+   }
+   
+   public SelectItem[] getPageSizes() {
+      return new SelectItem[] { 
+            new SelectItem(5, "5"), 
+            new SelectItem(10, "10"), 
+            new SelectItem(20, "20") 
+         };
    }
    
    public int getPageSize() {
@@ -80,9 +93,20 @@ public class HotelSearchingAction implements HotelSearching
       this.searchString = searchString;
    }
 
-   public void handleSearchStringChange(ValueChangeEvent e)  {
+   public void handleSearchStringChange(ValueChangeEvent e) {
       page = 0;
-      searchString = String.valueOf(e.getNewValue());
+      searchString = (String) e.getNewValue();
+      queryHotels();
+   }
+   
+   public List<SelectItem> getCities() {
+      return em.createQuery("select distinct new javax.faces.model.SelectItem(h.city) from Hotel h where lower(h.city) like :search order by h.city")
+            .setParameter("search", getSearchPattern())
+            .getResultList();
+   }
+   
+   public void handlePageSizeChange(ValueChangeEvent e)  {
+      pageSize = ( (Long) e.getNewValue() ).intValue();
       queryHotels();
    }
    
