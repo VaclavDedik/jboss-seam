@@ -2,7 +2,41 @@ JBoss Seam Changelog
 ====================
 Changes in version 1.1.0.CR1 (November 2006)
 --------------------------------------------
+** Bug
+    * [JBSEAM-167] - Nested conversation and pageflow.
+    * [JBSEAM-391] - <end-conversation /> ends task
+    * [JBSEAM-409] - WebSessionContext.flush causing out of memory
+    * [JBSEAM-446] - s:link linkStyle="button" not rendering all attributes
+    * [JBSEAM-481] - Using @In and @EJB in the same session bean causes an exception when trying to (erroneously) inject the @In annotated value into the @EJB injected bean.
+    * [JBSEAM-483] - nested conversations, redirects and refresh button
+    * [JBSEAM-489] - IllegalStateException during session timeout
+    * [JBSEAM-494] - Exception resolving EL expression containing a function
+    * [JBSEAM-497] - NPE in Pages.createPage
+    * [JBSEAM-511] - @Begin during a nested conversation that has ended
 
+
+** Feature Request
+    * [JBSEAM-199] - <conversation-end create-process="processDefinitionName"/>
+    * [JBSEAM-259] - Builtin components defined in builtin-components.xml
+    * [JBSEAM-286] - SeamTest - Add support for authenticated user
+    * [JBSEAM-381] - instance-per-nested-conversation components
+    * [JBSEAM-385] - @In(create=true) is noisy for persistence contexts
+    * [JBSEAM-413] - Support <foo>value</foo> as well as <property name="foo">value</property> in components.xml
+    * [JBSEAM-419] - @ReadOnly annotation
+    * [JBSEAM-421] - Update to Seam i18n to support resource bundle types
+    * [JBSEAM-484] - Repackage built-in components
+    * [JBSEAM-487] - <component name="..." jndiName="...."/>
+    * [JBSEAM-490] - <begin-conversation> and <end-conversation> for pages.xml
+    * [JBSEAM-491] - disabled attribute for s:link
+    * [JBSEAM-493] - join=true|false, pageflow="..." for <begin-conversation>
+    * [JBSEAM-499] - components.xml at package level and jar META-INF level
+    * [JBSEAM-500] - <s:button/> instead of <s:link linkStyle="button"/>
+    * [JBSEAM-502] - add package namespaces to simplify component XML configuration
+    * [JBSEAM-504] - Package Ant with seam-gen
+    * [JBSEAM-507] - ICEfaces integration
+    * [JBSEAM-509] - JSF phase events
+    * [JBSEAM-514] - XML schemas for components.xml
+    
 Changes in version 1.1.0.BETA2 (November 2006)
 ---------------------------------------------
 ** Bug
