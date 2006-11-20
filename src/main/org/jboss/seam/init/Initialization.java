@@ -319,6 +319,7 @@ public class Initialization
          boolean isProperty = !"name".equals(attributeName) && 
                !"installed".equals(attributeName) && 
                !"scope".equals(attributeName) &&
+               !"class".equals(attributeName) &&
                !"jndi-name".equals(attributeName) &&
                !"auto-create".equals(attributeName);
          if (isProperty)
