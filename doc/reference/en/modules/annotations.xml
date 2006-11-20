@@ -168,7 +168,7 @@
                     </para>
                 </listitem>
             </varlistentry>   
-            <varlistentry  id="synchronized-annotation">
+            <varlistentry  id="readonly-annotation">
                 <term><literal>@ReadOnly</literal></term>
                 <listitem>
                     <programlisting><![CDATA[@ReadOnly]]></programlisting>

@@ -347,7 +347,7 @@
 </pages>]]></programlisting>
 
         <para>
-            To solve the first problem, we now have four options:
+            To solve the first problem, we now have five options:
         </para>
         
         <itemizedlist>
@@ -369,12 +369,18 @@
                 <literal>@Begin</literal>
             </para>
             </listitem>
+            <para>
+                Use <literal>&lt;begin-conversation&gt;</literal> in
+                <literal>pages.xml</literal>.
+            </para>
+            </listitem>
             <listitem>
             <para>
                 Use <literal>#{conversation.begin}</literal> as
                 the Seam page action method
             </para>
             </listitem>
+            <listitem>
         </itemizedlist>
         
     </section>
