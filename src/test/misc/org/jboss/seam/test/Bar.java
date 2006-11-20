@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.test;
 
+import java.io.Serializable;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Conversational;
@@ -24,7 +26,7 @@ import org.jboss.seam.annotations.Scope;
 @Name("bar")
 @Scope(ScopeType.CONVERSATION)
 @Conversational(ifNotBegunOutcome="error")
-public class Bar
+public class Bar implements Serializable
 {
    
    @In(required=true)

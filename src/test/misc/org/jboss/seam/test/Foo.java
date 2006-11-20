@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.test;
 
+import java.io.Serializable;
+
 import javax.ejb.Remove;
 
 import org.hibernate.validator.NotNull;
@@ -23,7 +25,7 @@ import org.jboss.seam.annotations.Scope;
 @Name("foo")
 @Scope(ScopeType.SESSION)
 @SuppressWarnings("deprecation")
-public class Foo
+public class Foo implements Serializable
 {
    
    private String value;
