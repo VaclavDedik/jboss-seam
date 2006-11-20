@@ -5,11 +5,9 @@
   <xs:element name="components">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <!-- UPA violation
         <xs:element ref="components:component"/>
-        <xs:element ref="components:factory"/>
-          -->
-        <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+        <xs:element ref="components:factory"/>        
+        <xs:any namespace="##other" processContents="strict"/>       
       </xs:choice>
     </xs:complexType>
   </xs:element>
