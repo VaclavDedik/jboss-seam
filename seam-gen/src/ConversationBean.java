@@ -13,9 +13,9 @@ import org.jboss.seam.log.Log;
 @Name("@componentName@")
 public class @beanName@ implements @interfaceName@ {
 	
-    @Logger private Log log;
+   @Logger private Log log;
     
-    private int value;
+   private int value;
 	
 	@Begin
 	public String begin()

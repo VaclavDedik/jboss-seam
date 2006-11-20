@@ -13,7 +13,7 @@ public class @beanName@ implements @interfaceName@ {
 	
     @Logger private Log log;
 	
-    @In(create=true) 
+    @In 
     FacesMessages facesMessages;
     
     //seam-gen method
