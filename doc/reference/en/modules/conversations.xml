@@ -849,12 +849,12 @@ public void commitClaim() {
     </section>
     
     <section>
-        <title>Seam and AJAX</title>
+        <title>Seam and Servlets</title>
         
         <para>
-            AJAX requests from a JSF page are not processed by the JSF servlet, so Seam
-            provides a servlet filter that can be applied to the servlet processing your 
-            AJAX calls (or, in fact, to any servlet at all).
+            Requests sent direct to some servlet other than the JSF servlet are not
+            processed through the JSF lifecycle, so Seam provides a servlet filter 
+            that can be applied to any servlet that needs access to Seam components.
         </para>
         
         <programlisting><![CDATA[<filter>
