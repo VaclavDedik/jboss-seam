@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://jboss.com/products/seam/core" xmlns:core="http://jboss.com/products/seam/core"
+    xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
+    <xs:import namespace="http://jboss.com/products/seam/components"
+               schemaLocation="components-1.1.xsd"/>
+
+    <xs:element name="debug" type="xs:string"/>
+    <xs:element name="dispatcher" type="xs:string"/>
+
+    <xs:element name="persistence-unit-jndi-name" type="xs:string"/>
+    <xs:element name="init">
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="core:debug"> </xs:element>
+                <xs:element ref="core:jndi-pattern"/>
+            </xs:choice>
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.init"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.init">
+        <xs:attribute name="debug">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="jndi-pattern"/>
+    </xs:attributeGroup>
+    <xs:element name="ejb">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="core:attlist.ejb"/>
+            <xs:attributeGroup ref="components:attlist.component"> </xs:attributeGroup>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.ejb"> </xs:attributeGroup>
+    <xs:element name="jndi-pattern" type="xs:string"/>
+    <xs:element name="ManagedPersistenceContext">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="core:persistence-unit-jndi-name"/>
+            </xs:sequence>
+            <xs:attributeGroup ref="core:attlist.ManagedPersistenceContext"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.ManagedPersistenceContext"> </xs:attributeGroup>
+</xs:schema>
