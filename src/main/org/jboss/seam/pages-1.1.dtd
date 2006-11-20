@@ -24,7 +24,6 @@
 <!ATTLIST param converterId CDATA #IMPLIED>
 
 <!ELEMENT end-conversation EMPTY>
-<!ATTLIST end-conversation before-redirect (true|false) "false">
 
 <!ELEMENT begin-conversation EMPTY>
 <!ATTLIST begin-conversation join (true|false) "false">

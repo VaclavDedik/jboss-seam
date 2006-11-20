@@ -104,7 +104,6 @@ public final class Page
    private boolean nested;
    private FlushModeType flushMode;
    private String pageflow;
-   private boolean beforeRedirect;
    
    Page(String viewId)
    {
@@ -257,14 +256,7 @@ public final class Page
    {
       if ( isEndConversation )
       {
-         if (beforeRedirect)
-         {
-            Conversation.instance().endBeforeRedirect();
-         }
-         else
-         {
-            Conversation.instance().end();
-         }
+         Conversation.instance().end();
       }
       if ( isBeginConversation )
       {
@@ -320,13 +312,4 @@ public final class Page
       this.pageflow = pageflow;
    }
 
-   protected boolean isBeforeRedirect()
-   {
-      return beforeRedirect;
-   }
-
-   protected void setBeforeRedirect(boolean beforeRedirect)
-   {
-      this.beforeRedirect = beforeRedirect;
-   }
 }

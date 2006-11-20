@@ -160,7 +160,6 @@ public class Pages
       if ( endConversation!=null )
       {
          entry.setEndConversation(true);
-         entry.setBeforeRedirect( "true".equals( endConversation.attributeValue("before-redirect") ) );
       }
       
       Element beginConversation = page.element("begin-conversation");
