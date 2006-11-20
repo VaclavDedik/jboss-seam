@@ -18,6 +18,7 @@
   <factory scope="stateless" auto-create="true" name="facesMessages" value="#{org$jboss$seam$core$facesMessages}"/>
   <factory scope="stateless" auto-create="true" name="httpError" value="#{org$jboss$seam$core$httpError}"/>
   <factory scope="stateless" auto-create="true" name="interpolator" value="#{org$jboss$seam$core$interpolator}"/>
+  <factory scope="stateless" auto-create="true" name="isUserInRole" value="#{org$jboss$seam$core$isUserInRole}"/>
   <factory scope="stateless" auto-create="true" name="locale" value="#{org$jboss$seam$core$locale}"/>
   <factory scope="stateless" auto-create="true" name="localeSelector" value="#{org$jboss$seam$core$localeSelector}"/>
   <factory scope="stateless" auto-create="true" name="messages" value="#{org$jboss$seam$core$messages}"/>
