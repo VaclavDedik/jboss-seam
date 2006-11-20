@@ -305,7 +305,7 @@
         
         <para>
             If <emphasis>all</emphasis> you want to do before rendering the page
-            is begin a conversation, you can use a built-in action method that
+            is begin a conversation, you could use a built-in action method that
             does just that:
         </para>
         
@@ -319,6 +319,32 @@
             control, and, similarly, you can use 
             <literal>#{conversation.end}</literal> to end conversations.
         </para>
+        
+        <para>
+            If you want more control, to join existing conversations or
+            begin a nested conversion, to begin a pageflow or an atomic
+            conversation, you should use the 
+            <literal>&lt;begin-conversation&gt;</literal> element.
+        </para>
+
+        <programlisting><![CDATA[<pages>
+    <page view-id="/messageList.jsp">
+       <begin-conversation nested="true" pageflow="AddItem"/>
+    <page>
+    ...
+</pages>]]></programlisting>
+
+        <para>
+            There is also an <literal>&lt;end-conversation&gt;</literal> 
+            element.
+        </para>
+
+        <programlisting><![CDATA[<pages>
+    <page view-id="/home.jsp">
+       <end-conversation/>
+    <page>
+    ...
+</pages>]]></programlisting>
 
         <para>
             To solve the first problem, we now have four options:
