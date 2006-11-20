@@ -181,7 +181,7 @@ public class Initialization
          if (nsInfo != null)
          {
             String name = elem.attributeValue("name");
-            String elemName = toCamelCase( elem.getName() );
+            String elemName = toCamelCase( elem.getName(), true );
             String className = nsInfo.getPackage().getName() + '.' + elemName;
             try
             {
@@ -309,7 +309,7 @@ public class Initialization
          {
             propName = prop.getQName().getName();
          }
-         String qualifiedPropName = name + '.' + toCamelCase(propName);
+         String qualifiedPropName = name + '.' + toCamelCase(propName, false);
          properties.put(qualifiedPropName, getPropertyValue(prop, qualifiedPropName, replacements));
       }
       
@@ -324,7 +324,7 @@ public class Initialization
                !"auto-create".equals(attributeName);
          if (isProperty)
          {
-            String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName() );
+            String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName(), false );
             properties.put(qualifiedPropName, getPropertyValue(prop, replacements));
          }
       }
@@ -726,11 +726,20 @@ public class Initialization
       context.set(componentName, component);
    }
 
-   private static String toCamelCase(String hyphenated)
+   private static String toCamelCase(String hyphenated, boolean initialUpper)
    {
       StringTokenizer tokens = new StringTokenizer(hyphenated, "-");
-      StringBuilder result = new StringBuilder( hyphenated.length() )
-            .append( tokens.nextToken() );
+      StringBuilder result = new StringBuilder( hyphenated.length() );
+      String firstToken = tokens.nextToken();
+      if (initialUpper)
+      {
+         result.append( Character.toUpperCase( firstToken.charAt(0) ) )
+         .append( firstToken.substring(1) );         
+      }
+      else
+      {
+         result.append(firstToken);
+      }
       while ( tokens.hasMoreTokens() )
       {
          String token = tokens.nextToken();
