@@ -1,4 +1,4 @@
-//$Id: BookingListAction.java,v 1.16 2006/10/12 02:49:35 gavin Exp $
+//$Id: BookingListAction.java,v 1.1 2006/11/20 05:19:01 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
@@ -13,10 +13,10 @@ import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
@@ -25,6 +25,9 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.log.Log;
+
+import com.icesoft.faces.context.effects.Effect;
+import com.icesoft.faces.context.effects.Highlight;
 
 @Stateful
 @Scope(SESSION)
@@ -66,6 +69,11 @@ public class BookingListAction implements BookingList, Serializable
       getBookings();
       FacesMessages.instance().add("Booking cancelled for confirmation number #{booking.id}");
       return "main";
+   }
+   
+   public Effect getEffect()
+   {
+      return new Highlight();
    }
    
    @Destroy @Remove

@@ -1,10 +1,12 @@
-//$Id: HotelSearchingAction.java,v 1.2 2006/11/20 08:57:11 gavin Exp $
+//$Id: HotelSearchingAction.java,v 1.3 2006/11/20 16:54:53 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import java.util.List;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,9 +15,6 @@ import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
-
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.SelectItem;
 
 @Stateful
 @Name("hotelSearch")

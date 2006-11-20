@@ -23,6 +23,7 @@
             prefix="WEB-INF/lib"
                dir="resources/WEB-INF/lib">
         <include name="*.jar"/>
+	    <exclude name="icefaces.jar"/>
     </zipfileset>
 
     <zipfileset id="example.war.webinf.lib.extra" 
@@ -38,8 +39,8 @@
     	<include name="META-INF/ejb-jar.xml"/>
     </fileset>
     
-    <fileset id="example.ejb3.lib" dir="../../lib">
-        <include name="_NONE_"/>
+    <fileset id="example.ejb3.lib" dir="resources/WEB-INF/lib">
+        <include name="icefaces.jar"/>
     </fileset>
 
     <!-- EAR -->
@@ -95,5 +96,12 @@
     <property name="tomcat.conf" value="eejb.conf"/>
 
     <import file="../../build.xml"/>
+    
+    <path id="build.classpath">
+        <path refid="example.path"/>
+        <fileset refid="lib"/>
+        <fileset refid="seam.jar"/>
+	    <fileset file="resources/WEB-INF/lib/icefaces.jar"/>
+    </path>
     
 </project>

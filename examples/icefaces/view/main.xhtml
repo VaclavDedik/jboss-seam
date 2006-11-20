@@ -25,7 +25,6 @@
              style="display: inline; width: 165px;">
           <f:selectItems value="#{hotelSearch.cities}"/>
        </ice:selectInputText>
-       &#160;
        <ice:outputConnectionStatus activeLabel="requesting..." styleClass="connectionStatus"/>
 	   <br/>
        <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
@@ -45,19 +44,19 @@
 	<ice:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
 		<h:column>
 			<f:facet name="header">Name</f:facet>
-			#{hot.name}
+			<ice:outputText value="#{hot.name}" onmouseovereffect="#{bookingList.effect}"/>
 		</h:column>
 		<h:column>
 			<f:facet name="header">Address</f:facet>
-			#{hot.address}
+			<ice:outputText value="#{hot.address}" onmouseovereffect="#{bookingList.effect}"/>
 		</h:column>
 		<h:column>
 			<f:facet name="header">City, State</f:facet>
-			#{hot.city}, #{hot.state}, #{hot.country}
+			<ice:outputText value="#{hot.city}, #{hot.state}, #{hot.country}" onmouseovereffect="#{bookingList.effect}"/>
 		</h:column> 
 		<h:column>
 			<f:facet name="header">Zip</f:facet>
-			#{hot.zip}
+			<ice:outputText value="#{hot.zip}" onmouseovereffect="#{bookingList.effect}"/>
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
@@ -75,31 +74,31 @@
 	<ice:dataTable id="bookings" value="#{bookings}" var="book" rendered="#{bookings.rowCount>0}">
 		<h:column>
 			<f:facet name="header">Name</f:facet>
-			#{book.hotel.name}
+			<ice:outputText value="#{book.hotel.name}" onmouseovereffect="#{bookingList.effect}"/>
 		</h:column>
 		<h:column>
 			<f:facet name="header">Address</f:facet>
-			#{book.hotel.address}
+			<ice:outputText value="#{book.hotel.address}" onmouseovereffect="#{bookingList.effect}"/>
 		</h:column>
 		<h:column>
 			<f:facet name="header">City, State</f:facet>
-			#{book.hotel.city}, #{book.hotel.state}
+			<ice:outputText value="#{book.hotel.city}, #{book.hotel.state}" onmouseovereffect="#{bookingList.effect}"/>
 		</h:column>
         <h:column>
             <f:facet name="header">Check in date</f:facet>
-            <h:outputText value="#{book.checkinDate}"/>
+            <h:outputText value="#{book.checkinDate}" onmouseovereffect="#{bookingList.effect}"/>
         </h:column>
         <h:column>
             <f:facet name="header">Check out date</f:facet>
-            <h:outputText value="#{book.checkoutDate}"/>
+            <h:outputText value="#{book.checkoutDate}" onmouseovereffect="#{bookingList.effect}"/>
         </h:column>
 		<h:column>
 			<f:facet name="header">Confirmation number</f:facet>
-			#{book.id}
+			<ice:outputText value="#{book.id}" onmouseovereffect="#{bookingList.effect}"/>
 		</h:column>
 		<h:column>
 			<f:facet name="header">Action</f:facet>
-			<h:commandLink id="cancel" value="Cancel" action="#{bookingList.cancel}"/>
+			<ice:commandLink id="cancel" value="Cancel" action="#{bookingList.cancel}"/>
 		</h:column>
 	</ice:dataTable>
   </h:form>
