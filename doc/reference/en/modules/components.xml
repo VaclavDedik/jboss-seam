@@ -12,6 +12,14 @@
         <literal>@Name</literal>.
     </para>
     
+    <para>
+        Note also that even though all the built in components use a
+        qualified name, most of them are aliased to unqualified names by
+        default. These aliases specify <literal>auto-create="true"</literal>,
+        so you do not need to use <literal>create=true</literal> when
+        injecting built-in components by their unqualified name.
+    </para>
+    
     <section>
         <title>Context injection components</title>
         <para>

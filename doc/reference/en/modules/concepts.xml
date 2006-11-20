@@ -1029,7 +1029,7 @@ public class LoginAction implements Login {
         <para>
             If you want Seam to create an instance of the component when there is no existing component
             instance bound to the named context variable, you should specify <literal>@In(create=true)</literal>. 
-            If the value is optional (it can be null), specify <literal>@In(required=false)</literal>. 
+            If the value is optional (it can be null), specify <literal>@In(required=false)</literal>.
         </para>
         
         <para>

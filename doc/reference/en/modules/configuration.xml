@@ -618,10 +618,10 @@
             To configure our Seam component, as usual, we use <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<component name="hibernateSessionFactory" auto-create="true"
+        <programlisting><![CDATA[<component name="hibernateSessionFactory"
           class="org.jboss.seam.core.HibernateSessionFactory"/> 
 
-<component name="bookingDatabase"
+<component name="bookingDatabase" auto-create="true"
           class="org.jboss.seam.core.ManagedHibernateSession">
     <property name="sessionFactoryJndiName">java:/bookingSessionFactory</property>
 </component>]]></programlisting>
@@ -739,7 +739,7 @@
 
         <programlisting><![CDATA[<component class="org.jboss.seam.core.Microcontainer"/>
         
-<component name="bookingDatabase"
+<component name="bookingDatabase" auto-create="true"
           class="org.jboss.seam.core.ManagedHibernateSession">
     <property name="sessionFactoryJndiName">java:/bookingSessionFactory</property>
 </component>]]></programlisting>
