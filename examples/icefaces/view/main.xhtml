@@ -4,7 +4,7 @@
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
 	  			xmlns:s="http://jboss.com/products/seam/taglib"
-                        xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
 				template="template.xhtml">
 
 <!-- content -->
@@ -19,10 +19,8 @@
     
 	<h1>Search Hotels</h1>
 	<fieldset> 
-	   <ice:selectInputText id="searchString" valueChangeListener="#{hotelSearch.handleSearchStringChange}" value="#{hotelSearch.searchString}" style="display: inline; width: 165px;" >
-       </ice:selectInputText>
-       &#160;
-	   <h:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" styleClass="button" reRender="searchResults"/>
+	   <ice:selectInputText id="searchString" valueChangeListener="#{hotelSearch.handleSearchStringChange}" 
+                            value="#{hotelSearch.searchString}" style="display: inline; width: 165px;"/>
        &#160;
 	   <br/>
        <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
