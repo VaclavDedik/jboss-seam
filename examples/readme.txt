@@ -9,6 +9,8 @@ booking/              The Seam Booking demo application for EJB 3.0
 
 hibernate/            The Seam Booking demo ported to Hibernate3
 
+icefaces/             The Seam Booking demo with ICEfaces, instead of Ajax4JSF
+
 dvdstore/             The Seam DVD Store demo demonstrating jBPM 
                       support in Seam
                       
