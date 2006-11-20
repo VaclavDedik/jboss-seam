@@ -2,7 +2,7 @@
 
 <datasources>
     <local-tx-datasource>
-        <jndi-name>bookingDatasource</jndi-name>
+        <jndi-name>icefacesDatasource</jndi-name>
         <connection-url>jdbc:hsqldb:.</connection-url>
         <driver-class>org.hsqldb.jdbcDriver</driver-class>
         <user-name>sa</user-name>

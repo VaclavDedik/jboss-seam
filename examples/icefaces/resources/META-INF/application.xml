@@ -1,14 +1,14 @@
 <application>
-	<display-name>Seam Booking</display-name>
+	<display-name>ICEfaces Booking</display-name>
 
 	<module>
 		<web>
-			<web-uri>jboss-seam-booking.war</web-uri>
-			<context-root>/seam-booking</context-root>
+			<web-uri>jboss-seam-icefaces.war</web-uri>
+			<context-root>/seam-icefaces</context-root>
 		</web>
 	</module>
 	<module>
-		<ejb>jboss-seam-booking.jar</ejb>
+		<ejb>jboss-seam-icefaces.jar</ejb>
 	</module>
 	<module>
 	    <java>jboss-seam.jar</java>

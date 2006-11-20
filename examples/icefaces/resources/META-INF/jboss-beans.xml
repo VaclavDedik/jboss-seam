@@ -8,7 +8,7 @@
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
       <property name="connectionURL">jdbc:hsqldb:.</property>
       <property name="userName">sa</property>
-      <property name="jndiName">java:/bookingDatasource</property>
+      <property name="jndiName">java:/icefacesDatasource</property>
       <property name="minSize">0</property>
       <property name="maxSize">10</property>
       <property name="blockingTimeout">1000</property>

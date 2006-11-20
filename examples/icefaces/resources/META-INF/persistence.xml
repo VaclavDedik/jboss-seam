@@ -1,7 +1,7 @@
 <persistence>
    <persistence-unit name="bookingDatabase">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>java:/bookingDatasource</jta-data-source>
+      <jta-data-source>java:/icefacesDatasource</jta-data-source>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>

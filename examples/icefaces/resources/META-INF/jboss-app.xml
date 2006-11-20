@@ -1,5 +1,5 @@
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-booking
+      seam.jboss.org:loader=seam-icefaces
       </loader-repository> 
 </jboss-app>

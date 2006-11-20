@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="Booking" default="deploy" basedir=".">
+<project name="ICEfaces Booking" default="deploy" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="Seam on JBoss Booking Example"/>
-    <property name="example.name"           value="jboss-seam-booking"/>
+    <property name="Name"                   value="ICEfaces Booking Example"/>
+    <property name="example.name"           value="jboss-seam-icefaces"/>
 	
     <!-- WAR -->
     <zipfileset id="example.war.docroot"
@@ -55,12 +55,12 @@
     <!-- Deploy -->
     <fileset id="example.deploy"
             dir="resources">
-        <include name="booking-ds.xml"/>
+        <include name="icefaces-ds.xml"/>
     </fileset>
     
     <!-- Undeploy -->
     <patternset id="example.undeploy">
-        <include name="booking-ds.xml"/>
+        <include name="icefaces-ds.xml"/>
     </patternset>
 
     <!-- Test -->
