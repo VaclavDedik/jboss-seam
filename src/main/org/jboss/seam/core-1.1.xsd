@@ -5,16 +5,182 @@
     <xs:import namespace="http://jboss.com/products/seam/components"
                schemaLocation="components-1.1.xsd"/>
 
-    <xs:element name="debug" type="xs:string"/>
-    <xs:element name="dispatcher" type="xs:string"/>
+        
+    <xs:element name="actor">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.actor"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.actor">
+    </xs:attributeGroup>    
 
-    <xs:element name="persistence-unit-jndi-name" type="xs:string"/>
+        
+    <xs:element name="applicationContext">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.applicationContext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.applicationContext">
+    </xs:attributeGroup>
+    
+        
+    <xs:element name="businessProcess">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.businessProcess"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.businessProcess">
+    </xs:attributeGroup>
+    
+    <xs:element name="businessProcessContext">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.businessProcessContext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.businessProcessContext">
+    </xs:attributeGroup>
+
+    <xs:element name="conversation">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.conversation"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.conversation">
+    </xs:attributeGroup>
+
+    <xs:element name="conversationContext">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.conversationContext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.conversationContext">
+    </xs:attributeGroup>
+
+    <xs:element name="conversationEntries">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.conversationEntries"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.conversationEntries">
+    </xs:attributeGroup>
+
+    <xs:element name="conversationList">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.conversationList"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.conversationList">
+    </xs:attributeGroup>
+
+    <xs:element name="conversationStack">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.conversationStack"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.conversationStack">
+    </xs:attributeGroup>
+
+    <xs:element name="dispatcher">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.dispatcher"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.dispatcher">
+    </xs:attributeGroup>
+
+    <xs:element name="ejb">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.ejb"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.ejb">
+    </xs:attributeGroup>
+
+    <xs:element name="eventContext">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.eventContext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.eventContext">
+    </xs:attributeGroup>
+
+    <xs:element name="events">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.events"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.events">
+    </xs:attributeGroup>
+
+    <xs:element name="exceptions">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.exceptions"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.exceptions">
+    </xs:attributeGroup>
+
+    <xs:element name="expressions">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.expressions"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.expressions">
+    </xs:attributeGroup>
+
+    <xs:element name="facesContext">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.facesContext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.facesContext">
+    </xs:attributeGroup>
+
+    <xs:element name="facesMessages">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.facesMessages"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.facesMessages">
+    </xs:attributeGroup>
+
+    <xs:element name="facesPage">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.facesPage"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.facesPage">
+    </xs:attributeGroup>
+
+    <xs:element name="httpError">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.httpError"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.httpError">
+    </xs:attributeGroup>
+
     <xs:element name="init">
         <xs:complexType mixed="true">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element ref="core:debug"> </xs:element>
-                <xs:element ref="core:jndi-pattern"/>
-            </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.init"/>
         </xs:complexType>
@@ -29,23 +195,299 @@
             </xs:simpleType>
         </xs:attribute>
         <xs:attribute name="jndi-pattern"/>
+        <xs:attribute name="client-side-conversations" />
+        <xs:attribute name="jbpm-installed" />
+        <xs:attribute name="my-faces-lifecycle-bug" />        
+        <xs:attribute name="user-transaction-name" />  
     </xs:attributeGroup>
-    <xs:element name="ejb">
+
+    <xs:element name="interpolator">
         <xs:complexType mixed="true">
-            <xs:attributeGroup ref="core:attlist.ejb"/>
-            <xs:attributeGroup ref="components:attlist.component"> </xs:attributeGroup>
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.interpolator"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.ejb"> </xs:attributeGroup>
-    <xs:element name="jndi-pattern" type="xs:string"/>
+    <xs:attributeGroup name="attlist.interpolator">
+    </xs:attributeGroup>
+
+    <xs:element name="isUserInRole">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.isUserInRole"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.isUserInRole">
+    </xs:attributeGroup>
+
+    <xs:element name="jbpm">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.jbpm"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.jbpm">
+    </xs:attributeGroup>
+
+    <xs:element name="locale">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.locale"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.locale">
+    </xs:attributeGroup>
+
+    <xs:element name="localeSelector">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.localeSelector"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.localeSelector">
+    </xs:attributeGroup>
+
+    <xs:element name="jbpmContext">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.jbpmContext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.jbpmContext">
+    </xs:attributeGroup>
+
+    <xs:element name="manager">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.manager"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.manager">
+    </xs:attributeGroup>
+
+    <xs:element name="messages">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.messages"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.messages">
+    </xs:attributeGroup>
+
+    <xs:element name="microcontainer">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.microcontainer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.microcontainer">
+    </xs:attributeGroup>
+
+    <xs:element name="pageContext">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.pageContext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.pageContext">
+    </xs:attributeGroup>
+
+    <xs:element name="pageflow">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.pageflow"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.pageflow">
+    </xs:attributeGroup>
+
+    <xs:element name="pages">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.pages"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.pages">
+    </xs:attributeGroup>
+
+    <xs:element name="persistenceContexts">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.persistenceContexts"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.persistenceContexts">
+    </xs:attributeGroup>
+
+    <xs:element name="pojoCache">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.pojoCache"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.pojoCache">
+    </xs:attributeGroup>
+
+    <xs:element name="pooledTask">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.pooledTask"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.pooledTask">
+    </xs:attributeGroup>
+
+    <xs:element name="pooledTaskInstanceList">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.pooledTaskInstanceList"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.pooledTaskInstanceList">
+    </xs:attributeGroup>
+
+    <xs:element name="processInstance">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.processInstance"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.processInstance">
+    </xs:attributeGroup>
+
+    <xs:element name="redirect">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.redirect"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.redirect">
+    </xs:attributeGroup>
+
+    <xs:element name="resourceBundle">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.resourceBundle"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.resourceBundle">
+    </xs:attributeGroup>
+
+    <xs:element name="safeActions">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.safeActions"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.safeActions">
+    </xs:attributeGroup>
+
+    <xs:element name="sessionContext">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.sessionContext"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.sessionContext">
+    </xs:attributeGroup>
+
+    <xs:element name="switcher">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.switcher"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.switcher">
+    </xs:attributeGroup>
+
+    <xs:element name="taskInstance">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.taskInstance"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.taskInstance">
+    </xs:attributeGroup>
+
+    <xs:element name="taskInstanceList">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.taskInstanceList"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.taskInstanceList">
+    </xs:attributeGroup>
+
+    <xs:element name="taskInstanceListForType">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.taskInstanceListForType"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.taskInstanceListForType">
+    </xs:attributeGroup>
+
+    <xs:element name="timeZone">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.timeZone"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.timeZone">
+    </xs:attributeGroup>
+
+    <xs:element name="timeZoneSelector">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.timeZoneSelector"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.timeZoneSelector">
+    </xs:attributeGroup>
+
+    <xs:element name="transition">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.transition"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.transition">
+    </xs:attributeGroup>
+
+    <xs:element name="uiComponent">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.uiComponent"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.uiComponent">
+    </xs:attributeGroup>
+
+    <xs:element name="userPrincipal">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.userPrincipal"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.userPrincipal">
+    </xs:attributeGroup>
+
+    <xs:element name="validation">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.validation"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.validation">
+    </xs:attributeGroup>
+
     <xs:element name="ManagedPersistenceContext">
         <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="core:persistence-unit-jndi-name"/>
-            </xs:sequence>
             <xs:attributeGroup ref="core:attlist.ManagedPersistenceContext"/>
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.ManagedPersistenceContext"> </xs:attributeGroup>
+    <xs:attributeGroup name="attlist.ManagedPersistenceContext">
+        <xs:attribute name="entity-manager-factory"></xs:attribute>
+        <xs:attribute name="persistence-unit-jndi-name"></xs:attribute>
+    </xs:attributeGroup>
 </xs:schema>
