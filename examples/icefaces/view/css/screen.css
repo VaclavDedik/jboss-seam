@@ -249,6 +249,13 @@ fieldset {
 	color: #C7B299;
 	text-decoration: none;
 }
+.connectionStatus {
+	display: inline;
+}
+.connectionStatus div {
+	display: inline;
+}
+
 /* Homepage Modifications
 ----------------------------------------------- */
 #pgHome #container {

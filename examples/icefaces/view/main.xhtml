@@ -26,6 +26,7 @@
           <f:selectItems value="#{hotelSearch.cities}"/>
        </ice:selectInputText>
        &#160;
+       <ice:outputConnectionStatus activeLabel="requesting..." styleClass="connectionStatus"/>
 	   <br/>
        <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
        <ice:selectOneMenu id="pageSize" 
