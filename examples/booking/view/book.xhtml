@@ -48,7 +48,7 @@
 				<div class="input">
 					<s:decorate>
 						<h:inputText id="checkinDate" value="#{booking.checkinDate}" required="true">
-                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                            <s:convertDateTime pattern="MM/dd/yyyy"/>
                             <a:support event="onblur" reRender="checkinDateErrors"/>
                         </h:inputText>
                         <h:graphicImage url="img/dtpick.gif" onclick="displayDatePicker('booking:checkinDate');" style="margin-left:5px"/>
@@ -63,7 +63,7 @@
 				<div class="input">
 					<s:decorate>
 						<h:inputText id="checkoutDate" value="#{booking.checkoutDate}" required="true">
-                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                            <s:convertDateTime pattern="MM/dd/yyyy"/>
                             <a:support event="onblur" reRender="checkoutDateErrors"/>
                         </h:inputText>
                         <h:graphicImage url="img/dtpick.gif" onclick="displayDatePicker('booking:checkoutDate');" style="margin-left:5px"/>
