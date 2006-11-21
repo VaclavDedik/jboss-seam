@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.persistence.Persistence;
 
 import org.hibernate.cfg.Environment;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -42,8 +43,13 @@ public class EntityManagerFactory
    }
    
    @Create
-   public void startup() throws Exception
+   public void startup(Component component) throws Exception
    {
+      if (persistenceUnitName==null)
+      {
+         persistenceUnitName = component.getName();
+      }
+      
       Map properties = new HashMap();
       Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
       if ( jndiProperties!=null )

@@ -2,8 +2,10 @@ package org.jboss.seam.core;
 
 import java.util.Map;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Expressions.ValueBinding;
@@ -23,6 +25,16 @@ public class Filter
 {
    private String name;
    private Map<String, ValueBinding> parameters;
+   
+   @Create
+   public void create(Component component)
+   {
+      //default the filter name to the component name
+      if (name==null)
+      {
+         name = component.getName();
+      }
+   }
    
    /**
     * The filter parameters.
@@ -47,6 +59,7 @@ public class Filter
    {
       return name;
    }
+   
    public void setName(String name)
    {
       this.name = name;
