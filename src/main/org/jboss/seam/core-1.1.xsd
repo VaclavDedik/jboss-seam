@@ -76,7 +76,6 @@
         </xs:attribute>
         <xs:attribute name="jndi-pattern"/>
         <xs:attribute name="client-side-conversations" />
-        <xs:attribute name="jbpm-installed" />
         <xs:attribute name="my-faces-lifecycle-bug" />        
         <xs:attribute name="user-transaction-name" />  
     </xs:attributeGroup>
@@ -106,6 +105,11 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.manager">
+        <xs:attribute name="concurrent-request-timeout"></xs:attribute>
+        <xs:attribute name="conversation-timeout"></xs:attribute>
+        <xs:attribute name="conversation-id-parameter"></xs:attribute>
+        <xs:attribute name="parent-conversation-id-parameter"></xs:attribute>
+        <xs:attribute name="conversation-is-long-running-parameter"></xs:attribute>
     </xs:attributeGroup>
     
     <xs:element name="microcontainer">
@@ -133,6 +137,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.pages">
+        <xs:attribute name="no-conversation-view-id"></xs:attribute>
     </xs:attributeGroup>
 
     <xs:element name="pojo-cache">
@@ -211,7 +216,6 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.Filter">
-        <xs:attribute name="name"></xs:attribute>
     </xs:attributeGroup>
     
 </xs:schema>
