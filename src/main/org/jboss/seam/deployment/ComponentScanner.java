@@ -1,5 +1,6 @@
 package org.jboss.seam.deployment;
 
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 
 import java.io.IOException;
@@ -11,57 +12,69 @@ import javassist.bytecode.ClassFile;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ComponentScanner
-    extends Scanner 
+public class ComponentScanner extends Scanner
 {
-    private static final Log log = LogFactory.getLog(ComponentScanner.class);
+   private static final Log log = LogFactory.getLog(ComponentScanner.class);
 
-    private Set<Class<Object>> classes;
-    
-    public ComponentScanner(String resourceName)
-    {
-        super(resourceName);
-    }
-    
-    public ComponentScanner(String resourceName, ClassLoader classLoader)
-    {
-        super(resourceName,classLoader);
-    }
-    
-    /**
-     * Returns only Seam components (ie: classes annotated with @Name)
-     */
-    public Set<Class<Object>> getClasses()
-    {
-        if (classes == null) {
-            classes = new HashSet<Class<Object>>();
-            scan();
-        } 
-        return classes;
-    }
+   private Set<Class<Object>> classes;
 
-    @Override
-    protected void handleItem(String name)
-    {
-        if (name.endsWith(".class")) {
-            String classname = filenameToClassname(name);
-            String filename = Scanner.componentFilename(name);
-            try {
-                ClassFile classFile = getClassFile(name);
-                if (hasAnnotation(classFile, Name.class) || 
-                    classLoader.getResources(filename).hasMoreElements() ) 
-                {
-                    classes.add( (Class<Object>) classLoader.loadClass(classname) );
-                }
-            } catch (ClassNotFoundException cnfe) {
-                log.debug( "could not load class: " + classname, cnfe );
+   public ComponentScanner(String resourceName)
+   {
+      super(resourceName);
+   }
 
-            } catch (NoClassDefFoundError ncdfe) {
-                log.debug( "could not load class (missing dependency): " + classname, ncdfe );
+   public ComponentScanner(String resourceName, ClassLoader classLoader)
+   {
+      super(resourceName, classLoader);
+   }
 
-            } catch (IOException ioe) {
-                log.debug( "could not load classfile: " + classname, ioe );
+   /**
+    * Returns only Seam components (ie: classes annotated with
+    * 
+    * @Name)
+    */
+   public Set<Class<Object>> getClasses()
+   {
+      if (classes == null)
+      {
+         classes = new HashSet<Class<Object>>();
+         scan();
+      }
+      return classes;
+   }
+
+   @Override
+   protected void handleItem(String name)
+   {
+      if ( name.endsWith(".class") )
+      {
+         String classname = filenameToClassname(name);
+         String filename = Scanner.componentFilename(name);
+         try
+         {
+            ClassFile classFile = getClassFile(name);
+            boolean installable = ( hasAnnotation(classFile, Name.class) || classLoader.getResources(filename).hasMoreElements() )
+                     && !"false".equals( getAnnotationValue(classFile, Install.class, "value") );
+            if (installable)
+            {
+               if ( log.isDebugEnabled() ) log.debug("found component class: " + name);
+               classes.add((Class<Object>) classLoader.loadClass(classname));
             }
-        }
-    }
+         }
+         catch (ClassNotFoundException cnfe)
+         {
+            log.debug("could not load class: " + classname, cnfe);
+
+         }
+         catch (NoClassDefFoundError ncdfe)
+         {
+            log.debug("could not load class (missing dependency): " + classname, ncdfe);
+
+         }
+         catch (IOException ioe)
+         {
+            log.debug("could not load classfile: " + classname, ioe);
+         }
+      }
+   }
 }

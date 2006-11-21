@@ -15,6 +15,7 @@ import java.util.zip.ZipFile;
 
 import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.ClassFile;
+import javassist.bytecode.annotation.MemberValue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -157,6 +158,28 @@ public abstract class Scanner
          return visible.getAnnotation( annotationType.getName() ) != null; 
       } 
       return false; 
+   }
+
+   protected String getAnnotationValue(ClassFile cf, Class<? extends Annotation> annotationType, String memberName)
+   { 
+      AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute( AnnotationsAttribute.visibleTag ); 
+      if ( visible != null ) 
+      {
+         javassist.bytecode.annotation.Annotation annotation = visible.getAnnotation( annotationType.getName() );
+         if (annotation==null)
+         {
+            return null;
+         }
+         else
+         {
+            MemberValue memberValue = annotation.getMemberValue(memberName);
+            return memberValue==null ? null : memberValue.toString(); //TODO: toString() here is probably Bad ;-)
+         }
+      }
+      else
+      {
+         return null;
+      }
    }
 
    public static String componentFilename(String name)
