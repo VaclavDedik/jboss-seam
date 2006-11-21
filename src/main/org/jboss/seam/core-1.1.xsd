@@ -2,36 +2,36 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://jboss.com/products/seam/core" xmlns:core="http://jboss.com/products/seam/core"
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
-    <xs:import namespace="http://jboss.com/products/seam/components"
-               schemaLocation="components-1.1.xsd"/>
+    <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.1.xsd"/>
 
-        
+
     <xs:element name="actor">
         <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element ref="core:id"/>
+            </xs:sequence>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.actor"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.actor">
-    </xs:attributeGroup>
-        
+    <xs:attributeGroup name="attlist.actor"> </xs:attributeGroup>
+
+
     <xs:element name="business-process">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.businessProcess"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.businessProcess">
-    </xs:attributeGroup>
-    
+    <xs:attributeGroup name="attlist.businessProcess"> </xs:attributeGroup>
+
     <xs:element name="dispatcher">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.dispatcher"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.dispatcher">
-    </xs:attributeGroup>
+    <xs:attributeGroup name="attlist.dispatcher"> </xs:attributeGroup>
 
     <xs:element name="ejb">
         <xs:complexType mixed="true">
@@ -39,25 +39,7 @@
             <xs:attributeGroup ref="core:attlist.ejb"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.ejb">
-    </xs:attributeGroup>
-    <!-- xs:element name="events">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.events"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.events">
-    </xs:attributeGroup-->
-
-    <!-- xs:element name="exceptions">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.exceptions"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.exceptions">
-    </xs:attributeGroup -->
+    <xs:attributeGroup name="attlist.ejb"> </xs:attributeGroup>
 
     <xs:element name="init">
         <xs:complexType mixed="true">
@@ -75,9 +57,24 @@
             </xs:simpleType>
         </xs:attribute>
         <xs:attribute name="jndi-pattern"/>
-        <xs:attribute name="client-side-conversations" />
-        <xs:attribute name="my-faces-lifecycle-bug" />        
-        <xs:attribute name="user-transaction-name" />  
+        <xs:attribute name="client-side-conversations">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="my-faces-lifecycle-bug">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="user-transaction-name"/>
     </xs:attributeGroup>
 
     <xs:element name="jbpm">
@@ -86,8 +83,7 @@
             <xs:attributeGroup ref="core:attlist.jbpm"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.jbpm">
-    </xs:attributeGroup>
+    <xs:attributeGroup name="attlist.jbpm"> </xs:attributeGroup>
 
     <xs:element name="locale-selector">
         <xs:complexType mixed="true">
@@ -96,6 +92,15 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.localeSelector">
+        <xs:attribute name="locale-string"/>
+        <xs:attribute name="cookie-enabled">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
     </xs:attributeGroup>
 
     <xs:element name="manager">
@@ -105,30 +110,22 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.manager">
-        <xs:attribute name="concurrent-request-timeout"></xs:attribute>
-        <xs:attribute name="conversation-timeout"></xs:attribute>
-        <xs:attribute name="conversation-id-parameter"></xs:attribute>
-        <xs:attribute name="parent-conversation-id-parameter"></xs:attribute>
-        <xs:attribute name="conversation-is-long-running-parameter"></xs:attribute>
+        <xs:attribute name="concurrent-request-timeout" type="xs:integer"/>
+
+        <xs:attribute name="conversation-timeout" type="xs:integer"/>
+        <xs:attribute name="conversation-id-parameter"/>
+        <xs:attribute name="parent-conversation-id-parameter"/>
+        <xs:attribute name="conversation-is-long-running-parameter"/>
     </xs:attributeGroup>
-    
+
     <xs:element name="microcontainer">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.microcontainer"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.microcontainer">
-    </xs:attributeGroup>
-    
-    <!-- xs:element name="pageflow">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.pageflow"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.pageflow">
-    </xs:attributeGroup -->
+    <xs:attributeGroup name="attlist.microcontainer"> </xs:attributeGroup>
+
 
     <xs:element name="pages">
         <xs:complexType mixed="true">
@@ -137,7 +134,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.pages">
-        <xs:attribute name="no-conversation-view-id"></xs:attribute>
+        <xs:attribute name="no-conversation-view-id"/>
     </xs:attributeGroup>
 
     <xs:element name="pojo-cache">
@@ -146,16 +143,24 @@
             <xs:attributeGroup ref="core:attlist.pojoCache"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.pojoCache">
-    </xs:attributeGroup>
-    
+    <xs:attributeGroup name="attlist.pojoCache"> </xs:attributeGroup>
+
     <xs:element name="resource-bundle">
         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="core:bundle-names"/>
+            </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.resourceBundle"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="bundle-names" type="core:multiValuedProperty"/>
+
+
+
     <xs:attributeGroup name="attlist.resourceBundle">
+        <!-- also add elements? -->
+        <xs:attribute name="bundle-names"> </xs:attribute>
     </xs:attributeGroup>
 
     <xs:element name="time-zone-selector">
@@ -165,6 +170,15 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.timeZoneSelector">
+        <xs:attribute name="time-zone-id"/>
+        <xs:attribute name="cookie-enabled">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
     </xs:attributeGroup>
 
     <xs:element name="managed-persistence-context">
@@ -174,9 +188,11 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.ManagedPersistenceContext">
-        <xs:attribute name="entity-manager-factory"></xs:attribute>
-        <xs:attribute name="persistence-unit-jndi-name"></xs:attribute>
+        <xs:attribute name="entity-manager-factory"/>
+        <xs:attribute name="persistence-unit-jndi-name"/>
     </xs:attributeGroup>
+
+
 
     <xs:element name="managed-hibernate-session">
         <xs:complexType mixed="true">
@@ -185,10 +201,10 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.ManagedHibernateSession">
-        <xs:attribute name="session-factory"></xs:attribute>
-        <xs:attribute name="session-factory-jndi-name"></xs:attribute>
+        <xs:attribute name="session-factory"/>
+        <xs:attribute name="session-factory-jndi-name"/>
     </xs:attributeGroup>
-    
+
     <xs:element name="hibernate-session-factory">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="core:attlist.HibernateSessionFactory"/>
@@ -196,26 +212,38 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.HibernateSessionFactory">
-        <xs:attribute name="cfg-resource-name"></xs:attribute>
+        <xs:attribute name="cfg-resource-name"/>
     </xs:attributeGroup>
-    
+
     <xs:element name="entity-manager-factory">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="core:attlist.EntityManagerFactory"/>
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
+
     <xs:attributeGroup name="attlist.EntityManagerFactory">
-        <xs:attribute name="persistence-unit-name"></xs:attribute>
+        <xs:attribute name="persistence-unit-name"/>
     </xs:attributeGroup>
-    
+
     <xs:element name="filter">
         <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element ref="core:name"/>
+            </xs:sequence>
             <xs:attributeGroup ref="core:attlist.Filter"/>
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.Filter">
-    </xs:attributeGroup>
+    <xs:attributeGroup name="attlist.Filter"> </xs:attributeGroup>
+
+    <xs:complexType name="multiValuedProperty">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="core:value"/>
+        </xs:sequence>
+    </xs:complexType>
     
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="value" type="xs:string"/>
 </xs:schema>
