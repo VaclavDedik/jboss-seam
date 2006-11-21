@@ -22,11 +22,14 @@
     <xs:element name="restrictions" type="components:multiValuedProperty"/>
     <xs:element name="hints" type="components:mapProperty"/>
 
-
+    <xs:element name="ejbql" type="xs:string"/>
+    <xs:element name="order" type="xs:string"/>
 
     <xs:element name="entity-query">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element minOccurs="0" maxOccurs="1" ref="framework:ejbql"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="framework:order"/>
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:restrictions"/>
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:hints"/>
             </xs:choice>
@@ -42,6 +45,8 @@
     <xs:element name="hibernate-entity-query">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element minOccurs="0" maxOccurs="1" ref="framework:ejbql"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="framework:order"/>
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:restrictions"/>
             </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
