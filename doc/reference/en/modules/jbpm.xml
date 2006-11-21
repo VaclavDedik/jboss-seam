@@ -635,7 +635,7 @@ public String login() {
         </section>
         
         <section>
-            <title>Initiating a business brocess</title>
+            <title>Initiating a business process</title>
         
         <para>
             To initiate a business process instance, we use the 

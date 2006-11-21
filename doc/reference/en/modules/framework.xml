@@ -494,7 +494,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
     </property>
 </component>
 
-component name="currentFilter" 
+<component name="currentFilter" 
           class="org.jboss.seam.core.Filter">
     <property name="name">current</property>
     <property name="parameters">
