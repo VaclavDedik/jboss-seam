@@ -520,6 +520,7 @@ public class Initialization
       // need to solve the problem of forcing a package to load
       addNamespace(org.jboss.seam.framework.Home.class.getPackage());
       addNamespace(org.jboss.seam.jms.TopicSession.class.getPackage());
+      addNamespace(org.jboss.seam.drools.RuleBase.class.getPackage());
       addNamespace(org.jboss.seam.remoting.RequestContext.class.getPackage());
       addNamespace(org.jboss.seam.theme.Theme.class.getPackage());
 
