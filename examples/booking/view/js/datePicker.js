@@ -201,19 +201,19 @@ function refreshDatePicker(dateFieldName, year, month, day)
   // you can customize the table elements with a global CSS style sheet,
   // or by hardcoding style and formatting elements below
   var crlf = "\r\n";
-  var TABLE = "<table cols=7 class='dpTable'>" + crlf;
+  var TABLE = "<table cols='7' class='dpTable'>" + crlf;
   var xTABLE = "</table>" + crlf;
   var TR = "<tr class='dpTR'>";
   var TR_title = "<tr class='dpTitleTR'>";
   var TR_days = "<tr class='dpDayTR'>";
   var TR_todaybutton = "<tr class='dpTodayButtonTR'>";
   var xTR = "</tr>" + crlf;
-  var TD = "<td class='dpTD' onMouseOut='this.className=\"dpTD\";' onMouseOver=' this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onClick event
-  var TD_title = "<td colspan=5 class='dpTitleTD'>";
+  var TD = "<td class='dpTD' onMouseOut='this.className=\"dpTD\";' onMouseOver=' this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onclick event
+  var TD_title = "<td colspan='5' class='dpTitleTD'>";
   var TD_buttons = "<td class='dpButtonTD'>";
-  var TD_todaybutton = "<td colspan=7 class='dpTodayButtonTD'>";
+  var TD_todaybutton = "<td colspan='7' class='dpTodayButtonTD'>";
   var TD_days = "<td class='dpDayTD'>";
-  var TD_selected = "<td class='dpDayHighlightTD' onMouseOut='this.className=\"dpDayHighlightTD\";' onMouseOver='this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onClick event
+  var TD_selected = "<td class='dpDayHighlightTD' onMouseOut='this.className=\"dpDayHighlightTD\";' onMouseOver='this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onclick event
   var xTD = "</td>" + crlf;
   var DIV_title = "<div class='dpTitleText'>";
   var DIV_selected = "<div class='dpDayHighlight'>";
@@ -241,7 +241,7 @@ function refreshDatePicker(dateFieldName, year, month, day)
  
   // first, the leading blanks
   for (i = 0; i < thisDay.getDay(); i++)
-    html += TD + "&nbsp;" + xTD;
+    html += TD + "> " + xTD;
  
   // now, the days of the month
   do {
@@ -264,7 +264,7 @@ function refreshDatePicker(dateFieldName, year, month, day)
   // fill in any trailing blanks
   if (thisDay.getDay() > 0) {
     for (i = 6; i > thisDay.getDay(); i--)
-      html += TD + "&nbsp;" + xTD;
+      html += TD + "> " + xTD;
   }
   html += xTR;
  
@@ -272,8 +272,8 @@ function refreshDatePicker(dateFieldName, year, month, day)
   var today = new Date();
   var todayString = "Today is " + dayArrayMed[today.getDay()] + ", " + monthArrayMed[ today.getMonth()] + " " + today.getDate();
   html += TR_todaybutton + TD_todaybutton;
-  html += "<button class='dpTodayButton' onClick='refreshDatePicker(\"" + dateFieldName + "\");'>this month</button> ";
-  html += "<button class='dpTodayButton' onClick='updateDateField(\"" + dateFieldName + "\");'>close</button>";
+  html += "<button class='dpTodayButton' onclick='refreshDatePicker(\"" + dateFieldName + "\");'>this month</button> ";
+  html += "<button class='dpTodayButton' onclick='updateDateField(\"" + dateFieldName + "\");'>close</button>";
   html += xTD + xTR;
  
   // and finally, close the table
@@ -298,7 +298,7 @@ function getButtonCode(dateFieldName, dateVal, adjust, label)
     newYear += -1;
   }
  
-  return "<button class='dpButton' onClick='refreshDatePicker(\"" + dateFieldName + "\", " + newYear + ", " + newMonth + ");'>" + label + "</button>";
+  return "<button class='dpButton' onclick='refreshDatePicker(\"" + dateFieldName + "\", " + newYear + ", " + newMonth + ");'>" + label + "</button>";
 }
 
 

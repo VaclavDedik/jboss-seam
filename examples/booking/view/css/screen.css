@@ -327,7 +327,6 @@ body {
 	border: 1px solid #AAAAAA;
 	cursor: pointer;
 	color: red;
-	font-weight: bold;
 	}
 
 
@@ -364,7 +363,6 @@ body {
 
 /* additional style information for the cell that holds a highlighted day (usually either today's date or the current date field value) */ 
 .dpDayHighlight {
-	color: CCCCCC;
 	font-weight: bold;
 	}
 
@@ -391,3 +389,4 @@ body {
 	border: 1px solid #AAAAAA;
 	display:none;
 	}
+
