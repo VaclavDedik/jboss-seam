@@ -4,8 +4,6 @@
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.1.xsd"/>
 
-
-    <!-- done -->
     <xs:element name="actor">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -21,7 +19,6 @@
         <xs:attribute name="group-actor-ids"> </xs:attribute>
     </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="dispatcher">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -30,7 +27,6 @@
     </xs:element>
     <xs:attributeGroup name="attlist.dispatcher"> </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="ejb">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -39,7 +35,6 @@
     </xs:element>
     <xs:attributeGroup name="attlist.ejb"> </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="init">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -76,7 +71,6 @@
         <xs:attribute name="user-transaction-name"/>
     </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="jbpm">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -109,7 +103,6 @@
         </xs:attribute>
     </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="manager">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -124,7 +117,6 @@
         <xs:attribute name="conversation-is-long-running-parameter"/>
     </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="microcontainer">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -133,7 +125,6 @@
     </xs:element>
     <xs:attributeGroup name="attlist.microcontainer"> </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="pages">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -150,9 +141,10 @@
             <xs:attributeGroup ref="core:attlist.pojoCache"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.pojoCache"> </xs:attributeGroup>
+    <xs:attributeGroup name="attlist.pojoCache">
+        <xs:attribute name="cfg-resource-name"/>
+    </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="resource-bundle">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -185,9 +177,11 @@
         </xs:attribute>
     </xs:attributeGroup>
 
-    <!-- done -->
     <xs:element name="managed-persistence-context">
         <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element ref="core:filters"/>
+            </xs:sequence>
             <xs:attributeGroup ref="core:attlist.ManagedPersistenceContext"/>
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
@@ -197,13 +191,16 @@
         <xs:attribute name="persistence-unit-jndi-name"/>
     </xs:attributeGroup>
 
-    <!-- TODO: filters -->
     <xs:element name="managed-hibernate-session">
         <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element ref="core:filters"/>
+            </xs:sequence>
             <xs:attributeGroup ref="core:attlist.ManagedHibernateSession"/>
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="filters" type="components:multiValuedProperty"/>
     <xs:attributeGroup name="attlist.ManagedHibernateSession">
         <xs:attribute name="session-factory"/>
         <xs:attribute name="session-factory-jndi-name"/>
@@ -211,6 +208,14 @@
 
     <xs:element name="hibernate-session-factory">
         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="mappingClasses" type="components:multiValuedProperty"/>
+                <xs:element name="mappingFiles" type="components:multiValuedProperty"/>
+                <xs:element name="mappingJars" type="components:multiValuedProperty"/>
+                <xs:element name="mappingPackages" type="components:multiValuedProperty"/>
+                <xs:element name="mappingResources" type="components:multiValuedProperty"/>
+                <xs:element name="cfg-properties" type="components:mapProperty"/>
+            </xs:choice>
             <xs:attributeGroup ref="core:attlist.HibernateSessionFactory"/>
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
@@ -221,6 +226,9 @@
 
     <xs:element name="entity-manager-factory">
         <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element name="persistence-unit-properties" type="components:mapProperty" />
+            </xs:sequence>
             <xs:attributeGroup ref="core:attlist.EntityManagerFactory"/>
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
@@ -228,17 +236,6 @@
     <xs:attributeGroup name="attlist.EntityManagerFactory">
         <xs:attribute name="persistence-unit-name"/>
     </xs:attributeGroup>
-
-    <xs:element name="filter">
-        <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="1">
-                <xs:element ref="core:name"/>
-            </xs:sequence>
-            <xs:attributeGroup ref="core:attlist.Filter"/>
-            <xs:attributeGroup ref="components:attlist.component"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.Filter"> </xs:attributeGroup>
 
 
 
