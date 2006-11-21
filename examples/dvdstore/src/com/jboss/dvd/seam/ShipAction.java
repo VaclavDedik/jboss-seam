@@ -51,7 +51,7 @@ public class ShipAction
 
     @BeginTask
     public String viewTask() {
-        order = (Order) em.find(Order.class, orderId);
+        order = em.find(Order.class, orderId);
         return "ship";
     }
     

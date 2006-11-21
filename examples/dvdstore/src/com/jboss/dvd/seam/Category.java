@@ -43,6 +43,7 @@ public class Category
         this.name = name;
     }
 
+    @Override
     public boolean equals(Object other) {
         if (other == null || !(other instanceof Category)) {
             return false;
@@ -52,7 +53,8 @@ public class Category
         return (getCategoryId() == otherCategory.getCategoryId());
     }
 
-    public int hashcode() {
+    @Override
+    public int hashCode() {
         return 37*getCategoryId() + 97;
     }
 

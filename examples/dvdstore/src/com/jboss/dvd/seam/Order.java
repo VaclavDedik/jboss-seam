@@ -27,7 +27,7 @@ import javax.persistence.Transient;
 public class Order
     implements Serializable
 {
-    public enum Status {OPEN,CANCELLED,PROCESSING,SHIPPED};
+    public enum Status {OPEN,CANCELLED,PROCESSING,SHIPPED}
 
     long orderId;
     Date orderDate;

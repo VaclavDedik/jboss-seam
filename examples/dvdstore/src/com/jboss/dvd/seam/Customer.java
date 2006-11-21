@@ -152,6 +152,7 @@ public class Customer
         return "" + ccMonth + "/" + ccYear;
     }
 
+    @Override
     public String toString() {
         return "Customer#" + getId() + "(" + userName + ")";
     }
