@@ -10,7 +10,7 @@
         <xs:complexType mixed="true">
             <xs:sequence minOccurs="0" maxOccurs="1">
                 <xs:element ref="core:id"/>
-                <xs:element ref="core:group-actor-ids">
+                <xs:element ref="core:group-actor-ids" />
             </xs:sequence>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.actor"/>
