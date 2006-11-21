@@ -9,8 +9,8 @@
     <xs:element name="actor">
         <xs:complexType mixed="true">
             <xs:sequence minOccurs="0" maxOccurs="1">
-                <xs:element ref="core:id"/>
-                <xs:element ref="core:group-actor-ids" />
+                <xs:element minOccurs="0" ref="core:id"/>
+                <xs:element minOccurs="0" ref="core:group-actor-ids" />
             </xs:sequence>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.actor"/>
@@ -133,7 +133,6 @@
     </xs:element>
     <xs:attributeGroup name="attlist.microcontainer"> </xs:attributeGroup>
 
-
     <!-- done -->
     <xs:element name="pages">
         <xs:complexType mixed="true">
@@ -165,7 +164,6 @@
     </xs:element>
     <xs:element name="bundle-names" type="components:multiValuedProperty"/>
     <xs:attributeGroup name="attlist.resourceBundle">
-        <!-- also add elements? -->
         <xs:attribute name="bundle-names"> </xs:attribute>
     </xs:attributeGroup>
 
