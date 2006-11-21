@@ -507,8 +507,7 @@ public class Initialization
          Namespace ns = pkg.getAnnotation(Namespace.class);
          if (ns != null)
          {
-            log.info("Mapping namespace " + ns.value() + "  to package " + pkg.getName()
-                     + " with prefix=" + ns.prefix());
+            log.info("Namespace: " + ns.value() + ", package: " + pkg.getName() + ", prefix: " + ns.prefix());
             namespaceMap.put(ns.value(), new NamespaceInfo(ns, pkg));
          }
       }
