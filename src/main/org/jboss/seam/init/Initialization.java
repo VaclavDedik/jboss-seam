@@ -617,6 +617,10 @@ public class Initialization
          componentDescriptors.add( new ComponentDescriptor(PojoCache.class, true) );
       }
       catch (ClassNotFoundException e) {}
+      catch (NoClassDefFoundError e) {
+         //temp solution due to broken JEMS installer portal profile!
+         log.warn("Did not install PojoCache due to NoClassDefFoundError: " + e.getMessage());
+      } 
 
       if (installedComponents.contains(ManagedPersistenceContext.class))
       {

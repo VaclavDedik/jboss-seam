@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
@@ -22,7 +21,6 @@ import org.jboss.seam.microcontainer.HibernateFactory;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Startup(depends="org.jboss.seam.core.microcontainer")
-@Install(dependencies="org.jboss.seam.core.microcontainer")
 public class HibernateSessionFactory extends HibernateFactory
 {
 
