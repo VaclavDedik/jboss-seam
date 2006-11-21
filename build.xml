@@ -55,6 +55,7 @@
     <property name="dist.src.java.dir"    value="${dist.dir}/src/main"/>
     <property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
     <property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
+    <property name="dist.src.gen.dir"     value="${dist.dir}/src/gen"/>
     <property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
     <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
@@ -494,6 +495,16 @@
                 <patternset refid="src.files"/>
             </fileset>
             <fileset dir="${src.debug.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${dist.src.gen.dir}"/>
+        <copy todir="${dist.src.gen.dir}">
+            <fileset dir="${src.gen.dir}">
+                <patternset refid="src.files"/>
+            </fileset>
+            <fileset dir="${src.gen.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
