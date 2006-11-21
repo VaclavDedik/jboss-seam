@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 public class Conversions
@@ -31,6 +32,7 @@ public class Conversions
       put(Set.class, new SetConverter());
       put(List.class, new ListConverter());
       put(Map.class, new MapConverter());
+      put(Properties.class, new PropertiesConverter());
       //put(Date.class, new DateTimeConverter());
       //put(Short.class, new ShortConverter());
       //put(Byte.class, new ByteConverter());
@@ -186,6 +188,23 @@ public class Conversions
          {
             String key = me.getKey();
             Object element = elementConverter.toObject( new FlatPropertyValue( me.getValue() ), elementType );
+            map.put(key, element);
+         }
+         return map;
+      }
+   }
+   
+   public static class PropertiesConverter implements Converter<Properties>
+   {
+      public Properties toObject(PropertyValue values, Type type)
+      {
+         Map<String, String> keyedValues = values.getKeyedValues();
+         Properties map = new Properties();
+         Converter elementConverter = converters.get(String.class);
+         for ( Map.Entry<String, String> me: keyedValues.entrySet() )
+         {
+            String key = me.getKey();
+            Object element = elementConverter.toObject( new FlatPropertyValue( me.getValue() ), String.class );
             map.put(key, element);
          }
          return map;
