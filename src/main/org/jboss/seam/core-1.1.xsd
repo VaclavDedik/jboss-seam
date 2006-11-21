@@ -13,18 +13,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.actor">
-    </xs:attributeGroup>    
-
-        
-    <xs:element name="application-context">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.applicationContext"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.applicationContext">
     </xs:attributeGroup>
-    
         
     <xs:element name="business-process">
         <xs:complexType mixed="true">
@@ -35,60 +24,6 @@
     <xs:attributeGroup name="attlist.businessProcess">
     </xs:attributeGroup>
     
-    <xs:element name="business-process-context">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.businessProcessContext"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.businessProcessContext">
-    </xs:attributeGroup>
-
-    <xs:element name="conversation">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.conversation"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.conversation">
-    </xs:attributeGroup>
-
-    <xs:element name="conversation-context">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.conversationContext"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.conversationContext">
-    </xs:attributeGroup>
-
-    <xs:element name="conversation-entries">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.conversationEntries"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.conversationEntries">
-    </xs:attributeGroup>
-
-    <xs:element name="conversation-list">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.conversationList"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.conversationList">
-    </xs:attributeGroup>
-
-    <xs:element name="conversation-stack">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.conversationStack"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.conversationStack">
-    </xs:attributeGroup>
-
     <xs:element name="dispatcher">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -106,78 +41,23 @@
     </xs:element>
     <xs:attributeGroup name="attlist.ejb">
     </xs:attributeGroup>
-
-    <xs:element name="event-context">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.eventContext"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.eventContext">
-    </xs:attributeGroup>
-
-    <xs:element name="events">
+    <!-- xs:element name="events">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.events"/>
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.events">
-    </xs:attributeGroup>
+    </xs:attributeGroup-->
 
-    <xs:element name="exceptions">
+    <!-- xs:element name="exceptions">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.exceptions"/>
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.exceptions">
-    </xs:attributeGroup>
-
-    <xs:element name="expressions">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.expressions"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.expressions">
-    </xs:attributeGroup>
-
-    <xs:element name="faces-context">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.facesContext"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.facesContext">
-    </xs:attributeGroup>
-
-    <xs:element name="faces-messages">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.facesMessages"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.facesMessages">
-    </xs:attributeGroup>
-
-    <xs:element name="faces-page">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.facesPage"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.facesPage">
-    </xs:attributeGroup>
-
-    <xs:element name="http-error">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.httpError"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.httpError">
-    </xs:attributeGroup>
+    </xs:attributeGroup -->
 
     <xs:element name="init">
         <xs:complexType mixed="true">
@@ -201,24 +81,6 @@
         <xs:attribute name="user-transaction-name" />  
     </xs:attributeGroup>
 
-    <xs:element name="interpolator">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.interpolator"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.interpolator">
-    </xs:attributeGroup>
-
-    <xs:element name="is-user-in-role">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.isUserInRole"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.isUserInRole">
-    </xs:attributeGroup>
-
     <xs:element name="jbpm">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -226,15 +88,6 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.jbpm">
-    </xs:attributeGroup>
-
-    <xs:element name="locale">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.locale"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.locale">
     </xs:attributeGroup>
 
     <xs:element name="locale-selector">
@@ -246,15 +99,6 @@
     <xs:attributeGroup name="attlist.localeSelector">
     </xs:attributeGroup>
 
-    <xs:element name="jbpm-context">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.jbpmContext"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.jbpmContext">
-    </xs:attributeGroup>
-
     <xs:element name="manager">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -263,16 +107,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.manager">
     </xs:attributeGroup>
-
-    <xs:element name="messages">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.messages"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.messages">
-    </xs:attributeGroup>
-
+    
     <xs:element name="microcontainer">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -281,24 +116,15 @@
     </xs:element>
     <xs:attributeGroup name="attlist.microcontainer">
     </xs:attributeGroup>
-
-    <xs:element name="page-context">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.pageContext"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.pageContext">
-    </xs:attributeGroup>
-
-    <xs:element name="pageflow">
+    
+    <!-- xs:element name="pageflow">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.pageflow"/>
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.pageflow">
-    </xs:attributeGroup>
+    </xs:attributeGroup -->
 
     <xs:element name="pages">
         <xs:complexType mixed="true">
@@ -309,15 +135,6 @@
     <xs:attributeGroup name="attlist.pages">
     </xs:attributeGroup>
 
-    <xs:element name="persistence-contexts">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.persistenceContexts"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.persistenceContexts">
-    </xs:attributeGroup>
-
     <xs:element name="pojo-cache">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -326,43 +143,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.pojoCache">
     </xs:attributeGroup>
-
-    <xs:element name="pooled-task">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.pooledTask"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.pooledTask">
-    </xs:attributeGroup>
-
-    <xs:element name="pooled-task-instance-list">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.pooledTaskInstanceList"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.pooledTaskInstanceList">
-    </xs:attributeGroup>
-
-    <xs:element name="process-instance">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.processInstance"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.processInstance">
-    </xs:attributeGroup>
-
-    <xs:element name="redirect">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.redirect"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.redirect">
-    </xs:attributeGroup>
-
+    
     <xs:element name="resource-bundle">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -372,69 +153,6 @@
     <xs:attributeGroup name="attlist.resourceBundle">
     </xs:attributeGroup>
 
-    <xs:element name="safe-actions">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.safeActions"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.safeActions">
-    </xs:attributeGroup>
-
-    <xs:element name="session-context">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.sessionContext"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.sessionContext">
-    </xs:attributeGroup>
-
-    <xs:element name="switcher">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.switcher"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.switcher">
-    </xs:attributeGroup>
-
-    <xs:element name="task-instance">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.taskInstance"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.taskInstance">
-    </xs:attributeGroup>
-
-    <xs:element name="task-instance-list">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.taskInstanceList"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.taskInstanceList">
-    </xs:attributeGroup>
-
-    <xs:element name="taskInstance-list-for-type">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.taskInstanceListForType"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.taskInstanceListForType">
-    </xs:attributeGroup>
-
-    <xs:element name="time-zone">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.timeZone"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.timeZone">
-    </xs:attributeGroup>
-
     <xs:element name="time-zone-selector">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -442,42 +160,6 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.timeZoneSelector">
-    </xs:attributeGroup>
-
-    <xs:element name="transition">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.transition"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.transition">
-    </xs:attributeGroup>
-
-    <xs:element name="ui-component">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.uiComponent"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.uiComponent">
-    </xs:attributeGroup>
-
-    <xs:element name="user-principal">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.userPrincipal"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.userPrincipal">
-    </xs:attributeGroup>
-
-    <xs:element name="validation">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.validation"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.validation">
     </xs:attributeGroup>
 
     <xs:element name="managed-persistence-context">
@@ -490,4 +172,16 @@
         <xs:attribute name="entity-manager-factory"></xs:attribute>
         <xs:attribute name="persistence-unit-jndi-name"></xs:attribute>
     </xs:attributeGroup>
+
+    <xs:element name="managed-hibernate-session">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="core:attlist.ManagedPersistenceContext"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.ManagedPersistenceContext">
+        <xs:attribute name="session-factory"></xs:attribute>
+        <xs:attribute name="session-factory-jndi-name"></xs:attribute>
+    </xs:attributeGroup>
+    
 </xs:schema>
