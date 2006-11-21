@@ -208,12 +208,12 @@ function refreshDatePicker(dateFieldName, year, month, day)
   var TR_days = "<tr class='dpDayTR'>";
   var TR_todaybutton = "<tr class='dpTodayButtonTR'>";
   var xTR = "</tr>" + crlf;
-  var TD = "<td class='dpTD' onMouseOut='this.className=\"dpTD\";' onMouseOver=' this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onclick event
+  var TD = "<td class='dpTD' onmouseout='this.className=\"dpTD\";' onmouseover=' this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onclick event
   var TD_title = "<td colspan='5' class='dpTitleTD'>";
   var TD_buttons = "<td class='dpButtonTD'>";
   var TD_todaybutton = "<td colspan='7' class='dpTodayButtonTD'>";
   var TD_days = "<td class='dpDayTD'>";
-  var TD_selected = "<td class='dpDayHighlightTD' onMouseOut='this.className=\"dpDayHighlightTD\";' onMouseOver='this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onclick event
+  var TD_selected = "<td class='dpDayHighlightTD' onmouseout='this.className=\"dpDayHighlightTD\";' onmouseover='this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onclick event
   var xTD = "</td>" + crlf;
   var DIV_title = "<div class='dpTitleText'>";
   var DIV_selected = "<div class='dpDayHighlight'>";
