@@ -45,7 +45,7 @@ public class HibernateFactory
 {
 
    private String cfgResourceName;
-   private Properties cfgProperties;
+   private Map<String, String> cfgProperties;
    private List<String> mappingClasses;
    private List<String> mappingFiles;
    private List<String> mappingJars;
@@ -64,7 +64,9 @@ public class HibernateFactory
       // Programmatic configuration
       if (cfgProperties != null)
       {
-         configuration.setProperties(cfgProperties);
+         Properties props = new Properties();
+         props.putAll(cfgProperties);
+         configuration.setProperties(props);
       }
 
       Hashtable<String, String> jndiProperties = Naming.getInitialContextProperties();
@@ -141,12 +143,12 @@ public class HibernateFactory
       this.cfgResourceName = cfgFileName;
    }
 
-   public Properties getCfgProperties()
+   public Map<String, String> getCfgProperties()
    {
       return cfgProperties;
    }
 
-   public void setCfgProperties(Properties cfgProperties)
+   public void setCfgProperties(Map<String, String> cfgProperties)
    {
       this.cfgProperties = cfgProperties;
    }
