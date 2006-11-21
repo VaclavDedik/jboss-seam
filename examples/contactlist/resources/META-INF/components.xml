@@ -13,11 +13,13 @@
                      entity-class="org.jboss.seam.example.contactlist.Contact" 
                      entity-manager="#{entityManager}"/>
     
+    
     <factory name="comment" value="#{commentHome.instance}"/>
     <fwk:entity-home name="commentHome" 
                      entity-class="org.jboss.seam.example.contactlist.Comment" 
                      entity-manager="#{entityManager}"
                      new-instance="#{newComment}"/>
+                     
     <component name="newComment" 
               class="org.jboss.seam.example.contactlist.Comment">
         <property name="contact">#{contact}</property>
@@ -35,6 +37,7 @@
             <value>lower(lastName) like lower( #{exampleContact.lastName} + '%' )</value>
         </fwk:restrictions>
     </fwk:entity-query>
+    
     <component name="exampleContact"
               class="org.jboss.seam.example.contactlist.Contact"/>
 
