@@ -5,26 +5,23 @@
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-1.1.xsd"/>
 
 
+    <!-- done -->
     <xs:element name="actor">
         <xs:complexType mixed="true">
             <xs:sequence minOccurs="0" maxOccurs="1">
                 <xs:element ref="core:id"/>
+                <xs:element ref="core:group-actor-ids">
             </xs:sequence>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.actor"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.actor"> </xs:attributeGroup>
+    <xs:element name="group-actor-ids" type="components:multiValuedProperty"/>    
+    <xs:attributeGroup name="attlist.actor">
+        <xs:attribute name="group-actor-ids"> </xs:attribute>
+    </xs:attributeGroup>
 
-
-    <xs:element name="business-process">
-        <xs:complexType mixed="true">
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="core:attlist.businessProcess"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:attributeGroup name="attlist.businessProcess"> </xs:attributeGroup>
-
+    <!-- done -->
     <xs:element name="dispatcher">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -33,6 +30,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.dispatcher"> </xs:attributeGroup>
 
+    <!-- done -->
     <xs:element name="ejb">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -41,6 +39,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.ejb"> </xs:attributeGroup>
 
+    <!-- done -->
     <xs:element name="init">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -77,6 +76,7 @@
         <xs:attribute name="user-transaction-name"/>
     </xs:attributeGroup>
 
+    <!-- done -->
     <xs:element name="jbpm">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -109,6 +109,7 @@
         </xs:attribute>
     </xs:attributeGroup>
 
+    <!-- done -->
     <xs:element name="manager">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -117,13 +118,13 @@
     </xs:element>
     <xs:attributeGroup name="attlist.manager">
         <xs:attribute name="concurrent-request-timeout" type="xs:integer"/>
-
         <xs:attribute name="conversation-timeout" type="xs:integer"/>
         <xs:attribute name="conversation-id-parameter"/>
         <xs:attribute name="parent-conversation-id-parameter"/>
         <xs:attribute name="conversation-is-long-running-parameter"/>
     </xs:attributeGroup>
 
+    <!-- done -->
     <xs:element name="microcontainer">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -133,6 +134,7 @@
     <xs:attributeGroup name="attlist.microcontainer"> </xs:attributeGroup>
 
 
+    <!-- done -->
     <xs:element name="pages">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -151,6 +153,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.pojoCache"> </xs:attributeGroup>
 
+    <!-- done -->
     <xs:element name="resource-bundle">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -184,6 +187,7 @@
         </xs:attribute>
     </xs:attributeGroup>
 
+    <!-- done -->
     <xs:element name="managed-persistence-context">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="core:attlist.ManagedPersistenceContext"/>
@@ -195,8 +199,7 @@
         <xs:attribute name="persistence-unit-jndi-name"/>
     </xs:attributeGroup>
 
-
-
+    <!-- TODO: filters -->
     <xs:element name="managed-hibernate-session">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="core:attlist.ManagedHibernateSession"/>
@@ -224,7 +227,6 @@
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
-
     <xs:attributeGroup name="attlist.EntityManagerFactory">
         <xs:attribute name="persistence-unit-name"/>
     </xs:attributeGroup>
