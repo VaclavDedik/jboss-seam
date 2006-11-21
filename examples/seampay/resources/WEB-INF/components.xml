@@ -1,43 +1,34 @@
 <components xmlns:pay="http://jboss.com/products/seam/examples/seampay"
             xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:framework="http://jboss.com/products/seam/framework"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <pay:paymentHome>
-        <pay:newInstance>#{newPayment}</pay:newInstance>
-        <pay:createdMessage>Created a new payment to #{newPayment.payee}</pay:createdMessage>
-    </pay:paymentHome>
+            xmlns:framework="http://jboss.com/products/seam/framework">
 
-    <pay:Payment name="newPayment">
-        <pay:payee>Somebody</pay:payee>
-        <pay:account>#{selectedAccount}</pay:account>
-        <pay:paymentDate>#{currentDatetime}</pay:paymentDate>
-        <pay:createdDate>#{currentDatetime}</pay:createdDate>
-    </pay:Payment>
+    <pay:payment-home name="paymentHome" 
+                      new-instance="#{newPayment}" 
+                      created-message="Created a new payment to #{newPayment.payee}" />
 
-    <factory name="selectedAccount" value="#{accountHome.instance}"/>
-    <framework:EntityHome name="accountHome">
-        <framework:entityClass>org.jboss.seam.example.seampay.Account</framework:entityClass>
-        <framework:entityManager>#{entityManager}</framework:entityManager>
-    </framework:EntityHome>
+    <pay:payment name="newPayment" payee="Somebody"
+                 account="#{selectedAccount}"
+                 paymentDate="#{currentDatetime}"
+                 createdDate="#{currentDatetime}" />
 
-    <framework:EntityQuery name="accounts">
-        <framework:ejbql>from Account</framework:ejbql>
-        <framework:restrictions />
-        <framework:order>accountNumber</framework:order>
-        <framework:maxResults>20</framework:maxResults>
-        <framework:entityManager>#{entityManager}</framework:entityManager>
-    </framework:EntityQuery>
+    <factory name="selectedAccount" 
+             value="#{accountHome.instance}"/>
+
+    <framework:entity-home name="accountHome" 
+                           entity-class="org.jboss.seam.example.seampay.Account"
+                           entity-manager="#{entityManager}" />
+
+    <framework:entity-query name="accounts" 
+                            ejbql="from Account"
+                            order="accountNumber" 
+                            max-results="20" 
+                            entity-manager="#{entityManager}" />
         
-    <core:ManagedPersistenceContext name="entityManager" >
-        <core:persistenceUnitJndiName>java:/seampayEntityManagerFactory</core:persistenceUnitJndiName>
-    </core:ManagedPersistenceContext>
-        
-    <core:Dispatcher />
+    <core:managed-persistence-context name="entityManager"
+                                      persistence-unit-jndi-name="java:/seampayEntityManagerFactory" />
 
-     <core:init>
-        <core:debug>true</core:debug>
-        <core:jndiPattern>@jndiPattern@</core:jndiPattern>
-    </core:init>
+    <core:dispatcher />
 
-    <core:Ejb installed="@embeddedEjb@" /> 
+    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:ejb installed="@embeddedEjb@" /> 
 </components>
