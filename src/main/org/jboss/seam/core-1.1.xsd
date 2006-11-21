@@ -154,7 +154,7 @@
             <xs:attributeGroup ref="core:attlist.resourceBundle"/>
         </xs:complexType>
     </xs:element>
-    <xs:element name="bundle-names" type="core:multiValuedProperty"/>
+    <xs:element name="bundle-names" type="components:multiValuedProperty"/>
 
 
 
@@ -237,13 +237,9 @@
     </xs:element>
     <xs:attributeGroup name="attlist.Filter"> </xs:attributeGroup>
 
-    <xs:complexType name="multiValuedProperty">
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-            <xs:element ref="core:value"/>
-        </xs:sequence>
-    </xs:complexType>
+
     
     <xs:element name="id" type="xs:string"/>
     <xs:element name="name" type="xs:string"/>
-    <xs:element name="value" type="xs:string"/>
+
 </xs:schema>

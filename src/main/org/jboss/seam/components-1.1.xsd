@@ -6,8 +6,8 @@
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="components:component"/>
-        <xs:element ref="components:factory"/>        
-        <xs:any namespace="##other" processContents="strict"/>       
+        <xs:element ref="components:factory"/>
+        <xs:any namespace="##other" processContents="strict"/>
       </xs:choice>
     </xs:complexType>
   </xs:element>
@@ -105,4 +105,11 @@
   </xs:attributeGroup>
   <xs:element name="key" type="xs:string"/>
   <xs:element name="value" type="xs:string"/>
+
+  <xs:complexType name="multiValuedProperty">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="components:value"/>
+    </xs:sequence>
+  </xs:complexType>
+
 </xs:schema>
