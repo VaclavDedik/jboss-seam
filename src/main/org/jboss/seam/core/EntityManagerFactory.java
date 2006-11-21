@@ -84,12 +84,12 @@ public class EntityManagerFactory
    /**
     * The persistence unit name
     */
-   protected String getPersistenceUnitName()
+   public String getPersistenceUnitName()
    {
       return persistenceUnitName;
    }
 
-   protected void setPersistenceUnitName(String persistenceUnitName)
+   public void setPersistenceUnitName(String persistenceUnitName)
    {
       this.persistenceUnitName = persistenceUnitName;
    }
@@ -97,12 +97,12 @@ public class EntityManagerFactory
    /**
     * Properties to pass to Persistence.createEntityManagerFactory()
     */
-   protected Map getPersistenceUnitProperties()
+   public Map getPersistenceUnitProperties()
    {
       return persistenceUnitProperties;
    }
 
-   protected void setPersistenceUnitProperties(Map persistenceUnitProperties)
+   public void setPersistenceUnitProperties(Map persistenceUnitProperties)
    {
       this.persistenceUnitProperties = persistenceUnitProperties;
    }
