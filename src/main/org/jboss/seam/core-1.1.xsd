@@ -175,13 +175,43 @@
 
     <xs:element name="managed-hibernate-session">
         <xs:complexType mixed="true">
-            <xs:attributeGroup ref="core:attlist.ManagedPersistenceContext"/>
+            <xs:attributeGroup ref="core:attlist.ManagedHibernateSession"/>
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.ManagedPersistenceContext">
+    <xs:attributeGroup name="attlist.ManagedHibernateSession">
         <xs:attribute name="session-factory"></xs:attribute>
         <xs:attribute name="session-factory-jndi-name"></xs:attribute>
+    </xs:attributeGroup>
+    
+    <xs:element name="hibernate-session-factory">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="core:attlist.HibernateSessionFactory"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.HibernateSessionFactory">
+        <xs:attribute name="cfg-resource-name"></xs:attribute>
+    </xs:attributeGroup>
+    
+    <xs:element name="entity-manager-factory">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="core:attlist.EntityManagerFactory"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.EntityManagerFactory">
+        <xs:attribute name="persistence-unit-name"></xs:attribute>
+    </xs:attributeGroup>
+    
+    <xs:element name="filter">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="core:attlist.Filter"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.Filter">
+        <xs:attribute name="name"></xs:attribute>
     </xs:attributeGroup>
     
 </xs:schema>
