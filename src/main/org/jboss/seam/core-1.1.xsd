@@ -79,10 +79,16 @@
 
     <xs:element name="jbpm">
         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="core:process-definitions"/>
+                <xs:element ref="core:pageflow-definitions"/>
+            </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.jbpm"/>
         </xs:complexType>
     </xs:element>
+    <xs:element name="process-definitions" type="components:multiValuedProperty"/>
+    <xs:element name="pageflow-definitions" type="components:multiValuedProperty"/>
     <xs:attributeGroup name="attlist.jbpm"> </xs:attributeGroup>
 
     <xs:element name="locale-selector">
@@ -155,9 +161,6 @@
         </xs:complexType>
     </xs:element>
     <xs:element name="bundle-names" type="components:multiValuedProperty"/>
-
-
-
     <xs:attributeGroup name="attlist.resourceBundle">
         <!-- also add elements? -->
         <xs:attribute name="bundle-names"> </xs:attribute>
