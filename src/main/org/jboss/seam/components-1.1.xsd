@@ -112,4 +112,11 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="mapProperty">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="components:key"/>
+      <xs:element ref="components:value"/>
+    </xs:sequence>
+  </xs:complexType>
+
 </xs:schema>

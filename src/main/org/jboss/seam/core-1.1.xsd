@@ -8,15 +8,15 @@
     <!-- done -->
     <xs:element name="actor">
         <xs:complexType mixed="true">
-            <xs:sequence minOccurs="0" maxOccurs="1">
-                <xs:element minOccurs="0" ref="core:id"/>
-                <xs:element minOccurs="0" ref="core:group-actor-ids" />
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element minOccurs="0" maxOccurs="1" ref="core:id"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="core:group-actor-ids"/>
+            </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.actor"/>
         </xs:complexType>
     </xs:element>
-    <xs:element name="group-actor-ids" type="components:multiValuedProperty"/>    
+    <xs:element name="group-actor-ids" type="components:multiValuedProperty"/>
     <xs:attributeGroup name="attlist.actor">
         <xs:attribute name="group-actor-ids"> </xs:attribute>
     </xs:attributeGroup>
@@ -241,7 +241,7 @@
     <xs:attributeGroup name="attlist.Filter"> </xs:attributeGroup>
 
 
-    
+
     <xs:element name="id" type="xs:string"/>
     <xs:element name="name" type="xs:string"/>
 
