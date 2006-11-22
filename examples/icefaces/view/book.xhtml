@@ -47,10 +47,7 @@
 				<div class="label"><h:outputLabel for="checkinDate">Check In Date:</h:outputLabel></div>
 				<div class="input">
 					<s:decorate>
-						<ice:inputText partialSubmit="true" id="checkinDate" value="#{booking.checkinDate}" required="true">
-                            <s:convertDateTime pattern="MM/dd/yyyy"/>
-                        </ice:inputText>
-                        <h:graphicImage url="img/dtpick.gif" onclick="displayDatePicker('booking:checkinDate');" style="margin-left:5px"/>
+                        <ice:selectInputDate id="checkinDate" value="#{booking.checkinDate}" renderAsPopup="true" partialSubmit="true"/>
 						<br/>
                         <s:message/>
 					</s:decorate>
@@ -61,10 +58,7 @@
 				<div class="label"><h:outputLabel for="checkoutDate">Check Out Date:</h:outputLabel></div>
 				<div class="input">
 					<s:decorate>
-						<ice:inputText partialSubmit="true" id="checkoutDate" value="#{booking.checkoutDate}" required="true">
-                            <s:convertDateTime pattern="MM/dd/yyyy"/>
-                        </ice:inputText>
-                        <h:graphicImage url="img/dtpick.gif" onclick="displayDatePicker('booking:checkoutDate');" style="margin-left:5px"/>
+                        <ice:selectInputDate id="checkoutDate" value="#{booking.checkoutDate}" renderAsPopup="true" partialSubmit="true"/>
 						<br/>
                         <s:message/>
 					</s:decorate>
