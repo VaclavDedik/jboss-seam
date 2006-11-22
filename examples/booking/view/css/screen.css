@@ -265,10 +265,6 @@ input[type="submit"], input[type="button"] {
 }
 /* Date Picker 
 ----------------------------------------------- */
-body {
-	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
-	font-size: .8em;
-	}
 
 /* the div that holds the date picker calendar */
 .dpDiv {
