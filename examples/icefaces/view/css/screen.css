@@ -34,6 +34,10 @@ input {
 	margin: 5px 0;
 	background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
 }
+input[type="image"] {
+    border: none;
+    background: transparent;
+}
 select {
 	border: 1px solid #C3BBB6;
 	padding: 4px;
@@ -270,131 +274,121 @@ fieldset {
 #pgHome .button {
 	height: 30px;
 }
-/* Date Picker 
------------------------------------------------ */
-body {
-	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
-	font-size: .8em;
-	}
 
-/* the div that holds the date picker calendar */
-.dpDiv {
-	}
-
-
-/* the table (within the div) that holds the date picker calendar */
-.dpTable {
-	font-family: Tahoma, Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	text-align: center;
+/*
+----------- Calendar Component classes
+*/
+.iceCalOutline {
+/* calendar outline & background color */
 	color: #505050;
 	background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
 	background-color: #FFFFFF;
 	border: 1px solid #AAAAAA;
 	margin-top: 5px;
-	}
+	padding: 0px;
+}
 
+.iceCalInput {
+}
 
-/* a table row that holds date numbers (either blank or 1-31) */
-.dpTR {
-	}
+.iceCalOpenPopup {
+    display: block;
+    text-decoration: none;
+    background-color: transparent;
+    background-image: url( "./css-images/cal_button.gif" );
+    background-repeat: no-repeat;
+    text-align: center;
+    border: none;
+}
 
+.iceCalClosePopup {
+    display: block;
+    text-decoration: none;
+    background-color: transparent;
+    background-image: url( "./css-images/cal_off.gif" );
+    background-repeat: no-repeat;
+    text-align: center;
+    border: none;
+}
 
-/* the top table row that holds the month, year, and forward/backward buttons */
-.dpTitleTR {
-	}
+.iceCalMonthYear {
+	font-size: 12px;
+	text-align: center;
+	color: gray;
+	font-weight: bold;
+	border: none;
+	padding: 0px;
+    margin: 0px;
+}
 
+.iceCalMonthYear img {
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
 
-/* the second table row, that holds the names of days of the week (Mo, Tu, We, etc.) */
-.dpDayTR {
-	}
+.iceCalMovePrev {
+    text-decoration: none;
+    display: block;
+    background-color: transparent;
+    background-image: url( "./css-images/cal_arrow_left.gif" );
+    background-repeat: no-repeat;
+    text-align: center;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
 
+.iceCalMoveNext {
+    text-decoration: none;
+    display: block;
+    background-color: transparent;
+    background-image: url( "./css-images/cal_arrow_right.gif" );
+    background-repeat: no-repeat;
+    text-align: center;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
 
-/* the bottom table row, that has the "This Month" and "Close" buttons */
-.dpTodayButtonTR {
-	}
-
-
-/* a table cell that holds a date number (either blank or 1-31) */
-.dpTD {
-	border: 1px solid #ece9d8;
-	}
-
-
-/* a table cell that holds a highlighted day (usually either today's date or the current date field value) */
-.dpDayHighlightTD {
-	background-color: #CCCCCC;
+.iceCalWeek {
+/* the days of the week row */
+	color: #505050;
+	background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
+	background-color: #FFFFFF;
 	border: 1px solid #AAAAAA;
-	}
+	text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
 
+/* set the look for the cell backgrounds */
+.iceCalDay, .iceCalCur {
+/* the background & alignment for the days */
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+}
 
-/* the date number table cell that the mouse pointer is currently over (you can use contrasting colors to make it apparent which cell is being hovered over) */
-.dpTDHover {
+/* set the attributes for the cell numbers */
+.iceCalDay a {
+	color: #505050;
+	text-decoration: none;
+}
+
+/* set the attributes for the current cell number */
+.iceCalCur a {
+	color: #CCCCCC;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/* now set the color attributes for the hover effect on non-current days */
+.iceCalDay a:hover {
 	background-color: #CCCCCC;
 	border: 1px solid #AAAAAA;
 	cursor: pointer;
 	color: red;
 	font-weight: bold;
-	}
-
-
-/* the table cell that holds the name of the month and the year */
-.dpTitleTD {
-	}
-
-
-/* a table cell that holds one of the forward/backward buttons */
-.dpButtonTD {
-	}
-
-
-/* the table cell that holds the "This Month" or "Close" button at the bottom */
-.dpTodayButtonTD {
-	}
-
-
-/* a table cell that holds the names of days of the week (Mo, Tu, We, etc.) */
-.dpDayTD {
-	background-color: #CCCCCC;
-	border: 1px solid #AAAAAA;
-	color: white;
-	}
-
-
-/* additional style information for the text that indicates the month and year */
-.dpTitleText {
-	font-size: 12px;
-	color: gray;
-	font-weight: bold;
-	}
-
-
-/* additional style information for the cell that holds a highlighted day (usually either today's date or the current date field value) */ 
-.dpDayHighlight {
-	color: CCCCCC;
-	font-weight: bold;
-	}
-
-
-/* the forward/backward buttons at the top */
-.dpButton {
-	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: gray;
-	background: #FFFFFF;
-	font-weight: bold;
-	padding: 0px;
-	border: 1px solid #AAAAAA;
-	}
-
-
-/* the "This Month" and "Close" buttons at the bottom */
-.dpTodayButton {
-	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: gray;
-	background: #FFFFFF;
-	font-weight: bold;
-	border: 1px solid #AAAAAA;
-	display:none;
-	}
+	text-decoration: none;
+}
