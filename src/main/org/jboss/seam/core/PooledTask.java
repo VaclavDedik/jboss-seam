@@ -10,7 +10,7 @@ import org.jboss.seam.annotations.Transactional;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**
- * Support for the task list.
+ * Support for assigning tasks in the pooled task list.
  * 
  * @see TaskInstanceList
  * @author Gavin King
@@ -21,6 +21,14 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 public class PooledTask
 {
    
+   /**
+    * Assign the TaskInstance with the id passed
+    * in the request parameter named "taskId" to
+    * the current actor.
+    * 
+    * @see Actor
+    * @return a null outcome only if the task was not found
+    */
    @Transactional
    public String assignToCurrentActor()
    {
@@ -33,14 +41,53 @@ public class PooledTask
       if (taskInstance!=null)
       {
          taskInstance.setActorId( actor.getId() );
+         return "taskAssignedToActor";
       }
-      return "taskAssignedToActor";
+      else
+      {
+         return null;
+      }
    }
    
-   private TaskInstance getTaskInstance()
+   /**
+    * Assign the TaskInstance with the id passed
+    * in the request parameter named "taskId" to
+    * the given actor id.
+    * 
+    * @param actorId the jBPM actor id
+    * @return a null outcome only if the task was not found
+    */
+   @Transactional
+   public String assign(String actorId)
    {
-      String taskId = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("taskId");
-      return ManagedJbpmContext.instance().getTaskMgmtSession().loadTaskInstance( Long.parseLong(taskId) );
+      TaskInstance taskInstance = getTaskInstance();
+      if (taskInstance!=null)
+      {
+         taskInstance.setActorId(actorId);
+         return "taskAssigned";
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
+   /**
+    * @return the TaskInstance with the id passed
+    * in the request parameter named "taskId".
+    */
+   @Transactional
+   public TaskInstance getTaskInstance()
+   {
+      String taskId = (String) FacesContext.getCurrentInstance()
+            .getExternalContext()
+            .getRequestParameterMap()
+            .get("taskId");
+      return taskId==null ? 
+            null : 
+            ManagedJbpmContext.instance()
+                  .getTaskMgmtSession()
+                  .loadTaskInstance( Long.parseLong(taskId) );
    }
    
 }
