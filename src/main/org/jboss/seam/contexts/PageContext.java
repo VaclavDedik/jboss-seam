@@ -43,7 +43,7 @@ public class PageContext implements Context {
    
    public PageContext()
    {
-      previousPageMap = getAttributeMap();
+      previousPageMap = getOrCreateAttributeMap();
       nextPageMap = new HashMap<String, Object>();
    }
 
@@ -129,12 +129,12 @@ public class PageContext implements Context {
     */
    public void flush()
    {
-      Map attributeMap = getAttributeMap();
+      Map attributeMap = getOrCreateAttributeMap();
       attributeMap.putAll(nextPageMap);
       nextPageMap = attributeMap;
    }
 
-   private static Map getAttributeMap()
+   private static Map getOrCreateAttributeMap()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       if (facesContext==null)
@@ -142,7 +142,8 @@ public class PageContext implements Context {
          throw new IllegalStateException("no FacesContext bound to current thread");
       }
       UIViewRoot viewRoot = facesContext.getViewRoot();
-      return viewRoot==null ? Collections.EMPTY_MAP : viewRoot.getAttributes();
+      return viewRoot==null ? 
+            new HashMap() : viewRoot.getAttributes();
    }
 
    private static PhaseId getPhaseId()
