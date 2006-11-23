@@ -592,7 +592,7 @@ public void begin() { ... }]]></programlisting>
             same project. If so, the relationship between the two is that
             a single <literal>&lt;task&gt;</literal> in a business process
             corresponds to a whole pageflow 
-            <literal>&lt;process-definition&gt;</literal>
+            <literal>&lt;pageflow-definition&gt;</literal>
         </para>
         
         <section>
