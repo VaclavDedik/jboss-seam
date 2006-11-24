@@ -33,7 +33,7 @@ import org.jboss.seam.util.Transactions;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.core.init")
-@Install(precedence=BUILT_IN)
+@Install(value=false, precedence=BUILT_IN)
 public class Init
 {
    

@@ -1631,17 +1631,17 @@ public class Component
          Init.FactoryMethod factoryMethod = init.getFactory(name);
          Init.FactoryBinding methodBinding = init.getFactoryMethodBinding(name);
          Init.FactoryBinding valueBinding = init.getFactoryValueBinding(name);
-         if ( methodBinding!=null && methodBinding.getScope().isContextActive() ) //let the XML take precedence
+         if ( methodBinding!=null && getOutScope( methodBinding.getScope(), null ).isContextActive() ) //let the XML take precedence
          {
             Object result = methodBinding.getMethodBinding().invoke();
             return handleFactoryMethodResult( name, null, result, methodBinding.getScope() );
          }
-         else if ( valueBinding!=null && valueBinding.getScope().isContextActive() ) //let the XML take precedence
+         else if ( valueBinding!=null && getOutScope( valueBinding.getScope(), null ).isContextActive() ) //let the XML take precedence
          {
             Object result = valueBinding.getValueBinding().getValue();
             return handleFactoryMethodResult( name, null, result, valueBinding.getScope() );
          }
-         else if ( factoryMethod!=null && factoryMethod.getScope().isContextActive() )
+         else if ( factoryMethod!=null && getOutScope( factoryMethod.getScope(), factoryMethod.getComponent() ).isContextActive() )
          {
             Object factory = Component.getInstance( factoryMethod.getComponent().getName(), true );
             if (factory==null)

@@ -263,7 +263,7 @@ public class Initialization
       String scopeName = component.attributeValue("scope");
       String jndiName = component.attributeValue("jndi-name");
       String precedenceString = component.attributeValue("precendence");
-      Integer precedence = precedenceString==null ? null : Integer.valueOf(precedenceString);
+      int precedence = precedenceString==null ? Install.APPLICATION : Integer.valueOf(precedenceString);
       ScopeType scope = scopeName == null ? null : ScopeType.valueOf(scopeName.toUpperCase());
       boolean autoCreate = "true".equals(component.attributeValue("auto-create"));
       if (className != null)
@@ -336,7 +336,13 @@ public class Initialization
    {
       String name = descriptor.getName();
       ComponentDescriptor existing = componentDescriptors.get( name );
-      if ( existing==null || existing.getPrecedence()<descriptor.getPrecedence() )
+      boolean newHasPrecedence = existing!=null && existing.getPrecedence()<descriptor.getPrecedence();
+      boolean oldHasPrecedence = existing!=null && existing.getPrecedence()>descriptor.getPrecedence();
+      if ( newHasPrecedence || oldHasPrecedence )
+      {
+         log.info("two components with same name, higher precedence wins: " + name);
+      }
+      if ( existing==null || newHasPrecedence )
       {
          componentDescriptors.put(name, descriptor);
       }
@@ -429,12 +435,10 @@ public class Initialization
    private void scanForComponents()
    {
       Set<Package> scannedPackages = new HashSet<Package>();
-      for (Class<Object> scannedClass : new ComponentScanner("seam.properties").getClasses())
-      {
-         installScannedClass(scannedPackages, scannedClass);
-      }
-      for (Class<Object> scannedClass : new ComponentScanner("META-INF/components.xml")
-               .getClasses())
+      Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
+      scannedClasses.addAll( new ComponentScanner("seam.properties").getClasses() );
+      scannedClasses.addAll( new ComponentScanner("META-INF/components.xml").getClasses() );
+      for (Class<Object> scannedClass: scannedClasses)
       {
          installScannedClass(scannedPackages, scannedClass);
       }
@@ -512,8 +516,7 @@ public class Initialization
    private void installRole(Class<Object> scannedClass, Role role)
    {
       ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
-      addComponentDescriptor(new ComponentDescriptor(role.name(), scannedClass, scope, false,
-               null, null, null));
+      addComponentDescriptor( new ComponentDescriptor( role.name(), scannedClass, scope ) );
    }
 
    private void addNamespace(Package pkg)
@@ -852,6 +855,9 @@ public class Initialization
       private boolean autoCreate;
       private Integer precedence;
 
+      /**
+       * For components.xml
+       */
       public ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope,
                boolean autoCreate, String jndiName, Boolean installed, Integer precedence)
       {
@@ -863,12 +869,28 @@ public class Initialization
          this.autoCreate = autoCreate;
          this.precedence = precedence;
       }
+      
+      /**
+       * For a scanned role
+       */
+      public ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope)
+      {
+         this.name = name;
+         this.componentClass = componentClass;
+         this.scope = scope;
+      }
 
+      /**
+       * For a scanned default role
+       */
       public ComponentDescriptor(Class componentClass)
       {
          this.componentClass = componentClass;
       }
 
+      /**
+       * For built-ins with special rules
+       */
       public ComponentDescriptor(Class componentClass, Boolean installed)
       {
          this.componentClass = componentClass;

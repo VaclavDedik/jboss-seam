@@ -45,7 +45,6 @@ import org.jboss.seam.util.Resources;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
-//@Startup(depends="org.jboss.seam.core.microcontainer") //don't make it a startup component 'cos it needs a faces context
 @Name("org.jboss.seam.core.pages")
 @Install(precedence=BUILT_IN)
 public class Pages 
