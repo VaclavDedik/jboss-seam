@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 
@@ -26,7 +27,7 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.SESSION)
 @Name("org.jboss.seam.core.timeZoneSelector")
 @Intercept(NEVER)
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class TimeZoneSelector extends AbstractMutable implements Serializable
 {
 

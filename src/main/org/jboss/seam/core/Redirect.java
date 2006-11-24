@@ -1,5 +1,7 @@
 package org.jboss.seam.core;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +11,7 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -23,6 +26,7 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.redirect")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.CONVERSATION)
+@Install(precedence=BUILT_IN)
 public class Redirect extends AbstractMutable implements Serializable
 {
    private String viewId;

@@ -1,6 +1,7 @@
 package org.jboss.seam.remoting.messaging;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -30,6 +32,7 @@ import org.jboss.seam.util.Reflections;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.remoting.messaging.subscriptionRegistry")
+@Install(precedence=BUILT_IN)
 public class SubscriptionRegistry
 {
   private static final String DEFAULT_CONNECTION_PROVIDER =

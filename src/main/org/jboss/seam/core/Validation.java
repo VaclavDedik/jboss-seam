@@ -1,5 +1,7 @@
 package org.jboss.seam.core;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,12 +15,14 @@ import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
 @Name("org.jboss.seam.core.validation")
 @Intercept(InterceptionType.NEVER)
 @Scope(ScopeType.APPLICATION)
+@Install(precedence=BUILT_IN)
 public class Validation
 {
 

@@ -1,5 +1,7 @@
 package org.jboss.seam.security.authenticator;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ import org.jboss.seam.util.Reflections;
  * @author Shane Bryzak
  */
 @Name("org.jboss.seam.security.authenticator")
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public abstract class Authenticator
 {
   private List<AuthenticationAdapter> adapters = new ArrayList<AuthenticationAdapter>();

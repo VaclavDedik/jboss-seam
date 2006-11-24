@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.core;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
@@ -27,7 +29,7 @@ import org.jboss.seam.util.Work;
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.core.processInstance")
 @Intercept(InterceptionType.NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm")
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class ProcessInstance 
 {
    

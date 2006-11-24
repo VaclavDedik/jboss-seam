@@ -66,7 +66,7 @@ public class Initialization
 
    private ServletContext servletContext;
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
-   private List<ComponentDescriptor> componentDescriptors = new ArrayList<ComponentDescriptor>();
+   private Map<String, ComponentDescriptor> componentDescriptors = new HashMap<String, ComponentDescriptor>();
    private List<FactoryDescriptor> factoryDescriptors = new ArrayList<FactoryDescriptor>();
    private Set<Class> installedComponents = new HashSet<Class>();
    private Set<String> importedPackages = new HashSet<String>();
@@ -262,6 +262,8 @@ public class Initialization
 
       String scopeName = component.attributeValue("scope");
       String jndiName = component.attributeValue("jndi-name");
+      String precedenceString = component.attributeValue("precendence");
+      Integer precedence = precedenceString==null ? null : Integer.valueOf(precedenceString);
       ScopeType scope = scopeName == null ? null : ScopeType.valueOf(scopeName.toUpperCase());
       boolean autoCreate = "true".equals(component.attributeValue("auto-create"));
       if (className != null)
@@ -292,8 +294,8 @@ public class Initialization
             name = clazz.getAnnotation(Name.class).value();
          }
 
-         ComponentDescriptor descriptor = new ComponentDescriptor(name, clazz, scope, autoCreate, jndiName, installed);
-         componentDescriptors.add(descriptor);
+         ComponentDescriptor descriptor = new ComponentDescriptor(name, clazz, scope, autoCreate, jndiName, installed, precedence);
+         addComponentDescriptor(descriptor);
          installedComponents.add(clazz);
       }
       else if (name == null)
@@ -327,6 +329,20 @@ public class Initialization
             String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName(), false );
             properties.put(qualifiedPropName, getPropertyValue(prop, replacements));
          }
+      }
+   }
+
+   private void addComponentDescriptor(ComponentDescriptor descriptor)
+   {
+      String name = descriptor.getName();
+      ComponentDescriptor existing = componentDescriptors.get( name );
+      if ( existing==null || existing.getPrecedence()<descriptor.getPrecedence() )
+      {
+         componentDescriptors.put(name, descriptor);
+      }
+      else if ( existing.getPrecedence()==descriptor.getPrecedence() )
+      {
+         throw new IllegalStateException("Two components with the same name and precedence: " + name);
       }
    }
 
@@ -477,7 +493,7 @@ public class Initialization
    {
       if (scannedClass.isAnnotationPresent(Name.class))
       {
-         componentDescriptors.add(new ComponentDescriptor(scannedClass));
+         addComponentDescriptor(new ComponentDescriptor(scannedClass));
       }
       if (scannedClass.isAnnotationPresent(Role.class))
       {
@@ -496,8 +512,8 @@ public class Initialization
    private void installRole(Class<Object> scannedClass, Role role)
    {
       ScopeType scope = Seam.getComponentRoleScope(scannedClass, role);
-      componentDescriptors.add(new ComponentDescriptor(role.name(), scannedClass, scope, false,
-               null, null));
+      addComponentDescriptor(new ComponentDescriptor(role.name(), scannedClass, scope, false,
+               null, null, null));
    }
 
    private void addNamespace(Package pkg)
@@ -587,9 +603,9 @@ public class Initialization
 
    protected ComponentDescriptor findDescriptor(Class<?> componentClass)
    {
-      for (ComponentDescriptor component : componentDescriptors)
+      for (ComponentDescriptor component : componentDescriptors.values())
       {
-         if (component.getComponentClass().equals(componentClass))
+         if ( component.getComponentClass().equals(componentClass) )
          {
             return component;
          }
@@ -602,7 +618,7 @@ public class Initialization
       Context context = Contexts.getApplicationContext();
 
       // force instantiation of Init
-      addComponent(new ComponentDescriptor(Init.class), context);
+      addComponent( new ComponentDescriptor(Init.class), context );
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);
 
       ComponentDescriptor desc = findDescriptor(Jbpm.class);
@@ -614,7 +630,7 @@ public class Initialization
       try
       {
          Reflections.classForName("org.jboss.cache.aop.PojoCache");
-         componentDescriptors.add( new ComponentDescriptor(PojoCache.class, true) );
+         addComponentDescriptor( new ComponentDescriptor(PojoCache.class, true) );
       }
       catch (ClassNotFoundException e) {}
       catch (NoClassDefFoundError e) {
@@ -627,18 +643,18 @@ public class Initialization
          try
          {
             Reflections.classForName("org.hibernate.Session");
-            componentDescriptors.add( new ComponentDescriptor(HibernatePersistenceProvider.class, true) );
+            addComponentDescriptor( new ComponentDescriptor(HibernatePersistenceProvider.class, true) );
          }
          catch (ClassNotFoundException cnfe)
          {
-            componentDescriptors.add( new ComponentDescriptor(PersistenceProvider.class, true) );
+            addComponentDescriptor( new ComponentDescriptor(PersistenceProvider.class, true) );
          }
       }
 
-      if (init.isDebug())
+      if ( init.isDebug() )
       {
-         componentDescriptors.add( new ComponentDescriptor(Introspector.class, true) );
-         componentDescriptors.add( new ComponentDescriptor(org.jboss.seam.debug.Contexts.class, true) );
+         addComponentDescriptor( new ComponentDescriptor(Introspector.class, true) );
+         addComponentDescriptor( new ComponentDescriptor(org.jboss.seam.debug.Contexts.class, true) );
       }
 
       log.info("Installing components...");
@@ -646,7 +662,7 @@ public class Initialization
       do
       {
          installedSomething = false;
-         for (ComponentDescriptor componentDescriptor : componentDescriptors)
+         for (ComponentDescriptor componentDescriptor : componentDescriptors.values())
          {
             String compName = componentDescriptor.getName() + COMPONENT_SUFFIX;
             if ( !context.isSet(compName) && dependenciesMet(context, componentDescriptor) )
@@ -719,12 +735,6 @@ public class Initialization
    {
       String name = descriptor.getName();
       String componentName = name + COMPONENT_SUFFIX;
-
-      if (log.isWarnEnabled() && context.isSet(componentName))
-      {
-         log.warn("Component has been previously installed and is being redefined: " + name);
-      }
-
       Component component = new Component(descriptor.getComponentClass(), name, descriptor
                .getScope(), descriptor.getJndiName());
       context.set(componentName, component);
@@ -840,9 +850,10 @@ public class Initialization
       private String jndiName;
       private Boolean installed;
       private boolean autoCreate;
+      private Integer precedence;
 
       public ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope,
-               boolean autoCreate, String jndiName, Boolean installed)
+               boolean autoCreate, String jndiName, Boolean installed, Integer precedence)
       {
          this.name = name;
          this.componentClass = componentClass;
@@ -850,6 +861,7 @@ public class Initialization
          this.jndiName = jndiName;
          this.installed = installed;
          this.autoCreate = autoCreate;
+         this.precedence = precedence;
       }
 
       public ComponentDescriptor(Class componentClass)
@@ -915,12 +927,26 @@ public class Initialization
          {
             return installed;
          }
-         Install anno = componentClass.getAnnotation(Install.class);
-         if (anno == null)
+         Install install = componentClass.getAnnotation(Install.class);
+         if (install == null)
          {
             return true;
          }
-         return anno.value();
+         return install.value();
+      }
+      
+      public int getPrecedence()
+      {
+         if (precedence != null)
+         {
+            return precedence;
+         }
+         Install install = componentClass.getAnnotation(Install.class);
+         if (install == null)
+         {
+            return Install.APPLICATION;
+         }
+         return install.precedence();
       }
 
       @Override

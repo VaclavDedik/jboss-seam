@@ -1,6 +1,7 @@
 package org.jboss.seam.jms;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import javax.jms.JMSException;
 import javax.jms.Session;
@@ -25,7 +26,7 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.EVENT)
 @Intercept(NEVER)
 @Name("org.jboss.seam.jms.topicSession")
-@Install(genericDependencies=ManagedTopicPublisher.class)
+@Install(precedence=BUILT_IN, genericDependencies=ManagedTopicPublisher.class)
 public class TopicSession
 {
    

@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  */
 @Name("org.jboss.seam.core.taskInstanceList")
 @Scope(APPLICATION)
-@Install(dependencies="org.jboss.seam.core.jbpm")
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class TaskInstanceList
 {
    

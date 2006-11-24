@@ -7,6 +7,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import javax.naming.NamingException;
 import javax.transaction.RollbackException;
@@ -40,7 +41,7 @@ import org.jbpm.svc.Services;
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.jbpmContext")
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm")
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class ManagedJbpmContext implements Synchronization
 {
    private static final Log log = LogFactory.getLog(ManagedJbpmContext.class);

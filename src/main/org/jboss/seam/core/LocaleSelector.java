@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -35,6 +37,7 @@ import org.jboss.seam.util.Strings;
 @Scope(ScopeType.SESSION)
 @Name("org.jboss.seam.core.localeSelector")
 @Intercept(NEVER)
+@Install(precedence=BUILT_IN)
 public class LocaleSelector extends AbstractMutable implements Serializable
 {
 

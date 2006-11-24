@@ -1,5 +1,7 @@
 package org.jboss.seam.core;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -38,7 +40,7 @@ import org.jboss.seam.util.Reflections;
 @Stateless
 @Name("org.jboss.seam.core.dispatcher")
 @Interceptors(SeamInterceptor.class)
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class Dispatcher implements LocalDispatcher
 {
    

@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 
@@ -28,7 +29,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.businessProcess")
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
 public class BusinessProcess extends AbstractMutable implements Serializable {
    
    private Long processId;

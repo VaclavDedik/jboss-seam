@@ -1,9 +1,11 @@
 package org.jboss.seam.security;
 
+import static org.jboss.seam.ScopeType.SESSION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.Serializable;
 import java.security.Principal;
 
-import static org.jboss.seam.ScopeType.SESSION;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -18,7 +20,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Name("org.jboss.seam.security.authentication")
 @Scope(SESSION)
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public abstract class Authentication implements Principal, Serializable
 {
   protected boolean authenticated;

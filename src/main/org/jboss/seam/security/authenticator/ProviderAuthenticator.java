@@ -1,9 +1,11 @@
 package org.jboss.seam.security.authenticator;
 
+import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -20,7 +22,7 @@ import org.jboss.seam.util.Reflections;
  */
 @Name("org.jboss.seam.security.authenticator")
 @Scope(APPLICATION)
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class ProviderAuthenticator extends Authenticator
 {
   private List<Object> providers = new ArrayList<Object> ();

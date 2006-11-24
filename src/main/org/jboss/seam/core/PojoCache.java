@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.core;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.cache.PropertyConfigurator;
@@ -19,7 +21,7 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.pojoCache")
 @Scope(ScopeType.APPLICATION)
 @Intercept(InterceptionType.NEVER)
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class PojoCache 
 {
 

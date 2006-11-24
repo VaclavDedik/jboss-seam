@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.HttpError;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Redirect;
@@ -42,6 +44,7 @@ import org.jboss.seam.util.Transactions;
  */
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
+@Install(precedence=BUILT_IN)
 @Name("org.jboss.seam.core.exceptions")
 public class Exceptions 
 {

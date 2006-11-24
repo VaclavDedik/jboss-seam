@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.List;
@@ -41,7 +42,7 @@ import org.jbpm.graph.exe.Token;
 @PerNestedConversation
 @Name("org.jboss.seam.core.pageflow")
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
 public class Pageflow extends AbstractMutable implements Serializable
 {
    private static final Log log = LogFactory.getLog(Pageflow.class);

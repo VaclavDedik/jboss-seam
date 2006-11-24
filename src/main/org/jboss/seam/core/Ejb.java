@@ -2,6 +2,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,7 +27,7 @@ import org.jboss.seam.util.Naming;
 @Intercept(NEVER)
 @Startup
 @Name("org.jboss.seam.core.ejb")
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class Ejb
 {
    private static final Log log = LogFactory.getLog(Ejb.class);

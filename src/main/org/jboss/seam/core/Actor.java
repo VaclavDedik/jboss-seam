@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.actor")
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm")
+@Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
 public class Actor extends AbstractMutable implements Serializable
 {
    

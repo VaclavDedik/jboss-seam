@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
 import java.io.StringReader;
@@ -47,7 +48,7 @@ import org.xml.sax.InputSource;
 @Intercept(NEVER)
 @Startup(depends={"org.jboss.seam.core.microcontainer", "org.jboss.seam.core.ejb"})
 @Name("org.jboss.seam.core.jbpm")
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class Jbpm 
 {
    private static final Log log = LogFactory.getLog(Jbpm.class);

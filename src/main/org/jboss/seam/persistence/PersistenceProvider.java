@@ -1,5 +1,7 @@
 package org.jboss.seam.persistence;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
@@ -14,7 +16,7 @@ import org.jboss.seam.core.Filter;
 @Name("org.jboss.seam.persistence.persistenceProvider")
 @Scope(ScopeType.STATELESS)
 @Intercept(InterceptionType.NEVER)
-@Install(false) // XXX
+@Install(value=false, precedence=BUILT_IN)
 public class PersistenceProvider
 {
 

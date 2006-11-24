@@ -13,7 +13,8 @@
 <!ATTLIST component class CDATA #IMPLIED>
 <!ATTLIST component scope (stateless|request|page|conversation|session|business_process|application|STATELESS|REQUEST|PAGE|CONVERSATION|SESSION|BUSINESS_PROCESS|APPLICATION) #IMPLIED>
 <!ATTLIST component jndi-name CDATA #IMPLIED>
-<!ATTLIST component installed CDATA "true">
+<!ATTLIST component installed CDATA #IMPLIED>
+<!ATTLIST component precedence CDATA #IMPLIED>
 <!ATTLIST component auto-create (true|false) "false">
 
 <!ELEMENT factory EMPTY>

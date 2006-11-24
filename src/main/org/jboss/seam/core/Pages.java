@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
 import java.util.Collections;
@@ -26,6 +27,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.FlushModeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -45,6 +47,7 @@ import org.jboss.seam.util.Resources;
 @Intercept(NEVER)
 //@Startup(depends="org.jboss.seam.core.microcontainer") //don't make it a startup component 'cos it needs a faces context
 @Name("org.jboss.seam.core.pages")
+@Install(precedence=BUILT_IN)
 public class Pages 
 {
    

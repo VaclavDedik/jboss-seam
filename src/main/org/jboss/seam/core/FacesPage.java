@@ -1,11 +1,14 @@
 package org.jboss.seam.core;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.Serializable;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -21,6 +24,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Name("org.jboss.seam.core.facesPage")
 @Intercept(InterceptionType.NEVER)
+@Install(precedence=BUILT_IN)
 @Scope(ScopeType.PAGE)
 public class FacesPage implements Serializable
 {

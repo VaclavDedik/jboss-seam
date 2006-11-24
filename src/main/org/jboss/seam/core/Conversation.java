@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.FlushModeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -24,6 +26,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Scope(ScopeType.CONVERSATION)
 @Name("org.jboss.seam.core.conversation")
+@Install(precedence=BUILT_IN)
 @Intercept(NEVER)
 public class Conversation implements Serializable {
    

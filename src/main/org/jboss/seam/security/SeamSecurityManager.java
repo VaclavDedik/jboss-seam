@@ -1,6 +1,7 @@
 package org.jboss.seam.security;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.security.Permissions;
 import java.security.acl.Permission;
@@ -11,6 +12,7 @@ import java.util.Set;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -26,6 +28,7 @@ import org.jboss.seam.security.acl.JPAIdentityGenerator;
  */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.securityManager")
+@Install(precedence=BUILT_IN)
 @Intercept(InterceptionType.NEVER)
 public class SeamSecurityManager
 {

@@ -1,5 +1,7 @@
 package org.jboss.seam.debug;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +15,7 @@ import org.jboss.seam.core.ConversationEntry;
 
 @Name("org.jboss.seam.debug.contexts")
 @Scope(ScopeType.APPLICATION)
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class Contexts 
 {
    public List<ConversationEntry> getConversationEntries()

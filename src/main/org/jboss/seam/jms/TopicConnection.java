@@ -1,6 +1,7 @@
 package org.jboss.seam.jms;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import javax.jms.JMSException;
 import javax.jms.TopicConnectionFactory;
@@ -26,7 +27,7 @@ import org.jboss.seam.util.Naming;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.jms.topicConnection")
-@Install(genericDependencies=ManagedTopicPublisher.class)
+@Install(precedence=BUILT_IN, genericDependencies=ManagedTopicPublisher.class)
 public class TopicConnection
 {
    private String topicConnectionFactoryJndiName = "UIL2ConnectionFactory";

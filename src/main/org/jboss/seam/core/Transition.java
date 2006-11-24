@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 
@@ -21,7 +22,7 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.transition")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
-@Install(dependencies="org.jboss.seam.core.jbpm")
+@Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class Transition extends AbstractMutable implements Serializable {
    
    private String name;

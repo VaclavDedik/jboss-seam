@@ -1,5 +1,7 @@
 package org.jboss.seam.debug;
 
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -15,7 +17,7 @@ import org.jboss.seam.annotations.RequestParameter;
 import org.jboss.seam.contexts.Contexts;
 
 @Name("org.jboss.seam.debug.introspector")
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class Introspector {
    
    @RequestParameter

@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.ListIterator;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -23,6 +25,7 @@ import org.jboss.seam.annotations.Unwrap;
  */
 @Scope(ScopeType.PAGE)
 @Name("org.jboss.seam.core.conversationStack")
+@Install(precedence=BUILT_IN)
 @Intercept(NEVER)
 public class ConversationStack implements Serializable {
    

@@ -2,6 +2,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import org.jboss.kernel.plugins.bootstrap.standalone.StandaloneBootstrap;
 import org.jboss.seam.ScopeType;
@@ -21,7 +22,7 @@ import org.jboss.seam.annotations.Startup;
 @Intercept(NEVER)
 @Startup
 @Name("org.jboss.seam.core.microcontainer")
-@Install(false)
+@Install(value=false, precedence=BUILT_IN)
 public class Microcontainer
 {
    @Create 
