@@ -1595,7 +1595,7 @@ public class Component
               //needed when this method is called by JSF
               if ( log.isDebugEnabled() ) log.debug("seam component not found: " + name);
            }
-           else
+           else if ( component.getScope().isContextActive() )
            {
               result = component.newInstance();
            }
@@ -1631,21 +1631,28 @@ public class Component
          Init.FactoryMethod factoryMethod = init.getFactory(name);
          Init.FactoryBinding methodBinding = init.getFactoryMethodBinding(name);
          Init.FactoryBinding valueBinding = init.getFactoryValueBinding(name);
-         if (methodBinding!=null) //let the XML take precedence
+         if ( methodBinding!=null && methodBinding.getScope().isContextActive() ) //let the XML take precedence
          {
             Object result = methodBinding.getMethodBinding().invoke();
-            return handleFactoryMethodResult(name, null, result, methodBinding.getScope());
+            return handleFactoryMethodResult( name, null, result, methodBinding.getScope() );
          }
-         else if (valueBinding!=null) //let the XML take precedence
+         else if ( valueBinding!=null && valueBinding.getScope().isContextActive() ) //let the XML take precedence
          {
             Object result = valueBinding.getValueBinding().getValue();
-            return handleFactoryMethodResult(name, null, result, valueBinding.getScope());
+            return handleFactoryMethodResult( name, null, result, valueBinding.getScope() );
          }
-         else if (factoryMethod!=null)
+         else if ( factoryMethod!=null && factoryMethod.getScope().isContextActive() )
          {
             Object factory = Component.getInstance( factoryMethod.getComponent().getName(), true );
-            Object result = factoryMethod.getComponent().callComponentMethod(factory, factoryMethod.getMethod());
-            return handleFactoryMethodResult(name, factoryMethod.getComponent(), result, factoryMethod.getScope());
+            if (factory==null)
+            {
+               return null;
+            }
+            else
+            {
+               Object result = factoryMethod.getComponent().callComponentMethod( factory, factoryMethod.getMethod() );
+               return handleFactoryMethodResult( name, factoryMethod.getComponent(), result, factoryMethod.getScope() );
+            }
          }
          else
          {
