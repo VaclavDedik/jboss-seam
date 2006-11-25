@@ -74,7 +74,7 @@ public class WebSessionContext implements Context
       String prefix = ScopeType.CONVERSATION.getPrefix();
       while ( names.hasMoreElements() ) {
          String name = (String) names.nextElement();
-         if ( !name.contains(prefix) )
+         if ( !name.contains(prefix) && session.getAttribute(name)!=null )
          {
             results.add(name);
             //results.add( name.substring(prefix.length()) );
@@ -88,11 +88,12 @@ public class WebSessionContext implements Context
       return get( Seam.getComponentName(clazz) );
    }
 
-   public void flush() {
+   public void flush() 
+   {
       for ( String name: getNames() )
       {
          Object attribute = session.getAttribute(name);
-         if ( Lifecycle.isAttributeDirty(attribute) )
+         if ( attribute!=null && Lifecycle.isAttributeDirty(attribute) )
          {
             session.setAttribute(name, attribute);
          }

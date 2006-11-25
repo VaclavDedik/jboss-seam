@@ -148,7 +148,7 @@ public class ServerConversationContext implements Context {
       String prefix = getPrefix( getId() );
       while ( names.hasMoreElements() ) {
          String name = (String) names.nextElement();
-         if ( name.startsWith(prefix) )
+         if ( name.startsWith(prefix) && session.getAttribute(name)!=null )
          {
             name = name.substring( prefix.length() );
             if ( !removals.contains(name) ) results.add(name);
@@ -187,7 +187,7 @@ public class ServerConversationContext implements Context {
          {
             String key = getKey(name);
             Object attribute = session.getAttribute(key);
-            if ( Lifecycle.isAttributeDirty(attribute) )
+            if ( attribute!=null && Lifecycle.isAttributeDirty(attribute) )
             {
                session.setAttribute(key, attribute);
             }

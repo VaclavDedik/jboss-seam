@@ -180,14 +180,18 @@ public class Contexts {
             log.debug("destroying: " + name);
             if ( component!=null )
             {
-               if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preDestroy." + name);
-               try
+               Object object = context.get(name);
+               if (object!=null) //in a portal environment, this is possible
                {
-                  component.callDestroyMethod( context.get(name) );
-               }
-               catch (Exception e)
-               {
-                  log.warn("Could not destroy component: " + name, e);
+                  if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preDestroy." + name);
+                  try
+                  {
+                     component.callDestroyMethod(object);
+                  }
+                  catch (Exception e)
+                  {
+                     log.warn("Could not destroy component: " + name, e);
+                  }
                }
             }
          }

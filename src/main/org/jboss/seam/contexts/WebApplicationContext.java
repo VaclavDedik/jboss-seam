@@ -75,7 +75,10 @@ public class WebApplicationContext implements Context
           {
              results.add( name.substring(prefix.length()) );
           }*/
-          results.add(name);
+          if ( servletContext.getAttribute(name)!=null )
+          {
+             results.add(name);
+          }
        }
        return results.toArray(new String[]{});
     }

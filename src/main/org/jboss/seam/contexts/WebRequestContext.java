@@ -71,7 +71,10 @@ public class WebRequestContext implements Context {
          {
             results.add( name.substring(prefix.length()) );
          }*/
-         results.add(name);
+         if ( request.getAttribute(name)!=null )
+         {
+            results.add(name);
+         }
 		}
 		return results.toArray( new String[]{} );
 	}

@@ -119,7 +119,7 @@ public class Lifecycle
       for ( String name: context.getNames() )
       {
     	   Object object = context.get(name);
-    	   if ( object instanceof Component )
+    	   if ( object!=null && (object instanceof Component) )
     	   {
 	         Component component = (Component) object;
 	         if ( component.isStartup() && component.getScope()==ScopeType.APPLICATION )
@@ -184,7 +184,8 @@ public class Lifecycle
       for ( String name : context.getNames() )
       {
          Object object = context.get(name);
-         if (object instanceof Component) {
+         if ( object!=null && (object instanceof Component) ) 
+         {
             Component component = (Component) object;
             if ( component.isStartup() && component.getScope() == ScopeType.SESSION )
             {
