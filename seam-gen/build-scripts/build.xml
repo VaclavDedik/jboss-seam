@@ -183,7 +183,11 @@
 		<delete dir="${test.dir}" />
 		<delete dir="${ear.dir}" />
 		<delete dir="${war.dir}" />
-		<delete dir="${jar.dir}" />
+		<delete>
+			<fileset dir="${jar.dir}">
+				<exclude name="**/*.class" if="eclipse.running"/>
+			</fileset>
+		</delete>
 	</target>
 
 	<target name="test" depends="jar,war,ear" description="Run the tests">
