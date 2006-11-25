@@ -21,7 +21,6 @@
     <page name="contact" view-id="/newuser/contact.xhtml"
           no-conversation-view-id="/newuser/account.xhtml">
         <redirect/>
-        <transaction to="contact"/>
         <transition name="prev" to="account"/>
         <transition name="next" to="card"/>
     </page>
