@@ -94,7 +94,7 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
          //writeConversationIdToResponse( facesContext.getExternalContext().getResponse() );
          afterRender(facesContext);
       }
-      else if ( event.getPhaseId() == INVOKE_APPLICATION || facesContext.getResponseComplete() )
+      else if ( event.getPhaseId() == INVOKE_APPLICATION || facesContext.getRenderResponse() || facesContext.getResponseComplete() )
       {
          Manager.instance().beforeRedirect();
          writeConversationIdToResponse( facesContext.getExternalContext().getResponse() );
