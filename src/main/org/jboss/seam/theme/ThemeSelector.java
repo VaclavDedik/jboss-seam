@@ -46,6 +46,7 @@ public class ThemeSelector extends AbstractMutable implements Serializable
    private String[] availableThemes;
    
    private boolean cookieEnabled;
+   private int cookieMaxAge = 31536000; //1 year
    
    @Create
    public void initDefaultTheme()
@@ -80,7 +81,9 @@ public class ThemeSelector extends AbstractMutable implements Serializable
       if (cookieEnabled)
       {
          HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-         response.addCookie( new Cookie("org.jboss.seam.core.Theme", theme) );
+         Cookie cookie = new Cookie("org.jboss.seam.core.Theme", theme);
+         cookie.setMaxAge(cookieMaxAge);
+         response.addCookie( cookie );
       }
    }
 
@@ -153,6 +156,16 @@ public class ThemeSelector extends AbstractMutable implements Serializable
    {
       setDirty(this.cookieEnabled, cookieEnabled);
       this.cookieEnabled = cookieEnabled;
+   }
+
+   protected int getCookieMaxAge()
+   {
+      return cookieMaxAge;
+   }
+
+   protected void setCookieMaxAge(int cookieMaxAge)
+   {
+      this.cookieMaxAge = cookieMaxAge;
    }
 
 }

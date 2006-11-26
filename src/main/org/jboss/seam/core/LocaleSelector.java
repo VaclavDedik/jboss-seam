@@ -46,6 +46,7 @@ public class LocaleSelector extends AbstractMutable implements Serializable
    private String variant;
    
    private boolean cookieEnabled;
+   private int cookieMaxAge = 31536000; //1 year
    
    @Create
    public void initLocale()
@@ -69,7 +70,9 @@ public class LocaleSelector extends AbstractMutable implements Serializable
       if (cookieEnabled)
       {
          HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-         response.addCookie( new Cookie( "org.jboss.seam.core.Locale", getLocaleString() ) );
+         Cookie cookie = new Cookie( "org.jboss.seam.core.Locale", getLocaleString() );
+         cookie.setMaxAge(cookieMaxAge);
+         response.addCookie(cookie);
       }
    }
 
@@ -207,6 +210,16 @@ public class LocaleSelector extends AbstractMutable implements Serializable
    {
       setDirty(this.cookieEnabled, cookieEnabled);
       this.cookieEnabled = cookieEnabled;
+   }
+
+   protected int getCookieMaxAge()
+   {
+      return cookieMaxAge;
+   }
+
+   protected void setCookieMaxAge(int cookieMaxAge)
+   {
+      this.cookieMaxAge = cookieMaxAge;
    }
    
 }
