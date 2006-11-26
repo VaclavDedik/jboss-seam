@@ -109,7 +109,7 @@ public class Reflections
          }
          else
          {
-            throw new IllegalArgumentException("exception invoking: " + method.getName(), e);
+            throw new RuntimeException("exception invoking: " + method.getName(), e);
          }
       }
    }
