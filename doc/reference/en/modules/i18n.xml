@@ -126,7 +126,7 @@
         </para>
 
         <programlisting><![CDATA[<component name="org.jboss.seam.core.resourceBundle">
-    <property name="bundlenames">
+    <property name="bundleNames">
         <value>mycompany_messages</value>
         <value>standard_messages</value>
     </property>
