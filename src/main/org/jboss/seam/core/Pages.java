@@ -581,6 +581,26 @@ public class Pages
       return this.noConversationViewId;
    }
 
+   /**
+    * Search for a defined conversation timeout, beginning with
+    * the most specific view id, then wildcarded view ids, and 
+    * finally the global setting from Manager
+    */
+   public Integer getTimeout(String viewId)
+   {
+      List<Page> stack = getPageStack(viewId);
+      for (int i=stack.size()-1; i>=0; i++)
+      {
+         Page page = stack.get(i);
+         Integer timeout = page.getTimeout();
+         if (timeout!=null)
+         {
+            return timeout;
+         }
+      }
+      return Manager.instance().getConversationTimeout();
+   }
+
    public static String getSuffix()
    {
       String defaultSuffix = FacesContext.getCurrentInstance().getExternalContext()

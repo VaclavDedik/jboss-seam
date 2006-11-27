@@ -35,7 +35,7 @@ public class Conversation implements Serializable {
    String viewId;
 
    /**
-    * Get the timeout for this converstaion instance.
+    * Get the timeout for this conversation instance.
     * @return the timeout in millis
     */
    public Integer getTimeout() {

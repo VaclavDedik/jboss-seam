@@ -996,7 +996,7 @@ public class Manager
             {
                conversation.setDescription( pageEntry.renderDescription() );
             }
-            conversation.setTimeout( pageEntry.getTimeout() );
+            conversation.setTimeout( Pages.instance().getTimeout(viewId) );
          }
       }
       else
