@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 
 public class SecurityTest
 {
-  @Name("mock")
+  /*@Name("mock")
   class MockSecureEntityMethodId {
     private Integer id;
     public MockSecureEntityMethodId(Integer id) { this.id = id; }
@@ -103,7 +103,7 @@ public class SecurityTest
     em.persist(ident);
 
     // And now create some permissions
-    /** @todo This step should eventually be done using SeamSecurityManager.grantPermission() */
+    //@todo This step should eventually be done using SeamSecurityManager.grantPermission()
     MockAclPermission perm = new MockAclPermission();
     perm.setId(1);
     perm.setIdentity(ident);
@@ -149,5 +149,5 @@ public class SecurityTest
     //catch (SecurityException ex) { }
 
     Lifecycle.endRequest();
-  }
+  }*/
 }
