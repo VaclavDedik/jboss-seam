@@ -6,10 +6,11 @@
                       new-instance="#{newPayment}" 
                       created-message="Created a new payment to #{newPayment.payee}" />
 
-    <pay:payment name="newPayment" payee="Somebody"
+    <pay:payment name="newPayment" 
+                 payee="Somebody"
                  account="#{selectedAccount}"
-                 paymentDate="#{currentDatetime}"
-                 createdDate="#{currentDatetime}" />
+                 payment-date="#{currentDatetime}"
+                 created-date="#{currentDatetime}" />
 
     <factory name="selectedAccount" 
              value="#{accountHome.instance}"/>
