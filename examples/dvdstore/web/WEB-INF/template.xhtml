@@ -16,52 +16,17 @@
         <div id="header"><span>JBoss Seam DVD Store</span></div>
         <div id="nav"> 
             <ui:insert name="topnav">
-                <ul>
-                    <li id="current"><h:commandLink action="main" value="Home"/></li>
-                    <li><a href="#">Something</a></li>
-                    <li><a href="#">Something Else</a></li>
-                </ul>
+                TOPNAV
             </ui:insert>
         </div>
 
         <div id="container">
             <div id="sidebar">
                 <ui:insert name="sidebar">
-                    <div class="menu"> 
-                        <dl>
-                            <dt class="menuHeader">Login:</dt>
-                            <dd class="menuForm">
-                                <dl>
-                                    <dd>Username: <input type="text" /></dd>
-                                    <dd>Password: <input type="text" /></dd>
-                                    <dd><input type="submit" value="Login" 
-                                               class="formButton" style="width: 166px;"/></dd>
-                                </dl>
-                            </dd>
-                        </dl>
-                    </div>
-
-
-                    <div class="menu"> 
-                        <dl>
-                            <dt class="menuHeader">Search Catalog</dt>
-                            <dd class="menuForm">
-                                <dl>
-                                    <dd>Title: <input type="text" /></dd>
-                                    <dd>Author: <input type="text" /></dd>
-                                    <dd>Category: 
-                                    <select><option>All</option><option>McKesson Item Number</option><option>Manufacturer Item Number</option><option>Description</option></select></dd>
-                                    <dd><input type="submit" value="Search" class="formButton" style="width: 166px;"/></dd>
-                                </dl>
-                            </dd>
-                        </dl>
-                    </div>
-
-
+                    SIDEBAR
                 </ui:insert>
             </div>
 
-            
             <div id="errors">
                 <ui:insert name="errors">
                     <h:messages globalOnly="true" 
@@ -77,9 +42,6 @@
                 </ui:insert>
             </div>
         </div>
-
-        <div class="grayBox" style="text-align: right; color: #666;">#{messages.copyright}</div>
     </div>
-
 </body>
 </html>
