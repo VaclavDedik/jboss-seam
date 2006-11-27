@@ -120,17 +120,25 @@ public final class Page
    
    java.util.ResourceBundle getResourceBundle()
    {
-      try
-      {
-         return java.util.ResourceBundle.getBundle(
-               getResourceBundleName(), 
-               Locale.instance(), 
-               Thread.currentThread().getContextClassLoader()
-            );
-      }
-      catch (MissingResourceException mre)
+      String resourceBundleName = getResourceBundleName();
+      if (resourceBundleName==null)
       {
          return null;
+      }
+      else
+      {
+         try
+         {
+            return java.util.ResourceBundle.getBundle(
+                  resourceBundleName, 
+                  Locale.instance(), 
+                  Thread.currentThread().getContextClassLoader()
+               );
+         }
+         catch (MissingResourceException mre)
+         {
+            return null;
+         }
       }
    }
    

@@ -409,7 +409,7 @@ public class Pages
    {
       List<ResourceBundle> result = new ArrayList<ResourceBundle>(1);
       List<Page> stack = getPageStack(viewId);
-      for (int i=stack.size()-1; i>=0; i++)
+      for (int i=stack.size()-1; i>=0; i--)
       {
          Page page = stack.get(i);
          ResourceBundle bundle = page.getResourceBundle();
@@ -569,7 +569,7 @@ public class Pages
    public String getNoConversationViewId(String viewId)
    {
       List<Page> stack = getPageStack(viewId);
-      for (int i=stack.size()-1; i>=0; i++)
+      for (int i=stack.size()-1; i>=0; i--)
       {
          Page page = stack.get(i);
          String noConversationViewId = page.getNoConversationViewId();
@@ -589,7 +589,7 @@ public class Pages
    public Integer getTimeout(String viewId)
    {
       List<Page> stack = getPageStack(viewId);
-      for (int i=stack.size()-1; i>=0; i++)
+      for (int i=stack.size()-1; i>=0; i--)
       {
          Page page = stack.get(i);
          Integer timeout = page.getTimeout();
