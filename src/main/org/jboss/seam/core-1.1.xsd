@@ -227,7 +227,7 @@
     <xs:element name="entity-manager-factory">
         <xs:complexType mixed="true">
             <xs:sequence minOccurs="0" maxOccurs="1">
-                <xs:element name="persistence-unit-properties" type="components:mapProperty" />
+                <xs:element name="persistence-unit-properties" type="components:mapProperty"/>
             </xs:sequence>
             <xs:attributeGroup ref="core:attlist.EntityManagerFactory"/>
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -236,6 +236,19 @@
     <xs:attributeGroup name="attlist.EntityManagerFactory">
         <xs:attribute name="persistence-unit-name"/>
     </xs:attributeGroup>
+
+    <xs:element name="filter">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element minOccurs="0" name="name" type="xs:string"/>
+                <xs:element minOccurs="0" name="parameters" type="components:mapProperty"/>
+            </xs:sequence>
+            <xs:attributeGroup ref="core:attlist.filter"/>
+            <xs:attributeGroup ref="components:attlist.component"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.filter"> </xs:attributeGroup>
+
 
 
 

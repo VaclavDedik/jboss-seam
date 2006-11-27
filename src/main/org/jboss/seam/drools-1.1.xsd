@@ -19,13 +19,13 @@
         <xs:attribute name="rule-files" type="xs:string"/>
     </xs:attributeGroup>
 
-    <xs:element name="working-memory">
+    <xs:element name="managed-working-memory">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="drools:attlist.WorkingMemory"/>
+            <xs:attributeGroup ref="drools:attlist.ManagedWorkingMemory"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.WorkingMemory">
+    <xs:attributeGroup name="attlist.ManagedWorkingMemory">
         <xs:attribute name="rule-base" type="xs:string"/>
     </xs:attributeGroup>
 
