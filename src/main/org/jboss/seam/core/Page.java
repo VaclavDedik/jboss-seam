@@ -113,7 +113,7 @@ public final class Page
          int loc = viewId.lastIndexOf('.');
          if ( loc>0 && viewId.startsWith("/") )
          {
-            this.setResourceBundleName(viewId.substring(1, loc));
+            this.setResourceBundleName( viewId.substring(1, loc) );
          }
       }
    }
@@ -197,9 +197,7 @@ public final class Page
 
    public String getNoConversationViewId()
    {
-      return noConversationViewId==null ?
-            Pages.instance().getNoConversationViewId() :
-            noConversationViewId;
+      return noConversationViewId;
    }
 
    public void setResourceBundleName(String resourceBundleName)

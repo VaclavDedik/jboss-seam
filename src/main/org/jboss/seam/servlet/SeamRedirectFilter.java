@@ -44,7 +44,7 @@ public class SeamRedirectFilter implements Filter
                String viewId = getViewId(url);
                if (viewId!=null)
                {
-                  url = Pages.instance().encodePageParameters(url, viewId);
+                  url = Pages.instance().encodePageParameters( FacesContext.getCurrentInstance(), url, viewId );
                }
                url = Manager.instance().appendConversationIdFromRedirectFilter(url);
             }

@@ -1048,9 +1048,9 @@ public class Manager
       noConversation();
       
       //stuff from jPDL takes precedence
-      org.jboss.seam.core.FacesPage page = org.jboss.seam.core.FacesPage.instance();
-      String pageflowName = page.getPageflowName();
-      String pageflowNodeName = page.getPageflowNodeName();
+      org.jboss.seam.core.FacesPage facesPage = org.jboss.seam.core.FacesPage.instance();
+      String pageflowName = facesPage.getPageflowName();
+      String pageflowNodeName = facesPage.getPageflowNodeName();
       
       String noConversationViewId = null;
       if (pageflowName==null || pageflowNodeName==null)
@@ -1059,7 +1059,7 @@ public class Manager
          Pages pages = Pages.instance();
          if (pages!=null) //for tests
          {
-            noConversationViewId = pages.getPage(viewId).getNoConversationViewId();
+            noConversationViewId = pages.getNoConversationViewId(viewId);
          }
       }
       else

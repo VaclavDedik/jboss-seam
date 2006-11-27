@@ -5,6 +5,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.MissingResourceException;
@@ -117,17 +118,12 @@ public class ResourceBundle implements Serializable {
          @Override
          public Enumeration<String> getKeys()
          {
-            int size = littleBundles.size();
-            java.util.ResourceBundle pageBundle = getPageResourceBundle();
-            if (pageBundle!=null)
-            {
-               ++size;
-            }
-            Enumeration<String>[] enumerations = new Enumeration[ littleBundles.size() + 1 ];
+            List<java.util.ResourceBundle> pageBundles = getPageResourceBundles();
+            Enumeration<String>[] enumerations = new Enumeration[ littleBundles.size() + pageBundles.size() ];
             int i=0;
-            if (pageBundle!=null)
+            for (; i<pageBundles.size(); i++)
             {
-               enumerations[i++] = pageBundle.getKeys();
+               enumerations[i++] = pageBundles.get(i).getKeys();
             }
             for (; i<littleBundles.size(); i++)
             {
@@ -139,8 +135,8 @@ public class ResourceBundle implements Serializable {
          @Override
          protected Object handleGetObject(String key)
          {
-            java.util.ResourceBundle pageBundle = getPageResourceBundle();
-            if (pageBundle!=null)
+            List<java.util.ResourceBundle> pageBundles = getPageResourceBundles();
+            for (java.util.ResourceBundle pageBundle: pageBundles)
             {
                try
                {
@@ -164,7 +160,7 @@ public class ResourceBundle implements Serializable {
             throw new MissingResourceException("Can't find resource in bundles: " + key, getClass().getName(), key );
          }
 
-         private java.util.ResourceBundle getPageResourceBundle()
+         private List<java.util.ResourceBundle> getPageResourceBundles()
          {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             if (facesContext!=null)
@@ -172,14 +168,10 @@ public class ResourceBundle implements Serializable {
                UIViewRoot viewRoot = facesContext.getViewRoot();
                if (viewRoot!=null)
                {
-                  String viewId = viewRoot.getViewId();
-                  if (viewId!=null)
-                  {
-                     return Pages.instance().getPage(viewId).getResourceBundle();
-                  }
+                  return Pages.instance().getResourceBundles( viewRoot.getViewId() );
                }
             }
-            return null;
+            return Collections.EMPTY_LIST;
          }
          
       };

@@ -249,8 +249,9 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       boolean actionsWereCalled = false;
       try
       {
-         actionsWereCalled = Pages.callAction( event.getFacesContext() ) || actionsWereCalled;
-         actionsWereCalled = Pages.instance().callAction() || actionsWereCalled;
+         FacesContext facesContext = event.getFacesContext();
+         actionsWereCalled = Pages.callAction(facesContext) || actionsWereCalled;
+         actionsWereCalled = Pages.instance().callActions(facesContext) || actionsWereCalled;
          return actionsWereCalled;
       }
       finally

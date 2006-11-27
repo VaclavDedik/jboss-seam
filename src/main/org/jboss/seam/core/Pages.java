@@ -4,11 +4,13 @@ import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -53,6 +55,7 @@ public class Pages
    private static final Log log = LogFactory.getLog(Pages.class);
    
    private Map<String, Page> pagesByViewId = Collections.synchronizedMap( new HashMap<String, Page>() );   
+   private Map<String, List<Page>> pageStacksByViewId = Collections.synchronizedMap( new HashMap<String, List<Page>>() );   
    private String noConversationViewId;
    
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
@@ -274,30 +277,53 @@ public class Pages
       return loc<0 ? null : viewId.substring(0, loc) + suffix;
    }
    
-   public boolean callAction()
+   protected List<Page> getPageStack(String viewId)
    {
-      boolean result = false;
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      String viewId = facesContext.getViewRoot().getViewId();
+      List<Page> stack = pageStacksByViewId.get(viewId);
+      if (stack==null)
+      {
+         stack = createPageStack(viewId);
+         pageStacksByViewId.put(viewId, stack);
+      }
+      return stack;
+   }
+
+   private List<Page> createPageStack(String viewId)
+   {
+      List<Page> stack = new ArrayList<Page>(1);
       if (viewId!=null)
       {
          for (String wildcard: wildcardViewIds)
          {
             if ( viewId.startsWith( wildcard.substring(0, wildcard.length()-1) ) )
             {
-               result = callAction(facesContext, wildcard) || result;
+               stack.add( getPage(wildcard) );
             }
          }
       }
-      result = callAction(facesContext, viewId) || result;
+      Page page = getPage(viewId);
+      if (page!=null) stack.add(page);
+      return stack;
+   }
+   
+   /**
+    * Call page actions, from most general view id to most specific
+    */
+   public boolean callActions(FacesContext facesContext)
+   {
+      boolean result = false;
+      String viewId = facesContext.getViewRoot().getViewId();
+      for ( Page page: getPageStack(viewId) )
+      {
+         result = callAction(page, facesContext) || result;
+      }
       return result;
    }
 
-   private boolean callAction(FacesContext facesContext, String viewId)
+   private boolean callAction(Page page, FacesContext facesContext)
    {
       boolean result = false;
       
-      Page page = getPage(viewId);
       page.beginOrEndConversation();
 
       String outcome = page.getOutcome();
@@ -375,20 +401,40 @@ public class Pages
       return result;
    }
    
+   /**
+    * Build a list of page-scoped resource bundles, from most
+    * specific view id, to most general.
+    */
+   public List<ResourceBundle> getResourceBundles(String viewId)
+   {
+      List<ResourceBundle> result = new ArrayList<ResourceBundle>(1);
+      List<Page> stack = getPageStack(viewId);
+      for (int i=stack.size()-1; i>=0; i++)
+      {
+         Page page = stack.get(i);
+         ResourceBundle bundle = page.getResourceBundle();
+         if ( bundle!=null ) result.add(bundle);
+      }
+      return result;
+   }
+   
    public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId)
    {
       return getConvertedParameters(facesContext, viewId, Collections.EMPTY_SET);
    }
    
-   public Map<String, Object> getParameters(String viewId)
+   protected Map<String, Object> getParameters(String viewId)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
-      for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
+      for ( Page page: getPageStack(viewId) )
       {
-         Object value = pageParameter.getValueBinding().getValue();
-         if (value!=null)
+         for ( Page.PageParameter pageParameter: page.getPageParameters() )
          {
-            parameters.put(pageParameter.getName(), value);
+            Object value = pageParameter.getValueBinding().getValue();
+            if (value!=null)
+            {
+               parameters.put(pageParameter.getName(), value);
+            }
          }
       }
       return parameters;
@@ -397,26 +443,29 @@ public class Pages
    public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId, Set<String> overridden)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
-      for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
+      for ( Page page: getPageStack(viewId) )
       {
-         if ( !overridden.contains(pageParameter.getName()) )
+         for ( Page.PageParameter pageParameter: page.getPageParameters() )
          {
-            Object value = pageParameter.getValueBinding().getValue();
-            if (value!=null)
+            if ( !overridden.contains(pageParameter.getName()) )
             {
-               Converter converter;
-               try
+               Object value = pageParameter.getValueBinding().getValue();
+               if (value!=null)
                {
-                  converter = pageParameter.getConverter();
+                  Converter converter;
+                  try
+                  {
+                     converter = pageParameter.getConverter();
+                  }
+                  catch (RuntimeException re)
+                  {
+                     //YUCK! due to bad JSF/MyFaces error handling
+                     continue;
+                  }
+                  Object convertedValue = converter==null ? 
+                        value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
+                  parameters.put(pageParameter.getName(), convertedValue);
                }
-               catch (RuntimeException re)
-               {
-                  //YUCK! due to bad JSF/MyFaces error handling
-                  continue;
-               }
-               Object convertedValue = converter==null ? 
-                     value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
-               parameters.put(pageParameter.getName(), convertedValue);
             }
          }
       }
@@ -427,47 +476,52 @@ public class Pages
    {
       String viewId = facesContext.getViewRoot().getViewId();
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
-      for ( Page.PageParameter pageParameter: getPage(viewId).getPageParameters() )
-      {         
-         String[] parameterValues = requestParameters.get(pageParameter.getName());
-         if (parameterValues==null || parameterValues.length==0)
-         {
-            continue;
+      for ( Page page: getPageStack(viewId) )
+      {
+         for ( Page.PageParameter pageParameter: page.getPageParameters() )
+         {         
+            String[] parameterValues = requestParameters.get(pageParameter.getName());
+            if (parameterValues==null || parameterValues.length==0)
+            {
+               continue;
+            }
+            if (parameterValues.length>1)
+            {
+               throw new IllegalArgumentException("page parameter may not be multi-valued: " + pageParameter.getName());
+            }         
+            String stringValue = parameterValues[0];
+   
+            Converter converter;
+            try
+            {
+               converter = pageParameter.getConverter();
+            }
+            catch (RuntimeException re)
+            {
+               //YUCK! due to bad JSF/MyFaces error handling
+               continue;
+            }
+            
+            Object value = converter==null ? 
+                  stringValue :
+                  converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
+            pageParameter.getValueBinding().setValue(value);
          }
-         if (parameterValues.length>1)
-         {
-            throw new IllegalArgumentException("page parameter may not be multi-valued: " + pageParameter.getName());
-         }         
-         String stringValue = parameterValues[0];
-
-         Converter converter;
-         try
-         {
-            converter = pageParameter.getConverter();
-         }
-         catch (RuntimeException re)
-         {
-            //YUCK! due to bad JSF/MyFaces error handling
-            continue;
-         }
-         
-         Object value = converter==null ? 
-               stringValue :
-               converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
-         pageParameter.getValueBinding().setValue(value);
       }
    }
 
    public void applyViewRootValues(FacesContext facesContext)
    {
       String viewId = facesContext.getViewRoot().getViewId();
-      
-      for (Page.PageParameter pageParameter: getPage(viewId).getPageParameters())
-      {         
-         Object object = Contexts.getPageContext().get(pageParameter.getName());
-         if (object!=null)
-         {
-            pageParameter.getValueBinding().setValue(object);
+      for ( Page page: getPageStack(viewId) )
+      {
+         for ( Page.PageParameter pageParameter: page.getPageParameters() )
+         {         
+            Object object = Contexts.getPageContext().get(pageParameter.getName());
+            if (object!=null)
+            {
+               pageParameter.getValueBinding().setValue(object);
+            }
          }
       }
    }
@@ -489,9 +543,9 @@ public class Pages
     * @param viewId the JSF view id of the page
     * @return the URL with parameters appended
     */
-   public String encodePageParameters(String url, String viewId)
+   public String encodePageParameters(FacesContext facesContext, String url, String viewId)
    {
-      Map<String, Object> parameters = getConvertedParameters( FacesContext.getCurrentInstance(), viewId );
+      Map<String, Object> parameters = getConvertedParameters(facesContext, viewId);
       return Manager.instance().encodeParameters(url, parameters);
    }
 
@@ -501,13 +555,30 @@ public class Pages
    public void storePageParameters(FacesContext facesContext)
    {
       String viewId = facesContext.getViewRoot().getViewId();
-      if (viewId!=null)
+      for ( Map.Entry<String, Object> param: getParameters(viewId).entrySet() )
       {
-        for ( Map.Entry<String, Object> param: getParameters(viewId).entrySet() )
-        {
-           Contexts.getPageContext().set( param.getKey(), param.getValue() );
-        }
+         Contexts.getPageContext().set( param.getKey(), param.getValue() );
       }
+   }
+
+   /**
+    * Search for a defined no-conversation-view-id, beginning with
+    * the most specific view id, then wildcarded view ids, and 
+    * finally the global setting
+    */
+   public String getNoConversationViewId(String viewId)
+   {
+      List<Page> stack = getPageStack(viewId);
+      for (int i=stack.size()-1; i>=0; i++)
+      {
+         Page page = stack.get(i);
+         String noConversationViewId = page.getNoConversationViewId();
+         if (noConversationViewId!=null)
+         {
+            return noConversationViewId;
+         }
+      }
+      return this.noConversationViewId;
    }
 
    public static String getSuffix()
