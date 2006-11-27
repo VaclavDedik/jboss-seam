@@ -40,11 +40,9 @@
             <literal>Contact</literal> entity:
         </para>
         
-        <programlisting><![CDATA[<component name="personHome" class="org.jboss.seam.framework.EntityHome">
-    <property name="entityClass">eg.Person</property>
-    <property name="id">#{param.personId}</property>
-    <property name="entityManager">#{personDatabase}</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<framework:entity-home name="personHome" entity-class="eg.Person" entity-manager="#{personDatabase}">
+    <framework:id>#{param.personId}</framework:id>
+</framework:entity-home>]]></programlisting>
 
         <para>
             If that looks a bit too much like "programming in XML" for 
@@ -120,9 +118,7 @@ public class Person {
             configuration:
         </para>
         
-        <programlisting><![CDATA[<component name="personHome" class="org.jboss.seam.framework.EntityHome">
-    <property name="entityClass">eg.Person</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<framework:entity-home name="personHome" entity-class="eg.Person" />]]></programlisting>
 
         <para>
             Or via extension:
@@ -161,9 +157,7 @@ public class PersonHome extends EntityHome<Person> {}]]></programlisting>
         
         <programlisting><![CDATA[<factory name="person" value="#{personHome.instance}"/>
 
-<component name="personHome" class="org.jboss.seam.framework.EntityHome">
-    <property name="entityClass">eg.Person</property>
-</component>]]></programlisting>
+<framework:entity-home name="personHome" entity-class="eg.Person" />]]></programlisting>
 
         <para>
             (If we are using configuration.)
@@ -239,10 +233,7 @@ public class PersonHome extends EntityHome<Person> {
 
         <programlisting><![CDATA[<factory name="person" value="#{personHome.instance}"/>
 
-<component name="personHome" class="org.jboss.seam.framework.EntityHome">
-    <property name="entityClass">eg.Person</property>
-    <property name="newInstance">#{newPerson}</property>
-</component>
+<framework:entity-home name="personHome" entity-class="eg.Person" new-instance="#{newPerson}"/>
 
 <component name="newPerson" class="eg.Person">
     <property name="nationality">#{country}</property>
@@ -303,13 +294,12 @@ public class PersonHome extends EntityHome<Person> {
          
         <programlisting><![CDATA[<factory name="person" value="#{personHome.instance}"/>
 
-<component name="personHome" class="org.jboss.seam.framework.EntityHome">
-    <property name="entityClass">eg.Person</property>
-    <property name="newInstance">#{newPerson}</property>
-    <property name="createdMessage">New person #{person.firstName} #{person.lastName} created</property>
-    <property name="deletedMessage">Person #{person.firstName} #{person.lastName} deleted</property>
-    <property name="updatedMessage">Person #{person.firstName} #{person.lastName} updated</property>
-</component>
+<framework:entity-home name="personHome" 
+    entity-class="eg.Person" 
+    new-instance="#{newPerson}"
+    created-message="New person #{person.firstName} #{person.lastName} created"
+    deleted-message="Person #{person.firstName} #{person.lastName} deleted"
+    updated-message="Person #{person.firstName} #{person.lastName} updated"/>
 
 <component name="newPerson" class="eg.Person">
     <property name="nationality">#{country}</property>
@@ -368,9 +358,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             can use a Query object. For example:
         </para>
         
-        <programlisting><![CDATA[<component name="people" class="org.jboss.seam.framework.EntityQuery">
-    <property name="ejbql">select p from Person p</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<framework:entity-query name="people" eqbql="select p from Person p"/>]]></programlisting>
         
         <para>
             We can use it from a JSF page:
@@ -389,11 +377,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             We probably need to support pagination:
         </para>
         
-        <programlisting><![CDATA[<component name="people" class="org.jboss.seam.framework.EntityQuery">
-    <property name="ejbql">select p from Person p</property>
-    <property name="order">lastName</property>
-    <property name="maxResults">20</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<framework:entity-query name="people" eqbql="select p from Person p" order="lastName" max-results="20"/>]]></programlisting>
 
         <para>
             The JSF code for a pagination control is a bit verbose, but manageable:
@@ -432,15 +416,12 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 
         <programlisting><![CDATA[<component name="examplePerson" class="Person"/>
         
-<component name="people" class="org.jboss.seam.framework.EntityQuery">
-    <property name="ejbql">select p from Person p</property>
-    <property name="order">lastName</property>
-    <property name="maxResults">20</property>
-    <restrictions>
+<framework:entity-query name="people" eqbql="select p from Person p" order="lastName" max-results="20">
+    <framework:restrictions>
         <value>lower(firstName) like lower( #{examplePerson.firstName} + '%' )</value>
         <value>lower(lastName) like lower( #{examplePerson.lastName} + '%' )</value>
-    </restriction>
-</component>]]></programlisting>
+    </framework:restrictions>
+</framework:entity-query>]]></programlisting>
 
         <para>
             Notice the use of an "example" object.
@@ -486,31 +467,29 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             persistence provider.)
         </para>
         
-        <programlisting><![CDATA[<component name="regionFilter" 
-          class="org.jboss.seam.core.Filter">
-    <property name="name">region</property>
-    <property name="parameters">
-        <key>regionCode</key><value>#{region.code}</value>
-    </property>
-</component>
+        <programlisting><![CDATA[<core:filter name="regionFilter">
+    <core:name>region</core:name>
+    <core:parameters>
+        <key>regionCode</key>
+        <value>#{region.code}</value>
+    </core:parameters>
+</core:filter>
 
-<component name="currentFilter" 
-          class="org.jboss.seam.core.Filter">
-    <property name="name">current</property>
-    <property name="parameters">
-        <key>date</key><value>#{currentDate}</value>
-    </property>
-</component>
+<core:filter name="currentFilter">
+    <core:name>current</core:name>
+    <core:parameters>
+        <key>date</key>
+        <value>#{currentDate}</value>
+    </core:parameters>
+</core:filter>
 
-<component name="personDatabase"
-          class="org.jboss.seam.core.ManagedPersistenceContext">
-    <property name="persistenceUnitJndiName">java:/EntityManagerFactories/personDatabase</property>
-    <property name="filters">
-       <value>#{regionFilter}</value>
-       <value>#{currentFilter}</value>
-    </property>
-</component>]]></programlisting>
+<core:managed-persistence-context name="personDatabase"
+    persistence-unit-jndi-name="java:/EntityManagerFactories/personDatabase">
+    <core:filters>
+        <value>#{regionFilter}</value>
+        <value>#{currentFilter}</value>
+    </core:filters>
+</core:managed-persistence-context>]]></programlisting>
         
-    </section>
-    
+    </section>    
 </chapter>

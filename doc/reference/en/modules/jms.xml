@@ -28,7 +28,7 @@
             <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<component class="org.jboss.seam.core.Dispatcher"/>]]></programlisting>
+        <programlisting><![CDATA[<core:dispatcher/>]]></programlisting>
         
         <para>
             Note that this functionality is not available in environments which do not support EJB 3.0.
@@ -230,15 +230,9 @@ public class CreatePaymentAction
             <literal>QueueSender</literal>s:
         </para>
         
-        <programlisting><![CDATA[<component name="stockTickerPublisher" auto-create="true"
-          class="org.jboss.seam.jms.ManagedTopicPublisher">
-    <property name="topicJndiName">topic/stockTickerTopic</property>
-</component>
+        <programlisting><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" auto-create="true" topic-jndi-name="topic/stockTickerTopic"/>
 
-<component name="paymentQueueSender" auto-create="true"
-          class="org.jboss.seam.jms.ManagedQueueSender">
-    <property name="queueJndiName">queue/paymentQueue</property>
-</component>]]></programlisting>
+<jms:managed-queue-sender name="paymentQueueSender" auto-create="true" queue-jndi-name="queue/paymentQueue"/>]]></programlisting>
 
     </sect2>
 

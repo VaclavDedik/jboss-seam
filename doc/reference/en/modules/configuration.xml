@@ -121,9 +121,7 @@
             For JBoss AS, the following pattern is correct:
         </para>
         
-        <programlisting><![CDATA[<component name="org.jboss.seam.core.init">
-    <property name="jndiPattern">myEarName/#{ejbName}/local</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<core:init jndi-name="myEarName/#{ejbName}/local" />]]></programlisting>
 
         <para>
             Or:
@@ -145,9 +143,7 @@
             the one to use:
         </para>
         
-        <programlisting><![CDATA[<component name="org.jboss.seam.core.init">
-    <property name="jndiPattern">#{ejbName}/local</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<core:init jndi-name="#{ejbName}/local" />]]></programlisting>
 
         <para>
             Or:
@@ -315,7 +311,7 @@
             following line to <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<component class="org.jboss.seam.core.Ejb"/>]]></programlisting>
+        <programlisting><![CDATA[<core:ejb />]]></programlisting>
 
         <para>
             This setting installs the built-in component named <literal>org.jboss.seam.core.ejb</literal>.
@@ -529,10 +525,8 @@
             <literal>components.xml</literal>, we can write:
         </para>
 
-        <programlisting><![CDATA[<component name="bookingDatabase" auto-create="true"
-          class="org.jboss.seam.core.ManagedPersistenceContext">
-    <property name="persistenceUnitJndiName">java:/EntityManagerFactories/bookingData</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<core:managed-persistence-context name="bookingDatabase" auto-create="true"
+    persistence-unit-jndi-name="java:/EntityManagerFactories/bookingData"/>]]></programlisting>
 
         <para>
             This configuration creates a conversation-scoped Seam component named 
@@ -618,13 +612,10 @@
             To configure our Seam component, as usual, we use <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<component name="hibernateSessionFactory"
-          class="org.jboss.seam.core.HibernateSessionFactory"/> 
+        <programlisting><![CDATA[<core:managed-hibernate-session name="hibernateSessionFactory"/>
 
-<component name="bookingDatabase" auto-create="true"
-          class="org.jboss.seam.core.ManagedHibernateSession">
-    <property name="sessionFactoryJndiName">java:/bookingSessionFactory</property>
-</component>]]></programlisting>
+<core:managed-hibernate-session name="bookingDatabase" auto-create="true"
+    session-factory-jndi-name="java:/bookingSessionFactory"/>]]></programlisting>
 
         <para>
             Where <literal>java:/bookingSessionFactory</literal> is the name of the session factory 
@@ -737,12 +728,10 @@
             bootstraps the microcontainer. As before, we probably want to use a Seam managed session.
         </para>
 
-        <programlisting><![CDATA[<component class="org.jboss.seam.core.Microcontainer"/>
-        
-<component name="bookingDatabase" auto-create="true"
-          class="org.jboss.seam.core.ManagedHibernateSession">
-    <property name="sessionFactoryJndiName">java:/bookingSessionFactory</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<core:microcontainer/>
+
+<core:managed-hibernate-session name="bookingDatabase" auto-create="true"
+    session-factory-jndi-name="java:/bookingSessionFactory"/>]]></programlisting>
 
         <para>
             Where <literal>java:/bookingSessionFactory</literal> is the name of the Hibernate session
@@ -855,16 +844,16 @@
             <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<component class="org.jboss.seam.core.Jbpm">
-    <property name="pageflowDefinitions">
-        createDocument.jpdl.xml 
-        editDocument.jpdl.xml 
-        approveDocument.jpdl.xml
-    </property>
-    <property name="processDefinitions">
-        documentLifecycle.jpdl.xml
-    </property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<core:jbpm>
+    <core:pageflow-definitions>
+        <value>createDocument.jpdl.xml</value>
+        <value>editDocument.jpdl.xml</value>
+        <value>approveDocument.jpdl.xml</value>
+    </core:pageflow-definitions>
+    <core:process-definitions>
+        <value>documentLifecycle.jpdl.xml</value>
+    </core:process-definitions>
+</core:jbpm>]]></programlisting>
 
         <para>
             No further special configuration is needed if you only have pageflows.

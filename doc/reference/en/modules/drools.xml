@@ -20,10 +20,11 @@
             this component via <literal>components.xml</literal>:
         </para>
 
-        <programlisting><![CDATA[<component name="policyPricingRules"
-          class="org.jboss.seam.drools.RuleBase">
-    <property name="ruleFiles">policyPricingRules.drl</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<drools:rule-base name="policyPricingRules">
+    <drools:rule-files>
+        <value>policyPricingRules</value>
+    </drools:rule-files>
+</drools:rule-base>]]></programlisting>
 
          <para>
              This component compiles rules from a set of <literal>.drl</literal>
@@ -38,11 +39,11 @@
              definition:
          </para>
          
-        <programlisting><![CDATA[<component name="policyPricingRules"
-          class="org.jboss.seam.drools.RuleBase">
-    <property name="ruleFiles">policyPricingRules.drl</property>
-    <property name="dslFile">policyPricing.dsl</property>
-</component>]]></programlisting>
+        <programlisting><![CDATA[<drools:rule-base name="policyPricingRules" dsl-file="policyPricing.dsl">
+    <drools:rule-files>
+        <value>policyPricingRules</value>
+    </drools:rule-files>
+</drools:rule-base>]]></programlisting>
 
          <para>
              Next, we need to make an instance of <literal>org.drools.WorkingMemory</literal>
@@ -50,10 +51,7 @@
              accumulates facts relating to the current conversation.)
          </para>
 
-         <programlisting><![CDATA[<component name="policyPricingWorkingMemory" auto-create="true"
-          class="org.jboss.seam.drools.ManagedWorkingMemory">
-    <property name="ruleBase">#{policyPricingRules}</property>
-</component>]]></programlisting>
+         <programlisting><![CDATA[<drools:managed-working-memory name="policyPricingMemory" auto-create="true" rule-base="#{policyPricingRules}"/>]]></programlisting>
 
          <para>
              Notice that we gave the <literal>policyPricingWorkingMemory</literal> a

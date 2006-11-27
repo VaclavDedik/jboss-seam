@@ -125,12 +125,12 @@
             messages.
         </para>
 
-        <programlisting><![CDATA[<component name="org.jboss.seam.core.resourceBundle">
-    <property name="bundleNames">
+        <programlisting><![CDATA[<core:resource-bundle>
+    <core:bundle-names>
         <value>mycompany_messages</value>
-        <value>standard_messages</value>
-    </property>
-</component>]]></programlisting>
+        <value>standard_messages</value>       
+    </core:bundle-names>
+</core:resource-bundle>]]></programlisting>
 
         <para>
             If you want to define a message just for a particular page, you
@@ -242,13 +242,13 @@ public class HelloBean implements Hello {
             First, configure the set of supported themes:
         </para>
         
-        <programlisting><![CDATA[<component name="org.jboss.seam.theme.themeSelector">
-    <property name="availableThemes">
+        <programlisting><![CDATA[<theme:theme-selector cookie-enabled="true">
+    <theme:available-themes>
         <value>default</value>
         <value>accessible</value>
         <value>printable</value>
-    </property>
-</component>]]></programlisting>
+    </theme:available-themes>
+</theme:theme-selector>]]></programlisting>
        
        <para>
             Note that the first theme listed is the default theme.
@@ -304,21 +304,18 @@ template template.xhtml]]></programlisting>
         <para>
             The locale selector, theme selector and timezone selector all support 
             persistence of locale and theme preference to a cookie. Simply set the 
-            <literal>cookieEnabled</literal> configuration property:
+            <literal>cookie-enabled</literal> configuration property:
         </para>
         
-        <programlisting><![CDATA[<component name="org.jboss.seam.theme.themeSelector">
-    <property name="availableThemes">
+        <programlisting><![CDATA[<theme:theme-selector cookie-enabled="true">
+    <theme:available-themes>
         <value>default</value>
         <value>accessible</value>
         <value>printable</value>
-    </property>
-    <property name="cookieEnabled">true</property>
-</component>
+    </theme:available-themes>
+</theme:theme-selector>
 
-<component name="localeSelector">
-    <property name="cookieEnabled">true</property>
-</component>]]></programlisting>
+<core:locale-selector cookie-enabled="true"/>]]></programlisting>
 
     </section>
     

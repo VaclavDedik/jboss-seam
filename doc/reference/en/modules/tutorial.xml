@@ -518,19 +518,15 @@ public interface Register
         </para>
         
         <example>
-          <programlisting><![CDATA[<components>
-
-    <component name="org.jboss.seam.core.init">
-        <!-- JNDI name pattern for JBoss EJB 3.0 -->
-        <property name="jndiPattern">#{ejbName}/local</property>
-    </component>
-
+          <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core">
+     <core:init jndi-pattern="@jndiPattern@"/>
 </components>]]></programlisting>
         </example>
         
         <para>
             This code configures a property named <literal>jndiPattern</literal> of a built-in 
-            Seam component named <literal>org.jboss.seam.core.init</literal>.
+            Seam <literal>init</literal> component, which happens to be named <literal>org.jboss.seam.core.init</literal>.
         </para>
         
       </section>
