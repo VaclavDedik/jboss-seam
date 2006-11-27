@@ -1,5 +1,26 @@
 JBoss Seam Changelog
 ====================
+Changes in version 1.1.0.CR2 (November 2006)
+--------------------------------------------
+** Bug
+    * [JBSEAM-344] - Portal booking example loses conversation after validation error
+    * [JBSEAM-469] - ConvertDateTime fails verification of JSF RI
+    * [JBSEAM-515] - portal example is broken in CR1
+    * [JBSEAM-516] - dist does not include sema-gen src dir
+    * [JBSEAM-517] - HibernateSessionFactory should not have an install dependency to mc
+    * [JBSEAM-519] - New scanning code broke J2EE compatibility
+    * [JBSEAM-521] - PAGE context components when no UIViewRoot
+    * [JBSEAM-522] - seam tries to instantiate components in non-active context
+    * [JBSEAM-523] - seam-gen restart build in eclipse is broken
+    * [JBSEAM-524] - Lifecycle.isAttributeDirty(Object attribute) doesn't like null attributes
+    * [JBSEAM-525] - Theme / Locale / TimeZone not persistent across browser shutdowns
+    * [JBSEAM-526] - bundlenames instead bundleNames in Ch.7 Internationalization document
+
+
+** Feature Request
+    * [JBSEAM-293] - Add well defined precedence for component overriding with the same name.
+    * [JBSEAM-397] - page parameters for wildcarded view-ids
+
 Changes in version 1.1.0.CR1 (November 2006)
 --------------------------------------------
 ** Bug
