@@ -1,800 +1,694 @@
 <chapter id="annotations">
     <title>Seam annotations</title>
-    
-    <para>
-        When you write a Seam application, you'll use a lot of annotations. Seam lets you use
-        annotations to achieve a declarative style of programming. Most of the annotations you'll
-        use are defined by the EJB 3.0 specification. The annotations for data validation are
-        defined by the Hibernate Validator package. Finally, Seam defines its own set of
-        annotations, which we'll describe in this chapter.
-    </para>
-    
-    <para>
-        All of these annotations are defined in the package 
-        <literal>org.jboss.seam.annotations</literal>.
-    </para>
-    
+
+    <para> When you write a Seam application, you'll use a lot of annotations. Seam lets you use annotations to achieve
+        a declarative style of programming. Most of the annotations you'll use are defined by the EJB 3.0 specification.
+        The annotations for data validation are defined by the Hibernate Validator package. Finally, Seam defines its
+        own set of annotations, which we'll describe in this chapter. </para>
+
+    <para> All of these annotations are defined in the package <literal>org.jboss.seam.annotations</literal>. </para>
+
     <section>
-    	<title>Annotations for component definition</title>
-    	<para>
-    	    The first group of annotations lets you define a Seam component. These
-    	    annotations appear on the component class.
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for component definition</title>
+        <para> The first group of annotations lets you define a Seam component. These annotations appear on the
+            component class. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="name-annotation">
-                <term><literal>@Name</literal></term>
+                <term>
+                    <literal>@Name</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Name("componentName")]]></programlisting>
-                    <para>
-                        Defines the Seam component name for a class. This annotation is 
-                        required for all Seam components.
-                    </para>
+                    <para> Defines the Seam component name for a class. This annotation is required for all Seam
+                        components. </para>
                 </listitem>
-            </varlistentry>   
-            <varlistentry  id="scope-annotation">
-                <term><literal>@Scope</literal></term>
+            </varlistentry>
+            <varlistentry id="scope-annotation">
+                <term>
+                    <literal>@Scope</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Scope(ScopeType.CONVERSATION)]]></programlisting>
-                    <para>
-                        Defines the default context of the component. The possible values
-                        are defined by the <literal>ScopeType</literal> enumeration:
-                        <literal>EVENT, PAGE, CONVERSATION, SESSION, BUSINESS_PROCESS, APPLICATION,
-                        STATELESS</literal>.
-                    </para>
-                    <para>
-                        When no scope is explicitly specified, the default depends upon
-                        the component type. For stateless session beans, the default
-                        is <literal>STATELESS</literal>. For entity beans and stateful
-                        session beans, the default is <literal>CONVERSATION</literal>.
-                        For JavaBeans, the default is <literal>EVENT</literal>.
-                    </para>
+                    <para> Defines the default context of the component. The possible values are defined by the
+                            <literal>ScopeType</literal> enumeration: <literal>EVENT, PAGE, CONVERSATION, SESSION,
+                            BUSINESS_PROCESS, APPLICATION, STATELESS</literal>. </para>
+                    <para> When no scope is explicitly specified, the default depends upon the component type. For
+                        stateless session beans, the default is <literal>STATELESS</literal>. For entity beans and
+                        stateful session beans, the default is <literal>CONVERSATION</literal>. For JavaBeans, the
+                        default is <literal>EVENT</literal>. </para>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="role-annotation">
-                <term><literal>@Role</literal></term>
+                <term>
+                    <literal>@Role</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Role(name="roleName", scope=ScopeType.SESSION)]]></programlisting>
-                    <para>
-                        Allows a Seam component to be bound to multiple contexts variables.
-                        The <literal>@Name</literal>/<literal>@Scope</literal> annotations
-                        define a "default role". Each <literal>@Role</literal> annotation
-                        defines an additional role.
-                    </para>
+                    <para> Allows a Seam component to be bound to multiple contexts variables. The
+                            <literal>@Name</literal>/<literal>@Scope</literal> annotations define a "default role". Each
+                            <literal>@Role</literal> annotation defines an additional role. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>name</literal> &mdash; the context variable name.
-                        </para>
+                            <para>
+                                <literal>name</literal> &mdash; the context variable name. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>scope</literal> &mdash; the context variable scope.
-                            When no scope is explicitly specified, the default depends upon
-                            the component type, as above.
-                        </para>
+                            <para>
+                                <literal>scope</literal> &mdash; the context variable scope. When no scope is
+                                explicitly specified, the default depends upon the component type, as above. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="roles-annotation">
-                <term><literal>@Roles</literal></term>
+                <term>
+                    <literal>@Roles</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Roles({
         @Role(name="user", scope=ScopeType.CONVERSATION),
         @Role(name="currentUser", scope=ScopeType.SESSION)
     })]]></programlisting>
-                    <para>
-                        Allows specification of multiple additional roles.
-                    </para>
+                    <para> Allows specification of multiple additional roles. </para>
                 </listitem>
-            </varlistentry>   
-            <varlistentry  id="intercept-annotation">
-                <term><literal>@Intercept</literal></term>
+            </varlistentry>
+            <varlistentry id="intercept-annotation">
+                <term>
+                    <literal>@Intercept</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Intercept(InterceptionType.ALWAYS)]]></programlisting>
-                    <para>
-                        Determines when Seam interceptors are active. The possible values
-                        are defined by the <literal>InterceptionType</literal> enumeration:
-                        <literal>ALWAYS, AFTER_RESTORE_VIEW, AFTER_UPDATE_MODEL_VALUES, 
-                        INVOKE_APPLICATION, NEVER</literal>.
-                    </para>
-                    <para>
-                        When no interception type is explicitly specified, the default depends 
-                        upon the component type. For entity beans, the default is 
-                        <literal>NEVER</literal>. For session beans, message driven beans and 
-                        JavaBeans, the default is <literal>ALWAYS</literal>.
-                    </para>
+                    <para> Determines when Seam interceptors are active. The possible values are defined by the
+                            <literal>InterceptionType</literal> enumeration: <literal>ALWAYS, AFTER_RESTORE_VIEW,
+                            AFTER_UPDATE_MODEL_VALUES, INVOKE_APPLICATION, NEVER</literal>. </para>
+                    <para> When no interception type is explicitly specified, the default depends upon the component
+                        type. For entity beans, the default is <literal>NEVER</literal>. For session beans, message
+                        driven beans and JavaBeans, the default is <literal>ALWAYS</literal>. </para>
                 </listitem>
-            </varlistentry>   
-            <varlistentry  id="jndiname-annotation">
-                <term><literal>@JndiName</literal></term>
+            </varlistentry>
+            <varlistentry id="jndiname-annotation">
+                <term>
+                    <literal>@JndiName</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@JndiName("my/jndi/name")]]></programlisting>
-                    <para>
-                        Specifies the JNDI name that Seam will use to look up the EJB component. 
-                        If no JNDI name is explicitly specified, Seam will use the JNDI
-                        pattern specified by <literal>org.jboss.seam.core.init.jndiPattern</literal>.
-                    </para>
+                    <para> Specifies the JNDI name that Seam will use to look up the EJB component. If no JNDI name is
+                        explicitly specified, Seam will use the JNDI pattern specified by
+                            <literal>org.jboss.seam.core.init.jndiPattern</literal>. </para>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="conversational-annotation">
-                <term><literal>@Conversational</literal></term>
+                <term>
+                    <literal>@Conversational</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Conversational(ifNotBegunOutcome="error")]]></programlisting>
-                    <para>
-                        Specifies that a conversation scope component is conversational,
-                        meaning that no method of the component can be called unless
-                        a long-running conversation started by this component is active 
-                        (unless the method would begin a new long-running conversation).
-                    </para>
+                    <para> Specifies that a conversation scope component is conversational, meaning that no method of
+                        the component can be called unless a long-running conversation started by this component is
+                        active (unless the method would begin a new long-running conversation). </para>
                 </listitem>
-            </varlistentry>   
-            <varlistentry  id="startup-annotation">
-                <term><literal>@Startup</literal></term>
+            </varlistentry>
+            <varlistentry id="startup-annotation">
+                <term>
+                    <literal>@Startup</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Startup(depends={"org.jboss.core.jndi", "org.jboss.core.jta"})]]></programlisting>
-                    <para>
-                        Specifies that an application scope component is started immediately
-                        at initialization time. This is mainly used for certain built-in 
-                        components that bootstrap critical infrastructure such as JNDI,
-                        datasources, etc.
-                    </para>
+                    <para> Specifies that an application scope component is started immediately at initialization time.
+                        This is mainly used for certain built-in components that bootstrap critical infrastructure such
+                        as JNDI, datasources, etc. </para>
                     <programlisting><![CDATA[@Startup]]></programlisting>
-                    <para>
-                        Specifies that a session scope component is started immediately
-                        at session creation time.
-                    </para>
+                    <para> Specifies that a session scope component is started immediately at session creation time. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>depends</literal> &mdash; specifies that the named
-                            components must be started first, if they are installed.
-                        </para>
+                            <para>
+                                <literal>depends</literal> &mdash; specifies that the named components must be
+                                started first, if they are installed. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
-            <varlistentry  id="synchronized-annotation">
-                <term><literal>@Synchronized</literal></term>
+            </varlistentry>
+            <varlistentry id="install-annotation">
+                <term>
+                    <literal>@Install</literal>
+                </term>
+                <listitem>
+                    <programlisting><![CDATA[@Install(false)]]></programlisting>
+                    <para> Specifies whether or not a component should be installed by default. The lack of an @Install
+                        annotation indicates a component should be installed. </para>
+                    <programlisting><![CDATA[@Install(dependencies="org.jboss.seam.core.jbpm")]]></programlisting>
+                    <para> Specifies that a component should only be stalled if the components listed as dependencies
+                        are also installed. </para>
+                    <programlisting><![CDATA[@Install(genericDependencies=ManagedQueueSender.class)]]></programlisting>
+                    <para> Specifies that a component should only be installed if a component that is implemented by a
+                        certain class is installed. This is useful when the dependency doesn't have a single well-known
+                        name. </para>
+                    <programlisting><![CDATA[@Install(precedence=BUILT_IN)]]></programlisting>
+                    <para>Specifies the precedence of the component. If multiple components with the same name exist,
+                        the one with the higher precedence will be installed. The defined precendence values are: </para>
+                    <itemizedlist>
+
+                        <listitem>
+                            <para><literal>BUILT_IN</literal> &mdash; Precedence of all built-in Seam
+                            components</para>
+                        </listitem>
+                        <listitem>
+                            <para><literal>FRAMEWORK</literal> &mdash; Precedence to use for components of
+                                frameworks which extend Seam</para>
+                        </listitem>
+                        <listitem>
+                            <para><literal>APPLICATION</literal> &mdash; Predence of application components (the
+                                default precedence)</para>
+                        </listitem>
+                        <listitem>
+                            <para><literal>DEPLOYMENT</literal> &mdash; Precedence to use for components which
+                                override application components in a particular deployment</para>
+                        </listitem>
+
+                    </itemizedlist>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry id="synchronized-annotation">
+                <term>
+                    <literal>@Synchronized</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Synchronized(timeout=1000)]]></programlisting>
-                    <para>
-                        Specifies that a component is accessed concurrently
-                        by multiple clients, and that Seam should serialize
-                        requests. If a request is not able to obtain its
-                        lock on the component in the given timeout period,
-                        an exception will be raised.
-                    </para>
+                    <para> Specifies that a component is accessed concurrently by multiple clients, and that Seam should
+                        serialize requests. If a request is not able to obtain its lock on the component in the given
+                        timeout period, an exception will be raised. </para>
                 </listitem>
-            </varlistentry>   
-            <varlistentry  id="readonly-annotation">
-                <term><literal>@ReadOnly</literal></term>
+            </varlistentry>
+            <varlistentry id="readonly-annotation">
+                <term>
+                    <literal>@ReadOnly</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@ReadOnly]]></programlisting>
-                    <para>
-                        Specifies that a JavaBean component or component method does not
-                        require state replication at the end of the invocation.
-                    </para>
+                    <para> Specifies that a JavaBean component or component method does not require state replication at
+                        the end of the invocation. </para>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
         </variablelist>
     </section>
 
     <section>
-    	<title>Annotations for bijection</title>
-    	<para>
-    	    The next two annotations control bijection. These attributes
-    	    occur on component instance variables or property accessor
-    	    methods.
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for bijection</title>
+        <para> The next two annotations control bijection. These attributes occur on component instance variables or
+            property accessor methods. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="in-annotation">
-                <term><literal>@In</literal></term>
+                <term>
+                    <literal>@In</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@In]]></programlisting>
-                    <para>
-                        Specifies that a component attribute is to be injected from a context 
-                        variable at the beginning of each component invocation. If the context
-                        variable is null, an exception will be thrown.
-                    </para>
+                    <para> Specifies that a component attribute is to be injected from a context variable at the
+                        beginning of each component invocation. If the context variable is null, an exception will be
+                        thrown. </para>
                     <programlisting><![CDATA[@In(required=false)]]></programlisting>
-                    <para>
-                        Specifies that a component attribute is to be injected from a context 
-                        variable at the beginning of each component invocation. The context
-                        variable may be null.
-                    </para>
+                    <para> Specifies that a component attribute is to be injected from a context variable at the
+                        beginning of each component invocation. The context variable may be null. </para>
                     <programlisting><![CDATA[@In(create=true)]]></programlisting>
-                    <para>
-                        Specifies that a component attribute is to be injected from a context 
-                        variable at the beginning of each component invocation. If the context
-                        variable is null, an instance of the component is instantiated by Seam.
-                    </para>
+                    <para> Specifies that a component attribute is to be injected from a context variable at the
+                        beginning of each component invocation. If the context variable is null, an instance of the
+                        component is instantiated by Seam. </para>
                     <programlisting><![CDATA[@In(value="contextVariableName")]]></programlisting>
-                    <para>
-                        Specifies the name of the context variable explicitly, instead of using
-                        the annotated instance variable name.
-                    </para>
+                    <para> Specifies the name of the context variable explicitly, instead of using the annotated
+                        instance variable name. </para>
                     <programlisting><![CDATA[@In(value="#{customer.addresses['shipping']}")]]></programlisting>
-                    <para>
-                        Specifies that a component attribute is to be injected by evaluating 
-                        a JSF EL expression at the beginning of each component invocation.
-                    </para>
+                    <para> Specifies that a component attribute is to be injected by evaluating a JSF EL expression at
+                        the beginning of each component invocation. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; specifies the name of the
-                            context variable. Default to the name of the component
-                            attribute. Alternatively, specifies a JSF EL expression,
-                            surrounded by <literal>#{...}</literal>.
-                        </para>
+                            <para>
+                                <literal>value</literal> &mdash; specifies the name of the context variable. Default
+                                to the name of the component attribute. Alternatively, specifies a JSF EL expression,
+                                surrounded by <literal>#{...}</literal>. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>create</literal> &mdash; specifies that Seam should
-                            instantiate the component with the same name as the context
-                            variable if the context variable is undefined (null) in all 
-                            contexts. Default to false.
-                        </para>
+                            <para>
+                                <literal>create</literal> &mdash; specifies that Seam should instantiate the
+                                component with the same name as the context variable if the context variable is
+                                undefined (null) in all contexts. Default to false. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>required</literal> &mdash; specifies Seam should throw
-                            an exception if the context variable is undefined in all contexts.
-                        </para>
+                            <para>
+                                <literal>required</literal> &mdash; specifies Seam should throw an exception if the
+                                context variable is undefined in all contexts. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="out-annotation">
-                <term><literal>@Out</literal></term>
+                <term>
+                    <literal>@Out</literal>
+                </term>
                 <listitem>
-                   <programlisting><![CDATA[@Out]]></programlisting>
-                    <para>
-                        Specifies that a component attribute that is a Seam component is to be 
-                        outjected to its context variable at the end of the invocation. If the 
-                        attribute is null, an exception is thrown.
-                    </para>
+                    <programlisting><![CDATA[@Out]]></programlisting>
+                    <para> Specifies that a component attribute that is a Seam component is to be outjected to its
+                        context variable at the end of the invocation. If the attribute is null, an exception is thrown. </para>
                     <programlisting><![CDATA[@Out(required=false)]]></programlisting>
-                    <para>
-                        Specifies that a component attribute that is a Seam component is to be 
-                        outjected to its context variable at the end of the invocation. The 
-                        attribute may be null.
-                    </para>
+                    <para> Specifies that a component attribute that is a Seam component is to be outjected to its
+                        context variable at the end of the invocation. The attribute may be null. </para>
                     <programlisting><![CDATA[@Out(scope=ScopeType.SESSION)]]></programlisting>
-                    <para>
-                        Specifies that a component attribute that is <emphasis>not</emphasis> 
-                        a Seam component type is to be outjected to a specific scope at the end 
-                        of the invocation.
-                    </para>
-                    <para>
-                        Alternatively, if no scope is explicitly specified, the scope of the 
-                        component with the <literal>@Out</literal> attribute is used (or the 
-                        <literal>EVENT</literal> scope if the component is stateless).
-                    </para>
+                    <para> Specifies that a component attribute that is <emphasis>not</emphasis> a Seam component type
+                        is to be outjected to a specific scope at the end of the invocation. </para>
+                    <para> Alternatively, if no scope is explicitly specified, the scope of the component with the
+                            <literal>@Out</literal> attribute is used (or the <literal>EVENT</literal> scope if the
+                        component is stateless). </para>
                     <programlisting><![CDATA[@Out(value="contextVariableName")]]></programlisting>
-                    <para>
-                        Specifies the name of the context variable explicitly, instead of using
-                        the annotated instance variable name.
-                    </para>
+                    <para> Specifies the name of the context variable explicitly, instead of using the annotated
+                        instance variable name. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; specifies the name of the
-                            context variable. Default to the name of the component
-                            attribute.
-                        </para>
+                            <para>
+                                <literal>value</literal> &mdash; specifies the name of the context variable. Default
+                                to the name of the component attribute. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>required</literal> &mdash; specifies Seam should throw
-                            an exception if the component attribute is null during outjection.
-                        </para>
+                            <para>
+                                <literal>required</literal> &mdash; specifies Seam should throw an exception if the
+                                component attribute is null during outjection. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
         </variablelist>
-        
-        <para>
-            Note that it is quite common for these annotations to occur together, for example:
-        </para>
-        
+
+        <para> Note that it is quite common for these annotations to occur together, for example: </para>
+
         <programlisting><![CDATA[@In(create=true) @Out private User currentUser;]]></programlisting>
-        
-        <para>
-            The next annotation supports the <emphasis>manager component</emphasis> pattern,
-            where a Seam component that manages the lifecycle of an instance of some
-            other class that is to be injected. It appears on a component getter method.
-        </para>
-        
-    	<variablelist spacing="compact">
+
+        <para> The next annotation supports the <emphasis>manager component</emphasis> pattern, where a Seam component
+            that manages the lifecycle of an instance of some other class that is to be injected. It appears on a
+            component getter method. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="unwrap-annotation">
-                <term><literal>@Unwrap</literal></term>
+                <term>
+                    <literal>@Unwrap</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Unwrap]]></programlisting>
-                    <para>
-                        Specifies that the object returned by the annotated getter method is 
-                        the thing that is injected instead of the component instance itself.
-                    </para>
+                    <para> Specifies that the object returned by the annotated getter method is the thing that is
+                        injected instead of the component instance itself. </para>
                 </listitem>
             </varlistentry>
         </variablelist>
-          
-        <para>
-            The next annotation supports the <emphasis>factory component</emphasis> pattern,
-            where a Seam component is responsible for initializing the value of a context
-            variable. This is especially useful for initializing any state needed for 
-            rendering the response to a non-faces request. It appears on a component method.
-        </para>
-        
-    	<variablelist spacing="compact">
+
+        <para> The next annotation supports the <emphasis>factory component</emphasis> pattern, where a Seam component
+            is responsible for initializing the value of a context variable. This is especially useful for initializing
+            any state needed for rendering the response to a non-faces request. It appears on a component method. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="factory-annotation">
-                <term><literal>@Factory</literal></term>
+                <term>
+                    <literal>@Factory</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Factory("processInstance")]]></programlisting>
-                    <para>
-                        Specifies that the method of the component is used to initialize the
-                        value of the named context variable, when the context variable has
-                        no value. This style is used with methods that return 
-                        <literal>void</literal>.
-                    </para>
+                    <para> Specifies that the method of the component is used to initialize the value of the named
+                        context variable, when the context variable has no value. This style is used with methods that
+                        return <literal>void</literal>. </para>
                     <programlisting><![CDATA[@Factory("processInstance", scope=CONVERSATION)]]></programlisting>
-                    <para>
-                        Specifies that the method returns a value that Seam should use to 
-                        initialize the value of the named context variable, when the context 
-                        variable has no value. This style is used with methods that return 
-                        a value. If no scope is explicitly specified, the scope of the component 
-                        with the <literal>@Factory</literal> method is used (unless the component
-                        is stateless, in which case the <literal>EVENT</literal> context is used).
-                    </para>
+                    <para> Specifies that the method returns a value that Seam should use to initialize the value of the
+                        named context variable, when the context variable has no value. This style is used with methods
+                        that return a value. If no scope is explicitly specified, the scope of the component with the
+                            <literal>@Factory</literal> method is used (unless the component is stateless, in which case
+                        the <literal>EVENT</literal> context is used). </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; specifies the name of the
-                            context variable. If the method is a getter method, default to 
-                            the JavaBeans property name.
-                        </para>
+                            <para>
+                                <literal>value</literal> &mdash; specifies the name of the context variable. If the
+                                method is a getter method, default to the JavaBeans property name. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>scope</literal> &mdash; specifies the scope that Seam
-                            should bind the returned value to. Only meaningful for factory
-                            methods which return a value.
-                        </para>
+                            <para>
+                                <literal>scope</literal> &mdash; specifies the scope that Seam should bind the
+                                returned value to. Only meaningful for factory methods which return a value. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
         </variablelist>
-        
-        <para>
-            This annotation lets you inject a <literal>Log</literal>:
-        </para>
-        
+
+        <para> This annotation lets you inject a <literal>Log</literal>: </para>
+
         <variablelist spacing="compact">
             <varlistentry id="logger-annotation">
-                <term><literal>@Logger</literal></term>
+                <term>
+                    <literal>@Logger</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Logger("categoryName")]]></programlisting>
-                    <para>
-                        Specifies that a component field is to be injected with an instance of
-                        <literal>org.jboss.seam.log.Log</literal>.
-                    </para>
+                    <para> Specifies that a component field is to be injected with an instance of
+                            <literal>org.jboss.seam.log.Log</literal>. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; specifies the name of the
-                            log category. Default to the name of the component class.
-                        </para>
+                            <para>
+                                <literal>value</literal> &mdash; specifies the name of the log category. Default to
+                                the name of the component class. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
         </variablelist>
-        
-        <para>
-            The last annotation lets you inject a request parameter value:
-        </para>
-        
+
+        <para> The last annotation lets you inject a request parameter value: </para>
+
         <variablelist spacing="compact">
             <varlistentry id="requestparameter-annotation">
-                <term><literal>@RequestParameter</literal></term>
+                <term>
+                    <literal>@RequestParameter</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@RequestParameter("parameterName")]]></programlisting>
-                    <para>
-                        Specifies that a component attribute is to be injected with the value
-                        of a request parameter. Basic type conversions are performed automatically.
-                    </para>
+                    <para> Specifies that a component attribute is to be injected with the value of a request parameter.
+                        Basic type conversions are performed automatically. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; specifies the name of the
-                            request parameter. Default to the name of the component
-                            attribute.
-                        </para>
+                            <para>
+                                <literal>value</literal> &mdash; specifies the name of the request parameter.
+                                Default to the name of the component attribute. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
         </variablelist>
-        
-    </section> 
-    
+
+    </section>
+
     <section>
-    	<title>Annotations for component lifecycle methods</title>
-    	<para>
-    	    These annotations allow a component to react to its own lifecycle events.
-    	    They occur on methods of the component. There may be only one of each
-    	    per component class.
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for component lifecycle methods</title>
+        <para> These annotations allow a component to react to its own lifecycle events. They occur on methods of the
+            component. There may be only one of each per component class. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="create-annotation">
-                <term><literal>@Create</literal></term>
+                <term>
+                    <literal>@Create</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Create]]></programlisting>
-                    <para>
-                        Specifies that the method should be called when an instance
-                        of the component is instantiated by Seam. Note that 
-                        create methods are only supported for JavaBeans and stateful
-                        session beans.
+                    <para> Specifies that the method should be called when an instance of the component is instantiated
+                        by Seam. Note that create methods are only supported for JavaBeans and stateful session beans.
                     </para>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="destroy-annotation">
-                <term><literal>@Destroy</literal></term>
+                <term>
+                    <literal>@Destroy</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Destroy]]></programlisting>
-                    <para>
-                        Specifies that the method should be called when the context ends and
-                        its context variables are destroyed. Note that create methods are only 
-                        supported for JavaBeans and stateful session beans.
-                    </para>
-                    <para>
-                        Note that all stateful session bean components <emphasis>must</emphasis>
-                        define a method annotated <literal>@Destroy @Remove</literal> in order
-                        to guarantee destruction of the stateful bean when a context ends.
-                    </para>
-                    <para>
-                        Destroy methods should be used only for cleanup. <emphasis>Seam catches, 
-                        logs and swallows any exception that propagates out of a destroy 
-                        method.</emphasis>
+                    <para> Specifies that the method should be called when the context ends and its context variables
+                        are destroyed. Note that create methods are only supported for JavaBeans and stateful session
+                        beans. </para>
+                    <para> Note that all stateful session bean components <emphasis>must</emphasis> define a method
+                        annotated <literal>@Destroy @Remove</literal> in order to guarantee destruction of the stateful
+                        bean when a context ends. </para>
+                    <para> Destroy methods should be used only for cleanup. <emphasis>Seam catches, logs and swallows
+                            any exception that propagates out of a destroy method.</emphasis>
                     </para>
                 </listitem>
             </varlistentry>
             <varlistentry id="observer-annotation">
-                <term><literal>@Observer</literal></term>
+                <term>
+                    <literal>@Observer</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Observer("somethingChanged")]]></programlisting>
-                    <para>
-                        Specifies that the method should be called when a component-driven event 
-                        of the specified type occurs.
-                    </para>
+                    <para> Specifies that the method should be called when a component-driven event of the specified
+                        type occurs. </para>
                 </listitem>
             </varlistentry>
         </variablelist>
-        
-    </section> 
+
+    </section>
 
     <section>
-    	<title>Annotations for context demarcation</title>
-    	<para>
-    	    These annotations provide declarative conversation demarcation. They appear
-    	    on methods of Seam components, usually action listener methods.
-    	</para>
-    	
-    	<para>
-    	    Every web request has a conversation context associated with it. Most of these
-    	    conversations end at the end of the request. If you want a conversation that
-    	    span multiple requests, you must "promote" the current conversation to
-    	    a <emphasis>long-running conversation</emphasis> by calling a method marked
-    	    with <literal>@Begin</literal>.
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for context demarcation</title>
+        <para> These annotations provide declarative conversation demarcation. They appear on methods of Seam
+            components, usually action listener methods. </para>
+
+        <para> Every web request has a conversation context associated with it. Most of these conversations end at the
+            end of the request. If you want a conversation that span multiple requests, you must "promote" the current
+            conversation to a <emphasis>long-running conversation</emphasis> by calling a method marked with
+                <literal>@Begin</literal>. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="begin-annotation">
-                <term><literal>@Begin</literal></term>
+                <term>
+                    <literal>@Begin</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Begin]]></programlisting>
-                    <para>
-                        Specifies that a long-running conversation begins when this
-                        method returns a non-null outcome without exception.
-                    </para>
+                    <para> Specifies that a long-running conversation begins when this method returns a non-null outcome
+                        without exception. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@Begin(ifOutcome={"success", "continue"})]]></programlisting>
-                    <para>
-                        Specifies that a long-running conversation begins when this
-                        action listener method returns with one of the given outcomes.
-                    </para>
+                    <para> Specifies that a long-running conversation begins when this action listener method returns
+                        with one of the given outcomes. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@Begin(join=true)]]></programlisting>
-                    <para>
-                        Specifies that if a long-running conversation is already in progress,
-                        the conversation context is simply propagated.
-                    </para>
+                    <para> Specifies that if a long-running conversation is already in progress, the conversation
+                        context is simply propagated. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@Begin(nested=true)]]></programlisting>
-                    <para>
-                        Specifies that if a long-running conversation is already in progress,
-                        a new <emphasis>nested</emphasis> conversation context begins. The
-                        nested conversation will end when the next <literal>@End</literal>
-                        is encountered, and the outer conversation will resume. It is
-                        perfectly legal for multiple nested conversations to exist 
-                        concurrently in the same outer conversation.
-                    </para>
+                    <para> Specifies that if a long-running conversation is already in progress, a new
+                        <emphasis>nested</emphasis> conversation context begins. The nested conversation will end when
+                        the next <literal>@End</literal> is encountered, and the outer conversation will resume. It is
+                        perfectly legal for multiple nested conversations to exist concurrently in the same outer
+                        conversation. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@Begin(pageflow="process definition name")]]></programlisting>
-                    <para>
-                        Specifies a jBPM process definition name that defines the pageflow
-                        for this conversation.
+                    <para> Specifies a jBPM process definition name that defines the pageflow for this conversation.
                     </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@Begin(flushMode=FlushModeType.MANUAL)]]></programlisting>
-                    <para>
-                        Specify the flush mode of any Seam-managed persistence contexts.
-                        <literal>flushMode=FlushModeType.MANUAL</literal> supports the 
-                        use of <emphasis>atomic conversations</emphasis> where all write 
-                        operations are queued in the conversation context until an 
-                        explicit call to <literal>flush()</literal> (which usually occurs 
-                        at the end of the conversation).
-                    </para>
+                    <para> Specify the flush mode of any Seam-managed persistence contexts.
+                            <literal>flushMode=FlushModeType.MANUAL</literal> supports the use of <emphasis>atomic
+                            conversations</emphasis> where all write operations are queued in the conversation context
+                        until an explicit call to <literal>flush()</literal> (which usually occurs at the end of the
+                        conversation). </para>
                 </listitem>
                 <listitem>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or 
-                            outcomes that result in a new long-running conversation context.
-                        </para>
+                            <para>
+                                <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or outcomes that
+                                result in a new long-running conversation context. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>join</literal> &mdash; determines the behavior 
-                            when a long-running conversation is already in progress. If 
-                            <literal>true</literal>, the context is propagated. If 
-                            <literal>false</literal>, an exception is thrown. Default 
-                            to <literal>false</literal>. This setting is ignored when
-                            <literal>nested=true</literal> is specified
-                        </para>
+                            <para>
+                                <literal>join</literal> &mdash; determines the behavior when a long-running
+                                conversation is already in progress. If <literal>true</literal>, the context is
+                                propagated. If <literal>false</literal>, an exception is thrown. Default to
+                                    <literal>false</literal>. This setting is ignored when
+                                <literal>nested=true</literal> is specified </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>nested</literal> &mdash; specifies that a nested
-                            conversation should be started if a long-running conversation 
-                            is already in progress.
-                        </para>
+                            <para>
+                                <literal>nested</literal> &mdash; specifies that a nested conversation should be
+                                started if a long-running conversation is already in progress. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>flushMode</literal> &mdash; set the flush mode of
-                            any Seam-managed Hibernate sessions or JPA persistence contexts 
-                            that are created during this conversation. 
-                        </para>
+                            <para>
+                                <literal>flushMode</literal> &mdash; set the flush mode of any Seam-managed
+                                Hibernate sessions or JPA persistence contexts that are created during this
+                                conversation. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>pageflow</literal> &mdash; a process
-                            definition name of a jBPM process definition deployed
-                            via <literal>org.jboss.seam.core.jbpm.pageflowDefinitions.</literal>
-                        </para>
+                            <para>
+                                <literal>pageflow</literal> &mdash; a process definition name of a jBPM process
+                                definition deployed via <literal>org.jboss.seam.core.jbpm.pageflowDefinitions.</literal>
+                            </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="end-annotation">
-                <term><literal>@End</literal></term>
+                <term>
+                    <literal>@End</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@End]]></programlisting>
-                    <para>
-                        Specifies that a long-running conversation ends when this
-                        method returns a non-null outcome without exception.
-                    </para>
+                    <para> Specifies that a long-running conversation ends when this method returns a non-null outcome
+                        without exception. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@End(ifOutcome={"success", "error"}, evenIfException={SomeException.class, OtherException.class})]]></programlisting>
-                    <para>
-                        Specifies that a long-running conversation ends when this
-                        action listener method returns with one of the given outcomes or
-                        throws one of the specified classes of exception.
-                    </para>
-                 </listitem>
-                 <listitem>
+                    <para> Specifies that a long-running conversation ends when this action listener method returns with
+                        one of the given outcomes or throws one of the specified classes of exception. </para>
+                </listitem>
+                <listitem>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or 
-                            outcomes that result in the end of the current long-running 
-                            conversation.
-                        </para>
+                            <para>
+                                <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or outcomes that
+                                result in the end of the current long-running conversation. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>beforeRedirect</literal> &mdash; by default, the
-                            conversation will not actually be destroyed until after
-                            any redirect has occurred. Setting <literal>beforeRedirect=true</literal>
-                            specifies that the conversation should be destroyed at the end
-                            of the current request, and that the redirect will be processed in
-                            a new temporary conversation context.
-                        </para>
+                            <para>
+                                <literal>beforeRedirect</literal> &mdash; by default, the conversation will not
+                                actually be destroyed until after any redirect has occurred. Setting
+                                    <literal>beforeRedirect=true</literal> specifies that the conversation should be
+                                destroyed at the end of the current request, and that the redirect will be processed in
+                                a new temporary conversation context. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="starttask-annotation">
-                <term><literal>@StartTask</literal></term>
+                <term>
+                    <literal>@StartTask</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@StartTask]]></programlisting>
-                    <para>
-                        "Starts" a jBPM task. Specifies that a long-running 
-                        conversation begins when this method returns a non-null outcome 
-                        without exception. This conversation is associated with the jBPM 
-                        task specified in the named request parameter. Within the context 
-                        of this conversation, a business process context is also defined, 
-                        for the business process instance of the task instance.
-                    </para>
-                    <para>
-                        The jBPM <literal>TaskInstance</literal> will be available in a
-                        request context variable named <literal>taskInstance</literal>.
-                        The jPBM <literal>ProcessInstance</literal> will be available in
-                        a request context variable named <literal>processInstance</literal>.
-                        (Of course, these objects are available for injection via 
-                        <literal>@In</literal>.)
-                    </para>
+                    <para> "Starts" a jBPM task. Specifies that a long-running conversation begins when this method
+                        returns a non-null outcome without exception. This conversation is associated with the jBPM task
+                        specified in the named request parameter. Within the context of this conversation, a business
+                        process context is also defined, for the business process instance of the task instance. </para>
+                    <para> The jBPM <literal>TaskInstance</literal> will be available in a request context variable
+                        named <literal>taskInstance</literal>. The jPBM <literal>ProcessInstance</literal> will be
+                        available in a request context variable named <literal>processInstance</literal>. (Of course,
+                        these objects are available for injection via <literal>@In</literal>.) </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>taskIdParameter</literal> &mdash; the name of a request
-                            parameter which holds the id of the task. Default to
-                            <literal>"taskId"</literal>, which is also the default
-                            used by the Seam <literal>taskList</literal> JSF component.
-                        </para>
+                            <para>
+                                <literal>taskIdParameter</literal> &mdash; the name of a request parameter which
+                                holds the id of the task. Default to <literal>"taskId"</literal>, which is also the
+                                default used by the Seam <literal>taskList</literal> JSF component. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>flushMode</literal> &mdash; set the flush mode of
-                            any Seam-managed Hibernate sessions or JPA persistence contexts 
-                            that are created during this conversation.
-                        </para>
+                            <para>
+                                <literal>flushMode</literal> &mdash; set the flush mode of any Seam-managed
+                                Hibernate sessions or JPA persistence contexts that are created during this
+                                conversation. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="begintask-annotation">
-                <term><literal>@BeginTask</literal></term>
+                <term>
+                    <literal>@BeginTask</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@BeginTask]]></programlisting>
-                    <para>
-                        Resumes work on an incomplete jBPM task. Specifies that a long-running 
-                        conversation begins when this method returns a non-null outcome without 
-                        exception. This conversation is associated with the jBPM task specified in 
-                        the named request parameter. Within the context of this conversation, 
-                        a business process context is also defined, for the business process 
-                        instance of the task instance.
-                    </para>
-                    <para>
-                        The jBPM <literal>TaskInstance</literal> will be available in a
-                        request context variable named <literal>taskInstance</literal>.
-                        The jPBM <literal>ProcessInstance</literal> will be available in
-                        a request context variable named <literal>processInstance</literal>.
-                    </para>
+                    <para> Resumes work on an incomplete jBPM task. Specifies that a long-running conversation begins
+                        when this method returns a non-null outcome without exception. This conversation is associated
+                        with the jBPM task specified in the named request parameter. Within the context of this
+                        conversation, a business process context is also defined, for the business process instance of
+                        the task instance. </para>
+                    <para> The jBPM <literal>TaskInstance</literal> will be available in a request context variable
+                        named <literal>taskInstance</literal>. The jPBM <literal>ProcessInstance</literal> will be
+                        available in a request context variable named <literal>processInstance</literal>. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>taskIdParameter</literal> &mdash; the name of a request
-                            parameter which holds the id of the task. Default to
-                            <literal>"taskId"</literal>, which is also the default
-                            used by the Seam <literal>taskList</literal> JSF component.
-                        </para>
+                            <para>
+                                <literal>taskIdParameter</literal> &mdash; the name of a request parameter which
+                                holds the id of the task. Default to <literal>"taskId"</literal>, which is also the
+                                default used by the Seam <literal>taskList</literal> JSF component. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>flushMode</literal> &mdash; set the flush mode of
-                            any Seam-managed Hibernate sessions or JPA persistence contexts 
-                            that are created during this conversation.
-                        </para>
+                            <para>
+                                <literal>flushMode</literal> &mdash; set the flush mode of any Seam-managed
+                                Hibernate sessions or JPA persistence contexts that are created during this
+                                conversation. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="endtask-annotation">
-                <term><literal>@EndTask</literal></term>
+                <term>
+                    <literal>@EndTask</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@EndTask]]></programlisting>
-                    <para>
-                        "Ends" a jBPM task. Specifies that a long-running conversation 
-                        ends when this method returns a non-null outcome, and that the current task 
-                        is complete. Triggers a jBPM transition. The actual transition triggered
-                        will be the default transition unless the application has called
-                        <literal>Transition.setName()</literal> on the built-in component
-                        named <literal>transition</literal>.
-                    </para>
+                    <para> "Ends" a jBPM task. Specifies that a long-running conversation ends when this method returns
+                        a non-null outcome, and that the current task is complete. Triggers a jBPM transition. The
+                        actual transition triggered will be the default transition unless the application has called
+                            <literal>Transition.setName()</literal> on the built-in component named
+                        <literal>transition</literal>. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@EndTask(transition="transitionName")]]></programlisting>
-                    <para>
-                        Triggers the given jBPM transition.
-                    </para>
+                    <para> Triggers the given jBPM transition. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@EndTask(ifOutcome={"success", "continue"})]]></programlisting>
-                    <para>
-                        Specifies that the task ends when this method returns one of the listed outcomes.
-                    </para>
+                    <para> Specifies that the task ends when this method returns one of the listed outcomes. </para>
                 </listitem>
                 <listitem>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>transition</literal> &mdash; the name of the jBPM transition to
-                            be triggered when ending the task. Defaults to the default transition.
-                        </para>
+                            <para>
+                                <literal>transition</literal> &mdash; the name of the jBPM transition to be
+                                triggered when ending the task. Defaults to the default transition. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or 
-                            outcomes that result in the end of the task.
-                        </para>
+                            <para>
+                                <literal>ifOutcome</literal> &mdash; specifies the JSF outcome or outcomes that
+                                result in the end of the task. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>beforeRedirect</literal> &mdash; by default, the
-                            conversation will not actually be destroyed until after
-                            any redirect has occurred. Setting <literal>beforeRedirect=true</literal>
-                            specifies that the conversation should be destroyed at the end
-                            of the current request, and that the redirect will be processed in
-                            a new temporary conversation context.
-                        </para>
+                            <para>
+                                <literal>beforeRedirect</literal> &mdash; by default, the conversation will not
+                                actually be destroyed until after any redirect has occurred. Setting
+                                    <literal>beforeRedirect=true</literal> specifies that the conversation should be
+                                destroyed at the end of the current request, and that the redirect will be processed in
+                                a new temporary conversation context. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="createprocess-annotation">
-                <term><literal>@CreateProcess</literal></term>
+                <term>
+                    <literal>@CreateProcess</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@CreateProcess(definition="process definition name")]]></programlisting>
-                    <para>
-                        Creates a new jBPM process instance when the method returns a non-null
-                        outcome without exception. The <literal>ProcessInstance</literal> object
-                        will be available in a context variable named <literal>processInstance</literal>.
-                    </para>
+                    <para> Creates a new jBPM process instance when the method returns a non-null outcome without
+                        exception. The <literal>ProcessInstance</literal> object will be available in a context variable
+                        named <literal>processInstance</literal>. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>definition</literal> &mdash; the name of the jBPM process definition 
-                            deployed via <literal>org.jboss.seam.core.jbpm.processDefinitions</literal>.
-                        </para>
+                            <para>
+                                <literal>definition</literal> &mdash; the name of the jBPM process definition
+                                deployed via <literal>org.jboss.seam.core.jbpm.processDefinitions</literal>. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
             <varlistentry id="resumeprocess-annotation">
-                <term><literal>@ResumeProcess</literal></term>
+                <term>
+                    <literal>@ResumeProcess</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@ResumeProcess(processIdParameter="processId")]]></programlisting>
-                    <para>
-                        Re-enters the scope of an existing jBPM process instance when the method returns a 
-                        non-null outcome without exception. The <literal>ProcessInstance</literal> object
-                        will be available in a context variable named <literal>processInstance</literal>.
-                    </para>
+                    <para> Re-enters the scope of an existing jBPM process instance when the method returns a non-null
+                        outcome without exception. The <literal>ProcessInstance</literal> object will be available in a
+                        context variable named <literal>processInstance</literal>. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>processIdParameter</literal> &mdash; the name a request parameter
-                            holding the process id. Default to <literal>"processId"</literal>.
-                        </para>
+                            <para>
+                                <literal>processIdParameter</literal> &mdash; the name a request parameter holding
+                                the process id. Default to <literal>"processId"</literal>. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
-            </varlistentry>   
+            </varlistentry>
         </variablelist>
-        
+
         <!-- para>
             Finally, this annotation appears on a string-valued getter method:
         </para>
@@ -811,445 +705,409 @@
                     </para>
                 </listitem>
             </varlistentry>
-        </variablelist--> 
-    </section> 
-    
+        </variablelist-->
+    </section>
+
     <section>
-    	<title>Annotations for transaction demarcation</title>
-    	<para>
-    	    Seam provides an annotation that lets you force a rollback of the JTA transaction
-    	    for certain action listener outcomes.
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for transaction demarcation</title>
+        <para> Seam provides an annotation that lets you force a rollback of the JTA transaction for certain action
+            listener outcomes. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="rollback-annotation">
-                <term><literal>@Rollback</literal></term>
+                <term>
+                    <literal>@Rollback</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Rollback(ifOutcome={"failure", "not-found"})]]></programlisting>
-                    <para>
-                        If the outcome of the method matches any of the listed outcomes, or if
-                        no outcomes are listed, set the transaction to rollback only when the
-                        method completes.
-                    </para>
+                    <para> If the outcome of the method matches any of the listed outcomes, or if no outcomes are
+                        listed, set the transaction to rollback only when the method completes. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>ifOutcome</literal> &mdash; the JSF outcomes that cause a 
-                            transaction rollback (no outcomes is interpreted to mean any outcome).
-                        </para>
+                            <para>
+                                <literal>ifOutcome</literal> &mdash; the JSF outcomes that cause a transaction
+                                rollback (no outcomes is interpreted to mean any outcome). </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry id="transactional-annotation">
-                <term><literal>@Transactional</literal></term>
+                <term>
+                    <literal>@Transactional</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Transactional]]></programlisting>
-                    <para>
-                        Specifies that a JavaBean component should have a similar transactional 
-                        behavior to the default behavior of a session bean component. ie. method
-                        invocations should take place in a transaction, and if no transaction
-                        exists when the method is called, a transaction will be started just
-                        for that method. This annotation may be applied at either class or
-                        method level.
+                    <para> Specifies that a JavaBean component should have a similar transactional behavior to the
+                        default behavior of a session bean component. ie. method invocations should take place in a
+                        transaction, and if no transaction exists when the method is called, a transaction will be
+                        started just for that method. This annotation may be applied at either class or method level.
                     </para>
                 </listitem>
             </varlistentry>
-        </variablelist> 
-        
-        <para>
-            Seam applications usually use the standard EJB3 annotations for all other transaction
-            demarcation needs.
+        </variablelist>
+
+        <para> Seam applications usually use the standard EJB3 annotations for all other transaction demarcation needs.
         </para>
     </section>
-    
+
     <section>
-    	<title>Annotations for exceptions</title>
-    	<para>
-    	    These annotations let you specify how Seam should handle an exception that propagates
-    	    out of a Seam component.
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for exceptions</title>
+        <para> These annotations let you specify how Seam should handle an exception that propagates out of a Seam
+            component. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="redirect-annotation">
-                <term><literal>@Redirect</literal></term>
+                <term>
+                    <literal>@Redirect</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Redirect(viewId="error.jsp")]]></programlisting>
-                    <para>
-                        Specifies that the annotated exception causes a browser redirect
-                        to a specified view id.
-                    </para>
+                    <para> Specifies that the annotated exception causes a browser redirect to a specified view id. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>viewId</literal> &mdash; specifies the JSF view id
-                            to redirect to.
-                        </para>
+                            <para>
+                                <literal>viewId</literal> &mdash; specifies the JSF view id to redirect to. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>message</literal> &mdash; a message to be displayed,
-                            default to the exception message.
-                        </para>
+                            <para>
+                                <literal>message</literal> &mdash; a message to be displayed, default to the
+                                exception message. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>end</literal> &mdash; specifies that the long-running
-                            conversation should end, default to <literal>false</literal>.
-                        </para>
+                            <para>
+                                <literal>end</literal> &mdash; specifies that the long-running conversation should
+                                end, default to <literal>false</literal>. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry id="render-annotation">
-                <term><literal>@Render</literal></term>
+                <term>
+                    <literal>@Render</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Render(viewId="error.jsp")]]></programlisting>
-                    <para>
-                        Specifies that the annotated exception causes immediate rendering
-                        of the view. This annotation is ignored unless the exception is
-                        thrown during the JSF INVOKE_APPLICATION phase.
-                    </para>
+                    <para> Specifies that the annotated exception causes immediate rendering of the view. This
+                        annotation is ignored unless the exception is thrown during the JSF INVOKE_APPLICATION phase. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>viewId</literal> &mdash; specifies the JSF view id
-                            to redirect to.
-                        </para>
+                            <para>
+                                <literal>viewId</literal> &mdash; specifies the JSF view id to redirect to. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>message</literal> &mdash; a message to be displayed,
-                            default to the exception message.
-                        </para>
+                            <para>
+                                <literal>message</literal> &mdash; a message to be displayed, default to the
+                                exception message. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>end</literal> &mdash; specifies that the long-running
-                            conversation should end, default to <literal>false</literal>.
-                        </para>
+                            <para>
+                                <literal>end</literal> &mdash; specifies that the long-running conversation should
+                                end, default to <literal>false</literal>. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry id="httperror-annotation">
-                <term><literal>@HttpError</literal></term>
+                <term>
+                    <literal>@HttpError</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@HttpError(errorCode=404)]]></programlisting>
-                    <para>
-                        Specifies that the annotated exception causes a HTTP error
-                        to be sent.
-                    </para>
+                    <para> Specifies that the annotated exception causes a HTTP error to be sent. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>errorCode</literal> &mdash; the HTTP error code,
-                            default to <literal>500</literal>.
-                        </para>
+                            <para>
+                                <literal>errorCode</literal> &mdash; the HTTP error code, default to
+                                <literal>500</literal>. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>message</literal> &mdash; a message to be sent
-                            with the HTTP error, default to the exception message.
-                        </para>
+                            <para>
+                                <literal>message</literal> &mdash; a message to be sent with the HTTP error, default
+                                to the exception message. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>end</literal> &mdash; specifies that the long-running
-                            conversation should end, default to <literal>false</literal>.
-                        </para>
+                            <para>
+                                <literal>end</literal> &mdash; specifies that the long-running conversation should
+                                end, default to <literal>false</literal>. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
-        </variablelist> 
+        </variablelist>
     </section>
-    
+
     <section>
-    	<title>Annotations for validation</title>
-    	<para>
-    	    This annotation triggers Hibernate Validator. It appears on a method of a Seam 
-    	    component, almost always an action listener method.
-    	</para>
-    	<para>
-    	    Please refer to the documentation for the Hibernate Annotations package for
-    	    information about the annotations defined by the Hibernate Validator framework.
-    	</para>
-    	<para>
-    	    <emphasis>Note that use of <literal>@IfInvalid</literal> is now semi-deprecated
-    	    and <literal>&lt;s:validateAll&gt;</literal> is now preferred.</emphasis>
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for validation</title>
+        <para> This annotation triggers Hibernate Validator. It appears on a method of a Seam component, almost always
+            an action listener method. </para>
+        <para> Please refer to the documentation for the Hibernate Annotations package for information about the
+            annotations defined by the Hibernate Validator framework. </para>
+        <para>
+            <emphasis>Note that use of <literal>@IfInvalid</literal> is now semi-deprecated and
+                    <literal>&lt;s:validateAll&gt;</literal> is now preferred.</emphasis>
+        </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="ifinvalid-annotation">
-                <term><literal>@IfInvalid</literal></term>
+                <term>
+                    <literal>@IfInvalid</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@IfInvalid(outcome="invalid", refreshEntities=true)]]></programlisting>
-                    <para>
-                        Specifies that Hibernate Validator should validate the component before
-                        the method is invoked. If the invocation fails, the specified outcome
-                        will be returned, and the validation failure messages returned by
-                        Hibernate Validator will be added to the <literal>FacesContext</literal>. 
-                        Otherwise, the invocation will proceed.
-                    </para>
+                    <para> Specifies that Hibernate Validator should validate the component before the method is
+                        invoked. If the invocation fails, the specified outcome will be returned, and the validation
+                        failure messages returned by Hibernate Validator will be added to the
+                        <literal>FacesContext</literal>. Otherwise, the invocation will proceed. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>outcome</literal> &mdash; the JSF outcome when validation
-                            fails.
-                        </para>
+                            <para>
+                                <literal>outcome</literal> &mdash; the JSF outcome when validation fails. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>refreshEntities</literal> &mdash; specifies that any invalid
-                            entity in the managed state should be refreshed from the database when 
-                            validation fails. Default to <literal>false</literal>. (Useful with
-                            extended persistence contexts.)
-                        </para>
+                            <para>
+                                <literal>refreshEntities</literal> &mdash; specifies that any invalid entity in the
+                                managed state should be refreshed from the database when validation fails. Default to
+                                    <literal>false</literal>. (Useful with extended persistence contexts.) </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
         </variablelist>
-        
-    </section> 
+
+    </section>
 
     <section>
-    	<title>Annotations for Seam Remoting</title>
-    	<para>
-    	    Seam Remoting requires that the local interface of a session bean be annotated
-    	    with the following annotation:
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for Seam Remoting</title>
+        <para> Seam Remoting requires that the local interface of a session bean be annotated with the following
+            annotation: </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="webremote-annotation">
-                <term><literal>@WebRemote</literal></term>
+                <term>
+                    <literal>@WebRemote</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@WebRemote(exclude="path.to.exclude")]]></programlisting>
-                    <para>
-                        Indicates that the annotated method may be called from client-side 
-                        JavaScript. The <literal>exclude</literal> property is optional and
-                        allows objects to be excluded from the result's object graph (see the
-                        Remoting chapter for more details).
-                    </para>
+                    <para> Indicates that the annotated method may be called from client-side JavaScript. The
+                            <literal>exclude</literal> property is optional and allows objects to be excluded from the
+                        result's object graph (see the Remoting chapter for more details). </para>
                 </listitem>
             </varlistentry>
         </variablelist>
-        
-    </section> 
+
+    </section>
 
     <section>
-    	<title>Annotations for Seam interceptors</title>
-    	<para>
-    	    The following annotations appear on Seam interceptor classes.
-    	</para>
-    	<para>
-    	    Please refer to the documentation for the EJB 3.0 specification for information about 
-    	    the annotations required for EJB interceptor definition.
-    	</para>
-    	
-    	<variablelist spacing="compact">
-            <varlistentry  id="interceptor-annotation">
-                <term><literal>@Interceptor</literal></term>
+        <title>Annotations for Seam interceptors</title>
+        <para> The following annotations appear on Seam interceptor classes. </para>
+        <para> Please refer to the documentation for the EJB 3.0 specification for information about the annotations
+            required for EJB interceptor definition. </para>
+
+        <variablelist spacing="compact">
+            <varlistentry id="interceptor-annotation">
+                <term>
+                    <literal>@Interceptor</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Interceptor(stateless=true)]]></programlisting>
-                    <para>
-                        Specifies that this interceptor is stateless and Seam may optimize
-                        replication.
-                    </para>
+                    <para> Specifies that this interceptor is stateless and Seam may optimize replication. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@Interceptor(type=CLIENT)]]></programlisting>
-                    <para>
-                        Specifies that this interceptor is a "client-side" interceptor that
-                        is called before the EJB container.
-                    </para>
+                    <para> Specifies that this interceptor is a "client-side" interceptor that is called before the EJB
+                        container. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@Interceptor(around={SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
-                    <para>
-                        Specifies that this interceptor is positioned higher in the stack than
-                        the given interceptors.
-                    </para>
+                    <para> Specifies that this interceptor is positioned higher in the stack than the given
+                        interceptors. </para>
                 </listitem>
                 <listitem>
                     <programlisting><![CDATA[@Interceptor(within={SomeInterceptor.class, OtherInterceptor.class})]]></programlisting>
-                    <para>
-                        Specifies that this interceptor is positioned deeper in the stack than
-                        the given interceptors.
-                    </para>
+                    <para> Specifies that this interceptor is positioned deeper in the stack than the given
+                        interceptors. </para>
                 </listitem>
             </varlistentry>
         </variablelist>
-        
-    </section> 
+
+    </section>
 
     <section>
-      <title>Annotations for asynchronicity</title>
-      <para>
-          The following annotations are used to declare an asynchronous method, for
-          example:
-      </para>
-      
-      <programlisting><![CDATA[@Asynchronous public void scheduleAlert(Alert alert, @Expiration Date date) { ... }]]></programlisting>
-      <programlisting><![CDATA[@Asynchronous public Timer scheduleAlerts(Alert alert, @Expiration Date date, @IntervalDuration long interval) { ... }]]></programlisting>
+        <title>Annotations for asynchronicity</title>
+        <para> The following annotations are used to declare an asynchronous method, for example: </para>
 
-      <variablelist spacing="compact">
+        <programlisting><![CDATA[@Asynchronous public void scheduleAlert(Alert alert, @Expiration Date date) { ... }]]></programlisting>
+        <programlisting><![CDATA[@Asynchronous public Timer scheduleAlerts(Alert alert, @Expiration Date date, @IntervalDuration long interval) { ... }]]></programlisting>
+
+        <variablelist spacing="compact">
             <varlistentry id="asynchronous-annotation">
-                <term><literal>@Asynchronous</literal></term>
+                <term>
+                    <literal>@Asynchronous</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Asynchronous]]></programlisting>
-                    <para>
-                        Specifies that the method call is processed asynchronously.
-                    </para>
+                    <para> Specifies that the method call is processed asynchronously. </para>
                 </listitem>
             </varlistentry>
             <varlistentry id="duration-annotation">
-                <term><literal>@Duration</literal></term>
+                <term>
+                    <literal>@Duration</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Duration]]></programlisting>
-                    <para>
-                        Specifies that a parameter of the asynchronous call is
-                        the duration before the call is processed (or first
-                        processed for recurring calls).
-                    </para>
+                    <para> Specifies that a parameter of the asynchronous call is the duration before the call is
+                        processed (or first processed for recurring calls). </para>
                 </listitem>
             </varlistentry>
             <varlistentry id="expiration-annotation">
-                <term><literal>@Expiration</literal></term>
+                <term>
+                    <literal>@Expiration</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@Expiration]]></programlisting>
-                    <para>
-                        Specifies that a parameter of the asynchronous call is
-                        the datetime at which the call is processed (or first
-                        processed for recurring calls).
-                    </para>
+                    <para> Specifies that a parameter of the asynchronous call is the datetime at which the call is
+                        processed (or first processed for recurring calls). </para>
                 </listitem>
             </varlistentry>
             <varlistentry id="intervalduration-annotation">
-                <term><literal>@IntervalDuration</literal></term>
+                <term>
+                    <literal>@IntervalDuration</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@IntervalDuration]]></programlisting>
-                    <para>
-                        Specifies that an asynchronous method call recurs, and
-                        that the annotationed parameter is duration between
-                        recurrences.
-                    </para>
+                    <para> Specifies that an asynchronous method call recurs, and that the annotationed parameter is
+                        duration between recurrences. </para>
                 </listitem>
             </varlistentry>
         </variablelist>
     </section>
-    
+
     <section>
-    	<title>Annotations for use with JSF <literal>dataTable</literal></title>
-    	<para>
-    	    The following annotations make it easy to implement clickable lists
-    	    backed by a stateful session bean. They appear on attributes.
-    	</para>
-    	
-    	<variablelist spacing="compact">
+        <title>Annotations for use with JSF <literal>dataTable</literal></title>
+        <para> The following annotations make it easy to implement clickable lists backed by a stateful session bean.
+            They appear on attributes. </para>
+
+        <variablelist spacing="compact">
             <varlistentry id="datamodel-annotation">
-                <term><literal>@DataModel</literal></term>
+                <term>
+                    <literal>@DataModel</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@DataModel("variableName")]]></programlisting>
-                    <para>
-                        Exposes an attribute of type <literal>List</literal>, 
-                        <literal>Map</literal>, <literal>Set</literal> or
-                        <literal>Object[]</literal> as a JSF <literal>DataModel</literal> 
-                        into the scope of the owning component (or the <literal>EVENT</literal> 
-                        scope if the owning component is <literal>STATELESS</literal>).
-                        In the case of <literal>Map</literal>, each row of the 
-                        <literal>DataModel</literal> is a <literal>Map.Entry</literal>.
-                    </para>
+                    <para> Exposes an attribute of type <literal>List</literal>, <literal>Map</literal>,
+                        <literal>Set</literal> or <literal>Object[]</literal> as a JSF <literal>DataModel</literal> into
+                        the scope of the owning component (or the <literal>EVENT</literal> scope if the owning component
+                        is <literal>STATELESS</literal>). In the case of <literal>Map</literal>, each row of the
+                            <literal>DataModel</literal> is a <literal>Map.Entry</literal>. </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; name of the conversation
-                            context variable. Default to the attribute name.
-                        </para>
+                            <para>
+                                <literal>value</literal> &mdash; name of the conversation context variable. Default
+                                to the attribute name. </para>
                         </listitem>
                         <listitem>
-                        <para>
-                            <literal>scope</literal> &mdash; if 
-                            <literal>scope=ScopeType.PAGE</literal> is explicitly specified, 
-                            the <literal>DataModel</literal> will be kept in the 
-                            <literal>PAGE</literal> context.
-                        </para>
+                            <para>
+                                <literal>scope</literal> &mdash; if <literal>scope=ScopeType.PAGE</literal> is
+                                explicitly specified, the <literal>DataModel</literal> will be kept in the
+                                <literal>PAGE</literal> context. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry id="datamodelselection-annotation">
-                <term><literal>@DataModelSelection</literal></term>
+                <term>
+                    <literal>@DataModelSelection</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@DataModelSelection]]></programlisting>
-                    <para>
-                        Injects the selected value from the JSF <literal>DataModel</literal>
-                        (this is the element of the underlying collection, or the map value).
-                    </para>
+                    <para> Injects the selected value from the JSF <literal>DataModel</literal> (this is the element of
+                        the underlying collection, or the map value). </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; name of the conversation
-                            context variable. Not needed if there is exactly one
-                            <literal>@DataModel</literal> in the component.
-                        </para>
+                            <para>
+                                <literal>value</literal> &mdash; name of the conversation context variable. Not
+                                needed if there is exactly one <literal>@DataModel</literal> in the component. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry id="datamodelselectionindex-annotation">
-                <term><literal>@DataModelSelectionIndex</literal></term>
+                <term>
+                    <literal>@DataModelSelectionIndex</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@DataModelSelectionIndex]]></programlisting>
-                    <para>
-                        Exposes the selection index of the JSF <literal>DataModel</literal>
-                        as an attribute of the component (this is the row number of the
-                        underlying collection, or the map key).
-                    </para>
+                    <para> Exposes the selection index of the JSF <literal>DataModel</literal> as an attribute of the
+                        component (this is the row number of the underlying collection, or the map key). </para>
                     <itemizedlist>
                         <listitem>
-                        <para>
-                            <literal>value</literal> &mdash; name of the conversation
-                            context variable. Not needed if there is exactly one
-                            <literal>@DataModel</literal> in the component.
-                        </para>
+                            <para>
+                                <literal>value</literal> &mdash; name of the conversation context variable. Not
+                                needed if there is exactly one <literal>@DataModel</literal> in the component. </para>
                         </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
         </variablelist>
-        
+
     </section>
-    
+
     <section>
         <title>Meta-annotations for databinding</title>
-        <para>
-            These meta-annotations make it possible to implement similar functionality to
-            <literal>@DataModel</literal> and <literal>@DataModelSelection</literal>
-            for other datastructures apart from lists.
-        </para>
-        
+        <para> These meta-annotations make it possible to implement similar functionality to
+            <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> for other datastructures apart from
+            lists. </para>
+
         <variablelist spacing="compact">
             <varlistentry id="databinderclass-annotation">
-                <term><literal>@DataBinderClass</literal></term>
+                <term>
+                    <literal>@DataBinderClass</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@DataBinderClass(DataModelBinder.class)]]></programlisting>
-                    <para>
-                        Specifies that an annotation is a databinding annotation.
-                    </para>
+                    <para> Specifies that an annotation is a databinding annotation. </para>
                 </listitem>
             </varlistentry>
             <varlistentry id="dataselectorclass-annotation">
-                <term><literal>@DataSelectorClass</literal></term>
+                <term>
+                    <literal>@DataSelectorClass</literal>
+                </term>
                 <listitem>
                     <programlisting><![CDATA[@DataSelectorClass(DataModelSelector.class)]]></programlisting>
-                    <para>
-                        Specifies that an annotation is a dataselection annotation.
-                    </para>
+                    <para> Specifies that an annotation is a dataselection annotation. </para>
                 </listitem>
             </varlistentry>
         </variablelist>
     </section>
+
+    <section>
+        <title>Annotations for packaging</title>
+        <para> This annotation provides a mechanism for declaring information about a set of components that are
+            packaged together. It can be applied to any Java package.</para>
+
+
+        <variablelist spacing="compact">
+            <varlistentry id="namespace-annotation">
+                <term>
+                    <literal>@Namespace</literal>
+                </term>
+                <listitem>
+                    <programlisting><![CDATA[@Namespace(value="http://jboss.com/products/seam/example/seampay")]]></programlisting>
+                    <para> Specifies that components in the current package are associated with the given namespace. The
+                        declared namespace can be used as an XML namespace in a <literal>components.xml</literal> file
+                        to simplify application configuration.</para>
+                    <programlisting><![CDATA[@Namespace(value="http://jboss.com/products/seam/core", prefix="org.jboss.seam.core")]]></programlisting>
+                    <para>Specifies a namespace to associate with a given package. Additionally, it specifies a
+                        component name prefix to be applied to component names specified in the XML file. For example,
+                        an XML element named <literal>microcontainer</literal> that is associated with this namespace
+                        would be understood to actually refere to a component named
+                            <literal>org.jboss.seam.core.microcontainer</literal>. </para>
+                </listitem>
+            </varlistentry>
+
+        </variablelist>
+
+    </section>
+
 
 </chapter>
