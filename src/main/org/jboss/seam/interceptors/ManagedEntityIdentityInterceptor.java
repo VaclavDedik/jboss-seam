@@ -117,13 +117,29 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                            if (persistenceContext instanceof EntityManager)
                            {
                               EntityManager em = (EntityManager) persistenceContext;
-                              managed = em.isOpen() && em.contains(value);
+                              try
+                              {
+                                 managed = em.isOpen() && em.contains(value);
+                              }
+                              catch (RuntimeException re) 
+                              {
+                                 //workaround for bug in HEM! //TODO; deleteme
+                                 managed = false;
+                              }
                               id = managed ? PersistenceProvider.instance().getId(value, em) : null;
                            }
                            else
                            {
                               Session session = (Session) persistenceContext;
-                              managed = session.isOpen() && session.contains(value);
+                              try
+                              {
+                                 managed = session.isOpen() && session.contains(value);
+                              }
+                              catch (RuntimeException re) 
+                              {
+                                 //just in case! //TODO; deleteme
+                                 managed = false;
+                              }
                               id = managed ? session.getIdentifier(value) : null;
                            }
                            if (managed)
