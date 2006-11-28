@@ -4,10 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.jboss.seam.annotations.Namespace;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class NamespaceScanner
     extends Scanner 
 {
+    private static final Log log = LogFactory.getLog(NamespaceScanner.class);
+
     private Set<Package> packages;
     
     public NamespaceScanner(String resourceName)
@@ -43,10 +47,13 @@ public class NamespaceScanner
     {
         if (name.endsWith("/package-info.class")) {
             String packageName = filenameToPackageName(name);
-            // XXX - can't get package info from a classloader directly?
             Package pkg = Package.getPackage(packageName);
-            if (pkg.getAnnotation(Namespace.class) != null) {
-                packages.add(pkg);
+            if (pkg == null) {
+                log.warn("Cannot load package Dinfo for " + packageName);
+            } else {
+                if (pkg.getAnnotation(Namespace.class) != null) {
+                    packages.add(pkg);
+                }
             }
         }
     }
