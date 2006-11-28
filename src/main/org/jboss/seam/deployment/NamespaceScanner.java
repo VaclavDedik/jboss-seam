@@ -47,7 +47,7 @@ public class NamespaceScanner
     {
         if (name.endsWith("/package-info.class")) {
             String packageName = filenameToPackageName(name);
-            Package pkg = Package.getPackage(packageName);
+            Package pkg = getPackage(packageName);
             if (pkg == null) {
                 log.warn("Cannot load package Dinfo for " + packageName);
             } else {
@@ -58,6 +58,14 @@ public class NamespaceScanner
         }
     }
 
+    protected Package getPackage(String name) {
+        try {
+            Class c = classLoader.loadClass(name + ".package-info");
+            return c != null ? c.getPackage() : null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-    
 }
+
