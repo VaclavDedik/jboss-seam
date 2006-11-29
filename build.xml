@@ -228,6 +228,7 @@
         <ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
         <ant dir="examples/hibernate2" target="clean" inheritall="false"/>
         <ant dir="examples/jpa" target="clean" inheritall="false"/>
+    	<ant dir="examples/glassfish" target="clean" inheritall="false"/>
 
     </target>
     
@@ -251,6 +252,7 @@
         <ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false"/>
         <ant dir="examples/hibernate2" target="undeploy" inheritall="false"/>
         <ant dir="examples/jpa" target="undeploy" inheritall="false"/>
+    	<ant dir="examples/glassfish" target="undeploy" inheritall="false"/>
 
         <ant dir="examples/booking" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false"/>
@@ -624,6 +626,7 @@
                 <include name="hibernate/**/*"/>
             	<include name="hibernate2/**/*"/>
             	<include name="jpa/**/*"/>
+            	<include name="glassfish/**/*"/>
                 <include name="blog/**/*"/>
                 <include name="contactlist/**/*"/>
                 <include name="issues/**/*"/>
