@@ -254,6 +254,14 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
          actionsWereCalled = Pages.instance().callActions(facesContext) || actionsWereCalled;
          return actionsWereCalled;
       }
+      catch (RuntimeException re)
+      {
+         //we have to handle exceptions here because of
+         //how JSF defines exception handling from
+         //PhaseListener.beforePhase()
+         log.error("Swallowing exception thrown by page action", re);
+         return actionsWereCalled;
+      }
       finally
       {
          Lifecycle.setPhaseId( PhaseId.RENDER_RESPONSE );
