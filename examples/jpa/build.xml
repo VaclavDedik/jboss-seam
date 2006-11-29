@@ -40,7 +40,18 @@
     </javac>
   </target>
   
-  <target name="components" depends="compile">
+  <!--
+    Works for JBoss 4.0.5 by default
+    
+    See notes for which JARs to add for JBoss AS 4.0.2 to 4.0.4
+    
+    JBoss AS 4.0.0: need to remove cglib.jar and hibernate2.jar from server/default/lib
+      the isolated classloader in jboss-web.xml does not seem to work. If we force it
+      in jbossweb*/META-INF/jboss-service.xml, the commons logging lib in thirdparty-all.jar
+      will throw errors
+  -->
+  <target name="jboss" depends="compile">
+      
     <mkdir dir="${build.jars}"/>
     
     <jar destfile="${build.jars}/${projname}.jar">
@@ -55,19 +66,6 @@
         <include name="persistence.xml" />
       </metainf>
     </jar>
-  </target>
-  
-  <!--
-    Works for JBoss 4.0.5 by default
-    
-    See notes for which JARs to add for JBoss AS 4.0.2 to 4.0.4
-    
-    JBoss AS 4.0.0: need to remove cglib.jar and hibernate2.jar from server/default/lib
-      the isolated classloader in jboss-web.xml does not seem to work. If we force it
-      in jbossweb*/META-INF/jboss-service.xml, the commons logging lib in thirdparty-all.jar
-      will throw errors
-  -->
-  <target name="jboss" depends="compile,components">
     
     <war destfile="${build.jars}/${projname}.war"
          webxml="${resources}/web.xml">
@@ -75,8 +73,6 @@
         <include name="faces-config.xml" />
         <include name="pages.xml" />
         <include name="navigation.xml" />
-      </webinf>
-      <webinf dir="${resources}/jboss">
         <include name="jboss-web.xml" />
         <include name="components.xml" />
       </webinf>
@@ -110,8 +106,23 @@
     </war>
   </target>
   
-  <target name="tomcat" depends="compile,components">
+  <target name="tomcat" depends="compile">
     
+    <mkdir dir="${build.jars}"/>
+    
+    <jar destfile="${build.jars}/${projname}.jar">
+      <fileset dir="${build.classes}">
+        <include name="**/*.class"/>
+      </fileset>
+      <fileset dir="${resources}">
+        <include name="seam.properties" />
+        <include name="import.sql" />
+      </fileset>
+      <metainf dir="${resources}">
+        <include name="persistence.xml" />
+      </metainf>
+    </jar>
+      
     <war destfile="${build.jars}/${projname}.war"
          webxml="${resources}/web.xml">
       <webinf dir="${resources}">
@@ -152,6 +163,60 @@
         <include name="jboss-beans.xml" />
         <include name="log4j.xml" />
       </classes>
+      <fileset dir="${view}"/>
+    </war>
+  </target>
+
+  <target name="weblogic" depends="compile">
+    
+    <mkdir dir="${build.jars}"/>
+    
+    <jar destfile="${build.jars}/${projname}.jar">
+      <fileset dir="${build.classes}">
+        <include name="**/*.class"/>
+      </fileset>
+      <fileset dir="${resources}">
+        <include name="seam.properties" />
+        <include name="import.sql" />
+      </fileset>
+      <metainf dir="${resources}/weblogic">
+        <include name="persistence.xml" />
+      </metainf>
+    </jar>
+      
+    <war destfile="${build.jars}/${projname}.war"
+         webxml="${resources}/web.xml">
+      <webinf dir="${resources}">
+        <include name="faces-config.xml" />
+        <include name="pages.xml" />
+        <include name="navigation.xml" />
+        <include name="components.xml" />
+      </webinf>
+      <lib dir="${seamlib}">
+        <include name="jboss-seam.jar" />
+        <include name="jboss-seam-ui.jar" />
+        <include name="jboss-seam-debug.jar" />
+      </lib>
+      <lib dir="${applib}">
+        <include name="el-api.jar" />
+        <include name="el-ri.jar" />
+        <include name="jsf-facelets.jar" />
+        <include name="ajax4jsf.jar" />
+        <include name="oscache-2.3.2.jar" />
+      </lib>
+      <lib dir="${applib}/mc">
+        <include name="*.jar" />
+      </lib>
+      <lib dir="${lib}">
+        <include name="myfaces-api-1.1.4.jar" />
+        <include name="myfaces-impl-1.1.4.jar" />
+        <include name="hibernate-all.jar" />
+        <include name="thirdparty-all.jar" />
+        <include name="commons*.jar" />
+      </lib>
+      <lib dir="${build.jars}">
+        <include name="${projname}.jar" />
+      </lib>
       <fileset dir="${view}"/>
     </war>
   </target>

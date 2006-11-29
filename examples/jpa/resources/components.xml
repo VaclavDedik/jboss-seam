@@ -4,16 +4,6 @@
 
 <components>
   
-    <component name="em"
-          class="org.jboss.seam.core.ManagedPersistenceContext">
-      <!-- alernative     
-      <property name="persistenceUnitJndiName">java:/jpaBookingEntityManagerFactory</property>
-      -->
-      <property name="entityManagerFactory">#{emf}</property>
-    </component>
-    
-    <component name="emf" class="org.jboss.seam.core.EntityManagerFactory"/>
-    
     <component name="org.jboss.seam.core.init">
         <property name="debug">true</property>
         <!--
@@ -32,6 +22,17 @@
     
     <component name="org.jboss.seam.core.pages">
         <property name="noConversationViewId">/main.xhtml</property>
+    </component>
+    
+    <component name="bookingDatabase" 
+        class="org.jboss.seam.core.EntityManagerFactory"/>
+    
+    <component name="em"
+          class="org.jboss.seam.core.ManagedPersistenceContext">
+      <!-- alernative     
+      <property name="persistenceUnitJndiName">java:/jpaBookingEntityManagerFactory</property>
+      -->
+      <property name="entityManagerFactory">#{bookingDatabase}</property>
     </component>
 
 </components>
