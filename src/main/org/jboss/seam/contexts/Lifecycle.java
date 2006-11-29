@@ -58,12 +58,11 @@ public class Lifecycle
    public static void beginCall()
    {
       log.debug( ">>> Begin call" );
-      ServletContext servletContext = getServletContext();
       Contexts.eventContext.set( new MapContext(ScopeType.EVENT) );
       Contexts.sessionContext.set( new MapContext(ScopeType.SESSION) );
       Contexts.conversationContext.set( new MapContext(ScopeType.CONVERSATION) );
       Contexts.businessProcessContext.set( new BusinessProcessContext() );
-      Contexts.applicationContext.set( new WebApplicationContext(servletContext) );
+      Contexts.applicationContext.set( new WebApplicationContext( getServletContext() ) );
    }
 
    public static void endCall()
@@ -420,7 +419,6 @@ public class Lifecycle
    }
 
    private static ThreadLocal<Boolean> destroying = new ThreadLocal<Boolean>();
-   private static ThreadLocal<Boolean> exception = new ThreadLocal<Boolean>();
 
    public static void startDestroying()
    {
@@ -436,15 +434,6 @@ public class Lifecycle
    {
       Boolean value = destroying.get();
       return value!=null && value.booleanValue();
-   }
-
-   public static boolean isException() {
-      Boolean value = exception.get();
-      return value!=null && value.booleanValue();
-   }
-
-   public static void setException(boolean ex) {
-      exception.set(ex);
    }
 
    public static boolean isAttributeDirty(Object attribute)
