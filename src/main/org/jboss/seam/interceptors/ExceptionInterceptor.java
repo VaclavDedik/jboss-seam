@@ -17,28 +17,23 @@ import org.jboss.seam.intercept.InvocationContext;
 @Interceptor(stateless=true, type=InterceptorType.CLIENT)
 public class ExceptionInterceptor extends AbstractInterceptor
 {
+    static ThreadLocal marker = new ThreadLocal();
 
-   @AroundInvoke
-   public Object handleExceptions(InvocationContext invocation) throws Exception
-   {
-      boolean outermost = invocation.getContextData().get("org.jboss.seam.outermostExceptionInterceptor")==null;
-      invocation.getContextData().put("org.jboss.seam.outermostExceptionInterceptor", true);
-      try
-      {
-         return invocation.proceed();
-      }
-      catch (Exception e)
-      {
-         if ( outermost && FacesContext.getCurrentInstance()!=null )
-         {
-            return Exceptions.instance().handle(e);
-         }
-         else
-         {
-            throw e;
-         }
-      }
-   }
-
-
+    @AroundInvoke
+    public Object handleExceptions(InvocationContext invocation) throws Exception
+    {
+        boolean outermost = marker.get() == null;
+        marker.set(this);
+        try  {
+            return invocation.proceed();
+        } catch (Exception e) {
+            if (outermost && FacesContext.getCurrentInstance()!=null) {
+                return Exceptions.instance().handle(e);
+            } else {
+                throw e;
+            }
+        } finally {
+            marker.remove();
+        }
+    }
 }
