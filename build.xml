@@ -252,7 +252,6 @@
         <ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false"/>
         <ant dir="examples/hibernate2" target="undeploy" inheritall="false"/>
         <ant dir="examples/jpa" target="undeploy" inheritall="false"/>
-    	<ant dir="examples/glassfish" target="undeploy" inheritall="false"/>
 
         <ant dir="examples/booking" target="undeploy.tomcat" inheritall="false"/>
         <ant dir="examples/hibernate" target="undeploy.tomcat" inheritall="false"/>
