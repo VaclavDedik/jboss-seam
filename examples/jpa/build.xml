@@ -217,6 +217,9 @@
       <lib dir="${build.jars}">
         <include name="${projname}.jar" />
       </lib>
+      <classes dir="${resources}/weblogic">
+        <include name="log4j.xml" />
+      </classes>
       <fileset dir="${view}"/>
     </war>
   </target>
