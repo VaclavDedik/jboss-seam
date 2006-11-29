@@ -1,4 +1,4 @@
-//$Id: HotelSearchingAction.java,v 1.3 2006/11/20 16:54:53 gavin Exp $
+//$Id: HotelSearchingAction.java,v 1.4 2006/11/20 18:03:01 gavin Exp $
 package org.jboss.seam.example.booking;
 
 import java.util.List;
@@ -74,12 +74,12 @@ public class HotelSearchingAction implements HotelSearching
          };
    }
    
-   public String getPageSize() {
-      return Integer.toString(pageSize);
+   public int getPageSize() {
+      return pageSize;
    }
 
-   public void setPageSize(String pageSize) {
-      this.pageSize = Integer.parseInt(pageSize);
+   public void setPageSize(int pageSize) {
+      this.pageSize = pageSize;
    }
 
    public String getSearchString()
@@ -105,7 +105,7 @@ public class HotelSearchingAction implements HotelSearching
    }
    
    public void handlePageSizeChange(ValueChangeEvent e)  {
-      setPageSize( (String) e.getNewValue() );
+      setPageSize( (Integer) e.getNewValue() );
       queryHotels();
    }
    

@@ -23,7 +23,6 @@
             prefix="WEB-INF/lib"
                dir="resources/WEB-INF/lib">
         <include name="*.jar"/>
-	    <exclude name="icefaces.jar"/>
     </zipfileset>
 
     <zipfileset id="example.war.webinf.lib.extra" 
@@ -39,8 +38,8 @@
     	<include name="META-INF/ejb-jar.xml"/>
     </fileset>
     
-    <fileset id="example.ejb3.lib" dir="resources/WEB-INF/lib">
-        <include name="icefaces.jar"/>
+    <fileset id="example.ejb3.lib" dir="../../lib">
+        <include name="_NONE_"/>
     </fileset>
 
     <!-- EAR -->

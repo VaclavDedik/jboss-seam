@@ -13,8 +13,5 @@
 	<module>
 	    <java>jboss-seam.jar</java>
 	</module>
-    <module>
-        <java>icefaces.jar</java>
-    </module>
 	
 </application>
