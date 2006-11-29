@@ -155,7 +155,7 @@
 	</target>
 
 	<target name="unexplode" description="Undeploy the exploded archive">
-		<delete>
+		<delete failonerror="no">
 			<fileset dir="${ear.deploy.dir}">
 				<exclude name="**/*.jar"/>
 			</fileset>

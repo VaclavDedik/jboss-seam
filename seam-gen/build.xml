@@ -326,7 +326,7 @@
             addproperty="page.name" 
           defaultvalue="${page.name.default}"/>
                 
-        <property name="entity.file" value="${project.home}/src/${action.dir}/${entity.name}.java"/>
+        <property name="entity.file" value="${project.home}/src/${model.dir}/${entity.name}.java"/>
         <property name="home.file" value="${project.home}/src/${action.dir}/${entity.name}Home.java"/>
         <property name="list.file" value="${project.home}/src/${action.dir}/${entity.name}List.java"/>
         <property name="page.file" value="${project.home}/view/${page.name}.xhtml"/>

@@ -79,7 +79,7 @@
                 view="/${masterPageName}.xhtml"/>
             <s:button id="done" value="Done"
                 propagation="end" 
-                view="/${pageName}.xhtml"/>			  
+                view="/${pageName}.xhtml"/>
         </div>
     </h:form>
     
@@ -153,7 +153,7 @@
 		            view="/${childEditPageName}.xhtml" propagation="begin">
 	            	<f:param name="${componentName}Id" 
 	            	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
-	            </s:link>
+	            </s:button>
 		    </div>
 </#if>
 </#foreach>
