@@ -1,11 +1,6 @@
-Seam Booking Example
+Seam ICEfaces Example
 ====================
-This example demonstrates the use of Seam in a Java EE 5 environment.
-Transaction and persistence context management is handled by the
-EJB container.
-
-This example can also run in Tomcat with the JBoss Embeddable EJB3
-container.
+This example demonstrates the use of Seam with ICEfaces.
 
 How to Build and Deploy the Example on JBoss AS
 -----------------------------------------------
@@ -22,13 +17,13 @@ How to Build and Deploy the Example on JBoss AS
 4. Build Seam by running "ant" the Seam root directory
 
 5. Build and deploy the example by running "ant" in the Seam
-   "examples/booking" directory
+   "examples/icefaces" directory
 
 6. Start JBoss AS by typing "bin/run.sh" in the JBoss home directory
 
 7. Point your web browser to:
 
-   http://localhost:8080/seam-booking/
+   http://localhost:8080/seam-icefaces/
 
    NOTE: The default build uses the HSQL database embedded in JBoss AS
 
@@ -51,18 +46,18 @@ How to Build and Deploy the Example on Tomcat
 4. Build Seam by running "ant" the Seam root directory
 
 5. Build and deploy the example by running "ant deploy.tomcat" 
-   in the Seam "examples/booking" directory
+   in the Seam "examples/icefaces" directory
 
 6. Start Tomcat
 
 7. Point your web browser to:
 
-   http://localhost:8080/jboss-seam-booking/
+   http://localhost:8080/jboss-seam-icefaces/
 
 Running The TestNG Tests
 ------------------------
 
-In the "examples/booking" directory, type "ant testexample"
+In the "examples/icefaces" directory, type "ant testexample"
 
 Running the TestNG Tests in Eclipse
 -----------------------------------
@@ -73,8 +68,8 @@ Running the TestNG Tests in Eclipse
    in your source path:
    
    src/main/
-   examples/booking/src/
-   examples/booking/resources/
+   examples/icefaces/src/
+   examples/icefaces/resources/
    embedded-ejb/conf/
    
    And all jar files from the following directories in your classpath:
@@ -82,5 +77,5 @@ Running the TestNG Tests in Eclipse
    lib/
    embedded-ejb/lib
    
-3. Run examples/booking/src/org/jboss/seam/example/booking/test/testng.xml
+3. Run examples/icefaces/src/org/jboss/seam/example/booking/test/testng.xml
    using the TestNG plugin.
