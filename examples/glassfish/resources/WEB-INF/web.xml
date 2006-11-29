@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"    
+    xmlns="http://java.sun.com/xml/ns/javaee"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">   
+  
+  <context-param>      
+    <param-name>javax.faces.CONFIG_FILES</param-name>      
+    <param-value>/WEB-INF/navigation.xml</param-value>   
+  </context-param>	
+  
+  <!-- Ajax4jsf (must come first!) -->			
+  <filter>		
+    <display-name>Ajax4jsf Filter</display-name>		
+    <filter-name>ajax4jsf</filter-name>		
+    <filter-class>org.ajax4jsf.Filter</filter-class>	
+  </filter>		
+  <filter-mapping>		
+    <filter-name>ajax4jsf</filter-name>		
+    <url-pattern>*.seam</url-pattern>	
+  </filter-mapping>	
+  <context-param>		
+    <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>		
+    <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>	
+  </context-param>        
+  
+  <!-- Seam -->       
+  <listener>        
+    <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>    
+  </listener>    
+  <!-- Propagate conversations across redirects -->    
+  <filter>        
+    <filter-name>Seam Redirect Filter</filter-name>        
+    <filter-class>org.jboss.seam.servlet.SeamRedirectFilter</filter-class>    
+  </filter>        
+  <filter-mapping>        
+    <filter-name>Seam Redirect Filter</filter-name>        
+    <url-pattern>*.seam</url-pattern>    
+  </filter-mapping>   
+  <!-- Manage debug page and custom error pages -->
+  <filter>        
+    <filter-name>Seam Exception Filter</filter-name>        
+    <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>    
+  </filter>        
+  <filter-mapping>        
+    <filter-name>Seam Exception Filter</filter-name>        
+    <url-pattern>*.seam</url-pattern>    
+  </filter-mapping>    
+  
+  <!-- JSF and Facelets -->        
+  <context-param>        
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>        
+    <param-value>client</param-value>    
+  </context-param>    
+  <context-param>        
+    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>        
+    <param-value>.xhtml</param-value>    
+  </context-param>    
+  <context-param>        
+    <param-name>facelets.DEVELOPMENT</param-name>        
+    <param-value>true</param-value>    
+  </context-param>    
+  
+  <!-- Faces Servlet -->
+  <servlet>        
+    <servlet-name>Faces Servlet</servlet-name>        
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>        
+    <load-on-startup>1</load-on-startup>    
+  </servlet>        
+  <servlet-mapping>        
+    <servlet-name>Faces Servlet</servlet-name>        
+    <url-pattern>*.seam</url-pattern>    
+  </servlet-mapping>        
+  
+  <!-- MyFaces -->    
+  <!--    
+  <listener>        
+    <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>    
+  </listener>    
+  -->        
+  
+  <!-- JSF RI -->    
+  <listener>        
+    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>    
+  </listener>        
+  
+  <!-- Glassfish EJB3 names -->
+  <ejb-local-ref>       
+    <ejb-ref-name>jboss-seam-glassfish/BookingListAction/local</ejb-ref-name>       
+    <ejb-ref-type>Session</ejb-ref-type>       
+    <local>org.jboss.seam.example.booking.BookingList</local>       
+    <ejb-link>BookingListAction</ejb-link>    
+  </ejb-local-ref>    
+  
+  <ejb-local-ref>       
+    <ejb-ref-name>jboss-seam-glassfish/RegisterAction/local</ejb-ref-name>       
+    <ejb-ref-type>Session</ejb-ref-type>       
+    <local>org.jboss.seam.example.booking.Register</local>       
+    <ejb-link>RegisterAction</ejb-link>    
+  </ejb-local-ref>    
+  
+  <ejb-local-ref>       
+    <ejb-ref-name>jboss-seam-glassfish/ChangePasswordAction/local</ejb-ref-name>       
+    <ejb-ref-type>Session</ejb-ref-type>       
+    <local>org.jboss.seam.example.booking.ChangePassword</local>       
+    <ejb-link>ChangePasswordAction</ejb-link>    
+  </ejb-local-ref>    
+  
+  <ejb-local-ref>       
+    <ejb-ref-name>jboss-seam-glassfish/HotelBookingAction/local</ejb-ref-name>       
+    <ejb-ref-type>Session</ejb-ref-type>       
+    <local>org.jboss.seam.example.booking.HotelBooking</local>       
+    <ejb-link>HotelBookingAction</ejb-link>    
+  </ejb-local-ref>    
+  
+  <ejb-local-ref>       
+    <ejb-ref-name>jboss-seam-glassfish/HotelSearchingAction/local</ejb-ref-name>       
+    <ejb-ref-type>Session</ejb-ref-type>       
+    <local>org.jboss.seam.example.booking.HotelSearching</local>       
+    <ejb-link>HotelSearchingAction</ejb-link>    
+  </ejb-local-ref>    
+  
+  <ejb-local-ref>       
+    <ejb-ref-name>jboss-seam-glassfish/LoginAction/local</ejb-ref-name>       
+    <ejb-ref-type>Session</ejb-ref-type>       
+    <local>org.jboss.seam.example.booking.Login</local>       
+    <ejb-link>LoginAction</ejb-link>    
+  </ejb-local-ref>    
+  
+  <ejb-local-ref>       
+    <ejb-ref-name>jboss-seam-glassfish/LogoutAction/local</ejb-ref-name>       
+    <ejb-ref-type>Session</ejb-ref-type>       
+    <local>org.jboss.seam.example.booking.Logout</local>       
+    <ejb-link>LogoutAction</ejb-link>    
+  </ejb-local-ref>    
+  
+</web-app>

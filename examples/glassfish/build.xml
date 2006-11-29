@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Glassfish Booking"
+         default="main" basedir=".">
+    
+  <description>Glassfish Booking</description>
+  <property name="projname" value="jboss-seam-glassfish" />
+
+  <property file="../../build.properties"/>
+
+  <property name="lib" location="../../lib" />
+  <property name="applib" location="lib" />
+  <property name="seamlib" location="../../" />
+  <path id="lib.classpath">
+    <fileset dir="${lib}" includes="*.jar"/>
+    <fileset dir="${applib}" includes="*.jar"/>
+    <fileset dir="${seamlib}" includes="*.jar"/>
+  </path>
+  
+  <property name="resources" location="resources" />
+  
+  <property name="src" location="src" />
+  <property name="view" location="view" />
+  
+  <property name="build.classes" location="build/classes" />
+  <property name="build.jars" location="build/" />
+
+  <target name="clean">
+    <delete dir="build"/>
+  </target>
+
+  <target name="main" depends="ejb3jar,war,ear"/>
+
+  <target name="toplink" depends="toplinkjar,war,ear"/>
+  
+  <target name="compile">
+    <mkdir dir="${build.classes}"/>
+    <javac destdir="${build.classes}"
+           classpathref="lib.classpath"
+           debug="true">
+      <src path="${src}"/>
+    </javac>
+  </target>
+  
+  <target name="ejb3jar" depends="compile">
+    <mkdir dir="${build.jars}"/>
+    
+    <jar destfile="${build.jars}/${projname}.jar">
+      <fileset dir="${build.classes}">
+        <include name="**/*.class"/>
+      </fileset>
+      <fileset dir="${resources}">
+        <include name="seam.properties" />
+        <include name="import.sql" />
+      </fileset>
+      <metainf dir="${resources}/META-INF/">
+        <include name="persistence.xml" />
+        <include name="ejb-jar.xml" />
+      </metainf>
+    </jar>
+  </target>
+  
+  <target name="war" depends="compile">
+    <mkdir dir="${build.jars}"/>
+    
+    <war destfile="${build.jars}/${projname}.war"
+         webxml="${resources}/WEB-INF/web.xml">
+      <webinf dir="${resources}/WEB-INF/">
+        <include name="faces-config.xml" />
+        <include name="pages.xml" />
+        <include name="navigation.xml" />
+        <include name="components.xml" />
+      </webinf>
+      <lib dir="${seamlib}">
+        <include name="jboss-seam-ui.jar" />
+        <include name="jboss-seam-debug.jar" />
+      </lib>
+      <lib dir="${applib}">
+        <include name="el-api.jar" />
+        <include name="el-ri.jar" />
+        <include name="jsf-facelets.jar" />
+        <include name="ajax4jsf.jar" />
+        <include name="oscache-2.3.2.jar" />
+      </lib>
+      <fileset dir="${view}"/>
+    </war>
+  </target>
+  
+  <target name="ear">
+    <mkdir dir="${build.jars}"/>
+    
+    <ear destfile="${build.jars}/${projname}.ear"
+      appxml="${resources}/META-INF/application.xml">
+      
+      <fileset dir="${lib}">
+        <include name="hibernate-all.jar" />
+        <include name="thirdparty-all.jar" />
+        <include name="commons-digester-*.jar" />
+        <include name="commons-beanutils-*.jar" />
+        <!--
+        <include name="commons-codec-*.jar" />
+        <include name="commons-collections-*.jar" />
+        <include name="commons-el-*.jar" />
+        <include name="commons-lang-*.jar" />
+        -->
+      </fileset>
+      <fileset dir="${applib}">
+        <include name="jboss-archive-browsing.jar" />
+      </fileset>
+      <fileset dir="${build.jars}">
+        <include name="${projname}.jar" />
+        <include name="${projname}.war" />
+      </fileset>
+      <fileset dir="${seamlib}">
+        <include name="jboss-seam.jar"/>
+      </fileset>
+    </ear>
+    
+  </target>
+  
+  <target name="toplinkjar" depends="compile">
+    <mkdir dir="${build.jars}"/>
+    
+    <jar destfile="${build.jars}/${projname}.jar">
+      <fileset dir="${build.classes}">
+        <include name="**/*.class"/>
+      </fileset>
+      <fileset dir="${resources}">
+        <include name="seam.properties" />
+        <include name="import.sql" />
+      </fileset>
+      <metainf dir="${resources}/META-INF/">
+        <include name="ejb-jar.xml" />
+      </metainf>
+      <metainf dir="${resources}/toplink/">
+        <include name="persistence.xml" />
+      </metainf>
+    </jar>
+  </target>
+
+</project>

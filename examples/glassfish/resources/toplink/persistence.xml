@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <persistence-unit name ="em">
+        <provider>oracle.toplink.essentials.ejb.cmp3.EntityManagerFactoryProvider</provider>
+        <!-- JNDI name of the database resource to use -->
+        <jta-data-source>jdbc/__default</jta-data-source>
+        <properties>
+            <property name="toplink.ddl-generation" value="drop-and-create-tables"/>
+        </properties>
+    </persistence-unit>
+</persistence>
