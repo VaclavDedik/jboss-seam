@@ -198,7 +198,13 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
 
       selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
       
-      callPageActions(event);
+      try {
+          callPageActions(event);
+      } catch (RuntimeException e) {
+          if (facesContext.getExternalContext().getRequestMap().get("org.jboss.seam.exceptionHandled") == null) {
+              throw e;
+          }
+      }
       
       if ( facesContext.getResponseComplete() )
       {
