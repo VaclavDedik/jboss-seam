@@ -294,12 +294,13 @@ public class PersonHome extends EntityHome<Person> {
          
         <programlisting><![CDATA[<factory name="person" value="#{personHome.instance}"/>
 
-<framework:entity-home name="personHome" 
-    entity-class="eg.Person" 
-    new-instance="#{newPerson}"
-    created-message="New person #{person.firstName} #{person.lastName} created"
-    deleted-message="Person #{person.firstName} #{person.lastName} deleted"
-    updated-message="Person #{person.firstName} #{person.lastName} updated"/>
+<framework:entity-home name="personHome"
+        entity-class="eg.Person"
+        new-instance="#{newPerson}">
+    <framework:created-message>New person #{person.firstName} #{person.lastName} created</framework:created-message>
+    <framework:deleted-message>Person #{person.firstName} #{person.lastName} deleted</framework:deleted-message>
+    <framework:updated-message>Person #{person.firstName} #{person.lastName} updated</framework:updated-message>
+</framework:entity-home>
 
 <component name="newPerson" class="eg.Person">
     <property name="nationality">#{country}</property>

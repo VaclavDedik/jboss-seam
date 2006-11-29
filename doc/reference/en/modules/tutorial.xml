@@ -526,7 +526,7 @@ public interface Register
         
         <para>
             This code configures a property named <literal>jndiPattern</literal> of a built-in 
-            Seam <literal>init</literal> component, which happens to be named <literal>org.jboss.seam.core.init</literal>.
+            Seam component named <literal>org.jboss.seam.core.init</literal>.
         </para>
         
       </section>

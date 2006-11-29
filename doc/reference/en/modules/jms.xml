@@ -226,7 +226,7 @@ public class CreatePaymentAction
         
         <para>
             You also need to list topics and queues in <literal>components.xml</literal>
-            to install a Seam managed <literal>TopicPublisher</literal>s and
+            to install Seam managed <literal>TopicPublisher</literal>s and
             <literal>QueueSender</literal>s:
         </para>
         

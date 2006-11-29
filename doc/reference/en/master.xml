@@ -5,6 +5,7 @@
 <!ENTITY tutorial               SYSTEM "modules/tutorial.xml">
 <!ENTITY gettingstarted         SYSTEM "modules/gettingstarted.xml">
 <!ENTITY concepts               SYSTEM "modules/concepts.xml">
+<!ENTITY xml                    SYSTEM "modules/xml.xml">
 <!ENTITY events                 SYSTEM "modules/events.xml">
 <!ENTITY conversations          SYSTEM "modules/conversations.xml">
 <!ENTITY jbpm                   SYSTEM "modules/jbpm.xml">
@@ -249,6 +250,7 @@
     &tutorial;
     &gettingstarted;
     &concepts;
+    &xml;
     &events;
     &conversations;
     &jbpm;

@@ -1,5 +1,5 @@
 <chapter id="configuration">
-	<title>Configuring Seam</title>
+	<title>Configuring Seam and packaging Seam applications</title>
 	<para>
         Configuration is a very boring topic and an extremely tedious pastime. 
         Unfortunately, several lines of XML are required to integrate Seam into 
