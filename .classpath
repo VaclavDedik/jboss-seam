@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="src/gen"/>
-	<classpathentry kind="src" path="src/test/misc"/>
 	<classpathentry kind="src" path="src/debug"/>
 	<classpathentry kind="src" path="src/ui"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -17,8 +16,6 @@
 	<classpathentry kind="lib" path="lib/jgroups.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-aop-jdk50.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-cache-jdk50.jar"/>
-	<classpathentry kind="lib" path="drools/lib/drools-compiler-3.0.3.jar"/>
-	<classpathentry kind="lib" path="drools/lib/drools-core-3.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/jbpm-3.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/el-api.jar"/>
 	<classpathentry kind="lib" path="lib/el-ri.jar"/>
@@ -26,5 +23,7 @@
 	<classpathentry kind="lib" path="lib/myfaces-impl-1.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="embedded-ejb/conf"/>
+	<classpathentry kind="lib" path="drools/lib/drools-compiler-3.0.5.jar"/>
+	<classpathentry kind="lib" path="drools/lib/drools-core-3.0.5.jar"/>
 	<classpathentry kind="output" path="output/classes"/>
 </classpath>

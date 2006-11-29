@@ -21,10 +21,10 @@
 	</module>
 	
     <module>
-	    <java>drools/lib/drools-compiler-3.0.3.jar</java>
+	    <java>drools/lib/drools-compiler-3.0.5.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/drools-core-3.0.3.jar</java>
+	    <java>drools/lib/drools-core-3.0.5.jar</java>
 	</module>
     <module>
 	    <java>drools/lib/antlr-2.7.6.jar</java>
