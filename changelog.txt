@@ -15,12 +15,26 @@ Changes in version 1.1.0.CR2 (November 2006)
     * [JBSEAM-524] - Lifecycle.isAttributeDirty(Object attribute) doesn't like null attributes
     * [JBSEAM-525] - Theme / Locale / TimeZone not persistent across browser shutdowns
     * [JBSEAM-526] - bundlenames instead bundleNames in Ch.7 Internationalization document
+    * [JBSEAM-527] - ICEfaces example needs UseJBossWebLoader
+    * [JBSEAM-529] - NullPointerException in org.jboss.seam.deployment.NamespaceScanner
+    * [JBSEAM-530] - Seam-gen create entity using action package (build.xml)
+    * [JBSEAM-533] - IllegalArgumentException exception from ManagedEntityIdentityInterceptor
+    * [JBSEAM-534] - ExceptionInterceptor should use a threadlocal instead of contextData
+    * [JBSEAM-535] - Seam model objects bring generated in wrong directory
+    * [JBSEAM-537] - conversation lock not unlocked
 
 
 ** Feature Request
     * [JBSEAM-293] - Add well defined precedence for component overriding with the same name.
     * [JBSEAM-397] - page parameters for wildcarded view-ids
+    * [JBSEAM-518] - Document the new XML namespace stuff
+    * [JBSEAM-540] - Support #{qualified.name.property} instead of #{qualified$name$property}
 
+
+** Task
+    * [JBSEAM-528] - upgrade to ICEfaces 1.5.1
+    * [JBSEAM-532] - readme file for IceFaces Example is incorrect.
+    
 Changes in version 1.1.0.CR1 (November 2006)
 --------------------------------------------
 ** Bug
