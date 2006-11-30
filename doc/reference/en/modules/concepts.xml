@@ -489,19 +489,18 @@ public class LoginAction implements Login {
 }]]></programlisting>
 
             <para> 
-                Unfortunately, JSF's expression language interprets a period as a property dereference. So, inside a
-                JSF expression, we use <literal>$</literal> to indicate a qualified component name: 
+                We may use the qualified component name both in Java code and in JSF's expression language: 
             </para>
 
             <programlisting><![CDATA[<h:commandButton type="submit" value="Login"
-                 action="#{com$jboss$myapp$loginAction.login}"/>]]></programlisting>
+                 action="#{com.jboss.myapp.loginAction.login}"/>]]></programlisting>
 
             <para> 
-                Since this is ugly, Seam also provides a means of aliasing a qualified name to a simple name. Add a
+                Since this is noisy, Seam also provides a means of aliasing a qualified name to a simple name. Add a
                 line like this to the <literal>components.xml</literal> file: 
             </para>
 
-            <programlisting><![CDATA[<factory name="loginAction" scope="STATELESS" value="#{com$jboss$myapp$loginAction}"/>]]></programlisting>
+            <programlisting><![CDATA[<factory name="loginAction" scope="STATELESS" value="#{com.jboss.myapp.loginAction}"/>]]></programlisting>
 
             <para> 
                 All of the built-in Seam components have qualified names, but most of them are aliased to a simple

@@ -60,9 +60,9 @@
    
     <h2>Conversations</h2>
     <h:outputText value="No long-running conversations exist"
-                  rendered="#{empty org$jboss$seam$debug$contexts.conversationEntries}"/>
-    <h:dataTable value="#{org$jboss$seam$debug$contexts.conversationEntries}" 
-                 rendered="#{not empty org$jboss$seam$debug$contexts.conversationEntries}"
+                  rendered="#{empty org.jboss.seam.debug.contexts.conversationEntries}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.conversationEntries}" 
+                 rendered="#{not empty org.jboss.seam.debug.contexts.conversationEntries}"
                  var="entry">
       <h:column>
         <f:facet name="header">conversation id</f:facet>
@@ -89,7 +89,7 @@
       <h:column>
         <h:outputLink>
           Select conversation context
-          <f:param name="#{org$jboss$seam$core$manager.conversationIdParameter}" value="#{entry.id}"/>
+          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{entry.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
@@ -100,16 +100,16 @@
         <span id="attributesOn">-</span>
         &#160;Component&#160;
         <h:outputText value="(#{param['name']})" 
-                      rendered="#{org$jboss$seam$debug$introspector.attributes!=null}"/>
+                      rendered="#{org.jboss.seam.debug.introspector.attributes!=null}"/>
         <h:outputText value="(None selected)" 
-                      rendered="#{org$jboss$seam$debug$introspector.attributes==null}"/>
+                      rendered="#{org.jboss.seam.debug.introspector.attributes==null}"/>
       </a>
     </h2>
     <div id="attributes">
     <h:outputText value="Select a component from one of the contexts below"
-                  rendered="#{org$jboss$seam$debug$introspector.attributes==null}"/>
-    <h:dataTable value="#{org$jboss$seam$debug$introspector.attributes}"
-                 rendered="#{org$jboss$seam$debug$introspector.attributes!=null}"
+                  rendered="#{org.jboss.seam.debug.introspector.attributes==null}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.introspector.attributes}"
+                 rendered="#{org.jboss.seam.debug.introspector.attributes!=null}"
                  var="attribute">
       <h:column>
         #{attribute.name}
@@ -125,22 +125,22 @@
         <span id="conversationContextOff" style="display: none;">+</span>
         <span id="conversationContextOn">-</span>
         &#160;Conversation Context&#160;
-        <h:outputText value="(#{org$jboss$seam$core$manager.currentConversationId})"
-                      rendered="#{org$jboss$seam$core$manager.longRunningConversation}"/>
+        <h:outputText value="(#{org.jboss.seam.core.manager.currentConversationId})"
+                      rendered="#{org.jboss.seam.core.manager.longRunningConversation}"/>
         <h:outputText value="(None selected)"
-                      rendered="#{!org$jboss$seam$core$manager.longRunningConversation}"/>
+                      rendered="#{!org.jboss.seam.core.manager.longRunningConversation}"/>
       </a>
     </h2>
     <div id="conversationContext">
     <h:outputText value="Empty conversation context"
-                  rendered="#{empty org$jboss$seam$debug$contexts.conversation}"/>
-    <h:dataTable value="#{org$jboss$seam$debug$contexts.conversation}" 
+                  rendered="#{empty org.jboss.seam.debug.contexts.conversation}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.conversation}" 
                  var="name">
       <h:column>
         <h:outputLink>
           #{name}
           <f:param name="name" value="#{name}"/>
-          <f:param name="#{org$jboss$seam$core$manager.conversationIdParameter}" value="#{conversation.id}"/>
+          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{conversation.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
@@ -155,14 +155,14 @@
     </h2>
     <div id="processContext">
     <h:outputText value="Empty business process context"
-                  rendered="#{empty org$jboss$seam$debug$contexts.businessProcess}"/>
-    <h:dataTable value="#{org$jboss$seam$debug$contexts.businessProcess}" 
+                  rendered="#{empty org.jboss.seam.debug.contexts.businessProcess}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.businessProcess}" 
                  var="name">
       <h:column>
         <h:outputLink>
           #{name}
           <f:param name="name" value="#{name}"/>
-          <f:param name="#{org$jboss$seam$core$manager.conversationIdParameter}" value="#{conversation.id}"/>
+          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{conversation.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
@@ -177,14 +177,14 @@
     </h2>
     <div id="sessionContext">
     <h:outputText value="Empty session context"
-                  rendered="#{empty org$jboss$seam$debug$contexts.session}"/>
-    <h:dataTable value="#{org$jboss$seam$debug$contexts.session}" 
+                  rendered="#{empty org.jboss.seam.debug.contexts.session}"/>
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.session}" 
                  var="name">
       <h:column>
         <h:outputLink>
           #{name}
           <f:param name="name" value="#{name}"/>
-          <f:param name="#{org$jboss$seam$core$manager.conversationIdParameter}" value="#{conversation.id}"/>
+          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{conversation.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
@@ -198,19 +198,19 @@
       </a>
     </h2>
     <div id="applicationContext">
-    <h:dataTable value="#{org$jboss$seam$debug$contexts.application}" 
+    <h:dataTable value="#{org.jboss.seam.debug.contexts.application}" 
                  var="name">
       <h:column>
         <h:outputLink>
           #{name}
           <f:param name="name" value="#{name}"/>
-          <f:param name="#{org$jboss$seam$core$manager.conversationIdParameter}" value="#{conversation.id}"/>
+          <f:param name="#{org.jboss.seam.core.manager.conversationIdParameter}" value="#{conversation.id}"/>
         </h:outputLink>
       </h:column>
     </h:dataTable>
     </div>
     
-    <f:subview rendered="#{org$jboss$seam$debug$contexts.exceptionExists}">
+    <f:subview rendered="#{org.jboss.seam.debug.contexts.exceptionExists}">
     <h2>
       <a href="#" onclick="toggle('stackTrace'); return false;">
         <span id="stackTraceOff" style="display: none;">+</span>
@@ -219,8 +219,8 @@
       </a>
     </h2>
     <div id="stackTrace">
-        Exception during #{org$jboss$seam$debug$phaseId}: #{org$jboss$seam$debug$contexts.exception.message}
-        <pre><ui:repeat value="#{org$jboss$seam$debug$contexts.exception.stackTrace}" var="stackElement">
+        Exception during #{org.jboss.seam.debug.phaseId}: #{org.jboss.seam.debug.contexts.exception.message}
+        <pre><ui:repeat value="#{org.jboss.seam.debug.contexts.exception.stackTrace}" var="stackElement">
 #{stackElement}</ui:repeat></pre>
     </div>
     </f:subview>

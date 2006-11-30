@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.Namespace;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
@@ -36,6 +37,8 @@ import org.jboss.seam.util.Transactions;
 @Install(value=false, precedence=BUILT_IN)
 public class Init
 {
+   
+   private Namespace rootNamespace = new Namespace(null);
    
    private boolean isClientSideConversations = false;
    private boolean jbpmInstalled;
@@ -285,6 +288,11 @@ public class Init
    public void addAutocreateVariable(String name)
    {
       autocreateVariables.add(name);
+   }
+
+   public Namespace getRootNamespace()
+   {
+      return rootNamespace;
    }
 
 }

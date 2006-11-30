@@ -14,6 +14,7 @@ import javax.faces.el.VariableResolver;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Init;
 
 /**
  * Resolves a variable name in the Seam contexts, according to
@@ -52,7 +53,7 @@ public class SeamVariableResolver extends VariableResolver
             if (managedBean==null)
             {
                log.debug("could not resolve name");
-               return null;
+               return Init.instance().getRootNamespace().getChild(name);
             }
             else 
             {

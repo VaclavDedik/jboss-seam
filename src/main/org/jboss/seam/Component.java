@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
@@ -211,6 +212,8 @@ public class Component
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
       
+      initNamespaces(componentName, applicationContext);
+      
       checkScopeForComponentType();
 
       jndiName = componentJndiName == null ? 
@@ -261,6 +264,30 @@ public class Component
 
       //factory = createProxyFactory();
 
+   }
+
+   private void initNamespaces(String componentName, Context applicationContext)
+   {
+      if (applicationContext!=null) //for unit tests!
+      {
+         Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) );
+         if (init!=null)
+         {
+            Namespace namespace = init.getRootNamespace();
+            StringTokenizer tokens = new StringTokenizer(componentName, ".");
+            StringBuffer path = new StringBuffer();
+            while ( tokens.hasMoreTokens() )
+            {
+               String token = tokens.nextToken();
+               path.append(token).append('.');
+               if ( tokens.hasMoreTokens() && !namespace.hasChild(token) )
+               {
+                  namespace.addChild( token, new Namespace(path.toString()) );
+               }
+               namespace = namespace.getChild(token);
+            }
+         }
+      }
    }
 
    private void checkScopeForComponentType()
