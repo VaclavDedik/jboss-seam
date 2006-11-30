@@ -39,6 +39,7 @@
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
     <property name="facelets.dir"         value="${imported.basedir}/facelets"/>
     <property name="drools.dir"           value="${imported.basedir}/drools"/>
+	<property name="hibernate.dir"        value="${imported.basedir}/hibernate"/>
     <property name="seamgen.dir"          value="${imported.basedir}/seam-gen"/>
 
     <property name="doc.dir"              value="doc"/>
@@ -62,7 +63,8 @@
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
     <property name="dist.facelets.dir"    value="${dist.dir}/facelets"/>
     <property name="dist.drools.dir"      value="${dist.dir}/drools"/>
-    <property name="dist.seamgen.dir"      value="${dist.dir}/seam-gen"/>
+	<property name="dist.hibernate.dir"   value="${dist.dir}/hibernate"/>
+    <property name="dist.seamgen.dir"     value="${dist.dir}/seam-gen"/>
 
     <property name="deploy.dir"           value="${jboss.home}/server/default/deploy"/>
     <property name="webroot.dir"          value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
@@ -525,10 +527,10 @@
         <mkdir dir="${dist.lib.dir}"/>
         <copy todir="${dist.lib.dir}">
             <fileset dir="${lib.dir}">
-                <include name="*.jar"/>
-                <include name="*.txt"/>
+                <include name="*.*"/>
             </fileset>
         </copy>
+    	
         <copy todir="${dist.eejb.conf.dir}">
             <fileset dir="${eejb.conf.dir}">
                 <patternset refid="meta.files"/>
@@ -539,16 +541,25 @@
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
-        <copy todir="${dist.facelets.dir}">
+        <copy file="microcontainer/readme.txt" todir="${dist.dir}/microcontainer"/>
+        <copy file="embedded-ejb/readme.txt" todir="${dist.dir}/embedded-ejb"/>
+
+    	<copy todir="${dist.facelets.dir}">
             <fileset dir="${facelets.dir}">
-                <include name="**/*.jar"/>
+                <include name="**/*.*"/>
             </fileset>
         </copy>
         <copy todir="${dist.drools.dir}">
             <fileset dir="${drools.dir}">
-                <include name="**/*.jar"/>
+                <include name="**/*.*"/>
             </fileset>
         </copy>
+        <copy todir="${dist.hibernate.dir}">
+            <fileset dir="${hibernate.dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+    	
     </target>
 
     <target name="instrument" depends="compile">
@@ -761,10 +772,6 @@
     <target name="extras"
             description="Copy miscellaneous files to dist dir">
         <copy file="readme.txt"                 todir="${dist.dir}"/>
-        <copy file="microcontainer/readme.txt"  todir="${dist.dir}/microcontainer"/>
-        <copy file="embedded-ejb/readme.txt"    todir="${dist.dir}/embedded-ejb"/>
-        <copy file="facelets/readme.txt"        todir="${dist.dir}/facelets"/>
-        <copy file="drools/readme.txt"          todir="${dist.dir}/drools"/>
         <copy file="lgpl.txt"                   todir="${dist.dir}"/>
         <copy file="changelog.txt"              todir="${dist.dir}"/>
         <copy file="build.properties"           todir="${dist.dir}"/>
