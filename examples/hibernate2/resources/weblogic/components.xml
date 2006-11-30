@@ -1,0 +1,23 @@
+<!DOCTYPE components PUBLIC
+  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/components-1.1.dtd">
+
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="debug">true</property>
+    </component>
+
+    <!-- 120 second conversation timeout -->
+    <component name="org.jboss.seam.core.manager">
+        <property name="conversationTimeout">120000</property>
+    </component>
+    
+    <!-- Bootstrap Hibernate -->
+    <component name="bookingDatabase" 
+              sessionFactoryJndiName="bookingDatabase"
+              class="org.jboss.seam.core.ManagedHibernateSession"/>
+    <component name="hibernateSessionFactory"
+              class="org.jboss.seam.core.HibernateSessionFactory"/> 
+    
+</components>
