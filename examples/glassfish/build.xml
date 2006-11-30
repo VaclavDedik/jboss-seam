@@ -11,6 +11,7 @@
   <property name="lib" location="../../lib" />
   <property name="applib" location="lib" />
   <property name="seamlib" location="../../" />
+  <property name="hibernatelib" location="../../hibernate/lib" />
   <path id="lib.classpath">
     <fileset dir="${lib}" includes="*.jar"/>
     <fileset dir="${applib}" includes="*.jar"/>
@@ -93,7 +94,6 @@
       appxml="${resources}/META-INF/application.xml">
       
       <fileset dir="${lib}">
-        <include name="hibernate-all.jar" />
         <include name="thirdparty-all.jar" />
         <include name="commons-digester-*.jar" />
         <include name="commons-beanutils-*.jar" />
@@ -103,6 +103,9 @@
         <include name="commons-el-*.jar" />
         <include name="commons-lang-*.jar" />
         -->
+      </fileset>
+      <fileset dir="${hibernatelib}">
+        <include name="hibernate*.jar" />
       </fileset>
       <fileset dir="${applib}">
         <include name="jboss-archive-browsing.jar" />
