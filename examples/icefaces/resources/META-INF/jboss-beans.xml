@@ -4,7 +4,7 @@
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
             xmlns="urn:jboss:bean-deployer">
 
-   <bean name="bookingDatasourceBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
+   <bean name="icefacesDatasourceBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
       <property name="driverClass">org.hsqldb.jdbcDriver</property>
       <property name="connectionURL">jdbc:hsqldb:.</property>
       <property name="userName">sa</property>
@@ -18,9 +18,9 @@
       <property name="initialContextProperties"><inject bean="InitialContextProperties"/></property>
    </bean>
 
-   <bean name="bookingDatasource" class="java.lang.Object">
+   <bean name="icefacesDatasource" class="java.lang.Object">
       <constructor factoryMethod="getDatasource">
-         <factory bean="bookingDatasourceBootstrap"/>
+         <factory bean="icefacesDatasourceBootstrap"/>
       </constructor>
    </bean>
 

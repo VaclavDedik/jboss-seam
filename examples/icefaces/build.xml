@@ -100,7 +100,6 @@
         <path refid="example.path"/>
         <fileset refid="lib"/>
         <fileset refid="seam.jar"/>
-	    <fileset file="resources/WEB-INF/lib/icefaces.jar"/>
     </path>
     
 </project>
