@@ -35,6 +35,7 @@
   <factory scope="stateless" auto-create="true" name="switcher" value="#{org.jboss.seam.core.switcher}"/>
   <factory scope="stateless" auto-create="true" name="taskInstance" value="#{org.jboss.seam.core.taskInstance}"/>
   <factory scope="stateless" auto-create="true" name="taskInstanceList" value="#{org.jboss.seam.core.taskInstanceList}"/>
+  <factory scope="stateless" auto-create="true" name="processInstanceList" value="#{org.jboss.seam.core.processInstanceList}"/>
   <factory scope="stateless" auto-create="true" name="taskInstanceListForType" value="#{org.jboss.seam.core.taskInstanceListForType}"/>
   <factory scope="stateless" auto-create="true" name="timeZone" value="#{org.jboss.seam.core.timeZone}"/>
   <factory scope="stateless" auto-create="true" name="timeZoneSelector" value="#{org.jboss.seam.core.timeZoneSelector}"/>
