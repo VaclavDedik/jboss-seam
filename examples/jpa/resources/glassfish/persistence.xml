@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <persistence-unit name="bookingDatabase" transaction-type="JTA">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>jdbc/__default</jta-data-source>
       <properties>
           <property name="hibernate.dialect" 
-                    value="org.hibernate.dialect.DerbyDialect"/>
+                    value="GlassfishDerbyDialect"/>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>
          <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>

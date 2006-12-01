@@ -44,7 +44,7 @@ public class Booking implements Serializable
       this.user = user;
    }
 
-   @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+   @Id @GeneratedValue
    public Long getId()
    {
       return id;
