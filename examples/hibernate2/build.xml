@@ -207,9 +207,11 @@
         <include name="ajax4jsf.jar" />
         <include name="oscache-2.3.2.jar" />
       </lib>
+      <!--
       <lib dir="${applib}/mc">
         <include name="*.jar" />
       </lib>
+      -->
       <lib dir="${lib}">
         <include name="myfaces-api-1.1.4.jar" />
         <include name="myfaces-impl-1.1.4.jar" />
@@ -239,10 +241,10 @@
       </fileset>
       <fileset dir="${resources}">
         <include name="seam.properties" />
-        <include name="import.sql" />
       </fileset>
       <fileset dir="${resources}/glassfish">
         <include name="hibernate.cfg.xml" />
+        <include name="import.sql" />
       </fileset>
     </jar>
     
@@ -280,6 +282,7 @@
       </lib>
       <classes dir="${resources}/glassfish">
         <include name="log4j.xml" />
+        <include name="GlassfishDerbyDialect.class" />
       </classes>
       <fileset dir="${view}"/>
     </war>
