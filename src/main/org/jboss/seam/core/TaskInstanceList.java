@@ -18,7 +18,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * 
  * @see TaskInstanceListForType
  * @see PooledTask
- * @author <a href="mailto:steve@hibernate.org">Steve Ebersole </a>
+ * @author <a href="mailto:steve@hibernate.org">Steve Ebersole</a>
  * @author Gavin King
  */
 @Name("org.jboss.seam.core.taskInstanceList")

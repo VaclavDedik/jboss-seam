@@ -27,10 +27,10 @@ public class EL
    {
       CompositeELResolver resolver = new CompositeELResolver();
       resolver.add( new SeamELResolver() );
-      resolver.add( new BeanELResolver() );
       resolver.add( new MapELResolver() );
       resolver.add( new ListELResolver() );
       resolver.add( new ResourceBundleELResolver() );
+      resolver.add( new BeanELResolver() );
       return resolver;
    }
 
