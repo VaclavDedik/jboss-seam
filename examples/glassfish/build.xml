@@ -106,8 +106,6 @@
       </fileset>
       <fileset dir="${hibernatelib}">
         <include name="hibernate*.jar" />
-      </fileset>
-      <fileset dir="${applib}">
         <include name="jboss-archive-browsing.jar" />
       </fileset>
       <fileset dir="${build.jars}">
