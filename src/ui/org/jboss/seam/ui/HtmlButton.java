@@ -190,7 +190,7 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
          onclick += "location.href='" + encodedUrl + "'";
       }
       writer.writeAttribute("onclick", onclick, null);
-      HTML.renderHTMLAttributes(writer, this, HTML.BUTTON_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED);
+      HTML.renderHTMLAttributes(writer, this, HTML.BUTTON_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONCLICK);
       
       Object label = getValue();
       if (label!=null) 
