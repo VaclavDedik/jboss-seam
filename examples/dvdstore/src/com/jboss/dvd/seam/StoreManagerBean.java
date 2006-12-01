@@ -32,9 +32,10 @@ public class StoreManagerBean
 
     public double getTotalSales() {
         try {
-            return (Double) em.createQuery("select sum(o.totalAmount) from Order o where o.status != :status")
-                .setParameter("status", Order.Status.CANCELLED)
-                .getSingleResult();
+            Double totalSales = (Double) em.createQuery("select sum(o.totalAmount) from Order o where o.status != :status")
+                         .setParameter("status", Order.Status.CANCELLED)
+                         .getSingleResult();
+            return totalSales==null ? 0.0 : totalSales;
         } catch (NoResultException e) {
             return 0.0;
         }

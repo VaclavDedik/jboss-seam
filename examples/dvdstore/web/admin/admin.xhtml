@@ -165,6 +165,41 @@
                     </h:dataTable>
                 </c:otherwise>
             </c:choose>
+            
+            <h2>Processes</h2>
+            <c:choose>
+                <c:when test="#{empty processInstanceList}">
+                    <p>There are no active processes.</p>
+                </c:when>
+                <c:otherwise>
+                    <h:dataTable value="#{processInstanceList}" var="process"
+                            styleClass="dvdtable"
+                            headerClass="dvdtablehead"
+                            rowClasses="dvdtableodd,dvdtableeven"
+                            columnClasses="dvdtablecol">
+                        <h:column>
+                             <f:facet name="header">Process Definition</f:facet>
+                            #{process.processDefinition.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Process Start</f:facet>
+                            <h:outputText value="#{process.start}">
+                                <s:convertDateTime type="both"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Current Node</f:facet>
+                            #{process.rootToken.node.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Current Node Enter</f:facet>
+                            <h:outputText value="#{process.rootToken.nodeEnter}">
+                                <s:convertDateTime type="both"/>
+                            </h:outputText>
+                        </h:column>
+                    </h:dataTable>
+                </c:otherwise>
+            </c:choose>
 
         </f:subview>            
         </ui:define>
