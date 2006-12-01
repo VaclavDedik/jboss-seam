@@ -72,13 +72,21 @@
 			<fileset dir="${basedir}/view" />
 		</copy>
 		<copy todir="${war.dir}/WEB-INF">
-		    <fileset dir="${basedir}/resources/WEB-INF" />			
-		</copy>
-		<copy overwrite="true" todir="${war.dir}/WEB-INF/resources/components.xml" file="${basedir}/resources/WEB-INF/components.xml">
+			<fileset dir="${basedir}/resources/WEB-INF">
+				<include name="*.*"/>
+				<include name="classes/**/*.*"/>
+				<exclude name="classes/**/*.class"/>
+			</fileset>
 			<filterset>
 				<filter token="jndiPattern" value="${project.name}/#{ejbName}/local" />
 				<filter token="embeddedEjb" value="false" />
 			</filterset>
+		</copy>		
+		<copy todir="${war.dir}/WEB-INF">
+			<fileset dir="${basedir}/resources/WEB-INF">
+				<include name="lib/*.*"/>
+				<include name="classes/**/*.class"/>
+			</fileset>
 		</copy>		
 		<copy todir="${war.dir}/WEB-INF/lib">
 			<fileset dir="${lib.dir}">
