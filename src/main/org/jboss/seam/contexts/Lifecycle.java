@@ -222,10 +222,16 @@ public class Lifecycle
          Contexts.destroy(conversationContext);
          Contexts.conversationContext.set(null);
       }
+      
+      Context tempConversationContext = new MapContext(ScopeType.CONVERSATION);
+      Contexts.conversationContext.set(tempConversationContext);
 
       log.debug("destroying session context");
       Contexts.destroy(tempSessionContext);
       Contexts.sessionContext.set(null);
+      
+      Contexts.destroy(tempConversationContext);
+      Contexts.conversationContext.set(null);
 
       Contexts.destroy(tempEventContext);
       Contexts.eventContext.set(null);

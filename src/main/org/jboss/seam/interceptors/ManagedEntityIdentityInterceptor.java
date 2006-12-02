@@ -170,29 +170,32 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
          for (PassivatedEntity pe: list)
          {
             Object persistenceContext = Component.getInstance( pe.getPersistenceContext() );
-            Object reference;
-            if (persistenceContext instanceof EntityManager)
+            if ( persistenceContext!=null )
             {
-               EntityManager em = (EntityManager) persistenceContext;
-               if ( !em.isOpen() ) continue;
-               reference = em.getReference( pe.getEntityClass(), pe.getId() );
-            }
-            else
-            {
-               Session session = (Session) persistenceContext;
-               if ( !session.isOpen() ) continue;
-               reference = session.load( pe.getEntityClass(), (Serializable) pe.getId() );
-            }
-            for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
-            {
-               try
+               Object reference;
+               if (persistenceContext instanceof EntityManager)
                {
-                  Field field = beanClass.getDeclaredField( pe.getFieldName() );
-                  if ( !field.isAccessible() ) field.setAccessible(true);
-                  field.set(bean, reference);
-                  break;
+                  EntityManager em = (EntityManager) persistenceContext;
+                  if ( !em.isOpen() ) continue;
+                  reference = em.getReference( pe.getEntityClass(), pe.getId() );
                }
-               catch (NoSuchFieldException nsfe) {}
+               else
+               {
+                  Session session = (Session) persistenceContext;
+                  if ( !session.isOpen() ) continue;
+                  reference = session.load( pe.getEntityClass(), (Serializable) pe.getId() );
+               }
+               for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
+               {
+                  try
+                  {
+                     Field field = beanClass.getDeclaredField( pe.getFieldName() );
+                     if ( !field.isAccessible() ) field.setAccessible(true);
+                     field.set(bean, reference);
+                     break;
+                  }
+                  catch (NoSuchFieldException nsfe) {}
+               }
             }
          }
          list.clear();
