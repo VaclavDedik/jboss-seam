@@ -8,6 +8,10 @@
         classname="org.jboss.seam.tool.PackageDirectoryTask" 
         classpath="../jboss-seam-gen.jar"/>
     
+    <taskdef name="pathFilename" 
+        classname="org.jboss.seam.tool.PathFilenameTask" 
+        classpath="../jboss-seam-gen.jar"/>
+    
     <taskdef name="lowercaseProperty" 
         classname="org.jboss.seam.tool.LowercasePropertyTask" 
         classpath="../jboss-seam-gen.jar"/>
@@ -32,6 +36,7 @@
     <packageDirectory property="action.dir" package="${action.package}"/>
     <packageDirectory property="model.dir" package="${model.package}"/>
     <packageDirectory property="test.dir" package="${test.package}"/>
+	<pathFilename property="driver.file" path="${driver.jar}"/>
 	
 	<condition property="hibernate.hbm2ddl.auto" value="update">
 		<equals arg1="${database.exists}" arg2="n"/>
@@ -55,6 +60,7 @@
         <filter token="projectName" value="${project.name}" />
         <filter token="jbossHome" value="${jboss.home}" />
     	<filter token="hbm2ddl" value="${hibernate.hbm2ddl.auto}"/>
+    	<filter token="driverJar" value="${driver.file}"/>
     </filterset>
     
     <fileset id="view" dir="${basedir}/view">
