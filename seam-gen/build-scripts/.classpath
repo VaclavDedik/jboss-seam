@@ -28,6 +28,6 @@
 	<classpathentry kind="lib" path="lib/thirdparty-all.jar"/>
 	<classpathentry kind="lib" path="lib/el-api.jar"/>
 	<classpathentry kind="lib" path="lib/el-ri.jar"/>
-    <classpathentry kind="lib" path="lib/@driverJar@"/>
+	<classpathentry kind="lib" path="lib/@driverJar@"/>
 	<classpathentry kind="output" path="exploded-archives/@projectName@.jar"/>
 </classpath>
