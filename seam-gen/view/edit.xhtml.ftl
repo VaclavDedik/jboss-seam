@@ -79,7 +79,12 @@
                 view="/${masterPageName}.xhtml"/>
             <s:button id="done" value="Done"
                 propagation="end" 
-                view="/${pageName}.xhtml"/>
+                view="/${pageName}.xhtml"
+                rendered="${'#'}{${homeName}.managed}"/>
+            <s:button id="cancel" value="Cancel"
+                propagation="end" 
+                view="/${masterPageName}.xhtml"
+                rendered="${'#'}{!${homeName}.managed}"/>
         </div>
     </h:form>
     
