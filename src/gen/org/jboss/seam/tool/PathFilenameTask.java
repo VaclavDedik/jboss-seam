@@ -15,8 +15,8 @@ public class PathFilenameTask extends Task
       {
          int fwdloc = path.lastIndexOf('/');
          int backloc = path.lastIndexOf('\\');
-         int loc = fwdloc > backloc ? fwdloc : backloc;
-         String filename = loc>=0 ? path.substring(loc) : path;
+         int loc = ( fwdloc > backloc ? fwdloc : backloc ) + 1;
+         String filename = loc>0 ? path.substring(loc) : path;
          getProject().setProperty(propertyName, filename);
       }
    }
