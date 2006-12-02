@@ -121,32 +121,33 @@
 </#if>
 
 <#if c2h.isOneToManyCollection(property)>
-          <h2>${property.name}</h2>
+          <f:subview rendered="${'#'}{${homeName}.managed}">
+            <h2>${property.name}</h2>
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
 <#assign childPageName = childPojo.shortName>
 <#assign childEditPageName = childPojo.shortName + "Edit">
 <#assign childName = util.lower(childPojo.shortName)>
-          <h:outputText value="No ${property.name}" rendered="${'#'}{empty ${homeName}.${property.name}}"/>
-          <h:dataTable value="${'#'}{${homeName}.${property.name}}" 
-                         var="${childName}" 
-                    rendered="${'#'}{not empty ${homeName}.${property.name}}" 
-                  rowClasses="rvgRowOne,rvgRowTwo"
-                          id="${property.name}">
+            <h:outputText value="No ${property.name}" rendered="${'#'}{empty ${homeName}.${property.name}}"/>
+            <h:dataTable value="${'#'}{${homeName}.${property.name}}" 
+                           var="${childName}" 
+                      rendered="${'#'}{not empty ${homeName}.${property.name}}" 
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="${property.name}">
 <#foreach childProperty in childPojo.allPropertiesIterator>
 <#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
-            <h:column>
-                <f:facet name="header">${childProperty.name}</f:facet>
-                <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
-            </h:column>
+              <h:column>
+                  <f:facet name="header">${childProperty.name}</f:facet>
+                  <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
+              </h:column>
 </#if>
 </#foreach>
-            <h:column>
-                <f:facet name="header">action</f:facet>
-		        <s:link id="select${childName}" value="Select" view="/${childPageName}.xhtml" propagation="end">
-		            <f:param name="${childName}Id" value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
-		        </s:link>
-            </h:column>
-          </h:dataTable>
+              <h:column>
+                  <f:facet name="header">action</f:facet>
+		          <s:link id="select${childName}" value="Select" view="/${childPageName}.xhtml" propagation="end">
+		              <f:param name="${childName}Id" value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
+		          </s:link>
+              </h:column>
+            </h:dataTable>
           
 		    <div class="actionButtons">
 		        <s:button id="add${childName}" value="Add ${childName}"
@@ -155,6 +156,7 @@
 	            	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
 	            </s:button>
 		    </div>
+		  </f:subview>
 </#if>
 </#foreach>
     
