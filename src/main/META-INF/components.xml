@@ -29,13 +29,14 @@
   <factory scope="stateless" auto-create="true" name="pooledTask" value="#{org.jboss.seam.core.pooledTask}"/>
   <factory scope="stateless" auto-create="true" name="pooledTaskInstanceList" value="#{org.jboss.seam.core.pooledTaskInstanceList}"/>
   <factory scope="stateless" auto-create="true" name="processInstance" value="#{org.jboss.seam.core.processInstance}"/>
+  <factory scope="stateless" auto-create="true" name="processInstanceFinder" value="#{org.jboss.seam.core.processInstanceFinder}"/>
+  <factory scope="stateless" auto-create="true" name="processInstanceList" value="#{org.jboss.seam.core.processInstanceList}"/>
   <factory scope="stateless" auto-create="true" name="redirect" value="#{org.jboss.seam.core.redirect}"/>
   <factory scope="stateless" auto-create="true" name="resourceBundle" value="#{org.jboss.seam.core.resourceBundle}"/>
   <factory scope="stateless" auto-create="true" name="sessionContext" value="#{org.jboss.seam.core.sessionContext}"/>
   <factory scope="stateless" auto-create="true" name="switcher" value="#{org.jboss.seam.core.switcher}"/>
   <factory scope="stateless" auto-create="true" name="taskInstance" value="#{org.jboss.seam.core.taskInstance}"/>
   <factory scope="stateless" auto-create="true" name="taskInstanceList" value="#{org.jboss.seam.core.taskInstanceList}"/>
-  <factory scope="stateless" auto-create="true" name="processInstanceList" value="#{org.jboss.seam.core.processInstanceList}"/>
   <factory scope="stateless" auto-create="true" name="taskInstanceListForType" value="#{org.jboss.seam.core.taskInstanceListForType}"/>
   <factory scope="stateless" auto-create="true" name="timeZone" value="#{org.jboss.seam.core.timeZone}"/>
   <factory scope="stateless" auto-create="true" name="timeZoneSelector" value="#{org.jboss.seam.core.timeZoneSelector}"/>
