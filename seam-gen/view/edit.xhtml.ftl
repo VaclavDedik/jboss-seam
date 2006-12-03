@@ -49,6 +49,14 @@
 			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertDateTime type="both" dateStyle="short"/>
 			           </h:inputText>
+<#elseif property.value.typeName == "big_decimal">
+			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			               <f:convertNumber/>
+			           </h:inputText>
+<#elseif property.value.typeName == "big_integer">
+			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			               <f:convertNumber integerOnly="true"/>
+			           </h:inputText>
 <#elseif property.value.typeName == "boolean">
 			           <h:selectBooleanCheckbox id="${property.name}"
 			               value="${'#'}{${homeName}.instance.${property.name}}"/>

@@ -46,6 +46,14 @@
 			           <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertDateTime type="both" dateStyle="short"/>
 			           </h:outputText>
+<#elseif property.value.typeName == "big_decimal">
+			           <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
+			               <f:convertNumber/>
+			           </h:outputText>
+<#elseif property.value.typeName == "big_integer">
+			           <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
+			               <f:convertNumber integerOnly="true"/>
+			           </h:outputText>
 <#else>
                        ${'#'}{${homeName}.instance.${property.name}}
 </#if>
