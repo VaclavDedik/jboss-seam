@@ -102,7 +102,7 @@ public class IssueFinderBean implements IssueFinder {
         for (Entry <String, Object> param: parameters.entrySet()) {
             query.setParameter( param.getKey(), param.getValue() );
         }
-        issueList = (List<Issue>) query.setMaxResults(pageSize)
+        issueList = query.setMaxResults(pageSize)
                 .setFirstResult(pageSize*pageNumber)
                 .getResultList();
     }

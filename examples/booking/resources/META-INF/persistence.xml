@@ -1,4 +1,6 @@
-<persistence>
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">>
    <persistence-unit name="bookingDatabase">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/bookingDatasource</jta-data-source>
