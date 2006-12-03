@@ -6,26 +6,26 @@
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-1.1.xsd 
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-1.1.xsd">
 
-    <core:init debug="true" jndi-pattern="@jndiPattern@"/>
+   <core:init debug="true" jndi-pattern="@jndiPattern@"/>
      
-    <core:manager concurrent-request-timeout="500" 
-                  conversation-timeout="120000" 
-                  conversation-id-parameter="cid" 
-                  conversation-is-long-running-parameter="clr"/>
+   <core:manager concurrent-request-timeout="500" 
+                 conversation-timeout="120000" 
+                 conversation-id-parameter="cid" 
+                 conversation-is-long-running-parameter="clr"/>
     
-    <core:pages no-conversation-view-id="/home.xhtml"/>
-    
-    <core:managed-persistence-context name="entityManager"
-            persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
+   <core:pages no-conversation-view-id="/home.xhtml"/>
+   
+   <core:managed-persistence-context name="entityManager"
+           persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
 
-    <core:ejb installed="@embeddedEjb@"/>
+   <core:ejb installed="@embeddedEjb@"/>
     
-    <!-- For use with jBPM pageflow or process management -->
-    <!--  
-    <core:jbpm>
-        <core:process-definitions></core:process-definitions>
-        <core:pageflow-definitions></core:pageflow-definitions>
-    </core:jbpm>
-  -->
+   <!-- For use with jBPM pageflow or process management -->
+   <!--  
+   <core:jbpm>
+      <core:process-definitions></core:process-definitions>
+      <core:pageflow-definitions></core:pageflow-definitions>
+   </core:jbpm>
+   -->
       
 </components>

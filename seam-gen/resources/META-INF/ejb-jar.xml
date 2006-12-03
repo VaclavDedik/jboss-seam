@@ -5,9 +5,9 @@
          version="3.0">
          
    <interceptors>
-     <interceptor>
-       <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
-     </interceptor>
+      <interceptor>
+         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+      </interceptor>
    </interceptors>
    
    <assembly-descriptor>

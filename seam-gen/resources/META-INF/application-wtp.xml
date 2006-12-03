@@ -1,20 +1,25 @@
-<application>
-	<display-name>Seam Generated Application</display-name>
-    <description>created by seam-gen</description>
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
+             version="5">
+    
+   <display-name>Seam Generated Application</display-name>
 
-	<module>
-		<web>
-			<web-uri>@projectName@Web.war</web-uri>
-			<context-root>/@projectName@</context-root>
-		</web>
-	</module>
-	<module>
-	    <java>jboss-seam.jar</java>
-	</module>	
-	<module>
-		<ejb>@projectName@EJB.jar</ejb>
-	</module>	
-	<module>
-	    <java>jbpm-3.1.1.jar</java>
-	</module>
+   <module>
+      <web>
+         <web-uri>@projectName@Web.war</web-uri>
+         <context-root>/@projectName@</context-root>
+      </web>
+   </module>
+   <module>
+       <java>jboss-seam.jar</java>
+   </module>   
+   <module>
+      <ejb>@projectName@EJB.jar</ejb>
+   </module>   
+   <module>
+      <java>jbpm-3.1.1.jar</java>
+   </module>
+    
 </application>
