@@ -60,8 +60,17 @@
 <#elseif property.value.typeName == "boolean">
 			           <h:selectBooleanCheckbox id="${property.name}"
 			               value="${'#'}{${homeName}.instance.${property.name}}"/>
+<#elseif property.value.typeName == "string">
+<#if property.columnIterator.next().length gt 200>
+			           <h:inputTextarea id="${property.name}"
+			               value="${'#'}{${homeName}.instance.${property.name}}"/>
 <#else>
-                        <h:inputText id="${property.name}"
+                       <h:inputText id="${property.name}" 
+                            size="${property.columnIterator.next().length}"
+                            value="${'#'}{${homeName}.instance.${property.name}}"/>
+</#if>
+<#else>
+                       <h:inputText id="${property.name}"
                             value="${'#'}{${homeName}.instance.${property.name}}"/>
 </#if>
 </#if>

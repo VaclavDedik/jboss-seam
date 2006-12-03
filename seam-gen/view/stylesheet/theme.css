@@ -132,9 +132,9 @@ td {
 	color: red;
 	text-align: left;
 }
-.value input {
+/*.value input {
 	width:190px;
-}
+}*/
 .errors input {
 	border: 1px solid red;
 }
