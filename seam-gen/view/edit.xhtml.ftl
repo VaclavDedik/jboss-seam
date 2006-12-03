@@ -33,45 +33,73 @@
 <#if property.equals(pojo.identifierProperty)>
 <#if property.value.identifierGeneratorStrategy == "assigned">
                         <h:inputText id="${property.name}"
-                            value="${'#'}{${homeName}.instance.${property.name}}" 
-                            disabled="${'#'}{${homeName}.managed}"/>
+                                  value="${'#'}{${homeName}.instance.${property.name}}" 
+                               required="true"
+                               disabled="${'#'}{${homeName}.managed}"/>
 </#if>
 <#else>
 <#if property.value.typeName == "date">
-			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			           <h:inputText id="${property.name}" 
+<#if !property.columnIterator.next().nullable>
+                              required="true"
+</#if>
+			                     value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertDateTime type="date" dateStyle="short"/>
 			           </h:inputText>
 <#elseif property.value.typeName == "time">
-			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			           <h:inputText id="${property.name}" 
+<#if !property.columnIterator.next().nullable>
+                              required="true"
+</#if>
+			                     value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertDateTime type="time"/>
 			           </h:inputText>
 <#elseif property.value.typeName == "timestamp">
-			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			           <h:inputText id="${property.name}" 
+<#if !property.columnIterator.next().nullable>
+                              required="true"
+</#if>
+			                     value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertDateTime type="both" dateStyle="short"/>
 			           </h:inputText>
 <#elseif property.value.typeName == "big_decimal">
-			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			           <h:inputText id="${property.name}" 
+<#if !property.columnIterator.next().nullable>
+                              required="true"
+</#if>
+			                     value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertNumber/>
 			           </h:inputText>
 <#elseif property.value.typeName == "big_integer">
-			           <h:inputText id="${property.name}" value="${'#'}{${homeName}.instance.${property.name}}">
+			           <h:inputText id="${property.name}" 
+<#if !property.columnIterator.next().nullable>
+                              required="true"
+</#if>
+			                    value="${'#'}{${homeName}.instance.${property.name}}">
 			               <f:convertNumber integerOnly="true"/>
 			           </h:inputText>
 <#elseif property.value.typeName == "boolean">
 			           <h:selectBooleanCheckbox id="${property.name}"
-			               value="${'#'}{${homeName}.instance.${property.name}}"/>
+<#if !property.columnIterator.next().nullable>
+                                          required="true"
+</#if>
+			                                 value="${'#'}{${homeName}.instance.${property.name}}"/>
 <#elseif property.value.typeName == "string">
 <#if property.columnIterator.next().length gt 200>
 			           <h:inputTextarea id="${property.name}"
-			               value="${'#'}{${homeName}.instance.${property.name}}"/>
+<#if !property.columnIterator.next().nullable>
+                                  required="true"
+</#if>
+			                         value="${'#'}{${homeName}.instance.${property.name}}"/>
 <#else>
                        <h:inputText id="${property.name}" 
-                            size="${property.columnIterator.next().length}"
-                            value="${'#'}{${homeName}.instance.${property.name}}"/>
+<#if !property.columnIterator.next().nullable>
+                              required="true"
 </#if>
-<#else>
-                       <h:inputText id="${property.name}"
-                            value="${'#'}{${homeName}.instance.${property.name}}"/>
+                                  size="${property.columnIterator.next().length}"
+                             maxlength="${property.columnIterator.next().length}"
+                                 value="${'#'}{${homeName}.instance.${property.name}}"/>
+</#if>
 </#if>
 </#if>
                     </s:decorate>
