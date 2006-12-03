@@ -200,7 +200,7 @@ public class Lifecycle
    public static void endSession(ServletContext servletContext, ContextAdaptor session)
    {
       log.debug("End of session, destroying contexts");
-
+      
       Context tempAppContext = new WebApplicationContext(servletContext);
       Contexts.applicationContext.set(tempAppContext);
 
@@ -249,6 +249,8 @@ public class Lifecycle
 
          if ( Seam.isSessionInvalid() )
          {
+            clearThreadlocals();
+            Lifecycle.setPhaseId(null);
             ContextAdaptor.getSession(externalContext).invalidate(); //huh? we create a session just to invalidate it?
             //actual session context will be destroyed from the listener
          }
@@ -287,6 +289,7 @@ public class Lifecycle
 
          if ( Seam.isSessionInvalid() )
          {
+            clearThreadlocals();
             ContextAdaptor.getSession(session).invalidate(); //huh? we create a session just to invalidate it?
             //actual session context will be destroyed from the listener
 
@@ -302,12 +305,12 @@ public class Lifecycle
    }
 
    private static void clearThreadlocals() {
-      Contexts.eventContext.set( null );
-      Contexts.pageContext.set( null );
-      Contexts.sessionContext.set( null );
-      Contexts.conversationContext.set( null );
-      Contexts.businessProcessContext.set( null );
-      Contexts.applicationContext.set( null );
+      Contexts.eventContext.set(null);
+      Contexts.pageContext.set(null);
+      Contexts.sessionContext.set(null);
+      Contexts.conversationContext.set(null);
+      Contexts.businessProcessContext.set(null);
+      Contexts.applicationContext.set(null);
    }
 
    private static void flushAndDestroyContexts()

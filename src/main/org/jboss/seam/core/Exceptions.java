@@ -29,7 +29,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
@@ -48,7 +47,7 @@ import org.jboss.seam.util.Transactions;
 @Name("org.jboss.seam.core.exceptions")
 public class Exceptions 
 {
-   private static final Log log = LogFactory.getLog(ExceptionInterceptor.class);
+   private static final Log log = LogFactory.getLog(Exceptions.class);
    
    private List<ExceptionHandler> exceptionHandlers = new ArrayList<ExceptionHandler>();
    
@@ -244,7 +243,8 @@ public class Exceptions
       public boolean isHandler(Exception e)
       {
          return e.getClass().isAnnotationPresent(Redirect.class) && 
-               Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE;
+               Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE && 
+               Lifecycle.getPhaseId()!=null;
       }
       
       protected String getMessage(Exception e)
@@ -383,7 +383,8 @@ public class Exceptions
 
       public boolean isHandler(Exception e)
       {
-         return Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE;
+         return Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE && 
+               Lifecycle.getPhaseId()!=null;
       }
       
       @Override
