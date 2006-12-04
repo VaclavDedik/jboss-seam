@@ -124,7 +124,7 @@ public class SeamSecurityManager
   private void checkRolePermissions(String permissionName, String action)
   {
     Permission required = new SeamPermission(permissionName, action);
-    for (String role : Authentication.instance().getRoles())
+    for (String role : Identity.instance().getRoles())
     {
       Set<Permission> permissions = rolePermissions.get(role);
       if (permissions != null && permissions.contains(required))
@@ -155,7 +155,7 @@ public class SeamSecurityManager
     return null;
   }
 
-  public Permissions getPermissions(Object value, Authentication auth)
+  public Permissions getPermissions(Object value, Identity ident)
   {
     return null;
   }

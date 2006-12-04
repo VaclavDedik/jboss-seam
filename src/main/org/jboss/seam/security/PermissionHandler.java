@@ -78,7 +78,7 @@ public class PermissionHandler
     Permission required = new SeamPermission(permissionName, action);
 
     AclProvider provider = (AclProvider) Component.getInstance(providers.get(action), true);
-    Principal principal = Authentication.instance();
+    Principal principal = Identity.instance();
 
     if (provider != null)
     {

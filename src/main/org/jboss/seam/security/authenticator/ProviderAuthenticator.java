@@ -10,7 +10,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.provider.AuthenticationProvider;
 import org.jboss.seam.util.Reflections;
@@ -34,7 +34,7 @@ public class ProviderAuthenticator extends Authenticator
    * @throws AuthenticationException
    */
   @Override
-  public Authentication doAuthentication(Authentication authentication)
+  public Identity doAuthentication(Identity authentication)
       throws AuthenticationException
   {
     for (Object p : providers)
@@ -46,7 +46,7 @@ public class ProviderAuthenticator extends Authenticator
       else if (p instanceof Component)
         provider = (AuthenticationProvider) ( (Component) p).newInstance();
 
-      Authentication result = provider.authenticate(authentication);
+      Identity result = provider.authenticate(authentication);
       if (result != null)
         return result;
     }

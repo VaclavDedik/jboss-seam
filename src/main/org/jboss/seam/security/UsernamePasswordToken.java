@@ -3,7 +3,7 @@ package org.jboss.seam.security;
 /**
  * @author Shane Bryzak
  */
-public class UsernamePasswordToken extends Authentication
+public class UsernamePasswordToken extends Identity
 {
   private String[] roles;
   private Object credentials;
@@ -46,10 +46,10 @@ public class UsernamePasswordToken extends Authentication
   {
     return principal;
   }
-  
+
   @Override
   public String toString()
   {
-    return String.format("UsernamePasswordToken[%s]", principal.toString()); 
+    return String.format("UsernamePasswordToken[%s]", principal.toString());
   }
 }

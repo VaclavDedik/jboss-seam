@@ -8,7 +8,7 @@ import java.security.acl.Permission;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.Identity;
 
 /**
  * Abstract base implementation of AclProvider
@@ -32,7 +32,7 @@ public abstract class AbstractAclProvider implements AclProvider
 
   protected Acl internalGetAcls(Object obj, Principal principal)
   {
-    Principal owner = Authentication.instance();
+    Principal owner = Identity.instance();
 
     Acl acl = new AclImpl(owner);
 

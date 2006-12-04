@@ -20,7 +20,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
-import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.SeamPermission;
 import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.util.Naming;
@@ -124,9 +124,9 @@ public class PersistentAclProvider extends AbstractAclProvider
   {
     List<String> roles = new ArrayList<String>();
 
-    if (Authentication.class.isAssignableFrom(principal.getClass()))
+    if (Identity.class.isAssignableFrom(principal.getClass()))
     {
-      for (String role : ((Authentication) principal).getRoles())
+      for (String role : ((Identity) principal).getRoles())
       {
         roles.add(role);
       }

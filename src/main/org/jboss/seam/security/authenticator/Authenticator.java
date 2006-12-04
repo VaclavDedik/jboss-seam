@@ -11,7 +11,7 @@ import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.UsernamePasswordToken;
 import org.jboss.seam.security.adapter.AuthenticationAdapter;
@@ -45,26 +45,26 @@ public abstract class Authenticator
     return instance;
   }
 
-  public Authentication authenticate(String username, String password)
+  public Identity authenticate(String username, String password)
       throws AuthenticationException
   {
     return authenticate(new UsernamePasswordToken(username, password));
   }
 
-  public final Authentication authenticate(Authentication authentication)
+  public final Identity authenticate(Identity ident)
       throws AuthenticationException
   {
-    Authentication auth = doAuthentication(authentication);
-    Contexts.getSessionContext().set(Seam.getComponentName(Authentication.class), auth);
+    Identity auth = doAuthentication(ident);
+    Contexts.getSessionContext().set(Seam.getComponentName(Identity.class), auth);
     return auth;
   }
 
-  public abstract Authentication doAuthentication(Authentication authentication)
+  public abstract Identity doAuthentication(Identity ident)
       throws AuthenticationException;
 
   public void unauthenticateSession()
   {
-    Authentication.instance().invalidate();
+    Identity.instance().invalidate();
   }
 
   public void setAdapters(List<String> adapterNames)
@@ -96,7 +96,7 @@ public abstract class Authenticator
       adapter.endRequest();
     }
 
-    if (!Authentication.instance().isValid())
-      Contexts.getSessionContext().remove(Seam.getComponentName(Authentication.class));
+    if (!Identity.instance().isValid())
+      Contexts.getSessionContext().remove(Seam.getComponentName(Identity.class));
   }
 }
