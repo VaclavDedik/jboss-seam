@@ -37,6 +37,8 @@
                             <s:decorate>
 <#if property.value.typeName == "date">
 	        		           <h:inputText id="${property.name}" 
+	        		                 maxlength="10"
+	        		                      size="10"
 <#if propertyIsId>
                                       disabled="${'#'}{${homeName}.managed}"
 </#if>
@@ -48,6 +50,7 @@
 		        	           </h:inputText>
 <#elseif property.value.typeName == "time">
 		        	           <h:inputText id="${property.name}" 
+	        		                      size="5"
 <#if !column.nullable>
                                       required="true"
 </#if>
@@ -56,6 +59,7 @@
 		        	           </h:inputText>
 <#elseif property.value.typeName == "timestamp">
 		        	           <h:inputText id="${property.name}" 
+	        		                      size="16"
 <#if !column.nullable>
                                       required="true"
 </#if>
