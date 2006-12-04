@@ -8,8 +8,7 @@ import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-//import org.jboss.seam.annotations.security.DefinePermissions;
-import org.jboss.seam.security.acl.AclManager;
+import org.jboss.seam.security.acl.AclProvider;
 
 /**
  *
@@ -78,7 +77,7 @@ public class PermissionHandler
   {
     Permission required = new SeamPermission(permissionName, action);
 
-    AclManager provider = (AclManager) Component.getInstance(providers.get(action), true);
+    AclProvider provider = (AclProvider) Component.getInstance(providers.get(action), true);
     Principal principal = Authentication.instance();
 
     if (provider != null)

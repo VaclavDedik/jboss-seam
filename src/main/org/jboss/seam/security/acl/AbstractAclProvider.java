@@ -15,7 +15,7 @@ import org.jboss.seam.security.Authentication;
  *
  * @author Shane Bryzak
  */
-public abstract class AbstractAclProvider implements AclManager
+public abstract class AbstractAclProvider implements AclProvider
 {
   public Acl getAcls(Object obj)
   {

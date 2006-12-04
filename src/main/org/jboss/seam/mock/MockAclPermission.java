@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.jboss.seam.security.acl.AclManager.RecipientType;
+import org.jboss.seam.security.acl.AclProvider.RecipientType;
 
 /**
  * Defines permissions for an object

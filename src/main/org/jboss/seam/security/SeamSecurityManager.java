@@ -17,7 +17,7 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.security.acl.AclManager;
+import org.jboss.seam.security.acl.AclProvider;
 import org.jboss.seam.security.acl.IdentityGenerator;
 import org.jboss.seam.security.acl.JPAIdentityGenerator;
 
@@ -109,15 +109,15 @@ public class SeamSecurityManager
   public void checkPermission(Object obj, String action)
   {
     PermissionHandler handler = getPermissionHandler(obj.getClass());
-    
+
     if (handler.supportsAclCheck(action))
       handler.aclCheck(obj, action);
     else
-      checkRolePermissions(handler.getPermissionName(), action);   
+      checkRolePermissions(handler.getPermissionName(), action);
   }
-  
+
   /**
-   * 
+   *
    * @param permissionName
    * @param action
    */
@@ -166,13 +166,13 @@ public class SeamSecurityManager
   }
 
   public void grantPermission(Object target, String action, String recipient,
-                               AclManager.RecipientType recipientType)
+                               AclProvider.RecipientType recipientType)
   {
     /** @todo  */
   }
 
   public void revokePermission(Object target, String action, String recipient,
-                               AclManager.RecipientType recipientType)
+                               AclProvider.RecipientType recipientType)
   {
     /** @todo  */
   }
