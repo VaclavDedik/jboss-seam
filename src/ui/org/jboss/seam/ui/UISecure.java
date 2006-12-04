@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.Identity;
 
 /**
  * Only renders the child tags if the authenticated user contains at least one
@@ -32,10 +32,10 @@ public class UISecure extends UIComponentBase
     {
       String[] parts = roles.split("[,]");
 
-      Authentication auth = null;
+      Identity auth = null;
       try
       {
-        auth = Authentication.instance();
+        auth = Identity.instance();
 
         for (int i = 0; i < parts.length; i++)
         {
