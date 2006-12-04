@@ -18,7 +18,7 @@
     <h1>${entityName}</h1>
     <p>Generated edit page</p>
     
-    <h:messages globalOnly="true" styleClass="message"/>
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
     
     <h:form id="${componentName}" styleClass="edit">
     

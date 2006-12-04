@@ -18,7 +18,7 @@
     <h1>${entityName}</h1>
     <p>Generated view page</p>
     
-    <h:messages globalOnly="true" styleClass="message"/>
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
     
     <div id="${componentName}" class="dialog">
         <table>

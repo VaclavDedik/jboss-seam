@@ -19,59 +19,81 @@
     <h1>${entityName} list</h1>
     <p>Generated list page</p>
     
-    <h:messages globalOnly="true" styleClass="message"/>
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
     
     <h:outputText value="No ${componentName} exists" 
-            rendered="${'#'}{empty ${listName}.resultList}"/>
-    <h:dataTable id="${listName}" var="${componentName}"
-            value="${'#'}{${listName}.resultList}" 
-            rendered="${'#'}{not empty ${listName}.resultList}">
+               rendered="${'#'}{empty ${listName}.resultList}"/>
+               
+    <h:dataTable id="${listName}" 
+                var="${componentName}"
+              value="${'#'}{${listName}.resultList}" 
+           rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
-		<h:column>
-			<f:facet name="header">${property.name}</f:facet>
-			${'#'}{${componentName}.${property.name}}
-		</h:column>
+        <h:column>
+            <f:facet name="header">${property.name}</f:facet>
+            ${'#'}{${componentName}.${property.name}}
+        </h:column>
 </#if>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
-		<h:column>
-			<f:facet name="header">${property.name} ${parentPojo.identifierProperty.name}</f:facet>
-			${'#'}{${componentName}.${property.name}.${parentPojo.identifierProperty.name}}
-		</h:column>
+        <h:column>
+            <f:facet name="header">${property.name} ${parentPojo.identifierProperty.name}</f:facet>
+            ${'#'}{${componentName}.${property.name}.${parentPojo.identifierProperty.name}}
+        </h:column>
 </#if>
 </#foreach>
         <h:column>
             <f:facet name="header">action</f:facet>
-            <s:link id="${componentName}" value="Select" view="/${pageName}.xhtml">
-                <f:param name="${componentName}Id" value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
+            <s:link view="/${pageName}.xhtml" 
+                   value="Select" 
+                      id="${componentName}">
+                <f:param name="${componentName}Id" 
+                        value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
             </s:link>
         </h:column>
     </h:dataTable>
 
     <div class="tableControl">
       
-        <s:link view="/${listPageName}.xhtml" rendered="${'#'}{${listName}.previousExists}" value="&lt;&lt; First Page">
+        <s:link view="/${listPageName}.xhtml" 
+            rendered="${'#'}{${listName}.previousExists}" 
+               value="&lt;&lt; First Page"
+               id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
         
-        <s:link view="/${listPageName}.xhtml" rendered="${'#'}{${listName}.previousExists}" value="&lt; Previous Page">
-          <f:param name="firstResult" value="${'#'}{${listName}.previousFirstResult}"/>
+        <s:link view="/${listPageName}.xhtml" 
+            rendered="${'#'}{${listName}.previousExists}" 
+               value="&lt; Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult" 
+                    value="${'#'}{${listName}.previousFirstResult}"/>
         </s:link>
         
-        <s:link view="/${listPageName}.xhtml" rendered="${'#'}{${listName}.nextExists}" value="Next Page &gt;">
-          <f:param name="firstResult" value="${'#'}{${listName}.nextFirstResult}"/>
+        <s:link view="/${listPageName}.xhtml" 
+            rendered="${'#'}{${listName}.nextExists}" 
+               value="Next Page &gt;"
+                  id="nextPage">
+            <f:param name="firstResult" 
+                    value="${'#'}{${listName}.nextFirstResult}"/>
         </s:link>
         
-        <s:link view="/${listPageName}.xhtml" rendered="${'#'}{${listName}.nextExists}" value="Last Page &gt;&gt;">
-          <f:param name="firstResult" value="${'#'}{${listName}.lastFirstResult}"/>
+        <s:link view="/${listPageName}.xhtml" 
+            rendered="${'#'}{${listName}.nextExists}" 
+               value="Last Page &gt;&gt;"
+                  id="lastPage">
+            <f:param name="firstResult" 
+                    value="${'#'}{${listName}.lastFirstResult}"/>
         </s:link>
         
     </div>
     
     <div class="actionButtons">
-        <s:button id="create" value="Create ${componentName}"
-            view="/${editPageName}.xhtml" propagation="begin"/>			  
+        <s:button view="/${editPageName}.xhtml"
+                    id="create" 
+                 value="Create ${componentName}"
+           propagation="begin"/>
     </div>
     
 </ui:define>
