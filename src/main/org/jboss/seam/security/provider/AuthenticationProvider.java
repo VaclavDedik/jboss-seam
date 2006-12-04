@@ -1,6 +1,6 @@
 package org.jboss.seam.security.provider;
 
-import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthenticationException;
 
 /**
@@ -8,6 +8,6 @@ import org.jboss.seam.security.AuthenticationException;
  */
 public interface AuthenticationProvider
 {
-  Authentication authenticate(Authentication authentication)
+  Identity authenticate(Identity authentication)
         throws AuthenticationException;
 }
