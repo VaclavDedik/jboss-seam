@@ -21,26 +21,26 @@
     <h:messages globalOnly="true" styleClass="message"/>
     
     <h:form id="${componentName}">
+    
         <div class="dialog">
         <table>
         <s:validateAll>
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property.columnSpan==1>
+<#assign propertyIsId = property.equals(pojo.identifierProperty)>
+<#if !propertyIsId || property.value.identifierGeneratorStrategy == "assigned">
+<#assign column = property.columnIterator.next()>
+
             <tr class="prop">
                 <td class="name">${property.name}</td>
                 <td class="value">
                     <s:decorate>
-<#if property.equals(pojo.identifierProperty)>
-<#if property.value.identifierGeneratorStrategy == "assigned">
-                        <h:inputText id="${property.name}"
-                                  value="${'#'}{${homeName}.instance.${property.name}}" 
-                               required="true"
-                               disabled="${'#'}{${homeName}.managed}"/>
-</#if>
-<#else>
 <#if property.value.typeName == "date">
 			           <h:inputText id="${property.name}" 
-<#if !property.columnIterator.next().nullable>
+<#if propertyIsId>
+                              disabled="${'#'}{${homeName}.managed}"
+</#if>
+<#if !column.nullable>
                               required="true"
 </#if>
 			                     value="${'#'}{${homeName}.instance.${property.name}}">
@@ -48,7 +48,7 @@
 			           </h:inputText>
 <#elseif property.value.typeName == "time">
 			           <h:inputText id="${property.name}" 
-<#if !property.columnIterator.next().nullable>
+<#if !column.nullable>
                               required="true"
 </#if>
 			                     value="${'#'}{${homeName}.instance.${property.name}}">
@@ -56,7 +56,7 @@
 			           </h:inputText>
 <#elseif property.value.typeName == "timestamp">
 			           <h:inputText id="${property.name}" 
-<#if !property.columnIterator.next().nullable>
+<#if !column.nullable>
                               required="true"
 </#if>
 			                     value="${'#'}{${homeName}.instance.${property.name}}">
@@ -64,149 +64,196 @@
 			           </h:inputText>
 <#elseif property.value.typeName == "big_decimal">
 			           <h:inputText id="${property.name}" 
-<#if !property.columnIterator.next().nullable>
+<#if !column.nullable>
                               required="true"
 </#if>
-			                     value="${'#'}{${homeName}.instance.${property.name}}">
-			               <f:convertNumber/>
+			                     value="${'#'}{${homeName}.instance.${property.name}}"
+			                      size="${column.precision+7}">
+			               <f:convertNumber maxIntegerDigits="${column.precision-column.scale}" 
+			                               maxFractionDigits="${column.scale}"/>
 			           </h:inputText>
 <#elseif property.value.typeName == "big_integer">
 			           <h:inputText id="${property.name}" 
-<#if !property.columnIterator.next().nullable>
+<#if propertyIsId>
+                              disabled="${'#'}{${homeName}.managed}"
+</#if>
+<#if !column.nullable>
                               required="true"
 </#if>
-			                    value="${'#'}{${homeName}.instance.${property.name}}">
-			               <f:convertNumber integerOnly="true"/>
+			                     value="${'#'}{${homeName}.instance.${property.name}}"
+			                      size="${column.precision+6}">
+			               <f:convertNumber integerOnly="true"
+			                           maxIntegerDigits="${column.precision}"/>
 			           </h:inputText>
 <#elseif property.value.typeName == "boolean">
 			           <h:selectBooleanCheckbox id="${property.name}"
-<#if !property.columnIterator.next().nullable>
+<#if !column.nullable>
                                           required="true"
 </#if>
 			                                 value="${'#'}{${homeName}.instance.${property.name}}"/>
 <#elseif property.value.typeName == "string">
-<#if property.columnIterator.next().length gt 200>
+<#if column.length gt 200>
 			           <h:inputTextarea id="${property.name}"
-<#if !property.columnIterator.next().nullable>
+<#if propertyIsId>
+                                 disabled="${'#'}{${homeName}.managed}"
+</#if>
+<#if !column.nullable>
                                   required="true"
 </#if>
 			                         value="${'#'}{${homeName}.instance.${property.name}}"/>
 <#else>
                        <h:inputText id="${property.name}" 
-<#if !property.columnIterator.next().nullable>
+<#if propertyIsId>
+                              disabled="${'#'}{${homeName}.managed}"
+</#if>
+<#if !column.nullable>
                               required="true"
 </#if>
-                                  size="${property.columnIterator.next().length}"
-                             maxlength="${property.columnIterator.next().length}"
+                                  size="${column.length}"
+                             maxlength="${column.length}"
                                  value="${'#'}{${homeName}.instance.${property.name}}"/>
 </#if>
+<#else>
+			           <h:inputText id="${property.name}"
+<#if !column.nullable>
+                              required="true"
 </#if>
+<#if propertyIsId>
+                              disabled="${'#'}{${homeName}.managed}"
+</#if>
+			                     value="${'#'}{${homeName}.instance.${property.name}}"/>
 </#if>
                     </s:decorate>
                 </td>
             </tr>
 </#if>
+</#if>
 </#foreach>
+
         </s:validateAll>
         </table>
         </div>
+        
         <div class="actionButtons">
-            <h:commandButton id="save" value="Save" 
-                action="${'#'}{${homeName}.persist}"
-                rendered="${'#'}{!${homeName}.managed}"/>     			  
-            <h:commandButton id="update" value="Save" 
-                action="${'#'}{${homeName}.update}"
-                rendered="${'#'}{${homeName}.managed}"/>    			  
-            <s:button id="delete" value="Delete" 
-                action="${'#'}{${homeName}.remove}"
+        
+            <h:commandButton id="save" 
+                          value="Save" 
+                         action="${'#'}{${homeName}.persist}"
+                       rendered="${'#'}{!${homeName}.managed}"/>  
+                          			  
+            <h:commandButton id="update" 
+                          value="Save" 
+                         action="${'#'}{${homeName}.update}"
+                       rendered="${'#'}{${homeName}.managed}"/>
+                        			  
+            <s:button id="delete" 
+                   value="Delete" 
+                  action="${'#'}{${homeName}.remove}"
                 rendered="${'#'}{${homeName}.managed}"
-                propagation="end"
-                view="/${masterPageName}.xhtml"/>
-            <s:button id="done" value="Done"
-                propagation="end" 
-                view="/${pageName}.xhtml"
+             propagation="end"
+                    view="/${masterPageName}.xhtml"/>
+                    
+            <s:button id="done" 
+                   value="Done"
+             propagation="end" 
+                    view="/${pageName}.xhtml"
                 rendered="${'#'}{${homeName}.managed}"/>
-            <s:button id="cancel" value="Cancel"
-                propagation="end" 
-                view="/${masterPageName}.xhtml"
+                
+            <s:button id="cancel" 
+                   value="Cancel"
+             propagation="end" 
+                    view="/${masterPageName}.xhtml"
                 rendered="${'#'}{!${homeName}.managed}"/>
+                
         </div>
+        
     </h:form>
-    
 <#foreach property in pojo.allPropertiesIterator>
-
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentPageName = parentPojo.shortName>
 <#assign parentName = util.lower(parentPojo.shortName)>
-           <h2>${property.name}</h2>
-           <h:outputText value="No ${property.name}" rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
-           <h:dataTable var="${parentName}" 
-                      value="${'#'}{${homeName}.instance.${property.name}}" 
-                   rendered="${'#'}{${homeName}.instance.${property.name} != null}"
-                   rowClasses="rvgRowOne,rvgRowTwo"
-                   id="${property.name}">
+
+    <h2>${property.name}</h2>
+    <h:outputText value="No ${property.name}" rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
+    <h:dataTable var="${parentName}" 
+               value="${'#'}{${homeName}.instance.${property.name}}" 
+            rendered="${'#'}{${homeName}.instance.${property.name} != null}"
+          rowClasses="rvgRowOne,rvgRowTwo"
+                  id="${property.name}">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
 <#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty)>
-               <h:column>
-                   <f:facet name="header">${parentProperty.name}</f:facet>
-                   ${'#'}{${parentName}.${parentProperty.name}}
-               </h:column>
+        <h:column>
+            <f:facet name="header">${parentProperty.name}</f:facet>
+            ${'#'}{${parentName}.${parentProperty.name}}
+        </h:column>
 </#if>
 <#if c2h.isManyToOne(parentProperty)>
 <#assign parentParentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
-               <h:column>
-		           <f:facet name="header">${parentProperty.name} ${parentParentPojo.identifierProperty.name}</f:facet>
-			       ${'#'}{${parentName}.${parentProperty.name}.${parentPojo.identifierProperty.name}}
-			   </h:column>
+        <h:column>
+		    <f:facet name="header">${parentProperty.name} ${parentParentPojo.identifierProperty.name}</f:facet>
+			${'#'}{${parentName}.${parentProperty.name}.${parentPojo.identifierProperty.name}}
+        </h:column>
 </#if>
 </#foreach>
-               <h:column>
-                   <f:facet name="header">action</f:facet>
-		           <s:link id="view${parentName}" value="View" view="/${parentPageName}.xhtml" propagation="end">
-		               <f:param name="${parentName}Id" value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
-		           </s:link>
-               </h:column>
-           </h:dataTable>
+        <h:column>
+            <f:facet name="header">action</f:facet>
+            <s:link view="/${parentPageName}.xhtml" 
+                     id="view${parentName}" 
+                  value="View" 
+            propagation="end">
+                <f:param name="${parentName}Id" 
+                        value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
+            </s:link>
+        </h:column>
+    </h:dataTable>
 </#if>
-
 <#if c2h.isOneToManyCollection(property)>
-          <f:subview rendered="${'#'}{${homeName}.managed}">
-            <h2>${property.name}</h2>
+
+    <f:subview rendered="${'#'}{${homeName}.managed}">
+    
+        <h2>${property.name}</h2>
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
 <#assign childPageName = childPojo.shortName>
 <#assign childEditPageName = childPojo.shortName + "Edit">
 <#assign childName = util.lower(childPojo.shortName)>
-            <h:outputText value="No ${property.name}" rendered="${'#'}{empty ${homeName}.${property.name}}"/>
-            <h:dataTable value="${'#'}{${homeName}.${property.name}}" 
-                           var="${childName}" 
-                      rendered="${'#'}{not empty ${homeName}.${property.name}}" 
-                    rowClasses="rvgRowOne,rvgRowTwo"
-                            id="${property.name}">
+        <h:outputText value="No ${property.name}" rendered="${'#'}{empty ${homeName}.${property.name}}"/>
+        <h:dataTable value="${'#'}{${homeName}.${property.name}}" 
+                       var="${childName}" 
+                  rendered="${'#'}{not empty ${homeName}.${property.name}}" 
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="${property.name}">
 <#foreach childProperty in childPojo.allPropertiesIterator>
 <#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
-              <h:column>
-                  <f:facet name="header">${childProperty.name}</f:facet>
-                  <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
-              </h:column>
+            <h:column>
+                <f:facet name="header">${childProperty.name}</f:facet>
+                <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
+            </h:column>
 </#if>
 </#foreach>
-              <h:column>
-                  <f:facet name="header">action</f:facet>
-		          <s:link id="select${childName}" value="Select" view="/${childPageName}.xhtml" propagation="end">
-		              <f:param name="${childName}Id" value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
-		          </s:link>
-              </h:column>
-            </h:dataTable>
+            <h:column>
+                <f:facet name="header">action</f:facet>
+                <s:link view="/${childPageName}.xhtml" 
+                          id="select${childName}" 
+                       value="Select"
+                 propagation="end">
+                    <f:param name="${childName}Id" 
+                            value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
+                </s:link>
+            </h:column>
+        </h:dataTable>
           
-		    <div class="actionButtons">
-		        <s:button id="add${childName}" value="Add ${childName}"
-		            view="/${childEditPageName}.xhtml" propagation="begin">
-	            	<f:param name="${componentName}Id" 
-	            	    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
-	            </s:button>
-		    </div>
-		  </f:subview>
+        <div class="actionButtons">
+            <s:button id="add${childName}" 
+                   value="Add ${childName}"
+                    view="/${childEditPageName}.xhtml" 
+             propagation="begin">
+                 <f:param name="${componentName}Id" 
+                        value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
+            </s:button>
+        </div>
+        
+    </f:subview>
 </#if>
 </#foreach>
     
