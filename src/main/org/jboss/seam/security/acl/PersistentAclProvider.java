@@ -24,6 +24,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.SeamPermission;
 import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.util.Naming;
+import org.jboss.seam.security.Role;
 
 /**
  * Persistent Acl provider.
@@ -122,11 +123,11 @@ public class PersistentAclProvider extends AbstractAclProvider
 
   protected void bindQueryParams(Object query, Object target, Principal principal)
   {
-    List<String> roles = new ArrayList<String>();
+    List<Role> roles = new ArrayList<Role>();
 
     if (Identity.class.isAssignableFrom(principal.getClass()))
     {
-      for (String role : ((Identity) principal).getRoles())
+      for (Role role : ((Identity) principal).getRoles())
       {
         roles.add(role);
       }

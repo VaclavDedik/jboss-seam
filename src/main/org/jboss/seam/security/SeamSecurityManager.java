@@ -20,6 +20,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.acl.AclProvider;
 import org.jboss.seam.security.acl.IdentityGenerator;
 import org.jboss.seam.security.acl.JPAIdentityGenerator;
+import org.jboss.seam.annotations.Create;
 
 /**
  * Holds configuration settings and provides functionality for the security API
@@ -53,6 +54,12 @@ public class SeamSecurityManager
    *
    */
   private Map<Class,PermissionHandler> permissionHandlers = new HashMap<Class,PermissionHandler>();
+
+  @Create
+  public void initSecurityManager()
+  {
+
+  }
 
   public static SeamSecurityManager instance()
   {
@@ -124,7 +131,7 @@ public class SeamSecurityManager
   private void checkRolePermissions(String permissionName, String action)
   {
     Permission required = new SeamPermission(permissionName, action);
-    for (String role : Identity.instance().getRoles())
+    for (Role role : Identity.instance().getRoles())
     {
       Set<Permission> permissions = rolePermissions.get(role);
       if (permissions != null && permissions.contains(required))

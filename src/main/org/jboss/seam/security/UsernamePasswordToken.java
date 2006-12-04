@@ -5,7 +5,7 @@ package org.jboss.seam.security;
  */
 public class UsernamePasswordToken extends Identity
 {
-  private String[] roles;
+  private Role[] roles;
   private Object credentials;
   private Object principal;
 
@@ -16,7 +16,7 @@ public class UsernamePasswordToken extends Identity
     this.authenticated = false;
   }
 
-  public UsernamePasswordToken(Object principal, Object credentials, String[] roles)
+  public UsernamePasswordToken(Object principal, Object credentials, Role[] roles)
   {
     this(principal, credentials);
     this.roles = roles;
@@ -30,7 +30,7 @@ public class UsernamePasswordToken extends Identity
   }
 
   @Override
-  public String[] getRoles()
+  public Role[] getRoles()
   {
     return roles;
   }

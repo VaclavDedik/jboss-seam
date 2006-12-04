@@ -35,7 +35,7 @@ public abstract class Identity implements Principal, Serializable
     return instance;
   }
 
-  public abstract String[] getRoles();
+  public abstract Role[] getRoles();
   public abstract Object getCredentials();
   public abstract Object getPrincipal();
 
@@ -63,9 +63,9 @@ public abstract class Identity implements Principal, Serializable
    */
   public boolean isUserInRole(String role)
   {
-    for (String r : getRoles())
+    for (Role r : getRoles())
     {
-      if (r.equals(role))
+      if (r.getName().equals(role))
         return true;
     }
     return false;
