@@ -1,21 +1,21 @@
 package org.jboss.seam.annotations.security;
 
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used to explicitly define permissions for a component
+ * Used to restrict access to a Seam component or component method.
  *
  * @author Shane Bryzak
  */
-@Target(TYPE)
-@Retention(RUNTIME)
+@Target({TYPE,METHOD})
 @Documented
-public @interface DefinePermissions
-{
-  String name() default "";
-  AclProvider[] permissions() default {};
+@Retention(RUNTIME)
+public @interface Restrict {
+  String value() default "";
 }

@@ -1,10 +1,6 @@
 package org.jboss.seam.security.filter;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.security.auth.login.LoginException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -74,77 +70,35 @@ public class SeamSecurityFilter implements Filter
 //    Authentication authentication = (Authentication)sessionContext.get(
 //            "org.jboss.seam.security.Authentication");
 
-//    LoginContext lc = null;
 //    try
 //    {
-//      Lifecycle.beginInitialization(servletContext);
-//
-//      if (authentication != null)
-//      {
-//        AuthenticationContext.instance().setAuthentication(Authenticator.instance().authenticate(authentication));
-//        CallbackHandler handler = new UsernamePasswordHandler(
-//            authentication.getPrincipal().toString(),
-//            authentication.getCredentials());
-//        try
-//        {
-//          lc = new LoginContext("client-login", handler);
-//          lc.login();
-//        }
-//        catch (LoginException ex)
-//        {
-//          ex.printStackTrace();
-//        }
-//      }
-//    }
-//    catch (AuthenticationException ex) { }
-
-    try
-    {
       chain.doFilter(request, response);
-    }
-    catch (Exception e)
-    {
-      if (e instanceof ServletException)
-      {
-        Throwable cause = ( (ServletException) e).getRootCause();
-
-        Set<Throwable> causes = new HashSet<Throwable> ();
-        while (cause != null && !causes.contains(cause))
-        {
-          if (cause instanceof LoginException)
-          {
+//    }
+//    catch (Exception e)
+//    {
+//      if (e instanceof ServletException)
+//      {
+//        Throwable cause = ( (ServletException) e).getRootCause();
+//
+//        Set<Throwable> causes = new HashSet<Throwable> ();
+//        while (cause != null && !causes.contains(cause))
+//        {
+//          if (cause instanceof LoginException)
+//          {
             // Redirect to login page
-            log.info("User not logged in... redirecting to login page.");
+//            log.info("User not logged in... redirecting to login page.");
 
             /** @todo Redirect based on whatever authentication method is being used */
 
 //             SecurityConfig.instance().getAuthenticator().showLogin(hRequest, hResponse);
-            break;
-          }
-          causes.add(cause);
-          cause = cause.getCause();
-        }
-      }
-      throw new ServletException(e);
-    }
-    finally
-    {
-      // Have to set the application context again because it's probably null
-//      Lifecycle.beginInitialization(servletContext);
-
-//      AuthenticationContext.instance().setAuthentication(null);
-
-//      if (lc != null)
-//      {
-//        try
-//        {
-//          lc.logout();
+//            break;
+//          }
+//          causes.add(cause);
+//          cause = cause.getCause();
 //        }
-//        catch (LoginException ex){ }
 //      }
-
-      /** @todo Clear the application context somewhere here */
-    }
+//      throw new ServletException(e);
+//    }
   }
 
   public void destroy()

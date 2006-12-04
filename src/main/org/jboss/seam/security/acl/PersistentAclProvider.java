@@ -18,7 +18,6 @@ import javax.persistence.Query;
 
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.security.DefinePermissions;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.security.Authentication;
@@ -165,13 +164,13 @@ public class PersistentAclProvider extends AbstractAclProvider
   {
     if (perms == null)
       return null;
-    
+
     //SeamSecurityManager.instance().get
-    
+
   	if (List.class.isAssignableFrom(perms.getClass()))
   	{
       Set<Permission> permissions = new HashSet<Permission>();
-      
+
       for (Object o : (List) perms)
       {
         if (o instanceof Object[])
@@ -180,17 +179,17 @@ public class PersistentAclProvider extends AbstractAclProvider
           int mask = (Integer) values[0];
           String recipient = (String) values[1];
           RecipientType recipientType = (RecipientType) values[2];
-          
-          DefinePermissions def = target.getClass().getAnnotation(DefinePermissions.class);
-          for (org.jboss.seam.annotations.security.AclProvider provider : def.permissions())
-          {
-            if ((provider.mask() & mask) > 0)
+
+//          DefinePermissions def = target.getClass().getAnnotation(DefinePermissions.class);
+//          for (org.jboss.seam.annotations.security.AclProvider provider : def.permissions())
+//          {
+//            if ((provider.mask() & mask) > 0)
               /** todo - use the correct name to create the permission */
-              permissions.add(new SeamPermission("permissionName", provider.action()));
-          }                   
+//              permissions.add(new SeamPermission("permissionName", provider.action()));
+//          }
         }
       }
-      
+
       return permissions;
   	}
     else
@@ -211,8 +210,8 @@ public class PersistentAclProvider extends AbstractAclProvider
 
       return convertToPermissions(principal, obj, result);
     }
-    catch (Exception ex) 
-    { 
+    catch (Exception ex)
+    {
       throw new SecurityException(String.format("Error determining permissions: %s", ex.getMessage()), ex);
     }
   }

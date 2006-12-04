@@ -75,7 +75,7 @@ import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.security.Secure;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
@@ -211,12 +211,12 @@ public class Component
       scope = componentScope;
       type = Seam.getComponentType(beanClass);
       interceptionType = Seam.getInterceptionType(beanClass);
-      
+
       initNamespaces(componentName, applicationContext);
-      
+
       checkScopeForComponentType();
 
-      jndiName = componentJndiName == null ? 
+      jndiName = componentJndiName == null ?
             getJndiName(applicationContext) : componentJndiName;
 
       startup = beanClass.isAnnotationPresent(Startup.class);
@@ -229,7 +229,7 @@ public class Component
          dependencies = getBeanClass().getAnnotation(Startup.class).depends();
       }
 
-      synchronize = ( scope==SESSION /*&& ! beanClass.isAnnotationPresent(ReadOnly.class)*/ ) || 
+      synchronize = ( scope==SESSION /*&& ! beanClass.isAnnotationPresent(ReadOnly.class)*/ ) ||
             beanClass.isAnnotationPresent(Synchronized.class);
       if (synchronize)
       {
@@ -241,7 +241,7 @@ public class Component
                beanClass.getAnnotation(Synchronized.class).timeout() :
                Synchronized.DEFAULT_TIMEOUT;
       }
-      
+
       log.info(
             "Component: " + getName() +
             ", scope: " + getScope() +
@@ -777,7 +777,7 @@ public class Component
       {
          addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
       }
-      if ( beanClassHasAnnotation(Secure.class) )
+      if ( beanClassHasAnnotation(Restrict.class) )
       {
         addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );
       }
@@ -1577,7 +1577,7 @@ public class Component
    {
       return getInstance(clazz, scope, true);
    }
-   
+
    public static Object getInstance(Class<?> clazz, ScopeType scope, boolean create)
    {
       return getInstance( Seam.getComponentName(clazz), scope, create );
@@ -1599,7 +1599,7 @@ public class Component
    {
       return getInstance(name, scope, true);
    }
-   
+
    public static Object getInstance(String name, ScopeType scope, boolean create)
    {
       Object result = scope==STATELESS ? null : scope.getContext().get(name);
@@ -1609,7 +1609,7 @@ public class Component
 
    private static Object getInstance(String name, boolean create, Object result) {
       Component component = Component.forName(name);
-      
+
       create = create || Init.instance().isAutocreateVariable(name);
 
       if (result==null && create)

@@ -2,12 +2,12 @@ package org.jboss.seam.annotations.security;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Used in conjunction with @Secure to control access to a Seam component or
- * component method.
+ * Used to define a specific permission for a Seam component
  *
  * @author Shane Bryzak
  */
@@ -15,6 +15,6 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface Permission
 {
-  String name();
   String action();
+  String expr();
 }

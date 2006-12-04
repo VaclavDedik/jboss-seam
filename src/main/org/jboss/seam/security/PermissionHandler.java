@@ -8,49 +8,48 @@ import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.security.DefinePermissions;
-import org.jboss.seam.security.acl.AclProvider;
+//import org.jboss.seam.annotations.security.DefinePermissions;
+import org.jboss.seam.security.acl.AclManager;
 
 /**
- * 
- * @author shane_bryzak
  *
+ * @author shane_bryzak
  */
-public class PermissionHandler 
+public class PermissionHandler
 {
-  
+
   private String permissionName;
   private Map<String,String> providers = new HashMap<String,String>();
-  
+
   public PermissionHandler(Class cls)
   {
-    DefinePermissions def = null;
-   
-    if (cls.isAnnotationPresent(DefinePermissions.class))
-      def = (DefinePermissions) cls.getAnnotation(DefinePermissions.class);
+//    DefinePermissions def = null;
+
+//    if (cls.isAnnotationPresent(DefinePermissions.class))
+//      def = (DefinePermissions) cls.getAnnotation(DefinePermissions.class);
 
     // Determine the permission name.  If it is specified in a @DefinePermissions
     // annotation, use that one, otherwise use the component name.  If the object
     // is not a Seam component, use its fully qualified class name.
-    if (def != null && !"".equals(def.name()))
-    {
-      permissionName = ((DefinePermissions) cls.getAnnotation(DefinePermissions.class)).name();
-    }
-    else
-      permissionName = Seam.getComponentName(cls);
+//    if (def != null && !"".equals(def.name()))
+//    {
+//      permissionName = ((DefinePermissions) cls.getAnnotation(DefinePermissions.class)).name();
+//    }
+//    else
+//      permissionName = Seam.getComponentName(cls);
 
     if (permissionName == null)
       permissionName = cls.getName();
 
-    if (def != null)
-    {
-      for (org.jboss.seam.annotations.security.AclProvider p : def.permissions())
-      {
-        providers.put(p.action(), p.provider());        
-      }
-    }
+//    if (def != null)
+//    {
+//      for (org.jboss.seam.annotations.security.AclProvider p : def.permissions())
+//      {
+//        providers.put(p.action(), p.provider());
+//      }
+//    }
   }
-  
+
   public String getPermissionName()
   {
     return permissionName;
@@ -64,8 +63,8 @@ public class PermissionHandler
   public boolean supportsAclCheck(String action)
   {
     return providers.containsKey(action);
-  }  
-  
+  }
+
   /**
    * Performs an ACL permission check against the currently authenticated principal.
    *
@@ -79,9 +78,9 @@ public class PermissionHandler
   {
     Permission required = new SeamPermission(permissionName, action);
 
-    AclProvider provider = (AclProvider) Component.getInstance(providers.get(action), true);
+    AclManager provider = (AclManager) Component.getInstance(providers.get(action), true);
     Principal principal = Authentication.instance();
-    
+
     if (provider != null)
     {
       Acl acl = provider.getAcls(obj, principal);
@@ -90,9 +89,9 @@ public class PermissionHandler
     }
     else
       throw new IllegalArgumentException("Invalid action specified - no ACL provider found");
-    
+
     throw new SecurityException(String.format(
         "Principal %s failed permission check %s on object [%s].",
         principal, required, obj));
-  }  
+  }
 }

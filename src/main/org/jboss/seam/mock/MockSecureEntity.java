@@ -6,8 +6,8 @@ import javax.persistence.Id;
 
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.security.AclProvider;
-import org.jboss.seam.annotations.security.DefinePermissions;
+import org.jboss.seam.annotations.security.Permission;
+import org.jboss.seam.annotations.security.Permissions;
 
 /**
  * Used by security unit tests
@@ -16,13 +16,11 @@ import org.jboss.seam.annotations.security.DefinePermissions;
  */
 @Name("mockSecureEntity")
 @Install(false)
-@DefinePermissions(
-    permissions = {
-  @AclProvider(action = "read", provider = "persistentAclProvider", mask = 0x01),
-  @AclProvider(action = "delete", provider = "persistentAclProvider", mask = 0x02),
-  @AclProvider(action = "special", provider = "persistentAclProvider", mask = 0x04)
-  }
-)
+@Permissions({
+  @Permission(action = "read", expr = "#{aclPermissionChecker.checkPermission}"),
+  @Permission(action = "delete", expr = "#{aclPermissionChecker.checkPermission}"),
+  @Permission(action = "special", expr = "#{aclPermissionChecker.checkPermission}")
+})
 @Entity
 public class MockSecureEntity implements Serializable
 {

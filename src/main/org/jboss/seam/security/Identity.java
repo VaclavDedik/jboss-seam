@@ -1,0 +1,73 @@
+package org.jboss.seam.security;
+
+import static org.jboss.seam.ScopeType.SESSION;
+
+import java.io.Serializable;
+import java.security.Principal;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
+
+@Name("org.jboss.seam.security.identity")
+@Scope(SESSION)
+public abstract class Identity implements Principal, Serializable
+{
+  protected boolean authenticated;
+  protected boolean valid;
+
+  public static Identity instance()
+  {
+    if (!Contexts.isSessionContextActive())
+       throw new IllegalStateException("No active session context");
+
+    Identity instance = (Identity) Component.getInstance(
+        Identity.class, ScopeType.SESSION, true);
+
+    if (instance==null)
+    {
+      throw new AuthenticationException(
+          "No Identity exists in session scope");
+    }
+
+    return instance;
+  }
+
+  public abstract String[] getRoles();
+  public abstract Object getCredentials();
+  public abstract Object getPrincipal();
+
+  public final boolean isAuthenticated()
+  {
+    return authenticated;
+  }
+
+  public final boolean isValid()
+  {
+    return valid;
+  }
+
+  public final void invalidate()
+  {
+    valid = false;
+  }
+
+  /**
+   * Checks if the authenticated user contains the specified role.
+   *
+   * @param role String
+   * @return boolean Returns true if the authenticated user contains the role,
+   * or false if otherwise.
+   */
+  public boolean isUserInRole(String role)
+  {
+    for (String r : getRoles())
+    {
+      if (r.equals(role))
+        return true;
+    }
+    return false;
+  }
+}
