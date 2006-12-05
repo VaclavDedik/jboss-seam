@@ -59,15 +59,15 @@
         <url-pattern>*.seam</url-pattern>
     </servlet-mapping>
     
-  <servlet>
-    <servlet-name>Seam Remoting</servlet-name>
-    <servlet-class>org.jboss.seam.remoting.SeamRemotingServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>Seam Remoting</servlet-name>
-    <url-pattern>/seam/remoting/*</url-pattern>
-  </servlet-mapping>    
+    <servlet>
+      <servlet-name>Seam Remoting</servlet-name>
+      <servlet-class>org.jboss.seam.remoting.SeamRemotingServlet</servlet-class>
+    </servlet>
+  
+    <servlet-mapping>
+      <servlet-name>Seam Remoting</servlet-name>
+      <url-pattern>/seam/remoting/*</url-pattern>
+    </servlet-mapping>
   
   <!--security-constraint>
     <web-resource-collection>
