@@ -674,7 +674,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
             enables automatic schema export at startup time.
         </para>
 
-        <programlisting><![CDATA[<persistence>
+        <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
+             version="1.0">
     <persistence-unit name="userDatabase">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/DefaultDS</jta-data-source>
@@ -770,8 +774,13 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
         </para>
         
         <example id="registration-application-xml">
-          <programlisting><![CDATA[<application>
-    <display-name>Seam</display-name>
+          <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
+             version="5">
+             
+    <display-name>Seam Registration</display-name>
 
     <module>
         <web>
@@ -784,6 +793,12 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
     </module>
     <module>
         <java>jboss-seam.jar</java>
+    </module>
+    <module>
+        <java>el-api.jar</java>
+    </module>
+    <module>
+        <java>el-ri.jar</java>
     </module>
     
 </application>]]></programlisting>

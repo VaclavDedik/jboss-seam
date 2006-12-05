@@ -33,31 +33,6 @@
         </para>
 
         <para>
-            If you are using Seam in Apache MyFaces (and possibly some other JSF implementations),
-            you <emphasis>must</emphasis> use client-side state saving. So you'll also need this 
-            in <literal>web.xml</literal>:
-        </para>
-        
-<programlisting><![CDATA[<context-param>
-    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-    <param-value>client</param-value>
-</context-param>]]></programlisting>
-        
-        <!-- No longer required:
-        
-        <para>
-            To force JSF to delegate variable resolution to Seam, we need to register
-            a <literal>VariableResolver</literal> in the 
-            <literal>faces-config.xml</literal> file:
-        </para>
-        
-        <programlisting><![CDATA[<application>
-    <variable-resolver>org.jboss.seam.jsf.SeamVariableResolver</variable-resolver>
-</application>]]></programlisting>
-
-         -->
-
-        <para>
             To integrate with the JSF request lifecycle, we also need a JSF
             <literal>PhaseListener</literal> registered in in the 
             <literal>faces-config.xml</literal> file:
@@ -85,6 +60,18 @@
             (This line should not strictly speaking be necessary, but it works 
             around a minor bug in the RI.)
         </para>
+        
+        <para>
+            Some JSF implementations have a broken implementation of server-side state
+            saving that interferes with Seam's conversation propagation. If you have problems
+            with conversation propagation during form submissions, try switching to client-side 
+            state saving. You'll need this in <literal>web.xml</literal>:
+        </para>
+        
+<programlisting><![CDATA[<context-param>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+</context-param>]]></programlisting>
         
         </sect2>
         
@@ -181,6 +168,29 @@
         </para>
         
         </sect2>
+        
+        <sect2>
+            <title>Using facelets</title>
+
+            <para>
+                If you want follow our advice and use facelets instead of JSP,
+                add the following lines to <literal>faces-config.xml</literal>:
+            </para>
+            
+            <programlisting><![CDATA[<application>
+    <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+</application>]]></programlisting>
+
+            <para>
+                And the following lines to <literal>web.xml</literal>:
+            </para>
+            
+            <programlisting><![CDATA[<context-param>
+    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+    <param-value>.xhtml</param-value>
+</context-param>]]></programlisting>
+
+        </sect2>
 
     </sect1>
     
@@ -199,11 +209,12 @@
         <para>
             If you're running in a Java EE 5 environment, this is all the configuration
             required to start using Seam! But there is one final item you need to know about. 
-            You must place a <literal>seam.properties</literal> file in the root of any 
-            archive in which your Seam components are deployed (even an empty properties file 
-            will do). At startup, Seam will scan any archives with
+            You must place a <literal>seam.properties</literal>, 
+            <literal>META-INF/seam.properties</literal> or <literal>META-INF/components.xml</literal>
+            file in any archive in which your Seam components are deployed (even an empty 
+            properties file will do). At startup, Seam will scan any archives with
             <literal>seam.properties</literal> files for seam components. If that doesn't
-            work for you, you can also add components by installing them explicitly in
+            work for you, you can also add components by installing them explicitly via
             <literal>components.xml</literal>. (We don't recommend this alternative approach.)
         </para>
         
@@ -217,6 +228,8 @@
         
         <programlisting><![CDATA[my-application.ear/
     jboss-seam.jar
+    el-api.jar
+    el-ri.jar
     META-INF/
         MANIFEST.MF
         application.xml
@@ -227,6 +240,9 @@
             web.xml
             components.xml
             faces-config.xml
+            lib/
+                jsf-facelets.jar
+                jboss-seam-ui.jar
         login.jsp
         register.jsp
         ...
@@ -246,8 +262,32 @@
                     ...]]></programlisting>
         
         <para>
-            Make sure you reference <literal>jboss-seam.jar</literal> from manifests of the
-            EJB-JAR and WAR.
+            You must include <literal>jboss-seam.jar</literal>, <literal>el-api.jar</literal> and 
+            <literal>el-ri.jar</literal> in the EAR classpath. Make sure you reference all of these 
+            jars from <literal>application.xml</literal>.
+        </para>
+        
+        <para>
+            If you want to use jBPM or Drools, you must include the needed jars in the EAR classpath. 
+            Make sure you reference all of the jars from <literal>application.xml</literal>.
+        </para>
+        
+        <para>
+            If you want to use facelets (our recommendation), you must include
+            <literal>jsf-facelets.jar</literal> in the <literal>WEB-INF/lib</literal> directory
+            of the WAR.
+        </para>
+        
+        <para>
+            If you want to use the Seam tag library (most Seam applications do), you must include
+            <literal>jboss-seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> directory
+            of the WAR.
+        </para>
+        
+        <para>
+            If you want to use the Seam debug page (only works for applications using facelets), you 
+            must include <literal>jboss-seam-debug.jar</literal> in the <literal>WEB-INF/lib</literal> 
+            directory of the WAR.
         </para>
         
         <para>
@@ -386,6 +426,10 @@
         faces-config.xml
         lib/
             jboss-seam.jar
+            jboss-seam-ui.jar
+            el-api.jar
+            el-ri.jar
+            jsf-facelets.jar
             myfaces-api.jar
             myfaces-impl.jar
             jboss-ejb3.jar
@@ -663,6 +707,10 @@
         faces-config.xml
         lib/
             jboss-seam.jar
+            jboss-seam-ui.jar
+            el-api.jar
+            el-ri.jar
+            jsf-facelets.jar
             hibernate3.jar
             ...
             my-application.jar/
@@ -803,6 +851,10 @@
         faces-config.xml
         lib/
             jboss-seam.jar
+            jboss-seam-ui.jar
+            el-api.jar
+            el-ri.jar
+            jsf-facelets.jar
             hibernate3.jar
             ...
             jboss-microcontainer.jar
@@ -898,6 +950,8 @@
             
         <programlisting><![CDATA[my-application.ear/
     jboss-seam.jar
+    el-api.jar
+    el-ri.jar
     jbpm-3.1.jar
     META-INF/
         MANIFEST.MF
@@ -909,6 +963,9 @@
             web.xml
             components.xml
             faces-config.xml
+            lib/
+                jsf-facelets.jar
+                jboss-seam-ui.jar
         login.jsp
         register.jsp
         ...
