@@ -111,11 +111,4 @@
         </converter>
     </tag>
     
-    <tag>
-      <tag-name>secure</tag-name>
-      <component>
-        <component-type>org.jboss.seam.ui.UISecure</component-type>
-      </component>
-    </tag>
-    
 </facelet-taglib>
