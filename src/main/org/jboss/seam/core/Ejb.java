@@ -45,6 +45,8 @@ public class Ejb
       
       deployer = EJB3StandaloneBootstrap.createDeployer();
       deployer.getArchivesByResource().add("seam.properties");
+      deployer.getArchivesByResource().add("META-INF/seam.properties");
+      deployer.getArchivesByResource().add("META-INF/components.xml");
       
       // need to set the InitialContext properties that deployer will use
       // to initial EJB containers

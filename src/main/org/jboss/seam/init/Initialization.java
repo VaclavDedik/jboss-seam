@@ -437,6 +437,7 @@ public class Initialization
       Set<Package> scannedPackages = new HashSet<Package>();
       Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
       scannedClasses.addAll( new ComponentScanner("seam.properties").getClasses() );
+      scannedClasses.addAll( new ComponentScanner("META-INF/seam.properties").getClasses() );
       scannedClasses.addAll( new ComponentScanner("META-INF/components.xml").getClasses() );
       for (Class<Object> scannedClass: scannedClasses)
       {
