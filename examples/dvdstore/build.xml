@@ -5,100 +5,18 @@
     <!-- Naming -->
     <property name="Name"               value="Seam DVD Store Example"/>
     <property name="example.name"       value="jboss-seam-dvd"/>
-
-    <!-- WAR -->
-    <zipfileset id="example.war.docroot"
-               dir="web">
-        <include name="**/*"/>
-    </zipfileset>
 	
-    <zipfileset id="example.war.webinf"
-            prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <patternset refid="meta.files"/>
-    </zipfileset>
-	
-    <zipfileset id="example.war.webinf.lib"
-            prefix="WEB-INF/lib"
-               dir="lib">
-        <include name="*.jar"/>
-    </zipfileset>
-
-    <zipfileset id="example.war.webinf.lib.extra" 
-    	    prefix="WEB-INF/lib"
-    	     refid="extra.seam.jar"/>
-    
-    <!-- EJB3 -->
-    <fileset id="example.ejb3.root"
-            dir="resources">
-        <include name="import.sql"/>
-        <include name="seam.properties"/>
-        <include name="META-INF/persistence.xml"/>
-    	<include name="META-INF/ejb-jar.xml"/>
-    	<include name="META-INF/jboss.xml"/>
-    </fileset>
-	
-    <fileset id="example.ejb3.lib" dir="../../lib">
-        <include name="jbpm*.jar"/>
-    </fileset>
-  
-    <!-- EAR -->
-    <zipfileset id="example.ear.resources"
-               dir="resources">
-    	<include name="*.jpdl.xml"/>
-    	<exclude name=".gpd.*"/>
-    	<include name="*.cfg.xml"/>
-    	<include name="*.xsd"/>
-        <include name="META-INF/*"/>
-        <exclude name="META-INF/persistence.xml"/>
-    	<exclude name="META-INF/ejb-jar.xml"/>
-    	<exclude name="META-INF/jboss-beans.xml"/>
-    </zipfileset>
-
-    <!-- Tomcat build -->
-    <zipfileset id="example.tomcat.war.webinf"
-            prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <include name="faces-config.xml"/>
-        <include name="navigation.xml"/>
-        <include name="pages.xml"/>
-    	<include name="components.xml"/>
-        <include name="web.xml"/>
-    </zipfileset>
-    
-    <fileset id="example.tomcat.resources"
-            dir="resources">
-        <include name="seam.properties"/>
-        <include name="import.sql"/>
-        <include name="META-INF/persistence.xml"/>
-    	<include name="META-INF/ejb-jar.xml"/>
-        <include name="META-INF/jboss-beans.xml"/> <!-- TODO: move out of META-INF -->
-    	<include name="*.jpdl.xml"/>
-    	<exclude name=".gpd.*"/>
-    	<include name="*.cfg.xml"/>
-    </fileset>
-    
-    <!-- Deploy -->
-    <fileset id="example.deploy"
-            dir="resources">
-        <include name="dvd-ds.xml"/>
-    </fileset>
-
-    <!-- Undeploy -->
-    <patternset id="example.undeploy">
-        <include name="dvd-ds.xml"/>
-    </patternset>
-
-    <!-- Test -->
-    <fileset id="example.resources" dir="resources">
-        <include name="**/*.*"/>
-    </fileset>
-
     <!-- Overrides -->
-    <property name="src.java.dir" value="src"/>
-    <property name="src.test.dir" value="src"/>
-    <property name="test.classpath" value="test.eejb.classpath"/>
-    <property name="tomcat.conf" value="eejb.conf"/>
+	<property name="example.webinf.lib.dir"  value="lib"/>
+	<property name="example.docroot.dir"     value="web"/>
+    <property name="example.seam.lib"        value="yes"/>
+	<property name="example.facelets.lib"    value="yes"/>
+    <property name="example.jbpm.lib"        value="yes"/>
+	<property name="example.ds"              value="dvd-ds.xml"/>
+    <property name="src.java.dir"            value="src"/>
+    <property name="src.test.dir"            value="src"/>
+    <property name="test.classpath"          value="test.eejb.classpath"/>
+    <property name="tomcat.conf"             value="eejb.conf"/>
 	
     <import file="../../build.xml"/>
     

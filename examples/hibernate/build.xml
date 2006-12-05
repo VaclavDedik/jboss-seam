@@ -5,83 +5,16 @@
     <!-- Naming -->
     <property name="Name"                   value="Seam on JBoss Hibernate3 Example"/>
     <property name="example.name"           value="jboss-seam-hibernate"/>
-    
-    <!-- WAR -->
-    <zipfileset id="example.war.docroot"
-               dir="view">
-        <include name="**/*"/>
-    </zipfileset>
-	
-    <zipfileset id="example.war.webinf"
-            prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <include name="**/*"/>
-        <exclude name="lib/**/*"/>
-    </zipfileset>
-	
-    <zipfileset id="example.war.webinf.lib"
-            prefix="WEB-INF/lib"
-               dir="../../facelets/lib">
-        <include name="*.jar"/>
-    </zipfileset>
-
-    <zipfileset id="example.war.webinf.lib.extra" 
-    	    prefix="WEB-INF/lib"
-    	     refid="extra.seam.jar"/>
-    
-    <!-- EJB3 -->
-    <fileset id="example.ejb3.root" dir=".">
-        <include name="_NONE_"/>
-    </fileset>
-
-    <fileset id="example.ejb3.lib" dir="../../lib">
-        <include name="_NONE_"/>
-    </fileset>
-  
-    <!-- EAR -->
-    <zipfileset id="example.ear.resources" dir=".">
-        <include name="_NONE_"/>
-    </zipfileset>
-
-    <!-- Test -->
-    <fileset id="example.resources" dir="resources">
-        <include name="**/*.*"/>
-    </fileset>
-
-    <!-- Tomcat build -->
-    <zipfileset id="example.tomcat.war.webinf"
-            prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <include name="faces-config.xml"/>
-        <include name="pages.xml"/>
-    	<include name="components.xml"/>
-        <include name="web.xml"/>
-    </zipfileset>
-    
-    <fileset id="example.tomcat.resources"
-            dir="resources">
-        <include name="seam.properties"/>
-        <include name="import.sql"/>
-        <include name="hibernate.cfg.xml"/>
-        <include name="jboss-beans.xml"/>
-    </fileset>
-    
-    <!-- Deploy -->
-    <fileset id="example.deploy"
-            dir="resources">
-        <include name="hibernate-ds.xml"/>
-    </fileset>
-
-    <!-- Undeploy -->
-    <patternset id="example.undeploy">
-        <include name="hibernate-ds.xml"/>
-    </patternset>
 
     <!-- Overrides -->
-    <property name="src.java.dir" value="src"/>
-    <property name="src.test.dir" value="src"/>
-    <property name="test.classpath" value="test.mc.classpath"/>
-    <property name="tomcat.conf" value="mc.conf"/>
+	<property name="example.webinf.lib.dir"  value="."/>
+	<property name="example.seam.lib"        value="yes"/>
+	<property name="example.facelets.lib"    value="yes"/>
+	<property name="example.ds"              value="hibernate-ds.xml"/>
+    <property name="src.java.dir"            value="src"/>
+    <property name="src.test.dir"            value="src"/>
+    <property name="test.classpath"          value="test.mc.classpath"/>
+    <property name="tomcat.conf"             value="mc.conf"/>
 
     <import file="../../build.xml"/>
 
@@ -108,10 +41,14 @@
         </copy>
     	
         <jar destfile="${build.dir}/${example.name}.war">
+            <zipfileset refid="example.tomcat.seam.jar"/>
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
-        	<zipfileset refid="example.war.webinf.lib.extra"/>
-            <zipfileset refid="example.tomcat.seam.jar"/>
+	        <zipfileset refid="facelets.jar"/>
+            <zipfileset refid="seam.extra.jar"/>
+            <zipfileset dir="${lib.dir}" prefix="WEB-INF/lib">
+                <include name="el-*.jar"/>
+            </zipfileset>
             <zipfileset dir="${build.dir}/resources">
             	<include name="WEB-INF/**/*.*"/>
             </zipfileset>

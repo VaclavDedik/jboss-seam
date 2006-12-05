@@ -1,102 +1,19 @@
 <?xml version="1.0"?>
 
-<project name="CRUD" default="deploy" basedir=".">
+<project name="Contacts" default="deploy" basedir=".">
 
     <!-- Example name -->
     <property name="Name"                   value="Seam Contact List Example"/>
     <property name="example.name"           value="jboss-seam-contactlist"/>
 
-    <!-- WAR -->
-    <zipfileset id="example.war.docroot"
-               dir="view">
-      <include name="**/*"/>
-    </zipfileset>
-    
-    <zipfileset id="example.war.webinf"
-            prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <patternset refid="meta.files"/>
-    	<include name="classes/*.*"/>
-    </zipfileset>
-    
-    <zipfileset id="example.war.webinf.lib"
-            prefix="WEB-INF/lib"
-               dir="../../facelets/lib">
-        <include name="*.jar"/>
-    </zipfileset>
-    
-    <zipfileset id="example.war.webinf.lib.extra" 
-    	    prefix="WEB-INF/lib"
-    	     refid="extra.seam.jar"/>
-    
-    <zipfileset id="example.war.webinf.lib.extra" 
-    	    prefix="WEB-INF/lib"
-    	     refid="ui.seam.jar"/>
-    
-    <!-- EJB3 -->
-    <fileset id="example.ejb3.root"
-            dir="resources">
-        <include name="import.sql"/>
-        <include name="META-INF/components.xml"/>
-    	<include name="META-INF/ejb-jar.xml"/>
-        <include name="META-INF/persistence.xml"/>
-    </fileset>
-
-    <!-- EAR -->
-    <zipfileset id="example.ear.resources"
-            prefix="META-INF"
-               dir="resources/META-INF">
-        <include name="application.xml"/>
-        <include name="jboss-app.xml"/>
-    </zipfileset>
-
-    <fileset id="example.ejb3.lib" dir="../../lib">
-        <include name="_NONE_"/>
-    </fileset>
-  
-	<!-- Test -->
-	<fileset id="example.resources" dir="resources">
-		<include name="**/*.*"/>
-	</fileset>
-	
-    <!-- Tomcat build -->
-    <zipfileset id="example.tomcat.war.webinf"
-          prefix="WEB-INF"
-             dir="resources/WEB-INF" >
-       <include name="web.xml"/>
-       <include name="pages.xml"/>
-       <include name="components.xml"/>
-       <include name="faces-config.xml"/>
-       <include name="navigation.xml"/>
-       <include name="classes/*.*"/>
-    </zipfileset>
-  
-    <fileset id="example.tomcat.resources"
-          dir="resources">
-       <include name="META-INF/components.xml"/>
-       <include name="META-INF/persistence.xml"/>
-       <include name="META-INF/ejb-jar.xml"/>
-       <include name="import.sql"/>
-    </fileset>
-  
-
-    <!-- Deploy -->
-    <fileset id="example.deploy"
-            dir="resources">
-        <include name="_NONE_"/>
-    </fileset>
-
-    <!-- Undeploy -->
-    <patternset id="example.undeploy">
-        <include name="_NONE_"/>
-    </patternset>
-
     <!-- Overrides -->
-    <property name="src.java.dir" value="src"/>
-	<property name="src.test.dir" value="src"/>
-	<property name="test.classpath" value="test.eejb.classpath"/>
-	<property name="tomcat.conf" value="eejb.conf"/>
-  
+	<property name="example.webinf.lib.dir"  value="."/>
+	<property name="example.seam.lib"        value="yes"/>
+	<property name="example.facelets.lib"    value="yes"/>
+    <property name="src.java.dir"            value="src"/>
+    <property name="src.test.dir"            value="src"/>
+    <property name="test.classpath"          value="test.eejb.classpath"/>
+    <property name="tomcat.conf"             value="eejb.conf"/>  
 
     <import file="../../build.xml"/>
 

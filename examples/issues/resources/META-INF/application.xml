@@ -4,7 +4,6 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
              
-<application>
 	<display-name>Seam Issue Tracker</display-name>
 
 	<module>
@@ -19,5 +18,11 @@
 	<module>
 	    <java>jboss-seam.jar</java>
 	</module>
+    <module>
+        <java>el-api.jar</java>
+    </module>
+    <module>
+        <java>el-ri.jar</java>
+    </module>
 	
 </application>

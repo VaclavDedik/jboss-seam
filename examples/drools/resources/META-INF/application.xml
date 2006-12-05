@@ -21,35 +21,43 @@
 	    <java>jboss-seam.jar</java>
 	</module>
 	
+    <module>
+        <java>el-api.jar</java>
+    </module>
+    <module>
+        <java>el-ri.jar</java>
+    </module>
+
 	<module>
-	    <java>lib/jbpm-3.1.2.jar</java>
+	    <java>jbpm-3.1.2.jar</java>
 	</module>
 	
     <module>
-	    <java>drools/lib/drools-compiler-3.0.5.jar</java>
+	    <java>drools-compiler-3.0.5.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/drools-core-3.0.5.jar</java>
+	    <java>drools-core-3.0.5.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/antlr-2.7.6.jar</java>
+	    <java>antlr-2.7.6.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/antlr-3.0ea8.jar</java>
+	    <java>antlr-3.0ea8.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/commons-jci-core-1.0-406301.jar</java>
+	    <java>commons-jci-core-1.0-406301.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/commons-jci-janino-2.4.3.jar</java>
+	    <java>commons-jci-janino-2.4.3.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/commons-lang-2.1.jar</java>
+	    <java>commons-lang-2.1.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/janino-2.4.3.jar</java>
+	    <java>janino-2.4.3.jar</java>
 	</module>
     <module>
-	    <java>drools/lib/stringtemplate-2.3b6.jar</java>
+	    <java>stringtemplate-2.3b6.jar</java>
 	</module>
+    
 </application>
