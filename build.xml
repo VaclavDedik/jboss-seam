@@ -32,12 +32,10 @@
     <property name="src.test.dir"         value="src/test"/>
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
-    <property name="facelets.lib.dir"     value="${imported.basedir}/facelets/lib"/>
     <property name="drools.lib.dir"       value="${imported.basedir}/drools/lib"/>
     <property name="eejb.conf.dir"        value="${imported.basedir}/embedded-ejb/conf"/>
     <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
-    <property name="facelets.dir"         value="${imported.basedir}/facelets"/>
     <property name="drools.dir"           value="${imported.basedir}/drools"/>
 	<property name="hibernate.dir"        value="${imported.basedir}/hibernate"/>
     <property name="seamgen.dir"          value="${imported.basedir}/seam-gen"/>
@@ -61,7 +59,6 @@
     <property name="dist.lib.dir"         value="${dist.dir}/lib"/>
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
-    <property name="dist.facelets.dir"    value="${dist.dir}/facelets"/>
     <property name="dist.drools.dir"      value="${dist.dir}/drools"/>
 	<property name="dist.hibernate.dir"   value="${dist.dir}/hibernate"/>
     <property name="dist.seamgen.dir"     value="${dist.dir}/seam-gen"/>
@@ -471,7 +468,6 @@
         	target="1.5"
             destdir="${uiclasses.dir}"
             classpathref="build.classpath"
-            classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
             nowarn="on">
@@ -486,7 +482,6 @@
         	target="1.5"
             destdir="${debugclasses.dir}"
             classpathref="build.classpath"
-            classpath="facelets/lib/jsf-facelets.jar:facelets/lib/el-ri.jar:facelets/lib/el-api.jar"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
             nowarn="on">
@@ -655,11 +650,6 @@
         <copy file="microcontainer/readme.txt" todir="${dist.dir}/microcontainer"/>
         <copy file="embedded-ejb/readme.txt" todir="${dist.dir}/embedded-ejb"/>
 
-    	<copy todir="${dist.facelets.dir}">
-            <fileset dir="${facelets.dir}">
-                <include name="**/*.*"/>
-            </fileset>
-        </copy>
         <copy todir="${dist.drools.dir}">
             <fileset dir="${drools.dir}">
                 <include name="**/*.*"/>
