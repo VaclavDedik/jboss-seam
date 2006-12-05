@@ -89,21 +89,32 @@
         <include name="drools/lib/*.jar"/>
     </fileset>
     
-    <zipfileset id="example.seam.jar" 
+    <zipfileset id="example.seam.misc.jar" 
                dir="${imported.basedir}"
     	    prefix="WEB-INF/lib"
        description="the Seam jars">
-        <include name="${name}.jar"/>
     	<include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
         <include name="jboss-seam-ui.jar" if="example.seam.ui.lib"/>
     </zipfileset>
     
+    <zipfileset id="example.seam.main.jar" 
+               dir="${imported.basedir}"
+       description="the main Seam jar">
+        <include name="${name}.jar"/>
+    </zipfileset>
+
+    <zipfileset id="example.facelets.jar" 
+               dir="${lib.dir}"
+           prefix="WEB-INF/lib"
+      description="the facelets jar">
+        <include name="jsf-facelets.jar" if="example.facelets.lib"/>
+    </zipfileset>
+	
     <zipfileset id="example.extra.jar" 
                dir="${lib.dir}" 
        description="extra jars for the EAR">
         <include name="el-*.jar" />
         <include name="jbpm*.jar" if="example.jbpm.lib"/>
-        <include name="jsf-facelets.jar" if="example.facelets.lib"/>
         <include name="jboss-cache-jdk50.jar" if="example.cache.lib"/>
         <include name="jboss-aop-jdk50.jar" if="example.cache.lib"/>
         <include name="jgroups.jar" if="example.cache.lib"/>
@@ -222,7 +233,7 @@
     <path id="build.classpath">
         <path refid="example.path"/>
         <fileset refid="lib"/>
-        <fileset refid="example.seam.jar"/>
+        <fileset refid="example.seam.main.jar"/>
     </path>
     
     <property name="test.classpath" value="test.classpath"/>
@@ -919,8 +930,8 @@
         <jar destfile="${build.dir}/${example.name}.war">
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
-        	<zipfileset refid="facelets.jar"/>
-        	<zipfileset refid="seam.extra.jar"/>
+        	<zipfileset refid="example.seam.misc.jar"/>
+        	<zipfileset refid="example.facelets.jar"/>
             <zipfileset dir="${build.dir}/resources">
                 <include name="WEB-INF/**/*.*"/>
             </zipfileset>
@@ -937,7 +948,7 @@
 
     <target name="ear" depends="ejb3, war">
         <jar destfile="${build.dir}/${example.name}.ear">
-            <fileset refid="example.seam.jar"/>
+            <fileset refid="example.seam.main.jar"/>
             <fileset refid="example.drools.jar"/>
             <fileset refid="example.extra.jar"/>
             <zipfileset dir="${build.dir}">
