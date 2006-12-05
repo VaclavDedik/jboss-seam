@@ -90,8 +90,6 @@
 		</copy>		
 		<copy todir="${war.dir}/WEB-INF/lib">
 			<fileset dir="${lib.dir}">
-				<include name="el-api.jar" />
-				<include name="el-ri.jar" />
 				<include name="jsf-facelets.jar" />
 				<include name="jboss-seam-debug.jar" />
 				<include name="jboss-seam-ui.jar" />
@@ -114,6 +112,7 @@
 			<fileset dir="${lib.dir}">
 				<include name="jboss-seam.jar" />
 				<include name="jbpm*.jar" />
+				<include name="el-*.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${ear.dir}/META-INF">

@@ -345,7 +345,6 @@
 
         <copy todir="${project.home}/lib">
             <fileset dir="../lib"/>
-            <fileset dir="../facelets/lib"/>
             <fileset dir="../">
                 <include name="jboss-seam.jar"/>
                 <include name="jboss-seam-ui.jar"/>
@@ -458,7 +457,10 @@
         </copy>
         
         <copy todir="${project.home}Web/WebContent/WEB-INF/lib" overwrite="true">
-            <fileset dir="../facelets/lib"/>
+            <fileset dir="../lib">
+            	<include name="jsf-facelets.jar"/>
+            	<include name="el-*.jar"/>
+            </fileset>
             <fileset file="../jboss-seam-debug.jar"/>
             <fileset file="../jboss-seam-ui.jar"/>
         </copy>
@@ -533,9 +535,8 @@
                 <include name="jboss-seam-ui.jar" />
                 <include name="jboss-seam-debug.jar" />
             </fileset>
-            <fileset dir="../facelets/lib">
-                <include name="el-api.jar" />
-                <include name="el-ri.jar" />
+            <fileset dir="../lib">
+                <include name="el-*.jar" />
                 <include name="jsf-facelets.jar" />
             </fileset>
         </copy>
