@@ -8,7 +8,8 @@
 
     <!-- Overrides -->
 	<property name="example.webinf.lib.dir"  value="."/>
-	<property name="example.seam.lib"        value="yes"/>
+	<property name="example.seam.ui.lib"     value="yes"/>
+	<property name="example.seam.debug.lib"  value="yes"/>
 	<property name="example.facelets.lib"    value="yes"/>
     <property name="src.java.dir"            value="src"/>
     <property name="src.test.dir"            value="src"/>
