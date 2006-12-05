@@ -6,93 +6,14 @@
     <property name="Name"                   value="Seam on JBoss Booking Example"/>
     <property name="example.name"           value="jboss-seam-booking"/>
 	
-    <!-- WAR -->
-    <zipfileset id="example.war.docroot"
-               dir="view">
-        <include name="**/*"/>
-    </zipfileset>
-    
-    <zipfileset id="example.war.webinf"
-            prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <patternset refid="meta.files"/>
-    	<include name="classes/tidy.properties"/>
-    </zipfileset>
-    
-    <zipfileset id="example.war.webinf.lib"
-            prefix="WEB-INF/lib"
-               dir="resources/WEB-INF/lib">
-        <include name="*.jar"/>
-    </zipfileset>
-
-    <zipfileset id="example.war.webinf.lib.extra" 
-    	    prefix="WEB-INF/lib"
-    	     refid="extra.seam.jar"/>
-    
-    <!-- EJB3 -->
-    <fileset id="example.ejb3.root"
-            dir="resources">
-        <include name="import.sql"/>
-        <include name="seam.properties"/>
-        <include name="META-INF/persistence.xml"/>
-    	<include name="META-INF/ejb-jar.xml"/>
-    </fileset>
-    
-    <fileset id="example.ejb3.lib" dir="../../lib">
-        <include name="_NONE_"/>
-    </fileset>
-
-    <!-- EAR -->
-    <zipfileset id="example.ear.resources"
-            prefix="META-INF"
-               dir="resources/META-INF">
-        <include name="*"/>
-        <exclude name="persistence.xml"/>
-        <exclude name="jboss-beans.xml"/>
-    	<exclude name="ejb-jar.xml"/>
-    </zipfileset>
-
-    <!-- Deploy -->
-    <fileset id="example.deploy"
-            dir="resources">
-        <include name="booking-ds.xml"/>
-    </fileset>
-    
-    <!-- Undeploy -->
-    <patternset id="example.undeploy">
-        <include name="booking-ds.xml"/>
-    </patternset>
-
-    <!-- Test -->
-    <fileset id="example.resources" dir="resources">
-        <include name="**/*.*"/>
-    </fileset>
-
-    <!-- Tomcat build -->
-    <zipfileset id="example.tomcat.war.webinf"
-            prefix="WEB-INF"
-               dir="resources/WEB-INF" >
-        <include name="faces-config.xml"/>
-        <include name="navigation.xml"/>
-        <include name="pages.xml"/>
-    	<include name="components.xml"/>
-        <include name="web.xml"/>
-    </zipfileset>
-    
-    <fileset id="example.tomcat.resources"
-            dir="resources">
-        <include name="seam.properties"/>
-        <include name="import.sql"/>
-        <include name="META-INF/persistence.xml"/>
-        <include name="META-INF/ejb-jar.xml"/>
-        <include name="META-INF/jboss-beans.xml"/> <!-- TODO: move out of META-INF -->
-    </fileset>
-    
     <!-- Overrides -->
-    <property name="src.java.dir" value="src"/>
-    <property name="src.test.dir" value="src"/>
-    <property name="test.classpath" value="test.eejb.classpath"/>
-    <property name="tomcat.conf" value="eejb.conf"/>
+	<property name="example.seam.lib"       value="yes"/>
+	<property name="example.facelets.lib"   value="yes"/>
+	<property name="example.ds"             value="booking-ds.xml"/>
+    <property name="src.java.dir"           value="src"/>
+    <property name="src.test.dir"           value="src"/>
+    <property name="test.classpath"         value="test.eejb.classpath"/>
+    <property name="tomcat.conf"            value="eejb.conf"/>
 
     <import file="../../build.xml"/>
     
