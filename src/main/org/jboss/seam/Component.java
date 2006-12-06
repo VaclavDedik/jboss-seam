@@ -262,8 +262,6 @@ public class Component
 
       initInitializers(applicationContext);
 
-      //factory = createProxyFactory();
-
    }
 
    private void initNamespaces(String componentName, Context applicationContext)
@@ -1064,16 +1062,16 @@ public class Component
     */
    public Object wrap(Object bean, MethodInterceptor interceptor) throws Exception
    {
-      Factory proxy = getFactory().newInstance();
+      Factory proxy = getProxyFactory().newInstance();
       proxy.setCallback(0, interceptor);
       return proxy;
    }
 
-   private synchronized Class<Factory> getFactory()
+   private synchronized Class<Factory> getProxyFactory()
    {
       if (factory==null)
       {
-         factory = createProxyFactory();
+         factory = createProxyFactory( getType(), getBeanClass(), getBusinessInterfaces() );
       }
       return factory;
    }
@@ -1455,7 +1453,7 @@ public class Component
       }
    }
 
-   private static Set<Class> getBusinessInterfaces(Class clazz)
+   public static Set<Class> getBusinessInterfaces(Class clazz)
    {
       Set<Class> result = new HashSet<Class>();
 
@@ -1917,7 +1915,7 @@ public class Component
       return "Component(" + name + ")";
    }
 
-   private Class<Factory> createProxyFactory()
+   public static Class<Factory> createProxyFactory(ComponentType type, Class beanClass, Collection<Class> businessInterfaces)
    {
       Enhancer en = new Enhancer();
       en.setUseCache(false);
@@ -1927,7 +1925,7 @@ public class Component
       Set<Class> interfaces = new HashSet<Class>();
       if ( type.isSessionBean() )
       {
-         interfaces.addAll( getBusinessInterfaces() );
+         interfaces.addAll(businessInterfaces);
       }
       else
       {

@@ -3,10 +3,12 @@ package org.jboss.seam.intercept;
 
 import java.lang.reflect.Method;
 
+import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.ComponentType;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.ejb.SeamInterceptor;
 
@@ -21,11 +23,13 @@ public class ClientSideInterceptor extends RootInterceptor
 {
    
    private final Object bean;
+   private final Class beanClass;
 
    public ClientSideInterceptor(Object bean, Component component)
    {
       super(InterceptorType.CLIENT);
       this.bean = bean;
+      this.beanClass = component.getBeanClass();
       init(component);
    }
    
@@ -81,15 +85,31 @@ public class ClientSideInterceptor extends RootInterceptor
    //TODO: copy/paste from JavaBean interceptor
    Object readResolve()
    {
-      Component comp = getComponent();
-      if (comp==null)
+      Component comp = null;
+      try
       {
-         throw new IllegalStateException("No component found: " + getComponentName());
+         comp = getComponent();
+      }
+      catch (IllegalStateException ise) {
+         //this can occur when tomcat deserializes persistent sessions
       }
       
       try
       {
-         return comp.wrap(bean, this);
+         if (comp==null)
+         {
+            Factory proxy = Component.createProxyFactory( 
+                  ComponentType.STATEFUL_SESSION_BEAN, 
+                  beanClass, 
+                  Component.getBusinessInterfaces(beanClass)
+               ).newInstance();
+            proxy.setCallback(0, this);
+            return proxy;
+         }
+         else
+         {
+            return comp.wrap(bean, this);
+         }
       }
       catch (Exception e)
       {

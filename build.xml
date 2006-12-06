@@ -37,7 +37,7 @@
     <property name="mc.conf.dir"          value="${imported.basedir}/microcontainer/conf"/>
     <property name="example.coverage.dir" value="${imported.basedir}/build/coverage"/>
     <property name="drools.dir"           value="${imported.basedir}/drools"/>
-	<property name="hibernate.dir"        value="${imported.basedir}/hibernate"/>
+    <property name="hibernate.dir"        value="${imported.basedir}/hibernate"/>
     <property name="seamgen.dir"          value="${imported.basedir}/seam-gen"/>
 
     <property name="doc.dir"              value="doc"/>
@@ -60,9 +60,9 @@
     <property name="dist.eejb.conf.dir"   value="${dist.dir}/embedded-ejb/conf"/>
     <property name="dist.mc.conf.dir"     value="${dist.dir}/microcontainer/conf"/>
     <property name="dist.drools.dir"      value="${dist.dir}/drools"/>
-	<property name="dist.hibernate.dir"   value="${dist.dir}/hibernate"/>
+    <property name="dist.hibernate.dir"   value="${dist.dir}/hibernate"/>
     <property name="dist.seamgen.dir"     value="${dist.dir}/seam-gen"/>
-	
+    
     <property name="deploy.dir"           value="${jboss.home}/server/default/deploy"/>
     <property name="webroot.dir"          value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war"/>
     
@@ -71,11 +71,11 @@
     <property name="javac.debug"          value="true"/>
     <property name="javac.deprecation"    value="false"/>
     
-	<property name="example.docroot.dir"     value="view"/>
-	<property name="example.resources.dir"   value="resources"/>
-	<property name="example.webinf.dir"      value="${example.resources.dir}/WEB-INF"/>
-	<property name="example.webinf.lib.dir"  value="${example.resources.dir}/WEB-INF/lib"/>
-	<property name="example.ds"              value="${example.name}-ds.xml"/>
+    <property name="example.docroot.dir"     value="view"/>
+    <property name="example.resources.dir"   value="resources"/>
+    <property name="example.webinf.dir"      value="${example.resources.dir}/WEB-INF"/>
+    <property name="example.webinf.lib.dir"  value="${example.resources.dir}/WEB-INF/lib"/>
+    <property name="example.ds"              value="${example.name}-ds.xml"/>
 
     <path id="example.path" />
     
@@ -88,9 +88,9 @@
     
     <zipfileset id="example.seam.misc.jar" 
                dir="${imported.basedir}"
-    	    prefix="WEB-INF/lib"
+            prefix="WEB-INF/lib"
        description="the Seam jars">
-    	<include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
+        <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
         <include name="jboss-seam-ui.jar" if="example.seam.ui.lib"/>
     </zipfileset>
     
@@ -106,7 +106,7 @@
       description="the facelets jar">
         <include name="jsf-facelets.jar" if="example.facelets.lib"/>
     </zipfileset>
-	
+    
     <zipfileset id="example.extra.jar" 
                dir="${lib.dir}" 
        description="extra jars for the EAR">
@@ -120,11 +120,11 @@
     <zipfileset id="example.drools.jar" 
                dir="${drools.lib.dir}" 
        description="the Drools jars">
-    	<include name="*.jar" if="example.drools.lib"/>
+        <include name="*.jar" if="example.drools.lib"/>
     </zipfileset>
             
     <fileset id="example.resources" 
-    	    dir="${example.resources.dir}">
+            dir="${example.resources.dir}">
         <include name="**/*.*"/>
     </fileset>
 
@@ -150,21 +150,21 @@
         <include name="import.sql"/>
         <include name="seam.properties"/>
         <include name="META-INF/persistence.xml"/>
-    	<include name="META-INF/ejb-jar.xml"/>
-    	<include name="META-INF/components.xml"/>
-    	<include name="META-INF/jboss.xml"/>
+        <include name="META-INF/ejb-jar.xml"/>
+        <include name="META-INF/components.xml"/>
+        <include name="META-INF/jboss.xml"/>
     </fileset>
     
     <zipfileset id="example.ear.resources"
                dir="${example.resources.dir}">
         <include name="META-INF/application.xml"/>
-    	<include name="META-INF/jboss-app.xml"/>
-    	<include name="treecache.xml"/>
-    	<include name="*.jpdl.xml"/>
-    	<exclude name=".gpd.*"/>
-    	<include name="*.cfg.xml"/>
-    	<include name="*.xsd"/>
-    	<include name="*.drl"/>
+        <include name="META-INF/jboss-app.xml"/>
+        <include name="treecache.xml"/>
+        <include name="*.jpdl.xml"/>
+        <exclude name=".gpd.*"/>
+        <include name="*.cfg.xml"/>
+        <include name="*.xsd"/>
+        <include name="*.drl"/>
     </zipfileset>
 
     <fileset id="example.deploy"
@@ -172,7 +172,7 @@
         <include name="${example.ds}"/>
     </fileset>
     
-	<patternset id="example.undeploy">
+    <patternset id="example.undeploy">
         <include name="${example.ds}"/>
     </patternset>
     
@@ -187,18 +187,18 @@
         <include name="**/*.*"/>
         <exclude name="WEB-INF/**/*.*"/>
     </fileset>
-	
-	<zipfileset id="example.tomcat.lib" 
+    
+    <zipfileset id="example.tomcat.lib" 
             prefix="WEB-INF/lib"
                dir="${lib.dir}"
        description="run-time dependencies for tomcat deployment">
         <include name="*.jar"/>
-		<exclude name="jsf-facelets*.jar"/>
-		<exclude name="jboss-*-jdk50.jar"/>
-		<exclude name="jgroups*.jar"/>
-		<exclude name="jbpm*.jar"/>
+        <exclude name="jsf-facelets*.jar"/>
+        <exclude name="jboss-*-jdk50.jar"/>
+        <exclude name="jgroups*.jar"/>
+        <exclude name="jbpm*.jar"/>
         <exclude name="servlet-api.jar"/>
-    	<exclude name="ant*.jar"/>
+        <exclude name="ant*.jar"/>
         <exclude name="javax.servlet.jsp.jar"/>
         <exclude name="testng-*.jar"/>
     </zipfileset>
@@ -207,24 +207,24 @@
             prefix="WEB-INF/lib"
             dir="${imported.basedir}">
         <include name="${name}.jar"/>
-    	<include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
+        <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
         <include name="jboss-seam-ui.jar" if="example.seam.ui.lib"/>
     </zipfileset>
     
     <zipfileset id="example.tomcat.drools.jar" 
-    	    prefix="WEB-INF/lib"
+            prefix="WEB-INF/lib"
             dir="${drools.lib.dir}">
-    	<include name="*.jar" if="example.drools.lib"/>
+        <include name="*.jar" if="example.drools.lib"/>
     </zipfileset>
     
     <zipfileset id="example.tomcat.extra.jar" 
-    	    prefix="WEB-INF/lib"
+            prefix="WEB-INF/lib"
             dir="${lib.dir}">
         <include name="jsf-facelets.jar" if="example.facelets.lib"/>
         <include name="jboss-cache-jdk50.jar" if="example.cache.lib"/>
-    	<include name="jboss-aop-jdk50.jar" if="example.cache.lib"/>
+        <include name="jboss-aop-jdk50.jar" if="example.cache.lib"/>
         <include name="jgroups.jar" if="example.cache.lib"/>
-    	<include name="jbpm*.jar" if="example.jbpm.lib"/>
+        <include name="jbpm*.jar" if="example.jbpm.lib"/>
     </zipfileset>
         
     <path id="build.classpath">
@@ -338,7 +338,7 @@
         <ant dir="examples/remoting/progressbar" target="clean" inheritall="false"/>
         <ant dir="examples/hibernate2" target="clean" inheritall="false"/>
         <ant dir="examples/jpa" target="clean" inheritall="false"/>
-    	<ant dir="examples/glassfish" target="clean" inheritall="false"/>
+        <ant dir="examples/glassfish" target="clean" inheritall="false"/>
 
     </target>
     
@@ -439,18 +439,18 @@
                 </fileset>
             </copy>            
     </target>
-	
-	<target name="select-compiler">
-    	<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" 
-    			property="build.compiler" 
-    			value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-	</target>
+    
+    <target name="select-compiler">
+        <available classname="org.eclipse.jdt.core.JDTCompilerAdapter" 
+                property="build.compiler" 
+                value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+    </target>
 
     <target name="compile" depends="init,select-compiler"
             description="Compile the Java source code">
         <javac
-        	source="1.5"
-        	target="1.5"
+            source="1.5"
+            target="1.5"
             destdir="${classes.dir}"
             classpathref="build.classpath"
             debug="${javac.debug}"
@@ -464,8 +464,8 @@
     <target name="compileui" depends="initui,select-compiler"
             description="Compile the Java source code for the UI package">
         <javac
-        	source="1.5"
-        	target="1.5"
+            source="1.5"
+            target="1.5"
             destdir="${uiclasses.dir}"
             classpathref="build.classpath"
             debug="${javac.debug}"
@@ -478,8 +478,8 @@
     <target name="compiledebug" depends="initdebug,select-compiler"
             description="Compile the Java source code for the debug package">
         <javac
-        	source="1.5"
-        	target="1.5"
+            source="1.5"
+            target="1.5"
             destdir="${debugclasses.dir}"
             classpathref="build.classpath"
             debug="${javac.debug}"
@@ -492,8 +492,8 @@
      <target name="compilegen" depends="initgen,select-compiler"
                 description="Compile the Java source code for the seam-gen package">
             <javac
-            	source="1.5"
-            	target="1.5"
+                source="1.5"
+                target="1.5"
                 destdir="${genclasses.dir}"
                 classpathref="build.classpath"
                 debug="${javac.debug}"
@@ -636,7 +636,7 @@
                 <include name="*.*"/>
             </fileset>
         </copy>
-    	
+        
         <copy todir="${dist.eejb.conf.dir}">
             <fileset dir="${eejb.conf.dir}">
                 <patternset refid="meta.files"/>
@@ -660,7 +660,7 @@
                 <include name="**/*.*"/>
             </fileset>
         </copy>
-    	
+        
     </target>
 
     <target name="instrument" depends="compile">
@@ -735,9 +735,9 @@
                 <exclude name="booking/build.alter.xml"/>
                 <include name="icefaces/**/*"/>
                 <include name="hibernate/**/*"/>
-            	<include name="hibernate2/**/*"/>
-            	<include name="jpa/**/*"/>
-            	<include name="glassfish/**/*"/>
+                <include name="hibernate2/**/*"/>
+                <include name="jpa/**/*"/>
+                <include name="glassfish/**/*"/>
                 <include name="blog/**/*"/>
                 <include name="contactlist/**/*"/>
                 <include name="issues/**/*"/>
@@ -901,8 +901,8 @@
     <fileset id="example.classes"
              dir="${classes.dir}">
         <include name="**/*.class"/>
-    	<include name="**/*.component.xml"/>
-    	<include name="**/components.xml"/>
+        <include name="**/*.component.xml"/>
+        <include name="**/components.xml"/>
         <exclude name="**/test/*.class"/>
     </fileset>
 
@@ -920,8 +920,8 @@
         <jar destfile="${build.dir}/${example.name}.war">
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
-        	<zipfileset refid="example.seam.misc.jar"/>
-        	<zipfileset refid="example.facelets.jar"/>
+            <zipfileset refid="example.seam.misc.jar"/>
+            <zipfileset refid="example.facelets.jar"/>
             <zipfileset dir="${build.dir}/resources">
                 <include name="WEB-INF/**/*.*"/>
             </zipfileset>
@@ -998,12 +998,13 @@
         <jar destfile="${build.dir}/${example.name}.war" duplicate="preserve">
             <zipfileset refid="example.tomcat.lib"/>
             <zipfileset refid="example.tomcat.seam.jar"/>
-        	<zipfileset refid="example.tomcat.drools.jar"/>
-        	<zipfileset refid="example.tomcat.extra.jar"/>
+            <zipfileset refid="example.tomcat.drools.jar"/>
+            <zipfileset refid="example.tomcat.extra.jar"/>
             <zipfileset refid="example.war.docroot"/>
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset dir="${build.dir}/resources">
                 <include name="WEB-INF/**/*.*"/>
+                <exclude name="WEB-INF/lib/*.jar"/>
             </zipfileset>
             <zipfileset dir="${build.dir}" prefix="WEB-INF/lib">
                 <include name="${example.name}.jar"/>
