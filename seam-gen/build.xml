@@ -39,10 +39,19 @@
 	<pathFilename property="driver.file" path="${driver.jar}"/>
 	
 	<condition property="hibernate.hbm2ddl.auto" value="update">
+           <and>
 		<equals arg1="${database.exists}" arg2="n"/>
+		<equals arg1="${database.drop}" arg2="n"/>
+           </and>
 	</condition>
 	<condition property="hibernate.hbm2ddl.auto" value="validate">
+           <and>
 		<equals arg1="${database.exists}" arg2="y"/>
+		<equals arg1="${database.drop}" arg2="n"/>
+           </and>
+	</condition>
+	<condition property="hibernate.hbm2ddl.auto" value="create-drop">
+		<equals arg1="${database.drop}" arg2="y"/>
 	</condition>
     
     <property name="project.home" value="${workspace.home}/${project.name}"/>
@@ -260,7 +269,13 @@
                    message="Are you working with tables that already exist in the database? [${database.exists}] "
         	     validargs="y,n,"
               defaultvalue="${database.exists}"/>
-                
+
+        <property name="database.drop" value="n"/>
+        <input addproperty="database.drop.new" 
+                   message="Do you want to init the database tables everytime you deploy the app (e.g., to use import.sql) and drop the tables when you undeploy (useful in development)? [${database.drop}] "
+        	     validargs="y,n,"
+              defaultvalue="${database.drop}"/>
+
         <propertyfile file="build.properties">
             <entry key="workspace.home" value="${workspace.home.new}"/>
             <entry key="project.name" value="${project.name.new}"/>
@@ -271,6 +286,7 @@
             <entry key="test.package" value="${test.package.new}"/>
             <entry key="database.type" value="${database.type.new}"/>
         	<entry key="database.exists" value="${database.exists.new}"/>
+        	<entry key="database.drop" value="${database.drop.new}"/>
             <entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
             <entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
             <entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>
@@ -390,11 +406,11 @@
         <mkdir dir="${project.home}/src"/>
 
         <mkdir dir="${project.home}/nbproject"/>
-        <copy tofile="${project.home}/nbproject/project.xml" 
-                file="${basedir}/nbproject/project.xml">
+        <copy todir="${project.home}/nbproject">
+            <fileset dir="${basedir}/nbproject" />
             <filterset refid="project"/>
         </copy>
-        
+
     </target>
 
     <target name="file-copy-wtp" if="${wtp}">

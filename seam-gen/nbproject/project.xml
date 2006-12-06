@@ -32,6 +32,10 @@
                 <action name="test">
                     <target>test</target>
                 </action>
+                <action name="debug">
+                    <script>nbproject/ide-file-targets.xml</script>
+                    <target>debug-nb</target>
+                </action> 
             </ide-actions>
             <view>
                 <items>
@@ -53,10 +57,11 @@
                 </items>
                 <context-menu>
                     <ide-action name="clean"/>
+                    <ide-action name="restart"/>
+                    <ide-action name="debug"/>
                     <ide-action name="build"/>
                     <ide-action name="deploy"/>
                     <ide-action name="undeploy"/>
-                    <ide-action name="restart"/>
                     <ide-action name="test"/>
                 </context-menu>
             </view>
