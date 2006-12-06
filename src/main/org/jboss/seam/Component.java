@@ -1915,13 +1915,19 @@ public class Component
       return "Component(" + name + ")";
    }
 
-   public static Class<Factory> createProxyFactory(ComponentType type, Class beanClass, Collection<Class> businessInterfaces)
+   public static Class<Factory> createProxyFactory(ComponentType type, final Class beanClass, Collection<Class> businessInterfaces)
    {
       Enhancer en = new Enhancer();
       en.setUseCache(false);
       en.setInterceptDuringConstruction(false);
       en.setCallbackType(MethodInterceptor.class);
       en.setSuperclass( type==JAVA_BEAN ? beanClass : Object.class );
+      /*en.setNamingPolicy( new NamingPolicy() {
+         public String getClassName(String prefix, String source, Object key, Predicate names)
+         {
+            return beanClass.getName() + "SeamProxy";
+         }
+      });*/
       Set<Class> interfaces = new HashSet<Class>();
       if ( type.isSessionBean() )
       {
