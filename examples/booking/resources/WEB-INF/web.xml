@@ -5,32 +5,32 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-   <session-config>
-      <session-timeout>3</session-timeout>
-   </session-config>
+    <session-config>
+        <session-timeout>3</session-timeout>
+    </session-config>
 
-   <context-param>
-      <param-name>javax.faces.CONFIG_FILES</param-name>
-      <param-value>/WEB-INF/navigation.xml</param-value>
-   </context-param>
+    <context-param>
+        <param-name>javax.faces.CONFIG_FILES</param-name>
+        <param-value>/WEB-INF/navigation.xml</param-value>
+    </context-param>
 
-	<!-- Ajax4jsf (must come first!) -->
-		
-	<filter>
-		<display-name>Ajax4jsf Filter</display-name>
-		<filter-name>ajax4jsf</filter-name>
-		<filter-class>org.ajax4jsf.Filter</filter-class>
-	</filter>
-	
-	<filter-mapping>
-		<filter-name>ajax4jsf</filter-name>
-		<url-pattern>*.seam</url-pattern>
-	</filter-mapping>
+    <!-- Ajax4jsf (must come first!) -->
+        
+    <filter>
+        <display-name>Ajax4jsf Filter</display-name>
+        <filter-name>ajax4jsf</filter-name>
+        <filter-class>org.ajax4jsf.Filter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>ajax4jsf</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
 
-	<context-param>
-		<param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
-		<param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>
-	</context-param>
+    <context-param>
+        <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
+        <param-value>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</param-value>
+    </context-param>
     
     <!-- Seam -->
    
