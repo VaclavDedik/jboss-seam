@@ -18,17 +18,14 @@
                     <target>clean</target>
                     <target>unexplode</target>
                 </action>
-                <action name="Build">
+                <action name="build">
                     <target>archive</target>
-                </action>
-                <action name="Deploy">
-                    <target>explode</target>
-                </action>
-                <action name="Undeploy">
-                    <target>unexplode</target>
                 </action>
                 <action name="redeploy">
                     <target>restart</target>
+                </action>
+                <action name="Undeploy">
+                    <target>unexplode</target>
                 </action>
                 <action name="test">
                     <target>test</target>
@@ -58,8 +55,7 @@
                 </items>
                 <context-menu>
                     <ide-action name="clean"/>
-                    <ide-action name="Build"/>
-                    <ide-action name="Deploy"/>
+                    <ide-action name="build"/>
                     <ide-action name="redeploy"/>
                     <ide-action name="Undeploy"/>
                     <ide-action name="debug"/>
