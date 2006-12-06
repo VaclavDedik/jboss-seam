@@ -1,6 +1,7 @@
 package org.jboss.seam.util;
 
 import java.lang.reflect.Array;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
@@ -39,7 +40,7 @@ public class Parameters
          return servletRequest.getParameterMap();
       }
       
-      return null;
+      return Collections.EMPTY_MAP;
    }
 
    public static Object convertMultiValueRequestParameter(Map<String, String[]> requestParameters, String name, Class<?> type)
