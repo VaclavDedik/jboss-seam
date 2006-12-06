@@ -35,7 +35,8 @@ public abstract class Scanner
    public Scanner(String resourceName, ClassLoader classLoader)
    {
       this.resourceName = resourceName;
-      this.classLoader = classLoader;      
+      this.classLoader = classLoader;
+      ClassFile.class.getPackage(); //to force loading of javassist, throwing an exception if it is missing
    }
    
    public static String filenameToClassname(String filename)
