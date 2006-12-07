@@ -46,8 +46,11 @@
                                       required="true"
 </#if>
 		        	                     value="${'#'}{${homeName}.instance.${property.name}}">
-		        	               <f:convertDateTime type="date" dateStyle="short"/>
+		        	               <f:convertDateTime type="date" dateStyle="short" pattern="MM/dd/yyyy"/>
 		        	           </h:inputText>
+		        	           <s:selectDate for="${property.name}">
+		        	               <h:graphicImage url="img/dtpick.gif" style="margin-left:5px"/>
+		        	           </s:selectDate>
 <#elseif property.value.typeName == "time">
 		        	           <h:inputText id="${property.name}" 
 	        		                      size="5"
@@ -72,10 +75,7 @@
                                       required="true"
 </#if>
 			                             value="${'#'}{${homeName}.instance.${property.name}}"
-			                              size="${column.precision+7}">
-			                       <f:convertNumber maxIntegerDigits="${column.precision-column.scale}" 
-			                                       maxFractionDigits="${column.scale}"/>
-			                   </h:inputText>
+			                              size="${column.precision+7}"/>
 <#elseif property.value.typeName == "big_integer">
 			                   <h:inputText id="${property.name}" 
 <#if propertyIsId>
@@ -85,10 +85,7 @@
                                       required="true"
 </#if>
 			                             value="${'#'}{${homeName}.instance.${property.name}}"
-			                              size="${column.precision+6}">
-			                       <f:convertNumber integerOnly="true"
-			                                   maxIntegerDigits="${column.precision}"/>
-			                   </h:inputText>
+			                              size="${column.precision+6}"/>
 <#elseif property.value.typeName == "boolean">
 			                   <h:selectBooleanCheckbox id="${property.name}"
 <#if !column.nullable>

@@ -78,6 +78,7 @@
         <include name="layout/template.xhtml"/>
     	<include name="layout/menu.xhtml"/>
         <include name="stylesheet/*"/>
+    	<include name="img/*"/>
     </fileset>
 	
 	<!-- targets -->
