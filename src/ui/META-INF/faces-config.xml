@@ -466,4 +466,14 @@
         <converter-class>org.jboss.seam.ui.ConvertDateTime</converter-class>
     </converter>
     
+    <converter>
+        <converter-for-class>java.math.BigDecimal</converter-for-class>
+        <converter-class>javax.faces.convert.BigDecimalConverter</converter-class>
+    </converter>
+
+    <converter>
+        <converter-for-class>java.math.BigInteger</converter-for-class>
+        <converter-class>javax.faces.convert.BigIntegerConverter</converter-class>
+    </converter>
+
 </faces-config>
