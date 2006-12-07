@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -43,6 +44,7 @@ public class Booking implements Serializable
       this.user = user;
    }
 
+   // error with locking @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
    @Id @GeneratedValue
    public Long getId()
    {
