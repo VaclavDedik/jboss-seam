@@ -72,14 +72,14 @@
         <include name="navigation.xml" />
         <include name="components.xml" />
       </webinf>
+      <lib dir="${lib}">
+        <include name="jsf-facelets.jar" />
+      </lib>
       <lib dir="${seamlib}">
         <include name="jboss-seam-ui.jar" />
         <include name="jboss-seam-debug.jar" />
       </lib>
       <lib dir="${applib}">
-        <include name="el-api.jar" />
-        <include name="el-ri.jar" />
-        <include name="jsf-facelets.jar" />
         <include name="ajax4jsf.jar" />
         <include name="oscache-2.3.2.jar" />
       </lib>
@@ -94,6 +94,8 @@
       appxml="${resources}/META-INF/application.xml">
       
       <fileset dir="${lib}">
+        <include name="el-api.jar" />
+        <include name="el-ri.jar" />
         <include name="thirdparty-all.jar" />
         <include name="commons-digester-*.jar" />
         <include name="commons-beanutils-*.jar" />
