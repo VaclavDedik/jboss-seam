@@ -867,6 +867,18 @@
   </tag>
 
   <tag>
+    <name>selectDate</name>
+    <tag-class>org.jboss.seam.ui.tag.SelectDateTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>for</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>the field identifier of the input item to pick a date for</description>
+    </attribute>
+  </tag>
+
+  <tag>
     <name>convertDateTime</name>
     <tag-class>org.jboss.seam.ui.tag.ConvertDateTimeTag</tag-class>
     <body-content>empty</body-content>
@@ -907,5 +919,6 @@
       <description>date|time|both</description>
     </attribute>
   </tag>
+
 
 </taglib>

@@ -96,6 +96,13 @@
             <component-type>org.jboss.seam.ui.HtmlDiv</component-type>
         </component>
     </tag>
+
+    <tag>
+        <tag-name>selectDate</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.SelectDate</component-type>
+        </component>
+    </tag>
     
     <tag>
         <tag-name>validate</tag-name>
