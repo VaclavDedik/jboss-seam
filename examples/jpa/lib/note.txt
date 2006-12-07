@@ -1,8 +1,0 @@
-The jboss-tomcat-support.jar is jboss-ejb3-all.jar with the following packages removed
-
-org/jboss:
-
-annotation aop aspects corba crypto ejb3 security web webservice
-
-persistence test serial proxy remoting mq jms
-
