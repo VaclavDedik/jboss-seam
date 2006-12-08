@@ -51,7 +51,7 @@
              accumulates facts relating to the current conversation.)
          </para>
 
-         <programlisting><![CDATA[<drools:managed-working-memory name="policyPricingMemory" auto-create="true" rule-base="#{policyPricingRules}"/>]]></programlisting>
+         <programlisting><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory" auto-create="true" rule-base="#{policyPricingRules}"/>]]></programlisting>
 
          <para>
              Notice that we gave the <literal>policyPricingWorkingMemory</literal> a
