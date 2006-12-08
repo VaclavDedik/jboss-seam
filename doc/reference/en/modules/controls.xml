@@ -209,7 +209,8 @@
                 <para>
                     Displays a dynamic date picker component that selects a date 
                     for the specified input field.  The body of the selectDate element should
-                    contain HTML elements (that indicate 
+                    contain HTML elements, such as text or an image, that prompt the user to click
+                    to display the date picker. 
                 </para>
                 
                 <itemizedlist>

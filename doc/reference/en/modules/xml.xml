@@ -458,7 +458,31 @@ public class Payment
                 it is necessary to generate one manually. The schema definitions for the standard Seam packages can 
                 be used for guidance.   
             </para>
-            
+
+            <para>The following are the the namespaces used by Seam:</para>
+        <itemizedlist>
+            <listitem>
+                <para>components &mdash; <literal>http://jboss.com/products/seam/components</literal></para>
+            </listitem>
+            <listitem>
+                <para>core &mdash; <literal>http://jboss.com/products/seam/core</literal></para>
+            </listitem>
+            <listitem>
+                <para>drools &mdash; <literal>http://jboss.com/products/seam/drools</literal></para>
+            </listitem>
+            <listitem>
+                <para>framework &mdash; <literal>http://jboss.com/products/seam/framework</literal></para>
+            </listitem>
+            <listitem>
+                <para>jms &mdash; <literal>http://jboss.com/products/seam/jms</literal></para>
+            </listitem>
+            <listitem>
+                <para>remoting &mdash; <literal>http://jboss.com/products/seam/remoting</literal></para>
+            </listitem>
+            <listitem>
+                <para>theme &mdash; <literal>http://jboss.com/products/seam/theme</literal></para>
+            </listitem>
+        </itemizedlist>
         </sect1>
 
 
