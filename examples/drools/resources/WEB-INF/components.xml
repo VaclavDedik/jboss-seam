@@ -1,26 +1,15 @@
-<!DOCTYPE components PUBLIC
-  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
-  "http://jboss.com/products/seam/components-1.1.dtd">
+<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:drools="http://jboss.com/products/seam/drools">
+    <drools:rule-base name="ruleBase" rule-files="numberguess.drl"/>
+    <drools:managed-working-memory name="workingMemory" rule-base="#{ruleBase}"/>
 
-<components>
+    <core:jbpm>
+        <core:pageflow-definitions>
+            <value>pageflow.jpdl.xml</value>
+        </core:pageflow-definitions>
+    </core:jbpm>
 
-    <component name="ruleBase" class="org.jboss.seam.drools.RuleBase">
-        <property name="ruleFiles">numberguess.drl</property>
-    </component>
-    
-    <component name="workingMemory" class="org.jboss.seam.drools.ManagedWorkingMemory">
-        <property name="ruleBase">#{ruleBase}</property>
-    </component>
-
-    <component name="org.jboss.seam.core.init">
-        <property name="debug">true</property>
-    </component>
-    
-    <component class="org.jboss.seam.core.Jbpm">
-        <property name="pageflowDefinitions">pageflow.jpdl.xml</property>
-    </component>
-
-    <component class="org.jboss.seam.core.Microcontainer" 
-           installed="@microcontainer@"/>
-    
+    <core:init debug="true"/>
+    <core:microcontainer installed="@microcontainer@"/>
 </components>
