@@ -106,7 +106,7 @@
         <echo message="Welcome to seam-gen :-)"/>
         <property name="workspace.home" value="C:/Projects"/>
         <input addproperty="workspace.home.new" 
-                   message="Enter your Java project workspace [${workspace.home}]" 
+                   message="Enter your Java project workspace (the directory that contains your Seam projects) [${workspace.home}]" 
               defaultvalue="${workspace.home}"/>
     	<pathFixer property="workspace.home.new" />
         
@@ -520,7 +520,9 @@
     		<equals arg1="${eclipse.wtp}" arg2="y"/>
     	</condition>
         <echo message="A new Seam project was created in the ${workspace.home} directory"/>
-    	<echo message="Add the project from inside Eclipse (or type 'seam explode') and go to http://localhost:8080/${project.name}"/>
+    	<echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}"/>
+    	<echo message="Eclipse Users: Add the project as a new Java project from inside Eclipse"/>
+    	<echo message="NetBeans Users: Open the project in NetBeans"/>
     </target>
 
     <target name="update-project" depends="validate-project">

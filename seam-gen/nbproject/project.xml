@@ -12,6 +12,11 @@
                     <type>java</type>
                     <location>src</location>
                 </source-folder>
+                <source-folder>
+                    <label>view</label>
+                    <type>doc_root</type>
+                    <location>view</location>
+                </source-folder>
             </folders>
             <ide-actions>
                 <action name="clean">
@@ -70,5 +75,13 @@
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
+        <web-data xmlns="http://www.netbeans.org/ns/freeform-project-web/1">
+            <web-module>
+                <doc-root>view</doc-root>
+                <classpath/>
+                <context-path/>
+                <j2ee-spec-level>1.5</j2ee-spec-level>
+            </web-module>
+        </web-data>
     </configuration>
 </project>
