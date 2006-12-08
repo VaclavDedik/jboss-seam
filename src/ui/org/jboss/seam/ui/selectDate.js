@@ -1,60 +1,6 @@
 /**
-This is a JavaScript library that will allow you to easily add some basic DHTML
-drop-down datepicker functionality to your Notes forms. This script is not as
-full-featured as others you may find on the Internet, but it's free, it's easy to
-understand, and it's easy to change.
-
-You'll also want to include a stylesheet that makes the datepicker elements
-look nice. An example one can be found in the database that this script was
-originally released with, at:
-
-http://www.nsftools.com/tips/NotesTips.htm#datepicker
-
-I've tested this lightly with Internet Explorer 6 and Mozilla Firefox. I have no idea
-how compatible it is with other browsers.
-
-version 1.5
-December 4, 2005
-Julian Robichaux -- http://www.nsftools.com
-
-HISTORY
---  version 1.0 (Sept. 4, 2004):
-Initial release.
-
---  version 1.1 (Sept. 5, 2004):
-Added capability to define the date format to be used, either globally (using the
-defaultDateSeparator and defaultDateFormat variables) or when the displayDatePicker
-function is called.
-
---  version 1.2 (Sept. 7, 2004):
-Fixed problem where datepicker x-y coordinates weren't right inside of a table.
-Fixed problem where datepicker wouldn't display over selection lists on a page.
-Added a call to the datePickerClosed function (if one exists) after the datepicker
-is closed, to allow the developer to add their own custom validation after a date
-has been chosen. For this to work, you must have a function called datePickerClosed
-somewhere on the page, that accepts a field object as a parameter. See the
-example in the comments of the updateDateField function for more details.
-
---  version 1.3 (Sept. 9, 2004)
-Fixed problem where adding the <div> and <iFrame> used for displaying the datepicker
-was causing problems on IE 6 with global variables that had handles to objects on
-the page (I fixed the problem by adding the elements using document.createElement()
-and document.body.appendChild() instead of document.body.innerHTML += ...).
-
---  version 1.4 (Dec. 20, 2004)
-Added "targetDateField.focus();" to the updateDateField function (as suggested
-by Alan Lepofsky) to avoid a situation where the cursor focus is at the top of the
-form after a date has been picked. Added "padding: 0px;" to the dpButton CSS
-style, to keep the table from being so wide when displayed in Firefox.
-
--- version 1.5 (Dec 4, 2005)
-Added display=none when datepicker is hidden, to fix problem where cursor is
-not visible on input fields that are beneath the date picker. Added additional null
-date handling for date errors in Safari when the date is empty. Added additional
-error handling for iFrame creation, to avoid reported errors in Opera. Added
-onMouseOver event for day cells, to allow color changes when the mouse hovers
-over a cell (to make it easier to determine what cell you're over). Added comments
-in the style sheet, to make it more clear what the different style elements are for.
+Datepicker, based on the work of Julian Robichaux -- http://www.nsftools.com
+history deleted for file size
 */
 
 var datePickerDivID = "datepicker";
@@ -75,37 +21,7 @@ var defaultDateFormat = "mdy"    // valid values are "mdy", "dmy", and "ymd"
 var dateSeparator = defaultDateSeparator;
 var dateFormat = defaultDateFormat;
 
-/**
-This is the main function you'll call from the onClick event of a button.
-Normally, you'll have something like this on your HTML page:
 
-Start Date: <input name="StartDate">
-<input type=button value="select" onclick="displayDatePicker('StartDate');">
-
-That will cause the datepicker to be displayed beneath the StartDate field and
-any date that is chosen will update the value of that field. If you'd rather have the
-datepicker display beneath the button that was clicked, you can code the button
-like this:
-
-<input type=button value="select" onclick="displayDatePicker('StartDate', this);">
-
-So, pretty much, the first argument (dateFieldName) is a string representing the
-name of the field that will be modified if the user picks a date, and the second
-argument (displayBelowThisObject) is optional and represents an actual node
-on the HTML document that the datepicker should be displayed below.
-
-In version 1.1 of this code, the dtFormat and dtSep variables were added, allowing
-you to use a specific date format or date separator for a given call to this function.
-Normally, you'll just want to set these defaults globally with the defaultDateSeparator
-and defaultDateFormat variables, but it doesn't hurt anything to add them as optional
-parameters here. An example of use is:
-
-<input type=button value="select" onclick="displayDatePicker('StartDate', false, 'dmy', '.');">
-
-This would display the datepicker beneath the StartDate field (because the
-displayBelowThisObject parameter was false), and update the StartDate field with
-the chosen value of the datepicker using a date format of dd.mm.yyyy
-*/
 function displayDatePicker(dateFieldName, displayBelowThisObject, dtFormat, dtSep)
 {
   var targetDateField = document.getElementsByName (dateFieldName).item(0);
@@ -162,7 +78,7 @@ function drawDatePicker(targetDateField, x, y)
     //document.body.innerHTML += "<div id='" + datePickerDivID + "' class='dpDiv'></div>";
     var newNode = document.createElement("div");
     newNode.setAttribute("id", datePickerDivID);
-    newNode.setAttribute("class", "dpDiv");
+    newNode.setAttribute("class", "seam-date");
     newNode.setAttribute("style", "visibility: hidden;");
     document.body.appendChild(newNode);
   }
@@ -201,23 +117,26 @@ function refreshDatePicker(dateFieldName, year, month, day)
   // you can customize the table elements with a global CSS style sheet,
   // or by hardcoding style and formatting elements below
   var crlf = "\r\n";
-  var TABLE = "<table cols='7' class='dpTable'>" + crlf;
+  var TABLE = "<table cols='7'>" + crlf;
   var xTABLE = "</table>" + crlf;
-  var TR = "<tr class='dpTR'>";
-  var TR_title = "<tr class='dpTitleTR'>";
-  var TR_days = "<tr class='dpDayTR'>";
-  var TR_todaybutton = "<tr class='dpTodayButtonTR'>";
-  var xTR = "</tr>" + crlf;
-  var TD = "<td class='dpTD' onmouseout='this.className=\"dpTD\";' onmouseover=' this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onclick event
-  var TD_title = "<td colspan='5' class='dpTitleTD'>";
-  var TD_buttons = "<td class='dpButtonTD'>";
-  var TD_todaybutton = "<td colspan='7' class='dpTodayButtonTD'>";
-  var TD_days = "<td class='dpDayTD'>";
-  var TD_selected = "<td class='dpDayHighlightTD' onmouseout='this.className=\"dpDayHighlightTD\";' onmouseover='this.className=\"dpTDHover\";' ";    // leave this tag open, because we'll be adding an onclick event
-  var xTD = "</td>" + crlf;
-  var DIV_title = "<div class='dpTitleText'>";
-  var DIV_selected = "<div class='dpDayHighlight'>";
+  var DIV = "<div>";
   var xDIV = "</div>";
+
+  var TR = "<tr class='seam-date-week'>";
+  var TR_title = "<tr class='seam-date-title'>";
+  var TR_days = "<tr class='seam-date-header'>";
+  var TR_todaybutton = "<tr class='seam-date-footer'>";
+  var xTR = "</tr>" + crlf;
+
+  var TD = "<td class='seam-date-day' onmouseout='this.className=\"seam-date-day\";' onmouseover='this.className=\"seam-date-hover\";' ";    // leave this tag open, because we'll be adding an onclick event
+  var TD_selected = "<td class='seam-date-selected' onmouseout='this.className=\"seam-date-selected\";' onmouseover='this.className=\"seam-date-hover\";' ";    // leave this tag open, because we'll be adding an onclick event
+  var TD_blank = "<td";
+  var TD_title = "<td colspan='5'>";
+  var TD_buttons = "<td>";
+  var TD_todaybutton = "<td colspan='7' class='seam-date-button'>";
+  var TD_days = "<td>";
+  var xTD = "</td>" + crlf;
+
  
   // start generating the code for the calendar table
   var html = TABLE;
@@ -226,7 +145,7 @@ function refreshDatePicker(dateFieldName, year, month, day)
   // go back to a previous month or forward to the next month
   html += TR_title;
   html += TD_buttons + getButtonCode(dateFieldName, thisDay, -1, "&lt;") + xTD;
-  html += TD_title + DIV_title + monthArrayLong[ thisDay.getMonth()] + " " + thisDay.getFullYear() + xDIV + xTD;
+  html += TD_title + DIV + monthArrayLong[ thisDay.getMonth()] + " " + thisDay.getFullYear() + xDIV + xTD;
   html += TD_buttons + getButtonCode(dateFieldName, thisDay, 1, "&gt;") + xTD;
   html += xTR;
  
@@ -241,7 +160,7 @@ function refreshDatePicker(dateFieldName, year, month, day)
  
   // first, the leading blanks
   for (i = 0; i < thisDay.getDay(); i++)
-    html += TD + "> " + xTD;
+    html += TD_blank + "> " + xTD;
  
   // now, the days of the month
   do {
@@ -249,7 +168,7 @@ function refreshDatePicker(dateFieldName, year, month, day)
     TD_onclick = " onclick=\"updateDateField('" + dateFieldName + "', '" + getDateString(thisDay) + "');\">";
     
     if (dayNum == day)
-      html += TD_selected + TD_onclick + DIV_selected + dayNum + xDIV + xTD;
+      html += TD_selected + TD_onclick + dayNum + xTD;
     else
       html += TD + TD_onclick + dayNum + xTD;
     
@@ -264,7 +183,7 @@ function refreshDatePicker(dateFieldName, year, month, day)
   // fill in any trailing blanks
   if (thisDay.getDay() > 0) {
     for (i = 6; i > thisDay.getDay(); i--)
-      html += TD + "> " + xTD;
+      html += TD_blank + "> " + xTD;
   }
   html += xTR;
  
