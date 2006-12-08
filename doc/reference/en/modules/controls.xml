@@ -202,7 +202,28 @@
                </itemizedlist>
            </listitem>
        </varlistentry>
-       <varlistentry>
+        
+        <varlistentry>
+            <term><literal>&lt;s:selectDate&gt;</literal></term>
+            <listitem>
+                <para>
+                    Displays a dynamic date picker component that selects a date 
+                    for the specified input field.  The body of the selectDate element should
+                    contain HTML elements (that indicate 
+                </para>
+                
+                <itemizedlist>
+                    <listitem><para><literal>for</literal> &mdash;
+                        The id of the input field that the date picker will insert the
+                        selected date into.
+                    </para></listitem>
+                </itemizedlist>
+                
+                
+            </listitem>
+        </varlistentry>
+        
+        <varlistentry>
            <term><literal>&lt;s:conversationPropagation&gt;</literal></term>
            <listitem>
                <para>
