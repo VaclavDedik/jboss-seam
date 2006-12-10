@@ -8,7 +8,6 @@
 <#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
 <page>
    <param name="${componentName}From"/>
-   <param name="${idName}"
-         value="${'#'}{${homeName}.${idName}}"/>
+   <param name="${idName}" value="${'#'}{${homeName}.${idName}}"/>
 <#include "param.xml.ftl">
 </page>

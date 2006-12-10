@@ -219,7 +219,7 @@
                 <s:link view="/${parentPageName}.xhtml" 
                          id="view${parentName}" 
                       value="View" 
-                propagation="end">
+                propagation="none">
                     <f:param name="${parentName}${util.upper(parentPojo.identifierProperty.name)}" 
                             value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
                 </s:link>
@@ -261,7 +261,7 @@
                     <s:link view="/${childPageName}.xhtml" 
                               id="select${childName}" 
                            value="Select"
-                     propagation="end">
+                     propagation="none">
                         <f:param name="${childName}${util.upper(childPojo.identifierProperty.name)}" 
                                 value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
                         <f:param name="${childName}From" value="${entityName}"/>

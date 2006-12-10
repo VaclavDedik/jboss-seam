@@ -688,6 +688,9 @@
         	<hbmtemplate filepattern="{package-name}/{class-name}List.java"
         	                template="src/EntityList.java.ftl" 
         		             destdir="${project.home}/src"/>
+        	<hbmtemplate filepattern="{class-name}List.page.xml"
+        	                template="view/list.page.xml.ftl" 
+        		             destdir="${project.home}/view"/>
         	<hbmtemplate filepattern="{package-name}/{class-name}Home.java"
         	                template="src/EntityHome.java.ftl" 
         		             destdir="${project.home}/src"/>

@@ -5,8 +5,7 @@
 <#assign homeName = componentName + "Home">
 <#assign idName = componentName + util.upper(parentPojo.identifierProperty.name)>
    <param name="${componentName}From"/>
-   <param name="${idName}"
-         value="${'#'}{${homeName}.${idName}}"/>
+   <param name="${idName}" value="${'#'}{${homeName}.${idName}}"/>
 <#assign p = pojo>
 <#assign pojo = parentPojo>
 <#include "param.xml.ftl">
