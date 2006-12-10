@@ -48,7 +48,7 @@
             <s:link view="/${pageName}.xhtml" 
                    value="Select" 
                       id="${componentName}">
-                <f:param name="${componentName}Id" 
+                <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
                         value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
             </s:link>
         </h:column>
@@ -59,7 +59,7 @@
         <s:link view="/${listPageName}.xhtml" 
             rendered="${'#'}{${listName}.previousExists}" 
                value="&lt;&lt; First Page"
-               id="firstPage">
+                  id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
         

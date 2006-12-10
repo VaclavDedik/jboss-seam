@@ -61,23 +61,17 @@
         </table>
     </div>
     
-    <div class="actionButtons">
-           
-        <s:button id="edit" value="Edit" 
-                view="/${editPageName}.xhtml" 
-         propagation="begin">
-            <f:param name="${componentName}Id" 
-                    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
-        </s:button>
-        
-        <s:button id="delete" value="Delete" 
-              action="${'#'}{${homeName}.remove}"
-            rendered="${'#'}{${homeName}.managed}"
-                view="/${masterPageName}.xhtml">
-            <f:param name="${componentName}Id" 
-                    value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
-        </s:button>
-        
+    <div class="actionButtons">      
+
+        <s:button view="/${editPageName}.xhtml" 
+                    id="edit" 
+                 value="Edit"     
+           propagation="begin"/>
+
+        <s:button view="/${'#'}{empty ${componentName}From ? '${masterPageName}' : ${componentName}From}.xhtml"
+                    id="done"
+                 value="Done"/>
+
     </div>
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
@@ -114,8 +108,11 @@
 </#foreach>
             <h:column>
                 <f:facet name="header">action</f:facet>
-                <s:link id="view${parentName}" value="View" view="/${parentPageName}.xhtml">
-                    <f:param name="${parentName}Id" value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
+                <s:link id="view${parentName}" 
+                     value="View" 
+                      view="/${parentPageName}.xhtml">
+                    <f:param name="${parentName}${util.upper(parentPojo.identifierProperty.name)}" 
+                           value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
                 </s:link>
             </h:column>
         </h:dataTable>
@@ -151,8 +148,12 @@
 </#foreach>
             <h:column>
                 <f:facet name="header">action</f:facet>
-                <s:link id="select${childName}" value="Select" view="/${childPageName}.xhtml">
-                    <f:param name="${childName}Id" value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
+                <s:link id="select${childName}" 
+                     value="Select" 
+                      view="/${childPageName}.xhtml">
+                    <f:param name="${childName}${util.upper(childPojo.identifierProperty.name)}" 
+                            value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
+                    <f:param name="${childName}From" value="${entityName}"/>
                 </s:link>
             </h:column>
         </h:dataTable>
@@ -160,10 +161,13 @@
     </div>
 
     <div class="actionButtons">
-        <s:button id="add${childName}" value="Add ${childName}"
-                view="/${childEditPageName}.xhtml" propagation="begin">
-            <f:param name="${componentName}Id" 
+        <s:button id="add${childName}" 
+               value="Add ${childName}"
+                view="/${childEditPageName}.xhtml" 
+         propagation="begin">
+            <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
                     value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
+            <f:param name="${childName}From" value="${entityName}"/>
         </s:button>
     </div>        
 </#if>

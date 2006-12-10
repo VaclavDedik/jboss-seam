@@ -143,7 +143,7 @@ td {
 
 /* the div that holds the date picker calendar */
 .seam-date {
-
+    width: 300px;
 }
 
 
@@ -200,13 +200,15 @@ td {
     background-color: #CCCCCC;
     border: 1px solid #AAAAAA;
     color: white;
+    width: 14%;
 }
 
 
 
 /* a table cell that holds a date number (either blank or 1-31) */
 .seam-date-week td.seam-date-day {
-    border: 1px solid #ece9d8;	
+    border: 1px solid #ece9d8;
+    width: 14%;
 }
 
 /* the date number table cell that the mouse pointer is currently over (you can use contrasting colors to make it apparent which cell is being hovered over) */

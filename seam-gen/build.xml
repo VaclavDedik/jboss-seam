@@ -676,8 +676,14 @@
         	<hbmtemplate filepattern="{class-name}.xhtml"
         	                template="view/view.xhtml.ftl" 
         		             destdir="${project.home}/view"/>
+        	<hbmtemplate filepattern="{class-name}.page.xml"
+        	                template="view/edit.page.xml.ftl" 
+        		             destdir="${project.home}/view"/>
         	<hbmtemplate filepattern="{class-name}Edit.xhtml"
         	                template="view/edit.xhtml.ftl" 
+        		             destdir="${project.home}/view"/>
+        	<hbmtemplate filepattern="{class-name}Edit.page.xml"
+        	                template="view/edit.page.xml.ftl" 
         		             destdir="${project.home}/view"/>
         	<hbmtemplate filepattern="{package-name}/{class-name}List.java"
         	                template="src/EntityList.java.ftl" 

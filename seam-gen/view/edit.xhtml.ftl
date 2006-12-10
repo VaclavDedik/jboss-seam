@@ -220,7 +220,7 @@
                          id="view${parentName}" 
                       value="View" 
                 propagation="end">
-                    <f:param name="${parentName}Id" 
+                    <f:param name="${parentName}${util.upper(parentPojo.identifierProperty.name)}" 
                             value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
                 </s:link>
             </h:column>
@@ -262,8 +262,9 @@
                               id="select${childName}" 
                            value="Select"
                      propagation="end">
-                        <f:param name="${childName}Id" 
+                        <f:param name="${childName}${util.upper(childPojo.identifierProperty.name)}" 
                                 value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
+                        <f:param name="${childName}From" value="${entityName}"/>
                     </s:link>
                 </h:column>
             </h:dataTable>
@@ -275,8 +276,9 @@
                    value="Add ${childName}"
                     view="/${childEditPageName}.xhtml" 
              propagation="begin">
-                 <f:param name="${componentName}Id" 
+                 <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
                         value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
+                 <f:param name="${childName}From" value="${entityName}"/>
             </s:button>
         </div>
         
