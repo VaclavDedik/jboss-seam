@@ -97,7 +97,7 @@ public abstract class Query
 
    public int getPreviousFirstResult()
    {
-      if ( getMaxResults() > getFirstResult() ) 
+      if ( getMaxResults() > ( getFirstResult()==null ? 0 : getFirstResult() ) ) 
       {
          return 0;
       }
