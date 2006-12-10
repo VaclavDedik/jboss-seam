@@ -39,6 +39,10 @@ public final class Page
          {
             return (Converter) converterValueBinding.getValue();
          }
+         else if (valueBinding==null)
+         {
+            return null;
+         }
          else
          {
             Class<?> type = valueBinding.getType();

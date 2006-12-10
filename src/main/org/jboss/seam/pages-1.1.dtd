@@ -18,8 +18,8 @@
 <!ATTLIST page bundle CDATA #IMPLIED>
 
 <!ELEMENT param EMPTY>
-<!ATTLIST param name CDATA #REQUIRED>
-<!ATTLIST param value CDATA #REQUIRED>
+<!ATTLIST param name CDATA #IMPLIED>
+<!ATTLIST param value CDATA #IMPLIED>
 <!ATTLIST param converter CDATA #IMPLIED>
 <!ATTLIST param converterId CDATA #IMPLIED>
 

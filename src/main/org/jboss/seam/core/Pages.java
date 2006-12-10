@@ -35,6 +35,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
+import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
@@ -196,17 +197,20 @@ public class Pages
       for (Element param: children)
       {
          String valueExpression = param.attributeValue("value");
-         if (valueExpression==null)
-         {
-            throw new IllegalArgumentException("must specify value for page <param/> declaration");
-         }
          String name = param.attributeValue("name");
          if (name==null)
          {
+            if (valueExpression==null)
+            {
+               throw new IllegalArgumentException("must specify name or value for page <param/> declaration");
+            }
             name = valueExpression.substring(2, valueExpression.length()-1);
          }
          Page.PageParameter pageParameter = new Page.PageParameter(name);
-         pageParameter.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
+         if (valueExpression!=null)
+         {
+            pageParameter.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
+         }
          pageParameter.setConverterId(param.attributeValue("converterId"));
          String converterExpression = param.attributeValue("converter");
          if (converterExpression!=null)
@@ -430,10 +434,19 @@ public class Pages
       {
          for ( Page.PageParameter pageParameter: page.getPageParameters() )
          {
-            Object value = pageParameter.getValueBinding().getValue();
+            ValueBinding valueBinding = pageParameter.getValueBinding();
+            Object value;
+            if (valueBinding==null)
+            {
+               value = Contexts.getPageContext().get( pageParameter.getName() );
+            }
+            else
+            {
+               value = valueBinding.getValue();
+            }
             if (value!=null)
             {
-               parameters.put(pageParameter.getName(), value);
+               parameters.put( pageParameter.getName(), value );
             }
          }
       }
@@ -447,24 +460,36 @@ public class Pages
       {
          for ( Page.PageParameter pageParameter: page.getPageParameters() )
          {
-            if ( !overridden.contains(pageParameter.getName()) )
+            if ( !overridden.contains( pageParameter.getName() ) )
             {
-               Object value = pageParameter.getValueBinding().getValue();
-               if (value!=null)
+               ValueBinding valueBinding = pageParameter.getValueBinding();
+               if (valueBinding==null)
                {
-                  Converter converter;
-                  try
+                  Object value = Contexts.getPageContext().get( pageParameter.getName() );
+                  if (value!=null) 
                   {
-                     converter = pageParameter.getConverter();
+                     parameters.put( pageParameter.getName(), value );
                   }
-                  catch (RuntimeException re)
+               }
+               else
+               {
+                  Object value = valueBinding.getValue();
+                  if (value!=null)
                   {
-                     //YUCK! due to bad JSF/MyFaces error handling
-                     continue;
+                     Converter converter;
+                     try
+                     {
+                        converter = pageParameter.getConverter();
+                     }
+                     catch (RuntimeException re)
+                     {
+                        //YUCK! due to bad JSF/MyFaces error handling
+                        continue;
+                     }
+                     Object convertedValue = converter==null ? 
+                           value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
+                     parameters.put( pageParameter.getName(), convertedValue );
                   }
-                  Object convertedValue = converter==null ? 
-                        value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
-                  parameters.put(pageParameter.getName(), convertedValue);
                }
             }
          }
@@ -479,7 +504,8 @@ public class Pages
       for ( Page page: getPageStack(viewId) )
       {
          for ( Page.PageParameter pageParameter: page.getPageParameters() )
-         {         
+         {  
+            
             String[] parameterValues = requestParameters.get(pageParameter.getName());
             if (parameterValues==null || parameterValues.length==0)
             {
@@ -505,7 +531,16 @@ public class Pages
             Object value = converter==null ? 
                   stringValue :
                   converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
-            pageParameter.getValueBinding().setValue(value);
+
+            ValueBinding valueBinding = pageParameter.getValueBinding();
+            if (valueBinding==null)
+            {
+               Contexts.getPageContext().set( pageParameter.getName(), value );
+            }
+            else
+            {
+               valueBinding.setValue(value);
+            }
          }
       }
    }
@@ -517,10 +552,14 @@ public class Pages
       {
          for ( Page.PageParameter pageParameter: page.getPageParameters() )
          {         
-            Object object = Contexts.getPageContext().get(pageParameter.getName());
-            if (object!=null)
+            ValueBinding valueBinding = pageParameter.getValueBinding();
+            if (valueBinding!=null)
             {
-               pageParameter.getValueBinding().setValue(object);
+               Object object = Contexts.getPageContext().get( pageParameter.getName() );
+               if (object!=null)
+               {
+                  valueBinding.setValue(object);
+               }
             }
          }
       }
