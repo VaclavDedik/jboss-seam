@@ -1,6 +1,7 @@
 <components xmlns="http://jboss.com/products/seam/components" 
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:drools="http://jboss.com/products/seam/drools">
+            
     <drools:rule-base name="ruleBase" rule-files="numberguess.drl"/>
     <drools:managed-working-memory name="workingMemory" rule-base="#{ruleBase}"/>
 
@@ -12,4 +13,5 @@
 
     <core:init debug="true"/>
     <core:microcontainer installed="@microcontainer@"/>
+    
 </components>

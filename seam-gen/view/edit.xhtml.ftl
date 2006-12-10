@@ -277,7 +277,7 @@
                     view="/${childEditPageName}.xhtml" 
              propagation="begin">
                  <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
-                        value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
+                         value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
                  <f:param name="${childName}From" value="${entityName}"/>
             </s:button>
         </div>
