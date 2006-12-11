@@ -9,6 +9,7 @@ import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.SeamSecurityManager;
 
 /**
  * Provides authorization services for component invocations.
@@ -40,8 +41,10 @@ public class SecurityInterceptor extends AbstractInterceptor
       Identity identity = Identity.instance();
       if (!identity.isValid())
         throw new SecurityException("Invalid identity");
-      
-      /** todo perform restriction check here */
+
+      if (!SeamSecurityManager.instance().evaluateExpression(r.value()))
+        throw new SecurityException(String.format(
+          "Authorization check failed for expression [%s]", r.value()));
     }
 
     return invocation.proceed();

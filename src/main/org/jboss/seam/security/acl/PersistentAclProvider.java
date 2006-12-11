@@ -1,8 +1,5 @@
 package org.jboss.seam.security.acl;
 
-import static org.jboss.seam.InterceptionType.NEVER;
-import static org.jboss.seam.ScopeType.APPLICATION;
-
 import java.security.Principal;
 import java.security.acl.Permission;
 import java.util.ArrayList;
@@ -10,21 +7,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
+import static org.jboss.seam.InterceptionType.NEVER;
+import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.core.ManagedPersistenceContext;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.SeamPermission;
-import org.jboss.seam.security.SeamSecurityManager;
-import org.jboss.seam.util.Naming;
 import org.jboss.seam.security.Role;
+import org.jboss.seam.util.Naming;
 
 /**
  * Persistent Acl provider.
@@ -133,18 +129,18 @@ public class PersistentAclProvider extends AbstractAclProvider
       }
     }
 
-    switch (persistenceType)
-    {
-      case managedPersistenceContext:
-      case entityManagerFactory:
-        ((Query) query).setParameter("identity",
-            SeamSecurityManager.instance().getObjectIdentity(target));
-        break;
-      case managedHibernateSession:
-        ((org.hibernate.Query) query).setParameter("identity",
-            SeamSecurityManager.instance().getObjectIdentity(target));
-        break;
-    }
+//    switch (persistenceType)
+//    {
+//      case managedPersistenceContext:
+//      case entityManagerFactory:
+//        ((Query) query).setParameter("identity",
+//            SeamSecurityManager.instance().getObjectIdentity(target));
+//        break;
+//      case managedHibernateSession:
+//        ((org.hibernate.Query) query).setParameter("identity",
+//            SeamSecurityManager.instance().getObjectIdentity(target));
+//        break;
+//    }
   }
 
   protected Object executeQuery(Object query)

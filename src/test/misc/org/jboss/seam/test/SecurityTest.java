@@ -19,6 +19,7 @@ import org.jboss.seam.mock.MockSecureEntity;
 import org.jboss.seam.mock.MockServletContext;
 import org.jboss.seam.security.UsernamePasswordToken;
 import org.jboss.seam.security.acl.JPAIdentityGenerator;
+import org.jboss.seam.security.acl.AclProvider;
 import org.jboss.seam.security.acl.PersistentAclProvider;
 import org.jboss.seam.security.acl.AclProvider.RecipientType;
 import org.testng.annotations.Test;
@@ -79,7 +80,7 @@ public class SecurityTest
     ac.setProperty("hibernate.connection.username", "sa");
     ac.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
     ac.setProperty("hibernate.hbm2ddl.auto", "create");
-    ac.setProperty("hibernate.show_sql", "true");
+    //ac.setProperty("hibernate.show_sql", "true");
     ac.setProperty("hibernate.cache.use_second_level_cache", "false");
 
     ac.addAnnotatedClass(MockAclPermission.class);
@@ -126,9 +127,9 @@ public class SecurityTest
                                      new UsernamePasswordToken("testUser", "",
                                      new String[] {}));
 
-    Component aclProviderComp = new Component(PersistentAclProvider.class,
+    Component aclProviderComp = new Component(PersistentAclManager.class,
                                               "persistentAclProvider");
-    PersistentAclProvider aclProvider = (PersistentAclProvider) aclProviderComp.newInstance();
+    PersistentAclManager aclProvider = (PersistentAclManager) aclProviderComp.newInstance();
     aclProvider.setPersistenceContextManager(factory);
     aclProvider.setAclQuery("select p.mask, p.recipient, p.recipientType from MockAclPermission p " +
         "where p.identity.objectIdentity = :identity");

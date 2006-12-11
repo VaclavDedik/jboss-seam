@@ -1,26 +1,34 @@
 package org.jboss.seam.security;
 
-import static org.jboss.seam.ScopeType.APPLICATION;
-import static org.jboss.seam.annotations.Install.BUILT_IN;
-
-import java.security.Permissions;
+import java.io.InputStreamReader;
 import java.security.acl.Permission;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.drools.FactHandle;
+import org.drools.RuleBase;
+import org.drools.RuleBaseFactory;
+import org.drools.WorkingMemory;
+import org.drools.compiler.PackageBuilder;
+import org.drools.compiler.PackageBuilderConfiguration;
+import static org.jboss.seam.ScopeType.APPLICATION;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.security.acl.AclProvider;
-import org.jboss.seam.security.acl.IdentityGenerator;
-import org.jboss.seam.security.acl.JPAIdentityGenerator;
-import org.jboss.seam.annotations.Create;
+import org.jboss.seam.core.Expressions;
+import org.jboss.seam.security.rules.PermissionCheck;
+import org.jboss.seam.util.Resources;
 
 /**
  * Holds configuration settings and provides functionality for the security API
@@ -33,17 +41,12 @@ import org.jboss.seam.annotations.Create;
 @Intercept(InterceptionType.NEVER)
 public class SeamSecurityManager
 {
-  /**
-   * An action code that directs the user to a login page.
-   */
-  private String loginAction = "login";
+  private static final String SECURITY_CONFIG_FILENAME = "/META-INF/security-config.xml";
+  private static final String SECURITY_RULES_FILENAME = "/META-INF/security-rules.drl";
 
-  /**
-   * An action code that directs the user to a security error page.
-   */
-  private String securityErrorAction = "securityError";
+  private static final String SECURITY_CONTEXT_NAME = "org.jboss.seam.security.securityContext";
 
-  private IdentityGenerator identityGenerator = new JPAIdentityGenerator();
+  private RuleBase securityRules;
 
   /**
    * Map roles to permissions
@@ -51,16 +54,37 @@ public class SeamSecurityManager
   private Map<String,Set<Permission>> rolePermissions = new HashMap<String,Set<Permission>>();
 
   /**
+   * Initialise the security manager
    *
+   * @throws Exception
    */
-  private Map<Class,PermissionHandler> permissionHandlers = new HashMap<Class,PermissionHandler>();
-
   @Create
   public void initSecurityManager()
+      throws Exception
   {
+    /** @todo Load the security configuration */
+//     SAXReader saxReader = new SAXReader();
+//     saxReader.setEntityResolver(new DTDEntityResolver());
+//     saxReader.setMergeAdjacentText(true);
+//     Document doc = saxReader.read(stream);
 
+    // Create the security rule base
+    PackageBuilderConfiguration conf = new PackageBuilderConfiguration();
+    conf.setCompiler(PackageBuilderConfiguration.JANINO);
+
+    PackageBuilder builder = new PackageBuilder(conf);
+    builder.addPackageFromDrl(new InputStreamReader(
+        Resources.getResourceAsStream(SECURITY_RULES_FILENAME)));
+
+    securityRules = RuleBaseFactory.newRuleBase();
+    securityRules.addPackage(builder.getPackage());
   }
 
+  /**
+   * Returns the application-scoped instance of the security manager
+   *
+   * @return SeamSecurityManager
+   */
   public static SeamSecurityManager instance()
   {
     if (!Contexts.isApplicationContextActive())
@@ -78,109 +102,113 @@ public class SeamSecurityManager
     return instance;
   }
 
-  public String getLoginAction()
+  /**
+   * Evaluates the specified security expression, which must return a boolean value.
+   *
+   * @param expr String
+   * @return boolean
+   */
+  public boolean evaluateExpression(String expr)
   {
-    return loginAction;
+    return ((Boolean) Expressions.instance().createValueBinding(expr).getValue());
   }
 
-  public void setLoginAction(String loginAction)
+  /**
+   * Checks if the authenticated Identity is a member of the specified role.
+   *
+   * @param name String
+   * @return boolean
+   */
+  public static boolean hasRole(String name)
   {
-    this.loginAction = loginAction;
+    return Identity.instance().isUserInRole(name);
   }
 
-  public String getSecurityErrorAction()
+  /**
+   * Performs a permission check for the specified name and action
+   *
+   * @param name String
+   * @param action String
+   * @param args Object[]
+   * @return boolean
+   */
+  public static boolean hasPermission(String name, String action, Object ... args)
   {
-    return securityErrorAction;
+    SeamSecurityManager mgr = instance();
+
+    List<FactHandle> handles = new ArrayList<FactHandle>();
+
+    PermissionCheck check = new PermissionCheck(name, action);
+
+    WorkingMemory wm = mgr.getWorkingMemoryForSession();
+    handles.add(wm.assertObject(check));
+
+    for (Object o : args)
+      handles.add(wm.assertObject(o));
+
+    wm.fireAllRules();
+
+    for (FactHandle handle : handles)
+      wm.retractObject(handle);
+
+    return check.isGranted();
   }
 
-  public IdentityGenerator getIdentityGenerator()
+  /**
+   * Returns the security working memory for the current session
+   *
+   * @return WorkingMemory
+   */
+  private WorkingMemory getWorkingMemoryForSession()
   {
-    return identityGenerator;
+    if (!Contexts.isSessionContextActive())
+      throw new IllegalStateException("No active session context found.");
+
+    Context session = Contexts.getSessionContext();
+
+    if (!session.isSet(SECURITY_CONTEXT_NAME))
+    {
+      if (!Identity.instance().isValid())
+        throw new IllegalStateException("Authenticated Identity is not valid");
+
+      WorkingMemory wm = securityRules.newWorkingMemory();
+      wm.assertObject(Identity.instance());
+
+      for (Role r : Identity.instance().getRoles())
+        wm.assertObject(r);
+
+      /** @todo Assert the Identity's explicit permissions also? */
+
+      session.set(SECURITY_CONTEXT_NAME, wm);
+      return wm;
+    }
+
+    return (WorkingMemory) session.get(SECURITY_CONTEXT_NAME);
   }
 
-  public void setIdentityGenerator(IdentityGenerator identityGenerator)
-  {
-    this.identityGenerator = identityGenerator;
-  }
+//  public void checkPermission(String permissionName, String action)
+//  {
+//    checkRolePermissions(permissionName, action);
+//  }
 
-  public void setSecurityErrorAction(String securityErrorAction)
-  {
-    this.securityErrorAction = securityErrorAction;
-  }
-
-  public void checkPermission(String permissionName, String action)
-  {
-    checkRolePermissions(permissionName, action);
-  }
-
-  public void checkPermission(Object obj, String action)
-  {
-    PermissionHandler handler = getPermissionHandler(obj.getClass());
-
-    if (handler.supportsAclCheck(action))
-      handler.aclCheck(obj, action);
-    else
-      checkRolePermissions(handler.getPermissionName(), action);
-  }
+//  public void checkPermission(Object obj, String action)
+//  {
+//    checkRolePermissions(Seam.getComponentName(obj.getClass()), action);
+//  }
 
   /**
    *
    * @param permissionName
    * @param action
    */
-  private void checkRolePermissions(String permissionName, String action)
-  {
-    Permission required = new SeamPermission(permissionName, action);
-    for (Role role : Identity.instance().getRoles())
-    {
-      Set<Permission> permissions = rolePermissions.get(role);
-      if (permissions != null && permissions.contains(required))
-        return;
-    }
-  }
-
-  protected PermissionHandler getPermissionHandler(Class cls)
-  {
-    if (!permissionHandlers.containsKey(cls))
-    {
-      synchronized(permissionHandlers)
-      {
-        if (!permissionHandlers.containsKey(cls))
-        {
-          PermissionHandler handler = new PermissionHandler(cls);
-          permissionHandlers.put(cls, handler);
-          return handler;
-        }
-      }
-    }
-
-    return permissionHandlers.get(cls);
-  }
-
-  public Permissions getPermissions(Object value)
-  {
-    return null;
-  }
-
-  public Permissions getPermissions(Object value, Identity ident)
-  {
-    return null;
-  }
-
-  public String getObjectIdentity(Object obj)
-  {
-    return identityGenerator.generateIdentity(obj);
-  }
-
-  public void grantPermission(Object target, String action, String recipient,
-                               AclProvider.RecipientType recipientType)
-  {
-    /** @todo  */
-  }
-
-  public void revokePermission(Object target, String action, String recipient,
-                               AclProvider.RecipientType recipientType)
-  {
-    /** @todo  */
-  }
+//  private void checkRolePermissions(String permissionName, String action)
+//  {
+//    Permission required = new SeamPermission(permissionName, action);
+//    for (Role role : Identity.instance().getRoles())
+//    {
+//      Set<Permission> permissions = rolePermissions.get(role);
+//      if (permissions != null && permissions.contains(required))
+//        return;
+//    }
+//  }
 }
