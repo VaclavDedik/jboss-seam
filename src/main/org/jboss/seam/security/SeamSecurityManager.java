@@ -37,7 +37,7 @@ import org.jboss.seam.util.Resources;
  */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.securityManager")
-@Install(precedence=BUILT_IN)
+@Install(value = false, precedence=BUILT_IN)
 @Intercept(InterceptionType.NEVER)
 public class SeamSecurityManager
 {
