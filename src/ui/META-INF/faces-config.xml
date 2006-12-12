@@ -450,6 +450,19 @@
         </property>
     </component>
 
+    <component>
+        <component-type>org.jboss.seam.ui.EnumItem</component-type>
+        <component-class>org.jboss.seam.ui.EnumItem</component-class>
+        <property>
+            <property-name>enumValue</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <property-name>label</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
 
     <validator>
         <validator-id>org.jboss.seam.ui.ModelValidator</validator-id>
@@ -476,4 +489,8 @@
         <converter-class>javax.faces.convert.BigIntegerConverter</converter-class>
     </converter>
 
+    <converter>  
+        <converter-id>org.jboss.seam.ui.EnumConverter</converter-id> 
+        <converter-class>org.jboss.seam.ui.EnumConverter</converter-class>    
+    </converter>
 </faces-config>

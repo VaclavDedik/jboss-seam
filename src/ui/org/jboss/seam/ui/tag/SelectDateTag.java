@@ -27,7 +27,8 @@ import javax.faces.component.UIComponent;
 import org.jboss.seam.ui.SelectDate;
 
 
-public class SelectDateTag extends UIComponentTagBase
+public class SelectDateTag 
+    extends UIComponentTagBase
 {
     @Override
     public String getComponentType()

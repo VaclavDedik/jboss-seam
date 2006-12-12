@@ -920,5 +920,26 @@
     </attribute>
   </tag>
 
-
+  <tag>
+    <name>convertEnum</name>
+    <tag-class>org.jboss.seam.ui.tag.ConvertEnumTag</tag-class>
+    <body-content>empty</body-content>
+  </tag>
+  <tag>
+    <name>enumItem</name>
+    <tag-class>org.jboss.seam.ui.tag.EnumItemTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <name>enumValue</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>the enum string value</description>
+    </attribute>
+    <attribute>
+      <name>label</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>the select item label</description>
+    </attribute>
+  </tag>
 </taglib>

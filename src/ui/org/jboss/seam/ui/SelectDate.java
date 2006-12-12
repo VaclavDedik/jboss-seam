@@ -16,7 +16,6 @@ public class SelectDate
     
     public static final String SELECTDATE_JS    = "org/jboss/seam/ui/selectDate.js";
 
-    private String info;
     private String forField;
     
     
@@ -31,16 +30,6 @@ public class SelectDate
     }    
 
     
-    public String getInfo()
-    {
-        return info;
-    }
-    
-    public void setInfo(String info)
-    {
-        this.info = info;
-    }    
-
     @Override
     public String getFamily()
     {
@@ -57,16 +46,14 @@ public class SelectDate
    public void restoreState(FacesContext context, Object state) {
       Object[] values = (Object[]) state;
       super.restoreState(context, values[0]);
-      info = (String) values[1];
-      forField = (String) values[2];
+      forField = (String) values[1];
    }
 
    @Override
    public Object saveState(FacesContext context) {
-      Object[] values = new Object[3];
+      Object[] values = new Object[2];
       values[0] = super.saveState(context);
-      values[1] = info;
-      values[2] = forField;
+      values[1] = forField;
       return values;
    }
     

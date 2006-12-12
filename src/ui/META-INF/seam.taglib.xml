@@ -117,5 +117,18 @@
             <converter-id>org.jboss.seam.ui.ConvertDateTime</converter-id>
         </converter>
     </tag>
-    
+
+    <tag>
+        <tag-name>enumItem</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.EnumItem</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>convertEnum</tag-name>
+        <converter>
+            <converter-id>org.jboss.seam.ui.EnumConverter</converter-id>
+        </converter>
+    </tag>
 </facelet-taglib>
