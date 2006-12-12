@@ -21,7 +21,8 @@
         <h1>Account</h1>
         
         <h:messages styleClass="message"/>
-        
+
+
         <!-- search results -->
         <table class="results">
             <tr>
@@ -129,9 +130,18 @@
                         <tr>
                             <td>Frequency:</td>
                             <td>
-                                <h:selectOneRadio id="radioList" layout="lineDirection"
+                                <h:selectOneRadio id="radioList" 
+                                                  layout="lineDirection"
                                                   value="#{newPayment.paymentFrequency}">
-                                    <f:selectItems value="#{newPayment.frequencies}" />
+                                    <s:convertEnum />
+                                    <s:enumItem enumValue="ONCE"         label="Only Once" />
+                                    <s:enumItem enumValue="EVERY_MINUTE" label="Every Minute (testing)" />
+                                    <s:enumItem enumValue="HOURLY"       label="Every Hour (testing)" />
+                                    <s:enumItem enumValue="DAILY"        label="Every Day" />
+                                    <s:enumItem enumValue="WEEKLY"       label="Every Week" />
+                                    <ui:remove>
+                                        <f:selectItems value="#{newPayment.frequencies}" />
+                                    </ui:remove>
                                 </h:selectOneRadio>
                             </td>
                         </tr>

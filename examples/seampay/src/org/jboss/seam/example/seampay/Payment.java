@@ -101,14 +101,6 @@ public class Payment
         this.paymentFrequency = paymentFrequency;
     }
 
-    public Map<String,Frequency> getFrequencies() {
-        Map<String,Frequency> result = new HashMap<String,Frequency>();
-        for (Frequency frequency : Frequency.values()) {
-            result.put(frequency.toString(), frequency);
-        }
-        return result;
-    }
-
     public TimerHandle getTimerHandle() {
         return timerHandle;
     }
