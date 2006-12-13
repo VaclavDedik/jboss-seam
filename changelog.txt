@@ -1,5 +1,36 @@
 JBoss Seam Changelog
 ====================
+Changes in version 1.1.0.GA (November 2006)
+-------------------------------------------
+** Bug
+    * [JBSEAM-544] - PropertyNotFoundException from Namespace in test harness
+    * [JBSEAM-547] - s:button generates multiple onclick attributes
+    * [JBSEAM-551] - Session scoped SFSB's cannot be destroyed at HTTP session timeout
+    * [JBSEAM-554] - seam-gen create screens
+    * [JBSEAM-565] - NPE from @RequestParameter / @Destroy method
+    * [JBSEAM-573] - Seam-managed persistence contexts and entities in the session
+    * [JBSEAM-576] - NPE in EntityQuery - getPreviousFirstResult()
+    * [JBSEAM-582] - Remoting examples are missing files.
+
+
+** Feature Request
+    * [JBSEAM-512] - Deployable WebLogic example
+    * [JBSEAM-531] - Add debug project ant task (ide action) in the seam-gen generated project in Netbeans
+    * [JBSEAM-549] - Throw meaningful exception if user tries to redirect during render phase.
+    * [JBSEAM-550] - ProcessInstance lists
+    * [JBSEAM-552] - use new compnents.xml format in seam-gen
+    * [JBSEAM-553] - auto-add jdbc driver to eclipse classpath in seam-gen
+    * [JBSEAM-555] - Support more attribute types in seam-gen templates
+    * [JBSEAM-556] - <s:selectDate for="dateTextField">
+    * [JBSEAM-557] - Use textarea for long text fields in seam-gen templates
+    * [JBSEAM-558] - use required=true on not-null attributes in seam-gen templates
+    * [JBSEAM-561] - Use precision and scale in f:convertNumber in seam-gen template
+    * [JBSEAM-563] - Allow seam.properties to optionally be packaged in mete-inf directory.
+    * [JBSEAM-574] - s:convertEnum
+    * [JBSEAM-577] - Support page parameters with no value binding
+    * [JBSEAM-584] - better navigation via "Done" button in seam-gen app
+    * [JBSEAM-585] - use .page.xml files instead of @RequestParameter in seam-gen app 
+
 Changes in version 1.1.0.CR2 (November 2006)
 --------------------------------------------
 ** Bug
