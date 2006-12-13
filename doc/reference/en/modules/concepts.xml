@@ -934,11 +934,11 @@ public class Account
 
         <para> 
             For session or conversation scoped entity bean components, Seam automatically forces replication to occur
-            by calling <literal>setAttribute()</literal> once in every request, <emphasis>unless the entity is currently 
-            associated with a Seam-managed persistence context, in which case no replication is needed</emphasis>. This 
-            strategy is not necessarily efficient, so session or conversation scope entity beans should be used with care. 
-            You can always write a stateful session bean or JavaBean component to "manage" the entity bean instance. 
-            For example, 
+            by calling <literal>setAttribute()</literal> once in every request, <emphasis>unless the (conversation-scoped) 
+            entity is currently associated with a Seam-managed persistence context, in which case no replication is 
+            needed</emphasis>. This strategy is not necessarily efficient, so session or conversation scope entity beans 
+            should be used with care. You can always write a stateful session bean or JavaBean component to "manage" the 
+            entity bean instance. For example, 
         </para>
 
         <programlisting><![CDATA[@Stateful
