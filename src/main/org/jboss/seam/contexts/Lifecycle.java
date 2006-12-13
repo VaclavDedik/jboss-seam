@@ -7,9 +7,9 @@
 package org.jboss.seam.contexts;
 
 import java.util.Set;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
-import javax.persistence.Entity;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -447,8 +447,7 @@ public class Lifecycle
 
    public static boolean isAttributeDirty(Object attribute)
    {
-      return ( attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty() ) || 
-            attribute.getClass().isAnnotationPresent(Entity.class);
+      return attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty();
    }
 
 }

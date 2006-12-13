@@ -93,7 +93,9 @@ public class WebSessionContext implements Context
       for ( String name: getNames() )
       {
          Object attribute = session.getAttribute(name);
-         if ( attribute!=null && Lifecycle.isAttributeDirty(attribute) )
+         boolean dirty = attribute!=null && 
+               ( Lifecycle.isAttributeDirty(attribute) || Seam.isEntityClass( attribute.getClass() ) );
+         if ( dirty )
          {
             session.setAttribute(name, attribute);
          }

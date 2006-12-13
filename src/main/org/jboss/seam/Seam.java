@@ -125,6 +125,23 @@ public class Seam
       return null;
    }
    
+   /**
+    * Is the class a container-generated proxy class for an 
+    * entity bean?
+    */
+   public static boolean isEntityClass(Class<?> clazz)
+   {
+      while ( clazz!=null && !Object.class.equals(clazz) )
+      {
+         if ( clazz.isAnnotationPresent(Entity.class) )
+         {
+            return true;
+         }
+         clazz = clazz.getSuperclass();
+      }
+      return false;
+   }
+   
    public static String getEjbName(Class<?> clazz)
    {
       switch ( getComponentType(clazz) )

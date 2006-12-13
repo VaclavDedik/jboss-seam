@@ -771,7 +771,7 @@ public class Component
       {
          addInterceptor( new Interceptor( new TransactionInterceptor(), this ) );
       }
-      if ( getScope()!=STATELESS && getScope()!=EVENT )
+      if ( getScope()==CONVERSATION )
       {
          addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
       }

@@ -84,26 +84,51 @@ public class ServerConversationContext implements Context {
 	public Object get(String name) 
    {
       Object result = additions.get(name);
-      if (result!=null) return result;
-      if ( removals.contains(name) ) return null;
-      List<String> stack = getIdStack();
-      if (stack==null)
+      if (result!=null)
       {
-         return session.getAttribute( getKey(name) );
+         return unwrapEntityBean(result);
       }
       else
       {
-         for ( int i=0; i<stack.size(); i++ )
+         if ( removals.contains(name) ) 
          {
-            String id = stack.get(i);
-            result = session.getAttribute( getKey(name, id) );
-            boolean found = result!=null && 
-                  ( i==0 || !result.getClass().isAnnotationPresent(PerNestedConversation.class) );
-            if (found) return result;
+            return null;
          }
-         return null;
+         else
+         {
+            List<String> stack = getIdStack();
+            if (stack==null)
+            {
+               return unwrapEntityBean( session.getAttribute( getKey(name) ) );
+            }
+            else
+            {
+               for ( int i=0; i<stack.size(); i++ )
+               {
+                  String id = stack.get(i);
+                  result = session.getAttribute( getKey(name, id) );
+                  boolean found = result!=null && 
+                        ( i==0 || !result.getClass().isAnnotationPresent(PerNestedConversation.class) );
+                  if (found) return unwrapEntityBean(result);
+               }
+               return null;
+            }
+         }
       }
 	}
+
+   private Object unwrapEntityBean(Object result)
+   {
+      if (result==null) return null;
+      if ( result instanceof EntityBean )
+      {
+         return ( (EntityBean) result ).getInstance();
+      }
+      else
+      {
+         return result;
+      }
+   }
 
    public void set(String name, Object value) 
    {
@@ -116,6 +141,10 @@ public class ServerConversationContext implements Context {
       else
       {
          removals.remove(name);
+         if ( Seam.isEntityClass( value.getClass() ) )
+         {
+            value = new EntityBean(value);
+         }
          additions.put(name, value);
       }
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
