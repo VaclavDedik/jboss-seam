@@ -1,18 +1,17 @@
 package org.jboss.seam.security.authenticator;
 
-import static org.jboss.seam.annotations.Install.BUILT_IN;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthenticationException;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.UsernamePasswordToken;
 import org.jboss.seam.security.adapter.AuthenticationAdapter;
 import org.jboss.seam.util.Reflections;
@@ -23,7 +22,7 @@ import org.jboss.seam.util.Reflections;
  * @author Shane Bryzak
  */
 @Name("org.jboss.seam.security.authenticator")
-@Install(value=false, precedence=BUILT_IN)
+@Install(value=false, precedence=BUILT_IN, dependencies = "org.jboss.seam.securityManager")
 public abstract class Authenticator
 {
   private List<AuthenticationAdapter> adapters = new ArrayList<AuthenticationAdapter>();

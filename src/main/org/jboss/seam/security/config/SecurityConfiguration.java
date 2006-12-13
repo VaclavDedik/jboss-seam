@@ -29,7 +29,7 @@ import org.jboss.seam.util.Resources;
  */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.security.securityConfiguration")
-@Install(value = false, precedence=BUILT_IN)
+@Install(value = false, precedence=BUILT_IN, dependencies = "org.jboss.seam.securityManager")
 @Intercept(InterceptionType.NEVER)
 public class SecurityConfiguration
 {

@@ -1,18 +1,19 @@
 package org.jboss.seam.security;
 
-import static org.jboss.seam.ScopeType.SESSION;
-
 import java.io.Serializable;
 import java.security.Principal;
 
+import static org.jboss.seam.ScopeType.SESSION;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
+@Install(dependencies = "org.jboss.seam.securityManager")
 public abstract class Identity implements Principal, Serializable
 {
   protected boolean authenticated;
