@@ -749,9 +749,9 @@
                 <include name="numberguess/**/*"/>
                 <include name="portal/**/*"/>
                 <include name="drools/**/*"/>
-                <include name="remoting/chatroom/*"/>
-                <include name="remoting/helloworld/*"/>
-                <include name="remoting/progressbar/*"/>
+                <include name="remoting/chatroom/**/*"/>
+                <include name="remoting/helloworld/**/*"/>
+                <include name="remoting/progressbar/**/*"/>
                 <include name="readme.txt"/>
                 <include name="seam-examples.html"/>
                 <exclude name="*/build"/>
