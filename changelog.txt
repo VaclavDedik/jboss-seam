@@ -1,6 +1,6 @@
 JBoss Seam Changelog
 ====================
-Changes in version 1.1.0.GA (November 2006)
+Changes in version 1.1.0.GA (December 2006)
 -------------------------------------------
 ** Bug
     * [JBSEAM-544] - PropertyNotFoundException from Namespace in test harness
