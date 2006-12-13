@@ -36,6 +36,36 @@
            </listitem>
        </varlistentry>
        <varlistentry>
+           <term><literal>&lt;s:convertEnum&gt;</literal></term>
+           <listitem>
+               <para>
+                   Assigns an enum converter to the current component.  This is primarily
+                   useful for radio button and dropdown controls.
+               </para>                             
+           </listitem>
+       </varlistentry>
+       <varlistentry>
+           <term><literal>&lt;s:enumItem&gt;</literal></term>
+           <listitem>
+               <para>
+                   Creates a <literal>SelectItem</literal> from an enum value.  
+               </para>
+               <itemizedlist>
+                   <listitem>
+                   <para>
+                       <literal>enumValue</literal> &mdash; the string representation of the enum 
+                       value.  
+                   </para>
+                   </listitem>
+                   <listitem>
+                   <para>
+                       <literal>label</literal> &mdash; the label to be used when rendering the <literal>SelectItem</literal>.
+                   </para>
+                   </listitem>
+                   </itemizedlist>
+           </listitem>
+       </varlistentry>   
+       <varlistentry>
            <term><literal>&lt;s:decorate&gt;</literal></term>
            <listitem>
                <para>
