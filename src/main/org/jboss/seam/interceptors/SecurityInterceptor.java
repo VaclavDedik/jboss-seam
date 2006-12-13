@@ -2,8 +2,6 @@ package org.jboss.seam.interceptors;
 
 import java.lang.reflect.Method;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.security.Restrict;
@@ -21,7 +19,6 @@ import org.jboss.seam.security.SeamSecurityManager;
              within = BijectionInterceptor.class)
 public class SecurityInterceptor extends AbstractInterceptor
 {
-  private static final Log log = LogFactory.getLog(SecurityInterceptor.class);
 
   @AroundInvoke
   public Object checkSecurity(InvocationContext invocation)
