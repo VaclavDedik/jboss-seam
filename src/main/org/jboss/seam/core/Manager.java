@@ -916,6 +916,10 @@ public class Manager
     */
    public void redirect(String viewId, Map<String, Object> parameters, boolean includeConversationId)
    {
+      if ( Lifecycle.getPhaseId()==PhaseId.RENDER_RESPONSE )
+      {
+         throw new IllegalStateException("attempted to redirect during RENDER_RESPONSE phase");
+      }
       FacesContext context = FacesContext.getCurrentInstance();
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
       if (parameters!=null) 
