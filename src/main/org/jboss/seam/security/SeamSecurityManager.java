@@ -41,7 +41,6 @@ import org.jboss.seam.util.Resources;
 @Intercept(InterceptionType.NEVER)
 public class SeamSecurityManager
 {
-  private static final String SECURITY_CONFIG_FILENAME = "/META-INF/security-config.xml";
   private static final String SECURITY_RULES_FILENAME = "/META-INF/security-rules.drl";
 
   private static final String SECURITY_CONTEXT_NAME = "org.jboss.seam.security.securityContext";
@@ -62,12 +61,6 @@ public class SeamSecurityManager
   public void initSecurityManager()
       throws Exception
   {
-    /** @todo Load the security configuration */
-//     SAXReader saxReader = new SAXReader();
-//     saxReader.setEntityResolver(new DTDEntityResolver());
-//     saxReader.setMergeAdjacentText(true);
-//     Document doc = saxReader.read(stream);
-
     // Create the security rule base
     PackageBuilderConfiguration conf = new PackageBuilderConfiguration();
     conf.setCompiler(PackageBuilderConfiguration.JANINO);
