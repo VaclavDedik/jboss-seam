@@ -34,7 +34,11 @@ public class EntityBean implements Mutable
          {
             instance = null;
          }
+         return true;
       }
-      return true;
+      else
+      {
+         return false;
+      }
    }
 }
