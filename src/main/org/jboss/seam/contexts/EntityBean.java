@@ -27,10 +27,13 @@ public class EntityBean implements Mutable
    
    public boolean clearDirty()
    {
-      passivatedEntity = PassivatedEntity.createPassivatedEntity(instance, null);
-      if (passivatedEntity!=null)
+      if (passivatedEntity==null)
       {
-         instance = null;
+         passivatedEntity = PassivatedEntity.createPassivatedEntity(instance, null);
+         if (passivatedEntity!=null)
+         {
+            instance = null;
+         }
       }
       return true;
    }
