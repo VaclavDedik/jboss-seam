@@ -5,10 +5,11 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.security.Authentication;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthenticationException;
 import org.jboss.seam.security.UsernamePasswordToken;
 import org.jboss.seam.security.provider.AuthenticationProvider;
+import org.jboss.seam.security.Role;
 
 /**
  * Authenticates the member against the database
@@ -21,7 +22,7 @@ public class AuthenticatorAction implements AuthenticationProvider
   @In(create=true)
     private EntityManager entityManager;
 
-  public Authentication authenticate(Authentication authentication)
+  public Identity authenticate(Identity authentication)
       throws AuthenticationException
   {
     try
@@ -32,10 +33,10 @@ public class AuthenticatorAction implements AuthenticationProvider
           .setParameter("password", authentication.getCredentials())
           .getSingleResult();
 
-      String[] roles = new String[member.getRoles().size()];
+      Role[] roles = new Role[member.getRoles().size()];
       int idx = 0;
-      for (Role role : member.getRoles())
-        roles[idx++] = role.getName();
+      for (MemberRole mr : member.getRoles())
+        roles[idx++] = new Role(mr.getName());
 
       return new UsernamePasswordToken(authentication.getPrincipal(),
                                        authentication.getCredentials(), roles);

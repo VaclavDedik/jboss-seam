@@ -21,7 +21,7 @@
       <property name="providers">#{authenticatorAction}</property>
     </component>
     
-    <component name="persistentAclProvider" class="org.jboss.seam.security.acl.PersistentAclProvider">
+    <!--component name="persistentAclProvider" class="org.jboss.seam.security.acl.PersistentAclProvider">
       <property name="aclQuery">
         select p.mask, p.recipient, p.recipientType from AclPermission p
         where p.identity.objectIdentity = :identity
@@ -29,10 +29,14 @@
       
       <property name="persistenceContextManager">#{entityManager}</property>      
       
-    </component>
-
-    <!--component class="org.jboss.seam.security.SeamSecurityManager">
-    
     </component-->
+
+    <component name="org.jboss.seam.securityManager">
+    
+    </component>
+    
+    <component name="org.jboss.seam.security.securityConfiguration">
+    
+    </component>
         
 </components>

@@ -23,6 +23,16 @@
         <filter-name>Seam Redirect Filter</filter-name>
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
+    
+    <filter>
+      <filter-name>Seam Security Filter</filter-name>
+      <filter-class>org.jboss.seam.security.filter.SeamSecurityFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+      <filter-name>Seam Security Filter</filter-name>
+      <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
 
     <!-- MyFaces -->
 

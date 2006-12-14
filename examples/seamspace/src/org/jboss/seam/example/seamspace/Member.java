@@ -7,8 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import org.jboss.seam.annotations.security.AclProvider;
-import org.jboss.seam.annotations.security.DefinePermissions;
 import org.jboss.seam.annotations.Name;
 
 /**
@@ -18,17 +16,13 @@ import org.jboss.seam.annotations.Name;
  */
 @Entity
 @Name("member")
-@DefinePermissions(permissions = {
-  @AclProvider(action = "update", provider = "persistentAclProvider", mask = 0x0002),
-  @AclProvider(action = "delete", provider = "persistentAclProvider", mask = 0x0004)
-})
 public class Member implements Serializable
 {
   private Integer memberId;
   private String username;
   private String password;
 
-  private Set<Role> roles;
+  private Set<MemberRole> roles;
 
   @Id
   public Integer getMemberId()
@@ -63,12 +57,12 @@ public class Member implements Serializable
 
   @ManyToMany
   @JoinTable(name = "MemberRoles")
-  public Set<Role> getRoles()
+  public Set<MemberRole> getRoles()
   {
     return roles;
   }
 
-  public void setRoles(Set<Role> roles)
+  public void setRoles(Set<MemberRole> roles)
   {
     this.roles = roles;
   }
