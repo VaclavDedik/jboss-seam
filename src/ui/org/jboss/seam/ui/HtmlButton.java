@@ -30,6 +30,7 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
    private String pageflow;
    private String propagation = "default";
    private String fragment;
+   private String outcome;
 
    private UISelection getSelection()
    {
@@ -128,10 +129,10 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
          }
       }
       
-      if (action!=null)
+      if ( action!=null || outcome!=null )
       {
          UIAction uiAction = new UIAction();
-         uiAction.setAction( action.getExpressionString() );
+         uiAction.setAction( action==null ? outcome : action.getExpressionString() );
          encodedUrl += getParameterString(characterEncoding, uiAction, first);
          first = false;
       }
@@ -328,6 +329,16 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
    public void setActionListener(MethodBinding actionListener)
    {
       // TODO Auto-generated method stub
+   }
+
+   public String getOutcome()
+   {
+      return outcome;
+   }
+
+   public void setOutcome(String outcome)
+   {
+      this.outcome = outcome;
    }
 
 }

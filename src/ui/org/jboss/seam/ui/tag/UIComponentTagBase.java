@@ -320,7 +320,7 @@ public abstract class UIComponentTagBase extends UIComponentTag
          }
          else
          {
-            log.error("Invalid expression " + action);
+            component.getAttributes().put("outcome", action);
          }
       }
    }

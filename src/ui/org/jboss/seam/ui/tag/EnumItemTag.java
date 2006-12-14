@@ -1,7 +1,6 @@
 package org.jboss.seam.ui.tag;
 
 import javax.faces.component.UIComponent;
-import javax.servlet.jsp.JspException;
 
 import org.jboss.seam.ui.EnumItem;
 
