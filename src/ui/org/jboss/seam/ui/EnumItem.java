@@ -1,10 +1,9 @@
 package org.jboss.seam.ui;
 
-import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItem;
 import javax.faces.component.UISelectItem;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+import javax.faces.model.SelectItem;
 
 public class EnumItem
     extends UISelectItem
@@ -42,6 +41,7 @@ public class EnumItem
         return label;
     }
 
+    @Override
     public Object getValue()
     {
         Class c = getParent().getValueBinding("value").getType(getFacesContext());

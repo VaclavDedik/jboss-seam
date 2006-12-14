@@ -1,12 +1,14 @@
 package org.jboss.seam.ui;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map;
 
-import javax.faces.application.*;
-import javax.faces.component.*;
-import javax.faces.context.*;
-import javax.faces.el.ValueBinding;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIComponentBase;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
 public class SelectDate 
     extends UIComponentBase
@@ -92,8 +94,6 @@ public class SelectDate
             
         request.put("SELECTDATE_SCRIPT", scriptResource);
         
-        ViewHandler handler = context.getApplication().getViewHandler();
-
         ResponseWriter response = context.getResponseWriter();
         response.startElement("script", null);
         response.writeAttribute("type", "text/javascript", null);
