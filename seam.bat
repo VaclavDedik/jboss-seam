@@ -8,7 +8,7 @@ if "%OS%" == "Windows_NT" set DIRNAME=%~dp0%
 set PROGNAME=seam.bat
 if "%OS%" == "Windows_NT" set PROGNAME=%~nx0%
 
-set SEAMGENDIR=%DIRNAME%\seam-gen
+set SEAMGENDIR="%DIRNAME%\seam-gen"
 
 set SEAMTASK=%1%
 set ARGS=%ARGS% %*
