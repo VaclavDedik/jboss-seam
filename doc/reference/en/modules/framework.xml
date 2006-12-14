@@ -40,7 +40,9 @@
             <literal>Contact</literal> entity:
         </para>
         
-        <programlisting><![CDATA[<framework:entity-home name="personHome" entity-class="eg.Person" entity-manager="#{personDatabase}">
+        <programlisting><![CDATA[<framework:entity-home name="personHome" 
+                       entity-class="eg.Person" 
+                       entity-manager="#{personDatabase}">
     <framework:id>#{param.personId}</framework:id>
 </framework:entity-home>]]></programlisting>
 
@@ -52,7 +54,7 @@
         <programlisting><![CDATA[@Stateful
 @Name("personHome")
 public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
-    @RequestParameter Long personId;
+    @RequestParameter String personId;
     @In EntityManager personDatabase;
     
     public Object getId() { return personId; }
@@ -155,9 +157,11 @@ public class PersonHome extends EntityHome<Person> {}]]></programlisting>
             line to <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<factory name="person" value="#{personHome.instance}"/>
+        <programlisting><![CDATA[<factory name="person" 
+         value="#{personHome.instance}"/>
 
-<framework:entity-home name="personHome" entity-class="eg.Person" />]]></programlisting>
+<framework:entity-home name="personHome" 
+                       entity-class="eg.Person" />]]></programlisting>
 
         <para>
             (If we are using configuration.)
@@ -231,11 +235,15 @@ public class PersonHome extends EntityHome<Person> {
             nationality initialized. We can do that easily, via configuration:
         </para>
 
-        <programlisting><![CDATA[<factory name="person" value="#{personHome.instance}"/>
+        <programlisting><![CDATA[<factory name="person" 
+         value="#{personHome.instance}"/>
 
-<framework:entity-home name="personHome" entity-class="eg.Person" new-instance="#{newPerson}"/>
+<framework:entity-home name="personHome" 
+                       entity-class="eg.Person" 
+                       new-instance="#{newPerson}"/>
 
-<component name="newPerson" class="eg.Person">
+<component name="newPerson" 
+           class="eg.Person">
     <property name="nationality">#{country}</property>
 </component>]]></programlisting>
          
@@ -292,17 +300,19 @@ public class PersonHome extends EntityHome<Person> {
             successful. To customize these messages we can, again, use configuration:
         </para>
          
-        <programlisting><![CDATA[<factory name="person" value="#{personHome.instance}"/>
+        <programlisting><![CDATA[<factory name="person" 
+         value="#{personHome.instance}"/>
 
 <framework:entity-home name="personHome"
-        entity-class="eg.Person"
-        new-instance="#{newPerson}">
+                       entity-class="eg.Person"
+                       new-instance="#{newPerson}">
     <framework:created-message>New person #{person.firstName} #{person.lastName} created</framework:created-message>
     <framework:deleted-message>Person #{person.firstName} #{person.lastName} deleted</framework:deleted-message>
     <framework:updated-message>Person #{person.firstName} #{person.lastName} updated</framework:updated-message>
 </framework:entity-home>
 
-<component name="newPerson" class="eg.Person">
+<component name="newPerson" 
+           class="eg.Person">
     <property name="nationality">#{country}</property>
 </component>]]></programlisting>
          

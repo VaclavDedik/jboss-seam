@@ -1310,7 +1310,7 @@
                     <itemizedlist>
                         <listitem>
                         <para>
-                            <literal>org.jboss.seam.core.hibernate.cfgResourceName</literal> &mdash; 
+                            <literal>&lt;sessionFactory&gt;.cfgResourceName</literal> &mdash; 
                             the path to the configuration file. Default to <literal>hibernate.cfg.xml</literal>.
                         </para>
                         </listitem>
