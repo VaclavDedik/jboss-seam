@@ -77,7 +77,7 @@
                     <para>
                         Neither of these approaches would work well, were it not for Seam's built-in concurrency 
                         and state management, which ensures that many concurrent fine-grained, asynchronous AJAX 
-                        requests are handled safely and efficiently on the server side
+                        requests are handled safely and efficiently on the server side.
                     </para>
                 </listitem>
             </varlistentry>

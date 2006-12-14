@@ -197,7 +197,7 @@ public class PersonHome extends EntityHome<Person> {
 
         <programlisting><![CDATA[<pages>
     <page viewid="/editPerson.jsp">
-        <param name="personId">#{personHome.id}</param>
+        <param name="personId" value="#{personHome.id}"/>
     </page>
 </pages>]]></programlisting>
 
@@ -359,7 +359,8 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             can use a Query object. For example:
         </para>
         
-        <programlisting><![CDATA[<framework:entity-query name="people" eqbql="select p from Person p"/>]]></programlisting>
+        <programlisting><![CDATA[<framework:entity-query name="people" 
+                        eqbql="select p from Person p"/>]]></programlisting>
         
         <para>
             We can use it from a JSF page:
@@ -378,7 +379,21 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             We probably need to support pagination:
         </para>
         
-        <programlisting><![CDATA[<framework:entity-query name="people" eqbql="select p from Person p" order="lastName" max-results="20"/>]]></programlisting>
+        <programlisting><![CDATA[<framework:entity-query name="people" 
+                        eqbql="select p from Person p" 
+                        order="lastName" 
+                        max-results="20"/>]]></programlisting>
+
+        <para>
+            We'll use a page parameter to determine the page to display:
+        </para>
+
+
+        <programlisting><![CDATA[<pages>
+    <page viewid="/searchPerson.jsp">
+        <param name="firstResult" value="#{people.firstResult}"/>
+    </page>
+</pages>]]></programlisting>
 
         <para>
             The JSF code for a pagination control is a bit verbose, but manageable:

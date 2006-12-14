@@ -212,7 +212,7 @@
     <page view-id="/calculator.jsp" action="#{calculator.calculate}">
         <param name="x" value="#{calculator.lhs}"/>
         <param name="y" value="#{calculator.rhs}"/>
-        <param name="op" converterId="com.my.calculator.OperatorConverter"/>
+        <param name="op" converterId="com.my.calculator.OperatorConverter" value="#{calculator.op}"/>
     </page>
 <pages>]]></programlisting>
 
@@ -220,9 +220,9 @@
     <page view-id="/calculator.jsp" action="#{calculator.calculate}">
         <param name="x" value="#{calculator.lhs}"/>
         <param name="y" value="#{calculator.rhs}"/>
-        <param name="op" converter="#{operatorConverter}"/>
+        <param name="op" converter="#{operatorConverter}" value="#{calculator.op}"/>
     </page>
-<pages>]]></programlisting>
+</pages>]]></programlisting>
 
         </sect3>
 
@@ -241,7 +241,7 @@
             <programlisting><![CDATA[<page action="#{calculator.calculate}">
     <param name="x" value="#{calculator.lhs}"/>
     <param name="y" value="#{calculator.rhs}"/>
-    <param name="op" converter="#{operatorConverter}"/>
+    <param name="op" converter="#{operatorConverter}" value="#{calculator.op}"/>
 </page>]]></programlisting>
 
         </sect3>
