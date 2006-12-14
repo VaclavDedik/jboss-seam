@@ -18,7 +18,7 @@
     <core:hibernate-session-factory name="hibernateSessionFactory"/>
     
     <core:managed-hibernate-session name="bookingDatabase"
-                          sessionFactoryJndiName="bookingDatabase"/>
+                          session-factory-jndi-name="bookingDatabase"/>
     
 </components>
 
