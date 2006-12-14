@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -18,6 +20,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SeamPermission;
 import org.jboss.seam.util.Resources;
@@ -27,6 +30,7 @@ import org.jboss.seam.util.Resources;
  *
  * @author Shane Bryzak
  */
+@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.security.securityConfiguration")
 @Install(value = false, precedence=BUILT_IN, dependencies = "org.jboss.seam.securityManager")
@@ -34,6 +38,8 @@ import org.jboss.seam.util.Resources;
 public class SecurityConfiguration
 {
   private static final String SECURITY_CONFIG_FILENAME = "/META-INF/security-config.xml";
+
+  private static final Log log = LogFactory.getLog(SecurityConfiguration.class);
 
   // <security-constraint>
 //  private static final String SECURITY_CONSTRAINT = "security-constraint";
@@ -77,7 +83,11 @@ public class SecurityConfiguration
   public void init()
       throws SecurityConfigException
   {
-    loadConfigFromStream(Resources.getResourceAsStream(SECURITY_CONFIG_FILENAME));
+    InputStream in = Resources.getResourceAsStream(SECURITY_CONFIG_FILENAME);
+    if (in != null)
+      loadConfigFromStream(in);
+    else
+      log.warn(String.format("Security configuration file %s not found", SECURITY_CONFIG_FILENAME));
   }
 
   /**

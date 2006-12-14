@@ -4,11 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import org.jboss.seam.security.Role;
+import org.jboss.seam.security.SeamPermission;
 import org.jboss.seam.security.config.SecurityConfigException;
 import org.jboss.seam.security.config.SecurityConfiguration;
 import org.testng.annotations.Test;
-import org.jboss.seam.security.SeamPermission;
-import java.util.Enumeration;
 
 public class SecurityTest
 {

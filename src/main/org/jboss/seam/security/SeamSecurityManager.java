@@ -1,5 +1,6 @@
 package org.jboss.seam.security;
 
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.acl.Permission;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
@@ -24,6 +27,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions;
@@ -35,6 +39,7 @@ import org.jboss.seam.util.Resources;
  *
  * @author Shane Bryzak
  */
+@Startup(depends="org.jboss.seam.security.securityConfiguration")
 @Scope(APPLICATION)
 @Name("org.jboss.seam.securityManager")
 @Install(value = false, precedence=BUILT_IN)
@@ -44,6 +49,8 @@ public class SeamSecurityManager
   private static final String SECURITY_RULES_FILENAME = "/META-INF/security-rules.drl";
 
   private static final String SECURITY_CONTEXT_NAME = "org.jboss.seam.security.securityContext";
+
+  private static final Log log = LogFactory.getLog(SeamSecurityManager.class);
 
   private RuleBase securityRules;
 
@@ -65,12 +72,16 @@ public class SeamSecurityManager
     PackageBuilderConfiguration conf = new PackageBuilderConfiguration();
     conf.setCompiler(PackageBuilderConfiguration.JANINO);
 
-    PackageBuilder builder = new PackageBuilder(conf);
-    builder.addPackageFromDrl(new InputStreamReader(
-        Resources.getResourceAsStream(SECURITY_RULES_FILENAME)));
-
     securityRules = RuleBaseFactory.newRuleBase();
-    securityRules.addPackage(builder.getPackage());
+    InputStream in = Resources.getResourceAsStream(SECURITY_RULES_FILENAME);
+    if (in != null)
+    {
+      PackageBuilder builder = new PackageBuilder(conf);
+      builder.addPackageFromDrl(new InputStreamReader(in));
+      securityRules.addPackage(builder.getPackage());
+    }
+    else
+      log.warn(String.format("Security rules file %s not found", SECURITY_RULES_FILENAME));
   }
 
   /**

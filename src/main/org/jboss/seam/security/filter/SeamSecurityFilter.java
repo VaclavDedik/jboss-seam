@@ -10,6 +10,8 @@ import javax.servlet.ServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.security.config.SecurityConfiguration;
+import org.jboss.seam.contexts.WebApplicationContext;
 
 /**
  * A servlet filter that performs authentication within a Seam application.
@@ -20,26 +22,19 @@ public class SeamSecurityFilter implements Filter
 {
   private static final Log log = LogFactory.getLog(SeamSecurityFilter.class);
 
-//  private static final String CONFIG_RESOURCE = "/WEB-INF/seam-security.xml";
-
   public void init(FilterConfig config)
       throws ServletException
   {
 
 //    try
 //    {
-      /** @todo beginInitialization is the closest method we have to initialise the application context */
-//      Lifecycle.beginInitialization(servletContext);
+      WebApplicationContext ctx = new WebApplicationContext(config.getServletContext());
 
-//      SecurityConfig.instance().setApplicationContext(
-//          Contexts.getApplicationContext());
+      SecurityConfiguration sc = (SecurityConfiguration) ctx.get(
+          SecurityConfiguration.class);
 
-//      if (Authenticator.instance() == null)
-//        throw new ServletException("No Authenticator configured.");
-//    }
-//    finally
-//    {
-      /** @todo clear the application context */
+      log.info("**** SecurityConfiguration **** : " + sc);
+
 //    }
 
 //    try
