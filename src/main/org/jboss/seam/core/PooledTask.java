@@ -87,9 +87,7 @@ public class PooledTask
             .get("taskId");
       return taskId==null ? 
             null : 
-            ManagedJbpmContext.instance()
-                  .getTaskMgmtSession()
-                  .loadTaskInstance( Long.parseLong(taskId) );
+            ManagedJbpmContext.instance().getTaskInstanceForUpdate( Long.parseLong(taskId) );
    }
    
 }

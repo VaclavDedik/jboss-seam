@@ -87,13 +87,13 @@ public class ManagedJbpmContext implements Synchronization
    {
       log.debug( "flushing seam managed jBPM context" );
       org.jbpm.graph.exe.ProcessInstance processInstance = ProcessInstance.instance();
-      if (processInstance!=null) 
+      if (processInstance!=null)
       {
          jbpmContext.save(processInstance);
       }
-      log.debug( "flushing business process context" );
       Contexts.getBusinessProcessContext().flush();
       jbpmContext.getSession().flush();
+      log.debug( "done flushing seam managed jBPM context" );
    }
    
    public void afterCompletion(int status) {
@@ -104,9 +104,8 @@ public class ManagedJbpmContext implements Synchronization
    public void destroy()
    {
       log.debug( "destroying seam managed jBPM context" );
-      //jbpmContext.setRollbackOnly(); //TODO: this currently has no effect (bug in jBPM)
-      jbpmContext.getSession().clear(); //WORKAROUND for jBPM bug, prevent flushing of session!
       jbpmContext.close();
+      log.debug( "done destroying seam managed jBPM context" );
    }
       
    public static JbpmContext instance()

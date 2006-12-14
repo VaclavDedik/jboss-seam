@@ -3,7 +3,6 @@ package org.jboss.seam.core;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.seam.annotations.Install;
@@ -38,9 +37,7 @@ public class TaskInstanceList
    {
       if ( actorId == null ) return null;
 
-      List<TaskInstance> list = new ArrayList<TaskInstance>();
-      list.addAll( ManagedJbpmContext.instance().getTaskMgmtSession().findTaskInstances(actorId) );
-      return list;
+      return ManagedJbpmContext.instance().getTaskList(actorId);
    }
    
 }

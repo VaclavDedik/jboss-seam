@@ -14,8 +14,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-import org.jbpm.JbpmContext;
-import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
@@ -104,16 +102,7 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
     */
    public void createProcess(String processDefinitionName)
    {
-      JbpmContext jbpmContext = ManagedJbpmContext.instance();
-      
-      ProcessDefinition pd = jbpmContext.getGraphSession().findLatestProcessDefinition(processDefinitionName);
-      if ( pd == null )
-      {
-         throw new IllegalArgumentException( "Unknown process definition: " + processDefinitionName );
-      }
-      
-      ProcessInstance process = pd.createProcessInstance();
-      jbpmContext.save(process);
+      ProcessInstance process = ManagedJbpmContext.instance().newProcessInstanceForUpdate(processDefinitionName);
       setProcessId( process.getId() );
       // need to set process variables before the signal
       Contexts.getBusinessProcessContext().flush();

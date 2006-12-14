@@ -4,7 +4,6 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -30,13 +29,8 @@ public class PooledTaskInstanceList
    @Transactional
    public List<TaskInstance> getPooledTaskInstanceList()
    {
-      List<TaskInstance> pooledTaskInstanceList = new ArrayList<TaskInstance>();
-      Set<String> actorIds = Actor.instance().getGroupActorIds();
-      for (String actorId: actorIds )
-      {
-         pooledTaskInstanceList.addAll( ManagedJbpmContext.instance().getTaskMgmtSession().findPooledTaskInstances(actorId) );
-      }
-      return pooledTaskInstanceList;
+      return ManagedJbpmContext.instance()
+            .getGroupTaskList( new ArrayList( Actor.instance().getGroupActorIds() ) );
    }
    
 }
