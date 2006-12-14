@@ -22,6 +22,14 @@ public enum ScopeType
     */
    STATELESS,
    /**
+    * The method context. Each call to a session bean or 
+    * JavaBean component puts a new method context onto
+    * the stack of method contexts associated with the
+    * current thread. The context is destroyed (and the
+    * stack popped) when the method returns.
+    */
+   METHOD,
+   /**
     * The event (request) context. Spans a server request,
     * from restore view to render response.
     */
@@ -68,6 +76,8 @@ public enum ScopeType
       {
          case STATELESS:
             return true;
+         case METHOD:
+            return Contexts.isMethodContextActive();
          case EVENT:
             return Contexts.isEventContextActive();
          case PAGE:
@@ -93,6 +103,12 @@ public enum ScopeType
       {
          case STATELESS: 
             throw new UnsupportedOperationException("Stateless psuedo-scope does not have a Context object");
+         case METHOD: 
+            if ( !Contexts.isMethodContextActive() )
+            {
+               throw new IllegalStateException("No method context active");
+            }
+            return Contexts.getMethodContext();
          case EVENT: 
             if ( !Contexts.isEventContextActive() )
             {

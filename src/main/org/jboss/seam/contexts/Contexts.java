@@ -23,66 +23,97 @@ public class Contexts {
    private static final Log log = LogFactory.getLog( Contexts.class );
 
    static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
+   static final ThreadLocal<Context> methodContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> eventContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> pageContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> sessionContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> conversationContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> businessProcessContext = new ThreadLocal<Context>();
 
-	public static Context getEventContext() {
+	public static Context getEventContext() 
+   {
 		return eventContext.get();
 	}
 
-   public static Context getPageContext() {
+   public static Context getMethodContext() 
+   {
+      return methodContext.get();
+   }
+
+   public static Context getPageContext() 
+   {
       return pageContext.get();
    }
 
-	public static Context getSessionContext() {
+	public static Context getSessionContext() 
+   {
 		return sessionContext.get();
 	}
 
-	public static Context getApplicationContext() {
+	public static Context getApplicationContext() 
+   {
 		return applicationContext.get();
 	}
 
-	public static Context getConversationContext() {
+	public static Context getConversationContext() 
+   {
 		return conversationContext.get();
 	}
 
-    public static Context getBusinessProcessContext() {
+    public static Context getBusinessProcessContext() 
+    {
 	    return businessProcessContext.get();
     }
 
-	public static boolean isConversationContextActive() {
+	public static boolean isConversationContextActive() 
+   {
 		return getConversationContext() != null;
 	}
 
-	public static boolean isEventContextActive() {
+	public static boolean isEventContextActive() 
+   {
 		return eventContext.get() != null;
 	}
 
-   public static boolean isPageContextActive() {
+   public static boolean isMethodContextActive() 
+   {
+      return methodContext.get() != null;
+   }
+
+   public static boolean isPageContextActive() 
+   {
       return pageContext.get() != null;
    }
 
-	public static boolean isSessionContextActive() {
+	public static boolean isSessionContextActive() 
+   {
 		return sessionContext.get() != null;
 	}
 
-	public static boolean isApplicationContextActive() {
+	public static boolean isApplicationContextActive() 
+   {
 		return applicationContext.get() != null;
 	}
 
-    public static boolean isBusinessProcessContextActive() {
+    public static boolean isBusinessProcessContextActive() 
+    {
         return businessProcessContext.get() != null;
     }
    
    public static void removeFromAllContexts(String name)
    {
       log.debug("removing from all contexts: " + name);
+      if (isMethodContextActive())
+      {
+         getMethodContext().remove(name);
+      }
       if (isEventContextActive())
       {
          getEventContext().remove(name);
+      }
+      if (isPageContextActive())
+      {
+         getPageContext().remove(name);
       }
       if (isConversationContextActive())
       {
@@ -104,6 +135,16 @@ public class Contexts {
 
    public static Object lookupInStatefulContexts(String name)
    {
+      if (isMethodContextActive())
+      {
+         Object result = getMethodContext().get(name);
+         if (result!=null)
+         {
+            log.debug("found in method context: " + name);
+            return result;
+         }
+      }
+      
       if (isEventContextActive())
       {
          Object result = getEventContext().get(name);

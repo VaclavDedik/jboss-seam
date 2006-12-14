@@ -22,6 +22,7 @@
   <factory scope="stateless" auto-create="true" name="locale" value="#{org.jboss.seam.core.locale}"/>
   <factory scope="stateless" auto-create="true" name="localeSelector" value="#{org.jboss.seam.core.localeSelector}"/>
   <factory scope="stateless" auto-create="true" name="messages" value="#{org.jboss.seam.core.messages}"/>
+  <factory scope="stateless" auto-create="true" name="methodContext" value="#{org.jboss.seam.core.methodContext}"/>
   <factory scope="stateless" auto-create="true" name="jbpmContext" value="#{org.jboss.seam.core.jbpmContext}"/>
   <factory scope="stateless" auto-create="true" name="pageContext" value="#{org.jboss.seam.core.pageContext}"/>
   <factory scope="stateless" auto-create="true" name="pageflow" value="#{org.jboss.seam.core.pageflow}"/>

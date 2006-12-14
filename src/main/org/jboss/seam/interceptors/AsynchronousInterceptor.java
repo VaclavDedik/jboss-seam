@@ -26,7 +26,7 @@ public class AsynchronousInterceptor extends AbstractInterceptor
          {
             throw new IllegalStateException("Dispatcher is not installed in components.xml");
          }
-         Timer timer = dispatcher.scheduleInvocation(invocation, getComponent());
+         Timer timer = dispatcher.scheduleInvocation( invocation, getComponent() );
          //if the method returns a Timer, return it to the client
          return invocation.getMethod().getReturnType().equals(Timer.class) ? timer : null;
       }

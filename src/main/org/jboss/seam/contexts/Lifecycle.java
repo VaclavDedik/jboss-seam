@@ -94,6 +94,17 @@ public class Lifecycle
       Contexts.applicationContext.set(null);
    }
 
+   public static Context beginMethod()
+   {
+      Context result = Contexts.methodContext.get();
+      Contexts.methodContext.set( new MapContext(ScopeType.METHOD) );
+      return result;
+   }
+
+   public static void endMethod(Context context)
+   {
+      Contexts.methodContext.set(context);
+   }
 
    public static void beginInitialization(ServletContext servletContext)
    {

@@ -100,6 +100,7 @@ import org.jboss.seam.interceptors.ConversationalInterceptor;
 import org.jboss.seam.interceptors.EventInterceptor;
 import org.jboss.seam.interceptors.ExceptionInterceptor;
 import org.jboss.seam.interceptors.ManagedEntityIdentityInterceptor;
+import org.jboss.seam.interceptors.MethodContextInterceptor;
 import org.jboss.seam.interceptors.OutcomeInterceptor;
 import org.jboss.seam.interceptors.RemoveInterceptor;
 import org.jboss.seam.interceptors.RollbackInterceptor;
@@ -737,6 +738,10 @@ public class Component
       if ( getType()==STATEFUL_SESSION_BEAN )
       {
          addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );
+      }
+      if ( getType()!=ENTITY_BEAN )
+      {
+         addInterceptor( new Interceptor( new MethodContextInterceptor(), this ) );
       }
       if ( beanClassHasAnnotation(RaiseEvent.class) )
       {
