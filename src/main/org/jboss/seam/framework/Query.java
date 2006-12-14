@@ -27,6 +27,9 @@ public abstract class Query
    private List<String> parsedRestrictions;
    private List<ValueBinding> restrictionParameters;
    
+   private List<Object> queryParameterValues;
+   private List<Object> restrictionParameterValues;
+   
    public abstract List getResultList();
    public abstract Object getSingleResult();
    public abstract Long getResultCount();
@@ -274,6 +277,63 @@ public abstract class Query
    protected List<ValueBinding> getRestrictionParameters()
    {
       return restrictionParameters;
+   }
+   
+   private static boolean isAnyParameterDirty(List<ValueBinding> valueBindings, List<Object> lastParameterValues)
+   {
+      if (lastParameterValues==null) return true;
+      for (int i=0; i<valueBindings.size(); i++)
+      {
+         Object parameterValue = valueBindings.get(i).getValue();
+         Object lastParameterValue = lastParameterValues.get(i);
+         if ( parameterValue!=lastParameterValue && ( parameterValue==null || !parameterValue.equals(lastParameterValue) ) )
+         {
+            return true;
+         }
+      }
+      return false;
+   }
+   
+   private static List<Object> getParameterValues(List<ValueBinding> valueBindings)
+   {
+      List<Object> values = new ArrayList<Object>( valueBindings.size() );
+      for (int i=0; i<valueBindings.size(); i++)
+      {
+         values.add( valueBindings.get(i).getValue() );
+      }
+      return values;
+   }
+   
+   protected void evaluateAllParameters()
+   {
+      setQueryParameterValues( getParameterValues( getQueryParameters() ) );
+      setRestrictionParameterValues( getParameterValues( getRestrictionParameters() ) );
+   }
+   
+   protected boolean isAnyParameterDirty()
+   {
+      return isAnyParameterDirty( getQueryParameters(), getQueryParameterValues() )
+            || isAnyParameterDirty( getRestrictionParameters(), getRestrictionParameterValues() );
+   }
+   
+   protected List<Object> getQueryParameterValues()
+   {
+      return queryParameterValues;
+   }
+   
+   protected void setQueryParameterValues(List<Object> queryParameterValues)
+   {
+      this.queryParameterValues = queryParameterValues;
+   }
+   
+   protected List<Object> getRestrictionParameterValues()
+   {
+      return restrictionParameterValues;
+   }
+   
+   protected void setRestrictionParameterValues(List<Object> restrictionParameterValues)
+   {
+      this.restrictionParameterValues = restrictionParameterValues;
    }
 
 }

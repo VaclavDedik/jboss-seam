@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.Expressions.ValueBinding;
 
 public class EntityQuery extends Query
 {
@@ -32,7 +31,7 @@ public class EntityQuery extends Query
    @Override
    public List getResultList()
    {
-      if (resultList==null)
+      if (resultList==null || isAnyParameterDirty())
       {
          javax.persistence.Query query = createQuery();
          resultList = query==null ? null : query.getResultList();
@@ -44,7 +43,7 @@ public class EntityQuery extends Query
    @Override
    public Object getSingleResult()
    {
-      if (singleResult==null)
+      if (singleResult==null || isAnyParameterDirty())
       {
          javax.persistence.Query query = createQuery();
          singleResult = query==null ? 
@@ -57,7 +56,7 @@ public class EntityQuery extends Query
    @Override
    public Long getResultCount()
    {
-      if (resultCount==null)
+      if (resultCount==null || isAnyParameterDirty())
       {
          javax.persistence.Query query = createCountQuery();
          resultCount = query==null ? 
@@ -93,10 +92,12 @@ public class EntityQuery extends Query
    {
       parseEjbql();
       
+      evaluateAllParameters();
+      
       getEntityManager().joinTransaction();
       javax.persistence.Query query = getEntityManager().createQuery( getRenderedEjbql() );
-      setParameters( query, getQueryParameters(), 0 );
-      setParameters( query, getRestrictionParameters(), getQueryParameters().size() );
+      setParameters( query, getQueryParameterValues(), 0 );
+      setParameters( query, getRestrictionParameterValues(), getQueryParameterValues().size() );
       if ( getFirstResult()!=null) query.setFirstResult( getFirstResult() );
       if ( getMaxResults()!=null) query.setMaxResults( getMaxResults() );
       if ( getHints()!=null )
@@ -112,19 +113,21 @@ public class EntityQuery extends Query
    protected javax.persistence.Query createCountQuery()
    {
       parseEjbql();
-      
+
+      evaluateAllParameters();
+
       getEntityManager().joinTransaction();
       javax.persistence.Query query = getEntityManager().createQuery( getCountEjbql() );
-      setParameters( query, getQueryParameters(), 0 );
-      setParameters( query, getRestrictionParameters(), getQueryParameters().size() );
+      setParameters( query, getQueryParameterValues(), 0 );
+      setParameters( query, getRestrictionParameterValues(), getQueryParameterValues().size() );
       return query;
    }
 
-   private void setParameters(javax.persistence.Query query, List<ValueBinding> parameters, int start)
+   private void setParameters(javax.persistence.Query query, List<Object> parameters, int start)
    {
       for (int i=0; i<parameters.size(); i++)
       {
-         Object parameterValue = parameters.get(i).getValue();
+         Object parameterValue = parameters.get(i);
          if (parameterValue!=null)
          {
             query.setParameter( "p" + (start + i), parameterValue );

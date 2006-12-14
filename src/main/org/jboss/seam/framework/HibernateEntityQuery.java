@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.core.Expressions.ValueBinding;
 
 public class HibernateEntityQuery extends Query
 {
@@ -33,7 +32,7 @@ public class HibernateEntityQuery extends Query
    @Override
    public List getResultList()
    {
-      if (resultList==null)
+      if (resultList==null || isAnyParameterDirty())
       {
          org.hibernate.Query query = createQuery();
          resultList = query==null ? null : query.list();
@@ -45,7 +44,7 @@ public class HibernateEntityQuery extends Query
    @Override
    public Object getSingleResult()
    {
-      if (singleResult==null)
+      if (singleResult==null || isAnyParameterDirty())
       {
          org.hibernate.Query query = createQuery();
          singleResult = query==null ? 
@@ -58,7 +57,7 @@ public class HibernateEntityQuery extends Query
    @Override
    public Long getResultCount()
    {
-      if (resultCount==null)
+      if (resultCount==null || isAnyParameterDirty())
       {
          org.hibernate.Query query = createCountQuery();
          resultCount = query==null ? 
@@ -94,9 +93,11 @@ public class HibernateEntityQuery extends Query
    {
       parseEjbql();
       
+      evaluateAllParameters();
+      
       org.hibernate.Query query = getSession().createQuery( getRenderedEjbql() );
-      setParameters( query, getQueryParameters(), 0 );
-      setParameters( query, getRestrictionParameters(), getQueryParameters().size() );
+      setParameters( query, getQueryParameterValues(), 0 );
+      setParameters( query, getRestrictionParameterValues(), getQueryParameterValues().size() );
       if ( getFirstResult()!=null) query.setFirstResult( getFirstResult() );
       if ( getMaxResults()!=null) query.setMaxResults( getMaxResults() );
       if ( getCacheable()!=null ) query.setCacheable( getCacheable() );
@@ -109,17 +110,19 @@ public class HibernateEntityQuery extends Query
    {
       parseEjbql();
       
+      evaluateAllParameters();
+      
       org.hibernate.Query query = getSession().createQuery( getCountEjbql() );
-      setParameters( query, getQueryParameters(), 0 );
-      setParameters( query, getRestrictionParameters(), getQueryParameters().size() );
+      setParameters( query, getQueryParameterValues(), 0 );
+      setParameters( query, getRestrictionParameterValues(), getQueryParameterValues().size() );
       return query;
    }
 
-   private void setParameters(org.hibernate.Query query, List<ValueBinding> parameters, int start)
+   private void setParameters(org.hibernate.Query query, List<Object> parameters, int start)
    {
       for (int i=0; i<parameters.size(); i++)
       {
-         Object parameterValue = parameters.get(i).getValue();
+         Object parameterValue = parameters.get(i);
          if (parameterValue!=null)
          {
             query.setParameter( "p" + (start + i), parameterValue );
