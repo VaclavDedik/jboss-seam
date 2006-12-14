@@ -360,7 +360,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
         </para>
         
         <programlisting><![CDATA[<framework:entity-query name="people" 
-                        eqbql="select p from Person p"/>]]></programlisting>
+                        ejbql="select p from Person p"/>]]></programlisting>
         
         <para>
             We can use it from a JSF page:
@@ -380,7 +380,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
         </para>
         
         <programlisting><![CDATA[<framework:entity-query name="people" 
-                        eqbql="select p from Person p" 
+                        ejbql="select p from Person p" 
                         order="lastName" 
                         max-results="20"/>]]></programlisting>
 
@@ -432,7 +432,10 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 
         <programlisting><![CDATA[<component name="examplePerson" class="Person"/>
         
-<framework:entity-query name="people" eqbql="select p from Person p" order="lastName" max-results="20">
+<framework:entity-query name="people" 
+                        ejbql="select p from Person p" 
+                        order="lastName" 
+                        max-results="20">
     <framework:restrictions>
         <value>lower(firstName) like lower( #{examplePerson.firstName} + '%' )</value>
         <value>lower(lastName) like lower( #{examplePerson.lastName} + '%' )</value>

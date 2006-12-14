@@ -15,7 +15,7 @@
     </xs:attributeGroup>
 
     <xs:attributeGroup name="attlist.Query">
-        <xs:attribute name="eqbql" type="xs:string"/>
+        <xs:attribute name="ejbql" type="xs:string"/>
         <xs:attribute name="max-results" type="xs:integer"/>
         <xs:attribute name="order" type="xs:string"/>
     </xs:attributeGroup>
