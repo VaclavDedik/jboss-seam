@@ -7,6 +7,7 @@ import javax.ejb.Local;
 public interface BookingList
 {
    public void getBookings();
+   public Booking getBooking();
    public String cancel();
    public void destroy();
 }

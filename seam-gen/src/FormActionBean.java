@@ -25,8 +25,8 @@ public class @beanName@ implements @interfaceName@ {
 	public String @methodName@()
 	{
 		//implement your business logic here
-		log.info("@componentName@.@methodName@() action called with: #0", value);
-		facesMessages.add( "@methodName@ #0", (Object) value );
+		log.info("@componentName@.@methodName@() action called with: #{@componentName@.value}");
+		facesMessages.add("@methodName@ #{@componentName@.value}");
 		return "success";
 	}
 	

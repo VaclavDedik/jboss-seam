@@ -13,13 +13,12 @@ import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
@@ -43,7 +42,6 @@ public class BookingListAction implements BookingList, Serializable
    @DataModel
    private List<Booking> bookings;
    @DataModelSelection 
-   @Out(required=false)
    private Booking booking;
    
    @Logger 
@@ -60,15 +58,20 @@ public class BookingListAction implements BookingList, Serializable
    
    public String cancel()
    {
-      log.info("Cancel booking: #0 for #{user.username}", booking.getId());
+      log.info("Cancel booking: #{bookingList.booking.id} for #{user.username}");
       Booking cancelled = em.find(Booking.class, booking.getId());
       if (cancelled!=null) em.remove( cancelled );
       getBookings();
-      FacesMessages.instance().add("Booking cancelled for confirmation number #{booking.id}");
+      FacesMessages.instance().add("Booking cancelled for confirmation number #{bookingList.booking.id}");
       return "main";
+   }
+   
+   public Booking getBooking()
+   {
+      return booking;
    }
    
    @Destroy @Remove
    public void destroy() {}
-   
+
 }
