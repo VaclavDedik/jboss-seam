@@ -38,21 +38,21 @@
     <packageDirectory property="test.dir" package="${test.package}"/>
 	<pathFilename property="driver.file" path="${driver.jar}"/>
 	
-	<condition property="hibernate.hbm2ddl.auto" value="update">
-           <and>
-		<equals arg1="${database.exists}" arg2="n"/>
-		<equals arg1="${database.drop}" arg2="n"/>
-           </and>
-	</condition>
-	<condition property="hibernate.hbm2ddl.auto" value="validate">
-           <and>
-		<equals arg1="${database.exists}" arg2="y"/>
-		<equals arg1="${database.drop}" arg2="n"/>
-           </and>
-	</condition>
-	<condition property="hibernate.hbm2ddl.auto" value="create-drop">
-		<equals arg1="${database.drop}" arg2="y"/>
-	</condition>
+    <condition property="hibernate.hbm2ddl.auto" value="update">
+        <and>
+            <equals arg1="${database.exists}" arg2="n"/>
+            <equals arg1="${database.drop}" arg2="n"/>
+        </and>
+    </condition>
+    <condition property="hibernate.hbm2ddl.auto" value="validate">
+        <and>
+            <equals arg1="${database.exists}" arg2="y"/>
+            <equals arg1="${database.drop}" arg2="n"/>
+        </and>
+    </condition>
+    <condition property="hibernate.hbm2ddl.auto" value="create-drop">
+        <equals arg1="${database.drop}" arg2="y"/>
+    </condition>
     
     <property name="project.home" value="${workspace.home}/${project.name}"/>
     
@@ -265,6 +265,11 @@
                    message="Enter database password [${hibernate.connection.password}]" 
               defaultvalue="${hibernate.connection.password}"/>
                 
+        <property name="hibernate.default_schema" value=""/>
+        <input addproperty="hibernate.default_schema.new" 
+                   message="Enter the database schema name (it is OK to leave this blank) [${hibernate.default_schema}]" 
+              defaultvalue="${hibernate.default_schema}"/>
+                
         <property name="database.exists" value="n"/>
         <input addproperty="database.exists.new" 
                    message="Are you working with tables that already exist in the database? [${database.exists}] "
@@ -273,9 +278,16 @@
 
         <property name="database.drop" value="n"/>
         <input addproperty="database.drop.new" 
-                   message="Do you want to init the database tables everytime you deploy the app (e.g., to use import.sql) and drop the tables when you undeploy (useful in development)? [${database.drop}] "
+                   message="Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [${database.drop}] "
         	     validargs="y,n,"
               defaultvalue="${database.drop}"/>
+    	
+    	<condition property="hibernate.default_schema.key" value="hibernate.default_schema">
+    	    <not><equals arg1="${hibernate.default_schema.new}" arg2=""/></not>
+    	</condition>
+    	<condition property="hibernate.default_schema.key" value="hibernate.default_schema.null">
+    	    <equals arg1="${hibernate.default_schema.new}" arg2=""/>
+    	</condition>
 
         <propertyfile file="build.properties">
             <entry key="workspace.home" value="${workspace.home.new}"/>
@@ -293,7 +305,8 @@
             <entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>
             <entry key="hibernate.connection.username" value="${hibernate.connection.username.new}"/>
             <entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
-            <entry key="driver.jar" value="${driver.jar.new}"/>
+            <entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
+            <entry key="${hibernate.default_schema.key}" value="${hibernate.default_schema.new}"/>
         </propertyfile>
     	
     	<echo message="Installing JDBC driver jar to JBoss server"/>
