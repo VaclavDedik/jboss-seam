@@ -115,9 +115,13 @@ public class PassivatedEntity implements Serializable
             {
                if (id==null)
                {
-                  throw new IllegalStateException("could not get id of: " + /*beanClass.getName() + '.' +*/ fieldName);
+                  //this can happen if persist() fails in Hibernate
+                  return null;
                }
-               return new PassivatedEntity( id, entityClass, persistenceContextName, fieldName );
+               else
+               {
+                  return new PassivatedEntity( id, entityClass, persistenceContextName, fieldName );
+               }
             }
          }
       }
