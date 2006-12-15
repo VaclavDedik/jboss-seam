@@ -59,11 +59,6 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
 
    public String getDescription() 
    {
-      if ( isCurrent() )
-      {
-         String desc = Conversation.instance().description;
-         if (desc!=null) return desc;
-      }
       return description;
    }
 
@@ -136,11 +131,6 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
 
    public String getViewId()
    {
-      if ( isCurrent() )
-      {
-         String out = Conversation.instance().viewId;
-         if (out!=null) return out;
-      }
       return viewId;
    }
 
