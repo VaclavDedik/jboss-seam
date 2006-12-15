@@ -43,6 +43,7 @@
       </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="jndi-name"/>
+    <xs:attribute name="precedence"/>
     <xs:attribute name="installed" default="true"/>
     <xs:attribute name="auto-create" default="false">
       <xs:simpleType>

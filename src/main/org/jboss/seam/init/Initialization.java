@@ -262,7 +262,7 @@ public class Initialization
 
       String scopeName = component.attributeValue("scope");
       String jndiName = component.attributeValue("jndi-name");
-      String precedenceString = component.attributeValue("precendence");
+      String precedenceString = component.attributeValue("precedence");
       int precedence = precedenceString==null ? Install.APPLICATION : Integer.valueOf(precedenceString);
       ScopeType scope = scopeName == null ? null : ScopeType.valueOf(scopeName.toUpperCase());
       boolean autoCreate = "true".equals(component.attributeValue("auto-create"));
@@ -323,6 +323,7 @@ public class Initialization
                !"scope".equals(attributeName) &&
                !"class".equals(attributeName) &&
                !"jndi-name".equals(attributeName) &&
+               !"precedence".equals(attributeName) &&
                !"auto-create".equals(attributeName);
          if (isProperty)
          {
