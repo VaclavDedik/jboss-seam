@@ -70,6 +70,8 @@ public class SecurityConfiguration
 
   private Map<String,Role> securityRoles = new HashMap<String,Role>();
 
+  private String securityErrorPage = "/securityError.seam";
+
 //  private AuthMethod authMethod;
 
 //  private Handler authenticator;
@@ -88,6 +90,16 @@ public class SecurityConfiguration
       loadConfigFromStream(in);
     else
       log.warn(String.format("Security configuration file %s not found", SECURITY_CONFIG_FILENAME));
+  }
+
+  public void setSecurityErrorPage(String securityErrorPage)
+  {
+    this.securityErrorPage = securityErrorPage;
+  }
+
+  public String getSecurityErrorPage()
+  {
+    return securityErrorPage;
   }
 
   /**

@@ -21,6 +21,7 @@ import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.config.SecurityConfiguration;
 import org.jboss.seam.security.config.SecurityConstraint;
+import javax.servlet.ServletContext;
 
 /**
  * A servlet filter that performs authentication within a Seam application.
@@ -33,10 +34,13 @@ public class SeamSecurityFilter implements Filter
 
   private SecurityConfiguration config;
 
+  private ServletContext servletContext;
+
   public void init(FilterConfig filterConfig)
       throws ServletException
   {
-    WebApplicationContext ctx = new WebApplicationContext(filterConfig.getServletContext());
+    servletContext = filterConfig.getServletContext();
+    WebApplicationContext ctx = new WebApplicationContext(servletContext);
     config = (SecurityConfiguration) ctx.get(SecurityConfiguration.class);
   }
 
@@ -61,8 +65,9 @@ public class SeamSecurityFilter implements Filter
     Identity ident = (Identity)sessionContext.get(Seam.getComponentName(Identity.class));
 
     /** @todo Make the redirection configurable */
-    if (!checkSecurityConstraints(hRequest.getRequestURI(), hRequest.getMethod(), ident))
-      hResponse.sendRedirect("/securityError.seam");
+    if (!checkSecurityConstraints(hRequest.getServletPath(), hRequest.getMethod(), ident))
+      hResponse.sendRedirect(String.format("%s%s", hRequest.getContextPath(),
+                                           config.getSecurityErrorPage()));
 
     chain.doFilter(request, response);
   }
@@ -82,7 +87,7 @@ public class SeamSecurityFilter implements Filter
     {
       if (c.included(uri, method))
       {
-        if (!userHasRole(ident, c.getAuthConstraint().getRoles()))
+        if (ident == null || !userHasRole(ident, c.getAuthConstraint().getRoles()))
           return false;
       }
     }

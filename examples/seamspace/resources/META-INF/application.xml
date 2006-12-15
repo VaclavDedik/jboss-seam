@@ -36,5 +36,25 @@
   <module>
 	  <java>drools-core-3.0.5.jar</java>
 	</module>    
+	
+  <module>
+    <java>commons-jci-core-1.0-406301.jar</java>
+	</module>
+	
+  <module>
+    <java>commons-jci-janino-2.4.3.jar</java>
+	</module>	
+	
+  <module>
+    <java>commons-lang-2.1.jar</java>
+	</module>
+
+  <module>
+    <java>janino-2.4.3.jar</java>
+	</module>
+
+  <module>
+    <java>stringtemplate-2.3b6.jar</java>
+	</module>	
 
 </application>

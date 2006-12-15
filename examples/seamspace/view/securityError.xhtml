@@ -4,7 +4,7 @@
 	  xmlns:h="http://java.sun.com/jsf/html">
 
 <head>
-	<title>Seam Security</title>
+	<title>SeamSpace</title>
 </head>
 
 <body>
@@ -13,15 +13,9 @@
   <div class="errors"><h:messages globalOnly="true"/></div> 
 
   <p>
-    You do not have the necessary permissions to carry out the requested action.
+    You do not have the necessary security level to access this page.
   </p>
   
-  <h:form>
-    <h:commandButton action="#{protectedAction.foo}" value="Protected action" class="button"/>
-    <h:commandButton action="#{login.logout}" value="Logout" class="button" />      
-    <h:commandButton action="#{protectedAction.modifyCustomer}" value="Modify customer" class="button"/>
-    <h:commandButton action="#{protectedAction.modifyReadonlyCustomer}" value="Modify read-only customer" class="button"/>     
-  </h:form>
 </body>
 </html>
 

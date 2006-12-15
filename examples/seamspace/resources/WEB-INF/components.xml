@@ -31,12 +31,7 @@
       
     </component-->
 
-    <component name="org.jboss.seam.securityManager">
-    
-    </component>
-    
-    <component name="org.jboss.seam.security.securityConfiguration">
-    
-    </component>
+    <component class="org.jboss.seam.security.SeamSecurityManager"/>
+    <component class="org.jboss.seam.security.config.SecurityConfiguration"/>
         
 </components>

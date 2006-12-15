@@ -32,4 +32,16 @@ public class WebResourceCollection
   {
     this.httpMethods = httpMethods;
   }
+
+  /**
+   * Checks if this resource collection supports the specified method. If no
+   * methods are specified for this collection, then the default is to support all methods.
+   *
+   * @param method String
+   * @return boolean
+   */
+  public boolean supportsMethod(String method)
+  {
+    return httpMethods.isEmpty() || httpMethods.contains(method);
+  }
 }

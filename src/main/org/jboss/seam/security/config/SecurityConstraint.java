@@ -49,7 +49,7 @@ public class SecurityConstraint
 
     for (WebResourceCollection c : resourceCollections)
     {
-      if (!c.getHttpMethods().contains(method))
+      if (!c.supportsMethod(method))
         continue;
 
       for (String pattern : c.getUrlPatterns())

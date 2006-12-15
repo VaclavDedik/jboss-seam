@@ -153,6 +153,8 @@
         <include name="META-INF/ejb-jar.xml"/>
         <include name="META-INF/components.xml"/>
         <include name="META-INF/jboss.xml"/>
+        <include name="META-INF/security-config.xml"/>
+        <include name="META-INF/security-rules.drl"/>
     </fileset>
     
     <zipfileset id="example.ear.resources"
