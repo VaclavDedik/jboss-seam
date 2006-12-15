@@ -1,9 +1,12 @@
 package org.jboss.seam.jsf;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.el.ELContext;
 import javax.el.ELResolver;
+import javax.faces.model.DataModel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Init;
@@ -47,6 +50,62 @@ public class SeamELResolver extends ELResolver
          }
          return result;
       }
+      else if (base instanceof DataModel)
+      {
+         if ( "size".equals(property) )
+         {
+            context.setPropertyResolved(true);
+            return ( (DataModel) base ).getRowCount();
+         }
+         else if ( "empty".equals(property) )
+         {
+            context.setPropertyResolved(true);
+            return ( (DataModel) base ).getRowCount()==0;
+         }
+         else
+         {
+            return null;
+         }
+      }
+      else if (base instanceof Collection)
+      {
+         if ( "size".equals(property) )
+         {
+            context.setPropertyResolved(true);
+            return ( (Collection) base ).size();
+         }
+         else
+         {
+            return null;
+         }
+      }
+      else if (base instanceof Map)
+      {
+         if ( "size".equals(property) )
+         {
+            context.setPropertyResolved(true);
+            return ( (Map) base ).size();
+         }
+         else if ( "values".equals(property) )
+         {
+            context.setPropertyResolved(true);
+            return ( (Map) base ).values();
+         }
+         else if ( "keySet".equals(property) )
+         {
+            context.setPropertyResolved(true);
+            return ( (Map) base ).keySet();
+         }
+         else if ( "entrySet".equals(property) )
+         {
+            context.setPropertyResolved(true);
+            return ( (Map) base ).entrySet();
+         }
+         else
+         {
+            return null;
+         }
+      }
       else
       {
          return null;
@@ -56,7 +115,8 @@ public class SeamELResolver extends ELResolver
    @Override
    public boolean isReadOnly(ELContext context, Object base, Object property)
    {
-      return false;
+      return base!=null && 
+            ( (base instanceof DataModel) || (base instanceof Collection) || (base instanceof Map) );
    }
 
    @Override
