@@ -57,15 +57,26 @@ public class Validation
 
    public InvalidValue[] validate(FacesContext context, String propertyExpression, Object value)
    {
-      int sep = propertyExpression.lastIndexOf('.');
-      if (sep<=0) 
+      int dot = propertyExpression.lastIndexOf('.');
+      int bracket = propertyExpression.lastIndexOf('[');
+      if (dot<=0 && bracket<=0) 
       {
-         throw new RuntimeException("not an attribute value binding: " + propertyExpression);
+         return new InvalidValue[0];
       }
-      String componentName = propertyExpression.substring(2, sep);
-      String modelExpression = propertyExpression.substring(0, sep) + '}';
-      String propertyName = propertyExpression.substring( modelExpression.length(), propertyExpression.length()-1 );
+      String componentName;
+      String propertyName;
+      if (dot>bracket)
+      {
+         componentName = propertyExpression.substring(2, dot);
+         propertyName = propertyExpression.substring( dot+1, propertyExpression.length()-1 );
+      }
+      else
+      {
+         componentName = propertyExpression.substring(2, bracket);
+         propertyName = propertyExpression.substring( bracket+1, propertyExpression.length()-2 );
+      }
    
+      String modelExpression = propertyExpression.substring(0, dot) + '}';
       Object model = context.getApplication().createValueBinding(modelExpression).getValue(context);
       ClassValidator validator = getValidator( model.getClass(), componentName );    
       return validator.getPotentialInvalidValues(propertyName, value);
