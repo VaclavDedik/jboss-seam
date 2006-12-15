@@ -58,11 +58,27 @@
     
 	<!-- filtersets and filesets -->
 	
+	<condition property="schema.property" value="&lt;property name=&quot;hibernate.default_schema&quot; value=&quot;${hibernate.default_schema}&quot;/&gt;">
+	    <isset property="hibernate.default_schema"/>
+	</condition>
+	<condition property="schema.property" value="">
+	    <not><isset property="hibernate.default_schema"/></not>
+	</condition>
+	
+	<condition property="catalog.property" value="&lt;property name=&quot;hibernate.default_catalog&quot; value=&quot;${hibernate.default_catalog}&quot;/&gt;">
+	    <isset property="hibernate.default_catalog"/>
+	</condition>
+	<condition property="catalog.property" value="">
+	    <not><isset property="hibernate.default_catalog"/></not>
+	</condition>
+
     <filterset id="jdbc">
         <filter token="jdbcUrl" value="${hibernate.connection.url}"/>
         <filter token="driverClass" value="${hibernate.connection.driver_class}"/>
         <filter token="username" value="${hibernate.connection.username}"/>
         <filter token="password" value="${hibernate.connection.password}"/>
+    	<filter token="catalogProperty" value="${catalog.property}"/>
+    	<filter token="schemaProperty" value="${schema.property}"/>
     </filterset>
 
     <filterset id="project">
@@ -266,9 +282,17 @@
               defaultvalue="${hibernate.connection.password}"/>
                 
         <property name="hibernate.default_schema" value=""/>
+    	<condition property="hibernate.default_schema.new" value="">
+            <equals arg1="${database.type.new}" arg2="mysql"/>
+    	</condition>
         <input addproperty="hibernate.default_schema.new" 
                    message="Enter the database schema name (it is OK to leave this blank) [${hibernate.default_schema}]" 
               defaultvalue="${hibernate.default_schema}"/>
+                
+        <property name="hibernate.default_catalog" value=""/>
+        <input addproperty="hibernate.default_catalog.new" 
+                   message="Enter the database catalog name (it is OK to leave this blank) [${hibernate.default_catalog}]" 
+              defaultvalue="${hibernate.default_catalog}"/>
                 
         <property name="database.exists" value="n"/>
         <input addproperty="database.exists.new" 
@@ -287,6 +311,13 @@
     	</condition>
     	<condition property="hibernate.default_schema.key" value="hibernate.default_schema.null">
     	    <equals arg1="${hibernate.default_schema.new}" arg2=""/>
+    	</condition>
+    	
+    	<condition property="hibernate.default_catalog.key" value="hibernate.default_catalog">
+    	    <not><equals arg1="${hibernate.default_catalog.new}" arg2=""/></not>
+    	</condition>
+    	<condition property="hibernate.default_catalog.key" value="hibernate.default_catalog.null">
+    	    <equals arg1="${hibernate.default_catalog.new}" arg2=""/>
     	</condition>
 
         <propertyfile file="build.properties">
@@ -308,6 +339,7 @@
             <entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
             <entry key="hibernate.connection.password" value="${hibernate.connection.password.new}"/>
             <entry key="${hibernate.default_schema.key}" value="${hibernate.default_schema.new}"/>
+            <entry key="${hibernate.default_catalog.key}" value="${hibernate.default_catalog.new}"/>
         </propertyfile>
     	
     	<echo message="Installing JDBC driver jar to JBoss server"/>
