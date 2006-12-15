@@ -300,6 +300,7 @@
             <entry key="database.type" value="${database.type.new}"/>
         	<entry key="database.exists" value="${database.exists.new}"/>
         	<entry key="database.drop" value="${database.drop.new}"/>
+        	<entry key="driver.jar" value="${driver.jar.new}"/>
             <entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
             <entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
             <entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>
