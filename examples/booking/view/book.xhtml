@@ -35,6 +35,15 @@
 			<div class="label">Country:</div>
 			<div class="output">#{hotel.country}</div>
 		</div>
+        <div class="entry">
+            <div class="label">Nightly rate:</div>
+            <div class="output">
+                <h:outputText value="#{hotel.price}">
+                    <f:convertNumber type="currency"  
+                                     currencySymbol="$"/>
+                </h:outputText>
+            </div>
+        </div>
 		
 		<s:validateAll>
     

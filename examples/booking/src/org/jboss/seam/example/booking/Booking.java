@@ -2,6 +2,7 @@
 package org.jboss.seam.example.booking;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -41,6 +42,18 @@ public class Booking implements Serializable
    {
       this.hotel = hotel;
       this.user = user;
+   }
+   
+   @Transient
+   public BigDecimal getTotal()
+   {
+      return hotel.getPrice().multiply( new BigDecimal( getNights() ) );
+   }
+
+   @Transient
+   public int getNights()
+   {
+      return (int) ( checkoutDate.getTime() - checkinDate.getTime() ) / 1000 / 60 / 60 / 24;
    }
 
    @Id @GeneratedValue
