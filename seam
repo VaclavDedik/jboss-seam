@@ -5,7 +5,14 @@
 #
 ############################################
 
-cd seam-gen
+DIRNAME=`dirname $0`
+
+if [ "x$SEAM_HOME" = "x" ]; then
+    # get the full path (without any relative bits)
+    SEAM_HOME=`cd $DIRNAME; pwd`
+fi
+
+cd $SEAM_HOME/seam-gen
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
