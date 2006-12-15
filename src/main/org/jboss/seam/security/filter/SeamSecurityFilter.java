@@ -1,17 +1,26 @@
 package org.jboss.seam.security.filter;
 
 import java.io.IOException;
+import java.util.Set;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.security.config.SecurityConfiguration;
+import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.Context;
+import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.WebApplicationContext;
+import org.jboss.seam.contexts.WebSessionContext;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.config.SecurityConfiguration;
+import org.jboss.seam.security.config.SecurityConstraint;
 
 /**
  * A servlet filter that performs authentication within a Seam application.
@@ -22,80 +31,82 @@ public class SeamSecurityFilter implements Filter
 {
   private static final Log log = LogFactory.getLog(SeamSecurityFilter.class);
 
-  public void init(FilterConfig config)
+  private SecurityConfiguration config;
+
+  public void init(FilterConfig filterConfig)
       throws ServletException
   {
-
-//    try
-//    {
-      WebApplicationContext ctx = new WebApplicationContext(config.getServletContext());
-
-      SecurityConfiguration sc = (SecurityConfiguration) ctx.get(
-          SecurityConfiguration.class);
-
-      log.info("**** SecurityConfiguration **** : " + sc);
-
-//    }
-
-//    try
-//    {
-//      SecurityConfig.instance().setServletContext(servletContext);
-//      SecurityConfig.instance().loadConfig(new SecurityConfigFileLoader(
-//        servletContext.getResourceAsStream(CONFIG_RESOURCE), servletContext));
-//    }
-//    catch (SecurityConfigException ex)
-//    {
-//      log.error(ex);
-//      throw new ServletException("Error loading security configuration", ex);
-//    }
-//    catch (Exception ex)
-//    {
-//      throw new ServletException(ex);
-//    }
+    WebApplicationContext ctx = new WebApplicationContext(filterConfig.getServletContext());
+    config = (SecurityConfiguration) ctx.get(SecurityConfiguration.class);
   }
 
+  /**
+   *
+   * @param request ServletRequest
+   * @param response ServletResponse
+   * @param chain FilterChain
+   * @throws IOException
+   * @throws ServletException
+   */
   public void doFilter(ServletRequest request, ServletResponse response,
                        FilterChain chain)
       throws IOException, ServletException
   {
+    HttpServletRequest hRequest = (HttpServletRequest) request;
+    HttpServletResponse hResponse = (HttpServletResponse) response;
 
-//    Context sessionContext = new WebSessionContext(
-//        ContextAdaptor.getSession(hRequest.getSession()));
-//
-//    Authentication authentication = (Authentication)sessionContext.get(
-//            "org.jboss.seam.security.Authentication");
+    Context sessionContext = new WebSessionContext(
+        ContextAdaptor.getSession(hRequest.getSession()));
 
-//    try
-//    {
-      chain.doFilter(request, response);
-//    }
-//    catch (Exception e)
-//    {
-//      if (e instanceof ServletException)
-//      {
-//        Throwable cause = ( (ServletException) e).getRootCause();
-//
-//        Set<Throwable> causes = new HashSet<Throwable> ();
-//        while (cause != null && !causes.contains(cause))
-//        {
-//          if (cause instanceof LoginException)
-//          {
-            // Redirect to login page
-//            log.info("User not logged in... redirecting to login page.");
+    Identity ident = (Identity)sessionContext.get(Seam.getComponentName(Identity.class));
 
-            /** @todo Redirect based on whatever authentication method is being used */
+    /** @todo Make the redirection configurable */
+    if (!checkSecurityConstraints(hRequest.getRequestURI(), hRequest.getMethod(), ident))
+      hResponse.sendRedirect("/securityError.seam");
 
-//             SecurityConfig.instance().getAuthenticator().showLogin(hRequest, hResponse);
-//            break;
-//          }
-//          causes.add(cause);
-//          cause = cause.getCause();
-//        }
-//      }
-//      throw new ServletException(e);
-//    }
+    chain.doFilter(request, response);
   }
 
-  public void destroy()
-  {}
+  /**
+   * Performs a security check for a specified uri and method, for the specified
+   * Identity
+   *
+   * @param uri String
+   * @param method String
+   * @param ident Identity
+   * @return boolean
+   */
+  protected boolean checkSecurityConstraints(String uri, String method, Identity ident)
+  {
+    for (SecurityConstraint c : config.getSecurityConstraints())
+    {
+      if (c.included(uri, method))
+      {
+        if (!userHasRole(ident, c.getAuthConstraint().getRoles()))
+          return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Returns true if the specified Identity has any one of a number of specified roles.
+   *
+   * @param ident Identity
+   * @param roles String[]
+   * @return boolean
+   */
+  private boolean userHasRole(Identity ident, Set<String> roles)
+  {
+    for (String role : roles)
+    {
+      if (ident.isUserInRole(role))
+        return true;
+    }
+
+    return false;
+  }
+
+  public void destroy() {}
 }

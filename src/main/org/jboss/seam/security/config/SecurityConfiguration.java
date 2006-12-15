@@ -42,12 +42,12 @@ public class SecurityConfiguration
   private static final Log log = LogFactory.getLog(SecurityConfiguration.class);
 
   // <security-constraint>
-//  private static final String SECURITY_CONSTRAINT = "security-constraint";
-//  private static final String WEB_RESOURCE_COLLECTION = "web-resource-collection";
-//  private static final String URL_PATTERN = "url-pattern";
-//  private static final String HTTP_METHOD = "http-method";
-//  private static final String AUTH_CONSTRAINT = "auth-constraint";
-//  private static final String ROLE_NAME = "role-name";
+  private static final String SECURITY_CONSTRAINT = "security-constraint";
+  private static final String WEB_RESOURCE_COLLECTION = "web-resource-collection";
+  private static final String URL_PATTERN = "url-pattern";
+  private static final String HTTP_METHOD = "http-method";
+  private static final String AUTH_CONSTRAINT = "auth-constraint";
+  private static final String ROLE_NAME = "role-name";
 
   // <login-config>
 //  private static final String LOGIN_CONFIG = "login-config";
@@ -66,7 +66,7 @@ public class SecurityConfiguration
   private static final String SECURITY_PERMISSIONS = "permissions";
   private static final String SECURITY_PERMISSION = "permission";
 
-//  private Set<SecurityConstraint> securityConstraints = new HashSet<SecurityConstraint>();
+  private Set<SecurityConstraint> securityConstraints = new HashSet<SecurityConstraint>();
 
   private Map<String,Role> securityRoles = new HashMap<String,Role>();
 
@@ -106,9 +106,10 @@ public class SecurityConfiguration
       Document doc = xmlReader.read(config);
       Element env = doc.getRootElement();
 
-//      loadSecurityConstraints(env.elements(SECURITY_CONSTRAINT));
-//      loadLoginConfig(env.element(LOGIN_CONFIG));
+      loadSecurityConstraints(env.elements(SECURITY_CONSTRAINT));
       loadSecurityRoles(env.element(SECURITY_ROLES));
+
+      //      loadLoginConfig(env.element(LOGIN_CONFIG));
     }
     catch (Exception ex)
     {
@@ -120,13 +121,14 @@ public class SecurityConfiguration
   }
 
   /**
+   * Returns the configured security constraints
    *
    * @return Set
    */
-//  public Set<SecurityConstraint> getSecurityConstraints()
-//  {
-//    return securityConstraints;
-//  }
+  public Set<SecurityConstraint> getSecurityConstraints()
+  {
+    return securityConstraints;
+  }
 
   /**
    *
@@ -161,49 +163,49 @@ public class SecurityConfiguration
    * @param elements List
    * @throws SecurityConfigurationException
    */
-//  private void loadSecurityConstraints(List elements)
-//      throws SecurityConfigException
-//  {
-//    try
-//    {
-//      for (Element element : (List<Element>) elements)
-//      {
-//        SecurityConstraint securityConstraint = new SecurityConstraint();
-//        securityConstraints.add(securityConstraint);
-//
-//        for (Element wrcElement :
-//            (List<Element>) element.elements(WEB_RESOURCE_COLLECTION))
-//        {
-//          WebResourceCollection wrc = new WebResourceCollection();
-//          securityConstraint.getResourceCollections().add(wrc);
-//
-//          for (Element urlPatternElement :
-//              (List<Element>) wrcElement.elements(URL_PATTERN))
-//          {
-//            wrc.getUrlPatterns().add(urlPatternElement.getTextTrim());
-//          }
-//
-//          for (Element httpMethodElement :
-//              (List<Element>) wrcElement.elements(HTTP_METHOD))
-//          {
-//            wrc.getHttpMethods().add(httpMethodElement.getTextTrim());
-//          }
-//        }
-//
-//        securityConstraint.setAuthConstraint(new AuthConstraint());
-//        for (Element roleNameElement :
-//            (List<Element>) element.element(AUTH_CONSTRAINT).elements(ROLE_NAME))
-//        {
-//          securityConstraint.getAuthConstraint().getRoles().add(roleNameElement.
-//              getTextTrim());
-//        }
-//      }
-//    }
-//    catch (Exception ex)
-//    {
-//      throw new SecurityConfigException("Error loading security constraints", ex);
-//    }
-//  }
+  private void loadSecurityConstraints(List elements)
+      throws SecurityConfigException
+  {
+    try
+    {
+      for (Element element : (List<Element>) elements)
+      {
+        SecurityConstraint securityConstraint = new SecurityConstraint();
+        securityConstraints.add(securityConstraint);
+
+        for (Element wrcElement :
+            (List<Element>) element.elements(WEB_RESOURCE_COLLECTION))
+        {
+          WebResourceCollection wrc = new WebResourceCollection();
+          securityConstraint.getResourceCollections().add(wrc);
+
+          for (Element urlPatternElement :
+              (List<Element>) wrcElement.elements(URL_PATTERN))
+          {
+            wrc.getUrlPatterns().add(urlPatternElement.getTextTrim());
+          }
+
+          for (Element httpMethodElement :
+              (List<Element>) wrcElement.elements(HTTP_METHOD))
+          {
+            wrc.getHttpMethods().add(httpMethodElement.getTextTrim());
+          }
+        }
+
+        securityConstraint.setAuthConstraint(new AuthConstraint());
+        for (Element roleNameElement :
+            (List<Element>) element.element(AUTH_CONSTRAINT).elements(ROLE_NAME))
+        {
+          securityConstraint.getAuthConstraint().getRoles().add(roleNameElement.
+              getTextTrim());
+        }
+      }
+    }
+    catch (Exception ex)
+    {
+      throw new SecurityConfigException("Error loading security constraints", ex);
+    }
+  }
 
   /**
    * Load login configuration

@@ -189,30 +189,4 @@ public class SeamSecurityManager
 
     return (WorkingMemory) session.get(SECURITY_CONTEXT_NAME);
   }
-
-//  public void checkPermission(String permissionName, String action)
-//  {
-//    checkRolePermissions(permissionName, action);
-//  }
-
-//  public void checkPermission(Object obj, String action)
-//  {
-//    checkRolePermissions(Seam.getComponentName(obj.getClass()), action);
-//  }
-
-  /**
-   *
-   * @param permissionName
-   * @param action
-   */
-//  private void checkRolePermissions(String permissionName, String action)
-//  {
-//    Permission required = new SeamPermission(permissionName, action);
-//    for (Role role : Identity.instance().getRoles())
-//    {
-//      Set<Permission> permissions = rolePermissions.get(role);
-//      if (permissions != null && permissions.contains(required))
-//        return;
-//    }
-//  }
 }
