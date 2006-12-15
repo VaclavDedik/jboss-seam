@@ -58,14 +58,14 @@
     
 	<!-- filtersets and filesets -->
 	
-	<condition property="schema.property" value="&lt;property name=&quot;hibernate.default_schema&quot; value=&quot;${hibernate.default_schema}&quot;/&gt;">
+	<condition property="schema.property" value="&#xa;         &lt;property name=&quot;hibernate.default_schema&quot; value=&quot;${hibernate.default_schema}&quot;/&gt;">
 	    <isset property="hibernate.default_schema"/>
 	</condition>
 	<condition property="schema.property" value="">
 	    <not><isset property="hibernate.default_schema"/></not>
 	</condition>
 	
-	<condition property="catalog.property" value="&lt;property name=&quot;hibernate.default_catalog&quot; value=&quot;${hibernate.default_catalog}&quot;/&gt;">
+	<condition property="catalog.property" value="&#xa;         &lt;property name=&quot;hibernate.default_catalog&quot; value=&quot;${hibernate.default_catalog}&quot;/&gt;">
 	    <isset property="hibernate.default_catalog"/>
 	</condition>
 	<condition property="catalog.property" value="">
