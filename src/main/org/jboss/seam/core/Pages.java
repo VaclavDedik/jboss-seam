@@ -221,6 +221,11 @@ public class Pages
       }
    }
    
+   /**
+    * Get the Page object for the given view id.
+    * 
+    * @param viewId a JSF view id
+    */
    public Page getPage(String viewId)
    {
       if (viewId==null)
@@ -281,6 +286,12 @@ public class Pages
       return loc<0 ? null : viewId.substring(0, loc) + suffix;
    }
    
+   /**
+    * Get the stack of Page objects, from least specific to 
+    * most specific, that match the given view id.
+    * 
+    * @param viewId a JSF view id
+    */
    protected List<Page> getPageStack(String viewId)
    {
       List<Page> stack = pageStacksByViewId.get(viewId);
@@ -373,6 +384,9 @@ public class Pages
       return (Pages) Component.getInstance(Pages.class, ScopeType.APPLICATION);
    }
 
+   /**
+    * Call the action requested by s:link or s:button.
+    */
    public static boolean callAction(FacesContext facesContext)
    {
       //TODO: refactor with Pages.instance().callAction()!!
@@ -422,11 +436,25 @@ public class Pages
       return result;
    }
    
+   /**
+    * Get the values of any page parameters by evaluating the value bindings
+    * against the model and converting to String.
+    * 
+    * @param viewId the JSF view id
+    * @return a map of page parameter name to String value
+    */
    public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId)
    {
       return getConvertedParameters(facesContext, viewId, Collections.EMPTY_SET);
    }
    
+   /**
+    * Get the values of any page parameters by evaluating the value bindings
+    * against the model.
+    * 
+    * @param viewId the JSF view id
+    * @return a map of page parameter name to value
+    */
    protected Map<String, Object> getParameters(String viewId)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
@@ -453,6 +481,14 @@ public class Pages
       return parameters;
    }
    
+   /**
+    * Get the values of any page parameters by evaluating the value bindings
+    * against the model and converting to String.
+    * 
+    * @param viewId the JSF view id
+    * @param overridden override certain parameter values
+    * @return a map of page parameter name to String value
+    */
    public Map<String, Object> getConvertedParameters(FacesContext facesContext, String viewId, Set<String> overridden)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
@@ -497,6 +533,9 @@ public class Pages
       return parameters;
    }
    
+   /**
+    * Apply any page parameters passed as parameter values to the model.
+    */
    public void applyRequestParameterValues(FacesContext facesContext)
    {
       String viewId = facesContext.getViewRoot().getViewId();
@@ -545,6 +584,9 @@ public class Pages
       }
    }
 
+   /**
+    * Apply any page parameters passed as view root attributes to the model.
+    */
    public void applyViewRootValues(FacesContext facesContext)
    {
       String viewId = facesContext.getViewRoot().getViewId();
@@ -565,6 +607,11 @@ public class Pages
       }
    }
 
+   /**
+    * The global setting for no-conversation-viewid.
+    * 
+    * @return a JSF view id
+    */
    public String getNoConversationViewId()
    {
       return noConversationViewId;

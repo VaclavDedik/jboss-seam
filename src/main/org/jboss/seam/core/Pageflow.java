@@ -74,11 +74,19 @@ public class Pageflow extends AbstractMutable implements Serializable
       return (Pageflow) Component.getInstance(Pageflow.class, ScopeType.CONVERSATION);
    }
    
+   /**
+    * Get the current counter value, used for detecting
+    * illegal use of the backbutton.
+    */
    public int getPageflowCounter()
    {
       return counter;
    }
    
+   /**
+    * Check that the current state of the pageflow matches
+    * what is expected by the faces request.
+    */
    public void validatePageflow() 
    {
       if ( processInstance!=null )
@@ -119,6 +127,11 @@ public class Pageflow extends AbstractMutable implements Serializable
       context.renderResponse();
    }
 
+   /**
+    * Add a message to indicate that illegal navigation
+    * occurred. May be overridden by user to perform
+    * special processing.
+    */
    protected void illegalNavigation()
    {
       FacesMessages.instance().addFromResourceBundle( 
@@ -128,6 +141,9 @@ public class Pageflow extends AbstractMutable implements Serializable
          );
    }
    
+   /**
+    * Get the current Node of the pageflow.
+    */
    public Node getNode() 
    {
       if (processInstance==null) return null;
@@ -140,6 +156,11 @@ public class Pageflow extends AbstractMutable implements Serializable
       return node;
    }
    
+   /**
+    * Reposition the pageflow at the named node.
+    * 
+    * @param nodeName the name of a node
+    */
    public void reposition(String nodeName)
    {
       if (processInstance==null)
@@ -158,6 +179,9 @@ public class Pageflow extends AbstractMutable implements Serializable
       setDirty();
    }
    
+   /**
+    * Get the current Page of the pageflow.
+    */
    public Page getPage() 
    {
       Node node = getNode();
@@ -168,24 +192,68 @@ public class Pageflow extends AbstractMutable implements Serializable
       return (Page) node;
    }
    
-   private void navigate(FacesContext context) 
+   /**
+    * Navigate to the current page.
+    */
+   protected void navigate(FacesContext context) 
    {
       Page page = getPage();
       if ( !page.isRedirect() )
       {
-         UIViewRoot viewRoot = context.getApplication().getViewHandler()
-               .createView( context, page.getViewId() );
-         context.setViewRoot(viewRoot);
+         render(context, page);
       }
       else
       {
-         Manager.instance().redirect( page.getViewId() );
+         redirect(page);
       }
 
       counter++;
       setDirty();
    }
 
+   /**
+    * Redirect to the Page.
+    */
+   protected void redirect(Page page)
+   {
+      Manager.instance().redirect( getViewId(page) );
+   }
+
+   /**
+    * Proceed to render the Page.
+    */
+   protected void render(FacesContext context, Page page)
+   {
+      UIViewRoot viewRoot = context.getApplication().getViewHandler()
+            .createView( context, getViewId(page) );
+      context.setViewRoot(viewRoot);
+   }
+
+   /**
+    * Allows the user to extend this class and use some
+    * logical naming of pages other than the JSF view id
+    * in their pageflow.
+    * 
+    * @param page the Page object
+    * @return a JSF view id
+    */
+   protected String getViewId(Page page)
+   {
+      return page.getViewId();
+   }
+   
+   /**
+    * Get the JSF view id of the current page in the
+    * pageflow.
+    */
+   public String getPageViewId()
+   {
+      return getViewId( getPage() );
+   }
+
+   /**
+    * Does the current node have a default transition?
+    */
    public boolean hasDefaultTransition()
    {
       //we don't use jBPM's default transition,
@@ -204,6 +272,10 @@ public class Pageflow extends AbstractMutable implements Serializable
             getNode().getLeavingTransition(outcome)!=null;
    }
 
+   /**
+    * Given the JSF action outcome, perform navigation according
+    * to the current pageflow.
+    */
    public void navigate(FacesContext context, String outcome) {
       if ( isNullOutcome(outcome) )
       {
@@ -230,6 +302,12 @@ public class Pageflow extends AbstractMutable implements Serializable
       }
    }
 
+   /**
+    * Process events defined in the pageflow.
+    * 
+    * @param type one of: "process-validations", "update-model-values",
+    *                     "invoke-application", "render-response"
+    */
    public void processEvents(String type)
    {
       Event event = getNode().getEvent(type);
@@ -249,6 +327,11 @@ public class Pageflow extends AbstractMutable implements Serializable
       }
    }
    
+   /**
+    * Begin executing a pageflow.
+    * 
+    * @param pageflowDefinitionName the name of the pageflow definition
+    */
    public void begin(String pageflowDefinitionName)
    {
       if ( log.isDebugEnabled() )
@@ -291,8 +374,7 @@ public class Pageflow extends AbstractMutable implements Serializable
       Node node = pageflowProcessDefinition.getNode(pageflowNodeName);
       if (node!=null && node instanceof Page)
       {
-         Page page = (Page) node;
-         return page.getNoConversationViewId();
+         return ( (Page) node ).getNoConversationViewId();
       }
       else
       {
@@ -300,7 +382,7 @@ public class Pageflow extends AbstractMutable implements Serializable
       }
    }
 
-   private ProcessDefinition getPageflowProcessDefinition(String pageflowName)
+   protected ProcessDefinition getPageflowProcessDefinition(String pageflowName)
    {
       ProcessDefinition pageflowProcessDefinition = Jbpm.instance().getPageflowProcessDefinition(pageflowName);
       if (pageflowProcessDefinition==null)

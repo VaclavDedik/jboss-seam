@@ -1008,7 +1008,7 @@ public class Manager
          //use stuff from the pageflow definition
          if ( pageflowPage.isSwitchEnabled() )
          {
-            conversation.setViewId( pageflowPage.getViewId() );
+            conversation.setViewId( Pageflow.instance().getPageViewId() );
          }
          if ( pageflowPage.hasDescription() )
          {

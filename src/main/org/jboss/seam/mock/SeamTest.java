@@ -304,7 +304,7 @@ public class SeamTest
       {
          if ( Init.instance().isJbpmInstalled() && Pageflow.instance().isInProcess() )
          {
-            return Pageflow.instance().getPage().getViewId();
+            return Pageflow.instance().getPageViewId();
          }
          else
          {
