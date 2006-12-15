@@ -28,7 +28,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
    
    //TODO: cache much more - the list of fields, PassivatedEntity obects, etc
    
-   private List<PassivatedEntity> list = new ArrayList<PassivatedEntity>();
+   private List<PassivatedEntity> passivatedEntities = new ArrayList<PassivatedEntity>();
    
    @AroundInvoke
    public Object aroundInvoke(InvocationContext ctx) throws Exception
@@ -40,7 +40,10 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       }
       finally
       {
-         entityRefsToIds(ctx);
+         if ( !PassivatedEntity.isTransactionMarkedRollback() )
+         {
+            entityRefsToIds(ctx);
+         }
       }
    }
    
@@ -68,7 +71,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                      PassivatedEntity pi = PassivatedEntity.createPassivatedEntity( value, field.getName() );
                      if (pi!=null)
                      {
-                        list.add(pi);
+                        passivatedEntities.add(pi);
                         Reflections.set(field, bean, null);
                      }
                   }
@@ -80,11 +83,11 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
 
    public void entityIdsToRefs(InvocationContext ctx) throws Exception
    {
-      if ( list.size()>0 )
+      if ( passivatedEntities.size()>0 )
       {
          Object bean = ctx.getTarget();
          Class beanClass = bean.getClass();
-         for (PassivatedEntity pe: list)
+         for (PassivatedEntity pe: passivatedEntities)
          {
             Object reference = pe.toEntityReference();
             if (reference!=null)
@@ -101,7 +104,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
                }
             }
          }
-         list.clear();
+         passivatedEntities.clear();
       }
    
 }

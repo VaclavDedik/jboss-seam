@@ -12,6 +12,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.persistence.PersistenceProvider;
+import org.jboss.seam.util.Transactions;
 
 public class PassivatedEntity implements Serializable
 {
@@ -126,6 +127,18 @@ public class PassivatedEntity implements Serializable
          }
       }
       return null;
+   }
+   
+   public static boolean isTransactionMarkedRollback()
+   {
+      try
+      {
+         return Transactions.isTransactionMarkedRollback();
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
    }
    
 }
