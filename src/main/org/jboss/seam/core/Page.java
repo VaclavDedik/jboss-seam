@@ -108,6 +108,7 @@ public final class Page
    private boolean nested;
    private FlushModeType flushMode;
    private String pageflow;
+   private boolean conversationRequired;
    
    Page(String viewId)
    {
@@ -320,6 +321,16 @@ public final class Page
    protected void setPageflow(String pageflow)
    {
       this.pageflow = pageflow;
+   }
+
+   public boolean isConversationRequired()
+   {
+      return conversationRequired;
+   }
+
+   protected void setConversationRequired(boolean conversationRequired)
+   {
+      this.conversationRequired = conversationRequired;
    }
 
 }

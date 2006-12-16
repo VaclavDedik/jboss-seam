@@ -131,7 +131,7 @@ public class Pages
       Page entry = new Page(viewId);
       pagesByViewId.put(viewId, entry);
       
-      entry.setSwitchEnabled(!"disabled".equals( page.attributeValue("switch") ));
+      entry.setSwitchEnabled( !"disabled".equals( page.attributeValue("switch") ) );
       
       String description = page.getTextTrim();
       if (description!=null && description.length()>0)
@@ -145,8 +145,8 @@ public class Pages
          entry.setTimeout(Integer.parseInt(timeoutString));
       }
       
-      String noConversationViewId = page.attributeValue("no-conversation-view-id");
-      entry.setNoConversationViewId(noConversationViewId);
+      entry.setNoConversationViewId( page.attributeValue("no-conversation-view-id") );
+      entry.setConversationRequired( "true".equals( page.attributeValue("conversation-required") ) );
       
       String action = page.attributeValue("action");
       if (action!=null)
@@ -330,7 +330,15 @@ public class Pages
       String viewId = facesContext.getViewRoot().getViewId();
       for ( Page page: getPageStack(viewId) )
       {
-         result = callAction(page, facesContext) || result;
+         if ( page.isConversationRequired() && !Manager.instance().isLongRunningConversation() )
+         {
+            Manager.instance().redirectToNoConversationView();
+            return result;
+         }
+         else
+         {
+            result = callAction(page, facesContext) || result;
+         }
       }
       return result;
    }
