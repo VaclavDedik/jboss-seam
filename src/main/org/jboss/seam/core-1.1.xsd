@@ -27,6 +27,14 @@
     </xs:element>
     <xs:attributeGroup name="attlist.dispatcher"> </xs:attributeGroup>
 
+    <xs:element name="transactionListener">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="core:attlist.transactionListener"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:attributeGroup name="attlist.transactionListener"> </xs:attributeGroup>
+
     <xs:element name="ejb">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>

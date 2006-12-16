@@ -121,6 +121,11 @@ public class Events
       Dispatcher.instance().scheduleEvent(type, 0l, null, null, parameters);
    }
    
+   public void raiseTransactionSuccessEvent(String type, Object... parameters)
+   {
+      TransactionListener.instance().scheduleEvent(type, parameters);
+   }
+   
    public void raiseTimedEvent(String type, long duration, Object... parameters)
    {
       Dispatcher.instance().scheduleEvent(type, duration, null, null, parameters);
