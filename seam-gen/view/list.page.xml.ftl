@@ -7,4 +7,5 @@
 <#assign listName = componentName + "List">
 <page>
    <param name="firstResult" value="${'#'}{${listName}.firstResult}"/>
+   <param name="order" value="${'#'}{${listName}.order}"/>
 </page>

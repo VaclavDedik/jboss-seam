@@ -109,6 +109,17 @@ td {
 	width: auto;
 }
 
+.columnHeader:link, .columnHeader:visited, .columnHeader:active
+{
+	color: white;
+	text-decoration: none;
+}
+
+.columnHeader:hover
+{
+    color: #FF6600;
+}
+
 .message {
 	border: 1px solid #FFCC00;
 	padding: 5px;

@@ -31,14 +31,23 @@
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
         <h:column>
-            <f:facet name="header">${property.name}</f:facet>
+            <f:facet name="header">
+                <s:link value="${property.name} ${'#'}{${listName}.order=='${property.name} asc' ? messages.down : ( ${listName}.order=='${property.name} desc' ? messages.up : '' )}" styleClass="columnHeader">
+                    <f:param name="order" value="${'#'}{${listName}.order=='${property.name} asc' ? '${property.name} desc' : '${property.name} asc'}"/>
+                </s:link>
+            </f:facet>
             ${'#'}{${componentName}.${property.name}}
         </h:column>
 </#if>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
         <h:column>
-            <f:facet name="header">${property.name} ${parentPojo.identifierProperty.name}</f:facet>
+            <f:facet name="header">
+<#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name>
+                <s:link value="${property.name} ${parentPojo.identifierProperty.name} ${'#'}{${listName}.order=='${propertyPath} asc' ? messages.down : ( ${listName}.order=='${propertyPath} desc' ? messages.up : '' )}" styleClass="columnHeader">
+                    <f:param name="order" value="${'#'}{${listName}.order=='${propertyPath} asc' ? '${propertyPath} desc' : '${propertyPath} asc'}"/>
+                </s:link>
+            </f:facet>
             ${'#'}{${componentName}.${property.name}.${parentPojo.identifierProperty.name}}
         </h:column>
 </#if>
@@ -58,14 +67,14 @@
       
         <s:link view="/${listPageName}.xhtml" 
             rendered="${'#'}{${listName}.previousExists}" 
-               value="&lt;&lt; First Page"
+               value="${'#'}{messages.left}${'#'}{messages.left} First Page"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
         
         <s:link view="/${listPageName}.xhtml" 
             rendered="${'#'}{${listName}.previousExists}" 
-               value="&lt; Previous Page"
+               value="${'#'}{messages.left} Previous Page"
                   id="previousPage">
             <f:param name="firstResult" 
                     value="${'#'}{${listName}.previousFirstResult}"/>
@@ -73,7 +82,7 @@
         
         <s:link view="/${listPageName}.xhtml" 
             rendered="${'#'}{${listName}.nextExists}" 
-               value="Next Page &gt;"
+               value="Next Page ${'#'}{messages.right}"
                   id="nextPage">
             <f:param name="firstResult" 
                     value="${'#'}{${listName}.nextFirstResult}"/>
@@ -81,7 +90,7 @@
         
         <s:link view="/${listPageName}.xhtml" 
             rendered="${'#'}{${listName}.nextExists}" 
-               value="Last Page &gt;&gt;"
+               value="Last Page ${'#'}{messages.right}${'#'}{messages.right}"
                   id="lastPage">
             <f:param name="firstResult" 
                     value="${'#'}{${listName}.lastFirstResult}"/>
