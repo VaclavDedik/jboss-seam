@@ -81,7 +81,7 @@
 
     <div class="association" id="${property.name}">
     
-        <h2>${property.name}</h2>
+        <h3>${property.name}</h3>
         
         <h:outputText value="No ${property.name}" 
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
@@ -123,7 +123,7 @@
 
     <div class="association" id="${property.name}">
     
-        <h2>${property.name}</h2>
+        <h3>${property.name}</h3>
         
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
 <#assign childPageName = childPojo.shortName>
