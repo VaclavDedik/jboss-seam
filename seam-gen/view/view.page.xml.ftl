@@ -6,9 +6,7 @@
 <#assign componentName = util.lower(entityName)>
 <#assign homeName = componentName + "Home">
 <#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
-<#assign masterPageName = entityName + "List">
-<page no-conversation-view-id="/${masterPageName}.xhtml"
-        conversation-required="true">
+<page>
    <param name="${componentName}From"/>
    <param name="${idName}" value="${'#'}{${homeName}.${idName}}"/>
 <#include "param.xml.ftl">

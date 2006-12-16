@@ -732,7 +732,7 @@
         	                template="view/view.xhtml.ftl" 
         		             destdir="${project.home}/view"/>
         	<hbmtemplate filepattern="{class-name}.page.xml"
-        	                template="view/edit.page.xml.ftl" 
+        	                template="view/view.page.xml.ftl" 
         		             destdir="${project.home}/view"/>
         	<hbmtemplate filepattern="{class-name}Edit.xhtml"
         	                template="view/edit.xhtml.ftl" 
