@@ -8,7 +8,8 @@ import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.intercept.InvocationContext;
 
 /**
- * Unproxies the SFSB for the length of the call.
+ * Sets up the METHOD context and unproxies the SFSB 
+ * for the duration of the call.
  * 
  * @author Gavin King
  *

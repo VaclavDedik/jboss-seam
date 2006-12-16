@@ -9,6 +9,12 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Work;
 
+/**
+ * Implements transaction propagation rules for Seam JavaBean components.
+ * 
+ * @author Gavin King
+ *
+ */
 @Interceptor(stateless=true,
              around={RollbackInterceptor.class, BusinessProcessInterceptor.class, ConversationInterceptor.class})
 public class TransactionInterceptor extends AbstractInterceptor

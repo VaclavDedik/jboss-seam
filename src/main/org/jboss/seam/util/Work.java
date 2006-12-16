@@ -5,6 +5,11 @@ import javax.transaction.UserTransaction;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
+/**
+ * Performs work in a JTA transaction.
+ * 
+ * @author Gavin King
+ */
 public abstract class Work<T>
 {
    private static final LogProvider log = Logging.getLogProvider(Work.class);

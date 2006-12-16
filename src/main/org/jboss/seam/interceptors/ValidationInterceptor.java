@@ -23,6 +23,7 @@ import org.jboss.seam.intercept.InvocationContext;
  * information about the failure in the request context and
  * return a different outcome, without invoking the method.
  * 
+ * @deprecated
  * @author Gavin King
  */
 @Interceptor(stateless=true,

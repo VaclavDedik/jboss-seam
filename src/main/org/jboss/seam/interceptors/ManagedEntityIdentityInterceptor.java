@@ -15,9 +15,9 @@ import org.jboss.seam.util.Reflections;
 
 /**
  * Swizzles entity references around each invocation, maintaining
- * referential even across passivation of the stateful bean or
- * Seam-managed extended persistence context, and allowing for
- * more efficient replication.
+ * referential integrity even across passivation of the stateful 
+ * bean or Seam-managed extended persistence context, and allowing 
+ * for more efficient replication.
  * 
  * @author Gavin King
  *
