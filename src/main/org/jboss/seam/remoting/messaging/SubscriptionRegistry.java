@@ -32,7 +32,7 @@ import org.jboss.seam.util.Reflections;
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
 @Name("org.jboss.seam.remoting.messaging.subscriptionRegistry")
-@Install(precedence=BUILT_IN)
+@Install(value = false, precedence=BUILT_IN)
 public class SubscriptionRegistry
 {
   private static final String DEFAULT_CONNECTION_PROVIDER =

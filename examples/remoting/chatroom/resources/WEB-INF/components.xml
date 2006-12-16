@@ -12,7 +12,7 @@
         <property name="topicJndiName">topic/chatroomTopic</property>
     </component>
 
-    <component name="org.jboss.seam.remoting.messaging.subscriptionRegistry">
+    <component class="org.jboss.seam.remoting.messaging.SubscriptionRegistry" installed="true">
         <property name="allowedTopics">chatroomTopic</property>
     </component>
 
