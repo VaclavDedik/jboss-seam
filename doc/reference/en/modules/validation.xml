@@ -10,13 +10,13 @@
     </div>
     <div>
         Country:
-        <h:inputText value="#{location.country}">
+        <h:inputText value="#{location.country}" required="true">
             <my:validateCountry/>
         </h:inputText>
     </div>
     <div>
         Zip code:
-        <h:inputText value="#{location.zip}">
+        <h:inputText value="#{location.zip}" required="true">
             <my:validateZip/>
         </h:inputText>
     </div>
@@ -42,10 +42,12 @@
     private String country;
     private String zip;
     
+    @NotNull
     @Length(max=30)
     public String getCountry() { return country; }
     public void setCountry(String c) { country = c; }
 
+    @NotNull
     @Length(max=6)
     @Pattern("^\d*$")
     public String getZip() { return zip; }
@@ -62,10 +64,12 @@
     private String country;
     private String zip;
     
+    @NotNull
     @Country
     public String getCountry() { return country; }
     public void setCountry(String c) { country = c; }
 
+    @NotNull
     @ZipCode
     public String getZip() { return zip; }
     public void setZip(String z) { zip = z; }
@@ -84,13 +88,13 @@
     </div>
     <div>
         Country:
-        <h:inputText value="#{location.country}">
+        <h:inputText value="#{location.country}" required="true">
             <s:validate/>
         </h:inputText>
     </div>
     <div>
         Zip code:
-        <h:inputText value="#{location.zip}">
+        <h:inputText value="#{location.zip}" required="true">
             <s:validate/>
         </h:inputText>
     </div>
@@ -100,8 +104,15 @@
 </h:form>]]></programlisting>
 
      <para>
-         This is not much less verbose than what we started with, so
-         let's try <literal>&lt;s:validateAll&gt;</literal>:
+         <emphasis>Note:</emphasis> specifying <literal>@NotNull</literal>
+         on the model does <emphasis>not</emphasis> eliminate the requirement
+         for <literal>required="true"</literal> to appear on the control!
+         This is due to a limitation of the JSF validation architecture.
+     </para>
+
+     <para>
+         This version is not much less verbose than what we started with, 
+         so let's try <literal>&lt;s:validateAll&gt;</literal>:
      </para>
 
     <programlisting><![CDATA[<h:form>
@@ -111,11 +122,11 @@
     <s:validateAll>
         <div>
             Country:
-            <h:inputText value="#{location.country}"/>
+            <h:inputText value="#{location.country}" required="true"/>
         </div>
         <div>
             Zip code:
-            <h:inputText value="#{location.zip}"/>
+            <h:inputText value="#{location.zip}" required="true"/>
         </div>
         <div>
             <h:commandButton/>
@@ -125,7 +136,8 @@
      
      <para>
          This tag simply adds an <literal>&lt;s:validate&gt;</literal>
-         to every input in the form.
+         to every input in the form. For a large form, it can save a lot
+         of typing!
      </para>
 
      <para>
@@ -153,7 +165,7 @@
                 <f:facet name="beforeInvalidField"><h:graphicImage src="img/error.gif"/></f:facet>
                 <f:facet name="afterInvalidField"><s:message/></f:facet>
                 <f:facet name="aroundInvalidField"><s:span styleClass="error"/></f:facet>
-                <h:inputText value="#{location.country}"/>
+                <h:inputText value="#{location.country}" required="true"/>
             </s:decorate>
         </div>
         <div>
@@ -162,7 +174,7 @@
                 <f:facet name="beforeInvalidField"><h:graphicImage src="img/error.gif"/></f:facet>
                 <f:facet name="afterInvalidField"><s:message/></f:facet>
                 <f:facet name="aroundInvalidField"><s:span styleClass="error"/></f:facet>
-                <h:inputText value="#{location.zip}"/>
+                <h:inputText value="#{location.zip}" required="true"/>
             </s:decorate>
         </div>
         <div>
@@ -194,13 +206,13 @@
         <div>
             Country:
             <s:decorate>
-                <h:inputText value="#{location.country}"/>
+                <h:inputText value="#{location.country}" required="true"/>
             </s:decorate>
         </div>
         <div>
             Zip code:
             <s:decorate>
-                <h:inputText value="#{location.zip}"/>
+                <h:inputText value="#{location.zip}" required="true"/>
             </s:decorate>
         </div>
         <div>
@@ -234,7 +246,7 @@
         <div>
             Country:
             <s:decorate>
-                <h:inputText value="#{location.country}" id="country">
+                <h:inputText value="#{location.country}" required="true">
                     <a:support event="onblur" reRender="countryError"/>
                 </h:inputText>
                 <a:outputPanel id="countryError><s:message/></a:outputPanel>
@@ -243,7 +255,7 @@
         <div>
             Zip code:
             <s:decorate>
-                <h:inputText value="#{location.zip}">
+                <h:inputText value="#{location.zip}" required="true">
                     <a:support event="onblur" reRender="zipError"/>
                 </h:inputText>
                 <a:outputPanel id="zipError><s:message/></a:outputPanel>
