@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.core.Interpolator;
 
 /**
@@ -16,20 +15,15 @@ import org.jboss.seam.core.Interpolator;
 public class LogImpl implements Log, Externalizable
 {
    
-   private transient org.apache.commons.logging.Log log;
+   private transient LogProvider log;
    private String category;
 
    public LogImpl() {} //for Externalizable
-   
-   public LogImpl(Class clazz)
-   {
-      this( clazz.getName() );
-   }
 
-   public LogImpl(String category)
+   LogImpl(String category)
    {
       this.category = category;
-      this.log = LogFactory.getLog(category);
+      this.log = Logging.getLogProvider(category);
    }
 
    public boolean isDebugEnabled()
@@ -173,7 +167,7 @@ public class LogImpl implements Log, Externalizable
    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
    {
       category = (String) in.readObject();
-      log = LogFactory.getLog(category);
+      log = Logging.getLogProvider(category);
    }
 
    public void writeExternal(ObjectOutput out) throws IOException

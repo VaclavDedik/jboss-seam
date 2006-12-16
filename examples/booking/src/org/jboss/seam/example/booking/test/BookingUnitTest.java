@@ -15,7 +15,7 @@ import org.jboss.seam.example.booking.HotelBookingAction;
 import org.jboss.seam.example.booking.HotelSearching;
 import org.jboss.seam.example.booking.HotelSearchingAction;
 import org.jboss.seam.example.booking.User;
-import org.jboss.seam.log.LogImpl;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -58,7 +58,7 @@ public class BookingUnitTest extends SeamTest
       setField(hb, "user", em.getReference(User.class, "gavin"));
       setField(hb, "facesMessages", new FacesMessages());
       setField(hb, "events", new Events() { @Override public void raiseEvent(String type, Object... params) { assert "bookingConfirmed".equals(type); } } );
-      setField(hb, "log", new LogImpl(HotelBookingAction.class));
+      setField(hb, "log", Logging.getLog(HotelBookingAction.class));
       
       assert hb.selectHotel(hotel).equals("hotel");
 

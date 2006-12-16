@@ -546,11 +546,11 @@ public class Component
                String category = field.getAnnotation(org.jboss.seam.annotations.Logger.class).value();
                if ( "".equals( category ) )
                {
-                  logInstance = new org.jboss.seam.log.LogImpl(beanClass);
+                  logInstance = org.jboss.seam.log.Logging.getLog(beanClass);
                }
                else
                {
-                  logInstance = new org.jboss.seam.log.LogImpl(category);
+                  logInstance = org.jboss.seam.log.Logging.getLog(category);
                }
             }
             for ( Annotation ann: field.getAnnotations() )
