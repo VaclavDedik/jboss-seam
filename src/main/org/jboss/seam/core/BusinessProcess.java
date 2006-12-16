@@ -50,6 +50,16 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    {
       return processId!=null;
    }
+   
+   /**
+    * Is there a process instance that has not ended 
+    * associated with the current conversation?
+    */
+   public boolean hasActiveProcess()
+   {
+      return hasCurrentProcess() && 
+            !org.jboss.seam.core.ProcessInstance.instance().hasEnded();
+   }
 
    /**
     * Is there a task instance associated with 

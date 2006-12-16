@@ -59,7 +59,8 @@ public class Dispatcher implements LocalDispatcher
       {
          if ( Init.instance().isJbpmInstalled() )
          {
-            processId = BusinessProcess.instance().getProcessId();
+            BusinessProcess businessProcess = BusinessProcess.instance();
+            processId = businessProcess.getProcessId();
             taskId = BusinessProcess.instance().getTaskId();
          }        
       }

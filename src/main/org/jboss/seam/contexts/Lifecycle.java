@@ -15,8 +15,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -26,7 +24,8 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.ProcessInstance;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * @author Gavin King
@@ -332,11 +331,10 @@ public class Lifecycle
 
          if ( Contexts.isBusinessProcessContextActive() )
          {
+            //TODO: it would be nice if BP context spanned redirects along with the conversation
+            //      this would also require changes to BusinessProcessContext
             boolean destroyBusinessProcessContext = !Init.instance().isJbpmInstalled() ||
-                  !BusinessProcess.instance().hasCurrentProcess() ||
-                  //TODO: it would be nice if BP context spanned redirects along with the conversation
-                  //      this would also require changes to BusinessProcessContext
-                  ProcessInstance.instance().hasEnded();
+                  !BusinessProcess.instance().hasActiveProcess();
             if ( destroyBusinessProcessContext )
             {
                //TODO: note that this occurs from Lifecycle.endRequest(), after
