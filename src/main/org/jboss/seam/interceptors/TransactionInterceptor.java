@@ -1,6 +1,7 @@
 package org.jboss.seam.interceptors;
 
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
@@ -26,15 +27,26 @@ public class TransactionInterceptor extends AbstractInterceptor
          }
 
          @Override
-         protected boolean isTransactional()
+         protected boolean isNewTransactionRequired(boolean transactionActive)
          {
-            return isTransactional( invocation.getMethod() ) || 
-                  isTransactional( getComponent().getBeanClass() );
+            return isNewTransactionRequired( invocation.getMethod(), getComponent().getBeanClass(), transactionActive );
          }
 
-         private boolean isTransactional(AnnotatedElement element)
+         private boolean isNewTransactionRequired(Method method, Class beanClass, boolean transactionActive)
+         {
+            return isTransactionAnnotationPresent(method) ? 
+                  isNewTransactionRequired(method, transactionActive) :
+                  isTransactionAnnotationPresent(beanClass) && isNewTransactionRequired(beanClass, transactionActive);
+         }
+
+         private boolean isTransactionAnnotationPresent(AnnotatedElement element)
          {
             return element.isAnnotationPresent(Transactional.class);
+         }
+
+         private boolean isNewTransactionRequired(AnnotatedElement element, boolean transactionActive)
+         {
+            return element.getAnnotation(Transactional.class).value().isNewTransactionRequired(transactionActive);
          }
          
       }.workInTransaction();      

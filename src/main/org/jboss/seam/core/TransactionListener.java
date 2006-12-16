@@ -37,7 +37,7 @@ public class TransactionListener implements LocalTransactionListener, SessionSyn
       }
       public void call()
       {
-         Events.instance().raiseEvent( type, parameters );
+         Events.instance().raiseEvent(type, parameters);
       }
    }
 
@@ -45,11 +45,11 @@ public class TransactionListener implements LocalTransactionListener, SessionSyn
    
    public static LocalTransactionListener instance()
    {
-      if ( !Contexts.isApplicationContextActive() )
+      if ( !Contexts.isEventContextActive() )
       {
-         throw new IllegalStateException("no application context active");
+         throw new IllegalStateException("no event context active");
       }
-      return (LocalTransactionListener) Component.getInstance(TransactionListener.class);         
+      return (LocalTransactionListener) Component.getInstance(TransactionListener.class, ScopeType.EVENT);         
    }
    
    public void afterBegin() throws EJBException, RemoteException

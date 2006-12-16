@@ -1,7 +1,7 @@
 package org.jboss.seam.annotations;
 
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -10,11 +10,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the default behavior for an EJB session bean,
- * @TransactionAttribute(REQUIRED), should apply to a JavaBean
- * component or method of a JavaBean component. (JavaBean 
- * components have @TransactionAttribute(SUPPORTS) behavior 
- * otherwise.)
+ * Specifies that the transaction propagation for a JavaBean
+ * component or method of a JavaBean component. JavaBean 
+ * components have @Transactional(SUPPORTS) behavior 
+ * is no @Transactional annotation is specified.
  * 
  * @author Gavin King
  */
@@ -24,5 +23,10 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface Transactional
 {
-
+   /**
+    * The transaction propagation type.
+    * 
+    * @return REQUIRED by default
+    */
+   TransactionPropagationType value() default TransactionPropagationType.REQUIRED;
 }

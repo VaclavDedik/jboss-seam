@@ -11,14 +11,15 @@ public abstract class Work<T>
    
    protected abstract T work() throws Exception;
    
-   protected boolean isTransactional()
+   protected boolean isNewTransactionRequired(boolean transactionActive)
    {
-      return true;
+      return !transactionActive;
    }
    
    public final T workInTransaction() throws Exception
    {
-      boolean begin = isTransactional() && !Transactions.isTransactionActiveOrMarkedRollback();
+      boolean transactionActive = Transactions.isTransactionActiveOrMarkedRollback();
+      boolean begin = isNewTransactionRequired(transactionActive);
       UserTransaction userTransaction = begin ? Transactions.getUserTransaction() : null;
       
       if (begin) 
