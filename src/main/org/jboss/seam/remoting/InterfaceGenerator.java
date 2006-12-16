@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ComponentType;
 import org.jboss.seam.Seam;
@@ -41,7 +41,7 @@ import org.jboss.seam.util.Reflections;
  */
 public class InterfaceGenerator extends BaseRequestHandler implements RequestHandler
 {
-   private static final Log log = LogFactory.getLog(InterfaceGenerator.class);
+   private static final LogProvider log = Logging.getLogProvider(InterfaceGenerator.class);
 
   /**
    * Maintain a cache of the accessible fields

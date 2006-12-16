@@ -7,8 +7,8 @@ import java.rmi.RemoteException;
 import javax.ejb.ApplicationException;
 import javax.ejb.Remove;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
@@ -25,7 +25,7 @@ import org.jboss.seam.intercept.InvocationContext;
 public class RemoveInterceptor extends AbstractInterceptor
 {
    
-   private static final Log log = LogFactory.getLog(RemoveInterceptor.class);
+   private static final LogProvider log = Logging.getLogProvider(RemoveInterceptor.class);
 
    @AroundInvoke
    public Object removeIfNecessary(InvocationContext invocation) throws Exception

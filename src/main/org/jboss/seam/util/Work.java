@@ -2,12 +2,12 @@ package org.jboss.seam.util;
 
 import javax.transaction.UserTransaction;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 public abstract class Work<T>
 {
-   private static final Log log = LogFactory.getLog(Work.class);
+   private static final LogProvider log = Logging.getLogProvider(Work.class);
    
    protected abstract T work() throws Exception;
    

@@ -17,12 +17,12 @@ import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.annotation.MemberValue;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 public abstract class Scanner
 {
-    private static final Log log = LogFactory.getLog(Scanner.class);
+    private static final LogProvider log = Logging.getLogProvider(Scanner.class);
 
     protected  String resourceName;
     protected  ClassLoader classLoader;

@@ -19,8 +19,8 @@ import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -53,7 +53,7 @@ import org.jboss.seam.util.Resources;
 public class Pages 
 {
    
-   private static final Log log = LogFactory.getLog(Pages.class);
+   private static final LogProvider log = Logging.getLogProvider(Pages.class);
    
    private Map<String, Page> pagesByViewId = Collections.synchronizedMap( new HashMap<String, Page>() );   
    private Map<String, List<Page>> pageStacksByViewId = Collections.synchronizedMap( new HashMap<String, List<Page>>() );   

@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.servlet.SeamServletFilter;
 import javax.servlet.http.HttpSession;
@@ -28,7 +28,7 @@ import javax.servlet.ServletRequest;
  */
 public class SeamRemotingServlet extends HttpServlet
 {
-  private static final Log log = LogFactory.getLog(SeamServletFilter.class);
+  private static final LogProvider log = Logging.getLogProvider(SeamServletFilter.class);
 
   private static final Pattern pathPattern = Pattern.compile("/(.*?)/([^/]+)");
 

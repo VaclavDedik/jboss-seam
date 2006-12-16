@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -31,7 +31,7 @@ import org.jboss.seam.remoting.wrapper.Wrapper;
  */
 public class PollHandler extends BaseRequestHandler implements RequestHandler
 {
-  private static final Log log = LogFactory.getLog(SubscriptionHandler.class);
+  private static final LogProvider log = Logging.getLogProvider(SubscriptionHandler.class);
 
   private static final byte[] ERRORS_TAG_OPEN_START = "<errors token=\"".getBytes();
   private static final byte[] ERRORS_TAG_OPEN_END = "\">".getBytes();

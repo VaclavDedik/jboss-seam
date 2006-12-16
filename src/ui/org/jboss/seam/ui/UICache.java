@@ -8,15 +8,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.cache.CacheException;
 import org.jboss.seam.core.PojoCache;
 
 public class UICache extends UIComponentBase
 {
    
-   private static final Log log = LogFactory.getLog(UICache.class);
+   private static final LogProvider log = Logging.getLogProvider(UICache.class);
    
    public static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Cache";
    public static final String COMPONENT_TYPE = "org.jboss.seam.ui.UICache";

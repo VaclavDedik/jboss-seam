@@ -12,8 +12,8 @@ import java.util.Properties;
 
 import javax.naming.NamingException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.hibernate.cfg.Environment;
 import org.hibernate.lob.ReaderInputStream;
 import org.jboss.seam.ScopeType;
@@ -51,7 +51,7 @@ import org.xml.sax.InputSource;
 @Install(value=false, precedence=BUILT_IN)
 public class Jbpm 
 {
-   private static final Log log = LogFactory.getLog(Jbpm.class);
+   private static final LogProvider log = Logging.getLogProvider(Jbpm.class);
    
    private JbpmConfiguration jbpmConfiguration;
    private String jbpmConfigurationJndiName;

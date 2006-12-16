@@ -14,8 +14,8 @@ import javax.transaction.RollbackException;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -44,7 +44,7 @@ import org.jbpm.svc.Services;
 @Install(precedence=BUILT_IN, dependencies="org.jboss.seam.core.jbpm")
 public class ManagedJbpmContext implements Synchronization
 {
-   private static final Log log = LogFactory.getLog(ManagedJbpmContext.class);
+   private static final LogProvider log = Logging.getLogProvider(ManagedJbpmContext.class);
 
    private JbpmContext jbpmContext;
    private boolean synchronizationRegistered;

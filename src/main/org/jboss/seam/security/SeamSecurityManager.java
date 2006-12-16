@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
@@ -50,7 +50,7 @@ public class SeamSecurityManager
 
   private static final String SECURITY_CONTEXT_NAME = "org.jboss.seam.security.securityContext";
 
-  private static final Log log = LogFactory.getLog(SeamSecurityManager.class);
+  private static final LogProvider log = Logging.getLogProvider(SeamSecurityManager.class);
 
   private RuleBase securityRules;
 

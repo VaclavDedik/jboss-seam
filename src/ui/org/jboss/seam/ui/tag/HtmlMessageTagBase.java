@@ -26,7 +26,7 @@ import org.jboss.seam.ui.JSF;
 public abstract class HtmlMessageTagBase
         extends HtmlComponentTagBase
 {
-    //private static final Log log = LogFactory.getLog(HtmlOutputFormatTag.class);
+    //private static final LogProvider log = Logging.getLogProvider(HtmlOutputFormatTag.class);
 
     // UIComponent attributes --> already implemented in UIComponentTagBase
 

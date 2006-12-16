@@ -11,8 +11,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -45,7 +45,7 @@ import org.jbpm.graph.exe.Token;
 @Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
 public class Pageflow extends AbstractMutable implements Serializable
 {
-   private static final Log log = LogFactory.getLog(Pageflow.class);
+   private static final LogProvider log = Logging.getLogProvider(Pageflow.class);
    
    private int counter;
    

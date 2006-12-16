@@ -4,8 +4,8 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.ejb3.embedded.EJB3StandaloneBootstrap;
 import org.jboss.ejb3.embedded.EJB3StandaloneDeployer;
 import org.jboss.seam.ScopeType;
@@ -30,7 +30,7 @@ import org.jboss.seam.util.Naming;
 @Install(value=false, precedence=BUILT_IN)
 public class Ejb
 {
-   private static final Log log = LogFactory.getLog(Ejb.class);
+   private static final LogProvider log = Logging.getLogProvider(Ejb.class);
    
    private EJB3StandaloneDeployer deployer;
    private boolean started;

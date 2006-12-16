@@ -13,8 +13,8 @@ import javax.ejb.PrePassivate;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
@@ -28,7 +28,7 @@ import org.jboss.seam.annotations.Name;
  */
 public class SessionBeanInterceptor extends RootInterceptor
 {
-   private static final Log log = LogFactory.getLog(SessionBeanInterceptor.class);
+   private static final LogProvider log = Logging.getLogProvider(SessionBeanInterceptor.class);
    
    public static ThreadLocal<Component> COMPONENT = new ThreadLocal<Component>();
 

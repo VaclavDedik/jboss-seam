@@ -3,8 +3,8 @@ package org.jboss.seam.pageflow;
 import java.io.InputStream;
 import java.io.StringReader;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -60,5 +60,5 @@ public abstract class PageflowHelper {
     }
   }
   
-  private static Log log = LogFactory.getLog(PageflowHelper.class);
+  private static LogProvider log = Logging.getLogProvider(PageflowHelper.class);
 }

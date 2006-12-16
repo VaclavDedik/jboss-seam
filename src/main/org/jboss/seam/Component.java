@@ -51,8 +51,8 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.hibernate.validator.ClassValidator;
 import org.jboss.seam.annotations.Asynchronous;
 import org.jboss.seam.annotations.Conversational;
@@ -130,7 +130,7 @@ public class Component
 {
    public static final String PROPERTIES = "org.jboss.seam.properties";
 
-   private static final Log log = LogFactory.getLog(Component.class);
+   private static final LogProvider log = Logging.getLogProvider(Component.class);
 
    private ComponentType type;
    private String name;

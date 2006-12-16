@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -37,7 +37,7 @@ import org.jboss.seam.util.Resources;
 public class Events 
 {
    
-   private static final Log log = LogFactory.getLog(Events.class);
+   private static final LogProvider log = Logging.getLogProvider(Events.class);
    
    private final Map<String, List<MethodBinding>> listeners = new HashMap<String, List<MethodBinding>>();
    

@@ -26,7 +26,7 @@ import org.jboss.seam.ui.HTML;
 public abstract class HtmlComponentBodyTagBase
         extends UIComponentBodyTagBase
 {
-    //private static final Log log = LogFactory.getLog(HtmlComponentTag.class);
+    //private static final LogProvider log = Logging.getLogProvider(HtmlComponentTag.class);
 
     //HTML universal attributes
     private String _dir;

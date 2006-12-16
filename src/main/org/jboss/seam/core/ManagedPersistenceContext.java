@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.transaction.SystemException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -44,7 +44,7 @@ public class ManagedPersistenceContext
    implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager
 {
 
-   private static final Log log = LogFactory.getLog(ManagedPersistenceContext.class);
+   private static final LogProvider log = Logging.getLogProvider(ManagedPersistenceContext.class);
    
    private EntityManager entityManager;
    private String persistenceUnitJndiName;

@@ -9,12 +9,12 @@ import java.util.Set;
 
 import javassist.bytecode.ClassFile;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 public class ComponentScanner extends Scanner
 {
-   private static final Log log = LogFactory.getLog(ComponentScanner.class);
+   private static final LogProvider log = Logging.getLogProvider(ComponentScanner.class);
 
    private Set<Class<Object>> classes;
 

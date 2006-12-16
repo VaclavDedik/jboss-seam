@@ -13,8 +13,8 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.CreateProcess;
@@ -36,7 +36,7 @@ import org.jboss.seam.intercept.InvocationContext;
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
    
-   private static final Log log = LogFactory.getLog( BusinessProcessInterceptor.class );
+   private static final LogProvider log = Logging.getLogProvider( BusinessProcessInterceptor.class );
 
    @AroundInvoke
    public Object manageBusinessProcessContext(InvocationContext invocation) throws Exception

@@ -15,8 +15,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.portlet.ActionResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Manager;
@@ -33,7 +33,7 @@ import org.jboss.seam.core.Manager;
 public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
 {
 
-   private static final Log log = LogFactory.getLog( SeamPortletPhaseListener.class );
+   private static final LogProvider log = Logging.getLogProvider( SeamPortletPhaseListener.class );
 
    @Override
    public void beforePhase(PhaseEvent event)

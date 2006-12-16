@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -39,7 +39,7 @@ public class SecurityConfiguration
 {
   private static final String SECURITY_CONFIG_FILENAME = "/META-INF/security-config.xml";
 
-  private static final Log log = LogFactory.getLog(SecurityConfiguration.class);
+  private static final LogProvider log = Logging.getLogProvider(SecurityConfiguration.class);
 
   // <security-constraint>
   private static final String SECURITY_CONSTRAINT = "security-constraint";

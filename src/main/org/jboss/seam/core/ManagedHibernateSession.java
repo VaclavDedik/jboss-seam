@@ -12,8 +12,8 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,7 +45,7 @@ public class ManagedHibernateSession
    /** The serialVersionUID */
    private static final long serialVersionUID = 3130309555079841107L;
 
-   private static final Log log = LogFactory.getLog(ManagedHibernateSession.class);
+   private static final LogProvider log = Logging.getLogProvider(ManagedHibernateSession.class);
    
    private Session session;
    private String sessionFactoryJndiName;

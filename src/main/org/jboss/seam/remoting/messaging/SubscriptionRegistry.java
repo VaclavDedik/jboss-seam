@@ -13,8 +13,8 @@ import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
 import javax.jms.TopicConnection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -41,7 +41,7 @@ public class SubscriptionRegistry
   public static final String CONTEXT_USER_TOKENS =
       "org.jboss.seam.remoting.messaging.SubscriptionRegistry.userTokens";
 
-  private static final Log log = LogFactory.getLog(SubscriptionRegistry.class);
+  private static final LogProvider log = Logging.getLogProvider(SubscriptionRegistry.class);
 
   private String connectionProvider;
 

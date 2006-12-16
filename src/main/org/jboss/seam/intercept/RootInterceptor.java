@@ -9,8 +9,8 @@ package org.jboss.seam.intercept;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.Seam;
@@ -26,7 +26,7 @@ import org.jboss.seam.util.EJB;
 public class RootInterceptor implements Serializable
 {
    
-   private static final Log log = LogFactory.getLog(RootInterceptor.class);
+   private static final LogProvider log = Logging.getLogProvider(RootInterceptor.class);
    
    private final InterceptorType type;
    private boolean isSeamComponent;

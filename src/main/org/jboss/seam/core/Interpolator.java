@@ -7,8 +7,8 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Intercept;
@@ -27,7 +27,7 @@ import org.jboss.seam.contexts.Contexts;
 @Install(precedence=BUILT_IN)
 public class Interpolator {
 
-   private static final Log log = LogFactory.getLog(Interpolator.class);
+   private static final LogProvider log = Logging.getLogProvider(Interpolator.class);
    
    public static Interpolator instance()
    {

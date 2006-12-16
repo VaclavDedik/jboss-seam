@@ -8,8 +8,8 @@ import static org.jboss.seam.util.EJB.PRE_PASSIVATE;
 
 import java.lang.reflect.Method;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
@@ -26,7 +26,7 @@ import org.jboss.seam.intercept.InvocationContext;
 public class BijectionInterceptor extends AbstractInterceptor
 {
    
-   private static final Log log = LogFactory.getLog(BijectionInterceptor.class);
+   private static final LogProvider log = Logging.getLogProvider(BijectionInterceptor.class);
    
    private static boolean isLifecycleMethod(Method method)
    {

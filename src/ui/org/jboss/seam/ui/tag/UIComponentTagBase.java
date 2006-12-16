@@ -31,8 +31,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.webapp.UIComponentTag;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.JSF;
 
 /**
@@ -41,7 +41,7 @@ import org.jboss.seam.ui.JSF;
  */
 public abstract class UIComponentTagBase extends UIComponentTag
 {
-   private static final Log log = LogFactory.getLog(UIComponentTagBase.class);
+   private static final LogProvider log = Logging.getLogProvider(UIComponentTagBase.class);
 
    // Special UIComponent attributes (ValueHolder, ConvertibleValueHolder)
    private String _value;

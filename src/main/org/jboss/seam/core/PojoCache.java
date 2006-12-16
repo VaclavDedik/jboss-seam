@@ -3,8 +3,8 @@ package org.jboss.seam.core;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.cache.PropertyConfigurator;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
@@ -25,7 +25,7 @@ import org.jboss.seam.contexts.Contexts;
 public class PojoCache 
 {
 
-   private static final Log log = LogFactory.getLog(PojoCache.class);
+   private static final LogProvider log = Logging.getLogProvider(PojoCache.class);
 
    private org.jboss.cache.aop.PojoCache cache;
    private String cfgResourceName = "treecache.xml";

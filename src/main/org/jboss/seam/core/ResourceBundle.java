@@ -13,8 +13,8 @@ import java.util.MissingResourceException;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -36,7 +36,7 @@ import org.jboss.seam.util.Strings;
 @Install(precedence=BUILT_IN)
 public class ResourceBundle implements Serializable {
    
-   private static final Log log = LogFactory.getLog(ResourceBundle.class);
+   private static final LogProvider log = Logging.getLogProvider(ResourceBundle.class);
 
    private String[] bundleNames = {"messages"};
    private transient java.util.ResourceBundle bundle;

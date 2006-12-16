@@ -11,8 +11,8 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.init.Initialization;
 
@@ -25,7 +25,7 @@ import org.jboss.seam.init.Initialization;
 public class SeamListener implements ServletContextListener, HttpSessionListener
 {
 
-   private static final Log log = LogFactory.getLog(ServletContextListener.class);
+   private static final LogProvider log = Logging.getLogProvider(ServletContextListener.class);
 
    public void contextInitialized(ServletContextEvent event) {
       log.info("Welcome to Seam 1.1.0.GA");

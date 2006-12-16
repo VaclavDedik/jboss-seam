@@ -20,8 +20,8 @@ import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -62,7 +62,7 @@ import org.jboss.seam.util.Strings;
 public class Initialization
 {
    public static final String COMPONENT_SUFFIX = ".component";
-   private static final Log log = LogFactory.getLog(Initialization.class);
+   private static final LogProvider log = Logging.getLogProvider(Initialization.class);
 
    private ServletContext servletContext;
    private Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();

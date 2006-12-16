@@ -36,5 +36,10 @@ public class Logging
                new Log4JProvider(category) : 
                new JDKProvider(category);
    }
+
+   public static LogProvider getLogProvider(Class clazz)
+   {
+       return getLogProvider(clazz.getName());
+   }
    
 }

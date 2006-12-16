@@ -22,8 +22,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -50,7 +50,7 @@ import org.jboss.seam.util.Id;
 @Intercept(NEVER)
 public class Manager
 {
-   private static final Log log = LogFactory.getLog(Manager.class);
+   private static final LogProvider log = Logging.getLogProvider(Manager.class);
 
    //The id of the current conversation
    private String currentConversationId;

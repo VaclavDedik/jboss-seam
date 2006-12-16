@@ -15,8 +15,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -36,7 +36,7 @@ import org.jboss.seam.core.ProcessInstance;
 public class Lifecycle
 {
 
-   private static final Log log = LogFactory.getLog( Lifecycle.class );
+   private static final LogProvider log = Logging.getLogProvider( Lifecycle.class );
 
    public static void beginRequest(ExternalContext externalContext) {
       log.debug( ">>> Begin web request" );

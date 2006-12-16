@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
@@ -31,7 +31,7 @@ import org.jbpm.context.exe.ContextInstance;
  */
 public class BusinessProcessContext implements Context {
 
-   private static final Log log = LogFactory.getLog(BusinessProcessContext.class);
+   private static final LogProvider log = Logging.getLogProvider(BusinessProcessContext.class);
 
    private final Map<String, Object> additions = new HashMap<String, Object>();
    private final Set<String> removals = new HashSet<String>();

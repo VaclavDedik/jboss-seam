@@ -13,8 +13,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.core.Manager;
@@ -27,7 +27,7 @@ import org.jboss.seam.core.Manager;
  */
 public class SeamServletFilter implements Filter {
    
-   private static final Log log = LogFactory.getLog(SeamServletFilter.class);
+   private static final LogProvider log = Logging.getLogProvider(SeamServletFilter.class);
    
    private ServletContext servletContext;
 

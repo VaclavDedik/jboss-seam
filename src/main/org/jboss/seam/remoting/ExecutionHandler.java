@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -30,7 +30,7 @@ import org.jboss.seam.remoting.wrapper.Wrapper;
  */
 public class ExecutionHandler extends BaseRequestHandler implements RequestHandler
 {
-   private static final Log log = LogFactory.getLog(ExecutionHandler.class);
+   private static final LogProvider log = Logging.getLogProvider(ExecutionHandler.class);
 
   private static final byte[] HEADER_OPEN = "<header>".getBytes();
   private static final byte[] HEADER_CLOSE = "</header>".getBytes();

@@ -1,7 +1,5 @@
 /*
- * Copyright 2004 The Apache Software Foundation.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -23,8 +21,8 @@ import javax.faces.webapp.UIComponentBodyTag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * @author Manfred Geiler (latest modification by $Author$)
@@ -33,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class UIComponentBodyTagBase extends UIComponentBodyTag
 {
-   private static final Log log = LogFactory.getLog(UIComponentBodyTagBase.class);
+   private static final LogProvider log = Logging.getLogProvider(UIComponentBodyTagBase.class);
 
    @Override
    public int doEndTag() throws JspException

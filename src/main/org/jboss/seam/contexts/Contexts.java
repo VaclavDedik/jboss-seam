@@ -6,8 +6,8 @@
  */
 package org.jboss.seam.contexts;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Events;
 
@@ -20,7 +20,7 @@ import org.jboss.seam.core.Events;
  */
 public class Contexts {
 
-   private static final Log log = LogFactory.getLog( Contexts.class );
+   private static final LogProvider log = Logging.getLogProvider( Contexts.class );
 
    static final ThreadLocal<Context> applicationContext = new ThreadLocal<Context>();
    static final ThreadLocal<Context> methodContext = new ThreadLocal<Context>();

@@ -5,8 +5,8 @@ package org.jboss.seam.util;
 import java.io.InputStream;
 import java.io.Serializable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -28,7 +28,7 @@ import org.xml.sax.InputSource;
  */
 public class DTDEntityResolver implements EntityResolver, Serializable {
 
-	private static final Log log = LogFactory.getLog( DTDEntityResolver.class );
+	private static final LogProvider log = Logging.getLogProvider(DTDEntityResolver.class );
 
 	private static final String HIBERNATE_NAMESPACE = "http://jboss.com/products/seam/";
 	private static final String USER_NAMESPACE = "classpath://";

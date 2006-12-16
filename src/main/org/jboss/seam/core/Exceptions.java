@@ -11,8 +11,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -47,7 +47,7 @@ import org.jboss.seam.util.Transactions;
 @Name("org.jboss.seam.core.exceptions")
 public class Exceptions 
 {
-   private static final Log log = LogFactory.getLog(Exceptions.class);
+   private static final LogProvider log = Logging.getLogProvider(Exceptions.class);
    
    private List<ExceptionHandler> exceptionHandlers = new ArrayList<ExceptionHandler>();
    

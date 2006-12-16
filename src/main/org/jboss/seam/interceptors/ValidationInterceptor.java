@@ -6,8 +6,8 @@ import java.lang.reflect.Method;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.hibernate.Session;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
@@ -31,7 +31,7 @@ import org.jboss.seam.intercept.InvocationContext;
 public class ValidationInterceptor extends AbstractInterceptor
 {
 
-   private static final Log log = LogFactory.getLog(ValidationInterceptor.class);
+   private static final LogProvider log = Logging.getLogProvider(ValidationInterceptor.class);
 
    @AroundInvoke
    public Object validateTargetComponent(InvocationContext invocation) throws Exception

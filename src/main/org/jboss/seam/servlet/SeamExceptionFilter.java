@@ -17,8 +17,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.util.Transactions;
 
@@ -31,7 +31,7 @@ import org.jboss.seam.util.Transactions;
 public class SeamExceptionFilter implements Filter
 {
    
-   private static final Log log = LogFactory.getLog(SeamExceptionFilter.class);
+   private static final LogProvider log = Logging.getLogProvider(SeamExceptionFilter.class);
    private ServletContext context;
 
    public void init(FilterConfig cfg) throws ServletException {
