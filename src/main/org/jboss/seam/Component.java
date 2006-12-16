@@ -474,10 +474,11 @@ public class Component
             if ( method.isAnnotationPresent(Observer.class) )
             {
                Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
-               for ( String eventType : method.getAnnotation(Observer.class).value() )
+               Observer observer = method.getAnnotation(Observer.class);
+               for ( String eventType : observer.value() )
                {
                   if ( eventType.length()==0 ) eventType = method.getName(); //TODO: new defaulting rule to map @Observer onFooEvent() -> event type "fooEvent"
-                  init.addObserverMethod(eventType, method, this);
+                  init.addObserverMethod( eventType, method, this, observer.create() );
                }
             }
             if ( method.isAnnotationPresent(RequestParameter.class) )

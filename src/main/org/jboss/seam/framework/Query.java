@@ -178,7 +178,7 @@ public abstract class Query
       for (int i=0; i<getRestrictions().size(); i++)
       {
          Object parameterValue = restrictionParameters.get(i).getValue();
-         if (parameterValue!=null)
+         if ( isRestrictionParameterSet(parameterValue) )
          {
             if ( builder.toString().toLowerCase().indexOf("where")>0 )
             {
@@ -195,6 +195,11 @@ public abstract class Query
       if ( getOrder()!=null ) builder.append(" order by ").append( getOrder() );
       
       return builder.toString();
+   }
+   
+   protected boolean isRestrictionParameterSet(Object parameterValue)
+   {
+      return parameterValue!=null && !"".equals(parameterValue);
    }
 
    protected String getCountEjbql()

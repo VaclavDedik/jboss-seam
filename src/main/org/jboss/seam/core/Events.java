@@ -110,8 +110,11 @@ public class Events
       {
          for (ObserverMethod observer: observers)
          {
-            Object listener = Component.getInstance( observer.component.getName(), true );
-            observer.component.callComponentMethod(listener, observer.method, parameters);
+            Object listener = Component.getInstance( observer.component.getName(), observer.create );
+            if (listener!=null)
+            {
+               observer.component.callComponentMethod(listener, observer.method, parameters);
+            }
          }
       }
    }

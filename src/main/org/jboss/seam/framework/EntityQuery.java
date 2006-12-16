@@ -128,7 +128,7 @@ public class EntityQuery extends Query
       for (int i=0; i<parameters.size(); i++)
       {
          Object parameterValue = parameters.get(i);
-         if (parameterValue!=null)
+         if ( isRestrictionParameterSet(parameterValue) )
          {
             query.setParameter( "p" + (start + i), parameterValue );
          }

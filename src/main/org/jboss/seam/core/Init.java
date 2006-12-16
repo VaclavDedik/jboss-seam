@@ -188,10 +188,12 @@ public class Init
    public static class ObserverMethod {
       public Method method;
       public Component component;
-      ObserverMethod(Method method, Component component)
+      public boolean create;
+      ObserverMethod(Method method, Component component, boolean create)
       {
          this.method = method;
          this.component = component;
+         this.create = create;
       }
       @Override
       public String toString()
@@ -205,7 +207,7 @@ public class Init
       return observers.get(eventType);
    }
    
-   public void addObserverMethod(String eventType, Method method, Component component)
+   public void addObserverMethod(String eventType, Method method, Component component, boolean create)
    {
       List<ObserverMethod> observerList = observers.get(eventType);
       if (observerList==null)
@@ -213,7 +215,7 @@ public class Init
          observerList = new ArrayList<ObserverMethod>();
          observers.put(eventType, observerList);
       }
-      observerList.add( new ObserverMethod(method, component) );
+      observerList.add( new ObserverMethod(method, component, create) );
    }
    
    public boolean isJbpmInstalled()

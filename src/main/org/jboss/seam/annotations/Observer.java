@@ -22,4 +22,13 @@ public @interface Observer
     * @return the event type or types to observe
     */
    String[] value() default {};
+   /**
+    * In case no component instance exists,
+    * should a component instance be created to
+    * handle the event, or should the event be
+    * ignored.
+    * 
+    * @return true by default
+    */
+   boolean create() default true;
 }
