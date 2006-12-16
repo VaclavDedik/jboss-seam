@@ -96,7 +96,7 @@ public class HotelBookingAction implements HotelBooking
       em.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
-      events.raiseEvent("bookingConfirmed");
+      events.raiseTransactionSuccessEvent("bookingConfirmed");
       return "confirmed";
    }
    
