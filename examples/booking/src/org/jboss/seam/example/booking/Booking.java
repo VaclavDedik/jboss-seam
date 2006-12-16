@@ -125,7 +125,7 @@ public class Booking implements Serializable
    public String getDescription()
    {
       DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-      return hotel.getName() + 
+      return hotel==null ? null : hotel.getName() + 
             ", " + df.format( getCheckinDate() ) + 
             " to " + df.format( getCheckoutDate() );
    }

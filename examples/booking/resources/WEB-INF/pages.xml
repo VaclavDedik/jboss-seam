@@ -2,8 +2,8 @@
   "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
   "http://jboss.com/products/seam/pages-1.1.dtd">
 
-<pages>
-	<page view-id="/hotel.xhtml">View hotel: #{hotel.name}</page>
-	<page view-id="/book.xhtml">Book hotel: #{hotel.name}</page>
-	<page view-id="/confirm.xhtml">Confirm: #{booking.description}</page>
+<pages no-conversation-view-id="/main.xhtml">
+	<page view-id="/hotel.xhtml" conversation-required="true">View hotel: #{hotel.name}</page>
+	<page view-id="/book.xhtml" conversation-required="true">Book hotel: #{hotel.name}</page>
+	<page view-id="/confirm.xhtml" conversation-required="true">Confirm: #{booking.description}</page>
 </pages>
