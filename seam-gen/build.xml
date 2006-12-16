@@ -165,7 +165,7 @@
     	<property name="database.type.default" value="hsql"/>
         <input addproperty="database.type.new" 
                    message="What kind of database are you using? [${database.type.default}] " 
-        	     validargs="hsql,mysql,oracle,postgres,mssql,db2,sybase,"
+        	     validargs="hsql,mysql,oracle,postgres,mssql,db2,sybase,enterprisedb,"
               defaultvalue="${database.type.default}"/>
     	
     	<!-- if the database type did not change, default to the previous values -->
@@ -203,7 +203,10 @@
         <condition property="hibernate.dialect.default" value="org.hibernate.dialect.SybaseDialect">
         	<equals arg1="${database.type.new}" arg2="sybase"/>
         </condition>
-    	
+        <condition property="hibernate.dialect.default" value="org.hibernate.dialect.PostgreSQLDialect">
+        	<equals arg1="${database.type.new}" arg2="enterprisedb"/>
+        </condition>
+
     	<condition property="hibernate.connection.driver_class.default" value="org.hsqldb.jdbcDriver">
     		<equals arg1="${database.type.new}" arg2="hsql"/>
     	</condition>
@@ -224,6 +227,9 @@
         </condition>
         <condition property="hibernate.connection.driver_class.default" value="com.sybase.jdbc2.jdbc.SybDriver">
         	<equals arg1="${database.type.new}" arg2="sybase"/>
+        </condition>
+        <condition property="hibernate.connection.driver_class.default" value="com.edb.Driver">
+        	<equals arg1="${database.type.new}" arg2="enterprisedb"/>
         </condition>
 
     	<condition property="hibernate.connection.url.default" value="jdbc:hsqldb:.">
@@ -246,6 +252,9 @@
         </condition>
         <condition property="hibernate.connection.url.default" value="jdbc:sybase:Tds:localhost:5000/test">
         	<equals arg1="${database.type.new}" arg2="sybase"/>
+        </condition>
+        <condition property="hibernate.connection.url.default" value="jdbc:edb://localhost:5444/edb">
+        	<equals arg1="${database.type.new}" arg2="enterprisedb"/>
         </condition>
 		
     	<!-- finally, default them to HSQL -->
