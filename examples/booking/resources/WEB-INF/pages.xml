@@ -13,8 +13,8 @@
     </page>
 
     <page view-id="/home.xhtml">
-        <action-navigation outcome="#{empty loggedIn}">
-            <outcome value="false">
+        <action-navigation outcome="#{login.loggedIn}">
+            <outcome value="true">
                 <redirect view-id="/main.xhtml"/>
             </outcome>
         </action-navigation>
@@ -28,12 +28,22 @@
         </action-navigation>
     </page>
 
-    <page view-id="/main.xhtml">
+    <page view-id="/main.xhtml" 
+          action="#{login.validateLogin}">
+        
+        <action-navigation action="#{login.validateLogin}"
+                          outcome="#{login.loggedIn}">
+            <outcome value="false">
+                <redirect view-id="/home.xhtml"/>
+            </outcome>
+        </action-navigation>
+        
         <action-navigation action="#{hotelBooking.selectHotel(hot)}">
             <null-outcome>
                 <redirect view-id="/hotel.xhtml"/>
             </null-outcome>
         </action-navigation>
+        
     </page>
 
 	<page view-id="/hotel.xhtml" 
@@ -77,7 +87,7 @@
     
     <page view-id="*">
     
-        <action-navigation action="#{logout.logout}">
+        <action-navigation action="#{login.logout}">
             <null-outcome>
                 <redirect view-id="/home.xhtml"/>
             </null-outcome>

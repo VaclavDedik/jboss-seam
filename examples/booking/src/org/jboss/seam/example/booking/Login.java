@@ -7,4 +7,9 @@ import javax.ejb.Local;
 public interface Login
 {
    public void login();
+   public void logout();
+   public void validateLogin();
+   public boolean isLoggedIn();
+   
+   public void destroy();
 }

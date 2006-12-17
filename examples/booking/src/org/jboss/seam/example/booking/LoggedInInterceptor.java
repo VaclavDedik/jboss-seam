@@ -6,9 +6,9 @@ import java.lang.reflect.Method;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.Interceptor;
-import org.jboss.seam.contexts.Contexts;
 
 @Interceptor(type=InterceptorType.CLIENT)
 public class LoggedInInterceptor
@@ -17,8 +17,8 @@ public class LoggedInInterceptor
    @AroundInvoke
    public Object checkLoggedIn(InvocationContext invocation) throws Exception
    {
-      boolean isLoggedIn = Contexts.getSessionContext().get("loggedIn")!=null;
-      if ( isLoggedIn )
+      Login login = (Login) Component.getInstance(LoginAction.class);
+      if ( login.isLoggedIn() )
       {
          return invocation.proceed();
       }
