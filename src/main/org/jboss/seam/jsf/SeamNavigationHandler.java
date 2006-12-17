@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
+import org.jboss.seam.core.Pages;
 
 public class SeamNavigationHandler extends NavigationHandler {
    
@@ -20,8 +21,7 @@ public class SeamNavigationHandler extends NavigationHandler {
    public void handleNavigation(FacesContext context, String fromAction, String outcome) {
       if ( !context.getResponseComplete() ) //workaround for a bug in MyFaces
       {
-         boolean outcomeIsViewId = outcome!=null && outcome.startsWith("/");
-         if ( outcomeIsViewId )
+         if ( isOutcomeViewId(outcome) )
          {
             Manager.instance().interpolateAndRedirect(outcome);
          }
@@ -29,11 +29,16 @@ public class SeamNavigationHandler extends NavigationHandler {
          {
             Pageflow.instance().navigate(context, outcome);
          }
-         else
+         else if ( !Pages.instance().navigate(context, fromAction, outcome) )
          {
             baseNavigationHandler.handleNavigation(context, fromAction, outcome);
          }
       }
+   }
+
+   private static boolean isOutcomeViewId(String outcome)
+   {
+      return outcome!=null && outcome.startsWith("/");
    }
 
 }

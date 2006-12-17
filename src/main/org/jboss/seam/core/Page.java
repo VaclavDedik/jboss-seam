@@ -1,7 +1,9 @@
 package org.jboss.seam.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.MissingResourceException;
 
 import javax.faces.context.FacesContext;
@@ -92,6 +94,109 @@ public final class Page
       }
 
    }
+   
+   public static final class Navigation
+   {
+      private ValueBinding<Object> outcomeValueBinding;
+      private Map<String, Case> cases = new HashMap<String, Case>();
+      private Case defaultCase;
+      
+      public Map<String, Case> getCases()
+      {
+         return cases;
+      }
+      
+      void setDefaultCase(Case defaultCase)
+      {
+         this.defaultCase = defaultCase;
+      }
+      public Case getDefaultCase()
+      {
+         return defaultCase;
+      }
+      
+      void setOutcomeValueBinding(ValueBinding<Object> outcomeValueBinding)
+      {
+         this.outcomeValueBinding = outcomeValueBinding;
+      }
+      public ValueBinding<Object> getOutcomeValueBinding()
+      {
+         return outcomeValueBinding;
+      }
+   }
+   
+   public static final class Case
+   {
+      private Result result;
+      private boolean isBeginConversation;
+      private boolean isEndConversation;
+      private boolean join;
+      private boolean nested;
+      private FlushModeType flushMode;
+      private String pageflow;
+      
+      void setResult(Result result)
+      {
+         this.result = result;
+      }
+      Result getResult()
+      {
+         return result;
+      }
+      void setBeginConversation(boolean isBeginConversation)
+      {
+         this.isBeginConversation = isBeginConversation;
+      }
+      boolean isBeginConversation()
+      {
+         return isBeginConversation;
+      }
+      void setEndConversation(boolean isEndConversation)
+      {
+         this.isEndConversation = isEndConversation;
+      }
+      boolean isEndConversation()
+      {
+         return isEndConversation;
+      }
+      void setJoin(boolean join)
+      {
+         this.join = join;
+      }
+      boolean isJoin()
+      {
+         return join;
+      }
+      void setNested(boolean nested)
+      {
+         this.nested = nested;
+      }
+      boolean isNested()
+      {
+         return nested;
+      }
+      void setFlushMode(FlushModeType flushMode)
+      {
+         this.flushMode = flushMode;
+      }
+      FlushModeType getFlushMode()
+      {
+         return flushMode;
+      }
+      void setPageflow(String pageflow)
+      {
+         this.pageflow = pageflow;
+      }
+      String getPageflow()
+      {
+         return pageflow;
+      }
+   }
+   
+   public interface Result
+   {
+      public void navigate(FacesContext context);
+   }
 
    private final String viewId;
    private String description;
@@ -101,7 +206,9 @@ public final class Page
    private String noConversationViewId;
    private String resourceBundleName;
    private boolean switchEnabled = true;
-   private List<Page.PageParameter> pageParameters = new ArrayList<Page.PageParameter>();
+   private List<PageParameter> pageParameters = new ArrayList<PageParameter>();
+   private Map<String, Navigation> navigations = new HashMap<String, Navigation>();
+   private Navigation defaultNavigation;
    private boolean isBeginConversation;
    private boolean isEndConversation;
    private boolean join;
@@ -163,7 +270,7 @@ public final class Page
       return Interpolator.instance().interpolate( getDescription() );
    }
    
-   public void setDescription(String description)
+   void setDescription(String description)
    {
       this.description = description;
    }
@@ -173,7 +280,7 @@ public final class Page
       return description;
    }
 
-   public void setTimeout(Integer timeout)
+   void setTimeout(Integer timeout)
    {
       this.timeout = timeout;
    }
@@ -183,7 +290,7 @@ public final class Page
       return timeout;
    }
 
-   public void setAction(MethodBinding action)
+   void setAction(MethodBinding action)
    {
       this.action = action;
    }
@@ -193,7 +300,7 @@ public final class Page
       return action;
    }
 
-   public void setOutcome(String outcome)
+   void setOutcome(String outcome)
    {
       this.outcome = outcome;
    }
@@ -203,7 +310,7 @@ public final class Page
       return outcome;
    }
 
-   public void setNoConversationViewId(String noConversationViewId)
+   void setNoConversationViewId(String noConversationViewId)
    {
       this.noConversationViewId = noConversationViewId;
    }
@@ -213,7 +320,7 @@ public final class Page
       return noConversationViewId;
    }
 
-   public void setResourceBundleName(String resourceBundleName)
+   void setResourceBundleName(String resourceBundleName)
    {
       this.resourceBundleName = resourceBundleName;
    }
@@ -223,7 +330,7 @@ public final class Page
       return resourceBundleName;
    }
 
-   public void setSwitchEnabled(boolean switchEnabled)
+   void setSwitchEnabled(boolean switchEnabled)
    {
       this.switchEnabled = switchEnabled;
    }
@@ -238,6 +345,11 @@ public final class Page
       return pageParameters;
    }
 
+   public Map<String, Page.Navigation> getNavigations()
+   {
+      return navigations;
+   }
+
    public boolean hasDescription()
    {
       return description!=null;
@@ -248,7 +360,7 @@ public final class Page
       return isBeginConversation;
    }
 
-   public void setBeginConversation(boolean isBeginConversation)
+   void setBeginConversation(boolean isBeginConversation)
    {
       this.isBeginConversation = isBeginConversation;
    }
@@ -258,7 +370,7 @@ public final class Page
       return isEndConversation;
    }
 
-   public void setEndConversation(boolean isEndConversation)
+   void setEndConversation(boolean isEndConversation)
    {
       this.isEndConversation = isEndConversation;
    }
@@ -283,42 +395,42 @@ public final class Page
       }
    }
 
-   protected FlushModeType getFlushMode()
+   public FlushModeType getFlushMode()
    {
       return flushMode;
    }
 
-   protected void setFlushMode(FlushModeType flushMode)
+   void setFlushMode(FlushModeType flushMode)
    {
       this.flushMode = flushMode;
    }
 
-   protected boolean isJoin()
+   public boolean isJoin()
    {
       return join;
    }
 
-   protected void setJoin(boolean join)
+   void setJoin(boolean join)
    {
       this.join = join;
    }
 
-   protected boolean isNested()
+   public boolean isNested()
    {
       return nested;
    }
 
-   protected void setNested(boolean nested)
+   void setNested(boolean nested)
    {
       this.nested = nested;
    }
 
-   protected String getPageflow()
+   public String getPageflow()
    {
       return pageflow;
    }
 
-   protected void setPageflow(String pageflow)
+   void setPageflow(String pageflow)
    {
       this.pageflow = pageflow;
    }
@@ -328,9 +440,19 @@ public final class Page
       return conversationRequired;
    }
 
-   protected void setConversationRequired(boolean conversationRequired)
+   void setConversationRequired(boolean conversationRequired)
    {
       this.conversationRequired = conversationRequired;
+   }
+
+   public Navigation getDefaultNavigation()
+   {
+      return defaultNavigation;
+   }
+
+   void setDefaultNavigation(Navigation defaultActionOutcomeMapping)
+   {
+      this.defaultNavigation = defaultActionOutcomeMapping;
    }
 
 }

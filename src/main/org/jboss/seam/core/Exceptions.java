@@ -7,12 +7,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -29,6 +26,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
@@ -45,7 +44,7 @@ import org.jboss.seam.util.Transactions;
 @Intercept(NEVER)
 @Install(precedence=BUILT_IN)
 @Name("org.jboss.seam.core.exceptions")
-public class Exceptions 
+public class Exceptions extends Navigator
 {
    private static final LogProvider log = Logging.getLogProvider(Exceptions.class);
    
@@ -415,49 +414,6 @@ public class Exceptions
       }
    }
    
-   protected static void error(int code, String message)
-   {
-      if ( log.isDebugEnabled() ) log.debug("sending error: " + code);
-      org.jboss.seam.core.HttpError httpError = org.jboss.seam.core.HttpError.instance();
-      if (message==null)
-      {
-         httpError.send(code);
-      }
-      else
-      {
-         httpError.send(code, message);
-      }
-   }
-
-   protected static void redirect(String viewId)
-   {
-      if ( Strings.isEmpty(viewId) )
-      {
-         viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-      }
-      if ( log.isDebugEnabled() ) log.debug("redirecting to: " + viewId);
-      org.jboss.seam.core.Redirect redirect = org.jboss.seam.core.Redirect.instance();
-      redirect.setViewId(viewId);
-      redirect.execute();
-   }
-   
-   protected static void render(String viewId)
-   {
-      FacesContext facesContext = FacesContext.getCurrentInstance();
-      if ( !Strings.isEmpty(viewId) )
-      {
-         UIViewRoot viewRoot = facesContext.getApplication().getViewHandler()
-               .createView(facesContext, viewId);
-         facesContext.setViewRoot(viewRoot);
-      }
-      else
-      {
-         viewId = facesContext.getViewRoot().getViewId(); //just for the log message
-      }
-      if ( log.isDebugEnabled() ) log.debug("rendering: " + viewId);
-      facesContext.renderResponse();
-   }
-
    private static Object rethrow(Exception e) throws Exception
    {
       //SeamExceptionFilter does *not* do these things, which 

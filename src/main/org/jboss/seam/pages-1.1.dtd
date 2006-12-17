@@ -9,7 +9,7 @@
 <!ELEMENT pages (page*)>
 <!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
 
-<!ELEMENT page (#PCDATA|param|end-conversation|begin-conversation)*>
+<!ELEMENT page (#PCDATA|description|param|end-conversation|begin-conversation|navigation)*>
 <!ATTLIST page action CDATA #IMPLIED>
 <!ATTLIST page view-id CDATA #IMPLIED>
 <!ATTLIST page switch (enabled|disabled) "enabled">
@@ -24,10 +24,27 @@
 <!ATTLIST param converter CDATA #IMPLIED>
 <!ATTLIST param converterId CDATA #IMPLIED>
 
-<!ELEMENT end-conversation EMPTY>
+<!ELEMENT navigation (case*,default?)>
+<!ATTLIST navigation action CDATA #IMPLIED>
+<!ATTLIST navigation outcome CDATA #IMPLIED>
+
+<!ELEMENT case ((begin-conversation|end-conversation)?,(render|redirect))>
+<!ATTLIST case outcome CDATA #REQUIRED>
+
+<!ELEMENT default ((begin-conversation|end-conversation)?,(render|redirect))>
 
 <!ELEMENT begin-conversation EMPTY>
 <!ATTLIST begin-conversation join (true|false) "false">
 <!ATTLIST begin-conversation nested (true|false) "false">
 <!ATTLIST begin-conversation pageflow CDATA #IMPLIED>
 <!ATTLIST begin-conversation flush-mode (manual|auto|commit|MANUAL|AUTO|COMMIT) #IMPLIED>
+
+<!ELEMENT end-conversation EMPTY>
+
+<!ELEMENT render EMPTY>
+<!ATTLIST render view-id CDATA #IMPLIED>
+
+<!ELEMENT redirect EMPTY>
+<!ATTLIST redirect view-id CDATA #IMPLIED>
+
+<!ELEMENT description (#PCDATA)>

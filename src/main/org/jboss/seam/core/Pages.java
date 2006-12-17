@@ -19,8 +19,6 @@ import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -36,6 +34,8 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
@@ -50,7 +50,7 @@ import org.jboss.seam.util.Resources;
 @Intercept(NEVER)
 @Name("org.jboss.seam.core.pages")
 @Install(precedence=BUILT_IN)
-public class Pages 
+public class Pages extends Navigator
 {
    
    private static final LogProvider log = Logging.getLogProvider(Pages.class);
@@ -122,103 +122,228 @@ public class Pages
       return root;
    }
 
-   private void parse(Element page, String viewId)
+   private void parse(Element element, String viewId)
+   {
+      Page page = parsePage(element, viewId);
+      
+      List<Element> children = element.elements("param");
+      for (Element param: children)
+      {
+         page.getPageParameters().add( parsePageParameter(param) );
+      }
+      
+      List<Element> moreChildren = element.elements("navigation");
+      for (Element fromAction: moreChildren)
+      {
+         parseNavigation(page, fromAction);
+      }
+   }
+
+   private Page parsePage(Element element, String viewId)
    {
       if ( viewId.endsWith("*") )
       {
          wildcardViewIds.add(viewId);
       }
-      Page entry = new Page(viewId);
-      pagesByViewId.put(viewId, entry);
+      Page page = new Page(viewId);
+      pagesByViewId.put(viewId, page);
       
-      entry.setSwitchEnabled( !"disabled".equals( page.attributeValue("switch") ) );
+      page.setSwitchEnabled( !"disabled".equals( element.attributeValue("switch") ) );
       
-      String description = page.getTextTrim();
+      Element optionalElement = element.element("description");
+      String description = optionalElement==null ? 
+               element.getTextTrim() : optionalElement.getTextTrim();
       if (description!=null && description.length()>0)
       {
-         entry.setDescription(description);
+         page.setDescription(description);
       }
       
-      String timeoutString = page.attributeValue("timeout");
+      String timeoutString = element.attributeValue("timeout");
       if (timeoutString!=null)
       {
-         entry.setTimeout(Integer.parseInt(timeoutString));
+         page.setTimeout(Integer.parseInt(timeoutString));
       }
       
-      entry.setNoConversationViewId( page.attributeValue("no-conversation-view-id") );
-      entry.setConversationRequired( "true".equals( page.attributeValue("conversation-required") ) );
+      page.setNoConversationViewId( element.attributeValue("no-conversation-view-id") );
+      page.setConversationRequired( "true".equals( element.attributeValue("conversation-required") ) );
       
-      String action = page.attributeValue("action");
+      String action = element.attributeValue("action");
       if (action!=null)
       {
          if ( action.startsWith("#{") )
          {
             MethodBinding methodBinding = Expressions.instance().createMethodBinding(action);
-            entry.setAction(methodBinding);
+            page.setAction(methodBinding);
          }
          else
          {
-            entry.setOutcome(action);
+            page.setOutcome(action);
          }
       }
       
-      Element endConversation = page.element("end-conversation");
+      Element endConversation = element.element("end-conversation");
       if ( endConversation!=null )
       {
-         entry.setEndConversation(true);
+         page.setEndConversation(true);
       }
       
-      Element beginConversation = page.element("begin-conversation");
+      Element beginConversation = element.element("begin-conversation");
       if ( beginConversation!=null )
       {
-         entry.setBeginConversation(true);
-         entry.setJoin( "true".equals( beginConversation.attributeValue("join") ) );
-         entry.setNested( "true".equals( beginConversation.attributeValue("nested") ) );
-         entry.setPageflow( beginConversation.attributeValue("pageflow") );
+         page.setBeginConversation(true);
+         page.setJoin( "true".equals( beginConversation.attributeValue("join") ) );
+         page.setNested( "true".equals( beginConversation.attributeValue("nested") ) );
+         page.setPageflow( beginConversation.attributeValue("pageflow") );
          String flushMode = beginConversation.attributeValue("flush-mode");
          if (flushMode!=null)
          {
-            entry.setFlushMode( FlushModeType.valueOf( flushMode.toUpperCase() ) );
+            page.setFlushMode( FlushModeType.valueOf( flushMode.toUpperCase() ) );
          }
       }
       
-      if ( entry.isBeginConversation() && entry.isEndConversation() )
+      if ( page.isBeginConversation() && page.isEndConversation() )
       {
          throw new IllegalStateException("cannot use both <begin-conversation/> and <end-conversation/>");
       }
       
-      String bundle = page.attributeValue("bundle");
+      String bundle = element.attributeValue("bundle");
       if (bundle!=null)
       {
-         entry.setResourceBundleName(bundle);
+         page.setResourceBundleName(bundle);
+      }
+      return page;
+   }
+
+   private void parseNavigation(Page entry, Element element)
+   {
+      Page.Navigation navigation = new Page.Navigation(); 
+      String outcomeExpression = element.attributeValue("outcome");
+      if (outcomeExpression!=null)
+      {
+         navigation.setOutcomeValueBinding(Expressions.instance().createValueBinding(outcomeExpression));
+      }
+      List<Element> cases = element.elements("case");
+      for (Element childElement: cases)
+      {
+         Page.Case caze = parseCase(childElement);
+         navigation.getCases().put( childElement.attributeValue("outcome"), caze );
+      }
+      Element childElement = element.element("default");
+      if (childElement!=null)
+      {
+         navigation.setDefaultCase(parseCase(childElement));
       }
       
-      List<Element> children = page.elements("param");
-      for (Element param: children)
+      String expression = element.attributeValue("action");
+      if (expression==null)
       {
-         String valueExpression = param.attributeValue("value");
-         String name = param.attributeValue("name");
-         if (name==null)
-         {
-            if (valueExpression==null)
-            {
-               throw new IllegalArgumentException("must specify name or value for page <param/> declaration");
-            }
-            name = valueExpression.substring(2, valueExpression.length()-1);
-         }
-         Page.PageParameter pageParameter = new Page.PageParameter(name);
-         if (valueExpression!=null)
-         {
-            pageParameter.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
-         }
-         pageParameter.setConverterId(param.attributeValue("converterId"));
-         String converterExpression = param.attributeValue("converter");
-         if (converterExpression!=null)
-         {
-            pageParameter.setConverterValueBinding(Expressions.instance().createValueBinding(converterExpression));
-         }
-         entry.getPageParameters().add(pageParameter);
+         entry.setDefaultNavigation(navigation);
       }
+      else
+      {
+         entry.getNavigations().put(expression, navigation);
+      }
+   }
+
+   private Page.PageParameter parsePageParameter(Element element)
+   {
+      String valueExpression = element.attributeValue("value");
+      String name = element.attributeValue("name");
+      if (name==null)
+      {
+         if (valueExpression==null)
+         {
+            throw new IllegalArgumentException("must specify name or value for page <param/> declaration");
+         }
+         name = valueExpression.substring(2, valueExpression.length()-1);
+      }
+      Page.PageParameter pageParameter = new Page.PageParameter(name);
+      if (valueExpression!=null)
+      {
+         pageParameter.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
+      }
+      pageParameter.setConverterId(element.attributeValue("converterId"));
+      String converterExpression = element.attributeValue("converter");
+      if (converterExpression!=null)
+      {
+         pageParameter.setConverterValueBinding(Expressions.instance().createValueBinding(converterExpression));
+      }
+      return pageParameter;
+   }
+
+   private Page.Case parseCase(Element element)
+   {
+      Page.Case caze = new Page.Case();
+      Element render = element.element("render");
+      if (render!=null)
+      {
+         final String viewId = render.attributeValue("view-id");
+         caze.setResult(new Page.Result() {
+            public void navigate(FacesContext context)
+            {
+               render(viewId);
+            }
+         });
+      }
+      Element redirect = element.element("redirect");
+      if (redirect!=null)
+      {
+         final String viewId = redirect.attributeValue("view-id");
+         caze.setResult(new Page.Result() {
+            public void navigate(FacesContext context)
+            {
+               redirect(viewId);
+            }
+         });
+      }
+      return caze;
+   }
+
+   public boolean navigate(FacesContext context, String actionExpression, final String actionOutcome)
+   {
+      String viewId = context.getViewRoot().getViewId();
+      if (viewId!=null)
+      {
+         List<Page> stack = getPageStack(viewId);
+         for (int i=stack.size()-1; i>=0; i--)
+         {
+            Page page = stack.get(i);
+            Page.Navigation navigation = page.getNavigations().get(actionExpression);
+            if (navigation==null)
+            {
+               navigation = page.getDefaultNavigation();
+            }
+            
+            if (navigation!=null)
+            {
+               
+               String outcome;
+               if ( navigation.getOutcomeValueBinding()==null )
+               {
+                  outcome = actionOutcome;
+               }
+               else
+               {
+                  Object value = navigation.getOutcomeValueBinding().getValue();
+                  outcome = value==null ? null : value.toString();
+               }
+               
+               Page.Case caze = outcome==null ?
+                  //JSF navhandler says ignore all rules when null outcome
+                  navigation.getDefaultCase() :
+                  navigation.getCases().get(outcome);
+               if (caze!=null)
+               {
+                  //TODO: begin/end conversation, etc!!
+                  caze.getResult().navigate(context);
+                  return true;
+               }
+               
+            }
+            
+         }
+      }
+      return false;
    }
    
    /**
@@ -363,7 +488,10 @@ public class Pages
          }
       }
       
-      handleOutcome(facesContext, outcome, fromAction);
+      if (outcome!=null)
+      {
+         handleOutcome(facesContext, outcome, fromAction);
+      }
       
       return result;
 
@@ -376,11 +504,11 @@ public class Pages
 
    private static void handleOutcome(FacesContext facesContext, String outcome, String fromAction)
    {
-      if (outcome!=null)
-      {
+      /*if (outcome!=null)
+      {*/
          facesContext.getApplication().getNavigationHandler()
                .handleNavigation(facesContext, fromAction, outcome);
-      }
+      //}
    }
    
    public static Pages instance()
@@ -419,10 +547,13 @@ public class Pages
             MethodBinding actionBinding = Expressions.instance().createMethodBinding(expression);
             outcome = toString( actionBinding.invoke() );
             fromAction = expression;
+            handleOutcome(facesContext, outcome, fromAction);
          }
       }
-      
-      handleOutcome(facesContext, outcome, fromAction);
+      else
+      {
+         handleOutcome(facesContext, outcome, fromAction);
+      }
       
       return result;
    }
