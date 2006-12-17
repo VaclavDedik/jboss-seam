@@ -43,7 +43,7 @@ public class Page extends Node implements Parsable
       viewId = pageElement.attributeValue("view-id");
       if (viewId==null)
       {
-         throw new IllegalStateException("must specify view-id for <page/> node");
+         throw new IllegalStateException("must specify view-id for <page/> node: " + pageElement.attributeValue("name"));
       }
       noConversationViewId = pageElement.attributeValue("no-conversation-view-id");
       backEnabled = "enabled".equals( pageElement.attributeValue("back") );
