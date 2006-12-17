@@ -142,6 +142,11 @@ public class Pages extends Navigator
 
    private Page parsePage(Element element, String viewId)
    {
+      if (viewId==null)
+      {
+         throw new IllegalStateException("Must specify view-id for <page/> declaration");
+      }
+      
       if ( viewId.endsWith("*") )
       {
          wildcardViewIds.add(viewId);
@@ -221,18 +226,28 @@ public class Pages extends Navigator
       String outcomeExpression = element.attributeValue("outcome");
       if (outcomeExpression!=null)
       {
-         navigation.setOutcomeValueBinding(Expressions.instance().createValueBinding(outcomeExpression));
+         navigation.setOutcomeValueBinding( Expressions.instance().createValueBinding(outcomeExpression) );
       }
       List<Element> cases = element.elements("outcome");
       for (Element childElement: cases)
       {
          Page.Case caze = parseCase(childElement);
-         navigation.getCases().put( childElement.attributeValue("value"), caze );
+         String value = childElement.attributeValue("value");
+         if (value==null)
+         {
+            throw new IllegalStateException("Must specify value for <outcome/> declaration");
+         }
+         navigation.getCases().put(value, caze);
       }
-      Element childElement = element.element("null-outcome");
+      Element childElement = element.element("any-outcome");
       if (childElement!=null)
       {
-         navigation.setDefaultCase(parseCase(childElement));
+         navigation.setAnyCase( parseCase(childElement) );
+      }
+      childElement = element.element("null-outcome");
+      if (childElement!=null)
+      {
+         navigation.setNullCase( parseCase(childElement) );
       }
       
       String expression = element.attributeValue("action");
@@ -340,10 +355,19 @@ public class Pages extends Navigator
                   outcome = value==null ? null : value.toString();
                }
                
-               Page.Case caze = outcome==null ?
-                  //JSF navhandler says ignore all rules when null outcome
-                  navigation.getDefaultCase() :
-                  navigation.getCases().get(outcome);
+               Page.Case caze;
+               if (outcome==null) 
+               {
+                  //JSF navhandler says ignore all rules when null outcome.
+                  //so we have a special case for that
+                  caze = navigation.getNullCase();
+               }
+               else
+               {
+                  caze = navigation.getCases().get(outcome);
+                  if (caze==null) caze = navigation.getAnyCase();
+               }
+               
                if (caze!=null)
                {
                   //TODO: begin/end conversation, etc!!

@@ -99,20 +99,21 @@ public final class Page
    {
       private ValueBinding<Object> outcomeValueBinding;
       private Map<String, Case> cases = new HashMap<String, Case>();
-      private Case defaultCase;
+      private Case nullCase;
+      private Case anyCase;
       
       public Map<String, Case> getCases()
       {
          return cases;
       }
       
-      void setDefaultCase(Case defaultCase)
+      void setNullCase(Case defaultCase)
       {
-         this.defaultCase = defaultCase;
+         this.nullCase = defaultCase;
       }
-      public Case getDefaultCase()
+      public Case getNullCase()
       {
-         return defaultCase;
+         return nullCase;
       }
       
       void setOutcomeValueBinding(ValueBinding<Object> outcomeValueBinding)
@@ -122,6 +123,15 @@ public final class Page
       public ValueBinding<Object> getOutcomeValueBinding()
       {
          return outcomeValueBinding;
+      }
+
+      public Case getAnyCase()
+      {
+         return anyCase;
+      }
+      void setAnyCase(Case elseCase)
+      {
+         this.anyCase = elseCase;
       }
    }
    

@@ -24,13 +24,13 @@
 <!ATTLIST param converter CDATA #IMPLIED>
 <!ATTLIST param converterId CDATA #IMPLIED>
 
-<!ELEMENT action-navigation (outcome*,null-outcome?)>
+<!ELEMENT action-navigation (null-outcome?,outcome*,any-outcome?)>
 <!ATTLIST action-navigation action CDATA #IMPLIED>
 <!ATTLIST action-navigation outcome CDATA #IMPLIED>
 
 <!ELEMENT outcome ((begin-conversation|end-conversation)?,(render|redirect))>
 <!ATTLIST outcome value CDATA #REQUIRED>
-
+<!ELEMENT any-outcome ((begin-conversation|end-conversation)?,(render|redirect))>
 <!ELEMENT null-outcome ((begin-conversation|end-conversation)?,(render|redirect))>
 
 <!ELEMENT begin-conversation EMPTY>
