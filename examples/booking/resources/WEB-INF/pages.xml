@@ -4,16 +4,48 @@
 
 <pages no-conversation-view-id="/main.xhtml">
 
+    <page view-id="/register.xhtml">
+        <action-navigation outcome="#{register.registered}">
+            <outcome value="true">
+                <redirect view-id="/home.xhtml"/>
+            </outcome>
+        </action-navigation>
+    </page>
+
+    <page view-id="/home.xhtml">
+        <action-navigation outcome="#{empty loggedIn}">
+            <outcome value="false">
+                <redirect view-id="/main.xhtml"/>
+            </outcome>
+        </action-navigation>
+    </page>
+    
+    <page view-id="/password.xhtml">
+        <action-navigation outcome="#{changePassword.changed}">
+            <outcome value="true">
+                <redirect view-id="/main.xhtml"/>
+            </outcome>
+        </action-navigation>
+    </page>
+
+    <page view-id="/main.xhtml">
+        <action-navigation action="#{hotelBooking.selectHotel(hot)}">
+            <null-outcome>
+                <redirect view-id="/hotel.xhtml"/>
+            </null-outcome>
+        </action-navigation>
+    </page>
+
 	<page view-id="/hotel.xhtml" 
           conversation-required="true">
           
         <description>View hotel: #{hotel.name}</description>
         
-        <navigation action="#{hotelBooking.bookHotel}">
-            <default>
+        <action-navigation action="#{hotelBooking.bookHotel}">
+            <null-outcome>
                 <redirect view-id="/book.xhtml"/>
-            </default>
-        </navigation>
+            </null-outcome>
+        </action-navigation>
         
     </page>
 
@@ -22,11 +54,11 @@
           
         <description>Book hotel: #{hotel.name}</description>
         
-        <navigation outcome="#{hotelBooking.bookingValid}">
-            <case outcome="true">
+        <action-navigation outcome="#{hotelBooking.bookingValid}">
+            <outcome value="true">
                 <redirect view-id="/confirm.xhtml"/>
-            </case>
-        </navigation>
+            </outcome>
+        </action-navigation>
         
     </page>
 
@@ -35,73 +67,27 @@
           
         <description>Confirm booking: #{booking.description}</description>
         
-        <navigation action="#{hotelBooking.confirm}">
-            <default>
+        <action-navigation action="#{hotelBooking.confirm}">
+            <null-outcome>
                 <redirect view-id="/main.xhtml"/>
-            </default>
-        </navigation>
+            </null-outcome>
+        </action-navigation>
         
     </page>
     
-    <page view-id="/password.xhtml">
-        
-        <navigation outcome="#{changePassword.changed}">
-            <case outcome="true">
-                <redirect view-id="/main.xhtml"/>
-            </case>
-        </navigation>
-        
-    </page>
-
-    <page view-id="/register.xhtml">
-        
-        <navigation outcome="#{register.registered}">
-            <case outcome="true">
-                <redirect view-id="/home.xhtml"/>
-            </case>
-        </navigation>
-        
-    </page>
-
-    <page view-id="/home.xhtml">
-        
-        <navigation outcome="#{loggedIn==null}">
-            <case outcome="false">
-                <redirect view-id="/main.xhtml"/>
-            </case>
-        </navigation>
-        
-    </page>
-    
-    <page view-id="/main.xhtml">
-        
-        <navigation action="#{hotelBooking.selectHotel(hot)}">
-            <default>
-                <redirect view-id="/hotel.xhtml"/>
-            </default>
-        </navigation>
-
-    </page>
-
     <page view-id="*">
     
-        <navigation action="#{logout.logout}">
-            <default>
+        <action-navigation action="#{logout.logout}">
+            <null-outcome>
                 <redirect view-id="/home.xhtml"/>
-            </default>
-        </navigation>
+            </null-outcome>
+        </action-navigation>
 
-        <navigation action="#{hotelBooking.cancel}">
-            <default>
+        <action-navigation action="#{hotelBooking.cancel}">
+            <null-outcome>
                 <redirect view-id="/main.xhtml"/>
-            </default>
-        </navigation>
-
-        <navigation>
-            <case outcome="login">
-                <redirect view-id="/home.xhtml"/>
-            </case>
-        </navigation>
+            </null-outcome>
+        </action-navigation>
         
     </page>
 
