@@ -262,9 +262,22 @@ public class FacesMessages implements Serializable
       return messageTemplate;
    }
 
+   public void add(String id, InvalidValue iv)
+   {
+      add( id, FacesMessage.SEVERITY_WARN, iv.getMessage() );
+   }
+   
+   public void add(InvalidValue[] ivs)
+   {
+      for (InvalidValue iv: ivs)
+      {
+         add(iv);
+      }
+   }
+   
    public void add(InvalidValue iv)
    {
-      add( iv.getPropertyName(), FacesMessage.SEVERITY_WARN, iv.getMessage() );
+      add( iv.getPropertyName(), iv );
    }
    
    public static FacesMessage createFacesMessage(Severity severity, String messageTemplate, Object... params)
