@@ -34,6 +34,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
+import org.jboss.seam.core.Page.PageParameter;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.DTDEntityResolver;
@@ -288,11 +289,22 @@ public class Pages extends Navigator
       Element redirect = element.element("redirect");
       if (redirect!=null)
       {
+         List<Element> children = redirect.elements("param");
+         final List<PageParameter> pageParameters = new ArrayList<PageParameter>();
+         for (Element child: children)
+         {
+            pageParameters.add( parsePageParameter(child) );
+         }
          final String viewId = redirect.attributeValue("view-id");
          caze.setResult(new Page.Result() {
             public void navigate(FacesContext context)
             {
-               redirect(viewId);
+               Map<String, Object> parameters = new HashMap<String, Object>();
+               for ( PageParameter pageParameter: pageParameters )
+               {
+                  parameters.put( pageParameter.getName(), getParameterValue(context, pageParameter) );
+               }
+               redirect(viewId, parameters);
             }
          });
       }
@@ -637,39 +649,53 @@ public class Pages extends Navigator
          {
             if ( !overridden.contains( pageParameter.getName() ) )
             {
-               ValueBinding valueBinding = pageParameter.getValueBinding();
-               if (valueBinding==null)
+               Object value = getPageParameterValue(facesContext, pageParameter);
+               if (value!=null) 
                {
-                  Object value = Contexts.getPageContext().get( pageParameter.getName() );
-                  if (value!=null) 
-                  {
-                     parameters.put( pageParameter.getName(), value );
-                  }
-               }
-               else
-               {
-                  Object value = valueBinding.getValue();
-                  if (value!=null)
-                  {
-                     Converter converter;
-                     try
-                     {
-                        converter = pageParameter.getConverter();
-                     }
-                     catch (RuntimeException re)
-                     {
-                        //YUCK! due to bad JSF/MyFaces error handling
-                        continue;
-                     }
-                     Object convertedValue = converter==null ? 
-                           value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
-                     parameters.put( pageParameter.getName(), convertedValue );
-                  }
+                  parameters.put( pageParameter.getName(), value );
                }
             }
          }
       }
       return parameters;
+   }
+
+   private Object getPageParameterValue(FacesContext facesContext, Page.PageParameter pageParameter)
+   {
+      ValueBinding valueBinding = pageParameter.getValueBinding();
+      if (valueBinding==null)
+      {
+         return Contexts.getPageContext().get( pageParameter.getName() );
+      }
+      else
+      {
+         return getParameterValue(facesContext, pageParameter);
+      }
+   }
+
+   private Object getParameterValue(FacesContext facesContext, Page.PageParameter pageParameter)
+   {
+      Object value = pageParameter.getValueBinding().getValue();
+      if (value==null)
+      {
+         return null;
+      }
+      else
+      {
+         Converter converter = null;
+         try
+         {
+            converter = pageParameter.getConverter();
+         }
+         catch (RuntimeException re)
+         {
+            //YUCK! due to bad JSF/MyFaces error handling
+            return null;
+         }
+         
+         return converter==null ? 
+                  value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
+      }
    }
    
    /**

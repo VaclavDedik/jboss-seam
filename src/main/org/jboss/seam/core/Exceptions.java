@@ -235,7 +235,7 @@ public class Exceptions extends Navigator
          addFacesMessage( e, getMessage(e) );
          if ( isEnd(e) ) Conversation.instance().end();
          if ( isRollback(e) ) Transactions.setTransactionRollbackOnly();
-         redirect( getViewId(e) );
+         redirect( getViewId(e), null );
          return rethrow(e);
       }
 

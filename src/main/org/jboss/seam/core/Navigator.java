@@ -1,5 +1,7 @@
 package org.jboss.seam.core;
 
+import java.util.Map;
+
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
@@ -31,14 +33,14 @@ abstract class Navigator
    /**
     * Redirect to the view id.
     */
-   protected static void redirect(String viewId)
+   protected static void redirect(String viewId, Map<String, Object> parameters)
    {
       if ( Strings.isEmpty(viewId) )
       {
          viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
       }
       if ( log.isDebugEnabled() ) log.debug("redirecting to: " + viewId);
-      Manager.instance().redirect(viewId);
+      Manager.instance().redirect(viewId, parameters, true);
    }
    
    /**

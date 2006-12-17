@@ -44,7 +44,7 @@
 <!ELEMENT render EMPTY>
 <!ATTLIST render view-id CDATA #IMPLIED>
 
-<!ELEMENT redirect EMPTY>
+<!ELEMENT redirect (param*)>
 <!ATTLIST redirect view-id CDATA #IMPLIED>
 
 <!ELEMENT description (#PCDATA)>
