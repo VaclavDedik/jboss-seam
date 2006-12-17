@@ -991,7 +991,7 @@ public class Manager
          Pages pages = Pages.instance();
          if (pages!=null) //for tests
          {
-            org.jboss.seam.core.Page pageEntry = pages.getPage(viewId);
+            org.jboss.seam.pages.Page pageEntry = pages.getPage(viewId);
             if ( pageEntry.isSwitchEnabled() )
             {
                conversation.setViewId(viewId);

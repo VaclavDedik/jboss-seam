@@ -9,14 +9,14 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Strings;
 
-abstract class Navigator
+public abstract class Navigator
 {
    private static final LogProvider log = Logging.getLogProvider(Navigator.class);
 
    /**
     * Send an error.
     */
-   protected static void error(int code, String message)
+   protected void error(int code, String message)
    {
       if ( log.isDebugEnabled() ) log.debug("sending error: " + code);
       org.jboss.seam.core.HttpError httpError = org.jboss.seam.core.HttpError.instance();
@@ -33,7 +33,7 @@ abstract class Navigator
    /**
     * Redirect to the view id.
     */
-   protected static void redirect(String viewId, Map<String, Object> parameters)
+   protected void redirect(String viewId, Map<String, Object> parameters)
    {
       if ( Strings.isEmpty(viewId) )
       {
@@ -46,7 +46,7 @@ abstract class Navigator
    /**
     * Render the view id.
     */
-   protected static void render(String viewId)
+   protected void render(String viewId)
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       if ( !Strings.isEmpty(viewId) )
@@ -62,6 +62,5 @@ abstract class Navigator
       if ( log.isDebugEnabled() ) log.debug("rendering: " + viewId);
       facesContext.renderResponse();
    }
-
 
 }

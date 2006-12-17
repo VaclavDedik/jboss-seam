@@ -17,7 +17,6 @@ import java.util.TreeSet;
 
 import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
 
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -32,10 +31,15 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
-import org.jboss.seam.core.Page.ConversationControl;
-import org.jboss.seam.core.Page.Param;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.pages.ActionNavigation;
+import org.jboss.seam.pages.ConversationControl;
+import org.jboss.seam.pages.Outcome;
+import org.jboss.seam.pages.Page;
+import org.jboss.seam.pages.Param;
+import org.jboss.seam.pages.RedirectNavigationHandler;
+import org.jboss.seam.pages.RenderNavigationHandler;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.XML;
@@ -50,7 +54,7 @@ import org.jboss.seam.util.XML;
 @Intercept(NEVER)
 @Name("org.jboss.seam.core.pages")
 @Install(precedence=BUILT_IN)
-public class Pages extends Navigator
+public class Pages
 {
    
    private static final LogProvider log = Logging.getLogProvider(Pages.class);
@@ -89,10 +93,10 @@ public class Pages extends Navigator
     * Run any navigation rule defined in pages.xml
     * 
     * @param actionExpression the action method binding expression
-    * @param actionOutcome the outcome of the action method
+    * @param actionOutcomeValue the outcome of the action method
     * @return true if a navigation rule was found
     */
-   public boolean navigate(FacesContext context, String actionExpression, final String actionOutcome)
+   public boolean navigate(FacesContext context, String actionExpression, final String actionOutcomeValue)
    {
       String viewId = context.getViewRoot().getViewId();
       if (viewId!=null)
@@ -101,7 +105,7 @@ public class Pages extends Navigator
          for (int i=stack.size()-1; i>=0; i--)
          {
             Page page = stack.get(i);
-            Page.ActionNavigation navigation = page.getNavigations().get(actionExpression);
+            ActionNavigation navigation = page.getNavigations().get(actionExpression);
             if (navigation==null)
             {
                navigation = page.getDefaultNavigation();
@@ -110,34 +114,34 @@ public class Pages extends Navigator
             if (navigation!=null)
             {
                
-               String outcome;
+               String outcomeValue;
                if ( navigation.getOutcomeValueBinding()==null )
                {
-                  outcome = actionOutcome;
+                  outcomeValue = actionOutcomeValue;
                }
                else
                {
                   Object value = navigation.getOutcomeValueBinding().getValue();
-                  outcome = value==null ? null : value.toString();
+                  outcomeValue = value==null ? null : value.toString();
                }
                
-               Page.Outcome caze;
-               if (outcome==null) 
+               Outcome outcome;
+               if (outcomeValue==null) 
                {
                   //JSF navhandler says ignore all rules when null outcome.
                   //so we have a special case for that
-                  caze = navigation.getNullOutcome();
+                  outcome = navigation.getNullOutcome();
                }
                else
                {
-                  caze = navigation.getOutcomes().get(outcome);
-                  if (caze==null) caze = navigation.getAnyOutcome();
+                  outcome = navigation.getOutcomes().get(outcomeValue);
+                  if (outcome==null) outcome = navigation.getAnyOutcome();
                }
                
-               if (caze!=null)
+               if (outcome!=null)
                {
-                  caze.getConversationControl().beginOrEndConversation();
-                  caze.getNavigationHandler().navigate(context);
+                  outcome.getConversationControl().beginOrEndConversation();
+                  outcome.getNavigationHandler().navigate(context);
                   return true;
                }
                
@@ -412,7 +416,7 @@ public class Pages extends Navigator
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Page.Param pageParameter: page.getPageParameters() )
+         for ( Param pageParameter: page.getPageParameters() )
          {
             ValueBinding valueBinding = pageParameter.getValueBinding();
             Object value;
@@ -446,7 +450,7 @@ public class Pages extends Navigator
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Page.Param pageParameter: page.getPageParameters() )
+         for ( Param pageParameter: page.getPageParameters() )
          {
             if ( !overridden.contains( pageParameter.getName() ) )
             {
@@ -465,7 +469,7 @@ public class Pages extends Navigator
     * Get the current value of a page parameter, looking in the page context
     * if there is no value binding
     */
-   private Object getPageParameterValue(FacesContext facesContext, Page.Param pageParameter)
+   private Object getPageParameterValue(FacesContext facesContext, Param pageParameter)
    {
       ValueBinding valueBinding = pageParameter.getValueBinding();
       if (valueBinding==null)
@@ -474,38 +478,10 @@ public class Pages extends Navigator
       }
       else
       {
-         return getParameterValue(facesContext, pageParameter);
+         return pageParameter.getValueFromModel(facesContext);
       }
    }
 
-   /**
-    * Get the current value of a page or redirection parameter
-    */
-   private static Object getParameterValue(FacesContext facesContext, Page.Param pageParameter)
-   {
-      Object value = pageParameter.getValueBinding().getValue();
-      if (value==null)
-      {
-         return null;
-      }
-      else
-      {
-         Converter converter = null;
-         try
-         {
-            converter = pageParameter.getConverter();
-         }
-         catch (RuntimeException re)
-         {
-            //YUCK! due to bad JSF/MyFaces error handling
-            return null;
-         }
-         
-         return converter==null ? 
-                  value : converter.getAsString( facesContext, facesContext.getViewRoot(), value );
-      }
-   }
-   
    /**
     * Apply any page parameters passed as parameter values to the model.
     */
@@ -515,43 +491,21 @@ public class Pages extends Navigator
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Page.Param pageParameter: page.getPageParameters() )
+         for ( Param pageParameter: page.getPageParameters() )
          {  
             
-            String[] parameterValues = requestParameters.get(pageParameter.getName());
-            if (parameterValues==null || parameterValues.length==0)
+            Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
+            if (value!=null)
             {
-               continue;
-            }
-            if (parameterValues.length>1)
-            {
-               throw new IllegalArgumentException("page parameter may not be multi-valued: " + pageParameter.getName());
-            }         
-            String stringValue = parameterValues[0];
-   
-            Converter converter;
-            try
-            {
-               converter = pageParameter.getConverter();
-            }
-            catch (RuntimeException re)
-            {
-               //YUCK! due to bad JSF/MyFaces error handling
-               continue;
-            }
-            
-            Object value = converter==null ? 
-                  stringValue :
-                  converter.getAsObject( facesContext, facesContext.getViewRoot(), stringValue );
-
-            ValueBinding valueBinding = pageParameter.getValueBinding();
-            if (valueBinding==null)
-            {
-               Contexts.getPageContext().set( pageParameter.getName(), value );
-            }
-            else
-            {
-               valueBinding.setValue(value);
+               ValueBinding valueBinding = pageParameter.getValueBinding();
+               if (valueBinding==null)
+               {
+                  Contexts.getPageContext().set( pageParameter.getName(), value );
+               }
+               else
+               {
+                  valueBinding.setValue(value);
+               }
             }
          }
       }
@@ -565,7 +519,7 @@ public class Pages extends Navigator
       String viewId = facesContext.getViewRoot().getViewId();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Page.Param pageParameter: page.getPageParameters() )
+         for ( Param pageParameter: page.getPageParameters() )
          {         
             ValueBinding valueBinding = pageParameter.getValueBinding();
             if (valueBinding!=null)
@@ -731,7 +685,7 @@ public class Pages extends Navigator
       List<Element> children = element.elements("param");
       for (Element param: children)
       {
-         page.getPageParameters().add( parsePageParameter(param) );
+         page.getPageParameters().add( parseParam(param) );
       }
       
       List<Element> moreChildren = element.elements("action-navigation");
@@ -824,7 +778,7 @@ public class Pages extends Navigator
     */
    private static void parseActionNavigation(Page entry, Element element)
    {
-      Page.ActionNavigation navigation = new Page.ActionNavigation(); 
+      ActionNavigation navigation = new ActionNavigation(); 
       String outcomeExpression = element.attributeValue("outcome");
       if (outcomeExpression!=null)
       {
@@ -833,7 +787,7 @@ public class Pages extends Navigator
       List<Element> cases = element.elements("outcome");
       for (Element childElement: cases)
       {
-         Page.Outcome caze = parseOutcome(childElement);
+         Outcome caze = parseOutcome(childElement);
          String value = childElement.attributeValue("value");
          if (value==null)
          {
@@ -866,7 +820,7 @@ public class Pages extends Navigator
    /**
     * Parse param
     */
-   private static Page.Param parsePageParameter(Element element)
+   private static Param parseParam(Element element)
    {
       String valueExpression = element.attributeValue("value");
       String name = element.attributeValue("name");
@@ -878,7 +832,7 @@ public class Pages extends Navigator
          }
          name = valueExpression.substring(2, valueExpression.length()-1);
       }
-      Page.Param param = new Page.Param(name);
+      Param param = new Param(name);
       if (valueExpression!=null)
       {
          param.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
@@ -895,45 +849,30 @@ public class Pages extends Navigator
    /**
     * parse outcome, any-outcome, null-outcome
     */
-   private static Page.Outcome parseOutcome(Element element)
+   private static Outcome parseOutcome(Element element)
    {
-      Page.Outcome caze = new Page.Outcome();
-      parseConversationControl( element, caze.getConversationControl() );
+      Outcome outcome = new Outcome();
+      parseConversationControl( element, outcome.getConversationControl() );
       
       Element render = element.element("render");
       if (render!=null)
       {
          final String viewId = render.attributeValue("view-id");
-         caze.setNavigationHandler(new Page.NavigationHandler() {
-            public void navigate(FacesContext context)
-            {
-               render(viewId);
-            }
-         });
+         outcome.setNavigationHandler( new RenderNavigationHandler(viewId) );
       }
       Element redirect = element.element("redirect");
       if (redirect!=null)
       {
          List<Element> children = redirect.elements("param");
-         final List<Param> pageParameters = new ArrayList<Param>();
+         final List<Param> params = new ArrayList<Param>();
          for (Element child: children)
          {
-            pageParameters.add( parsePageParameter(child) );
+            params.add( parseParam(child) );
          }
          final String viewId = redirect.attributeValue("view-id");
-         caze.setNavigationHandler(new Page.NavigationHandler() {
-            public void navigate(FacesContext context)
-            {
-               Map<String, Object> parameters = new HashMap<String, Object>();
-               for ( Param pageParameter: pageParameters )
-               {
-                  parameters.put( pageParameter.getName(), getParameterValue(context, pageParameter) );
-               }
-               redirect(viewId, parameters);
-            }
-         });
+         outcome.setNavigationHandler( new RedirectNavigationHandler(viewId, params) );
       }
-      return caze;
+      return outcome;
    }
 
 }
