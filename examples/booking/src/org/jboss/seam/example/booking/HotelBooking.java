@@ -6,14 +6,16 @@ import javax.ejb.Local;
 @Local
 public interface HotelBooking
 {
-   public String selectHotel(Hotel selectedHotel);
+   public void selectHotel(Hotel selectedHotel);
    
-   public String bookHotel();
+   public void bookHotel();
    
-   public String setBookingDetails();
+   public void setBookingDetails();
+   public boolean isBookingValid();
    
-   public String confirm();
-   public String cancel();
+   public void confirm();
+   
+   public void cancel();
    
    public void destroy();
    

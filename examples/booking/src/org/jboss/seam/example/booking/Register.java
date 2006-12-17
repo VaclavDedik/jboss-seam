@@ -6,9 +6,10 @@ import javax.ejb.Local;
 @Local
 public interface Register
 {
-   public String register();
+   public void register();
    public String getVerify();
    public void setVerify(String verify);
+   public boolean isRegistered();
    
    public void destroy();
 }

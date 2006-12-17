@@ -9,11 +9,6 @@
         <session-timeout>3</session-timeout>
     </session-config>
 
-    <context-param>
-        <param-name>javax.faces.CONFIG_FILES</param-name>
-        <param-value>/WEB-INF/navigation.xml</param-value>
-    </context-param>
-
     <!-- Ajax4jsf (must come first!) -->
         
     <filter>

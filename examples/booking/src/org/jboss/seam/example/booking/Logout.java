@@ -6,5 +6,5 @@ import javax.ejb.Local;
 @Local
 public interface Logout
 {
-   public String logout();
+   public void logout();
 }

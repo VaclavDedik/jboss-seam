@@ -60,11 +60,11 @@ public class BookingUnitTest extends SeamTest
       setField(hb, "events", new Events() { @Override public void raiseEvent(String type, Object... params) { assert "bookingConfirmed".equals(type); } } );
       setField(hb, "log", Logging.getLog(HotelBookingAction.class));
       
-      assert hb.selectHotel(hotel).equals("hotel");
+      hb.selectHotel(hotel);
 
       User user = em.getReference(User.class, "gavin");
       assert user!=null;
-      assert hb.bookHotel().equals("book");
+      hb.bookHotel();
       
       Booking booking = (Booking) getField(hb, "booking");
       assert booking!=null;
@@ -74,10 +74,10 @@ public class BookingUnitTest extends SeamTest
       booking.setCreditCard("1234123412341234");
       booking.setCreditCardName("GAVIN A KING");
       
-      assert hb.setBookingDetails().equals("confirm");
+      hb.setBookingDetails();
 
       getUserTransaction().begin();
-      assert hb.confirm().equals("confirmed");
+      hb.confirm();
       getUserTransaction().commit();
       
       em.close();

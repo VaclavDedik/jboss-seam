@@ -11,9 +11,8 @@ import org.jboss.seam.annotations.Name;
 @Name("logout")
 public class LogoutAction implements Logout
 {
-   public String logout()
+   public void logout()
    {
       Seam.invalidateSession();
-      return "login";
    }
 }

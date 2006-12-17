@@ -56,14 +56,13 @@ public class BookingListAction implements BookingList, Serializable
             .getResultList();
    }
    
-   public String cancel()
+   public void cancel()
    {
       log.info("Cancel booking: #{bookingList.booking.id} for #{user.username}");
       Booking cancelled = em.find(Booking.class, booking.getId());
       if (cancelled!=null) em.remove( cancelled );
       getBookings();
       FacesMessages.instance().add("Booking cancelled for confirmation number #{bookingList.booking.id}");
-      return "main";
    }
    
    public Booking getBooking()

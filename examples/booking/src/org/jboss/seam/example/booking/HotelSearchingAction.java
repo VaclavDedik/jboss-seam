@@ -37,11 +37,10 @@ public class HotelSearchingAction implements HotelSearching
       queryHotels();
    }
 
-   public String nextPage()
+   public void nextPage()
    {
       page++;
       queryHotels();
-      return "main";
    }
       
    private void queryHotels()

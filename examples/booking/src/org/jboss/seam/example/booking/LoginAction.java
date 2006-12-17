@@ -24,7 +24,7 @@ public class LoginAction implements Login
    @PersistenceContext
    private EntityManager em;
 
-   public String login()
+   public void login()
    {
       List<User> results = em.createQuery("select u from User u where u.username=:username and u.password=:password")
             .setParameter("username", user.getUsername())
@@ -34,14 +34,12 @@ public class LoginAction implements Login
       if ( results.size()==0 )
       {
          FacesMessages.instance().add("Invalid login");
-         return "login";
       }
       else
       {
          user = results.get(0);
          Contexts.getSessionContext().set("loggedIn", true);
          FacesMessages.instance().add("Welcome, #{user.name}");
-         return "main";
       }
       
    }

@@ -6,5 +6,5 @@ import javax.ejb.Local;
 @Local
 public interface Login
 {
-   public String login();
+   public void login();
 }

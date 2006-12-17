@@ -3,9 +3,9 @@ package org.jboss.seam.example.booking;
 
 import java.lang.reflect.Method;
 
+import javax.faces.event.PhaseId;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.faces.event.PhaseId;
 
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.contexts.Contexts;

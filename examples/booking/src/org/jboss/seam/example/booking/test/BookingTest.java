@@ -71,8 +71,8 @@ public class BookingTest extends SeamTest
             HotelBooking hotelBooking = (HotelBooking) getInstance("hotelBooking");
             DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
             assert hotels.getRowCount()==1;
-            String outcome = hotelBooking.selectHotel( (Hotel) hotels.getRowData() );
-            assert "hotel".equals(outcome);
+            hotelBooking.selectHotel( (Hotel) hotels.getRowData() );
+            //assert "hotel".equals(outcome);
             Hotel hotel = (Hotel) Contexts.getConversationContext().get("hotel");
             assert hotel.getCity().equals("NY");
             assert hotel.getZip().equals("10011");

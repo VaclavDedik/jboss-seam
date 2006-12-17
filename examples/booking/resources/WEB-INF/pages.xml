@@ -1,9 +1,108 @@
 <!DOCTYPE pages PUBLIC
-  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
-  "http://jboss.com/products/seam/pages-1.1.dtd">
+          "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
+          "http://jboss.com/products/seam/pages-1.1.dtd">
 
 <pages no-conversation-view-id="/main.xhtml">
-	<page view-id="/hotel.xhtml" conversation-required="true">View hotel: #{hotel.name}</page>
-	<page view-id="/book.xhtml" conversation-required="true">Book hotel: #{hotel.name}</page>
-	<page view-id="/confirm.xhtml" conversation-required="true">Confirm: #{booking.description}</page>
+
+	<page view-id="/hotel.xhtml" 
+          conversation-required="true">
+          
+        <description>View hotel: #{hotel.name}</description>
+        
+        <navigation action="#{hotelBooking.bookHotel}">
+            <default>
+                <redirect view-id="/book.xhtml"/>
+            </default>
+        </navigation>
+        
+    </page>
+
+	<page view-id="/book.xhtml" 
+          conversation-required="true">
+          
+        <description>Book hotel: #{hotel.name}</description>
+        
+        <navigation outcome="#{hotelBooking.bookingValid}">
+            <case outcome="true">
+                <redirect view-id="/confirm.xhtml"/>
+            </case>
+        </navigation>
+        
+    </page>
+
+	<page view-id="/confirm.xhtml" 
+          conversation-required="true">
+          
+        <description>Confirm booking: #{booking.description}</description>
+        
+        <navigation action="#{hotelBooking.confirm}">
+            <default>
+                <redirect view-id="/main.xhtml"/>
+            </default>
+        </navigation>
+        
+    </page>
+    
+    <page view-id="/password.xhtml">
+        
+        <navigation outcome="#{changePassword.changed}">
+            <case outcome="true">
+                <redirect view-id="/main.xhtml"/>
+            </case>
+        </navigation>
+        
+    </page>
+
+    <page view-id="/register.xhtml">
+        
+        <navigation outcome="#{register.registered}">
+            <case outcome="true">
+                <redirect view-id="/home.xhtml"/>
+            </case>
+        </navigation>
+        
+    </page>
+
+    <page view-id="/home.xhtml">
+        
+        <navigation outcome="#{loggedIn==null}">
+            <case outcome="false">
+                <redirect view-id="/main.xhtml"/>
+            </case>
+        </navigation>
+        
+    </page>
+    
+    <page view-id="/main.xhtml">
+        
+        <navigation action="#{hotelBooking.selectHotel(hot)}">
+            <default>
+                <redirect view-id="/hotel.xhtml"/>
+            </default>
+        </navigation>
+
+    </page>
+
+    <page view-id="*">
+    
+        <navigation action="#{logout.logout}">
+            <default>
+                <redirect view-id="/home.xhtml"/>
+            </default>
+        </navigation>
+
+        <navigation action="#{hotelBooking.cancel}">
+            <default>
+                <redirect view-id="/main.xhtml"/>
+            </default>
+        </navigation>
+
+        <navigation>
+            <case outcome="login">
+                <redirect view-id="/home.xhtml"/>
+            </case>
+        </navigation>
+        
+    </page>
+
 </pages>

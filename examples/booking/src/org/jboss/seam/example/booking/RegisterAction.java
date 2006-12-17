@@ -33,7 +33,9 @@ public class RegisterAction implements Register
    
    private String verify;
    
-   public String register()
+   private boolean registered;
+   
+   public void register()
    {
       if ( user.getPassword().equals(verify) )
       {
@@ -44,20 +46,23 @@ public class RegisterAction implements Register
          {
             em.persist(user);
             facesMessages.add("Successfully registered as #{user.username}");
-            return "login";
+            registered = true;
          }
          else
          {
             facesMessages.add("Username #{user.username} already exists");
-            return null;
          }
       }
       else 
       {
          facesMessages.add("verify", "Re-enter your password");
          verify=null;
-         return null;
       }
+   }
+   
+   public boolean isRegistered()
+   {
+      return registered;
    }
 
    public String getVerify()
