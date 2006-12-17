@@ -497,10 +497,10 @@ public class Pages extends Navigator
             fromAction = methodBinding.getExpressionString();
             result = true;
             outcome = toString( methodBinding.invoke() );
+            handleOutcome(facesContext, outcome, fromAction);
          }
       }
-      
-      if (outcome!=null)
+      else
       {
          handleOutcome(facesContext, outcome, fromAction);
       }
