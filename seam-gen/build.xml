@@ -114,6 +114,7 @@
             <filter token="testPackage" value="${test.package}"/>
             <filter token="listName" value="${component.name}List"/>
             <filter token="homeName" value="${component.name}Home"/>
+            <filter token="query" value="${query.text}"/>
         </filterset>
     
     </target>
@@ -412,6 +413,46 @@
 
     </target>
     
+    <target name="query-input">
+        <property name="entity.name.default" value="Entity" />
+        <input addproperty="entity.name" 
+               message="Enter the entity class to search for [${entity.name.default}] "
+               defaultvalue="${entity.name}"/>
+
+        <property name="entity.file" value="${project.home}/src/${model.dir}/${entity.name}.java" />
+        <available property="entity.present" file="${entity.file}" />
+        <fail unless="entity.present">
+            The entity ${entity.name} was not found.  It was expected to be in ${entity.file}.
+        </fail>
+
+        
+        <lowercaseProperty name="component.name.default" value="${entity.name}Query" />
+        <input addproperty="component.name" 
+               message="Enter the Seam query component name [${component.name.default}]"
+               defaultvalue="${component.name.default}" />
+        
+        <uppercaseProperty name="bean.name.default" value="${component.name}"/>
+        <input message="Enter the query class name [${bean.name.default}]" 
+               addproperty="bean.name" 
+               defaultvalue="${bean.name.default}"/>
+        
+        <property name="query.default"
+                  value="select o from ${entity.name} o" />
+        <input message="Enter the EJBQL query string [${query.default}]" 
+               addproperty="query.text" 
+               defaultvalue="${query.default}" />
+
+        <lowercaseProperty name="page.name.default" value="${component.name}"/>
+        <input message="Enter the query resuls page name [${page.name.default}]" 
+               addproperty="page.name" 
+               defaultvalue="${page.name.default}"/>
+        
+        <property name="query.file" value="${project.home}/src/${action.dir}/${bean.name}.java"/>
+        <property name="page.file" value="${project.home}/view/${page.name}.xhtml"/>
+    </target>
+
+
+
     <target name="copy-lib">
         <echo message="Copying project jars ..." />
 
@@ -667,6 +708,19 @@
         <copy file="src/testng.xml" tofile="${testng.file}">
             <filterset refid="filters"/>
         </copy>
+        <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
+    </target>
+
+    <target name="new-query" depends="validate-project,query-input,setup-filters">
+        <echo message="Creating a new query" />
+        <copy file="src/Query.java" tofile="${query.file}">
+            <filterset refid="filters"/>
+        </copy>
+
+        <copy file="view/query.xhtml" tofile="${page.file}">
+            <filterset refid="filters"/>
+        </copy>
+
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
