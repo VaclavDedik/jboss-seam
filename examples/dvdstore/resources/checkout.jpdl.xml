@@ -8,7 +8,7 @@
     <page name="confirm" view-id="/confirm.xhtml"
           no-conversation-view-id="/checkout.xhtml">
         <redirect/>
-        <transition name="update"   to="continue"/> 
+        <transition name="cancel"   to="cancel"/> 
         <transition name="purchase" to="complete">
             <action expression="#{checkout.submitOrder}" />
         </transition>
@@ -19,7 +19,7 @@
         <end-conversation/>
     </page>    
 
-    <page name="continue">
+    <page name="cancel" view-id="/browse.xhtml">
         <end-conversation/>
     </page>
 

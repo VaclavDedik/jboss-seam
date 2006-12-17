@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<pageflow-diagram name="checkout" width="815" height="674">
+<pageflow-diagram name="checkout" width="808" height="631">
   <node name="start" x="152" y="55" width="140" height="40">
     <transition>
       <label x="5" y="-10"/>
     </transition>
   </node>
   <node name="confirm" x="152" y="152" width="140" height="40">
-    <transition name="update">
+    <transition name="cancel">
       <label x="23" y="-10"/>
     </transition>
     <transition name="purchase">
@@ -15,5 +15,5 @@
     </transition>
   </node>
   <node name="complete" x="68" y="274" width="140" height="40"/>
-  <node name="continue" x="245" y="273" width="140" height="40"/>
+  <node name="cancel" x="245" y="273" width="140" height="40"/>
 </pageflow-diagram>
