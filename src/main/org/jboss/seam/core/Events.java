@@ -10,12 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -27,8 +23,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Init.ObserverMethod;
-import org.jboss.seam.util.DTDEntityResolver;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.XML;
 
 @Scope(ScopeType.APPLICATION)
 @Intercept(NEVER)
@@ -52,11 +50,7 @@ public class Events
       else
       {
          log.info("reading events.xml");
-         SAXReader saxReader = new SAXReader();
-         saxReader.setEntityResolver( new DTDEntityResolver() );
-         saxReader.setMergeAdjacentText(true);
-         Document doc = saxReader.read(stream);
-         List<Element> elements = doc.getRootElement().elements("event");
+         List<Element> elements = XML.getRootElement(stream).elements("event");
          for (Element event: elements)
          {
             String type = event.attributeValue("type");

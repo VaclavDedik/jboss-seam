@@ -20,13 +20,9 @@ import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.dom4j.Attribute;
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -45,14 +41,16 @@ import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.debug.Introspector;
 import org.jboss.seam.deployment.ComponentScanner;
 import org.jboss.seam.deployment.NamespaceScanner;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.HibernatePersistenceProvider;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Conversions;
-import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
+import org.jboss.seam.util.XML;
 
 /**
  * @author Gavin King
@@ -104,7 +102,7 @@ public class Initialization
          try
          {
             log.info("reading " + url);
-            installComponentsFromXmlElements(getDocument(url.openStream()), replacements);
+            installComponentsFromXmlElements( XML.getRootElement( url.openStream() ), replacements );
          }
          catch (Exception e)
          {
@@ -126,7 +124,7 @@ public class Initialization
          log.info("reading /WEB-INF/components.xml");
          try
          {
-            installComponentsFromXmlElements(getDocument(stream), getReplacements());
+            installComponentsFromXmlElements( XML.getRootElement(stream), getReplacements() );
          }
          catch (Exception e)
          {
@@ -150,10 +148,10 @@ public class Initialization
       }
    }
 
-   private void installComponentsFromXmlElements(Document doc, Properties replacements)
+   private void installComponentsFromXmlElements(Element rootElement, Properties replacements)
             throws DocumentException, ClassNotFoundException
    {
-      List<Element> importElements = doc.getRootElement().elements("import-java-package");
+      List<Element> importElements = rootElement.elements("import-java-package");
       for (Element importElement : importElements)
       {
          String pkgName = importElement.getTextTrim();
@@ -161,20 +159,20 @@ public class Initialization
          addNamespace(Package.getPackage(pkgName));
       }
 
-      List<Element> componentElements = doc.getRootElement().elements("component");
+      List<Element> componentElements = rootElement.elements("component");
       for (Element component : componentElements)
       {
          installComponentFromXmlElement(component, component.attributeValue("name"), component
                   .attributeValue("class"), replacements);
       }
 
-      List<Element> factoryElements = doc.getRootElement().elements("factory");
+      List<Element> factoryElements = rootElement.elements("factory");
       for (Element factory : factoryElements)
       {
          installFactoryFromXmlElement(factory);
       }
 
-      for (Element elem : (List<Element>) doc.getRootElement().elements())
+      for (Element elem : (List<Element>) rootElement.elements())
       {
          String ns = elem.getNamespace().getURI();
          NamespaceInfo nsInfo = namespaceMap.get(ns);
@@ -230,15 +228,6 @@ public class Initialization
                .toUpperCase());
       boolean autoCreate = "true".equals(factory.attributeValue("auto-create"));
       factoryDescriptors.add(new FactoryDescriptor(name, scope, method, value, autoCreate));
-   }
-
-   private Document getDocument(InputStream stream) throws DocumentException
-   {
-      SAXReader saxReader = new SAXReader();
-      saxReader.setEntityResolver(new DTDEntityResolver());
-      saxReader.setMergeAdjacentText(true);
-      Document doc = saxReader.read(stream);
-      return doc;
    }
 
    private String replace(String value, Properties replacements)
@@ -476,21 +465,24 @@ public class Initialization
          try
          {
             Properties replacements = getReplacements();
-            Document doc = getDocument(stream);
-            if (doc.getRootElement().getName().equals("components"))
+            Element root = XML.getRootElement(stream);
+            if ( root.getName().equals("components") )
             {
-               installComponentsFromXmlElements(doc, replacements);
+               installComponentsFromXmlElements(root, replacements);
             }
             else
             {
                //TODO: namespaced components!!!
-               installComponentFromXmlElement(doc.getRootElement(), doc.getRootElement()
-                        .attributeValue("name"), clazz.getName(), replacements);
+               installComponentFromXmlElement(
+                        root, 
+                        root.attributeValue("name"), 
+                        clazz.getName(), replacements
+                     );
             }
          }
          catch (Exception e)
          {
-            throw new RuntimeException(e);
+            throw new RuntimeException("error while reading " + fileName, e);
          }
       }
    }

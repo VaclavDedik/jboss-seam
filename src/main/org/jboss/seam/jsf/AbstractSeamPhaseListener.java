@@ -251,7 +251,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       {
          FacesContext facesContext = event.getFacesContext();
          actionsWereCalled = Pages.callAction(facesContext) || actionsWereCalled;
-         actionsWereCalled = Pages.instance().callActions(facesContext) || actionsWereCalled;
+         actionsWereCalled = Pages.instance().callActionsAndValidateConversation(facesContext) || actionsWereCalled;
          return actionsWereCalled;
       }
       catch (RuntimeException re)

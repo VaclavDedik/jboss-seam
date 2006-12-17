@@ -19,10 +19,8 @@ import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -34,12 +32,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
-import org.jboss.seam.core.Page.PageParameter;
+import org.jboss.seam.core.Page.ConversationControl;
+import org.jboss.seam.core.Page.Param;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
+import org.jboss.seam.util.XML;
 
 /**
  * Holds metadata for pages defined in pages.xml, including
@@ -86,246 +85,13 @@ public class Pages extends Navigator
       }
    }
 
-   private void parse(InputStream stream)
-   {
-      Element root = getDocumentRoot(stream);
-      if (noConversationViewId==null) //let the setting in components.xml override the pages.xml
-      {
-         noConversationViewId = root.attributeValue("no-conversation-view-id");
-      }
-      List<Element> elements = root.elements("page");
-      for (Element page: elements)
-      {
-         parse( page, page.attributeValue("view-id") );
-      } 
-   }
-
-   private void parse(InputStream stream, String viewId)
-   {
-      parse( getDocumentRoot(stream), viewId );
-   }
-
-   private Element getDocumentRoot(InputStream stream)
-   {
-      Document doc;
-      SAXReader saxReader = new SAXReader();
-      saxReader.setEntityResolver( new DTDEntityResolver() );
-      saxReader.setMergeAdjacentText(true);
-      try
-      {
-         doc = saxReader.read(stream);
-      }
-      catch (DocumentException de)
-      {
-         throw new RuntimeException(de);
-      }
-      Element root = doc.getRootElement();
-      return root;
-   }
-
-   private void parse(Element element, String viewId)
-   {
-      Page page = parsePage(element, viewId);
-      
-      List<Element> children = element.elements("param");
-      for (Element param: children)
-      {
-         page.getPageParameters().add( parsePageParameter(param) );
-      }
-      
-      List<Element> moreChildren = element.elements("action-navigation");
-      for (Element fromAction: moreChildren)
-      {
-         parseNavigation(page, fromAction);
-      }
-   }
-
-   private Page parsePage(Element element, String viewId)
-   {
-      if (viewId==null)
-      {
-         throw new IllegalStateException("Must specify view-id for <page/> declaration");
-      }
-      
-      if ( viewId.endsWith("*") )
-      {
-         wildcardViewIds.add(viewId);
-      }
-      Page page = new Page(viewId);
-      pagesByViewId.put(viewId, page);
-      
-      page.setSwitchEnabled( !"disabled".equals( element.attributeValue("switch") ) );
-      
-      Element optionalElement = element.element("description");
-      String description = optionalElement==null ? 
-               element.getTextTrim() : optionalElement.getTextTrim();
-      if (description!=null && description.length()>0)
-      {
-         page.setDescription(description);
-      }
-      
-      String timeoutString = element.attributeValue("timeout");
-      if (timeoutString!=null)
-      {
-         page.setTimeout(Integer.parseInt(timeoutString));
-      }
-      
-      page.setNoConversationViewId( element.attributeValue("no-conversation-view-id") );
-      page.setConversationRequired( "true".equals( element.attributeValue("conversation-required") ) );
-      
-      String action = element.attributeValue("action");
-      if (action!=null)
-      {
-         if ( action.startsWith("#{") )
-         {
-            MethodBinding methodBinding = Expressions.instance().createMethodBinding(action);
-            page.setAction(methodBinding);
-         }
-         else
-         {
-            page.setOutcome(action);
-         }
-      }
-      
-      Element endConversation = element.element("end-conversation");
-      if ( endConversation!=null )
-      {
-         page.setEndConversation(true);
-      }
-      
-      Element beginConversation = element.element("begin-conversation");
-      if ( beginConversation!=null )
-      {
-         page.setBeginConversation(true);
-         page.setJoin( "true".equals( beginConversation.attributeValue("join") ) );
-         page.setNested( "true".equals( beginConversation.attributeValue("nested") ) );
-         page.setPageflow( beginConversation.attributeValue("pageflow") );
-         String flushMode = beginConversation.attributeValue("flush-mode");
-         if (flushMode!=null)
-         {
-            page.setFlushMode( FlushModeType.valueOf( flushMode.toUpperCase() ) );
-         }
-      }
-      
-      if ( page.isBeginConversation() && page.isEndConversation() )
-      {
-         throw new IllegalStateException("cannot use both <begin-conversation/> and <end-conversation/>");
-      }
-      
-      String bundle = element.attributeValue("bundle");
-      if (bundle!=null)
-      {
-         page.setResourceBundleName(bundle);
-      }
-      return page;
-   }
-
-   private void parseNavigation(Page entry, Element element)
-   {
-      Page.Navigation navigation = new Page.Navigation(); 
-      String outcomeExpression = element.attributeValue("outcome");
-      if (outcomeExpression!=null)
-      {
-         navigation.setOutcomeValueBinding( Expressions.instance().createValueBinding(outcomeExpression) );
-      }
-      List<Element> cases = element.elements("outcome");
-      for (Element childElement: cases)
-      {
-         Page.Case caze = parseCase(childElement);
-         String value = childElement.attributeValue("value");
-         if (value==null)
-         {
-            throw new IllegalStateException("Must specify value for <outcome/> declaration");
-         }
-         navigation.getCases().put(value, caze);
-      }
-      Element childElement = element.element("any-outcome");
-      if (childElement!=null)
-      {
-         navigation.setAnyCase( parseCase(childElement) );
-      }
-      childElement = element.element("null-outcome");
-      if (childElement!=null)
-      {
-         navigation.setNullCase( parseCase(childElement) );
-      }
-      
-      String expression = element.attributeValue("action");
-      if (expression==null)
-      {
-         entry.setDefaultNavigation(navigation);
-      }
-      else
-      {
-         entry.getNavigations().put(expression, navigation);
-      }
-   }
-
-   private Page.PageParameter parsePageParameter(Element element)
-   {
-      String valueExpression = element.attributeValue("value");
-      String name = element.attributeValue("name");
-      if (name==null)
-      {
-         if (valueExpression==null)
-         {
-            throw new IllegalArgumentException("must specify name or value for page <param/> declaration");
-         }
-         name = valueExpression.substring(2, valueExpression.length()-1);
-      }
-      Page.PageParameter pageParameter = new Page.PageParameter(name);
-      if (valueExpression!=null)
-      {
-         pageParameter.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
-      }
-      pageParameter.setConverterId(element.attributeValue("converterId"));
-      String converterExpression = element.attributeValue("converter");
-      if (converterExpression!=null)
-      {
-         pageParameter.setConverterValueBinding(Expressions.instance().createValueBinding(converterExpression));
-      }
-      return pageParameter;
-   }
-
-   private Page.Case parseCase(Element element)
-   {
-      Page.Case caze = new Page.Case();
-      Element render = element.element("render");
-      if (render!=null)
-      {
-         final String viewId = render.attributeValue("view-id");
-         caze.setResult(new Page.Result() {
-            public void navigate(FacesContext context)
-            {
-               render(viewId);
-            }
-         });
-      }
-      Element redirect = element.element("redirect");
-      if (redirect!=null)
-      {
-         List<Element> children = redirect.elements("param");
-         final List<PageParameter> pageParameters = new ArrayList<PageParameter>();
-         for (Element child: children)
-         {
-            pageParameters.add( parsePageParameter(child) );
-         }
-         final String viewId = redirect.attributeValue("view-id");
-         caze.setResult(new Page.Result() {
-            public void navigate(FacesContext context)
-            {
-               Map<String, Object> parameters = new HashMap<String, Object>();
-               for ( PageParameter pageParameter: pageParameters )
-               {
-                  parameters.put( pageParameter.getName(), getParameterValue(context, pageParameter) );
-               }
-               redirect(viewId, parameters);
-            }
-         });
-      }
-      return caze;
-   }
-
+   /**
+    * Run any navigation rule defined in pages.xml
+    * 
+    * @param actionExpression the action method binding expression
+    * @param actionOutcome the outcome of the action method
+    * @return true if a navigation rule was found
+    */
    public boolean navigate(FacesContext context, String actionExpression, final String actionOutcome)
    {
       String viewId = context.getViewRoot().getViewId();
@@ -335,7 +101,7 @@ public class Pages extends Navigator
          for (int i=stack.size()-1; i>=0; i--)
          {
             Page page = stack.get(i);
-            Page.Navigation navigation = page.getNavigations().get(actionExpression);
+            Page.ActionNavigation navigation = page.getNavigations().get(actionExpression);
             if (navigation==null)
             {
                navigation = page.getDefaultNavigation();
@@ -355,23 +121,23 @@ public class Pages extends Navigator
                   outcome = value==null ? null : value.toString();
                }
                
-               Page.Case caze;
+               Page.Outcome caze;
                if (outcome==null) 
                {
                   //JSF navhandler says ignore all rules when null outcome.
                   //so we have a special case for that
-                  caze = navigation.getNullCase();
+                  caze = navigation.getNullOutcome();
                }
                else
                {
-                  caze = navigation.getCases().get(outcome);
-                  if (caze==null) caze = navigation.getAnyCase();
+                  caze = navigation.getOutcomes().get(outcome);
+                  if (caze==null) caze = navigation.getAnyOutcome();
                }
                
                if (caze!=null)
                {
-                  //TODO: begin/end conversation, etc!!
-                  caze.getResult().navigate(context);
+                  caze.getConversationControl().beginOrEndConversation();
+                  caze.getNavigationHandler().navigate(context);
                   return true;
                }
                
@@ -408,6 +174,10 @@ public class Pages extends Navigator
       }
    }
 
+   /**
+    * Create a new Page object for a JSF view id,
+    * by searching for a viewId.page.xml file.
+    */
    private Page createPage(String viewId)
    {
       String resourceName = replaceExtension(viewId, ".page.xml");
@@ -464,6 +234,9 @@ public class Pages extends Navigator
       return stack;
    }
 
+   /**
+    * Create the stack of pages that match a JSF view id
+    */
    private List<Page> createPageStack(String viewId)
    {
       List<Page> stack = new ArrayList<Page>(1);
@@ -483,9 +256,10 @@ public class Pages extends Navigator
    }
    
    /**
-    * Call page actions, from most general view id to most specific
+    * Call page actions, and validate the existence of a conversation
+    * for pages which require a long-running conversation
     */
-   public boolean callActions(FacesContext facesContext)
+   public boolean callActionsAndValidateConversation(FacesContext facesContext)
    {
       boolean result = false;
       String viewId = facesContext.getViewRoot().getViewId();
@@ -504,11 +278,14 @@ public class Pages extends Navigator
       return result;
    }
 
+   /**
+    * Call page actions, from most general view id to most specific
+    */
    private boolean callAction(Page page, FacesContext facesContext)
    {
       boolean result = false;
       
-      page.beginOrEndConversation();
+      page.getConversationControl().beginOrEndConversation();
 
       String outcome = page.getOutcome();
       String fromAction = outcome;
@@ -538,13 +315,13 @@ public class Pages extends Navigator
       return returnValue == null ? null : returnValue.toString();
    }
 
+   /**
+    * Call the JSF navigation handler
+    */
    private static void handleOutcome(FacesContext facesContext, String outcome, String fromAction)
    {
-      /*if (outcome!=null)
-      {*/
-         facesContext.getApplication().getNavigationHandler()
-               .handleNavigation(facesContext, fromAction, outcome);
-      //}
+      facesContext.getApplication().getNavigationHandler()
+            .handleNavigation(facesContext, fromAction, outcome);
    }
    
    public static Pages instance()
@@ -635,7 +412,7 @@ public class Pages extends Navigator
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Page.PageParameter pageParameter: page.getPageParameters() )
+         for ( Page.Param pageParameter: page.getPageParameters() )
          {
             ValueBinding valueBinding = pageParameter.getValueBinding();
             Object value;
@@ -669,7 +446,7 @@ public class Pages extends Navigator
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Page.PageParameter pageParameter: page.getPageParameters() )
+         for ( Page.Param pageParameter: page.getPageParameters() )
          {
             if ( !overridden.contains( pageParameter.getName() ) )
             {
@@ -684,7 +461,11 @@ public class Pages extends Navigator
       return parameters;
    }
 
-   private Object getPageParameterValue(FacesContext facesContext, Page.PageParameter pageParameter)
+   /**
+    * Get the current value of a page parameter, looking in the page context
+    * if there is no value binding
+    */
+   private Object getPageParameterValue(FacesContext facesContext, Page.Param pageParameter)
    {
       ValueBinding valueBinding = pageParameter.getValueBinding();
       if (valueBinding==null)
@@ -697,7 +478,10 @@ public class Pages extends Navigator
       }
    }
 
-   private Object getParameterValue(FacesContext facesContext, Page.PageParameter pageParameter)
+   /**
+    * Get the current value of a page or redirection parameter
+    */
+   private static Object getParameterValue(FacesContext facesContext, Page.Param pageParameter)
    {
       Object value = pageParameter.getValueBinding().getValue();
       if (value==null)
@@ -731,7 +515,7 @@ public class Pages extends Navigator
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Page.PageParameter pageParameter: page.getPageParameters() )
+         for ( Page.Param pageParameter: page.getPageParameters() )
          {  
             
             String[] parameterValues = requestParameters.get(pageParameter.getName());
@@ -781,7 +565,7 @@ public class Pages extends Navigator
       String viewId = facesContext.getViewRoot().getViewId();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Page.PageParameter pageParameter: page.getPageParameters() )
+         for ( Page.Param pageParameter: page.getPageParameters() )
          {         
             ValueBinding valueBinding = pageParameter.getValueBinding();
             if (valueBinding!=null)
@@ -882,6 +666,274 @@ public class Pages extends Navigator
             .getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
       return defaultSuffix == null ? ViewHandler.DEFAULT_SUFFIX : defaultSuffix;
    
+   }
+
+   /**
+    * Parse a pages.xml file
+    */
+   private void parse(InputStream stream)
+   {
+      Element root = getDocumentRoot(stream);
+      if (noConversationViewId==null) //let the setting in components.xml override the pages.xml
+      {
+         noConversationViewId = root.attributeValue("no-conversation-view-id");
+      }
+      List<Element> elements = root.elements("page");
+      for (Element page: elements)
+      {
+         parse( page, page.attributeValue("view-id") );
+      } 
+   }
+
+   /**
+    * Parse a viewId.page.xml file
+    */
+   private void parse(InputStream stream, String viewId)
+   {
+      parse( getDocumentRoot(stream), viewId );
+   }
+
+   /**
+    * Get the root element of the document
+    */
+   private static Element getDocumentRoot(InputStream stream)
+   {
+      try
+      {
+         return XML.getRootElement(stream);
+      }
+      catch (DocumentException de)
+      {
+         throw new RuntimeException(de);
+      }
+   }
+
+   /**
+    * Parse a page element and add a Page to the map
+    */
+   private void parse(Element element, String viewId)
+   {
+      if (viewId==null)
+      {
+         throw new IllegalStateException("Must specify view-id for <page/> declaration");
+      }
+      
+      if ( viewId.endsWith("*") )
+      {
+         wildcardViewIds.add(viewId);
+      }
+      Page page = new Page(viewId);
+      pagesByViewId.put(viewId, page);
+
+      parsePage(page, element, viewId);
+      parseConversationControl( element, page.getConversationControl() );
+
+      List<Element> children = element.elements("param");
+      for (Element param: children)
+      {
+         page.getPageParameters().add( parsePageParameter(param) );
+      }
+      
+      List<Element> moreChildren = element.elements("action-navigation");
+      for (Element fromAction: moreChildren)
+      {
+         parseActionNavigation(page, fromAction);
+      }
+   }
+
+   /**
+    * Parse the attributes of page
+    */
+   private static Page parsePage(Page page, Element element, String viewId)
+   {
+      
+      page.setSwitchEnabled( !"disabled".equals( element.attributeValue("switch") ) );
+      
+      Element optionalElement = element.element("description");
+      String description = optionalElement==null ? 
+               element.getTextTrim() : optionalElement.getTextTrim();
+      if (description!=null && description.length()>0)
+      {
+         page.setDescription(description);
+      }
+      
+      String timeoutString = element.attributeValue("timeout");
+      if (timeoutString!=null)
+      {
+         page.setTimeout(Integer.parseInt(timeoutString));
+      }
+      
+      page.setNoConversationViewId( element.attributeValue("no-conversation-view-id") );
+      page.setConversationRequired( "true".equals( element.attributeValue("conversation-required") ) );
+      
+      String action = element.attributeValue("action");
+      if (action!=null)
+      {
+         if ( action.startsWith("#{") )
+         {
+            MethodBinding methodBinding = Expressions.instance().createMethodBinding(action);
+            page.setAction(methodBinding);
+         }
+         else
+         {
+            page.setOutcome(action);
+         }
+      }
+            
+      String bundle = element.attributeValue("bundle");
+      if (bundle!=null)
+      {
+         page.setResourceBundleName(bundle);
+      }
+      return page;
+   }
+
+   /**
+    * Parse end-conversation and begin-conversation
+    */
+   private static void parseConversationControl(Element element, ConversationControl control)
+   {
+      Element endConversation = element.element("end-conversation");
+      if ( endConversation!=null )
+      {
+         control.setEndConversation(true);
+      }
+      
+      Element beginConversation = element.element("begin-conversation");
+      if ( beginConversation!=null )
+      {
+         control.setBeginConversation(true);
+         control.setJoin( "true".equals( beginConversation.attributeValue("join") ) );
+         control.setNested( "true".equals( beginConversation.attributeValue("nested") ) );
+         control.setPageflow( beginConversation.attributeValue("pageflow") );
+         String flushMode = beginConversation.attributeValue("flush-mode");
+         if (flushMode!=null)
+         {
+            control.setFlushMode( FlushModeType.valueOf( flushMode.toUpperCase() ) );
+         }
+      }
+      
+      if ( control.isBeginConversation() && control.isEndConversation() )
+      {
+         throw new IllegalStateException("cannot use both <begin-conversation/> and <end-conversation/>");
+      }
+   }
+
+   /**
+    * Parse action-navigation
+    */
+   private static void parseActionNavigation(Page entry, Element element)
+   {
+      Page.ActionNavigation navigation = new Page.ActionNavigation(); 
+      String outcomeExpression = element.attributeValue("outcome");
+      if (outcomeExpression!=null)
+      {
+         navigation.setOutcomeValueBinding( Expressions.instance().createValueBinding(outcomeExpression) );
+      }
+      List<Element> cases = element.elements("outcome");
+      for (Element childElement: cases)
+      {
+         Page.Outcome caze = parseOutcome(childElement);
+         String value = childElement.attributeValue("value");
+         if (value==null)
+         {
+            throw new IllegalStateException("Must specify value for <outcome/> declaration");
+         }
+         navigation.getOutcomes().put(value, caze);
+      }
+      Element childElement = element.element("any-outcome");
+      if (childElement!=null)
+      {
+         navigation.setAnyOutcome( parseOutcome(childElement) );
+      }
+      childElement = element.element("null-outcome");
+      if (childElement!=null)
+      {
+         navigation.setNullOutcome( parseOutcome(childElement) );
+      }
+      
+      String expression = element.attributeValue("action");
+      if (expression==null)
+      {
+         entry.setDefaultNavigation(navigation);
+      }
+      else
+      {
+         entry.getNavigations().put(expression, navigation);
+      }
+   }
+
+   /**
+    * Parse param
+    */
+   private static Page.Param parsePageParameter(Element element)
+   {
+      String valueExpression = element.attributeValue("value");
+      String name = element.attributeValue("name");
+      if (name==null)
+      {
+         if (valueExpression==null)
+         {
+            throw new IllegalArgumentException("must specify name or value for page <param/> declaration");
+         }
+         name = valueExpression.substring(2, valueExpression.length()-1);
+      }
+      Page.Param param = new Page.Param(name);
+      if (valueExpression!=null)
+      {
+         param.setValueBinding(Expressions.instance().createValueBinding(valueExpression));
+      }
+      param.setConverterId(element.attributeValue("converterId"));
+      String converterExpression = element.attributeValue("converter");
+      if (converterExpression!=null)
+      {
+         param.setConverterValueBinding(Expressions.instance().createValueBinding(converterExpression));
+      }
+      return param;
+   }
+
+   /**
+    * parse outcome, any-outcome, null-outcome
+    */
+   private static Page.Outcome parseOutcome(Element element)
+   {
+      Page.Outcome caze = new Page.Outcome();
+      parseConversationControl( element, caze.getConversationControl() );
+      
+      Element render = element.element("render");
+      if (render!=null)
+      {
+         final String viewId = render.attributeValue("view-id");
+         caze.setNavigationHandler(new Page.NavigationHandler() {
+            public void navigate(FacesContext context)
+            {
+               render(viewId);
+            }
+         });
+      }
+      Element redirect = element.element("redirect");
+      if (redirect!=null)
+      {
+         List<Element> children = redirect.elements("param");
+         final List<Param> pageParameters = new ArrayList<Param>();
+         for (Element child: children)
+         {
+            pageParameters.add( parsePageParameter(child) );
+         }
+         final String viewId = redirect.attributeValue("view-id");
+         caze.setNavigationHandler(new Page.NavigationHandler() {
+            public void navigate(FacesContext context)
+            {
+               Map<String, Object> parameters = new HashMap<String, Object>();
+               for ( Param pageParameter: pageParameters )
+               {
+                  parameters.put( pageParameter.getName(), getParameterValue(context, pageParameter) );
+               }
+               redirect(viewId, parameters);
+            }
+         });
+      }
+      return caze;
    }
 
 }

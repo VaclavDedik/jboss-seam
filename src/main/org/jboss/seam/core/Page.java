@@ -14,22 +14,22 @@ import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
 
 /**
- * Metadata about page actions, page parameters, resource bundle
- * etc, for a particular JSF view id.
+ * Metadata about page actions, page parameters, action navigation,
+ * resource bundle, etc, for a particular JSF view id.
  */
 public final class Page
 {
-   public static final class PageParameter
+   public static final class Param
    {
-      PageParameter(String name)
-      {
-         this.name = name;
-      }
-      
       private final String name;
       private ValueBinding valueBinding;
       private ValueBinding converterValueBinding;
       private String converterId;
+      
+      Param(String name)
+      {
+         this.name = name;
+      }
       
       Converter getConverter()
       {
@@ -95,25 +95,25 @@ public final class Page
 
    }
    
-   public static final class Navigation
+   public static final class ActionNavigation
    {
       private ValueBinding<Object> outcomeValueBinding;
-      private Map<String, Case> cases = new HashMap<String, Case>();
-      private Case nullCase;
-      private Case anyCase;
+      private Map<String, Outcome> outcomes = new HashMap<String, Outcome>();
+      private Outcome nullOutcome;
+      private Outcome anyOutcome;
       
-      public Map<String, Case> getCases()
+      public Map<String, Outcome> getOutcomes()
       {
-         return cases;
+         return outcomes;
       }
       
-      void setNullCase(Case defaultCase)
+      void setNullOutcome(Outcome outcome)
       {
-         this.nullCase = defaultCase;
+         this.nullOutcome = outcome;
       }
-      public Case getNullCase()
+      public Outcome getNullOutcome()
       {
-         return nullCase;
+         return nullOutcome;
       }
       
       void setOutcomeValueBinding(ValueBinding<Object> outcomeValueBinding)
@@ -125,19 +125,40 @@ public final class Page
          return outcomeValueBinding;
       }
 
-      public Case getAnyCase()
+      public Outcome getAnyOutcome()
       {
-         return anyCase;
+         return anyOutcome;
       }
-      void setAnyCase(Case elseCase)
+      void setAnyOutcome(Outcome outcome)
       {
-         this.anyCase = elseCase;
+         this.anyOutcome = outcome;
       }
    }
    
-   public static final class Case
+   public static final class Outcome
    {
-      private Result result;
+      private NavigationHandler navigationHandler;
+      private ConversationControl conversationControl = new ConversationControl();
+
+      protected NavigationHandler getNavigationHandler()
+      {
+         return navigationHandler;
+      }
+
+      protected void setNavigationHandler(NavigationHandler result)
+      {
+         this.navigationHandler = result;
+      }
+
+      protected ConversationControl getConversationControl()
+      {
+         return conversationControl;
+      }
+   }
+   
+   public static class ConversationControl
+   {
+   
       private boolean isBeginConversation;
       private boolean isEndConversation;
       private boolean join;
@@ -145,65 +166,92 @@ public final class Page
       private FlushModeType flushMode;
       private String pageflow;
       
-      void setResult(Result result)
+      public boolean isBeginConversation()
       {
-         this.result = result;
+         return isBeginConversation;
       }
-      Result getResult()
-      {
-         return result;
-      }
+   
       void setBeginConversation(boolean isBeginConversation)
       {
          this.isBeginConversation = isBeginConversation;
       }
-      boolean isBeginConversation()
+   
+      public boolean isEndConversation()
       {
-         return isBeginConversation;
+         return isEndConversation;
       }
+   
       void setEndConversation(boolean isEndConversation)
       {
          this.isEndConversation = isEndConversation;
       }
-      boolean isEndConversation()
+      
+      public void beginOrEndConversation()
       {
-         return isEndConversation;
+         if ( isEndConversation )
+         {
+            Conversation.instance().end();
+         }
+         if ( isBeginConversation )
+         {
+            boolean begun = Conversation.instance().begin(join, nested);
+            if (begun)
+            {
+               if (flushMode!=null)
+               {
+                  Conversation.instance().changeFlushMode(flushMode);
+               }
+               if ( pageflow!=null  )
+               {
+                  Pageflow.instance().begin(pageflow);
+               }
+            }
+         }
       }
-      void setJoin(boolean join)
+   
+      public FlushModeType getFlushMode()
       {
-         this.join = join;
+         return flushMode;
       }
-      boolean isJoin()
-      {
-         return join;
-      }
-      void setNested(boolean nested)
-      {
-         this.nested = nested;
-      }
-      boolean isNested()
-      {
-         return nested;
-      }
+   
       void setFlushMode(FlushModeType flushMode)
       {
          this.flushMode = flushMode;
       }
-      FlushModeType getFlushMode()
+   
+      public boolean isJoin()
       {
-         return flushMode;
+         return join;
       }
+   
+      void setJoin(boolean join)
+      {
+         this.join = join;
+      }
+   
+      public boolean isNested()
+      {
+         return nested;
+      }
+   
+      void setNested(boolean nested)
+      {
+         this.nested = nested;
+      }
+   
+      public String getPageflow()
+      {
+         return pageflow;
+      }
+   
       void setPageflow(String pageflow)
       {
          this.pageflow = pageflow;
       }
-      String getPageflow()
-      {
-         return pageflow;
-      }
+      
    }
-   
-   public interface Result
+
+   public static interface NavigationHandler
    {
       public void navigate(FacesContext context);
    }
@@ -216,16 +264,11 @@ public final class Page
    private String noConversationViewId;
    private String resourceBundleName;
    private boolean switchEnabled = true;
-   private List<PageParameter> pageParameters = new ArrayList<PageParameter>();
-   private Map<String, Navigation> navigations = new HashMap<String, Navigation>();
-   private Navigation defaultNavigation;
-   private boolean isBeginConversation;
-   private boolean isEndConversation;
-   private boolean join;
-   private boolean nested;
-   private FlushModeType flushMode;
-   private String pageflow;
+   private List<Param> pageParameters = new ArrayList<Param>();
+   private Map<String, ActionNavigation> navigations = new HashMap<String, ActionNavigation>();
+   private ActionNavigation defaultNavigation;
    private boolean conversationRequired;
+   private ConversationControl conversationControl = new ConversationControl();
    
    Page(String viewId)
    {
@@ -350,12 +393,12 @@ public final class Page
       return switchEnabled;
    }
 
-   public List<Page.PageParameter> getPageParameters()
+   public List<Page.Param> getPageParameters()
    {
       return pageParameters;
    }
 
-   public Map<String, Page.Navigation> getNavigations()
+   public Map<String, Page.ActionNavigation> getNavigations()
    {
       return navigations;
    }
@@ -364,90 +407,7 @@ public final class Page
    {
       return description!=null;
    }
-
-   public boolean isBeginConversation()
-   {
-      return isBeginConversation;
-   }
-
-   void setBeginConversation(boolean isBeginConversation)
-   {
-      this.isBeginConversation = isBeginConversation;
-   }
-
-   public boolean isEndConversation()
-   {
-      return isEndConversation;
-   }
-
-   void setEndConversation(boolean isEndConversation)
-   {
-      this.isEndConversation = isEndConversation;
-   }
    
-   public void beginOrEndConversation()
-   {
-      if ( isEndConversation )
-      {
-         Conversation.instance().end();
-      }
-      if ( isBeginConversation )
-      {
-         boolean begun = Conversation.instance().begin(join, nested);
-         if (begun)
-         {
-            if (flushMode!=null)
-            {
-               Conversation.instance().changeFlushMode(flushMode);
-            }
-            if ( pageflow!=null  )
-            {
-               Pageflow.instance().begin(pageflow);
-            }
-         }
-      }
-   }
-
-   public FlushModeType getFlushMode()
-   {
-      return flushMode;
-   }
-
-   void setFlushMode(FlushModeType flushMode)
-   {
-      this.flushMode = flushMode;
-   }
-
-   public boolean isJoin()
-   {
-      return join;
-   }
-
-   void setJoin(boolean join)
-   {
-      this.join = join;
-   }
-
-   public boolean isNested()
-   {
-      return nested;
-   }
-
-   void setNested(boolean nested)
-   {
-      this.nested = nested;
-   }
-
-   public String getPageflow()
-   {
-      return pageflow;
-   }
-
-   void setPageflow(String pageflow)
-   {
-      this.pageflow = pageflow;
-   }
-
    public boolean isConversationRequired()
    {
       return conversationRequired;
@@ -458,14 +418,19 @@ public final class Page
       this.conversationRequired = conversationRequired;
    }
 
-   public Navigation getDefaultNavigation()
+   public ActionNavigation getDefaultNavigation()
    {
       return defaultNavigation;
    }
 
-   void setDefaultNavigation(Navigation defaultActionOutcomeMapping)
+   void setDefaultNavigation(ActionNavigation defaultActionOutcomeMapping)
    {
       this.defaultNavigation = defaultActionOutcomeMapping;
+   }
+
+   protected ConversationControl getConversationControl()
+   {
+      return conversationControl;
    }
 
 }

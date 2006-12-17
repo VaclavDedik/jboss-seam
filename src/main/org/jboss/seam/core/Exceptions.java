@@ -10,9 +10,7 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 
-import org.dom4j.Document;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -28,11 +26,11 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.util.DTDEntityResolver;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.Transactions;
+import org.jboss.seam.util.XML;
 
 /**
  * Holds metadata for pages defined in pages.xml, including
@@ -74,11 +72,7 @@ public class Exceptions extends Navigator
       else
       {
          log.info("reading exceptions.xml");
-         SAXReader saxReader = new SAXReader();
-         saxReader.setEntityResolver( new DTDEntityResolver() );
-         saxReader.setMergeAdjacentText(true);
-         Document doc = saxReader.read(stream);
-         List<Element> elements = doc.getRootElement().elements("exception");
+         List<Element> elements = XML.getRootElement(stream).elements("exception");
          for (Element exception: elements)
          {
             String className = exception.attributeValue("class");
