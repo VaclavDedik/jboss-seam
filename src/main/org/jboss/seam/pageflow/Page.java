@@ -41,6 +41,10 @@ public class Page extends Node implements Parsable
    public void read(Element pageElement, JpdlXmlReader jpdlXmlReader) 
    {
       viewId = pageElement.attributeValue("view-id");
+      if (viewId==null)
+      {
+         throw new IllegalStateException("must specify view-id for <page/> node");
+      }
       noConversationViewId = pageElement.attributeValue("no-conversation-view-id");
       backEnabled = "enabled".equals( pageElement.attributeValue("back") );
       switchEnabled = !"disabled".equals( pageElement.attributeValue("switch") );

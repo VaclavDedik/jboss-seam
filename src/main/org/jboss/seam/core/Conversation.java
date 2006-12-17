@@ -194,9 +194,14 @@ public class Conversation implements Serializable {
       }
       else
       {
-         Manager.instance().beginConversation( Seam.getComponentName(Conversation.class) );
+         reallyBegin();
          return true;
       }
+   }
+
+   private void reallyBegin()
+   {
+      Manager.instance().beginConversation( Seam.getComponentName(Conversation.class) );
    }
    
    /**
@@ -221,8 +226,9 @@ public class Conversation implements Serializable {
     * 
     * @param join if a conversation is active, should we join it?
     * @param nested if a conversation is active, should we start a new nested conversation?
+    * @return true if a new long-running conversation was begun
     */
-   public void begin(boolean join, boolean nested)
+   public boolean begin(boolean join, boolean nested)
    {
       boolean longRunningConversation = Manager.instance().isLongRunningOrNestedConversation();
       if ( !join && !nested && longRunningConversation  )
@@ -231,11 +237,17 @@ public class Conversation implements Serializable {
       }
       else if ( !longRunningConversation )
       {
-         begin();
+         reallyBegin();
+         return true;
       }
       else if (nested)
       {
          beginNested();
+         return true;
+      }
+      else
+      {
+         return false;
       }
    }
    

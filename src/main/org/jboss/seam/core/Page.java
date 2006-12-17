@@ -383,14 +383,17 @@ public final class Page
       }
       if ( isBeginConversation )
       {
-         Conversation.instance().begin(join, nested);
-         if (flushMode!=null)
+         boolean begun = Conversation.instance().begin(join, nested);
+         if (begun)
          {
-            Conversation.instance().changeFlushMode(flushMode);
-         }
-         if (pageflow!=null)
-         {
-            Pageflow.instance().begin(pageflow);
+            if (flushMode!=null)
+            {
+               Conversation.instance().changeFlushMode(flushMode);
+            }
+            if ( pageflow!=null  )
+            {
+               Pageflow.instance().begin(pageflow);
+            }
          }
       }
    }
