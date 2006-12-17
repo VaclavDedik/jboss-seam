@@ -63,16 +63,19 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      String id = new NonFacesRequest("/hotel.xhtml") {
-
+      String id = new FacesRequest("/hotel.xhtml") {
+         
          @Override
-         protected void renderResponse()
-         {
+         protected void invokeApplication() throws Exception {
             HotelBooking hotelBooking = (HotelBooking) getInstance("hotelBooking");
             DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
             assert hotels.getRowCount()==1;
             hotelBooking.selectHotel( (Hotel) hotels.getRowData() );
-            //assert "hotel".equals(outcome);
+         }
+
+         @Override
+         protected void renderResponse()
+         {
             Hotel hotel = (Hotel) Contexts.getConversationContext().get("hotel");
             assert hotel.getCity().equals("NY");
             assert hotel.getZip().equals("10011");
@@ -86,7 +89,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{hotelBooking.bookHotel}").equals("book");
+            invokeMethod("#{hotelBooking.bookHotel}");
          }
 
          @Override
@@ -191,7 +194,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{hotelBooking.setBookingDetails}").equals("confirm");
+            invokeMethod("#{hotelBooking.setBookingDetails}");
          }
 
          @Override
@@ -207,18 +210,12 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{hotelBooking.confirm}").equals("confirmed");
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            assert !Manager.instance().isLongRunningConversation();
+            invokeMethod("#{hotelBooking.confirm}");
          }
          
       }.run();
       
-      new NonFacesRequest("/confirmed.xhtml") {
+      new NonFacesRequest("/main.xhtml") {
 
          @Override
          protected void renderResponse()
@@ -241,7 +238,7 @@ public class BookingTest extends SeamTest
          {
             ListDataModel bookings = (ListDataModel) Contexts.getSessionContext().get("bookings");
             bookings.setRowIndex(0);
-            assert invokeMethod("#{bookingList.cancel}").equals("main");
+            invokeMethod("#{bookingList.cancel}");
          }
 
          @Override

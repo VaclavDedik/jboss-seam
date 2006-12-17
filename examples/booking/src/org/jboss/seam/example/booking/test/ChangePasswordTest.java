@@ -86,7 +86,7 @@ public class ChangePasswordTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{changePassword.changePassword}").equals("main");
+            invokeMethod("#{changePassword.changePassword}");
          }
 
          @Override
@@ -115,7 +115,7 @@ public class ChangePasswordTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{changePassword.changePassword}").equals("main");
+            invokeMethod("#{changePassword.changePassword}");
          }
 
          @Override

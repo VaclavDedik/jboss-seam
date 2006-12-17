@@ -20,7 +20,7 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            assert invokeMethod("#{hotelBooking.bookHotel}").equals("login");
+            invokeMethod("#{hotelBooking.bookHotel}");
          }
 
          @Override
@@ -46,7 +46,7 @@ public class LoginTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{login.login}").equals("main");
+            invokeMethod("#{login.login}");
          }
 
          @Override
@@ -93,7 +93,7 @@ public class LoginTest extends SeamTest
          {
             assert !Manager.instance().isLongRunningConversation();
             assert !isSessionInvalid();
-            assert invokeMethod("#{logout.logout}").equals("login");
+            invokeMethod("#{logout.logout}");
             assert Seam.isSessionInvalid();
          }
 
