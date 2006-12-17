@@ -9,7 +9,7 @@
 <!ELEMENT pages (page*)>
 <!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
 
-<!ELEMENT page (#PCDATA|description|param|end-conversation|begin-conversation|navigation)*>
+<!ELEMENT page (#PCDATA|description|param|end-conversation|begin-conversation|action-navigation)*>
 <!ATTLIST page action CDATA #IMPLIED>
 <!ATTLIST page view-id CDATA #IMPLIED>
 <!ATTLIST page switch (enabled|disabled) "enabled">
@@ -24,14 +24,14 @@
 <!ATTLIST param converter CDATA #IMPLIED>
 <!ATTLIST param converterId CDATA #IMPLIED>
 
-<!ELEMENT navigation (case*,default?)>
-<!ATTLIST navigation action CDATA #IMPLIED>
-<!ATTLIST navigation outcome CDATA #IMPLIED>
+<!ELEMENT action-navigation (outcome*,null-outcome?)>
+<!ATTLIST action-navigation action CDATA #IMPLIED>
+<!ATTLIST action-navigation outcome CDATA #IMPLIED>
 
-<!ELEMENT case ((begin-conversation|end-conversation)?,(render|redirect))>
-<!ATTLIST case outcome CDATA #REQUIRED>
+<!ELEMENT outcome ((begin-conversation|end-conversation)?,(render|redirect))>
+<!ATTLIST outcome value CDATA #REQUIRED>
 
-<!ELEMENT default ((begin-conversation|end-conversation)?,(render|redirect))>
+<!ELEMENT null-outcome ((begin-conversation|end-conversation)?,(render|redirect))>
 
 <!ELEMENT begin-conversation EMPTY>
 <!ATTLIST begin-conversation join (true|false) "false">

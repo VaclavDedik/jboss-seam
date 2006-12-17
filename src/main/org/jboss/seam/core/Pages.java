@@ -133,7 +133,7 @@ public class Pages extends Navigator
          page.getPageParameters().add( parsePageParameter(param) );
       }
       
-      List<Element> moreChildren = element.elements("navigation");
+      List<Element> moreChildren = element.elements("action-navigation");
       for (Element fromAction: moreChildren)
       {
          parseNavigation(page, fromAction);
@@ -223,13 +223,13 @@ public class Pages extends Navigator
       {
          navigation.setOutcomeValueBinding(Expressions.instance().createValueBinding(outcomeExpression));
       }
-      List<Element> cases = element.elements("case");
+      List<Element> cases = element.elements("outcome");
       for (Element childElement: cases)
       {
          Page.Case caze = parseCase(childElement);
-         navigation.getCases().put( childElement.attributeValue("outcome"), caze );
+         navigation.getCases().put( childElement.attributeValue("value"), caze );
       }
-      Element childElement = element.element("default");
+      Element childElement = element.element("null-outcome");
       if (childElement!=null)
       {
          navigation.setDefaultCase(parseCase(childElement));
