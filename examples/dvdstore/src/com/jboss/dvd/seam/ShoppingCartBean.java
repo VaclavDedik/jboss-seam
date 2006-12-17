@@ -8,6 +8,8 @@ package com.jboss.dvd.seam;
 
 import static org.jboss.seam.ScopeType.SESSION;
 
+import java.math.BigDecimal;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,15 +57,15 @@ public class ShoppingCartBean
         return cartSelection;
     }
 
-    public float getSubtotal() {
+    public BigDecimal getSubtotal() {
         return cartOrder.getNetAmount();
     }
 
-    public float getTax() {
+    public BigDecimal getTax() {
         return cartOrder.getTax();
     }
 
-    public float getTotal() {
+    public BigDecimal getTotal() {
         return cartOrder.getTotalAmount();
     }
 

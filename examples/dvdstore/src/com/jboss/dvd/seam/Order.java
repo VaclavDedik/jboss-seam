@@ -7,6 +7,7 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +30,14 @@ public class Order
 {
     public enum Status {OPEN,CANCELLED,PROCESSING,SHIPPED}
 
+    public static BigDecimal TAX_RATE = new BigDecimal(".0825");
+
     long orderId;
     Date orderDate;
     Customer customer;
-    float netAmount;
-    float tax;
-    float totalAmount;
+    BigDecimal netAmount = BigDecimal.ZERO;
+    BigDecimal tax = BigDecimal.ZERO;
+    BigDecimal totalAmount = BigDecimal.ZERO;
     List<OrderLine> orderLines = new ArrayList<OrderLine>();
     Status status = Status.OPEN;
     String trackingNumber;
@@ -105,26 +108,26 @@ public class Order
     }
 
     @Column(name="NETAMOUNT",nullable=false,precision=12,scale=2)
-    public float getNetAmount() {
+    public BigDecimal getNetAmount() {
         return netAmount;
     }
-    public void setNetAmount(float amount) {
+    public void setNetAmount(BigDecimal amount) {
         this.netAmount = amount;
     }
 
     @Column(name="TAX",nullable=false,precision=12,scale=2)
-    public float getTax() {
+    public BigDecimal getTax() {
         return tax;
     }
-    public void setTax(float amount) {
+    public void setTax(BigDecimal amount) {
         this.tax = amount;
     }
 
     @Column(name="TOTALAMOUNT",nullable=false,precision=12,scale=2)
-    public float getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
-    public void setTotalAmount(float amount) {
+    public void setTotalAmount(BigDecimal amount) {
         this.totalAmount = amount;
     }
 
@@ -150,17 +153,19 @@ public class Order
     }
 
     public void calculateTotals() {
-        float total = 0;
+        BigDecimal total = BigDecimal.ZERO;
         
         int index = 1;
         for (OrderLine line: orderLines) {
             line.setPosition(index++);
-            total += round(line.getProduct().getPrice() * line.getQuantity());
+            total = total.add(line.getProduct().getPrice().multiply(new BigDecimal(line.getQuantity())));
         }
         
-        setNetAmount(round(total));
-        setTax(round(getNetAmount() * .0825));
-        setTotalAmount(round(getNetAmount() + getTax()));
+        setNetAmount(total);
+
+        
+        setTax(round(getNetAmount().multiply(TAX_RATE)));
+        setTotalAmount(getNetAmount().add(getTax()));
     }
 
     public void cancel() {
@@ -176,12 +181,12 @@ public class Order
         setTrackingNumber(tracking);
     }
     
-    // just make sure it only has 2 digits
-    private float round(double val) {
-        int tmp = (int) (val * 100.0 + .5);
-        float res = (float) (tmp / 100.0);
 
-        return res;
+    /**
+     * round a positive big decimal to 2 decimal points
+     */
+    private BigDecimal round(BigDecimal amount) {
+        return new BigDecimal(amount.movePointRight(2).add(new BigDecimal(".5")).toBigInteger()).movePointLeft(2);
     }
 
     @Transient

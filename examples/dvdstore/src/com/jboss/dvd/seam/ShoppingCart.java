@@ -6,6 +6,7 @@
  */ 
 package com.jboss.dvd.seam;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +18,9 @@ public interface ShoppingCart
     public List<OrderLine> getCart();
     public Map getCartSelection();
 
-    public float getSubtotal();
-    public float getTax();
-    public float getTotal();
+    public BigDecimal getSubtotal();
+    public BigDecimal getTax();
+    public BigDecimal getTotal();
 
     public void updateCart();
     public void resetCart();

@@ -7,6 +7,7 @@
 package com.jboss.dvd.seam;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class Product
     String title;
     String description;
     String imageURL;
-    float price;
+    BigDecimal price = BigDecimal.ZERO;
 
     List<Actor>    actors;
     Set<Category> categories;
@@ -114,10 +115,10 @@ public class Product
     }
 
     @Column(name="PRICE",nullable=false,precision=12,scale=2)
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price=price;
     }
 }

@@ -6,13 +6,14 @@
  */ 
 package com.jboss.dvd.seam;
 
+import java.math.BigDecimal;
 import javax.ejb.Local;
 
 @Local
 public interface StoreManager
 {  
-    public long    getNumberOrders();
-    public long    getUnitsSold();
-    public long    getTotalInventory();
-    public double getTotalSales();
+    public long getNumberOrders();
+    public long getUnitsSold();
+    public long getTotalInventory();
+    public BigDecimal getTotalSales();
 }

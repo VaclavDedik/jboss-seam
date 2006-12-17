@@ -1,5 +1,6 @@
 package com.jboss.dvd.seam;
 
+import java.math.BigDecimal;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -13,7 +14,7 @@ import org.jboss.seam.annotations.Name;
 @Name("afterShipping")
 public class AfterShippingAction {
     @In Long orderId;
-    @In float amount;
+    @In BigDecimal amount;
     @In(scope=ScopeType.BUSINESS_PROCESS) 
     String customer;
     

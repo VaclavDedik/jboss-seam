@@ -7,6 +7,8 @@
 
 package com.jboss.dvd.seam;
 
+import java.math.BigDecimal;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,12 +55,9 @@ public class CheckoutAction
     @Out(scope=ScopeType.BUSINESS_PROCESS, required=false)
     long orderId;
     @Out(scope=ScopeType.BUSINESS_PROCESS, required=false)
-    float amount;
+    BigDecimal amount = BigDecimal.ZERO;
     @Out(value="customer",scope=ScopeType.BUSINESS_PROCESS, required=false)
     String customerName;
-
-//     public void startCheckout() {
-//     }
 
     @Begin(nested=true, pageflow="checkout") 
     public void createOrder() {

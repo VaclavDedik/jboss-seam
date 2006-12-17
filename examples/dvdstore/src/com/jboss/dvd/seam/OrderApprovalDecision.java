@@ -1,13 +1,17 @@
 package com.jboss.dvd.seam;
 
+import java.math.BigDecimal;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 
 @Name("orderApproval")
 public class OrderApprovalDecision {
-   @In float amount;
-   public String getHowLargeIsOrder()
-   {
-      return amount > 100 ? "large order" : "small order";
-   }
+    private static BigDecimal CUTOFF = new BigDecimal(100);
+
+    @In BigDecimal amount;
+    
+    public String getHowLargeIsOrder()
+    {
+        return (amount.compareTo(CUTOFF) >= 0) ? "large order" : "small order";
+                                }
 }

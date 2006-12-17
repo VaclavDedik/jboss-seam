@@ -6,6 +6,7 @@
  */ 
 package com.jboss.dvd.seam;
 
+import java.math.BigDecimal;
 import java.io.Serializable;
 
 import javax.ejb.Stateless;
@@ -30,14 +31,14 @@ public class StoreManagerBean
             .getSingleResult();
     }
 
-    public double getTotalSales() {
+    public BigDecimal getTotalSales() {
         try {
-            Double totalSales = (Double) em.createQuery("select sum(o.totalAmount) from Order o where o.status != :status")
-                         .setParameter("status", Order.Status.CANCELLED)
-                         .getSingleResult();
-            return totalSales==null ? 0.0 : totalSales;
+            BigDecimal totalSales = (BigDecimal) em.createQuery("select sum(o.totalAmount) from Order o where o.status != :status")
+                .setParameter("status", Order.Status.CANCELLED)
+                .getSingleResult();
+            return totalSales==null ? BigDecimal.ZERO : totalSales;
         } catch (NoResultException e) {
-            return 0.0;
+            return BigDecimal.ZERO;
         }
     }
 
