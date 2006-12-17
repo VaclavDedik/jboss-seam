@@ -8,6 +8,8 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.ejb.Timer;
 
+import java.math.BigDecimal;
+
 
 @Name("processor")
 public class PaymentProcessor {
@@ -27,7 +29,7 @@ public class PaymentProcessor {
         log.info("Timer handle is #0", payment.getTimerHandle());
 
         if (payment.getActive()) {
-            float balance = payment.getAccount().adjustBalance(-payment.getAmount());
+            BigDecimal balance = payment.getAccount().adjustBalance(payment.getAmount().negate());
             log.info(":: balance is now #0", balance);
             payment.setLastPaid(new Date());
 

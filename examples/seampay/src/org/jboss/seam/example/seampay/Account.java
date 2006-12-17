@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
+import java.math.BigDecimal;
+
 import javax.persistence.*;
-import org.hibernate.validator.Length;
+import org.hibernate.validator.*;
 
 @Entity
 public class Account
@@ -14,7 +16,10 @@ public class Account
     @Id @GeneratedValue 
     private Long id;
 
-    float  balance;
+    @NotNull
+    BigDecimal balance;
+
+    @NotNull
     String accountNumber;
     //String login;
     //String password;
@@ -42,13 +47,13 @@ public class Account
     }
 
 
-    public float getBalance()
+    public BigDecimal getBalance()
     {
         return balance;
     }
 
-    public float adjustBalance(float amount) {
-        balance += amount;
+    public BigDecimal adjustBalance(BigDecimal amount) {
+        balance = balance.add(amount);
         return balance;
     }
 

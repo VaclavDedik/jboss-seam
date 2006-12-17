@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.*;
+import java.math.*;
 
 import org.hibernate.validator.*;
 
@@ -15,8 +16,10 @@ public class Payment
     @Id @GeneratedValue 
     private Long id;
 
-    // neither @Min or @Pattern work here
-    private float amount;
+    @NotNull
+    @Digits(integerDigits=8,fractionalDigits=2)
+    private BigDecimal amount;
+
     @NotNull @Length(min=1)
     private String payee;
 
@@ -40,11 +43,18 @@ public class Payment
         return id;
     }
     
-    public float getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
-    public void setAmount(float amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public BigInteger getTesting() {
+        return testing;
+    }
+    public void setTesting(BigInteger testing) {
+        this.testing = testing;
     }
     
     public String getPayee()
