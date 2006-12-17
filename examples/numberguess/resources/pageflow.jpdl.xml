@@ -16,6 +16,7 @@
       <transition name="guess" to="evaluateGuess">
          <action expression="#{numberGuess.guess}"/>
       </transition>
+      <transition name="giveup" to="giveup"/>
    </start-page>
    
    <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
@@ -27,6 +28,12 @@
       <transition name="true" to="lose"/>
       <transition name="false" to="displayGuess"/>
    </decision>
+   
+   <page name="giveup" view-id="/giveup.jspx">
+      <redirect/>
+      <transition name="yes" to="lose"/>
+      <transition name="no" to="displayGuess"/>
+   </page>
    
    <page name="win" view-id="/win.jspx">
       <redirect/>

@@ -33,6 +33,7 @@
         </h:inputText>
 		<h:commandButton value="Guess" action="guess"/>
         <s:button value="Cheat" view="/confirm.jspx"/>
+        <s:button value="Give up" action="giveup"/>
 		<br/>
         <h:message for="guess" style="color: red"/>
 	  </h:form>

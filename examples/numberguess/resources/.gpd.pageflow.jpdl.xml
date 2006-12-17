@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<pageflow-diagram name="numberGuess" width="769" height="397">
+<pageflow-diagram name="numberGuess" width="816" height="595">
   <node name="displayGuess" x="255" y="47" width="140" height="40">
     <transition name="guess">
       <label x="-41" y="-23"/>
+    </transition>
+    <transition name="giveup">
+      <label x="-15" y="13"/>
+      <bendpoint w1="217" h1="-33" w2="-203" h2="-29"/>
     </transition>
   </node>
   <node name="evaluateGuess" x="59" y="149" width="180" height="40">
@@ -20,6 +24,16 @@
     </transition>
     <transition name="false">
       <label x="17" y="-23"/>
+    </transition>
+  </node>
+  <node name="giveup" x="675" y="43" width="140" height="40">
+    <transition name="yes">
+      <label x="39" y="-84"/>
+      <bendpoint w1="-50" h1="170" w2="189" h2="-68"/>
+    </transition>
+    <transition name="no">
+      <label x="-6" y="7"/>
+      <bendpoint w1="-201" h1="27" w2="219" h2="23"/>
     </transition>
   </node>
   <node name="win" x="78" y="280" width="140" height="40"/>
