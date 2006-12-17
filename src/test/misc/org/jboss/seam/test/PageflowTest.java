@@ -84,7 +84,7 @@ public class PageflowTest {
       "    <redirect/>" +
       "    <end-conversation/>" +
       "  </page>" +    
-      "  <page name='continue'>" +
+      "  <page name='continue' view-id='/browse.xhtml'>" +
       "    <end-conversation/>" +
       "  </page>" +
       "</pageflow-definition>"
