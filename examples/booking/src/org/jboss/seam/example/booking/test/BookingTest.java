@@ -26,13 +26,13 @@ public class BookingTest extends SeamTest
    public void testBookHotel() throws Exception
    {
       
-      new FacesRequest()
-      {
+      new FacesRequest() {
+         
          @Override
          protected void invokeApplication() throws Exception
          {
-            Contexts.getSessionContext().set("loggedIn", true);
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
+            invokeMethod("#{login.login}");
          }
          
       }.run();

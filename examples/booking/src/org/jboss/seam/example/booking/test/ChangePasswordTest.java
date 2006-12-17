@@ -19,8 +19,8 @@ public class ChangePasswordTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            Contexts.getSessionContext().set("loggedIn", true);
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
+            invokeMethod("#{login.login}");
          }
          
       }.run();
@@ -41,7 +41,7 @@ public class ChangePasswordTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
+            assert getValue("#{login.loggedIn}").equals(true);
 
          }
          
@@ -69,7 +69,7 @@ public class ChangePasswordTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
+            assert getValue("#{login.loggedIn}").equals(true);
          }
          
       }.run();
@@ -96,7 +96,7 @@ public class ChangePasswordTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("xxxyyy");
             assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
+            assert getValue("#{login.loggedIn}").equals(true);
 
          }
          
@@ -125,7 +125,7 @@ public class ChangePasswordTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
+            assert getValue("#{login.loggedIn}").equals(true);
 
          }
          

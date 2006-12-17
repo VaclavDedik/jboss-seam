@@ -2,7 +2,6 @@
 package org.jboss.seam.example.booking.test;
 
 import org.jboss.seam.Seam;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
@@ -20,15 +19,7 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            invokeMethod("#{hotelBooking.bookHotel}");
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn")==null;
-
+            assert getValue("#{login.loggedIn}").equals(false);
          }
          
       }.run();
@@ -56,8 +47,7 @@ public class LoginTest extends SeamTest
             assert getValue("#{user.username}").equals("gavin");
             assert getValue("#{user.password}").equals("foobar");
             assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
-
+            assert getValue("#{login.loggedIn}").equals(true);
          }
          
       }.run();
@@ -68,20 +58,7 @@ public class LoginTest extends SeamTest
          protected void invokeApplication()
          {
             assert !isSessionInvalid();
-            try
-            {
-               invokeMethod("#{hotelBooking.bookHotel}");
-               assert false;
-            }
-            catch (Exception e) {}
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            assert !Manager.instance().isLongRunningConversation();
-            assert Contexts.getSessionContext().get("loggedIn").equals(true);
-
+            assert getValue("#{login.loggedIn}").equals(true);
          }
          
       }.run();
@@ -93,13 +70,14 @@ public class LoginTest extends SeamTest
          {
             assert !Manager.instance().isLongRunningConversation();
             assert !isSessionInvalid();
-            invokeMethod("#{logout.logout}");
+            invokeMethod("#{login.logout}");
             assert Seam.isSessionInvalid();
          }
 
          @Override
          protected void renderResponse()
          {
+            assert getValue("#{login.loggedIn}").equals(false);
             assert Seam.isSessionInvalid();
          }
          
