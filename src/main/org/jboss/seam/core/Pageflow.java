@@ -261,7 +261,8 @@ public class Pageflow extends AbstractMutable implements Serializable
       return getNode().getLeavingTransition(null)!=null;
    }
    
-   private boolean isNullOutcome(String outcome) {
+   private boolean isNullOutcome(String outcome) 
+   {
       return outcome==null || "".equals(outcome);
    }
 
@@ -285,7 +286,7 @@ public class Pageflow extends AbstractMutable implements Serializable
          {
             //we don't use jBPM's default transition,
             //instead we use the "anonymous" transition
-            PageflowHelper.signal(processInstance, (String) null);
+            PageflowHelper.signal(processInstance, null);
             navigate(context);
          }
       }

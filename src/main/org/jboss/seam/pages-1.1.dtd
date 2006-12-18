@@ -9,7 +9,7 @@
 <!ELEMENT pages (page*)>
 <!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
 
-<!ELEMENT page (#PCDATA|description|param|end-conversation|begin-conversation|action-navigation)*>
+<!ELEMENT page (#PCDATA|description|param|end-conversation|begin-conversation|action|action-navigation)*>
 <!ATTLIST page action CDATA #IMPLIED>
 <!ATTLIST page view-id CDATA #IMPLIED>
 <!ATTLIST page switch (enabled|disabled) "enabled">
@@ -24,14 +24,17 @@
 <!ATTLIST param converter CDATA #IMPLIED>
 <!ATTLIST param converterId CDATA #IMPLIED>
 
-<!ELEMENT action-navigation (null-outcome?,outcome*,any-outcome?)>
-<!ATTLIST action-navigation action CDATA #IMPLIED>
-<!ATTLIST action-navigation outcome CDATA #IMPLIED>
+<!ELEMENT action EMPTY>
+<!ATTLIST action if CDATA #IMPLIED>
+<!ATTLIST action execute CDATA #REQUIRED>
+
+<!ELEMENT action-navigation (((begin-conversation|end-conversation)?,(render|redirect))|(outcome*))>
+<!ATTLIST action-navigation from-action CDATA #IMPLIED>
+<!ATTLIST action-navigation evaluate CDATA #IMPLIED>
 
 <!ELEMENT outcome ((begin-conversation|end-conversation)?,(render|redirect))>
-<!ATTLIST outcome value CDATA #REQUIRED>
-<!ELEMENT any-outcome ((begin-conversation|end-conversation)?,(render|redirect))>
-<!ELEMENT null-outcome ((begin-conversation|end-conversation)?,(render|redirect))>
+<!ATTLIST outcome if-value CDATA #IMPLIED>
+<!ATTLIST outcome if CDATA #IMPLIED>
 
 <!ELEMENT begin-conversation EMPTY>
 <!ATTLIST begin-conversation join (true|false) "false">

@@ -125,25 +125,18 @@ public class Pages
                   outcomeValue = value==null ? null : value.toString();
                }
                
-               Outcome outcome;
-               if (outcomeValue==null) 
+               for ( Outcome outcome: navigation.getOutcomes() )
                {
-                  //JSF navhandler says ignore all rules when null outcome.
-                  //so we have a special case for that
-                  outcome = navigation.getNullOutcome();
-               }
-               else
-               {
-                  outcome = navigation.getOutcomes().get(outcomeValue);
-                  if (outcome==null) outcome = navigation.getAnyOutcome();
+                  if ( outcome.matches(outcomeValue) )
+                  {
+                     outcome.getConversationControl().beginOrEndConversation();
+                     outcome.getNavigationHandler().navigate(context);
+                     return true;
+                  }
                }
                
-               if (outcome!=null)
-               {
-                  outcome.getConversationControl().beginOrEndConversation();
-                  outcome.getNavigationHandler().navigate(context);
-                  return true;
-               }
+               navigation.getOutcome().getConversationControl().beginOrEndConversation();
+               navigation.getOutcome().getNavigationHandler().navigate(context);
                
             }
             
@@ -779,34 +772,24 @@ public class Pages
    private static void parseActionNavigation(Page entry, Element element)
    {
       ActionNavigation navigation = new ActionNavigation(); 
-      String outcomeExpression = element.attributeValue("outcome");
+      String outcomeExpression = element.attributeValue("evaluate");
       if (outcomeExpression!=null)
       {
          navigation.setOutcomeValueBinding( Expressions.instance().createValueBinding(outcomeExpression) );
       }
+      
       List<Element> cases = element.elements("outcome");
       for (Element childElement: cases)
       {
-         Outcome caze = parseOutcome(childElement);
-         String value = childElement.attributeValue("value");
-         if (value==null)
-         {
-            throw new IllegalStateException("Must specify value for <outcome/> declaration");
-         }
-         navigation.getOutcomes().put(value, caze);
-      }
-      Element childElement = element.element("any-outcome");
-      if (childElement!=null)
-      {
-         navigation.setAnyOutcome( parseOutcome(childElement) );
-      }
-      childElement = element.element("null-outcome");
-      if (childElement!=null)
-      {
-         navigation.setNullOutcome( parseOutcome(childElement) );
+         navigation.getOutcomes().add( parseOutcome(childElement) );
       }
       
-      String expression = element.attributeValue("action");
+      Outcome outcome = new Outcome();
+      parseNavigationHandler(element, outcome);
+      parseConversationControl( element, outcome.getConversationControl() );
+      navigation.setOutcome(outcome);
+      
+      String expression = element.attributeValue("from-action");
       if (expression==null)
       {
          entry.setDefaultNavigation(navigation);
@@ -852,8 +835,22 @@ public class Pages
    private static Outcome parseOutcome(Element element)
    {
       Outcome outcome = new Outcome();
-      parseConversationControl( element, outcome.getConversationControl() );
       
+      outcome.setValue( element.attributeValue("if-value") );
+      String expression = element.attributeValue("if");
+      if (expression!=null)
+      {
+         outcome.setExpression( Expressions.instance().createValueBinding(expression)  );
+      }
+      
+      parseConversationControl( element, outcome.getConversationControl() );
+      parseNavigationHandler(element, outcome);
+      
+      return outcome;
+   }
+
+   private static void parseNavigationHandler(Element element, Outcome outcome)
+   {
       Element render = element.element("render");
       if (render!=null)
       {
@@ -872,7 +869,6 @@ public class Pages
          final String viewId = redirect.attributeValue("view-id");
          outcome.setNavigationHandler( new RedirectNavigationHandler(viewId, params) );
       }
-      return outcome;
    }
 
 }

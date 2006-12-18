@@ -1792,7 +1792,7 @@ public class Component
       try
       {
          Method interfaceMethod = instance.getClass().getMethod(methodName, paramTypes);
-         if ( paramTypes.length==0 )
+         if ( paramTypes.length==0 || interfaceMethod.getParameterTypes().length==0 )
          {
             return Reflections.invokeAndWrap(interfaceMethod, instance);
          }

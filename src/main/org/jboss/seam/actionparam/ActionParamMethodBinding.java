@@ -51,8 +51,10 @@ public class ActionParamMethodBinding extends MethodBinding implements StateHold
         application = ( (SeamApplication11) FacesContext.getCurrentInstance().getApplication() ).getDelegate();
     }
     
-    public ActionParamMethodBinding(Application application, String expWithParams) {
-        if (MethodExpressionParser.isStringLiteral(expWithParams)) {
+    public ActionParamMethodBinding(Application application, String expWithParams)
+    {
+        if ( MethodExpressionParser.isStringLiteral(expWithParams) ) 
+        {
             throw new EvaluationException(expWithParams + " is not an EL expression");
         }
         
@@ -62,7 +64,8 @@ public class ActionParamMethodBinding extends MethodBinding implements StateHold
     }
     
     @Override
-    public Class getType(FacesContext facesContext) throws MethodNotFoundException {
+    public Class getType(FacesContext facesContext) throws MethodNotFoundException 
+    {
         return String.class; // since this is a JSF 1.1 style action, we assume it returns a String
     }
 
@@ -72,24 +75,29 @@ public class ActionParamMethodBinding extends MethodBinding implements StateHold
     }
 
     @Override
-    public String getExpressionString() {
+    public String getExpressionString() 
+    {
         return expWithParams;
     }
     
-    public void restoreState(FacesContext facesContext, Object object) {
+    public void restoreState(FacesContext facesContext, Object object) 
+    {
         this.expWithParams = (String) object;
         this.helper = new ActionParamBindingHelper(application, expWithParams);
     }
 
-    public Object saveState(FacesContext facesContext) {
+    public Object saveState(FacesContext facesContext) 
+    {
         return this.expWithParams;
     }
     
-    public void setTransient(boolean isTransient) {
+    public void setTransient(boolean isTransient) 
+    {
         this.isTransient = isTransient;
     }
 
-    public boolean isTransient() {
+    public boolean isTransient() 
+    {
         return this.isTransient;
     }
 }

@@ -493,19 +493,5 @@
         <converter-id>org.jboss.seam.ui.EnumConverter</converter-id> 
         <converter-class>org.jboss.seam.ui.EnumConverter</converter-class>    
     </converter>
-
-    <component>
-        <component-type>org.jboss.seam.ui.UIValidationFailed</component-type>
-        <component-class>org.jboss.seam.ui.UIValidationFailed</component-class>
-        <property>
-            <property-name>action</property-name>
-            <property-class>java.lang.String</property-class>
-        </property>
-    </component>
-    
-    <component>
-        <component-type>org.jboss.seam.ui.UIForceModelUpdate</component-type>
-        <component-class>org.jboss.seam.ui.UIForceModelUpdate</component-class>
-    </component>
     
 </faces-config>

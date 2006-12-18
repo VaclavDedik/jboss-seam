@@ -9,7 +9,7 @@ import javax.faces.validator.ValidatorException;
 
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.core.Validation;
+import org.jboss.seam.core.Validators;
 
 public class ModelValidator implements Validator
 {
@@ -22,7 +22,7 @@ public class ModelValidator implements Validator
       {
          throw new RuntimeException("component has no value attribute: " + component.getId());
       }
-      InvalidValue[] ivs = Validation.instance().validate( context, valueBinding.getExpressionString(), value );
+      InvalidValue[] ivs = Validators.instance().validate( context, valueBinding.getExpressionString(), value );
       if ( ivs.length>0 )
       {
          throw new ValidatorException( FacesMessages.createFacesMessage( FacesMessage.SEVERITY_WARN, ivs[0].getMessage() ) );

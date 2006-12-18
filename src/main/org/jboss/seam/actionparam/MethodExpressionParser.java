@@ -63,7 +63,7 @@ public class MethodExpressionParser implements Serializable
             
             this.hasParamsInExpression = hasParams(noBrackets);
 
-            if (isStringLiteral(expression)) 
+            if ( isStringLiteral(expression) ) 
             {
                 this.params = new String[0];
                 this.baseExpression = expression.trim();
@@ -72,7 +72,7 @@ public class MethodExpressionParser implements Serializable
                 return;
             }
             
-            if (hasNoMethod(noBrackets))
+            if ( hasNoMethod(noBrackets) )
             {
                 this.params = new String[0];
                 this.baseExpression = noBrackets;

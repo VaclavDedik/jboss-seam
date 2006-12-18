@@ -29,6 +29,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Pageflow;
 import org.jboss.seam.core.Pages;
 import org.jboss.seam.core.Switcher;
+import org.jboss.seam.core.Validation;
 import org.jboss.seam.util.Transactions;
 
 public abstract class AbstractSeamPhaseListener implements PhaseListener
@@ -324,10 +325,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
 
    protected void afterProcessValidations(FacesContext facesContext)
    {
-      if ( facesContext.getRenderResponse() )
-      {
-         Manager.instance().afterValidationFailure(facesContext);
-      }
+      Validation.instance().afterProcessValidations(facesContext);
    }
 
 }

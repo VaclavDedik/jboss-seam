@@ -3,47 +3,40 @@
  */
 package org.jboss.seam.pages;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jboss.seam.core.Expressions.ValueBinding;
 
 public final class ActionNavigation
 {
    private ValueBinding<Object> outcomeValueBinding;
-   private Map<String, Outcome> outcomes = new HashMap<String, Outcome>();
-   private Outcome nullOutcome;
-   private Outcome anyOutcome;
+   private List<Outcome> outcomes = new ArrayList<Outcome>();
+   private Outcome outcome;
    
-   public Map<String, Outcome> getOutcomes()
+   public List<Outcome> getOutcomes()
    {
       return outcomes;
-   }
-   
-   public void setNullOutcome(Outcome outcome)
-   {
-      this.nullOutcome = outcome;
-   }
-   public Outcome getNullOutcome()
-   {
-      return nullOutcome;
    }
    
    public void setOutcomeValueBinding(ValueBinding<Object> outcomeValueBinding)
    {
       this.outcomeValueBinding = outcomeValueBinding;
    }
+   
    public ValueBinding<Object> getOutcomeValueBinding()
    {
       return outcomeValueBinding;
    }
 
-   public Outcome getAnyOutcome()
+   public Outcome getOutcome()
    {
-      return anyOutcome;
+      return outcome;
    }
-   public void setAnyOutcome(Outcome outcome)
+
+   public void setOutcome(Outcome outcome)
    {
-      this.anyOutcome = outcome;
+      this.outcome = outcome;
    }
+
 }
