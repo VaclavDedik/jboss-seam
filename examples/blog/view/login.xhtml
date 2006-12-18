@@ -10,11 +10,14 @@
    <div class="blogEntry">
       <h:form>
          <div>
-            <h:outputLabel for="password">Password: </h:outputLabel>
+            <h:outputLabel for="password">Password:</h:outputLabel>
          </div>
          <div>
-            <h:inputSecret id="password" value="#{loginAction.password}" size="15" maxlength="15"/>
-            <h:commandButton value="Login" action="#{loginAction.login}"/>
+            <h:inputSecret id="password" 
+                        value="#{loginAction.password}" 
+                         size="15" 
+                    maxlength="15"/>
+            <h:commandButton value="Login"/>
             <span class="errors"><h:message for="password"/></span>
             <span class="errors"><h:messages globalOnly="true"/></span>
          </div>

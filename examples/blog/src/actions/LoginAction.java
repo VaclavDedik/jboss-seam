@@ -22,17 +22,15 @@ public class LoginAction implements Serializable
    String password;
    boolean loggedIn;
    
-   public String login() throws IOException
+   public void login() throws IOException
    {
       if ( blog.getPassword().equals(password) )
       {
          loggedIn = true;
-         return "/post.xhtml";
       }
       else
       {
          facesMessages.add("incorrect password");
-         return null;
       }
    }
    

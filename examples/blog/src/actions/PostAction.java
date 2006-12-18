@@ -9,6 +9,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.core.FacesMessages;
 
 import domain.Blog;
 import domain.BlogEntry;
@@ -28,12 +29,16 @@ public class PostAction
    
    @In(required=false) BlogEntry blogEntry;
    
-   public String post() throws IOException
+   public void post() throws IOException
    {
       blogEntry.setDate( new Date() );
       blog.getBlogEntries().add(blogEntry);
       entityManager.persist(blogEntry);
-      return "/index.xhtml";
+   }
+   
+   public void invalid()
+   {
+      FacesMessages.instance().add("You are missing some information, please try again");
    }
    
 }

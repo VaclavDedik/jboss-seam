@@ -5,15 +5,52 @@
 <pages>
 
    <page view-id="/search.xhtml">
-      <param name="searchPattern" value="#{searchService.searchPattern}"/>
+   
+      <param name="searchPattern" 
+            value="#{searchService.searchPattern}"/>
+            
    </page>
 
-   <page view-id="/entry.xhtml" action="#{entryAction.loadBlogEntry(blogEntry.id)}">
-      <param name="blogEntryId" value="#{blogEntry.id}"/>
+   <page view-id="/entry.xhtml"> 
+   
+      <param name="blogEntryId" 
+            value="#{blogEntry.id}"/>
+            
+      <action execute="#{entryAction.loadBlogEntry(blogEntry.id)}"/>
+      
    </page>
 
-   <page view-id="/post.xhtml" action="#{loginAction.challenge}"/>
+   <page view-id="/post.xhtml"> 
+   
+      <action execute="#{loginAction.challenge}"/>
+      
+      <action execute="#{postAction.post}"
+                   if="#{validation.succeeded}"/>
+                   
+      <action execute="#{postAction.invalid}"
+                   if="#{validation.failed}"/>
+      
+      <action-navigation from-action="#{postAction.post}">
+         <redirect view-id="/index.xhtml"/>
+      </action-navigation>
+      
+   </page>
+   
+   <page view-id="/login.xhtml">
+   
+      <action execute="#{loginAction.login}"
+                   if="#{validation.succeeded}"/>
+                   
+      <action-navigation>
+         <outcome if="#{loginAction.loggedIn}">
+            <redirect view-id="/post.xhtml"/>
+         </outcome>
+      </action-navigation>
+      
+   </page>
 
-   <page view-id="*" action="#{blog.hitCount.hit}"/>
+   <page view-id="*">
+      <action execute="#{blog.hitCount.hit}"/>
+   </page>
 
 </pages>
