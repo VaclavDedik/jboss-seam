@@ -1144,7 +1144,10 @@ public class Manager
       }
       if (validationFailedAction!=null)
       {
-         validationFailedAction.invoke(ctx, null);
+         Object result = validationFailedAction.invoke(ctx, null);
+         String outcome = result==null ? null : result.toString();
+         ctx.getApplication().getNavigationHandler()
+               .handleNavigation(ctx, validationFailedAction.getExpressionString(), outcome);
       }
    }
 

@@ -3,7 +3,6 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,9 +12,7 @@ import java.util.StringTokenizer;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletRequest;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -38,41 +35,40 @@ import org.jboss.seam.util.Strings;
 @Name("org.jboss.seam.core.localeSelector")
 @Intercept(NEVER)
 @Install(precedence=BUILT_IN)
-public class LocaleSelector extends AbstractMutable implements Serializable
+public class LocaleSelector extends Selector
 {
 
    private String language;
    private String country;
    private String variant;
    
-   private boolean cookieEnabled;
-   private int cookieMaxAge = 31536000; //1 year
-   
    @Create
    public void initLocale()
    {
-      if (cookieEnabled)
-      {
-         Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext()
-               .getRequestCookieMap().get("org.jboss.seam.core.Locale");
-         if (cookie!=null) setLocaleString( cookie.getValue() );
-      }
+      String localeString = getCookieValue();
+      if (localeString!=null) setLocaleString(localeString);
+   }
+   
+   @Override
+   protected String getCookieName()
+   {
+      return "org.jboss.seam.core.Locale";
    }
    
    /**
-    * Force the resource bundle to reload, using the current locale
+    * Force the resource bundle to reload, using the current locale,
+    * and raise the org.jboss.seam.localeSelected event.
     */
    public void select()
    {
       FacesContext.getCurrentInstance().getViewRoot().setLocale( getLocale() );
       Contexts.removeFromAllContexts( Seam.getComponentName(ResourceBundle.class) );
       Contexts.removeFromAllContexts( Seam.getComponentName(Messages.class) );
-      if (cookieEnabled)
-      {
-         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-         Cookie cookie = new Cookie( "org.jboss.seam.core.Locale", getLocaleString() );
-         cookie.setMaxAge(cookieMaxAge);
-         response.addCookie(cookie);
+      
+      setCookieValue( getLocaleString() );
+
+      if ( Events.exists() ) {
+          Events.instance().raiseEvent( "org.jboss.seam.localeSelected", getLocaleString() );
       }
    }
 
@@ -140,6 +136,9 @@ public class LocaleSelector extends AbstractMutable implements Serializable
       return selectItems;
    }
 
+   /**
+    * Get the selected locale
+    */
    public Locale getLocale() 
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -201,25 +200,4 @@ public class LocaleSelector extends AbstractMutable implements Serializable
       this.variant = variant;
    }
 
-   public boolean isCookieEnabled()
-   {
-      return cookieEnabled;
-   }
-
-   public void setCookieEnabled(boolean cookieEnabled)
-   {
-      setDirty(this.cookieEnabled, cookieEnabled);
-      this.cookieEnabled = cookieEnabled;
-   }
-
-   protected int getCookieMaxAge()
-   {
-      return cookieMaxAge;
-   }
-
-   protected void setCookieMaxAge(int cookieMaxAge)
-   {
-      this.cookieMaxAge = cookieMaxAge;
-   }
-   
 }

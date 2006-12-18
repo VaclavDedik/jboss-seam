@@ -3,12 +3,6 @@ package org.jboss.seam.core;
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.Serializable;
-
-import javax.faces.context.FacesContext;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -28,36 +22,35 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.core.timeZoneSelector")
 @Intercept(NEVER)
 @Install(value=false, precedence=BUILT_IN)
-public class TimeZoneSelector extends AbstractMutable implements Serializable
+public class TimeZoneSelector extends Selector
 {
 
    private String id;
    
-   private boolean cookieEnabled;
-   private int cookieMaxAge = 31536000; //1 year
-   
    @Create
    public void initTimeZone()
    {
-      if (cookieEnabled)
-      {
-         Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext()
-               .getRequestCookieMap().get("org.jboss.seam.core.TimeZone");
-         if (cookie!=null) setTimeZoneId( cookie.getValue() );
-      }
+      String timeZoneId = getCookieValue();
+      if (timeZoneId!=null) setTimeZoneId(timeZoneId);
+   }
+   
+   @Override
+   protected String getCookieName()
+   {
+      return "org.jboss.seam.core.TimeZone";
    }
    
    /**
-    * Force the resource bundle to reload, using the current locale
+    * Force the resource bundle to reload, using the current locale, 
+    * and raise the org.jboss.seam.timeToneSelected event
     */
    public void select()
    {
-      if (cookieEnabled)
+      setCookieValue( getTimeZoneId() );
+
+      if ( Events.exists() ) 
       {
-         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-         Cookie cookie = new Cookie( "org.jboss.seam.core.TimeZone", getTimeZoneId() );
-         cookie.setMaxAge(cookieMaxAge);
-         response.addCookie(cookie);
+          Events.instance().raiseEvent( "org.jboss.seam.timeToneSelected", getTimeZoneId() );
       }
    }
 
@@ -77,6 +70,9 @@ public class TimeZoneSelector extends AbstractMutable implements Serializable
       return id;
    }
 
+   /**
+    * Get the selected timezone
+    */
    public java.util.TimeZone getTimeZone() 
    {
       if (id==null)
@@ -96,27 +92,6 @@ public class TimeZoneSelector extends AbstractMutable implements Serializable
          throw new IllegalStateException("No active session context");
       }
       return (TimeZoneSelector) Component.getInstance(TimeZoneSelector.class, ScopeType.SESSION);
-   }
-
-   public boolean isCookieEnabled()
-   {
-      return cookieEnabled;
-   }
-
-   public void setCookieEnabled(boolean cookieEnabled)
-   {
-      setDirty(this.cookieEnabled, cookieEnabled);
-      this.cookieEnabled = cookieEnabled;
-   }
-
-   protected int getCookieMaxAge()
-   {
-      return cookieMaxAge;
-   }
-
-   protected void setCookieMaxAge(int cookieMaxAge)
-   {
-      this.cookieMaxAge = cookieMaxAge;
    }
    
 }
