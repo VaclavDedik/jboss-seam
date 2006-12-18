@@ -77,6 +77,13 @@
     </tag>
   
     <tag>
+        <tag-name>validationFailed</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UIValidationFailed</component-type>
+        </component>
+    </tag>
+  
+    <tag>
         <tag-name>message</tag-name>
         <component>
             <component-type>org.jboss.seam.ui.HtmlMessageDecoration</component-type>
