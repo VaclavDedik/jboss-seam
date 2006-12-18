@@ -121,6 +121,11 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       Events.instance().raiseEvent("org.jboss.seam.createProcess." + processDefinitionName);
    }
 
+   /**
+    * Start the current task, using the current actor id
+    * 
+    * @see Actor
+    */
    public void startTask()
    {
       String actorId = Actor.instance().getId();
@@ -138,9 +143,9 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    }
 
    /**
-    * End a task, via the given transition. If no transition name is given,
-    * check the Transition component for a transition, or use the default
-    * transition.
+    * End the current task, via the given transition. If no transition name 
+    * is given, check the Transition component for a transition, or use the 
+    * default transition.
     * 
     * @param transitionName the jBPM transition name, or null
     */

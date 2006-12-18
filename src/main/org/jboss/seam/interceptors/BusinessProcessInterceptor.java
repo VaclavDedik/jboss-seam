@@ -13,8 +13,6 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.BeginTask;
 import org.jboss.seam.annotations.CreateProcess;
@@ -24,6 +22,8 @@ import org.jboss.seam.annotations.ResumeProcess;
 import org.jboss.seam.annotations.StartTask;
 import org.jboss.seam.core.BusinessProcess;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Interceptor which handles interpretation of jBPM-related annotations.
