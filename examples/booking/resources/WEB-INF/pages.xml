@@ -6,6 +6,9 @@
 
     <page view-id="/register.xhtml">
     
+        <action if="#{validation.failed}"
+           execute="#{register.invalid}"/>
+    
         <action-navigation>
             <outcome if="#{register.registered}">
                 <redirect view-id="/home.xhtml"/>
@@ -34,8 +37,9 @@
         
     </page>
 
-    <page view-id="/main.xhtml" 
-          action="#{login.validateLogin}">
+    <page view-id="/main.xhtml">
+    
+        <action execute="#{login.validateLogin}"/>
         
         <action-navigation from-action="#{login.validateLogin}">
             <outcome if="#{not login.loggedIn}">
