@@ -5,43 +5,46 @@
 <pages no-conversation-view-id="/main.xhtml">
 
     <page view-id="/register.xhtml">
-        <action-navigation outcome="#{register.registered}">
-            <outcome value="true">
+    
+        <action-navigation>
+            <outcome if="#{register.registered}">
                 <redirect view-id="/home.xhtml"/>
             </outcome>
         </action-navigation>
+        
     </page>
 
     <page view-id="/home.xhtml">
-        <action-navigation outcome="#{login.loggedIn}">
-            <outcome value="true">
+    
+        <action-navigation>
+            <outcome if="#{login.loggedIn}">
                 <redirect view-id="/main.xhtml"/>
             </outcome>
         </action-navigation>
+        
     </page>
     
     <page view-id="/password.xhtml">
-        <action-navigation outcome="#{changePassword.changed}">
-            <outcome value="true">
+    
+        <action-navigation>
+            <outcome if="#{changePassword.changed}">
                 <redirect view-id="/main.xhtml"/>
             </outcome>
         </action-navigation>
+        
     </page>
 
     <page view-id="/main.xhtml" 
           action="#{login.validateLogin}">
         
-        <action-navigation action="#{login.validateLogin}"
-                          outcome="#{login.loggedIn}">
-            <outcome value="false">
+        <action-navigation from-action="#{login.validateLogin}">
+            <outcome if="#{not login.loggedIn}">
                 <redirect view-id="/home.xhtml"/>
             </outcome>
         </action-navigation>
         
-        <action-navigation action="#{hotelBooking.selectHotel(hot)}">
-            <null-outcome>
-                <redirect view-id="/hotel.xhtml"/>
-            </null-outcome>
+        <action-navigation from-action="#{hotelBooking.selectHotel(hot)}">
+            <redirect view-id="/hotel.xhtml"/>
         </action-navigation>
         
     </page>
@@ -51,10 +54,8 @@
           
         <description>View hotel: #{hotel.name}</description>
         
-        <action-navigation action="#{hotelBooking.bookHotel}">
-            <null-outcome>
-                <redirect view-id="/book.xhtml"/>
-            </null-outcome>
+        <action-navigation from-action="#{hotelBooking.bookHotel}">
+            <redirect view-id="/book.xhtml"/>
         </action-navigation>
         
     </page>
@@ -64,10 +65,8 @@
           
         <description>Book hotel: #{hotel.name}</description>
         
-        <action-navigation outcome="#{hotelBooking.bookingValid}">
-            <outcome value="true">
-                <redirect view-id="/confirm.xhtml"/>
-            </outcome>
+        <action-navigation>
+            <redirect view-id="/confirm.xhtml"/>
         </action-navigation>
         
     </page>
@@ -77,26 +76,20 @@
           
         <description>Confirm booking: #{booking.description}</description>
         
-        <action-navigation action="#{hotelBooking.confirm}">
-            <null-outcome>
-                <redirect view-id="/main.xhtml"/>
-            </null-outcome>
+        <action-navigation from-action="#{hotelBooking.confirm}">
+            <redirect view-id="/main.xhtml"/>
         </action-navigation>
         
     </page>
     
     <page view-id="*">
     
-        <action-navigation action="#{login.logout}">
-            <null-outcome>
-                <redirect view-id="/home.xhtml"/>
-            </null-outcome>
+        <action-navigation from-action="#{login.logout}">
+            <redirect view-id="/home.xhtml"/>
         </action-navigation>
 
-        <action-navigation action="#{hotelBooking.cancel}">
-            <null-outcome>
-                <redirect view-id="/main.xhtml"/>
-            </null-outcome>
+        <action-navigation from-action="#{hotelBooking.cancel}">
+            <redirect view-id="/main.xhtml"/>
         </action-navigation>
         
     </page>
