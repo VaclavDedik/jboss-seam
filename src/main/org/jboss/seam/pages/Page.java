@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 
-
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Locale;
-import org.jboss.seam.core.Expressions.MethodBinding;
 
 /**
  * Metadata about page actions, page parameters, action navigation,
@@ -20,12 +18,11 @@ public final class Page
    private final String viewId;
    private String description;
    private Integer timeout;
-   private MethodBinding action;
-   private String outcome;
    private String noConversationViewId;
    private String resourceBundleName;
    private boolean switchEnabled = true;
-   private List<Param> pageParameters = new ArrayList<Param>();
+   private List<Param> parameters = new ArrayList<Param>();
+   private List<Action> actions = new ArrayList<Action>();
    private Map<String, ActionNavigation> navigations = new HashMap<String, ActionNavigation>();
    private ActionNavigation defaultNavigation;
    private boolean conversationRequired;
@@ -104,26 +101,6 @@ public final class Page
       return timeout;
    }
 
-   public void setAction(MethodBinding action)
-   {
-      this.action = action;
-   }
-
-   public MethodBinding getAction()
-   {
-      return action;
-   }
-
-   public void setOutcome(String outcome)
-   {
-      this.outcome = outcome;
-   }
-
-   public String getOutcome()
-   {
-      return outcome;
-   }
-
    public void setNoConversationViewId(String noConversationViewId)
    {
       this.noConversationViewId = noConversationViewId;
@@ -154,9 +131,9 @@ public final class Page
       return switchEnabled;
    }
 
-   public List<Param> getPageParameters()
+   public List<Param> getParameters()
    {
-      return pageParameters;
+      return parameters;
    }
 
    public Map<String, ActionNavigation> getNavigations()
@@ -192,6 +169,11 @@ public final class Page
    public ConversationControl getConversationControl()
    {
       return conversationControl;
+   }
+
+   public List<Action> getActions()
+   {
+      return actions;
    }
 
 }

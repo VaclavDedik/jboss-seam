@@ -33,6 +33,7 @@ import org.jboss.seam.core.Expressions.MethodBinding;
 import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.pages.Action;
 import org.jboss.seam.pages.ActionNavigation;
 import org.jboss.seam.pages.ConversationControl;
 import org.jboss.seam.pages.Outcome;
@@ -284,23 +285,25 @@ public class Pages
       
       page.getConversationControl().beginOrEndConversation();
 
-      String outcome = page.getOutcome();
-      String fromAction = outcome;
-      
-      if (outcome==null)
+      for ( Action action: page.getActions() )
       {
-         MethodBinding methodBinding = page.getAction();
-         if (methodBinding!=null) 
+         if ( action.isExecutable() )
          {
-            fromAction = methodBinding.getExpressionString();
-            result = true;
-            outcome = toString( methodBinding.invoke() );
-            handleOutcome(facesContext, outcome, fromAction);
+            String outcome = action.getOutcome();
+            String fromAction = outcome;
+            
+            if (outcome==null)
+            {
+                     fromAction = action.getMethodBinding().getExpressionString();
+                     result = true;
+                     outcome = toString( action.getMethodBinding().invoke() );
+                     handleOutcome(facesContext, outcome, fromAction);
+            }
+            else
+            {
+               handleOutcome(facesContext, outcome, fromAction);
+            }
          }
-      }
-      else
-      {
-         handleOutcome(facesContext, outcome, fromAction);
       }
       
       return result;
@@ -409,7 +412,7 @@ public class Pages
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Param pageParameter: page.getPageParameters() )
+         for ( Param pageParameter: page.getParameters() )
          {
             ValueBinding valueBinding = pageParameter.getValueBinding();
             Object value;
@@ -443,7 +446,7 @@ public class Pages
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Param pageParameter: page.getPageParameters() )
+         for ( Param pageParameter: page.getParameters() )
          {
             if ( !overridden.contains( pageParameter.getName() ) )
             {
@@ -484,7 +487,7 @@ public class Pages
       Map<String, String[]> requestParameters = Parameters.getRequestParameters();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Param pageParameter: page.getPageParameters() )
+         for ( Param pageParameter: page.getParameters() )
          {  
             
             Object value = pageParameter.getValueFromRequest(facesContext, requestParameters);
@@ -512,7 +515,7 @@ public class Pages
       String viewId = facesContext.getViewRoot().getViewId();
       for ( Page page: getPageStack(viewId) )
       {
-         for ( Param pageParameter: page.getPageParameters() )
+         for ( Param pageParameter: page.getParameters() )
          {         
             ValueBinding valueBinding = pageParameter.getValueBinding();
             if (valueBinding!=null)
@@ -678,7 +681,7 @@ public class Pages
       List<Element> children = element.elements("param");
       for (Element param: children)
       {
-         page.getPageParameters().add( parseParam(param) );
+         page.getParameters().add( parseParam(param) );
       }
       
       List<Element> moreChildren = element.elements("action-navigation");
@@ -713,18 +716,12 @@ public class Pages
       page.setNoConversationViewId( element.attributeValue("no-conversation-view-id") );
       page.setConversationRequired( "true".equals( element.attributeValue("conversation-required") ) );
       
-      String action = element.attributeValue("action");
-      if (action!=null)
+      Action action = parseAction(element, "action");
+      if (action!=null) page.getActions().add(action);
+      List<Element> childElements = element.elements("action");
+      for (Element childElement: childElements)
       {
-         if ( action.startsWith("#{") )
-         {
-            MethodBinding methodBinding = Expressions.instance().createMethodBinding(action);
-            page.setAction(methodBinding);
-         }
-         else
-         {
-            page.setOutcome(action);
-         }
+         page.getActions().add( parseAction(childElement, "execute") );
       }
             
       String bundle = element.attributeValue("bundle");
@@ -733,6 +730,28 @@ public class Pages
          page.setResourceBundleName(bundle);
       }
       return page;
+   }
+
+   private static Action parseAction(Element element, String actionAtt)
+   {
+      Action action = new Action();
+      String methodExpression = element.attributeValue(actionAtt);
+      if (methodExpression==null) return null;
+      if ( methodExpression.startsWith("#{") )
+      {
+         MethodBinding methodBinding = Expressions.instance().createMethodBinding(methodExpression);
+         action.setMethodBinding(methodBinding);
+      }
+      else
+      {
+         action.setOutcome(methodExpression);
+      }
+      String expression = element.attributeValue("if");
+      if (expression!=null)
+      {
+         action.setValueBinding( Expressions.instance().createValueBinding(expression) );
+      }
+      return action;
    }
 
    /**
