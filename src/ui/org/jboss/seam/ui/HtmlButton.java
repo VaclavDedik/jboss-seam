@@ -81,7 +81,7 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
       writer.startElement("input", this);
       writer.writeAttribute("type", "button", null);
       if ( isDisabled() ) writer.writeAttribute("disabled", true, "disabled");
-      writer.writeAttribute("id", getClientId(context), null);
+      writer.writeAttribute("id", getClientId(context), "id");
 
       String viewId;
       ValueBinding viewBinding = getValueBinding("view");

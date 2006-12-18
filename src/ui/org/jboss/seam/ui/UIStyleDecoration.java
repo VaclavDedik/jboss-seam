@@ -54,15 +54,19 @@ public abstract class UIStyleDecoration extends UIComponentBase
       ResponseWriter response = context.getResponseWriter();
       response.startElement( getElement(), this );
 
+      response.writeAttribute("id", getClientId(context), "id");
+      
       ValueBinding classBinding = getValueBinding("styleClass");
-      String styleClass = classBinding==null ? this.styleClass : (String) classBinding.getValue(context);
+      String styleClass = classBinding==null ? 
+               this.styleClass : (String) classBinding.getValue(context);
       if (styleClass!=null) 
       {
          response.writeAttribute("class", styleClass, "styleClass");
       }
 
       ValueBinding styleBinding = getValueBinding("style");
-      String style = styleBinding==null ? this.style : (String) styleBinding.getValue(context);
+      String style = styleBinding==null ? 
+               this.style : (String) styleBinding.getValue(context);
       if (style!=null) 
       {
          response.writeAttribute("style", style, "style");

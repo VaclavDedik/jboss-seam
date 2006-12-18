@@ -81,7 +81,7 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    {
       ResponseWriter writer = context.getResponseWriter();
       writer.startElement("a", this);
-      writer.writeAttribute("id", getClientId(context), null);
+      writer.writeAttribute("id", getClientId(context), "id");
 
       String viewId;
       ValueBinding viewBinding = getValueBinding("view");
