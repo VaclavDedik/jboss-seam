@@ -84,6 +84,13 @@
     </tag>
   
     <tag>
+        <tag-name>forceModelUpdate</tag-name>
+        <component>
+            <component-type>org.jboss.seam.ui.UIForceModelUpdate</component-type>
+        </component>
+    </tag>
+  
+    <tag>
         <tag-name>message</tag-name>
         <component>
             <component-type>org.jboss.seam.ui.HtmlMessageDecoration</component-type>
@@ -138,4 +145,5 @@
             <converter-id>org.jboss.seam.ui.EnumConverter</converter-id>
         </converter>
     </tag>
+    
 </facelet-taglib>

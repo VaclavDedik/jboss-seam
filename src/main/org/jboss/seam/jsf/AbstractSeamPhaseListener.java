@@ -322,4 +322,12 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       }
    }
 
+   protected void afterProcessValidations(FacesContext facesContext)
+   {
+      if ( facesContext.getRenderResponse() )
+      {
+         Manager.instance().afterValidationFailure(facesContext);
+      }
+   }
+
 }

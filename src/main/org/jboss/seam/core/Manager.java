@@ -20,6 +20,7 @@ import java.util.StringTokenizer;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.log.LogProvider;
@@ -1120,6 +1121,31 @@ public class Manager
    protected void setParentConversationIdParameter(String nestedConversationIdParameter)
    {
       this.parentConversationIdParameter = nestedConversationIdParameter;
+   }
+   
+   private boolean forceModelUpdate;
+   private MethodBinding validationFailedAction;
+   
+   public void setValidationFailedAction(MethodBinding action)
+   {
+      validationFailedAction = action;
+   }
+   
+   public void setForceModelUpdate()
+   {
+      forceModelUpdate = true;
+   }
+   
+   public void afterValidationFailure(FacesContext ctx)
+   {
+      if (forceModelUpdate)
+      {
+         ctx.getViewRoot().processUpdates(ctx);
+      }
+      if (validationFailedAction!=null)
+      {
+         validationFailedAction.invoke(ctx, null);
+      }
    }
 
 }

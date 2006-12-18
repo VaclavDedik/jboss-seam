@@ -503,4 +503,9 @@
         </property>
     </component>
     
+    <component>
+        <component-type>org.jboss.seam.ui.UIForceModelUpdate</component-type>
+        <component-class>org.jboss.seam.ui.UIForceModelUpdate</component-class>
+    </component>
+    
 </faces-config>

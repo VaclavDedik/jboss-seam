@@ -10,6 +10,7 @@ import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
 import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
+import static javax.faces.event.PhaseId.PROCESS_VALIDATIONS;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -50,7 +51,7 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       {
          beforeRender(event);
       }
-      else if ( event.getPhaseId()== APPLY_REQUEST_VALUES )
+      else if ( event.getPhaseId() == APPLY_REQUEST_VALUES )
       {
          beforeUpdateModelValues(event);
       }
@@ -75,6 +76,10 @@ public class SeamPhaseListener extends AbstractSeamPhaseListener
       else if ( event.getPhaseId() == INVOKE_APPLICATION )
       {
          afterInvokeApplication();
+      }
+      else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
+      {
+         afterProcessValidations( event.getFacesContext() );
       }
             
       //has to happen after, since restoreAnyConversationContext() 

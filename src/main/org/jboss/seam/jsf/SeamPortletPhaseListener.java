@@ -8,6 +8,7 @@ package org.jboss.seam.jsf;
 
 import static javax.faces.event.PhaseId.APPLY_REQUEST_VALUES;
 import static javax.faces.event.PhaseId.INVOKE_APPLICATION;
+import static javax.faces.event.PhaseId.PROCESS_VALIDATIONS;
 import static javax.faces.event.PhaseId.RENDER_RESPONSE;
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
 
@@ -83,6 +84,10 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       {
          afterInvokeApplication();
       }
+      else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
+      {
+         afterProcessValidations( event.getFacesContext() );
+      }
       
       FacesMessages.afterPhase();
       
@@ -104,32 +109,6 @@ public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
       Lifecycle.setPhaseId(null);
       
    }
-
-   /**
-    * Write out the conversation id as a servlet response header or portlet
-    * render parameter.
-    */
-   /*private static void writeConversationIdToResponse(Object response)
-   {
-      Manager manager = Manager.instance();
-      String conversationIdParameter = manager.getConversationIdParameter();
-      String conversationId;
-      if ( manager.isLongRunningConversation() )
-      {
-         conversationId = manager.getCurrentConversationId();
-      }
-      else if ( manager.isNestedConversation() )
-      {
-         conversationId = manager.getParentConversationId();
-      }
-      else
-      {
-         //nothing to set
-         return;
-      }
-      //setResponseHeader(response, conversationIdParameter, conversationId);
-      setPortletRenderParameter(response, conversationIdParameter, conversationId);
-   }*/
 
    /**
     * Write out the conversation id as a servlet response header or portlet
