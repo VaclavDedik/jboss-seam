@@ -69,7 +69,7 @@
           
         <description>Book hotel: #{hotel.name}</description>
         
-        <action-navigation>
+        <action-navigation from-action="#{hotelBooking.setBookingDetails}">
             <redirect view-id="/confirm.xhtml"/>
         </action-navigation>
         
