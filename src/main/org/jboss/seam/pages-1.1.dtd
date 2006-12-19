@@ -9,7 +9,7 @@
 <!ELEMENT pages (page*)>
 <!ATTLIST pages no-conversation-view-id CDATA #IMPLIED>
 
-<!ELEMENT page (#PCDATA|description|param|end-conversation|begin-conversation|in|action|action-navigation)*>
+<!ELEMENT page (#PCDATA|description|param|in|begin-conversation|end-conversation|action|action-navigation)*>
 <!ATTLIST page action CDATA #IMPLIED>
 <!ATTLIST page view-id CDATA #IMPLIED>
 <!ATTLIST page switch (enabled|disabled) "enabled">
