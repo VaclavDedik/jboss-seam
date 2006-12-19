@@ -249,6 +249,11 @@ public class Pages
             result = page.enter(facesContext) || result;
          }
       }
+      
+      //run the s:link / s:button action after checking the
+      //conversation existence!
+      result = callAction(facesContext) || result;
+
       return result;
    }
 
@@ -278,7 +283,7 @@ public class Pages
    /**
     * Call the action requested by s:link or s:button.
     */
-   public static boolean callAction(FacesContext facesContext)
+   private static boolean callAction(FacesContext facesContext)
    {
       //TODO: refactor with Pages.instance().callAction()!!
       
