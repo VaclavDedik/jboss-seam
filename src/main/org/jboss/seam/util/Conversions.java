@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+
 public class Conversions
 {
    
@@ -36,8 +39,8 @@ public class Conversions
       //put(Date.class, new DateTimeConverter());
       //put(Short.class, new ShortConverter());
       //put(Byte.class, new ByteConverter());
-      //put(BigInteger.class, new BigIntegerConverter());
-      //put(BigDecimal.class, new BigDecimalConverter());
+      put(BigInteger.class, new BigIntegerConverter());
+      put(BigDecimal.class, new BigDecimalConverter());
       put(Class.class, new ClassConverter());
    }};
    
@@ -116,6 +119,23 @@ public class Conversions
          return  value.getSingleValue() ;
       }
    }
+
+   public static class BigDecimalConverter implements Converter<BigDecimal>
+   {
+      public BigDecimal toObject(PropertyValue value, Type type)
+      {
+         return new BigDecimal(value.getSingleValue());
+      }
+   }
+
+   public static class BigIntegerConverter implements Converter<BigInteger>
+   {
+      public BigInteger toObject(PropertyValue value, Type type)
+      {
+         return new BigInteger(value.getSingleValue());
+      }
+   }
+ 
    
    public static class StringArrayConverter implements Converter<String[]>
    {
