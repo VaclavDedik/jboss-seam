@@ -57,31 +57,34 @@ public class ConversationInterceptor extends AbstractInterceptor
    
    public boolean redirectToExistingConversation(Method method)
    {
-      String id = null;
-      if ( method.isAnnotationPresent(Begin.class) )
+      if ( !Manager.instance().isLongRunningConversation() )
       {
-         id = method.getAnnotation(Begin.class).id();
-      }
-      else if ( method.isAnnotationPresent(BeginTask.class) )
-      {
-         id = method.getAnnotation(BeginTask.class).id();
-      }
-      else if ( method.isAnnotationPresent(StartTask.class) )
-      {
-         id = method.getAnnotation(StartTask.class).id();
-      }
-      
-      if ( id!=null && !"".equals(id) )
-      {
-         id = Interpolator.instance().interpolate(id);
-         ConversationEntry ce = ConversationEntries.instance().getConversationEntry(id);
-         if (ce==null) 
+         String id = null;
+         if ( method.isAnnotationPresent(Begin.class) )
          {
-            Manager.instance().updateCurrentConversationId(id);
+            id = method.getAnnotation(Begin.class).id();
          }
-         else
+         else if ( method.isAnnotationPresent(BeginTask.class) )
          {
-            return ce.switchConversation();
+            id = method.getAnnotation(BeginTask.class).id();
+         }
+         else if ( method.isAnnotationPresent(StartTask.class) )
+         {
+            id = method.getAnnotation(StartTask.class).id();
+         }
+         
+         if ( id!=null && !"".equals(id) )
+         {
+            id = Interpolator.instance().interpolate(id);
+            ConversationEntry ce = ConversationEntries.instance().getConversationEntry(id);
+            if (ce==null) 
+            {
+               Manager.instance().updateCurrentConversationId(id);
+            }
+            else
+            {
+               return ce.switchConversation();
+            }
          }
       }
       

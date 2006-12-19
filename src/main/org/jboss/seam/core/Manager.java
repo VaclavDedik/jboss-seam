@@ -87,8 +87,20 @@ public class Manager
       currentConversationEntry = null;
    }
    
+   /**
+    * Must not be called from a long-running conversation!
+    * 
+    * @param id the new conversation id
+    */
    public void updateCurrentConversationId(String id)
    {
+      if ( ConversationEntries.instance().getConversationIds().contains(id) )
+      {
+         throw new IllegalStateException("Cannot update conversation id of long-running conversation");
+      }
+      
+      //this stuff is not really necessary, because probably 
+      //nothing has been flushed to the session yet!
       String[] names = Contexts.getConversationContext().getNames();
       Object[] values = new Object[names.length];
       for (int i=0; i<names.length; i++)
@@ -98,11 +110,11 @@ public class Manager
       }
       Contexts.getConversationContext().flush();
       
-      ConversationEntries.instance().updateConversationId( getCurrentConversationId(), id );
       currentConversationIdStack.set(0, id);
       setCurrentConversationId(id);
-      //TODO: update nested conversations!!!!!
       
+      //this stuff is not really necessary, because probably 
+      //nothing has been flushed to the session yet!
       for (int i=0; i<names.length; i++)
       {
          Contexts.getConversationContext().set(names[i], values[i]);
