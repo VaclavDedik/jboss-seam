@@ -631,7 +631,7 @@ public class Pages
          page.getParameters().add( parseParam(param) );
       }
       
-      List<Element> moreChildren = element.elements("action-navigation");
+      List<Element> moreChildren = element.elements("navigation");
       for (Element fromAction: moreChildren)
       {
          parseActionNavigation(page, fromAction);
@@ -748,7 +748,7 @@ public class Pages
    }
 
    /**
-    * Parse action-navigation
+    * Parse navigation
     */
    private static void parseActionNavigation(Page entry, Element element)
    {
@@ -759,7 +759,7 @@ public class Pages
          navigation.setOutcomeValueBinding( Expressions.instance().createValueBinding(outcomeExpression) );
       }
       
-      List<Element> cases = element.elements("outcome");
+      List<Element> cases = element.elements("rule");
       for (Element childElement: cases)
       {
          navigation.getOutcomes().add( parseOutcome(childElement) );
@@ -811,13 +811,13 @@ public class Pages
    }
 
    /**
-    * parse outcome, any-outcome, null-outcome
+    * Parse rule
     */
    private static Outcome parseOutcome(Element element)
    {
       Outcome outcome = new Outcome();
       
-      outcome.setValue( element.attributeValue("if-value") );
+      outcome.setValue( element.attributeValue("if-outcome") );
       String expression = element.attributeValue("if");
       if (expression!=null)
       {
