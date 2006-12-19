@@ -463,9 +463,12 @@ public class Lifecycle
       Contexts.conversationContext.set(conversationContext);
       try
       {
-         Contexts.destroy( conversationContext );
-         conversationContext.clear();
-         conversationContext.flush();
+         Contexts.destroy(conversationContext);
+         if ( !Seam.isSessionInvalid() ) //its also unnecessary during a session timeout
+         {
+            conversationContext.clear();
+            conversationContext.flush();
+         }
       }
       finally
       {
