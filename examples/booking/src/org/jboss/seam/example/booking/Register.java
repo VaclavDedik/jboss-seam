@@ -7,6 +7,7 @@ import javax.ejb.Local;
 public interface Register
 {
    public void register();
+   public void invalid();
    public String getVerify();
    public void setVerify(String verify);
    public boolean isRegistered();

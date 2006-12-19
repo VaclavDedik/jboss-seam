@@ -60,6 +60,11 @@ public class RegisterAction implements Register
       }
    }
    
+   public void invalid()
+   {
+      facesMessages.add("Please try again");
+   }
+   
    public boolean isRegistered()
    {
       return registered;
