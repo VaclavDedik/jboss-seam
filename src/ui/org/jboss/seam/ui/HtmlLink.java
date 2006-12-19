@@ -139,10 +139,11 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
       
       if ( "default".equals(propagation) || "join".equals(propagation) || "nest".equals(propagation) || "end".equals(propagation) )
       {
+         //always add the id, since conversations could begin after link is rendered
+         encodedUrl += getParameterString(characterEncoding, new UIConversationId(), first);
+         first = false;
          if ( Conversation.instance().isLongRunning() || Conversation.instance().isNested() )
          {
-            encodedUrl += getParameterString(characterEncoding, new UIConversationId(), first);
-            first = false;
             encodedUrl += getParameterString(characterEncoding, new UIConversationIsLongRunning(), first);
          }
       }
