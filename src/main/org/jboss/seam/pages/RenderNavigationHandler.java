@@ -15,8 +15,9 @@ public final class RenderNavigationHandler extends NavigationHandler
    }
 
    @Override
-   public void navigate(FacesContext context)
+   public boolean navigate(FacesContext context)
    {
       render(viewId);
+      return true;
    }
 }

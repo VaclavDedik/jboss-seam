@@ -3,6 +3,9 @@
  */
 package org.jboss.seam.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Expressions.ValueBinding;
@@ -11,10 +14,14 @@ public final class Outcome
 {
    private String value;
    private ValueBinding expression;
+   private List<Output> outputs = new ArrayList<Output>();
    private ConversationControl conversationControl = new ConversationControl();
    private NavigationHandler navigationHandler = new NavigationHandler() { 
       @Override
-      public void navigate(FacesContext context) {}
+      public boolean navigate(FacesContext context) 
+      {
+         return false;
+      }
    };
 
    public boolean matches(String actualValue)
@@ -57,5 +64,17 @@ public final class Outcome
    public void setValue(String value)
    {
       this.value = value;
+   }
+
+   public List<Output> getOutputs()
+   {
+      return outputs;
+   }
+
+   public boolean execute(FacesContext context)
+   {
+      getConversationControl().beginOrEndConversation();
+      for ( Output output: getOutputs() ) output.out();
+      return getNavigationHandler().navigate(context);
    }
 }

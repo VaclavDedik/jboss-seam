@@ -21,7 +21,7 @@ public final class RedirectNavigationHandler extends NavigationHandler
    }
 
    @Override
-   public void navigate(FacesContext context)
+   public boolean navigate(FacesContext context)
    {
       Map<String, Object> parameters = new HashMap<String, Object>();
       for ( Param pageParameter: params )
@@ -29,5 +29,6 @@ public final class RedirectNavigationHandler extends NavigationHandler
          parameters.put( pageParameter.getName(), pageParameter.getValueFromModel(context) );
       }
       redirect(viewId, parameters);
+      return true;
    }
 }

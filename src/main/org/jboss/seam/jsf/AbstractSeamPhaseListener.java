@@ -199,7 +199,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
 
       selectDataModelRow( facesContext.getExternalContext().getRequestParameterMap() );
       
-      callPageActions(event);
+      enterPage(event);
       
       if ( facesContext.getResponseComplete() )
       {
@@ -244,7 +244,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       Lifecycle.endRequest( facesContext.getExternalContext() );
    }
 
-   private boolean callPageActions(PhaseEvent event)
+   private boolean enterPage(PhaseEvent event)
    {
       Lifecycle.setPhaseId( PhaseId.INVOKE_APPLICATION );
       boolean actionsWereCalled = false;
@@ -252,7 +252,7 @@ public abstract class AbstractSeamPhaseListener implements PhaseListener
       {
          FacesContext facesContext = event.getFacesContext();
          actionsWereCalled = Pages.callAction(facesContext) || actionsWereCalled;
-         actionsWereCalled = Pages.instance().callActionsAndValidateConversation(facesContext) || actionsWereCalled;
+         actionsWereCalled = Pages.instance().enterPage(facesContext) || actionsWereCalled;
          return actionsWereCalled;
       }
       catch (RuntimeException re)

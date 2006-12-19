@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Locale;
+import org.jboss.seam.core.Pages;
 
 /**
  * Metadata about page actions, page parameters, action navigation,
@@ -22,6 +25,7 @@ public final class Page
    private String resourceBundleName;
    private boolean switchEnabled = true;
    private List<Param> parameters = new ArrayList<Param>();
+   private List<Input> inputs = new ArrayList<Input>();
    private List<Action> actions = new ArrayList<Action>();
    private Map<String, ActionNavigation> navigations = new HashMap<String, ActionNavigation>();
    private ActionNavigation defaultNavigation;
@@ -174,6 +178,48 @@ public final class Page
    public List<Action> getActions()
    {
       return actions;
+   }
+
+   /**
+    * Call page actions, in order they appear in XML, and
+    * handle conversation begin/end 
+    */
+   public boolean enter(FacesContext facesContext)
+   {
+      boolean result = false;
+      
+      getConversationControl().beginOrEndConversation();
+      
+      for ( Input in: getInputs() ) in.in();
+   
+      for ( Action action: getActions() )
+      {
+         if ( action.isExecutable() )
+         {
+            String outcome = action.getOutcome();
+            String fromAction = outcome;
+            
+            if (outcome==null)
+            {
+               fromAction = action.getMethodBinding().getExpressionString();
+               result = true;
+               outcome = Pages.toString( action.getMethodBinding().invoke() );
+               Pages.handleOutcome(facesContext, outcome, fromAction);
+            }
+            else
+            {
+               Pages.handleOutcome(facesContext, outcome, fromAction);
+            }
+         }
+      }
+      
+      return result;
+   
+   }
+
+   public List<Input> getInputs()
+   {
+      return inputs;
    }
 
 }

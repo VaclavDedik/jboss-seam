@@ -9,5 +9,5 @@ import org.jboss.seam.core.Navigator;
 
 public abstract class NavigationHandler extends Navigator
 {
-   public abstract void navigate(FacesContext context);
+   public abstract boolean navigate(FacesContext context);
 }

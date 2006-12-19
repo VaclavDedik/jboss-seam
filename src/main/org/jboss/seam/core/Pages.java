@@ -36,11 +36,13 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.pages.Action;
 import org.jboss.seam.pages.ActionNavigation;
 import org.jboss.seam.pages.ConversationControl;
+import org.jboss.seam.pages.Input;
 import org.jboss.seam.pages.Outcome;
 import org.jboss.seam.pages.Page;
 import org.jboss.seam.pages.Param;
 import org.jboss.seam.pages.RedirectNavigationHandler;
 import org.jboss.seam.pages.RenderNavigationHandler;
+import org.jboss.seam.pages.Output;
 import org.jboss.seam.util.Parameters;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.XML;
@@ -97,7 +99,7 @@ public class Pages
     * @param actionOutcomeValue the outcome of the action method
     * @return true if a navigation rule was found
     */
-   public boolean navigate(FacesContext context, String actionExpression, final String actionOutcomeValue)
+   public boolean navigate(FacesContext context, String actionExpression, String actionOutcomeValue)
    {
       String viewId = context.getViewRoot().getViewId();
       if (viewId!=null)
@@ -112,40 +114,13 @@ public class Pages
                navigation = page.getDefaultNavigation();
             }
             
-            if (navigation!=null)
-            {
-               
-               String outcomeValue;
-               if ( navigation.getOutcomeValueBinding()==null )
-               {
-                  outcomeValue = actionOutcomeValue;
-               }
-               else
-               {
-                  Object value = navigation.getOutcomeValueBinding().getValue();
-                  outcomeValue = value==null ? null : value.toString();
-               }
-               
-               for ( Outcome outcome: navigation.getOutcomes() )
-               {
-                  if ( outcome.matches(outcomeValue) )
-                  {
-                     outcome.getConversationControl().beginOrEndConversation();
-                     outcome.getNavigationHandler().navigate(context);
-                     return true;
-                  }
-               }
-               
-               navigation.getOutcome().getConversationControl().beginOrEndConversation();
-               navigation.getOutcome().getNavigationHandler().navigate(context);
-               
-            }
+            if ( navigation!=null && navigation.navigate(context, actionOutcomeValue) ) return true;  
             
          }
       }
       return false;
    }
-   
+
    /**
     * Get the Page object for the given view id.
     * 
@@ -255,9 +230,10 @@ public class Pages
    
    /**
     * Call page actions, and validate the existence of a conversation
-    * for pages which require a long-running conversation
+    * for pages which require a long-running conversation, starting
+    * with the most general view id, ending at the most specific
     */
-   public boolean callActionsAndValidateConversation(FacesContext facesContext)
+   public boolean enterPage(FacesContext facesContext)
    {
       boolean result = false;
       String viewId = facesContext.getViewRoot().getViewId();
@@ -270,47 +246,13 @@ public class Pages
          }
          else
          {
-            result = callAction(page, facesContext) || result;
+            result = page.enter(facesContext) || result;
          }
       }
       return result;
    }
 
-   /**
-    * Call page actions, from most general view id to most specific
-    */
-   private boolean callAction(Page page, FacesContext facesContext)
-   {
-      boolean result = false;
-      
-      page.getConversationControl().beginOrEndConversation();
-
-      for ( Action action: page.getActions() )
-      {
-         if ( action.isExecutable() )
-         {
-            String outcome = action.getOutcome();
-            String fromAction = outcome;
-            
-            if (outcome==null)
-            {
-                     fromAction = action.getMethodBinding().getExpressionString();
-                     result = true;
-                     outcome = toString( action.getMethodBinding().invoke() );
-                     handleOutcome(facesContext, outcome, fromAction);
-            }
-            else
-            {
-               handleOutcome(facesContext, outcome, fromAction);
-            }
-         }
-      }
-      
-      return result;
-
-   }
-
-   private static String toString(Object returnValue)
+   public static String toString(Object returnValue)
    {
       return returnValue == null ? null : returnValue.toString();
    }
@@ -318,7 +260,7 @@ public class Pages
    /**
     * Call the JSF navigation handler
     */
-   private static void handleOutcome(FacesContext facesContext, String outcome, String fromAction)
+   public static void handleOutcome(FacesContext facesContext, String outcome, String fromAction)
    {
       facesContext.getApplication().getNavigationHandler()
             .handleNavigation(facesContext, fromAction, outcome);
@@ -729,6 +671,21 @@ public class Pages
       {
          page.setResourceBundleName(bundle);
       }
+
+      List<Element> moreChildElements = element.elements("in");
+      for (Element child: moreChildElements)
+      {
+         Input input = new Input();
+         input.setName( child.attributeValue("name") );
+         input.setValue( Expressions.instance().createValueBinding( child.attributeValue("value") ) );
+         String scopeName = child.attributeValue("scope");
+         if (scopeName!=null)
+         {
+            input.setScope( ScopeType.valueOf( scopeName.toUpperCase() ) );
+         }
+         page.getInputs().add(input);
+      }
+      
       return page;
    }
 
@@ -888,6 +845,24 @@ public class Pages
          final String viewId = redirect.attributeValue("view-id");
          outcome.setNavigationHandler( new RedirectNavigationHandler(viewId, params) );
       }
+      List<Element> childElements = element.elements("out");
+      for (Element child: childElements)
+      {
+         Output output = new Output();
+         output.setName( child.attributeValue("name") );
+         output.setValue( Expressions.instance().createValueBinding( child.attributeValue("value") ) );
+         String scopeName = child.attributeValue("scope");
+         if (scopeName==null)
+         {
+            output.setScope(ScopeType.CONVERSATION);
+         }
+         else
+         {
+            output.setScope( ScopeType.valueOf( scopeName.toUpperCase() ) );
+         }
+         outcome.getOutputs().add(output);
+      }
+      
    }
 
 }
