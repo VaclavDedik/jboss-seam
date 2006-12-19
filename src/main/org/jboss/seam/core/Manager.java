@@ -32,7 +32,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.ContextAdaptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.contexts.ServerConversationContext;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Id;
@@ -319,13 +318,10 @@ public class Manager
     */
    private void destroyConversation(String conversationId, ContextAdaptor session)
    {
-      ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
-      Contexts.destroy( conversationContext );
-      conversationContext.clear();
-      conversationContext.flush();
+      Lifecycle.destroyConversationContext(session, conversationId);
       ConversationEntries.instance().removeConversationEntry(conversationId);
    }
-   
+
    /**
     * Touch the conversation stack, destroy ended conversations, 
     * and timeout inactive conversations.

@@ -227,10 +227,7 @@ public class Lifecycle
       log.debug("destroying conversation contexts: " + conversationIds);
       for (String conversationId: conversationIds)
       {
-         ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
-         Contexts.conversationContext.set(conversationContext);
-         Contexts.destroy(conversationContext);
-         Contexts.conversationContext.set(null);
+         destroyConversationContext(session, conversationId);
       }
       
       Context tempConversationContext = new MapContext(ScopeType.CONVERSATION);
@@ -457,6 +454,23 @@ public class Lifecycle
    public static boolean isAttributeDirty(Object attribute)
    {
       return attribute instanceof Mutable && ( (Mutable) attribute ).clearDirty();
+   }
+
+   public static void destroyConversationContext(ContextAdaptor session, String conversationId)
+   {
+      ServerConversationContext conversationContext = new ServerConversationContext(session, conversationId);
+      Context old = Contexts.getConversationContext();
+      Contexts.conversationContext.set(conversationContext);
+      try
+      {
+         Contexts.destroy( conversationContext );
+         conversationContext.clear();
+         conversationContext.flush();
+      }
+      finally
+      {
+         Contexts.conversationContext.set(old);
+      }
    }
 
 }
