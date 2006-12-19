@@ -1,6 +1,6 @@
 <!DOCTYPE pages PUBLIC
-  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
-  "http://jboss.com/products/seam/pages-1.1.dtd">
+          "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
+          "http://jboss.com/products/seam/pages-1.1.dtd">
 
 <pages>
 
@@ -30,9 +30,9 @@
       <action execute="#{postAction.invalid}"
                    if="#{validation.failed}"/>
       
-      <action-navigation from-action="#{postAction.post}">
+      <navigation from-action="#{postAction.post}">
          <redirect view-id="/index.xhtml"/>
-      </action-navigation>
+      </navigation>
       
    </page>
    
@@ -41,11 +41,11 @@
       <action execute="#{loginAction.login}"
                    if="#{validation.succeeded}"/>
                    
-      <action-navigation>
-         <outcome if="#{loginAction.loggedIn}">
+      <navigation>
+         <rule if="#{loginAction.loggedIn}">
             <redirect view-id="/post.xhtml"/>
-         </outcome>
-      </action-navigation>
+         </rule>
+      </navigation>
       
    </page>
 

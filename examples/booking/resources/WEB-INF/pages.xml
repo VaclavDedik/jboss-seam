@@ -9,31 +9,31 @@
         <action if="#{validation.failed}"
            execute="#{register.invalid}"/>
     
-        <action-navigation>
-            <outcome if="#{register.registered}">
+        <navigation>
+            <rule if="#{register.registered}">
                 <redirect view-id="/home.xhtml"/>
-            </outcome>
-        </action-navigation>
+            </rule>
+        </navigation>
         
     </page>
 
     <page view-id="/home.xhtml">
     
-        <action-navigation>
-            <outcome if="#{login.loggedIn}">
+        <navigation>
+            <rule if="#{login.loggedIn}">
                 <redirect view-id="/main.xhtml"/>
-            </outcome>
-        </action-navigation>
+            </rule>
+        </navigation>
         
     </page>
     
     <page view-id="/password.xhtml">
     
-        <action-navigation>
-            <outcome if="#{changePassword.changed}">
+        <navigation>
+            <rule if="#{changePassword.changed}">
                 <redirect view-id="/main.xhtml"/>
-            </outcome>
-        </action-navigation>
+            </rule>
+        </navigation>
         
     </page>
 
@@ -41,15 +41,15 @@
     
         <action execute="#{login.validateLogin}"/>
         
-        <action-navigation from-action="#{login.validateLogin}">
-            <outcome if="#{not login.loggedIn}">
+        <navigation from-action="#{login.validateLogin}">
+            <rule if="#{not login.loggedIn}">
                 <redirect view-id="/home.xhtml"/>
-            </outcome>
-        </action-navigation>
+            </rule>
+        </navigation>
         
-        <action-navigation from-action="#{hotelBooking.selectHotel(hot)}">
+        <navigation from-action="#{hotelBooking.selectHotel(hot)}">
             <redirect view-id="/hotel.xhtml"/>
-        </action-navigation>
+        </navigation>
         
     </page>
 
@@ -58,9 +58,9 @@
           
         <description>View hotel: #{hotel.name}</description>
         
-        <action-navigation from-action="#{hotelBooking.bookHotel}">
+        <navigation from-action="#{hotelBooking.bookHotel}">
             <redirect view-id="/book.xhtml"/>
-        </action-navigation>
+        </navigation>
         
     </page>
 
@@ -69,9 +69,9 @@
           
         <description>Book hotel: #{hotel.name}</description>
         
-        <action-navigation from-action="#{hotelBooking.setBookingDetails}">
+        <navigation from-action="#{hotelBooking.setBookingDetails}">
             <redirect view-id="/confirm.xhtml"/>
-        </action-navigation>
+        </navigation>
         
     </page>
 
@@ -80,21 +80,21 @@
           
         <description>Confirm booking: #{booking.description}</description>
         
-        <action-navigation from-action="#{hotelBooking.confirm}">
+        <navigation from-action="#{hotelBooking.confirm}">
             <redirect view-id="/main.xhtml"/>
-        </action-navigation>
+        </navigation>
         
     </page>
     
     <page view-id="*">
     
-        <action-navigation from-action="#{login.logout}">
+        <navigation from-action="#{login.logout}">
             <redirect view-id="/home.xhtml"/>
-        </action-navigation>
+        </navigation>
 
-        <action-navigation from-action="#{hotelBooking.cancel}">
+        <navigation from-action="#{hotelBooking.cancel}">
             <redirect view-id="/main.xhtml"/>
-        </action-navigation>
+        </navigation>
         
     </page>
 
