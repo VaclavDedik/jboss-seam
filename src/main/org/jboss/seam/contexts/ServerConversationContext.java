@@ -206,9 +206,7 @@ public class ServerConversationContext implements Context {
     */
    public void flush()
    {      
-      Manager manager = Manager.instance();
-      boolean longRunning = manager.isLongRunningConversation() ||
-            !manager.getCurrentConversationId().equals( getId() );  
+      boolean longRunning = !isCurrent() || Manager.instance().isLongRunningConversation();  
       if ( longRunning )
       {
          //force update for dirty mutable objects
@@ -242,6 +240,11 @@ public class ServerConversationContext implements Context {
             session.removeAttribute( getKey(name) );
          }
       }
+   }
+
+   private boolean isCurrent()
+   {
+      return id==null || id.equals( Manager.instance().getCurrentConversationId() );
    }
 
    @Override
