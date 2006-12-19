@@ -34,10 +34,10 @@ import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.pages.Action;
-import org.jboss.seam.pages.ActionNavigation;
+import org.jboss.seam.pages.Navigation;
 import org.jboss.seam.pages.ConversationControl;
 import org.jboss.seam.pages.Input;
-import org.jboss.seam.pages.Outcome;
+import org.jboss.seam.pages.Rule;
 import org.jboss.seam.pages.Page;
 import org.jboss.seam.pages.Param;
 import org.jboss.seam.pages.RedirectNavigationHandler;
@@ -108,7 +108,7 @@ public class Pages
          for (int i=stack.size()-1; i>=0; i--)
          {
             Page page = stack.get(i);
-            ActionNavigation navigation = page.getNavigations().get(actionExpression);
+            Navigation navigation = page.getNavigations().get(actionExpression);
             if (navigation==null)
             {
                navigation = page.getDefaultNavigation();
@@ -752,23 +752,23 @@ public class Pages
     */
    private static void parseActionNavigation(Page entry, Element element)
    {
-      ActionNavigation navigation = new ActionNavigation(); 
+      Navigation navigation = new Navigation(); 
       String outcomeExpression = element.attributeValue("evaluate");
       if (outcomeExpression!=null)
       {
-         navigation.setOutcomeValueBinding( Expressions.instance().createValueBinding(outcomeExpression) );
+         navigation.setOutcome( Expressions.instance().createValueBinding(outcomeExpression) );
       }
       
       List<Element> cases = element.elements("rule");
       for (Element childElement: cases)
       {
-         navigation.getOutcomes().add( parseOutcome(childElement) );
+         navigation.getRules().add( parseRule(childElement) );
       }
       
-      Outcome outcome = new Outcome();
-      parseNavigationHandler(element, outcome);
-      parseConversationControl( element, outcome.getConversationControl() );
-      navigation.setOutcome(outcome);
+      Rule rule = new Rule();
+      parseNavigationHandler(element, rule);
+      parseConversationControl( element, rule.getConversationControl() );
+      navigation.setRule(rule);
       
       String expression = element.attributeValue("from-action");
       if (expression==null)
@@ -813,30 +813,30 @@ public class Pages
    /**
     * Parse rule
     */
-   private static Outcome parseOutcome(Element element)
+   private static Rule parseRule(Element element)
    {
-      Outcome outcome = new Outcome();
+      Rule rule = new Rule();
       
-      outcome.setValue( element.attributeValue("if-outcome") );
+      rule.setOutcomeValue( element.attributeValue("if-outcome") );
       String expression = element.attributeValue("if");
       if (expression!=null)
       {
-         outcome.setExpression( Expressions.instance().createValueBinding(expression)  );
+         rule.setCondition( Expressions.instance().createValueBinding(expression)  );
       }
       
-      parseConversationControl( element, outcome.getConversationControl() );
-      parseNavigationHandler(element, outcome);
+      parseConversationControl( element, rule.getConversationControl() );
+      parseNavigationHandler(element, rule);
       
-      return outcome;
+      return rule;
    }
 
-   private static void parseNavigationHandler(Element element, Outcome outcome)
+   private static void parseNavigationHandler(Element element, Rule rule)
    {
       Element render = element.element("render");
       if (render!=null)
       {
          final String viewId = render.attributeValue("view-id");
-         outcome.setNavigationHandler( new RenderNavigationHandler(viewId) );
+         rule.setNavigationHandler( new RenderNavigationHandler(viewId) );
       }
       Element redirect = element.element("redirect");
       if (redirect!=null)
@@ -848,7 +848,7 @@ public class Pages
             params.add( parseParam(child) );
          }
          final String viewId = redirect.attributeValue("view-id");
-         outcome.setNavigationHandler( new RedirectNavigationHandler(viewId, params) );
+         rule.setNavigationHandler( new RedirectNavigationHandler(viewId, params) );
       }
       List<Element> childElements = element.elements("out");
       for (Element child: childElements)
@@ -865,7 +865,7 @@ public class Pages
          {
             output.setScope( ScopeType.valueOf( scopeName.toUpperCase() ) );
          }
-         outcome.getOutputs().add(output);
+         rule.getOutputs().add(output);
       }
       
    }

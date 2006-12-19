@@ -10,10 +10,10 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Expressions.ValueBinding;
 
-public final class Outcome
+public final class Rule
 {
-   private String value;
-   private ValueBinding expression;
+   private String outcomeValue;
+   private ValueBinding condition;
    private List<Output> outputs = new ArrayList<Output>();
    private ConversationControl conversationControl = new ConversationControl();
    private NavigationHandler navigationHandler = new NavigationHandler() { 
@@ -26,9 +26,9 @@ public final class Outcome
 
    public boolean matches(String actualValue)
    {
-      return ( actualValue!=null || expression!=null ) &&
-            ( value==null || value.equals(actualValue) ) &&
-            ( expression==null || Boolean.TRUE.equals( expression.getValue() ) );
+      return ( actualValue!=null || condition!=null ) &&
+            ( outcomeValue==null || outcomeValue.equals(actualValue) ) &&
+            ( condition==null || Boolean.TRUE.equals( condition.getValue() ) );
    }
    
    public NavigationHandler getNavigationHandler()
@@ -46,24 +46,24 @@ public final class Outcome
       return conversationControl;
    }
 
-   public ValueBinding getExpression()
+   public ValueBinding getCondition()
    {
-      return expression;
+      return condition;
    }
 
-   public void setExpression(ValueBinding expression)
+   public void setCondition(ValueBinding expression)
    {
-      this.expression = expression;
+      this.condition = expression;
    }
 
-   public String getValue()
+   public String getOutcomeValue()
    {
-      return value;
+      return outcomeValue;
    }
 
-   public void setValue(String value)
+   public void setOutcomeValue(String value)
    {
-      this.value = value;
+      this.outcomeValue = value;
    }
 
    public List<Output> getOutputs()

@@ -27,8 +27,8 @@ public final class Page
    private List<Param> parameters = new ArrayList<Param>();
    private List<Input> inputs = new ArrayList<Input>();
    private List<Action> actions = new ArrayList<Action>();
-   private Map<String, ActionNavigation> navigations = new HashMap<String, ActionNavigation>();
-   private ActionNavigation defaultNavigation;
+   private Map<String, Navigation> navigations = new HashMap<String, Navigation>();
+   private Navigation defaultNavigation;
    private boolean conversationRequired;
    private ConversationControl conversationControl = new ConversationControl();
    
@@ -140,7 +140,7 @@ public final class Page
       return parameters;
    }
 
-   public Map<String, ActionNavigation> getNavigations()
+   public Map<String, Navigation> getNavigations()
    {
       return navigations;
    }
@@ -160,12 +160,12 @@ public final class Page
       this.conversationRequired = conversationRequired;
    }
 
-   public ActionNavigation getDefaultNavigation()
+   public Navigation getDefaultNavigation()
    {
       return defaultNavigation;
    }
 
-   public void setDefaultNavigation(ActionNavigation defaultActionOutcomeMapping)
+   public void setDefaultNavigation(Navigation defaultActionOutcomeMapping)
    {
       this.defaultNavigation = defaultActionOutcomeMapping;
    }
