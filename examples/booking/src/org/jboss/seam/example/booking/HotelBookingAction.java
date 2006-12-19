@@ -102,6 +102,8 @@ public class HotelBookingAction implements HotelBooking
    public void cancel() {}
    
    @Destroy @Remove
-   public void destroy() {}
+   public void destroy() {
+      System.out.println("!!!!");
+   }
 
 }

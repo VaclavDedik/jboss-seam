@@ -9,6 +9,7 @@ import javax.interceptor.InvocationContext;
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.Interceptor;
+import org.jboss.seam.contexts.Lifecycle;
 
 @Interceptor(type=InterceptorType.CLIENT)
 public class LoggedInInterceptor
@@ -17,14 +18,15 @@ public class LoggedInInterceptor
    @AroundInvoke
    public Object checkLoggedIn(InvocationContext invocation) throws Exception
    {
-      Login login = (Login) Component.getInstance(LoginAction.class);
-      if ( login.isLoggedIn() )
+      boolean allowed = Lifecycle.isDestroying() || 
+            ( (Login) Component.getInstance(LoginAction.class) ).isLoggedIn();
+      if ( allowed )
       {
          return invocation.proceed();
       }
       else
       {
-         Method method = invocation.getMethod();
+         Method method = invocation.getMethod(); 
          Class<?> returnType = method.getReturnType();
          if ( returnType.equals(void.class) || returnType.equals(String.class) )
          {
