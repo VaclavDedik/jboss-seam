@@ -35,7 +35,8 @@ public class DebugPageHandler extends ExceptionHandler
    public boolean isHandler(Exception e)
    {
       return Lifecycle.getPhaseId()!=PhaseId.RENDER_RESPONSE && 
-            Lifecycle.getPhaseId()!=null;
+            Lifecycle.getPhaseId()!=null &&
+            Contexts.isConversationContextActive();
    }
    
    @Override

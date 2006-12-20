@@ -5,6 +5,7 @@ package org.jboss.seam.exceptions;
 
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.core.Navigator;
 import org.jboss.seam.util.Strings;
@@ -49,10 +50,13 @@ public abstract class ExceptionHandler extends Navigator
    
    public static void addFacesMessage(Exception e, String message)
    {
-      message = getDisplayMessage(e, message);
-      if ( !Strings.isEmpty(message) )
+      if ( Contexts.isConversationContextActive() )
       {
-         FacesMessages.instance().add(message);
+         message = getDisplayMessage(e, message);
+         if ( !Strings.isEmpty(message) )
+         {
+            FacesMessages.instance().add(message);
+         }
       }
    }
    
