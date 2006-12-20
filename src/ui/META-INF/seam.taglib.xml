@@ -131,5 +131,17 @@
             <converter-id>org.jboss.seam.ui.EnumConverter</converter-id>
         </converter>
     </tag>
+	  
+    <function>
+        <function-name>hasRole</function-name>
+        <function-class>org.jboss.seam.security.SeamSecurityManager</function-class>
+        <function-signature>java.lang.Boolean hasRole( java.lang.String )</function-signature>
+    </function>
+    
+    <function>
+        <function-name>hasPermission</function-name>
+        <function-class>org.jboss.seam.security.SeamSecurityManager</function-class>
+        <function-signature>java.lang.Boolean hasPermission( java.lang.String, java.lang.String, java.lang.Object[] )</function-signature>
+    </function>
     
 </facelet-taglib>
