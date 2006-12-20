@@ -34,13 +34,13 @@
     </div>
   </div>
   
-  <!--div id="menubar">
-    <s:link action="" value="Home"/>|
-    <s:link action="" value="Browse"/>|
-    <s:link action="" value="Blog"/>|
-    <s:link action="" value="Videos"/>|
-    <s:link action="" value="Music"/>
-  </div-->
+  <div id="menubar">
+    <s:link view="/home.xhtml" value="Home" propagation="none"/>|
+    <s:link value="Browse"/>|
+    <s:link value="Blog"/>|
+    <s:link value="Videos"/>|
+    <s:link value="Music"/>
+  </div>
 
   <div id="content">
     <ui:insert name="content"/>
