@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
@@ -56,7 +57,9 @@ public class Member implements Serializable
   }
 
   @ManyToMany
-  @JoinTable(name = "MemberRoles")
+  @JoinTable(name = "MemberRoles",
+             joinColumns=@JoinColumn(name="MEMBER_ID"), 
+		     inverseJoinColumns=@JoinColumn(name="ROLE_ID"))    
   public Set<MemberRole> getRoles()
   {
     return roles;

@@ -12,7 +12,7 @@ import org.jboss.seam.annotations.Name;
  * @author Shane Bryzak
  */
 @Entity
-@Name("role")
+@Name("memberRole")
 public class MemberRole implements Serializable
 {
   private Integer roleId;

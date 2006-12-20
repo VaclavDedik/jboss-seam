@@ -16,7 +16,7 @@
       <div id="contentSide">
         <div class="advertising"></div>
         
-        <h:form>
+        <h:form rendered="#{login.loggedIn == false}">
           <div class="memberLogin">
             <div class="loginHeader">Member Login</div>
             
@@ -40,7 +40,7 @@
               <h:message for="password"/>
             </div>          
             
-            <h:commandButton value="LOGIN" action="#{loginAction.login}" styleClass="loginButton"/>
+            <h:commandButton value="LOGIN" action="#{login.login}" styleClass="loginButton"/>
 
             <br class="clear"/>
           

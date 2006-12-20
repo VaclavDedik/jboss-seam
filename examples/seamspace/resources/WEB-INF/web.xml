@@ -24,6 +24,8 @@
         <url-pattern>*.seam</url-pattern>
     </filter-mapping>
     
+    <!-- Seam security filter -->
+    
     <filter>
       <filter-name>Seam Security Filter</filter-name>
       <filter-class>org.jboss.seam.security.filter.SeamSecurityFilter</filter-class>
@@ -33,6 +35,18 @@
       <filter-name>Seam Security Filter</filter-name>
       <url-pattern>*.seam</url-pattern>
     </filter-mapping>
+    
+    <!-- Seam exception filter -->
+    
+    <filter>
+        <filter-name>Seam Exception Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamExceptionFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Seam Exception Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>    
 
     <!-- MyFaces -->
 
@@ -55,19 +69,20 @@
         <param-value>.xhtml</param-value>
     </context-param>
 
+    <!-- Faces Servlet -->
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-
-    <!-- Faces Servlet Mapping -->
-
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.seam</url-pattern>
     </servlet-mapping>
+    
+    <!-- Seam Remoting -->
     
     <servlet>
       <servlet-name>Seam Remoting</servlet-name>
@@ -78,37 +93,5 @@
       <servlet-name>Seam Remoting</servlet-name>
       <url-pattern>/seam/remoting/*</url-pattern>
     </servlet-mapping>
-  
-  <!--security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Entire application</web-resource-name>
-      <url-pattern>/protected/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>manager</role-name>
-    </auth-constraint>
-  </security-constraint>
-  
-  <login-config>
-    <auth-method>SEAM</auth-method>
-    <realm-name>Seam Realm</realm-name>
-  </login-config>
-  
-  <security-role>
-    <description>Manager role</description>
-    <role-name>manager</role-name>
-  </security-role-->
-
-  <!-- Security filter -->
-  
-    <!--filter>
-        <filter-name>Seam Security Filter</filter-name>
-        <filter-class>org.jboss.seam.security.filter.SeamSecurityFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-      <filter-name>Seam Security Filter</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping-->  
 
 </web-app>

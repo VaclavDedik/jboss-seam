@@ -10,6 +10,7 @@ import javax.ejb.Local;
 @Local
 public interface LoginLocal
 {
-  String login();
-  String logout();
+  void login();
+  void logout();
+  boolean isLoggedIn();
 }
