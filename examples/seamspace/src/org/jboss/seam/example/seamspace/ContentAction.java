@@ -8,8 +8,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.security.SeamSecurityManager;
 
 @Stateless
-@Name("imageAction")
-public class ImageAction implements ImageLocal
+@Name("contentAction")
+public class ContentAction implements ContentLocal
 {
    @In(create = true) EntityManager entityManager;
    
