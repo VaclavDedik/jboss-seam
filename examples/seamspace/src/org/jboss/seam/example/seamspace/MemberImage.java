@@ -12,6 +12,8 @@ import org.jboss.seam.annotations.Name;
 @Name("memberImage")
 public class MemberImage implements Serializable
 {
+   private static final long serialVersionUID = -8088455267213832920L;
+   
    private Integer imageId;
    private Member member;
    private byte[] data;

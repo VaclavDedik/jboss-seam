@@ -2,8 +2,6 @@ package org.jboss.seam.example.seamspace;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;

@@ -49,4 +49,5 @@ public class ProfileAction implements ProfileLocal
             FacesMessages.instance().add("The member name you specified does not exist.");
          }   
       }
+   }
 }

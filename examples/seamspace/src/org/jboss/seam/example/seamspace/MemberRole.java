@@ -8,34 +8,37 @@ import org.jboss.seam.annotations.Name;
 
 /**
  * Represents a security role.
- *
+ * 
  * @author Shane Bryzak
  */
 @Entity
 @Name("memberRole")
 public class MemberRole implements Serializable
 {
-  private Integer roleId;
-  private String name;
+   private static final long serialVersionUID = 9177366120789064801L;
 
-  @Id
-  public Integer getRoleId()
-  {
-    return roleId;
-  }
+   private Integer roleId;
 
-  public void setRoleId(Integer roleId)
-  {
-    this.roleId = roleId;
-  }
+   private String name;
 
-  public String getName()
-  {
-    return name;
-  }
+   @Id
+   public Integer getRoleId()
+   {
+      return roleId;
+   }
 
-  public void setName(String name)
-  {
-    this.name = name;
-  }
+   public void setRoleId(Integer roleId)
+   {
+      this.roleId = roleId;
+   }
+
+   public String getName()
+   {
+      return name;
+   }
+
+   public void setName(String name)
+   {
+      this.name = name;
+   }
 }

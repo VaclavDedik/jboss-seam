@@ -28,6 +28,8 @@ import org.jboss.seam.annotations.Name;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Member implements Serializable
 {
+   private static final long serialVersionUID = 5179242727836683375L;
+   
    private Integer memberId;
    private String username;
    private String password;

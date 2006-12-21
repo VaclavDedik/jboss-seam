@@ -8,67 +8,73 @@ import org.jboss.seam.security.acl.AclProvider.RecipientType;
 
 /**
  * Defines permissions for an object
- *
+ * 
  * @author Shane Bryzak
  */
 @Entity
 public class AclPermission implements Serializable
 {
-  private Integer id;
-  private AclObjectIdentity identity;
-  private RecipientType recipientType;
-  private String recipient;
-  private int mask;
+   private static final long serialVersionUID = 1L;
 
-  @Id
-  public Integer getId()
-  {
-    return id;
-  }
+   private Integer id;
 
-  public void setId(Integer id)
-  {
-    this.id = id;
-  }
+   private AclObjectIdentity identity;
 
-  @ManyToOne
-  public AclObjectIdentity getIdentity()
-  {
-    return identity;
-  }
+   private RecipientType recipientType;
 
-  public void setIdentity(AclObjectIdentity identity)
-  {
-    this.identity = identity;
-  }
+   private String recipient;
 
-  public RecipientType getRecipientType()
-  {
-    return recipientType;
-  }
+   private int mask;
 
-  public void setRecipientType(RecipientType recipientType)
-  {
-    this.recipientType = recipientType;
-  }
+   @Id
+   public Integer getId()
+   {
+      return id;
+   }
 
-  public String getRecipient()
-  {
-    return recipient;
-  }
+   public void setId(Integer id)
+   {
+      this.id = id;
+   }
 
-  public void setRecipient(String recipient)
-  {
-    this.recipient = recipient;
-  }
+   @ManyToOne
+   public AclObjectIdentity getIdentity()
+   {
+      return identity;
+   }
 
-  public int getMask()
-  {
-    return mask;
-  }
+   public void setIdentity(AclObjectIdentity identity)
+   {
+      this.identity = identity;
+   }
 
-  public void setMask(int mask)
-  {
-    this.mask = mask;
-  }
+   public RecipientType getRecipientType()
+   {
+      return recipientType;
+   }
+
+   public void setRecipientType(RecipientType recipientType)
+   {
+      this.recipientType = recipientType;
+   }
+
+   public String getRecipient()
+   {
+      return recipient;
+   }
+
+   public void setRecipient(String recipient)
+   {
+      this.recipient = recipient;
+   }
+
+   public int getMask()
+   {
+      return mask;
+   }
+
+   public void setMask(int mask)
+   {
+      this.mask = mask;
+   }
 }
