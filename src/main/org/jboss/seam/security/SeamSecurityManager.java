@@ -159,7 +159,10 @@ public class SeamSecurityManager
       handles.add(wm.assertObject(check));
 
       for (Object o : args)
-         handles.add(wm.assertObject(o));
+      {
+         if (o != null)
+           handles.add(wm.assertObject(o));
+      }
 
       wm.fireAllRules();
 
@@ -179,26 +182,32 @@ public class SeamSecurityManager
       if (!Contexts.isSessionContextActive())
          throw new IllegalStateException("No active session context found.");
 
-      Context session = Contexts.getSessionContext();
-
-      if (!session.isSet(SECURITY_CONTEXT_NAME))
+      Identity ident = Identity.isSet() ? Identity.instance() : null;
+      WorkingMemory wm;
+      
+      if (Contexts.getSessionContext().isSet(SECURITY_CONTEXT_NAME))
+         wm = (WorkingMemory) Contexts.getSessionContext().get(SECURITY_CONTEXT_NAME);
+      else         
       {
-         if (!Identity.instance().isValid())
-            throw new IllegalStateException(
-                  "Authenticated Identity is not valid");
+         if (ident != null && !ident.isValid())
+            throw new IllegalStateException("Authenticated Identity is not valid");
 
-         WorkingMemory wm = securityRules.newWorkingMemory();
-         wm.assertObject(Identity.instance());
+         wm = securityRules.newWorkingMemory();
+         Contexts.getSessionContext().set(SECURITY_CONTEXT_NAME, wm);
+      }
+      
+      // Assert the identity into the working memory if one exists and it hasn't
+      // been asserted before
+      if (ident != null && wm.getObjects(ident.getClass()).size() > 0)
+      {
+         wm.assertObject(ident);
 
-         for (Role r : Identity.instance().getRoles())
+         for (Role r : ident.getRoles())
             wm.assertObject(r);
 
-         /** @todo Assert the Identity's explicit permissions also? */
+         /** @todo Assert the Identity's explicit permissions also? */      
+      }      
 
-         session.set(SECURITY_CONTEXT_NAME, wm);
-         return wm;
-      }
-
-      return (WorkingMemory) session.get(SECURITY_CONTEXT_NAME);
+      return wm;
    }
 }
