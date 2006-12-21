@@ -21,6 +21,7 @@ import org.jboss.seam.core.Mutable;
 public class JavaBeanInterceptor extends RootInterceptor
       implements MethodInterceptor
 {
+   private static final long serialVersionUID = -771725005103740533L;
    
    private final Object bean;
    private final Class beanClass;

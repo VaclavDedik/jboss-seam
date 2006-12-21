@@ -21,6 +21,7 @@ import org.jboss.seam.ejb.SeamInterceptor;
 public class ClientSideInterceptor extends RootInterceptor 
       implements MethodInterceptor
 {
+   private static final long serialVersionUID = -1578313703571846699L;
    
    private final Object bean;
    private final Class beanClass;

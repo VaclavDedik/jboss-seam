@@ -1,13 +1,10 @@
 package org.jboss.seam.interceptors;
-
 import java.lang.reflect.Method;
-
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.intercept.InvocationContext;
-
 /**
  * Raises Seam events connected with a bean lifecycle.
  * 
@@ -20,18 +17,18 @@ import org.jboss.seam.intercept.InvocationContext;
                      RollbackInterceptor.class})
 public class EventInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = -136300200838134612L;
+   
    /*@PostConstruct
    public void postConstruct(InvocationContext ctx)
    {
       Events.instance().raiseEvent("org.jboss.seam.postConstruct." + component.getName());
    }
-
    @PreDestroy
    public void preDestroy(InvocationContext ctx)
    {
       Events.instance().raiseEvent("org.jboss.seam.preDestroy." + component.getName());
    }
-
    @PrePassivate
    public void prePassivate(InvocationContext ctx)
    {
@@ -43,7 +40,6 @@ public class EventInterceptor extends AbstractInterceptor
    {
       Events.instance().raiseEvent("org.jboss.seam.postActivate." + component.getName());
    }*/
-   
    @AroundInvoke
    public Object aroundInvoke(InvocationContext ctx) throws Exception
    {

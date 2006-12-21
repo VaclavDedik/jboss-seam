@@ -1,12 +1,9 @@
 package org.jboss.seam.drools;
-
 import java.util.List;
-
 import org.drools.WorkingMemory;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.taskmgmt.def.AssignmentHandler;
 import org.jbpm.taskmgmt.exe.Assignable;
-
 /**
  * A jBPM AssignmentHandler that delegates to a Drools WorkingMemory
  * held in a Seam context variable.
@@ -17,10 +14,9 @@ import org.jbpm.taskmgmt.exe.Assignable;
  */
 public class DroolsAssignmentHandler extends DroolsHandler implements AssignmentHandler
 {
-
+   private static final long serialVersionUID = -7114640047036854546L;
    public String workingMemoryName;
    public List<String> assertObjects;
-
    public void assign(Assignable assignable, ExecutionContext executionContext)
          throws Exception
    {
@@ -28,5 +24,4 @@ public class DroolsAssignmentHandler extends DroolsHandler implements Assignment
       workingMemory.setGlobal( "assignable", assignable );
       workingMemory.fireAllRules();
    }
-
 }

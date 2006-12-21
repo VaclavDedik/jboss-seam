@@ -30,8 +30,6 @@ import javax.servlet.ServletContext;
  */
 public class SeamSecurityFilter implements Filter
 {
-  private static final LogProvider log = Logging.getLogProvider(SeamSecurityFilter.class);
-
   private SecurityConfiguration config;
 
   private ServletContext servletContext;
@@ -64,7 +62,6 @@ public class SeamSecurityFilter implements Filter
 
     Identity ident = (Identity)sessionContext.get(Seam.getComponentName(Identity.class));
 
-    /** @todo Make the redirection configurable */
     if (!checkSecurityConstraints(hRequest.getServletPath(), hRequest.getMethod(), ident))
       hResponse.sendRedirect(String.format("%s%s", hRequest.getContextPath(),
                                            config.getSecurityErrorPage()));

@@ -1,6 +1,5 @@
 //$Id$
 package org.jboss.seam.jsf;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,22 +7,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.faces.model.DataModelEvent;
 import javax.faces.model.DataModelListener;
-
 public class MapDataModel extends javax.faces.model.DataModel implements
       Serializable
 {
+   private static final long serialVersionUID = -4888962547222002402L;
+   
    private int rowIndex = -1;
    private Map map;
    private List<Map.Entry> entries;
-
    public MapDataModel()
    {
       super();
    }
-
    public MapDataModel(Map map)
    {
       if (map == null)
@@ -32,7 +29,6 @@ public class MapDataModel extends javax.faces.model.DataModel implements
       }
       setWrappedData(map);
    }
-
    @Override
    public int getRowCount()
    {
@@ -42,7 +38,6 @@ public class MapDataModel extends javax.faces.model.DataModel implements
       }
       return map.size();
    }
-
    /**
     * Returns a Map.Entry
     */
@@ -59,25 +54,21 @@ public class MapDataModel extends javax.faces.model.DataModel implements
       }
       return entries.get(rowIndex);
    }
-
    @Override
    public int getRowIndex()
    {
       return rowIndex;
    }
-
    @Override
    public Object getWrappedData()
    {
       return map;
    }
-
    @Override
    public boolean isRowAvailable()
    {
       return entries!=null && rowIndex >= 0 && rowIndex < entries.size();
    }
-
    @Override
    public void setRowIndex(int newRowIndex)
    {
@@ -98,7 +89,6 @@ public class MapDataModel extends javax.faces.model.DataModel implements
          }
       }
    }
-
    @Override
    public void setWrappedData(Object data)
    {
@@ -107,14 +97,12 @@ public class MapDataModel extends javax.faces.model.DataModel implements
       int rowIndex = data != null ? 0 : -1;
       setRowIndex(rowIndex);
    }
-
    private void writeObject(ObjectOutputStream oos) throws IOException
    {
       oos.writeObject(map);
       oos.writeInt(rowIndex);
       oos.writeObject(entries);
    }
-
    private void readObject(ObjectInputStream ois) throws IOException,
          ClassNotFoundException
    {
@@ -122,5 +110,4 @@ public class MapDataModel extends javax.faces.model.DataModel implements
       rowIndex = ois.readInt();
       entries = (List<Map.Entry>) ois.readObject();
    }
-
 }

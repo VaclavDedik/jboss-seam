@@ -28,6 +28,7 @@ import org.jboss.seam.contexts.Contexts;
 @Scope(ScopeType.PAGE)
 public class FacesPage implements Serializable
 {
+   private static final long serialVersionUID = 4807114041808347239L;
    private String pageflowName;
    private Integer pageflowCounter;
    private String pageflowNodeName;

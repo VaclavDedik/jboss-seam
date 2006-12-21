@@ -58,11 +58,6 @@ public class SeamSecurityManager
    private RuleBase securityRules;
 
    /**
-    * Map roles to permissions
-    */
-   private Map<String, Set<Permission>> rolePermissions = new HashMap<String, Set<Permission>>();
-
-   /**
     * Initialise the security manager
     * 
     * @throws Exception

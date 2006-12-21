@@ -1,11 +1,8 @@
 //$Id$
 package org.jboss.seam.jsf;
-
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
-
 import org.jboss.seam.core.Init;
-
 /**
  * Transaction management for extended persistence contexts.
  * A transaction spans the restore view, apply request values, process validations,
@@ -17,7 +14,7 @@ import org.jboss.seam.core.Init;
  */
 public class TransactionalSeamPhaseListener extends SeamPhaseListener
 {
-   
+   private static final long serialVersionUID = -1069952157355781194L;
    @Override
    public void handleTransactionsBeforePhase(PhaseEvent event)
    {
@@ -30,7 +27,6 @@ public class TransactionalSeamPhaseListener extends SeamPhaseListener
          begin(phaseId);
       }
    }
-
    @Override
    public void handleTransactionsAfterPhase(PhaseEvent event)
    {
@@ -45,7 +41,6 @@ public class TransactionalSeamPhaseListener extends SeamPhaseListener
          commitOrRollback(phaseId); //we commit before destroying contexts, cos the contexts have the PC in them
       }     
    }
-
    @Override
    protected void handleTransactionsAfterPageActions(PhaseEvent event)
    {
@@ -60,5 +55,4 @@ public class TransactionalSeamPhaseListener extends SeamPhaseListener
    protected void afterInvokeApplication() {
       addTransactionFailedMessage();
    }
-
 }

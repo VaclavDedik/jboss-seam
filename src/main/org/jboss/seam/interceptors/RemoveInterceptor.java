@@ -24,6 +24,7 @@ import org.jboss.seam.intercept.InvocationContext;
 @Interceptor(type=InterceptorType.CLIENT)
 public class RemoveInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = -6693606158918954699L;
    
    private static final LogProvider log = Logging.getLogProvider(RemoveInterceptor.class);
 

@@ -1,13 +1,9 @@
 package org.jboss.seam.core;
-
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.faces.context.FacesContext;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.InterceptionType;
 import org.jboss.seam.ScopeType;
@@ -16,7 +12,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-
 /**
  * Convenient API for performing browser redirects with
  * parameters.
@@ -29,6 +24,7 @@ import org.jboss.seam.contexts.Contexts;
 @Install(precedence=BUILT_IN)
 public class Redirect extends AbstractMutable implements Serializable
 {
+   private static final long serialVersionUID = 6947384474861235210L;
    private String viewId;
    private Map<String, Object> parameters = new HashMap<String, Object>();
    private boolean conversationPropagationEnabled = true;
@@ -118,5 +114,4 @@ public class Redirect extends AbstractMutable implements Serializable
       }
       return (Redirect) Component.getInstance(Redirect.class, ScopeType.CONVERSATION);
    }
-
 }

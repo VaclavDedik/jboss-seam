@@ -12,6 +12,7 @@ import org.jboss.seam.Component;
  */
 public class AbstractInterceptor implements Serializable
 {
+   private static final long serialVersionUID = -8838873111255032911L;
    private transient Component component; //a cache of the Component reference
    private String componentName;
 

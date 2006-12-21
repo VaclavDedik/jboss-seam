@@ -31,6 +31,7 @@ import org.jboss.seam.intercept.InvocationContext;
              within=BusinessProcessInterceptor.class)
 public class ConversationInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = -5405533438107796414L;
 
    @AroundInvoke
    public Object endOrBeginLongRunningConversation(InvocationContext invocation) throws Exception

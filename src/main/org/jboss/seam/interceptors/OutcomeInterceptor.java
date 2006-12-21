@@ -1,14 +1,11 @@
 //$Id$
 package org.jboss.seam.interceptors;
-
 import javax.faces.event.PhaseId;
-
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.intercept.InvocationContext;
-
 /**
  * Translates Outcome.RETRY to null for JSF
  * 
@@ -17,6 +14,7 @@ import org.jboss.seam.intercept.InvocationContext;
 @Interceptor(stateless=true)
 public class OutcomeInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = 3964713422043590510L;
    @AroundInvoke
    public Object interceptOutcome(InvocationContext invocation) throws Exception
    {

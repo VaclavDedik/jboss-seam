@@ -1,21 +1,17 @@
 //$Id$
 package org.jboss.seam.interceptors;
-
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.util.EJB.APPLICATION_EXCEPTION;
 import static org.jboss.seam.util.EJB.rollback;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Interceptor;
 import org.jboss.seam.annotations.Outcome;
 import org.jboss.seam.annotations.Rollback;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Transactions;
-
 /**
  * Automatically sets transactions to rollback only.
  * 
@@ -24,7 +20,7 @@ import org.jboss.seam.util.Transactions;
 @Interceptor(stateless=true, around=OutcomeInterceptor.class)
 public class RollbackInterceptor extends AbstractInterceptor 
 {
-   
+   private static final long serialVersionUID = 5551801508325093417L;
    @AroundInvoke
    public Object rollbackIfNecessary(InvocationContext invocation) throws Exception 
    {
@@ -54,7 +50,6 @@ public class RollbackInterceptor extends AbstractInterceptor
          throw e;
       }
    }
-
    private boolean isRollbackRequired(Method method, final Object result)
    {
       if ( !method.isAnnotationPresent(Rollback.class) ) return false;
@@ -64,7 +59,6 @@ public class RollbackInterceptor extends AbstractInterceptor
             ( result==null && outcomeList.contains(Outcome.REDISPLAY) ) || 
             outcomeList.contains(result);
    }
-
    private boolean isRollbackRequired(Exception e)
    {
       Class<? extends Exception> clazz = e.getClass();

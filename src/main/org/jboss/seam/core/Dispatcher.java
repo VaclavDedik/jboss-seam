@@ -342,7 +342,9 @@ public class Dispatcher implements LocalDispatcher
         implements TimerHandle, 
                    Serializable
     {
-        TimerHandle handle;
+      private static final long serialVersionUID = 6913362944260154627L;
+      
+      TimerHandle handle;
 
         public TimerHandleProxy(TimerHandle handle) {
             this.handle = handle;

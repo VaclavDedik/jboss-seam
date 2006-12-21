@@ -16,7 +16,7 @@ import org.jboss.seam.util.Transactions;
 
 public class PassivatedEntity implements Serializable
 {
-   
+   private static final long serialVersionUID = 6565440294007267788L;
    private Object id;
    private String persistenceContext;
    private String fieldName;

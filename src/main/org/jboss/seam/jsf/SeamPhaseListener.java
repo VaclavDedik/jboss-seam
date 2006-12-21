@@ -30,7 +30,8 @@ import org.jboss.seam.core.FacesMessages;
  */
 public class SeamPhaseListener extends AbstractSeamPhaseListener
 {
-
+   private static final long serialVersionUID = -9127555729455066493L;
+   
    private static final LogProvider log = Logging.getLogProvider(SeamPhaseListener.class);
    
    @Override

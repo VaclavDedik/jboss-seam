@@ -28,7 +28,8 @@ import org.jboss.seam.annotations.Scope;
 @Conversational(ifNotBegunOutcome="error")
 public class Bar implements Serializable
 {
-   
+   private static final long serialVersionUID = -5325217160542604204L;
+
    @In(required=true)
    Foo otherFoo;
    

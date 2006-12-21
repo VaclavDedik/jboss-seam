@@ -31,7 +31,8 @@ import org.jboss.seam.intercept.InvocationContext;
              around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class, BusinessProcessInterceptor.class})
 public class ConversationalInterceptor extends AbstractInterceptor
 {
-
+   private static final long serialVersionUID = 1127583515811479385L;
+   
    private static final LogProvider log = Logging.getLogProvider(ConversationalInterceptor.class);
 
    @AroundInvoke

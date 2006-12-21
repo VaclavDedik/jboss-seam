@@ -1,5 +1,4 @@
 package org.jboss.seam.util;
-
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
@@ -10,10 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
 import java.math.BigInteger;
 import java.math.BigDecimal;
-
+@SuppressWarnings("serial")
 public class Conversions
 {
    
@@ -119,7 +117,6 @@ public class Conversions
          return  value.getSingleValue() ;
       }
    }
-
    public static class BigDecimalConverter implements Converter<BigDecimal>
    {
       public BigDecimal toObject(PropertyValue value, Type type)
@@ -127,7 +124,6 @@ public class Conversions
          return new BigDecimal(value.getSingleValue());
       }
    }
-
    public static class BigIntegerConverter implements Converter<BigInteger>
    {
       public BigInteger toObject(PropertyValue value, Type type)
@@ -245,7 +241,7 @@ public class Conversions
          }
       }
    }
-   
+  
    public static interface PropertyValue extends Serializable
    {
       Map<String, String> getKeyedValues();
@@ -258,7 +254,6 @@ public class Conversions
    {
       
       private String string;
-
       public FlatPropertyValue(String string)
       {
          if (string==null)
@@ -267,12 +262,10 @@ public class Conversions
          }
          this.string = string;
       }
-
       public String[] getMultiValues()
       {
          return Strings.split(string, ", \r\n\f\t");
       }
-
       public String getSingleValue()
       {
          return string;
@@ -282,7 +275,6 @@ public class Conversions
       {
          return string.startsWith("#{");
       }
-
       public Map<String, String> getKeyedValues()
       {
          throw new UnsupportedOperationException("not a keyed property value");
@@ -297,21 +289,17 @@ public class Conversions
    }
    
    public static class MultiPropertyValue implements PropertyValue
-   {
-      
+   {     
       private String[] strings;
-
       public MultiPropertyValue(String[] strings)
       {
          if (strings==null) throw new IllegalArgumentException();
          this.strings = strings;
       }
-
       public String[] getMultiValues()
       {
          return strings;
       }
-
       public String getSingleValue()
       {
          throw new UnsupportedOperationException("not a flat property value");
@@ -321,7 +309,6 @@ public class Conversions
       {
          throw new UnsupportedOperationException("not a keyed property value");
       }
-
       public boolean isExpression()
       {
          return false;
@@ -336,21 +323,17 @@ public class Conversions
    }
    
    public static class AssociativePropertyValue implements PropertyValue
-   {
-      
+   {      
       private Map<String, String> keyedValues;
-
       public AssociativePropertyValue(Map<String, String> keyedValues)
       {
          if (keyedValues==null) throw new IllegalArgumentException();
          this.keyedValues = keyedValues;
       }
-
       public String[] getMultiValues()
       {
          throw new UnsupportedOperationException("not a multi-valued property value");
       }
-
       public String getSingleValue()
       {
          throw new UnsupportedOperationException("not a flat property value");

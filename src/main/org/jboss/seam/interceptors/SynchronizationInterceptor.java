@@ -17,6 +17,7 @@ import org.jboss.seam.intercept.InvocationContext;
 @Interceptor(type=InterceptorType.CLIENT)
 public class SynchronizationInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = -4173880108889358566L;
    
    private ReentrantLock lock = new ReentrantLock(true);
    

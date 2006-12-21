@@ -28,6 +28,7 @@ import org.jboss.seam.annotations.Name;
  */
 public class SessionBeanInterceptor extends RootInterceptor
 {
+   private static final long serialVersionUID = -7474586917199426345L;
    private static final LogProvider log = Logging.getLogProvider(SessionBeanInterceptor.class);
    
    public static ThreadLocal<Component> COMPONENT = new ThreadLocal<Component>();

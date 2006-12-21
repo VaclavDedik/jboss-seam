@@ -33,7 +33,8 @@ import org.jboss.seam.core.Manager;
  */
 public class SeamPortletPhaseListener extends AbstractSeamPhaseListener
 {
-
+   private static final long serialVersionUID = 262187729483387144L;
+   
    private static final LogProvider log = Logging.getLogProvider( SeamPortletPhaseListener.class );
 
    @Override

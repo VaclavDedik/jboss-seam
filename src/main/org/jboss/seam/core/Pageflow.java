@@ -45,6 +45,8 @@ import org.jbpm.graph.exe.Token;
 @Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
 public class Pageflow extends AbstractMutable implements Serializable
 {
+   private static final long serialVersionUID = -2337682140346213333L;
+
    private static final LogProvider log = Logging.getLogProvider(Pageflow.class);
    
    private int counter;

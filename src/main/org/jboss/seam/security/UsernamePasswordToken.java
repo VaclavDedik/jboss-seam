@@ -1,55 +1,62 @@
 package org.jboss.seam.security;
 
 /**
+ * An Identity that supports traditional username and password authentication.
+ * 
  * @author Shane Bryzak
  */
 public class UsernamePasswordToken extends Identity
 {
-  private Role[] roles;
-  private Object credentials;
-  private Object principal;
+   private static final long serialVersionUID = -891900764186531420L;
 
-  public UsernamePasswordToken(Object principal, Object credentials)
-  {
-    this.principal = principal;
-    this.credentials = credentials;
-    this.authenticated = false;
-  }
+   private Role[] roles;
 
-  public UsernamePasswordToken(Object principal, Object credentials, Role[] roles)
-  {
-    this(principal, credentials);
-    this.roles = roles;
-    this.authenticated = true;
-    this.valid = true;
-  }
+   private Object credentials;
 
-  public String getName()
-  {
-    return principal.toString();
-  }
+   private Object principal;
 
-  @Override
-  public Role[] getRoles()
-  {
-    return roles;
-  }
+   public UsernamePasswordToken(Object principal, Object credentials)
+   {
+      this.principal = principal;
+      this.credentials = credentials;
+      this.authenticated = false;
+   }
 
-  @Override
-  public Object getCredentials()
-  {
-    return credentials;
-  }
+   public UsernamePasswordToken(Object principal, Object credentials,
+         Role[] roles)
+   {
+      this(principal, credentials);
+      this.roles = roles;
+      this.authenticated = true;
+      this.valid = true;
+   }
 
-  @Override
-  public Object getPrincipal()
-  {
-    return principal;
-  }
+   public String getName()
+   {
+      return principal.toString();
+   }
 
-  @Override
-  public String toString()
-  {
-    return String.format("UsernamePasswordToken[%s]", principal.toString());
-  }
+   @Override
+   public Role[] getRoles()
+   {
+      return roles;
+   }
+
+   @Override
+   public Object getCredentials()
+   {
+      return credentials;
+   }
+
+   @Override
+   public Object getPrincipal()
+   {
+      return principal;
+   }
+
+   @Override
+   public String toString()
+   {
+      return String.format("UsernamePasswordToken[%s]", principal.toString());
+   }
 }

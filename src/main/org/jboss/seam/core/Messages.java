@@ -29,6 +29,7 @@ import org.jboss.seam.annotations.Unwrap;
 @Name("org.jboss.seam.core.messages")
 @Install(precedence=BUILT_IN)
 public class Messages implements Serializable {
+   private static final long serialVersionUID = 1292464253307553295L;
    
    private transient Map<String, String> messages;
    

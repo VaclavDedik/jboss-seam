@@ -32,7 +32,7 @@ import org.jboss.seam.contexts.Lifecycle;
 @Install(precedence=BUILT_IN)
 @Intercept(NEVER)
 public class Switcher implements Serializable {
-   
+   private static final long serialVersionUID = -6403911073853051938L;
    private List<SelectItem> selectItems;
    private String conversationIdOrOutcome;
    private String resultingConversationIdOrOutcome;

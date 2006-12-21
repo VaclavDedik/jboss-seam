@@ -24,7 +24,8 @@ import org.jboss.seam.contexts.Contexts;
 @Install(value=false, precedence=BUILT_IN)
 public class TimeZoneSelector extends Selector
 {
-
+   private static final long serialVersionUID = -5013819375360015369L;
+   
    private String id;
    
    @Create

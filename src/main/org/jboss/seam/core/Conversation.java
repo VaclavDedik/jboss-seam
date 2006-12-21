@@ -29,7 +29,7 @@ import org.jboss.seam.contexts.Contexts;
 @Install(precedence=BUILT_IN)
 @Intercept(NEVER)
 public class Conversation implements Serializable {
-   
+   private static final long serialVersionUID = -6131304128727444876L;
    private Integer timeout;
    String description;
    String viewId;

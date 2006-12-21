@@ -44,8 +44,9 @@ import javax.faces.el.EvaluationException;
  */
 public class MethodExpressionParser implements Serializable 
 {
-    
-    private String unparsedExpression;
+   private static final long serialVersionUID = 7145647492529261758L;
+   
+   private String unparsedExpression;
     private String baseExpression = "";
     private String methodName = "";
     private String[] params;

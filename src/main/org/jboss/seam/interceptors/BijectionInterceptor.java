@@ -25,6 +25,7 @@ import org.jboss.seam.intercept.InvocationContext;
 @Interceptor(stateless=true)
 public class BijectionInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = 4686458105931528659L;
    
    private static final LogProvider log = Logging.getLogProvider(BijectionInterceptor.class);
    

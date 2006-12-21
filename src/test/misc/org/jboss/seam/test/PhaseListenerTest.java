@@ -126,6 +126,7 @@ public class PhaseListenerTest
       return ScopeType.PAGE.getPrefix() + '$';
    }
 
+   @SuppressWarnings("serial")
    @Test
    public void testSeamPhaseListenerLongRunning()
    {

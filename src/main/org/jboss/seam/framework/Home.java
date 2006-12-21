@@ -24,6 +24,7 @@ import org.jboss.seam.core.Expressions.ValueBinding;
 @Scope(ScopeType.CONVERSATION)
 public class Home<E> extends AbstractMutable implements Serializable
 {
+   private static final long serialVersionUID = -5462396456614090423L;
    private Object id;
    protected E instance;
    private Class<E> entityClass;

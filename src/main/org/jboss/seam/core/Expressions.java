@@ -34,6 +34,8 @@ public class Expressions
       
       return new ValueBinding() 
       {
+         private static final long serialVersionUID = -8655967672318993009L;
+         
          private transient javax.faces.el.ValueBinding cachedValueBinding;
          
          public String getExpressionString()
@@ -86,6 +88,8 @@ public class Expressions
    {
       return new MethodBinding() 
       {
+         private static final long serialVersionUID = 7314202661786534543L;
+         
          private transient javax.faces.el.MethodBinding cachedMethodBinding;
 
          public String getExpressionString()

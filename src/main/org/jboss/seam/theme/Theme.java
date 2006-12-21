@@ -30,6 +30,7 @@ import org.jboss.seam.core.Interpolator;
 @Name("org.jboss.seam.theme.theme")
 @Install(precedence=BUILT_IN)
 public class Theme implements Serializable {
+   private static final long serialVersionUID = -7003055918970882103L;
    
    private transient Map messages;
    

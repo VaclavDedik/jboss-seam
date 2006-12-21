@@ -36,7 +36,7 @@ import org.jboss.seam.contexts.Contexts;
 @Intercept(NEVER)
 public class FacesMessages implements Serializable
 {
-   
+   private static final long serialVersionUID = -5395975397632138270L;
    private transient List<Runnable> tasks;
    
    private List<FacesMessage> facesMessages = new ArrayList<FacesMessage>();

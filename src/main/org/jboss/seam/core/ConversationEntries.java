@@ -1,8 +1,6 @@
 package org.jboss.seam.core;
-
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -18,7 +15,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-
 /**
  * Manages a map of conversation id to ConversationEntry 
  * in the session context.
@@ -29,8 +25,9 @@ import org.jboss.seam.contexts.Contexts;
 @Install(precedence=BUILT_IN)
 @Scope(ScopeType.SESSION)
 @Intercept(NEVER)
-public class ConversationEntries extends AbstractMutable implements Serializable
+public class ConversationEntries extends AbstractMutable implements Serializable 
 {
+   private static final long serialVersionUID = 7996835952419813634L;
    private Map<String, ConversationEntry> conversationIdEntryMap = new HashMap<String, ConversationEntry>();
    
    public synchronized Collection<ConversationEntry> getConversationEntries()

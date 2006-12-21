@@ -28,7 +28,9 @@ import org.xml.sax.InputSource;
  */
 public class DTDEntityResolver implements EntityResolver, Serializable {
 
-	private static final LogProvider log = Logging.getLogProvider(DTDEntityResolver.class );
+   private static final long serialVersionUID = -4553926061006790714L;
+
+   private static final LogProvider log = Logging.getLogProvider(DTDEntityResolver.class );
 
 	private static final String HIBERNATE_NAMESPACE = "http://jboss.com/products/seam/";
 	private static final String USER_NAMESPACE = "classpath://";

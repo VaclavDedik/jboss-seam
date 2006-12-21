@@ -11,40 +11,42 @@ import org.jboss.seam.annotations.security.Permissions;
 
 /**
  * Used by security unit tests
- *
+ * 
  * @author Shane Bryzak
  */
 @Name("mockSecureEntity")
 @Install(false)
-@Permissions({
-  @Permission(action = "read", expr = "#{aclPermissionChecker.checkPermission}"),
-  @Permission(action = "delete", expr = "#{aclPermissionChecker.checkPermission}"),
-  @Permission(action = "special", expr = "#{aclPermissionChecker.checkPermission}")
-})
+@Permissions( {
+      @Permission(action = "read", expr = "#{aclPermissionChecker.checkPermission}"),
+      @Permission(action = "delete", expr = "#{aclPermissionChecker.checkPermission}"),
+      @Permission(action = "special", expr = "#{aclPermissionChecker.checkPermission}") })
 @Entity
 public class MockSecureEntity implements Serializable
 {
-  private Integer id;
-  private String value;
+   private static final long serialVersionUID = -6885685305122412324L;
 
-  @Id
-  public Integer getId()
-  {
-    return id;
-  }
+   private Integer id;
 
-  public void setId(Integer id)
-  {
-    this.id = id;
-  }
+   private String value;
 
-  public String getValue()
-  {
-    return value;
-  }
+   @Id
+   public Integer getId()
+   {
+      return id;
+   }
 
-  public void setValue(String value)
-  {
-    this.value = value;
-  }
+   public void setId(Integer id)
+   {
+      this.id = id;
+   }
+
+   public String getValue()
+   {
+      return value;
+   }
+
+   public void setValue(String value)
+   {
+      this.value = value;
+   }
 }

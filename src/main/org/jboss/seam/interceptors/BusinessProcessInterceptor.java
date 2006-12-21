@@ -35,6 +35,7 @@ import org.jboss.seam.log.Logging;
              around={ValidationInterceptor.class, BijectionInterceptor.class, OutcomeInterceptor.class})
 public class BusinessProcessInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = 758197867958840918L;
    
    private static final LogProvider log = Logging.getLogProvider( BusinessProcessInterceptor.class );
 

@@ -6,33 +6,36 @@ import javax.persistence.Id;
 
 /**
  * Identifies a persistent object for the purpose of defining an Acl for it
- *
+ * 
  * @author Shane Bryzak
  */
 @Entity
 public class MockAclObjectIdentity implements Serializable
 {
-  private Integer id;
-  private String objectIdentity;
+   private static final long serialVersionUID = 1789344626238767199L;
 
-  @Id
-  public Integer getId()
-  {
-    return id;
-  }
+   private Integer id;
 
-  public void setId(Integer id)
-  {
-    this.id = id;
-  }
+   private String objectIdentity;
 
-  public String getObjectIdentity()
-  {
-    return objectIdentity;
-  }
+   @Id
+   public Integer getId()
+   {
+      return id;
+   }
 
-  public void setObjectIdentity(String objectIdentity)
-  {
-    this.objectIdentity = objectIdentity;
-  }
+   public void setId(Integer id)
+   {
+      this.id = id;
+   }
+
+   public String getObjectIdentity()
+   {
+      return objectIdentity;
+   }
+
+   public void setObjectIdentity(String objectIdentity)
+   {
+      this.objectIdentity = objectIdentity;
+   }
 }

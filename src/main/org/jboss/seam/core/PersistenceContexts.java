@@ -1,13 +1,10 @@
 package org.jboss.seam.core;
-
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.FlushModeType;
@@ -16,16 +13,16 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
-
 @Name("org.jboss.seam.core.persistenceContexts")
 @Scope(ScopeType.CONVERSATION)
 @Intercept(NEVER)
 @Install(precedence=BUILT_IN)
 public class PersistenceContexts extends AbstractMutable implements Serializable
 {
+   private static final long serialVersionUID = -4897350516435283182L;
    private Set<String> set = new HashSet<String>();
    private FlushModeType flushMode = FlushModeType.AUTO;
-   
+ 
    public FlushModeType getFlushMode()
    {
       return flushMode;
@@ -52,7 +49,6 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
          return null;
       }
    }
-
    public void changeFlushMode(FlushModeType flushMode)
    {
       this.flushMode = flushMode;

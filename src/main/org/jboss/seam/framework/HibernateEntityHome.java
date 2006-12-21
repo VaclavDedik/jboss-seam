@@ -1,15 +1,12 @@
 package org.jboss.seam.framework;
-
 import java.io.Serializable;
-
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
-
 public class HibernateEntityHome<E> extends Home<E>
 {
+   private static final long serialVersionUID = 6071072408602519385L;
    private Session session;
-
    @Override
    public void create()
    {
@@ -19,14 +16,12 @@ public class HibernateEntityHome<E> extends Home<E>
          throw new IllegalStateException("session is null");
       }
    }
-
    @Transactional
    public boolean isManaged()
    {
       return getInstance()!=null && 
             getSession().contains( getInstance() );
    }
-
    @Transactional
    public String update()
    {
@@ -34,7 +29,6 @@ public class HibernateEntityHome<E> extends Home<E>
       updatedMessage();
       return "updated";
    }
-
    @Transactional
    public String persist()
    {
@@ -44,7 +38,6 @@ public class HibernateEntityHome<E> extends Home<E>
       createdMessage();
       return "persisted";
    }
-
    @Transactional
    public String remove()
    {
@@ -53,7 +46,6 @@ public class HibernateEntityHome<E> extends Home<E>
       deletedMessage();
       return "removed";
    }
-
    @Transactional
    @Override
    public E find()
@@ -62,7 +54,6 @@ public class HibernateEntityHome<E> extends Home<E>
       if (result==null) result = handleNotFound();
       return result;
    }
-
    public Session getSession()
    {
       if (session==null)
@@ -71,10 +62,8 @@ public class HibernateEntityHome<E> extends Home<E>
       }
       return session;
    }
-
    public void setSession(Session session)
    {
       this.session = session;
    }
-
 }

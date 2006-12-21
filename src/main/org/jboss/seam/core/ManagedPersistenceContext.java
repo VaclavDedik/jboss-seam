@@ -1,19 +1,15 @@
 //$Id$
 package org.jboss.seam.core;
-
 import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.transaction.SystemException;
-
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.Component;
@@ -29,7 +25,6 @@ import org.jboss.seam.core.Expressions.ValueBinding;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Transactions;
-
 /**
  * A Seam component that manages a conversation-scoped extended
  * persistence context that can be shared by arbitrary other
@@ -43,7 +38,7 @@ import org.jboss.seam.util.Transactions;
 public class ManagedPersistenceContext 
    implements Serializable, HttpSessionActivationListener, Mutable, PersistenceContextManager
 {
-
+   private static final long serialVersionUID = -4972387440275848126L;
    private static final LogProvider log = Logging.getLogProvider(ManagedPersistenceContext.class);
    
    private EntityManager entityManager;
@@ -56,7 +51,6 @@ public class ManagedPersistenceContext
    {
       return true;
    }
-
    @Create
    public void create(Component component)
    {
@@ -82,7 +76,6 @@ public class ManagedPersistenceContext
          }
       }
    }
-
    private void createEntityManager()
    {
       entityManager = getEntityManagerFactoryFromJndiOrValueBinding().createEntityManager();      
@@ -92,7 +85,6 @@ public class ManagedPersistenceContext
          PersistenceProvider.instance().enableFilter(f, entityManager);
       }
    }
-
    @Unwrap
    public EntityManager getEntityManager() throws NamingException, SystemException
    {
@@ -159,7 +151,6 @@ public class ManagedPersistenceContext
    {
       return entityManagerFactory;
    }
-
    public void setEntityManagerFactory(ValueBinding<EntityManagerFactory> entityManagerFactory)
    {
       this.entityManagerFactory = entityManagerFactory;
@@ -173,16 +164,13 @@ public class ManagedPersistenceContext
    {
       return persistenceUnitJndiName;
    }
-
    public void setPersistenceUnitJndiName(String persistenceUnitName)
    {
       this.persistenceUnitJndiName = persistenceUnitName;
    }
-
    public String getComponentName() {
       return componentName;
    }
-
    /**
     * Hibernate filters to enable automatically
     */
@@ -190,12 +178,10 @@ public class ManagedPersistenceContext
    {
       return filters;
    }
-
    protected void setFilters(List<Filter> filters)
    {
       this.filters = filters;
    }
-
    public void setFlushMode(org.jboss.seam.annotations.FlushModeType flushMode)
    {
       switch (flushMode)
@@ -217,5 +203,4 @@ public class ManagedPersistenceContext
    {
       return "ManagedPersistenceContext(" + persistenceUnitJndiName + ")";
    }
-
 }

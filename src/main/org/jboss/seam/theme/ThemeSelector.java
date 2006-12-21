@@ -39,6 +39,8 @@ import org.jboss.seam.log.Logging;
 @Install(precedence=BUILT_IN)
 public class ThemeSelector extends Selector
 {
+   private static final long serialVersionUID = 3920407140011388341L;
+
    private static final LogProvider log = Logging.getLogProvider(ThemeSelector.class);
    
    private String theme;

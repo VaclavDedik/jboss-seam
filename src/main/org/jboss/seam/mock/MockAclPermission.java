@@ -9,67 +9,73 @@ import org.jboss.seam.security.acl.AclProvider.RecipientType;
 
 /**
  * Defines permissions for an object
- *
+ * 
  * @author Shane Bryzak
  */
 @Entity
 public class MockAclPermission implements Serializable
 {
-  private Integer id;
-  private MockAclObjectIdentity identity;
-  private RecipientType recipientType;
-  private String recipient;
-  private int mask;
+   private static final long serialVersionUID = -1399973698080227493L;
 
-  @Id
-  public Integer getId()
-  {
-    return id;
-  }
+   private Integer id;
 
-  public void setId(Integer id)
-  {
-    this.id = id;
-  }
+   private MockAclObjectIdentity identity;
 
-  @ManyToOne
-  public MockAclObjectIdentity getIdentity()
-  {
-    return identity;
-  }
+   private RecipientType recipientType;
 
-  public void setIdentity(MockAclObjectIdentity identity)
-  {
-    this.identity = identity;
-  }
+   private String recipient;
 
-  public RecipientType getRecipientType()
-  {
-    return recipientType;
-  }
+   private int mask;
 
-  public void setRecipientType(RecipientType recipientType)
-  {
-    this.recipientType = recipientType;
-  }
+   @Id
+   public Integer getId()
+   {
+      return id;
+   }
 
-  public String getRecipient()
-  {
-    return recipient;
-  }
+   public void setId(Integer id)
+   {
+      this.id = id;
+   }
 
-  public void setRecipient(String recipient)
-  {
-    this.recipient = recipient;
-  }
+   @ManyToOne
+   public MockAclObjectIdentity getIdentity()
+   {
+      return identity;
+   }
 
-  public int getMask()
-  {
-    return mask;
-  }
+   public void setIdentity(MockAclObjectIdentity identity)
+   {
+      this.identity = identity;
+   }
 
-  public void setMask(int mask)
-  {
-    this.mask = mask;
-  }
+   public RecipientType getRecipientType()
+   {
+      return recipientType;
+   }
+
+   public void setRecipientType(RecipientType recipientType)
+   {
+      this.recipientType = recipientType;
+   }
+
+   public String getRecipient()
+   {
+      return recipient;
+   }
+
+   public void setRecipient(String recipient)
+   {
+      this.recipient = recipient;
+   }
+
+   public int getMask()
+   {
+      return mask;
+   }
+
+   public void setMask(int mask)
+   {
+      this.mask = mask;
+   }
 }

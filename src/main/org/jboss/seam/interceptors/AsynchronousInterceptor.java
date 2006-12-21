@@ -1,7 +1,5 @@
 package org.jboss.seam.interceptors;
-
 import javax.ejb.Timer;
-
 import org.jboss.seam.InterceptorType;
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.Asynchronous;
@@ -10,10 +8,10 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Dispatcher;
 import org.jboss.seam.core.LocalDispatcher;
 import org.jboss.seam.intercept.InvocationContext;
-
 @Interceptor(type=InterceptorType.CLIENT)
 public class AsynchronousInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = 9194177339867853303L;
    @AroundInvoke
    public Object invokeAsynchronouslyIfNecessary(InvocationContext invocation) throws Exception
    {

@@ -1,10 +1,8 @@
 package org.jboss.seam.interceptors;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jboss.seam.annotations.AroundInvoke;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Interceptor;
@@ -12,7 +10,6 @@ import org.jboss.seam.contexts.PassivatedEntity;
 import org.jboss.seam.core.PersistenceContexts;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.util.Reflections;
-
 /**
  * Swizzles entity references around each invocation, maintaining
  * referential integrity even across passivation of the stateful 
@@ -25,9 +22,9 @@ import org.jboss.seam.util.Reflections;
 @Interceptor(around=BijectionInterceptor.class)
 public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
 {
+   private static final long serialVersionUID = 3105217046803964083L;
    
    //TODO: cache much more - the list of fields, PassivatedEntity obects, etc
-   
    private List<PassivatedEntity> passivatedEntities = new ArrayList<PassivatedEntity>();
    
    @AroundInvoke
@@ -80,7 +77,6 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
          }
       }
    }
-
    public void entityIdsToRefs(InvocationContext ctx) throws Exception
    {
       if ( passivatedEntities.size()>0 )

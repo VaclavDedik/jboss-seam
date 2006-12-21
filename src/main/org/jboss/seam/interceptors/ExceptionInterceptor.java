@@ -21,7 +21,8 @@ import org.jboss.seam.intercept.InvocationContext;
 @Interceptor(stateless = true, type = InterceptorType.CLIENT)
 public class ExceptionInterceptor extends AbstractInterceptor
 {
-
+   private static final long serialVersionUID = 748337911616171944L;
+   
    private static final String OUTERMOST_EXCEPTION_INTERCEPTOR = "org.jboss.seam.outermostExceptionInterceptor";
 
    @AroundInvoke

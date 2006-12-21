@@ -37,7 +37,8 @@ import org.jboss.seam.util.Strings;
 @Install(precedence=BUILT_IN)
 public class LocaleSelector extends Selector
 {
-
+   private static final long serialVersionUID = -6087667065688208261L;
+   
    private String language;
    private String country;
    private String variant;

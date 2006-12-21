@@ -25,7 +25,7 @@ import org.jboss.seam.util.EJB;
  */
 public class RootInterceptor implements Serializable
 {
-   
+   private static final long serialVersionUID = 8041533870186694663L;
    private static final LogProvider log = Logging.getLogProvider(RootInterceptor.class);
    
    private final InterceptorType type;

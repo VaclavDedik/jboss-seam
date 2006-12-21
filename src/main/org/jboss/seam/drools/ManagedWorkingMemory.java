@@ -1,9 +1,6 @@
 package org.jboss.seam.drools;
-
 import static org.jboss.seam.InterceptionType.NEVER;
-
 import java.io.Serializable;
-
 import org.drools.RuleBase;
 import org.drools.WorkingMemory;
 import org.jboss.seam.Component;
@@ -14,7 +11,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.Expressions.ValueBinding;
-
 /**
  * A conversation-scoped Drools WorkingMemory for a named RuleBase
  * 
@@ -25,16 +21,15 @@ import org.jboss.seam.core.Expressions.ValueBinding;
 @Intercept(NEVER)
 public class ManagedWorkingMemory implements Mutable, Serializable
 {
+   private static final long serialVersionUID = -1746942080571374743L;
    
    private String ruleBaseName;
    private WorkingMemory workingMemory;
    private ValueBinding<RuleBase> ruleBase;
-
    public boolean clearDirty()
    {
       return true;
    }
-
    /**
     * The name of a Seam context variable holding an
     * instance of org.drools.RuleBase
@@ -93,15 +88,12 @@ public class ManagedWorkingMemory implements Mutable, Serializable
    {
       workingMemory.dispose();
    }
-
    public ValueBinding<RuleBase> getRuleBase()
    {
       return ruleBase;
    }
-
    public void setRuleBase(ValueBinding<RuleBase> ruleBase)
    {
       this.ruleBase = ruleBase;
    }
-
 }

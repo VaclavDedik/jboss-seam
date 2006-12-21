@@ -1,12 +1,8 @@
 package org.jboss.seam.core;
-
 import static org.jboss.seam.InterceptionType.NEVER;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-
 import java.io.Serializable;
-
 import javax.faces.application.FacesMessage;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -16,7 +12,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
-
 /**
  * Holds the task and process ids for the current conversation,
  * and provides programmatic control over the business process.
@@ -29,7 +24,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 @Intercept(NEVER)
 @Install(dependencies="org.jboss.seam.core.jbpm", precedence=BUILT_IN)
 public class BusinessProcess extends AbstractMutable implements Serializable {
-   
+   private static final long serialVersionUID = 4722350870845851070L;
    private Long processId;
    private Long taskId;
    
@@ -60,7 +55,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       return hasCurrentProcess() && 
             !org.jboss.seam.core.ProcessInstance.instance().hasEnded();
    }
-
    /**
     * Is there a task instance associated with 
     * the current conversation?
@@ -69,7 +63,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    {
       return taskId!=null;
    }
-
    /**
     * The jBPM process instance id associated with
     * the current conversation.
@@ -77,7 +70,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    public Long getProcessId() {
       return processId;
    }
-
    /**
     * Set the process instance id, without validating
     * that the process instance actually exists.
@@ -86,7 +78,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       setDirty(this.processId, processId);
       this.processId = processId;
    }
-
    /**
     * The jBPM task instance id associated with
     * the current conversation.
@@ -94,7 +85,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
    public Long getTaskId() {
       return taskId;
    }
-
    /**
     * Set the task instance id, without validating
     * that the task instance actually exists.
@@ -103,7 +93,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       setDirty(this.taskId, taskId);
       this.taskId = taskId;
    }
-
    /**
     * Create a process instance and associate it with the
     * current conversation.
@@ -120,7 +109,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       
       Events.instance().raiseEvent("org.jboss.seam.createProcess." + processDefinitionName);
    }
-
    /**
     * Start the current task, using the current actor id
     * 
@@ -141,7 +129,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       
       Events.instance().raiseEvent("org.jboss.seam.startTask." + task.getTask().getName());
    }
-
    /**
     * End the current task, via the given transition. If no transition name 
     * is given, check the Transition component for a transition, or use the 
@@ -174,7 +161,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
       setTaskId(null); //TODO: do I really need this???!
       
       Events.instance().raiseEvent("org.jboss.seam.endTask." + task.getTask().getName());
-
       ProcessInstance process = org.jboss.seam.core.ProcessInstance.instance();
       if ( process.hasEnded() )
       {
@@ -254,7 +240,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
          return true;
       }
    }
-
    /**
     * Check that the task currently associated with the conversation
     * exists and has not ended.
@@ -278,7 +263,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
          return true;
       }
    }
-
    protected void taskNotFound(Long taskId)
    {
       FacesMessages.instance().addFromResourceBundle(
@@ -288,7 +272,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
             taskId
          );
    }
-
    protected void taskEnded(Long taskId)
    {
       FacesMessages.instance().addFromResourceBundle(
@@ -298,7 +281,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
             taskId
          );
    }
-
    protected void processEnded(Long processId)
    {
       FacesMessages.instance().addFromResourceBundle(
@@ -308,7 +290,6 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
             processId
          );
    }
-
    protected void processNotFound(Long processId)
    {
       FacesMessages.instance().addFromResourceBundle(
@@ -318,11 +299,9 @@ public class BusinessProcess extends AbstractMutable implements Serializable {
             processId
          );
    }
-
    @Override
    public String toString()
    {
       return "BusinessProcess(processId=" + processId + ",taskId=" + taskId + ")";
    }
-
 }
