@@ -6,13 +6,8 @@ history deleted for file size
 var datePickerDivID = "datepicker";
 var iFrameDivID = "datepickeriframe";
 
-var dayArrayShort = new Array('Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa');
-var dayArrayMed = new Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
-var dayArrayLong = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
-var monthArrayShort = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
-var monthArrayMed = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec');
-var monthArrayLong = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
- 
+// text label variables generate by selectDate component
+
 // these variables define the date formatting we're expecting and outputting.
 // If you want to use a different format by default, change the defaultDateSeparator
 // and defaultDateFormat variables either here or on your HTML page.
@@ -129,7 +124,9 @@ function refreshDatePicker(dateFieldName, year, month, day)
   var xTR = "</tr>" + crlf;
 
   var TD = "<td class='seam-date-day' onmouseout='this.className=\"seam-date-day\";' onmouseover='this.className=\"seam-date-hover\";' ";    // leave this tag open, because we'll be adding an onclick event
+  var TD_weekend = "<td class='seam-date-day weekend' onmouseout='this.className=\"seam-date-day weekend\";' onmouseover='this.className=\"seam-date-hover\";' ";    // leave this tag open, because we'll be adding an onclick event
   var TD_selected = "<td class='seam-date-selected' onmouseout='this.className=\"seam-date-selected\";' onmouseover='this.className=\"seam-date-hover\";' ";    // leave this tag open, because we'll be adding an onclick event
+  var TD_selected_weekend = "<td class='seam-date-selected weekend' onmouseout='this.className=\"seam-date-selected weekend\";' onmouseover='this.className=\"seam-date-hover\";' ";    // leave this tag open, because we'll be adding an onclick event
   var TD_blank = "<td";
   var TD_title = "<td colspan='5'>";
   var TD_buttons = "<td>";
@@ -151,39 +148,46 @@ function refreshDatePicker(dateFieldName, year, month, day)
  
   // this is the row that indicates which day of the week we're on
   html += TR_days;
-  for(i = 0; i < dayArrayShort.length; i++)
-    html += TD_days + dayArrayShort[i] + xTD;
+  for(i = 0; i < 7; i++) {
+    html += TD_days + getDayName(i) + xTD;
+  }
   html += xTR;
  
   // now we'll start populating the table with days of the month
   html += TR;
  
   // first, the leading blanks
-  for (i = 0; i < thisDay.getDay(); i++)
+  for (i = 0; i < getDay(thisDay.getDay()); i++) {
     html += TD_blank + "> " + xTD;
+  }
  
   // now, the days of the month
   do {
     dayNum = thisDay.getDate();
+    var weekend = isWeekend(thisDay.getDay());
+
     TD_onclick = " onclick=\"updateDateField('" + dateFieldName + "', '" + getDateString(thisDay) + "');\">";
     
-    if (dayNum == day)
-      html += TD_selected + TD_onclick + dayNum + xTD;
-    else
-      html += TD + TD_onclick + dayNum + xTD;
-    
+    if (dayNum == day) {
+      html += (weekend ? TD_selected_weekend : TD_selected) + TD_onclick + dayNum + xTD;
+    } else {
+      html += (weekend ? TD_weekend : TD) + TD_onclick + dayNum + xTD;
+    }    
+
     // if this is a Saturday, start a new row
-    if (thisDay.getDay() == 6)
+    if (getDay(thisDay.getDay()) == 6) {
       html += xTR + TR;
+    }
     
     // increment the day
     thisDay.setDate(thisDay.getDate() + 1);
   } while (thisDay.getDate() > 1)
  
   // fill in any trailing blanks
-  if (thisDay.getDay() > 0) {
-    for (i = 6; i > thisDay.getDay(); i--)
+  if (getDay(thisDay.getDay()) > 0) {
+    for (i = 7; i > getDay(thisDay.getDay()); i--) {
       html += TD_blank + "> " + xTD;
+    } 
   }
   html += xTR;
  
@@ -203,6 +207,22 @@ function refreshDatePicker(dateFieldName, year, month, day)
   adjustiFrame();
 }
 
+
+function getDayName(day) {
+    return dayArrayShort[(day + firstDayInWeek) % 7];
+}
+
+function getDay(day) {
+     var convertedDay = day - firstDayInWeek;
+     if (convertedDay < 0) {
+         convertedDay += 7;
+     }
+     return convertedDay;
+}
+
+function isWeekend(day) {
+    return (day == 0) || (day == 6);
+}
 
 /**
 Convenience function for writing the code for the buttons that bring us back or forward

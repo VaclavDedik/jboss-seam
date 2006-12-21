@@ -3,6 +3,9 @@ package org.jboss.seam.ui;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
@@ -95,10 +98,19 @@ public class SelectDate
         request.put("SELECTDATE_SCRIPT", scriptResource);
         
         ResponseWriter response = context.getResponseWriter();
+
+        writeLocaleInformation(response, context.getViewRoot().getLocale());        
+        writeScriptFromResource(response, scriptResource);
+    }
+
+    private void writeScriptFromResource(ResponseWriter response, 
+                                         String scriptResource) 
+        throws IOException 
+    {
         response.startElement("script", null);
         response.writeAttribute("type", "text/javascript", null);
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(scriptResource);
-
+        
         if (is == null) {
             throw new IOException("resource " + scriptResource + " not found");
         }
@@ -116,5 +128,43 @@ public class SelectDate
 
         response.endElement("script");
     }
-                            
+   
+
+
+    private void writeLocaleInformation(ResponseWriter response, 
+                                        Locale locale) throws IOException 
+    {
+        response.startElement("script", null);
+        response.writeAttribute("type", "text/javascript", null);
+        
+        Calendar cal = Calendar.getInstance(locale);
+        DateFormatSymbols symbols = new DateFormatSymbols(locale);
+                
+        // Note: Calendar and DateFormatSymbols use 1 for the first day of the week, not 0.
+        
+        response.write("\r");
+        response.write("var dayArrayShort = " + getArray(symbols.getShortWeekdays(), 1) + ";\r");
+        response.write("var dayArrayMed = " + getArray(symbols.getShortWeekdays(), 1) + ";\r");
+        response.write("var dayArrayLong = " + getArray(symbols.getWeekdays(), 1) + ";\r");
+        response.write("var monthArrayShort = " + getArray(symbols.getShortMonths(), 0) + ";\r");
+        response.write("var monthArrayMed = " + getArray(symbols.getShortMonths(), 0) + ";\r");
+        response.write("var monthArrayLong = " + getArray(symbols.getMonths(), 0) + ";\r");
+        response.write("var firstDayInWeek = " + (cal.getFirstDayOfWeek() - 1) + ";\r");
+        
+        response.endElement("script");
+    }
+    
+    private StringBuilder getArray(String[] values, int start) throws IOException {
+        StringBuilder s = new StringBuilder();
+        s.append("new Array(");
+        for (int i = start; i < values.length; i++) {
+            if (i > start) {
+                s.append(", ");
+            }
+            s.append("'").append(values[i]).append("'");
+        }
+        s.append(")");
+        return s;
+    }
+                         
 }
