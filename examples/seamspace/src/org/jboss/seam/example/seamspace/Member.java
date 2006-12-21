@@ -98,6 +98,7 @@ public class Member implements Serializable
    }
 
    @OneToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "PICTURE_ID")
    public MemberImage getPicture()
    {
       return picture;

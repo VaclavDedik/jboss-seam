@@ -19,7 +19,7 @@ public class ProfileAction implements ProfileLocal
    @RequestParameter
    private String name;
 
-   @Out
+   @Out(required = false)
    private Member selectedMember;
    
    @In(create=true)

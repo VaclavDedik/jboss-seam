@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.jboss.seam.annotations.Name;
@@ -31,6 +32,7 @@ public class MemberImage implements Serializable
    }
    
    @ManyToOne
+   @JoinColumn(name = "MEMBER_ID")
    public Member getMember()
    {
       return member;

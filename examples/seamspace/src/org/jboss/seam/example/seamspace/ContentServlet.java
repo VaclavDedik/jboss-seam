@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.Component;
 
+/**
+ * Serves images and other member content
+ * 
+ * @author Shane Bryzak
+ */
 public class ContentServlet extends HttpServlet
 {
    private static final long serialVersionUID = -8461940507242022217L;
