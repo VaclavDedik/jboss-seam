@@ -5,12 +5,8 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.security.acl.Permission;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.drools.FactHandle;
 import org.drools.RuleBase;
@@ -28,7 +24,6 @@ import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
-import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.log.LogProvider;
@@ -198,7 +193,7 @@ public class SeamSecurityManager
       
       // Assert the identity into the working memory if one exists and it hasn't
       // been asserted before
-      if (ident != null && wm.getObjects(ident.getClass()).size() > 0)
+      if (ident != null && wm.getObjects(ident.getClass()).isEmpty())
       {
          wm.assertObject(ident);
 
