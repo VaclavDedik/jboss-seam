@@ -11,5 +11,11 @@
             </rule>
         </navigation>
     </page>
+    
+    <page view-id="*">
+        <navigation from-action="#{login.logout}">
+            <redirect view-id="/home.xhtml"/>
+        </navigation>
+    </page>
 
 </pages>

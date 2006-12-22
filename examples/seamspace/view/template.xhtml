@@ -16,6 +16,7 @@
     <div class="headerRight">
       <div class="headerMenu">
         <!--s:link action="" value="SignUp"/-->
+        <s:link action="#{login.logout}" value="Log out" rendered="#{login.loggedIn}"/>
       </div>
       <br style="clear:both"/>
       <h:form>

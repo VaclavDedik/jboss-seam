@@ -17,7 +17,7 @@ import org.jboss.seam.security.authenticator.Authenticator;
 
 /**
  * Login action
- *
+ * 
  * @author Shane Bryzak
  */
 @Stateful
@@ -26,35 +26,39 @@ import org.jboss.seam.security.authenticator.Authenticator;
 @Name("login")
 public class LoginAction implements LoginLocal
 {
-  @In(required = false) @Out(required = false) Member member;
-  
-  private boolean loggedIn;
+   @In(required = false)
+   @Out(required = false)
+   Member member;
 
-  public void login()
-  {
-    try
-    {
-      Authenticator.instance().authenticate(member.getUsername(), member.getPassword());
-      loggedIn = true;      
-    }
-    catch (AuthenticationException ex)
-    {
-      FacesMessages.instance().add("Invalid login");
-    }
-  }
+   private boolean loggedIn;
 
-  public void logout()
-  {
-	loggedIn = false;
-	Authenticator.instance().unauthenticateSession();
-    Seam.invalidateSession();
-  }
-  
-  public boolean isLoggedIn()
-  {
-	return loggedIn;
-  }
-  
-  @Remove @Destroy
-  public void destroy() { }
+   public void login()
+   {
+      try
+      {
+         Authenticator.instance().authenticate(member.getUsername(),
+               member.getPassword());
+         loggedIn = true;
+      }
+      catch (AuthenticationException ex)
+      {
+         FacesMessages.instance().add("Invalid login");
+      }
+   }
+
+   public void logout() 
+   {
+      loggedIn = false;
+      Authenticator.instance().unauthenticateSession();
+      Seam.invalidateSession();
+   }
+
+   public boolean isLoggedIn()
+   {
+      return loggedIn;
+   }
+
+   @Remove
+   @Destroy
+   public void destroy() { }
 }

@@ -1,0 +1,25 @@
+package SeamSpacePermissions;
+
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.rules.PermissionCheck;
+import org.jboss.seam.example.seamspace.MemberImage;
+
+rule AuthenticatedViewImage
+when
+  c: PermissionCheck(name == "memberImage", action == "view")
+  Identity()
+  img: MemberImage()
+  eval( img.getMember().getPicture() == img )
+then
+  c.grant();
+end;
+
+rule UnauthenticatedViewImage
+when
+  c: PermissionCheck(name == "memberImage", action == "view")
+  not Identity()
+  img: MemberImage()
+  eval( img.getMember().getPicture() == img )
+then
+  c.grant();
+end;  

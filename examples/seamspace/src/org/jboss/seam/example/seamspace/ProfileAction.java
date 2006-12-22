@@ -28,14 +28,14 @@ public class ProfileAction implements ProfileLocal
    @Factory("selectedMember")
    public void display()
    {
-      if (name == null)
+      if (name == null && Identity.isSet())
       {
          selectedMember = (Member) entityManager.createQuery(
                "from Member where username = :username")
                .setParameter("username", Identity.instance().getName())
                .getSingleResult();
       }
-      else
+      else if (name != null)
       {
          try
          {
@@ -44,10 +44,7 @@ public class ProfileAction implements ProfileLocal
             .setParameter("name", name)
             .getSingleResult();
          }
-         catch (NoResultException ex) 
-         {
-            FacesMessages.instance().add("The member name you specified does not exist.");
-         }   
+         catch (NoResultException ex) { }   
       }
    }
 }

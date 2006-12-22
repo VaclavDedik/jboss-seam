@@ -13,4 +13,5 @@ public interface LoginLocal
   void login();
   void logout();
   boolean isLoggedIn();
+  void destroy();
 }

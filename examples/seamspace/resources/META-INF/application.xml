@@ -4,23 +4,23 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
              version="5">
              
-	<display-name>SeamSpace</display-name>
+  <display-name>SeamSpace</display-name>
 
-	<module>
-		<web>
-			<web-uri>seam-space.war</web-uri>
-			<context-root>/seam-space</context-root>
-		</web>
-	</module>
-	
-	<module>
-		<ejb>seam-space.jar</ejb>
-	</module>
-	
-	<module>
-	  <java>jboss-seam.jar</java>
-	</module>
-	
+  <module>
+    <web>
+      <web-uri>seam-space.war</web-uri>
+      <context-root>/seam-space</context-root>
+    </web>
+  </module>
+  
+  <module>
+    <ejb>seam-space.jar</ejb>
+  </module>
+  
+  <module>
+    <java>jboss-seam.jar</java>
+  </module>
+  
   <module>
     <java>el-api.jar</java>
   </module>
@@ -31,30 +31,38 @@
   
   <module>
     <java>drools-compiler-3.0.5.jar</java>
-	</module>
+  </module>
 
   <module>
-	  <java>drools-core-3.0.5.jar</java>
-	</module>    
-	
+    <java>drools-core-3.0.5.jar</java>
+  </module>    
+  
   <module>
     <java>commons-jci-core-1.0-406301.jar</java>
-	</module>
-	
+  </module>
+  
   <module>
     <java>commons-jci-janino-2.4.3.jar</java>
-	</module>	
-	
+  </module> 
+  
   <module>
     <java>commons-lang-2.1.jar</java>
-	</module>
+  </module>
 
   <module>
     <java>janino-2.4.3.jar</java>
-	</module>
+  </module>
 
   <module>
     <java>stringtemplate-2.3b6.jar</java>
-	</module>	
+  </module> 
+  
+  <module>
+    <java>antlr-2.7.6.jar</java>
+  </module>
 
+  <module>
+    <java>antlr-3.0ea8.jar</java>
+  </module>
+  
 </application>

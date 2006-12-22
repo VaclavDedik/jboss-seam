@@ -17,7 +17,7 @@ public class ContentAction implements ContentLocal
    {
       MemberImage img = entityManager.find(MemberImage.class, imageId);
 
-      if (img != null)// && SeamSecurityManager.hasPermission("memberImage", "view", img))      
+      if (img != null && SeamSecurityManager.hasPermission("memberImage", "view", img))      
          return img;
       else
          return null;
