@@ -7,12 +7,37 @@
   <ui:composition template="template.xhtml">
     <ui:define name="content">
       <div id="contentMain">
-			  <h1>#{selectedMember.name}'s profile</h1>
-			
-			  <div class="errors"><h:messages globalOnly="true"/></div> 
-			  
-			  <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=170"/>
-			  
+      
+        <div class="errors"><h:messages globalOnly="true"/></div>       
+      
+        <s:div rendered="#{selectedMember != null}">
+        
+          <s:div id="memberCard">
+            <h1>#{selectedMember.name}'s profile</h1>
+                      
+            <s:div id="memberCardPicture" rendered="#{selectedMember.picture != null}">
+              <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=170"/>
+            </s:div>
+            
+            <div id="memberCardText">
+              <span class="tagline">"#{selectedMember.tagline}"</span><br/><br/>
+              #{selectedMember.gender.descr}<br/>
+              #{selectedMember.age}<br/>
+              #{selectedMember.location}<br/>
+            </div>
+            
+            <br style="clear:both"/>
+            
+            View My: Pics | Videos
+            
+          </s:div>
+          
+        </s:div>
+        
+        <s:div rendered="#{selectedMember == null}">
+          Sorry, but this member does not exist.
+        </s:div>
+        
       </div>
     
     </ui:define>

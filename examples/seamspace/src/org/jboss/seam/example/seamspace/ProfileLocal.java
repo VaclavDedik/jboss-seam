@@ -6,4 +6,5 @@ import javax.ejb.Local;
 public interface ProfileLocal
 {
   void display();
+  void destroy();
 }

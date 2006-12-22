@@ -1,4 +1,4 @@
-insert into Member (memberid, username, password, name) values (1, 'demo', 'demo', 'demo')
+insert into Member (memberid, username, password, name, tagline, gender, dob, location) values (1, 'demo', 'demo', 'Mr_Smiley', 'I smile because I care', 0, '1990-12-23', 'The moon')
 insert into MemberRole (roleid, name) values (1, 'user');
 insert into MemberRole (roleid, name) values (2, 'admin');
 
