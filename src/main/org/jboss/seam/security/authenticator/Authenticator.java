@@ -17,85 +17,86 @@ import org.jboss.seam.security.adapter.AuthenticationAdapter;
 import org.jboss.seam.util.Reflections;
 
 /**
- *
- *
+ * Authenticates a user and creates an Identity for them within the session context
+ * 
  * @author Shane Bryzak
  */
 @Name("org.jboss.seam.security.authenticator")
-@Install(value=false, precedence=BUILT_IN, dependencies = "org.jboss.seam.securityManager")
+@Install(value = false, precedence = BUILT_IN, 
+      dependencies = "org.jboss.seam.securityManager")
 public abstract class Authenticator
 {
-  private List<AuthenticationAdapter> adapters = new ArrayList<AuthenticationAdapter>();
+   private List<AuthenticationAdapter> adapters = new ArrayList<AuthenticationAdapter>();
 
-  public static Authenticator instance()
-  {
-    if (!Contexts.isApplicationContextActive())
-       throw new IllegalStateException("No active application context");
+   public static Authenticator instance()
+   {
+      if (!Contexts.isApplicationContextActive())
+         throw new IllegalStateException("No active application context");
 
-    Authenticator instance = (Authenticator) Component.getInstance(
-        Authenticator.class, ScopeType.APPLICATION);
+      Authenticator instance = (Authenticator) Component.getInstance(
+            Authenticator.class, ScopeType.APPLICATION);
 
-    if (instance==null)
-    {
-      throw new IllegalStateException(
-          "No Authenticator could be created, make sure the Component exists in application scope");
-    }
-
-    return instance;
-  }
-
-  public Identity authenticate(String username, String password)
-      throws AuthenticationException
-  {
-    return authenticate(new UsernamePasswordToken(username, password));
-  }
-
-  public final Identity authenticate(Identity ident)
-      throws AuthenticationException
-  {
-    Identity auth = doAuthentication(ident);
-    Contexts.getSessionContext().set(Seam.getComponentName(Identity.class), auth);
-    return auth;
-  }
-
-  public abstract Identity doAuthentication(Identity ident)
-      throws AuthenticationException;
-
-  public void unauthenticateSession()
-  {
-    Identity.instance().invalidate();
-  }
-
-  public void setAdapters(List<String> adapterNames)
-  {
-    for (String name : adapterNames)
-    {
-      try
+      if (instance == null)
       {
-        adapters.add((AuthenticationAdapter) Reflections.classForName(name).newInstance());
+         throw new IllegalStateException(
+               "No Authenticator could be created, make sure the Component exists in application scope");
       }
-      catch (Exception ex)
+
+      return instance;
+   }
+
+   public Identity authenticate(String username, String password)
+         throws AuthenticationException
+   {
+      return authenticate(new UsernamePasswordToken(username, password));
+   }
+
+   public final Identity authenticate(Identity ident)
+         throws AuthenticationException
+   {
+      Identity auth = doAuthentication(ident);
+      Contexts.getSessionContext().set(Seam.getComponentName(Identity.class), auth);
+      return auth;
+   }
+
+   public abstract Identity doAuthentication(Identity ident)
+         throws AuthenticationException;
+
+   public void unauthenticateSession()
+   {
+      if (Identity.isSet())
+         Identity.instance().invalidate();
+   }
+
+   public void setAdapters(List<String> adapterNames)
+   {
+      for (String name : adapterNames)
       {
+         try
+         {
+            adapters.add((AuthenticationAdapter) Reflections.classForName(name)
+                  .newInstance());
+         }
+         catch (Exception ex) { }
       }
-    }
-  }
+   }
 
-  public void beginRequest()
-  {
-    for (AuthenticationAdapter adapter : adapters)
-    {
-      adapter.beginRequest();
-    }
-  }
+   public void beginRequest()
+   {
+      for (AuthenticationAdapter adapter : adapters)
+      {
+         adapter.beginRequest();
+      }
+   }
 
-  public void endRequest()
-  {
-    for (AuthenticationAdapter adapter : adapters)
-    {
-      adapter.endRequest();
-    }
+   public void endRequest()
+   {
+      for (AuthenticationAdapter adapter : adapters)
+      {
+         adapter.endRequest();
+      }
 
-    if (!Identity.instance().isValid())
-      Contexts.getSessionContext().remove(Seam.getComponentName(Identity.class));
-  }
+      if (!Identity.instance().isValid())
+         Contexts.getSessionContext().remove(Seam.getComponentName(Identity.class));
+   }
 }
