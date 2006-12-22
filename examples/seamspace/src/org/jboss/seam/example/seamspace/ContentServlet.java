@@ -63,19 +63,21 @@ public class ContentServlet extends HttpServlet
             {
                double ratio = (double) width / icon.getIconWidth();
                int height = (int) (icon.getIconHeight() * ratio);
-               BufferedImage bImg = new BufferedImage(width, height,
-                     BufferedImage.TYPE_INT_ARGB);
+               
+               int imageType = "image/png".equals(mi.getContentType()) ? 
+                     BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;                  
+               BufferedImage bImg = new BufferedImage(width, height, imageType);
                Graphics2D g2d = bImg.createGraphics();
                g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                      RenderingHints.VALUE_INTERPOLATION_BICUBIC);
                g2d.drawImage(icon.getImage(), 0, 0, width, height, null);
                g2d.dispose();
-               String formatName = "";
 
+               String formatName = "";
                if ("image/png".equals(mi.getContentType()))
                   formatName = "png";
                else if ("image/jpeg".equals(mi.getContentType()))
-                  formatName = "jpg";
+                  formatName = "jpeg";
 
                ImageIO.write(bImg, formatName, response.getOutputStream());
             }
