@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE facelet-taglib PUBLIC
+   "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+   "facelet-taglib_1_0.dtd">
+   
+<facelet-taglib>
+    <namespace>http://jboss.com/products/seam/pdf</namespace>
+
+    <tag>
+        <tag-name>document</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIDocument</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>paragraph</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIParagraph</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>newPage</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIPage</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>list</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIList</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>listItem</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIListItem</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>font</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIFont</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>image</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIImage</component-type>
+        </component>
+    </tag>
+</facelet-taglib>

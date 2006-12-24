@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE faces-config PUBLIC
+    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<faces-config>
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIDocument</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIDocument</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIParagraph</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIParagraph</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIPage</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIPage</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIList</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIList</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIFont</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIFont</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIListItem</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIListItem</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIImage</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIImage</component-class>
+    </component>
+
+    <lifecycle>
+        <phase-listener>org.jboss.seam.pdf.PDFPhaseListener</phase-listener>
+    </lifecycle>
+
+    <!--
+    <render-kit>
+        <render-kit-id>PDF</render-kit-id>
+        <render-kit-class>org.jboss.seam.pdf.PDFRenderKit</render-kit-class>
+
+        <renderer> 
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>javax.faces.Text</renderer-type>
+            <renderer-class>
+                org.jboss.seam.pdf.ui.TextRenderer
+            </renderer-class>
+        </renderer>
+
+    </render-kit>
+    -->
+</faces-config>

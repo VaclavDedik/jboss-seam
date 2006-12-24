@@ -20,16 +20,18 @@
     <property name="build.dir"            value="build"/>
     <property name="classes.dir"          value="${build.dir}/classes"/>    
     <property name="uiclasses.dir"        value="${build.dir}/uiclasses"/>
+    <property name="pdfclasses.dir"       value="${build.dir}/pdfclasses"/>
     <property name="debugclasses.dir"     value="${build.dir}/debugclasses"/>
     <property name="coverage.dir"         value="${build.dir}/coverage"/>
     
-    <property name="genclasses.dir"     value="${build.dir}/genclasses"/>
+    <property name="genclasses.dir"       value="${build.dir}/genclasses"/>
 
     <property name="src.java.dir"         value="src/main"/>
     <property name="src.ui.dir"           value="src/ui"/>
+    <property name="src.pdf.dir"          value="src/pdf"/>
     <property name="src.debug.dir"        value="src/debug"/>
     <property name="src.gen.dir"          value="src/gen"/>
-    <property name="src.test.dir"         value="src/test"/>
+    <property name="src.test.dir"         value="src/test/misc"/>
 
     <property name="lib.dir"              value="${imported.basedir}/lib"/>
     <property name="drools.lib.dir"       value="${imported.basedir}/drools/lib"/>
@@ -53,6 +55,7 @@
     <property name="dist.ref.dir"         value="${dist.dir}/doc/reference"/>
     <property name="dist.src.java.dir"    value="${dist.dir}/src/main"/>
     <property name="dist.src.ui.dir"      value="${dist.dir}/src/ui"/>
+    <property name="dist.src.pdf.dir"     value="${dist.dir}/src/pdf"/>
     <property name="dist.src.debug.dir"   value="${dist.dir}/src/debug"/>
     <property name="dist.src.gen.dir"     value="${dist.dir}/src/gen"/>
     <property name="dist.src.test.dir"    value="${dist.dir}/src/test"/>
@@ -91,9 +94,19 @@
             prefix="WEB-INF/lib"
        description="the Seam jars">
         <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
-        <include name="jboss-seam-ui.jar" if="example.seam.ui.lib"/>
+        <include name="jboss-seam-ui.jar"    if="example.seam.ui.lib"/>
+        <include name="jboss-seam-pdf.jar"   if="example.seam.pdf.lib"/>
     </zipfileset>
     
+
+    <zipfileset id="example.itext.jar"
+               dir="${lib.dir}"
+           prefix="WEB-INF/lib"
+      description="the itext jar">
+        <include name="itext-*.jar" if="example.seam.pdf.lib"/>
+    </zipfileset>
+
+
     <zipfileset id="example.seam.main.jar" 
                dir="${imported.basedir}"
        description="the main Seam jar">
@@ -161,6 +174,8 @@
                dir="${example.resources.dir}">
         <include name="META-INF/application.xml"/>
         <include name="META-INF/jboss-app.xml"/>
+        <include name="META-INF/*-service.xml"/>
+        <include name="META-INF/*-xmbean.xml"/>
         <include name="treecache.xml"/>
         <include name="*.jpdl.xml"/>
         <exclude name=".gpd.*"/>
@@ -210,7 +225,8 @@
             dir="${imported.basedir}">
         <include name="${name}.jar"/>
         <include name="jboss-seam-debug.jar" if="example.seam.debug.lib"/>
-        <include name="jboss-seam-ui.jar" if="example.seam.ui.lib"/>
+        <include name="jboss-seam-ui.jar"    if="example.seam.ui.lib"/>
+        <include name="jboss-seam-pdf.jar"   if="example.seam.pdf.lib"/>
     </zipfileset>
     
     <zipfileset id="example.tomcat.drools.jar" 
@@ -417,6 +433,19 @@
         
     </target>
 
+    <target name="initpdf"
+            description="Initialize the build for the PDF package">
+        <echo message="Build ${Name} PDF ${version}"/>
+
+        <mkdir dir="${pdfclasses.dir}"/>
+        <copy todir="${pdfclasses.dir}">
+            <fileset dir="${src.pdf.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+        
+    </target>
+
     <target name="initdebug"
             description="Initialize the build for the debug package">
         <echo message="Build ${Name} Debug ${version}"/>
@@ -474,6 +503,25 @@
             deprecation="${javac.deprecation}"
             nowarn="on">
             <src path="${src.ui.dir}"/>
+        </javac>
+    </target>
+
+    <target name="compilepdf" depends="initpdf,select-compiler"
+            description="Compile the Java source code for the PDF package">
+        <javac
+            source="1.5"
+            target="1.5"
+            destdir="${pdfclasses.dir}"
+            debug="${javac.debug}"
+            deprecation="${javac.deprecation}"
+            nowarn="on">
+            <src path="${src.pdf.dir}"/>
+            <classpath>
+                <path refid="build.classpath" />
+                <fileset dir="${imported.basedir}">
+                    <include name="jboss-seam-ui.jar" />
+                </fileset>
+            </classpath>
         </javac>
     </target>
     
@@ -596,6 +644,16 @@
                 <patternset refid="src.files"/>
             </fileset>
             <fileset dir="${src.ui.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${dist.src.pdf.dir}"/>
+        <copy todir="${dist.src.pdf.dir}">
+            <fileset dir="${src.pdf.dir}">
+                <patternset refid="src.files"/>
+            </fileset>
+            <fileset dir="${src.pdf.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
@@ -764,7 +822,7 @@
         </copy>
     </target>
     
-    <target name="build" depends="jar,jarui,jardebug,jargen"
+    <target name="build" depends="jar,jarui,jarpdf,jardebug,jargen"
         description="Build all four distribution .jar files"/>
 
     <target name="jar" depends="compile"
@@ -797,6 +855,22 @@
         <copy file="${basedir}/${name}-ui.jar" todir="${dist.dir}"/>
         
     </target>
+
+    <target name="jarpdf" depends="compilepdf"
+            description="Build the distribution .jar file for the PDF package">
+        <mkdir dir="${dist.dir}"/>
+        
+        <jar jarfile="${basedir}/${name}-pdf.jar" basedir="${pdfclasses.dir}">
+            <include name="**/*.class"/>
+            <patternset refid="meta.files"/>
+            <manifest>
+                <attribute name="Seam-Version" value="${version}.${patchlevel}"/>
+            </manifest>
+        </jar>
+        <copy file="${basedir}/${name}-pdf.jar" todir="${dist.dir}"/>
+        
+    </target>
+
 
     <target name="jardebug" depends="compiledebug"
             description="Build the distribution .jar file for the debug package">
@@ -924,6 +998,7 @@
             <zipfileset refid="example.war.webinf.lib"/>
             <zipfileset refid="example.seam.misc.jar"/>
             <zipfileset refid="example.facelets.jar"/>
+            <zipfileset refid="example.itext.jar"/>
             <zipfileset dir="${build.dir}/resources">
                 <include name="WEB-INF/**/*.*"/>
             </zipfileset>
