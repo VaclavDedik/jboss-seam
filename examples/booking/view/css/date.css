@@ -83,3 +83,11 @@
     border: 1px solid #AAAAAA;
     font-weight: bold;
 }
+
+/* style information for weekends */
+/*
+.seam-date td.weekend {
+    color: #c00;
+    border: 1px solid #f99;
+}
+*/
