@@ -1,5 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
+import org.jboss.seam.pdf.ITextUtils;
+
 import javax.faces.event.*;
 import javax.faces.context.*;
 import javax.faces.component.*;
@@ -22,6 +24,8 @@ public class UIImage
     float  rotation;
     float  height;
     float  width;
+    String alignment;
+    String alt;
 
     public void setResource(String resource) {
         this.resource = resource;
@@ -39,9 +43,19 @@ public class UIImage
         this.width = width;
     }
 
+    public void setAlignment(String alignment) {
+        this.alignment = alignment;
+    }
+
+    public void setAlt(String alt) {
+        this.alt = alt;
+    }
+
     public Object getITextObject() {
         return image;
     }
+
+    
 
     public void createITextObject() {
         
@@ -61,6 +75,14 @@ public class UIImage
 
         if (height>0 || width > 0) {
             image.scaleAbsolute(width, height);
+        }
+
+        if (alignment != null) {
+            image.setAlignment(ITextUtils.alignmentValue(alignment));
+        }
+
+        if (alt != null) {
+            image.setAlt(alt);
         }
     }
 

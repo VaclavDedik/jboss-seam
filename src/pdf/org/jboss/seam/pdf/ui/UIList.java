@@ -16,7 +16,7 @@ public class UIList
 
     List list;
     
-    boolean numbered = true;
+    boolean numbered = false;
     boolean lettered = false;
     float   indent   = 20f;
 
