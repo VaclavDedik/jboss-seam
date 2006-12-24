@@ -49,21 +49,22 @@ public class Interpolator {
     * @return the interpolated string
     */
    public String interpolate(String string, Object... params) {
-      if ( params!=null && params.length>0 )
-      {
-         if ( params.length>10 ) 
-         {
-            throw new IllegalArgumentException("more than 10 parameters");
-         }
-         if ( string.indexOf('#')>=0 )
-         {
-            string = interpolateExpressions(string, params);
-         }
-         if ( string.indexOf('{')>=0 )
-         {
-            string = new MessageFormat(string, Locale.instance()).format(params);
-         }
-      }
+       if (params == null) {
+           params = new Object[0];
+       }
+
+       if ( params.length>10 ) 
+       {
+           throw new IllegalArgumentException("more than 10 parameters");
+       }
+       if ( string.indexOf('#')>=0 )
+       {
+           string = interpolateExpressions(string, params);
+       }
+       if (params.length>0 &&  string.indexOf('{')>=0 )
+       {
+           string = new MessageFormat(string, Locale.instance()).format(params);
+       }
       return string;
    }
 
