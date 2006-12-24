@@ -1,0 +1,12 @@
+<components xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:framework="http://jboss.com/products/seam/framework">
+
+    <core:managed-persistence-context name="entityManager"
+                                      persistence-unit-jndi-name="java:/seampdfEntityManagerFactory" />
+
+    <core:dispatcher />
+
+    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+    <core:ejb installed="@embeddedEjb@" /> 
+</components>

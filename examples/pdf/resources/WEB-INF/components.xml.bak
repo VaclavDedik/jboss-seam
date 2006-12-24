@@ -1,0 +1,44 @@
+<components xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:framework="http://jboss.com/products/seam/framework">
+
+    <pay:foo the-value="wheeee!!" />
+    <pay:paymentHome>
+        <pay:newInstance>#{newPayment}</pay:newInstance>
+        <pay:createdMessage>Created a new payment to #{newPayment.payee}</pay:createdMessage>
+    </pay:paymentHome>
+
+    <pay:Payment name="newPayment">
+        <pay:payee>Somebody</pay:payee>
+        <pay:account>#{selectedAccount}</pay:account>
+        <pay:paymentDate>#{currentDatetime}</pay:paymentDate>
+        <pay:createdDate>#{currentDatetime}</pay:createdDate>
+    </pay:Payment>
+
+    <factory name="selectedAccount" value="#{accountHome.instance}"/>
+    <framework:EntityHome name="accountHome" 
+                          entity-class="org.jboss.seam.example.seampay.Account"
+                          entity-manager="#{entityManager}" />
+
+    <framework:EntityQuery name="accounts">
+        <framework:ejbql>from Account</framework:ejbql>
+        <framework:order>accountNumber</framework:order>
+        <framework:maxResults>20</framework:maxResults>
+        <framework:entityManager>#{entityManager}</framework:entityManager>
+    </framework:EntityQuery>
+        
+    <core:ManagedPersistenceContext name="entityManager" >
+        <core:persistenceUnitJndiName>java:/seampayEntityManagerFactory</core:persistenceUnitJndiName>
+    </core:ManagedPersistenceContext>
+        
+    <core:Dispatcher />
+
+    <core:init></core:init>
+    
+    <core:init>
+        <core:debug>true</core:debug>
+        <core:jndiPattern>@jndiPattern@</core:jndiPattern>
+    </core:init>
+
+    <!-- <core:Ejb installed="@embeddedEjb@" />  -->
+</components>
