@@ -54,4 +54,12 @@
             <component-type>org.jboss.seam.pdf.ui.UIImage</component-type>
         </component>
     </tag>
+
+    <tag>
+        <tag-name>anchor</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIAnchor</component-type>
+        </component>
+    </tag>
+
 </facelet-taglib>
