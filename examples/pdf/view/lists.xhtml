@@ -12,14 +12,28 @@
     </p:list>
 
     <p:paragraph>Numbered:</p:paragraph>
-    <p:list numbered="true">
+    <p:list style="numbered">
         <ui:repeat value="#{lists.numbers}" var="item">
             <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
         </ui:repeat>
     </p:list>
 
     <p:paragraph>Lettered:</p:paragraph>
-    <p:list lettered="true">
+    <p:list style="lettered">
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>Roman:</p:paragraph>
+    <p:list style="roman">
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>Greek:</p:paragraph>
+    <p:list style="greek">
         <ui:repeat value="#{lists.numbers}" var="item">
             <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
         </ui:repeat>
