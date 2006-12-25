@@ -30,6 +30,10 @@ public class UIAnchor
         return anchor;
     }
 
+    public void removeITextObject() {
+        anchor = null;
+    }
+
     public void createITextObject() {
         anchor = new Anchor();
 

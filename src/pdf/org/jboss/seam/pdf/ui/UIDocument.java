@@ -25,7 +25,11 @@ public class UIDocument
     }
 
     public void createITextObject() {
-        document=new Document();
+        document = new Document();
+    }
+
+    public void removeITextObject() {
+        document = null;
     }
 
     public void add(Object o) {

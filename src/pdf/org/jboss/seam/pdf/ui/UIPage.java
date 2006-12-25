@@ -18,6 +18,10 @@ public class UIPage
         return null;
     }
 
+    public void removeITextObject() {
+
+    }
+
     public void createITextObject() {
         
     }

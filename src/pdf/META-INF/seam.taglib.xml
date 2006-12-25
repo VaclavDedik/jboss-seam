@@ -62,4 +62,32 @@
         </component>
     </tag>
 
+    <tag>
+        <tag-name>chapter</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIChapter</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>section</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UISection</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>table</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UITable</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>cell</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UICell</component-type>
+        </component>
+    </tag>
+
 </facelet-taglib>

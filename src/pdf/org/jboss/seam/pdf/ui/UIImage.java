@@ -26,6 +26,9 @@ public class UIImage
     float  width;
     String alignment;
     String alt;
+    
+    Boolean wrap;
+    Boolean underlying;
 
     public void setResource(String resource) {
         this.resource = resource;
@@ -51,11 +54,22 @@ public class UIImage
         this.alt = alt;
     }
 
+    public void setWrap(Boolean wrap) {
+        this.wrap = wrap;
+    }
+
+    public void setUnderlying(Boolean underlying) {
+        this.underlying = underlying;
+    }
+
+
     public Object getITextObject() {
         return image;
     }
-
-    
+   
+    public void removeITextObject() {
+        image = null;
+    }
 
     public void createITextObject() {
         
@@ -77,9 +91,18 @@ public class UIImage
             image.scaleAbsolute(width, height);
         }
 
+        int alignmentValue =0;
         if (alignment != null) {
-            image.setAlignment(ITextUtils.alignmentValue(alignment));
+            alignmentValue = (ITextUtils.alignmentValue(alignment));
         }
+        if (wrap!=null && wrap.booleanValue()) {
+            alignmentValue |= Image.TEXTWRAP;
+        } 
+        if (underlying!= null && underlying.booleanValue()) {
+            alignmentValue |= Image.UNDERLYING;
+        }
+
+        image.setAlignment(alignmentValue);
 
         if (alt != null) {
             image.setAlt(alt);

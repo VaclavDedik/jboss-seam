@@ -44,6 +44,26 @@
         <component-class>org.jboss.seam.pdf.ui.UIAnchor</component-class>
     </component>
 
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIChapter</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIChapter</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UISection</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UISection</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UITable</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UITable</component-class>
+    </component>
+
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UICell</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UICell</component-class>
+    </component>
+
     <lifecycle>
         <phase-listener>org.jboss.seam.pdf.PDFPhaseListener</phase-listener>
     </lifecycle>

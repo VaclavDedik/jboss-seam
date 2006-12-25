@@ -41,6 +41,10 @@ public class UIFont
         return null; // we don't add to this component, so skip
     }
 
+    public void removeITextObject() {
+        font = null;
+    }
+    
     public void createITextObject() {
         font = new Font(family, size);
         if (style != null) {

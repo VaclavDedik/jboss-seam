@@ -33,6 +33,10 @@ public abstract class ITextComponent
      */
     abstract public void createITextObject();
 
+    /**
+     * remove the itext objext
+     */
+    abstract public void removeITextObject();
     /** 
      * subcomponents should implement this
      */ 
@@ -127,6 +131,7 @@ public abstract class ITextComponent
         if (obj != null) {
             addToITextParent(getITextObject());
         }
+        removeITextObject();
     }
 
     @Override
@@ -136,20 +141,10 @@ public abstract class ITextComponent
         for (UIComponent child: (List<UIComponent>) this.getChildren()) {
             // ugly hack to be able to capture facelets text
             if (child.getFamily().equals("facelets.LiteralText")) {
-                ResponseWriter response = context.getResponseWriter();
-                StringWriter stringWriter = new StringWriter();
-                ResponseWriter cachingResponseWriter = response.cloneWithWriter(stringWriter);
-                context.setResponseWriter(cachingResponseWriter);
-
-                JSF.renderChild(context, child);
-
-                context.setResponseWriter(response);
-
-                String text = stringWriter.getBuffer().toString();
+                String text = replaceEntities(extractText(context, child));
                 Font   font = getFont();
                 if (font == null) {
                     Chunk chunk = new Chunk(text);
-                    //chunk.setBackground(new Color(140,50,50));
                     add(chunk);
                 } else {
                     add(new Chunk(text, getFont()));
@@ -157,6 +152,43 @@ public abstract class ITextComponent
             } else {
                 encode(context, child);
             }
+        }
+    }
+
+    public String extractText(FacesContext context, UIComponent child) 
+        throws IOException
+    {
+        ResponseWriter response = context.getResponseWriter();
+        StringWriter stringWriter = new StringWriter();
+        ResponseWriter cachingResponseWriter = response.cloneWithWriter(stringWriter);
+        context.setResponseWriter(cachingResponseWriter);
+        
+        JSF.renderChild(context, child);
+
+        context.setResponseWriter(response);
+        
+        return stringWriter.getBuffer().toString();
+    }
+
+    /**
+     * facelets automatically escapes text, so we have to undo the
+     * the damage here.  This is just a placeholder for something
+     * more intelligent.  The replacement strategy here is not
+     * sufficient.
+     */
+    private String replaceEntities(String text) {
+        StringBuffer buffer = new StringBuffer(text);
+
+        replaceAll(buffer, "&quot;", "\"");
+        // XXX - etc....
+
+        return buffer.toString();
+    }
+
+    private void replaceAll(StringBuffer buffer, String original, String changeTo) {
+        int pos;
+        while ((pos = buffer.indexOf(original)) != -1) {
+            buffer.replace(pos,pos+original.length(), changeTo);
         }
     }
 

@@ -66,6 +66,10 @@ public class UIParagraph
         return paragraph;
     }
 
+    public void removeITextObject() {
+        paragraph = null;
+    }
+
     public void createITextObject() {
         Font font = getFont();
         if (font == null) {

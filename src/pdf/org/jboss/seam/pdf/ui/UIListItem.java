@@ -24,6 +24,10 @@ public class UIListItem
         listItem = new ListItem();
     }
 
+    public void removeITextObject() {
+        listItem = null;
+    }
+
     public void add(Object o) {
         listItem.add(o);
     }
