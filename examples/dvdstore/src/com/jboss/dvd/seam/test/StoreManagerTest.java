@@ -2,6 +2,8 @@ package com.jboss.dvd.seam.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.math.BigDecimal;
+
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -27,7 +29,7 @@ public class StoreManagerTest
             {
                 // these are from order instances - 
                 assertEquals("number orders",   0L,    manager.getNumberOrders());
-                assertEquals("total sales",     0.0,   manager.getTotalSales());
+                assertEquals("total sales",     BigDecimal.ZERO,   manager.getTotalSales());
 
                 // these are from inventory
                 assertEquals("units sold",      5734,  manager.getUnitsSold());

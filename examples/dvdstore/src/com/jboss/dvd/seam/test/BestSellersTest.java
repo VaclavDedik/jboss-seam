@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.faces.model.ListDataModel;
@@ -47,9 +48,9 @@ public class BestSellersTest
 
                 // 14.98/29.99/39.95
 
-                assertEquals("price 1", 14.98f, products.get(0).getPrice());
-                assertEquals("price 2", 29.99f, products.get(1).getPrice());
-                assertEquals("price 3", 39.95f, products.get(2).getPrice());
+                assertEquals("price 1", new BigDecimal("14.98"), products.get(0).getPrice());
+                assertEquals("price 2", new BigDecimal("29.99"), products.get(1).getPrice());
+                assertEquals("price 3", new BigDecimal("39.95"), products.get(2).getPrice());
             }               
         }.run();
     }
@@ -65,8 +66,6 @@ public class BestSellersTest
                 ListDataModel model = (ListDataModel) getInstance("topProducts");
                 model.setRowIndex(1);
 
-                System.out.println("**** PRODUCT" + ((Product)model.getRowData()).getProductId());
-
                 BestSellers best = (BestSellers) getInstance("bestsellers");
                 best.addToCart();
             }
@@ -78,7 +77,7 @@ public class BestSellersTest
                 assertFalse("cart shouldn't be empty", 
                             cart.getIsEmpty());
                 assertEquals("cart size", 1, cart.getCart().size());
-                assertEquals("cart total", 29.99f, cart.getSubtotal());
+                assertEquals("cart total", new BigDecimal("29.99"), cart.getSubtotal());
 
             }
         }.run();
@@ -100,7 +99,7 @@ public class BestSellersTest
                 assertFalse("cart shouldn't be empty", 
                             cart.getIsEmpty());
                 assertEquals("cart size", 2, cart.getCart().size());
-                assertEquals("cart total", 69.94f, cart.getSubtotal());
+                assertEquals("cart total", new BigDecimal("69.94"), cart.getSubtotal());
             }
         }.run();
 
@@ -123,7 +122,7 @@ public class BestSellersTest
 
                 // still two items, but total increase
                 assertEquals("cart size", 2, cart.getCart().size());
-                assertEquals("cart total", 99.93f, cart.getSubtotal());
+                assertEquals("cart total", new BigDecimal("99.93"), cart.getSubtotal());
             }
         }.run();
         
