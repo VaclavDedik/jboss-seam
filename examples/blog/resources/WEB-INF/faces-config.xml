@@ -4,18 +4,14 @@
     "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
     
 <faces-config>
-
     <!-- Facelets support -->
-
     <application>
         <message-bundle>messages</message-bundle>
         <view-handler>org.jboss.seam.ui.facelet.SeamFaceletViewHandler</view-handler>
     </application>
     
     <!-- Select one of the two standard persistence lifecycle models for the Seam application -->
-
     <lifecycle>
         <phase-listener>org.jboss.seam.jsf.TransactionalSeamPhaseListener</phase-listener>
     </lifecycle>
-
 </faces-config>
