@@ -6,23 +6,22 @@
     <p:font size="24"><p:paragraph spacingAfter="50">Table Test</p:paragraph></p:font>  
 
 
-    <p:table columns="3">
-        <p:cell>cell 1</p:cell>
+    <p:table columns="4">
+        <p:cell colspan="2">cell 1</p:cell>
         <p:cell>cell 2</p:cell>
         <p:cell>cell 3</p:cell>
         <p:cell>cell 4</p:cell>
-        <p:cell>cell 5</p:cell>
+        <p:cell colspan="2">cell 5</p:cell>
         <p:cell>cell 6</p:cell>
         <p:cell>cell 7</p:cell>
         <p:cell>cell 8</p:cell>
-        <p:cell>cell 9</p:cell>
+        <p:cell colspan="2">cell 9</p:cell>
     </p:table>
 
     <p:paragraph spacingBefore="10" spacingAfter="10">This is another table.  It should be large enough to span multiple pages with the headers repeated on other page</p:paragraph>
 
     <p:table columns="2" headerRows="1">
-        <p:cell><p:font size="20">This is a header</p:font></p:cell>
-        <p:cell>This is also a header!</p:cell>
+        <p:cell colspan="2"><p:font size="20"><p:paragraph alignment="center">This is a header</p:paragraph></p:font></p:cell>
         <ui:repeat value="#{lists.daysOfWeek}" var="day">
             <p:cell>#{day}</p:cell>
             <p:cell>Blah blah blah</p:cell>

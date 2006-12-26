@@ -21,7 +21,19 @@ public class ITextUtils {
         if (ElementTags.ALIGN_JUSTIFIED_ALL.equalsIgnoreCase(alignment)) {
             return Element.ALIGN_JUSTIFIED_ALL;
         }
+        if (ElementTags.ALIGN_TOP.equalsIgnoreCase(alignment)) {
+            return Element.ALIGN_TOP;
+        }
+        if (ElementTags.ALIGN_MIDDLE.equalsIgnoreCase(alignment)) {
+            return Element.ALIGN_MIDDLE;
+        }
+        if (ElementTags.ALIGN_BOTTOM.equalsIgnoreCase(alignment)) {
+            return Element.ALIGN_BOTTOM;
+        }
+        if (ElementTags.ALIGN_BASELINE.equalsIgnoreCase(alignment)) {
+            return Element.ALIGN_BASELINE;
+        }
 
-        return Element.ALIGN_LEFT;
+        return Element.ALIGN_UNDEFINED;
     }
 }

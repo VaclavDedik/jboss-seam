@@ -1,9 +1,12 @@
 package org.jboss.seam.pdf.ui;
 
+import org.jboss.seam.pdf.ITextUtils;
+
 import javax.faces.event.*;
 import javax.faces.context.*;
 import javax.faces.component.*;
 import javax.servlet.http.*;
+
 import java.io.*;
 
 import com.lowagie.text.*;
@@ -15,6 +18,119 @@ public class UICell
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UICell";
 
     PdfPCell cell;
+    String  horizontalAlignment;
+    String  verticalAlignment;
+    Float   paddingLeft;
+    Float   paddingRight;
+    Float   paddingTop;
+    Float   paddingBottom;
+    Boolean useBorderPadding;
+    Float   leading;
+    Float   multipliedLeading;
+    Float   indent;
+    Float   extraParagraphSpace;
+    Float   fixedHeight;
+    Boolean noWrap;
+    Float   minimumHeight;
+    Integer colspan;
+    Float   followingIndent;
+    Float   rightIndent;
+    Integer spaceCharRatio;
+    Integer runDirection;
+    Integer arabicOptions;
+    Boolean useAscender;
+    Integer rotation;
+
+
+    public void setHorizontalAlignment(String horizontalAlignment) {
+        this.horizontalAlignment = horizontalAlignment;
+    }
+
+    public void setVerticalAlignment(String verticalAlignment) {
+        this.verticalAlignment = verticalAlignment;
+    }
+
+    public void setPaddingLeft(Float paddingLeft) {
+        this.paddingLeft = paddingLeft;
+    }
+
+    public void setPaddingRight(Float paddingRight) {
+        this.paddingRight = paddingRight;
+    }
+
+    public void setPaddingTop(Float paddingTop) {
+        this.paddingTop = paddingTop;
+    }
+
+    public void setPaddingBottom(Float paddingBottom) {
+        this.paddingBottom = paddingBottom;
+    }
+
+    public void setUseBorderPadding(Boolean useBorderPadding) {
+        this.useBorderPadding = useBorderPadding;
+    }
+
+    public void setLeading(Float leading) {
+        this.leading = leading;
+    }
+
+    public void setMultipliedLeading(Float multipliedLeading) {
+        this.multipliedLeading = multipliedLeading;
+    }
+
+    public void setIndent(Float indent) {
+        this.indent = indent;
+    }
+
+    public void setExtraParagraphSpace(Float extraParagraphSpace) {
+        this.extraParagraphSpace = extraParagraphSpace;
+    }
+
+    public void setFixedHeight(Float fixedHeight) {
+        this.fixedHeight = fixedHeight;
+    }
+
+    public void setNoWrap(Boolean noWrap) {
+        this.noWrap = noWrap;
+    }
+
+    public void setMinimumHeight(Float minimumHeight) {
+        this.minimumHeight = minimumHeight;
+    }
+
+    public void setColspan(Integer colspan) {
+        this.colspan = colspan;
+    }
+
+    public void setFollowingIndent(Float followingIndent) {
+        this.followingIndent = followingIndent;
+    }
+
+    public void setRightIndent(Float rightIndent) {
+        this.rightIndent = rightIndent;
+    }
+
+    public void setSpaceCharRatio(Integer spaceCharRatio) {
+        this.spaceCharRatio = spaceCharRatio;
+    }
+
+    public void setRunDirection(Integer runDirection) {
+        this.runDirection = runDirection;
+    }
+
+    public void setArabicOptions(Integer arabicOptions) {
+        this.arabicOptions = arabicOptions;
+    }
+
+    public void setUseAscender(Boolean useAscender) {
+        this.useAscender = useAscender;
+    }
+
+    public void setRotation(Integer rotation) {
+        this.rotation = rotation;
+    }
+
+
 
     public Object getITextObject() {
         return cell;
@@ -26,6 +142,73 @@ public class UICell
 
     public void createITextObject() {
         cell = new PdfPCell();
+
+        if (horizontalAlignment != null) {
+            cell.setHorizontalAlignment(ITextUtils.alignmentValue(horizontalAlignment));
+            System.out.println("---> " + cell.getHorizontalAlignment());
+        }
+        if (verticalAlignment != null) {
+            cell.setVerticalAlignment(ITextUtils.alignmentValue(verticalAlignment));
+        }
+        if (paddingLeft != null) {
+            cell.setPaddingLeft(paddingLeft);
+        }
+        if (paddingRight != null) {
+            cell.setPaddingRight(paddingRight);
+        }
+        if (paddingTop != null) {
+            cell.setPaddingTop(paddingTop);
+        }
+        if (paddingBottom != null) {
+            cell.setPaddingBottom(paddingBottom);
+        }
+        if (useBorderPadding != null) {
+            cell.setUseBorderPadding(useBorderPadding);
+        }
+        if (leading != null || multipliedLeading != null) {            
+            cell.setLeading(leading == null         ? 0 : leading.floatValue(), 
+                            multipliedLeading==null ? 0 : multipliedLeading.floatValue());
+        }
+        if (indent != null) {
+            cell.setIndent(indent);
+        }
+        if (extraParagraphSpace != null) {
+            cell.setExtraParagraphSpace(extraParagraphSpace);
+        }
+        if (fixedHeight != null) {
+            cell.setFixedHeight(fixedHeight);
+        }
+        if (noWrap != null) {
+            cell.setNoWrap(noWrap);
+        }
+        if (minimumHeight != null) {
+            cell.setMinimumHeight(minimumHeight);
+        }
+        if (colspan != null) {
+            cell.setColspan(colspan);
+        }
+        if (followingIndent != null) {
+            cell.setFollowingIndent(followingIndent);
+        }
+        if (rightIndent != null) {
+            cell.setRightIndent(rightIndent);
+        }
+        if (spaceCharRatio != null) {
+            cell.setSpaceCharRatio(spaceCharRatio);
+        }
+        if (runDirection != null) {
+            cell.setRunDirection(runDirection);
+        }
+        if (arabicOptions != null) {
+            cell.setArabicOptions(arabicOptions);
+        }
+        if (useAscender != null) {
+            cell.setUseAscender(useAscender);
+        }
+        if (rotation != null) {
+            cell.setRotation(rotation);
+        }
+
     }
 
     public void add(Object o) {
