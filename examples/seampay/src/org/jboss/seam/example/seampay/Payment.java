@@ -50,13 +50,6 @@ public class Payment
         this.amount = amount;
     }
 
-    public BigInteger getTesting() {
-        return testing;
-    }
-    public void setTesting(BigInteger testing) {
-        this.testing = testing;
-    }
-    
     public String getPayee()
     {
         return payee;
