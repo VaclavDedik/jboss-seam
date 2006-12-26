@@ -21,7 +21,6 @@ public class BlogTest extends SeamTest
    @Test
    public void testPost() throws Exception
    {
-      
       new FacesRequest("/post.xhtml")
       {
 
@@ -37,7 +36,9 @@ public class BlogTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
-            assert invokeMethod("#{postAction.post}").equals("/index.xhtml");
+            // post now returns void
+            // assert invokeMethod("#{postAction.post}").equals("/index.xhtml");
+            invokeMethod("#{postAction.post}");
             setOutcome("/index.xhtml");
          }
          
@@ -160,10 +161,9 @@ public class BlogTest extends SeamTest
       }.run();
    }
 
-   @Override
-   protected SeamPhaseListener createPhaseListener()
-   {
-      return new SeamExtendedManagedPersistencePhaseListener();
-   }
-
+    @Override
+    protected SeamPhaseListener createPhaseListener()
+    {
+        return new SeamExtendedManagedPersistencePhaseListener();
+    }
 }
