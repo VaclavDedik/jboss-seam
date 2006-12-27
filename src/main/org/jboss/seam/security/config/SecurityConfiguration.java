@@ -62,7 +62,7 @@ public class SecurityConfiguration
   // roles
   private static final String SECURITY_ROLES = "roles";
   private static final String SECURITY_ROLE = "role";
-  private static final String SECURITY_MEMBERS = "members";
+  private static final String SECURITY_MEMBERSHIPS = "memberships";
   private static final String SECURITY_PERMISSIONS = "permissions";
   private static final String SECURITY_PERMISSION = "permission";
 
@@ -175,7 +175,7 @@ public class SecurityConfiguration
    * @param elements List
    * @throws SecurityConfigurationException
    */
-  private void loadSecurityConstraints(List elements)
+  protected void loadSecurityConstraints(List elements)
       throws SecurityConfigException
   {
     try
@@ -291,7 +291,7 @@ public class SecurityConfiguration
       Set<String> mbrs = new HashSet<String>();
       members.put(r.getName(), mbrs);
 
-      Element m = role.element(SECURITY_MEMBERS);
+      Element m = role.element(SECURITY_MEMBERSHIPS);
       if (m != null)
       {
         for (String member : m.getTextTrim().split("[,]"))
