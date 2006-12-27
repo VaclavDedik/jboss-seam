@@ -1,0 +1,324 @@
+<chapter id="security">
+  <title>Security</title>
+
+  <para>
+    The Seam Security API is an optional Seam module that provides authentication and authorization features
+    for securing both domain and page resources within your Seam project.  It supports multiple levels of security
+    <emphasis>granularity</emphasis>, making it capable of performing either simple role-based security checks,
+    or at the other end of the scale complex rule-based permission checks on domain objects using JBoss Rules.
+  </para>
+
+  <sect1>
+    <title>Configuration</title>
+
+    <para>
+      The first step in configuring Seam Security is to install the <literal>SeamSecurityManager</literal> and
+      <literal>SecurityConfiguration</literal> components, as they are not installed by default.  The
+      <literal>SeamSecurityManager</literal> component is the core of the Seam Security API, and is
+      responsible for loading security rules, and performing role and permission checks.
+      <literal>SecurityConfiguration</literal> is used to load role and page security configuration from
+      a configuration file (or can be extended to load this configuration from an alternative source, such as
+      a database). The following entries in <literal>components.xml</literal> will install these two components:
+    </para>
+
+    <programlisting>
+      <![CDATA[
+<!DOCTYPE components PUBLIC "-//JBoss/Seam Component Configuration DTD 1.1//EN"
+  "http://jboss.com/products/seam/components-1.1.dtd">
+
+<components>
+  <!-- Install a Security Configuration -->
+  <component class="org.jboss.seam.security.config.SecurityConfiguration"/>
+
+  <!-- Install the Seam Security Manager -->
+  <component class="org.jboss.seam.security.SeamSecurityManager"/>
+
+</components>
+      ]]>
+    </programlisting>
+
+    <sect2>
+      <title>security-config.xml</title>
+
+	    <para>
+	      The next step is to configure roles.  While this step is optional (it is possible for a user to
+	      belong to a role even if it is not configured in <literal>security-config.xml</literal>), it is
+	      necessary if either 1) explicit permissions are required by your application, or 2) roles require
+	      membership of other roles.	Create a file called <literal>security-config.xml</literal>, which goes in
+	      the <literal>META-INF</literal> directory of the Seam application's jar file.  Here's an example
+	      <literal>security-config.xml</literal> file with a few roles defined.
+	    </para>
+
+	    <programlisting>
+	      <![CDATA[
+<security-config>
+
+  <roles>
+    <role name="admin">
+      <memberships>superuser</memberships>
+
+      <permissions>
+        <permission name="user" action="create"/>
+        <permission name="user" action="modify"/>
+        <permission name="user" action="delete"/>
+      </permissions>
+    </role>
+
+    <role name="superuser">
+      <memberships>user</memberships>
+
+      <permissions>
+        <permission name="account" action="create"/>
+        <permission name="account" action="delete"/>
+      </permissions>
+    </role>
+
+    <role name="user">
+      <permissions>
+        <permission name="customer" action="create"/>
+        <permission name="customer" action="delete"/>
+      </permissions>
+    </role>
+
+    <role name="guest">
+
+    </role>
+
+  </roles>
+
+</security-config>
+	      ]]>
+	    </programlisting>
+
+	    <para>
+	      In the above example, we can see that there are four distinct roles: <literal>admin</literal>,
+	      <literal>superuser</literal>, <literal>user</literal> and <literal>guest</literal>.  Technically
+	      speaking, the <literal>guest</literal> entry is redundant as it declares no permissions nor contains
+	      any memberships of other roles.  What is most of interest here are the permissions and role memberships,
+	      which are explained in further detail as follows.
+	    </para>
+
+	    <sect3>
+	      <title>Explicit Permissions</title>
+	      <para>
+	        These are permissions which are explicitly granted to members of a role.  Explicit permissions are
+	        used to address simple security concerns, such as <emphasis>may this user create a new customer
+	        record?</emphasis>, or <emphasis>may this user view customer details?</emphasis>.  While it is
+	        possible to perform a more complex contextual-based decision to grant a specific permission or not,
+	        explicit permissions allow simple decision-less permissions to be easily granted to certain groups
+	        of users.
+	      </para>
+	    </sect3>
+
+	    <sect3>
+	      <title>Role memberships</title>
+
+	      <para>
+	        Role memberships are a simple inheritence feature designed to make it easier to build a security
+	        model from the ground up.  In the above example, it can be seen that the <literal>admin</literal>
+	        role contains a membership of the <literal>superuser</literal> role.  What this means, is that any
+	        explicit permissions that the <literal>superuser</literal> has, whether they were granted to the
+	        <literal>superuser</literal> role directly or inherited from further up, are automatically granted
+	        to the <literal>admin</literal> user also, as a result of its membership.
+	      </para>
+
+	      <para>
+	        The following table shows the permissions granted to each role based on the above 
+	        <literal>security-config.xml</literal> example.
+	      </para>
+
+	      <table>
+	        <title>Permissions granted to example roles</title>
+
+	        <tgroup cols="3">
+	          <colspec colnum="1" colwidth="1*" />
+	          <colspec colnum="2" colwidth="1*" />
+	          <colspec colnum="3" colwidth="1*" />
+
+	          <thead>
+	            <row>
+	              <entry align="center">
+	                <para>Role</para>
+	              </entry>
+
+	              <entry align="center">
+	                <para>Permission</para>
+	              </entry>
+
+	              <entry align="center">
+	                <para>Source</para>
+	              </entry>
+	            </row>
+	          </thead>
+
+	          <tbody>
+	            <row>
+	              <entry>
+	                <para>user</para>
+	              </entry>
+	              <entry>
+	                <para>customer:create</para>
+	              </entry>
+	              <entry>
+	                <para>Assigned directly</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>user</para>
+	              </entry>
+	              <entry>
+	                <para>customer:delete</para>
+	              </entry>
+	              <entry>
+	                <para>Assigned directly</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>superuser</para>
+	              </entry>
+	              <entry>
+	                <para>customer:create</para>
+	              </entry>
+	              <entry>
+	                <para>Inherited from user</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>superuser</para>
+	              </entry>
+	              <entry>
+	                <para>customer:delete</para>
+	              </entry>
+	              <entry>
+	                <para>Inherited from user</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>superuser</para>
+	              </entry>
+	              <entry>
+	                <para>account:create</para>
+	              </entry>
+	              <entry>
+	                <para>Assigned directly</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>superuser</para>
+	              </entry>
+	              <entry>
+	                <para>account:delete</para>
+	              </entry>
+	              <entry>
+	                <para>Assigned directly</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>admin</para>
+	              </entry>
+	              <entry>
+	                <para>customer:create</para>
+	              </entry>
+	              <entry>
+	                <para>Inherited from superuser</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>admin</para>
+	              </entry>
+	              <entry>
+	                <para>customer:delete</para>
+	              </entry>
+	              <entry>
+	                <para>Inherited from superuser</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>admin</para>
+	              </entry>
+	              <entry>
+	                <para>account:create</para>
+	              </entry>
+	              <entry>
+	                <para>Inherited from superuser</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>admin</para>
+	              </entry>
+	              <entry>
+	                <para>account:delete</para>
+	              </entry>
+	              <entry>
+	                <para>Inherited from superuser</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>admin</para>
+	              </entry>
+	              <entry>
+	                <para>user:create</para>
+	              </entry>
+	              <entry>
+	                <para>Assigned directly</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>admin</para>
+	              </entry>
+	              <entry>
+	                <para>user:modify</para>
+	              </entry>
+	              <entry>
+	                <para>Assigned directly</para>
+	              </entry>
+	            </row>
+	            <row>
+	              <entry>
+	                <para>admin</para>
+	              </entry>
+	              <entry>
+	                <para>user:delete</para>
+	              </entry>
+	              <entry>
+	                <para>Assigned directly</para>
+	              </entry>
+	            </row>
+	          </tbody>
+
+	        </tgroup>
+        </table>
+
+	    </sect3>
+    </sect2>
+
+  </sect1>
+
+  <sect1>
+    <title>Authentication</title>
+
+    <para>
+
+    </para>
+  </sect1>
+
+  <sect1>
+    <title>Authorization</title>
+
+    <para>
+
+    </para>
+  </sect1>
+
+</chapter>

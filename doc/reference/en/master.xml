@@ -22,6 +22,7 @@
 <!ENTITY elenhancements         SYSTEM "modules/elenhancements.xml">
 <!ENTITY testing                SYSTEM "modules/testing.xml">
 <!ENTITY tools                  SYSTEM "modules/tools.xml">
+<!ENTITY security               SYSTEM "modules/security.xml">
 ]>
 
 <book lang="en">
@@ -267,6 +268,7 @@
     &elenhancements;
     &testing;
     &tools;
+    &security;
 
 </book>
 
