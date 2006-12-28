@@ -42,11 +42,11 @@
 
 	    <para>
 	      The next step is to configure roles.  While this step is optional (it is possible for a user to
-	      belong to a role even if it is not configured in <literal>security-config.xml</literal>), it is
-	      necessary if either 1) explicit permissions are required by your application, or 2) roles require
-	      membership of other roles.	Create a file called <literal>security-config.xml</literal>, which goes in
-	      the <literal>META-INF</literal> directory of the Seam application's jar file.  Here's an example
-	      <literal>security-config.xml</literal> file with a few roles defined.
+	      belong to a role even if it is not configured here), it is necessary if either 1) explicit permissions 
+	      are required by your application, or 2) roles require membership of other roles.	Create a file called 
+	      <literal>security-config.xml</literal>, which goes in the <literal>META-INF</literal> directory of the 
+	      Seam application's jar file.  Here's an example <literal>security-config.xml</literal> file with a few 
+	      roles defined.
 	    </para>
 
 	    <programlisting>
@@ -92,7 +92,7 @@
 
 	    <para>
 	      In the above example, we can see that there are four distinct roles: <literal>admin</literal>,
-	      <literal>superuser</literal>, <literal>user</literal> and <literal>guest</literal>.  Technically
+	      <literal>superuser</literal>, <literal>user</literal> and <literal>guest</literal>.  Strictly
 	      speaking, the <literal>guest</literal> entry is redundant as it declares no permissions nor contains
 	      any memberships of other roles.  What is most of interest here are the permissions and role memberships,
 	      which are explained in further detail as follows.
@@ -102,11 +102,11 @@
 	      <title>Explicit Permissions</title>
 	      <para>
 	        These are permissions which are explicitly granted to members of a role.  Explicit permissions are
-	        used to address simple security concerns, such as <emphasis>may this user create a new customer
-	        record?</emphasis>, or <emphasis>may this user view customer details?</emphasis>.  While it is
+	        used to address simple security concerns, such as <emphasis>"may this user create a new customer
+	        record?"</emphasis>, or <emphasis>"may this user view customer details?"</emphasis>.  While it is
 	        possible to perform a more complex contextual-based decision to grant a specific permission or not,
 	        explicit permissions allow simple decision-less permissions to be easily granted to certain groups
-	        of users.
+	        of users.  How these permissions are used will be explained further on.
 	      </para>
 	    </sect3>
 
@@ -123,8 +123,8 @@
 	      </para>
 
 	      <para>
-	        The following table shows the permissions granted to each role based on the above 
-	        <literal>security-config.xml</literal> example.
+	        The following table illustrates this concept by showing the permissions granted to each role based 
+	        on the above <literal>security-config.xml</literal> example.
 	      </para>
 
 	      <table>
@@ -301,7 +301,108 @@
         </table>
 
 	    </sect3>
+	    
+	    <sect3>
+	      <title>Page security</title>
+	      
+	      <para>
+	        Page security is used to restrict direct access to web resources based on the user's roles. It
+	        requires the Seam security filter (a servlet filter - see the next section) to be installed.  
+	        To configure page security, <literal>security-constraint</literal> entries must be created within 
+	        <literal>security-config.xml</literal> to control which web resources are accessible to which roles.
+	        The restricted web resources are defined using a url-pattern expression.  The following example
+	        demonstrates how all of the <literal>*.seam</literal> resources in the <literal>/secure</literal>
+	        directory are restricted to users in the <literal>admin</literal> role.
+	      </para>
+	      
+	      <programlisting>
+	        <![CDATA[
+<security-config>
+	        
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Secure Page</web-resource-name>
+      <url-pattern>/secure/*.seam</url-pattern>
+    </web-resource-collection>
+    
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>	        
+  
+</security-config>  
+	        ]]>
+	      </programlisting>
+	      
+	      <para>
+	        This configuration may look familiar, because it is the same format defined by the servlet 
+	        specification, and as such follows the same wildcard conventions.  I.e. at the end of a pattern, 
+	        <literal>/*</literal> matches any sequence of characters from that point forward, and the pattern
+	        <literal>*.extension</literal> matches any resources ending with <literal>.extension</literal>. An
+	        asterisk in any other position is not a wildcard.
+	      </para>   
+	      
+	      <para>
+	        So what happens when a user tries to access a page that they don't have the necessary rights for? 
+	        By default, the security filter redirects these requests to the <literal>/securityError.seam</literal>
+	        page.  This can be configured though by overriding the <literal>securityErrorPage</literal> property
+	        of the <literal>SecurityConfiguration</literal> component in <literal>components.xml</literal>:
+	      </para>
+	      
+	      <programlisting>
+	        <![CDATA[
+  <component class="org.jboss.seam.security.config.SecurityConfiguration">
+    <property name="securityErrorPage">/security/generalSecurityError.seam</property>
+  </component>
+	        ]]>	      
+	      </programlisting>
+	      
+	    </sect3>	    
     </sect2>
+
+    <sect2>
+      <title>Seam Security Filter</title>
+    
+      <para>
+        The Seam security filter is a servlet filter that provides page security features.  It is an optional
+        component in that if your application does not require page security, then there is no requirement to
+        install the security filter.  To configure which pages are secure, see the previous section on page
+        security.  To configure the security filter, add the following entries to <literal>web.xml</literal>:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+    <!-- Seam security filter -->
+    
+    <filter>
+      <filter-name>Seam Security Filter</filter-name>
+      <filter-class>org.jboss.seam.security.filter.SeamSecurityFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+      <filter-name>Seam Security Filter</filter-name>
+      <url-pattern>*.seam</url-pattern>
+    </filter-mapping>        
+        ]]>
+      </programlisting>
+    </sect2>    
+    
+    <sect2>
+      <title>security-rules.drl</title>
+      
+      <para>
+        This file also goes into the Seam application's <literal>META-INF</literal> directory.  It contains
+        all of the security rules 
+      </para>
+      
+      <sect3>
+        <title>Establishing a default security policy</title>
+        
+        <para>
+        
+        </para>
+      </sect3>
+    </sect2>    
 
   </sect1>
 
