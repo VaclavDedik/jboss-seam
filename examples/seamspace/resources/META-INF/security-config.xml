@@ -13,7 +13,7 @@
   
   <roles>
     <role name="admin">
-      <members>superuser</members>
+      <memberships>superuser</memberships>
       
       <permissions>
         <permission name="user" action="create"/>
@@ -23,7 +23,7 @@
     </role>
     
     <role name="superuser">
-      <members>user</members>
+      <memberships>user</memberships>
     
       <permissions>
         <permission name="account" action="create"/>
