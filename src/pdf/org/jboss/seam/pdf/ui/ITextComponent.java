@@ -2,20 +2,15 @@ package org.jboss.seam.pdf.ui;
 
 
 import javax.faces.*;
-import javax.faces.event.*;
 import javax.faces.context.*;
-import javax.faces.convert.*;
 import javax.faces.component.*;
-import javax.servlet.http.*;
-
-import java.awt.Color;
 import java.io.*;
 import java.util.List;
 
+import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.ui.JSF;
 
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 
 public abstract class ITextComponent
     extends UIComponentBase
@@ -134,7 +129,8 @@ public abstract class ITextComponent
         removeITextObject();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void encodeChildren(FacesContext context)
         throws IOException
     {
@@ -143,12 +139,13 @@ public abstract class ITextComponent
             if (child.getFamily().equals("facelets.LiteralText")) {
                 String text = replaceEntities(extractText(context, child));
                 Font   font = getFont();
+                Chunk chunk = null;
                 if (font == null) {
-                    Chunk chunk = new Chunk(text);
-                    add(chunk);
+                    chunk = new Chunk(text);
                 } else {
-                    add(new Chunk(text, getFont()));
+                    chunk = new Chunk(text, getFont());
                 }
+                add(chunk);
             } else {
                 encode(context, child);
             }
