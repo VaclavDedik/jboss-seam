@@ -8,6 +8,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.Subject;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
 import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.RuleBaseFactory;
@@ -28,6 +32,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.security.config.SecurityConfiguration;
 import org.jboss.seam.security.rules.PermissionCheck;
 import org.jboss.seam.util.Resources;
 
@@ -204,5 +209,13 @@ public class SeamSecurityManager
       }      
 
       return wm;
+   }
+   
+   public LoginContext createLoginContext()
+       throws LoginException
+   {
+      Subject s = new Subject();
+      return new LoginContext(SecurityConfiguration.LOGIN_MODULE_NAME, s, null,
+            SecurityConfiguration.instance().getLoginModuleConfiguration());
    }
 }
