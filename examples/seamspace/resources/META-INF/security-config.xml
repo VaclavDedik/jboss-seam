@@ -43,5 +43,9 @@
     </role>
     
   </roles>
+  
+  <loginmodules>
+    <loginmodule class="org.jboss.seam.example.seamspace.AuthenticatorAction" flag="required"/>
+  </loginmodules>
 
 </security-config>
