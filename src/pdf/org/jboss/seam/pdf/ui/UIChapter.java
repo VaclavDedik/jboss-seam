@@ -31,7 +31,7 @@ public class UIChapter
         chapter = new Chapter("*chapter title*",1);
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         chapter.add(o);
     }
 }

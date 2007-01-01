@@ -113,7 +113,7 @@ public class UIParagraph
         }
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         paragraph.add(o);
     }
 }

@@ -188,7 +188,7 @@ public class UICell
 	public void setBorderColorTop(String borderColorTop) {
 		this.borderColorTop = ITextUtils.colorValue(borderColorTop);
 	}
-
+	
     public Object getITextObject() {
         return cell;
     }
@@ -198,8 +198,12 @@ public class UICell
     }
 
     public void createITextObject() {
-        cell = new PdfPCell();
-
+    	PdfPCell defaultCell = getDefaultCellFromTable();
+    	if (defaultCell != null) {
+    	    cell = new PdfPCell(defaultCell);	   	 
+    	} else {
+            cell = new PdfPCell();
+    	}
         if (horizontalAlignment != null) {
             cell.setHorizontalAlignment(ITextUtils.alignmentValue(horizontalAlignment));
         }
@@ -305,7 +309,15 @@ public class UICell
         }
     }
 
-    public void add(Object o) {
+    private PdfPCell getDefaultCellFromTable() {
+    	UITable parentTable = (UITable) findITextParent(this, UITable.class);
+    	if (parentTable != null) {
+    		return parentTable.getDefaultCellFacet();
+    	}
+		return null;
+	}
+
+	public void handleAdd(Object o) {
         if (o instanceof Element) {
             cell.addElement((Element) o);
         } else {

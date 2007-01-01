@@ -1,13 +1,15 @@
 package org.jboss.seam.pdf.ui;
 
-
 import javax.faces.*;
 import javax.faces.context.*;
 import javax.faces.component.*;
-import java.io.*;
-import java.util.List;
 
-import org.jboss.seam.pdf.ITextUtils;
+import java.io.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.jboss.seam.ui.JSF;
 
 import com.lowagie.text.*;
@@ -15,8 +17,10 @@ import com.lowagie.text.*;
 public abstract class ITextComponent
     extends UIComponentBase
 {
-    public static final String COMPONENT_FAMILY = "org.jboss.seam.pdf";    
-
+    public static final String COMPONENT_FAMILY = "org.jboss.seam.pdf";
+	
+    protected String inFacet;
+	protected Map<String,Object> facets = new HashMap<String,Object>();   
   
     /**
      * get the current Itext object
@@ -32,11 +36,24 @@ public abstract class ITextComponent
      * remove the itext objext
      */
     abstract public void removeITextObject();
+ 
     /** 
-     * subcomponents should implement this
+     * subcomponents should implement this to add child components
+     * to themselves
      */ 
-    abstract public void add(Object other);
-
+    abstract public void handleAdd(Object other);
+    
+    final public void add(Object other) {
+        if (inFacet != null) {
+           handleFacet(inFacet, other);
+        } else {
+            handleAdd(other);
+        }
+    }
+    
+    public void handleFacet(String facetName, Object obj) {
+        facets.put(facetName,obj);
+	}
 
     /**
      *  look up the tree for an itext font
@@ -98,7 +115,8 @@ public abstract class ITextComponent
         
     }
 
-    // ------------------------------------------------------
+   
+	// ------------------------------------------------------
 
     @Override
     public String getFamily()
@@ -134,6 +152,12 @@ public abstract class ITextComponent
     public void encodeChildren(FacesContext context)
         throws IOException
     {
+        for (String name: (Collection<String>) this.getFacets().keySet()) {
+            inFacet = name;
+    		encode(context, this.getFacet(name));
+    		inFacet = null;
+    	}
+    	
         for (UIComponent child: (List<UIComponent>) this.getChildren()) {
             // ugly hack to be able to capture facelets text
             if (child.getFamily().equals("facelets.LiteralText")) {
@@ -190,7 +214,8 @@ public abstract class ITextComponent
     }
 
 
-    public void encode(FacesContext context,
+    @SuppressWarnings("unchecked")
+	public void encode(FacesContext context,
                        UIComponent component) 
         throws IOException, 
                FacesException 

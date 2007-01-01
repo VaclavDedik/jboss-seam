@@ -26,7 +26,7 @@ public class UIPage
         
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         addToITextParent(o);
     }
 

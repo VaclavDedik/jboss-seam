@@ -34,6 +34,9 @@ public class ITextUtils {
         if (ElementTags.ALIGN_CENTER.equalsIgnoreCase(alignment)) {
             return Element.ALIGN_CENTER;
         }
+        if (ElementTags.ALIGN_LEFT.equalsIgnoreCase(alignment)) {
+            return Element.ALIGN_LEFT;
+        }
         if (ElementTags.ALIGN_RIGHT.equalsIgnoreCase(alignment)) {
             return Element.ALIGN_RIGHT;
         }

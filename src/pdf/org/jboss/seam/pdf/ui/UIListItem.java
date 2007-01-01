@@ -28,7 +28,7 @@ public class UIListItem
         listItem = null;
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         listItem.add(o);
     }
 }

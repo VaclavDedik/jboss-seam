@@ -81,7 +81,7 @@ public class UIList
         }
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         list.add(o);
     }
 }

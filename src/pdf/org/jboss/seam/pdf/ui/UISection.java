@@ -30,7 +30,7 @@ public class UISection
         section.setTitle(new Paragraph("*section title*"));
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         section.add(o);
     }
 }

@@ -32,7 +32,7 @@ public class UIDocument
         document = null;
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         if (o instanceof Element) {
             try {
                 document.add((Element) o);

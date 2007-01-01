@@ -109,7 +109,7 @@ public class UIImage
         }
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         throw new RuntimeException("can't add " + o.getClass().getName() + " to image");
         //image.add(o);
     }

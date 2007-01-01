@@ -46,7 +46,7 @@ public class UIAnchor
         }
     }
 
-    public void add(Object o) {
+    public void handleAdd(Object o) {
         anchor.add(o);
     }
 }

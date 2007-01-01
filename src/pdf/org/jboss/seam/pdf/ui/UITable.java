@@ -1,5 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
+import org.jboss.seam.pdf.ITextUtils;
+
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 
@@ -51,8 +53,8 @@ public class UITable
         this.headersInEvent = headersInEvent;
     }
     
-    public void setHorizontalAlignment(Integer horizontalAlignment) {
-        this.horizontalAlignment = horizontalAlignment;
+    public void setHorizontalAlignment(String horizontalAlignment) {
+        this.horizontalAlignment = ITextUtils.alignmentValue(horizontalAlignment);
     }
     
     public void setKeepTogether(Boolean keepTogether) {
@@ -170,7 +172,7 @@ public class UITable
 		return values;
 	}
 
-	public void add(Object o) {
+	public void handleAdd(Object o) {
         if (o instanceof PdfPCell) {
             table.addCell((PdfPCell) o);
         } else if (o instanceof PdfPTable) {
@@ -184,4 +186,15 @@ public class UITable
                                        " to table");
         }
     }
+
+	public PdfPCell getDefaultCellFacet() {
+		Object facet = facets.get("defaultCell");
+		if (facet != null) {
+		    if (!(facet instanceof PdfPCell)) {
+		    	throw new RuntimeException("UITable defaultCell facet must be a PdfPCell - found " + facet.getClass());
+		    }
+		    return (PdfPCell) facet;
+ 		}
+		return null;
+	}
 }
