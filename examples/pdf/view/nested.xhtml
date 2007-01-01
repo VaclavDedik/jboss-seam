@@ -1,4 +1,5 @@
 <p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:f="http://java.sun.com/jsf/core"
             xmlns:p="http://jboss.com/products/seam/pdf">
 
 
@@ -6,26 +7,33 @@
     <p:font size="24"><p:paragraph spacingAfter="50">Nested Tables</p:paragraph></p:font>  
 
     <p:table spacingBefore="25" columns="1">
+        <f:facet name="defaultCell">
+            <p:cell borderWidthTop="0" />
+        </f:facet>
+
         <p:cell borderWidthTop=".5f" grayFill=".7">
             <p:paragraph alignment="center">Horizontal split using nested tables</p:paragraph>
         </p:cell>
 
-        <p:cell borderWidthTop="0">one</p:cell>
-        <p:cell borderWidthTop="0" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
+        <p:cell>one</p:cell>
+        <p:cell paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
             <p:table widthPercentage="100" columns="2">
                 <p:cell borderWidth="0">two</p:cell>
                 <p:cell borderWidth="0" borderWidthLeft=".5">three</p:cell>
             </p:table>
         </p:cell>
 
-        <p:cell borderWidthTop="0" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
+        <p:cell paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
             <p:table widthPercentage="100" columns="3">
-                <p:cell borderWidth="0">four</p:cell>
-                <p:cell borderWidth="0" borderWidthLeft=".5">five</p:cell>
-                <p:cell borderWidth="0" borderWidthLeft=".5">six</p:cell>
+                <f:facet name="defaultCell">
+                    <p:cell borderWidth="0" borderWidthLeft=".5" />
+                </f:facet>
+                <p:cell borderWidthLeft="0">four</p:cell>
+                <p:cell>five</p:cell>
+                <p:cell>six</p:cell>
             </p:table>
         </p:cell>
-        <p:cell borderWidthTop="0">seven</p:cell>
+        <p:cell>seven</p:cell>
     </p:table>
 
     <p:table spacingBefore="25" columns="2" headerRows="1">
@@ -48,7 +56,5 @@
                 <p:cell borderWidthTop="0">D</p:cell>
             </p:table>
         </p:cell>
-
     </p:table>
-
 </p:document>
