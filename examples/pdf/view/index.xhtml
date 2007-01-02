@@ -14,7 +14,19 @@
     <h1>Sample Documents:</h1>
 
     <ul>
-        <li><s:link view="/whyseam.xhtml"   value="Why Seam?" /></li>
+        <li>
+            <s:link view="/whyseam.xhtml" value="Why Seam?" />  
+            [<s:link view="/pageSize.xhtml" value="letter">
+                <f:param name="pageSize" value="LETTER" />
+            </s:link>]
+            [<s:link view="/pageSize.xhtml" value="A4">
+                <f:param name="pageSize" value="A4" />
+            </s:link>]
+            [<s:link view="/pageSize.xhtml" value="legal">
+                <f:param name="pageSize" value="LEGAL" />
+            </s:link>]
+
+        </li>
         <li><s:link view="/lists.xhtml"     value="PDF Lists" /></li>
         <li><s:link view="/pages.xhtml"     value="Multiple Pages" /></li>
         <li><s:link view="/anchor.xhtml"    value="Anchors" /></li>

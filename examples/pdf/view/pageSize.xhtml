@@ -1,14 +1,9 @@
 <p:document xmlns:ui="http://java.sun.com/jsf/facelets"
-            xmlns:p="http://jboss.com/products/seam/pdf"
-            title="Why Seam"
-            keywords="mykeyword"
-            subject="seam"
-            author="Seam Team"
-            creator="Seam PDF example app">
+            xmlns:p="http://jboss.com/products/seam/pdf" 
+            pageSize="#{param.pageSize}">
 
     <p:image alignment="right" wrap="true" resource="jboss.jpg" /> 
     <p:font size="24"><p:paragraph spacingAfter="50">Ten Good Reasons To Use Seam</p:paragraph></p:font>  
-
 
     <p:font size="18"><p:paragraph>It's the quickest way to get "rich"</p:paragraph></p:font>
 
