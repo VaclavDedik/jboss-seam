@@ -2,6 +2,8 @@ package org.jboss.seam.example.seamspace;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -12,8 +14,8 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.security.AuthenticationException;
-import org.jboss.seam.security.authenticator.Authenticator;
+import org.jboss.seam.security.SeamSecurityManager;
+import org.jboss.seam.security.UsernamePasswordToken;
 
 /**
  * Login action
@@ -36,11 +38,14 @@ public class LoginAction implements LoginLocal
    {
       try
       {
-         Authenticator.instance().authenticate(member.getUsername(),
-               member.getPassword());
+         LoginContext lc = SeamSecurityManager.instance().createLoginContext();
+         lc.getSubject().getPrincipals().add(new UsernamePasswordToken(
+               member.getUsername(), member.getPassword()));
+         lc.login();
+         
          loggedIn = true;
       }
-      catch (AuthenticationException ex)
+      catch (LoginException ex)
       {
          FacesMessages.instance().add("Invalid login");
       }
@@ -49,7 +54,6 @@ public class LoginAction implements LoginLocal
    public void logout() 
    {
       loggedIn = false;
-      Authenticator.instance().unauthenticateSession();
       Seam.invalidateSession();
    }
 
