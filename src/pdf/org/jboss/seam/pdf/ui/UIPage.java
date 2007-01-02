@@ -1,18 +1,15 @@
 package org.jboss.seam.pdf.ui;
 
-import javax.faces.event.*;
 import javax.faces.context.*;
-import javax.faces.component.*;
-import javax.servlet.http.*;
+
 import java.io.*;
 
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 
 public class UIPage
     extends ITextComponent
 {
-    public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIParagraph";
+    public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIPage";
 
     public Object getITextObject() {
         return null;
@@ -22,7 +19,7 @@ public class UIPage
 
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         
     }
 

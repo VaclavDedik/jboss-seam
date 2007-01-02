@@ -4,6 +4,7 @@ import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +62,17 @@ public class ITextUtils {
 
         return Element.ALIGN_UNDEFINED;
     }
-
+    
+    public static Rectangle pageSizeValue(String name)  {
+        try {
+            Field field = PageSize.class.getDeclaredField(name.toUpperCase());
+            return (Rectangle) field.get(null);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't find page size " + name);          
+        }
+    }
+    
+    
     /**
      * return a color value from a string specification.  
      */ 
@@ -71,5 +82,15 @@ public class ITextUtils {
     	  color = Color.decode(colorName);
     	}
     	return color;
+    }
+
+    public static float[] stringToFloatArray(String widths) {
+    	String[] parts = widths.split("\\s");
+    	float[]  values = new float[parts.length];
+    	for (int i=0;i<parts.length;i++) {
+    	   values[i] = Float.valueOf(parts[i]);
+    	}
+    	
+    	return values;
     }
 }

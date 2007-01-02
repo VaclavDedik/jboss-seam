@@ -45,7 +45,7 @@ public class UIFont
         font = null;
     }
     
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         font = new Font(family, size);
         if (style != null) {
             font.setStyle(style);

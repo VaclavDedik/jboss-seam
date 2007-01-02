@@ -34,7 +34,7 @@ public class UIAnchor
         anchor = null;
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         anchor = new Anchor();
 
         if (name != null) {

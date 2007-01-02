@@ -71,7 +71,7 @@ public class UIImage
         image = null;
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         
         URL url = Thread.currentThread().getContextClassLoader().getResource(resource);
         if (url == null) {

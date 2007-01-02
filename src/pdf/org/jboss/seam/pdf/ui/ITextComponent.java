@@ -3,6 +3,7 @@ package org.jboss.seam.pdf.ui;
 import javax.faces.*;
 import javax.faces.context.*;
 import javax.faces.component.*;
+import javax.faces.el.ValueBinding;
 
 import java.io.*;
 import java.util.Collection;
@@ -30,7 +31,7 @@ public abstract class ITextComponent
     /**
      * signal that the component should create it's managed object
      */
-    abstract public void createITextObject();
+    abstract public void createITextObject(FacesContext context);
 
     /**
      * remove the itext objext
@@ -116,6 +117,17 @@ public abstract class ITextComponent
     }
 
    
+    public Object valueBinding(FacesContext context, 
+                               String property, 
+                               Object defaultValue) {
+        Object value = defaultValue; 
+        ValueBinding binding = getValueBinding(property);
+        if (binding != null) {
+            value = binding.getValue(context);    
+        }
+        return value;
+    }
+    
 	// ------------------------------------------------------
 
     @Override
@@ -133,7 +145,7 @@ public abstract class ITextComponent
     public void encodeBegin(FacesContext context) 
         throws IOException
     {
-        createITextObject();
+        createITextObject(context);
     }
 
     @Override

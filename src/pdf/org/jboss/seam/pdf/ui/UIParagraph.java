@@ -70,7 +70,7 @@ public class UIParagraph
         paragraph = null;
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         Font font = getFont();
         if (font == null) {
             paragraph = new Paragraph();

@@ -51,7 +51,7 @@ public class UIList
         list = null;
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         if (style != null) {
             if (style.equalsIgnoreCase(STYLE_ROMAN)) {
                 list = new RomanList((int) indent); // int? bug in text?

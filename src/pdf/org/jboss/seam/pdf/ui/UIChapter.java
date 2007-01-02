@@ -27,7 +27,7 @@ public class UIChapter
         chapter = null;
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         chapter = new Chapter("*chapter title*",1);
     }
 

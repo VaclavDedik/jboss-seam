@@ -24,7 +24,7 @@ public class UISection
         section = null;
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         Chapter chapter = ((UIChapter)findITextParent(this, UIChapter.class)).getChapter();
         section = chapter.addSection(new Paragraph("*fake title*"), 1);
         section.setTitle(new Paragraph("*section title*"));

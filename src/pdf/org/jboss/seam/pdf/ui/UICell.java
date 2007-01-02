@@ -7,6 +7,8 @@ import com.lowagie.text.pdf.*;
 
 import java.awt.Color;
 
+import javax.faces.context.FacesContext;
+
 public class UICell
     extends ITextComponent
 {
@@ -197,7 +199,7 @@ public class UICell
         cell = null;
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
     	PdfPCell defaultCell = getDefaultCellFromTable();
     	if (defaultCell != null) {
     	    cell = new PdfPCell(defaultCell);	   	 
@@ -318,7 +320,10 @@ public class UICell
 	}
 
 	public void handleAdd(Object o) {
-        if (o instanceof Element) {
+		if (o instanceof Phrase) {
+		    cell.setPhrase((Phrase) o);
+		} else if (o instanceof Element) {
+            // calling addElement negates setPhrase, etc...
             cell.addElement((Element) o);
         } else {
             throw new RuntimeException("Can't add " + o.getClass().getName() +

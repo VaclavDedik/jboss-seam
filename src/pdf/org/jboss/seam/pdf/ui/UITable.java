@@ -1,5 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.pdf.ITextUtils;
 
 import com.lowagie.text.*;
@@ -107,12 +109,12 @@ public class UITable
         table = null;
     }
    
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         table = new PdfPTable(columns);
         
         if (widths != null) {
         	try {
-				table.setWidths(stringToFloatArray(widths));
+				table.setWidths(ITextUtils.stringToFloatArray(widths));
 			} catch (DocumentException e) {
 				throw new RuntimeException(e);
 			}       	
@@ -162,17 +164,7 @@ public class UITable
         }
     }
     
-    private float[] stringToFloatArray(String widths) {
-		String[] parts = widths.split("\\s");
-		float[]  values = new float[parts.length];
-		for (int i=0;i<parts.length;i++) {
-		   values[i] = Float.valueOf(parts[i]);
-		}
-		
-		return values;
-	}
-
-	public void handleAdd(Object o) {
+    public void handleAdd(Object o) {
         if (o instanceof PdfPCell) {
             table.addCell((PdfPCell) o);
         } else if (o instanceof PdfPTable) {

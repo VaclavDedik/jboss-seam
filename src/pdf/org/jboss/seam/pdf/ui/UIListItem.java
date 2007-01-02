@@ -20,7 +20,7 @@ public class UIListItem
         return listItem;
     }
 
-    public void createITextObject() {
+    public void createITextObject(FacesContext context) {
         listItem = new ListItem();
     }
 
