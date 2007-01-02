@@ -202,10 +202,11 @@ public class SeamSecurityManager
       {
          wm.assertObject(ident);
 
-         for (Role r : ident.getRoles())
-            wm.assertObject(r);
+         // TODO roles no longer come from the identity 
+//         for (Role r : ident.getRoles())
+//            wm.assertObject(r);
 
-         /** @todo Assert the Identity's explicit permissions also? */      
+         // TODO Assert the Identity's explicit permissions also? */      
       }      
 
       return wm;

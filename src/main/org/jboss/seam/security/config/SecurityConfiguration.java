@@ -31,7 +31,6 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SeamPermission;
-import org.jboss.seam.security.SeamSecurityManager;
 import org.jboss.seam.util.Resources;
 
 /**
@@ -55,15 +54,10 @@ public class SecurityConfiguration
 
    // <security-constraint>
    private static final String SECURITY_CONSTRAINT = "security-constraint";
-
    private static final String WEB_RESOURCE_COLLECTION = "web-resource-collection";
-
    private static final String URL_PATTERN = "url-pattern";
-
    private static final String HTTP_METHOD = "http-method";
-
    private static final String AUTH_CONSTRAINT = "auth-constraint";
-
    private static final String ROLE_NAME = "role-name";
 
    // <login-config>
@@ -78,26 +72,24 @@ public class SecurityConfiguration
 
    // roles
    private static final String SECURITY_ROLES = "roles";
-
    private static final String SECURITY_ROLE = "role";
-
    private static final String SECURITY_MEMBERSHIPS = "memberships";
-
    private static final String SECURITY_PERMISSIONS = "permissions";
-
    private static final String SECURITY_PERMISSION = "permission";
 
+   // login modules
    private static final String LOGIN_MODULES = "loginmodules";
-
    private static final String LOGIN_MODULE = "loginmodule";
-
    private static final String LOGIN_MODULE_CLASS = "class";
-
    private static final String LOGIN_MODULE_FLAG = "flag";
-
-   private static final String LOGIN_MODULE_OPTION = "option";
-   
+   private static final String LOGIN_MODULE_OPTION = "option"; 
    private static final String LOGIN_MODULE_OPTION_NAME = "name";
+   
+   // login module flags
+   private static final String LM_FLAG_REQUIRED = "REQUIRED";
+   private static final String LM_FLAG_OPTIONAL = "OPTIONAL";
+   private static final String LM_FLAG_SUFFICIENT = "SUFFICIENT";
+   private static final String LM_FLAG_REQUISITE = "REQUISITE";
 
    private Set<SecurityConstraint> securityConstraints = new HashSet<SecurityConstraint>();
 
@@ -172,6 +164,7 @@ public class SecurityConfiguration
 
          loadSecurityConstraints(env.elements(SECURITY_CONSTRAINT));
          loadSecurityRoles(env.element(SECURITY_ROLES));
+         loadLoginModules(env.element(LOGIN_MODULES));
 
          // loadLoginConfig(env.element(LOGIN_CONFIG));
       }
@@ -419,16 +412,16 @@ public class SecurityConfiguration
    private AppConfigurationEntry.LoginModuleControlFlag getControlFlag(
          String flag) throws SecurityConfigException
    {
-      if ("REQUIRED".equalsIgnoreCase(flag))
+      if (LM_FLAG_REQUIRED.equalsIgnoreCase(flag))
          return AppConfigurationEntry.LoginModuleControlFlag.REQUIRED;
-      else if ("OPTIONAL".equalsIgnoreCase(flag))
+      else if (LM_FLAG_OPTIONAL.equalsIgnoreCase(flag))
          return AppConfigurationEntry.LoginModuleControlFlag.OPTIONAL;
-      else if ("SUFFICIENT".equalsIgnoreCase(flag))
+      else if (LM_FLAG_SUFFICIENT.equalsIgnoreCase(flag))
          return AppConfigurationEntry.LoginModuleControlFlag.SUFFICIENT;
-      else if ("REQUISITE".equalsIgnoreCase(flag))
+      else if (LM_FLAG_REQUISITE.equalsIgnoreCase(flag))
          return AppConfigurationEntry.LoginModuleControlFlag.REQUISITE;
       else
          throw new SecurityConfigException(String.format(
                "Unrecognized login module control flag [%s]", flag));
-   }
+   }   
 }

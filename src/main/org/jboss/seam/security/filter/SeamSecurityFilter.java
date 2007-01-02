@@ -2,17 +2,17 @@ package org.jboss.seam.security.filter;
 
 import java.io.IOException;
 import java.util.Set;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.ContextAdaptor;
@@ -21,7 +21,6 @@ import org.jboss.seam.contexts.WebSessionContext;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.config.SecurityConfiguration;
 import org.jboss.seam.security.config.SecurityConstraint;
-import javax.servlet.ServletContext;
 
 /**
  * A servlet filter that performs authentication within a Seam application.

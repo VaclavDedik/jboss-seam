@@ -33,7 +33,7 @@ public abstract class Identity implements Principal, Serializable
 
       if (instance == null)
       {
-         throw new AuthenticationException(
+         throw new IllegalStateException(
                "No Identity exists in session scope");
       }
 
