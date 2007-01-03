@@ -1,13 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
-import javax.faces.event.*;
 import javax.faces.context.*;
-import javax.faces.component.*;
-import javax.servlet.http.*;
-import java.io.*;
-
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 
 public class UIList
     extends ITextComponent
@@ -52,6 +46,11 @@ public class UIList
     }
 
     public void createITextObject(FacesContext context) {
+        style = (String) valueBinding(context, "style", style);
+        lowerCase = (Boolean) valueBinding(context, "lowerCase", lowerCase);
+        indent = (Float) valueBinding(context, "indent", indent);
+        listSymbol = (String) valueBinding(context, "listSymbol", listSymbol);
+        
         if (style != null) {
             if (style.equalsIgnoreCase(STYLE_ROMAN)) {
                 list = new RomanList((int) indent); // int? bug in text?

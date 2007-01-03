@@ -1,13 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
-import javax.faces.event.*;
 import javax.faces.context.*;
-import javax.faces.component.*;
-import javax.servlet.http.*;
-import java.io.*;
-
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 
 public class UIParagraph
     extends ITextComponent
@@ -78,17 +72,23 @@ public class UIParagraph
             paragraph = new Paragraph("", font);
         }
 
+        alignment = (String) valueBinding(context, "alignment", alignment);
         if (alignment != null) {
             paragraph.setAlignment(alignment);
         }
         
+        firstLineIndent = (Float) valueBinding(context, "firstLineIndent", firstLineIndent);
         if (firstLineIndent != null) {
             paragraph.setFirstLineIndent(firstLineIndent);
         }
 
+        extraParagraphSpace = (Float) valueBinding(context, "extraParagraphSpace", extraParagraphSpace);
         if (extraParagraphSpace != null) {
             paragraph.setExtraParagraphSpace(extraParagraphSpace);
         }
+
+        leading = (Float) valueBinding(context, "leading", leading);
+        multipliedLeading = (Float) valueBinding(context, "multipliedLeading", multipliedLeading);
         if (leading != null) {
             if (multipliedLeading != null) {
                 paragraph.setLeading(leading, multipliedLeading);
@@ -96,18 +96,29 @@ public class UIParagraph
                 paragraph.setLeading(leading);
             }
         }
+
+
+        spacingBefore = (Float) valueBinding(context, "spacingBefore", spacingBefore);
         if (spacingBefore != null) {
             paragraph.setSpacingBefore(spacingBefore);
         }
+        
+        spacingAfter = (Float) valueBinding(context, "spacingAfter", spacingAfter);
         if (spacingAfter != null) {
             paragraph.setSpacingAfter(spacingAfter);
         }
+        
+        indentationLeft = (Float) valueBinding(context, "indentationLeft", indentationLeft);
         if (indentationLeft != null) {
             paragraph.setIndentationLeft(indentationLeft);
         }
+        
+        indentationRight = (Float) valueBinding(context, "indentationRight", indentationRight);
         if (indentationRight != null) {
             paragraph.setIndentationRight(indentationRight);
         }
+        
+        keepTogether = (Boolean) valueBinding(context, "keepTogether", keepTogether);
         if (keepTogether != null) {
             paragraph.setKeepTogether(keepTogether);
         }

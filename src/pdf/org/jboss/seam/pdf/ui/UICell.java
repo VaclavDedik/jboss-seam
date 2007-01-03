@@ -206,107 +206,170 @@ public class UICell
     	} else {
             cell = new PdfPCell();
     	}
+        
+        horizontalAlignment = (String) valueBinding(context, "horizontalAlignment", horizontalAlignment);
         if (horizontalAlignment != null) {
             cell.setHorizontalAlignment(ITextUtils.alignmentValue(horizontalAlignment));
         }
+        
+        verticalAlignment = (String) valueBinding(context, "verticalAlignment", verticalAlignment);
         if (verticalAlignment != null) {
             cell.setVerticalAlignment(ITextUtils.alignmentValue(verticalAlignment));
         }
+        
+        padding = (Float) valueBinding(context, "padding", padding);
         if (padding != null) {
         	cell.setPadding(padding);
         }
+        
+        paddingLeft = (Float) valueBinding(context, "paddingLeft", paddingLeft);
         if (paddingLeft != null) {
             cell.setPaddingLeft(paddingLeft);
         }
+        
+        paddingRight = (Float) valueBinding(context, "paddingRight", paddingRight);
         if (paddingRight != null) {
             cell.setPaddingRight(paddingRight);
         }
+        
+        paddingTop = (Float) valueBinding(context, "paddingTop", paddingTop);
         if (paddingTop != null) {
             cell.setPaddingTop(paddingTop);
         }
+        
+        paddingBottom = (Float) valueBinding(context, "paddingBottom", paddingBottom);
         if (paddingBottom != null) {
             cell.setPaddingBottom(paddingBottom);
         }
+        
+        useBorderPadding = (Boolean) valueBinding(context, "userBorderPadding", useBorderPadding);
         if (useBorderPadding != null) {
-            cell.setUseBorderPadding(useBorderPadding);
+            cell.setUseBorderPadding(useBorderPadding);          
         }
+        
+        leading = (Float) valueBinding(context, "leading", leading);
+        multipliedLeading = (Float) valueBinding(context, "multipliedLeading", multipliedLeading);
         if (leading != null || multipliedLeading != null) {            
             cell.setLeading(leading == null         ? 0 : leading.floatValue(), 
                             multipliedLeading==null ? 0 : multipliedLeading.floatValue());
         }
+        
+        indent = (Float) valueBinding(context, "indent", indent);
         if (indent != null) {
             cell.setIndent(indent);
         }
+        
+        extraParagraphSpace = (Float) valueBinding(context, "extraParagraphSpace", extraParagraphSpace);
         if (extraParagraphSpace != null) {
             cell.setExtraParagraphSpace(extraParagraphSpace);
         }
+        
+        fixedHeight = (Float) valueBinding(context, "fixedHeight", fixedHeight);
         if (fixedHeight != null) {
             cell.setFixedHeight(fixedHeight);
         }
+        
+        noWrap = (Boolean) valueBinding(context, "noWrap", noWrap);
         if (noWrap != null) {
             cell.setNoWrap(noWrap);
         }
+        
+        minimumHeight = (Float) valueBinding(context, "minimumHeight", minimumHeight);
         if (minimumHeight != null) {
             cell.setMinimumHeight(minimumHeight);
         }
+        
+        colspan = (Integer) valueBinding(context, "colspan", colspan);
         if (colspan != null) {
             cell.setColspan(colspan);
         }
+        
+        followingIndent = (Float) valueBinding(context, "followingIndent", followingIndent);
         if (followingIndent != null) {
             cell.setFollowingIndent(followingIndent);
         }
+        rightIndent = (Float) valueBinding(context, "rightIndent", rightIndent);
         if (rightIndent != null) {
             cell.setRightIndent(rightIndent);
         }
+        spaceCharRatio = (Integer) valueBinding(context, "spaceCharRatio", spaceCharRatio);
         if (spaceCharRatio != null) {
             cell.setSpaceCharRatio(spaceCharRatio);
         }
+        runDirection = (Integer) valueBinding(context, "runDirection", runDirection);
         if (runDirection != null) {
             cell.setRunDirection(runDirection);
         }
+        arabicOptions = (Integer) valueBinding(context, "arabicOptions", arabicOptions);
         if (arabicOptions != null) {
             cell.setArabicOptions(arabicOptions);
         }
+        useAscender = (Boolean) valueBinding(context, "useAscender", useAscender);
         if (useAscender != null) {
             cell.setUseAscender(useAscender);
         }
+        rotation = (Integer) valueBinding(context, "rotation", rotation);
         if (rotation != null) {
             cell.setRotation(rotation);
         }
-        if (backgroundColor!=null) {
+
+        backgroundColor = (Color) valueBinding(context, "backgroundColor", backgroundColor);
+        if (backgroundColor != null) {
         	cell.setBackgroundColor(backgroundColor);
         }
-        if (borderColor!=null) {
+        
+        borderColor = (Color) valueBinding(context, "borderColor", borderColor);
+        if (borderColor != null) {
         	cell.setBorderColor(borderColor);
         }
-        if (borderColorLeft!=null) {
+        
+        borderColorLeft = (Color) valueBinding(context, "borderColorLeft", borderColorLeft);
+        if (borderColorLeft != null) {
         	cell.setBorderColorLeft(borderColorLeft);
         }
-        if (borderColorRight!=null) {
+        
+        borderColorRight = (Color) valueBinding(context, "borderColorRight", borderColorRight);
+        if (borderColorRight != null) {
         	cell.setBorderColorRight(borderColorRight);
         }     
-        if (borderColorTop!=null) {
+        
+        borderColorTop = (Color) valueBinding(context, "borderColorTop", borderColorTop);
+        if (borderColorTop != null) {
         	cell.setBorderColorTop(borderColorTop);
         }
-        if (borderColorBottom!=null) {
+        
+        borderColorBottom = (Color) valueBinding(context, "borderColorBottom", borderColorBottom);
+        if (borderColorBottom != null) {
         	cell.setBorderColorBottom(borderColorBottom);
         }    
-        if (borderWidth!=null) {
+        
+        borderWidth = (Float) valueBinding(context, "borderWidth", borderWidth);
+        if (borderWidth != null) {
         	cell.setBorderWidth(borderWidth);
         }
-        if (borderWidthLeft!=null) {
+        
+        borderWidthLeft = (Float) valueBinding(context, "borderWidthLeft", borderWidthLeft);
+        if (borderWidthLeft != null) {
         	cell.setBorderWidthLeft(borderWidthLeft);
         }
-        if (borderWidthRight!=null) {
+        
+        borderWidthRight = (Float) valueBinding(context, "borderWidthRight", borderWidthRight);
+        if (borderWidthRight != null) {
         	cell.setBorderWidthRight(borderWidthRight);
         }     
-        if (borderWidthTop!=null) {
+        
+        borderWidthTop = (Float) valueBinding(context, "borderWidthTop", borderWidthTop);
+        if (borderWidthTop != null) {
         	cell.setBorderWidthTop(borderWidthTop);
         }
-        if (borderWidthBottom!=null) {
+        
+        borderWidthBottom = (Float) valueBinding(context, "borderWidthBottom", borderWidthBottom);
+        if (borderWidthBottom != null) {
         	cell.setBorderWidthBottom(borderWidthBottom);
         }    
-        if (grayFill!=null) {
+        
+        grayFill = (Float) valueBinding(context, "grayFill", grayFill);
+        if (grayFill != null) {
            cell.setGrayFill(grayFill);
         }
     }

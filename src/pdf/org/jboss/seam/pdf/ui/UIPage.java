@@ -16,11 +16,11 @@ public class UIPage
     }
 
     public void removeITextObject() {
-
+        // nothing to do
     }
 
     public void createITextObject(FacesContext context) {
-        
+        // nothing to do
     }
 
     public void handleAdd(Object o) {

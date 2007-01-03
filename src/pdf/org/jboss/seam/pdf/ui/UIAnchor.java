@@ -37,10 +37,12 @@ public class UIAnchor
     public void createITextObject(FacesContext context) {
         anchor = new Anchor();
 
+        name = (String) valueBinding(context, "name", name);
         if (name != null) {
             anchor.setName(name);
         }
 
+        reference = (String) valueBinding(context, "reference", reference);
         if (reference != null) {
             anchor.setReference(reference);
         }

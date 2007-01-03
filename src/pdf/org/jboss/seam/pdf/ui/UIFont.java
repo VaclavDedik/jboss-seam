@@ -1,13 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
-import javax.faces.event.*;
 import javax.faces.context.*;
-import javax.faces.component.*;
-import javax.servlet.http.*;
-import java.io.*;
-
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 
 public class UIFont
     extends ITextComponent
@@ -16,12 +10,13 @@ public class UIFont
 
 
     Font   font; 
-    int    family = Font.UNDEFINED;
+    
+    String familyName;
     int    size   = Font.UNDEFINED;
     String style; 
 
-    public void setFamily(String name) {
-        family = Font.getFamilyIndex(name);
+    public void setFamily(String familyName) {
+        this.familyName = familyName;
     }
 
     public void setSize(int size) {
@@ -34,8 +29,7 @@ public class UIFont
 
     public Font getFont() {
         return font;
-    }
-       
+    }       
             
     public Object getITextObject() {
         return null; // we don't add to this component, so skip
@@ -46,7 +40,13 @@ public class UIFont
     }
     
     public void createITextObject(FacesContext context) {
+        familyName = (String) valueBinding(context, "familyName", familyName);
+        int family = (familyName==null) ? Font.UNDEFINED :  Font.getFamilyIndex(familyName);        
+        size = (Integer) valueBinding(context, "size", size);        
+        
         font = new Font(family, size);
+
+        style = (String) valueBinding(context, "style", style);
         if (style != null) {
             font.setStyle(style);
         }

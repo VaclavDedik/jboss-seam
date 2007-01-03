@@ -2,16 +2,12 @@ package org.jboss.seam.pdf.ui;
 
 import org.jboss.seam.pdf.ITextUtils;
 
-import javax.faces.event.*;
 import javax.faces.context.*;
-import javax.faces.component.*;
-import javax.servlet.http.*;
-
-import java.io.*;
 import java.net.URL;
 
+import EDU.oswego.cs.dl.util.concurrent.Rendezvous.Rotator;
+
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 
 public class UIImage
     extends ITextComponent
@@ -72,7 +68,7 @@ public class UIImage
     }
 
     public void createITextObject(FacesContext context) {
-        
+        resource = (String) valueBinding(context, "resource", resource);
         URL url = Thread.currentThread().getContextClassLoader().getResource(resource);
         if (url == null) {
             throw new RuntimeException("cannot locate image resource " + resource);
@@ -83,27 +79,37 @@ public class UIImage
             throw new RuntimeException(e);
         }
 
+        rotation = (Float) valueBinding(context, "rotation", rotation);
         if (rotation != 0) {
             image.setRotationDegrees(rotation);
         }
 
+        height = (Float) valueBinding(context, "height", height);
+        width = (Float) valueBinding(context, "width", width);
         if (height>0 || width > 0) {
             image.scaleAbsolute(width, height);
         }
 
-        int alignmentValue =0;
+        int alignmentValue = 0;
+        
+        alignment = (String) valueBinding(context, "alignment", alignment);
         if (alignment != null) {
             alignmentValue = (ITextUtils.alignmentValue(alignment));
         }
+        
+        wrap = (Boolean) valueBinding(context, "wrap", wrap);
         if (wrap!=null && wrap.booleanValue()) {
             alignmentValue |= Image.TEXTWRAP;
         } 
+        
+        underlying = (Boolean) valueBinding(context, "underlying", underlying);
         if (underlying!= null && underlying.booleanValue()) {
             alignmentValue |= Image.UNDERLYING;
         }
 
         image.setAlignment(alignmentValue);
 
+        alt = (String) valueBinding(context, "alt", alt);
         if (alt != null) {
             image.setAlt(alt);
         }

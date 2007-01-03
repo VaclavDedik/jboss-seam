@@ -31,8 +31,8 @@ public class UITable
     Boolean keepTogether;
 
 
-    public void setWidths(String Widths) {
-    	this.widths = Widths;
+    public void setWidths(String widths) {
+    	this.widths = widths;
     }
     
     public void setColumns(int columns) {
@@ -120,45 +120,67 @@ public class UITable
 			}       	
         }
         
+        headerRows = (Integer) valueBinding(context, "headerRows", headerRows);
         if (headerRows != null) {
             table.setHeaderRows(headerRows);
         }
+        
+        footerRows = (Integer) valueBinding(context, "footerRows", footerRows);
         if (footerRows != null) {
             table.setFooterRows(footerRows);
         }
+        
+        widthPercentage = (Float) valueBinding(context, "widthPercentage", widthPercentage);
         if (widthPercentage!=null) {
             table.setWidthPercentage(widthPercentage);
         }
+        
+        horizontalAlignment = (Integer) valueBinding(context, "horizontalAlignment", horizontalAlignment);
         if (horizontalAlignment!=null) {
             table.setHorizontalAlignment(horizontalAlignment);
         }
-        if (skipFirstHeader!=null) {
-            table.setSkipFirstHeader(skipFirstHeader);
-        }
+        
+        runDirection = (Integer) valueBinding(context, "runDirection", runDirection);
         if (runDirection!=null) {
             table.setRunDirection(runDirection);
         }
+        
+        lockedWidth = (Boolean) valueBinding(context, "lockedWidth", lockedWidth);
         if (lockedWidth!=null) {
             table.setLockedWidth(lockedWidth);
         }
+        
+        splitRows = (Boolean) valueBinding(context, "splitRows", splitRows);
         if (splitRows!=null) {
             table.setSplitRows(splitRows);
         }
+        
+        spacingBefore = (Float) valueBinding(context, "spacingBefore", spacingBefore);
         if (spacingBefore!=null) {
             table.setSpacingBefore(spacingBefore);
         }
+        
+        spacingAfter = (Float) valueBinding(context, "spacingAfter", spacingAfter);
         if (spacingAfter!=null) {
             table.setSpacingAfter(spacingAfter);
         }
+        
+        extendLastRow = (Boolean) valueBinding(context, "extendLastRow", extendLastRow);
         if (extendLastRow!=null) {
             table.setExtendLastRow(extendLastRow);
         }
+        
+        headersInEvent = (Boolean) valueBinding(context, "headersInEvent", headersInEvent);
         if (headersInEvent!=null) {
             table.setHeadersInEvent(headersInEvent);
         }
+        
+        splitLate = (Boolean) valueBinding(context, "splitLate", splitLate);
         if (splitLate!=null) {
             table.setSplitLate(splitLate);
         }
+        
+        keepTogether = (Boolean) valueBinding(context, "keepTogether", keepTogether);
         if (keepTogether!=null) {
             table.setKeepTogether(keepTogether);
         }

@@ -1,13 +1,7 @@
 package org.jboss.seam.pdf.ui;
 
-import javax.faces.event.*;
 import javax.faces.context.*;
-import javax.faces.component.*;
-import javax.servlet.http.*;
-import java.io.*;
-
 import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 
 public class UIListItem
     extends ITextComponent
