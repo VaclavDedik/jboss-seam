@@ -88,7 +88,7 @@ public class Product
         this.categories = categories;
     }
     
-    @Column(name="TITLE",nullable=false,length=50)
+    @Column(name="TITLE",nullable=false,length=100)
     public String getTitle() {
         return title;
     }

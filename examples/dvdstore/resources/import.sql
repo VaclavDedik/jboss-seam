@@ -15,7 +15,6 @@ INSERT INTO USERS (USERID,DTYPE,FIRSTNAME,LASTNAME,ADDRESS1,ADDRESS2,CITY,STATE,
 INSERT INTO USERS (USERID,DTYPE,FIRSTNAME,LASTNAME,ADDRESS1,ADDRESS2,CITY,STATE,ZIP,EMAIL,PHONE,CREDITCARDTYPE,CC_NUM,CC_MONTH,CC_YEAR,USERNAME,PASSWORD) VALUES (5,'customer','Neville','Longbottom','9862764981 Dell Way','','HOKEXCD','MS',78442,'n.longbottom@hogwarts.edu','9862764981',5,'7160005148965866',09,2009,'user4','password')
 INSERT INTO USERS (USERID,DTYPE,FIRSTNAME,LASTNAME,ADDRESS1,ADDRESS2,CITY,STATE,ZIP,EMAIL,PHONE,CREDITCARDTYPE,CC_NUM,CC_MONTH,CC_YEAR,USERNAME,PASSWORD) VALUES (6,'customer','Ginny','Weasley','2841895775 Dell Way','','RZQTCDN','AZ',16291,'g.weasley@hogwarts.edu','2841895775',3,'8377095518168063',10,2010,'user5','password')
 
-insert into ACTORS (ID, NAME) values (0, 'Audrey Hepburn')
 insert into ACTORS (ID, NAME) values (1, 'Tom Hanks')
 insert into ACTORS (ID, NAME) values (2, 'Katie Holmes')
 insert into ACTORS (ID, NAME) values (3, 'Drew Barrymore')
@@ -83,8 +82,9 @@ insert into ACTORS (ID, NAME) values (64, 'Will Smith')
 insert into ACTORS (ID, NAME) values (65, 'Sean Connery')
 insert into ACTORS (ID, NAME) values (66, 'Kevin Costner')
 insert into ACTORS (ID, NAME) values (67, 'Arnold Schwarzenegger')
+insert into ACTORS (ID, NAME) values (68, 'Audrey Hepburn')
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('1', '630522577X', 'My Fair Lady', 19.98, 'http://images.amazon.com/images/P/630522577X.01.MZZZZZZZ.jpg', 'Hollywood''s legendary "woman''s director," George Cukor (The Women, The Philadelphia Story), transformed Audrey Hepburn into street-urchin-turned-proper-lady Eliza Doolittle in this film version of the Lerner and Loewe musical. Based on George Bernard Shaw''s play Pygmalion, My Fair Lady stars Rex Harrison as linguist Henry Higgins (Harrison also played the role, opposite Julie Andrews, on stage), who draws Eliza into a social experiment that works almost too well. The letterbox edition of this film on video certainly pays tribute to the pageantry of Cukor''s set, but it also underscores a certain visual stiffness that can slow viewer enthusiasm just a tad. But it''s really star wattage that keeps this film exciting, that and such great songs as "On the Street Where You Live" and "I Could Have Danced All Night." Actor Jeremy Brett, who gained a huge following later in life portraying Sherlock Holmes, is quite electric as Eliza''s determined suitor. ');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (1, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (1, 68)
 insert into CATEGORIES (CATEGORY, NAME) values (1, 'Children');
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (1, 1);
 insert into CATEGORIES (CATEGORY, NAME) values (2, 'Drama');
@@ -99,7 +99,7 @@ insert into CATEGORIES (CATEGORY, NAME) values (6, 'Musicals & Cast Recordings')
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (1, 6);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (1, 1, 84, 0);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('2', 'B00003CXCD', 'Roman Holiday ', 12.98, 'http://images.amazon.com/images/P/B00003CXCD.01.MZZZZZZZ.jpg', 'Maybe it doesn''t quite live up to its sterling reputation, and maybe the leading man and director were slightly miscast. But who cares? Roman Holiday is the film that brought Audrey Hepburn to prominence, and the world movie audience went weak at the knees. The endlessly charming Hepburn had her first starring role in this sweet romance, playing a European princess on an official tour through Rome. Frustrated by her lack of connection to the real world, she slips away from her protective handlers and goes on a spree, aided by a tough-guy news reporter (Gregory Peck). Director William Wyler, more at home with such heavy-going, Oscar-winning classics as The Best Years of Our Lives and Ben- Hur, doesn''t always keep the champagne bubbles afloat, and the Peck role would have fit Cary Grant like a silk glove. But the film is great fun, the location shooting is irresistible, and Hepburn embodies an image of chic style that would rule for the rest of the fifties. No coincidence: she won an Oscar, and so did veteran costume designer Edith Head. ');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (2, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (2, 68)
 insert into CATEGORIES (CATEGORY, NAME) values (7, 'Comedies & Family Ent.');
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (2, 7);
 insert into CATEGORIES (CATEGORY, NAME) values (8, 'Comedy');
@@ -111,20 +111,20 @@ insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (2, 10);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (2, 4);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (2, 2, 77, 9);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('3', 'B00000IQW5', 'Always', 19.98, 'http://images.amazon.com/images/P/B00000IQW5.01.MZZZZZZZ.jpg', 'Considered by many to represent a low point in Steven Spielberg''s  career,  1990''s Always did suggest something of a temporary drift in the  director''s sensibility. A remake of the  classic Spencer Tracy film A Guy Named Joe, Always stars  Richard Dreyfuss as a Forest Service pilot who takes great risks with his own  life to douse wildfires from a plane. After promising his frightened fianc&eacute;e  (Holly Hunter) to keep his feet on the ground and go into teaching,  Dreyfuss''s character is killed during one last flight. But his spirit wanders  restlessly, hopelessly attached to and possessive of Hunter, who can''t see or  hear him. Then the real conflict begins: a trainee pilot (Brad Johnson), a  likable doofus, begins wooing a not-unappreciative Hunter');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (3, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (3, 68)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (3, 2);
 insert into CATEGORIES (CATEGORY, NAME) values (11, 'Feature Film-drama');
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (3, 11);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (3, 4);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (3, 3, 79, 15);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('4', 'B000BTGY1O', 'Breakfast at Tiffany''s ', 19.99, 'http://images.amazon.com/images/P/B000BTGY1O.01.MZZZZZZZ.jpg', 'No film better utilizes Audrey Hepburn''s flighty charm and svelte beauty than this romantic adaptation of Truman Capote''s novella. Hepburn''s urban sophisticate Holly Golightly, an enchanting neurotic living off the gifts of gentlemen, is a bewitching figure in designer dresses and costume jewelry. George Peppard is her upstairs neighbor, a struggling writer and "kept" man financed by a steely older woman (Patricia Neal). His growing friendship with the lonely Holly soon turns to love and threatens the delicate balance of both of their compromised lives. Taking liberties with Capote''s bittersweet story, director Blake Edwards and screenwriter George Axelrod turn New York into a city of lovers and create a poignant portrait of Holly, a frustrated romantic with a secret past and a hidden vulnerability. Composer Henry Mancini earned Oscars for the hit song "Moon River" and his tastefully romantic score. The only sour note in the whole film is Mickey Rooney''s demeaning performance as the apartment''s Japanese manager, an offensively overdone stereotype even in 1961. The rest of the film has weathered the decades well. Edwards''s elegant yet light touch, Axelrod''s generous screenplay, and Hepburn''s mix of knowing experience and naivet&eacute; combine to create one of the great screen romances and a refined slice of high society bohemian chic. ');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (4, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (4, 68)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (4, 8);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (4, 9);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (4, 10);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (4, 4, 28, 1);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('5', 'B000E1MXSM', 'Films of Faith Collection ', 29.98, 'http://images.amazon.com/images/P/B000E1MXSM.01.MZZZZZZZ.jpg', 'Fred Zinnemann''s epic 1959 drama The Nun''s Story is a splendid showcase for Audrey Hepburn, who stars as the young nun Sister Luke, who is deeply spiritual yet conflicted about whether or not she can conform to convent life. Though the film is a mesmerizing');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (5, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (5, 68)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (5, 2);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (5, 11);
 insert into CATEGORIES (CATEGORY, NAME) values (12, 'Gift Set');
@@ -132,13 +132,13 @@ insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (5, 12);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (5, 4);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (5, 5, 28, 6);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('6', 'B000E1MXSW', 'The Nun''s Story', 19.98, 'http://images.amazon.com/images/P/B000E1MXSW.01.MZZZZZZZ.jpg', 'Fred Zinnemann''s epic drama is a splendid showcase for Audrey Hepburn, who stars as the young nun Sister Luke, who is deeply spiritual yet conflicted about whether or not she can conform to convent life. Though the film is a mesmerizing');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (6, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (6, 68)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (6, 2);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (6, 11);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (6, 4);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (6, 6, 73, 19);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('7', 'B00011D1OA', 'My Fair Lady ', 26.98, 'http://images.amazon.com/images/P/B00011D1OA.01.MZZZZZZZ.jpg', 'Hollywood''s legendary "woman''s director," George Cukor (The Women, The Philadelphia Story), transformed Audrey Hepburn into street-urchin-turned-proper-lady Eliza Doolittle in this film version of the Lerner and Loewe musical. Based on George Bernard Shaw''s play Pygmalion, My Fair Lady stars Rex Harrison as linguist Henry Higgins (Harrison also played the role, opposite Julie Andrews, on stage), who draws Eliza into a social experiment that works almost too well. The letterbox edition of this film on video certainly pays tribute to the pageantry of Cukor''s set, but it also underscores a certain visual stiffness that can slow viewer enthusiasm just a tad. But it''s really star wattage that keeps this film exciting, that and such great songs as "On the Street Where You Live" and "I Could Have Danced All Night." Actor Jeremy Brett, who gained a huge following later in life portraying Sherlock Holmes, is quite electric as Eliza''s determined suitor. ');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (7, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (7, 68)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (7, 2);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (7, 12);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (7, 4);
@@ -146,7 +146,7 @@ insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (7, 5);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (7, 6);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (7, 7, 95, 1);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('8', 'B00005ALMH', 'Funny Face', 9.98, 'http://images.amazon.com/images/P/B00005ALMH.01.MZZZZZZZ.jpg', 'Fred Astaire plays a fashion photographer based on real-life cameraman Richard Avedon, in this entertaining musical directed by Stanley Donen (Singin'' in the Rain). The story finds Astaire''s character turning Audrey Hepburn into a chic Paris model');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (8, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (8, 68)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (8, 7);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (8, 8);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (8, 3);
@@ -154,7 +154,7 @@ insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (8, 10);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (8, 4);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (8, 8, 65, 1);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('9', 'B00003CXCG', 'Sabrina', 12.98, 'http://images.amazon.com/images/P/B00003CXCG.01.MZZZZZZZ.jpg', 'Audrey Hepburn is the delightful young Sabrina, the daughter of a chauffeur who is hopelessly in love with David Larrabee (William Holden), the playboy younger son in the rich Long Island household her father works for. In order to help her forget her woes, Sabrina is shipped off to cooking school in Paris. While there, she befriends a baron who provides a bit of culture');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (9, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (9, 68)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (9, 7);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (9, 8);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (9, 2);
@@ -162,7 +162,7 @@ insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (9, 10);
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (9, 4);
 insert into INVENTORY (INV_ID, PROD_ID, QUAN_IN_STOCK, SALES) values (9, 9, 24, 11);
 insert into PRODUCTS (PROD_ID, ASIN, TITLE, PRICE, IMAGE_URL, DESCRIPTION) values ('10', 'B00009NHC5', 'Wait Until Dark', 19.98, 'http://images.amazon.com/images/P/B00009NHC5.01.MZZZZZZZ.jpg', 'Audrey Hepburn''s last Oscar nomination was for this adaptation of Frederick Knott''s famed stage thriller about a blind woman, a con man (Alan Arkin), and a doll full of heroin. Thanks to Hepburn''s husband, a photographer who does a good deal of traveling, she''s unknowingly come into possession of said doll, which was given to him on a plane by a comely young drug runner who winds up dead. The murderous Arkin, aided by sympathetic henchman Richard Crenna, will let nothing stand in the way of his obtaining it, even if it comes down to assaying multiple "personalities" in order to visit and terrorize Hepburn; Crenna is unwillingly enlisted to help. However, the "world''s champion blind lady" (as Hepburn sardonically states) is more than up to the task of defending herself in her basement Manhattan apartment in a heart-stopping climax that to this day still defines the way horror movies with jack-in-the-box psychos are made. Despite the obvious staginess of it all (the entire action takes place in Hepburn''s apartment), it still works magnificently, thanks to Hepburn''s steely will and Arkin''s deadly, sadistic madman. A helpful hint: turn out all the lights when you watch it; theaters back in 1967 did so, killing the guiding lights during the film''s last 15 minutes. We can''t tell you why, but trust us, it''s worth it. ');
-insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (10, 0)
+insert into PRODUCT_ACTORS (PROD_ID,ACTOR_ID) values (10, 68)
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (10, 2);
 insert into CATEGORIES (CATEGORY, NAME) values (13, 'Horror');
 insert into PRODUCT_CATEGORY (PROD_ID, CATEGORY) values (10, 13);
