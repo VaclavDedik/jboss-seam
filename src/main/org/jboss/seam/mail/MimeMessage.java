@@ -1,7 +1,5 @@
 package org.jboss.seam.mail;
 
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
@@ -25,13 +23,11 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.InterceptionType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Install;
-import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Intercept;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.FacesMessages;
-import org.jboss.seam.log.Log;
 
 /**
  * Class represents an email message.
@@ -42,27 +38,11 @@ import org.jboss.seam.log.Log;
  */
 @Scope(CONVERSATION)
 @Install(precedence = BUILT_IN)
+@Intercept(InterceptionType.NEVER)
 public class MimeMessage implements Serializable
 {
 	public static final String HTML = "HTML";
 	public static final String PLAIN = "PLAIN";
-
-   private String failedSendMessage = "Email sending failed";
-	private String successfulSendMessage = "Email successfully sent";
-	private String errorProcessingSubjectMessage = "Error processing subject";
-	private String errorProcessingBodyMessage = "Error processing body";
-	private String errorProcessingReplyToMessage = "Error processing reply-to address";
-	private String errorProcessingFromMessage = "Error processing from address";
-	private String errorProcessingBccMessage = "Error processing bcc address";
-	private String errorProcessingCcMessage = "Error processing cc address";
-	private String errorProcessingToMessage = "Error processing to address";
-	private String errorProcessingHeaderMessage = "Error processing header";
-	
-	@Logger
-	private Log log;
-
-	@In(create = true)
-	private FacesMessages facesMessages;
 
 	private Session session;
 
@@ -122,46 +102,6 @@ public class MimeMessage implements Serializable
 		return internetAddress;
 	}
 
-	protected void errorProcessingBodyMessage(Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getErrorProcessingBodyMessageKey(),
-				getErrorProcessisngBodyMessage());
-		log.debug("Error processing subject", e);
-
-	}
-
-	protected String getErrorProcessingBodyMessageKey()
-	{
-		return "org.jboss.seam.mail.errorProcessingBody";
-	}
-
-	protected String getErrorProcessisngBodyMessage()
-	{
-		return errorProcessingBodyMessage;
-	}
-
-	protected void errorProcessingSubjectMessage(Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getErrorProcessingSubjectMessageKey(),
-				getErrorProcessingSubjectMessage());
-		log.debug("Error processing subject", e);
-
-	}
-
-	protected String getErrorProcessingSubjectMessageKey()
-	{
-		return "org.jboss.seam.mail.errorProcessingSubject";
-	}
-
-	protected void sendingFailedMessage(Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getSendingFailedMessageKey(), getSendingFailedMessage());
-		log.debug("Error sending email", e);
-	}
-
 	public List<String> getBcc()
 	{
 		return bcc;
@@ -175,11 +115,6 @@ public class MimeMessage implements Serializable
 	public List<String> getCc()
 	{
 		return cc;
-	}
-
-	public String getSendingFailedMessage()
-	{
-		return failedSendMessage;
 	}
 
 	protected String getSendingFailedMessageKey()
@@ -249,51 +184,24 @@ public class MimeMessage implements Serializable
 	 * 
 	 * @throws MessagingException 
 	 */
-	public javax.mail.internet.MimeMessage getMimeMessage() throws MessagingException
+	public javax.mail.internet.MimeMessage getMimeMessage() throws MessagingException, UnsupportedEncodingException
 	{
 		javax.mail.internet.MimeMessage mimeMessage = new javax.mail.internet.MimeMessage(session);
-		boolean ok = true;
 		for (String bcc : getBcc())
 		{
-			try
-			{
 				mimeMessage.addRecipient(RecipientType.BCC, getInternetAddress(bcc));
-			} 
-         catch (Exception e)
-			{
-				ok = false;
-				errorProcessingBccMessage(bcc, e);
-			}
 		}
 		for (String cc : getCc())
 		{
-			try
-			{
 				mimeMessage.addRecipient(RecipientType.CC, getInternetAddress(cc));
-			} 
-			catch (Exception e)
-			{
-				ok = false;
-				errorProcessingCcMessage(cc, e);
-			}
 		}
 		for (String to: getTo())
 		{
-			try
-			{
 				mimeMessage.addRecipient(RecipientType.TO, getInternetAddress(to));
-			} 
-         catch (Exception e)
-			{
-				ok = false;
-				errorProcessingToMessage(to, e);
-			}
 		}
 		if ( getBody()!=null )
 		{
 			String body = getBody();
-			try
-			{
 				if ( MimeMessage.PLAIN.equals( getType() ) )
 				{
 					mimeMessage.setText(body + getTextSignature());
@@ -302,184 +210,31 @@ public class MimeMessage implements Serializable
 				{
 					mimeMessage.setContent( getHtmlBody() );
 				}
-			} 
-         catch (Exception e)
-			{
-				ok = false;
-				errorProcessingBodyMessage(e);
-			}
 		}
 		if ( getFrom()!=null )
 		{
-			try
-			{
 				mimeMessage.setFrom( getInternetAddress( getFrom() ) );
-			} 
-         catch (Exception e)
-			{
-				ok = false;
-				errorProcessingFromMessage(e);
-			}
 		}
 		if ( getSubject()!=null )
 		{
-			try
-			{
 				mimeMessage.setSubject( getSubject() );
-			} 
-         catch (Exception e)
-			{
-				ok = false;
-				errorProcessingSubjectMessage(e);
-			}
 		}
 		for (String header : getHeaders())
 		{
 			if (header.indexOf(":") > 0)
 			{
-				try
-				{
 					String headerName = header.substring(0, header.indexOf(":") - 1);
 					String headerValue = header.substring(header.indexOf(":"));
 					mimeMessage.setHeader(headerName, headerValue);
-				} 
-            catch (Exception e)
-				{
-					ok = false;
-					errorProcessingHeaderMessage(header, e);
-				}
 			}
 		}
 		if ( getReplyTo()!=null )
 		{
-			try
-			{
-				mimeMessage.setReplyTo(new Address[] { getInternetAddress(getReplyTo()) });
-			} 
-         catch (Exception e)
-			{
-				ok = false;
-				errorProcessingReplyToMessage(e);
-			}
-		}
-		if (!ok) 
-      {
-			throw new MessagingException();
+				mimeMessage.setReplyTo(new Address[] { getInternetAddress( getReplyTo() ) });
 		}
 		return mimeMessage;
 	}
 
-	protected void errorProcessingReplyToMessage(Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getErrorProcessingReplyToMessageKey(),
-				getErrorProcessisngReplyToMessage());
-		log.debug("Error processing Reply-to address", e);
-
-	}
-
-	protected String getErrorProcessisngReplyToMessage()
-	{
-		return errorProcessingReplyToMessage;
-	}
-
-	protected String getErrorProcessingReplyToMessageKey()
-	{
-		return "org.jboss.seam.mail.errorProcessingReplyTo";
-	}
-
-	private void errorProcessingFromMessage(Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getErrorProcessingFromMessageKey(),
-				getErrorProcessisngFromMessage());
-		log.debug("Error processing From address", e);
-
-	}
-
-	protected String getErrorProcessingFromMessageKey()
-	{
-		return "org.jboss.seam.mail.errorProcessingFrom";
-	}
-
-	protected String getErrorProcessisngFromMessage()
-	{
-		return errorProcessingFromMessage;
-	}
-
-	protected void errorProcessingBccMessage(String bcc, Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getErrorProcessingBccMessageKey() + " (" + bcc + ")",
-				getErrorProcessisngBccMessage() + " (" + bcc + ")");
-		log.debug("Error processing Bcc address: " + bcc, e);
-
-	}
-
-	protected String getErrorProcessingBccMessageKey()
-	{
-		return "org.jboss.seam.mail.errorProcessingBcc";
-	}
-
-	protected String getErrorProcessisngBccMessage()
-	{
-		return errorProcessingBccMessage;
-	}
-
-	private void errorProcessingCcMessage(String cc, Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getErrorProcessingCcMessageKey() + " (" + cc + ")",
-				getErrorProcessisngCcMessage() + " (" + cc + ")");
-		log.debug("Error processing Cc address: " + cc, e);
-
-	}
-
-	private String getErrorProcessingCcMessageKey()
-	{
-		return "org.jboss.seam.mail.errorProcessingCc";
-	}
-
-	private String getErrorProcessisngCcMessage()
-	{
-		return errorProcessingCcMessage;
-	}
-
-	private void errorProcessingToMessage(String to, Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getErrorProcessingToMessageKey() + " (" + to + ")",
-				getErrorProcessisngToMessage() + " (" + to + ")");
-		log.debug("Error processing To address: " + to, e);
-	}
-
-	private String getErrorProcessingToMessageKey()
-	{
-		return "org.jboss.seam.mail.errorProcessingTo";
-	}
-
-	private String getErrorProcessisngToMessage()
-	{
-		return errorProcessingToMessage;
-	}
-
-	private void errorProcessingHeaderMessage(String header, Exception e)
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_ERROR,
-				getErrorProcessingHeaderMessageKey() + " (" + header + ")",
-				getErrorProcessisngHeaderMessage() + " (" + header + ")");
-		log.debug("Error processing header: " + to, e);
-	}
-
-	private String getErrorProcessingHeaderMessageKey()
-	{
-		return "org.jboss.seam.mail.errorProcessingHeader";
-	}
-
-	private String getErrorProcessisngHeaderMessage()
-	{
-		return errorProcessingHeaderMessage;
-	}
 
 	/**
 	 * Get the underlying JavaMail session which will be used to send this message
@@ -516,16 +271,6 @@ public class MimeMessage implements Serializable
 		return subject;
 	}
 
-	public String getSuccessfulSendMessage()
-	{
-		return successfulSendMessage;
-	}
-
-	protected String getSuccessfulSendMessageKey()
-	{
-		return "org.jboss.seam.mail.sucessfulSend";
-	}
-
 	/**
 	 * A list of recipients of the message
 	 * 
@@ -548,19 +293,11 @@ public class MimeMessage implements Serializable
 	 * Send the message
 	 *
 	 */
-	public void send()
+	public void send() throws MessagingException, UnsupportedEncodingException
 	{
-		try
-		{
          javax.mail.internet.MimeMessage message = getMimeMessage();
          message.saveChanges();
          Transport.send(message);
-			successfulSendMessage();
-		} 
-      catch (Exception e)
-		{
-			sendingFailedMessage(e);
-		}
 	}
 
 	public void setBcc(List<String> bcc)
@@ -578,11 +315,6 @@ public class MimeMessage implements Serializable
 		this.cc = cc;
 	}
 
-	public void setFailedSendMessage(String failedSendMessage)
-	{
-		this.failedSendMessage = failedSendMessage;
-	}
-
 	public void setFrom(String fromAddress)
 	{
 		this.from = fromAddress;
@@ -598,11 +330,6 @@ public class MimeMessage implements Serializable
 		this.subject = subject;
 	}
 
-	public void setSuccessfulSendMessage(String successfulSendMessage)
-	{
-		this.successfulSendMessage = successfulSendMessage;
-	}
-
 	public void setTo(List<String> to)
 	{
 		this.to = to;
@@ -615,94 +342,6 @@ public class MimeMessage implements Serializable
 		{
 			this.type = type;
 		}
-	}
-
-	protected void successfulSendMessage()
-	{
-		facesMessages.addFromResourceBundle(SEVERITY_INFO,
-				getSuccessfulSendMessageKey(), getSuccessfulSendMessage());
-	}
-
-	public String getErrorProcessingBccMessage()
-	{
-		return errorProcessingBccMessage;
-	}
-
-	public void setErrorProcessingBccMessage(String errorProcessingBccMessage)
-	{
-		this.errorProcessingBccMessage = errorProcessingBccMessage;
-	}
-
-	public String getErrorProcessingBodyMessage()
-	{
-		return errorProcessingBodyMessage;
-	}
-
-	public void setErrorProcessingBodyMessage(String errorProcessingBodyMessage)
-	{
-		this.errorProcessingBodyMessage = errorProcessingBodyMessage;
-	}
-
-	public String getErrorProcessingCcMessage()
-	{
-		return errorProcessingCcMessage;
-	}
-
-	public void setErrorProcessingCcMessage(String errorProcessingCcMessage)
-	{
-		this.errorProcessingCcMessage = errorProcessingCcMessage;
-	}
-
-	public String getErrorProcessingFromMessage()
-	{
-		return errorProcessingFromMessage;
-	}
-
-	public void setErrorProcessingFromMessage(String errorProcessingFromMessage)
-	{
-		this.errorProcessingFromMessage = errorProcessingFromMessage;
-	}
-
-	public String getErrorProcessingHeaderMessage()
-	{
-		return errorProcessingHeaderMessage;
-	}
-
-	public void setErrorProcessingHeaderMessage(String errorProcessingHeaderMessage)
-	{
-		this.errorProcessingHeaderMessage = errorProcessingHeaderMessage;
-	}
-
-	public String getErrorProcessingReplyToMessage()
-	{
-		return errorProcessingReplyToMessage;
-	}
-
-	public void setErrorProcessingReplyToMessage(
-			String errorProcessingReplyToMessage)
-	{
-		this.errorProcessingReplyToMessage = errorProcessingReplyToMessage;
-	}
-
-	public String getErrorProcessingSubjectMessage()
-	{
-		return errorProcessingSubjectMessage;
-	}
-
-	public void setErrorProcessingSubjectMessage(
-			String errorProcessingSubjectMessage)
-	{
-		this.errorProcessingSubjectMessage = errorProcessingSubjectMessage;
-	}
-
-	public String getErrorProcessingToMessage()
-	{
-		return errorProcessingToMessage;
-	}
-
-	public void setErrorProcessingToMessage(String errorProcessingToMessage)
-	{
-		this.errorProcessingToMessage = errorProcessingToMessage;
 	}
 
 	public String getSignatureSeparator()
