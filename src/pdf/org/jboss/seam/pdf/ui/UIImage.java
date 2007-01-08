@@ -5,8 +5,6 @@ import org.jboss.seam.pdf.ITextUtils;
 import javax.faces.context.*;
 import java.net.URL;
 
-import EDU.oswego.cs.dl.util.concurrent.Rendezvous.Rotator;
-
 import com.lowagie.text.*;
 
 public class UIImage
@@ -22,6 +20,14 @@ public class UIImage
     float  width;
     String alignment;
     String alt;
+    
+    Float indentationLeft;
+    Float indentationRight;
+    Float spacingBefore;
+    Float spacingAfter;
+    Float widthPercentage;
+    Float initialRotation;
+    String dpi;
     
     Boolean wrap;
     Boolean underlying;
@@ -58,6 +64,34 @@ public class UIImage
         this.underlying = underlying;
     }
 
+ 
+    public void setDpi(String dpi) {
+        this.dpi = dpi;
+    }
+
+    public void setIndentationLeft(Float indentationLeft) {
+        this.indentationLeft = indentationLeft;
+    }
+
+    public void setIndentationRight(Float indentationRight) {
+        this.indentationRight = indentationRight;
+    }
+
+    public void setInitialRotation(Float initialRotation) {
+        this.initialRotation = initialRotation;
+    }
+
+    public void setSpacingAfter(Float spacingAfter) {
+        this.spacingAfter = spacingAfter;
+    }
+
+    public void setSpacingBefore(Float spacingBefore) {
+        this.spacingBefore = spacingBefore;
+    }
+
+    public void setWidthPercentage(Float widthPercentage) {
+        this.widthPercentage = widthPercentage;
+    }
 
     public Object getITextObject() {
         return image;
@@ -113,6 +147,41 @@ public class UIImage
         if (alt != null) {
             image.setAlt(alt);
         }
+        
+        indentationLeft = (Float) valueBinding(context, "indentationLeft", indentationLeft);
+        if (indentationLeft != null) {
+           image.setIndentationLeft(indentationLeft); 
+        }
+
+        indentationRight = (Float) valueBinding(context, "indentationRight", indentationRight);
+        if (indentationRight != null) {
+            image.setIndentationRight(indentationRight); 
+        }
+                
+        spacingBefore = (Float) valueBinding(context, "spacingBefore", spacingBefore);
+        if (spacingBefore != null) {
+            image.setSpacingBefore(spacingBefore);
+        }
+        
+        spacingAfter = (Float) valueBinding(context, "spacingAfter", spacingAfter);
+        if (spacingAfter != null) {
+            image.setSpacingAfter(spacingAfter); 
+        }
+        widthPercentage = (Float) valueBinding(context, "widthPercentage", widthPercentage);
+        if (widthPercentage != null) {
+            image.setWidthPercentage(widthPercentage); 
+        }
+        
+        initialRotation = (Float) valueBinding(context, "initialRotation", initialRotation);
+        if (initialRotation != null) {
+            image.setInitialRotation(initialRotation); 
+        }
+        
+        dpi = (String) valueBinding(context, "dpi", dpi);
+        if (dpi != null) {
+            int[] dpiValues = ITextUtils.stringToIntArray(dpi);
+            image.setDpi(dpiValues[0], dpiValues[1]);
+         }
     }
 
     public void handleAdd(Object o) {

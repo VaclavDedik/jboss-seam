@@ -84,13 +84,24 @@ public class ITextUtils {
     	return color;
     }
 
-    public static float[] stringToFloatArray(String widths) {
-    	String[] parts = widths.split("\\s");
+    public static float[] stringToFloatArray(String text) {
+    	String[] parts = text.split("\\s");
     	float[]  values = new float[parts.length];
     	for (int i=0;i<parts.length;i++) {
     	   values[i] = Float.valueOf(parts[i]);
     	}
     	
     	return values;
+    }
+    
+    
+    public static int[] stringToIntArray(String text) {
+        String[] parts = text.split("\\s");
+        int[]  values = new int[parts.length];
+        for (int i=0;i<parts.length;i++) {
+           values[i] = Integer.valueOf(parts[i]);
+        }
+        
+        return values;
     }
 }

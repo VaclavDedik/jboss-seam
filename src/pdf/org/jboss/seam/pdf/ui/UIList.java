@@ -12,6 +12,8 @@ public class UIList
     public static final String STYLE_LETTERED  = "LETTERED";
     public static final String STYLE_GREEK     = "GREEK";
     public static final String STYLE_ROMAN     = "ROMAN";
+    public static final String STYLE_DINGBATS  = "ZAPFDINGBATS";
+    public static final String STYLE_DINGBATS_NUMBER = "ZAPFDINGBATS_NUMBER";
     
     List list;
 
@@ -19,7 +21,9 @@ public class UIList
     String listSymbol;
     float indent = 20;;
     Boolean lowerCase = false;
-
+    Integer charNumber;
+    Integer numberType = 0;
+    
     public void setStyle(String style) {
         this.style = style;
     }
@@ -31,7 +35,17 @@ public class UIList
     public void setListSymbol(String listSymbol) {
         this.listSymbol = listSymbol;
     }
-
+    
+    /* for dingbats symbol list */
+    public void setCharNumber(Integer charNumber) {
+        this.charNumber = charNumber;
+    }
+   
+    /* for dingbats number list */
+    public void setNumberType(Integer numberType) {
+        this.numberType = numberType;
+    }
+    
     /* for ROMAN,GREEK */
     public void setLowerCase(Boolean lowerCase) {
         this.lowerCase = lowerCase;
@@ -63,6 +77,14 @@ public class UIList
                 if (lowerCase != null) {
                     ((GreekList) list).setGreekLower(lowerCase);
                 }
+            } else if (style.equalsIgnoreCase(STYLE_DINGBATS)) {
+                charNumber = (Integer) valueBinding(context, "charNumber", charNumber);
+                System.out.println("charNumber is " + charNumber);
+                list = new ZapfDingbatsList(charNumber, (int) indent); 
+            } else if (style.equalsIgnoreCase(STYLE_DINGBATS_NUMBER)) {
+                numberType = (Integer) valueBinding(context, "numberType", numberType);
+                list = new ZapfDingbatsNumberList(numberType, (int) indent); 
+
             } else if (style.equalsIgnoreCase(STYLE_NUMBERED)) {
                 list = new List(true, indent);
                 //setFirst(int)
