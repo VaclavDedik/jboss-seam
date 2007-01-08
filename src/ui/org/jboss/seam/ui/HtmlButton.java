@@ -77,6 +77,8 @@ public class HtmlButton extends HtmlOutputButton implements ActionSource
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
+      if ( !isRendered() ) return;
+      
       ResponseWriter writer = context.getResponseWriter();
       writer.startElement("input", this);
       writer.writeAttribute("type", "button", null);

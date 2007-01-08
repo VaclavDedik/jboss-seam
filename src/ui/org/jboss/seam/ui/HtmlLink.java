@@ -79,6 +79,8 @@ public class HtmlLink extends HtmlOutputLink implements ActionSource
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
+      if ( !isRendered() ) return;
+      
       ResponseWriter writer = context.getResponseWriter();
       writer.startElement("a", this);
       writer.writeAttribute("id", getClientId(context), "id");
