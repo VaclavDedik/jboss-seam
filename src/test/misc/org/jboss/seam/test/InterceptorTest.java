@@ -71,7 +71,7 @@ public class InterceptorTest
       
       BijectionInterceptor bi = new BijectionInterceptor();
       bi.setComponent( new Component(Bar.class, appContext) );
-      String result = (String) bi.bijectTargetComponent( new MockInvocationContext() {
+      String result = (String) bi.bijectComponent( new MockInvocationContext() {
          @Override
          public Object getTarget()
          {
@@ -103,7 +103,7 @@ public class InterceptorTest
          throw new RuntimeException(e);
       }
 
-      bi.bijectTargetComponent( new MockInvocationContext() {
+      bi.bijectComponent( new MockInvocationContext() {
          @Override
          public Object getTarget()
          {
@@ -129,7 +129,7 @@ public class InterceptorTest
       try 
       {
          Contexts.getSessionContext().remove("otherFoo");
-         bi.bijectTargetComponent( new MockInvocationContext() {
+         bi.bijectComponent( new MockInvocationContext() {
             @Override
             public Object getTarget()
             {
@@ -169,7 +169,7 @@ public class InterceptorTest
       biba.setComponent( new Component(BrokenAction.class, appContext) );
       try
       {
-         biba.bijectTargetComponent( new MockInvocationContext() {
+         biba.bijectComponent( new MockInvocationContext() {
    
             @Override
             public Object getTarget() {
@@ -208,7 +208,7 @@ public class InterceptorTest
       final Action action = new Action();
       BijectionInterceptor bia = new BijectionInterceptor();
       bia.setComponent( new Component(Action.class, appContext) );
-      result = (String) bia.bijectTargetComponent( new MockInvocationContext() {
+      result = (String) bia.bijectComponent( new MockInvocationContext() {
 
          @Override
          public Object getTarget() {
