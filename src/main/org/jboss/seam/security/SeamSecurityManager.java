@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
@@ -215,8 +214,12 @@ public class SeamSecurityManager
    public LoginContext createLoginContext()
        throws LoginException
    {
-      Subject s = new Subject();
-      return new LoginContext(SecurityConfiguration.LOGIN_MODULE_NAME, s, null,
+      if (!Identity.isSet())
+         Contexts.getSessionContext().set(Seam.getComponentName(Identity.class), 
+               new Identity());
+      
+      return new LoginContext(SecurityConfiguration.LOGIN_MODULE_NAME, 
+            Identity.instance().getSubject(), null,
             SecurityConfiguration.instance().getLoginModuleConfiguration());
    }
 }
