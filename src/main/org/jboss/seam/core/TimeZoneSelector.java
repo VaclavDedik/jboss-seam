@@ -43,7 +43,7 @@ public class TimeZoneSelector extends Selector
    
    /**
     * Force the resource bundle to reload, using the current locale, 
-    * and raise the org.jboss.seam.timeToneSelected event
+    * and raise the org.jboss.seam.timeZoneSelected event
     */
    public void select()
    {
@@ -51,7 +51,7 @@ public class TimeZoneSelector extends Selector
 
       if ( Events.exists() ) 
       {
-          Events.instance().raiseEvent( "org.jboss.seam.timeToneSelected", getTimeZoneId() );
+          Events.instance().raiseEvent( "org.jboss.seam.timeZoneSelected", getTimeZoneId() );
       }
    }
 
