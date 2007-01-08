@@ -22,12 +22,14 @@ import org.jboss.seam.intercept.InvocationContext;
  * 
  * @author Gavin King
  */
-@Interceptor(stateless=true)
+@Interceptor
 public class BijectionInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = 4686458105931528659L;
    
    private static final LogProvider log = Logging.getLogProvider(BijectionInterceptor.class);
+   
+   private ThreadLocal<Boolean> reentrant = new ThreadLocal<Boolean>();
    
    private static boolean isLifecycleMethod(Method method)
    {
@@ -38,8 +40,33 @@ public class BijectionInterceptor extends AbstractInterceptor
    }
 
    @AroundInvoke
-   public Object bijectTargetComponent(InvocationContext invocation) throws Exception
+   public Object bijectComponent(InvocationContext invocation) throws Exception
    {
+      if ( reentrant.get()!=null )
+      {
+         if ( log.isTraceEnabled() )
+         {
+            log.trace("reentrant call to component: " + getComponent().getName() );
+         }
+         return invocation.proceed();
+      }
+      else
+      {
+         reentrant.set(true);
+         try
+         {
+            return bijectNonreentrantComponent(invocation);
+         }
+         finally
+         {
+            reentrant.set(null);
+         }
+      }
+   }
+   
+   private Object bijectNonreentrantComponent(InvocationContext invocation) throws Exception
+   {
+      
       if ( getComponent().needsInjection() ) //only needed to hush the log message
       {
          if ( log.isTraceEnabled() )
