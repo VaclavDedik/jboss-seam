@@ -182,17 +182,31 @@ public class Lifecycle
    public static void beginSession(ServletContext servletContext, ContextAdaptor session)
    {
       log.debug("Session started");
+      
+      //Normally called synchronously with a JSF request, but there are some
+      //special cases!
 
-      Context context = new WebApplicationContext(servletContext);
-      Contexts.applicationContext.set(context);
+      boolean applicationContextActive = Contexts.isApplicationContextActive();
+      boolean eventContextActive = Contexts.isEventContextActive();
+      if ( !applicationContextActive )
+      {
+         Context tempApplicationContext = new WebApplicationContext(servletContext);
+         Contexts.applicationContext.set(tempApplicationContext);
+      }
+      Context tempEventContext = null;
+      if ( !eventContextActive )
+      {
+         tempEventContext = new MapContext(ScopeType.EVENT);
+         Contexts.applicationContext.set(tempEventContext);
+      }
 
-      Context tempSessionContext = new WebSessionContext( session );
+      Context tempSessionContext = new WebSessionContext(session);
       Contexts.sessionContext.set(tempSessionContext);
 
       //instantiate all session-scoped @Startup components
-      for ( String name : context.getNames() )
+      for ( String name : Contexts.getApplicationContext().getNames() )
       {
-         Object object = context.get(name);
+         Object object = Contexts.getApplicationContext().get(name);
          if ( object!=null && (object instanceof Component) ) 
          {
             Component component = (Component) object;
@@ -204,15 +218,33 @@ public class Lifecycle
       }
 
       Contexts.sessionContext.set(null);
-      Contexts.applicationContext.set(null);
+      if ( !eventContextActive ) 
+      {
+         Contexts.destroy(tempEventContext);
+         Contexts.eventContext.set(null);
+      }
+      if ( !applicationContextActive ) 
+      {
+         Contexts.applicationContext.set(null);
+      }
+      
    }
 
    public static void endSession(ServletContext servletContext, ContextAdaptor session)
    {
       log.debug("End of session, destroying contexts");
       
-      Context tempAppContext = new WebApplicationContext(servletContext);
-      Contexts.applicationContext.set(tempAppContext);
+      //This code assumes that sessions are only destroyed at the very end of a  
+      //web request, after the request-bound context objects have been destroyed,
+      //or during session timeout, when there are no request-bound contexts.
+      
+      if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() )
+      {
+         throw new IllegalStateException("Please end the HttpSession via Seam.invalidateSession()");
+      }
+      
+      Context tempApplicationContext = new WebApplicationContext(servletContext);
+      Contexts.applicationContext.set(tempApplicationContext);
 
       //this is used just as a place to stick the ConversationManager
       Context tempEventContext = new MapContext(ScopeType.EVENT);
@@ -220,7 +252,7 @@ public class Lifecycle
 
       //this is used (a) for destroying session-scoped components
       //and is also used (b) by the ConversationManager
-      Context tempSessionContext = new WebSessionContext( session );
+      Context tempSessionContext = new WebSessionContext(session);
       Contexts.sessionContext.set(tempSessionContext);
 
       Set<String> conversationIds = ConversationEntries.instance().getConversationIds();
@@ -230,6 +262,8 @@ public class Lifecycle
          destroyConversationContext(session, conversationId);
       }
       
+      //we need some conversation-scope components for destroying
+      //the session context...
       Context tempConversationContext = new MapContext(ScopeType.CONVERSATION);
       Contexts.conversationContext.set(tempConversationContext);
 
@@ -243,7 +277,6 @@ public class Lifecycle
       Contexts.destroy(tempEventContext);
       Contexts.eventContext.set(null);
 
-      Contexts.conversationContext.set(null);
       Contexts.applicationContext.set(null);
    }
 
