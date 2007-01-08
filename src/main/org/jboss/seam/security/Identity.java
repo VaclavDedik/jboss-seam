@@ -6,6 +6,8 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.Serializable;
 import java.security.Principal;
 
+import javax.security.auth.Subject;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
@@ -17,11 +19,20 @@ import org.jboss.seam.contexts.Contexts;
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
 @Install(precedence = BUILT_IN, dependencies = "org.jboss.seam.securityManager")
-public abstract class Identity implements Principal, Serializable
+public class Identity implements Serializable
 {
    protected boolean authenticated;
 
    protected boolean valid;
+   
+   protected Principal principal;
+   
+   protected Subject subject;
+   
+   public Identity()
+   {
+      subject = new Subject();
+   }
 
    public static Identity instance()
    {
@@ -47,11 +58,15 @@ public abstract class Identity implements Principal, Serializable
                   Seam.getComponentName(Identity.class));
    }
 
-   public abstract Role[] getRoles();
-
-   public abstract Object getCredentials();
-
-   public abstract Object getPrincipal();
+   public Principal getPrincipal()
+   {
+      return principal;
+   }
+   
+   public Subject getSubject()
+   {
+      return subject;
+   }
 
    public final boolean isAuthenticated()
    {
@@ -77,11 +92,11 @@ public abstract class Identity implements Principal, Serializable
     */
    public boolean isUserInRole(String role)
    {
-      for (Role r : getRoles())
-      {
-         if (r.getName().equals(role))
-            return true;
-      }
+//      for (Role r : getRoles())
+//      {
+//         if (r.getName().equals(role))
+//            return true;
+//      }
       return false;
    }
 }

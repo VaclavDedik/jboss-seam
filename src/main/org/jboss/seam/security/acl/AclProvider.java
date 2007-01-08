@@ -51,7 +51,7 @@ public abstract class AclProvider
 
   protected Acl internalGetAcls(Object obj, Principal principal)
   {
-    Principal owner = Identity.instance();
+    Principal owner = Identity.instance().getPrincipal();
 
     Acl acl = new AclImpl(owner);
 

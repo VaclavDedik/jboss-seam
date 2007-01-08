@@ -162,9 +162,14 @@ public class SecurityConfiguration
          Document doc = xmlReader.read(config);
          Element env = doc.getRootElement();
 
-         loadSecurityConstraints(env.elements(SECURITY_CONSTRAINT));
-         loadSecurityRoles(env.element(SECURITY_ROLES));
-         loadLoginModules(env.element(LOGIN_MODULES));
+         if (env.elements(SECURITY_CONSTRAINT) != null)
+            loadSecurityConstraints(env.elements(SECURITY_CONSTRAINT));
+         
+         if (env.element(SECURITY_ROLES) != null)
+            loadSecurityRoles(env.element(SECURITY_ROLES));
+         
+         if (env.element(LOGIN_MODULES) != null)
+            loadLoginModules(env.element(LOGIN_MODULES));
 
          // loadLoginConfig(env.element(LOGIN_CONFIG));
       }
@@ -385,28 +390,30 @@ public class SecurityConfiguration
       loginModuleConfig = new LoginModuleConfiguration();
       List<AppConfigurationEntry> entries = new ArrayList<AppConfigurationEntry>();
 
-      for (Element loginModule : (List<Element>) loginModulesElement
-            .elements(LOGIN_MODULE))
+      List<Element> moduleElements = loginModulesElement.elements(LOGIN_MODULE);
+      if (moduleElements != null)
       {
-         Map<String, String> options = new HashMap<String, String>();
-
-         for (Element option : (List<Element>) loginModule.elements(LOGIN_MODULE_OPTION))
+         for (Element loginModule : moduleElements)
          {
-            options.put(option.attributeValue(LOGIN_MODULE_OPTION_NAME), 
-                        option.getTextTrim());
+            Map<String, String> options = new HashMap<String, String>();
+   
+            for (Element option : (List<Element>) loginModule.elements(LOGIN_MODULE_OPTION))
+            {
+               options.put(option.attributeValue(LOGIN_MODULE_OPTION_NAME), 
+                           option.getTextTrim());
+            }
+            
+            AppConfigurationEntry entry = new AppConfigurationEntry(loginModule
+                  .attributeValue(LOGIN_MODULE_CLASS), getControlFlag(loginModule
+                  .attributeValue(LOGIN_MODULE_FLAG)), options);
+            entries.add(entry);
          }
          
-         AppConfigurationEntry entry = new AppConfigurationEntry(loginModule
-               .attributeValue(LOGIN_MODULE_CLASS), getControlFlag(loginModule
-               .attributeValue(LOGIN_MODULE_FLAG)), options);
-         entries.add(entry);
-      }
-      
-      AppConfigurationEntry[] e = new AppConfigurationEntry[entries.size()];
-      entries.toArray(e);
-      
-      loginModuleConfig.addEntry(LOGIN_MODULE_NAME, e);
-      
+         AppConfigurationEntry[] e = new AppConfigurationEntry[entries.size()];
+         entries.toArray(e);
+         
+         loginModuleConfig.addEntry(LOGIN_MODULE_NAME, e);
+      }      
    }
 
    private AppConfigurationEntry.LoginModuleControlFlag getControlFlag(
