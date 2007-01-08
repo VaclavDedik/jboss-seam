@@ -45,7 +45,9 @@
   </roles>
   
   <loginmodules>
-    <loginmodule class="org.jboss.seam.example.seamspace.AuthenticatorAction" flag="required"/>
+    <loginmodule class="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
+      <option name="loginMethod">#{login.authenticate}</option>
+    </loginmodule>
   </loginmodules>
 
 </security-config>

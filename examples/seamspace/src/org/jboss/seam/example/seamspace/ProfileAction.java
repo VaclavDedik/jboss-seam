@@ -32,11 +32,11 @@ public class ProfileAction implements ProfileLocal
    @Factory("selectedMember")
    public void display()
    {      
-      if (name == null && Identity.isSet())
+      if (name == null && Identity.loggedIn())
       {
          selectedMember = (Member) entityManager.createQuery(
                "from Member where username = :username")
-               .setParameter("username", Identity.instance().getName())
+               .setParameter("username", Identity.instance().getPrincipal().getName())
                .getSingleResult();
       }
       else if (name != null)
