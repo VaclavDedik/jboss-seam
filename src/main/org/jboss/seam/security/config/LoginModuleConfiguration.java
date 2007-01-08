@@ -29,6 +29,6 @@ public class LoginModuleConfiguration extends Configuration
    @Override
    public void refresh()
    {
-
+      // do nothing
    }
 }

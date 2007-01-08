@@ -3,11 +3,17 @@ package org.jboss.seam.security;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.NameCallback;
+import javax.security.auth.callback.PasswordCallback;
+import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
@@ -129,12 +135,8 @@ public class SeamSecurityManager
       {
          return false;
       }
-
-      Identity ident = Identity.instance();
-      if (!ident.isValid())
-         return false;
-      
-      return ident.isUserInRole(name);
+     
+      return Identity.instance().isUserInRole(name);
    }
 
    /**
@@ -181,25 +183,24 @@ public class SeamSecurityManager
       if (!Contexts.isSessionContextActive())
          throw new IllegalStateException("No active session context found.");
 
-      Identity ident = Identity.isSet() ? Identity.instance() : null;
       WorkingMemory wm;
       
       if (Contexts.getSessionContext().isSet(SECURITY_CONTEXT_NAME))
          wm = (WorkingMemory) Contexts.getSessionContext().get(SECURITY_CONTEXT_NAME);
       else         
       {
-         if (ident != null && !ident.isValid())
-            throw new IllegalStateException("Authenticated Identity is not valid");
-
          wm = securityRules.newWorkingMemory();
          Contexts.getSessionContext().set(SECURITY_CONTEXT_NAME, wm);
       }
       
+      // TODO - Re the following; don't assert the Identity, instead assert its
+      // Principals/Roles ?
+      
       // Assert the identity into the working memory if one exists and it hasn't
       // been asserted before
-      if (ident != null && wm.getObjects(ident.getClass()).isEmpty())
+      if (wm.getObjects(Identity.instance().getClass()).isEmpty())
       {
-         wm.assertObject(ident);
+         wm.assertObject(Identity.instance());
 
          // TODO roles no longer come from the identity 
 //         for (Role r : ident.getRoles())
@@ -212,14 +213,38 @@ public class SeamSecurityManager
    }
    
    public LoginContext createLoginContext()
-       throws LoginException
+      throws LoginException
    {
-      if (!Identity.isSet())
-         Contexts.getSessionContext().set(Seam.getComponentName(Identity.class), 
-               new Identity());
+      return createLoginContext(null);
+   }
       
+   public LoginContext createLoginContext(CallbackHandler cbHandler)
+       throws LoginException
+   {     
       return new LoginContext(SecurityConfiguration.LOGIN_MODULE_NAME, 
-            Identity.instance().getSubject(), null,
+            Identity.instance().getSubject(), cbHandler,
             SecurityConfiguration.instance().getLoginModuleConfiguration());
+   }
+   
+   public CallbackHandler createCallbackHandler(final String username, 
+         final String password)
+   {
+      return new CallbackHandler() {
+         public void handle(Callback[] callbacks) 
+            throws IOException, UnsupportedCallbackException 
+         {
+            for (int i = 0; i < callbacks.length; i++)
+            {
+               if (callbacks[i] instanceof NameCallback)
+                  ((NameCallback) callbacks[i]).setName(username);
+               else if (callbacks[i] instanceof PasswordCallback)
+                  ((PasswordCallback) callbacks[i]).setPassword(password.toCharArray());
+               else
+                  throw new UnsupportedCallbackException(callbacks[i],
+                        "Unsupported callback");
+            }
+            
+         }
+      };
    }
 }

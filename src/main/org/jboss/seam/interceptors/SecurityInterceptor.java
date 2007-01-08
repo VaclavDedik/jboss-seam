@@ -33,10 +33,9 @@ public class SecurityInterceptor extends AbstractInterceptor
 
       if (r != null)
       {
-         Identity identity = Identity.instance();
-         if (!identity.isValid())
-            throw new SecurityException("Invalid identity");
-
+         if (!Identity.loggedIn())
+            throw new SecurityException("Not logged in");
+         
          if (!SeamSecurityManager.instance().evaluateExpression(r.value()))
             throw new SecurityException(String.format(
                   "Authorization check failed for expression [%s]", r.value()));

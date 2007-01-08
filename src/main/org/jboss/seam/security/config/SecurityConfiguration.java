@@ -4,6 +4,8 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
+import java.security.Principal;
+import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,8 +31,8 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SeamPermission;
+import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.util.Resources;
 
 /**
@@ -45,7 +47,7 @@ import org.jboss.seam.util.Resources;
 @Intercept(InterceptionType.NEVER)
 public class SecurityConfiguration
 {
-   public static final String LOGIN_MODULE_NAME = "default";
+   public static final String LOGIN_MODULE_NAME = "seam";
    
    private static final String SECURITY_CONFIG_FILENAME = "/META-INF/security-config.xml";
 
@@ -93,7 +95,8 @@ public class SecurityConfiguration
 
    private Set<SecurityConstraint> securityConstraints = new HashSet<SecurityConstraint>();
 
-   private Map<String, Role> securityRoles = new HashMap<String, Role>();
+   private Map<String, Principal> securityRoles = new HashMap<String, Principal>();
+   private Map<String, Permission[]> rolePermissions = new HashMap<String, Permission[]>();
 
    private String securityErrorPage = "/securityError.seam";
 
@@ -223,9 +226,9 @@ public class SecurityConfiguration
     * 
     * @return Set
     */
-   public Set<Role> getSecurityRoles()
+   public Set<Principal> getSecurityRoles()
    {
-      return new HashSet<Role>(securityRoles.values());
+      return new HashSet<Principal>(securityRoles.values());
    }
 
    /**
@@ -234,6 +237,7 @@ public class SecurityConfiguration
     * @param elements List
     * @throws SecurityConfigurationException
     */
+   @SuppressWarnings("unchecked")
    protected void loadSecurityConstraints(List elements)
          throws SecurityConfigException
    {
@@ -341,6 +345,7 @@ public class SecurityConfiguration
     * @param securityRoleElement Element
     * @throws SecurityConfigurationException
     */
+   @SuppressWarnings("unchecked")   
    protected void loadSecurityRoles(Element securityRoleElement)
          throws SecurityConfigException
    {
@@ -349,7 +354,7 @@ public class SecurityConfiguration
       for (Element role : (List<Element>) securityRoleElement
             .elements(SECURITY_ROLE))
       {
-         Role r = new Role(role.attributeValue("name"));
+         Principal r = new SimplePrincipal(role.attributeValue("name"));
 
          Set<String> mbrs = new HashSet<String>();
          members.put(r.getName(), mbrs);
@@ -367,9 +372,10 @@ public class SecurityConfiguration
             for (Element permission : (List<Element>) permissionsElement
                   .elements(SECURITY_PERMISSION))
             {
-               r.addPermission(new SeamPermission(permission
-                     .attributeValue("name"), permission
-                     .attributeValue("action")));
+//               r.addPermission(new SeamPermission(permission
+//                     .attributeValue("name"), permission
+//                     .attributeValue("action")));
+               // TODO - Store role permissions somewhere
             }
          }
 
@@ -378,12 +384,14 @@ public class SecurityConfiguration
 
       for (String roleName : members.keySet())
       {
-         Role r = securityRoles.get(roleName);
-         for (String member : members.get(roleName))
-            r.addMember(securityRoles.get(member));
+         Principal r = securityRoles.get(roleName);
+//         for (String member : members.get(roleName))
+//            r.addMember(securityRoles.get(member));
+         // TODO - Store role memberships somewhere
       }
    }
 
+   @SuppressWarnings("unchecked")
    protected void loadLoginModules(Element loginModulesElement)
          throws SecurityConfigException
    {

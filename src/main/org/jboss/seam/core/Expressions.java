@@ -101,6 +101,11 @@ public class Expressions
          {
             return getFacesMethodBinding(args).invoke( FacesContext.getCurrentInstance(), args );
          }
+         
+         public Object invoke(Class[] argTypes, Object... args)
+         {
+            return getFacesMethodBinding(argTypes, args).invoke(FacesContext.getCurrentInstance(), args);
+         }
 
          private javax.faces.el.MethodBinding getFacesMethodBinding(Object... args)
          {
@@ -113,7 +118,11 @@ public class Expressions
                }
                types[i] = args[i].getClass();
             }
-            
+            return getFacesMethodBinding(types, args);
+         }
+         
+         private javax.faces.el.MethodBinding getFacesMethodBinding(Class[] types, Object... args)
+         {
             if (cachedMethodBinding==null)
             {
                FacesContext context = FacesContext.getCurrentInstance();
@@ -121,7 +130,7 @@ public class Expressions
                      new UnifiedELMethodBinding(expression, types) : 
                      context.getApplication().createMethodBinding(expression, types);
             }
-            return cachedMethodBinding;
+            return cachedMethodBinding;            
          }
          
          @Override
@@ -147,6 +156,7 @@ public class Expressions
    {
       public String getExpressionString();
       public T invoke(Object... args);
+      public T invoke(Class[] argTypes, Object... args);
    }
    
    public static Expressions instance()
