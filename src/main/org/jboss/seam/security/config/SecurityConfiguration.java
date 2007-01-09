@@ -4,7 +4,6 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
-import java.security.Principal;
 import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.SeamPermission;
-import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.util.Resources;
 
 /**
@@ -62,16 +60,6 @@ public class SecurityConfiguration
    private static final String AUTH_CONSTRAINT = "auth-constraint";
    private static final String ROLE_NAME = "role-name";
 
-   // <login-config>
-   // private static final String LOGIN_CONFIG = "login-config";
-   // private static final String AUTH_METHOD = "auth-method";
-
-   // FORM
-   // private static final String FORM_LOGIN_CONFIG = "form-login-config";
-   // private static final String FORM_LOGIN_PAGE = "form-login-page";
-   // private static final String FORM_ERROR_PAGE = "form-error-page";
-   // private static final String FORM_DEFAULT_PAGE = "form-default-page";
-
    // roles
    private static final String SECURITY_ROLES = "roles";
    private static final String SECURITY_ROLE = "role";
@@ -94,17 +82,52 @@ public class SecurityConfiguration
    private static final String LM_FLAG_REQUISITE = "REQUISITE";
 
    private Set<SecurityConstraint> securityConstraints = new HashSet<SecurityConstraint>();
+   
+   public final class Role
+   {
+      private String name;
+      
+      /**
+       * Memberships in other roles
+       */
+      private Set<String> memberships = new HashSet<String>();
+      
+      /**
+       * Explicit permissions
+       */
+      private Permission[] permissions;
+      
+      public Role(String name)
+      {
+         this.name = name;
+      }
+      
+      public String getName()
+      {
+         return name;
+      }
+      
+      public Set<String> getMemberships()
+      {
+         return memberships;
+      }
+      
+      public Permission[] getPermissions()
+      {
+         return permissions;
+      }
+      
+      public void setPermissions(Permission[] permissions)
+      {
+         this.permissions = permissions;
+      }
+   }
 
-   private Map<String, Principal> securityRoles = new HashMap<String, Principal>();
-   private Map<String, Permission[]> rolePermissions = new HashMap<String, Permission[]>();
+   private Map<String, Role> securityRoles = new HashMap<String, Role>();
 
    private String securityErrorPage = "/securityError.seam";
 
    private LoginModuleConfiguration loginModuleConfig;
-
-   // private AuthMethod authMethod;
-
-   // private Handler authenticator;
 
    /**
     * Initialization
@@ -148,6 +171,11 @@ public class SecurityConfiguration
    {
       return securityErrorPage;
    }     
+   
+   public Role getSecurityRole(String name)
+   {
+      return securityRoles.get(name);
+   }
 
    /**
     * Loads the security configuration from the specified InputStream.
@@ -173,8 +201,6 @@ public class SecurityConfiguration
          
          if (env.element(LOGIN_MODULES) != null)
             loadLoginModules(env.element(LOGIN_MODULES));
-
-         // loadLoginConfig(env.element(LOGIN_CONFIG));
       }
       catch (Exception ex)
       {
@@ -204,31 +230,6 @@ public class SecurityConfiguration
    public Configuration getLoginModuleConfiguration()
    {
       return loginModuleConfig;
-   }
-
-   /**
-    * 
-    * @return AuthMethod
-    */
-   // public AuthMethod getAuthMethod()
-   // {
-   // return authMethod;
-   // }
-   /**
-    * 
-    * @return Authenticator
-    */
-   // public Handler getAuthenticator()
-   // {
-   // return authenticator;
-   // }
-   /**
-    * 
-    * @return Set
-    */
-   public Set<Principal> getSecurityRoles()
-   {
-      return new HashSet<Principal>(securityRoles.values());
    }
 
    /**
@@ -282,62 +283,6 @@ public class SecurityConfiguration
                "Error loading security constraints", ex);
       }
    }
-
-   /**
-    * Load login configuration
-    * 
-    * @param loginConfigElement Element
-    * @throws SecurityConfigurationException
-    */
-   // private void loadLoginConfig(Element loginConfigElement)
-   // throws SecurityConfigException
-   // {
-   // String authMethodText =
-   // loginConfigElement.element(AUTH_METHOD).getTextTrim();
-   // try
-   // {
-   // authMethod = AuthMethod.valueOf(authMethodText);
-   // }
-   // catch (Exception ex)
-   // {
-   // StringBuilder sb = new StringBuilder();
-   // for (AuthMethod m : AuthMethod.values())
-   // {
-   // if (sb.length() > 0)
-   // sb.append(',');
-   // sb.append(m.toString());
-   // }
-   //
-   // throw new SecurityConfigException(
-   // String.format("Invalid auth-method [%s]. Valid options are: %s",
-   // authMethodText, sb.toString()));
-   // }
-   //
-   // switch (authMethod)
-   // {
-   // case BASIC:
-   // authenticator = new BasicHandler();
-   // break;
-   // case FORM:
-   // Element formConfigElement = loginConfigElement.element(FORM_LOGIN_CONFIG);
-   // String loginPage = formConfigElement.elementText(FORM_LOGIN_PAGE);
-   // String errorPage = formConfigElement.elementText(FORM_ERROR_PAGE);
-   // String defaultPage = formConfigElement.elementText(FORM_DEFAULT_PAGE);
-   // authenticator = new FormHandler(loginPage, errorPage, defaultPage);
-   // break;
-   // case SEAM:
-   // Element seamConfigElement = loginConfigElement.element(SEAM_LOGIN_CONFIG);
-   // loginPage = seamConfigElement.elementText(SEAM_LOGIN_PAGE);
-   // authenticator = new SeamAuthenticator(loginPage);
-   // break;
-   // }
-   //
-   // if (authenticator == null)
-   // throw new SecurityConfigException(
-   // String.format("No valid authenticator for auth-method [%s]",
-   // authMethod.toString()));
-   //
-   // }
    
    /**
     * Load the security roles
@@ -349,45 +294,33 @@ public class SecurityConfiguration
    protected void loadSecurityRoles(Element securityRoleElement)
          throws SecurityConfigException
    {
-      Map<String, Set<String>> members = new HashMap<String, Set<String>>();
-
-      for (Element role : (List<Element>) securityRoleElement
-            .elements(SECURITY_ROLE))
+      for (Element role : (List<Element>) securityRoleElement.elements(SECURITY_ROLE))
       {
-         Principal r = new SimplePrincipal(role.attributeValue("name"));
-
-         Set<String> mbrs = new HashSet<String>();
-         members.put(r.getName(), mbrs);
+         Role r = new Role(role.attributeValue("name"));
 
          Element m = role.element(SECURITY_MEMBERSHIPS);
          if (m != null)
          {
             for (String member : m.getTextTrim().split("[,]"))
-               mbrs.add(member);
-         }
+               r.getMemberships().add(member);
+         }                  
 
          Element permissionsElement = role.element(SECURITY_PERMISSIONS);
          if (permissionsElement != null)
          {
-            for (Element permission : (List<Element>) permissionsElement
-                  .elements(SECURITY_PERMISSION))
+            List<Element> permissions = (List<Element>) 
+                                permissionsElement.elements(SECURITY_PERMISSION);
+            r.setPermissions(new Permission[permissions.size()]);
+            
+            for (int i = 0; i < permissions.size(); i++)
             {
-//               r.addPermission(new SeamPermission(permission
-//                     .attributeValue("name"), permission
-//                     .attributeValue("action")));
-               // TODO - Store role permissions somewhere
+               r.getPermissions()[i] = new SeamPermission(
+                     permissions.get(i).attributeValue("name"), 
+                     permissions.get(i).attributeValue("action"));
             }
          }
 
          securityRoles.put(r.getName(), r);
-      }
-
-      for (String roleName : members.keySet())
-      {
-         Principal r = securityRoles.get(roleName);
-//         for (String member : members.get(roleName))
-//            r.addMember(securityRoles.get(member));
-         // TODO - Store role memberships somewhere
       }
    }
 
