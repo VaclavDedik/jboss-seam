@@ -16,7 +16,7 @@
       <div id="contentSide">
         <div class="advertising"></div>
         
-        <h:form rendered="#{login.loggedIn == false}">
+        <h:form rendered="#{identity.loggedIn == false}">
           <div class="memberLogin">
             <div class="loginHeader">Member Login</div>
             
@@ -45,6 +45,8 @@
             <br class="clear"/>
           
           </div>
+          
+          <span>Tip: You can log in using <b>demo/demo</b> as the username/password</span>
         </h:form>
       </div>
      

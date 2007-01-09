@@ -32,7 +32,7 @@ public class ProfileAction implements ProfileLocal
    @Factory("selectedMember")
    public void display()
    {      
-      if (name == null && Identity.loggedIn())
+      if (name == null && Identity.instance().isLoggedIn())
       {
          selectedMember = (Member) entityManager.createQuery(
                "from Member where username = :username")
