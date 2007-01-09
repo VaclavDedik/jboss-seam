@@ -24,4 +24,13 @@
     <module>
         <java>el-ri.jar</java>
     </module>
+    <module>
+        <java>jboss-cache-jdk50.jar</java>
+    </module>
+    <module>
+        <java>jboss-aop-jdk50.jar</java>
+    </module>
+    <module>
+        <java>jgroups.jar</java>
+    </module>
 </application>

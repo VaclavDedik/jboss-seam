@@ -4,36 +4,39 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"
                 template="#{theme.template}">
 
 <ui:define name="content">
-   <h:dataTable value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
-      <h:column>
-         <div class="blogEntry">
-            <h3>#{blogEntry.title}</h3>
-            <div>
-               <h:outputText escape="false" 
-                     value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
+   <s:cache key="index" region="pageFragments">
+      <h:dataTable value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
+         <h:column>
+            <div class="blogEntry">
+               <h3>#{blogEntry.title}</h3>
+               <div>
+                  <h:outputText escape="false" 
+                        value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
+               </div>
+               <p>
+                  <h:outputLink value="entry.xhtml" rendered="#{blogEntry.excerpt!=null}">
+                     <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+                     Read more...
+                  </h:outputLink>
+               </p>
+               <p>
+                  [Posted on&#160;
+		          <h:outputText value="#{blogEntry.date}">
+		              <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+		          </h:outputText>]
+                  &#160;
+                  <h:outputLink value="entry.xhtml">[Link]
+                     <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+                  </h:outputLink>
+               </p>
             </div>
-            <p>
-               <h:outputLink value="entry.xhtml" rendered="#{blogEntry.excerpt!=null}">
-                  <f:param name="blogEntryId" value="#{blogEntry.id}"/>
-                  Read more...
-               </h:outputLink>
-            </p>
-            <p>
-               [Posted on&#160;
-		       <h:outputText value="#{blogEntry.date}">
-		           <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
-		       </h:outputText>]
-		       &#160;
-               <h:outputLink value="entry.xhtml">[Link]
-                  <f:param name="blogEntryId" value="#{blogEntry.id}"/>
-               </h:outputLink>
-            </p>
-         </div>
-      </h:column>
-   </h:dataTable>
+         </h:column>
+      </h:dataTable>
+   </s:cache>
 </ui:define>
 
 </ui:composition>

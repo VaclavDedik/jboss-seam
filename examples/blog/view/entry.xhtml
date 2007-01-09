@@ -4,21 +4,24 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"
                 template="#{theme.template}">
 
 <ui:define name="content">
-   <div class="blogEntry">
-      <h3>#{blogEntry.title}</h3>
-      <div>
-         <h:outputText escape="false" value="#{blogEntry.body}"/>
+   <s:cache key="entry-#{blogEntry.id}" region="pageFragments">
+      <div class="blogEntry">
+         <h3>#{blogEntry.title}</h3>
+         <div>
+            <h:outputText escape="false" value="#{blogEntry.body}"/>
+         </div>
+         <p>
+            [Posted on&#160;
+            <h:outputText value="#{blogEntry.date}">
+               <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+            </h:outputText>]
+         </p>
       </div>
-      <p>
-         [Posted on&#160;
-         <h:outputText value="#{blogEntry.date}">
-            <f:convertDateTime timezone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
-         </h:outputText>]
-      </p>
-   </div>
+   </s:cache>
 </ui:define>
 
 </ui:composition>

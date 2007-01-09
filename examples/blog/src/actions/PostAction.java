@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 
+import org.jboss.cache.CacheException;
+import org.jboss.cache.aop.PojoCache;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -29,11 +31,14 @@ public class PostAction
    
    @In(required=false) BlogEntry blogEntry;
    
-   public void post() throws IOException
+   @In PojoCache pojoCache;
+   
+   public void post() throws IOException, CacheException
    {
       blogEntry.setDate( new Date() );
       blog.getBlogEntries().add(blogEntry);
       entityManager.persist(blogEntry);
+      pojoCache.remove("pageFragments", "index");
    }
    
    public void invalid()
