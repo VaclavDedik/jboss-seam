@@ -9,6 +9,58 @@
   </para>
 
   <sect1>
+    <title>Overview</title>
+    
+    <para>
+      The Seam security API provides the following features for securing a Seam application.
+    </para>
+    
+    <sect2>
+      <title>JAAS-based Authentication</title>
+      
+      <para>
+        The authentication component of the security API is based on JAAS, allowing authentication to be 
+        carried out against one or more configurable login modules.  The security API provides a login module 
+        that delegates authentication to a Seam component, making it easy to authenticate a user using the
+        application's domain objects.
+      </para>
+    </sect2>
+    
+    <sect2>
+      <title>Page Security</title>
+      
+      <para>
+        This feature allows direct access to page resources to be controlled based on the set of roles granted
+        to the requesting user.  Using a servlet filter, each request to a protected resource is validated to
+        ensure that the user has the necessary roles to access the resource.
+      </para>
+    </sect2>
+    
+    <sect2>
+      <title>EL Integration</title>
+      
+      <para>
+        The <literal>s:hasRole()</literal> and <literal>s:hasPermission()</literal> EL functions can be used
+        within the pages of an application to control which parts of a page are rendered based on the security
+        level of the user.  On the model side, component classes and/or their methods can also be annotated with
+        the very same EL expressions to restrict the execution of methods based on the current security context.
+      </para>
+    </sect2>    
+    
+    <sect2>
+      <title>Rule-based Authorization</title>
+      
+      <para>
+        By integrating with JBoss Rules, the security API is able to make a security decision by evaluating
+        a set of user-defined security rules defined at deployment time.  This feature allows any security
+        checks to carry out a decision-making process which can be as simple or complex as required, while 
+        taking into account the state of any objects asserted into the security context for the check.
+      </para>
+    </sect2>
+    
+  </sect1>
+
+  <sect1>
     <title>Configuration</title>
 
     <para>
@@ -345,7 +397,7 @@
 	      <para>
 	        So what happens when a user tries to access a page that they don't have the necessary rights for? 
 	        By default, the security filter redirects these requests to the <literal>/securityError.seam</literal>
-	        page.  This can be configured though by overriding the <literal>securityErrorPage</literal> property
+	        page.  This page can be overridden by setting the <literal>securityErrorPage</literal> property
 	        of the <literal>SecurityConfiguration</literal> component in <literal>components.xml</literal>:
 	      </para>
 	      
@@ -392,16 +444,10 @@
       
       <para>
         This file also goes into the Seam application's <literal>META-INF</literal> directory.  It contains
-        all of the security rules 
+        all the rules that make up an application's authorization policy, and is described further down in the
+        Authorization section.
       </para>
       
-      <sect3>
-        <title>Establishing a default security policy</title>
-        
-        <para>
-        
-        </para>
-      </sect3>
     </sect2>    
 
   </sect1>
@@ -410,8 +456,210 @@
     <title>Authentication</title>
 
     <para>
-
+      It is a relatively straight forward process to set up authentication.  The first step is to configure
+      the login modules that are to be used within the project by adding a <literal>loginmodules</literal>
+      section to <literal>security-config.xml</literal>: 
     </para>
+    
+    <programlisting>
+      <![CDATA[
+  <loginmodules>
+    <loginmodule class="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
+      <option name="authMethod">#{login.authenticate}</option>
+    </loginmodule>
+  </loginmodules>      
+      ]]>
+    </programlisting>
+    
+    <para>
+      The login module configuration should look familiar if you've ever used JAAS before.  Each login module
+      should have its own <literal>loginmodule</literal> entry, specifying the fully qualified class name of 
+      the login module class, plus the flag for the login module.  It is also possible to configure additional 
+      options for each login module, by including <literal>option</literal> entries as children of the 
+      <literal>loginmodule</literal> entry. Flag values are found in the JSE API documentation for 
+      <literal>javax.security.auth.login.Configuration</literal>, but are repeated here for convenience:
+    </para>
+    
+    <table>
+      <title>JAAS Configuration Flags</title>
+
+      <tgroup cols="2">
+        <colspec colnum="1" colwidth="1*" />
+        <colspec colnum="2" colwidth="1*" />
+
+        <thead>
+          <row>
+            <entry align="center">
+              <para>Flag</para>
+            </entry>
+            <entry align="center">
+              <para>Description</para>
+            </entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>
+              <para>Required</para>
+            </entry>
+            <entry>
+              <para>
+                The LoginModule is required to succeed. If it succeeds or fails, authentication still 
+                continues to proceed down the LoginModule list.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Requisite</para>
+            </entry>
+            <entry>
+              <para>
+                The LoginModule is required to succeed.  If it succeeds, authentication continues down the
+                LoginModule list.  If it fails, control immediately returns to the application (authentication 
+                does not proceed down the LoginModule list).
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Sufficient</para>
+            </entry>
+            <entry>
+              <para>
+	              The LoginModule is not required to succeed.  If it does succeed, control immediately
+                returns to the application (authentication does not proceed down the LoginModule list).
+                If it fails, authentication continues down the LoginModule list.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Optional</para>
+            </entry>
+            <entry>
+              <para>
+                The LoginModule is not required to succeed.  If it succeeds or fails, authentication still 
+                continues to proceed down the LoginModule list.
+              </para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    
+    
+        
+    <sect2>
+      <title>Using <literal>SeamLoginModule</literal> to authenticate</title>
+      
+      <para>
+        One of the simplest ways to authenticate a user is to delegate the authentication to a Seam component.
+        There is a special login module, <literal>SeamLoginModule</literal> that allows this.  Configure this
+        login module in <literal>security-config.xml</literal>, and in its <literal>authMethod</literal> 
+        option specify an EL method expression.  By default the method that you specify should accept the 
+        parameters [<literal>java.lang.String, java.lang.String, java.util.Set</literal>], however this can be 
+        customised (see section further down).  The third <literal>java.util.Set</literal> parameter is a set
+        to which the authentication method should add any roles that the authenticating user is a member of. 
+        Here's a complete example:
+      </para>
+           
+      <programlisting>
+        <![CDATA[
+@Name("authenticator")
+public class AuthenticatorAction 
+{
+  @In(create=true)
+    private EntityManager entityManager;
+
+  public boolean authenticate(String username, String password, Set<String> roles) 
+  {
+    try
+    {            
+       Member member = (Member) entityManager.createQuery(
+          "from Member where username = :username and password = :password")
+          .setParameter("username", username)
+          .setParameter("password", password)
+          .getSingleResult();
+  
+       for (MemberRole mr : member.getRoles())
+          roles.add(mr.getName());
+       
+       return true;
+    }
+    catch (NoResultException ex)
+    {
+       log.warn("Invalid username/password");
+       return false;
+    }      
+  }   
+}        
+        ]]>
+      </programlisting>
+      
+      <para>
+        Based on the above example, the EL expression that would need to be specified in the 
+        <literal>authMethod</literal> option for the login module would be 
+        <literal>#{authenticator.authenticate}</literal>.
+      </para>
+    </sect2>
+    
+    <sect2>
+      <title>Logging in the user</title>
+      
+      <para>
+        Now that the login module has been configured, and an authentication method written, all that is left
+        is to perform a JAAS login.  This is the easiest step, as shown by the following example:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+   public void login()
+   {
+      try
+      {
+         CallbackHandler cbh = SeamSecurityManager.instance().createCallbackHandler(
+               member.getUsername(), member.getPassword());
+         
+         LoginContext lc = SeamSecurityManager.instance().createLoginContext(cbh);
+         lc.login();
+      }
+      catch (LoginException ex)
+      {
+         FacesMessages.instance().add("Invalid login");
+      }
+   }        
+        ]]>
+      </programlisting>
+      
+      <para>
+        The first thing that happens in the above code is the creation of a <literal>CallbackHandler</literal>
+        which is going to be responsible for providing the user's credentials (their username and password) to
+        the login module.  The next step is to create a <literal>LoginContext</literal>.  There is a factory
+        method in <literal>SeamSecurityManager</literal> for creating this, as the login context doesn't
+        use the standard configuration (it uses an application-specific configuration).  The last step is the
+        call to <literal>lc.login()</literal> which calls each of the configured login modules in turn, 
+        passing in the callback handler to each one and performing an authentication based on the configured
+        login module flags.        
+      </para>
+      
+      <para>
+        Once the user is successfully authenticated, calls to <literal>Identity.loggedIn()</literal> will 
+        return true for the duration of the session.
+      </para>
+    </sect2>
+    
+    <sect2>
+      <title>Customising the Authentication process</title>
+      
+      <para>
+        In some situations it may be necessary to perform authentication that isn't based on a simple
+        username/password combination.  The good news is that this is not very difficult, however it requires a
+        few additional steps.  This section will walk through an example where authentication requires a
+        Company ID in addition to a username and password.
+      </para>
+    </sect2>
   </sect1>
 
   <sect1>
@@ -420,6 +668,15 @@
     <para>
 
     </para>
+
+    <sect2>
+      <title>Establishing a default security policy</title>
+      
+      <para>
+      
+      </para>
+    </sect2>
+
   </sect1>
 
 </chapter>
