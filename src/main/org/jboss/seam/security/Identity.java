@@ -51,9 +51,9 @@ public class Identity implements Serializable
     * If there is a principal set, then the user is logged in.
     * 
     */
-   public static boolean loggedIn()
+   public boolean isLoggedIn()
    {
-      return instance().getPrincipal() != null;
+      return getPrincipal() != null;
    }
 
    public Principal getPrincipal()

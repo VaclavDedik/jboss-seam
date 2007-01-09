@@ -33,7 +33,7 @@ public class SecurityInterceptor extends AbstractInterceptor
 
       if (r != null)
       {
-         if (!Identity.loggedIn())
+         if (!Identity.instance().isLoggedIn())
             throw new SecurityException("Not logged in");
          
          if (!SeamSecurityManager.instance().evaluateExpression(r.value()))

@@ -57,4 +57,5 @@
   <factory scope="stateless" auto-create="true" name="topicSession" value="#{org.jboss.seam.jms.topicSession}"/>
 
   <factory scope="stateless" auto-create="true" name="mailSession" value="#{org.jboss.seam.mail.mailSession}"/>
+  <factory scope="stateless" auto-create="true" name="identity" value="#{org.jboss.seam.security.identity}"/>
 </components>
