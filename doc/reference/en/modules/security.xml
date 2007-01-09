@@ -577,14 +577,14 @@ public class AuthenticatorAction
   {
     try
     {            
-       Member member = (Member) entityManager.createQuery(
-          "from Member where username = :username and password = :password")
+       User user = (User) entityManager.createQuery(
+          "from User where username = :username and password = :password")
           .setParameter("username", username)
           .setParameter("password", password)
           .getSingleResult();
   
-       for (MemberRole mr : member.getRoles())
-          roles.add(mr.getName());
+       for (UserRole r : user.getRoles())
+          roles.add(r.getName());
        
        return true;
     }
@@ -620,7 +620,7 @@ public class AuthenticatorAction
       try
       {
          CallbackHandler cbh = SeamSecurityManager.instance().createCallbackHandler(
-               member.getUsername(), member.getPassword());
+               user.getUsername(), user.getPassword());
          
          LoginContext lc = SeamSecurityManager.instance().createLoginContext(cbh);
          lc.login();
@@ -636,10 +636,16 @@ public class AuthenticatorAction
       <para>
         The first thing that happens in the above code is the creation of a <literal>CallbackHandler</literal>
         which is going to be responsible for providing the user's credentials (their username and password) to
-        the login module.  The next step is to create a <literal>LoginContext</literal>.  There is a factory
+        the login module.  The <literal>CallbackHandler</literal> is created by a convenience method in
+        <literal>SeamSecurityManager</literal>, and knows how to handle <literal>NameCallback</literal> and
+        <literal>PasswordCallback</literal> callback types.
+      </para>
+        
+      <para>
+        The next thing that happens is the creation of a <literal>LoginContext</literal>.  There is a factory
         method in <literal>SeamSecurityManager</literal> for creating this, as the login context doesn't
-        use the standard configuration (it uses an application-specific configuration).  The last step is the
-        call to <literal>lc.login()</literal> which calls each of the configured login modules in turn, 
+        use the standard configuration (it uses an application-specific configuration).  The final step is the
+        call to <literal>lc.login()</literal>, which calls each of the configured login modules in turn, 
         passing in the callback handler to each one and performing an authentication based on the configured
         login module flags.        
       </para>
@@ -658,6 +664,180 @@ public class AuthenticatorAction
         username/password combination.  The good news is that this is not very difficult, however it requires a
         few additional steps.  This section will walk through an example where authentication requires a
         Company ID in addition to a username and password.
+      </para>
+      
+      <para>
+        The first step is to subclass the <literal>SeamLoginModule</literal> class and override the 
+        <literal>getLoginParams()</literal> method to return the appropriate parameters for the custom
+        authentication method.
+      </para>      
+      
+      <programlisting>
+        <![CDATA[
+public class CustomLoginModule extends SeamLoginModule 
+{           
+   @Override public Object[] getLoginParams()
+      throws Exception
+   {
+      CompanyCallback cbCompany = new CompanyCallback("Enter company ID");
+      NameCallback cbName = new NameCallback("Enter username");
+      PasswordCallback cbPassword = new PasswordCallback("Enter password", false);
+
+      // Get the username and password from the callback handler
+      callbackHandler.handle(new Callback[] { cbCompany, cbName, cbPassword });
+      username = cbName.getName();
+      
+      return new Object[] { cbCompany.getCompanyId(), username, 
+                            new String(cbPassword.getPassword()), roles };
+   }        
+}
+        ]]>
+      </programlisting>
+      
+      <para>
+        Since <literal>CompanyCallback</literal> is a custom callback it needs to be created also:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+public class CompanyCallback implements Callback, Serializable {
+  private String prompt;
+  private int companyId;
+  public CompanyCallback(String prompt) {
+    if (prompt == null || "".equals(prompt))
+      throw new IllegalArgumentException();
+    this.prompt = prompt;
+  }        
+  public String getPrompt() {
+    return prompt;
+  }
+  public int getCompanyId() {
+    return companyId;
+  }
+  public void setCompanyId(int companyId) {
+    this.companyId = companyId;
+  }
+}  
+        ]]>
+      </programlisting>
+      
+      <para>
+        So far so good, now it's time to configure the custom login module in <literal>security-config.xml</literal>:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+  <loginmodules>
+    <loginmodule class="com.acme.security.CustomLoginModule" flag="required">
+      <option name="paramTypes">java.lang.Integer,java.lang.String,java.lang.String,java.util.Set</option>
+      <option name="authMethod">#{authenticator.authenticate}</option>      
+    </loginmodule>
+  </loginmodules>         
+        ]]>
+      </programlisting>
+      
+      <para>
+        The important thing to note above is that the <literal>paramTypes</literal> option is specified, based
+        on the customised parameters that are going to be sent to the authentication method.  Now that they
+        have been configured, it is time to write the authentication method:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+@Name("authenticator")       
+public class CustomAuthenticator {
+  @In(create=true)
+  private EntityManager entityManager;
+
+  public boolean authenticate(int companyId, String username, String password, Set<String> roles) 
+  {
+    try
+    {            
+       User user = (User) entityManager.createQuery(
+          "from User where companyId = :companyId and username = :username and password = :password")
+          .setParameter("companyId", companyId)
+          .setParameter("username", username)
+          .setParameter("password", password)          
+          .getSingleResult();
+  
+       for (UserRole r : user.getRoles())
+          roles.add(r.getName());
+       
+       return true;
+    }
+    catch (NoResultException ex)
+    {
+       log.warn("Invalid username/password");
+       return false;
+    }      
+  }  
+}
+        ]]>
+      </programlisting>
+      
+      <para>
+        As can be seen in the above example, the customised authentication method contains the additional 
+        <literal>companyId</literal> parameter.  The last thing to do is write a login method:
+      </para>
+      
+      <programlisting>
+        <![CDATA[
+@Name("loginAction")
+public class LoginAction implements LoginLocal {
+   @In(create = true) EntityManager entityManager;
+   @In(required = false) User user;
+
+   public void login()
+   {
+      try
+      {
+         CallbackHandler cbh = createCallbackHandler(user.getCompanyId(), 
+               user.getUsername(), user.getPassword());
+         
+         LoginContext lc = SeamSecurityManager.instance().createLoginContext(cbh);
+         lc.login();
+      }
+      catch (LoginException ex)
+      {
+         FacesMessages.instance().add("Invalid login");
+      }
+   }  
+        
+   private CallbackHandler createCallbackHandler(final int companyId, 
+         final String username, final String password)
+   {
+      return new CallbackHandler() {
+         public void handle(Callback[] callbacks) 
+            throws IOException, UnsupportedCallbackException 
+         {
+            for (int i = 0; i < callbacks.length; i++)
+            {
+               if (callbacks[i] instanceof CompanyCallback)
+                  ((CompanyCallback) callbacks[i]).setCompanyId(companyId);
+               else if (callbacks[i] instanceof NameCallback)
+                  ((NameCallback) callbacks[i]).setName(username);
+               else if (callbacks[i] instanceof PasswordCallback)
+                  ((PasswordCallback) callbacks[i]).setPassword(password.toCharArray());
+               else
+                  throw new UnsupportedCallbackException(callbacks[i],
+                        "Unsupported callback");
+            }
+            
+         }
+      };
+   }        
+        ]]>
+      </programlisting>
+      
+      <para>
+        The most significant thing to note in the above code is the <literal>createCallbackHandler()</literal>
+        method.  It returns a callback handler that knows how to handle a <literal>CompanyCallback</literal>, 
+        in addition to the standard <literal>NameCallback</literal> and <literal>PasswordCallback</literal>.
+      </para>
+      
+      <para>
+        That wraps up the creation of a customised authentication process.  Based on the above steps, it should
+        be possible to create a customised authentication based on any combination of credentials.
       </para>
     </sect2>
   </sect1>
