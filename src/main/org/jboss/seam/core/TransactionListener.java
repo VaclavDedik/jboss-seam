@@ -19,6 +19,14 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
+/**
+ * Temporary solution for getting JTA transaction lifecycle
+ * callbacks. Once all appservers support the new EE5 APIs,
+ * this will be removed.
+ * 
+ * @author Gavin King
+ *
+ */
 @Stateful
 @Scope(ScopeType.EVENT)
 @Name("org.jboss.seam.core.transactionListener")
