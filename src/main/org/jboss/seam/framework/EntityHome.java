@@ -1,8 +1,10 @@
 package org.jboss.seam.framework;
+
 import javax.persistence.EntityManager;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.persistence.PersistenceProvider;
+
 public class EntityHome<E> extends Home<E>
 {
    private static final long serialVersionUID = -3140094990727574632L;

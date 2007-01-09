@@ -1,8 +1,10 @@
 package org.jboss.seam.framework;
+
 import java.io.Serializable;
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
+
 public class HibernateEntityHome<E> extends Home<E>
 {
    private static final long serialVersionUID = 6071072408602519385L;
