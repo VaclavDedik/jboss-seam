@@ -44,8 +44,6 @@ public class LoginAction implements LoginLocal
    @In(create=true)
    private EntityManager entityManager;   
    
-   private boolean loggedIn;
-
    public void login()
    {
       try
@@ -55,8 +53,6 @@ public class LoginAction implements LoginLocal
          
          LoginContext lc = SeamSecurityManager.instance().createLoginContext(cbh);
          lc.login();
-         
-         loggedIn = true;
       }
       catch (LoginException ex)
       {
@@ -88,13 +84,7 @@ public class LoginAction implements LoginLocal
 
    public void logout() 
    {
-      loggedIn = false;
       Seam.invalidateSession();
-   }
-
-   public boolean isLoggedIn()
-   {
-      return loggedIn;
    }
 
    @Remove
