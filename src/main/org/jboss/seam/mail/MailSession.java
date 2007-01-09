@@ -18,7 +18,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.core.AbstractMutable;
-import org.jboss.seam.core.ManagedHibernateSession;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -26,10 +25,10 @@ import org.jboss.seam.log.Logging;
 @Install(value=false, precedence=BUILT_IN)
 @Scope(APPLICATION)
 @Intercept(InterceptionType.NEVER)
-public abstract class MailSession extends AbstractMutable implements Serializable
+public class MailSession extends AbstractMutable implements Serializable
 {
    
-   private static final LogProvider log = Logging.getLogProvider(ManagedHibernateSession.class);
+   private static final LogProvider log = Logging.getLogProvider(MailSession.class);
 
 	private Session session;
 
@@ -48,6 +47,8 @@ public abstract class MailSession extends AbstractMutable implements Serializabl
    @Create
 	public void create()
 	{
+      log.info("connecting to mail server: " + getHost() + ':' + getPort());
+      
 		Properties properties = new Properties();
 
 		// Enable debugging if set
@@ -89,6 +90,8 @@ public abstract class MailSession extends AbstractMutable implements Serializabl
 
 		session = javax.mail.Session.getInstance(properties, authenticator);
 		session.setDebug( isDebug() );
+      
+      log.info("connected to mail server");
 	}
 
 	public String getPassword()
