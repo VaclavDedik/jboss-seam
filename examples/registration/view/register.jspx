@@ -32,7 +32,7 @@
           </s:validateAll>
         </table>
         <h:messages/>
-        <h:commandButton type="submit" value="Register" action="#{register.register}"/>
+        <h:commandButton value="Register" action="#{register.register}"/>
       </h:form>
     </f:view>
   </body>
