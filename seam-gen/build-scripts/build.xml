@@ -9,11 +9,12 @@
 	<property name="project.name" value="@projectName@"/>
 	<property name="dist.dir" value="dist" />
 	<property name="src.java.dir" value="src" />
+	<property name="src.test.dir" value="test" />
 	<property name="lib.dir" value="lib" />
 	<property name="ear.dir" value="exploded-archives/${project.name}.ear" />
 	<property name="jar.dir" value="exploded-archives/${project.name}.jar" />
 	<property name="war.dir" value="exploded-archives/${project.name}.war" />
-	<property name="test.dir" value="build/test" />
+	<property name="test.dir" value="test-build" />
 	<property name="embedded-ejb3.dir" value="${basedir}/embedded-ejb/conf" />
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
 	<property name="ear.deploy.dir" value="${deploy.dir}/${project.name}.ear" />
@@ -207,24 +208,25 @@
 
 	<target name="test" depends="jar,war,ear" description="Run the tests">
 
-		<taskdef resource="testngtasks" classpath="${testng.jar}" />
+        <mkdir dir="${test.dir}"/>
+        <javac classpathref="build.classpath"
+                        destdir="${test.dir}"
+                          debug="${javac.debug}"
+                    deprecation="${javac.deprecation}"
+                        nowarn="on">
+                <src path="${src.java.dir}" />
+                <src path="${src.test.dir}" />
+        </javac>
 		<copy todir="${test.dir}">
 			<fileset dir="${basedir}/resources" />
-			<fileset dir="${jar.dir}" />
 		</copy>
-
-		<copy todir="${test.dir}/WEB-INF">
-			<fileset dir="${war.dir}/WEB-INF">
-				<exclude name="**/*.jar" />
-			</fileset>
-		</copy>
-
 		<copy todir="${test.dir}" flatten="true">
-			<fileset dir="${src.java.dir}">
+			<fileset dir="${src.test.dir}">
 				<include name="**/*Test.xml" />
 			</fileset>
 		</copy>
-
+		
+		<taskdef resource="testngtasks" classpath="${testng.jar}" />
 		<testng outputdir="${basedir}/testng-report">
 			<classpath path="${test.dir}" />
 			<classpath path="${embedded-ejb3.dir}" />

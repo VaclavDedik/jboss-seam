@@ -385,8 +385,8 @@
         <property name="bean.file" value="${project.home}/src/${action.dir}/${bean.name}.java"/>
         <property name="interface.file" value="${project.home}/src/${action.dir}/${interface.name}.java"/>
         <property name="page.file" value="${project.home}/view/${page.name}.xhtml"/>
-        <property name="test.file" value="${project.home}/src/${test.dir}/${interface.name}Test.java"/>
-        <property name="testng.file" value="${project.home}/src/${test.dir}/${interface.name}Test.xml"/>
+        <property name="test.file" value="${project.home}/test/${test.dir}/${interface.name}Test.java"/>
+        <property name="testng.file" value="${project.home}/test/${test.dir}/${interface.name}Test.xml"/>
 
     </target>
     
@@ -519,6 +519,7 @@
         </copy>
         
         <mkdir dir="${project.home}/src"/>
+    	<mkdir dir="${project.home}/test"/>
 
         <mkdir dir="${project.home}/nbproject"/>
         <copy todir="${project.home}/nbproject">
@@ -697,10 +698,10 @@
         <copy file="src/Action.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/ActionTest.java" tofile="${test.file}">
+        <copy file="test/ActionTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/testng.xml" tofile="${testng.file}">
+        <copy file="test/testng.xml" tofile="${testng.file}">
             <filterset refid="filters"/>
         </copy>
         <copy file="view/action.xhtml" tofile="${page.file}">
@@ -717,13 +718,13 @@
         <copy file="src/FormAction.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/FormTest.java" tofile="${test.file}">
+        <copy file="test/FormTest.java" tofile="${test.file}">
             <filterset refid="filters"/>
         </copy>
         <copy file="view/form.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
-        <copy file="src/testng.xml" tofile="${testng.file}">
+        <copy file="test/testng.xml" tofile="${testng.file}">
             <filterset refid="filters"/>
         </copy>
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
