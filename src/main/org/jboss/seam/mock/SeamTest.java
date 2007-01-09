@@ -658,6 +658,10 @@ public class SeamTest
    @Configuration(afterTestMethod=true)
    public void end()
    {
+      if ( Contexts.isEventContextActive() )
+      {
+         Lifecycle.endRequest(externalContext);
+      }
       Lifecycle.endSession( servletContext, new ServletSessionImpl(session) );
       session = null;
    }
