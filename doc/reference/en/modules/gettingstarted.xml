@@ -39,12 +39,12 @@
     <title>Before you start</title>
   
     <para>
-      Make sure you have recent versions of Eclipse, the JBoss IDE plugin
-      for Eclipse and the TestNG plugin for Eclipse along with JBoss AS 4.0.5
-      and Ant 1.6 correctly installed before starting. Add your JBoss 
-      installation to the JBoss Server View in Eclipse. Start JBoss in debug
-      mode. Finally, start a command prompt in the directory where you unzipped 
-      the Seam distribution.
+      Make sure you have JDK 5 or JDK 6, JBoss AS 4.0.5 and Ant 1.6, along 
+      with recent versions of Eclipse, the JBoss IDE plugin for Eclipse and 
+      the TestNG plugin for Eclipse correctly installed before starting. Add 
+      your JBoss installation to the JBoss Server View in Eclipse. Start JBoss 
+      in debug mode. Finally, start a command prompt in the directory where you 
+      unzipped the Seam distribution.
     </para>
   
   </section>
@@ -160,8 +160,11 @@ C:\Projects\jboss-seam>]]></programlisting>
       template file and stylesheet, along with Eclipse metadata and an Ant build script. 
       The Eclipse project will be automatically deployed to an exploded directory structure 
       in JBoss AS as soon as you add the project using 
-      <literal>New -> Project... -> Java Project</literal>. Alternatively, you can deploy
-      the project from outside Eclipse by typing <literal>seam explode</literal>.
+      <literal>New -> Project... -> Java Project -> Next</litera>, typing the 
+      <literal>Project name</literal> (<literal>myproject</literal> in this case),
+      selecting your Java SE 5 or Java SE 6 JRE and then clicking <literal>Finish</literal>. 
+      Do not select <literal>Create new project from existing source</literal>. Alternatively, 
+      you can deploy the project from outside Eclipse by typing <literal>seam explode</literal>.
     </para>
     
     <para>
