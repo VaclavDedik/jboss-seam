@@ -32,9 +32,14 @@ public @interface Install {
    public static final int APPLICATION = 20;
    /**
     * Precedence to use for components which override
-    * application components in a particulat deployment
+    * application components in a particular deployment
     */
    public static final int DEPLOYMENT = 30;
+
+   /**
+    * Precedence to use for mock objects in tests
+    */
+   public static final int MOCK = 40;
 
    /**
     * @return indicates if the component should be installed
