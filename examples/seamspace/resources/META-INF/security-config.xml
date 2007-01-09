@@ -46,7 +46,7 @@
   
   <loginmodules>
     <loginmodule class="org.jboss.seam.security.spi.SeamLoginModule" flag="required">
-      <option name="loginMethod">#{login.authenticate}</option>
+      <option name="authMethod">#{login.authenticate}</option>
     </loginmodule>
   </loginmodules>
 

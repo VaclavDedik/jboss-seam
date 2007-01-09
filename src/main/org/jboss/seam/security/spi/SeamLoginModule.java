@@ -19,6 +19,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.SimpleGroup;
 import org.jboss.seam.security.SimplePrincipal;
+import org.jboss.seam.util.Reflections;
 
 /**
  * Performs authentication using a Seam component
@@ -27,7 +28,8 @@ import org.jboss.seam.security.SimplePrincipal;
  */
 public class SeamLoginModule implements LoginModule
 {
-   private static final String OPTS_LOGIN_METHOD = "loginMethod";
+   private static final String OPTS_AUTH_METHOD = "authMethod";
+   private static final String OPTS_PARAM_TYPES = "paramTypes";
    
    private static final LogProvider log = Logging.getLogProvider(SeamLoginModule.class);   
    
@@ -70,7 +72,7 @@ public class SeamLoginModule implements LoginModule
       throws LoginException
    {
       MethodBinding mb = Expressions.instance().createMethodBinding(
-            (String) options.get(OPTS_LOGIN_METHOD));
+            (String) options.get(OPTS_AUTH_METHOD));
       
       Object[] params = null;
       
@@ -93,11 +95,31 @@ public class SeamLoginModule implements LoginModule
          log.error("Error invoking login method", ex);
          return false;
       }
+      catch (ClassNotFoundException ex)
+      {
+         log.error("Error determining parameter types", ex);
+         return false;
+      }
    }
    
+   /**
+    * Returns the authentication method param types as a Class array.
+    * 
+    * @return
+    * @throws ClassNotFoundException
+    */
    public Class[] getLoginParamTypes()
+      throws ClassNotFoundException
    {
-      return new Class[] {String.class, String.class, Set.class };
+      if (!options.containsKey(OPTS_PARAM_TYPES))
+         return new Class[] {String.class, String.class, Set.class };
+
+      String[] paramTypes = ((String) options.get(OPTS_PARAM_TYPES)).split("[,]");
+      Class[] types = new Class[paramTypes.length];
+      for (int i = 0; i < paramTypes.length; i++)
+         types[i] = Reflections.classForName(paramTypes[i].trim());
+            
+      return types;
    }
    
    /**
@@ -123,7 +145,6 @@ public class SeamLoginModule implements LoginModule
 
    public boolean logout() throws LoginException
    {
-      
       return true;
    }
 }
