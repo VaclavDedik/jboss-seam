@@ -19,11 +19,12 @@ public class SecurityTest
       "<permission name=\"customer\" action=\"create\"/>" +
       "</permissions></role></roles>";
 
-  class CustomSecurityConfiguration extends SecurityConfiguration {
-    public void loadConfigFromStream(InputStream config)
-      throws SecurityConfigException {
+  class CustomSecurityConfiguration extends SecurityConfiguration 
+  {
+     @Override
+     public void loadConfigFromStream(InputStream config) throws SecurityConfigException {
         super.loadConfigFromStream(config);
-    }
+     }
   }
 
   @Test

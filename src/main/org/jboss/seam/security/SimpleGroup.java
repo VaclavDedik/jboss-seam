@@ -67,6 +67,7 @@ public class SimpleGroup implements Group, Serializable
       return name;
    }
 
+   @Override
    public boolean equals(Object obj)
    {
       if (!(obj instanceof SimpleGroup))
@@ -77,6 +78,7 @@ public class SimpleGroup implements Group, Serializable
       return other.name.equals(name);
    }
 
+   @Override
    public int hashCode()
    {
       return name.hashCode();

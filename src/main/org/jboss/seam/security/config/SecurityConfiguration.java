@@ -225,7 +225,6 @@ public class SecurityConfiguration
    /**
     * Returns the login module configuration
     * 
-    * @return
     */
    public Configuration getLoginModuleConfiguration()
    {
@@ -236,7 +235,7 @@ public class SecurityConfiguration
     * Load security constraints
     * 
     * @param elements List
-    * @throws SecurityConfigurationException
+    * @throws SecurityConfigException
     */
    @SuppressWarnings("unchecked")
    protected void loadSecurityConstraints(List elements)
@@ -288,7 +287,7 @@ public class SecurityConfiguration
     * Load the security roles
     * 
     * @param securityRoleElement Element
-    * @throws SecurityConfigurationException
+    * @throws SecurityConfigException
     */
    @SuppressWarnings("unchecked")   
    protected void loadSecurityRoles(Element securityRoleElement)
@@ -308,8 +307,7 @@ public class SecurityConfiguration
          Element permissionsElement = role.element(SECURITY_PERMISSIONS);
          if (permissionsElement != null)
          {
-            List<Element> permissions = (List<Element>) 
-                                permissionsElement.elements(SECURITY_PERMISSION);
+            List<Element> permissions = permissionsElement.elements(SECURITY_PERMISSION);
             r.setPermissions(new Permission[permissions.size()]);
             
             for (int i = 0; i < permissions.size(); i++)

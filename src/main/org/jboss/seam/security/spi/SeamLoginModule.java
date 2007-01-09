@@ -106,7 +106,6 @@ public class SeamLoginModule implements LoginModule
    /**
     * Returns the authentication method param types as a Class array.
     * 
-    * @return
     * @throws ClassNotFoundException
     */
    public Class[] getLoginParamTypes()
@@ -127,7 +126,6 @@ public class SeamLoginModule implements LoginModule
     * Override this method if this isn't a standard username/password-based
     * authentication.
     * 
-    * @return
     * @throws Exception
     */
    public Object[] getLoginParams()

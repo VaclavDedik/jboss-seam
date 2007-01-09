@@ -44,7 +44,7 @@ public class UIListItem
         // should listSymbol be a facet?
         listSymbol = (Integer) valueBinding(context, "listSymbol", listSymbol);
         if (listSymbol != null) {
-            int symbol = (int) listSymbol;
+            int symbol = listSymbol;
             Font font = getFont();
             if (font == null) {
                 listItem.setListSymbol(new Chunk((char)symbol));

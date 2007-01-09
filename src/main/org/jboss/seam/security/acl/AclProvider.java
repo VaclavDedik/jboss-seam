@@ -21,12 +21,12 @@ import org.jboss.seam.security.Identity;
 //@Name("org.jboss.seam.security.aclProvider")
 public abstract class AclProvider
 {
-  public enum RecipientType {role, user};
+  public enum RecipientType {role, user}
 
   /**
    * Return all Acls for the specified object.
    *
-   * @param value Object
+   * @param obj Object
    * @return Acl
    */
   public Acl getAcls(Object obj)
@@ -37,7 +37,7 @@ public abstract class AclProvider
   /**
    * Return all Acls for the specified object that apply to the specified Principal.
    *
-   * @param value Object
+   * @param obj Object
    * @param principal Principal
    * @return Acl
    */

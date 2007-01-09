@@ -1,17 +1,14 @@
 package org.jboss.seam.pdf;
 
+import java.io.IOException;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
+import javax.faces.event.PhaseListener;
+import javax.servlet.http.HttpServletResponse;
+
 import org.jboss.seam.util.Parameters;
-
-import javax.faces.event.*;
-import javax.faces.context.*;
-import javax.faces.component.*;
-import javax.servlet.http.*;
-
-import java.io.*;
-import java.util.*;
-
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
 
 //import org.jboss.seam.ui.facelet.*;
 

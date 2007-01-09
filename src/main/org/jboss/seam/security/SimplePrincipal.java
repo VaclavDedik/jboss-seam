@@ -21,6 +21,7 @@ public class SimplePrincipal implements Principal
       return name;
    }
 
+   @Override
    public boolean equals(Object obj)
    {
       if (!(obj instanceof Principal))
@@ -34,11 +35,13 @@ public class SimplePrincipal implements Principal
          return name.equals(other.getName());
    }
 
+   @Override
    public int hashCode()
    {
       return name == null ? 0 : name.hashCode();
    }
 
+   @Override
    public String toString()
    {
       return name;

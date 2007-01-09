@@ -50,7 +50,6 @@ public class Identity implements Serializable
    /**
     * If there is a principal set, then the user is logged in.
     * 
-    * @return
     */
    public static boolean loggedIn()
    {

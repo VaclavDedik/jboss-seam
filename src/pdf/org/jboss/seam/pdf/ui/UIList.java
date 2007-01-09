@@ -19,7 +19,7 @@ public class UIList
 
     String style; 
     String listSymbol;
-    float indent = 20;;
+    float indent = 20;
     Boolean lowerCase = false;
     Integer charNumber;
     Integer numberType = 0;

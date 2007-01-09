@@ -1,12 +1,14 @@
 package org.jboss.seam.pdf;
 
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.*;
-
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.lowagie.text.Element;
+import com.lowagie.text.ElementTags;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Rectangle;
 
 public class ITextUtils {
 	static Map<String,Color> colorMap = new HashMap<String,Color>(); 
