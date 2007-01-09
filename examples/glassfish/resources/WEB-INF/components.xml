@@ -8,7 +8,7 @@
 
     <core:init jndi-pattern="java:comp/env/jboss-seam-glassfish/#{ejbName}/local" debug="true"/>    
 
-    <core:pages no-conversation-view-id="/main.xhtml"/>
+    <core:transactionListener/>
 
     <core:manager conversation-timeout="120000" 
                   concurrent-request-timeout="500"

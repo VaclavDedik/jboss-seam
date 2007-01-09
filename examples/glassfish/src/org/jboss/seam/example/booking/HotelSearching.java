@@ -13,7 +13,7 @@ public interface HotelSearching
    public void setSearchString(String searchString);
    
    public void find();
-   public String nextPage();
+   public void nextPage();
    public boolean isNextPageAvailable();
 
    public void destroy();

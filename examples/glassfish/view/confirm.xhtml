@@ -34,6 +34,15 @@
 			<div class="label">Country:</div>
 			<div class="output">#{hotel.country}</div>
 		</div>
+        <div class="entry">
+            <div class="label">Total payment:</div>
+            <div class="output">
+                <h:outputText value="#{booking.total}">
+                    <f:convertNumber type="currency" 
+                                     currencySymbol="$"/>
+                </h:outputText>
+            </div>
+        </div>
 		<div class="entry">
 			<div class="label">Check In Date:</div>
 			<div class="output"><h:outputText value="#{booking.checkinDate}"/></div>
@@ -50,7 +59,7 @@
 			<div class="label">&#160;</div>
 			<div class="input">
 				<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}"/>&#160;
-    			<h:commandButton id="revise" value="Revise" action="back"/>&#160;
+    			<s:button id="revise" value="Revise" view="/book.xhtml"/>&#160;
     			<h:commandButton id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
 			</div>
 		</div>

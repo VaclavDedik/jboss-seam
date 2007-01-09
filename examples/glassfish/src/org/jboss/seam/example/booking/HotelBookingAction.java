@@ -49,62 +49,57 @@ public class HotelBookingAction implements HotelBooking
    @Logger 
    private Log log;
    
+   private boolean bookingValid;
+   
    @Begin
-   public String selectHotel(Hotel selectedHotel)
+   public void selectHotel(Hotel selectedHotel)
    {
       hotel = em.merge(selectedHotel);
-      return "hotel";
    }
    
-   public String bookHotel()
+   public void bookHotel()
    {      
       booking = new Booking(hotel, user);
       Calendar calendar = Calendar.getInstance();
       booking.setCheckinDate( calendar.getTime() );
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate( calendar.getTime() );
-      
-      return "book";
    }
 
-   public String setBookingDetails()
+   public void setBookingDetails()
    {
-      if (booking==null || hotel==null) return "main";
-      
       Calendar calendar = Calendar.getInstance();
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if ( booking.getCheckinDate().before( calendar.getTime() ) )
       {
          facesMessages.add("Check in date must be a future date");
-         return null;
       }
       else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
          facesMessages.add("Check out date must be later than check in date");
-         return null;
       }
       else
       {
-         return "confirm";
+         bookingValid=true;
       }
    }
 
-   @End
-   public String confirm()
+   public boolean isBookingValid()
    {
-      if (booking==null || hotel==null) return "main";
-      em.persist(booking);
-      facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
-      log.info("New booking: #{booking.id} for #{user.username}");
-      events.raiseEvent("bookingConfirmed");
-      return "confirmed";
+      return bookingValid;
    }
    
    @End
-   public String cancel()
+   public void confirm()
    {
-      return "main";
+      em.persist(booking);
+      facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      log.info("New booking: #{booking.id} for #{user.username}");
+      events.raiseTransactionSuccessEvent("bookingConfirmed");
    }
+   
+   @End
+   public void cancel() {}
    
    @Destroy @Remove
    public void destroy() {}
