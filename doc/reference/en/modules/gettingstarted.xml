@@ -160,7 +160,7 @@ C:\Projects\jboss-seam>]]></programlisting>
       template file and stylesheet, along with Eclipse metadata and an Ant build script. 
       The Eclipse project will be automatically deployed to an exploded directory structure 
       in JBoss AS as soon as you add the project using 
-      <literal>New -> Project... -> Java Project -> Next</litera>, typing the 
+      <literal>New -> Project... -> Java Project -> Next</literal>, typing the 
       <literal>Project name</literal> (<literal>myproject</literal> in this case),
       selecting your Java SE 5 or Java SE 6 JRE and then clicking <literal>Finish</literal>. 
       Do not select <literal>Create new project from existing source</literal>. Alternatively, 
