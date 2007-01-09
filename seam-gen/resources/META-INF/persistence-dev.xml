@@ -6,11 +6,12 @@
              
    <persistence-unit name="@projectName@">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <jta-data-source>java:/@projectName@TestDatasource</jta-data-source>
+      <jta-data-source>java:/@projectName@Datasource</jta-data-source>
       <properties>
-         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+         <property name="hibernate.hbm2ddl.auto" value="@hbm2ddl@"/>
+         <property name="hibernate.cache.use_query_cache" value="true"/>
          <property name="hibernate.show_sql" value="true"/>
-         <property name="jboss.entity.manager.factory.jndi.name" value="java:/@projectName@EntityManagerFactory"/>
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/@projectName@EntityManagerFactory"/>@catalogProperty@@schemaProperty@
       </properties>
    </persistence-unit>
     

@@ -5,7 +5,7 @@
              version="5">
     
    <display-name>Seam Generated Application</display-name>
-
+   
    <module>
       <web>
          <web-uri>@projectName@.war</web-uri>

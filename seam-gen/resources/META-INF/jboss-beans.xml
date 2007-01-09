@@ -3,12 +3,12 @@
             xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
             xmlns="urn:jboss:bean-deployer">
             
-   <bean name="@projectName@DatasourceBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
-      <property name="driverClass">@driverClass@</property>
-      <property name="connectionURL">@jdbcUrl@</property>
-      <property name="userName"><value class="java.lang.String">@username@</value></property>
-      <property name="password"><value class="java.lang.String">@password@</value></property>
-      <property name="jndiName">java:/@projectName@Datasource</property>
+   <bean name="@projectName@TestDatasourceBootstrap" class="org.jboss.resource.adapter.jdbc.local.LocalTxDataSource">
+      <property name="driverClass">org.hsqldb.jdbcDriver</property>
+      <property name="connectionURL">jdbc:hsqldb:.</property>
+      <property name="userName"><value class="java.lang.String">sa</value></property>
+      <property name="password"><value class="java.lang.String"></value></property>
+      <property name="jndiName">java:/@projectName@TestDatasource</property>
       <property name="minSize">0</property>
       <property name="maxSize">10</property>
       <property name="blockingTimeout">1000</property>
@@ -18,9 +18,9 @@
       <property name="initialContextProperties"><inject bean="InitialContextProperties"/></property>
    </bean>
 
-   <bean name="@projectName@Datasource" class="java.lang.Object">
+   <bean name="@projectName@TestDatasource" class="java.lang.Object">
       <constructor factoryMethod="getDatasource">
-         <factory bean="@projectName@DatasourceBootstrap"/>
+         <factory bean="@projectName@TestDatasourceBootstrap"/>
       </constructor>
    </bean>
 

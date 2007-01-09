@@ -484,8 +484,26 @@
             <filterset refid="jdbc"/>
         </copy>
         
-        <copy tofile="${project.home}/resources/${project.name}-ds.xml" 
+        <copy tofile="${project.home}/resources/${project.name}-dev-ds.xml" 
                 file="${basedir}/resources/datasource-ds.xml">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+        
+        <copy tofile="${project.home}/resources/${project.name}-prod-ds.xml" 
+                file="${basedir}/resources/datasource-ds.xml">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+        
+        <copy tofile="${project.home}/resources/import-dev.sql" 
+                file="${basedir}/resources/import.sql">
+            <filterset refid="project"/>
+            <filterset refid="jdbc"/>
+        </copy>
+        
+        <copy tofile="${project.home}/resources/import-prod.sql" 
+                file="${basedir}/resources/import.sql">
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
@@ -530,7 +548,7 @@
             <fileset dir="${basedir}/resources">
                 <exclude name="WEB-INF/**" />
                 <exclude name="META-INF/ejb-jar.xml" />
-                <exclude name="META-INF/persistence.xml" />
+                <exclude name="META-INF/persistence*.xml" />
                 <exclude name="META-INF/application.xml" />
             	<exclude name="datasource-ds.xml"/>
             	<exclude name="application-wtp.xml"/>
