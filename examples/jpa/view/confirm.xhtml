@@ -3,7 +3,7 @@
 	    		xmlns:ui="http://java.sun.com/jsf/facelets"
 	  			xmlns:h="http://java.sun.com/jsf/html"
 	  			xmlns:f="http://java.sun.com/jsf/core"
-                                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:s="http://jboss.com/products/seam/taglib"
 				template="template.xhtml">
 
 <!-- content -->
@@ -34,6 +34,15 @@
 			<div class="label">Country:</div>
 			<div class="output">#{hotel.country}</div>
 		</div>
+        <div class="entry">
+            <div class="label">Total payment:</div>
+            <div class="output">
+                <h:outputText value="#{booking.total}">
+                    <f:convertNumber type="currency" 
+                                     currencySymbol="$"/>
+                </h:outputText>
+            </div>
+        </div>
 		<div class="entry">
 			<div class="label">Check In Date:</div>
 			<div class="output"><h:outputText value="#{booking.checkinDate}"/></div>
@@ -50,7 +59,7 @@
 			<div class="label">&#160;</div>
 			<div class="input">
 				<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}"/>&#160;
-    			<h:commandButton id="revise" value="Revise" action="back"/>&#160;
+    			<s:button id="revise" value="Revise" view="/book.xhtml"/>&#160;
     			<h:commandButton id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
 			</div>
 		</div>
@@ -69,6 +78,11 @@
    on your web browser and clicking "Confirm" again. Seam makes it easy implement
    applications that behave elegantly in response to the back, forward and refresh
    buttons.
+</p>
+<p>
+   <a href="#" onclick="window.open('exp/confirmExp.html','exp','width=752,height=500,scrollbars=yes');">
+      What happens when the conversation ends?
+   </a>
 </p>
 </ui:define>
 

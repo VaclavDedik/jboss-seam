@@ -3,6 +3,8 @@ package org.jboss.seam.example.jpa;
 
 import static org.jboss.seam.ScopeType.EVENT;
 
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,10 +15,11 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.FacesMessages;
 
+@Stateful
 @Scope(EVENT)
 @Name("changePassword")
-// @LoggedIn
-public class ChangePasswordAction {
+public class ChangePasswordAction
+{
 
    @In @Out
    private User user;
@@ -26,29 +29,29 @@ public class ChangePasswordAction {
    
    private String verify;
    
-   public String changePassword()
+   private boolean changed;
+   
+   public void changePassword()
    {
       if ( user.getPassword().equals(verify) )
       {
          user = em.merge(user);
          FacesMessages.instance().add("Password updated");
-         return "main";
+         changed = true;
       }
       else 
       {
          FacesMessages.instance().add("verify", "Re-enter new password");
          revertUser();
          verify=null;
-         return null;
       }
    }
    
-   public String cancel()
+   public boolean isChanged()
    {
-      revertUser();
-      return "main";
+      return changed;
    }
-
+   
    private void revertUser()
    {
       user = em.find(User.class, user.getUsername());
@@ -64,4 +67,6 @@ public class ChangePasswordAction {
       this.verify = verify;
    }
    
+   @Destroy @Remove
+   public void destroy() {}
 }

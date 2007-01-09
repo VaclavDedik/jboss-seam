@@ -2,13 +2,13 @@
 package org.jboss.seam.example.jpa;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -42,6 +42,18 @@ public class Booking implements Serializable
    {
       this.hotel = hotel;
       this.user = user;
+   }
+   
+   @Transient
+   public BigDecimal getTotal()
+   {
+      return hotel.getPrice().multiply( new BigDecimal( getNights() ) );
+   }
+
+   @Transient
+   public int getNights()
+   {
+      return (int) ( checkoutDate.getTime() - checkinDate.getTime() ) / 1000 / 60 / 60 / 24;
    }
 
    @Id @GeneratedValue
@@ -113,7 +125,7 @@ public class Booking implements Serializable
    public String getDescription()
    {
       DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-      return hotel.getName() + 
+      return hotel==null ? null : hotel.getName() + 
             ", " + df.format( getCheckinDate() ) + 
             " to " + df.format( getCheckoutDate() );
    }

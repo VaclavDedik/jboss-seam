@@ -8,7 +8,7 @@
 
     <core:init debug="true"/>    
 
-    <core:pages no-conversation-view-id="/main.xhtml"/>
+    <core:transactionListener/>
 
     <core:manager conversation-timeout="120000" 
                   concurrent-request-timeout="500"

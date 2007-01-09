@@ -5,6 +5,8 @@ import static org.jboss.seam.ScopeType.EVENT;
 
 import java.util.List;
 
+import javax.ejb.Remove;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -14,9 +16,11 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.FacesMessages;
 
+@Stateful
 @Scope(EVENT)
 @Name("register")
-public class RegisterAction {
+public class RegisterAction
+{
 
    @In
    private User user;
@@ -29,7 +33,9 @@ public class RegisterAction {
    
    private String verify;
    
-   public String register()
+   private boolean registered;
+   
+   public void register()
    {
       if ( user.getPassword().equals(verify) )
       {
@@ -40,20 +46,28 @@ public class RegisterAction {
          {
             em.persist(user);
             facesMessages.add("Successfully registered as #{user.username}");
-            return "login";
+            registered = true;
          }
          else
          {
             facesMessages.add("Username #{user.username} already exists");
-            return null;
          }
       }
       else 
       {
          facesMessages.add("verify", "Re-enter your password");
          verify=null;
-         return null;
       }
+   }
+   
+   public void invalid()
+   {
+      facesMessages.add("Please try again");
+   }
+   
+   public boolean isRegistered()
+   {
+      return registered;
    }
 
    public String getVerify()
@@ -65,4 +79,7 @@ public class RegisterAction {
    {
       this.verify = verify;
    }
+   
+   @Destroy @Remove
+   public void destroy() {}
 }
