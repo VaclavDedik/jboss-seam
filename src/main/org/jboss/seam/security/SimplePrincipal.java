@@ -21,4 +21,26 @@ public class SimplePrincipal implements Principal
       return name;
    }
 
+   public boolean equals(Object obj)
+   {
+      if (!(obj instanceof Principal))
+         return false;
+      
+      Principal other = (Principal) obj;
+      
+      if (name == null)
+         return other.getName() == null;
+      else
+         return name.equals(other.getName());
+   }
+
+   public int hashCode()
+   {
+      return name == null ? 0 : name.hashCode();
+   }
+
+   public String toString()
+   {
+      return name;
+   }   
 }
