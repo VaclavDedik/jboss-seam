@@ -3,8 +3,6 @@ package org.jboss.seam.example.jpa;
 
 import java.util.List;
 
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -18,7 +16,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.core.FacesMessages;
 
-@Stateful
 @Scope(ScopeType.SESSION)
 @Synchronized
 @Name("login")
@@ -75,8 +72,5 @@ public class LoginAction
    {
       return loggedIn;
    }
-   
-   @Destroy @Remove
-   public void destroy() {}
    
 }

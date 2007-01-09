@@ -5,8 +5,6 @@ import static org.jboss.seam.ScopeType.EVENT;
 
 import java.util.List;
 
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -16,7 +14,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.FacesMessages;
 
-@Stateful
 @Scope(EVENT)
 @Name("register")
 public class RegisterAction
@@ -80,6 +77,4 @@ public class RegisterAction
       this.verify = verify;
    }
    
-   @Destroy @Remove
-   public void destroy() {}
 }

@@ -3,8 +3,6 @@ package org.jboss.seam.example.jpa;
 
 import static org.jboss.seam.ScopeType.EVENT;
 
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,7 +13,6 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.FacesMessages;
 
-@Stateful
 @Scope(EVENT)
 @Name("changePassword")
 public class ChangePasswordAction
@@ -67,6 +64,4 @@ public class ChangePasswordAction
       this.verify = verify;
    }
    
-   @Destroy @Remove
-   public void destroy() {}
 }

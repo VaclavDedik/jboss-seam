@@ -3,8 +3,6 @@ package org.jboss.seam.example.jpa;
 
 import java.util.List;
 
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -16,7 +14,6 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 
 import org.jboss.seam.annotations.In;
 
-@Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
 public class HotelSearchingAction
@@ -77,7 +74,4 @@ public class HotelSearchingAction
       this.searchString = searchString;
    }
    
-   @Destroy @Remove
-   public void destroy() {}
-
 }

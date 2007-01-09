@@ -1,12 +1,12 @@
 //$Id$
 package org.jboss.seam.example.jpa;
 
+import static org.jboss.seam.ScopeType.SESSION;
 import static javax.persistence.PersistenceContextType.EXTENDED;
 
 import java.util.Calendar;
+import java.util.List;
 
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -21,7 +21,6 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.log.Log;
 
-@Stateful
 @Name("hotelBooking")
 public class HotelBookingAction
 {
@@ -88,6 +87,9 @@ public class HotelBookingAction
    {
       return bookingValid;
    }
+
+   @Out (required=false, scope=SESSION)
+   List <Booking> bookings;
    
    @End
    public void confirm()
@@ -95,13 +97,13 @@ public class HotelBookingAction
       em.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
-      events.raiseTransactionSuccessEvent("bookingConfirmed");
+      // events.raiseTransactionSuccessEvent("bookingConfirmed");
+
+      // force refresh in main.xhtml
+      bookings = null;
    }
    
    @End
    public void cancel() {}
    
-   @Destroy @Remove
-   public void destroy() {}
-
 }

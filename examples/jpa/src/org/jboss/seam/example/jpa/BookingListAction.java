@@ -1,15 +1,13 @@
 //$Id$
 package org.jboss.seam.example.jpa;
 
-import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
+// import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
 import static org.jboss.seam.ScopeType.SESSION;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
+// import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -25,10 +23,9 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.log.Log;
 
-@Stateful
 @Scope(SESSION)
 @Name("bookingList")
-@TransactionAttribute(REQUIRES_NEW)
+// @TransactionAttribute(REQUIRES_NEW)
 public class BookingListAction implements Serializable
 {
    
@@ -47,7 +44,7 @@ public class BookingListAction implements Serializable
    private Log log;
    
    @Factory
-   @Observer("bookingConfirmed")
+   // @Observer("bookingConfirmed")
    public void getBookings()
    {
       bookings = em.createQuery("select b from Booking b where b.user.username = :username order by b.checkinDate")
@@ -69,7 +66,4 @@ public class BookingListAction implements Serializable
       return booking;
    }
    
-   @Destroy @Remove
-   public void destroy() {}
-
 }
