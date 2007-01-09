@@ -33,12 +33,13 @@ public class SeamLoginModule implements LoginModule
    
    private static final LogProvider log = Logging.getLogProvider(SeamLoginModule.class);   
    
-   private Set<String> roles = new HashSet<String>();
-   private Subject subject;
-   private Map<String,?> options;
-   private CallbackHandler callbackHandler;
+   protected Set<String> roles = new HashSet<String>();
    
-   private String username;
+   protected Subject subject;
+   protected Map<String,?> options;
+   protected CallbackHandler callbackHandler;
+   
+   protected String username;
    
    public boolean abort() throws LoginException
    {
