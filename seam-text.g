@@ -6,7 +6,7 @@ package org.jboss.seam.text;
 class P extends Parser;
 options
 {
-	k=2;
+	k=3;
 }
 {   
     private int newLinesSinceWord = 0;
@@ -25,15 +25,16 @@ options
     }
 }
 
-startRule: { append("<p>\n"); }
-           text
-           { append("\n</p>\n"); }
+startRule: ( (heading)? text (heading text)* )?
     ;
 
-text: (word|punctuation|formatting|escape|space|para|span|list)*
+text: { append("<p>\n"); } (plain|formatted|preformatted|quoted|para|span|list)+ { append("\n</p>\n"); } 
     ;
-    
-formatting: bold|underline|italic|monospace|superscript|deleted|preformatted|quoted
+
+plain: word|punctuation|escape|space
+    ;
+  
+formatted: bold|underline|italic|monospace|superscript|deleted
     ;
 
 word: w:WORD { append( w.getText() ); newLinesSinceWord=0; }
@@ -67,32 +68,32 @@ htmlSpecialChars:
     ;
     
 bold: STAR { append("<b>"); }
-      (word|punctuation|escape|underline|italic|monospace|superscript|deleted|space|newline)+
+      (plain|underline|italic|monospace|superscript|deleted|newline)+
       STAR { append("</b>"); }
     ;
     
 underline: UNDERSCORE { append("<u>"); }
-           (word|punctuation|escape|bold|italic|monospace|superscript|deleted|space|newline)+
+           (plain|bold|italic|monospace|superscript|deleted|newline)+
            UNDERSCORE { append("</u>"); }
     ;
     
 italic: SLASH { append("<i>"); }
-        (word|punctuation|escape|bold|underline|monospace|superscript|deleted|space|newline)+
+        (plain|bold|underline|monospace|superscript|deleted|newline)+
         SLASH { append("</i>"); }
     ;
     
 monospace: BAR { append("<tt>"); }
-           (word|punctuation|escape|bold|underline|italic|superscript|deleted|space|newline)+
+           (plain|bold|underline|italic|superscript|deleted|newline)+
            BAR { append("</tt>"); }
     ;
     
 superscript: HAT { append("<sup>"); }
-             (word|punctuation|escape|bold|underline|italic|monospace|deleted|space|newline)+
+             (plain|bold|underline|italic|monospace|deleted|newline)+
              HAT { append("</sup>"); }
     ;
     
 deleted: MINUS { append("<del>"); }
-         (word|punctuation|escape|bold|underline|italic|monospace|superscript|space|newline)+
+         (plain|bold|underline|italic|monospace|superscript|newline)+
          MINUS { append("</del>"); }
     ;
     
@@ -102,29 +103,41 @@ preformatted: QUOTE { append("<pre>"); }
     ;
     
 quoted: DOUBLEQUOTE { append("<quote><p>"); newLinesSinceWord=0; }
-        (word|punctuation|escape|bold|underline|italic|monospace|superscript|deleted|preformatted|space|para|span)*
+        (plain|formatted|preformatted|para|span|list)*
         DOUBLEQUOTE { append("</p></quote>"); newLinesSinceWord=0; }
+    ;
+
+heading: ( h1 | h2 | h3 ) newline
+    ;
+    
+headingText: (plain|formatted)+
+    ;
+  
+h1: PLUS { append("<h1>"); } headingText { append("</h1>"); }
+    ;
+ 
+h2: PLUS PLUS { append("<h2>"); } headingText { append("</h2>"); }
+    ;
+ 
+h3: PLUS PLUS PLUS { append("<h3>"); } headingText { append("</h3>"); }
     ;
  
 list: olist | ulist
     ;
     
+listItemText: (plain|bold|underline|italic|monospace|superscript|deleted)*
+    ;
+    
 olist: para { append("<ol>\n"); } (olistItem)+ { append("</ol>\n"); }
     ;
     
-olistItem: HASH { append("<li>"); newLinesSinceWord=0; }
-      (word|punctuation|escape|bold|underline|italic|monospace|superscript|deleted|space)*
-      { append("</li>"); } 
-      para
+olistItem: HASH { append("<li>"); newLinesSinceWord=0; } listItemText { append("</li>"); } para
     ;
     
 ulist: para { append("<ul>\n"); } (ulistItem)+ { append("</ul>\n"); }
     ;
     
-ulistItem: EQ { append("<li>"); newLinesSinceWord=0; }
-      (word|punctuation|escape|bold|underline|italic|monospace|superscript|deleted|space)*
-      { append("</li>"); } 
-      para
+ulistItem: EQ { append("<li>"); newLinesSinceWord=0; } listItemText { append("</li>"); } para
     ;
 
 space: s:SPACE { append( s.getText() ); }
@@ -148,7 +161,9 @@ span: LT tag:WORD { append("<" + tag.getText()); }
       (
           (
               GT { append(">"); } 
-              { newLinesSinceWord=0; } text { newLinesSinceWord=0; }
+              { newLinesSinceWord=0; } 
+              (plain|formatted|preformatted|quoted|newline|span|list)* 
+              { newLinesSinceWord=0; }
               LT SLASH WORD GT { append("</" + tag.getText() + ">"); }
           )
       |   (
