@@ -50,6 +50,7 @@ specialChars:
         | eq:EQ { append( eq.getText() ); }
         | e:ESCAPE { append( e.getText() ); }
         | u:UNDERSCORE { append( u.getText() ); }
+        | n:NEWLINE { append( n.getText() ); }
     ;
 
 htmlSpecialChars: 
@@ -99,10 +100,11 @@ quoted: DOUBLEQUOTE { append("<quote>"); }
         DOUBLEQUOTE { append("</quote>"); }
     ;
     
-ws: WS { append(" "); }
+ws: w:WS { append( w.getText() ); }
     ;
         
-para: NEWLINE NEWLINE { append("\n</p>\n<p>\n"); }
+para: n:NEWLINE { append( n.getText() ); } 
+      NEWLINE { append("</p>\n<p>\n"); }
     ;
 
 span: LT tag:WORD { append("<" + tag.getText()); } 
@@ -184,7 +186,7 @@ LT: '<'
 AMPERSAND: '&'
     ;
     
-WS: (' ' | '\t')+
+WS: (' '|'\t')+
     ;
 
 NEWLINE: '\r' '\n'   // DOS
