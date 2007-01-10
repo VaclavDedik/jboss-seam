@@ -6,9 +6,16 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.Principal;
+import java.security.acl.Group;
+import java.security.acl.Permission;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
@@ -38,6 +45,7 @@ import org.jboss.seam.core.Expressions;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.config.SecurityConfiguration;
+import org.jboss.seam.security.config.SecurityConfiguration.Role;
 import org.jboss.seam.security.rules.PermissionCheck;
 import org.jboss.seam.util.Resources;
 
@@ -182,34 +190,43 @@ public class SeamSecurityManager
    {
       if (!Contexts.isSessionContextActive())
          throw new IllegalStateException("No active session context found.");
-
-      WorkingMemory wm;
       
       if (Contexts.getSessionContext().isSet(SECURITY_CONTEXT_NAME))
-         wm = (WorkingMemory) Contexts.getSessionContext().get(SECURITY_CONTEXT_NAME);
+         return (WorkingMemory) Contexts.getSessionContext().get(SECURITY_CONTEXT_NAME);
       else         
       {
-         wm = securityRules.newWorkingMemory();
-         Contexts.getSessionContext().set(SECURITY_CONTEXT_NAME, wm);
+         WorkingMemory wm = securityRules.newWorkingMemory();
+  
+         if (Identity.instance().isLoggedIn())
+         {
+            for (Principal p : Identity.instance().getSubject().getPrincipals())
+            {
+               wm.assertObject(p);
+               
+               if (p instanceof Group && "roles".equals(((Group) p).getName()))
+               {
+                  SecurityConfiguration config = SecurityConfiguration.instance();
+                  
+                  Enumeration e = ((Group) p).members();
+                  while (e.hasMoreElements())
+                  {
+                     Principal role = (Principal) e.nextElement();
+                     
+                     Role r = config.getSecurityRole(role.getName());
+                     for (Permission perm : r.getPermissions())
+                     {
+                        wm.assertObject(perm);
+                     }
+                  }
+               }
+            }
+            
+            // Only set the security context if the user is already logged in            
+            Contexts.getSessionContext().set(SECURITY_CONTEXT_NAME, wm);
+         }
+         
+         return wm;
       }
-      
-      // TODO - Re the following; don't assert the Identity, instead assert its
-      // Principals/Roles ?
-      
-      // Assert the identity into the working memory if one exists and it hasn't
-      // been asserted before
-      if (wm.getObjects(Identity.instance().getClass()).isEmpty())
-      {
-         wm.assertObject(Identity.instance());
-
-         // TODO roles no longer come from the identity 
-//         for (Role r : ident.getRoles())
-//            wm.assertObject(r);
-
-         // TODO Assert the Identity's explicit permissions also? */      
-      }      
-
-      return wm;
    }
    
    public LoginContext createLoginContext()
@@ -223,7 +240,73 @@ public class SeamSecurityManager
    {     
       return new LoginContext(SecurityConfiguration.LOGIN_MODULE_NAME, 
             Identity.instance().getSubject(), cbHandler,
-            SecurityConfiguration.instance().getLoginModuleConfiguration());
+            SecurityConfiguration.instance().getLoginModuleConfiguration()) {
+         @Override public void login() throws LoginException {
+            super.login();
+            populateRoles(this.getSubject());
+         }
+      };
+   }
+   
+   /**
+    * Populates the specified subject's roles with any inherited roles
+    * according to the role memberships contained within the current 
+    * SecurityConfiguration
+    * 
+    * @param ctx The subject containing the role group.
+    */
+   private void populateRoles(Subject subject)
+   {
+      for (SimpleGroup grp : subject.getPrincipals(SimpleGroup.class))
+      {
+         if ("roles".equals(grp.getName()))
+         {
+            Set<Principal> memberships = new HashSet<Principal>();
+            SecurityConfiguration config = SecurityConfiguration.instance();
+            
+            Enumeration e = grp.members();
+            while (e.hasMoreElements())
+            {
+               Principal role = (Principal) e.nextElement();
+               addRoleMemberships(memberships, role.getName(), config);               
+            }
+            
+            for (Principal r : memberships)
+               grp.addMember(r);
+            
+            break;
+         }
+      }
+   }
+   
+   /**
+    * Recursively adds role memberships to the specified role set, for the
+    * specified role name.  The security configuration is passed in each time
+    * so that a context lookup doesn't need to take place each time.
+    * 
+    * @param roles The set that role memberships are to be added to
+    * @param roleName The name of the role to add memberships for
+    * @param config The security configuration
+    */
+   private void addRoleMemberships(Set<Principal> roles, String roleName, 
+         SecurityConfiguration config)
+   {
+      // Retrieve the role configuration
+      Role role = config.getSecurityRole(roleName);
+      
+      // For each of the role's configured memberships, check if the roles
+      // parameter already contains the membership.  If it doesn't add it,
+      // and make a recursive call to add the membership role's memberships.
+      for (String membership : role.getMemberships())
+      {
+         SimplePrincipal r = new SimplePrincipal(membership);
+         if (!roles.contains(r))
+         {
+            roles.add(r);
+            addRoleMemberships(roles, membership, config);
+         }
+      }
+      
    }
    
    public CallbackHandler createCallbackHandler(final String username, 

@@ -21,6 +21,8 @@ import org.jboss.seam.contexts.Contexts;
 @Install(precedence = BUILT_IN, dependencies = "org.jboss.seam.securityManager")
 public class Identity implements Serializable
 {  
+   private static final long serialVersionUID = 3751659008033189259L;
+
    protected Principal principal;
    
    protected Subject subject;
