@@ -1,11 +1,11 @@
 //$Id$
 package org.jboss.seam.example.hibernate;
 
+import static org.jboss.seam.ScopeType.SESSION;
 import static javax.persistence.PersistenceContextType.EXTENDED;
 
 import java.util.Calendar;
-import java.util.Date;
-import org.hibernate.Session;
+import java.util.List;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
@@ -18,9 +18,11 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.FacesMessages;
 import org.jboss.seam.log.Log;
 
+import org.hibernate.Session;
+
 @Name("hotelBooking")
-// @LoggedIn
-public class HotelBookingAction {
+public class HotelBookingAction
+{
    
    @In (create=true)
    private Session bookingDatabase;
@@ -44,61 +46,62 @@ public class HotelBookingAction {
    @Logger 
    private Log log;
    
+   private boolean bookingValid;
+   
    @Begin
-   public String selectHotel(Hotel selectedHotel)
+   public void selectHotel(Hotel selectedHotel)
    {
       hotel = (Hotel) bookingDatabase.merge(selectedHotel);
-      return "hotel";
    }
    
-   public String bookHotel()
+   public void bookHotel()
    {      
       booking = new Booking(hotel, user);
       Calendar calendar = Calendar.getInstance();
       booking.setCheckinDate( calendar.getTime() );
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate( calendar.getTime() );
-      
-      return "book";
    }
 
-   public String setBookingDetails()
+   public void setBookingDetails()
    {
-      if (booking==null || hotel==null) return "main";
-      
       Calendar calendar = Calendar.getInstance();
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if ( booking.getCheckinDate().before( calendar.getTime() ) )
       {
          facesMessages.add("Check in date must be a future date");
-         return null;
       }
       else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
          facesMessages.add("Check out date must be later than check in date");
-         return null;
       }
       else
       {
-         return "confirm";
+         bookingValid=true;
       }
    }
 
-   @End
-   public String confirm()
+   public boolean isBookingValid()
    {
-      if (booking==null || hotel==null) return "main";
+      return bookingValid;
+   }
+
+   @Out (required=false, scope=SESSION)
+   List <Booking> bookings;
+   
+   @End
+   public void confirm()
+   {
       bookingDatabase.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
-      events.raiseEvent("bookingConfirmed");
-      return "confirmed";
+      // events.raiseTransactionSuccessEvent("bookingConfirmed");
+
+      // force refresh in main.xhtml
+      bookings = null;
    }
    
    @End
-   public String cancel()
-   {
-      return "main";
-   }
-
+   public void cancel() {}
+   
 }

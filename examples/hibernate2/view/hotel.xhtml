@@ -36,6 +36,15 @@
 		<div class="label">Country:</div>
 		<div class="output">#{hotel.country}</div>
 	</div>
+    <div class="entry">
+        <div class="label">Nightly rate:</div>
+        <div class="output">
+            <h:outputText value="#{hotel.price}">
+                <f:convertNumber type="currency" 
+                                 currencySymbol="$"/>
+            </h:outputText>
+        </div>
+    </div>
 </div>
 <div class="section">
 	<h:form id="hotel">
@@ -62,6 +71,11 @@
     Hibernate (at least for some kinds of data). Of course, you should use 
     a clever combination of second-level caching and conversational data
     caching to achieve the best performance for your application.
+</p>
+<p>
+   <a href="#" onclick="window.open('exp/bookingExp.html','exp','width=752,height=500,scrollbars=yes');">
+      How does the hotel booking wizard work?
+   </a>
 </p>
 
 </ui:define>

@@ -2,7 +2,9 @@
 package org.jboss.seam.example.hibernate;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ public class Hotel implements Serializable
    private String state;
    private String zip;
    private String country;
+   private BigDecimal price;
    
    @Id @GeneratedValue
    public Long getId()
@@ -88,12 +91,21 @@ public class Hotel implements Serializable
    {
       return country;
    }
-   
    public void setCountry(String country)
    {
       this.country = country;
    }
 
+   @Column(precision=6, scale=2)
+   public BigDecimal getPrice()
+   {
+      return price;
+   }
+   public void setPrice(BigDecimal price)
+   {
+      this.price = price;
+   }
+   
    @Override
    public String toString()
    {

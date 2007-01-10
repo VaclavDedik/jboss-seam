@@ -2,9 +2,6 @@
 package org.jboss.seam.example.hibernate;
 
 import java.util.List;
-import org.hibernate.Session;
-
-import org.jboss.seam.annotations.In;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
@@ -12,10 +9,14 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 
+import org.jboss.seam.annotations.In;
+
+import org.hibernate.Session;
+
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
-// @LoggedIn
-public class HotelSearchingAction {
+public class HotelSearchingAction
+{
    
    @In (create=true)
    private Session bookingDatabase;
@@ -27,18 +28,16 @@ public class HotelSearchingAction {
    @DataModel
    private List<Hotel> hotels;
    
-   public String find()
+   public void find()
    {
       page = 0;
-      queryHotels();   
-      return "main";
+      queryHotels();
    }
 
-   public String nextPage()
+   public void nextPage()
    {
       page++;
       queryHotels();
-      return "main";
    }
       
    private void queryHotels()
@@ -73,5 +72,5 @@ public class HotelSearchingAction {
    {
       this.searchString = searchString;
    }
-
+   
 }

@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core">
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:s="http://jboss.com/products/seam/taglib">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>JBoss Suites: Seam Framework</title>
@@ -29,7 +30,7 @@
 				</div>
 				<div class="errors"><h:messages globalOnly="true"/></div>
 				<div class="buttonBox"><h:commandButton id="login" action="#{login.login}" value="Account Login"/></div>
-				<div class="notes"><h:commandLink id="register" action="register">Register New User</h:commandLink></div>
+				<div class="notes"><s:link id="register" view="/register.xhtml" value="Register New User"/></div>
 			</fieldset>
             </h:form>
 		</div>
@@ -51,10 +52,22 @@
 			       this sample application.
 			    </p>
 			    
+			    <p>
+			       <a href="#" onclick="window.open('exp/introExp.html','exp','width=752,height=500,scrollbars=yes');">
+			          What is JBoss Seam?
+			       </a>
+                </p>
+			    
+			    <p>
+			       <a href="#" onclick="window.open('exp/loginExp.html','exp','width=752,height=500,scrollbars=yes');">
+			          What happens when I login?
+			       </a>
+                </p>
+								
 			</div>
 		</div>
 	</div>
-	<div id="footer">Created with JBoss Seam, Hibernate, MyFaces, Facelets, and Ajax4jsf</div>
+	<div id="footer">Created with JBoss EJB 3.0, Seam, MyFaces, and Facelets</div>
 </div>
 </f:view>
 </body>

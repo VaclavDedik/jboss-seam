@@ -1,7 +1,6 @@
 //$Id$
 package org.jboss.seam.example.hibernate;
 
-import org.hibernate.Session;
 import static org.jboss.seam.ScopeType.EVENT;
 
 import java.util.List;
@@ -12,9 +11,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.FacesMessages;
 
+import org.hibernate.Session;
+
 @Scope(EVENT)
 @Name("register")
-public class RegisterAction {
+public class RegisterAction
+{
 
    @In
    private User user;
@@ -27,7 +29,9 @@ public class RegisterAction {
    
    private String verify;
    
-   public String register()
+   private boolean registered;
+   
+   public void register()
    {
       if ( user.getPassword().equals(verify) )
       {
@@ -38,20 +42,28 @@ public class RegisterAction {
          {
             bookingDatabase.persist(user);
             facesMessages.add("Successfully registered as #{user.username}");
-            return "login";
+            registered = true;
          }
          else
          {
             facesMessages.add("Username #{user.username} already exists");
-            return null;
          }
       }
       else 
       {
          facesMessages.add("verify", "Re-enter your password");
          verify=null;
-         return null;
       }
+   }
+   
+   public void invalid()
+   {
+      facesMessages.add("Please try again");
+   }
+   
+   public boolean isRegistered()
+   {
+      return registered;
    }
 
    public String getVerify()
@@ -63,4 +75,5 @@ public class RegisterAction {
    {
       this.verify = verify;
    }
+   
 }
