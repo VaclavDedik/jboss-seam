@@ -37,14 +37,10 @@ word: w:WORD { append( w.getText() ); }
 punctuation: p:PUNCTUATION { append( p.getText() ); }
     ;
     
-escape: ESCAPE ( seam | html )
+escape: ESCAPE ( q:QUOTE { append( q.getText() ); } | specialChars | htmlSpecialChars )
     ;
     
-seam: q:QUOTE { append( q.getText() ); } 
-    | seamNoQuote
-    ;
-
-seamNoQuote: 
+specialChars:
           st:STAR { append( st.getText() ); } 
         | sl:SLASH { append( sl.getText() ); } 
         | b:BAR { append( b.getText() ); } 
@@ -56,8 +52,8 @@ seamNoQuote:
         | u:UNDERSCORE { append( u.getText() ); }
     ;
 
-
-html: GT { append("&gt;"); } 
+htmlSpecialChars: 
+      GT { append("&gt;"); } 
     | LT { append("&lt;"); } 
     | DOUBLEQUOTE { append("&quot;"); } 
     | AMPERSAND { append("&amp;"); }
@@ -94,7 +90,7 @@ deleted: MINUS { append("<del>"); }
     ;
     
 preformatted: QUOTE { append("<pre>"); }
-              (word|punctuation|seamNoQuote|html|ws)*
+              (word|punctuation|specialChars|htmlSpecialChars|ws)*
               QUOTE { append("</pre>"); }
     ;
     
@@ -128,7 +124,7 @@ span: LT tag:WORD { append("<" + tag.getText()); }
       )
     ;
     
-attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | ws | seam )*
+attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | ws | specialChars )*
     ;
 
 class L extends Lexer;
