@@ -7,4 +7,5 @@ public interface ProfileLocal
 {
   void display();
   void destroy();
+  void newMembers();
 }

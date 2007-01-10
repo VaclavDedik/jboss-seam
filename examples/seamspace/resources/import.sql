@@ -1,5 +1,5 @@
-insert into Member (memberid, username, password, name, tagline, gender, dob, location) values (1, 'demo', 'demo', 'Mr_Smiley', 'I smile because I care', 0, '1953-03-10', '')
-insert into Member (memberid, username, password, name, tagline, gender, dob, location) values (2, 'duke', 'duke', 'duke', 'I love the smell of coffee', 0, '1995-01-01', '')
+insert into Member (memberid, username, password, name, tagline, gender, dob, location, membersince) values (1, 'demo', 'demo', 'Mr_Smiley', 'I smile because I care', 0, '1953-03-10', '', '2007-01-02')
+insert into Member (memberid, username, password, name, tagline, gender, dob, location, membersince) values (2, 'duke', 'duke', 'duke', 'I love the smell of coffee', 0, '1995-01-01', '', '2007-01-04')
 
 insert into MemberRole (roleid, name) values (1, 'user');
 insert into MemberRole (roleid, name) values (2, 'admin');

@@ -147,6 +147,36 @@ div.loginHeader {
   padding: 2px 2px 2px 2px;
 }
 
+div.newMembers {
+  width: 300px;
+  border: 1px solid #ffcc99;
+}
+
+div.newMembersHeader {
+  font-weight: bold;
+  background-color: #ffcc99;
+  height: 18px;
+  padding: 2px 2px 2px 2px;
+}
+
+div.newMember {
+  float: left;
+  width: 99px;
+  text-align: center;
+}
+
+div.newMember a, a:visited {
+  color: #003399;
+}
+
+div.newMember a:hover {
+  color: #7799dd;
+}
+
+div.newMember img {
+  border: none;
+}
+
 div.loginRow {
   padding-top: 2px;
   padding-bottom: 2px;

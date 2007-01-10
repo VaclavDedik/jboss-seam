@@ -58,9 +58,11 @@ public class Member implements Serializable
    private Gender gender;
    private Date dob;
    private String location;
+   private Date memberSince;
    
    private Set<MemberRole> roles;
-   private Set<MemberImage> images;
+   private Set<MemberImage> images;   
+
 
    @Id
    public Integer getMemberId()
@@ -165,6 +167,17 @@ public class Member implements Serializable
    public void setLocation(String location)
    {
       this.location = location;
+   }
+   
+   @NotNull
+   public Date getMemberSince()
+   {
+      return memberSince;
+   }
+   
+   public void setMemberSince(Date memberSince)
+   {
+      this.memberSince = memberSince;
    }
 
    public String getTagline()

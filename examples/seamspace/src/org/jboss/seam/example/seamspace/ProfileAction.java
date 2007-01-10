@@ -1,5 +1,7 @@
 package org.jboss.seam.example.seamspace;
 
+import java.util.List;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
@@ -26,6 +28,9 @@ public class ProfileAction implements ProfileLocal
    @Out(required = false)
    private Member selectedMember;
    
+   @Out(required = false)
+   private List newMembers;
+   
    @In(create=true)
    private EntityManager entityManager;
 
@@ -50,6 +55,15 @@ public class ProfileAction implements ProfileLocal
          }
          catch (NoResultException ex) { }
       }
+   }
+   
+   @Factory("newMembers")
+   public void newMembers()
+   {
+      newMembers = entityManager.createQuery(
+            "from Member order by memberSince desc")
+            .setMaxResults(3)
+            .getResultList();
    }
    
    @Remove @Destroy

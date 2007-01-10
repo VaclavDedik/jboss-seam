@@ -46,8 +46,25 @@
           
           </div>
           
-          <span>Tip: You can log in using <b>demo/demo</b> as the username/password</span>
+          <span>Tip: You can log in using <b>demo/demo</b> as the username/password</span><br/><br/>
         </h:form>
+        
+        <div class="newMembers">
+          <div class="newMembersHeader">Cool new members</div>
+                    
+          <ui:repeat value="#{newMembers}" var="newMember">
+            <div class="newMember">
+            
+              <h:outputLink value="profile.seam?name=#{newMember.name}">
+                <b>#{newMember.name}</b><br/>
+                <h:graphicImage value="/content/images?id=#{newMember.picture.imageId}&amp;width=90"/>
+              </h:outputLink>
+              
+            </div>
+          </ui:repeat>          
+          
+          <br class="clear"/>
+        </div>
       </div>
      
     </ui:define>

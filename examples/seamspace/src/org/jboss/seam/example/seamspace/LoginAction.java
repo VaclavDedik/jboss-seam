@@ -37,8 +37,7 @@ public class LoginAction implements LoginLocal
    @Logger 
    private Log log;  
    
-   @In(required = false)
-   @Out(required = false)
+   @In(required = false) @Out(required = false)
    Member member;
    
    @In(create=true)
@@ -87,7 +86,6 @@ public class LoginAction implements LoginLocal
       Seam.invalidateSession();
    }
 
-   @Remove
-   @Destroy
+   @Remove @Destroy
    public void destroy() { }
 }
