@@ -8,16 +8,7 @@ options
 {
 	k=2;
 }
-{
-    private boolean bold = false;
-    private boolean underline = false;
-    private boolean italic = false;
-    private boolean deleted = false;
-    private boolean monospace = false;
-    private boolean preformatted = false;
-    private boolean quoted = false;
-    private boolean superscript = false;
-    
+{   
     private StringBuilder builder = new StringBuilder();
     
     public String toString() {
@@ -26,8 +17,7 @@ options
     
     public void append(String... strings) {
         for (String string: strings) builder.append(string);
-    }
-    
+    }   
 }
 
 startRule: { append("<p>\n"); }
@@ -35,7 +25,10 @@ startRule: { append("<p>\n"); }
            { append("\n</p>\n"); }
     ;
 
-text: (word|punctuation|escape|bold|underline|italic|monospace|superscript|deleted|preformatted|quoted|ws|para|span)*
+text: (word|punctuation|formatting|escape|ws|para|span)*
+    ;
+    
+formatting: bold|underline|italic|monospace|superscript|deleted|preformatted|quoted
     ;
 
 word: w:WORD { append( w.getText() ); }
@@ -47,18 +40,20 @@ punctuation: p:PUNCTUATION { append( p.getText() ); }
 escape: ESCAPE ( seam | html )
     ;
     
-seam: { Token t=null; } 
-      ( 
-          st:STAR {t=st;} 
-        | sl:SLASH {t=sl;} 
-        | b:BAR {t=b;} 
-        | h:HAT {t=h;} 
-        | q:QUOTE {t=q;} 
-        | m:MINUS {t=m;} 
-        | p:PLUS {t=p;} 
-        | eq:EQ {t=eq;}
-      )
-      { append( t.getText() ); }
+seam: q:QUOTE { append( q.getText() ); } 
+    | seamNoQuote
+    ;
+
+seamNoQuote: 
+          st:STAR { append( st.getText() ); } 
+        | sl:SLASH { append( sl.getText() ); } 
+        | b:BAR { append( b.getText() ); } 
+        | h:HAT { append( h.getText() ); }
+        | m:MINUS { append( m.getText() ); } 
+        | p:PLUS { append( p.getText() ); } 
+        | eq:EQ { append( eq.getText() ); }
+        | e:ESCAPE { append( e.getText() ); }
+        | u:UNDERSCORE { append( u.getText() ); }
     ;
 
 
@@ -68,66 +63,50 @@ html: GT { append("&gt;"); }
     | AMPERSAND { append("&amp;"); }
     ;
     
-bold: STAR { 
-    bold = !bold;
-    if (bold) append("<b>"); else append("</b>");
-    }
+bold: STAR { append("<b>"); }
+      (word|punctuation|escape|underline|italic|monospace|superscript|deleted|ws)*
+      STAR { append("</b>"); }
     ;
     
-underline: UNDERSCORE { 
-    underline = !underline;
-    if (underline) append("<u>"); else append("</u>");
-    }
+underline: UNDERSCORE { append("<u>"); }
+           (word|punctuation|escape|bold|italic|monospace|superscript|deleted|ws)*
+           UNDERSCORE { append("</u>"); }
     ;
     
-italic: SLASH { 
-    italic = !italic;
-    if (italic) append("<i>"); else append("</i>");
-    }
+italic: SLASH { append("<i>"); }
+        (word|punctuation|escape|bold|underline|monospace|superscript|deleted|ws)*
+        SLASH { append("</i>"); }
     ;
     
-monospace: BAR { 
-    monospace = !monospace;
-    if (monospace) append("<tt>"); else append("</tt>");
-    }
+monospace: BAR { append("<tt>"); }
+           (word|punctuation|escape|bold|underline|italic|superscript|deleted|ws)*
+           BAR { append("</tt>"); }
     ;
     
-superscript: HAT { 
-    superscript = !superscript;
-    if (superscript) append("<sup>"); else append("</sup>");
-    }
+superscript: HAT { append("<sup>"); }
+             (word|punctuation|escape|bold|underline|italic|monospace|deleted|ws)*
+             HAT { append("</sup>"); }
     ;
     
-preformatted: QUOTE { 
-    preformatted = !preformatted;
-    if (preformatted) append("<pre>"); else append("</pre>");
-    }
+deleted: MINUS { append("<del>"); }
+         (word|punctuation|escape|bold|underline|italic|monospace|superscript|ws)*
+         MINUS { append("</del>"); }
     ;
     
-quoted: DOUBLEQUOTE { 
-    quoted = !quoted;
-    if (quoted) append("<quote>"); else append("</quote>");
-    }
+preformatted: QUOTE { append("<pre>"); }
+              (word|punctuation|seamNoQuote|html|ws)*
+              QUOTE { append("</pre>"); }
     ;
     
-deleted: MINUS { 
-    deleted = !deleted;
-    if (deleted) append("<del>"); else append("</del>");
-    }
+quoted: DOUBLEQUOTE { append("<quote>"); }
+        (word|punctuation|escape|bold|underline|italic|monospace|superscript|deleted|preformatted|ws|para|span)*
+        DOUBLEQUOTE { append("</quote>"); }
     ;
     
 ws: WS { append(" "); }
     ;
         
-para: NEWLINE NEWLINE { 
-    append("\n</p>\n<p>\n"); 
-    bold = false;
-    underline = false;
-    italic = false;
-    deleted = false;
-    monospace = false;
-    superscript = false;
-    }
+para: NEWLINE NEWLINE { append("\n</p>\n<p>\n"); }
     ;
 
 span: LT tag:WORD { append("<" + tag.getText()); } 
@@ -149,7 +128,7 @@ span: LT tag:WORD { append("<" + tag.getText()); }
       )
     ;
     
-attributeValue: ( word | punctuation | ws | seam )*
+attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | ws | seam )*
     ;
 
 class L extends Lexer;
