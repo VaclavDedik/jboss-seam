@@ -1,4 +1,4 @@
-package orb.jboss.seam.ui.facelet;
+package org.jboss.seam.ui.facelet;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -24,11 +24,11 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 @Intercept(InterceptionType.NEVER)
 @Name("renderer")
 @Install(value=true, precedence=Install.BUILT_IN)
-public class FaceletsRenderer
-    extends Renderer
+public class FaceletsRenderer extends Renderer
 {
 
-    public String render(String viewId) {
+    public String render(String viewId) 
+    {
         return render(viewId,
                       Thread.currentThread().getContextClassLoader());
     }
@@ -39,27 +39,35 @@ public class FaceletsRenderer
 
         ResponseWriter originalWriter = null;
 
-        try {
+        try 
+        {
             StringWriter stringWriter = new StringWriter();
             wrapResponseWriter(facesContext, stringWriter);
 
             renderFacelet(facesContext, faceletForURL(resourceURL(classLoader, viewId)));
 
             return stringWriter.getBuffer().toString();
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             throw new RuntimeException(e);
-        } finally {
-            if (originalWriter != null) {
+        } 
+        finally 
+        {
+            if (originalWriter != null) 
+            {
                 facesContext.setResponseWriter(originalWriter);
             }
         }
     }
 
 
-    protected URL resourceURL(ClassLoader classLoader, String viewId) {
+    protected URL resourceURL(ClassLoader classLoader, String viewId) 
+    {
         URL url = classLoader.getResource(viewId); 
 
-        if (url == null) {
+        if (url == null) 
+        {
             throw new IllegalArgumentException("resource doesn't exist: " + viewId);
         }
 
@@ -74,8 +82,8 @@ public class FaceletsRenderer
     }
 
 
-    protected void wrapResponseWriter(FacesContext facesContext, 
-                                      Writer writer) {
+    protected void wrapResponseWriter(FacesContext facesContext, Writer writer) 
+    {
         ResponseWriter responseWriter = 
             facesContext.getRenderKit().createResponseWriter(writer, null, null);
 
@@ -89,6 +97,5 @@ public class FaceletsRenderer
         facelet.apply(facesContext, root);
         JSF.renderChildren(facesContext, root);
     }
-
 
 }
